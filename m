@@ -2,42 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599845CD97
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 12:33:53 +0200 (CEST)
-Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0A15CD74
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 12:23:57 +0200 (CEST)
+Received: from localhost ([::1]:51400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiG6i-0007k6-JK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 06:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48431)
+	id 1hiFx6-0002nl-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 06:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46543)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <w.bumiller@proxmox.com>) id 1hiG4p-0006dU-Ne
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:31:58 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hiFwB-0002HH-Iv
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:23:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <w.bumiller@proxmox.com>) id 1hiG4n-00069e-CM
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:31:55 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:46837)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <w.bumiller@proxmox.com>)
- id 1hiG4k-0005Ya-Vw
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:31:52 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E5161448BB;
- Tue,  2 Jul 2019 12:21:09 +0200 (CEST)
-Date: Tue, 2 Jul 2019 12:21:08 +0200
-From: Wolfgang Bumiller <w.bumiller@proxmox.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190702102108.GA29267@olga.proxmox.com>
-References: <20190627131252.GA14795@olga.proxmox.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hiFwA-0006Zr-IT
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:22:59 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44012)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hiFwA-0006Z8-BK
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:22:58 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p13so17110625wru.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:22:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DeL9ECSolqSxFTXdCm212DxoxGMYV1GoHAve77Ot5Ns=;
+ b=R5Xmm795DzkRjvMA5mpS6rSCH4ZskMe4U86KrW2Cx+78BKKkC8P3uPmpXLxIy0aClq
+ 6TbcrevoCAmCT4ZxOcrddbB8LH5eRhNWnDRk2mmMDNtNJzJVfdtVC+P+lS8YHyv4hm9o
+ YHRTugUBHMZhCjLIlKRolKkW0LLkdv1ryeP72VwnHaLh+EC5ffgYIU00EwZ5ukQJLu8M
+ wJtJapDPDUv7ypjRvgk4PuhPbc+erEBalxvosLtqzK0/d5Y+/yzw0lMpE4GICdhOE7Lc
+ td8jRZXJhXCqT1/6+vTcUJ7TrAss2DujAQVD9CanDEc0qhqpriqFO47EfQNoNtQYrIcs
+ u4Bg==
+X-Gm-Message-State: APjAAAWczxUKieYbNJ9zq/dwNEaq4RygOQsKetAa2BvL8DqnFFZopNOt
+ 8TJFJF2yqVHK4HHJWdQTpwY+4A==
+X-Google-Smtp-Source: APXvYqxckCk9IEPdn5L7RDe/dvPvBhWQ/OOsxEUWOWF/0HPnrKlYWxhZDHy+DhtYuA7UkZBuTzJbwg==
+X-Received: by 2002:adf:cc92:: with SMTP id p18mr19063641wrj.260.1562062976953; 
+ Tue, 02 Jul 2019 03:22:56 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:68f6:70ea:5bb4:f73?
+ ([2001:b07:6468:f312:68f6:70ea:5bb4:f73])
+ by smtp.gmail.com with ESMTPSA id q20sm18978437wra.36.2019.07.02.03.22.55
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 03:22:56 -0700 (PDT)
+To: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>
+References: <97104495f5c945d25315aff1bd618e1a7bacf34c.1561589072.git.alistair.francis@wdc.com>
+ <1bd3ffcd-3f91-ecb9-2315-da7125f1dcdd@redhat.com>
+ <CAKmqyKPeo4XXVy3onoM4W14N5Nj7CFWX=JpDT-JQQRUPw5CQ3Q@mail.gmail.com>
+ <4428dc80-9ace-3bb0-a497-e3d416199bfd@redhat.com>
+ <CAKmqyKMRSJTMxZ5c-yyuownYF8vJLYrzr92cE4rkiTdP7tmUzg@mail.gmail.com>
+ <CY1PR04MB22682B84C1ABA7FB10752465EDF90@CY1PR04MB2268.namprd04.prod.outlook.com>
+ <79c9e21f-06b1-6255-97af-95c08b354c8a@redhat.com>
+ <CY1PR04MB22683409CB203BF5042697FBEDF80@CY1PR04MB2268.namprd04.prod.outlook.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5a741004-fc88-f31a-2abf-70f4a9b0d5a9@redhat.com>
+Date: Tue, 2 Jul 2019 12:22:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190627131252.GA14795@olga.proxmox.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CY1PR04MB22683409CB203BF5042697FBEDF80@CY1PR04MB2268.namprd04.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.186.127.180
-Subject: Re: [Qemu-devel] balloon config change seems to break live
- migration from 3.0.1 to 4.0
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v1 1/1] hw/scsi: Report errors and sense to
+ guests through scsi-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,200 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 03:12:52PM +0200, Wolfgang Bumiller wrote:
-> While testing with 4.0 we've run into issues with live migration from
-> 3.0.1 to 4.0 when a balloon device was involved.
+On 02/07/19 08:44, Shinichiro Kawasaki wrote:
+> On 7/1/19 8:56 PM, Paolo Bonzini wrote:
+>> On 01/07/19 12:14, Shinichiro Kawasaki wrote:
+>>> I observe four of them listed below in sense data,
+>>> when I ran basic operations to the zoned storage from the guest via scsi-block.
+>>>
+>>>       21h 04h: UNALIGNED WRITE COMMAND
+>>>       21h 05h: WRITE BOUNDARY VIOLATION
+>>>       21h 06h: ATTEMPT TO READ INVALID DATA
+>>>       55h 0Eh: INSUFFICIENT ZONE RESOURCES
+>>>
+>>> These ASCs can be reported for write or read commands due to unexpected zone
+>>> status or write pointer status. Reporting these ASCs to the guest, the user
+>>> applications can handle them to manage zone/write pointer status, or help the
+>>> user application developers to understand the failure reason and fix bugs.
+>>>
+>>> I took a look in scsi_sense_to_errno() and learned that ASCs are grouped in
+>>> errnos. To report the ASCs above to the guest, is it good to add them in EINVAL
+>>> group defined in scsi_sense_to_errno()? The ASCs are reported with sense key
+>>> ILLEGAL_REQUEST or DATA_PROTECT, then I think it fits in the function.
+>>
+>> The grouping by errno is historical and pretty much broken.  It should
+>> be possible to change it to return just a bool.
 > 
-> We'd see the following error on the destination:
->   qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: a1 device: 1 cmask: ff wmask: c0 w1cmask:0 
->   qemu-system-x86_64: Failed to load PCIDevice:config 
->   qemu-system-x86_64: Failed to load virtio-balloon:virtio 
->   qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-balloon' 
->   qemu-system-x86_64: load of migration failed: Invalid argument
+> The errno grouping of scsi_sense_to_errno() is used not only by scsi-disk but 
+> also by block/iscsi for error reporting. Can we avoid errno grouping for iscsi also?
 
-So if I'm not mistaken this seems to cover the BAR containing the mapped
-address, which now has a stricter alignment requirement (since the
-config space crossed the 32 byte boundary and now is now 64 bytes and
-therefor requires a 64 byte alignment).
-(This in turn means that it only affects guests where the balloon's
-mapping isn't already 64 byte aligned.)
+No, but we can do something like
 
-I tested with the changes below meant to use the old configuration size
-for machines depending on their machine version... This seems to fix the
-problem for me here.
+    if (scsi_sense_buf_is_guest_recoverable(r->req.sense,
+sizeof(r->req.sense))) {
+        /* These errors are handled by guest. */
+        sdc->update_sense(&r->req);
+        scsi_req_complete(&r->req, *r->status);
+        return true;
+    }
+    error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
 
-With this changing compatibility options I'm not sure if this is a
-desired upstream change since 4.0 is already released?
+This way there's generally no need to shoehorn ASC codes into errno.  I
+still have to test my changes, but I hope to send something within a
+couple of days.
 
----8<---
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Wolfgang Bumiller <w.bumiller@proxmox.com>
-Date: Tue, 2 Jul 2019 09:23:43 +0200
-Subject: [PATCH] virtio-balloon: use smaller config on older guests
-
-The increased config size changes its alignment requirements
-preventing guests from migrating from old qemu versions if
-their balloon mapping isn't stricter aligned.
-So base the default config size on the machine version.
-
-Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
----
- hw/i386/pc.c                       |  2 ++
- hw/virtio/virtio-balloon.c         | 52 +++++++++++++++++++++++++++---
- include/hw/virtio/virtio-balloon.h |  1 +
- 3 files changed, 51 insertions(+), 4 deletions(-)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 652eb72b2b..3676187a19 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -77,6 +77,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
-+#include "hw/virtio/virtio-balloon.h"
- 
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -137,6 +138,7 @@ GlobalProperty pc_compat_3_1[] = {
-     { "Icelake-Server" "-" TYPE_X86_CPU,      "mpx", "on" },
-     { "Cascadelake-Server" "-" TYPE_X86_CPU, "stepping", "5" },
-     { TYPE_X86_CPU, "x-intel-pt-auto-level", "off" },
-+    { TYPE_VIRTIO_BALLOON, "x-use-large-balloon-config", "off" },
- };
- const size_t pc_compat_3_1_len = G_N_ELEMENTS(pc_compat_3_1);
- 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index d96e4aa96f..cd0f124fbb 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -328,6 +328,28 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
-     balloon_stats_change_timer(s, 0);
- }
- 
-+static void balloon_get_large_config(Object *obj, Visitor *v,
-+                                     const char *name, void *opaque,
-+                                     Error **errp)
-+{
-+    VirtIOBalloon *s = opaque;
-+    visit_type_bool(v, name, &s->use_large_config, errp);
-+}
-+
-+static void balloon_set_large_config(Object *obj, Visitor *v,
-+                                     const char *name, void *opaque,
-+                                     Error **errp)
-+{
-+    VirtIOBalloon *s = opaque;
-+    DeviceState *dev = DEVICE(s);
-+
-+    if (dev->realized) {
-+        error_setg(errp, "balloon config size cannot be changed at runtime");
-+    } else {
-+        visit_type_bool(v, name, &s->use_large_config, errp);
-+    }
-+}
-+
- static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOBalloon *s = VIRTIO_BALLOON(vdev);
-@@ -526,6 +548,17 @@ static bool virtio_balloon_free_page_support(void *opaque)
-     return virtio_vdev_has_feature(vdev, VIRTIO_BALLOON_F_FREE_PAGE_HINT);
- }
- 
-+static size_t virtio_balloon_config_size(void *opaque)
-+{
-+    VirtIOBalloon *s = opaque;
-+
-+    if (s->use_large_config) {
-+        return sizeof(struct virtio_balloon_config);
-+    } else {
-+        return offsetof(struct virtio_balloon_config, free_page_report_cmd_id);
-+    }
-+}
-+
- static void virtio_balloon_free_page_start(VirtIOBalloon *s)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
-@@ -635,7 +668,7 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
-     }
- 
-     trace_virtio_balloon_get_config(config.num_pages, config.actual);
--    memcpy(config_data, &config, sizeof(struct virtio_balloon_config));
-+    memcpy(config_data, &config, virtio_balloon_config_size(dev));
- }
- 
- static int build_dimm_list(Object *obj, void *opaque)
-@@ -679,7 +712,7 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
-     uint32_t oldactual = dev->actual;
-     ram_addr_t vm_ram_size = get_current_ram_size();
- 
--    memcpy(&config, config_data, sizeof(struct virtio_balloon_config));
-+    memcpy(&config, config_data, virtio_balloon_config_size(dev));
-     dev->actual = le32_to_cpu(config.actual);
-     if (dev->actual != oldactual) {
-         qapi_event_send_balloon_change(vm_ram_size -
-@@ -795,7 +828,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-     int ret;
- 
-     virtio_init(vdev, "virtio-balloon", VIRTIO_ID_BALLOON,
--                sizeof(struct virtio_balloon_config));
-+                virtio_balloon_config_size(s));
- 
-     ret = qemu_add_balloon_handler(virtio_balloon_to_target,
-                                    virtio_balloon_stat, s);
-@@ -820,7 +853,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-         s->free_page_report_notify.notify =
-                                        virtio_balloon_free_page_report_notify;
-         precopy_add_notifier(&s->free_page_report_notify);
--        if (s->iothread) {
-+        if (s->iothread && s->use_large_config) {
-             object_ref(OBJECT(s->iothread));
-             s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
-                                        virtio_ballloon_get_free_page_hints, s);
-@@ -833,6 +866,11 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-             virtio_error(vdev, "iothread is missing");
-         }
-     }
-+
-+    if (!s->use_large_config) {
-+        s->host_features &= ~(1 << VIRTIO_BALLOON_F_PAGE_POISON);
-+    }
-+
-     reset_stats(s);
- }
- 
-@@ -909,6 +947,12 @@ static void virtio_balloon_instance_init(Object *obj)
-                         balloon_stats_get_poll_interval,
-                         balloon_stats_set_poll_interval,
-                         NULL, s, NULL);
-+
-+    s->use_large_config = true;
-+    object_property_add(obj, "x-use-large-balloon-config", "bool",
-+                        balloon_get_large_config,
-+                        balloon_set_large_config,
-+                        NULL, s, NULL);
- }
- 
- static const VMStateDescription vmstate_virtio_balloon = {
-diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
-index 1afafb12f6..f212c08bd7 100644
---- a/include/hw/virtio/virtio-balloon.h
-+++ b/include/hw/virtio/virtio-balloon.h
-@@ -45,6 +45,7 @@ enum virtio_balloon_free_page_report_status {
- typedef struct VirtIOBalloon {
-     VirtIODevice parent_obj;
-     VirtQueue *ivq, *dvq, *svq, *free_page_vq;
-+    bool use_large_config;
-     uint32_t free_page_report_status;
-     uint32_t num_pages;
-     uint32_t actual;
--- 
-2.20.1
-
-
+Paolo
 
