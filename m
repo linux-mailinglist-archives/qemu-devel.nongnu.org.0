@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC765D2C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4F45D2BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:23:55 +0200 (CEST)
+Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKfm-0008CG-7C
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58258)
+	id 1hiKdO-0004dD-KT
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58183)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKMg-0005ZQ-H0
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:39 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hiKMY-0005Ku-T6
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKMf-00086V-Eb
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:38 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:33937)
+ (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007zj-OW
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:30 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:56399)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMf-00085l-4x
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:37 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMU-0007vk-Ny
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N7yuz-1iciKo1zT1-0155SS; Tue, 02 Jul 2019 17:06:01 +0200
+ id 1McYP5-1iGIj93lev-00curO; Tue, 02 Jul 2019 17:06:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 17:05:44 +0200
-Message-Id: <20190702150545.1872-6-laurent@vivier.eu>
+Date: Tue,  2 Jul 2019 17:05:45 +0200
+Message-Id: <20190702150545.1872-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
 References: <20190702150545.1872-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LpFHEjXWJe5+hRGgrK2NrzsSaOpSu+hwWG7OjaIimd1T4tX+Csn
- Ie3vTDldEy5z4aVrkRr7tJFm5yWBYoyRXzYFicWRoNEtLp6i/m0IJMzyPsTtn9nQrfvIxgO
- StvzYFVcZQ5L3VjU6PN9pfndmRbedeQac+eJouMmSfxzr+F5BwA2Y5iQABQIj7y2Fz81LZz
- tVPB+ELlzZtVsjrDEFh2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0NMXCd/tQnw=:xw0KuALeq6XT6z+GFu9Sa+
- 3FztXlRi7XXH6N8EnlXRinkrvISFoa04CrpzQndcj6gnLYz79EGrnFiRyIlr3knOi41mYHAeZ
- Tb88AuJP3MTY5ix55X++LHr1wF4yv0031gmvV29bYs+KIIgQmxC+2oAczF1YAdxPkJN4SkK8x
- HfX5fzOkNEzhlEayEH2qRmoEk4q6vp13xpthSHHLT5SejwnuMERto1Pbv9bB8ay2aDCy0YZWy
- StXte9neNiraZwUESDVNjHOQ/hcx+lbIdqMSZUUY99j2XQGcWdNPFga4BzFVnUO70S6GMgcVp
- JIjuTFTezan7kJ8tKvvBU5Xl6+wz4h4gNbCI4beY0WDPASChpfwS+ijti/FYTjg/3OxQ+R0zr
- he0ZxmqjPRVRL4XN2eIOkx4QtEtJUCYZMKzgIPcW9qabKNg0LPeiI8HgnNWdIHhiKzWfYyqCz
- sSMUXmVGyxzPuPsaN1/ToPKXunOjNzAAgFtDt3TJ7mYWyJLi3mtV6SJ3ifPt5ducGP14d4Pgk
- t+5T41xmrTiizKI0eOcS53tfrnM2XLo0+2enar04qRAyVY45+LZGsLPIqfhqhOng2JXm5P5/E
- 4AZE4dj497SYGv2ME4Uhv+geDqwqw0+k2hfjqGX0qeg1i5XJc9hmz0pXzh/Bv0wxnUFYpWYoT
- yn4Ptv3w9T/DQI7dPFi7/VwPtCzCdZIUeS+Q6lvmkufhZJUfMS7kEKTtL6HKM2imM1qHwMO5q
- XfAFV/WMZgoD+khoKeIi2AB41gYSiCquhvd/Sg==
+X-Provags-ID: V03:K1:SVXugMnuhSklwwTuZulGZNB0tLMT7GqBN8M8EkeLw7mqoRRR2ci
+ z/YuVZ3NSKA+gYcNRNS+FWNLHe7l9x2ERBhDJUw0DyJbtA4AAYq2e/sHyuo5vs9WWcgoKga
+ Q/5OuRoB8MyH6QzR4TjisPeoec1zfTc8kzwG1KQckgKWvp8sVd6xEywOVg0zWstfvkQTMer
+ 4e3G4fVxjmL5Pw7pXSzcw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9H01oSAYfS4=:nY4Z39eL8SBo8v5CCVU26T
+ ZvocLj2dTogc28gQbRwOOJd/KjHucbS/Zw9gShtdTbhiBd/EkoxV9JfYlK2hLhS63Ogre4Lpm
+ fQxG7Z9qo2ZJIbgCepYUnKIwNUoxX9eo1wMMPbWOTEassu5uKbOCIFk5sn4Iby+IUkaYgazA8
+ ulOIboK6IxZS3OwQhQtmmATLV5neYEogLBmLOYiA/NYGUaK+XV9s080MukcmEhr8ZY4O4+VQW
+ D72RlG1ARBMW9Y7fiPxGTKjbMxb+i85mwFEPV1LYpncUhM+t7kyF1kuMOGZJhv0HbmhkfwxKm
+ /zDv54h4skesBU82+auCOQM5xSPHsOKfzkDYkxDaxQOJSCk68Yv7w4a/AHqumRrHRcf8BhmgI
+ uJOke+We6/iBrgDI4Ca6eREL+R9cV7NCNU0l3Q//gU+63Adsn+2BHR1jtI9txaJPziRulisC6
+ hD0xHdterPd04TK+Hj3jc2WCZJOmYpDzEtWY7KgXg9cj+bvJxhhGlvC4Ebu5euO7VSPH4BtbF
+ +G6PepxLpGnC9pwAqk8sdj0P2Zcor23VuZ/K1BJLLvljA8obK+t7KwKvmBXeIVzp1vYTQFoAC
+ 3sMYMjBc2nUYSEDC0Nad6fg2h/QRA+rA24d7VI6+b8P8JFAR5mCim8npbzy9DDzCAuMmEfcd9
+ DxXHH5aWr0efvpURw1E4Gs6lm2QDGJSQ6vQ4CSexsseORH/EFz+iqHuoKCabK6VFfCPsuTiG0
+ UA87li9Inw1i6GrwrqaRV/6RyJEMV3IlrZ5x5w==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL 5/6] linux-user: Handle EXCP_FPE properly for
- MIPS
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PULL 6/6] linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT
+ to the good function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,66 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Yunqiang Su <ysu@wavecomp.com>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+QEMU_IFLA_BR_MULTI_BOOLOPT has been added to the wrong function
+host_to_target_slave_data_bridge_nlattr(). Move it to
+host_to_target_data_bridge_nlattr().
 
-Handle EXCP_FPE properly for MIPS in cpu loop.
+This fixes following error:
+  Unknown QEMU_IFLA_BR type 46
 
-Note that a vast majority of FP instructions are not affected by
-the absence of the code in this patch, as they use alternative code
-paths for handling floating point exceptions (see, for example,
-invocations of update_fcr31()) - they rely on softfloat library for
-keeping track on exceptions that needs to be raised. However, there
-are few MIPS FP instructions (an example is CTC1) that use function
-do_raise_exception() directly, and they need the case that is added
-in this patch to propagate the FPE exception as designed.
-
-The code is based on kernel's function force_fcr31_sig() in
-arch/mips/kernel.traps.c.
-
-Reported-by: Yunqiang Su <ysu@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1561718618-20218-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Fixes: 61b463fbf6cb ("linux-user: add new netlink types")
+Message-Id: <20190626150855.27446-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/mips/cpu_loop.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ linux-user/fd-trans.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 43ba26754736..0ba894fa7aa5 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -540,6 +540,23 @@ done_syscall:
-             info.si_code = TARGET_ILL_ILLOPC;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
-+        case EXCP_FPE:
-+            info.si_signo = TARGET_SIGFPE;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_FPE_FLTUNK;
-+            if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INVALID) {
-+                info.si_code = TARGET_FPE_FLTINV;
-+            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_DIV0) {
-+                info.si_code = TARGET_FPE_FLTDIV;
-+            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_OVERFLOW) {
-+                info.si_code = TARGET_FPE_FLTOVF;
-+            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_UNDERFLOW) {
-+                info.si_code = TARGET_FPE_FLTUND;
-+            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INEXACT) {
-+                info.si_code = TARGET_FPE_FLTRES;
-+            }
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            break;
-         /* The code below was inspired by the MIPS Linux kernel trap
-          * handling code in arch/mips/kernel/traps.c.
-          */
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 612819c1b1ec..60077ce5319d 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -483,6 +483,12 @@ static abi_long host_to_target_data_bridge_nlattr(struct nlattr *nlattr,
+     case QEMU_IFLA_BR_ROOT_ID:
+     case QEMU_IFLA_BR_BRIDGE_ID:
+         break;
++    /* br_boolopt_multi { uint32_t, uint32_t } */
++    case QEMU_IFLA_BR_MULTI_BOOLOPT:
++        u32 = NLA_DATA(nlattr);
++        u32[0] = tswap32(u32[0]); /* optval */
++        u32[1] = tswap32(u32[1]); /* optmask */
++        break;
+     default:
+         gemu_log("Unknown QEMU_IFLA_BR type %d\n", nlattr->nla_type);
+         break;
+@@ -546,12 +552,6 @@ static abi_long host_to_target_slave_data_bridge_nlattr(struct nlattr *nlattr,
+     case QEMU_IFLA_BRPORT_ROOT_ID:
+     case QEMU_IFLA_BRPORT_BRIDGE_ID:
+         break;
+-    /* br_boolopt_multi { uint32_t, uint32_t } */
+-    case QEMU_IFLA_BR_MULTI_BOOLOPT:
+-        u32 = NLA_DATA(nlattr);
+-        u32[0] = tswap32(u32[0]); /* optval */
+-        u32[1] = tswap32(u32[1]); /* optmask */
+-        break;
+     default:
+         gemu_log("Unknown QEMU_IFLA_BRPORT type %d\n", nlattr->nla_type);
+         break;
 -- 
 2.21.0
 
