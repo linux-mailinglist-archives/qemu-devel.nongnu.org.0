@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FC45D4FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:04:21 +0200 (CEST)
-Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005AB5D520
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:20:49 +0200 (CEST)
+Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMCT-0004D8-JW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
+	id 1hiMSX-0007vF-5B
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.williamson@redhat.com>) id 1hiLGR-0002Qp-5V
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiL8k-0004dB-Kv
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1hiLGP-0000Cn-6k
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42114)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1hiLGN-00006Z-2Y
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DA34C309265F;
- Tue,  2 Jul 2019 15:56:11 +0000 (UTC)
-Received: from x1.home (ovpn-116-83.phx2.redhat.com [10.3.116.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E7D45CC00;
- Tue,  2 Jul 2019 15:56:08 +0000 (UTC)
-Date: Tue, 2 Jul 2019 09:55:46 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Message-ID: <20190702095546.11842fec@x1.home>
-In-Reply-To: <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
-References: <156046151566.26543.17274661862206856605.stgit@gimli.home>
- <156046164094.26543.10016703921328261988.stgit@gimli.home>
- <CAFEAcA_nGMfUYpSiaw7xhRjacZQhY1U780ehA0UR0StyBwammg@mail.gmail.com>
- <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
-Organization: Red Hat
+ (envelope-from <peter.maydell@linaro.org>) id 1hiL8j-0004Qb-OJ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:18 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45040)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hiL8j-0004Q7-Gz
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:17 -0400
+Received: by mail-oi1-x242.google.com with SMTP id e189so13410818oib.11
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EclnfeMCC4Vy2ZH4pD0IeuHhx63jHxsyQhxDc8MAMr4=;
+ b=NlPfKOKDQEbHhmGQz4Dcw4HwRJ2tO24I+dRUmLRNNIdiuHjg1sX6NMZwTuiQn3XNE7
+ n5cLOew12fuRIYxR+xx4qdr+GnHP55GAO7Ez5Vvv1KQ4uEzibWXQY83D5RjAa/kEnMRv
+ R0IwNX8nBOsRi8l+OaBK4V7m1SGLMoqnKnwkF21UfuBxMlDQhdGeW6lcRJFDA3mVV+J3
+ a4IG5AovaKPPRpoOU5vBNRLT/moPFXAhzuYQNFJCQFzqHqd5gdohdHPg8LQu9ok3JLPQ
+ dbcySCKiDNzxN0FB9pTA46DAml6DoWwpWE/PbzU0FZ6zJY4Vfv5clLMvV1KmtXseJFIp
+ nGRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EclnfeMCC4Vy2ZH4pD0IeuHhx63jHxsyQhxDc8MAMr4=;
+ b=QtUDY1mb/JBwob5Jdd2nB/HHWcFT9UWoz5VC277gIy3s8XBeYBNonOATvPgXaFfiEY
+ ONwV/AkzmEnFtiBr+bd9sgplwnJr5t6wkvh8K88RWXKYC8BDQhX5KpnPPDTt8lNqADwU
+ z5Ym4sRXYXsMo6vyWlKmfAJqgktf2MN8nEepUHSZOyO75PgeSRz4E6isAGP8DNFOlu6Z
+ xRmcocCtsplza/WB2yf1Y7t8q3hIXOl7lcOjP1qp3QMVPmLuJX5amnSnBOiLDjzfAQyY
+ 2hDt603n8ye3WNTydv2TgB9sAow0IH2+fpKarUK+/a9YMUBp0pbDWj+JlZiI0eBohapO
+ queg==
+X-Gm-Message-State: APjAAAXiUVbo/enj3EullOwP7VjNV+o1kVXzKNur4sej8p1GB7FEfAdG
+ PnyESmWjSaKekBhZ1wIcjiPmxGWsXOL30dxMmqskNg==
+X-Google-Smtp-Source: APXvYqxYeDskdNOntWzSE7MYn2WT8GNOn1BBe44hn0v/lAnqo2bB33wL8ncLxf0X4M6aCQQN6KUkE0Teso4nnOg10Wo=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr3603699oib.163.1562082976071; 
+ Tue, 02 Jul 2019 08:56:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 02 Jul 2019 15:56:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 3/3] vfio/common: Introduce
- vfio_set_irq_signaling helper
+References: <20190702150606.24851-1-mst@redhat.com>
+In-Reply-To: <20190702150606.24851-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jul 2019 16:56:05 +0100
+Message-ID: <CAFEAcA-Qcq1ZmfDO_dkh_H9-aeQVU83ceLKU1NXM3VpW8g5sPQ@mail.gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] [PULL 00/22] virtio, pc, pci: features, fixes,
+ cleanups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,87 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 14:32:26 +0200
-Auger Eric <eric.auger@redhat.com> wrote:
+On Tue, 2 Jul 2019 at 16:06, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit 7fec76a02267598a4e437ddfdaeaeb6de09b92f3:
+>
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-24' into staging (2019-07-01 11:28:28 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to a360cd11de5ae59db55e128fd209290c777eb177:
+>
+>   docs: avoid vhost-user-net specifics in multiqueue section (2019-07-01 10:39:35 -0400)
+>
+> ----------------------------------------------------------------
+> virtio, pc, pci: features, fixes, cleanups
+>
+> virtio-pmem support.
+> libvhost user mq support.
+> A bunch of fixes all over the place.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
 
-> Hi Peter,
-> 
-> On 7/2/19 12:37 PM, Peter Maydell wrote:
-> > On Thu, 13 Jun 2019 at 22:51, Alex Williamson
-> > <alex.williamson@redhat.com> wrote:  
-> >>
-> >> From: Eric Auger <eric.auger@redhat.com>
-> >>
-> >> The code used to assign an interrupt index/subindex to an
-> >> eventfd is duplicated many times. Let's introduce an helper that
-> >> allows to set/unset the signaling for an ACTION_TRIGGER,
-> >> ACTION_MASK or ACTION_UNMASK action.
-> >>
-> >> In the error message, we now use errno in case of any
-> >> VFIO_DEVICE_SET_IRQS ioctl failure.
-> >>
-> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> >> Reviewed-by: Li Qiang <liq3ea@gmail.com>
-> >> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>  
-> > 
-> > Hi; coverity reports (CID 1402196) a possible unchecked return value
-> > in this code:
-> > 
-> >   
-> >> @@ -592,26 +550,10 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
-> >>       * be re-asserted on unmask.  Nothing to do if already using QEMU mode.
-> >>       */
-> >>      if (vector->virq >= 0) {
-> >> -        int argsz;
-> >> -        struct vfio_irq_set *irq_set;
-> >> -        int32_t *pfd;
-> >> -
-> >> -        argsz = sizeof(*irq_set) + sizeof(*pfd);
-> >> -
-> >> -        irq_set = g_malloc0(argsz);
-> >> -        irq_set->argsz = argsz;
-> >> -        irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
-> >> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
-> >> -        irq_set->index = VFIO_PCI_MSIX_IRQ_INDEX;
-> >> -        irq_set->start = nr;
-> >> -        irq_set->count = 1;
-> >> -        pfd = (int32_t *)&irq_set->data;
-> >> +        int32_t fd = event_notifier_get_fd(&vector->interrupt);
-> >>
-> >> -        *pfd = event_notifier_get_fd(&vector->interrupt);
-> >> -
-> >> -        ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
-> >> -
-> >> -        g_free(irq_set);
-> >> +        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr,
-> >> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, NULL);  
-> > 
-> > In vfp_msix_vector_release() we call vfio_set_irq_signaling(),
-> > but we don't check the returned error value, whereas in the other
-> > 7 places we call the function we do check. Is there some missing
-> > error handling here ?  
-> 
-> the difference with the other calls is that we pass a NULL errp here so
-> we don't need to consume a potential error. Before the introduction of
-> vfio_set_irq_signaling we had an ioctl call whose returned value was not
-> tested either. So I think it properly translates what was done before.
-> It seems we are willingly not producing any error message in that case.
-> Alex, can you confirm?
+> Pankaj Gupta (3):
+>       virtio-pmem: sync linux headers
 
-When we're emulating writes to the MSI-X vector table we have no
-failure path up to the guest.  Real hardware cannot fail to enable a
-vector that's available in hardware, thus we can either log the issue,
-ignore the issue, or fault.  I guess Coverity is simply noting that
-other cases are tested while this is not, therefore we should either
-explicitly ignore the return value with a cast to void or take this as
-an opportunity to log the fault, which might be useful in debugging a
-device that isn't working properly.  Thanks,
+Hi. This header sync doesn't look like it was a proper
+sync made with the update-headers script against some
+upstream kernel -- at least the commit message doesn't
+say what the sync was against and the fact that it only
+changes the virtio-pmem headers looks suspicious.
 
-Alex
+Can you respin with a proper header sync against upstream
+mainline, please?
+
+thanks
+-- PMM
 
