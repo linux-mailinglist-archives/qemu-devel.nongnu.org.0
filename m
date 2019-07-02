@@ -2,60 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968085D581
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:43:45 +0200 (CEST)
-Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CC25D670
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:57:46 +0200 (CEST)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMoi-0007IQ-4q
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
+	id 1hiNyL-0001nj-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hiLiz-00012k-Pv
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:33:46 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hiLl3-0002uU-A2
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:35:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hiLiy-0004ZP-Ev
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:33:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47836)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hiLko-0007pZ-7I
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:35:44 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:59807 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hiLis-0004HN-KT
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:33:39 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6E5C1356D2;
- Tue,  2 Jul 2019 16:33:25 +0000 (UTC)
-Received: from [10.36.116.95] (ovpn-116-95.ams2.redhat.com [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CF205D6A9;
- Tue,  2 Jul 2019 16:33:21 +0000 (UTC)
-To: Alex Williamson <alex.williamson@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <156046151566.26543.17274661862206856605.stgit@gimli.home>
- <156046164094.26543.10016703921328261988.stgit@gimli.home>
- <CAFEAcA_nGMfUYpSiaw7xhRjacZQhY1U780ehA0UR0StyBwammg@mail.gmail.com>
- <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
- <20190702095546.11842fec@x1.home>
- <CAFEAcA-KuwMqTdw9Co+KRJTD=gvQ9qwU9QF3xsScLyZzPzaK2A@mail.gmail.com>
- <20190702103025.72258b47@x1.home>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <99943d51-7585-0d5b-104c-8c4f65122ea5@redhat.com>
-Date: Tue, 2 Jul 2019 18:33:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hiLkn-0007jL-OF
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:35:38 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 4D8EB1A2180;
+ Tue,  2 Jul 2019 18:35:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 343B31A1DD1;
+ Tue,  2 Jul 2019 18:35:33 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  2 Jul 2019 18:35:16 +0200
+Message-Id: <1562085328-5126-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20190702103025.72258b47@x1.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 02 Jul 2019 16:33:26 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 3/3] vfio/common: Introduce
- vfio_set_irq_signaling helper
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PULL 00/12] MIPS queue for July 2nd, 2019
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +51,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On 7/2/19 6:30 PM, Alex Williamson wrote:
-> On Tue, 2 Jul 2019 16:58:02 +0100
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> 
->> On Tue, 2 Jul 2019 at 16:56, Alex Williamson <alex.williamson@redhat.com> wrote:
->>> When we're emulating writes to the MSI-X vector table we have no
->>> failure path up to the guest.  Real hardware cannot fail to enable a
->>> vector that's available in hardware, thus we can either log the issue,
->>> ignore the issue, or fault.  I guess Coverity is simply noting that
->>> other cases are tested while this is not, therefore we should either
->>> explicitly ignore the return value with a cast to void or take this as
->>> an opportunity to log the fault, which might be useful in debugging a
->>> device that isn't working properly.  Thanks,  
->>
->> Yeah, Coverity's check here is purely a heuristic ("did we seem
->> to check returns from this function in other places?") so it's
->> wrong sometimes. If you want me to mark this as a false positive
->> in the coverity UI I can do that.
-> 
-> TBH, it seems like a good nag to log it properly.  Eric, do you mind
-> posting a fix to do that?  Thanks,
-Sure I will send a fix.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Thanks
+The following changes since commit d247c8e7f4fc856abf799c37ca9818514ddb08=
+b7:
 
-Eric
-> 
-> Alex
-> 
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190701' into =
+staging (2019-07-02 11:48:39 +0100)
+
+are available in the git repository at:
+
+  https://github.com/AMarkovic/qemu tags/mips-queue-jul-02-2019
+
+for you to fetch changes up to 698c5752c4e618dc17b4c78dfa566896c7bce5ef:
+
+  target/mips: Correct helper for MSA FCLASS.<W|D> instructions (2019-07-=
+02 14:20:42 +0200)
+
+----------------------------------------------------------------
+
+MIPS queue for July 2nd, 2019
+
+Note:
+
+  - a checkpatch warning on updating MAINTAINERS should be ignored
+
+Highlights:
+
+  - introduced limited Kconfig support for MIPS machines
+  - updated "machine-none" tests
+  - cleaned up translate.c and msa_helper.c
+  - minor MSA emulation improvements
+  - updated MSA tests
+
+----------------------------------------------------------------
+
+Aleksandar Markovic (7):
+  tcg/tests: target/mips: Amend MSA fixed point multiply tests
+  tcg/tests: target/mips: Amend MSA integer multiply tests
+  tcg/tests: target/mips: Correct MSA test compilation and execution
+    order
+  target/mips: Correct comments in translate.c
+  target/mips: Correct comments in msa_helper.c
+  target/mips: Unroll loops for MSA float max/min instructions
+  target/mips: Correct helper for MSA FCLASS.<W|D> instructions
+
+Philippe Mathieu-Daud=C3=A9 (5):
+  tests/machine-none: Test recent MIPS cpus
+  hw/mips: Explicit the semi-hosting feature is always required
+  hw/mips: Express dependencies of the MIPSsim machine with Kconfig
+  hw/mips: Express dependencies of the Jazz machine with Kconfig
+  hw/mips: Express dependencies of the r4k platform with Kconfig
+
+ default-configs/mips-softmmu-common.mak            |   7 +-
+ default-configs/mips64-softmmu.mak                 |   5 -
+ default-configs/mips64el-softmmu.mak               |   5 -
+ hw/mips/Kconfig                                    |  30 ++
+ target/mips/msa_helper.c                           | 260 +++++++----
+ target/mips/translate.c                            | 497 +++++++++++++--=
+------
+ tests/machine-none-test.c                          |   4 +-
+ tests/tcg/mips/include/wrappers_msa.h              |  16 +
+ .../ase/msa/fixed-multiply/test_msa_madd_q_h.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_madd_q_w.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_maddr_q_h.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_maddr_q_w.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msub_q_h.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msub_q_w.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msubr_q_h.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msubr_q_w.c    | 216 +++++++++
+ .../user/ase/msa/int-multiply/test_msa_maddv_b.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_d.c   | 214 ++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_h.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_w.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_b.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_d.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_h.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_w.c   | 224 +++++-----
+ .../mips/user/ase/msa/test_msa_compile_32r6eb.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_32r6el.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_64r6eb.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_64r6el.sh   |  32 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh |  16 +-
+ 32 files changed, 3297 insertions(+), 1229 deletions(-)
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+add_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+add_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+addr_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+addr_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+sub_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+sub_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+subr_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_m=
+subr_q_w.c
+
+--=20
+2.7.4
+
 
