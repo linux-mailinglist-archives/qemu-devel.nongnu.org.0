@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0ED5CE42
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:19:55 +0200 (CEST)
-Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6602B5CE1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:08:16 +0200 (CEST)
+Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGpG-0001Os-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51625)
+	id 1hiGdz-00073U-JI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiGNj-0000op-3R
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:32 -0400
+ (envelope-from <slp@redhat.com>) id 1hiGOp-0002FW-8o
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiGNf-00057t-0M
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:25 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35841)
+ (envelope-from <slp@redhat.com>) id 1hiGOn-000722-13
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:35 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50443)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiGNd-00050p-J3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:22 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u8so475524wmm.1
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YeHRPGYbA8ZhQrAnDrwK7ooN6IkOvQIyHvP1gjf9j24=;
- b=XGibDmxUDYjPiY8630ypUeh1Crjc7UzuBDzvEKoKarSVnT3IAtcUkUHxSd9Od+mgtB
- pgFAJTfbO5ZkErOkyp8CBKFk9FTjYVUSh//kvs1yfqH6Wa4X/plg2xI+s7TzC6AKtbKB
- 0+wn/h81QKma2XTRKwbHrKknQ6y2d+qnvGim+wwVKUp5NsjB0dX0ps6f1dkR24f2ypw/
- +GB1N/2Xxf0xOZkonrgOxya4ZkInOULEq7hPQmmcg/rNd4WxZ++AQek1ygJqe16hdXeU
- Xu33olZV2/h84RQUz9oapdyWnbwcbMge+7OZcimc4IsOBYl5yOlVC7uSEufq/hmGonrC
- Ie0g==
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiGOm-0006vv-Of
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:32 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n9so403912wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:52:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YeHRPGYbA8ZhQrAnDrwK7ooN6IkOvQIyHvP1gjf9j24=;
- b=UQCP2PzSqhcg4tDHZX0zLITC74WCxqkCcPU8yMLmXzEGkU1QekcJqs7HfaOa5YLDN2
- 6AL8fMzLvPdTkm27aX0vs+nBkaoON3c7rP0XartCMOv7qakM+IE3Hk+s6oYUOQGBb+D+
- 0/+D26djuq9fYo00qVlu0IKty3WjxpuOc2DdN1wZ5cz4VYGFDX4m9VNxW4QwzcYxUnyJ
- JKBj2umBF55nUf9hCiOzCiJM4Ywc/qeXPUf0uJsPz7oKEbBvNH0+2PvvNMfNtsGFf5JH
- Pl3EggNZd/9LSAUxR11CP3m48QpwLkMmZ0h7TB/0liUF9sPiALYjdWmojY4vabPR3rS5
- AtLg==
-X-Gm-Message-State: APjAAAUWrTLtakUichyz5LyTHRQs1I65WUPwqaV6qe8HlwhcfpAZBk+a
- kk1cul8pel/deiKCCt7QIwUvzg==
-X-Google-Smtp-Source: APXvYqzpZ4Avo86PZIZjJLNygWa0F8atpP1UqT+Y3Ok2r5mWSpOQDIOL4sbSgtX8P2tJFFZfGF63fg==
-X-Received: by 2002:a1c:dc45:: with SMTP id t66mr3193545wmg.63.1562064677072; 
- Tue, 02 Jul 2019 03:51:17 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y133sm3219710wmg.5.2019.07.02.03.51.16
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=EuvAflXMAR9YVsEoIjEyPO3DNj428NjGb140FXnFjpM=;
+ b=LKXZPBoDOemXPbXkVyYXjx4amgmGygicIN6wP7/ejOF8+UrWM4/Gyuuz+u4CKyNajl
+ 1R6CMU2UIG3kp1XiSMr+l1bBeGFv5QvbNGh14FsLI9KQ5n161Dp3/KztUIC+bUgsel/0
+ 56kSVAundHbjSzIXN2eqUuxALj43XW+/HV++PGA13ZLtHJVgVIWf0ZIWenBFkwjoywmA
+ 1Aaftt+87YIFH/n3P0jqZX7DJybGR4niMvQ8bselHG17hiDyDHg8Xodk5G+W4JGtpoXd
+ TnPN7v7FReihedmZ5H851UEr/G23gKbCmfE77a16o7civ7lMLnvh4vuZEsdKtsWBnVC1
+ W0Uw==
+X-Gm-Message-State: APjAAAXNJXElqzPObuBnRqtM6OY/xwQZAaGB49MmA4eNttqrKJtdxjzE
+ bQ4hezDbLiBhLp4HeUMRD4DpBphtDkhreg==
+X-Google-Smtp-Source: APXvYqy5mfBokw4isYX+q47p1l7nEdln3cfZUDxBpkI7PfgZYbwveaDe8aEkbcd308PgQf8jvwZZpg==
+X-Received: by 2002:a05:600c:c4:: with SMTP id u4mr3179902wmm.96.1562064750063; 
+ Tue, 02 Jul 2019 03:52:30 -0700 (PDT)
+Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
+ [83.35.20.18])
+ by smtp.gmail.com with ESMTPSA id e7sm1759510wmd.0.2019.07.02.03.52.28
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 03:51:16 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 11:51:15 +0100
-Message-Id: <20190702105115.9465-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Tue, 02 Jul 2019 03:52:29 -0700 (PDT)
+References: <20190701144705.102615-1-slp@redhat.com>
+ <20190701144705.102615-5-slp@redhat.com>
+ <20190702081733.ff6cboiddln5wmti@sirius.home.kraxel.org>
+ <878stgygiu.fsf@redhat.com>
+ <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-reply-to: <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
+Date: Tue, 02 Jul 2019 12:52:27 +0200
+Message-ID: <875zokyahg.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH for-4.1] target/arm: Correct VMOV_imm_dp
- handling of short vectors
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
+ machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,36 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity points out (CID 1402195) that the loop in trans_VMOV_imm_dp()
-that iterates over the destination registers in a short-vector VMOV
-accidentally throws away the returned updated register number
-from vfp_advance_dreg(). Add the missing assignment. (We got this
-correct in trans_VMOV_imm_sp().)
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 18cf951af9a27ae573a
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate-vfp.inc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index deaddb04421..092eb5ec53d 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1971,7 +1971,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vfp_advance_dreg(vd, delta_d);
-+        vd = vfp_advance_dreg(vd, delta_d);
-     }
- 
-     tcg_temp_free_i64(fd);
--- 
-2.20.1
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
+>   Hi,
+>
+>> > Can we get rid of the kernel command line hacking please?
+>> > The virtio-mmio devices should be discoverable somehow.
+>> >
+>> > Device tree (as suggested by paolo) would work.
+>> > Custom acpi device (simliar to fw_cfg) is another option.
+>> > I'd tend to pick acpi, I wouldn't be surprised if we'll
+>> > need acpi anyway at some point.
+>> >
+>> > Maybe even do both, then switch at runtime depending on -no-acpi
+>> > (simliar to arm/aarch64).
+>>=20
+>> Microvm tries to do things in the cheapest possible way.
+>
+> But taking too many shortcuts tends to hurt in the long run.
+> It also cuts off useful use cases.
+
+Sure, but the consideration about whether there are too many shortcuts,
+or just enough of them, is quite subjective. Microvm's code base is
+small enough to keep its quirks in check without a becoming a
+significant maintenance burden, and doesn't invalidate how other, more
+conventional machine types work.
+
+> I think microvm has more value than just the reduced boot time.
+> Specifically the reduced attack surface is useful I think, even
+> beyond container-style workloads.  Being able to boot standard
+> cloud images (with the cloud image kernel loaded via cloud image
+> boot loader) in microvm would be useful for example.
+
+Agreed.
+
+> So, yes, I want microvm being designed in a way that it can run
+> firmware and have it handle the boot process.  For starters just
+> qboot for fast direct kernel boot, but longer term also seabios
+> and/or ovmf.
+
+As I said, I'm also in favor of microvm supporting booting from
+firmware in the future, as long we keep the simple mode too.
+
+> Can look at the seabios side, but probably not before I'm back
+> from my summer vacation in august.  For seabios a simple & reliable
+> time source would be quite useful.  Direct kernel boot might be doable
+> without that, but as soon as any I/O (read from cloud image disk) is
+> involved a time source is needed.  Right now seabios uses the acpi
+> pm_timer.  tsc should work too if seabios can figure the frequency
+> without a calibration loop (invtsc should be enough).  Maybe seabios
+> needs kvmclock support ...
+
+My main concern about supporting SeaBIOS, in addition to boot times, is
+having to support ACPI, which due to its complexity and size, is a clear
+candidate to be stripped out from a minimalistic QEMU build.
+
+> Is there any way to detect microvm from the guest?  pc/q35 can be
+> easily detected by looking at the pci host bridge.
+
+One option would be using the fields MPC_OEM and MPC_PRODUCT_ID from the
+MP Table to give a hint to the guest.
+
+> Do you have boot time numbers for qboot vs. no-firmware boot?
+> Is the difference big enough that it makes sense to maintain both?
+
+AFAIK, qboot can't boot a guest without both ACPI and PCI.
+
+Sergio.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0bN2sACgkQ9GknjS8M
+AjXgWg/+IVYAKICb6sy0xQF7xtGhl7EEn1Gukjiof8Qw0eS4g+FraS0crOyR6vtl
++xEtI55jdpl7sEnDtACzwTErOQdm1/160nLfscMe98VUl5ZbW3JqmvQ7WYFIixn5
+eheTxk3CJnVqA5AR25dYG+zZ15ULaxMjEZ2pwIcjOPXjYWZrs/GVcqYW69VYUDzw
+pF5Lh5GbkwOJWjdwjhxdZ2WLsRUqN+J0ZzS1DZh/aQVzI/XhBRFP77SBsfN9jBYo
+LIRIhtzRmjvk8XvDecbZAI6xhQPBjadRiY9IXWoPI4OCRXPIRk1tJKJFOr6lKvZn
+0PYcDOmf+Nb+c/fign/iF1ekkF5tWcI500Z2bDxiVuuOVJYtcRwagdB1KiLbuGKA
+DNOvgznTHtxHDW9qS4eM8cDxMjdCgLRYJ8GAYkYzMdj5MqllY6qd1fDE/rQR6EJr
+Z+1ha/4FwIi2P6NOg9p7nOqA2LRFuYviXxo24WaC9ZYdF0AdpO5umuLJtMhELXso
+JnDAJmCF/ClqPcK4qwMpTLHfNx3OQWDbLGLGNJHgdoT+DYQBvdy2pOI5ZXqGABle
+fPbU/llhYkiiMyy9PepKWGaebsmnZkSdx5fN2hYhRjZ0LSy/95FvAYg0jyfjilmB
+xdLtEymA3IrH8c5nRswxDDfoOFE6E4ihl55rQm4tnyxdZ8JWK7Q=
+=sW3N
+-----END PGP SIGNATURE-----
+--=-=-=--
 
