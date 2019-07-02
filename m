@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7195C922
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:12:25 +0200 (CEST)
-Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDAC5C92C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:18:06 +0200 (CEST)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiC1f-0006zS-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58169)
+	id 1hiC7B-0002O5-JB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58317)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByd-0004iQ-9O
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:16 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByh-0004r5-P6
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByc-0002ns-1t
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:15 -0400
-Received: from ozlabs.org ([203.11.71.1]:41321)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByg-0002s7-GP
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:19 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40123 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByb-0002jt-EU; Tue, 02 Jul 2019 02:09:13 -0400
+ id 1hiByg-0002nz-2Y; Tue, 02 Jul 2019 02:09:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMg2BfQz9sND; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
+ id 45dDMg4xDvz9sPX; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1562047743;
- bh=cfrKF0Hv5dm4uW4tcyxYHvklYX7U7LT2Ph0PXGDvs4s=;
+ bh=3lEr+MESFZD0be1ox06hv/RXOrEKuApQCasTBRwjQII=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o5TzheW4sIuv9emMr7F49Hrg4Wm16cR6qhLOF92QBMTeRmbAEVX3eCABYV8PrDqyw
- 9xdzeAEuuxWyGU/qkF1eURRS6cOVNgQq1FQUsrd7MeockUEJCc1ZAexnpWzZce7Rn8
- /5kKIrJJD2y8yfCO1pTBH6uH3U/nAsbsmvDhkdaA=
+ b=Y1edzj2wh/OLlJUw+edNJuyHQdzyNuEfioWSs00VIuaLcItnu7a74M/VTzakVYawu
+ uDYgOZpb/lF64SrJzIYUyerP3FbUivL4/3Pbr3ciL+e2LRPLVwQNw4RLiUSGzKaoO7
+ dnlOPCcHwF412TTfIgTqGOtdGIaBMS1HZUteuwmo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:13 +1000
-Message-Id: <20190702060857.3926-6-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:14 +1000
+Message-Id: <20190702060857.3926-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 05/49] ppc/pnv: remove xscom_base field from
- PnvChip
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 06/49] spapr_pci: Fix potential NULL pointer
+ dereference in spapr_dt_pci_bus()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,115 +57,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
  qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
- rth@twiddle.net
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-It has now became useless with the previous patch.
+Commit 14e714900f6 refactored the call to spapr_dt_drc(),
+introducing a potential NULL pointer dereference while
+accessing bus->parent_dev.
+A trivial audit show 'bus' is not null in the two places
+the static function spapr_dt_drc() is called.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190612174345.9799-3-clg@kaod.org>
+Since the 'bus' parameter is not NULL in both callers, remove
+remove the test on if (bus), and add an assert() to silent
+static analyzers.
+
+This fixes:
+
+  /hw/ppc/spapr_pci.c: 1367 in spapr_dt_pci_bus()
+  >>>     CID 1401933:  Null pointer dereferences  (FORWARD_NULL)
+  >>>     Dereferencing null pointer "bus".
+  1367         ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
+  1368                            SPAPR_DR_CONNECTOR_TYPE_PCI);
+
+Fixes: 14e714900f6
+Reported-by: Coverity (CID 1401933)
+Suggested-by: Greg Kurz <groug@kaod.org>
+Suggested-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190613213406.22053-1-philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 10 ----------
- include/hw/ppc/pnv.h |  5 +----
- 2 files changed, 1 insertion(+), 14 deletions(-)
+ hw/ppc/spapr_pci.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 0d98a281f6..b87e01e5b9 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -924,7 +924,6 @@ static void pnv_chip_power8e_class_init(ObjectClass *=
-klass, void *data)
-     k->isa_create =3D pnv_chip_power8_isa_create;
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
--    k->xscom_base =3D 0x003fc0000000000ull;
-     dc->desc =3D "PowerNV Chip POWER8E";
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 957ae88bbd..fbeb1c90ee 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1356,12 +1356,11 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, =
+PCIBus *bus,
+     _FDT(fdt_setprop_cell(fdt, offset, "#size-cells",
+                           RESOURCE_CELLS_SIZE));
 =20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -944,7 +943,6 @@ static void pnv_chip_power8_class_init(ObjectClass *k=
-lass, void *data)
-     k->isa_create =3D pnv_chip_power8_isa_create;
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
--    k->xscom_base =3D 0x003fc0000000000ull;
-     dc->desc =3D "PowerNV Chip POWER8";
-=20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -964,7 +962,6 @@ static void pnv_chip_power8nvl_class_init(ObjectClass=
- *klass, void *data)
-     k->isa_create =3D pnv_chip_power8nvl_isa_create;
-     k->dt_populate =3D pnv_chip_power8_dt_populate;
-     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
--    k->xscom_base =3D 0x003fc0000000000ull;
-     dc->desc =3D "PowerNV Chip POWER8NVL";
-=20
-     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
-@@ -1115,7 +1112,6 @@ static void pnv_chip_power9_class_init(ObjectClass =
-*klass, void *data)
-     k->isa_create =3D pnv_chip_power9_isa_create;
-     k->dt_populate =3D pnv_chip_power9_dt_populate;
-     k->pic_print_info =3D pnv_chip_power9_pic_print_info;
--    k->xscom_base =3D 0x00603fc00000000ull;
-     dc->desc =3D "PowerNV Chip POWER9";
-=20
-     device_class_set_parent_realize(dc, pnv_chip_power9_realize,
-@@ -1152,11 +1148,6 @@ static void pnv_chip_core_sanitize(PnvChip *chip, =
-Error **errp)
+-    if (bus) {
+-        pci_for_each_device_reverse(bus, pci_bus_num(bus),
+-                                    spapr_dt_pci_device_cb, &cbinfo);
+-        if (cbinfo.err) {
+-            return cbinfo.err;
+-        }
++    assert(bus);
++    pci_for_each_device_reverse(bus, pci_bus_num(bus),
++                                spapr_dt_pci_device_cb, &cbinfo);
++    if (cbinfo.err) {
++        return cbinfo.err;
      }
- }
 =20
--static void pnv_chip_instance_init(Object *obj)
--{
--    PNV_CHIP(obj)->xscom_base =3D PNV_CHIP_GET_CLASS(obj)->xscom_base;
--}
--
- static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
- {
-     Error *error =3D NULL;
-@@ -1406,7 +1397,6 @@ static const TypeInfo types[] =3D {
-         .name          =3D TYPE_PNV_CHIP,
-         .parent        =3D TYPE_SYS_BUS_DEVICE,
-         .class_init    =3D pnv_chip_class_init,
--        .instance_init =3D pnv_chip_instance_init,
-         .instance_size =3D sizeof(PnvChip),
-         .class_size    =3D sizeof(PnvChipClass),
-         .abstract      =3D true,
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 01ac9e7996..fb123edc4e 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -56,7 +56,6 @@ typedef struct PnvChip {
-     uint64_t     cores_mask;
-     void         *cores;
-=20
--    hwaddr       xscom_base;
-     MemoryRegion xscom_mmio;
-     MemoryRegion xscom;
-     AddressSpace xscom_as;
-@@ -105,8 +104,6 @@ typedef struct PnvChipClass {
-     uint64_t     chip_cfam_id;
-     uint64_t     cores_mask;
-=20
--    hwaddr       xscom_base;
--
-     DeviceRealize parent_realize;
-=20
-     uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
-@@ -199,7 +196,7 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
-  */
- #define PNV_XSCOM_SIZE        0x800000000ull
- #define PNV_XSCOM_BASE(chip)                                            =
-\
--    (chip->xscom_base + ((uint64_t)(chip)->chip_id) * PNV_XSCOM_SIZE)
-+    (0x0003fc0000000000ull + ((uint64_t)(chip)->chip_id) * PNV_XSCOM_SIZ=
-E)
-=20
- /*
-  * XSCOM 0x20109CA defines the ICP BAR:
+     ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
 --=20
 2.21.0
 
