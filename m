@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6E85D43C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:30:23 +0200 (CEST)
-Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5130D5D4BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:51:22 +0200 (CEST)
+Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLfi-0005wK-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37455)
+	id 1hiM00-0001Bf-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37489)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hiKpI-0007oG-LY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:14 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hiKpK-0007rQ-HM
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hiKpH-0005ui-6K
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50532)
+ (envelope-from <ehabkost@redhat.com>) id 1hiKpJ-0005wY-6t
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKpG-0005tn-U1
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKpI-0005vx-UE
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3121830842CE;
- Tue,  2 Jul 2019 15:36:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2F91730832E3;
+ Tue,  2 Jul 2019 15:36:12 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B33D119C6F;
- Tue,  2 Jul 2019 15:36:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADFF15D6A9;
+ Tue,  2 Jul 2019 15:36:11 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Tue,  2 Jul 2019 12:35:09 -0300
-Message-Id: <20190702153535.9851-17-ehabkost@redhat.com>
+Date: Tue,  2 Jul 2019 12:35:10 -0300
+Message-Id: <20190702153535.9851-18-ehabkost@redhat.com>
 In-Reply-To: <20190702153535.9851-1-ehabkost@redhat.com>
 References: <20190702153535.9851-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 02 Jul 2019 15:36:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Tue, 02 Jul 2019 15:36:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v3 16/42] machine: show if CLI option '-numa
- node, mem' is supported in QAPI schema
+Subject: [Qemu-devel] [PULL v3 17/42] numa: deprecate 'mem' parameter of
+ '-numa node' option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,125 +62,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Legacy '-numa node,mem' option has a number of issues and mgmt often
-defaults to it. Unfortunately it's no possible to replace it with
-an alternative '-numa memdev' without breaking migration compatibility.
-What's possible though is to deprecate it, keeping option working with
-old machine types only.
+The parameter allows to configure fake NUMA topology where guest
+VM simulates NUMA topology but not actually getting performance
+benefits from it. The same or better results could be achieved
+using 'memdev' parameter.
+Beside of unpredictable performance, '-numa node.mem' option has
+other issues when it's used with combination of -mem-path +
++ -mem-prealloc + memdev backends (pc-dimm), breaking binding of
+memdev backends since mem-path/mem-prealloc are global and affect
+the most of RAM allocations.
 
-In order to help users to find out if being deprecated CLI option
-'-numa node,mem' is still supported by particular machine type, add new
-"numa-mem-supported" property to output of query-machines.
+It's possible to make memdevs and global -mem-path/mem-prealloc
+to play nicely together but that will just complicate already
+complicated code and add unobious ways it could break on 2
+different memmory allocation pathes and their combinations.
 
-"numa-mem-supported" is set to 'true' for machines that currently support
-NUMA, but it will be flipped to 'false' later on, once deprecation period
-expires and kept 'true' only for old machine types that used to support
-the legacy option so it won't break existing configuration that are using
-it.
+Instead of it, consolidate all guest RAM allocation over memdev
+which still allows to create fake NUMA configurations if desired
+and leaves one simplifyed code path to consider when it comes
+to guest RAM allocation.
+
+To achieve desired simplification deprecate 'mem' parameter as its
+ad-hoc partitioning of initial RAM MemoryRegion can't be translated
+to memdev based backend transparently to users and in compatible
+manner (migration wise).
+
+Later down the road that will allow to consolidate means of how
+guest RAM is allocated and would permit us to clean up quite
+a bit memory allocations and numa code, leaving only 'memdev'
+implementation in place.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1560172207-378962-1-git-send-email-imammedo@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <1559205199-233510-3-git-send-email-imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- qapi/misc.json      | 5 ++++-
- include/hw/boards.h | 3 +++
- hw/arm/virt.c       | 1 +
- hw/i386/pc.c        | 1 +
- hw/ppc/spapr.c      | 1 +
- vl.c                | 1 +
- 6 files changed, 11 insertions(+), 1 deletion(-)
+ numa.c               |  2 ++
+ qemu-deprecated.texi | 16 ++++++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 577f7166f4..ccd56c9191 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -2014,12 +2014,15 @@
- #
- # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
- #
-+# @numa-mem-supported: true if '-numa node,mem' option is supported by
-+#                      the machine type and false otherwise (since 4.1)
-+#
- # Since: 1.2.0
- ##
- { 'struct': 'MachineInfo',
-   'data': { 'name': 'str', '*alias': 'str',
-             '*is-default': 'bool', 'cpu-max': 'int',
--            'hotpluggable-cpus': 'bool'} }
-+            'hotpluggable-cpus': 'bool', 'numa-mem-supported': 'bool'} }
+diff --git a/numa.c b/numa.c
+index 7594eb5a7e..7d449c7e95 100644
+--- a/numa.c
++++ b/numa.c
+@@ -122,6 +122,8 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
  
- ##
- # @query-machines:
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 843d82c77d..47cba6ce6c 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -159,6 +159,8 @@ typedef struct {
-  * @kvm_type:
-  *    Return the type of KVM corresponding to the kvm-type string option or
-  *    computed based on other criteria such as the host kernel capabilities.
-+ * @numa_mem_supported:
-+ *    true if '--numa node.mem' option is supported and false otherwise
-  */
- struct MachineClass {
-     /*< private >*/
-@@ -211,6 +213,7 @@ struct MachineClass {
-     bool ignore_boot_device_suffixes;
-     bool smbus_no_migration_support;
-     bool nvdimm_supported;
-+    bool numa_mem_supported;
+     if (node->has_mem) {
+         numa_info[nodenr].node_mem = node->mem;
++        warn_report("Parameter -numa node,mem is deprecated,"
++                    " use -numa node,memdev instead");
+     }
+     if (node->has_memdev) {
+         Object *o;
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index df04f2840b..44c9a95966 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -88,6 +88,22 @@ The @code{-realtime mlock=on|off} argument has been replaced by the
+ The ``-virtfs_synth'' argument is now deprecated. Please use ``-fsdev synth''
+ and ``-device virtio-9p-...'' instead.
  
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-                                            DeviceState *dev);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 20f191bc93..0b5138cb22 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1952,6 +1952,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-     hc->plug = virt_machine_device_plug_cb;
-+    mc->numa_mem_supported = true;
- }
++@subsection -numa node,mem=@var{size} (since 4.1)
++
++The parameter @option{mem} of @option{-numa node} is used to assign a part of
++guest RAM to a NUMA node. But when using it, it's impossible to manage specified
++RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
++so guest end-ups with the fake NUMA configuration with suboptiomal performance.
++However since 2014 there is an alternative way to assign RAM to a NUMA node
++using parameter @option{memdev}, which does the same as @option{mem} and adds
++means to actualy manage node RAM on the host side. Use parameter @option{memdev}
++with @var{memory-backend-ram} backend as an replacement for parameter @option{mem}
++to achieve the same fake NUMA effect or a properly configured
++@var{memory-backend-file} backend to actually benefit from NUMA configuration.
++In future new machine versions will not accept the option but it will still
++work with old machine types. User can check QAPI schema to see if the legacy
++option is supported by looking at MachineInfo::numa-mem-supported property.
++
+ @section QEMU Machine Protocol (QMP) commands
  
- static void virt_instance_init(Object *obj)
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 9b953eeeea..114fd5f8d4 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2792,6 +2792,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     nc->nmi_monitor_handler = x86_nmi;
-     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported = true;
-+    mc->numa_mem_supported = true;
- 
-     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
-         pc_machine_get_device_memory_region_size, NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 51256ac9ca..821f0d4a49 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4367,6 +4367,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-      * in which LMBs are represented and hot-added
-      */
-     mc->numa_mem_align_shift = 28;
-+    mc->numa_mem_supported = true;
- 
-     smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
-     smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
-diff --git a/vl.c b/vl.c
-index 96f4dd828b..1729410e92 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1430,6 +1430,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
-         info->name = g_strdup(mc->name);
-         info->cpu_max = !mc->max_cpus ? 1 : mc->max_cpus;
-         info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
-+        info->numa_mem_supported = mc->numa_mem_supported;
- 
-         entry = g_malloc0(sizeof(*entry));
-         entry->value = info;
+ @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
