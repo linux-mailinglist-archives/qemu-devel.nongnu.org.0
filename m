@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D985E5C812
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:14:55 +0200 (CEST)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A145C84B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:25:07 +0200 (CEST)
+Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiABy-0000Xy-ST
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50530)
+	id 1hiALq-0002OR-Ul
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hi8aR-00058O-Rr
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:05 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hi8aT-0005Cf-QR
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hi8aQ-0003kM-Gc
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60178)
+ (envelope-from <jasowang@redhat.com>) id 1hi8aS-0003mu-Ny
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36468)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aQ-0003jz-7q
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:02 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aS-0003la-EL
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:04 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AE7630BBE9B;
- Tue,  2 Jul 2019 02:32:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A9C3788E5F;
+ Tue,  2 Jul 2019 02:32:03 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-232.pek2.redhat.com
  [10.72.12.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC67868405;
- Tue,  2 Jul 2019 02:31:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1490860C43;
+ Tue,  2 Jul 2019 02:32:01 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 10:31:25 +0800
-Message-Id: <1562034689-6539-14-git-send-email-jasowang@redhat.com>
+Date: Tue,  2 Jul 2019 10:31:26 +0800
+Message-Id: <1562034689-6539-15-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 References: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 02 Jul 2019 02:32:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Tue, 02 Jul 2019 02:32:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/17] COLO-compare: Add new parameter to
- communicate with remote colo-frame
+Subject: [Qemu-devel] [PULL 14/17] COLO-compare: Add remote notification
+ chardev handler frame
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,133 +61,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-We add the "notify_dev=chardevID" parameter. After that colo-compare can connect with
-remote(currently just for Xen, KVM-COLO didn't need it.) colo-frame through chardev socket,
-it can notify remote(Xen) colo-frame to handle checkpoint event.
+Add chardev handler to send notification to remote(current from Xen) colo-frame.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 21 +++++++++++++++++++++
- qemu-options.hx    | 33 ++++++++++++++++++++++++++++++++-
- 2 files changed, 53 insertions(+), 1 deletion(-)
+ net/colo-compare.c | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 103297b..10fae2b 100644
+index 10fae2b..fda55d5 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -83,6 +83,7 @@ typedef struct CompareState {
-     char *pri_indev;
-     char *sec_indev;
-     char *outdev;
-+    char *notify_dev;
+@@ -87,8 +87,10 @@ typedef struct CompareState {
      CharBackend chr_pri_in;
      CharBackend chr_sec_in;
      CharBackend chr_out;
-@@ -897,6 +898,21 @@ static void compare_set_vnet_hdr(Object *obj,
-     s->vnet_hdr = value;
++    CharBackend chr_notify_dev;
+     SocketReadState pri_rs;
+     SocketReadState sec_rs;
++    SocketReadState notify_rs;
+     bool vnet_hdr;
+ 
+     /*
+@@ -745,6 +747,19 @@ static void compare_sec_chr_in(void *opaque, const uint8_t *buf, int size)
+     }
  }
  
-+static char *compare_get_notify_dev(Object *obj, Error **errp)
++static void compare_notify_chr(void *opaque, const uint8_t *buf, int size)
 +{
-+    CompareState *s = COLO_COMPARE(obj);
++    CompareState *s = COLO_COMPARE(opaque);
++    int ret;
 +
-+    return g_strdup(s->notify_dev);
++    ret = net_fill_rstate(&s->notify_rs, buf, size);
++    if (ret == -1) {
++        qemu_chr_fe_set_handlers(&s->chr_notify_dev, NULL, NULL, NULL, NULL,
++                                 NULL, NULL, true);
++        error_report("colo-compare notify_dev error");
++    }
 +}
 +
-+static void compare_set_notify_dev(Object *obj, const char *value, Error **errp)
-+{
-+    CompareState *s = COLO_COMPARE(obj);
-+
-+    g_free(s->notify_dev);
-+    s->notify_dev = g_strdup(value);
-+}
-+
- static void compare_pri_rs_finalize(SocketReadState *pri_rs)
- {
-     CompareState *s = container_of(pri_rs, CompareState, pri_rs);
-@@ -1057,6 +1073,10 @@ static void colo_compare_init(Object *obj)
-                             (Object **)&s->iothread,
-                             object_property_allow_set_link,
-                             OBJ_PROP_LINK_STRONG, NULL);
-+    /* This parameter just for Xen COLO */
-+    object_property_add_str(obj, "notify_dev",
-+                            compare_get_notify_dev, compare_set_notify_dev,
-+                            NULL);
+ /*
+  * Check old packet regularly so it can watch for any packets
+  * that the secondary hasn't produced equivalents of.
+@@ -832,6 +847,11 @@ static void colo_compare_iothread(CompareState *s)
+     qemu_chr_fe_set_handlers(&s->chr_sec_in, compare_chr_can_read,
+                              compare_sec_chr_in, NULL, NULL,
+                              s, s->worker_context, true);
++    if (s->notify_dev) {
++        qemu_chr_fe_set_handlers(&s->chr_notify_dev, compare_chr_can_read,
++                                 compare_notify_chr, NULL, NULL,
++                                 s, s->worker_context, true);
++    }
  
-     s->vnet_hdr = false;
-     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
-@@ -1103,6 +1123,7 @@ static void colo_compare_finalize(Object *obj)
-     g_free(s->pri_indev);
-     g_free(s->sec_indev);
-     g_free(s->outdev);
-+    g_free(s->notify_dev);
+     colo_compare_timer_init(s);
+     s->event_bh = qemu_bh_new(colo_compare_handle_event, s);
+@@ -943,6 +963,10 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
+     }
  }
  
- static const TypeInfo colo_compare_info = {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 0d8beb4..c18b790 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4477,7 +4477,7 @@ Dump the network traffic on netdev @var{dev} to the file specified by
- The file format is libpcap, so it can be analyzed with tools such as tcpdump
- or Wireshark.
++static void compare_notify_rs_finalize(SocketReadState *notify_rs)
++{
++    /* Get Xen colo-frame's notify and handle the message */
++}
  
--@item -object colo-compare,id=@var{id},primary_in=@var{chardevid},secondary_in=@var{chardevid},outdev=@var{chardevid},iothread=@var{id}[,vnet_hdr_support]
-+@item -object colo-compare,id=@var{id},primary_in=@var{chardevid},secondary_in=@var{chardevid},outdev=@var{chardevid},iothread=@var{id}[,vnet_hdr_support][,notify_dev=@var{id}]
+ /*
+  * Return 0 is success.
+@@ -1013,6 +1037,17 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+     net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s->vnet_hdr);
+     net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, s->vnet_hdr);
  
- Colo-compare gets packet from primary_in@var{chardevid} and secondary_in@var{chardevid}, than compare primary packet with
- secondary packet. If the packets are same, we will output primary
-@@ -4486,11 +4486,15 @@ do checkpoint and send primary packet to outdev@var{chardevid}.
- In order to improve efficiency, we need to put the task of comparison
- in another thread. If it has the vnet_hdr_support flag, colo compare
- will send/recv packet with vnet_hdr_len.
-+If you want to use Xen COLO, will need the notify_dev to notify Xen
-+colo-frame to do checkpoint.
- 
- we must use it with the help of filter-mirror and filter-redirector.
- 
- @example
- 
-+KVM COLO
++    /* Try to enable remote notify chardev, currently just for Xen COLO */
++    if (s->notify_dev) {
++        if (find_and_check_chardev(&chr, s->notify_dev, errp) ||
++            !qemu_chr_fe_init(&s->chr_notify_dev, chr, errp)) {
++            return;
++        }
 +
- primary:
- -netdev tap,id=hn0,vhost=off,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown
- -device e1000,id=e0,netdev=hn0,mac=52:a4:00:12:78:66
-@@ -4514,6 +4518,33 @@ secondary:
- -object filter-redirector,id=f1,netdev=hn0,queue=tx,indev=red0
- -object filter-redirector,id=f2,netdev=hn0,queue=rx,outdev=red1
++        net_socket_rs_init(&s->notify_rs, compare_notify_rs_finalize,
++                           s->vnet_hdr);
++    }
++
+     QTAILQ_INSERT_TAIL(&net_compares, s, next);
  
+     g_queue_init(&s->conn_list);
+@@ -1091,6 +1126,10 @@ static void colo_compare_finalize(Object *obj)
+     qemu_chr_fe_deinit(&s->chr_pri_in, false);
+     qemu_chr_fe_deinit(&s->chr_sec_in, false);
+     qemu_chr_fe_deinit(&s->chr_out, false);
++    if (s->notify_dev) {
++        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
++    }
 +
-+Xen COLO
-+
-+primary:
-+-netdev tap,id=hn0,vhost=off,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown
-+-device e1000,id=e0,netdev=hn0,mac=52:a4:00:12:78:66
-+-chardev socket,id=mirror0,host=3.3.3.3,port=9003,server,nowait
-+-chardev socket,id=compare1,host=3.3.3.3,port=9004,server,nowait
-+-chardev socket,id=compare0,host=3.3.3.3,port=9001,server,nowait
-+-chardev socket,id=compare0-0,host=3.3.3.3,port=9001
-+-chardev socket,id=compare_out,host=3.3.3.3,port=9005,server,nowait
-+-chardev socket,id=compare_out0,host=3.3.3.3,port=9005
-+-chardev socket,id=notify_way,host=3.3.3.3,port=9009,server,nowait
-+-object filter-mirror,id=m0,netdev=hn0,queue=tx,outdev=mirror0
-+-object filter-redirector,netdev=hn0,id=redire0,queue=rx,indev=compare_out
-+-object filter-redirector,netdev=hn0,id=redire1,queue=rx,outdev=compare0
-+-object iothread,id=iothread1
-+-object colo-compare,id=comp0,primary_in=compare0-0,secondary_in=compare1,outdev=compare_out0,notify_dev=nofity_way,iothread=iothread1
-+
-+secondary:
-+-netdev tap,id=hn0,vhost=off,script=/etc/qemu-ifup,down script=/etc/qemu-ifdown
-+-device e1000,netdev=hn0,mac=52:a4:00:12:78:66
-+-chardev socket,id=red0,host=3.3.3.3,port=9003
-+-chardev socket,id=red1,host=3.3.3.3,port=9004
-+-object filter-redirector,id=f1,netdev=hn0,queue=tx,indev=red0
-+-object filter-redirector,id=f2,netdev=hn0,queue=rx,outdev=red1
-+
- @end example
- 
- If you want to know the detail of above command line, you can read
+     if (s->iothread) {
+         colo_compare_timer_del(s);
+     }
 -- 
 2.5.0
 
