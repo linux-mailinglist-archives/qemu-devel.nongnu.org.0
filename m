@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FCD5D661
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:42:17 +0200 (CEST)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB4E5D6FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 21:40:06 +0200 (CEST)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiNjM-00015N-NO
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60618)
+	id 1hiOdJ-0004RE-3d
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 15:40:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiMU0-0001uk-JZ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:22:24 -0400
+ (envelope-from <slp@redhat.com>) id 1hiMg4-0002G5-SG
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:34:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiMTw-00065P-KC
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:22:19 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34967)
+ (envelope-from <slp@redhat.com>) id 1hiMg0-0007Xa-Gi
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:34:46 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55886)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiMTw-00063j-D3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:22:16 -0400
-Received: by mail-ot1-x341.google.com with SMTP id j19so18001124otq.2
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 10:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q+CN6YBqnmrRrZoHgpVK5TMPU5z9BgHXPKy2dfZMNWA=;
- b=kGh7MueM4eFqxlXkV7JwtracJckX1z+xc1+oNJi/rfsVsnYfkwRinG3m97oI9Sftn6
- /OnCw/JoyHZ82eaTJzsmrlkhLD34G83rU4aliqwYa+9ceSf/o3WDl7Q5GFA/f/cfIEbq
- ZkY5DWnhLd8adj3hhTt3SZPsav0ZWEuvXD9vc2JfYEd4S9HY5Mq77oX1QCe/U3f/f31P
- 82VubsFm2t9CmrojatcmX2vHdbsHa0DlXtG1YlDQxbTDIBGQO4STC4fOMm67uJJ3jt6v
- F0kVf+qQAFbdcv9y0ZmbxbtMPgJf5/mSKwpzVJReG0uUM5l/NDBY6EnOB4kHHM6bNJGa
- MT/A==
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiMfz-0007Nw-UL
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:34:44 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so1649477wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 10:34:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q+CN6YBqnmrRrZoHgpVK5TMPU5z9BgHXPKy2dfZMNWA=;
- b=EbPfvbBXVjZ5EIqrUtF3KMejqv/mF2c50aMdxlPoylEPktPFjHyVl/TV3woO5dUpab
- MNkUTzKwfIQE8eWuTzg2+SDi8NNoJNBB4M9AeZEvj5MpQ8XtlZo6HhkCOko5RKABmd0t
- 7iWUZLVFUnX9Wr29CgUBKdd9DKt3f67WT3sYcCtpVZWNP0ARGem5Ev9Cy1LDljiD3TRA
- W39NxkTTKxwWT1pvJALXo5pCJbHjGc5iWDg++ZrAxL2xgAnxxiGj5m3alkiRGSVhBfzk
- R8+x+OA2Pv1ZDisnwS0GKRU2zdFOkmAJW/o0KyfQ/fXcYihe9ENywW8hVnixhBw/rX66
- ZTFw==
-X-Gm-Message-State: APjAAAW4g6a4eQtx3pJx7PwaZgl4CHEbdXlAjXfR6oda4S4oBpguRgkD
- a0v1rwmg0mCtgQ8qwH5mZzIcPDaSjzTXuv8W/2rASw==
-X-Google-Smtp-Source: APXvYqzhGJxGzMkyQQCP9Pcg+D3mFtaZbqITjpJ7jiQ28nZ/raL5xWO+9tNwsXBAVc+0yHMUa95tg8CjprJUaWj7L74=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr3152276otk.221.1562088133123; 
- Tue, 02 Jul 2019 10:22:13 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version;
+ bh=dnzxj1IkEQS5+Ji3niIKm++yqjlRY68EvWHVomKWYJc=;
+ b=Jypopi23Cql0uou5bNPSZadXNQW0/fmKczJiNehwq28yBCbHU1Qd3XeQGtkKcDIKNf
+ xMq/KUvL+obaI9gRsvjSIvmZoX7NcTLGtLV7ELft2bKd0e8UbiPJCf98/9hrn0bVm683
+ P8PbabZ7ouAhBpEu1XkvREj3WKoooh4Bu2d+qvkzl5keQGRhSu+31IRmHprHF6XhVh6M
+ IeR7gi3ZFP3ExmwS0OXqGYbhZM1Ct7xe9LrWMWWNqXBGDhWEYtwyIX5dys1cCFbGOUhY
+ yZcmi+fNlFnNH+fz4Areo8/n+Bkl/IDYuhqejjkBKTbTDRJkza8UkxU/jWCGNGccNNZd
+ EFhw==
+X-Gm-Message-State: APjAAAWD95W//IVv+YH8NpVH3Gyn+MnnVxQ4WBmcYk1wpyef11yJ7WSN
+ uZX5IhZ0qvFR5JUSeWP3Z16g0rowEVQHDA==
+X-Google-Smtp-Source: APXvYqyrfqVPGpvFPbJFCfOizBpfdOTh+7MTufC9fXR1o5/m61ya+sxAmkuvpy+n+YCgXR5MEG0Zsg==
+X-Received: by 2002:a1c:2d8b:: with SMTP id t133mr4144929wmt.57.1562088874028; 
+ Tue, 02 Jul 2019 10:34:34 -0700 (PDT)
+Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
+ [83.35.20.18])
+ by smtp.gmail.com with ESMTPSA id s188sm2176721wmf.40.2019.07.02.10.34.32
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 10:34:33 -0700 (PDT)
+References: <20190702121106.28374-1-slp@redhat.com>
+ <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
+User-agent: mu4e 1.2.0; emacs 26.2
+From: Sergio Lopez <slp@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-reply-to: <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
+Date: Tue, 02 Jul 2019 19:34:20 +0200
+Message-ID: <87a7dwnxwj.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20190702023905.32470-1-mreitz@redhat.com>
-In-Reply-To: <20190702023905.32470-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 18:22:02 +0100
-Message-ID: <CAFEAcA8O_6QpLDerPZspOzD+Jw2YOpKC4uVoXwVjgXdRuMaaPQ@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PULL 0/4] Block patches for rc0
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +69,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, maran.wilson@oracle.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 03:39, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-07-02
->
-> for you to fetch changes up to c624b015bf14fe01f1e6452a36e63b3ea1ae4998:
->
->   block/stream: introduce a bottom node (2019-07-02 03:53:05 +0200)
->
-> ----------------------------------------------------------------
-> Block patches for 4.1-rc0:
-> - The stream job no longer relies on a fixed base node
-> - The rbd block driver can now accomodate growing formats like qcow2
->
+--=-=-=
+Content-Type: text/plain
 
 
-Applied, thanks.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> On Tue, 2 Jul 2019 at 13:14, Sergio Lopez <slp@redhat.com> wrote:
+>>
+>> Microvm is a machine type inspired by both NEMU and Firecracker, and
+>> constructed after the machine model implemented by the latter.
+>>
+>> It's main purpose is providing users a KVM-only machine type with fast
+>> boot times, minimal attack surface (measured as the number of IO ports
+>> and MMIO regions exposed to the Guest) and small footprint (specially
+>> when combined with the ongoing QEMU modularization effort).
+>>
+>> Normally, other than the device support provided by KVM itself,
+>> microvm only supports virtio-mmio devices. Microvm also includes a
+>> legacy mode, which adds an ISA bus with a 16550A serial port, useful
+>> for being able to see the early boot kernel messages.
+>
+> Could we use virtio-pci instead of virtio-mmio? virtio-mmio is
+> a bit deprecated and tends not to support all the features that
+> virtio-pci does. It was introduced mostly as a stopgap while we
+> didn't have pci support in the aarch64 virt machine, and remains
+> for legacy "we don't like to break existing working setups" rather
+> than as a recommended config for new systems.
 
--- PMM
+Using virtio-pci implies keeping PCI and ACPI support, defeating a
+significant part of microvm's purpose.
+
+What are the issues with the current state of virtio-mmio? Is there a
+way I can help to improve the situation?
+
+Sergio.
+
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0blZwACgkQ9GknjS8M
+AjXaYxAAtABbPa3VQU4zYsUMyKT6FGtUrPXe2oPg51ZR+/pasmBp4zwfkmhLxILY
+yleJZMWk6KJc2eKDEwWNY8II/lszUexUQIYVuj3AH9TUw53NQcwiKcyy59m9QHe+
+hCQ+defFEfcK85zDbxHleW/zgkfSR61n+IEdJ5UzdEedZiVOcS/7BWqnXvNv18WV
+4U3VqYMLAiqAoDfVxNKfcBN84DqHzeLWOVeZPeeNKHfPqTGXKtx01pyLrCz6N9Ud
+Ddi2l+g8JhSVyG+n1IzczzpuGTFH6bN6sSrUjxV4bNR2sgAir3f+H1ofqXQSaI9P
+Zmr2lpwCLl8QYTcUPMq7Xg/WB1+hIhMdqAgctC2j0CMl3dC6NKFZkPYu0DVhjFCx
+dGivq0OWUckkxUyQph7IRUTzJkfQ2r6Z9Azb9S0G+dH01qG2R1pUN1GZNz9Jm3UE
+grCJYGt0WbB7rPt59a5W6mFxnCPRcx1BzMmnuFif/9Y2IQ+RY48Jv/XSbkvI8e8z
+PQTMVZgwoyVKc1n4v/uBAN8aDAKG4+ZRUXdOIXgH+IOCj+ruGWYB1UZ+lsBptcm0
+aB0VGLNmkj+/rQNDRlCkSkVNIFaZSA2mhFPAYLqiMKr7whzWGB440MZnnGtzDUOO
+ax0O/KfqPZUXTEDQLOcCQ7kjuu+nWjldfJfBpyIoQZNaQgEFHDw=
+=lAaz
+-----END PGP SIGNATURE-----
+--=-=-=--
 
