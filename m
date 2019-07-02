@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAE15CEB5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:47:58 +0200 (CEST)
-Received: from localhost ([::1]:51922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C955CEE2
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:51:54 +0200 (CEST)
+Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHGO-0005Iw-CL
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
+	id 1hiHKD-0008Pm-HL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiHCZ-0003zs-Da
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:44:02 -0400
+ (envelope-from <Natalia.Fursova@ispras.ru>) id 1hiHCk-0004BU-GM
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:44:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiHCW-00065D-0T
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:43:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47426)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiHCQ-0005wb-D1
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:43:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 590FA3082E4C
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 11:43:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
- [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2E795D9C3;
- Tue,  2 Jul 2019 11:43:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 688051132ADD; Tue,  2 Jul 2019 13:43:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 13:43:43 +0200
-Message-Id: <20190702114343.21699-2-armbru@redhat.com>
-In-Reply-To: <20190702114343.21699-1-armbru@redhat.com>
-References: <20190702114343.21699-1-armbru@redhat.com>
+ (envelope-from <Natalia.Fursova@ispras.ru>) id 1hiHCi-0006Ml-Hc
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:44:10 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:44348)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <Natalia.Fursova@ispras.ru>) id 1hiHCg-0006Gc-PJ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:44:08 -0400
+Received: from NATALIAFURSOVA (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id B195C540081;
+ Tue,  2 Jul 2019 14:44:02 +0300 (MSK)
+From: "Natalia Fursova" <Natalia.Fursova@ispras.ru>
+To: "'Paolo Bonzini'" <pbonzini@redhat.com>,
+ "'Markus Armbruster'" <armbru@redhat.com>
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+ <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+ <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
+ <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
+ <c49abf01-c209-b206-edee-507c31269011@redhat.com>
+ <87o934sdot.fsf@dusky.pond.sub.org>
+ <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+ <87ftogp7f5.fsf@dusky.pond.sub.org>
+ <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
+In-Reply-To: <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
+Date: Tue, 2 Jul 2019 14:44:05 +0300
+Message-ID: <014c01d530cb$73ff1950$5bfd4bf0$@Fursova@ispras.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 11:43:45 +0000 (UTC)
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 07/18] qom: Move HMP command handlers to qom/
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdUgW9l5XmsGj7jwR1SPV3cjsX4VzQQbuK7w
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,355 +65,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?utf-8?Q?'Andreas_F=C3=A4rber'?= <afaerber@suse.de>,
+ =?utf-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the HMP command handlers related to QOM handlers from
-monitor/hmp-cmds.c and qdev-monitor.c to new qom/qom-hmp-cmds.c, where
-they are covered by MAINTAINERS section QOM.
+Hi there again!
+Thank you for your answers, I have new question.
+=20
+I want to identify PCI devices (e.g. network cards) and observed one =
+strange thing. I use qmp command "qom-list-type" and build tree from it =
+output. Some items don't have parent and don't give information about =
+themselves. E. g. "e1000-base". It has three children and it belongs to =
+PCI devices, but I can't know it, cuz command "qom-list-properties" =
+returns empty message.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190619201050.19040-7-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-[Also move hmp_info_qom_tree(), tweak commit message accordingly]
----
- include/monitor/hmp.h  |   3 ++
- include/monitor/qdev.h |   1 -
- monitor/hmp-cmds.c     |  50 +----------------
- qdev-monitor.c         |  57 --------------------
- qom/Makefile.objs      |   2 +-
- qom/qom-hmp-cmds.c     | 120 +++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 125 insertions(+), 108 deletions(-)
- create mode 100644 qom/qom-hmp-cmds.c
+There is no information about "e1000-base" in "qom-list-type" output. It =
+is referenced only as a parent for network cards.
+Is it ok? Maybe is there other way for get information about all PCI =
+devices?
 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 1d095d5837..b36ebccd29 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -16,6 +16,8 @@
-=20
- #include "qemu/readline.h"
-=20
-+void hmp_handle_error(Monitor *mon, Error **errp);
-+
- void hmp_info_name(Monitor *mon, const QDict *qdict);
- void hmp_info_version(Monitor *mon, const QDict *qdict);
- void hmp_info_kvm(Monitor *mon, const QDict *qdict);
-@@ -118,6 +120,7 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict=
-);
- void hmp_info_memory_devices(Monitor *mon, const QDict *qdict);
- void hmp_qom_list(Monitor *mon, const QDict *qdict);
- void hmp_qom_set(Monitor *mon, const QDict *qdict);
-+void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
- void object_add_completion(ReadLineState *rs, int nb_args, const char *s=
-tr);
- void object_del_completion(ReadLineState *rs, int nb_args, const char *s=
-tr);
- void device_add_completion(ReadLineState *rs, int nb_args, const char *s=
-tr);
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index 0ff3331284..084799e4d9 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -7,7 +7,6 @@
-=20
- void hmp_info_qtree(Monitor *mon, const QDict *qdict);
- void hmp_info_qdm(Monitor *mon, const QDict *qdict);
--void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
- void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
-=20
- int qdev_device_help(QemuOpts *opts);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index d94ab7563e..5641036dc3 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -60,7 +60,7 @@
- #include <spice/enums.h>
- #endif
-=20
--static void hmp_handle_error(Monitor *mon, Error **errp)
-+void hmp_handle_error(Monitor *mon, Error **errp)
- {
-     assert(errp);
-     if (*errp) {
-@@ -2714,54 +2714,6 @@ void hmp_info_iothreads(Monitor *mon, const QDict =
-*qdict)
-     qapi_free_IOThreadInfoList(info_list);
- }
-=20
--void hmp_qom_list(Monitor *mon, const QDict *qdict)
--{
--    const char *path =3D qdict_get_try_str(qdict, "path");
--    ObjectPropertyInfoList *list;
--    Error *err =3D NULL;
--
--    if (path =3D=3D NULL) {
--        monitor_printf(mon, "/\n");
--        return;
--    }
--
--    list =3D qmp_qom_list(path, &err);
--    if (err =3D=3D NULL) {
--        ObjectPropertyInfoList *start =3D list;
--        while (list !=3D NULL) {
--            ObjectPropertyInfo *value =3D list->value;
--
--            monitor_printf(mon, "%s (%s)\n",
--                           value->name, value->type);
--            list =3D list->next;
--        }
--        qapi_free_ObjectPropertyInfoList(start);
--    }
--    hmp_handle_error(mon, &err);
--}
--
--void hmp_qom_set(Monitor *mon, const QDict *qdict)
--{
--    const char *path =3D qdict_get_str(qdict, "path");
--    const char *property =3D qdict_get_str(qdict, "property");
--    const char *value =3D qdict_get_str(qdict, "value");
--    Error *err =3D NULL;
--    bool ambiguous =3D false;
--    Object *obj;
--
--    obj =3D object_resolve_path(path, &ambiguous);
--    if (obj =3D=3D NULL) {
--        error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
--                  "Device '%s' not found", path);
--    } else {
--        if (ambiguous) {
--            monitor_printf(mon, "Warning: Path '%s' is ambiguous\n", pat=
-h);
--        }
--        object_property_parse(obj, value, property, &err);
--    }
--    hmp_handle_error(mon, &err);
--}
--
- void hmp_rocker(Monitor *mon, const QDict *qdict)
- {
-     const char *name =3D qdict_get_str(qdict, "name");
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 63a87e9632..58222c2211 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -739,63 +739,6 @@ void hmp_info_qdm(Monitor *mon, const QDict *qdict)
-     qdev_print_devinfos(true);
- }
-=20
--typedef struct QOMCompositionState {
--    Monitor *mon;
--    int indent;
--} QOMCompositionState;
--
--static void print_qom_composition(Monitor *mon, Object *obj, int indent)=
-;
--
--static int print_qom_composition_child(Object *obj, void *opaque)
--{
--    QOMCompositionState *s =3D opaque;
--
--    print_qom_composition(s->mon, obj, s->indent);
--
--    return 0;
--}
--
--static void print_qom_composition(Monitor *mon, Object *obj, int indent)
--{
--    QOMCompositionState s =3D {
--        .mon =3D mon,
--        .indent =3D indent + 2,
--    };
--    char *name;
--
--    if (obj =3D=3D object_get_root()) {
--        name =3D g_strdup("");
--    } else {
--        name =3D object_get_canonical_path_component(obj);
--    }
--    monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
--                   object_get_typename(obj));
--    g_free(name);
--    object_child_foreach(obj, print_qom_composition_child, &s);
--}
--
--void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
--{
--    const char *path =3D qdict_get_try_str(dict, "path");
--    Object *obj;
--    bool ambiguous =3D false;
--
--    if (path) {
--        obj =3D object_resolve_path(path, &ambiguous);
--        if (!obj) {
--            monitor_printf(mon, "Path '%s' could not be resolved.\n", pa=
-th);
--            return;
--        }
--        if (ambiguous) {
--            monitor_printf(mon, "Warning: Path '%s' is ambiguous.\n", pa=
-th);
--            return;
--        }
--    } else {
--        obj =3D qdev_get_machine();
--    }
--    print_qom_composition(mon, obj, 0);
--}
--
- void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
- {
-     Error *local_err =3D NULL;
-diff --git a/qom/Makefile.objs b/qom/Makefile.objs
-index 5fb43b842c..aae478fc21 100644
---- a/qom/Makefile.objs
-+++ b/qom/Makefile.objs
-@@ -2,4 +2,4 @@ qom-obj-y =3D object.o container.o qom-qobject.o
- qom-obj-y +=3D object_interfaces.o
-=20
- common-obj-y =3D cpu.o
--common-obj-$(CONFIG_SOFTMMU) +=3D qom-qmp-cmds.o
-+common-obj-$(CONFIG_SOFTMMU) +=3D qom-hmp-cmds.o qom-qmp-cmds.o
-diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
-new file mode 100644
-index 0000000000..a268e01eb4
---- /dev/null
-+++ b/qom/qom-hmp-cmds.c
-@@ -0,0 +1,120 @@
-+/*
-+ * HMP commands related to QOM
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/qdev-core.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-qom.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qom/object.h"
-+
-+void hmp_qom_list(Monitor *mon, const QDict *qdict)
-+{
-+    const char *path =3D qdict_get_try_str(qdict, "path");
-+    ObjectPropertyInfoList *list;
-+    Error *err =3D NULL;
-+
-+    if (path =3D=3D NULL) {
-+        monitor_printf(mon, "/\n");
-+        return;
-+    }
-+
-+    list =3D qmp_qom_list(path, &err);
-+    if (err =3D=3D NULL) {
-+        ObjectPropertyInfoList *start =3D list;
-+        while (list !=3D NULL) {
-+            ObjectPropertyInfo *value =3D list->value;
-+
-+            monitor_printf(mon, "%s (%s)\n",
-+                           value->name, value->type);
-+            list =3D list->next;
-+        }
-+        qapi_free_ObjectPropertyInfoList(start);
-+    }
-+    hmp_handle_error(mon, &err);
-+}
-+
-+void hmp_qom_set(Monitor *mon, const QDict *qdict)
-+{
-+    const char *path =3D qdict_get_str(qdict, "path");
-+    const char *property =3D qdict_get_str(qdict, "property");
-+    const char *value =3D qdict_get_str(qdict, "value");
-+    Error *err =3D NULL;
-+    bool ambiguous =3D false;
-+    Object *obj;
-+
-+    obj =3D object_resolve_path(path, &ambiguous);
-+    if (obj =3D=3D NULL) {
-+        error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
-+                  "Device '%s' not found", path);
-+    } else {
-+        if (ambiguous) {
-+            monitor_printf(mon, "Warning: Path '%s' is ambiguous\n", pat=
-h);
-+        }
-+        object_property_parse(obj, value, property, &err);
-+    }
-+    hmp_handle_error(mon, &err);
-+}
-+
-+typedef struct QOMCompositionState {
-+    Monitor *mon;
-+    int indent;
-+} QOMCompositionState;
-+
-+static void print_qom_composition(Monitor *mon, Object *obj, int indent)=
-;
-+
-+static int print_qom_composition_child(Object *obj, void *opaque)
-+{
-+    QOMCompositionState *s =3D opaque;
-+
-+    print_qom_composition(s->mon, obj, s->indent);
-+
-+    return 0;
-+}
-+
-+static void print_qom_composition(Monitor *mon, Object *obj, int indent)
-+{
-+    QOMCompositionState s =3D {
-+        .mon =3D mon,
-+        .indent =3D indent + 2,
-+    };
-+    char *name;
-+
-+    if (obj =3D=3D object_get_root()) {
-+        name =3D g_strdup("");
-+    } else {
-+        name =3D object_get_canonical_path_component(obj);
-+    }
-+    monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
-+                   object_get_typename(obj));
-+    g_free(name);
-+    object_child_foreach(obj, print_qom_composition_child, &s);
-+}
-+
-+void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
-+{
-+    const char *path =3D qdict_get_try_str(dict, "path");
-+    Object *obj;
-+    bool ambiguous =3D false;
-+
-+    if (path) {
-+        obj =3D object_resolve_path(path, &ambiguous);
-+        if (!obj) {
-+            monitor_printf(mon, "Path '%s' could not be resolved.\n", pa=
-th);
-+            return;
-+        }
-+        if (ambiguous) {
-+            monitor_printf(mon, "Warning: Path '%s' is ambiguous.\n", pa=
-th);
-+            return;
-+        }
-+    } else {
-+        obj =3D qdev_get_machine();
-+    }
-+    print_qom_composition(mon, obj, 0);
-+}
---=20
-2.21.0
+
+
+Best regards,
+Natalia
+
+
+-----Original Message-----
+From: Paolo Bonzini [mailto:pbonzini@redhat.com]=20
+Sent: Tuesday, June 11, 2019 4:45 PM
+To: Markus Armbruster
+Cc: Natalia Fursova; Andreas F=C3=A4rber; '=D0=9F=D0=B0=D1=88=D0=B0'; =
+qemu-devel@nongnu.org
+Subject: Re: [Qemu-devel] qgraph
+
+On 11/06/19 15:39, Markus Armbruster wrote:
+>> Right, and we should move more towards class-based properties so that
+>> the dynamic nature of QOM is only used for the bare minimum needed =
+(e.g.
+>> memory regions).
+> What are we doing to make new code conform to that?
+>=20
+> What are we doing to update existing code?
+
+Almost nothing and completely nothing. :(
+
+Paolo
 
 
