@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6D25D437
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:26:23 +0200 (CEST)
-Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FDB5D427
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:22:42 +0200 (CEST)
+Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLbr-00025A-1M
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:26:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35705)
+	id 1hiLYH-0006tO-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:22:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hiKiT-00046p-1R
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:29:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hiKiJ-0003qe-3u
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:29:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hiKiR-0007ut-T3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:29:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39352)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hiKiP-0007qp-AC; Tue, 02 Jul 2019 11:29:05 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 945B3A96F1;
- Tue,  2 Jul 2019 15:29:00 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-120.brq.redhat.com
- [10.40.204.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 297E72E043;
- Tue,  2 Jul 2019 15:28:39 +0000 (UTC)
-To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-2-mreitz@redhat.com>
- <w51v9wk5ybk.fsf@maestria.local.igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <07be76c5-fea9-96b7-e50b-eddc04a38e42@redhat.com>
-Date: Tue, 2 Jul 2019 17:28:37 +0200
+ (envelope-from <philmd@redhat.com>) id 1hiKiH-0007jD-AJ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:28:59 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39042)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiKiH-0007hn-2L
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:28:57 -0400
+Received: by mail-wr1-f67.google.com with SMTP id x4so18331727wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:28:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Kpm+FVcVGLC6WQ+TSkb4xsjH/RwO2EJz626KNut6Zfg=;
+ b=QOuA+tQz3xGqWEWC5sPxkkiDZNVd16bjr7p2bEDUTWq8exG71cbl/sZyM9VO5mWBaN
+ 2YaaD3XuTdj8kKFXnA9nBUqT8XYHsIVVeyce6oBBMs/dqIEW6+raKL/4MeE/OihRqo5q
+ p09wIA70SvFK3xyIg0l2OwUUNX4hk2yEw2NASXjeaBv03XRcmqaSGC7p4SEK2nF9l7Ay
+ S5ie2sCLTq5z8FGXH8RIXYcXHBOoU4pa0Pyuscvd8FU91gsr7m47B31gCLFbbG2/C3Kv
+ FnRWo2eeqgb/Xp3fbqs8yZPux+LtdP2sx2qFDUQZnWLcRDDjjKVbbWjoGKnsYxxYwpt1
+ Pq6A==
+X-Gm-Message-State: APjAAAWfDsYrWNdfqZ5CPR5OGLDfANpg4KhS76QZv7x+lNQVKjKKv1ex
+ qNW2FIFryNsOm01W6162VLS2og==
+X-Google-Smtp-Source: APXvYqxULK7YUIBsuHoqyjaZ74ITUiFetNaDBCMhQ/+J7xZ0dQOTdDTHw83s7qafJED4fD+7a0yj6w==
+X-Received: by 2002:a5d:4309:: with SMTP id h9mr10443007wrq.221.1562081335512; 
+ Tue, 02 Jul 2019 08:28:55 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id s3sm3593192wmh.27.2019.07.02.08.28.53
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 08:28:54 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20190702001301.4768-1-philmd@redhat.com>
+ <0f46b807-1fcc-d5d6-9d62-601cc8dfa692@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <e8b87bed-b7eb-d8bf-f011-e573b0737775@redhat.com>
+Date: Tue, 2 Jul 2019 17:28:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <w51v9wk5ybk.fsf@maestria.local.igalia.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 15:29:00 +0000 (UTC)
+In-Reply-To: <0f46b807-1fcc-d5d6-9d62-601cc8dfa692@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v2 0/9] hw/block/pflash_cfi01: Add
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,81 +76,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair23@gmail.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf
-Content-Type: multipart/mixed; boundary="8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Andrey Shinkevich
- <andrey.shinkevich@virtuozzo.com>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <07be76c5-fea9-96b7-e50b-eddc04a38e42@redhat.com>
-Subject: Re: [PATCH 1/5] block: Add BDS.never_freeze
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-2-mreitz@redhat.com>
- <w51v9wk5ybk.fsf@maestria.local.igalia.com>
-In-Reply-To: <w51v9wk5ybk.fsf@maestria.local.igalia.com>
+On 7/2/19 1:52 PM, Laszlo Ersek wrote:
+> Hi Phil,
+> 
+> On 07/02/19 02:12, Philippe Mathieu-Daudé wrote:
+>> The pflash device lacks a reset() function.
+>> When a machine is resetted, the flash might be in an
+>> inconsistent state, leading to unexpected behavior:
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1678713
+>> Resolve this issue by adding a DeviceReset() handler.
+>>
+>> Fix also two minor issues, and clean a bit the codebase.
+>>
+>> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00962.html
+>> - addressed Laszlo review comments
+>>
+>> Maintainers spam list from:
+>> ./scripts/get_maintainer.pl -f $(git grep -El '(pflash_cfi01_register|TYPE_PFLASH_CFI01)')
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> Philippe Mathieu-Daudé (9):
+>>   hw/block/pflash_cfi01: Removed an unused timer
+>>   hw/block/pflash_cfi01: Use the correct READ_ARRAY value
+>>   hw/block/pflash_cfi01: Extract pflash_mode_read_array()
+>>   hw/block/pflash_cfi01: Start state machine as READY to accept commands
+>>   hw/block/pflash_cfi01: Add the DeviceReset() handler
+>>   hw/block/pflash_cfi01: Simplify CFI_QUERY processing
+>>   hw/block/pflash_cfi01: Improve command comments
+>>   hw/block/pflash_cfi01: Replace DPRINTF by qemu_log_mask(GUEST_ERROR)
+>>   hw/block/pflash_cfi01: Hold the PRI table offset in a variable
+>>
+>>  hw/block/pflash_cfi01.c | 140 +++++++++++++++++++++-------------------
+>>  hw/block/trace-events   |   1 +
+>>  2 files changed, 74 insertions(+), 67 deletions(-)
+>>
+> 
+> I'll do some regression-tests with this, using OVMF and ArmVirtQemu.
 
---8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+My local tree is larger with many tracing improvments, but I stripped
+that part to keep this series short and bugfix oriented.
 
-On 02.07.19 16:02, Alberto Garcia wrote:
-> On Fri 28 Jun 2019 12:32:51 AM CEST, Max Reitz wrote:
->> @@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState =
-*bs, BlockDriverState *base,
->>          return -EPERM;
->>      }
->> =20
->> +    for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
->> +        if (i->backing && backing_bs(i)->never_freeze) {
->> +            error_setg(errp, "Cannot freeze '%s' link to '%s'",
->> +                       i->backing->name, backing_bs(i)->node_name);
->> +            return -EPERM;
->> +        }
->> +    }
->=20
-> How about adding this to bdrv_is_backing_chain_frozen() instead?
+I used the trace logs to analyse the guest accesses.
 
-But that=E2=80=99s the wrong place.  For example, that function is called=
- by
-bdrv_set_backing_hd() to check whether the backing BDS can be changed.
-But the point of never_freeze is to ensure that links to the BDS can be
-changed.
+My test setup is not yet automatized but I'm working on passing all the
+one working with TCG as Avocado tests.
 
-never_freeze only becomes relevant when trying to freeze the backing
-chain, in that it should prevent it.  So I think putting the check here
-is correct.
+Tests machines (firmwares):
 
-Max
+- ARM Verdex with (U-Boot)
+- MIPS Malta with (Linux)
+- LM32 Milkymist One (RTEMS)
+- X86 (EDK2 OVMF)
+
+Each guest has different driver, thus use this device quite differently.
+
+What I want to add to this list is:
+
+- AARCH64 Virt (EDK2 ArmVirtQemu)
+
+Because it uses another driver (not the OVMF one).
+
+> I don't think I can usefully review the patches without getting lost in
+> the related spec(s), and I don't have capacity for that.
+> 
+> Until I have regression test results, one question: are the changes to
+> the device model transparent with regard to migration? (You are not
+> introducing any compat properties.)
+
+Good point.
+
+Two fields updated are migrated:
+
+static const VMStateDescription vmstate_pflash = {
+    .name = "pflash_cfi01",
+    .version_id = 1,
+    .minimum_version_id = 1,
+    .post_load = pflash_post_load,
+    .fields = (VMStateField[]) {
+        ...
+        VMSTATE_UINT8(cmd, PFlashCFI01),
+        VMSTATE_UINT8(status, PFlashCFI01),
+        ...
+        VMSTATE_END_OF_LIST()
+    }
+};
+
+- status: should not break anything
+
+- cmd:
+
+  If migrated during cmd == READ_ARRAY state:
+
+  Guest is saved with older QEMU having cmd=READ_ARRAY=0x00
+
+  Guest restored to newer QEMU expecting READ_ARRAY=0xff
+
+  - If the guest do a READ access, we are [currently] fine:
+  the 0x00 command hits the default case and falls through
+  0xff.
+
+    ('currently' because I have a local patch that would
+     clean up this impossible case, but I made it possible).
+
+  - If guest does WRITE access, again the 0x00 is processed
+  by the default case where we jump to the error_flash label.
+  There we log a warning and call pflash_mode_read_array().
+
+  So this is not clean, but safe.
+
+  To be clean I should document 0x00 was previously used and
+  even not matching the specs, we have to live with handling
+  it forever.
 
 
---8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d--
 
---SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  A cleaner way to keep this safe and the code simple is to
+  increment vmstate_pflash.version_id, and add a new case in
+  the post_load handler:
 
------BEGIN PGP SIGNATURE-----
+static int pflash_post_load(void *opaque, int version_id)
+{
+    PFlashCFI01 *pfl = opaque;
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0beCYACgkQ9AfbAGHV
-z0Du3Af/XG1iUmRdIDRs9OpDSfVfg7ow8iMyMwDrkMcxEjKwPpJhjExgMhh419gW
-ur0tL4wgnPvrKj8JlZm/8z8PsEFP3edXESWSGpYXGTGeNbn1WhhyKrAeCQTRbVP5
-wLq7p5wjX4eLJyShDbmZQ3nma7daboaMtvAy3Y9aUk6o+xvOwdIjIlgn7YLPPTmt
-/xwDX+vXO3Gsa+xlV5M0/fPqk6ffJjGcBJlRz4jfndg3BvTKxYK7DCu9qcxHAYDb
-QXuuc6q00fH7OBNF2cB2LOSSgmNhhtp2xsjUC7KAc4FsswG/y2EzIURDKQR9uVJv
-KP0WQa265d1DhJrTzFM3SqVDNVW9ww==
-=AW1P
------END PGP SIGNATURE-----
+    ... // current handler code
 
---SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf--
+    if (version_id < 2) {
+        /* version_id used 0x00 for READ_ARRAY */
+        if (s->cmd == 0x00) {
+            s->cmd =  0xff;
+        }
+    }
+    return 0;
+}
+
+Since I'm new with migration, I Cc'd Dave to check :)
+
+Thanks!
+
+Phil.
 
