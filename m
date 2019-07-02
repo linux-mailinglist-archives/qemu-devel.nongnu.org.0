@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146025D2C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:25:46 +0200 (CEST)
-Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C215D27E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:15:01 +0200 (CEST)
+Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKfB-0007ZI-8I
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58213)
+	id 1hiKUm-0003b5-GR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58027)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKMa-0005M2-Ur
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLz-0004w8-BY
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKMY-000814-Pp
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:32 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:56767)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007x0-Kk
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MEVqu-1hjvrD0O3W-00G06r; Tue, 02 Jul 2019 17:05:57 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLv-0007aO-JQ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38580)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hiKLt-0007Xd-Oc
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p11so7038147wro.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=cAdcykhsBr9KRoTt+e4UsNPsrOD05Rn6WRA4P8vaXKM=;
+ b=U94X5p9dk+Ez+gN8gaKJ1FW8MyToLqAT1fp5T1gw45kWf0e79qSgm16XMo+S6O5dry
+ LjMMYcn12U8neQd340btUsXYHC9PTm4X6TLoLwUJekGN3ipEJ3eVNOcxhvdR+/ZWZCWd
+ JxjZPEPhsgCNTgYS3PnHUGmlg26dndq4GGutDf5ULJt1l+76ZmYuhZWROzONAvB8wGkq
+ VNNJch7k2jL0aRcSjMjWZDDDvbrbsz9zPnW49FJnEXPgePVnQQDGfi3VkHH/GYvfIsYV
+ YgCxzdfWKVcHA13cm3xHAhcUvXf26T4dXcpU1j+P1JCw8cgD/omQU622Al8iFFSSBcsi
+ JxTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=cAdcykhsBr9KRoTt+e4UsNPsrOD05Rn6WRA4P8vaXKM=;
+ b=KQxNHo+4KDs7zjGDcXGhmMxNMIXVA4K+salYtJAVup/ek4IXLeFWPpNIbhNMkCvUnW
+ DrDqbJSlIxm8UxINDCLmqBRm5WG/eWqhGCxNixYcRuVJtAtUP8B+V2GN+uvlytHuSVgm
+ BzIsoa01xmkgPmqNkMBUw/QAd8w77tSyuqDK31XX7woOF2IPa6vQem+rgkflh+qPoLrm
+ qNvQcdrT+nos4ZaphPvOCpycNMLVQ7+qBjFc8Rcw6N3wrhu48iqyh7CrYQzs5w1KM46v
+ LUvaQe4uKVcVxN6LZVUrzAbppWwO1U409sHdLI7fFjB1QnEqHeL9sLReihxdViA2+rJk
+ euoA==
+X-Gm-Message-State: APjAAAXmOzSTi0o7DY89QVxIYzw6DzKV8gXuhdaKSpdaMkQWm/7rzFJA
+ GUwRJlvl3L29bEhLY7M0cDK+CyKyiLkEuw==
+X-Google-Smtp-Source: APXvYqxblBOYdntwoovufjWbi9/dYo2YTYOYVAuVVocmDjPaA/Gy32FA75dd3+qJ+pQHwTi9kAVRpw==
+X-Received: by 2002:adf:bc4a:: with SMTP id a10mr18369095wrh.230.1562079946734; 
+ Tue, 02 Jul 2019 08:05:46 -0700 (PDT)
+Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id w10sm12975657wru.76.2019.07.02.08.05.45
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 08:05:45 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Date: Tue,  2 Jul 2019 17:05:41 +0200
-Message-Id: <20190702150545.1872-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
-References: <20190702150545.1872-1-laurent@vivier.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WK8GzMOzuu7ZumYWYKMbijZeysgQ9adw2JnZv0538E96Ct/A1RY
- y/lFXI6iSDGUCmqV1pjEW7ZFBHNQSqUd7aEtbzQsD49pG329j7m7vdaYN6w3CsUN7revIpA
- INNqqChDHH8Ygn/oAItveIvdcn5Z59PD3PuD8RT7f3eu5ykhtxDDIPVi5q1iJArXL2FSQ7i
- LW62UnzgWiuurlePSwEiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YBjUpnuuTto=:TrE3IbLKhViCag4t6cuXrw
- g0THmM7DOp1knZqUwHmkWSk/2yyIwpf4C5Wt6wV/fEOttxG5AbR6iaPhLetSg6v53Cr/wSxbD
- MfPPmGO+yyi3QwbIPzGCNuK+DUWOw0If9TACasaG2RI5DRdYvpGaNrL8zSUpdihDfrbqTXYwA
- VLbI2XbfBIf9cDi01LOtUSLANUB5T+zhjwfBNA6BpTAe7/QljKZdxBLSbOMqvzzqBkuo/Mkop
- MNFNeSE31lvlMuOtnrZatUBBghmlpJEnfGD+qaNlpjt4S26xy3Oi+QGWJ93ChCZL4XiQju/9b
- fwbfQkMEEhj9+QCeq+XemvsrZQwbJcNnCRx8UZYDE/P/IdZ1MlIofXt7lUb2nmq6cHH+l+f1a
- frlkmdhnDJNfJL3cr7mV8BqU2IjEJEPV9n3wD2CtDDoexLkBsYGA9M9Wu0llP3aKwHDo1ssk6
- ZSYy/P87Gs609w/ls90vnchCFVp7bWlvqI+u7GI2AevZVuw7Ect8mT8aKxrr7LElBDdB5S0wK
- mlWrnNWqmHojO8WSxCM2e/Am2q7nXM9HnaSCD7JhIASaccbQDqyK17TgTeSv/m236apCdGOFO
- 32PH2480oeXti0sqnJjiIsQ+G7K4zYSrYmXQprboby+V+OST21hayu6Q4Mbp5/2dtQFDa0/+U
- SQoZ1VXFJEH7PMBazxeSjPDswShSqo4TLnstz9XYvjepLgPXmTf5hPBqnEXi5ehYaCepXEfDB
- nodjDIgij9LeLFzumMUfx9/HJ0/IYIpEjKn83A==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 2/6] linux-user: Add support for strace for
- statx() syscall
+Message-Id: <20190702150542.12008-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190702150542.12008-1-richard.henderson@linaro.org>
+References: <20190702150542.12008-1-richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PULL 2/3] tcg/riscv: Fix RISC-VH host build failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,148 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Jim Wilson <jimw@sifive.com>
+Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jim Wilson <jimw@sifive.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-All of the flags need to be conditional as old systems don't have
-statx support.  Otherwise it works the same as other stat family
-syscalls.  This requires the pending patch to add statx support.
+Commit 269bd5d8 "cpu: Move the softmmu tlb to CPUNegativeOffsetState'
+broke the RISC-V host build as there are two variables that are used but
+not defined.
 
-Tested on Ubuntu 16.04 (no host statx) and Ubuntu 19.04 (with host
-statx) using a riscv32-linux toolchain.
+This patch renames the undefined variables mask_off and table_off to the
+existing (but unused) mask_ofs and table_ofs variables.
 
-Signed-off-by: Jim Wilson <jimw@sifive.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1561718618-20218-3-git-send-email-aleksandar.markovic@rt-rk.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <79729cc88ca509e08b5c4aa0aa8a52847af70c0f.1561039316.git.alistair.francis@wdc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/strace.c    | 86 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  3 ++
- 2 files changed, 89 insertions(+)
+ tcg/riscv/tcg-target.inc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 6f72a74c0918..c80e93b5db8a 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -976,6 +976,76 @@ UNUSED static struct flags msg_flags[] = {
-     FLAG_END,
- };
+diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
+index 1f0ae64aae..3e76bf5738 100644
+--- a/tcg/riscv/tcg-target.inc.c
++++ b/tcg/riscv/tcg-target.inc.c
+@@ -980,8 +980,8 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+     int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
+     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
  
-+UNUSED static struct flags statx_flags[] = {
-+#ifdef AT_EMPTY_PATH
-+    FLAG_GENERIC(AT_EMPTY_PATH),
-+#endif
-+#ifdef AT_NO_AUTOMOUNT
-+    FLAG_GENERIC(AT_NO_AUTOMOUNT),
-+#endif
-+#ifdef AT_SYMLINK_NOFOLLOW
-+    FLAG_GENERIC(AT_SYMLINK_NOFOLLOW),
-+#endif
-+#ifdef AT_STATX_SYNC_AS_STAT
-+    FLAG_GENERIC(AT_STATX_SYNC_AS_STAT),
-+#endif
-+#ifdef AT_STATX_FORCE_SYNC
-+    FLAG_GENERIC(AT_STATX_FORCE_SYNC),
-+#endif
-+#ifdef AT_STATX_DONT_SYNC
-+    FLAG_GENERIC(AT_STATX_DONT_SYNC),
-+#endif
-+    FLAG_END,
-+};
-+
-+UNUSED static struct flags statx_mask[] = {
-+/* This must come first, because it includes everything.  */
-+#ifdef STATX_ALL
-+    FLAG_GENERIC(STATX_ALL),
-+#endif
-+/* This must come second; it includes everything except STATX_BTIME.  */
-+#ifdef STATX_BASIC_STATS
-+    FLAG_GENERIC(STATX_BASIC_STATS),
-+#endif
-+#ifdef STATX_TYPE
-+    FLAG_GENERIC(STATX_TYPE),
-+#endif
-+#ifdef STATX_MODE
-+    FLAG_GENERIC(STATX_MODE),
-+#endif
-+#ifdef STATX_NLINK
-+    FLAG_GENERIC(STATX_NLINK),
-+#endif
-+#ifdef STATX_UID
-+    FLAG_GENERIC(STATX_UID),
-+#endif
-+#ifdef STATX_GID
-+    FLAG_GENERIC(STATX_GID),
-+#endif
-+#ifdef STATX_ATIME
-+    FLAG_GENERIC(STATX_ATIME),
-+#endif
-+#ifdef STATX_MTIME
-+    FLAG_GENERIC(STATX_MTIME),
-+#endif
-+#ifdef STATX_CTIME
-+    FLAG_GENERIC(STATX_CTIME),
-+#endif
-+#ifdef STATX_INO
-+    FLAG_GENERIC(STATX_INO),
-+#endif
-+#ifdef STATX_SIZE
-+    FLAG_GENERIC(STATX_SIZE),
-+#endif
-+#ifdef STATX_BLOCKS
-+    FLAG_GENERIC(STATX_BLOCKS),
-+#endif
-+#ifdef STATX_BTIME
-+    FLAG_GENERIC(STATX_BTIME),
-+#endif
-+    FLAG_END,
-+};
-+
- /*
-  * print_xxx utility functions.  These are used to print syscall
-  * parameters in certain format.  All of these have parameter
-@@ -2611,6 +2681,22 @@ print_tgkill(const struct syscallname *name,
- }
- #endif
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_off);
+-    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_off);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_ofs);
++    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_ofs);
  
-+#ifdef TARGET_NR_statx
-+static void
-+print_statx(const struct syscallname *name,
-+            abi_long arg0, abi_long arg1, abi_long arg2,
-+            abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_at_dirfd(arg0, 0);
-+    print_string(arg1, 0);
-+    print_flags(statx_flags, arg2, 0);
-+    print_flags(statx_mask, arg3, 0);
-+    print_pointer(arg4, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- /*
-  * An array of all of the syscalls we know about
-  */
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index db21ce41779f..63a946642d29 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1650,3 +1650,6 @@
- #ifdef TARGET_NR_atomic_barrier
- { TARGET_NR_atomic_barrier, "atomic_barrier", NULL, NULL, NULL },
- #endif
-+#ifdef TARGET_NR_statx
-+{ TARGET_NR_statx, "statx", NULL, print_statx, NULL },
-+#endif
+     tcg_out_opc_imm(s, OPC_SRLI, TCG_REG_TMP2, addrl,
+                     TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS);
 -- 
-2.21.0
+2.17.1
 
 
