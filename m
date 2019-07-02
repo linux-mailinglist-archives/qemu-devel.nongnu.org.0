@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECF65C99E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:57:46 +0200 (CEST)
-Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E48A5C9C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 09:07:40 +0200 (CEST)
+Received: from localhost ([::1]:49764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCjZ-0002RG-5l
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59018)
+	id 1hiCt9-0002Qm-0O
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 03:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59282)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzk-0005mN-IB
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:26 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiC07-0006Eu-Ug
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzi-0003RB-Cj
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:24 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54353 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiC06-0003gC-Iz
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:47 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37983 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiBze-0003Ge-MY; Tue, 02 Jul 2019 02:10:20 -0400
+ id 1hiC05-0003Rk-Vd; Tue, 02 Jul 2019 02:10:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMn47LLz9sR0; Tue,  2 Jul 2019 16:09:07 +1000 (AEST)
+ id 45dDMp39hWz9sQr; Tue,  2 Jul 2019 16:09:07 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047749;
- bh=L8RTgpO7LVRVvS97dvoPx+3IeaI/B7AJ/BHfgV0BYv0=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047750;
+ bh=FbysbQgbStZWf/v2s3Sj+D/Di4SHoaN3wcJOzUpaWgg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GZ0dLL3GtuH4Ys4iH/V9Moa1/U14bauUO0P3WfgxoJy5GoWiSi1o5PasNcCZRyXKL
- FaUawGKkzL0/8pD8pePbIgIXQ5/qi+64JLGDHws+ogQ0CXkzzkA0/9MSXrNF23Q+pj
- 2LEgi32czC0aZlYwv0SWhv+UhGHGqKmYDD9ftBao=
+ b=huHV2b0kWwMvsJewxFMMzsi6MKpLUU5dqF2/3Z2i81tpofLGC5wUAprD4vP4F8uBh
+ LxcoRwGy4AhqAr/pKftkdbmWKZmD0GSECesxNZosrBvBwyowY8z7r1pQD7P31MRGCC
+ /eU0ZXxgtME8kWQ4BzknZgX5WC9VwgCQrX8k++YY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:53 +1000
-Message-Id: <20190702060857.3926-46-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:54 +1000
+Message-Id: <20190702060857.3926-47-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 45/49] ppc/xive: Force the Physical CAM line
- value to group mode
+Subject: [Qemu-devel] [PULL 46/49] ppc/xive: Make the PIPR register readonly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,80 +61,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When an interrupt needs to be delivered, the XIVE interrupt controller
-presenter scans the CAM lines of the thread interrupt contexts of the
-HW threads of the chip to find a matching vCPU. The interrupt context
-is composed of 4 different sets of registers: Physical, HV, OS and
-User.
+When the hypervisor (KVM) dispatches a vCPU on a HW thread, it restores
+its thread interrupt context. The Pending Interrupt Priority Register
+(PIPR) is computed from the Interrupt Pending Buffer (IPB) and stores
+should not be allowed to change its value.
 
-The encoding of the Physical CAM line depends on the mode in which the
-interrupt controller is operating: CAM mode or block group mode.
-Block group mode being the default configuration today on POWER9 and
-the only one available on the next POWER10 generation, enforce this
-encoding in the Physical CAM line :
-
-    chip << 19 | 0000000 0 0001 thread (7Bit)
-
-It fits the overall encoding of the NVT ids and simplifies the matching
-algorithm in the presenter.
-
-Fixes: d514c48d41fb ("ppc/xive: hardwire the Physical CAM line of the thr=
-ead context")
+Fixes: 207d9fe98510 ("ppc/xive: introduce the XIVE interrupt thread conte=
+xt")
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190630204601.30574-2-clg@kaod.org>
+Message-Id: <20190630204601.30574-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ hw/intc/xive.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 6250c0414d..3b1f9520ae 100644
+index 3b1f9520ae..534f56f86b 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -1229,27 +1229,16 @@ XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, =
-CPUState *cs)
- }
-=20
- /*
-- * By default on P9, the HW CAM line (23bits) is hardwired to :
-+ * Encode the HW CAM line in the block group mode format :
-  *
-- *   0x000||0b1||4Bit chip number||7Bit Thread number.
-- *
-- * When the block grouping is enabled, the CAM line is changed to :
-- *
-- *   4Bit chip number||0x001||7Bit Thread number.
-+ *   chip << 19 | 0000000 0 0001 thread (7Bit)
+@@ -182,31 +182,31 @@ static uint64_t xive_tm_vt_poll(XiveTCTX *tctx, hwa=
+ddr offset, unsigned size)
   */
--static uint32_t hw_cam_line(uint8_t chip_id, uint8_t tid)
--{
--    return 1 << 11 | (chip_id & 0xf) << 7 | (tid & 0x7f);
--}
--
--static bool xive_presenter_tctx_match_hw(XiveTCTX *tctx,
--                                         uint8_t nvt_blk, uint32_t nvt_i=
-dx)
-+static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tctx)
- {
-     CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
-     uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
 =20
--    return hw_cam_line((pir >> 8) & 0xf, pir & 0x7f) =3D=3D
--        hw_cam_line(nvt_blk, nvt_idx);
-+    return xive_nvt_cam_line((pir >> 8) & 0xf, 1 << 7 | (pir & 0x7f));
- }
+ static const uint8_t xive_tm_hw_view[] =3D {
+-    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-1 OS   */   3, 3, 3, 3,   3, 3, 0, 3,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-2 POOL */   0, 0, 3, 3,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-3 PHYS */   3, 3, 3, 3,   0, 3, 0, 3,   3, 0, 0, 3,   3, 3, 3,=
+ 0,
++    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User *=
+/
++    3, 3, 3, 3,   3, 3, 0, 2,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-1 OS   *=
+/
++    0, 0, 3, 3,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-2 POOL *=
+/
++    3, 3, 3, 3,   0, 3, 0, 2,   3, 0, 0, 3,   3, 3, 3, 0, /* QW-3 PHYS *=
+/
+ };
+=20
+ static const uint8_t xive_tm_hv_view[] =3D {
+-    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-1 OS   */   3, 3, 3, 3,   3, 3, 0, 3,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-2 POOL */   0, 0, 3, 3,   0, 0, 0, 0,   0, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-3 PHYS */   3, 3, 3, 3,   0, 3, 0, 3,   3, 0, 0, 3,   0, 0, 0,=
+ 0,
++    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User *=
+/
++    3, 3, 3, 3,   3, 3, 0, 2,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-1 OS   *=
+/
++    0, 0, 3, 3,   0, 0, 0, 0,   0, 3, 3, 3,   0, 0, 0, 0, /* QW-2 POOL *=
+/
++    3, 3, 3, 3,   0, 3, 0, 2,   3, 0, 0, 3,   0, 0, 0, 0, /* QW-3 PHYS *=
+/
+ };
+=20
+ static const uint8_t xive_tm_os_view[] =3D {
+-    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
+ 0,
+-    /* QW-1 OS   */   2, 3, 2, 2,   2, 2, 0, 2,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
+-    /* QW-2 POOL */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
+-    /* QW-3 PHYS */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
++    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User *=
+/
++    2, 3, 2, 2,   2, 2, 0, 2,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-1 OS   *=
+/
++    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-2 POOL *=
+/
++    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-3 PHYS *=
+/
+ };
+=20
+ static const uint8_t xive_tm_user_view[] =3D {
+-    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
+-    /* QW-1 OS   */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
+-    /* QW-2 POOL */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
+-    /* QW-3 PHYS */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
+ 0,
++    3, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-0 User *=
+/
++    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-1 OS   *=
+/
++    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-2 POOL *=
+/
++    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-3 PHYS *=
+/
+ };
 =20
  /*
-@@ -1285,7 +1274,7 @@ static int xive_presenter_tctx_match(XiveTCTX *tctx=
-, uint8_t format,
-=20
-         /* PHYS ring */
-         if ((be32_to_cpu(qw3w2) & TM_QW3W2_VT) &&
--            xive_presenter_tctx_match_hw(tctx, nvt_blk, nvt_idx)) {
-+            cam =3D=3D xive_tctx_hw_cam_line(tctx)) {
-             return TM_QW3_HV_PHYS;
-         }
-=20
 --=20
 2.21.0
 
