@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E155CCA3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 11:26:52 +0200 (CEST)
-Received: from localhost ([::1]:51004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094705CCA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 11:29:10 +0200 (CEST)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiF3s-0003fx-5H
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 05:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35737)
+	id 1hiF65-0005UU-7f
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 05:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiF0h-0002a6-3r
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:23:36 -0400
+ (envelope-from <berrange@redhat.com>) id 1hiF49-0004bf-SP
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:27:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiF0f-0007eq-JN
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:23:34 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41297)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiF0d-0007Zs-O0
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:23:32 -0400
-Received: by mail-oi1-x244.google.com with SMTP id g7so12468969oia.8
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 02:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HJp8Y3IivklWEU/GlPUXnnihWF/59LLGbSOdRuk95RU=;
- b=mxtyvy9hWNVCM5XEYgTpaC0Vy3f00l0OihddldLcVAghD2i5PAb6LcVGe0NUMLDgta
- 93OdO7gsvg6s9P8OxYO7qEs7tAXCe8u4fX2xTDvwJdVPOBFWbIVxKkvx0Z6ZeA5SKH1k
- X9N62eo/ZuF7jF2Vcei4mrFkem3AW/2ElkbXoA5V28ZuDaO3E8VrvtnoA6+LIUdiSPCg
- NHXYvBD+tqUOdHY5Ll0immQuMX8r6h/f0S1E9b3SouPOuJ4NaN3W7VzjD+ibVx9i3Pau
- PP9SdkGmbTUgcUtqwWtVQu3f4yXTlmZ0Iq1s3n+IoZnOf0QbE3hNlh3u1YtqO2QYN9p2
- SFLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HJp8Y3IivklWEU/GlPUXnnihWF/59LLGbSOdRuk95RU=;
- b=VQrY/DAYR7z4c3Pan2KgO1boQxiKWEdx6YajhCjero+eYU3AxfNZFirV0BPhk3DGen
- 9Fpve8kDJxbGQ4K14EI8dVMfQK3dfYW+BAnfTzceA1J2h6tNFNinnrjsGNmqJc8MeRHc
- CkZyz2K07hoBa2Ovw734qKH6HsW3zMRL/0FSvJWSgTKqmRWtPVgLz/FS/dPYecHqq6JO
- A7SRnK+V4yA2ePPooDdyRTt5CurX8QWWSnoDtPCKfH58AiFhsz10QPdG+7IL7tqq47z8
- 0vzPOz2woPOPq4q8T11c5y/NRY7Yg7aLSJ4UxK0nPklGyLryfqOHIy3gTMl1eiIt+L2y
- uOiA==
-X-Gm-Message-State: APjAAAVs4yOvh+uNX39VncTFPpt9AoFqiVeuzE0kxH48ja5E89yu64RJ
- 2KzTTJRLXWyk5tdjHsrzekhYE2nk41Xs43Y6ISnKCw==
-X-Google-Smtp-Source: APXvYqyTM0fBOGp/708ohExZKyWab+1S+q3+ssOYp+kRD7V9nLB+b/74b3YRAYIZMSbhw9mIpbcv540IPa/K3Y+PW7Y=
-X-Received: by 2002:aca:ac48:: with SMTP id v69mr2304932oie.48.1562059397642; 
- Tue, 02 Jul 2019 02:23:17 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1hiF48-0000ek-My
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:27:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40712)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hiF48-0000eD-1G
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:27:08 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 59B4D308624C
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 09:27:07 +0000 (UTC)
+Received: from redhat.com (ovpn-112-16.ams2.redhat.com [10.36.112.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 102E41715A;
+ Tue,  2 Jul 2019 09:27:02 +0000 (UTC)
+Date: Tue, 2 Jul 2019 10:26:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190702092658.GH21569@redhat.com>
+References: <20190628002844.24894-1-ehabkost@redhat.com>
+ <20190628002844.24894-2-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20190702001301.4768-1-philmd@redhat.com>
- <20190702001301.4768-6-philmd@redhat.com>
- <5163b3e4-f68e-dc6b-3fcc-e7927ebc58e7@redhat.com>
-In-Reply-To: <5163b3e4-f68e-dc6b-3fcc-e7927ebc58e7@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 10:23:06 +0100
-Message-ID: <CAFEAcA_n3BpZuBPFS8y90XaOwzAo-tuKpO24_apz+9yzpxUxHQ@mail.gmail.com>
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v2 5/9] hw/block/pflash_cfi01: Add the
- DeviceReset() handler
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190628002844.24894-2-ehabkost@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 02 Jul 2019 09:27:07 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/9] qmp: Add "alias-of" field to
+ query-cpu-definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,47 +59,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Markus Armbruster <armbru@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc <qemu-ppc@nongnu.org>, Wei Yang <richardw.yang@linux.intel.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Jiri Denemark <jdenemar@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 04:16, John Snow <jsnow@redhat.com> wrote:
-> Does reset always get called as part of realize, really?
->
-> Or are we just trusting that the device is probably going to get reset
-> by the guest during bringup?
+On Thu, Jun 27, 2019 at 09:28:36PM -0300, Eduardo Habkost wrote:
+> Management software will be expected to resolve CPU model name
+> aliases using the new field.
+>=20
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Changes v1 -> v2:
+> * (none)
+>=20
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> ---
+>  qapi/target.json | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
-Reset is not called "as part of realize", but it is guaranteed
-to be called after realize and before we try to run the guest,
-as long as the device is in the qbus tree. Things are in the
-qbus tree if either:
- * they're plugged into something already in the tree (eg
-   pci devices, scsi disks)
- * they're a sysbus device (which is automatically plugged into
-   the 'main system bus' which is effectively the root of the
-   qbus tree)
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-In this case TYPE_PFLASH_CFI01 is a subclass of TYPE_SYS_BUS_DEVICE,
-so it will always be reset as part of system reset.
 
-(the main things which don't get automatically reset are direct
-subclasses of TYPE_DEVICE, notably CPU objects.)
-
-thanks
--- PMM
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
