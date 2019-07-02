@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DA65D5F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:15:40 +0200 (CEST)
-Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC1E5D526
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:24:40 +0200 (CEST)
+Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiNJb-0005jG-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44818)
+	id 1hiMWF-0001sG-DA
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45499)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hiLJA-0003wj-KG
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:07:08 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hiLML-0006Jm-7h
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:10:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hiLJ8-00028g-3T
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:07:04 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33673)
+ (envelope-from <alistair23@gmail.com>) id 1hiLMK-0004NN-1f
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:10:21 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:38243)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hiLJ3-000246-PZ; Tue, 02 Jul 2019 12:06:58 -0400
-Received: by mail-lf1-x141.google.com with SMTP id y17so11821862lfe.0;
- Tue, 02 Jul 2019 09:06:55 -0700 (PDT)
+ id 1hiLMH-0004LV-BR; Tue, 02 Jul 2019 12:10:17 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id b11so11804711lfa.5;
+ Tue, 02 Jul 2019 09:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=191PEazMI6AZYxomtIRj4zRN76qVi7zp+FaJdnT1SJc=;
- b=Am2HpwDfCU2j4FqQhU35pMIcvHZiJA14RgnYPnaOWp+dBH3ua1vxFlPGaIyM7tlmCN
- 5865o8vL1KQPVgv+vmCjNUQcia3MiLYt//LS3UZFnhiYFYkZOiXM2bJs5eWvK9bxtiqT
- F8tS3U4fhjx4g+4bZYlQjoaj6XwTTQH8fShnSBpEHQXJt/lted8iHqrtAwmaJf+r18+o
- VhIBESIA9C7HqUvP5S+pV1knvKV691P4uOqe+7o1CRIBrITVqefhReAu996rqCUjcB2t
- UZ0MK+AO9D8yaCII5zqoU5LlJ4qyfcjHBrp0ZHEy24b3Rd0r5jxmcHsbGXW4u59sQuOQ
- fVkw==
+ :cc; bh=e6GUwIEJRJInD6g30ZmNZWphRlh4i8Ly/oky3N51j50=;
+ b=Nob0cM7yqPSCu1qJdBNYPbq6ZUAKL7syZEhZj+7D6FAHvyEDn7k2X0w21HXPv6Ux0O
+ wgQZpK4ki92IE30jCC0YsnlJOEU/+HYYemkXdKzewOOj7qQGe8F4VJQrBYyLM8t7XvVf
+ IyylY1uAc7nJkk2/Pafo7HQr/8qw9CQI1+Ez098DGXKnBu5HSm4csdAYE+aFYf4cPqvq
+ SB5q22Linz0G9l+w2y5RBWlNbhN+f912BhampRMstD3dubAAKbBDMV5+ezRVzfa0TPXB
+ 0zd+ltFEW+jWdqThS+pcGj9Sws58tI3j98Mlkq8XKnvhsTDZKMD/qThcBOyfAQtr8t8i
+ 4rjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=191PEazMI6AZYxomtIRj4zRN76qVi7zp+FaJdnT1SJc=;
- b=Bj1BK+gOgZRyWtS26XLyi6kwU5ngoGSS64LETnPmN5o0YEJmbuylxwrIsWy+zAVv+P
- 2CiQqb4idSvnRe9d3yOWyhAzaXNCbAjCVq/0leh+NpfNIQlh96qdxKP1iMuLpywUAehB
- mX2zAyoKeuneewqpAF34dALLT0DCr6JZaRfdOEf11s7dS3IdmfVwnzkEiFzdcBCyoOE/
- xzsaTYI9vGMV25PUnjXlgBBIT61aAYF1v6eRvXrt4G/5gsv3+sZeS+xtMsTbOOlEMnhG
- idLp7xxLutDYoAudvWzszUvCpElUXO4AaxekLyliJb8FU6XycV2VarrihajJQvfgVdxk
- dGiA==
-X-Gm-Message-State: APjAAAW5+DDzrtkfW5hdhwqupKK8pUl3ic9zIVMPj54lpSo5qXsb44dx
- Q+cFwWPs1tiBHOdKmzMY+jWbV4WTF8xRrlh/AGc=
-X-Google-Smtp-Source: APXvYqyHbgXSZavlE/NdxL+IluKO6aiBhhzlUNZvLBXoABzxVIyUSgTn8WzBKuDJ3cVeZpWtkXfRFpzGcCvHXjuQqY8=
-X-Received: by 2002:a19:4c05:: with SMTP id z5mr14851396lfa.5.1562083614266;
- Tue, 02 Jul 2019 09:06:54 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=e6GUwIEJRJInD6g30ZmNZWphRlh4i8Ly/oky3N51j50=;
+ b=JWe9tZMtnff6aylfLju8lnO22mwyqNp+KfBTPHm/8YLmlnHNEg/7uTpdmf5BVR/b66
+ SB4+0HFP0I5oBLA1tVwVEPVu3b2MBvRCaD/Tak8wqioDQH/nSqoLoSP0fhl8yv80XGV/
+ lTdlN4gPSxuaFQJ+LQUal2fdf4g509vSquiPfVntzmLh/TIAlVE+6SKl5lwGVIabCsQb
+ tXtWPJP/KT0pJ6YmRmnwT5YlcCeIMsgZE5uaKJ1CUqJjm0wBRen52DVTFWa63t6iWnog
+ MyMC8JccHGzDIEA/EAiL0L3nrRpPPkWf9UPEHOzfSqhJFeqXwW7MYZS9NRvAjEoagOPO
+ MeOQ==
+X-Gm-Message-State: APjAAAUads8MmCYPeueOI6ibiCJPX7aBVuXdpt0wKTEa4BHPWBXNJ4Iz
+ skCgIOxiYTdiGfuLukGv76BJGMahoJCERr1YNOw=
+X-Google-Smtp-Source: APXvYqycel78Ncmhi84E+YrexHfY/PmgpYqeTshoevtDYxL/2/wWN/2OVM8lIKbEUe4hZzV9KH3KvoBt+jtTVeGwlwQ=
+X-Received: by 2002:ac2:4990:: with SMTP id f16mr14702963lfl.93.1562083815887; 
+ Tue, 02 Jul 2019 09:10:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190702001301.4768-1-philmd@redhat.com>
- <20190702001301.4768-7-philmd@redhat.com>
-In-Reply-To: <20190702001301.4768-7-philmd@redhat.com>
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+ <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
+ <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+ <87a7dxqdl5.fsf@dusky.pond.sub.org>
+ <d5fb05ba-e313-b9db-9cfa-2c6f7c1b90f8@redhat.com>
+In-Reply-To: <d5fb05ba-e313-b9db-9cfa-2c6f7c1b90f8@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Jul 2019 09:03:51 -0700
-Message-ID: <CAKmqyKMgXKULX8JJSTmLyCbzRYJkeHZ=HqHBHA_cro-a21v=Zg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 2 Jul 2019 09:07:11 -0700
+Message-ID: <CAKmqyKONeFL2YVeKPFW0Z9U=hEmJ6uz1RJs+7Eg==vf9X_qKVg@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH v2 6/9] hw/block/pflash_cfi01: Simplify
- CFI_QUERY processing
+X-Received-From: 2a00:1450:4864:20::12a
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,89 +77,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Jeff Cody <codyprime@gmail.com>, "palmer@sifive.com" <palmer@sifive.com>,
  Markus Armbruster <armbru@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Wei Yang <richardw.yang@linux.intel.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 5:15 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
+On Tue, Jul 2, 2019 at 3:34 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> The current code does:
+> On 02/07/19 06:12, Markus Armbruster wrote:
+> >> Yeah, if we're not building the apache-2.0 parts then I think
+> >> we're OK, and as you say there's the question of whether QEMU's
+> >> GPL affects what we ship as mere bios blobs to run as guest
+> >> code anyway. But it's sufficiently not a "really obviously ok"
+> >> that I'd like a second opinion; cc'd some people who might have
+> >> second opinions.
+> >
+> > You need an expert opinion.
+> >
+> > My non-expert opinion: we can't distribute anything that's not
+> > compatible with GPLv2
 >
-> if (write_cycle =3D=3D 0)
->   if (command =3D=3D CFI_QUERY)
->     break
->   write_cycle +=3D 1
->   last_command =3D command
->
-> if (write_cycle =3D=3D 1)
->   if (last_command =3D=3D CFI_QUERY)
->     if (command =3D=3D READ_ARRAY
->       write_cycle =3D 0
->       last_command =3D READ_ARRAY
->
-> Simplify by not increasing the write_cycle on CFI_QUERY,
-> the next command are processed as normal wcycle=3D0.
->
-> This matches the hardware datasheet (we do not enter the WRITE
-> state machine, thus no write cycle involved).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Guest code is not part of QEMU.  We don't say that SeaBIOS, SLOF, etc.
+> are part of QEMU; it constitutes mere aggregation with the GPLv2 QEMU
+> sources, so it _is_ possible to distribute APSL2 guest code with QEMU.
+> IANAL, but I'm fairly sure about this.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This is my understanding as well. We aren't linking OpenSBI with QEMU
+so we should be fine to release it with any license.
+
+>
+> However I agree that LICENSE needs to be updated, something like this:
+>
+> diff --git a/LICENSE b/LICENSE
+> index 0e0b4b9553..81b9b3572d 100644
+> --- a/LICENSE
+> +++ b/LICENSE
+> @@ -1,13 +1,18 @@
+> -The following points clarify the QEMU license:
+> +The QEMU distribution includes both the QEMU emulator and
+> +various firmware files.  These are separate programs that are
+> +distributed together for our users' convenience, and they have
+> +separate license.
+>
+> -1) QEMU as a whole is released under the GNU General Public License,
+> -version 2.
+> +The following points clarify the license of the QEMU emulator:
+>
+> -2) Parts of QEMU have specific licenses which are compatible with the
+> -GNU General Public License, version 2. Hence each source file contains
+> -its own licensing information.  Source files with no licensing information
+> -are released under the GNU General Public License, version 2 or (at your
+> -option) any later version.
+> +1) The QEMU emulator as a whole is released under the GNU General
+> +Public License, version 2.
+> +
+> +2) Parts of the QEMU emulator have specific licenses which are compatible
+> +with the GNU General Public License, version 2. Hence each source file
+> +contains its own licensing information.  Source files with no licensing
+> +information are released under the GNU General Public License, version
+> +2 or (at your option) any later version.
+>
+>  As of July 2013, contributions under version 2 of the GNU General Public
+>  License (and no later version) are only accepted for the following files
+
+Ok, I'll update the QEMU LICENSE file in the next patch version.
 
 Alistair
 
-> ---
->  hw/block/pflash_cfi01.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
 >
-> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 8d632ea941..c1b02219b2 100644
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -492,7 +492,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
->              return;
->          case 0x98: /* CFI query */
->              DPRINTF("%s: CFI query\n", __func__);
-> -            break;
-> +            pfl->cmd =3D cmd;
-> +            return;
->          case 0xe8: /* Write to buffer */
->              DPRINTF("%s: Write to buffer\n", __func__);
->              /* FIXME should save @offset, @width for case 1+ */
-> @@ -566,13 +567,6 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
-fset,
->                  goto mode_read_array;
->              }
->              break;
-> -        case 0x98:
-> -            if (cmd =3D=3D 0xff) {
-> -                goto mode_read_array;
-> -            } else {
-> -                DPRINTF("%s: leaving query mode\n", __func__);
-> -            }
-> -            break;
->          default:
->              goto error_flash;
->          }
-> --
-> 2.20.1
+> Paolo
 >
 
