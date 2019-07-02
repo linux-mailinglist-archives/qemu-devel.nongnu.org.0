@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDA35D4B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:50:54 +0200 (CEST)
-Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FC45D4FD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:04:21 +0200 (CEST)
+Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLzZ-0000ds-QZ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
+	id 1hiMCT-0004D8-JW
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hiL87-0003wg-Ij
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:40 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1hiLGR-0002Qp-5V
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hiL85-00044x-0H
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:39 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38189)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiL80-0003vP-R7
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:33 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p11so7240009wro.5
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:55:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SEBw9BeVdtoobf5EiaV/9mIfZ46latCf3fEv7KSGJEk=;
- b=AYwxM2a2VhSJP1wMkezN3sep5jrpVN8dC298K9HF8fZ2nzEUOp3aa0c0JbA14OjJQQ
- 1Ckp/s7Iex6WURjLYF909v0uVByLcpRz0Ewa7zHG8kxNrqKeTgbBJkVEykhB6DmItxWZ
- mdZxEcMBHLZAc4zLejEJw7jB16ERXDAhacLTSvvW7XmbFrDP+U0LPxWx/BmrW1/hnJWE
- G4zejZxU0vC0UDOyAuz64yp4qA+OGOkKbws45p9UwKkGkZbfSI8Eur+4vJaK5CZIocll
- YjyRQHKQuPd7FfX1DEA+mKvCBnsqmKn1RzneWN0dgxxCgIvwAzZ6X1iHe3HAYRE32f3M
- fYGg==
-X-Gm-Message-State: APjAAAVOO+Mc8FCSF6rey3b/IyMuyXRivmac1XOJTP0OCahwdgQ5TZk6
- ofg4oVwpJ5Fs1j5AusKl1QEH+w==
-X-Google-Smtp-Source: APXvYqw83TU/NGdcH4U34RRwIIvF2Nkw1gX+EMj+J1BLomRfji/Y5bhYQAoVD7GoOzOgd3XfFrNlWQ==
-X-Received: by 2002:adf:eecf:: with SMTP id a15mr1250454wrp.264.1562082916428; 
- Tue, 02 Jul 2019 08:55:16 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id d9sm18395107wrb.71.2019.07.02.08.55.15
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Jul 2019 08:55:15 -0700 (PDT)
-To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
-References: <20190628120118.78920-1-mrolnik@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <7213c712-5405-5fa8-bb2b-858f4d48ac54@redhat.com>
-Date: Tue, 2 Jul 2019 17:55:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <alex.williamson@redhat.com>) id 1hiLGP-0000Cn-6k
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42114)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1hiLGN-00006Z-2Y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:04:13 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA34C309265F;
+ Tue,  2 Jul 2019 15:56:11 +0000 (UTC)
+Received: from x1.home (ovpn-116-83.phx2.redhat.com [10.3.116.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E7D45CC00;
+ Tue,  2 Jul 2019 15:56:08 +0000 (UTC)
+Date: Tue, 2 Jul 2019 09:55:46 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Message-ID: <20190702095546.11842fec@x1.home>
+In-Reply-To: <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
+References: <156046151566.26543.17274661862206856605.stgit@gimli.home>
+ <156046164094.26543.10016703921328261988.stgit@gimli.home>
+ <CAFEAcA_nGMfUYpSiaw7xhRjacZQhY1U780ehA0UR0StyBwammg@mail.gmail.com>
+ <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20190628120118.78920-1-mrolnik@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 02 Jul 2019 15:56:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v24 0/7] QEMU AVR 8 bit cores
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 3/3] vfio/common: Introduce
+ vfio_set_irq_signaling helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,37 +61,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, Thomas Huth <thuth@redhat.com>,
- richard.henderson@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+On Tue, 2 Jul 2019 14:32:26 +0200
+Auger Eric <eric.auger@redhat.com> wrote:
 
-On 6/28/19 2:01 PM, Michael Rolnik wrote:
-> This series of patches adds 8bit AVR cores to QEMU.
-> All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully tested yet.
-> However I was able to execute simple code with functions. e.g fibonacci calculation.
-> This series of patches include a non real, sample board.
-> No fuses support yet. PC is set to 0 at reset.
+> Hi Peter,
+> 
+> On 7/2/19 12:37 PM, Peter Maydell wrote:
+> > On Thu, 13 Jun 2019 at 22:51, Alex Williamson
+> > <alex.williamson@redhat.com> wrote:  
+> >>
+> >> From: Eric Auger <eric.auger@redhat.com>
+> >>
+> >> The code used to assign an interrupt index/subindex to an
+> >> eventfd is duplicated many times. Let's introduce an helper that
+> >> allows to set/unset the signaling for an ACTION_TRIGGER,
+> >> ACTION_MASK or ACTION_UNMASK action.
+> >>
+> >> In the error message, we now use errno in case of any
+> >> VFIO_DEVICE_SET_IRQS ioctl failure.
+> >>
+> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> >> Reviewed-by: Li Qiang <liq3ea@gmail.com>
+> >> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>  
+> > 
+> > Hi; coverity reports (CID 1402196) a possible unchecked return value
+> > in this code:
+> > 
+> >   
+> >> @@ -592,26 +550,10 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+> >>       * be re-asserted on unmask.  Nothing to do if already using QEMU mode.
+> >>       */
+> >>      if (vector->virq >= 0) {
+> >> -        int argsz;
+> >> -        struct vfio_irq_set *irq_set;
+> >> -        int32_t *pfd;
+> >> -
+> >> -        argsz = sizeof(*irq_set) + sizeof(*pfd);
+> >> -
+> >> -        irq_set = g_malloc0(argsz);
+> >> -        irq_set->argsz = argsz;
+> >> -        irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+> >> -                         VFIO_IRQ_SET_ACTION_TRIGGER;
+> >> -        irq_set->index = VFIO_PCI_MSIX_IRQ_INDEX;
+> >> -        irq_set->start = nr;
+> >> -        irq_set->count = 1;
+> >> -        pfd = (int32_t *)&irq_set->data;
+> >> +        int32_t fd = event_notifier_get_fd(&vector->interrupt);
+> >>
+> >> -        *pfd = event_notifier_get_fd(&vector->interrupt);
+> >> -
+> >> -        ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
+> >> -
+> >> -        g_free(irq_set);
+> >> +        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr,
+> >> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, NULL);  
+> > 
+> > In vfp_msix_vector_release() we call vfio_set_irq_signaling(),
+> > but we don't check the returned error value, whereas in the other
+> > 7 places we call the function we do check. Is there some missing
+> > error handling here ?  
+> 
+> the difference with the other calls is that we pass a NULL errp here so
+> we don't need to consume a potential error. Before the introduction of
+> vfio_set_irq_signaling we had an ioctl call whose returned value was not
+> tested either. So I think it properly translates what was done before.
+> It seems we are willingly not producing any error message in that case.
+> Alex, can you confirm?
 
-I see in this thread you test some binary:
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg02291.html
+When we're emulating writes to the MSI-X vector table we have no
+failure path up to the guest.  Real hardware cannot fail to enable a
+vector that's available in hardware, thus we can either log the issue,
+ignore the issue, or fault.  I guess Coverity is simply noting that
+other cases are tested while this is not, therefore we should either
+explicitly ignore the return value with a cast to void or take this as
+an opportunity to log the fault, which might be useful in debugging a
+device that isn't working properly.  Thanks,
 
-https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-
-Can you add a test that uses your binary and check it does something?
-That would help maintaining your work over time.
-
-Avocado tests can be quite simple, i.e.:
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06515.html
-
-Since you added support for the USART, you can also add some
-assembler instructions to use it to this test:
-
-https://git.qemu.org/?p=qemu.git;a=blob;f=tests/boot-serial-test.c;h=24852d4c7d0b3fc08fb0dab35f32372a0b2c46db;hb=HEAD
-
-Thanks!
-
-Phil.
+Alex
 
