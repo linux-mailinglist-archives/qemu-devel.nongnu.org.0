@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEB75CE30
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:13:37 +0200 (CEST)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0ED5CE42
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:19:55 +0200 (CEST)
+Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGjA-0005LW-N9
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51193)
+	id 1hiGpG-0001Os-Gz
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51625)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiGKd-0006O0-GL
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:48:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiGNj-0000op-3R
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiGKb-0000ft-I6
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:48:15 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:42334)
+ (envelope-from <peter.maydell@linaro.org>) id 1hiGNf-00057t-0M
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:25 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35841)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiGKb-0000eF-CV
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:48:13 -0400
-Received: by mail-ot1-x331.google.com with SMTP id l15so16672295otn.9
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:48:12 -0700 (PDT)
+ id 1hiGNd-00050p-J3
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:51:22 -0400
+Received: by mail-wm1-x341.google.com with SMTP id u8so475524wmm.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QCAc1Pv7UW1NoPZN0+5umgZcLTTewv0cF0+XMI+3yKo=;
- b=ap7Aqq5kWXLutqvn7gH6VzkJlgFITUx4fMOYD/1ZoZ1u3um2xna2hO/wj0zQQq9HgJ
- GlUN2eHQxpv+InTNKaTbeteOHe4VKeDDG9gJ68CsIZ+Tqia+6JNWJXm6+KhU0mfMS1++
- p13Bc+mHGWgIYNtj9yE8zrp1nRWF/j6HdjRDDuI7yomGRpiG0U8D7dY7eopEaYhdeOK/
- iUSOOlaZvpnxtk5JxQC8bJnMfPtIMK/CdE9cqdzcjegsTUd2voDicvVrDivqz6P6h0OA
- xG1saUCGTRlOVdjH2DGmYSfj/s0e2P0grBIKEVO4snK4TcLX8W5IV08KoHL/mWme4roN
- WtGw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YeHRPGYbA8ZhQrAnDrwK7ooN6IkOvQIyHvP1gjf9j24=;
+ b=XGibDmxUDYjPiY8630ypUeh1Crjc7UzuBDzvEKoKarSVnT3IAtcUkUHxSd9Od+mgtB
+ pgFAJTfbO5ZkErOkyp8CBKFk9FTjYVUSh//kvs1yfqH6Wa4X/plg2xI+s7TzC6AKtbKB
+ 0+wn/h81QKma2XTRKwbHrKknQ6y2d+qnvGim+wwVKUp5NsjB0dX0ps6f1dkR24f2ypw/
+ +GB1N/2Xxf0xOZkonrgOxya4ZkInOULEq7hPQmmcg/rNd4WxZ++AQek1ygJqe16hdXeU
+ Xu33olZV2/h84RQUz9oapdyWnbwcbMge+7OZcimc4IsOBYl5yOlVC7uSEufq/hmGonrC
+ Ie0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QCAc1Pv7UW1NoPZN0+5umgZcLTTewv0cF0+XMI+3yKo=;
- b=no+BEUxU6BiF4FBxfAHXcS+RraR/jO8mwXYne2hfobumLlk/QSrLjrFtKcbha0foLR
- yFxIKbWFkfVr7BRvaHPeZGdRuEPbu96nLYxMdS19waKpndfVeeMNk9x98H3qaU7WMJbk
- Knr9U3GnU3W0FOEwxb9E2myqNG9EkGz18jYZvvYspInGn2CZ8kYcsgzi2uabv8dUrWuO
- MZ8bKm7ZGP+cqzfnxqC/ND2cyPGMFJr2rXmCuFvqyEv5pwRxxvzvzR6nbjE7ZfiB/JWV
- vMjdY8O0I6Jd6HdLEgAk364JArNRhFd4dItQtyXO+igbkEpr084qhuQI52bdOG9hy63j
- mVug==
-X-Gm-Message-State: APjAAAWgR33PdaRGYZRem1nOFQk7UVq/Iox4CFgHITrCKKyVIUuVOJUw
- VmpWg5N7g+OvO7yyLxfuBxE8iCIVkYPO2bwzqCfl8A==
-X-Google-Smtp-Source: APXvYqwNieAu90O34ex2IcnAieHBiu8JHP8BMwiqihiMMZQzLAfnDrppNKGrR1PxHAy6hIgb2eQ8nKxYcHVAEBJmWVA=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr2142861otk.232.1562064491942; 
- Tue, 02 Jul 2019 03:48:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190628184742.5961-1-ehabkost@redhat.com>
-In-Reply-To: <20190628184742.5961-1-ehabkost@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YeHRPGYbA8ZhQrAnDrwK7ooN6IkOvQIyHvP1gjf9j24=;
+ b=UQCP2PzSqhcg4tDHZX0zLITC74WCxqkCcPU8yMLmXzEGkU1QekcJqs7HfaOa5YLDN2
+ 6AL8fMzLvPdTkm27aX0vs+nBkaoON3c7rP0XartCMOv7qakM+IE3Hk+s6oYUOQGBb+D+
+ 0/+D26djuq9fYo00qVlu0IKty3WjxpuOc2DdN1wZ5cz4VYGFDX4m9VNxW4QwzcYxUnyJ
+ JKBj2umBF55nUf9hCiOzCiJM4Ywc/qeXPUf0uJsPz7oKEbBvNH0+2PvvNMfNtsGFf5JH
+ Pl3EggNZd/9LSAUxR11CP3m48QpwLkMmZ0h7TB/0liUF9sPiALYjdWmojY4vabPR3rS5
+ AtLg==
+X-Gm-Message-State: APjAAAUWrTLtakUichyz5LyTHRQs1I65WUPwqaV6qe8HlwhcfpAZBk+a
+ kk1cul8pel/deiKCCt7QIwUvzg==
+X-Google-Smtp-Source: APXvYqzpZ4Avo86PZIZjJLNygWa0F8atpP1UqT+Y3Ok2r5mWSpOQDIOL4sbSgtX8P2tJFFZfGF63fg==
+X-Received: by 2002:a1c:dc45:: with SMTP id t66mr3193545wmg.63.1562064677072; 
+ Tue, 02 Jul 2019 03:51:17 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y133sm3219710wmg.5.2019.07.02.03.51.16
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 03:51:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 11:48:01 +0100
-Message-ID: <CAFEAcA8Jnh=tu8s08Fu6n0sSmJJuVOx7YxyTR_ni5yW3DdMFkQ@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Tue,  2 Jul 2019 11:51:15 +0100
+Message-Id: <20190702105115.9465-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::331
-Subject: Re: [Qemu-devel] [PULL v2 00/29] Machine and x86 queue, 2019-06-28
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH for-4.1] target/arm: Correct VMOV_imm_dp
+ handling of short vectors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,61 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jun 2019 at 19:47, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> Changes v1 -> v2:
-> * Fix s390x build failure
->
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to b701bfd0634f24551449856cdc56fd13f35bd1f6:
->
->   vl.c: Add -smp, dies=* command line support and update doc (2019-06-28 15:34:12 -0300)
->
-> ----------------------------------------------------------------
-> Machine and x86 queue, 2019-06-28
->
-> * CPU die topology support (Like Xu)
-> * Deprecation of features (Igor Mammedov):
->   * 'mem' parameter of '-numa node' option
->   * implict memory distribution between NUMA nodes
->   * deprecate -mem-path fallback to anonymous RAM
-> * Other i386 fixes
+Coverity points out (CID 1402195) that the loop in trans_VMOV_imm_dp()
+that iterates over the destination registers in a short-vector VMOV
+accidentally throws away the returned updated register number
+from vfp_advance_dreg(). Add the missing assignment. (We got this
+correct in trans_VMOV_imm_sp().)
 
-Hi. This fills my build logs with warnings during 'make check':
+Fixes: 18cf951af9a27ae573a
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/translate-vfp.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-qemu-system-i386: warning: Default splitting of RAM between nodes is
-deprecated, Use '-numa node,memdev' to explictly define RAM allocation
-per node
-qemu-system-i386: warning: Default splitting of RAM between nodes is
-deprecated, Use '-numa node,memdev' to explictly define RAM allocation
-per node
-qemu-system-i386: -numa node,mem=128: warning: Parameter -numa
-node,mem is deprecated, use -numa node,memdev instead
-qemu-system-i386: -numa node,mem=32M,nodeid=0: warning: Parameter
--numa node,mem is deprecated, use -numa node,memdev instead
-qemu-system-i386: -numa node,mem=32M,nodeid=1: warning: Parameter
--numa node,mem is deprecated, use -numa node,memdev instead
-qemu-system-i386: -numa node,mem=32M,nodeid=2: warning: Parameter
--numa node,mem is deprecated, use -numa node,memdev instead
-qemu-system-i386: -numa node,mem=32M,nodeid=3: warning: Parameter
--numa node,mem is deprecated, use -numa node,memdev instead
-[etc etc for hundreds of instances]
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index deaddb04421..092eb5ec53d 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -1971,7 +1971,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+ 
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vfp_advance_dreg(vd, delta_d);
++        vd = vfp_advance_dreg(vd, delta_d);
+     }
+ 
+     tcg_temp_free_i64(fd);
+-- 
+2.20.1
 
-Can you either fix the tests not to warn or arrange for the warnings
-to be suppressed, please?
-
-thanks
--- PMM
 
