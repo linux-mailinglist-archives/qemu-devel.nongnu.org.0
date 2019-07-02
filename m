@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A445C946
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:25:20 +0200 (CEST)
-Received: from localhost ([::1]:49464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35AC5C949
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:25:48 +0200 (CEST)
+Received: from localhost ([::1]:49468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCEB-0001qS-KE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58454)
+	id 1hiCEd-0002QT-Qh
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByl-000514-GK
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByh-0004q2-8w
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByj-0002w3-TO
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49323 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByg-0002rp-8y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:19 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45063 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByj-0002sv-5x; Tue, 02 Jul 2019 02:09:21 -0400
+ id 1hiByf-0002oM-St; Tue, 02 Jul 2019 02:09:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMj59B1z9sPc; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
+ id 45dDMh41Nkz9sPV; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047745;
- bh=XL9rUUuoMrbbedAD0CK7JXtj492z57BZhCOuHxR3UNQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047744;
+ bh=3F+jk8VVvZ9vfLbmklIoqbioDxmS4k/G4NBEFvQeU4M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NcC01rF03GK0dgXZjHJXcu6hlvEVss7YMsPpzNPSd2Tc8Vz4GFSGy1vG+EvN7UOaj
- NslDPrSvcu8VI3DsF1HmututNZ8C3KLRmAR1Nk8OuGPwDZX+TkpCNoM4DKsmAl04qB
- z8mQrE8K3kJGUw7Ex8NBtj4KJkgxcw4RN6IFgt/M=
+ b=m+DoEOUh1VZgQ42ZGpCLo6+gehicK0ynGtODMubfhy9pxLIzuvWzlB6h3pmUBJ3YV
+ cYQIHLYuP11NpzTN7abqt5dwfOvw6WyJ2/22F/kwMpJ9BILEuIgr3eID7uBvKdaaBy
+ zOqcXMc5ipxNVg84b8d37bYrnEx0gUcNDvye235k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:23 +1000
-Message-Id: <20190702060857.3926-16-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:24 +1000
+Message-Id: <20190702060857.3926-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 15/49] xics/spapr: Only emulated XICS should use
- RTAS/hypercalls emulation
+Subject: [Qemu-devel] [PULL 16/49] spapr_pci: Drop useless CONFIG_KVM
+ ifdefery
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,182 +61,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Checking that we're not using the in-kernel XICS is ok with the "xics"
-interrupt controller mode, but it is definitely not enough with the
-other modes since the guest could be using XIVE.
-
-Ensure XIVE is not in use when emulated XICS RTAS/hypercalls are
-called.
+kvm_enabled() expands to (0) when CONFIG_KVM is not defined.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156077253666.424706.6104557911104491047.stgit@bahia.lan>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <156051052977.224162.17306829691809502082.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics_spapr.c | 53 ++++++++++++++++++++++----------------------
- 1 file changed, 27 insertions(+), 26 deletions(-)
+ hw/ppc/spapr_pci.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 8d605b68a7..7cd3c93d71 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -41,22 +41,23 @@
-  * Guest interfaces
-  */
-=20
--static bool check_in_kernel_xics(const char *func)
-+static bool check_emulated_xics(SpaprMachineState *spapr, const char *fu=
-nc)
- {
--    if (kvm_irqchip_in_kernel()) {
--        error_report("pseries: %s must never be called for in-kernel XIC=
-S",
-+    if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT) ||
-+        kvm_irqchip_in_kernel()) {
-+        error_report("pseries: %s must only be called for emulated XICS"=
-,
-                      func);
--        return true;
-+        return false;
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 2dca1e57f3..5591723bb2 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1951,11 +1951,9 @@ static void spapr_phb_realize(DeviceState *dev, Er=
+ror **errp)
+      * For KVM we want to ensure that this memory is a full page so that
+      * our memory slot is of page size granularity.
+      */
+-#ifdef CONFIG_KVM
+     if (kvm_enabled()) {
+         msi_window_size =3D getpagesize();
      }
+-#endif
 =20
--    return false;
-+    return true;
- }
-=20
--#define CHECK_IN_KERNEL_XICS_HCALL              \
--    do {                                        \
--        if (check_in_kernel_xics(__func__)) {   \
--            return H_HARDWARE;                  \
--        }                                       \
-+#define CHECK_EMULATED_XICS_HCALL(spapr)               \
-+    do {                                               \
-+        if (!check_emulated_xics((spapr), __func__)) { \
-+            return H_HARDWARE;                         \
-+        }                                              \
-     } while (0)
-=20
- static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachineState *spapr,
-@@ -64,7 +65,7 @@ static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
- {
-     target_ulong cppr =3D args[0];
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     icp_set_cppr(spapr_cpu_state(cpu)->icp, cppr);
-     return H_SUCCESS;
-@@ -76,7 +77,7 @@ static target_ulong h_ipi(PowerPCCPU *cpu, SpaprMachine=
-State *spapr,
-     target_ulong mfrr =3D args[1];
-     ICPState *icp =3D xics_icp_get(XICS_FABRIC(spapr), args[0]);
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     if (!icp) {
-         return H_PARAMETER;
-@@ -91,7 +92,7 @@ static target_ulong h_xirr(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
- {
-     uint32_t xirr =3D icp_accept(spapr_cpu_state(cpu)->icp);
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     args[0] =3D xirr;
-     return H_SUCCESS;
-@@ -102,7 +103,7 @@ static target_ulong h_xirr_x(PowerPCCPU *cpu, SpaprMa=
-chineState *spapr,
- {
-     uint32_t xirr =3D icp_accept(spapr_cpu_state(cpu)->icp);
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     args[0] =3D xirr;
-     args[1] =3D cpu_get_host_ticks();
-@@ -114,7 +115,7 @@ static target_ulong h_eoi(PowerPCCPU *cpu, SpaprMachi=
-neState *spapr,
- {
-     target_ulong xirr =3D args[0];
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     icp_eoi(spapr_cpu_state(cpu)->icp, xirr);
-     return H_SUCCESS;
-@@ -127,7 +128,7 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMac=
-hineState *spapr,
-     uint32_t mfrr;
-     uint32_t xirr;
-=20
--    CHECK_IN_KERNEL_XICS_HCALL;
-+    CHECK_EMULATED_XICS_HCALL(spapr);
-=20
-     if (!icp) {
-         return H_PARAMETER;
-@@ -141,12 +142,12 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprM=
-achineState *spapr,
-     return H_SUCCESS;
- }
-=20
--#define CHECK_IN_KERNEL_XICS_RTAS(rets)                 \
--    do {                                                \
--        if (check_in_kernel_xics(__func__)) {           \
--            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);      \
--            return;                                     \
--        }                                               \
-+#define CHECK_EMULATED_XICS_RTAS(spapr, rets)          \
-+    do {                                               \
-+        if (!check_emulated_xics((spapr), __func__)) { \
-+            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);     \
-+            return;                                    \
-+        }                                              \
-     } while (0)
-=20
- static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
-@@ -157,7 +158,7 @@ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachi=
-neState *spapr,
-     ICSState *ics =3D spapr->ics;
-     uint32_t nr, srcno, server, priority;
-=20
--    CHECK_IN_KERNEL_XICS_RTAS(rets);
-+    CHECK_EMULATED_XICS_RTAS(spapr, rets);
-=20
-     if ((nargs !=3D 3) || (nret !=3D 1)) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-@@ -192,7 +193,7 @@ static void rtas_get_xive(PowerPCCPU *cpu, SpaprMachi=
-neState *spapr,
-     ICSState *ics =3D spapr->ics;
-     uint32_t nr, srcno;
-=20
--    CHECK_IN_KERNEL_XICS_RTAS(rets);
-+    CHECK_EMULATED_XICS_RTAS(spapr, rets);
-=20
-     if ((nargs !=3D 1) || (nret !=3D 3)) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-@@ -224,7 +225,7 @@ static void rtas_int_off(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
-     ICSState *ics =3D spapr->ics;
-     uint32_t nr, srcno;
-=20
--    CHECK_IN_KERNEL_XICS_RTAS(rets);
-+    CHECK_EMULATED_XICS_RTAS(spapr, rets);
-=20
-     if ((nargs !=3D 1) || (nret !=3D 1)) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-@@ -257,7 +258,7 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachine=
-State *spapr,
-     ICSState *ics =3D spapr->ics;
-     uint32_t nr, srcno;
-=20
--    CHECK_IN_KERNEL_XICS_RTAS(rets);
-+    CHECK_EMULATED_XICS_RTAS(spapr, rets);
-=20
-     if ((nargs !=3D 1) || (nret !=3D 1)) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+     memory_region_init_io(&sphb->msiwindow, OBJECT(sphb), &spapr_msi_ops=
+, spapr,
+                           "msi", msi_window_size);
 --=20
 2.21.0
 
