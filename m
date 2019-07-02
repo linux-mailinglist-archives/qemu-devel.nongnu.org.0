@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E085D77A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 22:29:35 +0200 (CEST)
-Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C535D79F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 22:46:45 +0200 (CEST)
+Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiPPC-0000Rw-LF
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 16:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42877)
+	id 1hiPfo-0000I1-26
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 16:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44296)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hiO0p-00054w-R2
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:00:21 -0400
+ (envelope-from <julio.montes@intel.com>) id 1hiO2f-0006gT-KA
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:02:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hiO0n-0003wV-GH
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:00:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43506)
+ (envelope-from <julio.montes@intel.com>) id 1hiO2c-0006CG-ER
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:02:11 -0400
+Received: from mga06.intel.com ([134.134.136.31]:4377)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiO0f-0003rq-OH
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:00:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A22CA86671;
- Tue,  2 Jul 2019 19:00:06 +0000 (UTC)
-Received: from redhat.com (ovpn-124-209.rdu2.redhat.com [10.10.124.209])
- by smtp.corp.redhat.com (Postfix) with SMTP id B36C23D8F;
- Tue,  2 Jul 2019 19:00:05 +0000 (UTC)
-Date: Tue, 2 Jul 2019 15:00:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190702145826-mutt-send-email-mst@kernel.org>
-References: <20190702150606.24851-1-mst@redhat.com>
- <CAFEAcA-Qcq1ZmfDO_dkh_H9-aeQVU83ceLKU1NXM3VpW8g5sPQ@mail.gmail.com>
- <20190702124823-mutt-send-email-mst@kernel.org>
- <CAFEAcA-UFks7CmtcMT15KzK3TzRqGjwXWtFa8K6XZ=Bks92CJw@mail.gmail.com>
- <20190702142058-mutt-send-email-mst@kernel.org>
- <CAFEAcA_c3UXPVy_rXR_FxyXRw5ZE1-QgumPr9B-j+pmvBGWgpQ@mail.gmail.com>
+ (Exim 4.71) (envelope-from <julio.montes@intel.com>)
+ id 1hiO2b-0005cm-Nl
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:02:10 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2019 12:01:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,444,1557212400"; d="scan'208";a="164115588"
+Received: from juliomon-mobl1.zpn.intel.com (HELO fedora.zpn.intel.com.)
+ ([10.219.4.39])
+ by fmsmga008.fm.intel.com with ESMTP; 02 Jul 2019 12:01:37 -0700
+From: Julio Montes <julio.montes@intel.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  2 Jul 2019 19:01:31 +0000
+Message-Id: <20190702190131.5780-1-julio.montes@intel.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_c3UXPVy_rXR_FxyXRw5ZE1-QgumPr9B-j+pmvBGWgpQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 02 Jul 2019 19:00:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 00/22] virtio, pc, pci: features, fixes,
- cleanups
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.31
+X-Mailman-Approved-At: Tue, 02 Jul 2019 16:29:23 -0400
+Subject: [Qemu-devel] [PATCH] monitor: vnc: Fix compilation error if
+ CONFIG_VNC is disable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,46 +56,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Julio Montes <julio.montes@intel.com>, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 07:27:13PM +0100, Peter Maydell wrote:
-> On Tue, 2 Jul 2019 at 19:22, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Jul 02, 2019 at 06:20:01PM +0100, Peter Maydell wrote:
-> > > On Tue, 2 Jul 2019 at 18:01, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > This isn't from mainline. We have a bit of a deadlock with linux merge
-> > > > window opening soon. I think it's reasonable temporarily
-> > > > and then before release either virtio-pmem gets there or I will
-> > > > revert it and drop the header.
-> > >
-> > > It's definitely not ideal: until the headers are actually
-> > > upstream there's no guarantee that they won't change ABI.
-> >
-> > But then I'm watching it, if I see that I'll drop the device from qemu for
-> > now.
-> 
-> OK; I guess we can take this for now if we make sure we revert
-> if the headers aren't upstream by the time we get to say rc2
-> (23rd July). (That is, we'd want to do any revert shortly after
-> rc2, since rc3 might be the last rc before release.)
+How to reproduce it?
+===
 
-Right, that's the plan.
+```
+$ ./configure --disable-spice --disable-vte --disable-vnc \
+    --disable-vnc-jpeg --disable-vnc-png --disable-vnc-sasl
+$ make
+...
+monitor/hmp-cmds.c: In function ‘hmp_change’:
+monitor/hmp-cmds.c:1985:17: error: unused variable ‘hmp_mon’
+     [-Werror=unused-variable]
+     MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+```
 
-> > > Are the headers at least in some kvm-next or equivalent tree ?
-> >
-> >
-> > Yes - libnvdimm maintainer's tree.
-> >
-> > > When are they expected to hit mainline?
-> >
-> > Next merge window.
-> 
-> When's that?
+Fix
+===
 
-Likely opens next Sunday and lasts 2 weeks. So we'll know by July 23.
+Move `hmp_mon` variable within the `CONFIG_VNC` block
 
-> thanks
-> -- PMM
+Signed-off-by: Julio Montes <julio.montes@intel.com>
+---
+ monitor/hmp-cmds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9de35387c3..5ed564683e 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1982,7 +1982,6 @@ static void hmp_change_read_arg(void *opaque, const char *password,
+ 
+ void hmp_change(Monitor *mon, const QDict *qdict)
+ {
+-    MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+     const char *device = qdict_get_str(qdict, "device");
+     const char *target = qdict_get_str(qdict, "target");
+     const char *arg = qdict_get_try_str(qdict, "arg");
+@@ -1991,6 +1990,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+     Error *err = NULL;
+ 
+ #ifdef CONFIG_VNC
++    MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+     if (strcmp(device, "vnc") == 0) {
+         if (read_only) {
+             monitor_printf(mon,
+-- 
+2.17.2
+
 
