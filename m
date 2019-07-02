@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814225CC3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 10:53:37 +0200 (CEST)
-Received: from localhost ([::1]:50734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C545CC44
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 10:57:41 +0200 (CEST)
+Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiEXf-00054E-RD
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 04:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57689)
+	id 1hiEbc-0000LN-7c
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 04:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hiEV2-0003ip-BX
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:50:53 -0400
+ (envelope-from <philmd@redhat.com>) id 1hiEak-00086U-7c
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:56:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hiEV1-0007bJ-9J
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:50:52 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52283)
+ (envelope-from <philmd@redhat.com>) id 1hiEag-0001yI-7k
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:56:44 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39791)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiEV1-0007aj-1n
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:50:51 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s3so26165wms.2
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 01:50:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiEae-0001te-Tv
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:56:41 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so37671wma.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 01:56:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qAHmK64sjDnJAyB0MTcMKo9E0QNitVqtRSZGgzaJ9LI=;
- b=CR2f9QlSs+kjthVnBBdzvJ7fw32uwpWAMcxnECPf8hUxGjscMrjWkEvNWbUAKg5tqX
- IG3Ijx3ARq3YnD7SUh8WuT8sJm43VMRQajzQ2Scq8jfjaODRvFvlG2Mz8vRIyM581l0w
- LBataVOsCYUE2wgoM+XNriD6e/XHeDizP3jGCgl6oA1AOd0HiFJy4EV4YJ2pxhR/+zLR
- PltRRQhQ+aIl+uKPanYD7S6UnnZ3DNLx00J3Gs58abmWE3sqEzoZPcXnYoLSNQukpDRj
- ejUrj2cpFwD1PcQ/nXEOoiXZPAWW1TsIjLssS5suBcoVdFFrjyXs0sEEUrv6Sbjg8AlN
- GiOg==
-X-Gm-Message-State: APjAAAURYgzblnj8Lvm74/HblzjchNqTUlGvWGhcHar9nJsdFLxKN858
- xa0AjmFZl/4Dd0lUItwuXw7l6g==
-X-Google-Smtp-Source: APXvYqxkrg+rbLa5J/aXsZ9ycZ3hH5Z8LGmsPeDrz9SkCdkddcpc81pl0WTfZ36j3FyB/YhOz6feWg==
-X-Received: by 2002:a1c:b146:: with SMTP id a67mr2537061wmf.124.1562057449977; 
- Tue, 02 Jul 2019 01:50:49 -0700 (PDT)
+ bh=oSjvuz2rugAVIKLouuWDhPV3/dlyDm58XcPPJ0cZhBo=;
+ b=AOfhCDe+3OIKw3EWLz0OBOL8QfSDd4jrY0BfdwPSYQDx8Pa2VPKLf+vdu1wnP4+zY0
+ YC0Nm4NZ1dxTHrai6MkzzIyCildzExFH+mx4qTh73TfB9yDwOOD+5NgmVYU/JPN6k+uA
+ tyZRbXgATel/hawgz3czv2UqSeTVe1qf8XnnEEhYGFkv+l3QYmkm+25JX0YSptslI85c
+ +Ag+NuafWW0q4w22j7SaqtpE4QWjeSne3OH+Nb4W+5iLqTtLKNY7DfW6fIYh4oizbRcn
+ lV8KenJzat41ru1F2KZHdDq1FQ+05natOldrsQeqyN5Gav7HaTE+tyvona66B42q+qrD
+ 5i9g==
+X-Gm-Message-State: APjAAAVByI4RXve2zZNAnjsirYQklkR7IGBV1n/PPg04Z9QvIwqaki4F
+ RXkuwyhGsj37ZmOXpwTqHx+GbQ==
+X-Google-Smtp-Source: APXvYqzavQsjjanmDdSOSqbEFW+E/L9Dab2/hQCjCa0+hFGKBaQ1bWB2WZtkeUrG080nEDOorBtCGg==
+X-Received: by 2002:a05:600c:da:: with SMTP id
+ u26mr2551980wmm.108.1562057790847; 
+ Tue, 02 Jul 2019 01:56:30 -0700 (PDT)
 Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id w6sm11526129wrp.67.2019.07.02.01.50.48
+ by smtp.gmail.com with ESMTPSA id 66sm1984331wma.11.2019.07.02.01.56.29
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Jul 2019 01:50:49 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20190624222844.26584-1-f4bug@amsat.org>
- <CAL1e-=iLAKe+FunE2p9L3Ds8fPS2a8nf3hc=ga7CX6E2bjw0Uw@mail.gmail.com>
- <8ad999d7-fec4-079f-dbed-454afe127899@amsat.org>
- <CAL1e-=h1=rNGC5quvmaOuNohXO60b=tiFEznMr11a3Asj9zgMg@mail.gmail.com>
+ Tue, 02 Jul 2019 01:56:30 -0700 (PDT)
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ shameerali.kolothum.thodi@huawei.com, imammedo@redhat.com,
+ David Hildenbrand <david@redhat.com>
+References: <20190701190819.25388-1-eric.auger@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <41890c19-53cf-93c1-ce77-af55d404e6db@redhat.com>
-Date: Tue, 2 Jul 2019 10:50:48 +0200
+Message-ID: <78aa3a5a-9d29-c29d-64e4-ca16a69f4de4@redhat.com>
+Date: Tue, 2 Jul 2019 10:56:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=h1=rNGC5quvmaOuNohXO60b=tiFEznMr11a3Asj9zgMg@mail.gmail.com>
+In-Reply-To: <20190701190819.25388-1-eric.auger@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 00/10] hw/pci-host: Clean the GT64120 north
- bridge
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH] tests: Update DSDT ACPI table for arm/virt
+ board with PCDIMM related changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,78 +78,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 8:39 PM, Aleksandar Markovic wrote:
-> On Jul 1, 2019 7:46 PM, "Philippe Mathieu-Daudé" <f4bug@amsat.org> wrote:
->>
->> Hi Aleksandar,
->>
->> On 7/1/19 7:16 PM, Aleksandar Markovic wrote:
->>>
->>> On Jun 25, 2019 12:31 AM, "Philippe Mathieu-Daudé" <f4bug@amsat.org
->>> <mailto:f4bug@amsat.org>> wrote:
->>>>
->>>> Hi,
->>>>
->>>> This series clean the gt64120 device.
->>>> It is no more target-dependent, and tracing is improved.
->>>>
->>>
->>> If nobody objects, I am going to select majority of the patches for mips
->>> queue scheduled tomorrow. Those that remain will be those that Philippe
->>> still didn't make his mind.
->>
->> Which ones remain?
->>
->> For "pci-host/gt64120: Clean the decoded address space", I'd like a
->> review from someone comfortable with MEMTXATTRS and address spaces.
->> I'll ping on the patch.
->>
-> 
-> Don't worry, the addres space one was left for later.
-> 
-> Sorry for confusion, but these patches are already in main tree (this is
-> from today):
-> 
-> Philippe Mathieu-Daudé (7):
-> 
-> hw/mips/gt64xxx_pci: Fix multiline comment syntax
-> 
-> hw/mips/gt64xxx_pci: Fix 'tabs' coding style issues
-> 
-> hw/mips/gt64xxx_pci: Fix 'braces' coding style issues
-> 
-> hw/mips/gt64xxx_pci: Fix 'spaces' coding style issues
-> 
-> hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()
-> 
-> hw/mips/gt64xxx_pci: Convert debug printf()s to trace events
-> 
-> hw/mips/gt64xxx_pci: Align the pci0-mem size
-> 
-> Let me know if you want more for tomorrow, otherwise I won't do anything.
+Hi Eric,
 
-Excellent, thank you!
+On 7/1/19 9:08 PM, Eric Auger wrote:
+> PCDIMM hotplug addition updated the DSDT. Update the reference table.
 
-patch #8 "hw/mips/gt64xxx_pci: Add a 'cpu_big_endian' qdev property"
-needs R-b (Thomas/Paolo eventually).
+Can you point the commit sha1 please?
 
-patch #9 depends of #8
-
-I pinged Linux kernel people for patch #10.
-
-Regards,
-
-Phil.
-
-> Amicalement,
-> Aleksandar
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  tests/data/acpi/virt/DSDT | Bin 18476 -> 18493 bytes
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+> 
+> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+> index 20e85c7f89f645c69935c615c07084e221419960..1a5c3e5243c78eb25345fdf7ffa442afec3c5c28 100644
+> GIT binary patch
+> delta 172
+> zcmZ28fpPByMlP3Nmk?VI1_q{Y6S<_BIvO{s=eSSi^^mWRZt~=a(Tfjuig$N)iRXy-
+> z@O0sIbPn(|FfcS`;D`?ea)A;+mUB?BARiZZCmRDZqb36bLnT9WgKLnhI|B~`0|zG;
+> zOLQYQi0kYc?CPT+ViNBf7Q$Ho;v_5(n_Qj1$iNt*&kVB1*CW8$H`v*4fdEjLhl`1U
+> Ni>WOjJjjWw0RY`tDw+TQ
+> 
+> delta 134
+> zcmdlxfpN_QMlP3Nmk=Ef1_q{ziCof5?F}2%bKIpo*xdvC4LIUGJY9GlgM2*<49pA}
+> zIN}{$f+og`c`$P_2rw{ovN13+sxvS!RDxt&Jq4Ay6ndl?7@-g-A<n=c$sh-0Ff)LR
+> Z11c2ZjdwLLW@rlt4|3vam^{&45den68LI#Q
+> 
 
