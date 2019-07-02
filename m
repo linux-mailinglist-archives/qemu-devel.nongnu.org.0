@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A395C869
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:37:00 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D005C817
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:18:55 +0200 (CEST)
+Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAXL-0005Vl-Aw
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41692)
+	id 1hiAFg-00044N-IG
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiAAC-0008Dl-Bz
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:13:06 -0400
+ (envelope-from <hongbo.zhang@linaro.org>) id 1hi9sK-00068O-O8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:54:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiAA8-0005LI-OD
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:13:02 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54893 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiAA6-0005G8-Db; Tue, 02 Jul 2019 00:13:00 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45d9nX3gmFz9s00; Tue,  2 Jul 2019 14:12:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562040768;
- bh=nrGDtyTpRSEsFlIAVVjV7k3k2A1TjuR6JTDGKcHe9TA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fYp6L4FLLnK0hwC61YHFf/eup/sKi5/i4IzEYkAMReIvL17aU01JYIA01tidIFEpt
- 5xNj+uHx/BmoDbKu7THh5+FrrNS08w8qeyc6q7WzAyMnM3tVecwIz1f7RvDru6uFpA
- Ahp6wqGECuGFHR/9xJfsv16drskFzWtbPuliEyws=
-Date: Tue, 2 Jul 2019 13:52:33 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190702035233.GH6779@umbus.fritz.box>
-References: <156033104292.26635.15759339817253067370.stgit@aravinda>
- <156033127298.26635.17253629451311229799.stgit@aravinda>
+ (envelope-from <hongbo.zhang@linaro.org>) id 1hi9sD-0005hL-T3
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:54:32 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:43602)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <hongbo.zhang@linaro.org>)
+ id 1hi9sA-0005cM-LF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:54:27 -0400
+Received: by mail-io1-xd44.google.com with SMTP id k20so7523768ios.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 20:54:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BDB86Swjy48bE1QiXzS97ztQck+19KlDd21qPLXR9cY=;
+ b=VctiGbQMHae4VvlV/dV9npuskMfT7KLLe2AeZBhbxahAjAIVG5WhNFLGIJ4fx+/v4M
+ OSL33gzt9yycV9VoVK+niWDEc9ar+/itaoNYgnpHWbP+XEWMFy9H0z8sAgKwhOlue0iN
+ 62kHjvDSmtbi0SmDNgG8l2sPx6/st9v6if2/oriovIQ5G/nGdP/maMdvs5nsagqZVFYD
+ HuKs3TMV1OoPnJjOcUCUZPEL39HOIPN/HbhCT7jGgCXQmtCtOmjIj+jv2IGfDJgk2Cpt
+ W6/lmQ8fYW636S72yIbCTJaBPhkQjMuR/3QNc4ESRqPRvXPSsvDmTrsYgQcn/O0XTKJH
+ ue8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BDB86Swjy48bE1QiXzS97ztQck+19KlDd21qPLXR9cY=;
+ b=dpWH+AtTQTpQ4sG4Vfb+YEv3mFPUO2K3pCfXpuwYKVOanDwfIGXS0U1xagj9ixCRSR
+ E7G8P2ZgecPcVIottiL+pdGIIvvEu+gO5gdxAIbi4MiZdj7UtzCr3OfzY4xtSdp5v73P
+ Oa2IitbCH3tKLCYGRau1lW2oySYTpczPFcJFOkZtz3pLldJEl9QpE3cZGedI79HDQCwC
+ +tdLTnKIQxExxzo7w4ZgmyskrC0kGSxqXxMwJc6wywnbzBU4qf/qWQ5dGSbtqZ9vwhNj
+ eHMYZ1+euSTUwJMJY+5SYS2pN/yqhF5c1xVUu9hFeIKz83DlbLARcJTOwgROQLrYTHhP
+ CoKA==
+X-Gm-Message-State: APjAAAUBQDoHD1yVGTqsjKMYE4L1wkKdzxDWXR38qDUukS7or8bDkkKi
+ xuPUQtL8VJzigCCYpV5NsoECdgeTbQMcKDcn/BxHZQ==
+X-Google-Smtp-Source: APXvYqzXSmVkg7tHbl2Jo2mE+2m+ZBFUMQwxizQkAH33nIrokhWHG5O+lQ7/gJZ6S8H5tWQiSCg4PkqyyvPMS5clvbY=
+X-Received: by 2002:a05:6638:3d3:: with SMTP id
+ r19mr33913878jaq.53.1562039663430; 
+ Mon, 01 Jul 2019 20:54:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="svZFHVx8/dhPCe52"
-Content-Disposition: inline
-In-Reply-To: <156033127298.26635.17253629451311229799.stgit@aravinda>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+ <CAFEAcA8P-=mbQ4__9OXB078GnrGfm9afH1YBDLkv88mUXmm=PQ@mail.gmail.com>
+ <20190701160846.fwjeco3zuobn3pgv@bivouac.eciton.net>
+In-Reply-To: <20190701160846.fwjeco3zuobn3pgv@bivouac.eciton.net>
+From: Hongbo Zhang <hongbo.zhang@linaro.org>
+Date: Tue, 2 Jul 2019 11:54:13 +0800
+Message-ID: <CAHmQWvDhRHqR2ZWJj5DdJUaqf118E-83mvpK3gn0P35eQpLBJA@mail.gmail.com>
+To: Leif Lindholm <leif.lindholm@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v10 3/6] target/ppc: Handle NMI guest exit
+X-Received-From: 2607:f8b0:4864:20::d44
+Subject: Re: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,220 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 2 Jul 2019 at 00:08, Leif Lindholm <leif.lindholm@linaro.org> wrote:
+>
+> Hi Peter,
+>
+> On Mon, Jul 01, 2019 at 03:54:24PM +0100, Peter Maydell wrote:
+> > I've pointed out a number of issues with these patches, but they
+> > all turn out to be very minor (mostly fixable by moving code between
+> > patch 1 and 2). The other thing we need is a MAINTAINERS section for
+> > the new board:
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index cad58b94879..0bf3739f06a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -728,6 +728,13 @@ F: include/hw/arm/fsl-imx6.h
+> >  F: include/hw/misc/imx6_*.h
+> >  F: include/hw/ssi/imx_spi.h
+> >
+> > +SBSA-REF
+> > +M: Hongbo Zhang <hongbo.zhang@linaro.org>
+> > +M: Peter Maydell <peter.maydell@linaro.org>
+> > +L: qemu-arm@nongnu.org
+> > +S: Maintained
+> > +F: hw/arm/sbsa-ref.c
+> > +
+>
+> Sadly, Hongbo is no longer in Linaro (but has generously helped keep
+> working on this platform being upstreamed since he left). It is my
+> understanding that in his new role, Hongbo does not have the bandwidth
+> to keep maintaining this platform once it's in.
+>
+> Unless I have misunderstood this (Hongbo, please confirm - we would
+> certainly love to have your help if you feel that you do have the
+> banwidth), could we please add Radek as a maintainer instead?:
+>
+Yes we can add Radoslaw as maintainer.
+As to me, my new role still have relation with Arm and virtualization,
+I will keep watching this :)
 
---svZFHVx8/dhPCe52
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 12, 2019 at 02:51:13PM +0530, Aravinda Prasad wrote:
-> Memory error such as bit flips that cannot be corrected
-> by hardware are passed on to the kernel for handling.
-> If the memory address in error belongs to guest then
-> the guest kernel is responsible for taking suitable action.
-> Patch [1] enhances KVM to exit guest with exit reason
-> set to KVM_EXIT_NMI in such cases. This patch handles
-> KVM_EXIT_NMI exit.
->=20
-> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
->     (e20bbd3d and related commits)
->=20
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/ppc/spapr.c          |    8 ++++++++
->  hw/ppc/spapr_events.c   |   23 +++++++++++++++++++++++
->  include/hw/ppc/spapr.h  |   10 ++++++++++
->  target/ppc/kvm.c        |   14 ++++++++++++++
->  target/ppc/kvm_ppc.h    |    2 ++
->  target/ppc/trace-events |    1 +
->  6 files changed, 58 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 2ef86aa..6cc2c3b 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1806,6 +1806,12 @@ static void spapr_machine_reset(void)
->      first_ppc_cpu->env.gpr[5] =3D 0;
-> =20
->      spapr->cas_reboot =3D false;
-> +
-> +    spapr->mc_status =3D -1;
-> +    spapr->guest_machine_check_addr =3D -1;
-> +
-> +    /* Signal all vCPUs waiting on this condition */
-> +    qemu_cond_broadcast(&spapr->mc_delivery_cond);
->  }
-> =20
->  static void spapr_create_nvram(SpaprMachineState *spapr)
-> @@ -3070,6 +3076,8 @@ static void spapr_machine_init(MachineState *machin=
-e)
-> =20
->          kvmppc_spapr_enable_inkernel_multitce();
->      }
-> +
-> +    qemu_cond_init(&spapr->mc_delivery_cond);
->  }
-> =20
->  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093..a0c66d7 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -620,6 +620,29 @@ void spapr_hotplug_req_remove_by_count_indexed(Spapr=
-DrcType drc_type,
->                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
-_id);
->  }
-> =20
-> +void spapr_mce_req_event(PowerPCCPU *cpu)
-> +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> +
-> +    while (spapr->mc_status !=3D -1) {
-> +        /*
-> +         * Check whether the same CPU got machine check error
-> +         * while still handling the mc error (i.e., before
-> +         * that CPU called "ibm,nmi-interlock")
-> +         */
-> +        if (spapr->mc_status =3D=3D cpu->vcpu_id) {
-> +            qemu_system_guest_panicked(NULL);
-> +            return;
-> +        }
-> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-> +        /* Meanwhile if the system is reset, then just return */
-> +        if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +            return;
-> +        }
-> +    }
-> +    spapr->mc_status =3D cpu->vcpu_id;
-> +}
-> +
->  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                              uint32_t token, uint32_t nargs,
->                              target_ulong args,
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index f891f8f..f34c79f 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -190,6 +190,15 @@ struct SpaprMachineState {
->       * occurs during the unplug process. */
->      QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
-> =20
-> +    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls=
- */
-> +    target_ulong guest_machine_check_addr;
-> +    /*
-> +     * mc_status is set to -1 if mc is not in progress, else is set to t=
-he CPU
-> +     * handling the mc.
-> +     */
-> +    int mc_status;
-> +    QemuCond mc_delivery_cond;
-> +
->      /*< public >*/
->      char *kvm_type;
->      char *host_model;
-> @@ -789,6 +798,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
-apr);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
-> +void spapr_mce_req_event(PowerPCCPU *cpu);
-> =20
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index afef4cd..99f33fe 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1763,6 +1763,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_=
-run *run)
->          ret =3D 0;
->          break;
-> =20
-> +    case KVM_EXIT_NMI:
-> +        trace_kvm_handle_nmi_exception();
-> +        ret =3D kvm_handle_nmi(cpu, run);
-> +        break;
-> +
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reaso=
-n);
->          ret =3D -1;
-> @@ -2863,6 +2868,15 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->      return data & 0xffff;
->  }
-> =20
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
-> +{
-> +    cpu_synchronize_state(CPU(cpu));
-> +
-> +    spapr_mce_req_event(cpu);
-> +
-> +    return 0;
-> +}
-> +
->  int kvmppc_enable_hwrng(void)
->  {
->      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HW=
-RNG)) {
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 880cee9..3d9f0b4 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -83,6 +83,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
->  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
->  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
-> =20
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
-> +
->  #else
-> =20
->  static inline uint32_t kvmppc_get_tbfreq(void)
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index 3dc6740..6d15aa9 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -28,3 +28,4 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
->  kvm_handle_epr(void) "handle epr"
->  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->  kvm_handle_debug_exception(void) "handle debug exception"
-> +kvm_handle_nmi_exception(void) "handle NMI exception"
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---svZFHVx8/dhPCe52
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0a1QAACgkQbDjKyiDZ
-s5Ko2hAAvGM+NO+AwQ1dQ4WxjQz4IWCGpGulk54daV/APnrqNuHAnija7wVlCH2N
-xQInHerZuMfjg+Nr7SB5lHeQzPIiCu1qz8SUCutab1wh/LtW+aabQ/YpmGJNrcEW
-n9pmdvVWj3jshVuOW75TXMP8BUZNqNGntsRO/MaGnSlg9NzXTUiynPQCkfAgOwZ6
-RFVBvEZckZPMNd5c+f93ADeGPw6xAdcQlT83P5xmN4UboIvHfwnQSpNs4hZBucg3
-AXUJLCO8b6VMwiAP2ynq3mZsi0CRiWX/+T2LouWevMvf2DKkxGNgau9cARxaejqJ
-67rVax1CmUbpF/z7vBbCViXlngFYDg5FQpllK2nE0jdMuidZ+UP8Vy7hxSAxRMox
-NDfOWhM4MnwX0En/u+CqFZAPUodCYQWEANUZN9fXtP1lFr3GiQJBhQCcAQGQ1R3Z
-MafMYIHi1oEzibWNBhJAqCnbWaMNwDc3e+Xj9XWMG9RwgJoQQD2WQanT8BWqzdHq
-UknK6Ag7iCzTRWEsMCJuD3P1X8x2hkomCE8OaSBL8S+OdoDslVlCDuAb3sxyMxzs
-coC67pQEP8p3HvYIMdHjC1ywxyVh1U5EkHcza/24zIgXW2frozoo77vD9FudYr3D
-BFdwvtwZT2V5eoK6RhlnBv4GcRsybJaqQHLXwsfrXkAkxVqR1Lk=
-=9hEc
------END PGP SIGNATURE-----
-
---svZFHVx8/dhPCe52--
+> M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
+>
+> If you think it could be useful, feel free to add me as a designated
+> reviewer:
+>
+> R: Leif Lindholm <leif.lindholm@linaro.org>
+>
+> (I would not be offended if you don't, I have plenty to keep me busy :)
+>
+> >  Sharp SL-5500 (Collie) PDA
+> >  M: Peter Maydell <peter.maydell@linaro.org>
+> >  L: qemu-arm@nongnu.org
+> >
+> >
+> > So rather than making you do another respin, I'm planning to
+> > make the fixes in my target-arm.next tree as I apply the patches.
+> > That way we can get this in before softfreeze (which is tomorrow).
+>
+> Many thanks!
+>
+> Best Regards,
+>
+> Leif
 
