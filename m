@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4337E5D3D4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:04:04 +0200 (CEST)
-Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD165D2C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:26:24 +0200 (CEST)
+Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLGF-00011e-0A
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
+	id 1hiKfn-0008DL-8g
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58029)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKS3-0002aB-2n
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:12 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLz-0004wA-BZ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKRz-0004Ez-7q
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:10 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:35063)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKRv-0004AO-EW
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:05 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N3sRi-1ihxOo27SC-00zqfT; Tue, 02 Jul 2019 17:05:58 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLv-0007aW-Jv
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:53 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51215)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hiKLt-0007YG-Pq
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:51 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 207so1202762wma.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ty0ceSlhLSlZJKGDv3kDThADamDPPm/37CRvid7ZnoA=;
+ b=Rz9NQKhrlQwy/RsupH8RGg0IpFk7hNbm+LIaBM8RjeI/5x5jZXfN1JX046AL0djN54
+ 1CjQgOWqxIwFlqjTRkEV/gr5qPbdj+W5E4H5/c+/9taxurNW0DdnmDa3+ffhRE8It+gV
+ KxMnhEB9aAOC25XmPu6H4+viyZqrNzPnsDCJn4v4MBc+WouC341cbQQWcG+LlMOxXgTU
+ S1VCW79oNSa6H2hoId8AKk561lr5dWig7f5E6T0GQp8MromrS3C5JWPsHF11z1nbsAoM
+ lC42dSt/wv3zyrnoydpsUddRAjmmGF4yAsupwU6Oxvabpt5jIK5HqQdYCt3NcPNvWJB2
+ 9w8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=ty0ceSlhLSlZJKGDv3kDThADamDPPm/37CRvid7ZnoA=;
+ b=dnBjFTb6VMd1nBpM2xAhPz90UPKO8vvnxA8+AppTNmKdfNKuRP3ssPfRMbTNAnHDy/
+ k8cqPyi/Qr+VWnJipWllwiFh5RLiTMi34so6ea4BOq4RWklMFbuo+rqQIbttzl/hTzTL
+ HWPMLda9wdt0or4hUNZBF6SkPAdOzHjS3PWMtfdaokxmlsOdmtfdXVi5pwoGYfgy0ft9
+ MnmYe0FGJ/aQzEeEMvrZeTy+bn5TXkWydEvFmbJz0qkmB5Yfh0tDfleojvsBV5uVFH9U
+ p4Vlk22+AR8RSI2LBxqGewN8ccQ4WzWw4cMGZ7YkPBfT+i5UAD5BuyiCGTxyQUdLxt3y
+ zxOg==
+X-Gm-Message-State: APjAAAUiSadKvlDjw/2HZ7lo2dIqpl5wYfKP+2NzLDn9rirBMZici5Zo
+ L7uHyc6TiBZpFNG/NNkCeEzpUzTvHLdEgw==
+X-Google-Smtp-Source: APXvYqxX6KfCQ5auoSAeEczEKgKnlDsldHSbRUPtkkib87IL95Ovh+7rsU3sA/G0k1ophnrBEM+ZNQ==
+X-Received: by 2002:a1c:39d6:: with SMTP id g205mr3552458wma.85.1562079947701; 
+ Tue, 02 Jul 2019 08:05:47 -0700 (PDT)
+Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id w10sm12975657wru.76.2019.07.02.08.05.46
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 08:05:47 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Date: Tue,  2 Jul 2019 17:05:42 +0200
-Message-Id: <20190702150545.1872-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
-References: <20190702150545.1872-1-laurent@vivier.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Qh3lIEilbINRqqWJ8tE+vEEDPyShIUvBAe/hhcAzW3e4k3kKbCj
- 87phJebBmGvTWyozClUTP2zqQaHDnpVKn2eyWO8wF+u7KumW50MfnF7k8jjKOFzyX4frgJQ
- 0EFeh2IHk+fWfjiTk4sBpI4smwgEU3PFvPEZqEgnBXkAbZjlp9PNZsmu+5ilVYrpM3Gh7dd
- RgzMjDcNxSC/PFl3n5UVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zRoAzvmd5YQ=:S62X/HLjgnVFoPwdjUNBdI
- mV+0VGWRdbDkvdCNCtGa9CrSpPM31l8rP7napusIZaM23O0oW1Hlsmgbo775kMKRfTQHd/cu6
- ea9YYXe2PntWcYJhHduJi3PFqh0HzPirEBH1Urh5MwwE8/4xP6LlXOUS8khlBn2kvn5rfs2c9
- jCYLblGRzZi4t3KBYTrSQchJhD1ImeKQk7xox4ujWhs8NS24lJhCcZxXfu5mCRFD49SNPXH91
- FJUL7FO+cf0SmgTOg9RuNjAH1Uok9L4WZzlNJchaq7tHykGpAg7DC7lD2d3r0xMG4tmJcUyS4
- IEM/GLeaMcmsR5IpAnKZFzV2Supen0sYCzxbdZQZghLzW9BOM/7MTKIuVUu2ayYhoP2bbIqI2
- C8qjBJVhDAlqEHyKp+M11y44JrQ60M6Tycv78waoHn9KcWQKp5+RRXPkYGLBAG7dKTniUggXG
- E6kLP2uUKYBTSo04MflRnMI72fq4CsjqdkSCs6sOW01YR5gAkcruojMOYKSc9nNTxRoq9wxNN
- WvV/YCmG9MailWkC+0NYlys9nIh+T46hNvXeu86/Xr3JqgMg/r3TDgSdw37ZaJK8J7hRSwMyB
- pAGoXW/N7zbRQBp7FA8BANkqLmxGNtCmTn3FtFCfOy8K26trxUD6dh8/l77b2SlXDonFLQtj/
- iSttciOxzUrXeMwK86SXi+Lvkad2NdzgH2I7VnbZA8ouimPnLo71nHAO6Rc9fE1iuo/VFbyFJ
- 0eLn0xbxdYnTg7wLTT1NOVZSBPPnqEFWOXa+Jw==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 3/6] linux-user: Fix target_flock structure for
- MIPS O64 ABI
+Message-Id: <20190702150542.12008-4-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190702150542.12008-1-richard.henderson@linaro.org>
+References: <20190702150542.12008-1-richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 3/3] tcg: Fix expansion of INDEX_op_not_vec
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,63 +75,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dragan Mladjenovic <dmladjenovic@wavecomp.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+This operation can always be emitted, even if we need to
+fall back to xor.  Adjust the assertions to match.
 
-Among MIPS ABIs, only MIPS O32 and N32 have special (different
-than other architectures) definition of structure flock in kernel.
-
-Bring target_flock definition in QEMU for MIPS O64 ABI to the
-correct state, which is currently different than the most common
-definition, and it should actually be the same.
-
-Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1561718618-20218-4-git-send-email-aleksandar.markovic@rt-rk.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/generic/fcntl.h     | 2 +-
- linux-user/mips/target_fcntl.h | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ tcg/tcg-op-vec.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index a775a491e9e0..1b48ddeb99fe 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -129,7 +129,7 @@ struct target_flock {
-     short l_whence;
-     abi_long l_start;
-     abi_long l_len;
--#if defined(TARGET_MIPS)
-+#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
-     abi_long l_sysid;
- #endif
-     int l_pid;
-diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
-index 000527cc955e..795bba754b5a 100644
---- a/linux-user/mips/target_fcntl.h
-+++ b/linux-user/mips/target_fcntl.h
-@@ -27,7 +27,11 @@
- #define TARGET_F_SETOWN        24       /*  for sockets. */
- #define TARGET_F_GETOWN        23       /*  for sockets. */
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index c8fdc24f56..6714991bf4 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -90,6 +90,9 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
+         case INDEX_op_bitsel_vec:
+             /* These opcodes are mandatory and should not be listed.  */
+             g_assert_not_reached();
++        case INDEX_op_not_vec:
++            /* These opcodes have generic expansions using the above.  */
++            g_assert_not_reached();
+         default:
+             break;
+         }
+@@ -438,11 +441,14 @@ static bool do_op2(unsigned vece, TCGv_vec r, TCGv_vec a, TCGOpcode opc)
  
-+#if (TARGET_ABI_BITS == 32)
- #define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
-+#else
-+#define TARGET_ARCH_FLOCK_PAD
-+#endif
- #define TARGET_ARCH_FLOCK64_PAD
+ void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+ {
++    const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
++
+     if (!TCG_TARGET_HAS_not_vec || !do_op2(vece, r, a, INDEX_op_not_vec)) {
+         TCGv_vec t = tcg_const_ones_vec_matching(r);
+         tcg_gen_xor_vec(0, r, a, t);
+         tcg_temp_free_vec(t);
+     }
++    tcg_swap_vecop_list(hold_list);
+ }
  
- #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
+ void tcg_gen_neg_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
 -- 
-2.21.0
+2.17.1
 
 
