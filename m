@@ -2,57 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B51A5D734
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 21:51:44 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BBD5D617
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:25:29 +0200 (CEST)
+Received: from localhost ([::1]:56104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiOoZ-0002ZP-I5
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 15:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57667)
+	id 1hiNT6-0005Bm-Go
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58339)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hiMHo-0003QI-Ce
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:09:46 -0400
+ (envelope-from <mst@redhat.com>) id 1hiMKD-0005X1-N6
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hiMHn-0004bX-8f
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:09:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49080)
+ (envelope-from <mst@redhat.com>) id 1hiMKA-0007Hf-Cx
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:12:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56938)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hiMHn-0004Zx-2e
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:09:43 -0400
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiMK9-0007EL-4U
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:12:10 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C43D90906;
- Tue,  2 Jul 2019 17:09:42 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F5B05D6A9;
- Tue,  2 Jul 2019 17:09:42 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
- (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 19CAD1806B0E;
- Tue,  2 Jul 2019 17:09:42 +0000 (UTC)
-Date: Tue, 2 Jul 2019 13:09:41 -0400 (EDT)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <1684593151.38693781.1562087381735.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190702125842-mutt-send-email-mst@kernel.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2AAD030872E0;
+ Tue,  2 Jul 2019 17:12:00 +0000 (UTC)
+Received: from redhat.com (ovpn-124-209.rdu2.redhat.com [10.10.124.209])
+ by smtp.corp.redhat.com (Postfix) with SMTP id 6C8005D6A9;
+ Tue,  2 Jul 2019 17:11:48 +0000 (UTC)
+Date: Tue, 2 Jul 2019 13:11:47 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190702131058-mutt-send-email-mst@kernel.org>
 References: <20190619094907.10131-1-pagupta@redhat.com>
  <20190619094907.10131-4-pagupta@redhat.com>
  <20190702135030.6159266b.cohuck@redhat.com>
  <918283919.38605393.1562068757047.JavaMail.zimbra@redhat.com>
  <20190702125842-mutt-send-email-mst@kernel.org>
+ <1684593151.38693781.1562087381735.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.116.51, 10.4.195.19]
-Thread-Topic: virtio-pmem: sync linux headers
-Thread-Index: SN3AoJUzK3nSOUY3gLGyo/39U8eyXA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1684593151.38693781.1562087381735.JavaMail.zimbra@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 02 Jul 2019 17:09:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 02 Jul 2019 17:12:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH v2 3/7] virtio-pmem: sync linux headers
@@ -77,51 +70,55 @@ Cc: kwolf@redhat.com, aarcange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
------ Original Message -----
+On Tue, Jul 02, 2019 at 01:09:41PM -0400, Pankaj Gupta wrote:
 > 
-> On Tue, Jul 02, 2019 at 07:59:17AM -0400, Pankaj Gupta wrote:
+> 
+> ----- Original Message -----
 > > 
+> > On Tue, Jul 02, 2019 at 07:59:17AM -0400, Pankaj Gupta wrote:
 > > > 
-> > > On Wed, 19 Jun 2019 15:19:03 +0530
-> > > Pankaj Gupta <pagupta@redhat.com> wrote:
-> > > 
-> > > > Sync linux headers for virtio pmem.
 > > > > 
-> > > > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-> > > > ---
-> > > >  include/standard-headers/linux/virtio_ids.h  |  1 +
-> > > >  include/standard-headers/linux/virtio_pmem.h | 35
-> > > >  ++++++++++++++++++++++++++++
-> > > >  2 files changed, 36 insertions(+)
-> > > >  create mode 100644 include/standard-headers/linux/virtio_pmem.h
+> > > > On Wed, 19 Jun 2019 15:19:03 +0530
+> > > > Pankaj Gupta <pagupta@redhat.com> wrote:
+> > > > 
+> > > > > Sync linux headers for virtio pmem.
+> > > > > 
+> > > > > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> > > > > ---
+> > > > >  include/standard-headers/linux/virtio_ids.h  |  1 +
+> > > > >  include/standard-headers/linux/virtio_pmem.h | 35
+> > > > >  ++++++++++++++++++++++++++++
+> > > > >  2 files changed, 36 insertions(+)
+> > > > >  create mode 100644 include/standard-headers/linux/virtio_pmem.h
+> > > > 
+> > > > That's not yet upstream, right?
 > > > 
-> > > That's not yet upstream, right?
-> > 
-> > right.
-> > 
+> > > right.
 > > > 
-> > > If so, I fear this feature won't make 4.1, as the merge window for
-> > > Linux only opens in one or two weeks :(
+> > > > 
+> > > > If so, I fear this feature won't make 4.1, as the merge window for
+> > > > Linux only opens in one or two weeks :(
+> > > 
+> > > Looks so. Its lined up for 5.3 merge window.
 > > 
-> > Looks so. Its lined up for 5.3 merge window.
+> > In which tree is it?
 > 
-> In which tree is it?
+> Patches are in Dan's tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm.git/log/?h=libnvdimm-pending
+> 
+> Thanks,
+> Pankaj
 
-Patches are in Dan's tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm.git/log/?h=libnvdimm-pending
+Hmm ok, but that isn't part of linux-next. Do you know why?
 
-Thanks,
-Pankaj
-> 
-> > Waiting for the kernel patch series to be merged and send an updated
-> > version
-> > of qemu series with review suggestion if any :)
 > > 
-> > Thanks,
-> > Pankaj
-> > 
+> > > Waiting for the kernel patch series to be merged and send an updated
+> > > version
+> > > of qemu series with review suggestion if any :)
 > > > 
-> 
+> > > Thanks,
+> > > Pankaj
+> > > 
+> > > > 
+> > 
 
