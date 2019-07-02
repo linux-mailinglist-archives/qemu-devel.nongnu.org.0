@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9666E5C9A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:58:23 +0200 (CEST)
-Received: from localhost ([::1]:49690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8555C9DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 09:18:59 +0200 (CEST)
+Received: from localhost ([::1]:49860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCkA-0003E9-PG
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59257)
+	id 1hiD46-0002Kq-Vb
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 03:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiC07-0006Cw-4a
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:48 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiC08-0006G3-CJ
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiC06-0003g4-0X
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:47 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54135 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiC07-0003gc-0p
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:48 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60955 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiC05-0003Rj-L7; Tue, 02 Jul 2019 02:10:45 -0400
+ id 1hiC06-0003Rm-D2; Tue, 02 Jul 2019 02:10:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMp3qRcz9sRD; Tue,  2 Jul 2019 16:09:07 +1000 (AEST)
+ id 45dDMp6whYz9sRG; Tue,  2 Jul 2019 16:09:08 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1562047750;
- bh=O0BwGIFtuIEU4BNo5FlE86BSBTHsHhMIiptJ5Ab7+DE=;
+ bh=xNBAfThvMp3uPtv4D+p/AYjVG9+ShPt5zcdDQqY4iIo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=REVhtQNa5tJEbL9nHBikuvwitgdSyVAJ4bqoK7l65/0YZwbDrTA5OdAlk5snrGWwt
- Iqo2tvxaRTosN+8XotqRk7aQsEP5IF7Ns7UvXBgkiBw8oiecTYbrqVAOjh/o6cHcmh
- 9koFDj6QTZwh6LadNxXTI6jCbI9vuxbgqd0zkw24=
+ b=aau0jHaGdgRSE7rule/dv3dPCxOZ6Ws5M5JCnDUkKjV1kl1qoNJlah2AfoHMGTmpN
+ 3l7NnAF+/rN7YvhBOcXhWD/RaCeB3WvRW9EwGioDGlc3KVxi0/ahG3b7EhoJ00uD9w
+ jx+tcpFSmBLk/9lWLq0CUxHHuLVPMN7GnIr1Kasw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:56 +1000
-Message-Id: <20190702060857.3926-49-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:57 +1000
+Message-Id: <20190702060857.3926-50-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 48/49] ppc/xive: Fix TM_PULL_POOL_CTX special
- operation
+Subject: [Qemu-devel] [PULL 49/49] spapr/xive: Add proper rollback to
+ kvmppc_xive_connect()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,68 +60,131 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-When a CPU is reseted, the hypervisor (Linux or OPAL) invalidates the
-POOL interrupt context of a CPU with this special command. It returns
-the POOL CAM line value and resets the VP bit.
+Make kvmppc_xive_disconnect() able to undo the changes of a partial
+execution of kvmppc_xive_connect() and use it to perform rollback.
 
-Fixes: 4836b45510aa ("ppc/xive: activate HV support")
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190630204601.30574-5-clg@kaod.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <156198735673.293938.7313195993600841641.stgit@bahia>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ hw/intc/spapr_xive_kvm.c | 48 ++++++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 534f56f86b..cf77bdb7d3 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -132,6 +132,11 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
-_t ring, uint8_t cppr)
-     xive_tctx_notify(tctx, ring);
- }
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 5559f8bce5..3bf8e7a20e 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -724,8 +724,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+     xsrc->esb_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, =
+esb_len,
+                                       &local_err);
+     if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
++        goto fail;
+     }
 =20
-+static inline uint32_t xive_tctx_word2(uint8_t *ring)
-+{
-+    return *((uint32_t *) &ring[TM_WORD2]);
-+}
+     memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
+@@ -743,8 +742,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+     xive->tm_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, =
+tima_len,
+                                      &local_err);
+     if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
++        goto fail;
+     }
+     memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
+                                       "xive.tima", tima_len, xive->tm_mm=
+ap);
+@@ -760,21 +758,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **e=
+rrp)
+=20
+         kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
+         if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
++            goto fail;
+         }
+     }
+=20
+     /* Update the KVM sources */
+     kvmppc_xive_source_reset(xsrc, &local_err);
+     if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
++        goto fail;
+     }
+=20
+     kvm_kernel_irqchip =3D true;
+     kvm_msi_via_irqfd_allowed =3D true;
+     kvm_gsi_direct_mapping =3D true;
++    return;
 +
- /*
-  * XIVE Thread Interrupt Management Area (TIMA)
-  */
-@@ -150,11 +155,12 @@ static uint64_t xive_tm_ack_hv_reg(XiveTCTX *tctx, =
-hwaddr offset, unsigned size)
- static uint64_t xive_tm_pull_pool_ctx(XiveTCTX *tctx, hwaddr offset,
-                                       unsigned size)
- {
--    uint64_t ret;
-+    uint32_t qw2w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW2_HV_POOL])=
-;
-+    uint32_t qw2w2;
-=20
--    ret =3D tctx->regs[TM_QW2_HV_POOL + TM_WORD2] & TM_QW2W2_POOL_CAM;
--    tctx->regs[TM_QW2_HV_POOL + TM_WORD2] &=3D ~TM_QW2W2_POOL_CAM;
--    return ret;
-+    qw2w2 =3D xive_set_field32(TM_QW2W2_VP, qw2w2_prev, 0);
-+    memcpy(&tctx->regs[TM_QW2_HV_POOL + TM_WORD2], &qw2w2, 4);
-+    return qw2w2;
++fail:
++    error_propagate(errp, local_err);
++    kvmppc_xive_disconnect(xive, NULL);
  }
 =20
- static void xive_tm_vt_push(XiveTCTX *tctx, hwaddr offset,
-@@ -484,11 +490,6 @@ const MemoryRegionOps xive_tm_ops =3D {
-     },
- };
+ void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
+@@ -796,23 +797,29 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
+**errp)
+     xsrc =3D &xive->source;
+     esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
 =20
--static inline uint32_t xive_tctx_word2(uint8_t *ring)
--{
--    return *((uint32_t *) &ring[TM_WORD2]);
--}
--
- static char *xive_tctx_ring_print(uint8_t *ring)
- {
-     uint32_t w2 =3D xive_tctx_word2(ring);
+-    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
+-    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+-    munmap(xsrc->esb_mmap, esb_len);
+-    xsrc->esb_mmap =3D NULL;
++    if (xsrc->esb_mmap) {
++        memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm=
+);
++        object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
++        munmap(xsrc->esb_mmap, esb_len);
++        xsrc->esb_mmap =3D NULL;
++    }
+=20
+-    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+-    object_unparent(OBJECT(&xive->tm_mmio_kvm));
+-    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+-    xive->tm_mmap =3D NULL;
++    if (xive->tm_mmap) {
++        memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
++        object_unparent(OBJECT(&xive->tm_mmio_kvm));
++        munmap(xive->tm_mmap, 4ull << TM_SHIFT);
++        xive->tm_mmap =3D NULL;
++    }
+=20
+     /*
+      * When the KVM device fd is closed, the KVM device is destroyed
+      * and removed from the list of devices of the VM. The VCPU
+      * presenters are also detached from the device.
+      */
+-    close(xive->fd);
+-    xive->fd =3D -1;
++    if (xive->fd !=3D -1) {
++        close(xive->fd);
++        xive->fd =3D -1;
++    }
+=20
+     kvm_kernel_irqchip =3D false;
+     kvm_msi_via_irqfd_allowed =3D false;
+@@ -822,5 +829,8 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **=
+errp)
+     kvm_cpu_disable_all();
+=20
+     /* VM Change state handler is not needed anymore */
+-    qemu_del_vm_change_state_handler(xive->change);
++    if (xive->change) {
++        qemu_del_vm_change_state_handler(xive->change);
++        xive->change =3D NULL;
++    }
+ }
 --=20
 2.21.0
 
