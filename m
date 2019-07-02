@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0235CF52
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:23:00 +0200 (CEST)
-Received: from localhost ([::1]:52450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89B95CF0B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:04:10 +0200 (CEST)
+Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHoJ-0002cn-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
+	id 1hiHW6-0001g0-26
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38053)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hiHRU-0006pD-FY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:59:25 -0400
+ (envelope-from <pagupta@redhat.com>) id 1hiHSi-0008Cf-1v
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hiHRT-0002bv-J7
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:59:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45720)
+ (envelope-from <pagupta@redhat.com>) id 1hiHSf-0004eU-Sh
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:00:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hiHRT-0002at-C3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:59:23 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hiHSV-0004E3-Sh
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:00:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9266D307D914;
- Tue,  2 Jul 2019 11:59:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B2D0A307D942;
+ Tue,  2 Jul 2019 12:00:24 +0000 (UTC)
 Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 867C86F7F3;
- Tue,  2 Jul 2019 11:59:17 +0000 (UTC)
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A11401001E88;
+ Tue,  2 Jul 2019 12:00:24 +0000 (UTC)
 Received: from zmail21.collab.prod.int.phx2.redhat.com
  (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 6634B1806B0E;
- Tue,  2 Jul 2019 11:59:17 +0000 (UTC)
-Date: Tue, 2 Jul 2019 07:59:17 -0400 (EDT)
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5D5BB19736;
+ Tue,  2 Jul 2019 12:00:24 +0000 (UTC)
+Date: Tue, 2 Jul 2019 08:00:24 -0400 (EDT)
 From: Pankaj Gupta <pagupta@redhat.com>
 To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <918283919.38605393.1562068757047.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190702135030.6159266b.cohuck@redhat.com>
+Message-ID: <114089006.38605496.1562068824302.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20190702135519.46a9e3f2.cohuck@redhat.com>
 References: <20190619094907.10131-1-pagupta@redhat.com>
- <20190619094907.10131-4-pagupta@redhat.com>
- <20190702135030.6159266b.cohuck@redhat.com>
+ <20190619094907.10131-5-pagupta@redhat.com>
+ <20190702135519.46a9e3f2.cohuck@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.117.88, 10.4.195.22]
-Thread-Topic: virtio-pmem: sync linux headers
-Thread-Index: CoaACVivnDXBM7oTuHhYHLAByTNVXQ==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Originating-IP: [10.67.117.88, 10.4.195.2]
+Thread-Topic: virtio-pci: Proxy for virtio-pmem
+Thread-Index: g8kQadFRJ3b3IHtMXUnr6oQ72uewCA==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 11:59:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 12:00:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 3/7] virtio-pmem: sync linux headers
+Subject: Re: [Qemu-devel] [PATCH v2 4/7] virtio-pci: Proxy for virtio-pmem
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,34 +77,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 > 
-> On Wed, 19 Jun 2019 15:19:03 +0530
+> On Wed, 19 Jun 2019 15:19:04 +0530
 > Pankaj Gupta <pagupta@redhat.com> wrote:
 > 
-> > Sync linux headers for virtio pmem.
+> > We need a proxy device for virtio-pmem, and this device has to be the
+> > actual memory device so we can cleanly hotplug it.
+> > 
+> > Forward memory device class functions either to the actual device or use
+> > properties of the virtio-pmem device to implement these in the proxy.
+> > 
+> > virtio-pmem will only be compiled for selected, supported architectures
+> > (that can deal with virtio/pci devices being memory devices). An
+> > architecture that is prepared for that can simply enable
+> > CONFIG_VIRTIO_PMEM to make it work.
+> > 
+> > As not all architectures support memory devices (and CONFIG_VIRTIO_PMEM
+> > will be enabled per supported architecture), we have to move the PCI proxy
+> > to a separate file.
 > > 
 > > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> > [ split up patches, memory-device changes, move pci proxy]
+> > Signed-off-by: David Hildenbrand <david@redhat.com>
 > > ---
-> >  include/standard-headers/linux/virtio_ids.h  |  1 +
-> >  include/standard-headers/linux/virtio_pmem.h | 35
-> >  ++++++++++++++++++++++++++++
-> >  2 files changed, 36 insertions(+)
-> >  create mode 100644 include/standard-headers/linux/virtio_pmem.h
+> >  hw/virtio/Makefile.objs     |   1 +
+> >  hw/virtio/virtio-pmem-pci.c | 131
+> >  ++++++++++++++++++++++++++++++++++++++++++++
+> >  hw/virtio/virtio-pmem-pci.h |  34 ++++++++++++
+> >  include/hw/pci/pci.h        |   1 +
+> >  4 files changed, 167 insertions(+)
+> >  create mode 100644 hw/virtio/virtio-pmem-pci.c
+> >  create mode 100644 hw/virtio/virtio-pmem-pci.h
 > 
-> That's not yet upstream, right?
+> (...)
+> 
+> > +static const VirtioPCIDeviceTypeInfo virtio_pmem_pci_info = {
+> > +    .base_name             = TYPE_VIRTIO_PMEM_PCI,
+> > +    .generic_name          = "virtio-pmem-pci",
+> > +    .transitional_name     = "virtio-pmem-pci-transitional",
+> 
+> Do we even have a transitional device for this? I.e., do we have a
+> legacy version? I don't think that makes sense for new devices.
 
-right.
+No. Sure, will remove this.
+
+Thank you,
+Pankaj
 
 > 
-> If so, I fear this feature won't make 4.1, as the merge window for
-> Linux only opens in one or two weeks :(
-
-Looks so. Its lined up for 5.3 merge window.
-
-Waiting for the kernel patch series to be merged and send an updated version
-of qemu series with review suggestion if any :)  
-
-Thanks,
-Pankaj 
-
+> > +    .non_transitional_name = "virtio-pmem-pci-non-transitional",
+> > +    .instance_size = sizeof(VirtIOPMEMPCI),
+> > +    .instance_init = virtio_pmem_pci_instance_init,
+> > +    .class_init    = virtio_pmem_pci_class_init,
+> > +    .interfaces = (InterfaceInfo[]) {
+> > +        { TYPE_MEMORY_DEVICE },
+> > +        { }
+> > +    },
+> > +};
+> 
+> (...)
 > 
 
