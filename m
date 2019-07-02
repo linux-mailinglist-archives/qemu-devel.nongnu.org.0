@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3225D632
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:35:36 +0200 (CEST)
-Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422DE5D668
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:48:38 +0200 (CEST)
+Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiNct-0004YR-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59629)
+	id 1hiNpV-000480-Fj
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59866)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hiMQK-0008Fg-Np
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:18:33 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hiMRY-0000Qd-E0
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:19:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hiMQG-0003Qi-Ps
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:18:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50446)
+ (envelope-from <ehabkost@redhat.com>) id 1hiMRW-0004OB-EI
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:19:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44848)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hiMQG-0003OJ-6A
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:18:28 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiMRS-0003t8-7y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 13:19:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C0E30308FC20;
- Tue,  2 Jul 2019 17:18:25 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-95.ams2.redhat.com [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 116511001B01;
- Tue,  2 Jul 2019 17:18:19 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com, peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 19:18:16 +0200
-Message-Id: <20190702171816.11939-1-eric.auger@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 11C86307D848
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 17:19:04 +0000 (UTC)
+Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 969C91992E;
+ Tue,  2 Jul 2019 17:19:03 +0000 (UTC)
+Date: Tue, 2 Jul 2019 14:19:01 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190702171901.GQ5198@habkost.net>
+References: <CAFEAcA8Jnh=tu8s08Fu6n0sSmJJuVOx7YxyTR_ni5yW3DdMFkQ@mail.gmail.com>
+ <20190702140745.27767-1-imammedo@redhat.com>
+ <20190702140745.27767-3-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190702140745.27767-3-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 02 Jul 2019 17:18:25 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 17:19:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] vfio/pci: Trace vfio_set_irq_signaling()
- failure in vfio_msix_vector_release()
+Subject: Re: [Qemu-devel] [PATCH 2/2] tests: use -numa memdev option in
+ tests instead of legacy 'mem' option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,43 +58,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Report an error in case we fail to set a trigger action
-on any VFIO_PCI_MSIX_IRQ_INDEX subindex. This might be
-useful in debugging a device that is not working properly.
+On Tue, Jul 02, 2019 at 10:07:45AM -0400, Igor Mammedov wrote:
+> it will test preferred memdev option more extensively and remove
+> undesired deprecation warnings during 'make check'
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+[...]
+> diff --git a/tests/numa-test.c b/tests/numa-test.c
+> index 8de8581231..902e8de4d1 100644
+> --- a/tests/numa-test.c
+> +++ b/tests/numa-test.c
+> @@ -26,8 +26,10 @@ static void test_mon_explicit(const void *data)
+>      QTestState *qts;
+>  
+>      cli = make_cli(data, "-smp 8 "
+> -                   "-numa node,nodeid=0,cpus=0-3 "
+> -                   "-numa node,nodeid=1,cpus=4-7 ");
+> +                   "-object memory-backend-ram,id=ram0,size=64M "
+> +                   "-object memory-backend-ram,id=ram1,size=64M "
+> +                   "-numa node,nodeid=0,cpus=0-3,memdev=ram0 "
+> +                   "-numa node,nodeid=1,cpus=4-7,memdev=ram1 ");
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/vfio/pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+These changes break on ppc64, where default RAM size is 512 MiB
+and it has to be a multiple of 256 MiB.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index ce3fe96efe..d7a4e1875c 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -551,9 +551,12 @@ static void vfio_msix_vector_release(PCIDevice *pdev=
-, unsigned int nr)
-      */
-     if (vector->virq >=3D 0) {
-         int32_t fd =3D event_notifier_get_fd(&vector->interrupt);
-+        Error *err =3D NULL;
-=20
--        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX,=
- nr,
--                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, NULL);
-+        if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_IN=
-DEX, nr,
-+                                   VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err=
-)) {
-+            error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name)=
-;
-+        }
-     }
- }
-=20
---=20
-2.20.1
+Can't we just make the warnings be conditional on
+!qtest_enabled(), like we already do elsewhere?
 
+>      qts = qtest_init(cli);
+>  
+>      s = qtest_hmp(qts, "info numa");
+> @@ -45,7 +47,10 @@ static void test_mon_default(const void *data)
+>      char *cli;
+>      QTestState *qts;
+>  
+> -    cli = make_cli(data, "-smp 8 -numa node -numa node");
+> +    cli = make_cli(data, "-smp 8 "
+> +                   "-object memory-backend-ram,id=ram0,size=64M "
+> +                   "-object memory-backend-ram,id=ram1,size=64M "
+> +                   "-numa node,memdev=ram0 -numa node,memdev=ram1");
+>      qts = qtest_init(cli);
+>  
+>      s = qtest_hmp(qts, "info numa");
+> @@ -64,8 +69,10 @@ static void test_mon_partial(const void *data)
+>      QTestState *qts;
+>  
+>      cli = make_cli(data, "-smp 8 "
+> -                   "-numa node,nodeid=0,cpus=0-1 "
+> -                   "-numa node,nodeid=1,cpus=4-5 ");
+> +                   "-object memory-backend-ram,id=ram0,size=64M "
+> +                   "-object memory-backend-ram,id=ram1,size=64M "
+> +                   "-numa node,nodeid=0,cpus=0-1,memdev=ram0 "
+> +                   "-numa node,nodeid=1,cpus=4-5,memdev=ram1");
+>      qts = qtest_init(cli);
+>  
+>      s = qtest_hmp(qts, "info numa");
+> @@ -93,7 +100,11 @@ static void test_query_cpus(const void *data)
+>      QObject *e;
+>      QTestState *qts;
+>  
+> -    cli = make_cli(data, "-smp 8 -numa node,cpus=0-3 -numa node,cpus=4-7");
+> +    cli = make_cli(data, "-smp 8 "
+> +                   "-object memory-backend-ram,id=ram0,size=64M "
+> +                   "-object memory-backend-ram,id=ram1,size=64M "
+> +                   "-numa node,cpus=0-3,memdev=ram0 "
+> +                   "-numa node,cpus=4-7,memdev=ram1");
+>      qts = qtest_init(cli);
+>      cpus = get_cpus(qts, &resp);
+>      g_assert(cpus);
+> @@ -132,7 +143,9 @@ static void pc_numa_cpu(const void *data)
+>      QTestState *qts;
+>  
+>      cli = make_cli(data, "-cpu pentium -smp 8,sockets=2,cores=2,threads=2 "
+> -        "-numa node,nodeid=0 -numa node,nodeid=1 "
+> +        "-object memory-backend-ram,id=ram0,size=64M "
+> +        "-object memory-backend-ram,id=ram1,size=64M "
+> +        "-numa node,nodeid=0,memdev=ram0 -numa node,nodeid=1,memdev=ram1 "
+>          "-numa cpu,node-id=1,socket-id=0 "
+>          "-numa cpu,node-id=0,socket-id=1,core-id=0 "
+>          "-numa cpu,node-id=0,socket-id=1,core-id=1,thread-id=0 "
+> @@ -186,7 +199,9 @@ static void spapr_numa_cpu(const void *data)
+>      QTestState *qts;
+>  
+>      cli = make_cli(data, "-smp 4,cores=4 "
+> -        "-numa node,nodeid=0 -numa node,nodeid=1 "
+> +        "-object memory-backend-ram,id=ram0,size=64M "
+> +        "-object memory-backend-ram,id=ram1,size=64M "
+> +        "-numa node,nodeid=0,memdev=ram0 -numa node,nodeid=1,memdev=ram1 "
+>          "-numa cpu,node-id=0,core-id=0 "
+>          "-numa cpu,node-id=0,core-id=1 "
+>          "-numa cpu,node-id=0,core-id=2 "
+> @@ -232,7 +247,9 @@ static void aarch64_numa_cpu(const void *data)
+>      QTestState *qts;
+>  
+>      cli = make_cli(data, "-smp 2 "
+> -        "-numa node,nodeid=0 -numa node,nodeid=1 "
+> +        "-object memory-backend-ram,id=ram0,size=64M "
+> +        "-object memory-backend-ram,id=ram1,size=64M "
+> +        "-numa node,nodeid=0,memdev=ram0 -numa node,nodeid=1,memdev=ram1 "
+>          "-numa cpu,node-id=1,thread-id=0 "
+>          "-numa cpu,node-id=0,thread-id=1");
+>      qts = qtest_init(cli);
+> @@ -274,14 +291,16 @@ static void pc_dynamic_cpu_cfg(const void *data)
+>      QList *cpus;
+>      QTestState *qs;
+>  
+> -    qs = qtest_initf("%s -nodefaults --preconfig -smp 2",
+> +    qs = qtest_initf("%s -nodefaults --preconfig -smp 2 "
+> +                     "-object memory-backend-ram,id=ram0,size=64M "
+> +                     "-object memory-backend-ram,id=ram1,size=64M",
+>                       data ? (char *)data : "");
+>  
+>      /* create 2 numa nodes */
+>      g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
+> -        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
+> +        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram0' } }")));
+>      g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
+> -        " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
+> +        " 'arguments': { 'type': 'node', 'nodeid': 1, 'memdev': 'ram1' } }")));
+>  
+>      /* map 2 cpus in non default reverse order
+>       * i.e socket1->node0, socket0->node1
+> -- 
+> 2.18.1
+> 
+
+-- 
+Eduardo
 
