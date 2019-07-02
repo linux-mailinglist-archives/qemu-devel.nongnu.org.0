@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882C25D60F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:22:48 +0200 (CEST)
-Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69A45D508
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:10:29 +0200 (CEST)
+Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiNQV-00035z-9N
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47563)
+	id 1hiMIX-0002ej-19
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46551)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hiLXX-0007HJ-Ky
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:21:56 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hiLS6-0002Pr-BR
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:16:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hiLXW-00034O-Ax
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:21:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24625)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hiLXT-0002rF-Ee; Tue, 02 Jul 2019 12:21:51 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A746307D90F;
- Tue,  2 Jul 2019 16:11:49 +0000 (UTC)
-Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BABD95D6A9;
- Tue,  2 Jul 2019 16:11:47 +0000 (UTC)
-Message-ID: <8224b0134d5eadcb19231a44e86bd42c18e1173c.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 02 Jul 2019 19:11:46 +0300
-In-Reply-To: <20190630150855.1016-1-mlevitsk@redhat.com>
-References: <20190630150855.1016-1-mlevitsk@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1hiLS3-0008Fk-GR
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:16:18 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33835)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hiLS0-00087t-8x; Tue, 02 Jul 2019 12:16:14 -0400
+Received: by mail-lj1-x242.google.com with SMTP id p17so17533517ljg.1;
+ Tue, 02 Jul 2019 09:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZU0Kd/Xv5iJ3yRbbDVHYD4jeks6wD0BoPdNMIKus+J4=;
+ b=NJbGtTtChlO7GHAppX76MKo/9sMK5K3I46wK+atNH+dHz42OisOs+d8aifhy9L/9Gf
+ 7HpYfEsIgAFcIW8hth4mo7BjQZ219fPk/eTNFcj5wmydcLSzNPhCNaP3tnBUgYBIQek7
+ ULZ/jAeWqTTWzcL8HlY0W99NI95soTo/REY+4mNlPcHh6QozNqu+etO1HWwYD8vivnPy
+ fL3RTAlq2rnjD+azB9+1lf+gVltAcZR+4KdC8gCudyqFA1nwY2LjleyrD/grAUaOLtss
+ +g4RbA+ENB3eT0JwnoEqxApFllcltNxMGtnfZ4y1YKmzk+2VAU3AoyNVG6TKCXnf/N/y
+ gtGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZU0Kd/Xv5iJ3yRbbDVHYD4jeks6wD0BoPdNMIKus+J4=;
+ b=AnfHDXy2auNt8MaG3pO/P93+kLxHqUz1tIEnO4kTv9vLpvWGkyWAuy6YS4jjonk2Tj
+ aUUyOFRBWjgBS1fSJVqZIL1yLeMcu9z8M1NShiLTDB/+U7Le9+PdfEzKiUvLVT8bZPa4
+ +HazFSAK1FhQKxtX6n73nxqF87O+hOJlCIQRAWayxUZgCVfT8Knphro0qbnkiik6ISDV
+ 9sZTduO5dn6EOqNqG0N1YDHkkoHvrlrzW/y4Vz0+8RwN0MDqvkRnMLfuVCYCfz0COtn4
+ R7QHPPCO8iCbRFipM2CpG7UBLzGTWXnHJPvu1DQEdNa42/Pvi1I6m085Ef/PLR9Ab6YJ
+ N23Q==
+X-Gm-Message-State: APjAAAWrK935rgHBgP+L8czFPTN0PPcV98wm9U5YSYh0uyGm2jy/Hn88
+ xcj4NOw139fcDq5rh4szkHJ/3ghxih6DyUuArPM=
+X-Google-Smtp-Source: APXvYqy0bLL480Vi/3s18ciD+c9iZAIrKERSXLQdtsAc5ThV3H7A/0ztRVqBwvZVerXDB/o1dco7qQGKaK5YU8sI4rA=
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr12415938ljg.33.1562084165709; 
+ Tue, 02 Jul 2019 09:16:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190702001301.4768-1-philmd@redhat.com>
+ <20190702001301.4768-8-philmd@redhat.com>
+In-Reply-To: <20190702001301.4768-8-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 2 Jul 2019 09:13:02 -0700
+Message-ID: <CAKmqyKM3=yF_1ngt9dHXyYPOMoKs5gsZtVLWT6ovf--bSMk_ig@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 16:11:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/1] RFC: don't obey the block device max
- transfer len / max segments for block devices
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH v2 7/9] hw/block/pflash_cfi01: Improve
+ command comments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,102 +74,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
- John Ferlan <jferlan@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 2019-06-30 at 18:08 +0300, Maxim Levitsky wrote:
-> It looks like Linux block devices, even in O_DIRECT mode don't have any user visible
-> limit on transfer size / number of segments, which underlying block device can have.
-> The block layer takes care of enforcing these limits by splitting the bios.
-> 
-> By limiting the transfer sizes, we  force qemu to do the splitting itself which
-> introduces various overheads.
-> It is especially visible in nbd server, where the low max transfer size of the
-> underlying device forces us to advertise this over NBD, thus increasing the traffic overhead in case of
-> image conversion which benefits from large blocks.
-> 
-> More information can be found here:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1647104
-> 
-> Tested this with qemu-img convert over nbd and natively and to my surprise, even native IO performance improved a bit.
-> (The device on which it was tested is Intel Optane DC P4800X, which has 128k max transfer size)
-> 
-> The benchmark:
-> 
-> Images were created using:
-> 
-> Sparse image:  qemu-img create -f qcow2 /dev/nvme0n1p3 1G / 10G / 100G
-> Allocated image: qemu-img create -f qcow2 /dev/nvme0n1p3 -o preallocation=metadata  1G / 10G / 100G
-> 
-> The test was:
-> 
->  echo "convert native:"
->  rm -rf /dev/shm/disk.img
->  time qemu-img convert -p -f qcow2 -O raw -T none $FILE /dev/shm/disk.img > /dev/zero
-> 
->  echo "convert via nbd:"
->  qemu-nbd -k /tmp/nbd.sock -v  -f qcow2 $FILE -x export --cache=none --aio=native --fork
->  rm -rf /dev/shm/disk.img
->  time qemu-img convert -p -f raw -O raw nbd:unix:/tmp/nbd.sock:exportname=export /dev/shm/disk.img > /dev/zero
-> 
-> The results:
-> 
-> =========================================
-> 1G sparse image:
->  native:
-> 	before: 0.027s
-> 	after: 0.027s
->  nbd:
-> 	before: 0.287s
-> 	after: 0.035s
-> 
-> =========================================
-> 100G sparse image:
->  native:
-> 	before: 0.028s
-> 	after: 0.028s
->  nbd:
-> 	before: 23.796s
-> 	after: 0.109s
-> 
-> =========================================
-> 1G preallocated image:
->  native:
->        before: 0.454s
->        after: 0.427s
->  nbd:
->        before: 0.649s
->        after: 0.546s
-> 
-> The block limits of max transfer size/max segment size are retained
-> for the SCSI passthrough because in this case the kernel passes the userspace request
-> directly to the kernel scsi driver, bypassing the block layer, and thus there is no code to split
-> such requests.
-> 
-> What do you think?
-> 
-> Fam, since you was the original author of the code that added
-> these limits, could you share your opinion on that?
-> What was the reason besides SCSI passthrough?
-> 
-> Best regards,
-> 	Maxim Levitsky
-> 
-> Maxim Levitsky (1):
->   raw-posix.c - use max transfer length / max segemnt count only for
->     SCSI passthrough
-> 
->  block/file-posix.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
-> 
+On Mon, Jul 1, 2019 at 5:15 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Ping
+Alistair
 
-Best regards,
-	Maxim Levitsky
-
+> ---
+>  hw/block/pflash_cfi01.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index c1b02219b2..f50d0a9d37 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -208,11 +208,11 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl=
+, hwaddr offset)
+>       * Offsets 2/3 are block lock status, is not emulated.
+>       */
+>      switch (boff & 0xFF) {
+> -    case 0:
+> +    case 0: /* Manufacturer ID */
+>          resp =3D pfl->ident0;
+>          trace_pflash_manufacturer_id(resp);
+>          break;
+> -    case 1:
+> +    case 1: /* Device ID */
+>          resp =3D pfl->ident1;
+>          trace_pflash_device_id(resp);
+>          break;
+> @@ -456,11 +456,11 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr o=
+ffset,
+>      case 0:
+>          /* read mode */
+>          switch (cmd) {
+> -        case 0x10: /* Single Byte Program */
+> -        case 0x40: /* Single Byte Program */
+> +        case 0x10: /* Single Byte Program (setup) */
+> +        case 0x40: /* Single Byte Program (setup) [Intel] */
+>              DPRINTF("%s: Single Byte Program\n", __func__);
+>              break;
+> -        case 0x20: /* Block erase */
+> +        case 0x20: /* Block erase (setup) */
+>              p =3D pfl->storage;
+>              offset &=3D ~(pfl->sector_len - 1);
+>
+> @@ -516,8 +516,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>          break;
+>      case 1:
+>          switch (pfl->cmd) {
+> -        case 0x10: /* Single Byte Program */
+> -        case 0x40: /* Single Byte Program */
+> +        case 0x10: /* Single Byte Program (confirm) */
+> +        case 0x40: /* Single Byte Program (confirm) [Intel] */
+>              DPRINTF("%s: Single Byte Program\n", __func__);
+>              if (!pfl->ro) {
+>                  pflash_data_write(pfl, offset, value, width, be);
+> @@ -528,7 +528,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>              pfl->status |=3D 0x80; /* Ready! */
+>              pfl->wcycle =3D 0;
+>          break;
+> -        case 0x20: /* Block erase */
+> +        case 0x20: /* Block erase (confirm) */
+>          case 0x28:
+>              if (cmd =3D=3D 0xd0) { /* confirm */
+>                  pfl->wcycle =3D 0;
+> --
+> 2.20.1
+>
 
