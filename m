@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829705C77A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:52:09 +0200 (CEST)
-Received: from localhost ([::1]:47562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FD65C78C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:07:05 +0200 (CEST)
+Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8ts-0005Mb-M5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53041)
+	id 1hi98K-0004Oo-V8
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53117)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi6SF-0001Ke-7m
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:15:29 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi6SP-0001RB-3j
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:15:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi6SA-000787-Cx
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:15:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44344)
+ (envelope-from <philmd@redhat.com>) id 1hi6SN-0007Bv-TB
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:15:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54516)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hi6Rc-0006r4-PL; Mon, 01 Jul 2019 20:14:50 -0400
+ id 1hi6S4-00070Z-1S; Mon, 01 Jul 2019 20:15:17 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 55F4C30860DC;
- Tue,  2 Jul 2019 00:14:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A60BFF74BC;
+ Tue,  2 Jul 2019 00:15:07 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-21.brq.redhat.com [10.40.204.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD2431001B01;
- Tue,  2 Jul 2019 00:14:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EEA1A1001B10;
+ Tue,  2 Jul 2019 00:14:47 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 02:12:56 +0200
-Message-Id: <20190702001301.4768-5-philmd@redhat.com>
+Date: Tue,  2 Jul 2019 02:12:57 +0200
+Message-Id: <20190702001301.4768-6-philmd@redhat.com>
 In-Reply-To: <20190702001301.4768-1-philmd@redhat.com>
 References: <20190702001301.4768-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 02 Jul 2019 00:14:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 00:15:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/9] hw/block/pflash_cfi01: Start state
- machine as READY to accept commands
+Subject: [Qemu-devel] [PATCH v2 5/9] hw/block/pflash_cfi01: Add the
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +75,70 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the state machine is ready to accept command, the bit 7 of
-the status register (SR) is set to 1.
-The guest polls the status register and check this bit before
-writting command to the internal 'Write State Machine' (WSM).
+A "system reset" sets the device state machine in READ_ARRAY mode
+and, after some delay, set the SR.7 READY bit.
 
-Set SR.7 bit to 1 when the device is created.
+We do not model timings, so we set the SR.7 bit directly.
 
-Reference: Read Array Flowchart
-  "Common Flash Interface (CFI) and Command Sets"
-   (Intel Application Note 646)
-   Appendix B "Basic Command Set"
+This pflash device is a child of TYPE_DEVICE.
+The TYPE_DEVICE interface provide a DeviceReset handler which will
+be called after the device is realized, and each time the machine
+resets itself.
 
+To avoid incoherent states when the machine resets (see but report
+below), factor out the reset code into pflash_cfi01_system_reset,
+and register the method as a device reset callback.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
+Reported-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/pflash_cfi01.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 33c77f6569..dd1dfd266b 100644
+index dd1dfd266b..8d632ea941 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -764,7 +764,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+@@ -763,8 +763,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
 ror **errp)
+         pfl->max_device_width =3D pfl->device_width;
      }
 =20
-     pflash_mode_read_array(pfl);
--    pfl->status =3D 0;
-+    pfl->status =3D 0x80; /* WSM ready */
+-    pflash_mode_read_array(pfl);
+-    pfl->status =3D 0x80; /* WSM ready */
      /* Hardcoded CFI table */
      /* Standard "QRY" string */
      pfl->cfi_table[0x10] =3D 'Q';
+@@ -852,6 +850,18 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
+rror **errp)
+     pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
+ }
+=20
++static void pflash_cfi01_system_reset(DeviceState *dev)
++{
++    PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
++
++    pflash_mode_read_array(pfl);
++    /*
++     * The WSM ready timer occurs at most 150ns after system reset.
++     * This model deliberately ignores this delay.
++     */
++    pfl->status =3D 0x80;
++}
++
+ static Property pflash_cfi01_properties[] =3D {
+     DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
+     /* num-blocks is the number of blocks actually visible to the guest,
+@@ -896,6 +906,7 @@ static void pflash_cfi01_class_init(ObjectClass *klas=
+s, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+=20
++    dc->reset =3D pflash_cfi01_system_reset;
+     dc->realize =3D pflash_cfi01_realize;
+     dc->props =3D pflash_cfi01_properties;
+     dc->vmsd =3D &vmstate_pflash;
 --=20
 2.20.1
 
