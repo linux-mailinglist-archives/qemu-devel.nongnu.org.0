@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CE05D12D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 16:06:39 +0200 (CEST)
-Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D66B5D135
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 16:09:41 +0200 (CEST)
+Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiJQc-0003ck-7g
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 10:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42607)
+	id 1hiJTY-0005Oi-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 10:09:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44228)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hiJNI-0001wq-Mc
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:03:19 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hiJRU-0004MD-9j
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:07:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hiJNA-0004rQ-97
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:03:07 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:35547)
+ (envelope-from <pbonzini@redhat.com>) id 1hiJRT-0002Wg-9K
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:07:32 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38991)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hiJMs-0004OR-Dc; Tue, 02 Jul 2019 10:02:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=WvdPChE9kg7W94tREuy/qRNeRC6hXf6GOi9gE4gqVNc=; 
- b=sLNuyJvmbQyvYKnb+Qorr+b93hoK0DewNBvF8jiCv9bGpHjnRzxevY8rpPm1T1DB7dwBABMWf5fVFt7JIzf3IR8OzMyB5IXzkyCg5yh3gnC2PqpSwVHznUHzS/1rfZeesZiajbLnDaYBQLBdY0ebCC4XLh66lPMz6sd6IQTTl5Iru9II3QJdfhEsFN57c7HhW8hv3nxTwRYhsxyTaR/7MXvrbx0vQky/ZO56p5iUZHHSQAoSGLSMp50G1WPUbcFih4t/sTuzuqvB9AaOCl+tFc2+A9sfAImKNHEGhnqDCdKnkbVk+07FerfOngXOQO3VB2BR8ySDFEza9nOOs1iueg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hiJMl-0007Jy-Jn; Tue, 02 Jul 2019 16:02:39 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hiJMl-0007ry-H6; Tue, 02 Jul 2019 16:02:39 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-In-Reply-To: <20190627223255.3789-2-mreitz@redhat.com>
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-2-mreitz@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 02 Jul 2019 16:02:39 +0200
-Message-ID: <w51v9wk5ybk.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hiJRT-0001mH-1k
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:07:31 -0400
+Received: by mail-wr1-f65.google.com with SMTP id x4so17992186wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 07:06:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X7oRvEVQxC/q2cj/C8dg0uF+L/oDnWcoFWlJkxuZLkg=;
+ b=rjq/A9iWrHEdxlz0PEr+5gUiCtyCSvMv1fIo7Y5dbaIDwS1RSNVO1H/5c/rkeVhTEB
+ SYQzx8KEwn4FhfHZqQ/h5qMGwRH6NTgCxSsq85/LcBqeA1NSpxpevWs+BCdHScPKO0kE
+ WIsyHrBsadyR2SoNvz56e2oFxFPk1W7A0y9Qz6jNs68ZnM/siaPRzudUD7zLeRHokByD
+ Xa3AKxvn0ScbVlk79rBZNS6Jysb1JkgceZ0IvR2YZfxwDipvuepq7cZWVTw598Uo6R9L
+ ZInSbInQx6y7cM3SbAXErAVkzYcYk6XItuLGm3lymPjD5p/hbgChp8jXWpM1uq3ipDKN
+ waww==
+X-Gm-Message-State: APjAAAUuefrprePE9YrfujmQbU1E98N/+KXZ7YOm/EawOPJBF9RzMjt0
+ PZA/tdf2SUtfzoxwixVtobBpVKe7l7c=
+X-Google-Smtp-Source: APXvYqwiPW0gwNSosriDNI6dMlzHxQimDf3ZIWHWkT3L0NHkUwC9mgQEs04LjNT5UZkrgq21mtsuvw==
+X-Received: by 2002:adf:eb49:: with SMTP id u9mr24859243wrn.215.1562076415277; 
+ Tue, 02 Jul 2019 07:06:55 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:b8:794:183e:9e2a?
+ ([2001:b07:6468:f312:b8:794:183e:9e2a])
+ by smtp.gmail.com with ESMTPSA id m9sm13266755wrn.92.2019.07.02.07.06.53
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 07:06:54 -0700 (PDT)
+To: Sergio Lopez <slp@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20190701144705.102615-1-slp@redhat.com>
+ <20190701144705.102615-5-slp@redhat.com>
+ <20190702081733.ff6cboiddln5wmti@sirius.home.kraxel.org>
+ <878stgygiu.fsf@redhat.com>
+ <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
+ <875zokyahg.fsf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8c3b4619-f779-fb0c-7a53-b67150036a07@redhat.com>
+Date: Tue, 2 Jul 2019 16:06:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
+In-Reply-To: <875zokyahg.fsf@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
+ machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,27 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
+ qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 28 Jun 2019 12:32:51 AM CEST, Max Reitz wrote:
-> @@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
->          return -EPERM;
->      }
->  
-> +    for (i = bs; i != base; i = backing_bs(i)) {
-> +        if (i->backing && backing_bs(i)->never_freeze) {
-> +            error_setg(errp, "Cannot freeze '%s' link to '%s'",
-> +                       i->backing->name, backing_bs(i)->node_name);
-> +            return -EPERM;
-> +        }
-> +    }
+On 02/07/19 12:52, Sergio Lopez wrote:
+> As I said, I'm also in favor of microvm supporting booting from
+> firmware in the future, as long we keep the simple mode too.
 
-How about adding this to bdrv_is_backing_chain_frozen() instead?
+The simple mode adds code to QEMU's x86 target that only exists to
+support microvm.  It should be motivated by a clear win in boot times.
 
-Berto
+> My main concern about supporting SeaBIOS, in addition to boot times, is
+> having to support ACPI, which due to its complexity and size, is a clear
+> candidate to be stripped out from a minimalistic QEMU build.
+
+SeaBIOS doesn't need ACPI.  I agree that ACPI should be optional in microvm.
+
+> AFAIK, qboot can't boot a guest without both ACPI and PCI.
+
+It currently needs PCI, but that's a one-line change to avoid panicking.
+ ACPI is optional, on the other hand qboot doesn't support mptable so
+that can be a problem when ACPI is disabled.
+
+Paolo
 
