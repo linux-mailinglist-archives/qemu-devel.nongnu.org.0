@@ -2,65 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B685CE4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:22:00 +0200 (CEST)
-Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7C95CE88
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:38:24 +0200 (CEST)
+Received: from localhost ([::1]:51898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGrI-0003w3-5a
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56340)
+	id 1hiH79-000290-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hiGlm-0008MS-EY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:16:19 -0400
+ (envelope-from <armbru@redhat.com>) id 1hiH3M-0006G3-W8
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:34:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hiGlj-0006vQ-Ct
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:16:17 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51848)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiGlj-0006nQ-35
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:16:15 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 207so461990wma.1
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 04:16:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=VSiOwhKmunyZTXresUcTs7kbbf4PY+elQ9HSwQcUwfo=;
- b=WKy3EV7RyM1qrvQRm4xxPk0pBAqCfJH7KGyPfYKk3xeR+z47aXjCUVYLW0tcV9uvvL
- fj8A/M2P5pTKlnfHXK8+mNwCdmxFeB+Ii/1yjbWHwsuu6n52u5yxLtOIu94b8TutaixC
- /9kUwVvvyTKxXepn5H1dB6gG+q0LlfGgcrWmQOWDgWd4ajbCKNgFiCiDQhWdrXCc4lZ2
- AkrjF9JWbQEy1ES3iqXxtaSy9nGxGYPaWbJPofGCxIgG4VtbuIHtiw1cL8YITrtxxk1h
- IMwcjTzqkFpc5lT4UpPPe4qJZZMt3Y1G8VTK8WkXI15Z6rsNDk1NEBc14iR9U9dd7kyi
- da3g==
-X-Gm-Message-State: APjAAAU4SLBZ8uR1PPmNs2QcqL0402qiFmMaBohDnSBkwFydV0mgAHi7
- df6zl1EHSdXOVT0JTLYaWjlVOQ==
-X-Google-Smtp-Source: APXvYqwQbkkyKFhb2zalJqJ2ZhV0CuDIgkhs2cvKcZ0O5DekISps0BbxtgFmAKa4fqnAbarbKUgJ1g==
-X-Received: by 2002:a7b:cae2:: with SMTP id t2mr3091277wml.157.1562066171546; 
- Tue, 02 Jul 2019 04:16:11 -0700 (PDT)
-Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
- [83.35.20.18])
- by smtp.gmail.com with ESMTPSA id x16sm1901979wmj.4.2019.07.02.04.16.10
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 04:16:11 -0700 (PDT)
-References: <20190701144705.102615-1-slp@redhat.com>
- <20190701144705.102615-5-slp@redhat.com>
- <20190702081914.ulccsaokivd6epgv@steredhat> <877e90ygab.fsf@redhat.com>
- <e980826e-4e8d-7bdd-827a-63d8ce9a08ba@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-In-reply-to: <e980826e-4e8d-7bdd-827a-63d8ce9a08ba@redhat.com>
-Date: Tue, 02 Jul 2019 13:16:08 +0200
-Message-ID: <874l44y9dz.fsf@redhat.com>
+ (envelope-from <armbru@redhat.com>) id 1hiH3L-0001fA-Rz
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:34:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50000)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiH3L-0001dt-Lx
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:34:27 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D9DC610C94
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 11:34:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
+ [10.36.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACEB818226
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 11:34:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 226C21132ABF; Tue,  2 Jul 2019 13:34:14 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  2 Jul 2019 13:34:10 +0200
+Message-Id: <20190702113414.6896-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 11:34:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
- machine type
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/4] Build system patches for 2019-07-02
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,58 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+The following changes since commit ab200dafc0e8a9925bb0ad0be478621f5f117c=
+95:
 
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
+ into staging (2019-07-02 10:17:54 +0100)
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+are available in the Git repository at:
 
-> On 02/07/19 10:47, Sergio Lopez wrote:
->>> Could it be useful to support initrd as well?
->>>
->>> I'm thinking a possibility to a microvm to use only the initrd without a
->>> block device.
->> I agree, thanks for the suggestion. I'll add support for it.
->
-> I'd like to take a look at adding firmware support too, so that we get
-> linuxboot and multiboot for free.  This would also allow boot time
-> comparisons.
+  git://repo.or.cz/qemu/armbru.git tags/pull-build-2019-07-02
 
-I agree, but I'd prefer doing that on another iteration. This way we can
-already introduce the machine type, with its basic set of features and
-characteristics (which work in the sense it was initially intended), so
-other projects can start experimenting with it.
+for you to fetch changes up to b7f9b1b7fc9a00ab6e5f46555e87166533292576:
 
-Then we can add other options like ACPI and firmware support as knobs.
+  Makefile: Reuse all's recursion machinery for clean and install (2019-0=
+7-02 12:48:40 +0200)
 
-Sergio.
+----------------------------------------------------------------
+Build system patches for 2019-07-02
 
+----------------------------------------------------------------
+Markus Armbruster (4):
+      Makefile: Remove code to smooth transition to config.status
+      Makefile: Drop bogus cleaning of $(ALL_SUBDIRS)/qemu-options.def
+      Makefile: Rename targets for make recursion
+      Makefile: Reuse all's recursion machinery for clean and install
 
+ Makefile               | 73 +++++++++++++++++++++++---------------------=
+------
+ configure              |  6 ++---
+ tests/Makefile.include |  5 ++--
+ 3 files changed, 40 insertions(+), 44 deletions(-)
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+2.21.0
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0bPPgACgkQ9GknjS8M
-AjVNoRAAmqI3J37xIWIRjP38Co+GepSU4VCKopyvTjEY6ew6Ykr+HdIFnCpjF4bS
-VNVLdmn+rly4MHiXNlPifIds6pcSCACuIrNMtTHNACpM/VDRasp9wAEx3FSdGdbm
-2Ake2mjHh1oEDY3zN0kVwOOo/azhSXbUmyosA3zKEH+AM4b+5ba+oSSL9WAYqW+M
-pRsgNqyEC6iT9aMtSKx1ExJZvThcHrO/ooEiQ+EbIKy6ajNpa/DrkAAoXbKvfXc/
-5YqnPybHgdTmcJK2YD5QtUXtRc780/mc7WUPmXGLqkKa+ZtwXfSm9ZDY2KlGF+zb
-becPGTtx8le4Xhx1WgnLg/2ltgtvmgmAkyqXH0liE4/KCz40JxRKMT0ZhuABiQmi
-SFAMeNrkWAelXPrvuBwV457NkeiTB05NnvXPw+3LDGmZfisiHSi5oGzghsxZcCQs
-uNgn+91Grl0teDgzDLlHkw9AgKTlfwvvVfOGfJkwGdcMbvTjJ4/bBtB7Ly9rzJCg
-18NyfNwNw2xaNKIjaqDm8z/faVqBeQqpSZCFudcMWw+0N50Rx1YWkRdOzCNV48jS
-K3zbHtNt5jfbOfrpewBdVsuZqgmphPtjb9SFJ48MPHkKehS22UlTyM2ZtzmHnMEC
-witMaSI8TP6zX1QfriMqU8OTbRdeWwj+/7YV5oftYP8IoysGBr8=
-=rErC
------END PGP SIGNATURE-----
---=-=-=--
 
