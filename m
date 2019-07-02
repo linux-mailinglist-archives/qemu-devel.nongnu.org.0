@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8BB35C7F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:54:07 +0200 (CEST)
-Received: from localhost ([::1]:48258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EA05C818
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:19:27 +0200 (CEST)
+Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi9rq-0004e7-EK
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:54:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
+	id 1hiAGL-0004Nt-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50592)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hi8aW-0005Ja-Ta
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:09 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hi8aZ-0005OH-5O
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hi8aV-0003p7-Pk
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45732)
+ (envelope-from <jasowang@redhat.com>) id 1hi8aX-0003pa-Up
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45748)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aV-0003or-HO
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:07 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aX-0003pQ-M0
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:09 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D2196C00735B;
- Tue,  2 Jul 2019 02:32:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F1467C09AD18;
+ Tue,  2 Jul 2019 02:32:08 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-232.pek2.redhat.com
  [10.72.12.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FF9160C43;
- Tue,  2 Jul 2019 02:32:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59FFD18953;
+ Tue,  2 Jul 2019 02:32:07 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 10:31:27 +0800
-Message-Id: <1562034689-6539-16-git-send-email-jasowang@redhat.com>
+Date: Tue,  2 Jul 2019 10:31:28 +0800
+Message-Id: <1562034689-6539-17-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 References: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 02 Jul 2019 02:32:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Tue, 02 Jul 2019 02:32:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 15/17] COLO-compare: Make the compare_chr_send()
- can send notification message.
+Subject: [Qemu-devel] [PULL 16/17] COLO-compare: Add colo-compare remote
+ notify support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,114 +61,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-We need use this function to send notification message for remote colo-frame(Xen).
-So we add new parameter for this job.
+This patch make colo-compare can send message to remote COLO frame(Xen) when occur checkpoint.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 41 +++++++++++++++++++++++++++++++++--------
- 1 file changed, 33 insertions(+), 8 deletions(-)
+ net/colo-compare.c | 54 ++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 44 insertions(+), 10 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index fda55d5..ee03c25 100644
+index ee03c25..909dd6c 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -129,7 +129,8 @@ static void colo_compare_inconsistency_notify(void)
+@@ -120,11 +120,6 @@ enum {
+     SECONDARY_IN,
+ };
+ 
+-static void colo_compare_inconsistency_notify(void)
+-{
+-    notifier_list_notify(&colo_compare_notifiers,
+-                migrate_get_current());
+-}
+ 
  static int compare_chr_send(CompareState *s,
                              const uint8_t *buf,
-                             uint32_t size,
--                            uint32_t vnet_hdr_len);
-+                            uint32_t vnet_hdr_len,
-+                            bool notify_remote_frame);
+@@ -132,6 +127,27 @@ static int compare_chr_send(CompareState *s,
+                             uint32_t vnet_hdr_len,
+                             bool notify_remote_frame);
  
++static void notify_remote_frame(CompareState *s)
++{
++    char msg[] = "DO_CHECKPOINT";
++    int ret = 0;
++
++    ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
++    if (ret < 0) {
++        error_report("Notify Xen COLO-frame failed");
++    }
++}
++
++static void colo_compare_inconsistency_notify(CompareState *s)
++{
++    if (s->notify_dev) {
++        notify_remote_frame(s);
++    } else {
++        notifier_list_notify(&colo_compare_notifiers,
++                             migrate_get_current());
++    }
++}
++
  static gint seq_sorter(Packet *a, Packet *b, gpointer data)
  {
-@@ -241,7 +242,8 @@ static void colo_release_primary_pkt(CompareState *s, Packet *pkt)
-     ret = compare_chr_send(s,
-                            pkt->data,
-                            pkt->size,
--                           pkt->vnet_hdr_len);
-+                           pkt->vnet_hdr_len,
-+                           false);
-     if (ret < 0) {
-         error_report("colo send primary packet failed");
+     struct tcp_hdr *atcp, *btcp;
+@@ -435,7 +451,7 @@ sec:
+         qemu_hexdump((char *)spkt->data, stderr,
+                      "colo-compare spkt", spkt->size);
+ 
+-        colo_compare_inconsistency_notify();
++        colo_compare_inconsistency_notify(s);
      }
-@@ -671,7 +673,8 @@ static void colo_compare_connection(void *opaque, void *user_data)
- static int compare_chr_send(CompareState *s,
-                             const uint8_t *buf,
-                             uint32_t size,
--                            uint32_t vnet_hdr_len)
-+                            uint32_t vnet_hdr_len,
-+                            bool notify_remote_frame)
+ }
+ 
+@@ -577,7 +593,7 @@ void colo_compare_unregister_notifier(Notifier *notify)
+ }
+ 
+ static int colo_old_packet_check_one_conn(Connection *conn,
+-                                           void *user_data)
++                                          CompareState *s)
  {
-     int ret = 0;
-     uint32_t len = htonl(size);
-@@ -680,7 +683,14 @@ static int compare_chr_send(CompareState *s,
+     GList *result = NULL;
+     int64_t check_time = REGULAR_PACKET_CHECK_MS;
+@@ -588,7 +604,7 @@ static int colo_old_packet_check_one_conn(Connection *conn,
+ 
+     if (result) {
+         /* Do checkpoint will flush old packet */
+-        colo_compare_inconsistency_notify();
++        colo_compare_inconsistency_notify(s);
          return 0;
      }
  
--    ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-+    if (notify_remote_frame) {
-+        ret = qemu_chr_fe_write_all(&s->chr_notify_dev,
-+                                    (uint8_t *)&len,
-+                                    sizeof(len));
-+    } else {
-+        ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-+    }
+@@ -608,7 +624,7 @@ static void colo_old_packet_check(void *opaque)
+      * If we find one old packet, stop finding job and notify
+      * COLO frame do checkpoint.
+      */
+-    g_queue_find_custom(&s->conn_list, NULL,
++    g_queue_find_custom(&s->conn_list, s,
+                         (GCompareFunc)colo_old_packet_check_one_conn);
+ }
+ 
+@@ -637,7 +653,8 @@ static void colo_compare_packet(CompareState *s, Connection *conn,
+              */
+             trace_colo_compare_main("packet different");
+             g_queue_push_head(&conn->primary_list, pkt);
+-            colo_compare_inconsistency_notify();
 +
-     if (ret != sizeof(len)) {
-         goto err;
-     }
-@@ -691,13 +701,26 @@ static int compare_chr_send(CompareState *s,
-          * know how to parse net packet correctly.
-          */
-         len = htonl(vnet_hdr_len);
--        ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-+
-+        if (!notify_remote_frame) {
-+            ret = qemu_chr_fe_write_all(&s->chr_out,
-+                                        (uint8_t *)&len,
-+                                        sizeof(len));
-+        }
-+
-         if (ret != sizeof(len)) {
-             goto err;
++            colo_compare_inconsistency_notify(s);
+             break;
          }
      }
+@@ -989,7 +1006,24 @@ static void compare_sec_rs_finalize(SocketReadState *sec_rs)
  
--    ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size);
-+    if (notify_remote_frame) {
-+        ret = qemu_chr_fe_write_all(&s->chr_notify_dev,
-+                                    (uint8_t *)buf,
-+                                    size);
-+    } else {
-+        ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size);
+ static void compare_notify_rs_finalize(SocketReadState *notify_rs)
+ {
++    CompareState *s = container_of(notify_rs, CompareState, notify_rs);
++
+     /* Get Xen colo-frame's notify and handle the message */
++    char *data = g_memdup(notify_rs->buf, notify_rs->packet_len);
++    char msg[] = "COLO_COMPARE_GET_XEN_INIT";
++    int ret;
++
++    if (!strcmp(data, "COLO_USERSPACE_PROXY_INIT")) {
++        ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
++        if (ret < 0) {
++            error_report("Notify Xen COLO-frame INIT failed");
++        }
 +    }
 +
-     if (ret != size) {
-         goto err;
-     }
-@@ -943,7 +966,8 @@ static void compare_pri_rs_finalize(SocketReadState *pri_rs)
-         compare_chr_send(s,
-                          pri_rs->buf,
-                          pri_rs->packet_len,
--                         pri_rs->vnet_hdr_len);
-+                         pri_rs->vnet_hdr_len,
-+                         false);
-     } else {
-         /* compare packet in the specified connection */
-         colo_compare_connection(conn, s);
-@@ -1075,7 +1099,8 @@ static void colo_flush_packets(void *opaque, void *user_data)
-         compare_chr_send(s,
-                          pkt->data,
-                          pkt->size,
--                         pkt->vnet_hdr_len);
-+                         pkt->vnet_hdr_len,
-+                         false);
-         packet_destroy(pkt, NULL);
-     }
-     while (!g_queue_is_empty(&conn->secondary_list)) {
++    if (!strcmp(data, "COLO_CHECKPOINT")) {
++        /* colo-compare do checkpoint, flush pri packet and remove sec packet */
++        g_queue_foreach(&s->conn_list, colo_flush_packets, s);
++    }
+ }
+ 
+ /*
 -- 
 2.5.0
 
