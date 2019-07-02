@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F665D55C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:36:09 +0200 (CEST)
-Received: from localhost ([::1]:55706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDA35D4B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:50:54 +0200 (CEST)
+Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMhM-0001Sp-0h
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42011)
+	id 1hiLzZ-0000ds-QZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hiL8A-0003yK-BL
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:42 -0400
+ (envelope-from <philmd@redhat.com>) id 1hiL87-0003wg-Ij
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hiL89-00048L-74
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45287)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hiL82-0003wA-54; Tue, 02 Jul 2019 11:55:37 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB620C05681F;
- Tue,  2 Jul 2019 15:55:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-120.brq.redhat.com
- [10.40.204.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE1E0702F2;
- Tue,  2 Jul 2019 15:55:05 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190702023905.32470-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <07a0d25d-11d6-e3d2-ea5d-bdd8e2852c7f@redhat.com>
-Date: Tue, 2 Jul 2019 17:55:04 +0200
+ (envelope-from <philmd@redhat.com>) id 1hiL85-00044x-0H
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:39 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38189)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiL80-0003vP-R7
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:55:33 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p11so7240009wro.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:55:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SEBw9BeVdtoobf5EiaV/9mIfZ46latCf3fEv7KSGJEk=;
+ b=AYwxM2a2VhSJP1wMkezN3sep5jrpVN8dC298K9HF8fZ2nzEUOp3aa0c0JbA14OjJQQ
+ 1Ckp/s7Iex6WURjLYF909v0uVByLcpRz0Ewa7zHG8kxNrqKeTgbBJkVEykhB6DmItxWZ
+ mdZxEcMBHLZAc4zLejEJw7jB16ERXDAhacLTSvvW7XmbFrDP+U0LPxWx/BmrW1/hnJWE
+ G4zejZxU0vC0UDOyAuz64yp4qA+OGOkKbws45p9UwKkGkZbfSI8Eur+4vJaK5CZIocll
+ YjyRQHKQuPd7FfX1DEA+mKvCBnsqmKn1RzneWN0dgxxCgIvwAzZ6X1iHe3HAYRE32f3M
+ fYGg==
+X-Gm-Message-State: APjAAAVOO+Mc8FCSF6rey3b/IyMuyXRivmac1XOJTP0OCahwdgQ5TZk6
+ ofg4oVwpJ5Fs1j5AusKl1QEH+w==
+X-Google-Smtp-Source: APXvYqw83TU/NGdcH4U34RRwIIvF2Nkw1gX+EMj+J1BLomRfji/Y5bhYQAoVD7GoOzOgd3XfFrNlWQ==
+X-Received: by 2002:adf:eecf:: with SMTP id a15mr1250454wrp.264.1562082916428; 
+ Tue, 02 Jul 2019 08:55:16 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id d9sm18395107wrb.71.2019.07.02.08.55.15
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 08:55:15 -0700 (PDT)
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
+References: <20190628120118.78920-1-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <7213c712-5405-5fa8-bb2b-858f4d48ac54@redhat.com>
+Date: Tue, 2 Jul 2019 17:55:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190702023905.32470-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ZwN73VbI7guHy5dHeFrZUwCuLtAcNpDlR"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 02 Jul 2019 15:55:11 +0000 (UTC)
+In-Reply-To: <20190628120118.78920-1-mrolnik@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 0/4] Block patches for rc0
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v24 0/7] QEMU AVR 8 bit cores
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,50 +74,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, Thomas Huth <thuth@redhat.com>,
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ZwN73VbI7guHy5dHeFrZUwCuLtAcNpDlR
-Content-Type: multipart/mixed; boundary="e131CK6QGKvMbrfg2nhUZWmFaQ7N3pwGX";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <07a0d25d-11d6-e3d2-ea5d-bdd8e2852c7f@redhat.com>
-Subject: Re: [PULL 0/4] Block patches for rc0
-References: <20190702023905.32470-1-mreitz@redhat.com>
-In-Reply-To: <20190702023905.32470-1-mreitz@redhat.com>
+Hi Michael,
 
---e131CK6QGKvMbrfg2nhUZWmFaQ7N3pwGX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 6/28/19 2:01 PM, Michael Rolnik wrote:
+> This series of patches adds 8bit AVR cores to QEMU.
+> All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully tested yet.
+> However I was able to execute simple code with functions. e.g fibonacci calculation.
+> This series of patches include a non real, sample board.
+> No fuses support yet. PC is set to 0 at reset.
 
-(s/rc0/softfreeze/)
+I see in this thread you test some binary:
+https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg02291.html
 
+https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
 
---e131CK6QGKvMbrfg2nhUZWmFaQ7N3pwGX--
+Can you add a test that uses your binary and check it does something?
+That would help maintaining your work over time.
 
---ZwN73VbI7guHy5dHeFrZUwCuLtAcNpDlR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Avocado tests can be quite simple, i.e.:
+https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06515.html
 
------BEGIN PGP SIGNATURE-----
+Since you added support for the USART, you can also add some
+assembler instructions to use it to this test:
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0bflgACgkQ9AfbAGHV
-z0Dw4wgAj9x6UTvYQkic0xFRlQ0Mj/bkiPNIdiil4Aj1zyK2KFpMlzsnh8FHK5wt
-RIMQXR7tPd95KETWqH0Z5L+nGHbU7FseZZIe93IVMjDFlljqsXm0y32S0pD+vCQ5
-6eWIYAKPIV7v1VECWzEPYAQmUTwTBSQcXdDgQC83MffiejU7y5saDn0OCr7Is4Ft
-GJhmqNU+HlUo68J41af5ob8MUScNzU7ipCaWrYJ/bos2hGb8Kzh2ZIHrwr7ZYAqs
-AC4nND6/PQpssVNxJD9bgxfFD0pGZ6VEA/IlumBsgLewGVdxjpszWwCmo750IKa4
-HlPr7zWcd4JQYJrXdd0uElrlAPQQ/A==
-=XVIg
------END PGP SIGNATURE-----
+https://git.qemu.org/?p=qemu.git;a=blob;f=tests/boot-serial-test.c;h=24852d4c7d0b3fc08fb0dab35f32372a0b2c46db;hb=HEAD
 
---ZwN73VbI7guHy5dHeFrZUwCuLtAcNpDlR--
+Thanks!
+
+Phil.
 
