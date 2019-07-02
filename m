@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F3D5D43E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:30:29 +0200 (CEST)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBA25D3FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:12:28 +0200 (CEST)
+Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLfo-0006AS-Ee
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36069)
+	id 1hiLON-0006JV-Sf
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34311)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hiKkW-00059f-T2
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:31:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiKcy-0005Rn-Fz
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hiKkV-0001Ir-9Q
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:31:16 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52688)
+ (envelope-from <peter.maydell@linaro.org>) id 1hiKcv-0002TJ-VM
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:28 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35576)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hiKkU-0001EW-F1
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:31:14 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hiKkO-0006ac-Oq
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 15:31:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B3B892E80CF
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 15:31:08 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hiKcv-0002Rw-Fm
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:25 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a127so13344687oii.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sdlUlz3+Hpw3vHFFzmWRyobbrzu0f+uChCMbem+yFT0=;
+ b=HLLGDnSLAyq6szSPrUcV3fw8KP1ILSpMRCsO5uZIRF+TKYQqm71dRfgwQk+bMDTyzb
+ HQCodhcIEvdnBaKR/Lj2j9Jphc2o5/9HauYRatVQxfAGf4zDpuiRZPeB8Y2b5x2F/5lH
+ RiHo6aJqic0hgRdP9s81LfJTpzcdL2/O9xw28+BdVpSGQBeG1qN8NlDzifIO3ecVmpZO
+ lTHtiBAj2tIdgEofPr+mh/6AH1rwIUPPQN+tmqoVzdOFlya3ViT3QsSYHSVW2ummNXUq
+ oRd/tqghNO9EtFKSQzNmvv6/2Lz7N/LAjUy2CUfUd8aF7/pBUVFYkD3UBywgZ71N0GpV
+ TPDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sdlUlz3+Hpw3vHFFzmWRyobbrzu0f+uChCMbem+yFT0=;
+ b=bElrT4++gLjw46nJ2qaUhkFR0n/O1KiRj7+m/maVw5m14SpaQoQVOfoEK2qG7BiSM/
+ P98bCLKot5QjLLiVpvip/sz2L9ZbHzbwogU8oCLvu88PGS7yZhm0MNVUqqEvvtoeL5IV
+ RtuSL5AqNkJ1G/tCVEja/P2JTDFoMw89Dt91H7vA8+AMvbwFCJh6Vhs2Agmn+eZATRxc
+ HRxwAy8fhP8wPY44Z2Nbo3rU8Mt84eMq2YKAn9/S0UoISU4gGd0jq0byr8kUdo8KV8vE
+ 2DtTy/P2GuoMUJ0U560i6WNfhu+vFlqv4Rge964rgdeXmnf1Liqo3FxfD/MHsCB6IZbu
+ kqpg==
+X-Gm-Message-State: APjAAAWrN6JsiqMsbUVO5Pf+44UCDEAcvPYhbawwhr7yrnPPByNjLXkN
+ rWuchSXZ/VW51hNcUlq+6VYSQ/60GLj1toj5rWRlDQ==
+X-Google-Smtp-Source: APXvYqzYrzB8FFxyXtEZ2z+EwP5LoGbOzMBe0LpC9K4BWwTnzlxgQsbbHEoiLKe+r3W6TUHIkVolC1LcwSYsRQTV/QQ=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr3485563oib.163.1562081004203; 
+ Tue, 02 Jul 2019 08:23:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Jul 2019 15:20:39 -0000
-From: Avi Eis <1834113@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug disco
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bryce ikes73 paelzer
-X-Launchpad-Bug-Reporter: Avi Eis (ikes73)
-X-Launchpad-Bug-Modifier: Avi Eis (ikes73)
-References: <156142437029.30985.13623507391124028236.malonedeb@soybean.canonical.com>
-Message-Id: <156208083995.18147.4248633848724305469.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 2d448762008b832b2f51fbd0ea5a470cdeeb3c2f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834113] Re: QEMU touchpad input erratic after
- wakeup from sleep
+References: <20190702121106.28374-1-slp@redhat.com>
+In-Reply-To: <20190702121106.28374-1-slp@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jul 2019 16:23:10 +0100
+Message-ID: <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
+To: Sergio Lopez <slp@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,89 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834113 <1834113@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, maran.wilson@oracle.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The issue replicated on the older libvirt, so it wasn't that. Only thing
-left to try is intel-microcode now
+On Tue, 2 Jul 2019 at 13:14, Sergio Lopez <slp@redhat.com> wrote:
+>
+> Microvm is a machine type inspired by both NEMU and Firecracker, and
+> constructed after the machine model implemented by the latter.
+>
+> It's main purpose is providing users a KVM-only machine type with fast
+> boot times, minimal attack surface (measured as the number of IO ports
+> and MMIO regions exposed to the Guest) and small footprint (specially
+> when combined with the ongoing QEMU modularization effort).
+>
+> Normally, other than the device support provided by KVM itself,
+> microvm only supports virtio-mmio devices. Microvm also includes a
+> legacy mode, which adds an ISA bus with a 16550A serial port, useful
+> for being able to see the early boot kernel messages.
 
--- =
+Could we use virtio-pci instead of virtio-mmio? virtio-mmio is
+a bit deprecated and tends not to support all the features that
+virtio-pci does. It was introduced mostly as a stopgap while we
+didn't have pci support in the aarch64 virt machine, and remains
+for legacy "we don't like to break existing working setups" rather
+than as a recommended config for new systems.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834113
-
-Title:
-  QEMU touchpad input erratic after wakeup from sleep
-
-Status in QEMU:
-  New
-Status in libvirt package in Ubuntu:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Using Ubuntu host and guest. Normally the touchpad works great. Within
-  the last few days, suddenly, apparently after a wake from sleep, the
-  touchpad will behave erratically. For example, it will take two clicks
-  to select something, and when moving the cursor it will act as though
-  it is dragging even with the button not clicked.
-
-  A reboot fixes the issue temporarily.
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 19.04
-  Package: qemu 1:3.1+dfsg-2ubuntu3.1
-  Uname: Linux 5.1.14-050114-generic x86_64
-  ApportVersion: 2.20.10-0ubuntu27
-  Architecture: amd64
-  CurrentDesktop: ubuntu:GNOME
-  Date: Mon Jun 24 20:55:44 2019
-  Dependencies:
-   =
-
-  EcryptfsInUse: Yes
-  InstallationDate: Installed on 2019-02-20 (124 days ago)
-  InstallationMedia: Ubuntu 18.04 "Bionic" - Build amd64 LIVE Binary 201806=
-08-09:38
-  Lsusb:
-   Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-   Bus 001 Device 002: ID 8087:0025 Intel Corp. =
-
-   Bus 001 Device 003: ID 0c45:671d Microdia =
-
-   Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-  MachineType: Dell Inc. Precision 5530
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.1.14-050114-generic root=
-=3DUUID=3D18e8777c-1764-41e4-a19f-62476055de23 ro mem_sleep_default=3Ddeep =
-mem_sleep_default=3Ddeep acpi_rev_override=3D1 scsi_mod.use_blk_mq=3D1 nouv=
-eau.modeset=3D0 nouveau.runpm=3D0 nouveau.blacklist=3D1 acpi_backlight=3Dno=
-ne acpi_osi=3DLinux acpi_osi=3D!
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  dmi.bios.date: 04/26/2019
-  dmi.bios.vendor: Dell Inc.
-  dmi.bios.version: 1.10.1
-  dmi.board.name: 0FP2W2
-  dmi.board.vendor: Dell Inc.
-  dmi.board.version: A00
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: Dell Inc.
-  dmi.modalias: dmi:bvnDellInc.:bvr1.10.1:bd04/26/2019:svnDellInc.:pnPrecis=
-ion5530:pvr:rvnDellInc.:rn0FP2W2:rvrA00:cvnDellInc.:ct10:cvr:
-  dmi.product.family: Precision
-  dmi.product.name: Precision 5530
-  dmi.product.sku: 087D
-  dmi.sys.vendor: Dell Inc.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834113/+subscriptions
+thanks
+-- PMM
 
