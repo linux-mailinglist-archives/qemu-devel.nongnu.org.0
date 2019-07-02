@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3D85D14A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 16:15:16 +0200 (CEST)
-Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639BA5D17C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 16:19:45 +0200 (CEST)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiJYx-0002Cz-ST
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 10:15:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44826)
+	id 1hiJdI-0005qD-7L
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 10:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46944)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiJTm-0006vY-Fd
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:09:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1hiJbu-0005FI-CV
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:18:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiJTk-0004bV-K0
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:09:54 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34733)
+ (envelope-from <philmd@redhat.com>) id 1hiJbt-0002We-6m
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:18:18 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46742)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiJTj-0004Yr-70
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:09:52 -0400
-Received: by mail-oi1-x241.google.com with SMTP id l12so13139875oil.1
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 07:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YlTlLMZQYm26g/e2QEcTS37y9KclWpkZi3M4vw9x8cA=;
- b=tRD4U5Hik9DOym6FowX4ZA8Mi1i+ewzVnAyVH/9rtxjSZGB22273gHoYxwxrV8acqH
- eZdsUTcAlSlXeW0UihLcdWDoxoj8m0SUst8wBN7dz/gOA5l1ExsohgLRhtj13htKC/zw
- oqDGDPKXNAag3zbladMbNntxs3YtNrY1JYXr5Lg4OAL4CY7TSedxX9NHh/kQcu0wVRw5
- IrToRsimulamcoT5NTSWcMXjc0PL6Yw/Bzqo1okIlv0XKq8sJX6Kfxpk8RXQmsHKR60x
- Qh7/04jKDrIMtTIn/Fve8ovxgx9ef7bT+JMqCFxe81xkE6CLC7YYGLC88QQwm1iGeq/T
- bMBw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiJbt-0002VF-0k
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 10:18:17 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n4so18007472wrw.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 07:18:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YlTlLMZQYm26g/e2QEcTS37y9KclWpkZi3M4vw9x8cA=;
- b=PocXkL8opBkAjNoEPTkE4k42ANQdJ6oHLMpELkUHs5DljqY9hwqT9X5NHzOYMHbjSc
- JyZ9SCPjRJq1KkfBQ/2NgFbD7JzG1fEBGiQ0wGpaTb4Eh+CAca2fYE4XLzsCmJTaZ5L2
- Qj7Aq2V9DJYNCJwNC5sb7qI3QX5WV1kAK9Z80alOct5KQM+YGCnsqQGzpmxznFjChcti
- tqCl0eURGFTKBC1+wmBFQebYZcwTB9cFlph6rFAZ+hjTT/TN0sKEbHG86MCayFASqvVt
- qCgBomDzWBduf0zBF9y236cXqVWxeQA3EYfnIgTYBoa1WRz5vujTDavh9wLN7isqgNMd
- 80rw==
-X-Gm-Message-State: APjAAAVWAXVtWHOJtBaT5KEEVdxpQQuf6iigzBgoAw+fUAUBctN1pfms
- 5J4OQLAZAJALSXxcKg3DqgUeRGgcetumoKfzo2KEyQ==
-X-Google-Smtp-Source: APXvYqwnQXnLmgr5tJevFFh9ISVLmU20uOXrt9KLoUPMiGi96EadczfZRz/dZ0BO2xYmpsgfHiUNMMiA9sUrHU4OC9E=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr3213222oic.170.1562076589911; 
- Tue, 02 Jul 2019 07:09:49 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ycPWOHZ1BiCQaixmh2lB3gnp7J7qHQ68WKc90qzNU5o=;
+ b=R1aEmxEWzIWsl1RglvNz6VeNOnw+82GyBZB6GN7NyuVYNQhsRg9LVULF7h8x0LNfgr
+ B/LeNG+Cs9917QRlSUHNFsQRCGnVSOmDcDaqG8OLRxXp62XVgYjXqkfLYnVBhNC4Vhq8
+ NbDYITYuLywQC+fKEri8PRhs4GA4QbkiXMX/ydmaDhY0Y7pxq8zN7/i50PNgLSdMK8y/
+ f401+7U7I0jlYp99UOU1koaqEgaLrNscq1F24WzLCRz2p8rkdXvqxN/UVbDgAwVA1BYq
+ OFDNOPDBdWdEDYKS2fVQVPW4MksPiG9cQ3m8E6AANqCYvJalVKpcIhX17kOgGoMhfMhE
+ 6Mcg==
+X-Gm-Message-State: APjAAAUeiGhv8Xsz6jSAC83M4Qh0K7RShvE3aWQCoLxcjAUuJBU7q46M
+ kAYPEizZj9uas4nTiHkpTL4GNw==
+X-Google-Smtp-Source: APXvYqxcTBzxRQ/AnK8eUHsT+x0ZvCtrXznppplhoH60ie3qupT/91jV68QLyzTs9JLirWTPEqD7Hw==
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr8019657wrn.52.1562077095111;
+ Tue, 02 Jul 2019 07:18:15 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id z126sm4037859wmb.32.2019.07.02.07.18.13
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 07:18:14 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190701194942.10092-1-philmd@redhat.com>
+ <20190701194942.10092-4-philmd@redhat.com>
+ <CAFEAcA99QK7u+Rev5C9Xb_vmnGSZvx9EO+8D_fFB1qFmiMejcA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <e15783bc-660f-f8ba-e1ed-1ec870de9474@redhat.com>
+Date: Tue, 2 Jul 2019 16:18:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190702104732.31154-1-richard.henderson@linaro.org>
-In-Reply-To: <20190702104732.31154-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 15:09:38 +0100
-Message-ID: <CAFEAcA_Q40JLHhBj9ixLr_7Z-3JFk+UTRVM_1EHthKzAGjAZsQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Fix sve_zcr_len_for_el
+In-Reply-To: <CAFEAcA99QK7u+Rev5C9Xb_vmnGSZvx9EO+8D_fFB1qFmiMejcA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v4 3/8] target/arm/helper: Move M profile
+ routines to m_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,29 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yang Zhong <yang.zhong@intel.com>, Andrew Jones <drjones@redhat.com>,
+ Samuel Ortiz <sameo@linux.intel.com>, Rob Bradford <robert.bradford@intel.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 11:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Off by one error in the EL2 and EL3 tests.  Remove the test
-> against EL3 entirely, since it must always be true.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->
-> This bug resulted in an infinite loop in the kernel's initialization
-> of SVE with EL2 and VHE enabled.  It's probably worth including in 4.1,
-> even though VHE itself won't be included.
->
->
-> r~
+On 7/2/19 4:01 PM, Peter Maydell wrote:
+> On Mon, 1 Jul 2019 at 20:50, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>
+>> In preparation for supporting TCG disablement on ARM, we move most
+>> of TCG related v7m/v8m helpers and APIs into their own file.
+>>
+>> Note: It is easier to review this commit using the 'histogram'
+>>       diff algorithm:
+>>
+>>     $ git diff --diff-algorithm=histogram ...
+>>   or
+>>     $ git diff --histogram ...
+>>
+>> Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> patch generated with git diff --histogram.
+>>
+>> v4: rebased
+>> ---
+>>  target/arm/Makefile.objs |    1 +
+>>  target/arm/helper.c      | 2661 +------------------------------------
+>>  target/arm/m_helper.c    | 2676 ++++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 2681 insertions(+), 2657 deletions(-)
+>>  create mode 100644 target/arm/m_helper.c
+> 
+> This patch doesn't compile:
+> 
+>>
+>> -hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+>> -                                         MemTxAttrs *attrs)
+>> -{
+>> -    ARMCPU *cpu = ARM_CPU(cs);
+>> -    CPUARMState *env = &cpu->env;
+>> -    hwaddr phys_addr;
+>> -    target_ulong page_size;
+>> -    int prot;
+>> -    bool ret;
+>> -    ARMMMUFaultInfo fi = {};
+>> -    ARMMMUIdx mmu_idx = arm_mmu_idx(env);
+>> -
+>> -    *attrs = (MemTxAttrs) {};
+>> -
+>> -    ret = get_phys_addr(env, addr, 0, mmu_idx, &phys_addr,
+>> -                        attrs, &prot, &page_size, &fi, NULL);
+>> -
+>> -    if (ret) {
+>> -        return -1;
+>> -    }
+>> -    return phys_addr;
+>> -}
+>> -
+> 
+> ...it deletes the definition of arm_cpu_get_phys_page_attrs_debug(),
+> which should stay where it is.
 
+Grrrrr I missed that rebase failure within the 2676 lines.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+I am sorry and ambarassed I failed at notice it doesn't even compile.
 
