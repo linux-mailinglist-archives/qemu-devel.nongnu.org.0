@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFEA5D625
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:29:56 +0200 (CEST)
-Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887C75D547
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:31:47 +0200 (CEST)
+Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiNXP-0008Hq-7i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47526)
+	id 1hiMd8-0007Ok-41
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47159)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hiLXU-00079j-6P
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:21:53 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hiLV7-0004sz-LE
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:19:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hiLXS-00032H-Vr
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:21:52 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:42930)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hiLXS-00031a-Ni; Tue, 02 Jul 2019 12:21:50 -0400
-Received: by mail-lf1-x141.google.com with SMTP id x144so11831635lfa.9;
- Tue, 02 Jul 2019 09:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ayjdndP2oQomGn50vPaWJ1wMJuVcnMT5s/nYkk76XU8=;
- b=I49reY9SdpYvX99YTU0AkglQ5bd3qRClXRqMr/XKEWsaWBkctGy/R/PkNPiwolwqec
- Zku93g6o9Qpfw08H4dOPCmZSf8xDSuOA83v+goz9G4/gP7P17iILwPtPlNmhUYd4520c
- no4wXRD+U4PgUN4p1VfmXe6u6UFYIX/rfgncGFXa/ywDwNNy+/nH3Lxp8Wb6pMN8xd0Y
- p/l9Kn8U1RpQmY9eqedU92L8NBy9APQZSLt7ouyooJuOZAGGdVHXXZH/eT3CpJK0cUoJ
- 8tYo7vxQIJO5CeRKPSPjudmhhYaF+T1AcKkraiBLUDi6LLJXQUQVN4Vm8foePBGeLE/L
- URsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ayjdndP2oQomGn50vPaWJ1wMJuVcnMT5s/nYkk76XU8=;
- b=NFGoIuwHohLf3ku/Wvq4R1WYQlioOEL7LMkMdqeNPTViYGvfmHYZ7Gkse1CA7hZ80a
- TqTPrZGWOdVCuifWt6zHxSHhJAoegdVtMWiRRHl0rjhHSt4gxTlOoKDVwcyx6Z7iLhl8
- qRZf41vQJWE0t2DEWU6gwuZjWPhUhFEjIQo1UouDXi6UPsyNj8HK3djHh6XDcB/tbu+8
- 4CRDL8cO5RGO1PgTkMucgigpnKRjgmBFEj4ErPTbmjaB+oGoFRkbsL5zYUS8jMV0Qlle
- JZgAJPQRc95qSBCDJbihcLNIPr7lMjeq3OcFage/6A1I6u3R+ttO147o6g05XU6L7j8L
- DzoQ==
-X-Gm-Message-State: APjAAAUpvDB/sTwqF3q50SqLqT/6eW06qyJEs0mFGUi6OQFQqV7+P83F
- J6nGtC6mudGbdqkh9YvxAjJr6mUaZ7/upBoUWRI=
-X-Google-Smtp-Source: APXvYqzC7tcedpcFGuyHRJv6RiHRe6C4PigdxnPDGjrhKMTFdqaVEqwTu3naiOysS4CSyVa0SrT8F/X/cbQnofd4/FA=
-X-Received: by 2002:a19:c6d4:: with SMTP id w203mr2218406lff.135.1562084509460; 
- Tue, 02 Jul 2019 09:21:49 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1hiLV6-0001sm-Kb
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:19:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52190)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hiLV4-0001rW-7v; Tue, 02 Jul 2019 12:19:22 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6453BAC2D9;
+ Tue,  2 Jul 2019 16:19:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-120.brq.redhat.com
+ [10.40.204.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E86645D9C6;
+ Tue,  2 Jul 2019 16:19:15 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+References: <20190627223255.3789-1-mreitz@redhat.com>
+ <20190627223255.3789-5-mreitz@redhat.com>
+ <6f5eb9ac-c56f-943f-698f-38ec7726143d@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <82691afe-1a12-edbc-1cdc-f25ca114056a@redhat.com>
+Date: Tue, 2 Jul 2019 18:19:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190701123108.12493-1-philmd@redhat.com>
- <20190701123108.12493-7-philmd@redhat.com>
-In-Reply-To: <20190701123108.12493-7-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Jul 2019 09:18:46 -0700
-Message-ID: <CAKmqyKOgkt3NrAJzK8ZNqrszSCSjoyekS-XynBLsEXmbX8eghg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH 6/6] hw/net/xilinx_axi: Use
- object_initialize_child for correct ref. counting
+In-Reply-To: <6f5eb9ac-c56f-943f-698f-38ec7726143d@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DADSSPM0fytzLOKXLkzctCBAIjh5JwWPb"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 16:19:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 4/5] iotests: Add @use_log to VM.run_job()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,79 +86,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 5:38 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> As explained in commit aff39be0ed97:
->
->   Both functions, object_initialize() and object_property_add_child()
->   increase the reference counter of the new object, so one of the
->   references has to be dropped afterwards to get the reference
->   counting right. Otherwise the child object will not be properly
->   cleaned up when the parent gets destroyed.
->   Thus let's use now object_initialize_child() instead to get the
->   reference counting here right.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DADSSPM0fytzLOKXLkzctCBAIjh5JwWPb
+Content-Type: multipart/mixed; boundary="afDMoVDLgRq9x9dbwPyQw74tTJALGqSZ1";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org, Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Cleber Rosa <crosa@redhat.com>
+Message-ID: <82691afe-1a12-edbc-1cdc-f25ca114056a@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 4/5] iotests: Add @use_log to VM.run_job()
+References: <20190627223255.3789-1-mreitz@redhat.com>
+ <20190627223255.3789-5-mreitz@redhat.com>
+ <6f5eb9ac-c56f-943f-698f-38ec7726143d@redhat.com>
+In-Reply-To: <6f5eb9ac-c56f-943f-698f-38ec7726143d@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--afDMoVDLgRq9x9dbwPyQw74tTJALGqSZ1
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On 02.07.19 00:59, John Snow wrote:
+>=20
+>=20
+> On 6/27/19 6:32 PM, Max Reitz wrote:
+>> unittest-style tests generally do not use the log file, but VM.run_job=
+()
+>> can still be useful to them.  Add a parameter to it that hides its
+>> output from the log file.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>=20
+> Wondering out loud:
+>=20
+> can log() (and by extension qmp_log, and run_job) be made to use the
+> python logging module and we can configure the logging environment
+> instead of bespoke arguments to avoid ever engaging the log?
+>=20
+> We could theoretically just pre-disable iotests log output for unittest=
 
-> ---
->  hw/net/xilinx_axienet.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-> index feeaca680e..aa0ae3c013 100644
-> --- a/hw/net/xilinx_axienet.c
-> +++ b/hw/net/xilinx_axienet.c
-> @@ -990,15 +990,14 @@ static void xilinx_enet_init(Object *obj)
->      XilinxAXIEnet *s =3D XILINX_AXI_ENET(obj);
->      SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
->
-> -    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
-> -                      TYPE_XILINX_AXI_ENET_DATA_STREAM);
-> -    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
-> -                      TYPE_XILINX_AXI_ENET_CONTROL_STREAM);
-> -    object_property_add_child(OBJECT(s), "axistream-connected-target",
-> -                              (Object *)&s->rx_data_dev, &error_abort);
-> -    object_property_add_child(OBJECT(s), "axistream-control-connected-ta=
-rget",
-> -                              (Object *)&s->rx_control_dev, &error_abort=
-);
-> -
-> +    object_initialize_child(OBJECT(s), "axistream-connected-target",
-> +                            &s->rx_data_dev, sizeof(s->rx_data_dev),
-> +                            TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abo=
-rt,
-> +                            NULL);
-> +    object_initialize_child(OBJECT(s), "axistream-control-connected-targ=
-et",
-> +                            &s->rx_control_dev, sizeof(s->rx_control_dev=
-),
-> +                            TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_=
-abort,
-> +                            NULL);
->      sysbus_init_irq(sbd, &s->irq);
->
->      memory_region_init_io(&s->iomem, OBJECT(s), &enet_ops, s, "enet", 0x=
-40000);
-> --
-> 2.20.1
->
->
+> style tests, unless you run in debug mode where we allow it.
+>=20
+> I don't have a specific proposal for how to accomplish this, I think
+> there are some nuances to Python logging that I don't quite understand.=
+
+> Maybe Cleber Rosa can help advise?
+>=20
+> I'd like to toy with this idea; it seems like this won't be the last
+> time we want to turn output on/off.
+
+Sounds good.  But considering this is just test infrastructure, I=E2=80=99=
+ll
+leave that for when someone(TM) gets around to doing it.  (Hopefully
+when the next function is about to get a @use_log parameter.)
+
+Max
+
+
+--afDMoVDLgRq9x9dbwPyQw74tTJALGqSZ1--
+
+--DADSSPM0fytzLOKXLkzctCBAIjh5JwWPb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0bhAIACgkQ9AfbAGHV
+z0D0ZwgAoc9Mn2ahSp0t+zoCyH3GD/uWb4tGTXaTywusO3fc+ayabJrr/bSFyex8
+qf4lG1RD2aJqomxCglrru1gP+6XQnAm0umuSisII/0Xk7gyiUrkSw2bV20o9uAbn
+KH/K6UuYFFy7GSS+d67Rb8C4iFEe4zn7vihtYVtneDp/ZQjh7vLBWdsVNbtCl3VB
+vokmpfh4M2YDBxx/kXUIL1K4ADngCUpBmkeb1DcjHiFbnRppQ1ABCc1m2ZdW4B6t
+D93e+fDMrsHJOwWk4kahm8FVfr0xl7toKG4MBAkPaj4HQRk9sX9mjx4SFgFtRNDu
+gZVc7ozmbolUrcMnDFgnPT6r71jK6A==
+=K6tU
+-----END PGP SIGNATURE-----
+
+--DADSSPM0fytzLOKXLkzctCBAIjh5JwWPb--
 
