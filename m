@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26715CE3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:17:25 +0200 (CEST)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180BE5CE26
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:11:42 +0200 (CEST)
+Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGmq-0008JR-DL
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
+	id 1hiGhJ-0002dY-9d
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52822)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ppandit@redhat.com>) id 1hiGRy-0006Ld-4x
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:51 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hiGVO-0001iu-9h
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ppandit@redhat.com>) id 1hiGRx-0003cR-1H
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49454)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hiGRw-0003CA-Qy
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03A4B8A004;
- Tue,  2 Jul 2019 10:55:30 +0000 (UTC)
-Received: from kaapi (ovpn-116-87.phx2.redhat.com [10.3.116.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF200608BA;
- Tue,  2 Jul 2019 10:55:23 +0000 (UTC)
-Date: Tue, 2 Jul 2019 16:25:18 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-In-Reply-To: <20190701175010.GN3573@redhat.com>
-Message-ID: <nycvar.YSQ.7.76.1907021539350.23656@xnncv>
-References: <20190701123558.30512-1-ppandit@redhat.com>
- <20190701123558.30512-4-ppandit@redhat.com>
- <20190701175010.GN3573@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hiGVN-0000Y2-Ct
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:22 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51687)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hiGVN-0000WV-3n
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:21 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 207so415401wma.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4ksgFXLm2V4picF6y8O98mbXx4FFmwubuHlJ5yJyT6c=;
+ b=HTExFPMdNM4Z/DwAPwFp39QoW94zlCarNlymorXpRSKYyeEQvW568YgmE6GVfYwrLx
+ yEsfqHcidogPCBGPb7L2R3npnFnW4sQRvV3kUkhE7DC7Fboh2U4/Ev6oZEw0MQNA1C2N
+ UgK+dW+m8+pxXupc87LK0ipvq8QCXi/Yrgra8ZwsYzfXrvvS3oX3LRMUf03B4qKgCLze
+ qaLqF/PLAVSPYSoolJ19MaagePmH5WSM1O7rUu2VrCV7lwzdGCmca3U+i7Ta/vix8Bs7
+ Jn/p5x33933J8nxl5EVUIrN6F25HlACwTGCkQGBN0Z2due3lZIMZjuR05BVtKPKhujuh
+ ZbbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4ksgFXLm2V4picF6y8O98mbXx4FFmwubuHlJ5yJyT6c=;
+ b=j66gPEl+gKsyf8baAC24qtytpTGshWlagaQSTcDiqNT6RZG9L7ej8h7Enib2Yji2/f
+ tLkgZNn6syUwyrAExVQkybRzNE+UMfK0psmGVn39rrNUC77WR9kqixqBw+MsSLVI2I6I
+ WV9z35FcyL18rRjO5Gf1riBSH5Tr7v3NxEtMWy8y6HOMdclh78WCUPHPK99Faq30gUVp
+ Yb5Bga4gMkp4Q9MrKOUmvUSLvqSmKN9Yh0ZhwYYlVB7HXkM5koGagsaVM6T7omlBeOP+
+ pT414M1VyAgeT/AUmJWhDeds+6nUT/lmdU07EvsY+6BaUugIPAgkFqh0f5WJ1y2ETj2E
+ sxvQ==
+X-Gm-Message-State: APjAAAUliYnnB8UFClKb0V9HFlwzKIQDmpZoKVpP+DqfUt+t3uqjWoQT
+ I95BWzzsippof26rPDH5T0u/jUqyNUlsyg==
+X-Google-Smtp-Source: APXvYqxT1XsQJFdgbnPw2GWd5Z4t4AzF8IFjgI7xof2PjMlSLaPlev6rw/EQagpxb1T7dyjNjnxcRg==
+X-Received: by 2002:a1c:56d7:: with SMTP id k206mr3036715wmb.56.1562065159847; 
+ Tue, 02 Jul 2019 03:59:19 -0700 (PDT)
+Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id f7sm16505397wrv.38.2019.07.02.03.59.19
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Jul 2019 03:59:19 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190702105115.9465-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <7896f53a-69f1-8989-f932-734323d8a9b7@linaro.org>
+Date: Tue, 2 Jul 2019 12:59:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-ID: <nycvar.YSQ.7.76.1907021550090.23656@xnncv>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 02 Jul 2019 10:55:30 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v3 3/3] net: tap: refactor
- net_bridge_run_helper routine
+In-Reply-To: <20190702105115.9465-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Correct VMOV_imm_dp
+ handling of short vectors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,71 +84,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hello Dan,
+On 7/2/19 12:51 PM, Peter Maydell wrote:
+> Coverity points out (CID 1402195) that the loop in trans_VMOV_imm_dp()
+> that iterates over the destination registers in a short-vector VMOV
+> accidentally throws away the returned updated register number
+> from vfp_advance_dreg(). Add the missing assignment. (We got this
+> correct in trans_VMOV_imm_sp().)
+> 
+> Fixes: 18cf951af9a27ae573a
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate-vfp.inc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-+-- On Tue, 2 Jul 2019, Daniel P. Berrang=E9 wrote --+
-| The original code was passing through to the shell to handle the case
-| where the user requested
-|=20
-|    -netdev bridge,helper=3D"/path/to/helper myarg otherarg"
-|=20
-| In theory any parts could contain shell meta characters, but even if
-| they don't we'll have slightly broken compat with this change.
-
-I wonder if anybody uses it like that. Because of the 3 arguments that=20
-qemu-bridge-helper takes
-
-  --use-vnet --fd=3Dsv[1] --br=3Dbridge
-
-only bridge name is supplied by user; Which is anyway comming without 'he=
-lper'=20
-having to include '--br=3Dbridge' argument, as is looked for before shell=
-=20
-invocation
-
-  if (strstr(helper, "--br=3D") =3D=3D NULL) {
-      snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", bridge);
-  }
-
-'--br=3Dbridge' has limited scope to use shell meta characters, ie. other=
- than=20
-space(' ') and tab('\t').
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-| The QEMU man page has never documented that you can pass a command
-| and args, which get sent via the shell though. It only ever documented
-| the helper arg as being a plain qualified binary path.
-|=20
-| So the question is how strictly we need to consider compatibility.
-|=20
-| The "if it isn't documented it never existed" option is to use your
-| patch here.
+r~
 
-We don't know if "/path/to/helper arg1 arg2" usage exists in practice. An=
-d=20
-considering user would still be able to supply 'bridge' argument, I wonde=
-r if=20
-we are breaking compatibility.
-
-| The safest option is to put in a place a deprecation saying we'll
-| drop use of shell in future, only implementing the aggressive
-| option in a later release.
-
-ie. for Qemu > v4.0.0? How do we do this?
-
-| Perhaps from your POV, the easy thing is to avoid this entire
-| question - just leave the code calling shell, but switch to
-| g_strdup_printf instead of snprintf.
-
-Okay, this will be for Qemu <=3D v4.0.0?
-
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
