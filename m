@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E365C86E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:38:29 +0200 (CEST)
-Received: from localhost ([::1]:48926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8B95C861
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:35:16 +0200 (CEST)
+Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAYm-0007z2-HH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41757)
+	id 1hiAVf-0003gm-Lu
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41633)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiAAE-0008GJ-Kq
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:13:08 -0400
+ (envelope-from <armbru@redhat.com>) id 1hiAA4-0008BQ-5i
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:12:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiAAC-0005Qd-KY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:13:06 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50385 helo=ozlabs.org)
+ (envelope-from <armbru@redhat.com>) id 1hiAA1-0005I2-5O
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:12:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiAAB-0005GF-Tz; Tue, 02 Jul 2019 00:13:04 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45d9nX56DKz9sBp; Tue,  2 Jul 2019 14:12:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562040768;
- bh=c0Dq0KUllXCCayf72BwIYzkyxR+YWNmggVRhhMjGeec=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fNZk0Ne/Pv0CRTeknzFu6/21JtfRniPRMFGRED/Tex5fYflrfhgxECu8aYVqlA/gx
- LuB6FbOZ+LowBaNe+LT5R4Gn8BUr91/mjKcacn7JEnmxigskFoEDqgbIZe7SA98jnu
- 4bYfR5GsqGiIVG+XmtAnX7BZQwvcoj30NjpOPaKA=
-Date: Tue, 2 Jul 2019 14:12:36 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190702041236.GK6779@umbus.fritz.box>
-References: <156033104292.26635.15759339817253067370.stgit@aravinda>
- <156033129836.26635.3348706829139659071.stgit@aravinda>
- <20190624162935.02d08837@bahia.lan>
- <658ed3c3-9722-e23a-b65c-89df6025461e@linux.vnet.ibm.com>
- <20190625090023.10c26982@bahia.lan>
- <29912bc9-4241-90f2-5cf6-57e6ed8f420b@linux.vnet.ibm.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hiAA0-0005BJ-BX; Tue, 02 Jul 2019 00:12:53 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E41F22E97C8;
+ Tue,  2 Jul 2019 04:12:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
+ [10.36.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A3665C28D;
+ Tue,  2 Jul 2019 04:12:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AFFC4111BD5C; Tue,  2 Jul 2019 06:12:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+ <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
+ <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+Date: Tue, 02 Jul 2019 06:12:38 +0200
+In-Reply-To: <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 1 Jul 2019 19:01:12 +0100")
+Message-ID: <87a7dxqdl5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AYsPlKobQGgtCvjI"
-Content-Disposition: inline
-In-Reply-To: <29912bc9-4241-90f2-5cf6-57e6ed8f420b@linux.vnet.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v10 6/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 02 Jul 2019 04:12:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,176 +63,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
- paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Jeff Cody <codyprime@gmail.com>, "palmer@sifive.com" <palmer@sifive.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---AYsPlKobQGgtCvjI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, 1 Jul 2019 at 18:50, Alistair Francis <Alistair.Francis@wdc.com> wrote:
+>>
+>> On Mon, 2019-07-01 at 17:54 +0100, Peter Maydell wrote:
+>> > On Thu, 27 Jun 2019 at 16:24, Palmer Dabbelt <palmer@sifive.com>
+>> > wrote:
+>> > > From: Alistair Francis <alistair.francis@wdc.com>
+>> > >
+>> > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
+>> > >
+>> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>> > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
+>> > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+>> > > ---
+>> > >  .gitmodules                                  |   3 ++
+>> > >  Makefile                                     |   5 +-
+>> > >  pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 0 -> 28848
+>> > > bytes
+>> > >  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 0 -> 28904
+>> > > bytes
+>> > >  pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 0 -> 28904
+>> > > bytes
+>> > >  roms/Makefile                                |  48 ++++++++++++++-
+>> > > ----
+>> > >  roms/opensbi                                 |   1 +
+>> > >  7 files changed, 44 insertions(+), 13 deletions(-)
+>> > >  create mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+>> > >  create mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>> > >  create mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+>> > >  create mode 160000 roms/opensbi
+>> > >
+>> > > diff --git a/.gitmodules b/.gitmodules
+>> > > index 2857eec76377..7a10e72e09cd 100644
+>> > > --- a/.gitmodules
+>> > > +++ b/.gitmodules
+>> > > @@ -55,3 +55,6 @@
+>> > >  [submodule "slirp"]
+>> > >         path = slirp
+>> > >         url = https://git.qemu.org/git/libslirp.git
+>> > > +[submodule "roms/opensbi"]
+>> > > +       path = roms/opensbi
+>> > > +       url = https://github.com/riscv/opensbi.git
+>> >
+>> > It would be nice to state the license for new blobs we're
+>> > adding to the source tree... In particular, I find the
+>> > readme at https://github.com/riscv/opensbi a bit confusing
+>> > because it says it's 2-BSD but also that some parts are Apache-2.0;
+>> > the latter is *not* GPL-2.0 compatible. That makes it not completely
+>> > obvious to me that we can ship this with QEMU.
+>>
+>> Ah, I didn't realise there is Apache-2.0 code in there.
+>>
+>> In this case all of the code we are using (we aren't using the Kendryte
+>> code with QEMU) is BSD-2-Clause. Even then though does it matter if it
+>> is GPL compatible? This isn't being linked with QEMU it is just being
+>> included with QEMU.
+>
+> Yeah, if we're not building the apache-2.0 parts then I think
+> we're OK, and as you say there's the question of whether QEMU's
+> GPL affects what we ship as mere bios blobs to run as guest
+> code anyway. But it's sufficiently not a "really obviously ok"
+> that I'd like a second opinion; cc'd some people who might have
+> second opinions.
 
-On Wed, Jun 26, 2019 at 10:43:33AM +0530, Aravinda Prasad wrote:
->=20
->=20
-> On Tuesday 25 June 2019 12:30 PM, Greg Kurz wrote:
-> > On Tue, 25 Jun 2019 11:46:06 +0530
-> > Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-> >=20
-> >> On Monday 24 June 2019 07:59 PM, Greg Kurz wrote:
-> >>> On Wed, 12 Jun 2019 14:51:38 +0530
-> >>> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-> >>>  =20
-> >>>> This patch adds support in QEMU to handle "ibm,nmi-register"
-> >>>> and "ibm,nmi-interlock" RTAS calls and sets the default
-> >>>> value of SPAPR_CAP_FWNMI_MCE to SPAPR_CAP_ON for machine
-> >>>> type 4.0.
-> >>>> =20
-> >>>
-> >>> Next machine type is 4.1. =20
-> >>
-> >> ok.
-> >>
-> >>>  =20
-> >>>> The machine check notification address is saved when the
-> >>>> OS issues "ibm,nmi-register" RTAS call.
-> >>>>
-> >>>> This patch also handles the case when multiple processors
-> >>>> experience machine check at or about the same time by
-> >>>> handling "ibm,nmi-interlock" call. In such cases, as per
-> >>>> PAPR, subsequent processors serialize waiting for the first
-> >>>> processor to issue the "ibm,nmi-interlock" call. The second
-> >>>> processor that also received a machine check error waits
-> >>>> till the first processor is done reading the error log.
-> >>>> The first processor issues "ibm,nmi-interlock" call
-> >>>> when the error log is consumed.
-> >>>>
-> >>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> >>>> ---
-> >>>>  hw/ppc/spapr.c         |    6 ++++-
-> >>>>  hw/ppc/spapr_rtas.c    |   63 +++++++++++++++++++++++++++++++++++++=
-+++++++++++
-> >>>>  include/hw/ppc/spapr.h |    5 +++-
-> >>>>  3 files changed, 72 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >>>> index 3d6d139..213d493 100644
-> >>>> --- a/hw/ppc/spapr.c
-> >>>> +++ b/hw/ppc/spapr.c
-> >>>> @@ -2946,6 +2946,9 @@ static void spapr_machine_init(MachineState *m=
-achine)
-> >>>>          /* Create the error string for live migration blocker */
-> >>>>          error_setg(&spapr->fwnmi_migration_blocker,
-> >>>>                  "Live migration not supported during machine check =
-handling");
-> >>>> +
-> >>>> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS cal=
-ls */
-> >>>> +        spapr_fwnmi_register(); =20
-> >>>
-> >>> IIRC this was supposed to depend on SPAPR_CAP_FWNMI_MCE being ON. =20
-> >>
-> >> Yes this is inside SPAPR_CAP_FWNMI_MCE check:
-> >>
-> >> if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_ON) {
-> >>     /*
-> >>      * Ensure that the rtas image size is less than RTAS_ERROR_LOG_OFF=
-SET
-> >>      * or else the rtas image will be overwritten with the rtas error =
-log
-> >>      * when a machine check exception is encountered.
-> >>      */
-> >>     g_assert(spapr->rtas_size < RTAS_ERROR_LOG_OFFSET);
-> >>
-> >>     /* Resize rtas blob to accommodate error log */
-> >>     spapr->rtas_size =3D RTAS_ERROR_LOG_MAX;
-> >>
-> >>     /* Create the error string for live migration blocker */
-> >>     error_setg(&spapr->fwnmi_migration_blocker,
-> >>             "Live migration not supported during machine check handlin=
-g");
-> >>
-> >>     /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
-> >>     spapr_fwnmi_register();
-> >> }
-> >>
-> >=20
-> > Oops my bad... sorry for the noise.
-> >=20
-> >>
-> >>>  =20
-> >>>>      }
-> >>>> =20
-> >>>>      spapr->rtas_blob =3D g_malloc(spapr->rtas_size);
-> >>>> @@ -4408,7 +4411,7 @@ static void spapr_machine_class_init(ObjectCla=
-ss *oc, void *data)
-> >>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_O=
-FF;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
-AP_ON;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> >>>> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
-> >>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_ON;
-> >>>>      spapr_caps_add_properties(smc, &error_abort);
-> >>>>      smc->irq =3D &spapr_irq_dual;
-> >>>>      smc->dr_phb_enabled =3D true;
-> >>>> @@ -4512,6 +4515,7 @@ static void spapr_machine_3_1_class_options(Ma=
-chineClass *mc)
-> >>>>      smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
-AP_OFF;
-> >>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF; =
-=20
-> >>>
-> >>> This should have been put into spapr_machine_4_0_class_options(). =20
-> >>
-> >> ok. I will change it.
-> >>
-> >>>
-> >>> But unless you manage to get this merged before soft-freeze (2019-07-=
-02),
-> >>> I'm afraid this will be a 4.2 feature. =20
-> >>
-> >> If there are no other comments, can this be merged to 4.1? I will send=
- a
-> >> revised version with the above changes.
-> >>
-> >=20
-> > This is David's call.
->=20
-> David, can you let me know if this can be merged to 4.1 with the above
-> minor changes?
+You need an expert opinion.
 
-Nope, sorry.  I've been away, but also this still needs more polish.
+My non-expert opinion: we can't distribute anything that's not
+compatible with GPLv2, at least as long as LICENSE makes the following
+claims:
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+    1) QEMU as a whole is released under the GNU General Public License,
+    version 2.
 
---AYsPlKobQGgtCvjI
-Content-Type: application/pgp-signature; name="signature.asc"
+    2) Parts of QEMU have specific licenses which are compatible with the
+    GNU General Public License, version 2. Hence each source file contains
+    its own licensing information.  Source files with no licensing information
+    are released under the GNU General Public License, version 2 or (at your
+    option) any later version.
 
------BEGIN PGP SIGNATURE-----
+    As of July 2013, contributions under version 2 of the GNU General Public
+    License (and no later version) are only accepted for the following files
+    or directories: bsd-user/, linux-user/, hw/vfio/, hw/xen/xen_pt*.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0a2bQACgkQbDjKyiDZ
-s5JddQ//Qo7UsuTWrmVMk1DKcyycMzbGt2FIkyyVrUOXFk55F9jXrxdb0XkaCbbX
-oBu+h+wPIMVC4+x6XstGiF2Hbyfx2yW9Cw0mPX9Ww6VxzJsBK0C58bzMeIklUeBu
-PZ2lEuSHUWQ/CaUt00ug8JP46+92K6z2jqf6zzPVx1fl+c8B91ONx8QRCyFH5Xpa
-jnyoyFgzA55GmJmGnhqb5gmVPO77NoKZYx/fK3v2hTRPA6qreFyJDvLLNKIAfEB4
-LS8y8NRkgkR6LXwGkLyJlhCXxC1GMTKoJBUxIdJgpMSdFcZx34oECQ3rEOoaQLh1
-VC0himTo2kFzXSkR2YNk32taYLSuJDH50xiuEnL6lNtwfD8dZftzQ6T82wNJ83pE
-mhf1O8A+c1dJXXbSX3ahGWSGufogSgbuUXTolRqH7V9TWF1Q74DITfmFj6dRsRjY
-sg0YNpbl72A7FAsTdz1D3IhxR8W1gQ1pSjhHihBOAmCT8w9dFBh39cWCpV1/9sUm
-JdSXrJw+jMe07HgaQfrceOeMRVHSKbrlDaV7xyJs8aQVu5J6GfZvEiLsZii6uTXb
-TddNVCr/g5DoegbY1bTC/2SC8lz4KfEdyCCnCHAGzykELiyOVEPcfodAKrw25eGf
-4aiggfzoqKH1EhCnD1cwJfSDhHmDNMA/d4Ds5x87F0VcmOQy1mk=
-=/olb
------END PGP SIGNATURE-----
+    3) The Tiny Code Generator (TCG) is released under the BSD license
+       (see license headers in files).
 
---AYsPlKobQGgtCvjI--
+Complicating things further just to distribute a firmware blob would be
+a mistake.  Our licensing situation is already complex enough for me to
+call it a mistake.
+
+[...]
 
