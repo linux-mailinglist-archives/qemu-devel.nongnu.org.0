@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6BD5D421
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:18:45 +0200 (CEST)
-Received: from localhost ([::1]:54948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6D25D437
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:26:23 +0200 (CEST)
+Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLUR-0002tK-IH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
+	id 1hiLbr-00025A-1M
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35705)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiKfq-0001G7-Et
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:27 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hiKiT-00046p-1R
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:29:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiKfp-0005ES-Ef
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49079)
+ (envelope-from <mreitz@redhat.com>) id 1hiKiR-0007ut-T3
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:29:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39352)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiKfp-0005D1-8F
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:25 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hiKiP-0007qp-AC; Tue, 02 Jul 2019 11:29:05 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8488D81127;
- Tue,  2 Jul 2019 15:26:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
- [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A1AA4C492;
- Tue,  2 Jul 2019 15:26:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E8E411132ABF; Tue,  2 Jul 2019 17:26:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Natalia Fursova" <Natalia.Fursova@ispras.ru>
-References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
- <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
- <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
- <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
- <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
- <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
- <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
- <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
- <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
- <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
- <c49abf01-c209-b206-edee-507c31269011@redhat.com>
- <87o934sdot.fsf@dusky.pond.sub.org>
- <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
- <87ftogp7f5.fsf@dusky.pond.sub.org>
- <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
- <014c01d530cb$73ff1950$5bfd4bf0$@Fursova@ispras.ru>
-Date: Tue, 02 Jul 2019 17:26:15 +0200
-In-Reply-To: <014c01d530cb$73ff1950$5bfd4bf0$@Fursova@ispras.ru> (Natalia
- Fursova's message of "Tue, 2 Jul 2019 14:44:05 +0300")
-Message-ID: <8736jo1mqw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 945B3A96F1;
+ Tue,  2 Jul 2019 15:29:00 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-120.brq.redhat.com
+ [10.40.204.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 297E72E043;
+ Tue,  2 Jul 2019 15:28:39 +0000 (UTC)
+To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+References: <20190627223255.3789-1-mreitz@redhat.com>
+ <20190627223255.3789-2-mreitz@redhat.com>
+ <w51v9wk5ybk.fsf@maestria.local.igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <07be76c5-fea9-96b7-e50b-eddc04a38e42@redhat.com>
+Date: Tue, 2 Jul 2019 17:28:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <w51v9wk5ybk.fsf@maestria.local.igalia.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 02 Jul 2019 15:26:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 15:29:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] qgraph
+Subject: Re: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,29 +86,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Paolo Bonzini' <pbonzini@redhat.com>,
- 'Andreas =?utf-8?Q?F=C3=A4rb?= =?utf-8?Q?er'?= <afaerber@suse.de>,
- =?utf-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Natalia Fursova" <Natalia.Fursova@ispras.ru> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf
+Content-Type: multipart/mixed; boundary="8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Andrey Shinkevich
+ <andrey.shinkevich@virtuozzo.com>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <07be76c5-fea9-96b7-e50b-eddc04a38e42@redhat.com>
+Subject: Re: [PATCH 1/5] block: Add BDS.never_freeze
+References: <20190627223255.3789-1-mreitz@redhat.com>
+ <20190627223255.3789-2-mreitz@redhat.com>
+ <w51v9wk5ybk.fsf@maestria.local.igalia.com>
+In-Reply-To: <w51v9wk5ybk.fsf@maestria.local.igalia.com>
 
-> Hi there again!
-> Thank you for your answers, I have new question.
->  
-> I want to identify PCI devices (e.g. network cards) and observed one
-> strange thing. I use qmp command "qom-list-type" and build tree from
-> it output. Some items don't have parent and don't give information
-> about themselves. E. g. "e1000-base". It has three children and it
-> belongs to PCI devices, but I can't know it, cuz command
-> "qom-list-properties" returns empty message.
->
-> There is no information about "e1000-base" in "qom-list-type"
-> output. It is referenced only as a parent for network cards.  Is it
-> ok? Maybe is there other way for get information about all PCI
-> devices?
+--8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-qom-list-types only returns concrete types by default.  Try passing
-"abstract": true.
+On 02.07.19 16:02, Alberto Garcia wrote:
+> On Fri 28 Jun 2019 12:32:51 AM CEST, Max Reitz wrote:
+>> @@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState =
+*bs, BlockDriverState *base,
+>>          return -EPERM;
+>>      }
+>> =20
+>> +    for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
+>> +        if (i->backing && backing_bs(i)->never_freeze) {
+>> +            error_setg(errp, "Cannot freeze '%s' link to '%s'",
+>> +                       i->backing->name, backing_bs(i)->node_name);
+>> +            return -EPERM;
+>> +        }
+>> +    }
+>=20
+> How about adding this to bdrv_is_backing_chain_frozen() instead?
+
+But that=E2=80=99s the wrong place.  For example, that function is called=
+ by
+bdrv_set_backing_hd() to check whether the backing BDS can be changed.
+But the point of never_freeze is to ensure that links to the BDS can be
+changed.
+
+never_freeze only becomes relevant when trying to freeze the backing
+chain, in that it should prevent it.  So I think putting the check here
+is correct.
+
+Max
+
+
+--8hBmlz7ywDQEFoWWzKPzczD5o8rcEYv2d--
+
+--SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0beCYACgkQ9AfbAGHV
+z0Du3Af/XG1iUmRdIDRs9OpDSfVfg7ow8iMyMwDrkMcxEjKwPpJhjExgMhh419gW
+ur0tL4wgnPvrKj8JlZm/8z8PsEFP3edXESWSGpYXGTGeNbn1WhhyKrAeCQTRbVP5
+wLq7p5wjX4eLJyShDbmZQ3nma7daboaMtvAy3Y9aUk6o+xvOwdIjIlgn7YLPPTmt
+/xwDX+vXO3Gsa+xlV5M0/fPqk6ffJjGcBJlRz4jfndg3BvTKxYK7DCu9qcxHAYDb
+QXuuc6q00fH7OBNF2cB2LOSSgmNhhtp2xsjUC7KAc4FsswG/y2EzIURDKQR9uVJv
+KP0WQa265d1DhJrTzFM3SqVDNVW9ww==
+=AW1P
+-----END PGP SIGNATURE-----
+
+--SiKOJDYftHuyiaw2HU36MQDLkGiujRTDf--
 
