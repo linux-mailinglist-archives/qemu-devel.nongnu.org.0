@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6602B5CE1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:08:16 +0200 (CEST)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26715CE3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:17:25 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGdz-00073U-JI
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
+	id 1hiGmq-0008JR-DL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hiGOp-0002FW-8o
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:36 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hiGRy-0006Ld-4x
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hiGOn-000722-13
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:35 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50443)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiGOm-0006vv-Of
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:52:32 -0400
-Received: by mail-wm1-f68.google.com with SMTP id n9so403912wmi.0
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:52:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=EuvAflXMAR9YVsEoIjEyPO3DNj428NjGb140FXnFjpM=;
- b=LKXZPBoDOemXPbXkVyYXjx4amgmGygicIN6wP7/ejOF8+UrWM4/Gyuuz+u4CKyNajl
- 1R6CMU2UIG3kp1XiSMr+l1bBeGFv5QvbNGh14FsLI9KQ5n161Dp3/KztUIC+bUgsel/0
- 56kSVAundHbjSzIXN2eqUuxALj43XW+/HV++PGA13ZLtHJVgVIWf0ZIWenBFkwjoywmA
- 1Aaftt+87YIFH/n3P0jqZX7DJybGR4niMvQ8bselHG17hiDyDHg8Xodk5G+W4JGtpoXd
- TnPN7v7FReihedmZ5H851UEr/G23gKbCmfE77a16o7civ7lMLnvh4vuZEsdKtsWBnVC1
- W0Uw==
-X-Gm-Message-State: APjAAAXNJXElqzPObuBnRqtM6OY/xwQZAaGB49MmA4eNttqrKJtdxjzE
- bQ4hezDbLiBhLp4HeUMRD4DpBphtDkhreg==
-X-Google-Smtp-Source: APXvYqy5mfBokw4isYX+q47p1l7nEdln3cfZUDxBpkI7PfgZYbwveaDe8aEkbcd308PgQf8jvwZZpg==
-X-Received: by 2002:a05:600c:c4:: with SMTP id u4mr3179902wmm.96.1562064750063; 
- Tue, 02 Jul 2019 03:52:30 -0700 (PDT)
-Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
- [83.35.20.18])
- by smtp.gmail.com with ESMTPSA id e7sm1759510wmd.0.2019.07.02.03.52.28
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 03:52:29 -0700 (PDT)
-References: <20190701144705.102615-1-slp@redhat.com>
- <20190701144705.102615-5-slp@redhat.com>
- <20190702081733.ff6cboiddln5wmti@sirius.home.kraxel.org>
- <878stgygiu.fsf@redhat.com>
- <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-In-reply-to: <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
-Date: Tue, 02 Jul 2019 12:52:27 +0200
-Message-ID: <875zokyahg.fsf@redhat.com>
+ (envelope-from <ppandit@redhat.com>) id 1hiGRx-0003cR-1H
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49454)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hiGRw-0003CA-Qy
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:55:48 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 03A4B8A004;
+ Tue,  2 Jul 2019 10:55:30 +0000 (UTC)
+Received: from kaapi (ovpn-116-87.phx2.redhat.com [10.3.116.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF200608BA;
+ Tue,  2 Jul 2019 10:55:23 +0000 (UTC)
+Date: Tue, 2 Jul 2019 16:25:18 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+In-Reply-To: <20190701175010.GN3573@redhat.com>
+Message-ID: <nycvar.YSQ.7.76.1907021539350.23656@xnncv>
+References: <20190701123558.30512-1-ppandit@redhat.com>
+ <20190701123558.30512-4-ppandit@redhat.com>
+ <20190701175010.GN3573@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-ID: <nycvar.YSQ.7.76.1907021550090.23656@xnncv>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 02 Jul 2019 10:55:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
- machine type
+X-Received-From: 209.132.183.28
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v3 3/3] net: tap: refactor
+ net_bridge_run_helper routine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,102 +61,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
+Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+  Hello Dan,
+
++-- On Tue, 2 Jul 2019, Daniel P. Berrang=E9 wrote --+
+| The original code was passing through to the shell to handle the case
+| where the user requested
+|=20
+|    -netdev bridge,helper=3D"/path/to/helper myarg otherarg"
+|=20
+| In theory any parts could contain shell meta characters, but even if
+| they don't we'll have slightly broken compat with this change.
+
+I wonder if anybody uses it like that. Because of the 3 arguments that=20
+qemu-bridge-helper takes
+
+  --use-vnet --fd=3Dsv[1] --br=3Dbridge
+
+only bridge name is supplied by user; Which is anyway comming without 'he=
+lper'=20
+having to include '--br=3Dbridge' argument, as is looked for before shell=
+=20
+invocation
+
+  if (strstr(helper, "--br=3D") =3D=3D NULL) {
+      snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", bridge);
+  }
+
+'--br=3Dbridge' has limited scope to use shell meta characters, ie. other=
+ than=20
+space(' ') and tab('\t').
 
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+| The QEMU man page has never documented that you can pass a command
+| and args, which get sent via the shell though. It only ever documented
+| the helper arg as being a plain qualified binary path.
+|=20
+| So the question is how strictly we need to consider compatibility.
+|=20
+| The "if it isn't documented it never existed" option is to use your
+| patch here.
 
->   Hi,
->
->> > Can we get rid of the kernel command line hacking please?
->> > The virtio-mmio devices should be discoverable somehow.
->> >
->> > Device tree (as suggested by paolo) would work.
->> > Custom acpi device (simliar to fw_cfg) is another option.
->> > I'd tend to pick acpi, I wouldn't be surprised if we'll
->> > need acpi anyway at some point.
->> >
->> > Maybe even do both, then switch at runtime depending on -no-acpi
->> > (simliar to arm/aarch64).
->>=20
->> Microvm tries to do things in the cheapest possible way.
->
-> But taking too many shortcuts tends to hurt in the long run.
-> It also cuts off useful use cases.
+We don't know if "/path/to/helper arg1 arg2" usage exists in practice. An=
+d=20
+considering user would still be able to supply 'bridge' argument, I wonde=
+r if=20
+we are breaking compatibility.
 
-Sure, but the consideration about whether there are too many shortcuts,
-or just enough of them, is quite subjective. Microvm's code base is
-small enough to keep its quirks in check without a becoming a
-significant maintenance burden, and doesn't invalidate how other, more
-conventional machine types work.
+| The safest option is to put in a place a deprecation saying we'll
+| drop use of shell in future, only implementing the aggressive
+| option in a later release.
 
-> I think microvm has more value than just the reduced boot time.
-> Specifically the reduced attack surface is useful I think, even
-> beyond container-style workloads.  Being able to boot standard
-> cloud images (with the cloud image kernel loaded via cloud image
-> boot loader) in microvm would be useful for example.
+ie. for Qemu > v4.0.0? How do we do this?
 
-Agreed.
+| Perhaps from your POV, the easy thing is to avoid this entire
+| question - just leave the code calling shell, but switch to
+| g_strdup_printf instead of snprintf.
 
-> So, yes, I want microvm being designed in a way that it can run
-> firmware and have it handle the boot process.  For starters just
-> qboot for fast direct kernel boot, but longer term also seabios
-> and/or ovmf.
+Okay, this will be for Qemu <=3D v4.0.0?
 
-As I said, I'm also in favor of microvm supporting booting from
-firmware in the future, as long we keep the simple mode too.
 
-> Can look at the seabios side, but probably not before I'm back
-> from my summer vacation in august.  For seabios a simple & reliable
-> time source would be quite useful.  Direct kernel boot might be doable
-> without that, but as soon as any I/O (read from cloud image disk) is
-> involved a time source is needed.  Right now seabios uses the acpi
-> pm_timer.  tsc should work too if seabios can figure the frequency
-> without a calibration loop (invtsc should be enough).  Maybe seabios
-> needs kvmclock support ...
-
-My main concern about supporting SeaBIOS, in addition to boot times, is
-having to support ACPI, which due to its complexity and size, is a clear
-candidate to be stripped out from a minimalistic QEMU build.
-
-> Is there any way to detect microvm from the guest?  pc/q35 can be
-> easily detected by looking at the pci host bridge.
-
-One option would be using the fields MPC_OEM and MPC_PRODUCT_ID from the
-MP Table to give a hint to the guest.
-
-> Do you have boot time numbers for qboot vs. no-firmware boot?
-> Is the difference big enough that it makes sense to maintain both?
-
-AFAIK, qboot can't boot a guest without both ACPI and PCI.
-
-Sergio.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0bN2sACgkQ9GknjS8M
-AjXgWg/+IVYAKICb6sy0xQF7xtGhl7EEn1Gukjiof8Qw0eS4g+FraS0crOyR6vtl
-+xEtI55jdpl7sEnDtACzwTErOQdm1/160nLfscMe98VUl5ZbW3JqmvQ7WYFIixn5
-eheTxk3CJnVqA5AR25dYG+zZ15ULaxMjEZ2pwIcjOPXjYWZrs/GVcqYW69VYUDzw
-pF5Lh5GbkwOJWjdwjhxdZ2WLsRUqN+J0ZzS1DZh/aQVzI/XhBRFP77SBsfN9jBYo
-LIRIhtzRmjvk8XvDecbZAI6xhQPBjadRiY9IXWoPI4OCRXPIRk1tJKJFOr6lKvZn
-0PYcDOmf+Nb+c/fign/iF1ekkF5tWcI500Z2bDxiVuuOVJYtcRwagdB1KiLbuGKA
-DNOvgznTHtxHDW9qS4eM8cDxMjdCgLRYJ8GAYkYzMdj5MqllY6qd1fDE/rQR6EJr
-Z+1ha/4FwIi2P6NOg9p7nOqA2LRFuYviXxo24WaC9ZYdF0AdpO5umuLJtMhELXso
-JnDAJmCF/ClqPcK4qwMpTLHfNx3OQWDbLGLGNJHgdoT+DYQBvdy2pOI5ZXqGABle
-fPbU/llhYkiiMyy9PepKWGaebsmnZkSdx5fN2hYhRjZ0LSy/95FvAYg0jyfjilmB
-xdLtEymA3IrH8c5nRswxDDfoOFE6E4ihl55rQm4tnyxdZ8JWK7Q=
-=sW3N
------END PGP SIGNATURE-----
---=-=-=--
-
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
