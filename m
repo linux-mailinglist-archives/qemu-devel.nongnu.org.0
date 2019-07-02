@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1948F5CEE3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:52:02 +0200 (CEST)
-Received: from localhost ([::1]:51942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCF35CF49
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:18:27 +0200 (CEST)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHKL-0000Hs-99
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34825)
+	id 1hiHju-0006Um-6w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36961)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiHFi-0005yT-Uq
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:47:16 -0400
+ (envelope-from <bounces@canonical.com>) id 1hiHNy-000417-Qm
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiHFh-00014J-Hg
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:47:14 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39829)
+ (envelope-from <bounces@canonical.com>) id 1hiHNx-0004jY-0w
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiHFc-0000xH-H8
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:47:10 -0400
-Received: by mail-ot1-x342.google.com with SMTP id r21so16176725otq.6
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 04:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dSRxAHcDzhVFRmaf5h2eXJkPlzIFYCiYsZli86wZ5ls=;
- b=UsqarQr0YXlZxF+nMkyGoj5J15hUK9LpbuuEJ2KPmdnNpO1LgY630cyTaZoI35uuK6
- DUAvl2nw24uK95MEcdiywj4HJBnf/jY0NQGqYPzrWMdssmZnhio0mqs0stEzzpEcVSkb
- mYLzZZX/UaQ6l17XZZ7bZLDaEra/ariU2jOvl3UuWMRlr41Bjt/RnO8XS+C5G14X6cRW
- 0GUwYrxH29JIFS5nRXVT2z6gqPMJZmaZ/4R0Z5N4NuM3m0iXbL+XK0CZKNi8BPYHOpPE
- NKMeuMBECB9TuWT87FeUb+tSVhyem2ZsYTd085A/dUb5RPv+5vdcI+1nGMK1zfT+KNvl
- Ga6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dSRxAHcDzhVFRmaf5h2eXJkPlzIFYCiYsZli86wZ5ls=;
- b=cYGvItwmA/xxPgcOjNdXL+GlHjrwl1wwl72RLdbu/PQcJgdGradgEkNKSEXgJZdAAt
- U9DTB5Gvr/3a160raOISKqPENoKCx1qjsn5fum+FG/YdpoIXHyjWESIwmzg1S8XvJIPX
- ePycpxhbQAYgO3EkgMDGjAVT+84MkII6A1nOctoUfs+g4l0MeeWmgk68tKsi+ix/SbCd
- jLkWiLtAMTrb0hPWE3J4ssV7a2Hkwn15vKA5ZHW14u448pUw+o2pnbMtZRyAgxiq4hrH
- nmWY4cRT9GiyPnIVN4a77P1RgknUyR5VTkk3USsfkbl4ZkxU0RU0tPHqLIPdfu1hdrqJ
- vxUg==
-X-Gm-Message-State: APjAAAUbn0OuMDvP9RxBX/3ggO9b7WkGC6yNeAFHTuxq/0XWPU72tFHT
- Gw15FrdMfxIu5XlMYZ19I7Ebaw0gZtDxo0uuG5nijQ==
-X-Google-Smtp-Source: APXvYqxKm5914TLnqudVNCijsVtzHK4mz3CSR/Hhe5Niun4eeMsSybWqIZ2MujTcA3Pf8MaE6osfoxd2a7Kh0j79NeE=
-X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr24633658otn.135.1562068026545; 
- Tue, 02 Jul 2019 04:47:06 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hiHNw-0004gi-QT
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hiHNu-0003sE-LZ
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 11:55:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9DF1A2E80CD
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 11:55:42 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
- <20190702130703.0e74cbe6@redhat.com>
-In-Reply-To: <20190702130703.0e74cbe6@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 12:46:55 +0100
-Message-ID: <CAFEAcA8PDNTQXD3cD3XG9wkc_QOLXUcw62-8AUjSC0g7qjti7g@mail.gmail.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug
- support
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 02 Jul 2019 11:49:04 -0000
+From: Avi Eis <1834113@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug disco
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bryce ikes73 paelzer
+X-Launchpad-Bug-Reporter: Avi Eis (ikes73)
+X-Launchpad-Bug-Modifier: Avi Eis (ikes73)
+References: <156142437029.30985.13623507391124028236.malonedeb@soybean.canonical.com>
+Message-Id: <156206814460.2395.5221351124915771632.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18991";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 3a18e2f535b4ffb3a3fd2a11c259f3f554f22fe3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1834113] Re: QEMU touchpad input erratic after
+ wakeup from sleep
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,61 +69,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Linuxarm <linuxarm@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
- sebastien.boeuf@intel.com, Laszlo Ersek <lersek@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1834113 <1834113@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 12:07, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Tue, 25 Jun 2019 13:14:13 +0100
-> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
->
-> > This series is an attempt to provide device memory hotplug support
-> > on ARM virt platform. This is based on Eric's recent works here[1]
-> > and carries some of the pc-dimm related patches dropped from his
-> > series.
-> >
-> > The kernel support for arm64 memory hot add was added recently by
-> > Robin and hence the guest kernel should be => 5.0-rc1.
-> >
-> > NVDIM support is not included currently as we still have an unresolved
-> > issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
-> > can be included, but not done for now, for keeping it simple.
-> >
-> > This makes use of GED device to sent hotplug ACPI events to the
-> > Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
-> > Sebastien to add the hardware-reduced support to Nemu using GED
-> > device[3]. (Please shout if I got the author/signed-off wrong for
-> > those patches or missed any names).
-> >
-> > This is sanity tested on a HiSilicon ARM64 platform and appreciate
-> > any further testing.
->
-> There are several things I'd fix/amend but it's nothing that couldn't
-> be done on top as bugfixes (I'll comment later on specific issues).
->
-> However as a whole from ACPI and memory hotplug POV series looks more
-> or less ready for merging.
->
-> I've asked Eric to test migration (I'm quite not sure about that part),
-> (CCed David)so on condition it works:
->
->   Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Actually, the version of libvirt I'd upgraded from was 5.0.0-1ubuntu2.2
+-> 5.0.0-1ubuntu2.3.
 
-If we want to get this into 4.1 I'll need somebody to do a respin
-with all the relevant fixes pretty soon (ie within a day or two,
-and that is pushing it because really it's missed the freeze
-deadline already). It might be easier just to let it go into 4.2
-instead...
+Downgrading all of libvirt-clients libvirt-daemon libvirt-daemon-driver-
+storage-rbd libvirt-daemon-system libvirt0 to 5.0.0-1ubuntu2.2 seems to
+have fixed this after several sleep-resume cycles, although it's hard to
+be sure. Does any change in libvirt seem relevant?
 
-thanks
--- PMM
+
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
+
+** Also affects: libvirt (Ubuntu)
+   Importance: Undecided
+       Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1834113
+
+Title:
+  QEMU touchpad input erratic after wakeup from sleep
+
+Status in QEMU:
+  New
+Status in libvirt package in Ubuntu:
+  New
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Using Ubuntu host and guest. Normally the touchpad works great. Within
+  the last few days, suddenly, apparently after a wake from sleep, the
+  touchpad will behave erratically. For example, it will take two clicks
+  to select something, and when moving the cursor it will act as though
+  it is dragging even with the button not clicked.
+
+  A reboot fixes the issue temporarily.
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 19.04
+  Package: qemu 1:3.1+dfsg-2ubuntu3.1
+  Uname: Linux 5.1.14-050114-generic x86_64
+  ApportVersion: 2.20.10-0ubuntu27
+  Architecture: amd64
+  CurrentDesktop: ubuntu:GNOME
+  Date: Mon Jun 24 20:55:44 2019
+  Dependencies:
+   =
+
+  EcryptfsInUse: Yes
+  InstallationDate: Installed on 2019-02-20 (124 days ago)
+  InstallationMedia: Ubuntu 18.04 "Bionic" - Build amd64 LIVE Binary 201806=
+08-09:38
+  Lsusb:
+   Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+   Bus 001 Device 002: ID 8087:0025 Intel Corp. =
+
+   Bus 001 Device 003: ID 0c45:671d Microdia =
+
+   Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+  MachineType: Dell Inc. Precision 5530
+  ProcEnviron:
+   TERM=3Dxterm-256color
+   PATH=3D(custom, no user)
+   XDG_RUNTIME_DIR=3D<set>
+   LANG=3Den_US.UTF-8
+   SHELL=3D/bin/bash
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.1.14-050114-generic root=
+=3DUUID=3D18e8777c-1764-41e4-a19f-62476055de23 ro mem_sleep_default=3Ddeep =
+mem_sleep_default=3Ddeep acpi_rev_override=3D1 scsi_mod.use_blk_mq=3D1 nouv=
+eau.modeset=3D0 nouveau.runpm=3D0 nouveau.blacklist=3D1 acpi_backlight=3Dno=
+ne acpi_osi=3DLinux acpi_osi=3D!
+  SourcePackage: qemu
+  UpgradeStatus: No upgrade log present (probably fresh install)
+  dmi.bios.date: 04/26/2019
+  dmi.bios.vendor: Dell Inc.
+  dmi.bios.version: 1.10.1
+  dmi.board.name: 0FP2W2
+  dmi.board.vendor: Dell Inc.
+  dmi.board.version: A00
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: Dell Inc.
+  dmi.modalias: dmi:bvnDellInc.:bvr1.10.1:bd04/26/2019:svnDellInc.:pnPrecis=
+ion5530:pvr:rvnDellInc.:rn0FP2W2:rvrA00:cvnDellInc.:ct10:cvr:
+  dmi.product.family: Precision
+  dmi.product.name: Precision 5530
+  dmi.product.sku: 087D
+  dmi.sys.vendor: Dell Inc.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1834113/+subscriptions
 
