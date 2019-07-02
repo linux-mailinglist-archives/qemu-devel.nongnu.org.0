@@ -2,54 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE145CF25
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:09:36 +0200 (CEST)
-Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5A65CF16
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:06:16 +0200 (CEST)
+Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHbK-0007eC-Ql
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36475)
+	id 1hiHY7-0003C8-S6
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hiHLy-0002c8-Og
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:53:44 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiHMd-0002w9-SU
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hiHLv-0001AN-7O
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:53:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42604)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>)
- id 1hiHLc-0000HJ-Pm; Tue, 02 Jul 2019 07:53:22 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A9B9D307D854;
- Tue,  2 Jul 2019 11:52:39 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-172.ams2.redhat.com
- [10.36.117.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8FC7E60C67;
- Tue,  2 Jul 2019 11:52:15 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190702001301.4768-1-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <0f46b807-1fcc-d5d6-9d62-601cc8dfa692@redhat.com>
-Date: Tue, 2 Jul 2019 13:52:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <peter.maydell@linaro.org>) id 1hiHMb-0002Q4-Ap
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:23 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:45231)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hiHMb-0002Kp-45
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:21 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id m206so12777264oib.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 04:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FYrbNyHwCfkSAifOR2HL1lK/0hxDKe4BjbvklG+FyGw=;
+ b=QdCJd5ESWkyzHgxbmMXGYiha2s4JqvmV/CvVzY/GJaqah8KjjNzis2Bi0+r+MI9DeS
+ 2mQW9qeOBQDwda14oHPkC4tl2aNI5fJFnIeIU//RnKxfGSsZ1u/jYZ9WvFPnXrQ7FQfD
+ bjekcL1Z2upNMTW7qH6A0pSIimcp71Qq3+v3rikNMzwWTGMhoECacE7eHfOfpGViyOLH
+ w8pvS5NYfY6WnXncB5ZGhEl3EnJp6fvI7P2gYNXrkKOG2GqVtSvzDjkpJ+IjSQ/VyKbl
+ oRp7EdykOy+OerGC2sdmHmXqwVD3xdav1ULixQiba5V9r3Dg865OUjrv18aXKpR6jRmJ
+ ofdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FYrbNyHwCfkSAifOR2HL1lK/0hxDKe4BjbvklG+FyGw=;
+ b=ITckZzSYfXmdmSD8klxTIkTTyZXE8LPsSDuy/NsooygT50mATjGAqrb9uvsK/XfVfp
+ rAqvwLrMSnNbnDW/kDZDdCtcSUZ03ypXc4LTc3cYEUHj14bIGC69YWwIuSy3GINTvtr3
+ avcrooj53HeZZTeYX/8Le67jW8bQ0nh/cpZId8Eng5oUhuYBmj0z9TpLMBuXCdn75bkb
+ N/upnZo6mNeD0hlysAqcFTF6rwcDxrf4TKkTBr11mNnOqIDFrbW5r1ZLhFJqbiBc4lEG
+ Dk0xEUkYMofgbFxAGloR+esrm2f8aRENjRgmbo+GoFix/uRDDEaNgHuIUxem+gnDgAV/
+ 3F4A==
+X-Gm-Message-State: APjAAAXTW0ewAQWB9Ep0H4ryKTLUhzovurh+M1BHbLSahSXXqH+INe78
+ Gi1P9ak1BzPeKjfJMjvfsfYByHVyJd3shzlOZGCKZg==
+X-Google-Smtp-Source: APXvYqyac8zdXreaTGpu1GlZNGZ1MH85mICZ1bGJwLpb6kHpy6anxSlr6T3hDP3rdYnVS9McEMpKC80s8jmxJql7Zcw=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr2832329oib.163.1562068458880; 
+ Tue, 02 Jul 2019 04:54:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190702001301.4768-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 11:53:00 +0000 (UTC)
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+ <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+ <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
+ <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
+ <c49abf01-c209-b206-edee-507c31269011@redhat.com>
+ <87o934sdot.fsf@dusky.pond.sub.org>
+ <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+ <87ftogp7f5.fsf@dusky.pond.sub.org>
+ <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
+ <5d1b4524.1c69fb81.ddba5.77bdSMTPIN_ADDED_BROKEN@mx.google.com>
+In-Reply-To: <5d1b4524.1c69fb81.ddba5.77bdSMTPIN_ADDED_BROKEN@mx.google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jul 2019 12:54:08 +0100
+Message-ID: <CAFEAcA_Ut=xG7bN-LL-AN1bhWa2GK6cH9jb_vXnROF0LS11Gdw@mail.gmail.com>
+To: Natalia Fursova <Natalia.Fursova@ispras.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 0/9] hw/block/pflash_cfi01: Add
- DeviceReset() handler
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,73 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair23@gmail.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?0J/QsNGI0LA=?= <Pavel.Dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
+On Tue, 2 Jul 2019 at 12:51, Natalia Fursova <Natalia.Fursova@ispras.ru> wr=
+ote:
+>
+> Hi there again!
+> Thank you for your answers, I have new question.
+>
+> I want to identify PCI devices (e.g. network cards) and observed one stra=
+nge thing. I use qmp command "qom-list-type" and build tree from it output.=
+ Some items don't have parent and don't give information about themselves. =
+E. g. "e1000-base". It has three children and it belongs to PCI devices, bu=
+t I can't know it, cuz command "qom-list-properties" returns empty message.
+>
+> There is no information about "e1000-base" in "qom-list-type" output. It =
+is referenced only as a parent for network cards.
+> Is it ok? Maybe is there other way for get information about all PCI devi=
+ces?
 
-On 07/02/19 02:12, Philippe Mathieu-Daud=C3=A9 wrote:
-> The pflash device lacks a reset() function.
-> When a machine is resetted, the flash might be in an
-> inconsistent state, leading to unexpected behavior:
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
-> Resolve this issue by adding a DeviceReset() handler.
->=20
-> Fix also two minor issues, and clean a bit the codebase.
->=20
-> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg0096=
-2.html
-> - addressed Laszlo review comments
->=20
-> Maintainers spam list from:
-> ./scripts/get_maintainer.pl -f $(git grep -El '(pflash_cfi01_register|T=
-YPE_PFLASH_CFI01)')
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Philippe Mathieu-Daud=C3=A9 (9):
->   hw/block/pflash_cfi01: Removed an unused timer
->   hw/block/pflash_cfi01: Use the correct READ_ARRAY value
->   hw/block/pflash_cfi01: Extract pflash_mode_read_array()
->   hw/block/pflash_cfi01: Start state machine as READY to accept command=
-s
->   hw/block/pflash_cfi01: Add the DeviceReset() handler
->   hw/block/pflash_cfi01: Simplify CFI_QUERY processing
->   hw/block/pflash_cfi01: Improve command comments
->   hw/block/pflash_cfi01: Replace DPRINTF by qemu_log_mask(GUEST_ERROR)
->   hw/block/pflash_cfi01: Hold the PRI table offset in a variable
->=20
->  hw/block/pflash_cfi01.c | 140 +++++++++++++++++++++-------------------
->  hw/block/trace-events   |   1 +
->  2 files changed, 74 insertions(+), 67 deletions(-)
->=20
+e1000-base is an abstract base class for the e1000, e1000-82544pc and
+e1000-82545em devices, which are the ones users can actually create and
+use. It's an internal implementation detail, so you don't need to care
+about it.
 
-I'll do some regression-tests with this, using OVMF and ArmVirtQemu.
-
-I don't think I can usefully review the patches without getting lost in
-the related spec(s), and I don't have capacity for that.
-
-Until I have regression test results, one question: are the changes to
-the device model transparent with regard to migration? (You are not
-introducing any compat properties.)
-
-Thanks!
-Laszlo
+thanks
+-- PMM
 
