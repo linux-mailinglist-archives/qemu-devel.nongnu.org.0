@@ -2,57 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A800B5C794
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:09:36 +0200 (CEST)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D793B5C785
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:01:43 +0200 (CEST)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi9Al-0007sg-RW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33921)
+	id 1hi939-00066s-2h
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hi78a-0002UG-Uk
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:59:14 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hi6ue-0007N3-KQ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:44:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hi78Y-0000iS-Lr
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:59:12 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60427 helo=ozlabs.org)
+ (envelope-from <tao3.xu@intel.com>) id 1hi6uV-0005UG-Ma
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:44:42 -0400
+Received: from mga14.intel.com ([192.55.52.115]:43788)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hi78U-0000h1-Ph; Mon, 01 Jul 2019 20:59:08 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45d5Tr0p5Xz9s8m; Tue,  2 Jul 2019 10:58:55 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562029136;
- bh=z5KYbv71Yy4c9U47yEIrcrZarhZpYH99KwrfzygGFSQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jppN1FfVsJQ50Qtzy1jgBM6/KYJDBsDAtLq+ojegMUeCBlhPwVFSjAE/7rqvZql+q
- bjXc+MRVW90ORYXZbIuMk5N3u3njyA3Nrq3eENaYHe3RX4chN+LW7X/zVKKJ368Cem
- WNw1/U/ORnlQfRKNmyfK54A0tg5lIYV8V4jcMSkM=
-Date: Tue, 2 Jul 2019 10:14:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190702001422.GF6779@umbus.fritz.box>
-References: <20190310082703.1245-1-david@gibson.dropbear.id.au>
- <20190310082703.1245-58-david@gibson.dropbear.id.au>
- <20190312150115.6zuaid43gr7hklt5@unused>
- <58de43c6-31d5-a0a3-b443-54a33f11d75a@kaod.org>
- <20190312191409.vxnpscrephtk6otv@dhcp-17-165.bos.redhat.com>
- <1746025955.7399905.1552419034356.JavaMail.zimbra@redhat.com>
- <154364d7-fe5b-4f40-b976-b85ff9060ee0@kaod.org>
- <dc6578eb-569b-477e-9a74-2925de8ac204@redhat.com>
- <20190701050426.GI2138@umbus.fritz.box>
- <28cf8405-b049-6874-2cf3-e5f45615714c@redhat.com>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hi6uU-0005Qj-Bw
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:44:39 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2019 17:44:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,441,1557212400"; d="scan'208";a="362443001"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.241])
+ ([10.239.196.241])
+ by fmsmga006.fm.intel.com with ESMTP; 01 Jul 2019 17:44:32 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190614155626.27932-1-tao3.xu@intel.com>
+ <20190701153745.2149d011@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <ae4ea231-4b74-a315-d1a0-79944480174c@intel.com>
+Date: Tue, 2 Jul 2019 08:44:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qp4W5+cUSnZs0RIF"
-Content-Disposition: inline
-In-Reply-To: <28cf8405-b049-6874-2cf3-e5f45615714c@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190701153745.2149d011@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PULL 57/60] target/ppc: add HV support for POWER9
+X-Received-From: 192.55.52.115
+Subject: Re: [Qemu-devel] [PATCH v5 0/8] Build ACPI Heterogeneous Memory
+ Attribute Table (HMAT)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,166 +59,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: jingqi.liu@intel.com, fan.du@intel.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/1/2019 9:37 PM, Igor Mammedov wrote:
+> On Fri, 14 Jun 2019 23:56:18 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+>> according to the command line. The ACPI HMAT describes the memory attributes,
+>> such as memory side cache attributes and bandwidth and latency details,
+>> related to the System Physical Address (SPA) Memory Ranges.
+>> The software is expected to use this information as hint for optimization.
+> 
+> in addition to patches in this series. pls consider adding testcase for ACPI table
+> as the last patch. Look at tests/bios-tables-test.c for examples.
+> 
+> 
+OK, I will add it.
 
---qp4W5+cUSnZs0RIF
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> The V4 patches link:
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01644.html
+>>
+>> Changelog:
+>> v5:
+>>      - spilt the 1-6/11 and 8/11 from patch v4 to build Memory Subsystem
+>>      Address Range Structure(s) and System Locality Latency and Bandwidth
+>>      Information Structure(s) firstly.
+>>      - add 1/8 of patch v5 to simplify arm_load_dtb() (Igor)
+>>      - drop the helper machine_num_numa_nodes() and use
+>>      machine->numa_state->num_nodes (and numa_state->nodes) directly (Igor)
+>>      - Add more descriptions from ACPI spec (Igor)
+>>      - Add the reason of using stub (Igor)
+>>      - Use GArray for NUMA memory ranges data (Igor)
+>>      - Separate hmat_build_lb() (Igor)
+>>      - Drop all global variables and use local variables instead (Igor)
+>>      - Add error message when base unit < 10
+>>      - Update the hmat-lb option example by using '-numa cpu'
+>>      and '-numa memdev' (Igor)
+>>
+>> v4:
+>>      - send the patch of "move numa global variables into MachineState"
+>>      together with HMAT patches.
+>>      https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg03662.html
+>>      - spilt the 1/8 of v3 patch into two patches, 4/11 introduces
+>>      build_mem_ranges() and 5/11 builds HMAT (Igor)
+>>      - use build_append_int_noprefix() to build parts of ACPI table in
+>>      all patches (Igor)
+>>      - Split 8/8 of patch v3 into two parts, 10/11 introduces NFIT
+>>      generalizations (build_acpi_aml_common), and use it in 11/11 to
+>>      simplify hmat_build_aml (Igor)
+>>      - use MachineState instead of PCMachineState to build HMAT more
+>>      generalic (Igor)
+>>      - move the 7/8 v3 patch into the former patches
+>>      - update the version tag from 4.0 to 4.1
+>> v3:
+>>      - rebase the fixing patch into the jingqi's patches (Eric)
+>>      - update the version tag from 3.10 to 4.0 (Eric)
+>> v2:
+>>    Per Igor and Eric's comments, fix some coding style and small issues:
+>>      - update the version number in qapi/misc.json
+>>      - including the expansion of the acronym HMAT in qapi/misc.json
+>>      - correct spell mistakes in qapi/misc.json and qemu-options.hx
+>>      - fix the comment syle in hw/i386/acpi-build.c
+>>      and hw/acpi/hmat.h
+>>     - remove some unnecessary head files in hw/acpi/hmat.c
+>>     - use hardcoded numbers from spec to generate
+>>     Memory Subsystem Address Range Structure in hw/acpi/hmat.c
+>>     - drop the struct AcpiHmat and AcpiHmatSpaRange
+>>      in hw/acpi/hmat.h
+>>     - rewrite NFIT code to build _HMA method
+>>
+>> Liu Jingqi (3):
+>>    hmat acpi: Build Memory Subsystem Address Range Structure(s) in ACPI
+>>      HMAT
+>>    hmat acpi: Build System Locality Latency and Bandwidth Information
+>>      Structure(s) in ACPI HMAT
+>>    numa: Extend the command-line to provide memory latency and bandwidth
+>>      information
+>>
+>> Tao Xu (5):
+>>    hw/arm: simplify arm_load_dtb
+>>    numa: move numa global variable nb_numa_nodes into MachineState
+>>    numa: move numa global variable have_numa_distance into MachineState
+>>    numa: move numa global variable numa_info into MachineState
+>>    acpi: introduce AcpiDeviceIfClass.build_mem_ranges hook
+>>
+>>   exec.c                               |   5 +-
+>>   hw/acpi/Kconfig                      |   5 +
+>>   hw/acpi/Makefile.objs                |   1 +
+>>   hw/acpi/aml-build.c                  |   9 +-
+>>   hw/acpi/hmat.c                       | 252 +++++++++++++++++++++++++++
+>>   hw/acpi/hmat.h                       |  82 +++++++++
+>>   hw/acpi/piix4.c                      |   1 +
+>>   hw/arm/aspeed.c                      |   5 +-
+>>   hw/arm/boot.c                        |  20 ++-
+>>   hw/arm/collie.c                      |   8 +-
+>>   hw/arm/cubieboard.c                  |   5 +-
+>>   hw/arm/exynos4_boards.c              |   7 +-
+>>   hw/arm/highbank.c                    |   8 +-
+>>   hw/arm/imx25_pdk.c                   |   5 +-
+>>   hw/arm/integratorcp.c                |   8 +-
+>>   hw/arm/kzm.c                         |   5 +-
+>>   hw/arm/mainstone.c                   |   5 +-
+>>   hw/arm/mcimx6ul-evk.c                |   5 +-
+>>   hw/arm/mcimx7d-sabre.c               |   5 +-
+>>   hw/arm/musicpal.c                    |   8 +-
+>>   hw/arm/nseries.c                     |   5 +-
+>>   hw/arm/omap_sx1.c                    |   5 +-
+>>   hw/arm/palm.c                        |  10 +-
+>>   hw/arm/raspi.c                       |   6 +-
+>>   hw/arm/realview.c                    |   5 +-
+>>   hw/arm/sabrelite.c                   |   5 +-
+>>   hw/arm/spitz.c                       |   5 +-
+>>   hw/arm/tosa.c                        |   8 +-
+>>   hw/arm/versatilepb.c                 |   5 +-
+>>   hw/arm/vexpress.c                    |   5 +-
+>>   hw/arm/virt-acpi-build.c             |  17 +-
+>>   hw/arm/virt.c                        |  16 +-
+>>   hw/arm/xilinx_zynq.c                 |   8 +-
+>>   hw/arm/xlnx-versal-virt.c            |   7 +-
+>>   hw/arm/xlnx-zcu102.c                 |   5 +-
+>>   hw/arm/z2.c                          |   8 +-
+>>   hw/core/machine.c                    |  16 +-
+>>   hw/i386/acpi-build.c                 | 140 +++++++++------
+>>   hw/i386/pc.c                         |  11 +-
+>>   hw/isa/lpc_ich9.c                    |   1 +
+>>   hw/mem/pc-dimm.c                     |   2 +
+>>   hw/pci-bridge/pci_expander_bridge.c  |   2 +
+>>   hw/ppc/spapr.c                       |  23 ++-
+>>   hw/ppc/spapr_pci.c                   |   2 +
+>>   include/hw/acpi/acpi_dev_interface.h |   4 +
+>>   include/hw/acpi/aml-build.h          |   2 +-
+>>   include/hw/arm/boot.h                |   4 +-
+>>   include/hw/boards.h                  |   2 +
+>>   include/hw/i386/pc.h                 |   1 +
+>>   include/qemu/typedefs.h              |   1 +
+>>   include/sysemu/numa.h                |  37 +++-
+>>   include/sysemu/sysemu.h              |  24 +++
+>>   monitor.c                            |  11 +-
+>>   numa.c                               | 219 +++++++++++++++++++----
+>>   qapi/misc.json                       |  94 +++++++++-
+>>   qemu-options.hx                      |  45 ++++-
+>>   stubs/Makefile.objs                  |   1 +
+>>   stubs/pc_build_mem_ranges.c          |  14 ++
+>>   58 files changed, 961 insertions(+), 264 deletions(-)
+>>   create mode 100644 hw/acpi/hmat.c
+>>   create mode 100644 hw/acpi/hmat.h
+>>   create mode 100644 stubs/pc_build_mem_ranges.c
+>>
+> 
 
-On Mon, Jul 01, 2019 at 11:45:23AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 7/1/19 7:04 AM, David Gibson wrote:
-> > On Fri, Jun 28, 2019 at 03:20:32PM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> >> Hi,
-> >>
-> >> On 3/12/19 8:58 PM, C=E9dric Le Goater wrote:
-> >>> On 3/12/19 8:30 PM, Cleber Rosa wrote:
-> >>>>> From: "Cleber Rosa" <crosa@redhat.com>
-> >>>>> Sent: Tuesday, March 12, 2019 3:14:09 PM
-> >>>>> Subject: Re: [Qemu-devel] [PULL 57/60] target/ppc: add HV support f=
-or POWER9
-> >>>>>
-> >>>>> On Tue, Mar 12, 2019 at 07:34:04PM +0100, C=E9dric Le Goater wrote:
-> >>>>>> On 3/12/19 4:01 PM, Cleber Rosa wrote:
-> >>>>>>> On Sun, Mar 10, 2019 at 07:27:00PM +1100, David Gibson wrote:
-> >>>>>>>> From: C=E9dric Le Goater <clg@kaod.org>
-> >>>>>>>>
-> >>>>>>>> We now have enough support to boot a PowerNV machine with a POWE=
-R9
-> >>>>>>>> processor. Allow HV mode on POWER9.
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> >>>>>>>> Message-Id: <20190307223548.20516-16-clg@kaod.org>
-> >>>>>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> >>>>>>>> ---
-> >>>>>>>>  target/ppc/translate_init.inc.c | 3 ++-
-> >>>>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>>>>>>>
-> >>>>>>>> diff --git a/target/ppc/translate_init.inc.c
-> >>>>>>>> b/target/ppc/translate_init.inc.c
-> >>>>>>>> index af70a3b78c..0bd555eb19 100644
-> >>>>>>>> --- a/target/ppc/translate_init.inc.c
-> >>>>>>>> +++ b/target/ppc/translate_init.inc.c
-> >>>>>>>> @@ -8895,7 +8895,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, vo=
-id
-> >>>>>>>> *data)
-> >>>>>>>>                         PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_D=
-CBZ |
-> >>>>>>>>                         PPC_MEM_SYNC | PPC_MEM_EIEIO |
-> >>>>>>>>                         PPC_MEM_TLBSYNC |
-> >>>>>>>> -                       PPC_64B | PPC_64BX | PPC_ALTIVEC |
-> >>>>>>>> +                       PPC_64B | PPC_64H | PPC_64BX | PPC_ALTIV=
-EC |
-> >>>>>>>>                         PPC_SEGMENT_64B | PPC_SLBI |
-> >>>>>>>>                         PPC_POPCNTB | PPC_POPCNTWD |
-> >>>>>>>>                         PPC_CILDST;
-> >>>>>>>> @@ -8907,6 +8907,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, vo=
-id
-> >>>>>>>> *data)
-> >>>>>>>>                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CV=
-T_S64 |
-> >>>>>>>>                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
-> >>>>>>>>      pcc->msr_mask =3D (1ull << MSR_SF) |
-> >>>>>>>> +                    (1ull << MSR_SHV) |
-> >>>>>>>>                      (1ull << MSR_TM) |
-> >>>>>>>>                      (1ull << MSR_VR) |
-> >>>>>>>>                      (1ull << MSR_VSX) |
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> This change prevents a Fedora 29 kernel[1] from booting... is this
-> >>>>>>> intended or a known limitation of the Fedora 29 kernel?
-> >>>>>>
-> >>>>>> The default CPU is still power8_v2.0. This is curious.
-> >>>>>>
-> >>>>>
-> >>>>> Are you sure?  I'm getting:
-> >>>>>
-> >>>>>  $ git rev-parse HEAD
-> >>>>>  cfc3fef6b4e493bf1a7ee16790ad584e20dfbbd1
-> >>>>>  $ ./ppc64-softmmu/qemu-system-ppc64 -qmp unix:/tmp/qmp-sock,server
-> >>>>>  $ ./scripts/qmp/qom-get -s /tmp/qmp-sock /machine/unattached/devic=
-e[0].type
-> >>>>>  power9_v2.0-spapr-cpu-core
-> >>>
-> >>> That's a pseries machine, not a powernv machine. pseries should use P9
-> >>> processor by default but the patch above should not impact f29 on pse=
-ries.=20
-> >>> If it does, then we have a bug.=20
-> >>> =20
-> >>>> Looks like the overall default is "power9_v2.0", and then on pseries=
--3.1 and
-> >>>> lower, it's "power8_v2.0", as per 34a6b015a98.
-> >>>
-> >>> I was looking at pnv_machine_class_init() which sets the default CPU :
-> >>>
-> >>>     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
-> >>
-> >> I found this thread while trying auto-bisection for LP#1834613:
-> >> https://bugs.launchpad.net/bugs/1834613
-> >>
-> >> When trying the options suggested by Laurent here:
-> >> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06209.html
-> >>
-> >> this one hangs:
-> >>
-> >> $ qemu-system-ppc64 \
-> >>  -kernel vmlinuz-vanilla \
-> >>  -nographic -append "console=3Dhvc0" \
-> >>  -M cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken
-> >>
-> >> but this one works:
-> >>
-> >> $ qemu-system-ppc64 \
-> >>  -kernel vmlinuz-vanilla \
-> >>  -nographic -append "console=3Dhvc0" \
-> >>  -M pseries-3.1
-> >=20
-> > Sorry, I missed most of this thread while on holidays.  What's the
-> > actual bug here?
->=20
-> I don't think there is a bug, this seems the result of adding a new featu=
-re.
-> The commit message is not obvious that old kernels won't work on the
-> default machine type, and we have to add the extra '-M pseries-3.1'
-> command line option to run such images.
-
-Hm, except apparently turning off the Spectre options doesn't change
-that, so I wonder what change in the newer machine type is causing the
-breakage.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---qp4W5+cUSnZs0RIF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0aod4ACgkQbDjKyiDZ
-s5InWRAAonn6VEqvWdhTffIUFL1eiqTNXXSLIUaQAFGXPwS7WABFjLVK+r1Rl6VA
-vtOXZzQYq/sg/L6jTLtnQcKPTaEz9skt9YwB8UR1PA8nJZxZo+Mnqi6E5rggLe7A
-XzX7lS3UlqyDHA2So7DjNhG8M9hjX6ACArp2d8PhGvQW4iV9fTtJCp9emmSwcnfm
-PyuNEW2YxDdcmtjybpLxZ/SkTCys9fxqreR5S4TBiLcSeFaSveQ58M2FfcGFmSJH
-XxAXENt93m4G7N6V7ppJuROCmAT+LZAVDUY/ZodQtwHZ+bRHGf7b5yedvU+MtKIY
-iD/SC//abX3J3rxQCFjQ3HY7VihSB/Cv1yC5IMVG3eLzfMngCqCoT9FGCQieEnlH
-Qoh/JSrB/RRppRvNSznfDPuIQTJWV4/VcWkmgLwSTcrnPQm8THyTOBLWa9ipnVP5
-9CPf2rA0ghU7kUFKj+PaeDzUnYL1Hr90ZhzpkF18NzkIjvEDUPDvKA26cp8q5AYB
-0KsTVaV7ndJ0FS+Je7vK017NnWghD0IudOxov329tthJb0CgTboS7bpVWlIHOOIm
-i/xI+lOzNWchk42pgdyROA9SSokeRN7b76A+6vApkDl1/xvPH0X+D/eNuTjeE3PG
-LKn8sLq9rf5RYzHFqNWaZwxf/2DxNayZfUmB+iTSTAhHt7y0pBk=
-=FFld
------END PGP SIGNATURE-----
-
---qp4W5+cUSnZs0RIF--
 
