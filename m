@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28EAD5C863
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:36:48 +0200 (CEST)
-Received: from localhost ([::1]:48910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D245C816
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:18:08 +0200 (CEST)
+Received: from localhost ([::1]:48586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAX8-0005Pi-G4
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
+	id 1hiAF5-0003S9-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hi96U-0003ao-NG
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:05:11 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hi9IA-0007wA-Oa
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:17:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hi96T-0002IE-L7
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:05:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48934)
+ (envelope-from <jsnow@redhat.com>) id 1hi9I4-00062R-Nl
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 23:17:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55362)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hi96K-0002Ed-S8; Mon, 01 Jul 2019 23:05:01 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hi9Hl-0005xu-87; Mon, 01 Jul 2019 23:16:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 668E93082E70;
- Tue,  2 Jul 2019 03:04:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 22719882F5;
+ Tue,  2 Jul 2019 03:16:48 +0000 (UTC)
 Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29F1F60852;
- Tue,  2 Jul 2019 03:04:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2546100194A;
+ Tue,  2 Jul 2019 03:16:38 +0000 (UTC)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20190702001301.4768-1-philmd@redhat.com>
- <20190702001301.4768-5-philmd@redhat.com>
+ <20190702001301.4768-6-philmd@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,22 +109,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <977996ac-32ee-f658-deeb-8e6fb91538d7@redhat.com>
-Date: Mon, 1 Jul 2019 23:04:49 -0400
+Message-ID: <5163b3e4-f68e-dc6b-3fcc-e7927ebc58e7@redhat.com>
+Date: Mon, 1 Jul 2019 23:16:38 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190702001301.4768-5-philmd@redhat.com>
+In-Reply-To: <20190702001301.4768-6-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 03:04:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 03:16:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 4/9] hw/block/pflash_cfi01: Start state
- machine as READY to accept commands
+Subject: Re: [Qemu-devel] [PATCH v2 5/9] hw/block/pflash_cfi01: Add the
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -158,46 +158,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 7/1/19 8:12 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> When the state machine is ready to accept command, the bit 7 of
-> the status register (SR) is set to 1.
-> The guest polls the status register and check this bit before
-> writting command to the internal 'Write State Machine' (WSM).
-
-writing
-
+> A "system reset" sets the device state machine in READ_ARRAY mode
+> and, after some delay, set the SR.7 READY bit.
 >=20
-> Set SR.7 bit to 1 when the device is created.
+> We do not model timings, so we set the SR.7 bit directly.
 >=20
-
-Right, ok -- it looks like we don't set this on realize otherwise.
-(Or if we do, it's not obvious where or how.)
-
-> Reference: Read Array Flowchart
->   "Common Flash Interface (CFI) and Command Sets"
->    (Intel Application Note 646)
->    Appendix B "Basic Command Set"
+> This pflash device is a child of TYPE_DEVICE.
+> The TYPE_DEVICE interface provide a DeviceReset handler which will
+> be called after the device is realized, and each time the machine
+> resets itself.
 >=20
+> To avoid incoherent states when the machine resets (see but report
+> below), factor out the reset code into pflash_cfi01_system_reset,
+> and register the method as a device reset callback.
+>=20
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
+> Reported-by: Laszlo Ersek <lersek@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+Does reset always get called as part of realize, really?
+
+Or are we just trusting that the device is probably going to get reset
+by the guest during bringup?
 
 > ---
->  hw/block/pflash_cfi01.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/block/pflash_cfi01.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 >=20
 > diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 33c77f6569..dd1dfd266b 100644
+> index dd1dfd266b..8d632ea941 100644
 > --- a/hw/block/pflash_cfi01.c
 > +++ b/hw/block/pflash_cfi01.c
-> @@ -764,7 +764,7 @@ static void pflash_cfi01_realize(DeviceState *dev, =
+> @@ -763,8 +763,6 @@ static void pflash_cfi01_realize(DeviceState *dev, =
 Error **errp)
+>          pfl->max_device_width =3D pfl->device_width;
 >      }
 > =20
->      pflash_mode_read_array(pfl);
-> -    pfl->status =3D 0;
-> +    pfl->status =3D 0x80; /* WSM ready */
+> -    pflash_mode_read_array(pfl);
+> -    pfl->status =3D 0x80; /* WSM ready */
 >      /* Hardcoded CFI table */
 >      /* Standard "QRY" string */
 >      pfl->cfi_table[0x10] =3D 'Q';
+> @@ -852,6 +850,18 @@ static void pflash_cfi01_realize(DeviceState *dev,=
+ Error **errp)
+>      pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
+>  }
+> =20
+> +static void pflash_cfi01_system_reset(DeviceState *dev)
+> +{
+> +    PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
+> +
+> +    pflash_mode_read_array(pfl);
+> +    /*
+> +     * The WSM ready timer occurs at most 150ns after system reset.
+> +     * This model deliberately ignores this delay.
+> +     */
+> +    pfl->status =3D 0x80;
+> +}
+> +
+>  static Property pflash_cfi01_properties[] =3D {
+>      DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
+>      /* num-blocks is the number of blocks actually visible to the gues=
+t,
+> @@ -896,6 +906,7 @@ static void pflash_cfi01_class_init(ObjectClass *kl=
+ass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> =20
+> +    dc->reset =3D pflash_cfi01_system_reset;
+>      dc->realize =3D pflash_cfi01_realize;
+>      dc->props =3D pflash_cfi01_properties;
+>      dc->vmsd =3D &vmstate_pflash;
 >=20
 
