@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A195D3C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:00:28 +0200 (CEST)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211A65D384
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:51:48 +0200 (CEST)
+Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLCl-0005um-8s
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:00:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59035)
+	id 1hiL4N-0007PL-AW
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59406)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hiKPW-0000Qs-NB
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:35 -0400
+ (envelope-from <mst@redhat.com>) id 1hiKRB-0001zZ-2e
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:11:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hiKPR-00023Y-SJ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:34 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:52509)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hiKPO-0001wS-4O; Tue, 02 Jul 2019 11:09:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=2WMk7rX7n8jcroa9Yj5/rGsNN4jfOYZLDGiFmlKyGOE=; 
- b=nJYPucn+iEMXxO47NevkpNES9GUk8a1TZd6H6ps0M+x3EoKYbWU7LuVhUuAZ01ExuxDQfQQL73r+K+ihfOzxZiTYyabOduP+4Y8EMNfWaNXNAwJsSQC+SnGSxdXiYn/0Ss8i11M8zSKXYXGyTFqnTPFTqmwS+XJ2QXNNwrYjnKBClXLpJ+uB3gazSf2vTRBfxjdQ6q/0n+YlCN5+fAQfBIhIzRdlt0Tcq/win3Im9UfbPWiOLAmvSQgF/I6959Qzvnog1aD13z5wq89cHs/kiKpFapnDuAVF1SWA1HxOx/o82MQLhgr8NYXvEHDF/Et6z/cnzeKNjEHkPOa14+ERUg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hiKPK-0001BM-0k; Tue, 02 Jul 2019 17:09:22 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hiKPJ-0000zp-UJ; Tue, 02 Jul 2019 17:09:21 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-In-Reply-To: <20190627223255.3789-3-mreitz@redhat.com>
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-3-mreitz@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 02 Jul 2019 17:09:21 +0200
-Message-ID: <w51muhw5v8e.fsf@maestria.local.igalia.com>
+ (envelope-from <mst@redhat.com>) id 1hiKR2-0003PS-F1
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:11:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35388)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiKR0-0003LV-Qx
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:11:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 049CB308427D;
+ Tue,  2 Jul 2019 15:10:53 +0000 (UTC)
+Received: from redhat.com (ovpn-124-209.rdu2.redhat.com [10.10.124.209])
+ by smtp.corp.redhat.com (Postfix) with SMTP id CF3E35C28D;
+ Tue,  2 Jul 2019 15:10:32 +0000 (UTC)
+Date: Tue, 2 Jul 2019 11:10:31 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <20190702100657-mutt-send-email-mst@kernel.org>
+References: <20190619094907.10131-1-pagupta@redhat.com>
+ <20190619094907.10131-4-pagupta@redhat.com>
+ <20190702135030.6159266b.cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [PATCH 2/5] iotests: Fix throttling in 030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190702135030.6159266b.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 02 Jul 2019 15:11:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 3/7] virtio-pmem: sync linux headers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,29 +57,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, Pankaj Gupta <pagupta@redhat.com>,
+ xiaoguangrong.eric@gmail.com, riel@surriel.com, armbru@redhat.com,
+ david@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
+ lcapitulino@redhat.com, aarcange@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, dan.j.williams@intel.com,
+ nilal@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 28 Jun 2019 12:32:52 AM CEST, Max Reitz wrote:
-> Currently, TestParallelOps in 030 creates images that are too small for
-> job throttling to be effective.  This is reflected by the fact that it
-> never undoes the throttling.
->
-> Increase the image size and undo the throttling when the job should be
-> completed.  Also, add throttling in test_overlapping_4, or the jobs may
-> not be so overlapping after all.  In fact, the error usually emitted
-> here is that node2 simply does not exist, not that overlapping jobs are
-> not allowed -- the fact that this job ignores the exact error messages
-> and just checks the error class is something that should be fixed in a
-> follow-up patch.
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+On Tue, Jul 02, 2019 at 01:50:30PM +0200, Cornelia Huck wrote:
+> On Wed, 19 Jun 2019 15:19:03 +0530
+> Pankaj Gupta <pagupta@redhat.com> wrote:
+> 
+> > Sync linux headers for virtio pmem.
+> > 
+> > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> > ---
+> >  include/standard-headers/linux/virtio_ids.h  |  1 +
+> >  include/standard-headers/linux/virtio_pmem.h | 35 ++++++++++++++++++++++++++++
+> >  2 files changed, 36 insertions(+)
+> >  create mode 100644 include/standard-headers/linux/virtio_pmem.h
+> 
+> That's not yet upstream, right?
+> 
+> If so, I fear this feature won't make 4.1, as the merge window for
+> Linux only opens in one or two weeks :(
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+I think it's ok from that POV, I put the driver in my tree
+to break the deadlock for now.
 
-Berto
+-- 
+MST
 
