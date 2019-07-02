@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92E75C960
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:36:40 +0200 (CEST)
-Received: from localhost ([::1]:49546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D255C971
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:41:59 +0200 (CEST)
+Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCP9-0002HG-Sr
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58821)
+	id 1hiCUH-0006gX-Vq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58819)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzK-0005Ng-FI
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzK-0005Nf-Eu
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzI-0003GD-JH
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzI-0003G7-K3
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:58 -0400
-Received: from ozlabs.org ([203.11.71.1]:53127)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47233 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiBzH-0002wG-Cc; Tue, 02 Jul 2019 02:09:55 -0400
+ id 1hiBzG-0002yx-AD; Tue, 02 Jul 2019 02:09:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMk4QNRz9sQx; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
+ id 45dDMl2fwrz9sQm; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047746;
- bh=aYdVUD9TY91wmtYbmrNUJyyN1R8X32PzBPjRraQ5umg=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047747;
+ bh=aCPek2AYuldWB9s1DOJowKsZqT1D6uezI0A6JQoAHY8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nHVmeTsykqw+0dp5LcMmWra0pHOk3thuAv0vCnLt5xzBEKp3HiFEcSYSh0g6fCKu9
- i7FyUWGb5QFm+/sZ/x0Z3fJNgU6eCsHM+4etTLP93uTpQoRGizJCHPSdd4Osf/sRb2
- P3WciNswYQmaSu/XH+y4dGRUiuaeb1h6sK90gI5U=
+ b=Jv9cphMLIvVUbRknZTDxekQg18i12riIgOshw0zVAkqP3uxIpZMWC7eyHB7kjBQCR
+ VsM9Ge5M0QB/pi5e5L0afBk8bVuGukipGjxPnCaP2/wD8mvaUt0ocynCghtRrUVRHD
+ IGakAYOXjGGAYM8uw8nHrZ61Piu8AU79JP01QfGc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:31 +1000
-Message-Id: <20190702060857.3926-24-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:32 +1000
+Message-Id: <20190702060857.3926-25-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 23/49] xics/kvm: Skip rollback when KVM XICS is
- absent
+Subject: [Qemu-devel] [PULL 24/49] xics/kvm: Always use local_err in
+ xics_kvm_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,34 +62,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-There is no need to rollback anything at this point, so just return an
-error.
+Passing both errp and &local_err to functions is a recipe for messing
+things up.
+
+Since we must use &local_err for icp_kvm_realize(), use &local_err
+everywhere where rollback must happen and have a single call to
+error_propagate() them all. While here, add errno to the error
+message.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156077920657.433243.13541093940589972734.stgit@bahia.lan>
+Message-Id: <156077921212.433243.11716701611944816815.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics_kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/xics_kvm.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 534515143e..377ff88701 100644
+index 377ff88701..c9e25fb051 100644
 --- a/hw/intc/xics_kvm.c
 +++ b/hw/intc/xics_kvm.c
-@@ -348,7 +348,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
-**errp)
-     if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
-CS)) {
-         error_setg(errp,
-                    "KVM and IRQ_XICS capability must be present for in-k=
-ernel XICS");
--        goto fail;
-+        return -1;
-     }
+@@ -353,32 +353,36 @@ int xics_kvm_connect(SpaprMachineState *spapr, Erro=
+r **errp)
 =20
      rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_SET_XIVE, "ibm,set-x=
 ive");
+     if (rc < 0) {
+-        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,set-xive"=
+);
++        error_setg_errno(&local_err, -rc,
++                         "kvmppc_define_rtas_kernel_token: ibm,set-xive"=
+);
+         goto fail;
+     }
+=20
+     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_GET_XIVE, "ibm,get-x=
+ive");
+     if (rc < 0) {
+-        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,get-xive"=
+);
++        error_setg_errno(&local_err, -rc,
++                         "kvmppc_define_rtas_kernel_token: ibm,get-xive"=
+);
+         goto fail;
+     }
+=20
+     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_INT_ON, "ibm,int-on"=
+);
+     if (rc < 0) {
+-        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,int-on");
++        error_setg_errno(&local_err, -rc,
++                         "kvmppc_define_rtas_kernel_token: ibm,int-on");
+         goto fail;
+     }
+=20
+     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_INT_OFF, "ibm,int-of=
+f");
+     if (rc < 0) {
+-        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,int-off")=
+;
++        error_setg_errno(&local_err, -rc,
++                         "kvmppc_define_rtas_kernel_token: ibm,int-off")=
+;
+         goto fail;
+     }
+=20
+     /* Create the KVM XICS device */
+     rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
+     if (rc < 0) {
+-        error_setg_errno(errp, -rc, "Error on KVM_CREATE_DEVICE for XICS=
+");
++        error_setg_errno(&local_err, -rc, "Error on KVM_CREATE_DEVICE fo=
+r XICS");
+         goto fail;
+     }
+=20
+@@ -393,7 +397,6 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
+**errp)
+=20
+         icp_kvm_realize(DEVICE(spapr_cpu_state(cpu)->icp), &local_err);
+         if (local_err) {
+-            error_propagate(errp, local_err);
+             goto fail;
+         }
+     }
+@@ -410,6 +413,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
+**errp)
+     return 0;
+=20
+ fail:
++    error_propagate(errp, local_err);
+     kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
+     kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
+     kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
 --=20
 2.21.0
 
