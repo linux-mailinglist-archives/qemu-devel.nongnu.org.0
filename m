@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4F85C997
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:54:10 +0200 (CEST)
-Received: from localhost ([::1]:49652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ECF65C99E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:57:46 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCg5-0007Jv-QJ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
+	id 1hiCjZ-0002RG-5l
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59018)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzk-0005mR-IX
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzk-0005mN-IB
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzi-0003RE-Bx
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzi-0003RB-Cj
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:24 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40791 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54353 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiBze-0003GZ-Jj; Tue, 02 Jul 2019 02:10:20 -0400
+ id 1hiBze-0003Ge-MY; Tue, 02 Jul 2019 02:10:20 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMm6Kl8z9sQq; Tue,  2 Jul 2019 16:09:07 +1000 (AEST)
+ id 45dDMn47LLz9sR0; Tue,  2 Jul 2019 16:09:07 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047748;
- bh=Tm555N7dVkHTYYPR8IMk3G+8BdypPkk+dPLL2ehx51Y=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047749;
+ bh=L8RTgpO7LVRVvS97dvoPx+3IeaI/B7AJ/BHfgV0BYv0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NcN0rpFvu76s/y14SoYjWploAEdot7+11VY/Cd4YDRP+jAIDsv2LBtQ0Lo3DxI5p1
- g8HKHkDG80RqeWZ8nhApLHlYQudpFLvzrfK0EpzEK080Savw9f9xATiC/dZF03z5et
- FSj7b61Rp0A7GcE04SkmmLUOpUnAzI/V0g7PA0Og=
+ b=GZ0dLL3GtuH4Ys4iH/V9Moa1/U14bauUO0P3WfgxoJy5GoWiSi1o5PasNcCZRyXKL
+ FaUawGKkzL0/8pD8pePbIgIXQ5/qi+64JLGDHws+ogQ0CXkzzkA0/9MSXrNF23Q+pj
+ 2LEgi32czC0aZlYwv0SWhv+UhGHGqKmYDD9ftBao=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:52 +1000
-Message-Id: <20190702060857.3926-45-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:53 +1000
+Message-Id: <20190702060857.3926-46-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 44/49] spapr/xive: simplify
- spapr_irq_init_device() to remove the emulated init
+Subject: [Qemu-devel] [PULL 45/49] ppc/xive: Force the Physical CAM line
+ value to group mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,132 +62,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-The init_emu() handles are now empty. Remove them and rename
-spapr_irq_init_device() to spapr_irq_init_kvm().
+When an interrupt needs to be delivered, the XIVE interrupt controller
+presenter scans the CAM lines of the thread interrupt contexts of the
+HW threads of the chip to find a matching vCPU. The interrupt context
+is composed of 4 different sets of registers: Physical, HV, OS and
+User.
 
+The encoding of the Physical CAM line depends on the mode in which the
+interrupt controller is operating: CAM mode or block group mode.
+Block group mode being the default configuration today on POWER9 and
+the only one available on the next POWER10 generation, enforce this
+encoding in the Physical CAM line :
+
+    chip << 19 | 0000000 0 0001 thread (7Bit)
+
+It fits the overall encoding of the NVT ids and simplifies the matching
+algorithm in the presenter.
+
+Fixes: d514c48d41fb ("ppc/xive: hardwire the Physical CAM line of the thr=
+ead context")
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190614165920.12670-3-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20190630204601.30574-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_irq.c         | 20 +++-----------------
- include/hw/ppc/spapr_irq.h |  1 -
- 2 files changed, 3 insertions(+), 18 deletions(-)
+ hw/intc/xive.c | 21 +++++----------------
+ 1 file changed, 5 insertions(+), 16 deletions(-)
 
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 02bc5e8c3d..ff3df0bbd8 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -62,7 +62,7 @@ void spapr_irq_msi_reset(SpaprMachineState *spapr)
-     bitmap_clear(spapr->irq_map, 0, spapr->irq_map_nr);
- }
-=20
--static void spapr_irq_init_device(SpaprMachineState *spapr,
-+static void spapr_irq_init_kvm(SpaprMachineState *spapr,
-                                   SpaprIrq *irq, Error **errp)
- {
-     MachineState *machine =3D MACHINE(spapr);
-@@ -88,8 +88,6 @@ static void spapr_irq_init_device(SpaprMachineState *sp=
-apr,
-         error_prepend(&local_err, "kernel_irqchip allowed but unavailabl=
-e: ");
-         warn_report_err(local_err);
-     }
--
--    irq->init_emu(spapr, errp);
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 6250c0414d..3b1f9520ae 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1229,27 +1229,16 @@ XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, =
+CPUState *cs)
  }
 =20
  /*
-@@ -224,7 +222,7 @@ static void spapr_irq_reset_xics(SpaprMachineState *s=
-papr, Error **errp)
- {
-     Error *local_err =3D NULL;
-=20
--    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
-+    spapr_irq_init_kvm(spapr, &spapr_irq_xics, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -236,10 +234,6 @@ static const char *spapr_irq_get_nodename_xics(Spapr=
-MachineState *spapr)
-     return XICS_NODENAME;
- }
-=20
--static void spapr_irq_init_emu_xics(SpaprMachineState *spapr, Error **er=
-rp)
+- * By default on P9, the HW CAM line (23bits) is hardwired to :
++ * Encode the HW CAM line in the block group mode format :
+  *
+- *   0x000||0b1||4Bit chip number||7Bit Thread number.
+- *
+- * When the block grouping is enabled, the CAM line is changed to :
+- *
+- *   4Bit chip number||0x001||7Bit Thread number.
++ *   chip << 19 | 0000000 0 0001 thread (7Bit)
+  */
+-static uint32_t hw_cam_line(uint8_t chip_id, uint8_t tid)
 -{
+-    return 1 << 11 | (chip_id & 0xf) << 7 | (tid & 0x7f);
 -}
 -
- static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
-rp)
+-static bool xive_presenter_tctx_match_hw(XiveTCTX *tctx,
+-                                         uint8_t nvt_blk, uint32_t nvt_i=
+dx)
++static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tctx)
  {
-     if (kvm_enabled()) {
-@@ -267,7 +261,6 @@ SpaprIrq spapr_irq_xics =3D {
-     .reset       =3D spapr_irq_reset_xics,
-     .set_irq     =3D spapr_irq_set_irq_xics,
-     .get_nodename =3D spapr_irq_get_nodename_xics,
--    .init_emu    =3D spapr_irq_init_emu_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
+     CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
+     uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
 =20
-@@ -385,7 +378,7 @@ static void spapr_irq_reset_xive(SpaprMachineState *s=
-papr, Error **errp)
-         spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
-     }
-=20
--    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
-+    spapr_irq_init_kvm(spapr, &spapr_irq_xive, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -411,10 +404,6 @@ static const char *spapr_irq_get_nodename_xive(Spapr=
-MachineState *spapr)
-     return spapr->xive->nodename;
+-    return hw_cam_line((pir >> 8) & 0xf, pir & 0x7f) =3D=3D
+-        hw_cam_line(nvt_blk, nvt_idx);
++    return xive_nvt_cam_line((pir >> 8) & 0xf, 1 << 7 | (pir & 0x7f));
  }
 =20
--static void spapr_irq_init_emu_xive(SpaprMachineState *spapr, Error **er=
-rp)
--{
--}
--
- static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **er=
-rp)
- {
-     if (kvm_enabled()) {
-@@ -446,7 +435,6 @@ SpaprIrq spapr_irq_xive =3D {
-     .reset       =3D spapr_irq_reset_xive,
-     .set_irq     =3D spapr_irq_set_irq_xive,
-     .get_nodename =3D spapr_irq_get_nodename_xive,
--    .init_emu    =3D spapr_irq_init_emu_xive,
-     .init_kvm    =3D spapr_irq_init_kvm_xive,
- };
+ /*
+@@ -1285,7 +1274,7 @@ static int xive_presenter_tctx_match(XiveTCTX *tctx=
+, uint8_t format,
 =20
-@@ -624,7 +612,6 @@ SpaprIrq spapr_irq_dual =3D {
-     .reset       =3D spapr_irq_reset_dual,
-     .set_irq     =3D spapr_irq_set_irq_dual,
-     .get_nodename =3D spapr_irq_get_nodename_dual,
--    .init_emu    =3D NULL, /* should not be used */
-     .init_kvm    =3D NULL, /* should not be used */
- };
-=20
-@@ -840,6 +827,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .reset       =3D spapr_irq_reset_xics,
-     .set_irq     =3D spapr_irq_set_irq_xics,
-     .get_nodename =3D spapr_irq_get_nodename_xics,
--    .init_emu    =3D spapr_irq_init_emu_xics,
-     .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 14cab73c9c..f965a58f89 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -48,7 +48,6 @@ typedef struct SpaprIrq {
-     void (*reset)(SpaprMachineState *spapr, Error **errp);
-     void (*set_irq)(void *opaque, int srcno, int val);
-     const char *(*get_nodename)(SpaprMachineState *spapr);
--    void (*init_emu)(SpaprMachineState *spapr, Error **errp);
-     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
- } SpaprIrq;
+         /* PHYS ring */
+         if ((be32_to_cpu(qw3w2) & TM_QW3W2_VT) &&
+-            xive_presenter_tctx_match_hw(tctx, nvt_blk, nvt_idx)) {
++            cam =3D=3D xive_tctx_hw_cam_line(tctx)) {
+             return TM_QW3_HV_PHYS;
+         }
 =20
 --=20
 2.21.0
