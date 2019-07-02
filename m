@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCF35CF49
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:18:27 +0200 (CEST)
-Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E9C5CF1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:07:16 +0200 (CEST)
+Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHju-0006Um-6w
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36961)
+	id 1hiHZ3-00052m-87
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36003)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hiHNy-000417-Qm
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:48 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hiHKG-0001DA-6N
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:51:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hiHNx-0004jY-0w
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40526)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hiHNw-0004gi-QT
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hiHNu-0003sE-LZ
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 11:55:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9DF1A2E80CD
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 11:55:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Jul 2019 11:49:04 -0000
-From: Avi Eis <1834113@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=libvirt; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: amd64 apport-bug disco
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bryce ikes73 paelzer
-X-Launchpad-Bug-Reporter: Avi Eis (ikes73)
-X-Launchpad-Bug-Modifier: Avi Eis (ikes73)
-References: <156142437029.30985.13623507391124028236.malonedeb@soybean.canonical.com>
-Message-Id: <156206814460.2395.5221351124915771632.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3a18e2f535b4ffb3a3fd2a11c259f3f554f22fe3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834113] Re: QEMU touchpad input erratic after
- wakeup from sleep
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hiHKE-0006u3-Ub
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:51:56 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:40745 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hiHKE-0005HV-Mp
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:51:54 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 5FB2B1A2183;
+ Tue,  2 Jul 2019 13:50:42 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A7CF61A219E;
+ Tue,  2 Jul 2019 13:50:29 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org,
+	arikalo@wavecomp.com
+Date: Tue,  2 Jul 2019 13:50:06 +0200
+Message-Id: <1562068213-11307-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v2 0/7] target/mips: Misc improvements for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,103 +49,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834113 <1834113@bugs.launchpad.net>
+Cc: amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Actually, the version of libvirt I'd upgraded from was 5.0.0-1ubuntu2.2
--> 5.0.0-1ubuntu2.3.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Downgrading all of libvirt-clients libvirt-daemon libvirt-daemon-driver-
-storage-rbd libvirt-daemon-system libvirt0 to 5.0.0-1ubuntu2.2 seems to
-have fixed this after several sleep-resume cycles, although it's hard to
-be sure. Does any change in libvirt seem relevant?
+A collection of misc MIPS improvements that would be nice to be
+integrated into 4.1.
 
+Aleksandar Markovic (7):
+  tcg/tests: target/mips: Amend MSA fixed point multiply tests
+  tcg/tests: target/mips: Amend MSA integer multiply tests
+  tcg/tests: target/mips: Correct MSA test compilation and execution
+    order
+  target/mips: Correct comments in translate.c
+  target/mips: Correct comments in msa_helper.c
+  target/mips: Unroll loops for MSA float max/min instructions
+  target/mips: Correct helper for MSA FCLASS.<W|D> instructions
 
-** Also affects: qemu
-   Importance: Undecided
-       Status: New
+ target/mips/msa_helper.c                           | 260 +++++++----
+ target/mips/translate.c                            | 497 +++++++++++++--------
+ tests/tcg/mips/include/wrappers_msa.h              |  16 +
+ .../ase/msa/fixed-multiply/test_msa_madd_q_h.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_madd_q_w.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_maddr_q_h.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_maddr_q_w.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msub_q_h.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msub_q_w.c     | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msubr_q_h.c    | 216 +++++++++
+ .../ase/msa/fixed-multiply/test_msa_msubr_q_w.c    | 216 +++++++++
+ .../user/ase/msa/int-multiply/test_msa_maddv_b.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_d.c   | 214 ++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_h.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_maddv_w.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_b.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_d.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_h.c   | 224 +++++-----
+ .../user/ase/msa/int-multiply/test_msa_msubv_w.c   | 224 +++++-----
+ .../mips/user/ase/msa/test_msa_compile_32r6eb.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_32r6el.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_64r6eb.sh   |  32 +-
+ .../mips/user/ase/msa/test_msa_compile_64r6el.sh   |  32 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh |  16 +-
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh |  16 +-
+ 27 files changed, 3262 insertions(+), 1213 deletions(-)
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_madd_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_madd_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_maddr_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_maddr_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_msub_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_msub_q_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_msubr_q_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/fixed-multiply/test_msa_msubr_q_w.c
 
-** Also affects: libvirt (Ubuntu)
-   Importance: Undecided
-       Status: New
+-- 
+2.7.4
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834113
-
-Title:
-  QEMU touchpad input erratic after wakeup from sleep
-
-Status in QEMU:
-  New
-Status in libvirt package in Ubuntu:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Using Ubuntu host and guest. Normally the touchpad works great. Within
-  the last few days, suddenly, apparently after a wake from sleep, the
-  touchpad will behave erratically. For example, it will take two clicks
-  to select something, and when moving the cursor it will act as though
-  it is dragging even with the button not clicked.
-
-  A reboot fixes the issue temporarily.
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 19.04
-  Package: qemu 1:3.1+dfsg-2ubuntu3.1
-  Uname: Linux 5.1.14-050114-generic x86_64
-  ApportVersion: 2.20.10-0ubuntu27
-  Architecture: amd64
-  CurrentDesktop: ubuntu:GNOME
-  Date: Mon Jun 24 20:55:44 2019
-  Dependencies:
-   =
-
-  EcryptfsInUse: Yes
-  InstallationDate: Installed on 2019-02-20 (124 days ago)
-  InstallationMedia: Ubuntu 18.04 "Bionic" - Build amd64 LIVE Binary 201806=
-08-09:38
-  Lsusb:
-   Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-   Bus 001 Device 002: ID 8087:0025 Intel Corp. =
-
-   Bus 001 Device 003: ID 0c45:671d Microdia =
-
-   Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-  MachineType: Dell Inc. Precision 5530
-  ProcEnviron:
-   TERM=3Dxterm-256color
-   PATH=3D(custom, no user)
-   XDG_RUNTIME_DIR=3D<set>
-   LANG=3Den_US.UTF-8
-   SHELL=3D/bin/bash
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.1.14-050114-generic root=
-=3DUUID=3D18e8777c-1764-41e4-a19f-62476055de23 ro mem_sleep_default=3Ddeep =
-mem_sleep_default=3Ddeep acpi_rev_override=3D1 scsi_mod.use_blk_mq=3D1 nouv=
-eau.modeset=3D0 nouveau.runpm=3D0 nouveau.blacklist=3D1 acpi_backlight=3Dno=
-ne acpi_osi=3DLinux acpi_osi=3D!
-  SourcePackage: qemu
-  UpgradeStatus: No upgrade log present (probably fresh install)
-  dmi.bios.date: 04/26/2019
-  dmi.bios.vendor: Dell Inc.
-  dmi.bios.version: 1.10.1
-  dmi.board.name: 0FP2W2
-  dmi.board.vendor: Dell Inc.
-  dmi.board.version: A00
-  dmi.chassis.type: 10
-  dmi.chassis.vendor: Dell Inc.
-  dmi.modalias: dmi:bvnDellInc.:bvr1.10.1:bd04/26/2019:svnDellInc.:pnPrecis=
-ion5530:pvr:rvnDellInc.:rn0FP2W2:rvrA00:cvnDellInc.:ct10:cvr:
-  dmi.product.family: Precision
-  dmi.product.name: Precision 5530
-  dmi.product.sku: 087D
-  dmi.sys.vendor: Dell Inc.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834113/+subscriptions
 
