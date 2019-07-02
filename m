@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3047B5D436
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:26:23 +0200 (CEST)
-Received: from localhost ([::1]:55010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE35B5D492
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:47:56 +0200 (CEST)
+Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLbq-00026D-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
+	id 1hiLwi-0005nk-2A
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:47:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hiKpA-0007VE-B8
+ (envelope-from <ehabkost@redhat.com>) id 1hiKpB-0007XU-5l
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hiKp8-0005iF-KH
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43142)
+ (envelope-from <ehabkost@redhat.com>) id 1hiKp9-0005jY-9h
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKp8-0005eo-77
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:02 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKp8-0005hi-W8
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:03 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0AC988830B;
- Tue,  2 Jul 2019 15:36:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 23A983082E8F;
+ Tue,  2 Jul 2019 15:36:02 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C4635D6A9;
- Tue,  2 Jul 2019 15:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8E6760C43;
+ Tue,  2 Jul 2019 15:36:01 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Tue,  2 Jul 2019 12:35:04 -0300
-Message-Id: <20190702153535.9851-12-ehabkost@redhat.com>
+Date: Tue,  2 Jul 2019 12:35:05 -0300
+Message-Id: <20190702153535.9851-13-ehabkost@redhat.com>
 In-Reply-To: <20190702153535.9851-1-ehabkost@redhat.com>
 References: <20190702153535.9851-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 15:36:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 15:36:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v3 11/42] i386: Add die-level cpu topology to
- x86CPU on PCMachine
+Subject: [Qemu-devel] [PULL v3 12/42] hw/i386: Adjust nr_dies with
+ configured smp_dies for PCMachine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,102 +62,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Like Xu <like.xu@linux.intel.com>
 
-The die-level as the first PC-specific cpu topology is added to the leagcy
-cpu topology model, which has one die per package implicitly and only the
-numbers of sockets/cores/threads are configurable.
+To support multiple dies configuration on PCMachine, the best place to
+set CPUX86State->nr_dies with requested PCMachineState->smp_dies is in
+pc_new_cpu() and pc_cpu_pre_plug(). Refactoring pc_new_cpu() is applied
+and redundant parameter "const char *typename" would be removed.
 
-In the new model with die-level support, the total number of logical
-processors (including offline) on board will be calculated as:
-
-     #cpus = #sockets * #dies * #cores * #threads
-
-and considering compatibility, the default value for #dies would be
-initialized to one in x86_cpu_initfn() and pc_machine_initfn().
-
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Like Xu <like.xu@linux.intel.com>
-Message-Id: <20190612084104.34984-2-like.xu@linux.intel.com>
+Message-Id: <20190612084104.34984-3-like.xu@linux.intel.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/hw/i386/pc.h | 2 ++
- target/i386/cpu.h    | 2 ++
- hw/i386/pc.c         | 9 +++++++--
- target/i386/cpu.c    | 1 +
- 4 files changed, 12 insertions(+), 2 deletions(-)
+ hw/i386/pc.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 884e35b9b2..764996e6b4 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -24,6 +24,7 @@
-  * PCMachineState:
-  * @acpi_dev: link to ACPI PM device that performs ACPI hotplug handling
-  * @boot_cpus: number of present VCPUs
-+ * @smp_dies: number of dies per one package
-  */
- struct PCMachineState {
-     /*< private >*/
-@@ -59,6 +60,7 @@ struct PCMachineState {
-     bool apic_xrupt_override;
-     unsigned apic_id_limit;
-     uint16_t boot_cpus;
-+    unsigned smp_dies;
- 
-     /* NUMA information: */
-     uint64_t numa_nodes;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 93345792f4..14c19e61b1 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1385,6 +1385,8 @@ typedef struct CPUX86State {
-     uint64_t xss;
- 
-     TPRAccess tpr_access_type;
-+
-+    unsigned nr_dies;
- } CPUX86State;
- 
- struct kvm_msrs;
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 73de30cc20..e18b1bade2 100644
+index e18b1bade2..211015324a 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -2306,9 +2306,13 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+@@ -1518,12 +1518,16 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+     }
+ }
+ 
+-static void pc_new_cpu(const char *typename, int64_t apic_id, Error **errp)
++static void pc_new_cpu(PCMachineState *pcms, int64_t apic_id, Error **errp)
+ {
+     Object *cpu = NULL;
+     Error *local_err = NULL;
++    CPUX86State *env = NULL;
+ 
+-    cpu = object_new(typename);
++    cpu = object_new(MACHINE(pcms)->cpu_type);
++
++    env = &X86_CPU(cpu)->env;
++    env->nr_dies = pcms->smp_dies;
+ 
+     object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
+     object_property_set_bool(cpu, true, "realized", &local_err);
+@@ -1549,7 +1553,7 @@ void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp)
          return;
      }
  
--    /* if APIC ID is not set, set it based on socket/core/thread properties */
-+    /*
-+     * If APIC ID is not set,
-+     * set it based on socket/die/core/thread properties.
-+     */
-     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
--        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores;
-+        int max_socket = (ms->smp.max_cpus - 1) /
-+                                smp_threads / smp_cores / pcms->smp_dies;
- 
-         if (cpu->socket_id < 0) {
-             error_setg(errp, "CPU socket-id is not set");
-@@ -2619,6 +2623,7 @@ static void pc_machine_initfn(Object *obj)
-     pcms->smbus_enabled = true;
-     pcms->sata_enabled = true;
-     pcms->pit_enabled = true;
-+    pcms->smp_dies = 1;
- 
-     pc_system_flash_create(pcms);
+-    pc_new_cpu(ms->cpu_type, apic_id, &local_err);
++    pc_new_cpu(PC_MACHINE(ms), apic_id, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -1574,8 +1578,7 @@ void pc_cpus_init(PCMachineState *pcms)
+                                                      ms->smp.max_cpus - 1) + 1;
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+     for (i = 0; i < ms->smp.cpus; i++) {
+-        pc_new_cpu(possible_cpus->cpus[i].type, possible_cpus->cpus[i].arch_id,
+-                   &error_fatal);
++        pc_new_cpu(pcms, possible_cpus->cpus[i].arch_id, &error_fatal);
+     }
  }
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 78830d403a..fac3cc028e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5639,6 +5639,7 @@ static void x86_cpu_initfn(Object *obj)
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
  
-+    env->nr_dies = 1;
-     cpu_set_cpustate_pointers(cpu);
+@@ -2295,6 +2298,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     CPUArchId *cpu_slot;
+     X86CPUTopoInfo topo;
+     X86CPU *cpu = X86_CPU(dev);
++    CPUX86State *env = &cpu->env;
+     MachineState *ms = MACHINE(hotplug_dev);
+     PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+     unsigned int smp_cores = ms->smp.cores;
+@@ -2306,6 +2310,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+         return;
+     }
  
-     object_property_add(obj, "family", "int",
++    env->nr_dies = pcms->smp_dies;
++
+     /*
+      * If APIC ID is not set,
+      * set it based on socket/die/core/thread properties.
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
