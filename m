@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382895C956
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:31:59 +0200 (CEST)
-Received: from localhost ([::1]:49510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6705C995
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:53:51 +0200 (CEST)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCKc-0006Wk-DW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58476)
+	id 1hiCfm-0006bV-Ue
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58561)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBym-00052h-2y
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:25 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByn-00056r-QO
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByk-0002ws-RI
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47737 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBym-0002yn-4t
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:25 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40081 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByk-0002tu-FL; Tue, 02 Jul 2019 02:09:22 -0400
+ id 1hiByl-0002ul-G4; Tue, 02 Jul 2019 02:09:24 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMk1vVdz9sPx; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
+ id 45dDMk3nxbz9sPq; Tue,  2 Jul 2019 16:09:06 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1562047746;
- bh=09nmdt2mnEgWjykDd8wkcLUHPddK/xdAwW+pmFnNR/0=;
+ bh=u8LjWJnfOy8kTg3+UAQuQQu7l/+b+yYblJTltUYGq94=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C5u9f5SRy1kQ6CBdVrL71bNPGi15A1du9yn50xRwPwlG/zekSvy6NePKPrfxSg8Jc
- sRAF9aztCzj38SJ9Q0Id+kEnnQgsUeiv5ICG69U1naGstmSB/zgQGMCXmRz6mtIeij
- ILexO62FxBLa95rZ4LNxBnskN46QCBsvdFViaBCA=
+ b=OJfzxeV+mG9fB5YR3L1sbO/PcEExeMQalIk7e2j0yNLRTlDxvOiFX/wUTdQulfLZW
+ 4XBYOjgcdAQtOFntGqb1J7A493g7c3sTp1df5aSLIZItnnadk0C0V0QuQ42atOiJNG
+ z4uqiPeK0uymbON1U/Koyd1yZElV46BIvQqmy2Kg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:36 +1000
-Message-Id: <20190702060857.3926-29-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:37 +1000
+Message-Id: <20190702060857.3926-30-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
@@ -40,8 +40,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 28/49] target/ppc/machine: Add
- kvmppc_pvr_workaround_required() stub
+Subject: [Qemu-devel] [PULL 29/49] target/ppc: remove getVSR()/putVSR() from
+ int_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,58 +53,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>,
- rth@twiddle.net
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This allows to drop the CONFIG_KVM guard from the code.
+Since commit 8a14d31b00 "target/ppc: switch fpr/vsrl registers so all VSX
+registers are in host endian order" functions getVSR() and putVSR() which=
+ used
+to convert the VSR registers into host endian order are no longer require=
+d.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156051056289.224162.15553539098911498678.stgit@bahia.lan>
+Now that there are now no more users of getVSR()/putVSR() these functions=
+ can
+be completely removed.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20190616123751.781-4-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/kvm_ppc.h | 5 +++++
- target/ppc/machine.c | 2 --
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ target/ppc/int_helper.c | 22 ++++++++++------------
+ target/ppc/internal.h   | 12 ------------
+ 2 files changed, 10 insertions(+), 24 deletions(-)
 
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index e642aaaf92..98bd7d5da6 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -399,6 +399,11 @@ static inline int kvmppc_resize_hpt_commit(PowerPCCP=
-U *cpu,
-     return -ENOSYS;
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 8ce89f2ad9..3b8939edcc 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1902,38 +1902,36 @@ VEXTRACT(d, u64)
+ void helper_xxextractuw(CPUPPCState *env, target_ulong xtn,
+                         target_ulong xbn, uint32_t index)
+ {
+-    ppc_vsr_t xt, xb;
++    ppc_vsr_t *xt =3D &env->vsr[xtn];
++    ppc_vsr_t *xb =3D &env->vsr[xbn];
++    ppc_vsr_t t =3D { };
+     size_t es =3D sizeof(uint32_t);
+     uint32_t ext_index;
+     int i;
+=20
+-    getVSR(xbn, &xb, env);
+-    memset(&xt, 0, sizeof(xt));
+-
+     ext_index =3D index;
+     for (i =3D 0; i < es; i++, ext_index++) {
+-        xt.VsrB(8 - es + i) =3D xb.VsrB(ext_index % 16);
++        t.VsrB(8 - es + i) =3D xb->VsrB(ext_index % 16);
+     }
+=20
+-    putVSR(xtn, &xt, env);
++    *xt =3D t;
  }
 =20
-+static inline bool kvmppc_pvr_workaround_required(PowerPCCPU *cpu)
-+{
-+    return false;
-+}
-+
- #endif
+ void helper_xxinsertw(CPUPPCState *env, target_ulong xtn,
+                       target_ulong xbn, uint32_t index)
+ {
+-    ppc_vsr_t xt, xb;
++    ppc_vsr_t *xt =3D &env->vsr[xtn];
++    ppc_vsr_t *xb =3D &env->vsr[xbn];
++    ppc_vsr_t t =3D *xt;
+     size_t es =3D sizeof(uint32_t);
+     int ins_index, i =3D 0;
 =20
- #ifndef CONFIG_KVM
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 5ad7b40f45..e82f5de9db 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -378,11 +378,9 @@ static int cpu_post_load(void *opaque, int version_i=
-d)
-      * receive the PVR it expects as a workaround.
-      *
-      */
--#if defined(CONFIG_KVM)
-     if (kvmppc_pvr_workaround_required(cpu)) {
-         env->spr[SPR_PVR] =3D env->spr_cb[SPR_PVR].default_value;
+-    getVSR(xbn, &xb, env);
+-    getVSR(xtn, &xt, env);
+-
+     ins_index =3D index;
+     for (i =3D 0; i < es && ins_index < 16; i++, ins_index++) {
+-        xt.VsrB(ins_index) =3D xb.VsrB(8 - es + i);
++        t.VsrB(ins_index) =3D xb->VsrB(8 - es + i);
      }
--#endif
 =20
-     env->lr =3D env->spr[SPR_LR];
-     env->ctr =3D env->spr[SPR_CTR];
+-    putVSR(xtn, &xt, env);
++    *xt =3D t;
+ }
+=20
+ #define VEXT_SIGNED(name, element, cast)                            \
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index fb6f64ed1e..d3d327e548 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -204,18 +204,6 @@ EXTRACT_HELPER(IMM8, 11, 8);
+ EXTRACT_HELPER(DCMX, 16, 7);
+ EXTRACT_HELPER_SPLIT_3(DCMX_XV, 5, 16, 0, 1, 2, 5, 1, 6, 6);
+=20
+-static inline void getVSR(int n, ppc_vsr_t *vsr, CPUPPCState *env)
+-{
+-    vsr->VsrD(0) =3D env->vsr[n].VsrD(0);
+-    vsr->VsrD(1) =3D env->vsr[n].VsrD(1);
+-}
+-
+-static inline void putVSR(int n, ppc_vsr_t *vsr, CPUPPCState *env)
+-{
+-    env->vsr[n].VsrD(0) =3D vsr->VsrD(0);
+-    env->vsr[n].VsrD(1) =3D vsr->VsrD(1);
+-}
+-
+ void helper_compute_fprf_float16(CPUPPCState *env, float16 arg);
+ void helper_compute_fprf_float32(CPUPPCState *env, float32 arg);
+ void helper_compute_fprf_float128(CPUPPCState *env, float128 arg);
 --=20
 2.21.0
 
