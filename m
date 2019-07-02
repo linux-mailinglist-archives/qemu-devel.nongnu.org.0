@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED12C5D26B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:10:01 +0200 (CEST)
-Received: from localhost ([::1]:54323 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9625D27F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:15:14 +0200 (CEST)
+Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKPx-00085A-5f
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57243)
+	id 1hiKV0-0003dF-2p
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:15:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57168)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hiKIW-0001xM-2Y
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:02:24 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hiKIU-0001tH-9J
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:02:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hiKIT-0004wL-5D
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:02:19 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39708)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hiKIS-0004vR-H9
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:02:18 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44261)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hiKIS-0004Qg-NQ
+ id 1hiKIS-0004RK-7U
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:02:16 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z23so1386765wma.4
+Received: by mail-wr1-x441.google.com with SMTP id e3so8678205wrs.11
  for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:01:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=K+89fQ/fX+ypbNnKP14sPM2acp10lPWkFTDtpz8P/es=;
- b=khT7ruDgDEIZqirs/6PAHAs8RWLnXixc/SlhigdGtJRD8HpJb8KsSUSODwegOENu8v
- SU8XHtXw/q546dvoIELH8rde2a9Aw8p2vQeNe7f2JEgxhmY297bPU+R94Nw41BtVhuT5
- k/AbPN+M7Z/t/yaA9AVHce8GVZjGRd4gfmwLw1FkSBOOjFFM2qVjOBVbSd1IE5JwvHU0
- /maN32xLvUcfl07UtrEOgaFHv5frv9jQtS8cSjELq+jp2W3hjACWhUcjZKrJjh6MSN6Y
- g5GE7nZPTlMK5AO7hcyu9tQjKRE8nj7WcO/cve/Byb2RuJIZEQaQRFWTgqqNvzEgBK5N
- Ig+Q==
+ bh=iOB5P9WVHrwr6z3v5EXEtLiTeQ5jwJgEffaWVd4Prbc=;
+ b=N9qS+nwqCDKPZJ05JdEsfyWXyCdM+zYTG3D9g6oXl6qlQqo41LeOvCOct2uZVc1rN/
+ 5x/iY1RKCYGCzycufzwmBCcS+SK29k4mznoRkynbe6vGhbeldZMDOkvv/KwWxSNwX7wG
+ nup64cN6V6xcHRW9lQY1Lxvwn51g7rLv4bIToBZ0tnvsdTzXOlFaox2HN01YlHnHO9G7
+ lSmbuJK6akZR2nzqAXWsdXA5v9EevJd9+/UwpFwK7hLOFcCP10BC+sP3mhtlQsGFc0/y
+ UBQE9Q2iIds3VGu/NnZMqrzC304kLIY9Bd3c9seoPyyvhNFvG30x849H1kTr5kro4VwH
+ Oxew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=K+89fQ/fX+ypbNnKP14sPM2acp10lPWkFTDtpz8P/es=;
- b=NhY5GD9enuqP2sQ1xoTQAq+6nh/xgFc+6T4eRFeysB0CEsUMEkTptsb9YW+dcpmt5v
- 8ue0UppLL1Tg+vy+5DpW49ej3Mo6DoaZegSZI0T2FtxqO2GkYot9mZhqYPYRdMD8Ml+f
- +6NCNQdVBX55VsGgnWsMTQZNBEtvAGOYyf5KdTvHahXpJZWxJg7tDVKyK6sN01Hi5JhY
- wAkUlxfPdgNHo+bO3pBh+SlPF/RyJBYj9DSMgj81mldM31W4TFltWt1HhRldzQNw+p8X
- jbw/+sp9uqz/K+7y3o/83doL4idvE69OLcdIDBHthGiCZEhN0iakX99IlSYO64IfDMuS
- 640w==
-X-Gm-Message-State: APjAAAWkQb5Kwy1ggH7FhVCO9Rz3DvkMIVvVUKNP2Tuo2pl7CiE0VZ3p
- +absIVyg4DH0L3WYma3QMnYO5LcJGKg=
-X-Google-Smtp-Source: APXvYqx/i4zk4DZJbEc0AO0abm4CPu9RuOUnjBlmPadGH7NcsMx7Pkhu1b73oHCrT8LnTwlQgufEgA==
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr3974366wmi.78.1562079686711; 
- Tue, 02 Jul 2019 08:01:26 -0700 (PDT)
+ bh=iOB5P9WVHrwr6z3v5EXEtLiTeQ5jwJgEffaWVd4Prbc=;
+ b=cL0nHEct9gM/iC4YRSckV6h1552Ity7YBkv9O3lfNy5f+ob8R5J0MZ8w3GHwkVH7SG
+ laTZvZZdnBiZV/dGRjWk1o0nPcXC+GbBeW3lbsnLGsvCMnArtpSsWaoRNCEYUJsnMrAg
+ +YK666WNAFAGrVRRKvY2e56+NBIZ1JKJYnU6eow9KneEhEDCq6E6V2+Iml3zhRq3Q6wG
+ cMA2Q47wfkZwyWwNC5jJJTSCM6zNTVSo/fxa+TOoWzB7A52aaOff2XcJCzYjjpJYRAOL
+ t/6/9tKPGaIYF+S8JzOXZHvlArLJL9aV4c95vkJSH8PFjzfcOV9qB2Zr3YQgkxPM9db0
+ D2jQ==
+X-Gm-Message-State: APjAAAVQVumgkh1la4kIUn2amtzonFLLSSA/PWpJ7N8Xm39MKOpbV+dH
+ ZEZdTYisSXvnBrLY0qTCAXj5Ymcy5qQ=
+X-Google-Smtp-Source: APXvYqwcDsg21/kCxdCYiThnZThTR5/hvIIY73yRehu0y6PG3aYoLrZV0nCk9y4WqWkKjoxF8bzGdQ==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr25568225wro.140.1562079687839; 
+ Tue, 02 Jul 2019 08:01:27 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id m24sm3006262wmi.39.2019.07.02.08.01.25
+ by smtp.gmail.com with ESMTPSA id m24sm3006262wmi.39.2019.07.02.08.01.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Jul 2019 08:01:25 -0700 (PDT)
+ Tue, 02 Jul 2019 08:01:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 17:01:17 +0200
-Message-Id: <1562079681-19204-4-git-send-email-pbonzini@redhat.com>
+Date: Tue,  2 Jul 2019 17:01:18 +0200
+Message-Id: <1562079681-19204-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
 References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 3/7] target/i386: expand feature words to 64
- bits
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH 4/7] target/i386: add VMX definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,270 +78,157 @@ Cc: Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VMX requires 64-bit feature words for the IA32_VMX_EPT_VPID_CAP
-and IA32_VMX_BASIC MSRs.  (The VMX control MSRs are 64-bit wide but
-actually have only 32 bits of information).
+These will be used to compile the list of VMX features for named
+CPU models, and/or by the code that sets up the VMX MSRs.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/kvm.h |  2 +-
- target/i386/cpu.c    | 63 +++++++++++++++++++++++++++-------------------------
- target/i386/cpu.h    |  4 ++--
- target/i386/kvm.c    |  2 +-
- 4 files changed, 37 insertions(+), 34 deletions(-)
+ target/i386/cpu.h | 125 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 125 insertions(+)
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index acd90ae..f8157bc 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -463,7 +463,7 @@ int kvm_vm_check_extension(KVMState *s, unsigned int extension);
- 
- uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
-                                       uint32_t index, int reg);
--uint32_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
-+uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
- 
- 
- void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 412e834..4de44e4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -787,7 +787,7 @@ typedef struct FeatureWordInfo {
-      * In cases of disagreement between feature naming conventions,
-      * aliases may be added.
-      */
--    const char *feat_names[32];
-+    const char *feat_names[64];
-     union {
-         /* If type==CPUID_FEATURE_WORD */
-         struct {
-@@ -801,11 +801,11 @@ typedef struct FeatureWordInfo {
-             uint32_t index;
-         } msr;
-     };
--    uint32_t tcg_features; /* Feature flags supported by TCG */
--    uint32_t unmigratable_flags; /* Feature flags known to be unmigratable */
--    uint32_t migratable_flags; /* Feature flags known to be migratable */
-+    uint64_t tcg_features; /* Feature flags supported by TCG */
-+    uint64_t unmigratable_flags; /* Feature flags known to be unmigratable */
-+    uint64_t migratable_flags; /* Feature flags known to be migratable */
-     /* Features that shouldn't be auto-enabled by "-cpu host" */
--    uint32_t no_autoenable_flags;
-+    uint64_t no_autoenable_flags;
- } FeatureWordInfo;
- 
- static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-@@ -1337,14 +1337,14 @@ const char *get_register_name_32(unsigned int reg)
-  * Returns the set of feature flags that are supported and migratable by
-  * QEMU, for a given FeatureWord.
-  */
--static uint32_t x86_cpu_get_migratable_flags(FeatureWord w)
-+static uint64_t x86_cpu_get_migratable_flags(FeatureWord w)
- {
-     FeatureWordInfo *wi = &feature_word_info[w];
--    uint32_t r = 0;
-+    uint64_t r = 0;
-     int i;
- 
--    for (i = 0; i < 32; i++) {
--        uint32_t f = 1U << i;
-+    for (i = 0; i < 64; i++) {
-+        uint64_t f = 1ULL << i;
- 
-         /* If the feature name is known, it is implicitly considered migratable,
-          * unless it is explicitly set in unmigratable_flags */
-@@ -3059,7 +3059,7 @@ void x86_cpu_change_kvm_default(const char *prop, const char *value)
-     assert(pv->prop);
- }
- 
--static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
-+static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-                                                    bool migratable_only);
- 
- static bool lmce_supported(void)
-@@ -3253,7 +3253,7 @@ static bool x86_cpu_have_filtered_features(X86CPU *cpu)
-     return false;
- }
- 
--static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
-+static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint64_t mask,
-                                       const char *prefix)
- {
-     CPUX86State *env = &cpu->env;
-@@ -3268,8 +3268,8 @@ static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
-         return;
-     }
- 
--    for (i = 0; i < 32; ++i) {
--        if ((1UL << i) & mask) {
-+    for (i = 0; i < 64; ++i) {
-+        if ((1ULL << i) & mask) {
-             feat_word_str = feature_word_description(f, i);
-             warn_report("%s: %s%s%s [bit %d]",
-                         prefix,
-@@ -3512,7 +3512,7 @@ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-                                       Error **errp)
- {
--    uint32_t *array = (uint32_t *)opaque;
-+    uint64_t *array = (uint64_t *)opaque;
-     FeatureWord w;
-     X86CPUFeatureWordInfo word_infos[FEATURE_WORDS] = { };
-     X86CPUFeatureWordInfoList list_entries[FEATURE_WORDS] = { };
-@@ -3596,6 +3596,7 @@ static inline void feat2prop(char *s)
- /* Return the feature property name for a feature flag bit */
- static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
- {
-+    const char *name;
-     /* XSAVE components are automatically enabled by other features,
-      * so return the original feature name instead
-      */
-@@ -3609,9 +3610,11 @@ static const char *x86_cpu_feature_name(FeatureWord w, int bitnr)
-         }
-     }
- 
--    assert(bitnr < 32);
-+    assert(bitnr < 64);
-     assert(w < FEATURE_WORDS);
--    return feature_word_info[w].feat_names[bitnr];
-+    name = feature_word_info[w].feat_names[bitnr];
-+    assert(bitnr < 32 || !(name && feature_word_info[w].type == CPUID_FEATURE_WORD));
-+    return name;
- }
- 
- /* Compatibily hack to maintain legacy +-feat semantic,
-@@ -3727,10 +3730,10 @@ static void x86_cpu_list_feature_names(FeatureWordArray features,
-     strList **next = feat_names;
- 
-     for (w = 0; w < FEATURE_WORDS; w++) {
--        uint32_t filtered = features[w];
-+        uint64_t filtered = features[w];
-         int i;
--        for (i = 0; i < 32; i++) {
--            if (filtered & (1UL << i)) {
-+        for (i = 0; i < 64; i++) {
-+            if (filtered & (1ULL << i)) {
-                 strList *new = g_new0(strList, 1);
-                 new->value = g_strdup(x86_cpu_feature_name(w, i));
-                 *next = new;
-@@ -3866,7 +3869,7 @@ void x86_cpu_list(void)
-     names = NULL;
-     for (i = 0; i < ARRAY_SIZE(feature_word_info); i++) {
-         FeatureWordInfo *fw = &feature_word_info[i];
--        for (j = 0; j < 32; j++) {
-+        for (j = 0; j < 64; j++) {
-             if (fw->feat_names[j]) {
-                 names = g_list_append(names, (gpointer)fw->feat_names[j]);
-             }
-@@ -3913,11 +3916,11 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-     return cpu_list;
- }
- 
--static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
-+static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-                                                    bool migratable_only)
- {
-     FeatureWordInfo *wi = &feature_word_info[w];
--    uint32_t r = 0;
-+    uint64_t r = 0;
- 
-     if (kvm_enabled()) {
-         switch (wi->type) {
-@@ -4057,7 +4060,7 @@ static QDict *x86_cpu_static_props(void)
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         FeatureWordInfo *fi = &feature_word_info[w];
-         int bit;
--        for (bit = 0; bit < 32; bit++) {
-+        for (bit = 0; bit < 64; bit++) {
-             if (!fi->feat_names[bit]) {
-                 continue;
-             }
-@@ -5213,10 +5216,10 @@ static void x86_cpu_filter_features(X86CPU *cpu)
-                          : "TCG doesn't support requested feature";
- 
-     for (w = 0; w < FEATURE_WORDS; w++) {
--        uint32_t host_feat =
-+        uint64_t host_feat =
-             x86_cpu_get_supported_feature_word(w, false);
--        uint32_t requested_features = env->features[w];
--        uint32_t unavailable_features = requested_features & ~host_feat;
-+        uint64_t requested_features = env->features[w];
-+        uint64_t unavailable_features = requested_features & ~host_feat;
-         mark_unavailable_features(cpu, w, unavailable_features, prefix);
-     }
- 
-@@ -5512,7 +5515,7 @@ static void x86_cpu_unrealizefn(DeviceState *dev, Error **errp)
- 
- typedef struct BitProperty {
-     FeatureWord w;
--    uint32_t mask;
-+    uint64_t mask;
- } BitProperty;
- 
- static void x86_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
-@@ -5520,7 +5523,7 @@ static void x86_cpu_get_bit_prop(Object *obj, Visitor *v, const char *name,
- {
-     X86CPU *cpu = X86_CPU(obj);
-     BitProperty *fp = opaque;
--    uint32_t f = cpu->env.features[fp->w];
-+    uint64_t f = cpu->env.features[fp->w];
-     bool value = (f & fp->mask) == fp->mask;
-     visit_type_bool(v, name, &value, errp);
- }
-@@ -5573,7 +5576,7 @@ static void x86_cpu_register_bit_prop(X86CPU *cpu,
- {
-     BitProperty *fp;
-     ObjectProperty *op;
--    uint32_t mask = (1UL << bitnr);
-+    uint64_t mask = (1ULL << bitnr);
- 
-     op = object_property_find(OBJECT(cpu), prop_name, NULL);
-     if (op) {
-@@ -5708,7 +5711,7 @@ static void x86_cpu_initfn(Object *obj)
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
- 
--        for (bitnr = 0; bitnr < 32; bitnr++) {
-+        for (bitnr = 0; bitnr < 64; bitnr++) {
-             x86_cpu_register_feature_bit_props(cpu, w, bitnr);
-         }
-     }
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9334579..4e5dc30 100644
+index 4e5dc30..ec479d5 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -501,7 +501,7 @@ typedef enum FeatureWord {
-     FEATURE_WORDS,
- } FeatureWord;
+@@ -452,6 +452,25 @@ typedef enum X86Seg {
+ #define MSR_IA32_BNDCFGS                0x00000d90
+ #define MSR_IA32_XSS                    0x00000da0
  
--typedef uint32_t FeatureWordArray[FEATURE_WORDS];
-+typedef uint64_t FeatureWordArray[FEATURE_WORDS];
++#define MSR_IA32_VMX_BASIC              0x00000480
++#define MSR_IA32_VMX_PINBASED_CTLS      0x00000481
++#define MSR_IA32_VMX_PROCBASED_CTLS     0x00000482
++#define MSR_IA32_VMX_EXIT_CTLS          0x00000483
++#define MSR_IA32_VMX_ENTRY_CTLS         0x00000484
++#define MSR_IA32_VMX_MISC               0x00000485
++#define MSR_IA32_VMX_CR0_FIXED0         0x00000486
++#define MSR_IA32_VMX_CR0_FIXED1         0x00000487
++#define MSR_IA32_VMX_CR4_FIXED0         0x00000488
++#define MSR_IA32_VMX_CR4_FIXED1         0x00000489
++#define MSR_IA32_VMX_VMCS_ENUM          0x0000048a
++#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b
++#define MSR_IA32_VMX_EPT_VPID_CAP       0x0000048c
++#define MSR_IA32_VMX_TRUE_PINBASED_CTLS  0x0000048d
++#define MSR_IA32_VMX_TRUE_PROCBASED_CTLS 0x0000048e
++#define MSR_IA32_VMX_TRUE_EXIT_CTLS      0x0000048f
++#define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
++#define MSR_IA32_VMX_VMFUNC             0x00000491
++
+ #define XSTATE_FP_BIT                   0
+ #define XSTATE_SSE_BIT                  1
+ #define XSTATE_YMM_BIT                  2
+@@ -746,6 +765,112 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
  
- /* cpuid_features bits */
- #define CPUID_FP87 (1U << 0)
-@@ -1438,7 +1438,7 @@ struct X86CPU {
-     } mwait;
+ #define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
  
-     /* Features that were filtered out because of missing host capabilities */
--    uint32_t filtered_features[FEATURE_WORDS];
-+    FeatureWordArray filtered_features;
- 
-     /* Enable PMU CPUID bits. This can't be enabled by default yet because
-      * it doesn't have ABI stability guarantees, as it passes all PMU CPUID
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index e4b4f57..6801696 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -432,7 +432,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     return ret;
- }
- 
--uint32_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
-+uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
- {
-     struct {
-         struct kvm_msrs info;
++/* VMX MSR features */
++#define MSR_VMX_BASIC_DUAL_MONITOR                   (1ULL << 49)
++#define MSR_VMX_BASIC_INS_OUTS                       (1ULL << 54)
++#define MSR_VMX_BASIC_TRUE_CTLS                      (1ULL << 55)
++
++#define MSR_VMX_MISC_STORE_LMA                       (1ULL << 5)
++#define MSR_VMX_MISC_ACTIVITY_HLT                    (1ULL << 6)
++#define MSR_VMX_MISC_ACTIVITY_SHUTDOWN               (1ULL << 7)
++#define MSR_VMX_MISC_ACTIVITY_WAIT_SIPI              (1ULL << 8)
++#define MSR_VMX_MISC_VMWRITE_VMEXIT                  (1ULL << 29)
++#define MSR_VMX_MISC_ZERO_LEN_INJECT                 (1ULL << 30)
++
++#define MSR_VMX_EPT_EXECONLY                         (1ULL << 0)
++#define MSR_VMX_EPT_PAGE_WALK_LENGTH_4               (1ULL << 6)
++#define MSR_VMX_EPT_PAGE_WALK_LENGTH_5               (1ULL << 7)
++#define MSR_VMX_EPT_UC                               (1ULL << 8)
++#define MSR_VMX_EPT_WB                               (1ULL << 14)
++#define MSR_VMX_EPT_2MB                              (1ULL << 16)
++#define MSR_VMX_EPT_1GB                              (1ULL << 17)
++#define MSR_VMX_EPT_INVEPT                           (1ULL << 20)
++#define MSR_VMX_EPT_AD_BITS                          (1ULL << 21)
++#define MSR_VMX_EPT_ADVANCED_VMEXIT_INFO             (1ULL << 22)
++#define MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT            (1ULL << 25)
++#define MSR_VMX_EPT_INVEPT_ALL_CONTEXT               (1ULL << 26)
++#define MSR_VMX_EPT_INVVPID                          (1ULL << 32)
++#define MSR_VMX_EPT_INVVPID_SINGLE_ADDR              (1ULL << 40)
++#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT           (1ULL << 41)
++#define MSR_VMX_EPT_INVVPID_ALL_CONTEXT              (1ULL << 42)
++#define MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS (1ULL << 43)
++
++#define MSR_VMX_VMFUNC_EPT_SWITCHING                 (1ULL << 0)
++
++
++/* VMX controls */
++#define VMX_CPU_BASED_VIRTUAL_INTR_PENDING          0x00000004
++#define VMX_CPU_BASED_USE_TSC_OFFSETING             0x00000008
++#define VMX_CPU_BASED_HLT_EXITING                   0x00000080
++#define VMX_CPU_BASED_INVLPG_EXITING                0x00000200
++#define VMX_CPU_BASED_MWAIT_EXITING                 0x00000400
++#define VMX_CPU_BASED_RDPMC_EXITING                 0x00000800
++#define VMX_CPU_BASED_RDTSC_EXITING                 0x00001000
++#define VMX_CPU_BASED_CR3_LOAD_EXITING              0x00008000
++#define VMX_CPU_BASED_CR3_STORE_EXITING             0x00010000
++#define VMX_CPU_BASED_CR8_LOAD_EXITING              0x00080000
++#define VMX_CPU_BASED_CR8_STORE_EXITING             0x00100000
++#define VMX_CPU_BASED_TPR_SHADOW                    0x00200000
++#define VMX_CPU_BASED_VIRTUAL_NMI_PENDING           0x00400000
++#define VMX_CPU_BASED_MOV_DR_EXITING                0x00800000
++#define VMX_CPU_BASED_UNCOND_IO_EXITING             0x01000000
++#define VMX_CPU_BASED_USE_IO_BITMAPS                0x02000000
++#define VMX_CPU_BASED_MONITOR_TRAP_FLAG             0x08000000
++#define VMX_CPU_BASED_USE_MSR_BITMAPS               0x10000000
++#define VMX_CPU_BASED_MONITOR_EXITING               0x20000000
++#define VMX_CPU_BASED_PAUSE_EXITING                 0x40000000
++#define VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS   0x80000000
++
++#define VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES 0x00000001
++#define VMX_SECONDARY_EXEC_ENABLE_EPT               0x00000002
++#define VMX_SECONDARY_EXEC_DESC                     0x00000004
++#define VMX_SECONDARY_EXEC_RDTSCP                   0x00000008
++#define VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE   0x00000010
++#define VMX_SECONDARY_EXEC_ENABLE_VPID              0x00000020
++#define VMX_SECONDARY_EXEC_WBINVD_EXITING           0x00000040
++#define VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST       0x00000080
++#define VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT       0x00000100
++#define VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY    0x00000200
++#define VMX_SECONDARY_EXEC_PAUSE_LOOP_EXITING       0x00000400
++#define VMX_SECONDARY_EXEC_RDRAND_EXITING           0x00000800
++#define VMX_SECONDARY_EXEC_ENABLE_INVPCID           0x00001000
++#define VMX_SECONDARY_EXEC_ENABLE_VMFUNC            0x00002000
++#define VMX_SECONDARY_EXEC_SHADOW_VMCS              0x00004000
++#define VMX_SECONDARY_EXEC_ENCLS_EXITING            0x00008000
++#define VMX_SECONDARY_EXEC_RDSEED_EXITING           0x00010000
++#define VMX_SECONDARY_EXEC_ENABLE_PML               0x00020000
++#define VMX_SECONDARY_EXEC_XSAVES                   0x00100000
++
++#define VMX_PIN_BASED_EXT_INTR_MASK                 0x00000001
++#define VMX_PIN_BASED_NMI_EXITING                   0x00000008
++#define VMX_PIN_BASED_VIRTUAL_NMIS                  0x00000020
++#define VMX_PIN_BASED_VMX_PREEMPTION_TIMER          0x00000040
++#define VMX_PIN_BASED_POSTED_INTR                   0x00000080
++
++#define VMX_VM_EXIT_SAVE_DEBUG_CONTROLS             0x00000004
++#define VMX_VM_EXIT_HOST_ADDR_SPACE_SIZE            0x00000200
++#define VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL      0x00001000
++#define VMX_VM_EXIT_ACK_INTR_ON_EXIT                0x00008000
++#define VMX_VM_EXIT_SAVE_IA32_PAT                   0x00040000
++#define VMX_VM_EXIT_LOAD_IA32_PAT                   0x00080000
++#define VMX_VM_EXIT_SAVE_IA32_EFER                  0x00100000
++#define VMX_VM_EXIT_LOAD_IA32_EFER                  0x00200000
++#define VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER       0x00400000
++#define VMX_VM_EXIT_CLEAR_BNDCFGS                   0x00800000
++#define VMX_VM_EXIT_PT_CONCEAL_PIP                  0x01000000
++#define VMX_VM_EXIT_CLEAR_IA32_RTIT_CTL             0x02000000
++
++#define VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
++#define VMX_VM_ENTRY_IA32E_MODE                     0x00000200
++#define VMX_VM_ENTRY_SMM                            0x00000400
++#define VMX_VM_ENTRY_DEACT_DUAL_MONITOR             0x00000800
++#define VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL     0x00002000
++#define VMX_VM_ENTRY_LOAD_IA32_PAT                  0x00004000
++#define VMX_VM_ENTRY_LOAD_IA32_EFER                 0x00008000
++#define VMX_VM_ENTRY_LOAD_BNDCFGS                   0x00010000
++#define VMX_VM_ENTRY_PT_CONCEAL_PIP                 0x00020000
++#define VMX_VM_ENTRY_LOAD_IA32_RTIT_CTL             0x00040000
++
+ /* Supported Hyper-V Enlightenments */
+ #define HYPERV_FEAT_RELAXED             0
+ #define HYPERV_FEAT_VAPIC               1
 -- 
 1.8.3.1
 
