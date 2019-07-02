@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937635C93C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:22:07 +0200 (CEST)
-Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53645C95F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:36:22 +0200 (CEST)
+Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCB4-0006sV-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:22:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
+	id 1hiCOs-00024V-2o
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58573)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByf-0004lG-0k
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:17 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByo-00057N-4U
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByd-0002p5-VA
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:16 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35329 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByj-0002wA-VH
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:26 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54457 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByd-0002nO-Jk; Tue, 02 Jul 2019 02:09:15 -0400
+ id 1hiByj-0002tS-Gf; Tue, 02 Jul 2019 02:09:21 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMg4HwQz9sP7; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
+ id 45dDMj70sqz9sPg; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047743;
- bh=b75CAUYLIbQe1Qpo7nfZqxRFQUGmzusldu8XhS1oYo4=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047745;
+ bh=HT07ntmZpjPIf5Gf42qXhpH8/xItYhlhB29GMoH0fLE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L2yOvScRBCCWn8ecQRjOA0iUSFkWYEVpggYG9w6Zng6KJpBAJ9WiaGmxyBfidZynY
- yXz1h0m56l7J07CtdyFGjcdkv0end/iFRG0mzoip9GJBzaoT2NdiBuCM3w4HroNC1K
- WQKb53SCy23ShIMuuhTqBI4UhutBU4fMLE5LWlaw=
+ b=h/gJY9P0tDjNi0igUaQpwQqrD58ZetDuaBfPhb5nNrhN4/YBcq1Of231RCgRgWGNw
+ LVuMbzIIo0DiPpcScNhiju88ldBs/3kZme2wDjibPRShB1FaeomMjd0LhyvTaOFvbb
+ JpYKKwbjOwCBtkBwMxfpsRXkkpxT0V3HnVe8fFMc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:18 +1000
-Message-Id: <20190702060857.3926-11-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:19 +1000
+Message-Id: <20190702060857.3926-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 10/49] target/ppc: fix compile error in
- kvmppc_define_rtas_kernel_token()
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 11/49] xics: Add comment about CPU hotplug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,45 +60,32 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-gcc9 reports :
+So that no one is tempted to drop that code, which is never called
+for cold plugged CPUs.
 
-In file included from /usr/include/string.h:494,
-                 from ./include/qemu/osdep.h:101,
-                 from ./target/ppc/kvm.c:17:
-In function =E2=80=98strncpy=E2=80=99,
-    inlined from =E2=80=98kvmppc_define_rtas_kernel_token=E2=80=99 at ./t=
-arget/ppc/kvm.c:2648:5:
-/usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_st=
-rncpy=E2=80=99 specified bound 120 equals destination size [-Werror=3Dstr=
-ingop-truncation]
-  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
-dest));
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190615081252.28602-1-clg@kaod.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <156078063349.435533.12283208810037409702.stgit@bahia.lan>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/xics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 4b4989c0af..9014ed029f 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2650,7 +2650,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token,=
- const char *function)
-         return -ENOENT;
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index 29f7d39781..978d7f0886 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -351,6 +351,7 @@ static void icp_realize(DeviceState *dev, Error **err=
+p)
+         return;
      }
 =20
--    strncpy(args.name, function, sizeof(args.name));
-+    strncpy(args.name, function, sizeof(args.name) - 1);
-=20
-     return kvm_vm_ioctl(kvm_state, KVM_PPC_RTAS_DEFINE_TOKEN, &args);
- }
++    /* Connect the presenter to the VCPU (required for CPU hotplug) */
+     if (kvm_irqchip_in_kernel()) {
+         icp_kvm_realize(dev, &err);
+         if (err) {
 --=20
 2.21.0
 
