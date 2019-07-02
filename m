@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBA25D3FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:12:28 +0200 (CEST)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6BD5D421
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:18:45 +0200 (CEST)
+Received: from localhost ([::1]:54948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLON-0006JV-Sf
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34311)
+	id 1hiLUR-0002tK-IH
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiKcy-0005Rn-Fz
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:30 -0400
+ (envelope-from <armbru@redhat.com>) id 1hiKfq-0001G7-Et
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiKcv-0002TJ-VM
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:28 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35576)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiKcv-0002Rw-Fm
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:23:25 -0400
-Received: by mail-oi1-x241.google.com with SMTP id a127so13344687oii.2
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:23:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sdlUlz3+Hpw3vHFFzmWRyobbrzu0f+uChCMbem+yFT0=;
- b=HLLGDnSLAyq6szSPrUcV3fw8KP1ILSpMRCsO5uZIRF+TKYQqm71dRfgwQk+bMDTyzb
- HQCodhcIEvdnBaKR/Lj2j9Jphc2o5/9HauYRatVQxfAGf4zDpuiRZPeB8Y2b5x2F/5lH
- RiHo6aJqic0hgRdP9s81LfJTpzcdL2/O9xw28+BdVpSGQBeG1qN8NlDzifIO3ecVmpZO
- lTHtiBAj2tIdgEofPr+mh/6AH1rwIUPPQN+tmqoVzdOFlya3ViT3QsSYHSVW2ummNXUq
- oRd/tqghNO9EtFKSQzNmvv6/2Lz7N/LAjUy2CUfUd8aF7/pBUVFYkD3UBywgZ71N0GpV
- TPDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sdlUlz3+Hpw3vHFFzmWRyobbrzu0f+uChCMbem+yFT0=;
- b=bElrT4++gLjw46nJ2qaUhkFR0n/O1KiRj7+m/maVw5m14SpaQoQVOfoEK2qG7BiSM/
- P98bCLKot5QjLLiVpvip/sz2L9ZbHzbwogU8oCLvu88PGS7yZhm0MNVUqqEvvtoeL5IV
- RtuSL5AqNkJ1G/tCVEja/P2JTDFoMw89Dt91H7vA8+AMvbwFCJh6Vhs2Agmn+eZATRxc
- HRxwAy8fhP8wPY44Z2Nbo3rU8Mt84eMq2YKAn9/S0UoISU4gGd0jq0byr8kUdo8KV8vE
- 2DtTy/P2GuoMUJ0U560i6WNfhu+vFlqv4Rge964rgdeXmnf1Liqo3FxfD/MHsCB6IZbu
- kqpg==
-X-Gm-Message-State: APjAAAWrN6JsiqMsbUVO5Pf+44UCDEAcvPYhbawwhr7yrnPPByNjLXkN
- rWuchSXZ/VW51hNcUlq+6VYSQ/60GLj1toj5rWRlDQ==
-X-Google-Smtp-Source: APXvYqzYrzB8FFxyXtEZ2z+EwP5LoGbOzMBe0LpC9K4BWwTnzlxgQsbbHEoiLKe+r3W6TUHIkVolC1LcwSYsRQTV/QQ=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr3485563oib.163.1562081004203; 
- Tue, 02 Jul 2019 08:23:24 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1hiKfp-0005ES-Ef
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49079)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiKfp-0005D1-8F
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:26:25 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8488D81127;
+ Tue,  2 Jul 2019 15:26:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
+ [10.36.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A1AA4C492;
+ Tue,  2 Jul 2019 15:26:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E8E411132ABF; Tue,  2 Jul 2019 17:26:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Natalia Fursova" <Natalia.Fursova@ispras.ru>
+References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
+ <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
+ <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
+ <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
+ <003b01d51f72$5e6f4160$1b4dc420$@Fursova@ispras.ru>
+ <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
+ <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
+ <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
+ <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
+ <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
+ <c49abf01-c209-b206-edee-507c31269011@redhat.com>
+ <87o934sdot.fsf@dusky.pond.sub.org>
+ <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
+ <87ftogp7f5.fsf@dusky.pond.sub.org>
+ <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
+ <014c01d530cb$73ff1950$5bfd4bf0$@Fursova@ispras.ru>
+Date: Tue, 02 Jul 2019 17:26:15 +0200
+In-Reply-To: <014c01d530cb$73ff1950$5bfd4bf0$@Fursova@ispras.ru> (Natalia
+ Fursova's message of "Tue, 2 Jul 2019 14:44:05 +0300")
+Message-ID: <8736jo1mqw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20190702121106.28374-1-slp@redhat.com>
-In-Reply-To: <20190702121106.28374-1-slp@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 16:23:10 +0100
-Message-ID: <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
-To: Sergio Lopez <slp@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Tue, 02 Jul 2019 15:26:24 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] qgraph
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +74,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, maran.wilson@oracle.com,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: 'Paolo Bonzini' <pbonzini@redhat.com>,
+ 'Andreas =?utf-8?Q?F=C3=A4rb?= =?utf-8?Q?er'?= <afaerber@suse.de>,
+ =?utf-8?B?J9Cf0LDRiNCwJw==?= <Pavel.Dovgaluk@ispras.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 13:14, Sergio Lopez <slp@redhat.com> wrote:
->
-> Microvm is a machine type inspired by both NEMU and Firecracker, and
-> constructed after the machine model implemented by the latter.
->
-> It's main purpose is providing users a KVM-only machine type with fast
-> boot times, minimal attack surface (measured as the number of IO ports
-> and MMIO regions exposed to the Guest) and small footprint (specially
-> when combined with the ongoing QEMU modularization effort).
->
-> Normally, other than the device support provided by KVM itself,
-> microvm only supports virtio-mmio devices. Microvm also includes a
-> legacy mode, which adds an ISA bus with a 16550A serial port, useful
-> for being able to see the early boot kernel messages.
+"Natalia Fursova" <Natalia.Fursova@ispras.ru> writes:
 
-Could we use virtio-pci instead of virtio-mmio? virtio-mmio is
-a bit deprecated and tends not to support all the features that
-virtio-pci does. It was introduced mostly as a stopgap while we
-didn't have pci support in the aarch64 virt machine, and remains
-for legacy "we don't like to break existing working setups" rather
-than as a recommended config for new systems.
+> Hi there again!
+> Thank you for your answers, I have new question.
+>  
+> I want to identify PCI devices (e.g. network cards) and observed one
+> strange thing. I use qmp command "qom-list-type" and build tree from
+> it output. Some items don't have parent and don't give information
+> about themselves. E. g. "e1000-base". It has three children and it
+> belongs to PCI devices, but I can't know it, cuz command
+> "qom-list-properties" returns empty message.
+>
+> There is no information about "e1000-base" in "qom-list-type"
+> output. It is referenced only as a parent for network cards.  Is it
+> ok? Maybe is there other way for get information about all PCI
+> devices?
 
-thanks
--- PMM
+qom-list-types only returns concrete types by default.  Try passing
+"abstract": true.
 
