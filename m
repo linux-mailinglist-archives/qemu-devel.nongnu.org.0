@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9D55D505
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:09:51 +0200 (CEST)
-Received: from localhost ([::1]:55472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC875D487
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:46:06 +0200 (CEST)
+Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMHu-0002LO-Je
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38973)
+	id 1hiLuv-0004DR-II
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hiKtp-0006By-21
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:40:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiKu0-0006M3-PY
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:41:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hiKtj-00023s-Fa
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:40:51 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39021)
+ (envelope-from <peter.maydell@linaro.org>) id 1hiKtz-0002JX-FH
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:41:04 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:39494)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiKth-00021Y-La
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:40:45 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x4so18381348wrt.6
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:40:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hiKtz-0002J2-43
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:41:03 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id m202so13406489oig.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rGW5k5Paj4tmdYv1D9BIVYMWFzsHfil6atEt9kC7Xx8=;
+ b=W4xDIOwHB6Mfuwxg3difxw190UlhwuxEygMlb0JEFkehSQc/JFgrW8dlonSq0QPhzf
+ zlh0UXZh9fK4wZhlrExqFcuAwm0oazNKFhEjR6OkWkMdTEGUDa5Bvx9VBcJ2Mqjx9RQu
+ hEUbhLExNukQHooOvEI3nyXHWyOVMhO43KUYjFV5YTDCL7yMgk7fSCAulxgIyOsQr6zf
+ lmfmBCGd1BYo/WfW2eHHJTpM+xGoSSefPQitlGbO24jWcbnB7z4ZUGWPCmwS9n99mcQt
+ V5JRup+NE1EqZXsfjC17OGF9i5dycgE8irFH6EKfWQtkhKVakcacFKqKK2WTQqqe5XDV
+ 8c4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fYeCQi0os7jmPhNB88DbZVjPSXVXb+/v4/XPNo2WZlo=;
- b=fjueIB5hoCqVn+mt9B5SufN9ndK5ixWdjFovHFRb2VH2GG8/0H8jKdleHoYp3AWodh
- lcDyCHRit4DSzdJRNurcNa5mXdOG2VPVVLsVg/rr/YdXCe2nD3f36ksU2B0ZJbRt7oZj
- +gp0e3AmIC2QzY1+vjLwZ7YnbOhZvVzrImzyizwPvNweQvgihsY4Xf/wkDqAymTf5rYD
- /lXqeZUWFZy+ftu264a9l7Ccdi9+jkK5PfYYIFJMtq8TBofqN2v5o+t/GxIoTL1ZX6cw
- AGmt8VCTF2ixlDpXfo/Elaor30L+YtVGsA7pP+c06BiWJoxkzp7JC3K/Awo0XFDGf5BM
- poDQ==
-X-Gm-Message-State: APjAAAXiQrCJT53w0feZy0JT8RwRwah3dalDgqEdrb0DROwalX1rkQ9R
- tTP5ctj5oYf6EEyR58sW7cKrKQ==
-X-Google-Smtp-Source: APXvYqylWW/P3Mn6odYaVb5dPvSaV15EMLC1OhdMensNd2TOXtbpDh9vstpErJ2cdpyjtrtL3I9fTA==
-X-Received: by 2002:a5d:5342:: with SMTP id t2mr17950736wrv.126.1562082044650; 
- Tue, 02 Jul 2019 08:40:44 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id w6sm13065254wrp.67.2019.07.02.08.40.43
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Jul 2019 08:40:44 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20190702150311.20467-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <944807ae-3977-1782-2356-74dfcec4e98c@redhat.com>
-Date: Tue, 2 Jul 2019 17:40:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rGW5k5Paj4tmdYv1D9BIVYMWFzsHfil6atEt9kC7Xx8=;
+ b=tqRo3Sd0ac2761PoBelHOeqnTwetHsVk3WKqD/H060h2GGSN/9xEEPdQvys5zwZShF
+ T0YxJXSPjEoqVSS9ehF4U9Y+CxZgYLAsB9f1mR7OW5YxVOVLznO7emB0Xiqh//7j3C7O
+ oMh+O3YyImx9szu6GcFXbIIuLFLBxwmoVT6N4fGczwwN2w4++97S4lnHXEdqsvhnVnD/
+ nImdkPzPSSc0MbRjdP7c3KK6MO5hTKPdW/d9ewdxhz7qGKAztVFd+WLv7oIxjAgV66N8
+ YXkAbfuHSYlv0iTBBEva6dvCfjIyUSboqc/kTmSUTDO6Izp43vDxzz/SpzYYitirL+XN
+ bURA==
+X-Gm-Message-State: APjAAAVzxLKpkOsJzp/cJMxdNa4qFpGpaUeej6xAZfLFHMP/T58Cf0qy
+ tg4dGNcLm1Pao7/uNQVeJ4fldSRQCTtK6C25fvFmKE7oh9Q=
+X-Google-Smtp-Source: APXvYqwK7b+bmR7daN2HOSEc7H1ehaB4yX2yed8uBzPWM8XtERaQu11fJ/NhngUv9U0QuBX5h16vmNuqMU7zNMHlEd0=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr3497590oic.170.1562082062243; 
+ Tue, 02 Jul 2019 08:41:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190702150311.20467-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH for-4.1] tests/migration-test: Fix read off
- end of aarch64_kernel array
+References: <20190701175437.19223-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190701175437.19223-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jul 2019 16:40:51 +0100
+Message-ID: <CAFEAcA8YiXWcb7bg0dHoJhs6NdNMzEJUA88p4M5y0ict6j1X8Q@mail.gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22d
+Subject: Re: [Qemu-devel] [PULL 0/1] qemu-openbios queue 20190701
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,116 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/19 5:03 PM, Peter Maydell wrote:
-> The test aarch64 kernel is in an array defined with
->  unsigned char aarch64_kernel[] = { [...] }
-> 
-> which means it could be any size; currently it's quite small.
-> However we write it to a file using init_bootfile(), which
-> writes exactly 512 bytes to the file. This will break if
-> we ever end up with a kernel larger than that, and will
-> read garbage off the end of the array in the current setup
-> where the kernel is smaller.
-> 
-> Make init_bootfile() take an argument giving the length of
-> the data to write. This allows us to use it for all architectures
-> (previously s390 had a special-purpose init_bootfile_s390x
-> which hardcoded the file to write so it could write the
-> correct length). We assert that the x86 bootfile really is
-> exactly 512 bytes as it should be (and as we were previously
-> just assuming it was).
-> 
-> This was detected by the clang-7 asan:
-> ==15607==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55a796f51d20 at pc 0x55a796b89c2f bp 0x7ffc58e89160 sp 0x7ffc58e88908
-> READ of size 512 at 0x55a796f51d20 thread T0
->     #0 0x55a796b89c2e in fwrite (/home/petmay01/linaro/qemu-from-laptop/qemu/build/sanitizers/tests/migration-test+0xb0c2e)
->     #1 0x55a796c46492 in init_bootfile /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:99:5
->     #2 0x55a796c46492 in test_migrate_start /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:593
->     #3 0x55a796c44101 in test_baddest /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:854:9
->     #4 0x7f906ffd3cc9  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72cc9)
->     #5 0x7f906ffd3bfa  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72bfa)
->     #6 0x7f906ffd3bfa  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72bfa)
->     #7 0x7f906ffd3ea1 in g_test_run_suite (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72ea1)
->     #8 0x7f906ffd3ec0 in g_test_run (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72ec0)
->     #9 0x55a796c43707 in main /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:1187:11
->     #10 0x7f906e9abb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
->     #11 0x55a796b6c2d9 in _start (/home/petmay01/linaro/qemu-from-laptop/qemu/build/sanitizers/tests/migration-test+0x932d9)
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> patchew's asan build doesn't spot this, so it's presumably
-> using an older version of the sanitizers...
-> 
-> 
->  tests/migration-test.c | 22 +++++++---------------
->  1 file changed, 7 insertions(+), 15 deletions(-)
-> 
-> diff --git a/tests/migration-test.c b/tests/migration-test.c
-> index 0cd014dbe51..b6434628e1c 100644
-> --- a/tests/migration-test.c
-> +++ b/tests/migration-test.c
-> @@ -91,23 +91,13 @@ static const char *tmpfs;
->   */
->  #include "tests/migration/i386/a-b-bootblock.h"
->  #include "tests/migration/aarch64/a-b-kernel.h"
-> -
-> -static void init_bootfile(const char *bootpath, void *content)
-> -{
-> -    FILE *bootfile = fopen(bootpath, "wb");
-> -
-> -    g_assert_cmpint(fwrite(content, 512, 1, bootfile), ==, 1);
-> -    fclose(bootfile);
-> -}
-> -
->  #include "tests/migration/s390x/a-b-bios.h"
->  
-> -static void init_bootfile_s390x(const char *bootpath)
-> +static void init_bootfile(const char *bootpath, void *content, size_t len)
->  {
->      FILE *bootfile = fopen(bootpath, "wb");
-> -    size_t len = sizeof(s390x_elf);
->  
-> -    g_assert_cmpint(fwrite(s390x_elf, len, 1, bootfile), ==, 1);
-> +    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
->      fclose(bootfile);
->  }
->  
-> @@ -537,7 +527,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->      got_stop = false;
->      bootpath = g_strdup_printf("%s/bootsect", tmpfs);
->      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-> -        init_bootfile(bootpath, x86_bootsect);
-> +        /* the assembled x86 boot sector should be exactly one sector large */
-> +        assert(sizeof(x86_bootsect) == 512);
-> +        init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
->          extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
->          cmd_src = g_strdup_printf("-machine accel=%s -m 150M"
->                                    " -name source,debug-threads=on"
-> @@ -555,7 +547,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->          start_address = X86_TEST_MEM_START;
->          end_address = X86_TEST_MEM_END;
->      } else if (g_str_equal(arch, "s390x")) {
-> -        init_bootfile_s390x(bootpath);
-> +        init_bootfile(bootpath, s390x_elf, sizeof(s390x_elf));
->          extra_opts = use_shmem ? get_shmem_opts("128M", shmem_path) : NULL;
->          cmd_src = g_strdup_printf("-machine accel=%s -m 128M"
->                                    " -name source,debug-threads=on"
-> @@ -590,7 +582,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->          start_address = PPC_TEST_MEM_START;
->          end_address = PPC_TEST_MEM_END;
->      } else if (strcmp(arch, "aarch64") == 0) {
-> -        init_bootfile(bootpath, aarch64_kernel);
-> +        init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
->          extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
->          cmd_src = g_strdup_printf("-machine virt,accel=%s,gic-version=max "
->                                    "-name vmsource,debug-threads=on -cpu max "
-> 
+On Mon, 1 Jul 2019 at 18:57, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
+>
+> are available in the git repository at:
+>
+>   git://github.com/mcayland/qemu.git tags/qemu-openbios-20190701
+>
+> for you to fetch changes up to 9f4886430d61a4c452c0f1c6f5efeb1bc256a859:
+>
+>   Update OpenBIOS images to c79e0ec built from submodule. (2019-07-01 18:37:05 +0100)
+>
+> ----------------------------------------------------------------
+> qemu-openbios queue
+>
+> ----------------------------------------------------------------
+> Mark Cave-Ayland (1):
+>       Update OpenBIOS images to c79e0ec built from submodule.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
