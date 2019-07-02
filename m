@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C215D27E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:15:01 +0200 (CEST)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4337E5D3D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:04:04 +0200 (CEST)
+Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKUm-0003b5-GR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58027)
+	id 1hiLGF-00011e-0A
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hiKLz-0004w8-BY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:57 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hiKS3-0002aB-2n
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hiKLv-0007aO-JQ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38580)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hiKLt-0007Xd-Oc
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:50 -0400
-Received: by mail-wr1-x442.google.com with SMTP id p11so7038147wro.5
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=cAdcykhsBr9KRoTt+e4UsNPsrOD05Rn6WRA4P8vaXKM=;
- b=U94X5p9dk+Ez+gN8gaKJ1FW8MyToLqAT1fp5T1gw45kWf0e79qSgm16XMo+S6O5dry
- LjMMYcn12U8neQd340btUsXYHC9PTm4X6TLoLwUJekGN3ipEJ3eVNOcxhvdR+/ZWZCWd
- JxjZPEPhsgCNTgYS3PnHUGmlg26dndq4GGutDf5ULJt1l+76ZmYuhZWROzONAvB8wGkq
- VNNJch7k2jL0aRcSjMjWZDDDvbrbsz9zPnW49FJnEXPgePVnQQDGfi3VkHH/GYvfIsYV
- YgCxzdfWKVcHA13cm3xHAhcUvXf26T4dXcpU1j+P1JCw8cgD/omQU622Al8iFFSSBcsi
- JxTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=cAdcykhsBr9KRoTt+e4UsNPsrOD05Rn6WRA4P8vaXKM=;
- b=KQxNHo+4KDs7zjGDcXGhmMxNMIXVA4K+salYtJAVup/ek4IXLeFWPpNIbhNMkCvUnW
- DrDqbJSlIxm8UxINDCLmqBRm5WG/eWqhGCxNixYcRuVJtAtUP8B+V2GN+uvlytHuSVgm
- BzIsoa01xmkgPmqNkMBUw/QAd8w77tSyuqDK31XX7woOF2IPa6vQem+rgkflh+qPoLrm
- qNvQcdrT+nos4ZaphPvOCpycNMLVQ7+qBjFc8Rcw6N3wrhu48iqyh7CrYQzs5w1KM46v
- LUvaQe4uKVcVxN6LZVUrzAbppWwO1U409sHdLI7fFjB1QnEqHeL9sLReihxdViA2+rJk
- euoA==
-X-Gm-Message-State: APjAAAXmOzSTi0o7DY89QVxIYzw6DzKV8gXuhdaKSpdaMkQWm/7rzFJA
- GUwRJlvl3L29bEhLY7M0cDK+CyKyiLkEuw==
-X-Google-Smtp-Source: APXvYqxblBOYdntwoovufjWbi9/dYo2YTYOYVAuVVocmDjPaA/Gy32FA75dd3+qJ+pQHwTi9kAVRpw==
-X-Received: by 2002:adf:bc4a:: with SMTP id a10mr18369095wrh.230.1562079946734; 
- Tue, 02 Jul 2019 08:05:46 -0700 (PDT)
-Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id w10sm12975657wru.76.2019.07.02.08.05.45
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 08:05:45 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1hiKRz-0004Ez-7q
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:10 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:35063)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKRv-0004AO-EW
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:12:05 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N3sRi-1ihxOo27SC-00zqfT; Tue, 02 Jul 2019 17:05:58 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 17:05:41 +0200
-Message-Id: <20190702150542.12008-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190702150542.12008-1-richard.henderson@linaro.org>
-References: <20190702150542.12008-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PULL 2/3] tcg/riscv: Fix RISC-VH host build failure
+Date: Tue,  2 Jul 2019 17:05:42 +0200
+Message-Id: <20190702150545.1872-4-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
+References: <20190702150545.1872-1-laurent@vivier.eu>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Qh3lIEilbINRqqWJ8tE+vEEDPyShIUvBAe/hhcAzW3e4k3kKbCj
+ 87phJebBmGvTWyozClUTP2zqQaHDnpVKn2eyWO8wF+u7KumW50MfnF7k8jjKOFzyX4frgJQ
+ 0EFeh2IHk+fWfjiTk4sBpI4smwgEU3PFvPEZqEgnBXkAbZjlp9PNZsmu+5ilVYrpM3Gh7dd
+ RgzMjDcNxSC/PFl3n5UVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zRoAzvmd5YQ=:S62X/HLjgnVFoPwdjUNBdI
+ mV+0VGWRdbDkvdCNCtGa9CrSpPM31l8rP7napusIZaM23O0oW1Hlsmgbo775kMKRfTQHd/cu6
+ ea9YYXe2PntWcYJhHduJi3PFqh0HzPirEBH1Urh5MwwE8/4xP6LlXOUS8khlBn2kvn5rfs2c9
+ jCYLblGRzZi4t3KBYTrSQchJhD1ImeKQk7xox4ujWhs8NS24lJhCcZxXfu5mCRFD49SNPXH91
+ FJUL7FO+cf0SmgTOg9RuNjAH1Uok9L4WZzlNJchaq7tHykGpAg7DC7lD2d3r0xMG4tmJcUyS4
+ IEM/GLeaMcmsR5IpAnKZFzV2Supen0sYCzxbdZQZghLzW9BOM/7MTKIuVUu2ayYhoP2bbIqI2
+ C8qjBJVhDAlqEHyKp+M11y44JrQ60M6Tycv78waoHn9KcWQKp5+RRXPkYGLBAG7dKTniUggXG
+ E6kLP2uUKYBTSo04MflRnMI72fq4CsjqdkSCs6sOW01YR5gAkcruojMOYKSc9nNTxRoq9wxNN
+ WvV/YCmG9MailWkC+0NYlys9nIh+T46hNvXeu86/Xr3JqgMg/r3TDgSdw37ZaJK8J7hRSwMyB
+ pAGoXW/N7zbRQBp7FA8BANkqLmxGNtCmTn3FtFCfOy8K26trxUD6dh8/l77b2SlXDonFLQtj/
+ iSttciOxzUrXeMwK86SXi+Lvkad2NdzgH2I7VnbZA8ouimPnLo71nHAO6Rc9fE1iuo/VFbyFJ
+ 0eLn0xbxdYnTg7wLTT1NOVZSBPPnqEFWOXa+Jw==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 3/6] linux-user: Fix target_flock structure for
+ MIPS O64 ABI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,42 +63,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>
+Cc: Dragan Mladjenovic <dmladjenovic@wavecomp.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Commit 269bd5d8 "cpu: Move the softmmu tlb to CPUNegativeOffsetState'
-broke the RISC-V host build as there are two variables that are used but
-not defined.
+Among MIPS ABIs, only MIPS O32 and N32 have special (different
+than other architectures) definition of structure flock in kernel.
 
-This patch renames the undefined variables mask_off and table_off to the
-existing (but unused) mask_ofs and table_ofs variables.
+Bring target_flock definition in QEMU for MIPS O64 ABI to the
+correct state, which is currently different than the most common
+definition, and it should actually be the same.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <79729cc88ca509e08b5c4aa0aa8a52847af70c0f.1561039316.git.alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1561718618-20218-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tcg/riscv/tcg-target.inc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ linux-user/generic/fcntl.h     | 2 +-
+ linux-user/mips/target_fcntl.h | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 1f0ae64aae..3e76bf5738 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -980,8 +980,8 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-     int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
-     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
+diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
+index a775a491e9e0..1b48ddeb99fe 100644
+--- a/linux-user/generic/fcntl.h
++++ b/linux-user/generic/fcntl.h
+@@ -129,7 +129,7 @@ struct target_flock {
+     short l_whence;
+     abi_long l_start;
+     abi_long l_len;
+-#if defined(TARGET_MIPS)
++#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
+     abi_long l_sysid;
+ #endif
+     int l_pid;
+diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
+index 000527cc955e..795bba754b5a 100644
+--- a/linux-user/mips/target_fcntl.h
++++ b/linux-user/mips/target_fcntl.h
+@@ -27,7 +27,11 @@
+ #define TARGET_F_SETOWN        24       /*  for sockets. */
+ #define TARGET_F_GETOWN        23       /*  for sockets. */
  
--    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_off);
--    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_off);
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_ofs);
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_ofs);
++#if (TARGET_ABI_BITS == 32)
+ #define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
++#else
++#define TARGET_ARCH_FLOCK_PAD
++#endif
+ #define TARGET_ARCH_FLOCK64_PAD
  
-     tcg_out_opc_imm(s, OPC_SRLI, TCG_REG_TMP2, addrl,
-                     TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS);
+ #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
 -- 
-2.17.1
+2.21.0
 
 
