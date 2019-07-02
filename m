@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307DE5CF20
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:07:22 +0200 (CEST)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947B85CF36
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:15:25 +0200 (CEST)
+Received: from localhost ([::1]:52346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHZB-0005Nm-DQ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38239)
+	id 1hiHgy-0004RA-QI
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:15:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40413)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hiHTQ-0008Tm-D4
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:01:25 -0400
+ (envelope-from <slp@redhat.com>) id 1hiHdU-0002iN-PU
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:11:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hiHTN-0005rP-Nk
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:01:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37950)
+ (envelope-from <slp@redhat.com>) id 1hiHdT-0006TM-2y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:11:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:29076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hiHT9-0005Mb-PM; Tue, 02 Jul 2019 08:01:08 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiHdR-0006L6-Oj
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 08:11:46 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0A9B81106;
- Tue,  2 Jul 2019 12:00:52 +0000 (UTC)
-Received: from [10.36.116.95] (ovpn-116-95.ams2.redhat.com [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CAC118A49;
- Tue,  2 Jul 2019 12:00:41 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
- <20190702130703.0e74cbe6@redhat.com>
- <CAFEAcA8PDNTQXD3cD3XG9wkc_QOLXUcw62-8AUjSC0g7qjti7g@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <0bcc011c-17ff-8bfd-1f0e-65c303272664@redhat.com>
-Date: Tue, 2 Jul 2019 14:00:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 07F8C821C7;
+ Tue,  2 Jul 2019 12:11:35 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB7687836B;
+ Tue,  2 Jul 2019 12:11:10 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ rth@twiddle.net, ehabkost@redhat.com, maran.wilson@oracle.com,
+ sgarzare@redhat.com, kraxel@redhat.com
+Date: Tue,  2 Jul 2019 14:11:02 +0200
+Message-Id: <20190702121106.28374-1-slp@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8PDNTQXD3cD3XG9wkc_QOLXUcw62-8AUjSC0g7qjti7g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 12:01:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 12:11:37 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug
- support
+Subject: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,85 +54,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, Linuxarm <linuxarm@huawei.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Xu Wei <xuwei5@hisilicon.com>, sebastien.boeuf@intel.com,
- Laszlo Ersek <lersek@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Microvm is a machine type inspired by both NEMU and Firecracker, and
+constructed after the machine model implemented by the latter.
 
-On 7/2/19 1:46 PM, Peter Maydell wrote:
-> On Tue, 2 Jul 2019 at 12:07, Igor Mammedov <imammedo@redhat.com> wrote:
->>
->> On Tue, 25 Jun 2019 13:14:13 +0100
->> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
->>
->>> This series is an attempt to provide device memory hotplug support
->>> on ARM virt platform. This is based on Eric's recent works here[1]
->>> and carries some of the pc-dimm related patches dropped from his
->>> series.
->>>
->>> The kernel support for arm64 memory hot add was added recently by
->>> Robin and hence the guest kernel should be => 5.0-rc1.
->>>
->>> NVDIM support is not included currently as we still have an unresolved
->>> issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
->>> can be included, but not done for now, for keeping it simple.
->>>
->>> This makes use of GED device to sent hotplug ACPI events to the
->>> Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
->>> Sebastien to add the hardware-reduced support to Nemu using GED
->>> device[3]. (Please shout if I got the author/signed-off wrong for
->>> those patches or missed any names).
->>>
->>> This is sanity tested on a HiSilicon ARM64 platform and appreciate
->>> any further testing.
->>
->> There are several things I'd fix/amend but it's nothing that couldn't
->> be done on top as bugfixes (I'll comment later on specific issues).
->>
->> However as a whole from ACPI and memory hotplug POV series looks more
->> or less ready for merging.
->>
->> I've asked Eric to test migration (I'm quite not sure about that part),
->> (CCed David)so on condition it works:
->>
->>   Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> 
-> If we want to get this into 4.1 I'll need somebody to do a respin
-> with all the relevant fixes pretty soon (ie within a day or two,
-> and that is pushing it because really it's missed the freeze
-> deadline already). It might be easier just to let it go into 4.2
-> instead...
+It's main purpose is providing users a KVM-only machine type with fast
+boot times, minimal attack surface (measured as the number of IO ports
+and MMIO regions exposed to the Guest) and small footprint (specially
+when combined with the ongoing QEMU modularization effort).
 
-OK so after those late attempts to get it in, I agree with you. If it
-missed the deadline already then let's stick to the process and try to
-get this just after 4.1.
+Normally, other than the device support provided by KVM itself,
+microvm only supports virtio-mmio devices. Microvm also includes a
+legacy mode, which adds an ISA bus with a 16550A serial port, useful
+for being able to see the early boot kernel messages.
 
-I have just checked migration and it fails between a qemu 4.1 and qemu
-4.0 with
+Microvm only supports booting PVH-enabled Linux ELF images. Booting
+other PVH-enabled kernels may be possible, but due to the lack of ACPI
+and firmware, we're relying on the command line for specifying the
+location of the virtio-mmio transports. If there's an interest on
+using this machine type with other kernels, we'll try to find some
+kind of middle ground solution.
 
-"qemu-system-aarch64: Unknown savevm section or instance 'acpi-ged' 0.
-Make sure that your current VM setup matches your saved VM setup,
-including any hotplugged devices
-qemu-system-aarch64: load of migration failed: Invalid argument"
+This is the list of the exposed IO ports and MMIO regions when running
+in non-legacy mode:
 
-so we would need to have a no_acpi_dev class field to avoid using the
-GED device < 4.1 I think.
+address-space: memory
+    00000000d0000000-00000000d00001ff (prio 0, i/o): virtio-mmio
+    00000000d0000200-00000000d00003ff (prio 0, i/o): virtio-mmio
+    00000000d0000400-00000000d00005ff (prio 0, i/o): virtio-mmio
+    00000000d0000600-00000000d00007ff (prio 0, i/o): virtio-mmio
+    00000000d0000800-00000000d00009ff (prio 0, i/o): virtio-mmio
+    00000000d0000a00-00000000d0000bff (prio 0, i/o): virtio-mmio
+    00000000d0000c00-00000000d0000dff (prio 0, i/o): virtio-mmio
+    00000000d0000e00-00000000d0000fff (prio 0, i/o): virtio-mmio
+    00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
 
-+ troubles with the DSDT ref files / bios-tables-test.c to be fixed.
+address-space: I/O
+  0000000000000000-000000000000ffff (prio 0, i/o): io
+    0000000000000020-0000000000000021 (prio 0, i/o): kvm-pic
+    0000000000000040-0000000000000043 (prio 0, i/o): kvm-pit
+    000000000000007e-000000000000007f (prio 0, i/o): kvmvapic
+    00000000000000a0-00000000000000a1 (prio 0, i/o): kvm-pic
+    00000000000004d0-00000000000004d0 (prio 0, i/o): kvm-elcr
+    00000000000004d1-00000000000004d1 (prio 0, i/o): kvm-elcr
 
-Thanks
+A QEMU instance with the microvm machine type can be invoked this way:
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
+ - Normal mode:
+
+qemu-system-x86_64 -M microvm -m 512m -smp 2 \
+ -kernel vmlinux -append "console=3Dhvc0 root=3D/dev/vda" \
+ -nodefaults -no-user-config \
+ -chardev pty,id=3Dvirtiocon0,server \
+ -device virtio-serial-device \
+ -device virtconsole,chardev=3Dvirtiocon0 \
+ -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
+ -device virtio-blk-device,drive=3Dtest \
+ -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
+ -device virtio-net-device,netdev=3Dtap0
+
+ - Legacy mode:
+
+qemu-system-x86_64 -M microvm,legacy -m 512m -smp 2 \
+ -kernel vmlinux -append "console=3DttyS0 root=3D/dev/vda" \
+ -nodefaults -no-user-config \
+ -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
+ -device virtio-blk-device,drive=3Dtest \
+ -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
+ -device virtio-net-device,netdev=3Dtap0 \
+ -serial stdio
+
+
+Changelog:
+v3:
+  - Add initrd support (thanks Stefano).
+
+v2:
+  - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
+  - Simplify machine definition (thanks Eduardo).
+  - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
+  - Add a patch to factorize PVH-related functions.
+  - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
+
+
+Sergio Lopez (4):
+  hw/virtio: Factorize virtio-mmio headers
+  hw/i386: Add an Intel MPTable generator
+  hw/i386: Factorize PVH related functions
+  hw/i386: Introduce the microvm machine type
+
+ default-configs/i386-softmmu.mak            |   1 +
+ hw/i386/Kconfig                             |   4 +
+ hw/i386/Makefile.objs                       |   2 +
+ hw/i386/microvm.c                           | 550 ++++++++++++++++++++
+ hw/i386/mptable.c                           | 156 ++++++
+ hw/i386/pc.c                                | 120 +----
+ hw/i386/pvh.c                               | 113 ++++
+ hw/i386/pvh.h                               |  10 +
+ hw/virtio/virtio-mmio.c                     |  35 +-
+ hw/virtio/virtio-mmio.h                     |  60 +++
+ include/hw/i386/microvm.h                   |  82 +++
+ include/hw/i386/mptable.h                   |  36 ++
+ include/standard-headers/linux/mpspec_def.h | 182 +++++++
+ 13 files changed, 1209 insertions(+), 142 deletions(-)
+ create mode 100644 hw/i386/microvm.c
+ create mode 100644 hw/i386/mptable.c
+ create mode 100644 hw/i386/pvh.c
+ create mode 100644 hw/i386/pvh.h
+ create mode 100644 hw/virtio/virtio-mmio.h
+ create mode 100644 include/hw/i386/microvm.h
+ create mode 100644 include/hw/i386/mptable.h
+ create mode 100644 include/standard-headers/linux/mpspec_def.h
+
+--
+2.21.0
 
