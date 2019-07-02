@@ -2,52 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EB55D7FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 00:07:32 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2329A5D7FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 00:08:36 +0200 (CEST)
+Received: from localhost ([::1]:57900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiQvz-0001tv-10
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 18:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
+	id 1hiQx1-0002sh-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 18:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33655)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hiQrt-0001BL-1s
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:03:18 -0400
+ (envelope-from <slp@redhat.com>) id 1hiQuB-0001sU-20
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:05:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hiQrr-0007vq-L7
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:03:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50380)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiQrr-0007ms-18
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:03:15 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EA9083082E44
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 22:03:12 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78EAA1001DD2;
- Tue,  2 Jul 2019 22:03:12 +0000 (UTC)
-Date: Tue, 2 Jul 2019 19:03:10 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190702220310.GT5198@habkost.net>
-References: <CAFEAcA8Jnh=tu8s08Fu6n0sSmJJuVOx7YxyTR_ni5yW3DdMFkQ@mail.gmail.com>
- <20190702140745.27767-1-imammedo@redhat.com>
- <20190702140745.27767-3-imammedo@redhat.com>
- <20190702171901.GQ5198@habkost.net>
+ (envelope-from <slp@redhat.com>) id 1hiQu3-00021E-An
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:05:34 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53397)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hiQtz-000101-PN
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 18:05:31 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so147088wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 15:04:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lAGQd72zM/qKe0oHpMeROkdsbmqmnCkQdhy++O2S+v0=;
+ b=PTYSylsWRil7jGMt28pAnytSWPdhw1Ctt7JvUgIVMyeJ6i6hDQk8g9jp5g7LP26Ou6
+ gvkZSZuSVsS2kfWD0AJDmwiUVJkmdzugMdUglb5Gyi5b8E1aW1dXtqoo6HMVisvi+RNR
+ eKJ6zFaLyIBc6rnIxw4iXvycNHOLZ0VvccdhdvUDm053qKMcQoGFb/TicZUliCtm7b4X
+ GzlNBn8hx2hMtl9Ju7aBaYlJ5scvOgr4QX1ZC9FjoKDFY3GuJZ6mcdE3/LsOkphyigo6
+ FDnDoxwHPLIJ1Sv+MPZdlVyDS6UC+6rN17O2vnzuAWVP1cL83zmXT37LoxHwPkmowDgY
+ TDfg==
+X-Gm-Message-State: APjAAAX8DkHBaSXjzJzCiFeRyp9nFyqL5JUUOeb4b4y7G8vZK26+hZhK
+ VKtyKLcORsmeqcwBtqFHghD7Wg==
+X-Google-Smtp-Source: APXvYqya5dTMJXPxa/P4HPWH9/KGTo3f1x6Xzo/vLtCtc6rtVRXfI5AHXE4zXrRgEQlrcMYTinaD+A==
+X-Received: by 2002:a1c:6c0a:: with SMTP id h10mr4585363wmc.40.1562105044968; 
+ Tue, 02 Jul 2019 15:04:04 -0700 (PDT)
+Received: from localhost (18.red-83-35-20.dynamicip.rima-tde.net.
+ [83.35.20.18])
+ by smtp.gmail.com with ESMTPSA id y3sm132210wrq.30.2019.07.02.15.04.03
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 15:04:03 -0700 (PDT)
+Date: Wed, 3 Jul 2019 00:04:00 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190702220400.GA13923@localhost>
+References: <20190702121106.28374-1-slp@redhat.com>
+ <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
+ <87a7dwnxwj.fsf@redhat.com>
+ <CAFEAcA_XfRS1b-4ANmR5WLL=19Md6Dp7+M_FAK8pQAJn2MaCOA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190702171901.GQ5198@habkost.net>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 22:03:12 +0000 (UTC)
+In-Reply-To: <CAFEAcA_XfRS1b-4ANmR5WLL=19Md6Dp7+M_FAK8pQAJn2MaCOA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] tests: use -numa memdev option in
- tests instead of legacy 'mem' option
+ [fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,48 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, maran.wilson@oracle.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 02:19:01PM -0300, Eduardo Habkost wrote:
-> On Tue, Jul 02, 2019 at 10:07:45AM -0400, Igor Mammedov wrote:
-> > it will test preferred memdev option more extensively and remove
-> > undesired deprecation warnings during 'make check'
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> [...]
-> > diff --git a/tests/numa-test.c b/tests/numa-test.c
-> > index 8de8581231..902e8de4d1 100644
-> > --- a/tests/numa-test.c
-> > +++ b/tests/numa-test.c
-> > @@ -26,8 +26,10 @@ static void test_mon_explicit(const void *data)
-> >      QTestState *qts;
-> >  
-> >      cli = make_cli(data, "-smp 8 "
-> > -                   "-numa node,nodeid=0,cpus=0-3 "
-> > -                   "-numa node,nodeid=1,cpus=4-7 ");
-> > +                   "-object memory-backend-ram,id=ram0,size=64M "
-> > +                   "-object memory-backend-ram,id=ram1,size=64M "
-> > +                   "-numa node,nodeid=0,cpus=0-3,memdev=ram0 "
-> > +                   "-numa node,nodeid=1,cpus=4-7,memdev=ram1 ");
+On Tue, Jul 02, 2019 at 07:04:15PM +0100, Peter Maydell wrote:
+> On Tue, 2 Jul 2019 at 18:34, Sergio Lopez <slp@redhat.com> wrote:
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > > Could we use virtio-pci instead of virtio-mmio? virtio-mmio is
+> > > a bit deprecated and tends not to support all the features that
+> > > virtio-pci does. It was introduced mostly as a stopgap while we
+> > > didn't have pci support in the aarch64 virt machine, and remains
+> > > for legacy "we don't like to break existing working setups" rather
+> > > than as a recommended config for new systems.
+> >
+> > Using virtio-pci implies keeping PCI and ACPI support, defeating a
+> > significant part of microvm's purpose.
+> >
+> > What are the issues with the current state of virtio-mmio? Is there a
+> > way I can help to improve the situation?
 > 
-> These changes break on ppc64, where default RAM size is 512 MiB
-> and it has to be a multiple of 256 MiB.
-> 
-> Can't we just make the warnings be conditional on
-> !qtest_enabled(), like we already do elsewhere?
+> Off the top of my head:
+>  * limitations on numbers of devices
+>  * no hotplug support
+>  * unlike PCI, it's not probeable, so you have to tell the
+>    guest where all the transports are using device tree or
+>    some similar mechanism
+>  * you need one IRQ line per transport, which restricts how
+>    many you can have
+>  * it's only virtio-0.9, it doesn't support any of the new
+>    virtio-1.0 functionality
+>  * it is broadly not really maintained in QEMU (and I think
+>    not really in the kernel either? not sure), because we'd
+>    rather not have to maintain two mechanisms for doing virtio
+>    when virtio-pci is clearly better than virtio-mmio
 
-The answer is: we can, but this is not enough for
-bios-tables-test.c because it doesn't use accel=qtest.  I've
-removed the numa-test.c changes from this patch, and added the
-fix I have submitted at:
+Some of these are design issues, but others can be improved with a bit
+of work.
 
-  Subject: numa: Make deprecation warnings conditional on !qtest_enabled()
-  Message-Id: <20190702215726.23661-1-ehabkost@redhat.com>
+As for the maintenance burden, I volunteer myself to help with that, so
+it won't have an impact on other developers and/or projects.
 
--- 
-Eduardo
+Sergio.
+
 
