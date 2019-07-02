@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D255C971
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:41:59 +0200 (CEST)
-Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E02A5C97C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:47:33 +0200 (CEST)
+Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCUH-0006gX-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58819)
+	id 1hiCZg-00022n-KN
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58464)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzK-0005Nf-Eu
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:00 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByl-00051Z-NB
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBzI-0003G7-K3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:58 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47233 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByk-0002wM-82
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:23 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33785 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiBzG-0002yx-AD; Tue, 02 Jul 2019 02:09:55 -0400
+ id 1hiByj-0002tX-HP; Tue, 02 Jul 2019 02:09:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMl2fwrz9sQm; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
+ id 45dDMk0svbz9sPY; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047747;
- bh=aCPek2AYuldWB9s1DOJowKsZqT1D6uezI0A6JQoAHY8=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047746;
+ bh=2nJOrSX7TAIqpWh5QCL4SMs7wiJ5bhkcxATACsAlos0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Jv9cphMLIvVUbRknZTDxekQg18i12riIgOshw0zVAkqP3uxIpZMWC7eyHB7kjBQCR
- VsM9Ge5M0QB/pi5e5L0afBk8bVuGukipGjxPnCaP2/wD8mvaUt0ocynCghtRrUVRHD
- IGakAYOXjGGAYM8uw8nHrZ61Piu8AU79JP01QfGc=
+ b=B0/GHdapugIt/h87WkS/wnlPj/mdip7fOlIsTtLUoxDYmoNf76AcAzdKE1/BmS81g
+ KHeFO6CiyHvcN3Nfs3yF0dNRYbDRo0+2x+qu/vcn3eVfB2FXuFt4Vjs6nhDe8h5FkR
+ iHkgVu/FZfdE9DhyvI6G7u5HdcRrcPaNVqwydq8E=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:32 +1000
-Message-Id: <20190702060857.3926-25-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:33 +1000
+Message-Id: <20190702060857.3926-26-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 24/49] xics/kvm: Always use local_err in
- xics_kvm_init()
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 25/49] xics/kvm: Add error propagation to
+ ic*_set_kvm_state() functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,99 +63,226 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Passing both errp and &local_err to functions is a recipe for messing
-things up.
-
-Since we must use &local_err for icp_kvm_realize(), use &local_err
-everywhere where rollback must happen and have a single call to
-error_propagate() them all. While here, add errno to the error
-message.
+This allows errors happening there to be propagated up to spapr_irq,
+just like XIVE already does.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156077921212.433243.11716701611944816815.stgit@bahia.lan>
+Message-Id: <156077921763.433243.4614327010172954196.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics_kvm.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ hw/intc/xics.c        | 39 ++++++++++++++++++++++++++++++++++-----
+ hw/intc/xics_kvm.c    | 37 ++++++++++++++++++++++---------------
+ include/hw/ppc/xics.h |  6 +++---
+ 3 files changed, 59 insertions(+), 23 deletions(-)
 
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index 978d7f0886..faa976e2f8 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -267,7 +267,14 @@ static int icp_post_load(void *opaque, int version_i=
+d)
+     ICPState *icp =3D opaque;
+=20
+     if (kvm_irqchip_in_kernel()) {
+-        return icp_set_kvm_state(icp);
++        Error *local_err =3D NULL;
++        int ret;
++
++        ret =3D icp_set_kvm_state(icp, &local_err);
++        if (ret < 0) {
++            error_report_err(local_err);
++            return ret;
++        }
+     }
+=20
+     return 0;
+@@ -300,7 +307,12 @@ static void icp_reset_handler(void *dev)
+     qemu_set_irq(icp->output, 0);
+=20
+     if (kvm_irqchip_in_kernel()) {
+-        icp_set_kvm_state(ICP(dev));
++        Error *local_err =3D NULL;
++
++        icp_set_kvm_state(ICP(dev), &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++        }
+     }
+ }
+=20
+@@ -564,7 +576,12 @@ static void ics_simple_reset(DeviceState *dev)
+     icsc->parent_reset(dev);
+=20
+     if (kvm_irqchip_in_kernel()) {
+-        ics_set_kvm_state(ICS_BASE(dev));
++        Error *local_err =3D NULL;
++
++        ics_set_kvm_state(ICS_BASE(dev), &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++        }
+     }
+ }
+=20
+@@ -680,7 +697,14 @@ static int ics_base_post_load(void *opaque, int vers=
+ion_id)
+     ICSState *ics =3D opaque;
+=20
+     if (kvm_irqchip_in_kernel()) {
+-        return ics_set_kvm_state(ics);
++        Error *local_err =3D NULL;
++        int ret;
++
++        ret =3D ics_set_kvm_state(ics, &local_err);
++        if (ret < 0) {
++            error_report_err(local_err);
++            return ret;
++        }
+     }
+=20
+     return 0;
+@@ -766,8 +790,13 @@ void ics_set_irq_type(ICSState *ics, int srcno, bool=
+ lsi)
+         lsi ? XICS_FLAGS_IRQ_LSI : XICS_FLAGS_IRQ_MSI;
+=20
+     if (kvm_irqchip_in_kernel()) {
++        Error *local_err =3D NULL;
++
+         ics_reset_irq(ics->irqs + srcno);
+-        ics_set_kvm_state_one(ics, srcno);
++        ics_set_kvm_state_one(ics, srcno, &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++        }
+     }
+ }
+=20
 diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 377ff88701..c9e25fb051 100644
+index c9e25fb051..4bfbe1a840 100644
 --- a/hw/intc/xics_kvm.c
 +++ b/hw/intc/xics_kvm.c
-@@ -353,32 +353,36 @@ int xics_kvm_connect(SpaprMachineState *spapr, Erro=
-r **errp)
+@@ -106,7 +106,7 @@ void icp_synchronize_state(ICPState *icp)
+     }
+ }
 =20
-     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_SET_XIVE, "ibm,set-x=
-ive");
-     if (rc < 0) {
--        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,set-xive"=
+-int icp_set_kvm_state(ICPState *icp)
++int icp_set_kvm_state(ICPState *icp, Error **errp)
+ {
+     uint64_t state;
+     int ret;
+@@ -126,10 +126,11 @@ int icp_set_kvm_state(ICPState *icp)
+         | ((uint64_t)icp->pending_priority << KVM_REG_PPC_ICP_PPRI_SHIFT=
 );
-+        error_setg_errno(&local_err, -rc,
-+                         "kvmppc_define_rtas_kernel_token: ibm,set-xive"=
-);
-         goto fail;
+=20
+     ret =3D kvm_set_one_reg(icp->cs, KVM_REG_PPC_ICP_STATE, &state);
+-    if (ret !=3D 0) {
+-        error_report("Unable to restore KVM interrupt controller state (=
+0x%"
+-                PRIx64 ") for CPU %ld: %s", state, kvm_arch_vcpu_id(icp-=
+>cs),
+-                strerror(errno));
++    if (ret < 0) {
++        error_setg_errno(errp, -ret,
++                         "Unable to restore KVM interrupt controller sta=
+te (0x%"
++                         PRIx64 ") for CPU %ld", state,
++                         kvm_arch_vcpu_id(icp->cs));
+         return ret;
      }
 =20
-     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_GET_XIVE, "ibm,get-x=
-ive");
-     if (rc < 0) {
--        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,get-xive"=
-);
-+        error_setg_errno(&local_err, -rc,
-+                         "kvmppc_define_rtas_kernel_token: ibm,get-xive"=
-);
-         goto fail;
+@@ -240,10 +241,9 @@ void ics_synchronize_state(ICSState *ics)
+     ics_get_kvm_state(ics);
+ }
+=20
+-int ics_set_kvm_state_one(ICSState *ics, int srcno)
++int ics_set_kvm_state_one(ICSState *ics, int srcno, Error **errp)
+ {
+     uint64_t state;
+-    Error *local_err =3D NULL;
+     ICSIRQState *irq =3D &ics->irqs[srcno];
+     int ret;
+=20
+@@ -278,16 +278,15 @@ int ics_set_kvm_state_one(ICSState *ics, int srcno)
      }
 =20
-     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_INT_ON, "ibm,int-on"=
-);
-     if (rc < 0) {
--        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,int-on");
-+        error_setg_errno(&local_err, -rc,
-+                         "kvmppc_define_rtas_kernel_token: ibm,int-on");
-         goto fail;
+     ret =3D kvm_device_access(kernel_xics_fd, KVM_DEV_XICS_GRP_SOURCES,
+-                            srcno + ics->offset, &state, true, &local_er=
+r);
+-    if (local_err) {
+-        error_report_err(local_err);
++                            srcno + ics->offset, &state, true, errp);
++    if (ret < 0) {
+         return ret;
      }
 =20
-     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_INT_OFF, "ibm,int-of=
-f");
-     if (rc < 0) {
--        error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,int-off")=
-;
-+        error_setg_errno(&local_err, -rc,
-+                         "kvmppc_define_rtas_kernel_token: ibm,int-off")=
-;
-         goto fail;
+     return 0;
+ }
+=20
+-int ics_set_kvm_state(ICSState *ics)
++int ics_set_kvm_state(ICSState *ics, Error **errp)
+ {
+     int i;
+=20
+@@ -297,10 +296,12 @@ int ics_set_kvm_state(ICSState *ics)
      }
 =20
-     /* Create the KVM XICS device */
-     rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-     if (rc < 0) {
--        error_setg_errno(errp, -rc, "Error on KVM_CREATE_DEVICE for XICS=
-");
-+        error_setg_errno(&local_err, -rc, "Error on KVM_CREATE_DEVICE fo=
-r XICS");
-         goto fail;
-     }
+     for (i =3D 0; i < ics->nr_irqs; i++) {
++        Error *local_err =3D NULL;
+         int ret;
 =20
-@@ -393,7 +397,6 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
-**errp)
-=20
-         icp_kvm_realize(DEVICE(spapr_cpu_state(cpu)->icp), &local_err);
-         if (local_err) {
--            error_propagate(errp, local_err);
-             goto fail;
+-        ret =3D ics_set_kvm_state_one(ics, i);
+-        if (ret) {
++        ret =3D ics_set_kvm_state_one(ics, i, &local_err);
++        if (ret < 0) {
++            error_propagate(errp, local_err);
+             return ret;
          }
      }
-@@ -410,6 +413,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
-**errp)
-     return 0;
+@@ -402,12 +403,18 @@ int xics_kvm_connect(SpaprMachineState *spapr, Erro=
+r **errp)
+     }
 =20
- fail:
-+    error_propagate(errp, local_err);
-     kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
-     kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
-     kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
+     /* Update the KVM sources */
+-    ics_set_kvm_state(spapr->ics);
++    ics_set_kvm_state(spapr->ics, &local_err);
++    if (local_err) {
++        goto fail;
++    }
+=20
+     /* Connect the presenters to the initial VCPUs of the machine */
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-        icp_set_kvm_state(spapr_cpu_state(cpu)->icp);
++        icp_set_kvm_state(spapr_cpu_state(cpu)->icp, &local_err);
++        if (local_err) {
++            goto fail;
++        }
+     }
+=20
+     return 0;
+diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
+index eb65ad7e43..1eb7b5cd68 100644
+--- a/include/hw/ppc/xics.h
++++ b/include/hw/ppc/xics.h
+@@ -190,13 +190,13 @@ Object *icp_create(Object *cpu, const char *type, X=
+ICSFabric *xi,
+=20
+ /* KVM */
+ void icp_get_kvm_state(ICPState *icp);
+-int icp_set_kvm_state(ICPState *icp);
++int icp_set_kvm_state(ICPState *icp, Error **errp);
+ void icp_synchronize_state(ICPState *icp);
+ void icp_kvm_realize(DeviceState *dev, Error **errp);
+=20
+ void ics_get_kvm_state(ICSState *ics);
+-int ics_set_kvm_state_one(ICSState *ics, int srcno);
+-int ics_set_kvm_state(ICSState *ics);
++int ics_set_kvm_state_one(ICSState *ics, int srcno, Error **errp);
++int ics_set_kvm_state(ICSState *ics, Error **errp);
+ void ics_synchronize_state(ICSState *ics);
+ void ics_kvm_set_irq(ICSState *ics, int srcno, int val);
+=20
 --=20
 2.21.0
 
