@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D25CE34
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:13:59 +0200 (CEST)
-Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67FC5CE45
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:20:35 +0200 (CEST)
+Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGjW-0005YD-S4
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53932)
+	id 1hiGpu-0002Qp-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54193)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hiGbp-0006fh-Sr
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:06:04 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hiGdH-0007nJ-6N
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:07:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hiGbo-0006hu-D3
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:06:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40744)
+ (envelope-from <imammedo@redhat.com>) id 1hiGdF-0001fu-7B
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:07:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hiGbn-0005am-Jc; Tue, 02 Jul 2019 07:06:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1hiGdA-0001O3-BK; Tue, 02 Jul 2019 07:07:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CF3B12F8BDE;
- Tue,  2 Jul 2019 11:05:22 +0000 (UTC)
-Received: from gondolin (dhcp-192-192.str.redhat.com [10.33.192.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFD5919C5B;
- Tue,  2 Jul 2019 11:05:16 +0000 (UTC)
-Date: Tue, 2 Jul 2019 13:05:14 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Collin Walling <walling@linux.ibm.com>
-Message-ID: <20190702130514.60b67dbf.cohuck@redhat.com>
-In-Reply-To: <7a47fc60-e490-3c95-66f5-3e16a2ad9da7@linux.ibm.com>
-References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
- <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
- <20190626143324.6f359cd0.cohuck@redhat.com>
- <7a47fc60-e490-3c95-66f5-3e16a2ad9da7@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id 6DBF88552A;
+ Tue,  2 Jul 2019 11:07:18 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDCF25C1A1;
+ Tue,  2 Jul 2019 11:07:07 +0000 (UTC)
+Date: Tue, 2 Jul 2019 13:07:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Message-ID: <20190702130703.0e74cbe6@redhat.com>
+In-Reply-To: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
+References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 02 Jul 2019 11:05:22 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 11:07:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] s390: diagnose 318 info reset and
- migration support
+Subject: Re: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,216 +56,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ shannon.zhaosl@gmail.com, qemu-devel@nongnu.org, xuwei5@hisilicon.com,
+ linuxarm@huawei.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ sebastien.boeuf@intel.com, lersek@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 10:07:39 -0400
-Collin Walling <walling@linux.ibm.com> wrote:
+On Tue, 25 Jun 2019 13:14:13 +0100
+Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
 
-> On 6/26/19 8:33 AM, Cornelia Huck wrote:
-> > On Tue, 25 Jun 2019 11:17:09 -0400
-> > Collin Walling <walling@linux.ibm.com> wrote:
-> >   
-> >> DIAGNOSE 0x318 (diag318) is a privileged s390x instruction that must
-> >> be intercepted by SIE and handled via KVM. Let's introduce some
-> >> functions to communicate between QEMU and KVM via ioctls. These
-> >> will be used to get/set the diag318 information.
-> >>
-> >> The availability of this instruction is determined by byte 134, bit 0
-> >> of the Read Info block. This coincidentally expands into the space used
-> >> for CPU entries, which means VMs running with the diag318 capability
-> >> will have a reduced maximum CPU count. Let's reduce the maximum CPU
-> >> count from 248 to 247.
-> >>
-> >> In order to simplify the migration and system reset requirements of
-> >> the diag318 data, let's introduce it as a device class and include
-> >> a VMStateDescription.
-> >>
-> >> Diag318 is set to 0 during modified clear and load normal resets.
-> >>
-> >> Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> >> ---
-> >>   hw/s390x/Makefile.objs          |  1 +
-> >>   hw/s390x/diag318.c              | 80 +++++++++++++++++++++++++++++++++++++++++
-> >>   hw/s390x/diag318.h              | 38 ++++++++++++++++++++
-> >>   hw/s390x/s390-virtio-ccw.c      | 17 +++++++++
-> >>   hw/s390x/sclp.c                 |  3 ++
-> >>   include/hw/s390x/sclp.h         |  2 ++
-> >>   target/s390x/cpu.h              |  8 ++++-
-> >>   target/s390x/cpu_features.c     |  3 ++
-> >>   target/s390x/cpu_features.h     |  1 +
-> >>   target/s390x/cpu_features_def.h |  3 ++
-> >>   target/s390x/gen-features.c     |  1 +
-> >>   target/s390x/kvm-stub.c         | 10 ++++++
-> >>   target/s390x/kvm.c              | 29 +++++++++++++++
-> >>   target/s390x/kvm_s390x.h        |  2 ++
-> >>   14 files changed, 197 insertions(+), 1 deletion(-)
-> >>   create mode 100644 hw/s390x/diag318.c
-> >>   create mode 100644 hw/s390x/diag318.h  
-> > 
-> > (...)
-> >   
-> >> diff --git a/hw/s390x/diag318.c b/hw/s390x/diag318.c
-> >> new file mode 100644
-> >> index 0000000..0eb80fe
-> >> --- /dev/null
-> >> +++ b/hw/s390x/diag318.c
-> >> @@ -0,0 +1,80 @@
-> >> +/*
-> >> + * DIAGNOSE 0x318 functions for reset and migration
-> >> + *
-> >> + * Copyright IBM, Corp. 2019
-> >> + *
-> >> + * Authors:
-> >> + *  Collin Walling <walling@linux.ibm.com>
-> >> + *
-> >> + * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-> >> + * option) any later version. See the COPYING file in the top-level directory.
-> >> + */
-> >> +
-> >> +#include "hw/s390x/diag318.h"
-> >> +#include "qapi/error.h"
-> >> +#include "kvm_s390x.h"
-> >> +#include "sysemu/kvm.h"
-> >> +
-> >> +static int diag318_post_load(void *opaque, int version_id)
-> >> +{
-> >> +    DIAG318State *d = opaque;
-> >> +
-> >> +    kvm_s390_set_diag318_info(d->info);  
-> > 
-> > Shouldn't we at least moan if something goes wrong here?
-> >   
+> This series is an attempt to provide device memory hotplug support 
+> on ARM virt platform. This is based on Eric's recent works here[1]
+> and carries some of the pc-dimm related patches dropped from his
+> series.
 > 
-> What are some things that might go wrong at this point? We
-> should only call this if the diag318 feature is enabled. If
-> we try to toggle that feature on a machine that cannot support
-> it, the guest will fail to start, stating (paraphrased) "some
-> features are not available in the configuration: diag318"
+> The kernel support for arm64 memory hot add was added recently by
+> Robin and hence the guest kernel should be => 5.0-rc1.
 > 
-> Is there some sort of issue that could arise from QEMU that I'm not
-> considering?
+> NVDIM support is not included currently as we still have an unresolved
+> issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
+> can be included, but not done for now, for keeping it simple.
+> 
+> This makes use of GED device to sent hotplug ACPI events to the
+> Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
+> Sebastien to add the hardware-reduced support to Nemu using GED
+> device[3]. (Please shout if I got the author/signed-off wrong for
+> those patches or missed any names).
+> 
+> This is sanity tested on a HiSilicon ARM64 platform and appreciate
+> any further testing.
 
-The function might return an error; so I suspected that something may
-possibly go wrong... checking seems like good practice in general.
+There are several things I'd fix/amend but it's nothing that couldn't
+be done on top as bugfixes (I'll comment later on specific issues).
 
-> 
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static int diag318_pre_save(void *opaque)
-> >> +{
-> >> +    DIAG318State *d = opaque;
-> >> +
-> >> +    kvm_s390_get_diag318_info(&d->info);
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static bool diag318_needed(void *opaque)
-> >> +{
-> >> +    return s390_has_feat(S390_FEAT_DIAG318);  
-> > 
-> > What happens if we emulate diag 318 in tcg and set this feature bit? We
-> > probably don't want to call kvm_ functions in that case.
-> >   
-> 
-> I have not tested on tcg.
+However as a whole from ACPI and memory hotplug POV series looks more
+or less ready for merging.
 
-Well, it is not implemented right now :) My point is that we should not
-tie this to *kvm* functions, but rather more generic functions.
+I've asked Eric to test migration (I'm quite not sure about that part),
+(CCed David)so on condition it works:
 
-> 
-> >> +}
-> >> +
-> >> +const VMStateDescription vmstate_diag318 = {
-> >> +    .name = "vmstate_diag318",
-> >> +    .post_load = diag318_post_load,
-> >> +    .pre_save = diag318_pre_save,
-> >> +    .version_id = 1,
-> >> +    .minimum_version_id = 1,
-> >> +    .needed = diag318_needed,
-> >> +    .fields = (VMStateField[]) {
-> >> +        VMSTATE_UINT64(info, DIAG318State),
-> >> +        VMSTATE_END_OF_LIST()
-> >> +    }
-> >> +};
-> >> +
-> >> +static void s390_diag318_reset(DeviceState *dev)
-> >> +{
-> >> +    kvm_s390_set_diag318_info(0);  
-> > 
-> > Same here; we probably need a s390_set_diag318_info() function that
-> > either calls the kvm_ function or resets some internal state.
-> >   
-> 
-> Hmm okay. I recall doing this for the TOD-clock stuff way-back. I'll
-> include these functions next round.
+  Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Just a simple wrapper will suffice; we can then add any possible tcg
-stuff whenever we get around to it (or never ;)
 
+> Thanks,
+> Shameer
 > 
-> >> +}
-> >> +
-> >> +static void s390_diag318_class_init(ObjectClass *klass, void *data)
-> >> +{
-> >> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> >> +
-> >> +    dc->reset = s390_diag318_reset;
-> >> +    dc->vmsd = &vmstate_diag318;
-> >> +    dc->hotpluggable = false;
-> >> +    /* Reason: Set automatically during IPL */  
-> > 
-> > "Created automatically during machine instantiation" ?
-> >   
+> [1] https://patchwork.kernel.org/cover/10837565/
+> [2] https://patchwork.kernel.org/cover/10783589/
+> [3] https://github.com/intel/nemu/blob/topic/virt-x86/hw/acpi/ged.c
+> [4] http://lists.infradead.org/pipermail/linux-arm-kernel/2019-May/651763.html
 > 
-> I like it.
+> v5 --> v6
 > 
-> >> +    dc->user_creatable = false;
-> >> +}
-> >> +
-> >> +static const TypeInfo s390_diag318_info = {
-> >> +    .class_init = s390_diag318_class_init,
-> >> +    .parent = TYPE_DEVICE,
-> >> +    .name = TYPE_S390_DIAG318,
-> >> +    .instance_size = sizeof(DIAG318State),
-> >> +};
-> >> +
-> >> +static void s390_diag318_register_types(void)
-> >> +{
-> >> +    type_register_static(&s390_diag318_info);
-> >> +}
-> >> +
-> >> +type_init(s390_diag318_register_types)  
-> > 
-> > (..)
-> >   
-> >> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> >> index 87b2039..54230c7 100644
-> >> --- a/hw/s390x/s390-virtio-ccw.c
-> >> +++ b/hw/s390x/s390-virtio-ccw.c
-> >> @@ -38,6 +38,7 @@
-> >>   #include "cpu_models.h"
-> >>   #include "hw/nmi.h"
-> >>   #include "hw/s390x/tod.h"
-> >> +#include "hw/s390x/diag318.h"
-> >>   
-> >>   S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
-> >>   {
-> >> @@ -94,6 +95,7 @@ static const char *const reset_dev_types[] = {
-> >>       "s390-sclp-event-facility",
-> >>       "s390-flic",
-> >>       "diag288",
-> >> +    TYPE_S390_DIAG318,  
-> > 
-> > This looks a bit odd, although it is not wrong :)
-> >   
+> -Addressed comments from Eric.
+> -Added R-by from Eric and Igor.
 > 
-> It's cut-off here, but TYPE_VIRTUAL_CSS_BRIDGE is also in the list :)
-
-Hah, better :)
+> v4 --> v5
+> -Removed gsi/ged-irq routing in virt.
+> -Added Migration support.
+> -Dropped support for DT coldplug case based on the discussions
+>  here[4]
+> -Added system_powerdown support through GED.
+> 
+> v3 --> v4
+> Addressed comments from Igor and Eric,
+> -Renamed "virt-acpi" to "acpi-ged".
+> -Changed ged device parent to TYPE_DEVICE.
+> -Introduced DT memory node property "hotpluggable" to resolve device
+>  memory being treated as early boot memory issue(patch #7).
+> -Combined patches #3 and #9 from v3 into #3.
+> 
+> v2 --> v3
+> 
+> Addressed comments from Igor and Eric,
+> -Made virt acpi device platform independent and moved
+>  to hw/acpi/generic_event_device.c
+> -Moved ged specific code into hw/acpi/generic_event_device.c
+> -Introduced an opt-in feature "fdt" to resolve device-memory being
+>  treated as early boot memory.
+> -Dropped patch #1 from v2.
+> 
+> RFC --> v2
+> 
+> -Use GED device instead of GPIO for ACPI hotplug events.
+> -Removed NVDIMM support for now.
+> -Includes dropped patches from Eric's v9 series.
+> 
+> Eric Auger (1):
+>   hw/arm/virt: Add memory hotplug framework
+> 
+> Samuel Ortiz (2):
+>   hw/acpi: Do not create memory hotplug method when handler is not
+>     defined
+>   hw/acpi: Add ACPI Generic Event Device Support
+> 
+> Shameer Kolothum (5):
+>   hw/acpi: Make ACPI IO address space configurable
+>   hw/arm/virt: Enable device memory cold/hot plug with ACPI boot
+>   hw/arm/virt-acpi-build: Add PC-DIMM in SRAT
+>   hw/acpi: Add system power down support to GED
+>   hw/arm: Use GED for system_powerdown event
+> 
+>  hw/acpi/Kconfig                        |   4 +
+>  hw/acpi/Makefile.objs                  |   1 +
+>  hw/acpi/generic_event_device.c         | 352 +++++++++++++++++++++++++
+>  hw/acpi/memory_hotplug.c               |  35 +--
+>  hw/arm/Kconfig                         |   4 +
+>  hw/arm/virt-acpi-build.c               |  58 ++--
+>  hw/arm/virt.c                          |  88 ++++++-
+>  hw/i386/acpi-build.c                   |   3 +-
+>  include/hw/acpi/generic_event_device.h | 106 ++++++++
+>  include/hw/acpi/memory_hotplug.h       |   9 +-
+>  include/hw/arm/virt.h                  |   3 +
+>  11 files changed, 607 insertions(+), 56 deletions(-)
+>  create mode 100644 hw/acpi/generic_event_device.c
+>  create mode 100644 include/hw/acpi/generic_event_device.h
+> 
 
 
