@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9C05CE25
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:11:39 +0200 (CEST)
-Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A035CE0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:02:33 +0200 (CEST)
+Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGhG-0002RF-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
+	id 1hiGYS-0002KX-AP
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51131)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiGKB-0005qp-EZ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:50 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hiGKH-0005zu-5W
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiGJw-0007yB-KB
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58156)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiGJs-0007lx-TO
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A33173082E4C
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 10:47:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
- [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48FED37D6;
- Tue,  2 Jul 2019 10:47:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0E052111BD60; Tue,  2 Jul 2019 12:47:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hiGKG-0008Ve-48
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:53 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34691)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hiGKF-00081H-O6
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:52 -0400
+Received: by mail-wr1-x444.google.com with SMTP id u18so710075wru.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=dFW5jDXd47eVSqWLVl3XFZrae6CQN8W7M3/mFqL/1BQ=;
+ b=RNuTbdqRYnqxHkpVXF+a4IgBnoP7Dk/E0esPNj1XgmnlHR2ZaFxt/VFh36jBxQXWKb
+ nrgn8Zgo8y7vNbjHTZo6AtYUvO2b6NCdzUKDbY/lK1C8pRbqgRGmP+BUtwwgNpNPWivs
+ xY0uiyEUSifY/IOYs/MBJ3/qzFvCeqjPEYqvHZkaT2qa/ghh2t35b2WIptUJjCVBJMT/
+ mqa3LN6JNqVjULiG80SsNMQ6MFJSnZOiv3084KH0hWYvKV5g7BSyRh3+GeiNbgXtrgKS
+ fnO7wAwBLbytf/Hc+oLtBh88oJ4RlX8WsMNXos4MK0cj2mi9zpOJCOppFQdYWAI78d/b
+ uVnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=dFW5jDXd47eVSqWLVl3XFZrae6CQN8W7M3/mFqL/1BQ=;
+ b=hcRzQ8LxNmcaKC8PuEKfK66dlhaVWjcYDZgmGqh7YMMlnQ9TbRxSImgYdCX34d+dAx
+ N04hxCBcqH60Iam2BB7TM2SSRRhEykDIdSTnvHwtBh3fdKVK68gwQbdheien7f5qwus7
+ aKNFaiDWkRc3/6n74e4by/A4ooAR5RiZ8Lg3eH8lj6LcIv0lmQ9P3FwsyirOSOQo2Ra0
+ dyMi3Z3rZHZWSCl9ylDZEZK2kcDJvKC9DF33RxpILE89rwgTUrPms7NKnYSjo/8lgRfR
+ 8rvVO5QFbvrNGerlQ8XrGgIRJE3PCCOy1hYfc1lCQ/iKFox5na7PkRT2cHuFbvrWrl+i
+ Wybw==
+X-Gm-Message-State: APjAAAVjgpaLAEj/HFYTWRmmfLcCtwFUhJbqAQQA4PrcXFt88WgABMNG
+ D50bJ74L9K992XmoGGZrnfCJs2f5szW1eg==
+X-Google-Smtp-Source: APXvYqyx4883bHkDua9NksEdabG+NP2IL4XKvNp3QkORzM7+RoTBhrDMPqQ8i6fQTP9/sDpG/wlbBg==
+X-Received: by 2002:a5d:4a46:: with SMTP id v6mr22952767wrs.105.1562064454008; 
+ Tue, 02 Jul 2019 03:47:34 -0700 (PDT)
+Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id f7sm16460138wrv.38.2019.07.02.03.47.33
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 03:47:33 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 12:47:16 +0200
-Message-Id: <20190702104716.9140-19-armbru@redhat.com>
-In-Reply-To: <20190702104716.9140-1-armbru@redhat.com>
-References: <20190702104716.9140-1-armbru@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 10:47:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 18/18] dump: Move HMP command handlers to dump/
+Date: Tue,  2 Jul 2019 12:47:32 +0200
+Message-Id: <20190702104732.31154-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH for-4.1] target/arm: Fix sve_zcr_len_for_el
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,252 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the HMP handlers related to qapi/dump.json to
-dump/dump-hmp-cmds.c, where they are covered by MAINTAINERS section
-"Dump", just like qapi/dump.json.
+Off by one error in the EL2 and EL3 tests.  Remove the test
+against EL3 entirely, since it must always be true.
 
-Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190619201050.19040-18-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-[Commit message typo fixed]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- Makefile.objs        |  1 +
- dump/Makefile.objs   |  1 +
- dump/dump-hmp-cmds.c | 88 ++++++++++++++++++++++++++++++++++++++++++++
- monitor/hmp-cmds.c   | 76 --------------------------------------
- 4 files changed, 90 insertions(+), 76 deletions(-)
- create mode 100644 dump/dump-hmp-cmds.c
 
-diff --git a/Makefile.objs b/Makefile.objs
-index fe4f339b7c..6a143dcd57 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -45,6 +45,7 @@ io-obj-y =3D io/
- ifeq ($(CONFIG_SOFTMMU),y)
- common-obj-y =3D blockdev.o blockdev-nbd.o block/
- common-obj-y +=3D bootdevice.o iothread.o
-+common-obj-y +=3D dump/
- common-obj-y +=3D job-qmp.o
- common-obj-y +=3D monitor/
- common-obj-y +=3D net/
-diff --git a/dump/Makefile.objs b/dump/Makefile.objs
-index ea6b074967..d2a5db3b81 100644
---- a/dump/Makefile.objs
-+++ b/dump/Makefile.objs
-@@ -1,2 +1,3 @@
- obj-y +=3D dump.o
-+common-obj-y +=3D dump-hmp-cmds.o
- obj-$(TARGET_X86_64) +=3D win_dump.o
-diff --git a/dump/dump-hmp-cmds.c b/dump/dump-hmp-cmds.c
-new file mode 100644
-index 0000000000..3dbf44372c
---- /dev/null
-+++ b/dump/dump-hmp-cmds.c
-@@ -0,0 +1,88 @@
-+/*
-+ * Human Monitor Interface commands
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-dump.h"
-+#include "qapi/qmp/qdict.h"
-+
-+void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err =3D NULL;
-+    bool win_dmp =3D qdict_get_try_bool(qdict, "windmp", false);
-+    bool paging =3D qdict_get_try_bool(qdict, "paging", false);
-+    bool zlib =3D qdict_get_try_bool(qdict, "zlib", false);
-+    bool lzo =3D qdict_get_try_bool(qdict, "lzo", false);
-+    bool snappy =3D qdict_get_try_bool(qdict, "snappy", false);
-+    const char *file =3D qdict_get_str(qdict, "filename");
-+    bool has_begin =3D qdict_haskey(qdict, "begin");
-+    bool has_length =3D qdict_haskey(qdict, "length");
-+    bool has_detach =3D qdict_haskey(qdict, "detach");
-+    int64_t begin =3D 0;
-+    int64_t length =3D 0;
-+    bool detach =3D false;
-+    enum DumpGuestMemoryFormat dump_format =3D DUMP_GUEST_MEMORY_FORMAT_=
-ELF;
-+    char *prot;
-+
-+    if (zlib + lzo + snappy + win_dmp > 1) {
-+        error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
-+        hmp_handle_error(mon, &err);
-+        return;
-+    }
-+
-+    if (win_dmp) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_WIN_DMP;
-+    }
-+
-+    if (zlib) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB;
-+    }
-+
-+    if (lzo) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO;
-+    }
-+
-+    if (snappy) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY;
-+    }
-+
-+    if (has_begin) {
-+        begin =3D qdict_get_int(qdict, "begin");
-+    }
-+    if (has_length) {
-+        length =3D qdict_get_int(qdict, "length");
-+    }
-+    if (has_detach) {
-+        detach =3D qdict_get_bool(qdict, "detach");
-+    }
-+
-+    prot =3D g_strconcat("file:", file, NULL);
-+
-+    qmp_dump_guest_memory(paging, prot, true, detach, has_begin, begin,
-+                          has_length, length, true, dump_format, &err);
-+    hmp_handle_error(mon, &err);
-+    g_free(prot);
-+}
-+
-+void hmp_info_dump(Monitor *mon, const QDict *qdict)
-+{
-+    DumpQueryResult *result =3D qmp_query_dump(NULL);
-+
-+    assert(result && result->status < DUMP_STATUS__MAX);
-+    monitor_printf(mon, "Status: %s\n", DumpStatus_str(result->status));
-+
-+    if (result->status =3D=3D DUMP_STATUS_ACTIVE) {
-+        float percent =3D 0;
-+        assert(result->total !=3D 0);
-+        percent =3D 100.0 * result->completed / result->total;
-+        monitor_printf(mon, "Finished: %.2f %%\n", percent);
-+    }
-+
-+    qapi_free_DumpQueryResult(result);
-+}
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 18ffeb7017..dc12ae6129 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -31,7 +31,6 @@
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
--#include "qapi/qapi-commands-dump.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-@@ -2160,64 +2159,6 @@ void hmp_device_del(Monitor *mon, const QDict *qdi=
-ct)
-     hmp_handle_error(mon, &err);
- }
-=20
--void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
--{
--    Error *err =3D NULL;
--    bool win_dmp =3D qdict_get_try_bool(qdict, "windmp", false);
--    bool paging =3D qdict_get_try_bool(qdict, "paging", false);
--    bool zlib =3D qdict_get_try_bool(qdict, "zlib", false);
--    bool lzo =3D qdict_get_try_bool(qdict, "lzo", false);
--    bool snappy =3D qdict_get_try_bool(qdict, "snappy", false);
--    const char *file =3D qdict_get_str(qdict, "filename");
--    bool has_begin =3D qdict_haskey(qdict, "begin");
--    bool has_length =3D qdict_haskey(qdict, "length");
--    bool has_detach =3D qdict_haskey(qdict, "detach");
--    int64_t begin =3D 0;
--    int64_t length =3D 0;
--    bool detach =3D false;
--    enum DumpGuestMemoryFormat dump_format =3D DUMP_GUEST_MEMORY_FORMAT_=
-ELF;
--    char *prot;
--
--    if (zlib + lzo + snappy + win_dmp > 1) {
--        error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
--        hmp_handle_error(mon, &err);
--        return;
--    }
--
--    if (win_dmp) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_WIN_DMP;
--    }
--
--    if (zlib) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB;
--    }
--
--    if (lzo) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO;
--    }
--
--    if (snappy) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY;
--    }
--
--    if (has_begin) {
--        begin =3D qdict_get_int(qdict, "begin");
--    }
--    if (has_length) {
--        length =3D qdict_get_int(qdict, "length");
--    }
--    if (has_detach) {
--        detach =3D qdict_get_bool(qdict, "detach");
--    }
--
--    prot =3D g_strconcat("file:", file, NULL);
--
--    qmp_dump_guest_memory(paging, prot, true, detach, has_begin, begin,
--                          has_length, length, true, dump_format, &err);
--    hmp_handle_error(mon, &err);
--    g_free(prot);
--}
--
- void hmp_netdev_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-@@ -2949,23 +2890,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const =
-QDict *qdict)
-     qapi_free_RockerOfDpaGroupList(list);
- }
-=20
--void hmp_info_dump(Monitor *mon, const QDict *qdict)
--{
--    DumpQueryResult *result =3D qmp_query_dump(NULL);
--
--    assert(result && result->status < DUMP_STATUS__MAX);
--    monitor_printf(mon, "Status: %s\n", DumpStatus_str(result->status));
--
--    if (result->status =3D=3D DUMP_STATUS_ACTIVE) {
--        float percent =3D 0;
--        assert(result->total !=3D 0);
--        percent =3D 100.0 * result->completed / result->total;
--        monitor_printf(mon, "Finished: %.2f %%\n", percent);
--    }
--
--    qapi_free_DumpQueryResult(result);
--}
--
- void hmp_info_ramblock(Monitor *mon, const QDict *qdict)
- {
-     ram_block_dump(mon);
---=20
-2.21.0
+This bug resulted in an infinite loop in the kernel's initialization
+of SVE with EL2 and VHE enabled.  It's probably worth including in 4.1,
+even though VHE itself won't be included.
+
+
+r~
+
+---
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b87bf903a1..210fa06188 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5570,10 +5570,10 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+     if (el <= 1) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+     }
+-    if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
++    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
+     }
+-    if (el < 3 && arm_feature(env, ARM_FEATURE_EL3)) {
++    if (arm_feature(env, ARM_FEATURE_EL3)) {
+         zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+     }
+     return zcr_len;
+-- 
+2.17.1
 
 
