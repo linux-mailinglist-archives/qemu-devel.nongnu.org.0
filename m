@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180BE5CE26
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:11:42 +0200 (CEST)
-Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741E45CE1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:08:16 +0200 (CEST)
+Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGhJ-0002dY-9d
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52822)
+	id 1hiGdz-00074d-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52893)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hiGVO-0001iu-9h
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:23 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hiGVl-00028b-Ii
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hiGVN-0000Y2-Ct
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:22 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51687)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hiGVN-0000WV-3n
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:21 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 207so415401wma.1
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 03:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4ksgFXLm2V4picF6y8O98mbXx4FFmwubuHlJ5yJyT6c=;
- b=HTExFPMdNM4Z/DwAPwFp39QoW94zlCarNlymorXpRSKYyeEQvW568YgmE6GVfYwrLx
- yEsfqHcidogPCBGPb7L2R3npnFnW4sQRvV3kUkhE7DC7Fboh2U4/Ev6oZEw0MQNA1C2N
- UgK+dW+m8+pxXupc87LK0ipvq8QCXi/Yrgra8ZwsYzfXrvvS3oX3LRMUf03B4qKgCLze
- qaLqF/PLAVSPYSoolJ19MaagePmH5WSM1O7rUu2VrCV7lwzdGCmca3U+i7Ta/vix8Bs7
- Jn/p5x33933J8nxl5EVUIrN6F25HlACwTGCkQGBN0Z2due3lZIMZjuR05BVtKPKhujuh
- ZbbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4ksgFXLm2V4picF6y8O98mbXx4FFmwubuHlJ5yJyT6c=;
- b=j66gPEl+gKsyf8baAC24qtytpTGshWlagaQSTcDiqNT6RZG9L7ej8h7Enib2Yji2/f
- tLkgZNn6syUwyrAExVQkybRzNE+UMfK0psmGVn39rrNUC77WR9kqixqBw+MsSLVI2I6I
- WV9z35FcyL18rRjO5Gf1riBSH5Tr7v3NxEtMWy8y6HOMdclh78WCUPHPK99Faq30gUVp
- Yb5Bga4gMkp4Q9MrKOUmvUSLvqSmKN9Yh0ZhwYYlVB7HXkM5koGagsaVM6T7omlBeOP+
- pT414M1VyAgeT/AUmJWhDeds+6nUT/lmdU07EvsY+6BaUugIPAgkFqh0f5WJ1y2ETj2E
- sxvQ==
-X-Gm-Message-State: APjAAAUliYnnB8UFClKb0V9HFlwzKIQDmpZoKVpP+DqfUt+t3uqjWoQT
- I95BWzzsippof26rPDH5T0u/jUqyNUlsyg==
-X-Google-Smtp-Source: APXvYqxT1XsQJFdgbnPw2GWd5Z4t4AzF8IFjgI7xof2PjMlSLaPlev6rw/EQagpxb1T7dyjNjnxcRg==
-X-Received: by 2002:a1c:56d7:: with SMTP id k206mr3036715wmb.56.1562065159847; 
- Tue, 02 Jul 2019 03:59:19 -0700 (PDT)
-Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id f7sm16505397wrv.38.2019.07.02.03.59.19
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 02 Jul 2019 03:59:19 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190702105115.9465-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <7896f53a-69f1-8989-f932-734323d8a9b7@linaro.org>
-Date: Tue, 2 Jul 2019 12:59:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <imammedo@redhat.com>) id 1hiGVk-0001AW-Gg
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:59:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58538)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1hiGVi-0000qk-2N; Tue, 02 Jul 2019 06:59:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CFA683092663;
+ Tue,  2 Jul 2019 10:59:31 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56FA51972C;
+ Tue,  2 Jul 2019 10:59:27 +0000 (UTC)
+Date: Tue, 2 Jul 2019 12:59:22 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Message-ID: <20190702125922.7e19d736@redhat.com>
+In-Reply-To: <20190701190819.25388-1-eric.auger@redhat.com>
+References: <20190701190819.25388-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190702105115.9465-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Correct VMOV_imm_dp
- handling of short vectors
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 02 Jul 2019 10:59:32 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] tests: Update DSDT ACPI table for arm/virt
+ board with PCDIMM related changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,24 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ shameerali.kolothum.thodi@huawei.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/19 12:51 PM, Peter Maydell wrote:
-> Coverity points out (CID 1402195) that the loop in trans_VMOV_imm_dp()
-> that iterates over the destination registers in a short-vector VMOV
-> accidentally throws away the returned updated register number
-> from vfp_advance_dreg(). Add the missing assignment. (We got this
-> correct in trans_VMOV_imm_sp().)
+On Mon,  1 Jul 2019 21:08:19 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
+
+> PCDIMM hotplug addition updated the DSDT. Update the reference table.
 > 
-> Fixes: 18cf951af9a27ae573a
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+checked ASL after applying it.
+Modulo minor issue with generated ASL (reference to non existing method when running without memory hotplug enabled) which lax linux AML interpreter happily ignores if method is not actually accessed.
+(could be fixed later on top of Shameer's series as trivial bugfix)
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+
 > ---
->  target/arm/translate-vfp.inc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/data/acpi/virt/DSDT | Bin 18476 -> 18493 bytes
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+> 
+> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+> index 20e85c7f89f645c69935c615c07084e221419960..1a5c3e5243c78eb25345fdf7ffa442afec3c5c28 100644
+> GIT binary patch
+> delta 172
+> zcmZ28fpPByMlP3Nmk?VI1_q{Y6S<_BIvO{s=eSSi^^mWRZt~=a(Tfjuig$N)iRXy-
+> z@O0sIbPn(|FfcS`;D`?ea)A;+mUB?BARiZZCmRDZqb36bLnT9WgKLnhI|B~`0|zG;
+> zOLQYQi0kYc?CPT+ViNBf7Q$Ho;v_5(n_Qj1$iNt*&kVB1*CW8$H`v*4fdEjLhl`1U
+> Ni>WOjJjjWw0RY`tDw+TQ  
+> 
+> delta 134
+> zcmdlxfpN_QMlP3Nmk=Ef1_q{ziCof5?F}2%bKIpo*xdvC4LIUGJY9GlgM2*<49pA}
+> zIN}{$f+og`c`$P_2rw{ovN13+sxvS!RDxt&Jq4Ay6ndl?7@-g-A<n=c$sh-0Ff)LR
+> Z11c2ZjdwLLW@rlt4|3vam^{&45den68LI#Q
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
