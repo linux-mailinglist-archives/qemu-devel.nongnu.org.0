@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078845D5B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:53:24 +0200 (CEST)
-Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944E15D5C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:58:45 +0200 (CEST)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMy2-0004F5-SP
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
+	id 1hiN3D-0008FI-7a
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43859)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hiLEH-00007i-Ot
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:02:06 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hiLFH-0001OQ-Or
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:03:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hiLE8-0007Cy-M6
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:01:59 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:36871)
+ (envelope-from <alistair23@gmail.com>) id 1hiLFG-00080F-Hd
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:03:03 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33628)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hiLDu-00073J-K9; Tue, 02 Jul 2019 12:01:40 -0400
-Received: by mail-lj1-x244.google.com with SMTP id 131so17444652ljf.4;
- Tue, 02 Jul 2019 09:01:35 -0700 (PDT)
+ id 1hiLFG-0007zc-96; Tue, 02 Jul 2019 12:03:02 -0400
+Received: by mail-lf1-x141.google.com with SMTP id y17so11811595lfe.0;
+ Tue, 02 Jul 2019 09:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=wIGWLe+5OEpUx2zrWqvM3paus1OxHsxJGQW19htOqMg=;
- b=IIz0AxizhitucEhEvevqOZ2t4c2bbLEu6u0fZn9+HssqOon5KQs2rtQoLz+vCH46Kg
- oPunA2zcxdzk+9lNYK0MVgbpC1mrxJtcGynkcXhyRGheG3xNc9YOig98XS+eJq66Q4Ho
- WTdHPPJR+Es7V7IcYj9QWioP6yBH2SV4WWDNmgaa97b9sROGPfacVVXX6MfjcCu6Q1xd
- UzKysl8voq/eAC3C85XBJE11bM9hP01q3J/BLvo1YD4vTpYkt2DKvndzq/lQ7wDEL+lL
- Yx7jqW1P68WNc81/E4JcjKXRl7gFl7ioz+qZ8vVwoU8TBDzr1Mr1lG7H3tPUckLJjpF3
- 5VwA==
+ bh=qsKibivX02EHntCrmbyiVJL0iGA9GE9EiTTaVocYZvE=;
+ b=s1ZzXVIUoH8uhjXkzXoXrQ2knjwCkoSbisSECUSEUZ8oDhRFjEWMSKpzJTWwArKXZc
+ xxaLIVsqyDrwgkYlIslpSuIGEkfV+sK1nt1rS9SMW6BHZExpd/1WGmjhHSnXBibZBCLn
+ 4/2TNa9pY5+toJ4dOpWCDmoXuOPX/nqUy8qhkiPm5V8miA+SpZ6695lJg1+n8SbsxINW
+ 1iKwwYtJKAJr9Mbe3j62JK/JiyPSSky205bZuKbY9fV7jjhiPboy40HYepe6HtWms5SN
+ wr2tV9edY0ZOjPMC4wYTxZLLuc6tldy2PSlo1hOvQg6/XKrgn8urc1q0n28U1J8wNJyt
+ Mj8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=wIGWLe+5OEpUx2zrWqvM3paus1OxHsxJGQW19htOqMg=;
- b=EkMnORHlf6iUHDUr+NEjziqv7mhGP/+R/3KsFBu+Sdhk0W3Ijqbmz+46m6gLcPZpE9
- KznZAibi4ohQoKgIGN+LLg6vDyO9DIgbAIsxQrDPOK0dm/e0stm2cvtogoumoo4MzoL4
- GRO6xifJG/nN/FZTVdqr9/JBGcbomSmVYECnMoGdOsCpgFNR4i3A3yvyzGM2fwRThtnH
- wiRV+fzSTFo5y+Gqu5a7ZqzDIweAhpYvpMoVIMFtBOc5S745dKj264kgsz0KZCrI9rjJ
- q75YynUhFOfeEn04PwdcB8CIu91faIb5YViEIIjVEEhNwDGwLIKLBoLLbVJ2FYVMmTEp
- y2og==
-X-Gm-Message-State: APjAAAVgKWiaTLPTLw895Ro9rqmUxXyvkA8nT0eXOwSjo3H5nbkCHV0z
- yetK0qpNyDWWJnwXR/V6FQIGFE3Udj67naISRKg=
-X-Google-Smtp-Source: APXvYqxzES5gqFeqFyYs9OobCu2LnxrD0eOgZreaht0y3/VzWwERjbqAkozVEGBNoIXkuZKtaJeTgjs3KmzCEkQFYWM=
-X-Received: by 2002:a2e:86cc:: with SMTP id n12mr17532129ljj.146.1562083294552; 
- Tue, 02 Jul 2019 09:01:34 -0700 (PDT)
+ bh=qsKibivX02EHntCrmbyiVJL0iGA9GE9EiTTaVocYZvE=;
+ b=YJozpXBCr5DCJWatJ/qun5VsnqgN65rMtyy1kl/5RqkBXH3Az8PH2MydLIURnEvrl7
+ EGGjbZXBJBPfY4k4vvqw/QBG2Agmd4iwEgnbIhYFqdPp/c+9gIqfLd67cH29NElyE+Vi
+ 6lM2vkKq1e1CSrP61R+FjCqLDvtuNDwbbMc6CnkkjjjTpNzy/2Vgfnel2aP7M1PXlZZr
+ ehfbtHElY0mGbeWwV98LTC3v5N+KQgrFmF/YWtMob3cFiVyE8mjJQluBizcoffdAMt/o
+ faxDVXmNND2PMbqh/EmRiLa4N85BIZ88Mjpk39FLYgUZ8w5Blm9wf662En6GOPXBgn/y
+ jv8w==
+X-Gm-Message-State: APjAAAVw8QXlBpM/t5CcFeJI0yVizTeRwF4EZ4AR0b8xkozhPB6kpPZd
+ xIb0CJdruql2SZRP3pXNZfPMv9w/U9UNjvkGt/Q=
+X-Google-Smtp-Source: APXvYqz+wjJ9ZjPNWkduPaR1YRomsukF4BUx2G6gWf87O99xDcQ64v2Lw0knoL1qfI83Yy4pM9ORl8yWN1eL4nzE9Uo=
+X-Received: by 2002:a05:6512:29a:: with SMTP id
+ j26mr14692707lfp.44.1562083380780; 
+ Tue, 02 Jul 2019 09:03:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190702001301.4768-1-philmd@redhat.com>
- <20190702001301.4768-2-philmd@redhat.com>
-In-Reply-To: <20190702001301.4768-2-philmd@redhat.com>
+ <20190702001301.4768-3-philmd@redhat.com>
+In-Reply-To: <20190702001301.4768-3-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Jul 2019 08:58:30 -0700
-Message-ID: <CAKmqyKOa-C=y7e5iKR2FCxz1-rWc0VJn7B246roSVUhzEWb5iQ@mail.gmail.com>
+Date: Tue, 2 Jul 2019 08:59:56 -0700
+Message-ID: <CAKmqyKPM-MKuB_nq-5KMBg0BR-QvYbDB7EtY_Wep2uoiMsbXxg@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v2 1/9] hw/block/pflash_cfi01: Removed an
- unused timer
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH v2 2/9] hw/block/pflash_cfi01: Use the
+ correct READ_ARRAY value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,19 +95,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 5:13 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+On Mon, Jul 1, 2019 at 5:14 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
 om> wrote:
 >
-> The 'CFI02' NOR flash was introduced in commit 29133e9a0fff, with
-> timing modelled. One year later, the CFI01 model was introduced
-> (commit 05ee37ebf630) based on the CFI02 model. As noted in the
-> header, "It does not support timings". 12 years later, we never
-> had to model the device timings. Time to remove the unused timer,
-> we can still add it back if required.
+> In the "Read Array Flowchart" the command has a value of 0xFF.
 >
-> Suggested-by: Laszlo Ersek <lersek@redhat.com>
-> Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> In the document [*] the "Read Array Flowchart", the READ_ARRAY
+> command has a value of 0xff.
+>
+> Use the correct value in the pflash model.
+>
+> There is no change of behavior in the guest, because:
+> - when the guest were sending 0xFF, the reset_flash label
+>   was setting the command value as 0x00
+> - 0x00 was used internally for READ_ARRAY
+>
+> [*] "Common Flash Interface (CFI) and Command Sets"
+>     (Intel Application Note 646)
+>     Appendix B "Basic Command Set"
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -114,59 +121,78 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
-> v2: Fixed commit description (Laszlo)
-> ---
->  hw/block/pflash_cfi01.c | 15 ---------------
->  1 file changed, 15 deletions(-)
+>  hw/block/pflash_cfi01.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 >
 > diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 35080d915f..dcc9885bf0 100644
+> index dcc9885bf0..743b5d5794 100644
 > --- a/hw/block/pflash_cfi01.c
 > +++ b/hw/block/pflash_cfi01.c
-> @@ -42,7 +42,6 @@
->  #include "hw/block/flash.h"
->  #include "sysemu/block-backend.h"
->  #include "qapi/error.h"
-> -#include "qemu/timer.h"
->  #include "qemu/bitops.h"
->  #include "qemu/error-report.h"
->  #include "qemu/host-utils.h"
-> @@ -90,7 +89,6 @@ struct PFlashCFI01 {
->      uint8_t cfi_table[0x52];
->      uint64_t counter;
->      unsigned int writeblock_size;
-> -    QEMUTimer *timer;
->      MemoryRegion mem;
->      char *name;
->      void *storage;
-> @@ -114,18 +112,6 @@ static const VMStateDescription vmstate_pflash =3D {
->      }
->  };
->
-> -static void pflash_timer (void *opaque)
-> -{
-> -    PFlashCFI01 *pfl =3D opaque;
-> -
-> -    trace_pflash_timer_expired(pfl->cmd);
-> -    /* Reset flash */
-> -    pfl->status ^=3D 0x80;
-> -    memory_region_rom_device_set_romd(&pfl->mem, true);
-> -    pfl->wcycle =3D 0;
-> -    pfl->cmd =3D 0;
-> -}
-> -
->  /* Perform a CFI query based on the bank width of the flash.
->   * If this code is called we know we have a device_width set for
->   * this flash.
-> @@ -775,7 +761,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
-ror **errp)
->          pfl->max_device_width =3D pfl->device_width;
->      }
->
-> -    pfl->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+> @@ -280,10 +280,9 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr=
+ offset,
+>          /* This should never happen : reset state & treat it as a read *=
+/
+>          DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+>          pfl->wcycle =3D 0;
+> -        pfl->cmd =3D 0;
+> +        pfl->cmd =3D 0xff;
+>          /* fall through to read code */
+> -    case 0x00:
+> -        /* Flash area read */
+> +    case 0xff: /* Read Array */
+>          ret =3D pflash_data_read(pfl, offset, width, be);
+>          break;
+>      case 0x10: /* Single byte program */
+> @@ -449,8 +448,6 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>      case 0:
+>          /* read mode */
+>          switch (cmd) {
+> -        case 0x00: /* ??? */
+> -            goto reset_flash;
+>          case 0x10: /* Single Byte Program */
+>          case 0x40: /* Single Byte Program */
+>              DPRINTF("%s: Single Byte Program\n", __func__);
+> @@ -527,7 +524,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>              if (cmd =3D=3D 0xd0) { /* confirm */
+>                  pfl->wcycle =3D 0;
+>                  pfl->status |=3D 0x80;
+> -            } else if (cmd =3D=3D 0xff) { /* read array mode */
+> +            } else if (cmd =3D=3D 0xff) { /* Read Array */
+>                  goto reset_flash;
+>              } else
+>                  goto error_flash;
+> @@ -554,7 +551,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>              } else if (cmd =3D=3D 0x01) {
+>                  pfl->wcycle =3D 0;
+>                  pfl->status |=3D 0x80;
+> -            } else if (cmd =3D=3D 0xff) {
+> +            } else if (cmd =3D=3D 0xff) { /* read array mode */
+>                  goto reset_flash;
+>              } else {
+>                  DPRINTF("%s: Unknown (un)locking command\n", __func__);
+> @@ -646,7 +643,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>      trace_pflash_reset();
+>      memory_region_rom_device_set_romd(&pfl->mem, true);
 >      pfl->wcycle =3D 0;
->      pfl->cmd =3D 0;
+> -    pfl->cmd =3D 0;
+> +    pfl->cmd =3D 0xff;
+>  }
+>
+>
+> @@ -762,7 +759,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+>      }
+>
+>      pfl->wcycle =3D 0;
+> -    pfl->cmd =3D 0;
+> +    pfl->cmd =3D 0xff;
 >      pfl->status =3D 0;
+>      /* Hardcoded CFI table */
+>      /* Standard "QRY" string */
 > --
 > 2.20.1
 >
