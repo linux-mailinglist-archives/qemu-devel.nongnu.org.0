@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FDC5C85C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:29:23 +0200 (CEST)
-Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12FA5C800
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:58:19 +0200 (CEST)
+Received: from localhost ([::1]:48305 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAPy-0006am-6f
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51585)
+	id 1hi9vv-00007e-0H
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hi8hN-00046e-KL
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hi8hR-00047x-0P
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hi8hM-0006z4-FH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43112)
+ (envelope-from <mreitz@redhat.com>) id 1hi8hN-00070T-H7
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46468)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hi8hK-0006um-2a; Mon, 01 Jul 2019 22:39:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hi8hK-0006wI-L7; Mon, 01 Jul 2019 22:39:10 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 875F130C5859;
- Tue,  2 Jul 2019 02:39:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D5E6430872F3;
+ Tue,  2 Jul 2019 02:39:09 +0000 (UTC)
 Received: from localhost (ovpn-204-243.brq.redhat.com [10.40.204.243])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2197718984;
- Tue,  2 Jul 2019 02:39:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B6237E668;
+ Tue,  2 Jul 2019 02:39:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  2 Jul 2019 04:39:01 +0200
-Message-Id: <20190702023905.32470-1-mreitz@redhat.com>
+Date: Tue,  2 Jul 2019 04:39:02 +0200
+Message-Id: <20190702023905.32470-2-mreitz@redhat.com>
+In-Reply-To: <20190702023905.32470-1-mreitz@redhat.com>
+References: <20190702023905.32470-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 02:39:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 02 Jul 2019 02:39:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/4] Block patches for rc0
+Subject: [Qemu-devel] [PULL 1/4] block/rbd: increase dynamically the image
+ size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,46 +60,122 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7=
-c6:
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull=
--request' into staging (2019-07-01 17:40:32 +0100)
+RBD APIs don't allow us to write more than the size set with
+rbd_create() or rbd_resize().
+In order to support growing images (eg. qcow2), we resize the
+image before write operations that exceed the current size.
 
-are available in the Git repository at:
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-id: 20190509145927.293369-1-sgarzare@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2019-07-02
-
-for you to fetch changes up to c624b015bf14fe01f1e6452a36e63b3ea1ae4998:
-
-  block/stream: introduce a bottom node (2019-07-02 03:53:05 +0200)
-
-----------------------------------------------------------------
-Block patches for 4.1-rc0:
-- The stream job no longer relies on a fixed base node
-- The rbd block driver can now accomodate growing formats like qcow2
-
-----------------------------------------------------------------
-Andrey Shinkevich (3):
-  block: include base when checking image chain for block allocation
-  block/stream: refactor stream_run: drop goto
-  block/stream: introduce a bottom node
-
-Stefano Garzarella (1):
-  block/rbd: increase dynamically the image size
-
- include/block/block.h  |  3 ++-
- block/commit.c         |  2 +-
- block/io.c             | 21 +++++++++++-----
- block/mirror.c         |  2 +-
- block/qcow2.c          |  3 ++-
- block/rbd.c            | 42 ++++++++++++++++++++++++++++---
- block/replication.c    |  2 +-
- block/stream.c         | 56 ++++++++++++++++++++----------------------
- qemu-img.c             |  2 +-
- tests/qemu-iotests/245 |  4 +--
- 10 files changed, 91 insertions(+), 46 deletions(-)
-
+diff --git a/block/rbd.c b/block/rbd.c
+index f2ac2c06f4..59757b3120 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -103,6 +103,7 @@ typedef struct BDRVRBDState {
+     rbd_image_t image;
+     char *image_name;
+     char *snap;
++    uint64_t image_size;
+ } BDRVRBDState;
+=20
+ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+@@ -778,6 +779,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict=
+ *options, int flags,
+         goto failed_open;
+     }
+=20
++    r =3D rbd_get_size(s->image, &s->image_size);
++    if (r < 0) {
++        error_setg_errno(errp, -r, "error getting image size from %s",
++                         s->image_name);
++        rbd_close(s->image);
++        goto failed_open;
++    }
++
+     /* If we are using an rbd snapshot, we must be r/o, otherwise
+      * leave as-is */
+     if (s->snap !=3D NULL) {
+@@ -834,6 +843,22 @@ static void qemu_rbd_close(BlockDriverState *bs)
+     rados_shutdown(s->cluster);
+ }
+=20
++/* Resize the RBD image and update the 'image_size' with the current siz=
+e */
++static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
++{
++    BDRVRBDState *s =3D bs->opaque;
++    int r;
++
++    r =3D rbd_resize(s->image, size);
++    if (r < 0) {
++        return r;
++    }
++
++    s->image_size =3D size;
++
++    return 0;
++}
++
+ static const AIOCBInfo rbd_aiocb_info =3D {
+     .aiocb_size =3D sizeof(RBDAIOCB),
+ };
+@@ -935,13 +960,25 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *=
+bs,
+     }
+=20
+     switch (cmd) {
+-    case RBD_AIO_WRITE:
++    case RBD_AIO_WRITE: {
++        /*
++         * RBD APIs don't allow us to write more than actual size, so in=
+ order
++         * to support growing images, we resize the image before write
++         * operations that exceed the current size.
++         */
++        if (off + size > s->image_size) {
++            r =3D qemu_rbd_resize(bs, off + size);
++            if (r < 0) {
++                goto failed_completion;
++            }
++        }
+ #ifdef LIBRBD_SUPPORTS_IOVEC
+             r =3D rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c=
+);
+ #else
+             r =3D rbd_aio_write(s->image, off, size, rcb->buf, c);
+ #endif
+         break;
++    }
+     case RBD_AIO_READ:
+ #ifdef LIBRBD_SUPPORTS_IOVEC
+             r =3D rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c)=
+;
+@@ -1052,7 +1089,6 @@ static int coroutine_fn qemu_rbd_co_truncate(BlockD=
+riverState *bs,
+                                              PreallocMode prealloc,
+                                              Error **errp)
+ {
+-    BDRVRBDState *s =3D bs->opaque;
+     int r;
+=20
+     if (prealloc !=3D PREALLOC_MODE_OFF) {
+@@ -1061,7 +1097,7 @@ static int coroutine_fn qemu_rbd_co_truncate(BlockD=
+riverState *bs,
+         return -ENOTSUP;
+     }
+=20
+-    r =3D rbd_resize(s->image, offset);
++    r =3D qemu_rbd_resize(bs, offset);
+     if (r < 0) {
+         error_setg_errno(errp, -r, "Failed to resize file");
+         return r;
 --=20
 2.21.0
 
