@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0961B5C809
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:08:23 +0200 (CEST)
-Received: from localhost ([::1]:48460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAE75C7E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:40:46 +0200 (CEST)
+Received: from localhost ([::1]:48167 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiA5e-0001Vi-59
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
+	id 1hi9ev-0003fP-T2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50378)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hi8aH-0004mF-Ua
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:31:54 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hi8aG-0003e7-MM
+ (envelope-from <jasowang@redhat.com>) id 1hi8aG-0004jI-Nh
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:31:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45792)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <jasowang@redhat.com>) id 1hi8aE-0003d3-Re
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:31:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37924)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aE-0003az-Pf
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:31:51 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aD-0003by-5C
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:31:50 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AA1B1C0495A1;
- Tue,  2 Jul 2019 02:31:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C42CF7E428;
+ Tue,  2 Jul 2019 02:31:46 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-232.pek2.redhat.com
  [10.72.12.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 170E560C43;
- Tue,  2 Jul 2019 02:31:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 323DC60C43;
+ Tue,  2 Jul 2019 02:31:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 10:31:17 +0800
-Message-Id: <1562034689-6539-6-git-send-email-jasowang@redhat.com>
+Date: Tue,  2 Jul 2019 10:31:18 +0800
+Message-Id: <1562034689-6539-7-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 References: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 02 Jul 2019 02:31:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Tue, 02 Jul 2019 02:31:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/17] net: avoid using variable length array in
- net_client_init()
+Subject: [Qemu-devel] [PULL 06/17] net: use g_strsplit() for parsing host
+ address and port
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,86 +61,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-net_client_init() uses a variable length array to store the prefix
-of 'ipv6-net' parameter (e.g. if ipv6-net=fec0::0/64, the prefix
-is 'fec0::0').
-This patch introduces g_strsplit() to split the 'ipv6-net' parameter,
-so we can remove the variable length array.
+Use the glib function to split host address and port in
+the parse_host_port() function.
 
 Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/net.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ net/net.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
 diff --git a/net/net.c b/net/net.c
-index d21c2c7..76ba0b7 100644
+index 76ba0b7..5ce3996 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -1105,6 +1105,7 @@ static void show_netdevs(void)
- 
- static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+@@ -87,32 +87,39 @@ static int get_str_sep(char *buf, int buf_size, const char **pp, int sep)
+ int parse_host_port(struct sockaddr_in *saddr, const char *str,
+                     Error **errp)
  {
-+    gchar **substrings = NULL;
-     void *object = NULL;
-     Error *err = NULL;
-     int ret = -1;
-@@ -1120,28 +1121,33 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
-         const char *ip6_net = qemu_opt_get(opts, "ipv6-net");
+-    char buf[512];
++    gchar **substrings;
+     struct hostent *he;
+-    const char *p, *r;
+-    int port;
++    const char *addr, *p, *r;
++    int port, ret = 0;
  
-         if (ip6_net) {
--            char buf[strlen(ip6_net) + 1];
-+            char *prefix_addr;
-+            unsigned long prefix_len = 64; /* Default 64bit prefix length. */
-+
-+            substrings = g_strsplit(ip6_net, "/", 2);
-+            if (!substrings || !substrings[0]) {
-+                error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "ipv6-net",
-+                           "a valid IPv6 prefix");
-+                goto out;
-+            }
- 
--            if (get_str_sep(buf, sizeof(buf), &ip6_net, '/') < 0) {
--                /* Default 64bit prefix length.  */
--                qemu_opt_set(opts, "ipv6-prefix", ip6_net, &error_abort);
--                qemu_opt_set_number(opts, "ipv6-prefixlen", 64, &error_abort);
--            } else {
-+            prefix_addr = substrings[0];
-+
-+            if (substrings[1]) {
-                 /* User-specified prefix length.  */
--                unsigned long len;
-                 int err;
- 
--                qemu_opt_set(opts, "ipv6-prefix", buf, &error_abort);
--                err = qemu_strtoul(ip6_net, NULL, 10, &len);
--
-+                err = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
-                 if (err) {
-                     error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                                "ipv6-prefixlen", "a number");
-                     goto out;
-                 }
--
--                qemu_opt_set_number(opts, "ipv6-prefixlen", len, &error_abort);
-             }
-+
-+            qemu_opt_set(opts, "ipv6-prefix", prefix_addr, &error_abort);
-+            qemu_opt_set_number(opts, "ipv6-prefixlen", prefix_len,
-+                                &error_abort);
-             qemu_opt_unset(opts, "ipv6-net");
-         }
+-    p = str;
+-    if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
++    substrings = g_strsplit(str, ":", 2);
++    if (!substrings || !substrings[0] || !substrings[1]) {
+         error_setg(errp, "host address '%s' doesn't contain ':' "
+                    "separating host from port", str);
+-        return -1;
++        ret = -1;
++        goto out;
      }
-@@ -1164,6 +1170,7 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
- 
- out:
-     error_propagate(errp, err);
++
++    addr = substrings[0];
++    p = substrings[1];
++
+     saddr->sin_family = AF_INET;
+-    if (buf[0] == '\0') {
++    if (addr[0] == '\0') {
+         saddr->sin_addr.s_addr = 0;
+     } else {
+-        if (qemu_isdigit(buf[0])) {
+-            if (!inet_aton(buf, &saddr->sin_addr)) {
++        if (qemu_isdigit(addr[0])) {
++            if (!inet_aton(addr, &saddr->sin_addr)) {
+                 error_setg(errp, "host address '%s' is not a valid "
+-                           "IPv4 address", buf);
+-                return -1;
++                           "IPv4 address", addr);
++                ret = -1;
++                goto out;
+             }
+         } else {
+-            he = gethostbyname(buf);
++            he = gethostbyname(addr);
+             if (he == NULL) {
+-                error_setg(errp, "can't resolve host address '%s'", buf);
+-                return - 1;
++                error_setg(errp, "can't resolve host address '%s'", addr);
++                ret = -1;
++                goto out;
+             }
+             saddr->sin_addr = *(struct in_addr *)he->h_addr;
+         }
+@@ -120,10 +127,14 @@ int parse_host_port(struct sockaddr_in *saddr, const char *str,
+     port = strtol(p, (char **)&r, 0);
+     if (r == p) {
+         error_setg(errp, "port number '%s' is invalid", p);
+-        return -1;
++        ret = -1;
++        goto out;
+     }
+     saddr->sin_port = htons(port);
+-    return 0;
++
++out:
 +    g_strfreev(substrings);
-     visit_free(v);
-     return ret;
++    return ret;
  }
+ 
+ char *qemu_mac_strdup_printf(const uint8_t *macaddr)
 -- 
 2.5.0
 
