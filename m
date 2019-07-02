@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D383A5C7CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:27:20 +0200 (CEST)
-Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8401C5C7CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:31:19 +0200 (CEST)
+Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi9Rv-0007TG-VR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
+	id 1hi9Vm-0001nP-NH
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi7Bd-0003BS-Cw
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:02:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi7DB-0003YB-4R
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:03:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi7Bb-0002K5-J6
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:02:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46434)
+ (envelope-from <philmd@redhat.com>) id 1hi7D3-0003sU-BT
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:03:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58290)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hi7BM-0001l5-Tc; Mon, 01 Jul 2019 21:02:05 -0400
+ id 1hi7CN-0001lv-54; Mon, 01 Jul 2019 21:03:36 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E060A30C133C;
- Tue,  2 Jul 2019 01:00:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 378A830A7C7B;
+ Tue,  2 Jul 2019 01:00:48 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-21.brq.redhat.com [10.40.204.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 865A11001B2D;
- Tue,  2 Jul 2019 01:00:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DB5E1001B33;
+ Tue,  2 Jul 2019 01:00:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 21:59:00 -0300
-Message-Id: <20190702005912.15905-16-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 21:59:01 -0300
+Message-Id: <20190702005912.15905-17-philmd@redhat.com>
 In-Reply-To: <20190702005912.15905-1-philmd@redhat.com>
 References: <20190702005912.15905-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 02 Jul 2019 01:00:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 02 Jul 2019 01:00:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 15/27] hw/block/pflash_cfi02: Document the
- current CFI values
+Subject: [Qemu-devel] [PULL 16/27] hw/block/pflash_cfi02: Hold the PRI table
+ offset in a variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,66 +65,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[PMD: Extracted from bigger patch]
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Manufacturers are allowed to move the PRI table, this is why the
+offset is queryable via fixed offsets 0x15/0x16.
+Add a variable to hold the offset, so it will be easier to later
+move the PRI table.
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20190627202719.17739-17-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ hw/block/pflash_cfi02.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 1a794fa83c..f1bac480f5 100644
+index f1bac480f5..23d05a6308 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -550,6 +550,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+@@ -552,6 +552,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
 ror **errp)
-     pfl->wcycle =3D 0;
-     pfl->cmd =3D 0;
      pfl->status =3D 0;
-+
+=20
      /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
++    const uint16_t pri_ofs =3D 0x31;
      /* Standard "QRY" string */
      pfl->cfi_table[0x10] =3D 'Q';
-@@ -575,7 +576,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+     pfl->cfi_table[0x11] =3D 'R';
+@@ -560,8 +561,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
 ror **errp)
-     pfl->cfi_table[0x1D] =3D 0x00;
-     /* Vpp max (no Vpp pin) */
-     pfl->cfi_table[0x1E] =3D 0x00;
--    /* Reserved */
-+    /* Timeout per single byte/word write (128 ms) */
-     pfl->cfi_table[0x1F] =3D 0x07;
-     /* Timeout for min size buffer write (NA) */
-     pfl->cfi_table[0x20] =3D 0x00;
-@@ -614,17 +615,25 @@ static void pflash_cfi02_realize(DeviceState *dev, =
+     pfl->cfi_table[0x13] =3D 0x02;
+     pfl->cfi_table[0x14] =3D 0x00;
+     /* Primary extended table address */
+-    pfl->cfi_table[0x15] =3D 0x31;
+-    pfl->cfi_table[0x16] =3D 0x00;
++    pfl->cfi_table[0x15] =3D pri_ofs;
++    pfl->cfi_table[0x16] =3D pri_ofs >> 8;
+     /* Alternate command set (none) */
+     pfl->cfi_table[0x17] =3D 0x00;
+     pfl->cfi_table[0x18] =3D 0x00;
+@@ -609,32 +610,34 @@ static void pflash_cfi02_realize(DeviceState *dev, =
 Error **errp)
-     pfl->cfi_table[0x32] =3D 'R';
-     pfl->cfi_table[0x33] =3D 'I';
+     pfl->cfi_table[0x2E] =3D (pfl->nb_blocs - 1) >> 8;
+     pfl->cfi_table[0x2F] =3D pfl->sector_len >> 8;
+     pfl->cfi_table[0x30] =3D pfl->sector_len >> 16;
++    assert(0x30 < pri_ofs);
 =20
-+    /* Extended version 1.0 */
-     pfl->cfi_table[0x34] =3D '1';
-     pfl->cfi_table[0x35] =3D '0';
+     /* Extended */
+-    pfl->cfi_table[0x31] =3D 'P';
+-    pfl->cfi_table[0x32] =3D 'R';
+-    pfl->cfi_table[0x33] =3D 'I';
++    pfl->cfi_table[0x00 + pri_ofs] =3D 'P';
++    pfl->cfi_table[0x01 + pri_ofs] =3D 'R';
++    pfl->cfi_table[0x02 + pri_ofs] =3D 'I';
 =20
-+    /* Address sensitive unlock required. */
-     pfl->cfi_table[0x36] =3D 0x00;
-+    /* Erase suspend not supported. */
-     pfl->cfi_table[0x37] =3D 0x00;
-+    /* Sector protect not supported. */
-     pfl->cfi_table[0x38] =3D 0x00;
-+    /* Temporary sector unprotect not supported. */
-     pfl->cfi_table[0x39] =3D 0x00;
+     /* Extended version 1.0 */
+-    pfl->cfi_table[0x34] =3D '1';
+-    pfl->cfi_table[0x35] =3D '0';
++    pfl->cfi_table[0x03 + pri_ofs] =3D '1';
++    pfl->cfi_table[0x04 + pri_ofs] =3D '0';
 =20
-+    /* Sector protect/unprotect scheme. */
-     pfl->cfi_table[0x3a] =3D 0x00;
+     /* Address sensitive unlock required. */
+-    pfl->cfi_table[0x36] =3D 0x00;
++    pfl->cfi_table[0x05 + pri_ofs] =3D 0x00;
+     /* Erase suspend not supported. */
+-    pfl->cfi_table[0x37] =3D 0x00;
++    pfl->cfi_table[0x06 + pri_ofs] =3D 0x00;
+     /* Sector protect not supported. */
+-    pfl->cfi_table[0x38] =3D 0x00;
++    pfl->cfi_table[0x07 + pri_ofs] =3D 0x00;
+     /* Temporary sector unprotect not supported. */
+-    pfl->cfi_table[0x39] =3D 0x00;
++    pfl->cfi_table[0x08 + pri_ofs] =3D 0x00;
 =20
-+    /* Simultaneous operation not supported. */
-     pfl->cfi_table[0x3b] =3D 0x00;
-+    /* Burst mode not supported. */
-     pfl->cfi_table[0x3c] =3D 0x00;
+     /* Sector protect/unprotect scheme. */
+-    pfl->cfi_table[0x3a] =3D 0x00;
++    pfl->cfi_table[0x09 + pri_ofs] =3D 0x00;
+=20
+     /* Simultaneous operation not supported. */
+-    pfl->cfi_table[0x3b] =3D 0x00;
++    pfl->cfi_table[0x0a + pri_ofs] =3D 0x00;
+     /* Burst mode not supported. */
+-    pfl->cfi_table[0x3c] =3D 0x00;
++    pfl->cfi_table[0x0b + pri_ofs] =3D 0x00;
++    assert(0x0b + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
  }
 =20
+ static Property pflash_cfi02_properties[] =3D {
 --=20
 2.20.1
 
