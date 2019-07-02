@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63D35CC33
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 10:49:11 +0200 (CEST)
-Received: from localhost ([::1]:50712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2C5CC3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 10:54:25 +0200 (CEST)
+Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiETP-0002qY-3E
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 04:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57132)
+	id 1hiEYT-0005ct-39
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 04:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hiESX-00021V-SA
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:48:19 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hiEVD-0003zr-Ho
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:51:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hiESW-0006Mo-J9
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:48:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38098)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hiEVC-0007gN-2Y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:51:03 -0400
+Received: from mga06.intel.com ([134.134.136.31]:27257)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hiESS-0006IL-Jv
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:48:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 95F5334CF;
- Tue,  2 Jul 2019 08:47:54 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C503D1001DCC;
- Tue,  2 Jul 2019 08:47:53 +0000 (UTC)
-Date: Tue, 2 Jul 2019 10:47:48 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Michael Rolnik <mrolnik@gmail.com>
-Message-ID: <20190702104748.332bc714@redhat.com>
-In-Reply-To: <CAK4993hAJS5vyF7LpL7MNaiw8f+ca6Ust=dQ2suQm84Hma+yLw@mail.gmail.com>
-References: <20190628120118.78920-1-mrolnik@gmail.com>
- <20190628120118.78920-2-mrolnik@gmail.com>
- <20190628151022.02946447@redhat.com>
- <CAK4993jutEKXd+RKq=Y3ij=k38Ou-ugVhD62nEP9MtPCbtw+aQ@mail.gmail.com>
- <20190701110836.48f433f6@redhat.com>
- <CAK4993hAJS5vyF7LpL7MNaiw8f+ca6Ust=dQ2suQm84Hma+yLw@mail.gmail.com>
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hiEVB-0007A5-Nq
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 04:51:01 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2019 01:49:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,442,1557212400"; d="scan'208";a="184453392"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga001.fm.intel.com with ESMTP; 02 Jul 2019 01:49:56 -0700
+Date: Tue, 2 Jul 2019 16:49:34 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190702084934.GA25987@richard>
+References: <20190619094907.10131-1-pagupta@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 02 Jul 2019 08:48:02 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v24 1/7] target/avr: Add outward facing
- interfaces and core CPU logic
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190619094907.10131-1-pagupta@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.31
+Subject: Re: [Qemu-devel] [PATCH v2 0/7] Qemu virtio pmem device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,90 +55,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: kwolf@redhat.com, aarcange@redhat.com, nilal@redhat.com,
+ xiaoguangrong.eric@gmail.com, mst@redhat.com, rth@twiddle.net,
+ cohuck@redhat.com, david@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, imammedo@redhat.com, pbonzini@redhat.com,
+ riel@surriel.com, lcapitulino@redhat.com, dan.j.williams@intel.com,
+ dgilbert@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 06:59:39 -0700
-Michael Rolnik <mrolnik@gmail.com> wrote:
+On Wed, Jun 19, 2019 at 03:19:00PM +0530, Pankaj Gupta wrote:
+> This patch series has implementation for "virtio pmem"
+> device. "virtio pmem" is persistent memory(nvdimm) device in 
+> guest which allows to bypass the guest page cache. This
+> also implements a VIRTIO based asynchronous flush mechanism.  
+> Details of project idea for 'virtio pmem' flushing interface
+> is shared [2] & [3].
+>
+> Sharing Qemu device emulation in this patchset. Tested with 
+> guest kernel driver [1]. This series is based on David's 
+> memory device refactoring [5] work with modified version of
+> my initial virtio pmem [4] series.
+>
+> Usage: 
+> ./qemu -name test -machine pc -m 8G,slots=240,maxmem=20G 
+> -object memory-backend-file,id=mem1,share,mem-path=test.img,
+>  size=4G,share
+> -device virtio-pmem-pci,memdev=mem1,id=nv1
+>
 
-> should I use *-avr-cpu* suffix or can I do without it. i.e. *xyz* instead
-> of *xyz-avr-cpu*
-I think our convention for cpu types is:
-  foo-target-cpu
-suffix. So I'd use *-avr-cpu form.
-Yes it will be a bit verbose on CLI but it really doesn't matter as
-there aren't any preexisting users that used short 'cpu model' form.
+Hi, Pankaj
 
-> 
-> On Mon, Jul 1, 2019 at 2:08 AM Igor Mammedov <imammedo@redhat.com> wrote:
-> 
-> > On Fri, 28 Jun 2019 18:54:27 +0300
-> > Michael Rolnik <mrolnik@gmail.com> wrote:
-> >  
-> > > Igor.
-> > >
-> > > so avr6 instead of a6-avr-cpu, xmega2 instead of xmega2-avr-cpu and so  
-> > on,  
-> > > right?  
-> > (it would be better if question was rith under context that prompted it)
-> > [...]
-> >  
-> > > > > +++ b/target/avr/cpu.h
-> > > > > @@ -0,0 +1,283 @@
-> > > > > +/*
-> > > > > + * QEMU AVR CPU
-> > > > > + *
-> > > > > + * Copyright (c) 2016 Michael Rolnik
-> > > > > + *
-> > > > > + * This library is free software; you can redistribute it and/or
-> > > > > + * modify it under the terms of the GNU Lesser General Public
-> > > > > + * License as published by the Free Software Foundation; either
-> > > > > + * version 2.1 of the License, or (at your option) any later  
-> > version.  
-> > > > > + *
-> > > > > + * This library is distributed in the hope that it will be useful,
-> > > > > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > > > > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> > > > > + * Lesser General Public License for more details.
-> > > > > + *
-> > > > > + * You should have received a copy of the GNU Lesser General Public
-> > > > > + * License along with this library; if not, see
-> > > > > + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> > > > > + */
-> > > > > +
-> > > > > +#ifndef CPU_AVR_H
-> > > > > +#define CPU_AVR_H
-> > > > > +
-> > > > > +#include "qemu-common.h"
-> > > > > +#include "qom/cpu.h"
-> > > > > +#include "exec/cpu-defs.h"
-> > > > > +#include "fpu/softfloat.h"
-> > > > > +
-> > > > > +#define TCG_GUEST_DEFAULT_MO 0
-> > > > > +
-> > > > > +#define TYPE_AVR_CPU "avr-cpu"
-> > > > > +
-> > > > > +#define AVR_CPU_TYPE_SUFFIX "-" TYPE_AVR_CPU
-> > > > > +#define AVR_CPU_TYPE_NAME(name) (name AVR_CPU_TYPE_SUFFIX)  
-> > > > we probably can do without above macro and opencode typenames
-> > > > directly since we don't have 'model' notion and don't need
-> > > > translate it into typename anymore.  
-> > I'd guess question was about that part.
-> > What I've meant is to replace
-> >  AVR_CPU_TYPE_NAME("avr6") and etc
-> > with
-> >  "avr6-avr-cpu"
-> >    or even better with macro
-> >  TYPE_AVR6_CPU "avr6-avr-cpu"
-> > use it through out the code
-> > and do the same for other sub-types
-> >
-> > [...]
-> >
-> >  
-> 
+I tried this series with v14 kernel driver, while getting some error on using
+this. Not sure this is my error configuration.
 
+The qemu command line is:
+
+    -object memory-backend-file,id=mem1,share=on,mem-path=/dev/dax0.0,size=1G,align=2M 
+    -device virtio-pmem-pci,memdev=mem1,id=nv1
+
+The guest boots up and I can see /dev/pmem0 device. But when I want to
+partition this device, I got the error:
+
+    # parted /dev/pmem0 mklabel gpt
+    Warning: Error fsyncing/closing /dev/pmem0: Input/output error
+
+Also I see an error when running "ndctl list":
+
+    libndctl: __sysfs_device_parse: ndctl0: add_dev() failed
+
+Would you mind letting me know which part I am wrong?
+
+> (qemu) info memory-devices
+>  Memory device [virtio-pmem]: "nv1"
+>  memaddr: 0x240000000
+>  size: 4294967296
+>  memdev: /objects/mem1
+>
+> Implementation is divided into two parts:
+> New virtio pmem guest driver and qemu code changes for new 
+> virtio pmem paravirtualized device. In this series we are
+> sharing Qemu device emulation.
+>
+>1. Guest virtio-pmem kernel driver
+>---------------------------------
+>   - Reads persistent memory range from paravirt device and 
+>     registers with 'nvdimm_bus'.  
+>   - 'nvdimm/pmem' driver uses this information to allocate 
+>     persistent memory region and setup filesystem operations 
+>     to the allocated memory. 
+>   - virtio pmem driver implements asynchronous flushing 
+>     interface to flush from guest to host.
+>
+>2. Qemu virtio-pmem device
+>---------------------------------
+>   - Creates virtio pmem device and exposes a memory range to 
+>     KVM guest. 
+>   - At host side this is file backed memory which acts as 
+>     persistent memory. 
+>   - Qemu side flush uses aio thread pool API's and virtio 
+>     for asynchronous guest multi request handling. 
+>
+> Virtio-pmem security implications and suggested countermeasures:
+> ---------------------------------------------------------------
+>
+> In previous posting of kernel driver, there was discussion [7]
+> on possible implications of page cache side channel attacks with 
+> virtio pmem. After thorough analysis of details of known side 
+> channel attacks, below are the suggestions:
+>
+> - Depends entirely on how host backing image file is mapped 
+>   into guest address space. 
+>
+> - virtio-pmem device emulation, by default shared mapping is used
+>   to map host backing file. It is recommended to use separate
+>   backing file at host side for every guest. This will prevent
+>   any possibility of executing common code from multiple guests
+>   and any chance of inferring guest local data based based on 
+>   execution time.
+>
+> - If backing file is required to be shared among multiple guests 
+>   it is recommended to don't support host page cache eviction 
+>   commands from the guest driver. This will avoid any possibility
+>   of inferring guest local data or host data from another guest. 
+>
+> - Proposed device specification [6] for virtio-pmem device with 
+>   details of possible security implications and suggested 
+>   countermeasures for device emulation.
+>
+>Changes from PATCH v1:
+> - Change proposed version from qemu 4.0 to 4.1 - Eric
+> - Remove virtio queue_add from unrealize function - Cornelia  
+>
+>[1] https://lkml.org/lkml/2019/6/12/624
+>[2] https://www.spinics.net/lists/kvm/msg149761.html
+>[3] https://www.spinics.net/lists/kvm/msg153095.html  
+>[4] https://marc.info/?l=linux-kernel&m=153572228719237&w=2 
+>[5] https://marc.info/?l=qemu-devel&m=153555721901824&w=2
+>[6] https://lists.oasis-open.org/archives/virtio-dev/201903/msg00083.html
+>[7] https://lkml.org/lkml/2019/1/9/1191
+>
+> Pankaj Gupta (3):
+>  virtio-pmem: add virtio device
+>  virtio-pmem: sync linux headers
+>  virtio-pci: proxy for virtio-pmem
+>
+> David Hildenbrand (4):
+>  virtio-pci: Allow to specify additional interfaces for the base type
+>  hmp: Handle virtio-pmem when printing memory device infos
+>  numa: Handle virtio-pmem in NUMA stats
+>  pc: Support for virtio-pmem-pci
+>
+> hmp.c                                        |   27 ++-
+> hw/i386/Kconfig                              |    1 
+> hw/i386/pc.c                                 |   72 ++++++++++
+> hw/virtio/Kconfig                            |   10 +
+> hw/virtio/Makefile.objs                      |    2 
+> hw/virtio/virtio-pci.c                       |    1 
+> hw/virtio/virtio-pci.h                       |    1 
+> hw/virtio/virtio-pmem-pci.c                  |  131 ++++++++++++++++++
+> hw/virtio/virtio-pmem-pci.h                  |   34 ++++
+> hw/virtio/virtio-pmem.c                      |  189 +++++++++++++++++++++++++++
+> include/hw/pci/pci.h                         |    1 
+> include/hw/virtio/virtio-pmem.h              |   49 +++++++
+> include/standard-headers/linux/virtio_ids.h  |    1 
+> include/standard-headers/linux/virtio_pmem.h |   35 +++++
+> numa.c                                       |   24 +--
+> qapi/misc.json                               |   28 +++-
+> 16 files changed, 580 insertions(+), 26 deletions(-)
+>----
+
+-- 
+Wei Yang
+Help you, Help me
 
