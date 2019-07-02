@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F1F5D7A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 22:50:43 +0200 (CEST)
-Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048E75D7C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 23:07:16 +0200 (CEST)
+Received: from localhost ([::1]:57592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiPjc-0002Qf-5W
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 16:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33711)
+	id 1hiPze-00011j-N3
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 17:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44413)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hiPgK-00014f-JU
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 16:47:18 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hiPuL-0007Vx-56
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 17:01:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hiPgF-0003mO-Ly
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 16:47:15 -0400
-Resent-Date: Tue, 02 Jul 2019 16:47:14 -0400
-Resent-Message-Id: <E1hiPgF-0003mO-Ly@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21456)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hiPgF-0003PK-9X
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 16:47:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562100386; cv=none; d=zoho.com; s=zohoarc; 
- b=PRfzfRBkkgXRDS3BmCESsFGYIkNE7xhfnjcb4cTOn2eKnP7KvM2dJl8jdNiaS8mtWbsI8FKJy0pzscEBO+tyOjzuulgbxJfCM7BxTKmLF2IOFEPxlkTTaMmL0kn+e9b9U5F2iG9a5rjrsvKoIDZ0OAgoGFW5e0AYa2+d2Neq+5o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562100386;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=YW7HQSm6yRe38Tj1Vfj85vdyJlmm0Ximlh17bRLaT48=; 
- b=SjhpU9k3n/yjuvbFQ2XYvXdBohcxM1lWYR9CXUkP7hmOaFU2F3Bo8lzGNKJSAD20QlFzBkd8ez5rsuLjbZ1XML2iCF50hrgupqDr/X1aY2INspB9JxFba15b7Hzi8zNHWPWdcaCgpSNy5BPLUIj9GygrMsjvv1S/kPvdQv8MH+w=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562100383972653.2520260461112;
- Tue, 2 Jul 2019 13:46:23 -0700 (PDT)
-Message-ID: <156210038300.15457.10301353496113252792@c4a48874b076>
-In-Reply-To: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
+ (envelope-from <vandersonmr2@gmail.com>) id 1hiPuE-0002yc-40
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 17:01:44 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:42087)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
+ id 1hiPuD-0002Wr-PO
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 17:01:37 -0400
+Received: by mail-qk1-x741.google.com with SMTP id b18so15572009qkc.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 14:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LjINaP8tzwGdbq8Iwzbck262QU0WP1SzxhlO19ZPZdA=;
+ b=jGmP6FaAswmNwEKtbEJ2l2lgOd5+Up6YoTWj8hfLNDrifB1jbXc/5wRERk6VGw8f16
+ VlnANTRCAA1gTYTpyNnkLl8OPrxQ+bH/cDQ4IMf9IAcMnCyIj8TnQeN336MjeJBm3D2D
+ cny0lCL541jrW3RhmJOwJMFtZV/x7CKraK8ivSB3W23R9lAlfGB8oMdZa3Q3nKIlbU6c
+ RxdCFYwfaULH5KlEPHgolraoljSZ7utsonUQ5YHE3o62C/WoXa4IlTB2lZreFfCedMwd
+ JtjTPfacX9gOJa2De3t5npSDyba3i8K8oednk03bWDAOXJ9TP7PKMD8xpKPNPEarzYd2
+ XLSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LjINaP8tzwGdbq8Iwzbck262QU0WP1SzxhlO19ZPZdA=;
+ b=eCi8LC4qAlTAD3iUOfT9Msq00EOjMTdcpWqNQhZ6wKb3EBZDwi2IMG+vr1c34h2AVx
+ cLvWkRpxhVawRHWykhFV5xG5XeU2FS3t68U/BgQr4fPx01WiXy21ziYUnv0+QR5TFPna
+ 7V7AomTAaEQrMs1WCVB40+kjK0RaP1hbJxYHakQDjyJOXN+s0a8aAcFsbakPOs5tzKiG
+ BfySDW1Hp7y4uCH0CwqAj30+/J6IXtmZjUDzvRfAeliNu7m9G9haZaC0P4bcfrv2vOlj
+ B36/5CkDekC9zwNPIwq7MV2CvqIzGaX8y/puZelSctaK80M2Iv8s0beIN5O4kC+SIKBF
+ 723A==
+X-Gm-Message-State: APjAAAUnhztuqxi6y0Zrqrq8OKHGQn3Hd1pU0M9azMEzniAaQs30JFLw
+ lvktfn1UigisybD/UNH7r3R5WRld
+X-Google-Smtp-Source: APXvYqxMO/YvffrrrbHoS2xNdQ900oSWvX/c357KjpOyL1HqulUP9eRvu38EzTO/UC/NPT+k3Rcgew==
+X-Received: by 2002:a37:b8c:: with SMTP id 134mr23998838qkl.160.1562101247922; 
+ Tue, 02 Jul 2019 14:00:47 -0700 (PDT)
+Received: from vanderson-lmcad.HotSpot300 ([189.61.239.22])
+ by smtp.googlemail.com with ESMTPSA id
+ s127sm6770979qkd.107.2019.07.02.14.00.45
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 14:00:47 -0700 (PDT)
+From: vandersonmr <vandersonmr2@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  2 Jul 2019 18:00:12 -0300
+Message-Id: <20190702210017.4275-1-vandersonmr2@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Tue, 2 Jul 2019 13:46:23 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [RFC PATCH 0/7] target/i386: support VMX features
- in "-cpu"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
+Subject: [Qemu-devel] [PATCH v3 1/6] accel/tcg: adding structure to store TB
+ statistics
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,148 +77,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: liran.alon@oracle.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYyMDc5NjgxLTE5MjA0LTEt
-Z2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVs
-XSBbUkZDIFBBVENIIDAvN10gdGFyZ2V0L2kzODY6IHN1cHBvcnQgVk1YIGZlYXR1cmVzIGluICIt
-Y3B1IgpNZXNzYWdlLWlkOiAxNTYyMDc5NjgxLTE5MjA0LTEtZ2l0LXNlbmQtZW1haWwtcGJvbnpp
-bmlAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
-cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
-cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRj
-aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDg4YzdlYiB0YXJnZXQvaTM4Njogd29yayBhcm91
-bmQgS1ZNX0dFVF9NU1JTIGJ1ZyBmb3Igc2Vjb25kYXJ5IGV4ZWN1dGlvbiBjb250cm9scwpjNTM2
-MmM3IHRhcmdldC9pMzg2OiBhZGQgVk1YIGZlYXR1cmVzCjhiMmJlNGIgdm14Y2FwOiBjb3JyZWN0
-IHRoZSBuYW1lIG9mIHRoZSB2YXJpYWJsZXMKYjg1Zjg5NSB0YXJnZXQvaTM4NjogYWRkIFZNWCBk
-ZWZpbml0aW9ucwozOTYyZDA0IHRhcmdldC9pMzg2OiBleHBhbmQgZmVhdHVyZSB3b3JkcyB0byA2
-NCBiaXRzCmNiZWI5MzMgdGFyZ2V0L2kzODY6IGludHJvZHVjZSBnZW5lcmljIGZlYXR1cmUgZGVw
-ZW5kZW5jeSBtZWNoYW5pc20KOWZkNjIzMCB0YXJnZXQvaTM4NjogaGFuZGxlIGZpbHRlcmVkX2Zl
-YXR1cmVzIGluIGEgbmV3IGZ1bmN0aW9uIG1hcmtfdW5hdmFpbGFibGVfZmVhdHVyZXMKCj09PSBP
-VVRQVVQgQkVHSU4gPT09CjEvNyBDaGVja2luZyBjb21taXQgOWZkNjIzMDNkZjU5ICh0YXJnZXQv
-aTM4NjogaGFuZGxlIGZpbHRlcmVkX2ZlYXR1cmVzIGluIGEgbmV3IGZ1bmN0aW9uIG1hcmtfdW5h
-dmFpbGFibGVfZmVhdHVyZXMpCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRp
-b25hbCBzdGF0ZW1lbnRzICg0LCA5KQojMjc6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjMyNDM6
-CisgICAgZm9yICh3ID0gMDsgdyA8IEFSUkFZX1NJWkUoZmVhdHVyZV93b3JkX2luZm8pOyB3Kysp
-IHsKKyAgICAgICAgIGlmIChjcHUtPmZpbHRlcmVkX2ZlYXR1cmVzW3ddKSB7CgpFUlJPUjogc3Vz
-cGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoOSwgMTMpCiMyODog
-RklMRTogdGFyZ2V0L2kzODYvY3B1LmM6MzI0NDoKKyAgICAgICAgIGlmIChjcHUtPmZpbHRlcmVk
-X2ZlYXR1cmVzW3ddKSB7CisgICAgICAgICAgICAgcmV0dXJuIHRydWU7CgpXQVJOSU5HOiBsaW5l
-IG92ZXIgODAgY2hhcmFjdGVycwojMTIxOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzo1MjI1Ogor
-ICAgICAgICAgICAgbWFya191bmF2YWlsYWJsZV9mZWF0dXJlcyhjcHUsIEZFQVRfN18wX0VCWCwg
-Q1BVSURfN18wX0VCWF9JTlRFTF9QVCwgcHJlZml4KTsKCnRvdGFsOiAyIGVycm9ycywgMSB3YXJu
-aW5ncywgMTMwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoKMi83IENoZWNraW5nIGNvbW1pdCBjYmViOTMzNTgwZDQgKHRhcmdldC9pMzg2OiBpbnRy
-b2R1Y2UgZ2VuZXJpYyBmZWF0dXJlIGRlcGVuZGVuY3kgbWVjaGFuaXNtKQpXQVJOSU5HOiBsaW5l
-IG92ZXIgODAgY2hhcmFjdGVycwojNjk6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjEyMjM6Cisg
-ICAgICAgIC5mcm9tID0gRkVBVF83XzBfRURYLCAgICAgICAgICAgIC5mcm9tX2ZsYWcgPSBDUFVJ
-RF83XzBfRURYX0FSQ0hfQ0FQQUJJTElUSUVTLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJh
-Y3RlcnMKIzczOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoxMjI3OgorICAgICAgICAuZnJvbSA9
-IEZFQVRfN18wX0VEWCwgICAgICAgICAgICAuZnJvbV9mbGFnID0gQ1BVSURfN18wX0VEWF9DT1JF
-X0NBUEFCSUxJVFksCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTExOiBGSUxF
-OiB0YXJnZXQvaTM4Ni9jcHUuYzo1MTE5OgorICAgICAgICAgICAgLyogTm90IGFuIGVycm9yIHVu
-bGVzcyB0aGUgZGVwZW5kZW50IGZlYXR1cmUgd2FzIGFkZGVkIGV4cGxpY2l0bHkuICAqLwoKRVJS
-T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTI6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5j
-OjUxMjA6CisgICAgICAgICAgICBtYXJrX3VuYXZhaWxhYmxlX2ZlYXR1cmVzKGNwdSwgZC0+dG8s
-IHVuYXZhaWxhYmxlX2ZlYXR1cmVzICYgZW52LT51c2VyX2ZlYXR1cmVzW2QtPnRvXSwKCnRvdGFs
-OiAxIGVycm9ycywgMyB3YXJuaW5ncywgMTE0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvNyBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy83IENoZWNraW5nIGNvbW1pdCAzOTYyZDA0OWJjZjEg
-KHRhcmdldC9pMzg2OiBleHBhbmQgZmVhdHVyZSB3b3JkcyB0byA2NCBiaXRzKQpXQVJOSU5HOiBs
-aW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTMwOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzozNjE2
-OgorICAgIGFzc2VydChiaXRuciA8IDMyIHx8ICEobmFtZSAmJiBmZWF0dXJlX3dvcmRfaW5mb1t3
-XS50eXBlID09IENQVUlEX0ZFQVRVUkVfV09SRCkpOwoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
-bmdzLCAyMTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy83IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjQvNyBDaGVja2luZyBjb21taXQgYjg1Zjg5NTllZDYyICh0YXJnZXQvaTM4NjogYWRkIFZN
-WCBkZWZpbml0aW9ucykKNS83IENoZWNraW5nIGNvbW1pdCA4YjJiZTRiNTU5Y2IgKHZteGNhcDog
-Y29ycmVjdCB0aGUgbmFtZSBvZiB0aGUgdmFyaWFibGVzKQo2LzcgQ2hlY2tpbmcgY29tbWl0IGM1
-MzYyYzc1NzZiOSAodGFyZ2V0L2kzODY6IGFkZCBWTVggZmVhdHVyZXMpCkVSUk9SOiBsaW5lIG92
-ZXIgOTAgY2hhcmFjdGVycwojMzI6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjEyMjM6CisgICAg
-ICAgICAgICAidm14LWNyOC1zdG9yZS1leGl0IiwgInZteC1mbGV4cHJpb3JpdHkiLCAidm14LXZu
-bWktcGVuZGluZyIsICJ2bXgtbW92ZHItZXhpdCIsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
-cmFjdGVycwojMzQ6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjEyMjU6CisgICAgICAgICAgICAi
-dm14LW1zci1iaXRtYXAiLCAidm14LW1vbml0b3ItZXhpdCIsICJ2bXgtcGF1c2UtZXhpdCIsICJ2
-bXgtc2Vjb25kYXJ5LWN0bHMiLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ1
-OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoxMjM2OgorICAgICAgICAgICAgInZteC1hcGljdi14
-MmFwaWMiLCAidm14LXZwaWQiLCAidm14LXdiaW52ZC1leGl0IiwgInZteC11bnJlc3RyaWN0ZWQt
-Z3Vlc3QiLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ3OiBGSUxFOiB0YXJn
-ZXQvaTM4Ni9jcHUuYzoxMjM4OgorICAgICAgICAgICAgInZteC1pbnZwY2lkLWV4aXQiLCAidm14
-LXZtZnVuYyIsICJ2bXgtc2hhZG93LXZtY3MiLCAidm14LWVuY2xzLWV4aXQiLAoKV0FSTklORzog
-QmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzg0OiBG
-SUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoxMjc1OgorICAgICAgICAgICAgTlVMTCwgTlVMTCAvKiB2
-bXgtZXhpdC1ob3N0LWFkZHItc3BhY2Utc2l6ZSAqLywgTlVMTCwgTlVMTCwKCkVSUk9SOiBsaW5l
-IG92ZXIgOTAgY2hhcmFjdGVycwojMTAzOiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzoxMjk0Ogor
-ICAgICAgICAgICAgTlVMTCwgInZteC1lbnRyeS1sb2FkLXBlcmYtZ2xvYmFsLWN0cmwiLCAidm14
-LWVudHJ5LWxvYWQtcGF0IiwgInZteC1lbnRyeS1sb2FkLWVmZXIiLAoKV0FSTklORzogbGluZSBv
-dmVyIDgwIGNoYXJhY3RlcnMKIzE0NTogRklMRTogdGFyZ2V0L2kzODYvY3B1LmM6MTMzNjoKKyAg
-ICAgICAgICAgICAgICAidm14LWludnZwaWQtYWxsLWNvbnRleHQiLCAidm14LWludmVwdC1zaW5n
-bGUtY29udGV4dC1ub2dsb2JhbHMiLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMK
-IzE2NjogRklMRTogdGFyZ2V0L2kzODYvY3B1LmM6MTM1NzoKKyAgICAgICAgLyogSnVzdCB0byBi
-ZSBzYWZlIC0gd2UgZG9uJ3Qgc3VwcG9ydCBzZXR0aW5nIHRoZSBNU0VHIHZlcnNpb24gZmllbGQu
-ICAqLwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyMTY6IEZJTEU6IHRhcmdldC9p
-Mzg2L2NwdS5jOjE0MTY6CisgICAgICAgIC5mcm9tID0gRkVBVF9WTVhfUFJPQ0JBU0VEX0NUTFMs
-IC5mcm9tX2ZsYWcgPSBWTVhfQ1BVX0JBU0VEX0FDVElWQVRFX1NFQ09OREFSWV9DT05UUk9MUywK
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMjU6IEZJTEU6IHRhcmdldC9pMzg2
-L2NwdS5jOjE0MjU6CisgICAgICAgIC50byA9IEZFQVRfVk1YX1NFQ09OREFSWV9DVExTLCAgIC50
-b19mbGFncyA9IFZNWF9TRUNPTkRBUllfRVhFQ19SRFJBTkRfRVhJVElORywKCldBUk5JTkc6IGxp
-bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMjk6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjE0Mjk6
-CisgICAgICAgIC50byA9IEZFQVRfVk1YX1NFQ09OREFSWV9DVExTLCAgIC50b19mbGFncyA9IFZN
-WF9TRUNPTkRBUllfRVhFQ19FTkFCTEVfSU5WUENJRCwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiMyMzM6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjE0MzM6CisgICAgICAgIC50
-byA9IEZFQVRfVk1YX1NFQ09OREFSWV9DVExTLCAgIC50b19mbGFncyA9IFZNWF9TRUNPTkRBUllf
-RVhFQ19SRFNFRURfRVhJVElORywKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMy
-NDA6IEZJTEU6IHRhcmdldC9pMzg2L2NwdS5jOjE0NDA6CisgICAgICAgIC5mcm9tID0gRkVBVF9W
-TVhfU0VDT05EQVJZX0NUTFMsIC5mcm9tX2ZsYWcgPSBWTVhfU0VDT05EQVJZX0VYRUNfRU5BQkxF
-X0VQVCwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNDQ6IEZJTEU6IHRhcmdl
-dC9pMzg2L2NwdS5jOjE0NDQ6CisgICAgICAgIC5mcm9tID0gRkVBVF9WTVhfU0VDT05EQVJZX0NU
-TFMsIC5mcm9tX2ZsYWcgPSBWTVhfU0VDT05EQVJZX0VYRUNfRU5BQkxFX1ZQSUQsCgpXQVJOSU5H
-OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjQ4OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuYzox
-NDQ4OgorICAgICAgICAuZnJvbSA9IEZFQVRfVk1YX1NFQ09OREFSWV9DVExTLCAuZnJvbV9mbGFn
-ID0gVk1YX1NFQ09OREFSWV9FWEVDX0VOQUJMRV9WTUZVTkMsCgpXQVJOSU5HOiBCbG9jayBjb21t
-ZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMzYyOiBGSUxFOiB0YXJn
-ZXQvaTM4Ni9rdm0uYzoyNDU4OgorICAgIC8qIElmIGEgZmVhdHVyZSBiaXQgaXMgc2V0LCB0aGUg
-Y29udHJvbCBjYW4gYmUgZWl0aGVyIHNldCBvciBjbGVhci4KCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiM0MTc6IEZJTEU6IHRhcmdldC9pMzg2L2t2bS5jOjI1MTM6CisgICAgICAg
-ICAgICAoZltGRUFUX1ZNWF9TRUNPTkRBUllfQ1RMU10gJiBWTVhfU0VDT05EQVJZX0VYRUNfRU5B
-QkxFX0VQVCA/IDB4NDEwMHVsbCA6IDApOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzQyODogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6MjUyNDoKKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgZltGRUFUX1ZNWF9FWElUX0NUTFNdKSB8IGZpeGVkX3Zt
-eF9leGl0KTsKCnRvdGFsOiAzIGVycm9ycywgMTUgd2FybmluZ3MsIDQzOCBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCA2LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjcvNyBDaGVja2luZyBjb21t
-aXQgZDg4YzdlYjgzZWYyICh0YXJnZXQvaTM4Njogd29yayBhcm91bmQgS1ZNX0dFVF9NU1JTIGJ1
-ZyBmb3Igc2Vjb25kYXJ5IGV4ZWN1dGlvbiBjb250cm9scykKV0FSTklORzogbGluZSBvdmVyIDgw
-IGNoYXJhY3RlcnMKIzI2OiBGSUxFOiB0YXJnZXQvaTM4Ni9rdm0uYzo0NzM6CisgICAgICAgIGlm
-IChrdm1fYXJjaF9nZXRfc3VwcG9ydGVkX2NwdWlkKHMsIDB4RCwgMSwgUl9FQ1gpICYgQ1BVSURf
-WFNBVkVfWFNBVkVTKSB7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzI6IEZJ
-TEU6IHRhcmdldC9pMzg2L2t2bS5jOjQ3OToKKyAgICAgICAgaWYgKGt2bV9hcmNoX2dldF9zdXBw
-b3J0ZWRfY3B1aWQocywgNywgMCwgUl9FQlgpICYgQ1BVSURfN18wX0VCWF9JTlZQQ0lEKSB7CgpX
-QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzU6IEZJTEU6IHRhcmdldC9pMzg2L2t2
-bS5jOjQ4MjoKKyAgICAgICAgaWYgKGt2bV9hcmNoX2dldF9zdXBwb3J0ZWRfY3B1aWQocywgNywg
-MCwgUl9FQlgpICYgQ1BVSURfN18wX0VCWF9SRFNFRUQpIHsKCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiMzODogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6NDg1OgorICAgICAgICBp
-ZiAoa3ZtX2FyY2hfZ2V0X3N1cHBvcnRlZF9jcHVpZChzLCAweDgwMDAwMDAxLCAwLCBSX0VEWCkg
-JiBDUFVJRF9FWFQyX1JEVFNDUCkgewoKdG90YWw6IDAgZXJyb3JzLCA0IHdhcm5pbmdzLCAyMyBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
-LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
-IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MjA3OTY4MS0x
-OTIwNC0xLWdpdC1zZW5kLWVtYWlsLXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3Bh
-dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
-YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
-dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+We want to store statistics for each TB even after flushes.
+We do not want to modify or grow the TB struct.
+So we create a new struct to contain this statistics and
+we link one of it to each TB as they are generated.
+
+Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+---
+ accel/tcg/translate-all.c | 60 +++++++++++++++++++++++++++++++++++++++
+ include/exec/exec-all.h   | 46 ++++++++++++++++++++++++++++++
+ include/exec/tb-context.h |  1 +
+ include/exec/tb-hash.h    |  7 +++++
+ include/qemu/log.h        |  1 +
+ 5 files changed, 115 insertions(+)
+
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5d1e08b169..d05803a142 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1132,11 +1132,31 @@ static bool tb_cmp(const void *ap, const void *bp)
+         a->page_addr[1] == b->page_addr[1];
+ }
+ 
++/*
++ * This is the more or less the same compare, but the data persists
++ * over tb_flush. We also aggregate the various variations of cflags
++ * under one record and ignore the details of page overlap (although
++ * we can count it).
++ */
++bool tb_stats_cmp(const void *ap, const void *bp)
++{
++    const TBStatistics *a = ap;
++    const TBStatistics *b = bp;
++
++    return a->phys_pc == b->phys_pc &&
++        a->pc == b->pc &&
++        a->cs_base == b->cs_base &&
++        a->flags == b->flags;
++}
++
+ static void tb_htable_init(void)
+ {
+     unsigned int mode = QHT_MODE_AUTO_RESIZE;
+ 
+     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
++    if (qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
++        qht_init(&tb_ctx.tb_stats, tb_stats_cmp, CODE_GEN_HTABLE_SIZE, mode);
++    }
+ }
+ 
+ /* Must be called before using the QEMU cpus. 'tb_size' is the size
+@@ -1586,6 +1606,31 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+ #endif
+ }
+ 
++static TBStatistics *tb_get_stats(tb_page_addr_t phys_pc, target_ulong pc,
++                                  target_ulong cs_base, uint32_t flags)
++{
++    TBStatistics *new_stats = g_new0(TBStatistics, 1);
++    uint32_t hash = tb_stats_hash_func(phys_pc, pc, flags);
++    void *existing_stats = NULL;
++    new_stats->phys_pc = phys_pc;
++    new_stats->pc = pc;
++    new_stats->cs_base = cs_base;
++    new_stats->flags = flags;
++
++    qht_insert(&tb_ctx.tb_stats, new_stats, hash, &existing_stats);
++
++    if (unlikely(existing_stats)) {
++        /*
++         * If there is already a TBStatistic for this TB from a previous flush
++         * then just make the new TB point to the older TBStatistic
++         */
++        g_free(new_stats);
++        return existing_stats;
++    } else {
++        return new_stats;
++    }
++}
++
+ /* add a new TB and link it to the physical page tables. phys_page2 is
+  * (-1) to indicate that only one page contains the TB.
+  *
+@@ -1732,6 +1777,21 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     ti = profile_getclock();
+ #endif
+ 
++    /*
++     * We want to fetch the stats structure before we start code
++     * generation so we can count interesting things about this
++     * generation.
++     *
++     * XXX: using loglevel is fugly - we should have a general flag
++     */
++    if (qemu_loglevel_mask(CPU_LOG_HOT_TBS) && qemu_log_in_addr_range(tb->pc)) {
++        tb->tb_stats = tb_get_stats(phys_pc, pc, cs_base, flags);
++        /* XXX: should we lock and update in bulk? */
++        atomic_inc(&tb->tb_stats->translations.total);
++    } else {
++        tb->tb_stats = NULL;
++    }
++
+     tcg_func_start(tcg_ctx);
+ 
+     tcg_ctx->cpu = env_cpu(env);
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 16034ee651..a4bcd9b6df 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -324,6 +324,49 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+ #define CODE_GEN_AVG_BLOCK_SIZE 150
+ #endif
+ 
++typedef struct TBStatistics TBStatistics;
++
++/*
++ * This struct stores statistics such as execution count of the
++ * TranslationBlocks. Each sets of TBs for a given phys_pc/pc/flags
++ * has its own TBStatistics which will persist over tb_flush.
++ *
++ * We include additional counters to track number of translations as
++ * well as variants for compile flags.
++ */
++struct TBStatistics {
++    tb_page_addr_t phys_pc;
++    target_ulong pc;
++    uint32_t     flags;
++    /* cs_base isn't included in the hash but we do check for matches */
++    target_ulong cs_base;
++
++    /* Translation stats */
++    struct {
++        unsigned long total;
++        unsigned long uncached;
++        unsigned long spanning;
++        /* XXX: count invalidation? */
++    } translations;
++
++    /* Execution stats */
++    struct {
++        unsigned long total;
++        unsigned long atomic;
++    } executions;
++
++    struct {
++        unsigned num_guest_inst;
++        unsigned num_host_inst;
++        unsigned num_tcg_inst;
++    } code;
++
++    /* HMP information - used for referring to previous search */
++    int display_id;
++};
++
++bool tb_stats_cmp(const void *ap, const void *bp);
++
+ /*
+  * Translation Cache-related fields of a TB.
+  * This struct exists just for convenience; we keep track of TB's in a binary
+@@ -403,6 +446,9 @@ struct TranslationBlock {
+     uintptr_t jmp_list_head;
+     uintptr_t jmp_list_next[2];
+     uintptr_t jmp_dest[2];
++
++    /* Pointer to a struct where statistics from the TB is stored */
++    TBStatistics *tb_stats;
+ };
+ 
+ extern bool parallel_cpus;
+diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
+index feb585e0a7..a4decb5d1f 100644
+--- a/include/exec/tb-context.h
++++ b/include/exec/tb-context.h
+@@ -35,6 +35,7 @@ struct TBContext {
+ 
+     /* statistics */
+     unsigned tb_flush_count;
++    struct qht tb_stats;
+ };
+ 
+ extern TBContext tb_ctx;
+diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
+index 4f3a37d927..54c477fe79 100644
+--- a/include/exec/tb-hash.h
++++ b/include/exec/tb-hash.h
+@@ -64,4 +64,11 @@ uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_ulong pc, uint32_t flags,
+     return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
+ }
+ 
++static inline
++uint32_t tb_stats_hash_func(tb_page_addr_t phys_pc, target_ulong pc,
++                            uint32_t flags)
++{
++    return qemu_xxhash5(phys_pc, pc, flags);
++}
++
+ #endif
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index b097a6cae1..2fca65dd01 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -45,6 +45,7 @@ static inline bool qemu_log_separate(void)
+ /* LOG_TRACE (1 << 15) is defined in log-for-trace.h */
+ #define CPU_LOG_TB_OP_IND  (1 << 16)
+ #define CPU_LOG_TB_FPU     (1 << 17)
++#define CPU_LOG_HOT_TBS    (1 << 18)
+ 
+ /* Lock output for a series of related logs.  Since this is not needed
+  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+-- 
+2.22.0
 
 
