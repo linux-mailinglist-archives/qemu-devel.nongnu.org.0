@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096F65D2A4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:20:45 +0200 (CEST)
-Received: from localhost ([::1]:54421 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07045D2EA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:30:29 +0200 (CEST)
+Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKaK-0000ef-5y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:20:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57573)
+	id 1hiKjk-0003TH-MW
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiKJY-000325-Rs
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:03:31 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hiKMY-0005Kt-Sm
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiKJU-0005kr-Sg
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:03:22 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33695)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiKJS-0005gf-By
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:03:19 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n9so18273195wru.0
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kusHwiyQL/5YSWHkAU/rDwZHvtia3ERhu2eiGiTkjjU=;
- b=FTzULf5nvc5g9ccdDLq91rDggM3uyJT5n9oy9uRsODVndJdHGhkwB4hqWEfHx0IPBG
- koH9a8UGdPP0pkXqa5gsyLSA3pdN4HdPV4RzuiDy8N9ptSzEv0KXt9GuCx6Kxtk4CHgk
- krFlFKTR9HJh/EKx9OFXOldDnJeETIyHUpJ1bkkPaqQK27dWPSWyy5Js1IHSUpnevkOy
- TKUlmZDU4e5mnSs05Kyg5DxS69z18kZCwpJZ0Q0rYpSCXB1v9492/ogEgaB2P0V2rxBn
- ghUvl46jNfBOZKOatRjwJcOoyNwFZdrIOjH045TndiA/GgdEOl7JQ79+kLaiRJWI7m0h
- Yubg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kusHwiyQL/5YSWHkAU/rDwZHvtia3ERhu2eiGiTkjjU=;
- b=l9+0I3r2/kdyc5xeF55fTBeTVriaR2ZxRx62HbUZuZtyJOeOezCbjoLChupMyS9JXS
- xScV2BfHDfHPNke38cZj3GTYgYPlOraZ2arm1Y8hn33RNIRCz1IqFOQnIOPMHpQcm8xd
- siVpPwukLvUAQbw9rsxX0XsnjcDhv9hQoHwHsd0bQMEJ5p89hHIwg0y9YH9AN3NcfQ8k
- aoWB7veaH0/KlvgEv7PKy6oJqWZpser0E/Eel+OIPjbMSxAyBKUyBYnCgTTrbxNk/tnG
- hLuwWMdkV2tGLM4qNNcRmDnDu/KZXT5kW5/zRESirSBHjSUzsPqwoXQE2ofXi+YePAM9
- fx/g==
-X-Gm-Message-State: APjAAAWdiIwPA/M+FwG8M7JWGdeMJrSfjLCndDL7SoG4EktRIYrw1PkP
- JBebEbrn+FOkIdDF+VA04PmyvRKpJ3+lgg==
-X-Google-Smtp-Source: APXvYqz1lH5EWsa4MyhguvHL8yHTuCrHlU8oCrn51UbgPs4YA4Hgmwj19l7v7V9flHAt10QrPSV3IQ==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr23106687wrm.68.1562079794035; 
- Tue, 02 Jul 2019 08:03:14 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w7sm2830757wmc.46.2019.07.02.08.03.12
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 08:03:13 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007zu-P6
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:57517)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMU-0007sG-P9
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MUobv-1i8LfH1FLN-00Qmpe; Tue, 02 Jul 2019 17:05:54 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 16:03:11 +0100
-Message-Id: <20190702150311.20467-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Date: Tue,  2 Jul 2019 17:05:39 +0200
+Message-Id: <20190702150545.1872-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH for-4.1] tests/migration-test: Fix read off end
- of aarch64_kernel array
+X-Provags-ID: V03:K1:YQw7hNLXUMgykzDKxcXR6ctB9IzpmKZ6YNTy0sE6ghpCIDB3bSC
+ FTBZ22XQ87O4A2zB41vW5R1ARmL74rVNPGItO6/XD41kSlgdW2KIBhScwEHgUVI79ZWUtsz
+ tZD+E4aNR445OHytDZd9wIE2yXEtqRCcZutOywvCQP6xWKJx8Ni3luPd7y147sgwjcvIVLQ
+ VYUqsSzhyi9fLsXxjff+Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+DS28hWfJC0=:eznqPSwE3rFFG2B/Dz70q/
+ QXGBrs1V1EGIXTcpLZIEId+k44XanqYhqoGiVo5Z5ZRcYsFwENC0J5LI9rwhafCFfCIMbJHLr
+ RLr1tBgWd4nToHnTNYilPNaLNYQdp6VLL7NIkdfuywDywRjRAZg6YqvxzbmrKdz46VbhVUwed
+ SdEU/EygMGvQm1HoR1QWIGuaVVxEMep2sY/BRkUDBtswk6gXLoYSrRmsN/c6cUyuN4VUyp55P
+ O6yG5AHuHSYDNKHVhHIdUquod6QMsRkQB3Pit25tngU0mFJyhcA6WwXIiSf0ukp0/vqp11UTU
+ 7X2ukGZ8ofHAruiJrltZH2UxnPAoiDKUeI0kD/E8uy+EcNSJcvuFasYYHvgVApT2HPJ+ah7Va
+ zVBsZwV409WKI6svSPXN6bfJw3eurNDX3n5OzC15ei70LOmi7VYshXN1DsYrympZx8HCvco30
+ 2mNePy8dsbIo+c6eFeDeUhIZzt5k/4+KbQoOO6b9Vmyrto+xkrUuyTJ06yEcVTsNilZa0dwF8
+ QRzSqBkR6XPWuhcuY3gDyKqyBqDmWzwkFiMo0wNVfltHiVvJHA+FMLli4In42WbpbSgNWCxi0
+ Xu01BzVemdfL5goGsd3JA+vHtItbFSyprteSCUFw2zVuIRYNWqhLixR7TYTiQ531GNSlqVl9k
+ 8O0fwLs0phSpVs3PCBUSogoMLD/KmIlHQGOD1LgxkMcOHJbt8Y4NKQyJVwJwnxiTGZWhI4h2L
+ e1wE4Rz1RKeMOQ+uCfNpV3V4qpMX+1S8GsFgdw==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.72.192.74
+Subject: [Qemu-devel] [PULL 0/6] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,115 +60,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test aarch64 kernel is in an array defined with
- unsigned char aarch64_kernel[] = { [...] }
+The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
 
-which means it could be any size; currently it's quite small.
-However we write it to a file using init_bootfile(), which
-writes exactly 512 bytes to the file. This will break if
-we ever end up with a kernel larger than that, and will
-read garbage off the end of the array in the current setup
-where the kernel is smaller.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
 
-Make init_bootfile() take an argument giving the length of
-the data to write. This allows us to use it for all architectures
-(previously s390 had a special-purpose init_bootfile_s390x
-which hardcoded the file to write so it could write the
-correct length). We assert that the x86 bootfile really is
-exactly 512 bytes as it should be (and as we were previously
-just assuming it was).
+are available in the Git repository at:
 
-This was detected by the clang-7 asan:
-==15607==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55a796f51d20 at pc 0x55a796b89c2f bp 0x7ffc58e89160 sp 0x7ffc58e88908
-READ of size 512 at 0x55a796f51d20 thread T0
-    #0 0x55a796b89c2e in fwrite (/home/petmay01/linaro/qemu-from-laptop/qemu/build/sanitizers/tests/migration-test+0xb0c2e)
-    #1 0x55a796c46492 in init_bootfile /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:99:5
-    #2 0x55a796c46492 in test_migrate_start /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:593
-    #3 0x55a796c44101 in test_baddest /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:854:9
-    #4 0x7f906ffd3cc9  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72cc9)
-    #5 0x7f906ffd3bfa  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72bfa)
-    #6 0x7f906ffd3bfa  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72bfa)
-    #7 0x7f906ffd3ea1 in g_test_run_suite (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72ea1)
-    #8 0x7f906ffd3ec0 in g_test_run (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72ec0)
-    #9 0x55a796c43707 in main /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration-test.c:1187:11
-    #10 0x7f906e9abb96 in __libc_start_main /build/glibc-OTsEL5/glibc-2.27/csu/../csu/libc-start.c:310
-    #11 0x55a796b6c2d9 in _start (/home/petmay01/linaro/qemu-from-laptop/qemu/build/sanitizers/tests/migration-test+0x932d9)
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-patchew's asan build doesn't spot this, so it's presumably
-using an older version of the sanitizers...
+for you to fetch changes up to 01154f792d254ae60a8a7ed6b363f1ed9a511204:
 
+  linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT to the good function (2019-07-02 16:56:46 +0200)
 
- tests/migration-test.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+----------------------------------------------------------------
+Add statx
+Fix netlink with IFLA_BR_MULTI_BOOLOPT
+Fix mips (EXCP_FPE, struct flock)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 0cd014dbe51..b6434628e1c 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -91,23 +91,13 @@ static const char *tmpfs;
-  */
- #include "tests/migration/i386/a-b-bootblock.h"
- #include "tests/migration/aarch64/a-b-kernel.h"
--
--static void init_bootfile(const char *bootpath, void *content)
--{
--    FILE *bootfile = fopen(bootpath, "wb");
--
--    g_assert_cmpint(fwrite(content, 512, 1, bootfile), ==, 1);
--    fclose(bootfile);
--}
--
- #include "tests/migration/s390x/a-b-bios.h"
- 
--static void init_bootfile_s390x(const char *bootpath)
-+static void init_bootfile(const char *bootpath, void *content, size_t len)
- {
-     FILE *bootfile = fopen(bootpath, "wb");
--    size_t len = sizeof(s390x_elf);
- 
--    g_assert_cmpint(fwrite(s390x_elf, len, 1, bootfile), ==, 1);
-+    g_assert_cmpint(fwrite(content, len, 1, bootfile), ==, 1);
-     fclose(bootfile);
- }
- 
-@@ -537,7 +527,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     got_stop = false;
-     bootpath = g_strdup_printf("%s/bootsect", tmpfs);
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
--        init_bootfile(bootpath, x86_bootsect);
-+        /* the assembled x86 boot sector should be exactly one sector large */
-+        assert(sizeof(x86_bootsect) == 512);
-+        init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
-         extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
-         cmd_src = g_strdup_printf("-machine accel=%s -m 150M"
-                                   " -name source,debug-threads=on"
-@@ -555,7 +547,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-         start_address = X86_TEST_MEM_START;
-         end_address = X86_TEST_MEM_END;
-     } else if (g_str_equal(arch, "s390x")) {
--        init_bootfile_s390x(bootpath);
-+        init_bootfile(bootpath, s390x_elf, sizeof(s390x_elf));
-         extra_opts = use_shmem ? get_shmem_opts("128M", shmem_path) : NULL;
-         cmd_src = g_strdup_printf("-machine accel=%s -m 128M"
-                                   " -name source,debug-threads=on"
-@@ -590,7 +582,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-         start_address = PPC_TEST_MEM_START;
-         end_address = PPC_TEST_MEM_END;
-     } else if (strcmp(arch, "aarch64") == 0) {
--        init_bootfile(bootpath, aarch64_kernel);
-+        init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
-         extra_opts = use_shmem ? get_shmem_opts("150M", shmem_path) : NULL;
-         cmd_src = g_strdup_printf("-machine virt,accel=%s,gic-version=max "
-                                   "-name vmsource,debug-threads=on -cpu max "
+----------------------------------------------------------------
+
+Aleksandar Markovic (3):
+  linux-user: Fix target_flock structure for MIPS O64 ABI
+  linux-user: Introduce TARGET_HAVE_ARCH_STRUCT_FLOCK
+  linux-user: Handle EXCP_FPE properly for MIPS
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for translation of statx() syscall
+
+Jim Wilson (1):
+  linux-user: Add support for strace for statx() syscall
+
+Laurent Vivier (1):
+  linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT to the good function
+
+ linux-user/fd-trans.c          |  12 ++--
+ linux-user/generic/fcntl.h     |   8 ++-
+ linux-user/mips/cpu_loop.c     |  17 +++++
+ linux-user/mips/target_fcntl.h |  17 ++++-
+ linux-user/strace.c            |  86 ++++++++++++++++++++++++
+ linux-user/strace.list         |   3 +
+ linux-user/syscall.c           | 115 ++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h      |  37 +++++++++++
+ 8 files changed, 283 insertions(+), 12 deletions(-)
+
 -- 
-2.20.1
+2.21.0
 
 
