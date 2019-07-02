@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831365D6FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 21:37:06 +0200 (CEST)
-Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F6A5D790
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 22:36:01 +0200 (CEST)
+Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiOaP-00029F-Mn
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 15:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54491)
+	id 1hiPVQ-0003VP-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 16:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55677)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiOJq-0008Eh-PE
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:20:00 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiOL9-0000wP-7e
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:21:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiOJo-0005F3-FU
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:19:57 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44891)
+ (envelope-from <peter.maydell@linaro.org>) id 1hiOL7-0006vr-VA
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:21:19 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35681)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiOJo-00050w-6O
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:19:56 -0400
-Received: by mail-oi1-x244.google.com with SMTP id e189so13996649oib.11
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 12:19:42 -0700 (PDT)
+ id 1hiOL7-0006tL-MS
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 15:21:17 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a127so14043106oii.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 12:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4TNElfhzeICSO8M8DhomXXEqirMo3CY4yJhxUTN0qV4=;
- b=Akd1uakagSbKtHTyT4zbYY5vrjFN3fZ0yeqY3LxRD1yqOqHWyaZ+xVBZvTssPpiHfF
- UNS0ojpta2E4KSUV5yF47rgCTPRXM91MsJtOcf784uUgtV0McfYMxxlBLC9Z26Y+M2Xt
- fK80++e++GEm3zm6tfigjgX20KMMfVHxRgVcqOsWes3gQxpRzatsjGxEIDqBmB3GVLst
- 1yb66/uvfLL+fMtUodBv/hbEixQdJ1oIw/v879cIu3UXf1YxVXNkrfUnqS8SgDveKGRA
- PETlaVVMU91agoHDiQDaQg9AZuDcUE3w4gWQbCwM+m/HEMYigAXuTDuN8c+bJWXmk8FY
- wPww==
+ :cc; bh=wX1sjLxhvdDqt5XThtF7o9QBIvPcKLmH+8Oc2Q+7xf8=;
+ b=wi1+8jl4sODEkP4hw6QlvLDb11ayO+oyShrExVZaAOaATkN6PiCCciA3bMGvxDkV4z
+ m5ApgK44mEW77PcBC4CWCbBPvnaC+R8ueA6t3ClkUv6BnNO60sWFzFAjHBGGOtCf65wS
+ nVwSixRr9N3DDbmU//seicEcUjwNFtTIAvEu5tuzdSpDoRJKzfcoy/wLsf/5mQesWicb
+ TvFpOu198fd21iyRafffeQaWSpfQV+8jpGmPyDlDUGqokF99JMa11lYsPEOFq9jjuTWi
+ 13ySLsk5k8AraZvTOr683/9/1TgBbpv6icNwe/qATPsQChRg+gPxulNXL4bQ5RryaODf
+ LxBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4TNElfhzeICSO8M8DhomXXEqirMo3CY4yJhxUTN0qV4=;
- b=md6INpSSaVpgh3jt8DiEC2XOVQoe7mkQ3TVqhHMx+XFFrY5Sd2+xhdOxcV6FkaecUk
- fHvji3osCR10eW8Lm2Yw9LvNuA3pysYVP9Q+bf5I/zNVVQdJu1pl+oVbu2RquokcSzYL
- XJClkWor65Lrle1uS2d4UCKkS4FiLEQSL3kP2CpdwIXEimw9LZVOqncYYqBOfow8ek85
- ZF3Be/I4lOUq6W6/4v1+ToGfvBfqvZpw9Z1dbUqkOsPv2K5VLakcAYk8Z2BzU+CpByFe
- OOxSjI4C4AvMi1GpyrQqCxxpdSi30+S1M0H6O24l71h1lp5XgedbBfIQMyNfg7/xywLB
- qLQw==
-X-Gm-Message-State: APjAAAWMOdDHihTIpSFThbCAhD7umxyVBVDPRhLT/iE94wMR1q8NJR0D
- c0YpLhNInoSo/4xFBPHLpIdsy1DAcDl+R2WrhL02/g==
-X-Google-Smtp-Source: APXvYqwKAzLfTjEA/vcNNC57QwGNqalNsX5J+F9E1lhwSw0frHgFKRTy9+qefM+lf/DD7a1JHWAwtlzX/bxCTAk9TFI=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr4245883oic.170.1562095181872; 
- Tue, 02 Jul 2019 12:19:41 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=wX1sjLxhvdDqt5XThtF7o9QBIvPcKLmH+8Oc2Q+7xf8=;
+ b=EW542M9A0wJzttlNtemBMQa7J9LErH1ZP39E9u60kHIYeNnpJAlXjXkKMlv8CYYiu6
+ o6TDf+sX+Ha/krfDA26iOu162QbaaXco/U/QDlSRap36tRO/fhxgWRbY6dKJnNWTg3ps
+ DzFZmFaYb+DXCeWgy8QSSUK/F93TQBIMpTAAUogylCsTx8CdIk2APJ4piYYzu3GZGZYD
+ pZrK0chbpvRWGg6K88diVCYI3M7n1x6j64klDaufM1vMGJKhzNGTkz3e8rtuk0xk4Owz
+ wsa8Tm3KlQGU7jEysf66DdhS1s7ZCfbZksdqCm4TtIgLq15jJUDX4vY3f/arAX4v+Ij9
+ JcqQ==
+X-Gm-Message-State: APjAAAWyJ//7NW+4LQ0FPZKYqemRhlBdXNqJj8fbN/i5fC2go1OnvSuQ
+ 5rzdJIr3RtxQizRaHwFs1zMi89/B8+rBZwzdCg1HkQ==
+X-Google-Smtp-Source: APXvYqzWnxI/T/CCYfM/mdXnueI8V/U7vX5wQRsMyFrgOPP7s6ehiroLAM+/UZ5YqVmL71CQxpCJFPIXDl/AKuoEB2M=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr4296622oib.163.1562095276639; 
+ Tue, 02 Jul 2019 12:21:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190618165311.27066-1-clg@kaod.org>
- <20190618165311.27066-4-clg@kaod.org>
-In-Reply-To: <20190618165311.27066-4-clg@kaod.org>
+References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 20:19:31 +0100
-Message-ID: <CAFEAcA_wCFE0BL_LjF+04MBPa2XnVgCKk4SP4nPrBjrcjmNVVQ@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Tue, 2 Jul 2019 20:21:05 +0100
+Message-ID: <CAFEAcA-xpDCVHapUGHBKu9Ppza0ShsQFPD07Ee2=EGgGXd2aFg@mail.gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v2 03/21] hw: timer: Add ASPEED RTC device
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PULL 00/49] ppc-for-4.1 queue 20190702
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,57 +71,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 at 17:53, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Tue, 2 Jul 2019 at 07:09, David Gibson <david@gibson.dropbear.id.au> wrote:
 >
-> From: Joel Stanley <joel@jms.id.au>
+> The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
 >
-> The RTC is modeled to provide time and date functionality. It is
-> initialised at zero to match the hardware.
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
 >
-> There is no modelling of the alarm functionality, which includes the IRQ
-> line. As there is no guest code to exercise this function that is
-> acceptable for now.
+> are available in the Git repository at:
 >
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>   git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190702
+>
+> for you to fetch changes up to 1c3d4a8f4b4f24baa9dae31db0599925abc7d2a2:
+>
+>   spapr/xive: Add proper rollback to kvmppc_xive_connect() (2019-07-02 10:11:44 +1000)
+>
+> ----------------------------------------------------------------
+> ppc patch queue 2019-07-2
+>
+> Here's my next pull request for qemu-4.1.  I'm not sure if this will
+> squeak in just before the soft freeze, or just after.  I don't think
+> it really matters - most of this is bugfixes anyway.  There's some
+> cleanups which aren't stictly bugfixes, but which I think are safe
+> enough improvements to go in the soft freeze.  There's no true feature
+> work.
+>
+> Unfortunately, I wasn't able to complete a few of my standard battery
+> of pre-pull tests, due to some failures that appear to also be in
+> master.  I'm hoping that hasn't missed anything important in here.
+>
+> Highlights are:
+>   * A number of fixe and cleanups for the XIVE implementation
+>   * Cleanups to the XICS interrupt controller to fit better with the new
+>     XIVE code
+>   * Numerous fixes and improvements to TCG handling of ppc vector
+>     instructions
+>   * Remove a number of unnnecessary #ifdef CONFIG_KVM guards
+>   * Fix some errors in the PCI hotplug paths
+>   * Assorted other fixes
+>
 
-Hi; Coverity complains about this function (CID 1402782):
 
-> +static void aspeed_rtc_calc_offset(AspeedRtcState *rtc)
-> +{
-> +    struct tm tm;
-> +    uint32_t year, cent;
-> +    uint32_t reg1 =3D rtc->reg[COUNTER1];
-> +    uint32_t reg2 =3D rtc->reg[COUNTER2];
-> +
-> +    tm.tm_mday =3D (reg1 >> 24) & 0x1f;
-> +    tm.tm_hour =3D (reg1 >> 16) & 0x1f;
-> +    tm.tm_min =3D (reg1 >> 8) & 0x3f;
-> +    tm.tm_sec =3D (reg1 >> 0) & 0x3f;
-> +
-> +    cent =3D (reg2 >> 16) & 0x1f;
-> +    year =3D (reg2 >> 8) & 0x7f;
-> +    tm.tm_mon =3D ((reg2 >>  0) & 0x0f) - 1;
-> +    tm.tm_year =3D year + (cent * 100) - 1900;
-> +
-> +    rtc->offset =3D qemu_timedate_diff(&tm);
-> +}
+Applied, thanks.
 
-because the tm_wday field of 'struct tm tm' is not initialized
-before we call qemu_timedate_diff(). This is a false
-positive because the "read" of this field is just the place
-in qemu_timedate_diff() that does "struct tm tmp =3D *tm;"
-before calling mktime(), and mktime() ignores tm_wday.
-We could make Coverity happy by using a struct initializer
-on 'tm' here; on the other hand we don't do that anywhere else
-which calls qemu_timedate_diff(), so maybe I should just mark
-this a false positive?
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-thanks
 -- PMM
 
