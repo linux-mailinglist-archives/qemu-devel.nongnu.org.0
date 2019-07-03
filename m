@@ -2,45 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8465E834
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:53:48 +0200 (CEST)
-Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32BE5E87C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:13:44 +0200 (CEST)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hihZj-00027R-H8
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52313)
+	id 1hiht9-0006dR-BO
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53069)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <julio.montes@intel.com>) id 1hihWH-0000R4-Gc
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:50:06 -0400
+ (envelope-from <stephen.checkoway@oberlin.edu>) id 1hihYp-0002cB-4n
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:52:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <julio.montes@intel.com>) id 1hihWG-00054W-Eb
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:50:05 -0400
-Received: from mga01.intel.com ([192.55.52.88]:58204)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <julio.montes@intel.com>)
- id 1hihWG-00051k-6c
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:50:04 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2019 08:49:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,446,1557212400"; d="scan'208";a="184790038"
-Received: from juliomon-mobl1.zpn.intel.com (HELO fedora.zpn.intel.com.)
- ([10.219.4.39])
- by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2019 08:49:59 -0700
-From: Julio Montes <julio.montes@intel.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 15:49:58 +0000
-Message-Id: <20190703154958.29004-1-julio.montes@intel.com>
-X-Mailer: git-send-email 2.17.2
+ (envelope-from <stephen.checkoway@oberlin.edu>) id 1hihYn-0006sF-HB
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:52:42 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:38808)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stephen.checkoway@oberlin.edu>)
+ id 1hihYn-0006qY-8Q
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:52:41 -0400
+Received: by mail-io1-xd42.google.com with SMTP id j6so5959398ioa.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 08:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oberlin.edu; s=google;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=sO8/zkKNwfmng06ZEZ7X1UQUcxyUIfSjfrUq6kskr6g=;
+ b=imG8b2JF/yVG0t5CQ70spcMja34KKCRz+ssHk3ynI0uKuKr0zM2C7YmSI9IggNNDe6
+ lRSQY9Oy+1PSS5SQkhDbOOKgLIAqUi3DjkfDSeM74/gNpS6aZwbXLJmccvSmAVPexk+s
+ CcPFEdmysEGyeXMpJ3oZVY3keYb7vfXoIHoBSpJdHWnR0djDmAVR6DLlZO3DpEcYdfq6
+ mcSPe2shPHvVIJIH6zjLx7NKu6uOyMsuMS9Ye+RKTeCHggj8GvcNaUH26k33wxLi/UL/
+ va6g3Pi/vJBDVE38RSK8hTb/RPx1YaTiA5bCt+wRSs4prFKHnYI4vxbpuwaxW9I86C/y
+ BYCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=sO8/zkKNwfmng06ZEZ7X1UQUcxyUIfSjfrUq6kskr6g=;
+ b=GMhgRxIRd9v5iazzWWCiOOC9eeYF2nkdzi7ncXxeLc0weSR40aiznlBzck7FC2eFKU
+ H+7RqQubEO4g1zpZLI7wV6s3ClXKEMU9D64U9bo5lfI9jbBlEueQ5ke7VYIZ4Xqb2w2H
+ GSrlsR+cVYxEgHHDeKUvdirrb9wXf1ZabX12HQ2W1z8KuCnrNRqOq2LRU7jcyxd4X723
+ isK0ZUH9Y1WXa2z38Sjsgent6XABfRcZ2RQgitZkdkg0kJO9o4OnYq3KKFj3TAlJJVyW
+ 1aaVyRK7DmF1afNxrVlgkkApjCMhj+E7NTtULpPc6UWFlv8AVoXehNq06zqRCqjWLCEA
+ rOXQ==
+X-Gm-Message-State: APjAAAWwl4vZmNYjkaaMncs3VkmUf8OxU9tJi1CgIoviGC+hvQTT3nFT
+ xp56w9fKzDlXBMywcNhV08xmug==
+X-Google-Smtp-Source: APXvYqyua8UFc8KbGcMcc8LK40QuOAI1kVVtmuE9qEcZjtTgkYcYiUxJixjdgMvq9fx1dqVFFHmIMQ==
+X-Received: by 2002:a02:c6b8:: with SMTP id o24mr44743671jan.80.1562169159273; 
+ Wed, 03 Jul 2019 08:52:39 -0700 (PDT)
+Received: from [192.168.1.7] (ip-210-181.oberlin.net. [208.66.210.181])
+ by smtp.gmail.com with ESMTPSA id b8sm1984354ioj.16.2019.07.03.08.52.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 03 Jul 2019 08:52:38 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+From: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+In-Reply-To: <20190702005912.15905-28-philmd@redhat.com>
+Date: Wed, 3 Jul 2019 11:52:36 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C6F80CB3-2D5D-4EE0-A085-DDA8AA334279@oberlin.edu>
+References: <20190702005912.15905-1-philmd@redhat.com>
+ <20190702005912.15905-28-philmd@redhat.com>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+X-Mailer: Apple Mail (2.3445.9.1)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
-Subject: [Qemu-devel] [PATCH] hw/i386: Fix linker error when ISAPC is
- disabled
+X-Received-From: 2607:f8b0:4864:20::d42
+Subject: Re: [Qemu-devel] [PULL 27/27] hw/block/pflash_cfi02: Reduce I/O
+ accesses to 16-bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,67 +81,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julio Montes <julio.montes@intel.com>, pbonzini@redhat.com,
- sgarzare@redhat.com, mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In pc_init1(), ISA IDE is initialized without checking if ISAPC or IDE_ISA
-configs are enabled. This results in a link error when
-CONFIG_ISAPC is set to 'n' in the file default-configs/i386-softmmu.mak:
 
-hw/i386/pc_piix.o: In function `pc_init1':
-hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
-hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
 
-Place ide_isa code under #ifdef CONFIG_IDE_ISA to fix linker errors
+> On Jul 1, 2019, at 20:59, Philippe Mathieu-Daud=C3=A9 =
+<philmd@redhat.com> wrote:
+>=20
+> Parallel NOR flashes are limited to 16-bit bus accesses.
 
-Signed-off-by: Julio Montes <julio.montes@intel.com>
----
- hw/i386/pc_piix.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+I don't think this is correct. The CFI spec defines an x32 interface for =
+parallel NOR. CFI addresses 0x28 and 0x29 specify the interface and =
+value 3 is x32 and value 5 is x16/x32.
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c07c4a5b38..b93f9327be 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -61,9 +61,11 @@
- 
- #define MAX_IDE_BUS 2
- 
-+#ifdef CONFIG_IDE_ISA
- static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
- static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
- static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
-+#endif
- 
- /* PC hardware initialisation */
- static void pc_init1(MachineState *machine,
-@@ -254,7 +256,10 @@ static void pc_init1(MachineState *machine,
-         }
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
--    } else {
-+        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-+    }
-+#ifdef CONFIG_IDE_ISA
-+else {
-         for(i = 0; i < MAX_IDE_BUS; i++) {
-             ISADevice *dev;
-             char busname[] = "ide.0";
-@@ -268,9 +273,9 @@ static void pc_init1(MachineState *machine,
-             busname[4] = '0' + i;
-             idebus[i] = qdev_get_child_bus(DEVICE(dev), busname);
-         }
-+        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-     }
--
--    pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-+#endif
- 
-     if (pcmc->pci_enabled && machine_usb(machine)) {
-         pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
--- 
-2.17.2
+Here's an example of an x32 device =
+<https://www.mouser.com/datasheet/2/100/002-00948_29CD032J_S29CD016J_S29CL=
+032J_S29CL016J_3-1316792.pdf>.
+
+Cheers,
+
+Steve
+
+> Remove the 32-bit dead code.
+>=20
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-Id: <20190627202719.17739-29-philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> hw/block/pflash_cfi02.c | 5 +----
+> 1 file changed, 1 insertion(+), 4 deletions(-)
+>=20
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 83084b9d72..5392290c72 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -317,8 +317,6 @@ static uint64_t pflash_read(void *opaque, hwaddr =
+offset, unsigned int width)
+>     boff =3D offset & 0xFF;
+>     if (pfl->width =3D=3D 2) {
+>         boff =3D boff >> 1;
+> -    } else if (pfl->width =3D=3D 4) {
+> -        boff =3D boff >> 2;
+>     }
+>     switch (pfl->cmd) {
+>     default:
+> @@ -449,8 +447,6 @@ static void pflash_write(void *opaque, hwaddr =
+offset, uint64_t value,
+>     boff =3D offset;
+>     if (pfl->width =3D=3D 2) {
+>         boff =3D boff >> 1;
+> -    } else if (pfl->width =3D=3D 4) {
+> -        boff =3D boff >> 2;
+>     }
+>     /* Only the least-significant 11 bits are used in most cases. */
+>     boff &=3D 0x7FF;
+> @@ -710,6 +706,7 @@ static void pflash_write(void *opaque, hwaddr =
+offset, uint64_t value,
+> static const MemoryRegionOps pflash_cfi02_ops =3D {
+>     .read =3D pflash_read,
+>     .write =3D pflash_write,
+> +    .impl.max_access_size =3D 2,
+>     .valid.min_access_size =3D 1,
+>     .valid.max_access_size =3D 4,
+>     .endianness =3D DEVICE_NATIVE_ENDIAN,
+> --=20
+> 2.20.1
+>=20
+
+--=20
+Stephen Checkoway
+
+
+
+
 
 
