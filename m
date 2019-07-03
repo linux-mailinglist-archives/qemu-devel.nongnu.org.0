@@ -2,51 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4AF5EA71
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:28:50 +0200 (CEST)
-Received: from localhost ([::1]:37970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB125EA93
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:36:48 +0200 (CEST)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hij3n-00072Q-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47977)
+	id 1hijBY-0005xN-1w
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48987)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hij0T-0004si-G4
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:25:23 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hij3u-0007fd-6Z
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hij0P-0004zA-3H
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:25:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57668)
+ (envelope-from <mreitz@redhat.com>) id 1hij3s-0008RO-S3
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hij0O-0004xJ-RW
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:25:17 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hij3p-0007oe-UZ; Wed, 03 Jul 2019 13:28:50 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C3DAA882F5
- for <qemu-devel@nongnu.org>; Wed,  3 Jul 2019 17:25:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AA129CD9;
- Wed,  3 Jul 2019 17:25:03 +0000 (UTC)
-Date: Wed, 3 Jul 2019 18:25:01 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <20190703172501.GI23082@redhat.com>
-References: <20190703171005.26231-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 88DF437F43;
+ Wed,  3 Jul 2019 17:28:15 +0000 (UTC)
+Received: from localhost (ovpn-204-65.brq.redhat.com [10.40.204.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 202AE91537;
+ Wed,  3 Jul 2019 17:28:14 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed,  3 Jul 2019 19:28:01 +0200
+Message-Id: <20190703172813.6868-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190703171005.26231-1-philmd@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 03 Jul 2019 17:25:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Wed, 03 Jul 2019 17:28:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH-for-4.2] tracing: Allow to tune tracing
- options via the environment
+Subject: [Qemu-devel] [PATCH v2 00/12] block: Fixes for concurrent block jobs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,90 +53,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 03, 2019 at 07:10:05PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> We can pass trace trace options with the -trace command line
-> argument.
->=20
-> Tracing might be useful when running qtests. To avoid to have
-> to modify the tests and recompile, add the possibility to pass
-> trace options via the shell environment.
->=20
-> We add:
-> - QEMU_TRACE_EVENTS:    List of events to enable (coma separated)
-> - QEMU_TRACE_EVENTFILE: File with list of events to enable
-> - QEMU_TRACE_LOGFILE:   File to log the trace events.
->=20
-> Example of use:
->=20
->   $ QEMU_TRACE_EVENTS=3Dpl011\* make check-qtest-arm
->     TEST    check-qtest-arm: tests/boot-serial-test
->   18650@1562168430.027490:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18650@1562168430.027535:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18650@1562168430.027544:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18650@1562168430.028037:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18650@1562168430.028049:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18650@1562168430.028057:pl011_can_receive LCR 0x00000000 read_count 0=
- returning 1
->   18653@1562168430.053250:pl011_write addr 0x00000000 value 0x00000054
->   18653@1562168430.053276:pl011_irq_state irq state 0
->   [...]
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> I'm not sure where to document that...
-> ---
->  trace/control.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/trace/control.c b/trace/control.c
-> index 43fb7868db..aea802623c 100644
-> --- a/trace/control.c
-> +++ b/trace/control.c
-> @@ -288,6 +288,8 @@ void trace_fini_vcpu(CPUState *vcpu)
-> =20
->  bool trace_init_backends(void)
->  {
-> +    char *trace_env;
-> +
->  #ifdef CONFIG_TRACE_SIMPLE
->      if (!st_init()) {
->          fprintf(stderr, "failed to initialize simple tracing backend.\=
-n");
-> @@ -306,6 +308,13 @@ bool trace_init_backends(void)
->      openlog(NULL, LOG_PID, LOG_DAEMON);
->  #endif
-> =20
-> +    trace_init_file(getenv("QEMU_TRACE_LOGFILE"));
-> +    trace_init_events(getenv("QEMU_TRACE_EVENTFILE"));
-> +    trace_env =3D getenv("QEMU_TRACE_EVENTS");
-> +    if (trace_env) {
-> +        trace_enable_events(trace_env);
-> +    }
-> +
+This is a v2 to =E2=80=9Cblock: Add BDS.never_freeze=E2=80=9D.
 
-I don't think it is a nice idea to add this via environment variables
-to QEMU itself. Why not modify libqtest qtest_init_without_qmp_handshake
-to read the env vars and then pass a suitable -trace arg when spawning
-QEMU ?
+It depends on my =E2=80=9Cblock: Delay poll when ending drained sections=E2=
+=80=9D
+series:
 
-Regards,
-Daniel
+Depends-on: <20190619152603.5937-1-mreitz@redhat.com>
+
+
+It turned out that if you run 030 (or just the new test_overlapping_5
+case) sufficiently often, it breaks; which is why I=E2=80=99m hesitant to=
+ just
+merge the =E2=80=9Cadd never_freeze=E2=80=9D series as it is.
+
+There are several reasons for why this test case breaks, I hope patches
+3 to 6 fix them.  Patch 12 adds a test that is much more reliable than
+test_overlapping_5 at detecting the problems fixed by at least patches 4
+to 6.  (I think that 3 doesn=E2=80=99t really need a test.)
+
+I=E2=80=99m sure there are other ways to see these problems, but well, co=
+ming
+from 030, concurrent commit/stream jobs are how I reproduced them.
+Hence the same of this series.
+
+Patch 2 is for something I encountered on the way.  Patch 11 tests it.
+
+
+v2:
+- Added a bunch of more patches.
+
+
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/12:[----] [--] 'block: Add BDS.never_freeze'
+002/12:[down] 'block/stream: Fix error path'
+003/12:[down] 'block/stream: Swap backing file change order'
+004/12:[down] 'block: Keep subtree drained in drop_intermediate'
+005/12:[down] 'block: Reduce (un)drains when replacing a child'
+006/12:[down] 'block: Deep-clear inherits_from'
+007/12:[----] [--] 'iotests: Fix throttling in 030'
+008/12:[----] [--] 'iotests: Compare error messages in 030'
+009/12:[----] [--] 'iotests: Add @use_log to VM.run_job()'
+010/12:[----] [--] 'iotests: Add new case to 030'
+011/12:[down] 'iotests: Add read-only test case to 030'
+012/12:[down] 'iotests: Add test for concurrent stream/commit'
+
+
+
+Max Reitz (12):
+  block: Add BDS.never_freeze
+  block/stream: Fix error path
+  block/stream: Swap backing file change order
+  block: Keep subtree drained in drop_intermediate
+  block: Reduce (un)drains when replacing a child
+  block: Deep-clear inherits_from
+  iotests: Fix throttling in 030
+  iotests: Compare error messages in 030
+  iotests: Add @use_log to VM.run_job()
+  iotests: Add new case to 030
+  iotests: Add read-only test case to 030
+  iotests: Add test for concurrent stream/commit
+
+ include/block/block_int.h     |   3 +
+ block.c                       |  93 +++++++++++++------
+ block/commit.c                |   4 +
+ block/mirror.c                |   4 +
+ block/stream.c                |   4 +-
+ tests/qemu-iotests/030        | 150 +++++++++++++++++++++++++------
+ tests/qemu-iotests/030.out    |   4 +-
+ tests/qemu-iotests/258        | 163 ++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/258.out    |  33 +++++++
+ tests/qemu-iotests/group      |   1 +
+ tests/qemu-iotests/iotests.py |  18 ++--
+ 11 files changed, 413 insertions(+), 64 deletions(-)
+ create mode 100755 tests/qemu-iotests/258
+ create mode 100644 tests/qemu-iotests/258.out
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+2.21.0
+
 
