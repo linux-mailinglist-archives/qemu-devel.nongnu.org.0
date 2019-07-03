@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02905E322
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 13:50:13 +0200 (CEST)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7E45E335
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 13:52:21 +0200 (CEST)
+Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hidm7-0006r1-DD
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 07:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43355)
+	id 1hidoC-0000ka-DR
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 07:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44092)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hidjs-0005AN-LV
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:47:54 -0400
+ (envelope-from <philmd@redhat.com>) id 1hidlG-0006n4-6f
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:49:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hidjn-0007Xo-IQ
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:47:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54941)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hidjh-0007Aq-FC
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:47:45 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 87B0B88307;
- Wed,  3 Jul 2019 11:47:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
- [10.36.116.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C237D891D6;
- Wed,  3 Jul 2019 11:47:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 50CF911329C7; Wed,  3 Jul 2019 13:47:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 13:47:14 +0200
-Message-Id: <20190703114714.4234-5-armbru@redhat.com>
-In-Reply-To: <20190703114714.4234-1-armbru@redhat.com>
-References: <20190703114714.4234-1-armbru@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hidlF-0000sf-04
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:49:18 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46066)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hidlC-0000hj-Lw
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:49:16 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f9so2420835wre.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 04:49:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wS73TaJtl0+rzEbhXLWXW/ez1DXckwVei2RBCU9vSS8=;
+ b=ECoGUOndRV/Zlk2lUjHWPO/sqFAkRBrzDc2TDcr7uBPZ8ChAZamKJGxjUG/vuXRj3j
+ 8DTl8YiOvlaI6oC4SLHEA8TdrRISSxwYS8yNkcMA/k0g5I7AVIX4e1jUsULZpVZFA9hh
+ 7YC0jkfb51yQ0INEMUhP1RIyoiiZGOen15NVeAnxHB4gdkC3natIZ8VVqwMnvif+n9+6
+ /5z6xZAEjpZl4LQc0Y8Z6cDVlu7IDVxY4q457dHZxsQoDD5CUyIDCxHMh/rSMTfEW8SB
+ Fj78KH+Aarpg4fCbD72wKduecBNFOEzM9vXahVcH1K4jmIC7eUVnX4k3L9AuV2LEcj4C
+ adsw==
+X-Gm-Message-State: APjAAAVi7nC9Ae3krLPI2aXxw0AeL3L1/ZC6nrVhyxdp798eANK+aRkN
+ JEfoV6s6gsi8ooynMJkB3oNyGw==
+X-Google-Smtp-Source: APXvYqyPvyYkaU4QwxSrC/8MiSGS/N+IoU54l3qyx55P/mmfL4Qz2m1R8obt7CvGEwG/AVAI8ek4/w==
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr30923658wrw.26.1562154545436; 
+ Wed, 03 Jul 2019 04:49:05 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id 60sm4088176wrc.68.2019.07.03.04.49.04
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 03 Jul 2019 04:49:04 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190528082308.22032-1-armbru@redhat.com>
+ <20190528082308.22032-4-armbru@redhat.com>
+ <87muhvwecf.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <8b47584b-734e-3423-521d-0ffe3ab501b8@redhat.com>
+Date: Wed, 3 Jul 2019 13:49:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 03 Jul 2019 11:47:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87muhvwecf.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 4/4] Makefile: Reuse all's recursion
- machinery for clean and install
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH 3/4] Makefile: Rename targets for make
+ recursion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,148 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Targets "clean" and "install" run make recursively in a for loop.
-This ignores -j and -k.  Target "all" depends on SUBDIR/all to recurse
-into each SUBDIR.  Behaves nicely with -j and -k.  Put that to use for
-"clean" and "install": depend on SUBDIR/clean or SUBDIR/install,
-respectively, and delete the loop.
+On 7/3/19 1:24 PM, Markus Armbruster wrote:
+> Peter pointed out that this makes an incremental build without -k fail
+> once.  By "once", I mean it works fine when you retry.  Squashing in the
+> appended patch to avoid this inconvenience.
+> 
+> 
+> diff --git a/Makefile b/Makefile
+> index e68982bd99..34bbcfc590 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -500,6 +500,12 @@ capstone/all: .git-submodule-status
+>  slirp/all: .git-submodule-status
+>  	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR="$(BUILD_DIR)/slirp" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
+>  
+> +# Compatibility gunk to keep make working across the rename of targets
+> +# for recursion, to be removed some time after 4.1.
+> +subdir-dtc: dtc/all
+> +subdir-capstone: capstone/all
+> +subdir-slirp: slirp/all
+> +
+>  $(SUBDIR_RULES): libqemuutil.a $(common-obj-y) \
+>  	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
+>  
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190528082308.22032-5-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- Makefile | 53 +++++++++++++++++++++++++----------------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 34bbcfc590..3e5bfb5da1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -454,20 +454,22 @@ config-host.h-timestamp: config-host.mak
- qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","=
-$@")
-=20
--SUBDIR_RULES=3D$(addsuffix /all, $(TARGET_DIRS))
--SOFTMMU_SUBDIR_RULES=3D$(filter %-softmmu/all,$(SUBDIR_RULES))
-+TARGET_DIRS_RULES :=3D $(foreach t, all clean install, $(addsuffix /$(t)=
-, $(TARGET_DIRS)))
-=20
--$(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(chardev-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(io-obj-y)
--$(SOFTMMU_SUBDIR_RULES): config-all-devices.mak
--$(SOFTMMU_SUBDIR_RULES): $(edk2-decompressed)
-+SOFTMMU_ALL_RULES=3D$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
-+$(SOFTMMU_ALL_RULES): $(authz-obj-y)
-+$(SOFTMMU_ALL_RULES): $(block-obj-y)
-+$(SOFTMMU_ALL_RULES): $(chardev-obj-y)
-+$(SOFTMMU_ALL_RULES): $(crypto-obj-y)
-+$(SOFTMMU_ALL_RULES): $(io-obj-y)
-+$(SOFTMMU_ALL_RULES): config-all-devices.mak
-+$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
-=20
--.PHONY: $(SUBDIR_RULES)
--$(SUBDIR_RULES):
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(V)=
-" TARGET_DIR=3D"$(dir $@)" all,)
-+.PHONY: $(TARGET_DIRS_RULES)
-+# The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
-+# $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-go=
-al
-+$(TARGET_DIRS_RULES):
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(V)=
-" TARGET_DIR=3D"$(dir $@)" $(notdir $@),)
-=20
- DTC_MAKE_ARGS=3D-I$(SRC_PATH)/dtc VPATH=3D$(SRC_PATH)/dtc -C dtc V=3D"$(=
-V)" LIBFDT_srcdir=3D$(SRC_PATH)/dtc/libfdt
- DTC_CFLAGS=3D$(CFLAGS) $(QEMU_CFLAGS)
-@@ -506,19 +508,19 @@ subdir-dtc: dtc/all
- subdir-capstone: capstone/all
- subdir-slirp: slirp/all
-=20
--$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) \
-+$(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
- 	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
-=20
- ROM_DIRS =3D $(addprefix pc-bios/, $(ROMS))
--ROMSUBDIR_RULES=3D$(addsuffix /all, $(ROM_DIRS))
-+ROM_DIRS_RULES=3D$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS))=
-)
- # Only keep -O and -g cflags
--.PHONY: $(ROMSUBDIR_RULES)
--$(ROMSUBDIR_RULES):
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(V)=
-" TARGET_DIR=3D"$(dir $@)" CFLAGS=3D"$(filter -O% -g%,$(CFLAGS))",)
-+.PHONY: $(ROM_DIRS_RULES)
-+$(ROM_DIRS_RULES):
-+	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(V)=
-" TARGET_DIR=3D"$(dir $@)" CFLAGS=3D"$(filter -O% -g%,$(CFLAGS))" $(notdi=
-r $@),)
-=20
--ALL_SUBDIRS=3D$(TARGET_DIRS) $(ROM_DIRS)
--
--recurse-all: $(SUBDIR_RULES) $(ROMSUBDIR_RULES)
-+recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
-+recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
-+recurse-install: $(addsuffix /install, $(TARGET_DIRS))
-=20
- $(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
- 	$(call quiet-command,$(WINDRES) -I$(BUILD_DIR) -o $@ $<,"RC","version.o=
-")
-@@ -667,7 +669,7 @@ clean-coverage:
- 		"CLEAN", "coverage files")
- endif
-=20
--clean:
-+clean: recurse-clean
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h =
-gen-op-arm.h
- 	rm -f qemu-options.def
-@@ -688,9 +690,6 @@ clean:
- 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- 	rm -f qapi-gen-timestamp
- 	rm -rf qga/qapi-generated
--	for d in $(ALL_SUBDIRS); do \
--	if test -d $$d; then $(MAKE) -C $$d $@ || exit 1; fi; \
--        done
- 	rm -f config-all-devices.mak
-=20
- VERSION ?=3D $(shell cat VERSION)
-@@ -838,7 +837,8 @@ endif
- ICON_SIZES=3D16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
-=20
- install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-loc=
-alstatedir \
--	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
-+	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
-+	recurse-install
- ifneq ($(TOOLS),)
- 	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DESTDI=
-R)$(bindir))
- endif
-@@ -904,9 +904,6 @@ endif
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_data=
-dir)/keymaps"; \
- 	done
- 	$(INSTALL_DATA) $(BUILD_DIR)/trace-events-all "$(DESTDIR)$(qemu_datadir=
-)/trace-events-all"
--	for d in $(TARGET_DIRS); do \
--	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=3D$$d/ -C $$d $@ || exit 1 ; \
--        done
-=20
- .PHONY: ctags
- ctags:
---=20
-2.21.0
-
+Both tags stand:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+(on top of previous patch)
 
