@@ -2,38 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090085E27F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 13:05:06 +0200 (CEST)
-Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E755E5C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 15:50:53 +0200 (CEST)
+Received: from localhost ([::1]:36186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hid4T-00048H-7u
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 07:05:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59767)
+	id 1hifeu-0004uY-Li
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 09:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44971)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hid0s-0000Vr-Co
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:01:29 -0400
+ (envelope-from <742b9d876d86fc263492885a7aacc1e1cda274e1@lizzy.crudebyte.com>)
+ id 1hifZh-0002Iw-V9
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:45:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hid0q-0004WT-KY
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:01:22 -0400
-Received: from relay.sw.ru ([185.231.240.75]:59418)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1hid0V-0003oq-5p; Wed, 03 Jul 2019 07:00:59 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1hid0P-0004EW-TI; Wed, 03 Jul 2019 14:00:54 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: kwolf@redhat.com, mreitz@redhat.com, eblake@redhat.com, armbru@redhat.com
-Date: Wed,  3 Jul 2019 14:00:44 +0300
-Message-Id: <20190703110044.25610-4-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20190703110044.25610-1-dplotnikov@virtuozzo.com>
-References: <20190703110044.25610-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v1 3/3] qcow2: add zstd cluster compression
+ (envelope-from <742b9d876d86fc263492885a7aacc1e1cda274e1@lizzy.crudebyte.com>)
+ id 1hifZe-00068Q-To
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:45:29 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53033)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <742b9d876d86fc263492885a7aacc1e1cda274e1@lizzy.crudebyte.com>)
+ id 1hifZa-0005Xh-RU
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:45:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
+ Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ATo9ZxD30LpwfiShVhASAlgxgIkm/nBKSWUfpzx5kYM=; b=fjYH8cx2HmLw2C6gI5pcWHJTS
+ gWJgBbvSq54+bg5VCRfHtClpJ310X0bs0/ncKXUFG1Kz9LopZccgYh8WVHtqvrjbhl2Pc/OjyJMEm
+ AIbGfdnNpgHneY7BUe61JmmOZAd+5ZN1rKw12r+DZXZ5MAmmKpu5aiMJ7RGeXhMJfPqADebnGA4Ld
+ snK+k99PUgOzcq61F8GtecEHEtfmHiBlJ98eqT+CK2H8Ot2BYQf6+4udgWhv+znqiCNtRyQdljTKn
+ 7WIRWArEKHbff+UJNBB7U5Tj1Rnq0Ad1AbfrZeFbNeysmESLUx8ErZJs+unRoarPewQR7fmnz+Nfh
+ moywuOLwg==;
+Message-Id: <742b9d876d86fc263492885a7aacc1e1cda274e1.1562154272.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1562154272.git.qemu_oss@crudebyte.com>
+References: <cover.1562154272.git.qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 3 Jul 2019 13:01:34 +0200
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.194.90.13
+Subject: [Qemu-devel] [PATCH v5 2/5] 9p: Treat multiple devices on one
+ export as an error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,275 +56,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, den@virtuozzo.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-zstd significantly reduces cluster compression time.
-It provides better compression performance maintaining
-the same level of compression ratio in comparison with
-zlib, which, by the moment, has been the only compression
-method available.
+The QID path should uniquely identify a file. However, the
+inode of a file is currently used as the QID path, which
+on its own only uniquely identifies files within a device.
+Here we track the device hosting the 9pfs share, in order
+to prevent security issues with QID path collisions from
+other devices.
 
-The performance test results:
-Test compresses and decompresses qemu qcow2 image with just
-installed rhel-7.6 guest.
-Image cluster size: 64K. Image on disk size: 2.2G
-
-The test was conducted with brd disk to reduce the influence
-of disk subsystem to the test results.
-The results is given in seconds.
-
-compress cmd:
-  time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
-                  src.img [zlib|zstd]_compressed.img
-decompress cmd
-  time ./qemu-img convert -O qcow2
-                  [zlib|zstd]_compressed.img uncompressed.img
-
-           compression               decompression
-         zlib       zstd           zlib         zstd
-------------------------------------------------------------
-real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
-user     65.0       15.8            5.3          2.5
-sys       3.3        0.2            2.0          2.0
-
-Both ZLIB and ZSTD gave the same compression ratio: 1.57
-compressed image size in both cases: 1.4G
-
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+[CS: - Assign dev_id to export root's device already in
+       v9fs_device_realize_common(), not postponed in
+       stat_to_qid().
+     - error_report_once() if more than one device was
+       shared by export.
+     - Return -ENODEV instead of -ENOSYS in stat_to_qid().
+     - Fixed typo in log comment. ]
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- block/qcow2.c        | 96 ++++++++++++++++++++++++++++++++++++++++++++
- configure            | 32 +++++++++++++++
- qapi/block-core.json |  3 +-
- 3 files changed, 130 insertions(+), 1 deletion(-)
+ hw/9pfs/9p.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++------------
+ hw/9pfs/9p.h |  1 +
+ 2 files changed, 56 insertions(+), 14 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 37a563a671..caa04b0beb 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -27,6 +27,11 @@
- #define ZLIB_CONST
- #include <zlib.h>
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 586a6dccba..8cc65c2c67 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -572,10 +572,18 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+                                 P9_STAT_MODE_SOCKET)
  
-+#ifdef CONFIG_ZSTD
-+#include <zstd.h>
-+#include <zstd_errors.h>
-+#endif
-+
- #include "block/block_int.h"
- #include "block/qdict.h"
- #include "sysemu/block-backend.h"
-@@ -1209,6 +1214,9 @@ static int check_compression_type(BDRVQcow2State *s, Error **errp)
+ /* This is the algorithm from ufs in spfs */
+-static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
++static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+ {
+     size_t size;
  
-     switch (s->compression_type) {
-     case QCOW2_COMPRESSION_TYPE_ZLIB:
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+#endif
-         break;
- 
-     default:
-@@ -4092,6 +4100,84 @@ static ssize_t qcow2_zlib_decompress(void *dest, size_t dest_size,
-     return ret;
- }
- 
-+#ifdef CONFIG_ZSTD
-+/*
-+ * qcow2_zstd_compress()
-+ *
-+ * Compress @src_size bytes of data using zstd compression method
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: compressed size on success
-+ *          a negative error code on fail
-+ */
-+
-+static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
-+                                   const void *src, size_t src_size)
-+{
-+    ssize_t ret;
-+    uint32_t *c_size = dest;
-+    /* steal some bytes to store compressed chunk size */
-+    char *d_buf = ((char *) dest) + sizeof(*c_size);
-+
-+    if (dest_size < sizeof(*c_size)) {
-+        return -ENOMEM;
++    if (pdu->s->dev_id != stbuf->st_dev) {
++        error_report_once(
++            "9p: Multiple devices detected in same VirtFS export. "
++            "You must use a separate export for each device."
++        );
++        return -ENODEV;
 +    }
 +
-+    dest_size -= sizeof(*c_size);
-+
-+    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
-+
-+    if (ZSTD_isError(ret)) {
-+        if (ret == ZSTD_error_dstSize_tooSmall) {
-+            return -ENOMEM;
-+        } else {
-+            return -EIO;
-+        }
-+    }
-+
-+    /* store the compressed chunk size in the very beginning of the buffer */
-+    *c_size = ret;
-+
-+    return ret + sizeof(ret);
-+}
-+
-+/*
-+ * qcow2_zstd_decompress()
-+ *
-+ * Decompress some data (not more than @src_size bytes) to produce exactly
-+ * @dest_size bytes using zstd compression method
-+ *
-+ * @dest - destination buffer, @dest_size bytes
-+ * @src - source buffer, @src_size bytes
-+ *
-+ * Returns: 0 on success
-+ *          -EIO on fail
-+ */
-+
-+static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
-+                                     const void *src, size_t src_size)
-+{
-+    ssize_t ret;
-+    /*
-+     * zstd decompress wants to know the exact lenght of the data
-+     * for that purpose, on the compression the length is stored in
-+     * the very beginning of the compressed buffer
-+     */
-+    const uint32_t *s_size = src;
-+    const char *s_buf = ((char *) src) + sizeof(*s_size);
-+
-+    ret = ZSTD_decompress(dest, dest_size, s_buf, *s_size);
-+
-+    if (ZSTD_isError(ret)) {
-+        return -EIO;
-+    }
+     memset(&qidp->path, 0, sizeof(qidp->path));
+     size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+     memcpy(&qidp->path, &stbuf->st_ino, size);
+@@ -587,6 +595,8 @@ static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+     if (S_ISLNK(stbuf->st_mode)) {
+         qidp->type |= P9_QID_TYPE_SYMLINK;
+     }
 +
 +    return 0;
-+}
-+#endif
-+
- #define MAX_COMPRESS_THREADS 4
+ }
  
- typedef ssize_t (*Qcow2CompressFunc)(void *dest, size_t dest_size,
-@@ -4180,6 +4266,11 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = qcow2_zlib_compress;
-         break;
- 
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = qcow2_zstd_compress;
-+        break;
-+#endif
-     default:
-         return -ENOTSUP;
+ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -599,7 +609,10 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (err < 0) {
+         return err;
      }
-@@ -4212,6 +4303,11 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-         fn = qcow2_zlib_decompress;
-         break;
+-    stat_to_qid(&stbuf, qidp);
++    err = stat_to_qid(pdu, &stbuf, qidp);
++    if (err < 0) {
++        return err;
++    }
+     return 0;
+ }
  
-+#ifdef CONFIG_ZSTD
-+    case QCOW2_COMPRESSION_TYPE_ZSTD:
-+        fn = qcow2_zstd_decompress;
-+        break;
-+#endif
-     default:
-         return -ENOTSUP;
+@@ -830,7 +843,10 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ 
+     memset(v9stat, 0, sizeof(*v9stat));
+ 
+-    stat_to_qid(stbuf, &v9stat->qid);
++    err = stat_to_qid(pdu, stbuf, &v9stat->qid);
++    if (err < 0) {
++        return err;
++    }
+     v9stat->mode = stat_to_v9mode(stbuf);
+     v9stat->atime = stbuf->st_atime;
+     v9stat->mtime = stbuf->st_mtime;
+@@ -891,7 +907,7 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
+ 
+ 
+-static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
++static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+                                 V9fsStatDotl *v9lstat)
+ {
+     memset(v9lstat, 0, sizeof(*v9lstat));
+@@ -913,7 +929,7 @@ static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
+     /* Currently we only support BASIC fields in stat */
+     v9lstat->st_result_mask = P9_STATS_BASIC;
+ 
+-    stat_to_qid(stbuf, &v9lstat->qid);
++    return stat_to_qid(pdu, stbuf, &v9lstat->qid);
+ }
+ 
+ static void print_sg(struct iovec *sg, int cnt)
+@@ -1115,7 +1131,6 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     uint64_t request_mask;
+     V9fsStatDotl v9stat_dotl;
+     V9fsPDU *pdu = opaque;
+-    V9fsState *s = pdu->s;
+ 
+     retval = pdu_unmarshal(pdu, offset, "dq", &fid, &request_mask);
+     if (retval < 0) {
+@@ -1136,7 +1151,10 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     if (retval < 0) {
+         goto out;
      }
-diff --git a/configure b/configure
-index 1c563a7027..57a80e38e7 100755
---- a/configure
-+++ b/configure
-@@ -433,6 +433,7 @@ opengl_dmabuf="no"
- cpuid_h="no"
- avx2_opt=""
- zlib="yes"
-+zstd=""
- capstone=""
- lzo=""
- snappy=""
-@@ -1333,6 +1334,10 @@ for opt do
-   ;;
-   --disable-lzfse) lzfse="no"
-   ;;
-+  --enable-zstd) zstd="yes"
-+  ;;
-+  --disable-zstd) zstd="no"
-+  ;;
-   --enable-guest-agent) guest_agent="yes"
-   ;;
-   --disable-guest-agent) guest_agent="no"
-@@ -1788,6 +1793,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-                   (for reading bzip2-compressed dmg images)
-   lzfse           support of lzfse compression library
-                   (for reading lzfse-compressed dmg images)
-+  zstd            support of zstd compression library
-   seccomp         seccomp support
-   coroutine-pool  coroutine freelist (better performance)
-   glusterfs       GlusterFS backend
-@@ -2374,6 +2380,29 @@ EOF
-     fi
- fi
+-    stat_to_v9stat_dotl(s, &stbuf, &v9stat_dotl);
++    retval = stat_to_v9stat_dotl(pdu, &stbuf, &v9stat_dotl);
++    if (retval < 0) {
++        goto out;
++    }
  
-+#########################################
-+# zstd check
+     /*  fill st_gen if requested and supported by underlying fs */
+     if (request_mask & P9_STATS_GEN) {
+@@ -1381,7 +1399,10 @@ static void coroutine_fn v9fs_walk(void *opaque)
+             if (err < 0) {
+                 goto out;
+             }
+-            stat_to_qid(&stbuf, &qid);
++            err = stat_to_qid(pdu, &stbuf, &qid);
++            if (err < 0) {
++                goto out;
++            }
+             v9fs_path_copy(&dpath, &path);
+         }
+         memcpy(&qids[name_idx], &qid, sizeof(qid));
+@@ -1483,7 +1504,10 @@ static void coroutine_fn v9fs_open(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     if (S_ISDIR(stbuf.st_mode)) {
+         err = v9fs_co_opendir(pdu, fidp);
+         if (err < 0) {
+@@ -1593,7 +1617,10 @@ static void coroutine_fn v9fs_lcreate(void *opaque)
+         fidp->flags |= FID_NON_RECLAIMABLE;
+     }
+     iounit =  get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2327,7 +2354,10 @@ static void coroutine_fn v9fs_create(void *opaque)
+         }
+     }
+     iounit = get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2384,7 +2414,10 @@ static void coroutine_fn v9fs_symlink(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err =  pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3064,7 +3097,10 @@ static void coroutine_fn v9fs_mknod(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3222,7 +3258,10 @@ static void coroutine_fn v9fs_mkdir(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3633,6 +3672,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+         goto out;
+     }
+ 
++    s->dev_id = stat.st_dev;
 +
-+if test "$zstd" != "no" ; then
-+    if $pkg_config --exists libzstd; then
-+        zstd_cflags=$($pkg_config --cflags libzstd)
-+        zstd_libs=$($pkg_config --libs libzstd)
-+        QEMU_CFLAGS="$zstd_cflags $QEMU_CFLAGS"
-+        LIBS="$zstd_libs $LIBS"
-+    else
-+        cat > $TMPC << EOF
-+#include <zstd.h>
-+int main(void) { ZSTD_versionNumber(); return 0; }
-+EOF
-+        if compile_prog "" "-lzstd" ; then
-+            LIBS="$LIBS -lzstd"
-+        else
-+            error_exit "zstd check failed" \
-+                "Make sure to have the zstd libs and headers installed."
-+        fi
-+    fi
-+fi
-+
- ##########################################
- # libseccomp check
+     s->ctx.fst = &fse->fst;
+     fsdev_throttle_init(s->ctx.fst);
  
-@@ -7253,6 +7282,9 @@ fi
- if test "$sheepdog" = "yes" ; then
-   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
- fi
-+if test "$zstd" = "yes" ; then
-+  echo "CONFIG_ZSTD=y" >> $config_host_mak
-+fi
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 8883761b2c..5e316178d5 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -256,6 +256,7 @@ struct V9fsState
+     Error *migration_blocker;
+     V9fsConf fsconf;
+     V9fsQID root_qid;
++    dev_t dev_id;
+ };
  
- if test "$tcg_interpreter" = "yes"; then
-   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6aa8b99993..2604f201ee 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4215,11 +4215,12 @@
- # Compression type used in qcow2 image file
- #
- # @zlib:  zlib compression, see <http://zlib.net/>
-+# @zstd:  zstd compression, see <http://github.com/facebook/zstd>
- #
- # Since: 4.1
- ##
- { 'enum': 'Qcow2CompressionType',
--  'data': [ 'zlib' ] }
-+  'data': [ 'zlib', 'zstd' ] }
- 
- ##
- # @BlockdevCreateOptionsQcow2:
+ /* 9p2000.L open flags */
 -- 
-2.17.0
+2.11.0
 
 
