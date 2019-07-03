@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B175EAE9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:53:03 +0200 (CEST)
-Received: from localhost ([::1]:38138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF475EAF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:55:20 +0200 (CEST)
+Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hijRG-0001Vy-VU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53000)
+	id 1hijTU-0004NK-4G
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:55:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53182)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hijOg-0007zE-8S
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:50:24 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hijPt-0000Vu-2n
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hijOf-0001g4-4W
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:50:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47022
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hijOe-0001de-Vb
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:50:21 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x63HlIBL068045
- for <qemu-devel@nongnu.org>; Wed, 3 Jul 2019 13:50:18 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tgxmwnxry-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 13:50:18 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 3 Jul 2019 18:50:16 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 3 Jul 2019 18:50:13 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x63HoCeI47644672
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 3 Jul 2019 17:50:12 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 883F9A4064;
- Wed,  3 Jul 2019 17:50:12 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59A47A405F;
- Wed,  3 Jul 2019 17:50:12 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.70.88])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  3 Jul 2019 17:50:12 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Wed, 03 Jul 2019 19:50:12 +0200
-User-Agent: StGit/unknown-version
+ (envelope-from <mreitz@redhat.com>) id 1hijPq-0002hq-84
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47140)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hijPp-0002hG-Uo
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:34 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC4A030821FF;
+ Wed,  3 Jul 2019 17:51:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-65.brq.redhat.com
+ [10.40.204.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37AFC83085;
+ Wed,  3 Jul 2019 17:51:15 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Alberto Garcia <berto@igalia.com>
+References: <cover.1550842915.git.berto@igalia.com>
+ <20190423165501.GA27867@redhat.com>
+ <b5fe7ed7-c11c-4f36-4973-c86031cbe046@redhat.com>
+ <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1c1c3302-a87c-6e3e-d1d7-c805972a7384@redhat.com>
+Date: Wed, 3 Jul 2019 19:51:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19070317-4275-0000-0000-00000348C5E3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070317-4276-0000-0000-00003858E28A
-Message-Id: <156217621200.562209.8968691631915806468.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-03_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907030216
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH for-4.2] xics/kvm: Convert assert() to
- error_setg()
+In-Reply-To: <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Wed, 03 Jul 2019 17:51:28 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 0/3] char-socket: Fix race condition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,54 +89,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ics_set_kvm_state_one() is called either during reset, in which case
-both 'saved priority' and 'current priority' are equal to 0xff, or
-during migration. In the latter case, 'saved priority' may differ
-from 'current priority' only if the interrupt had been masked with
-the ibm,int-off RTAS call. Instead of aborting QEMU, print out an
-error and exit.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD
+Content-Type: multipart/mixed; boundary="03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Alberto Garcia <berto@igalia.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+Message-ID: <1c1c3302-a87c-6e3e-d1d7-c805972a7384@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v3 0/3] char-socket: Fix race condition
+References: <cover.1550842915.git.berto@igalia.com>
+ <20190423165501.GA27867@redhat.com>
+ <b5fe7ed7-c11c-4f36-4973-c86031cbe046@redhat.com>
+ <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
+In-Reply-To: <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
 
-Based-on: <156217454083.559957.7359208229523652842.stgit@bahia.lan>
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
+--03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This isn't a bugfix, hence targetting 4.2, but it depends on an actual
-fix for 4.1, as mentionned in the Based-on tag.
----
- hw/intc/xics_kvm.c |   17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+On 05.06.19 21:36, Max Reitz wrote:
+> On 26.04.19 09:51, Paolo Bonzini wrote:
+>> On 23/04/19 18:55, Daniel P. Berrang=C3=A9 wrote:
+>>> ping - paolo/marc-andr=C3=A9 - unless I'm missing something, it looks=
+ like
+>>> this chardev series slipped through the cracks and missed 4.0
+>>
+>> Yeah, it had a bug unfortunately.  I'm looking at it RSN.
+>=20
+> I=E2=80=99ll just leave another ping here
 
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 2df1f3e92c7e..f8758b928250 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -255,8 +255,21 @@ int ics_set_kvm_state_one(ICSState *ics, int srcno, Error **errp)
-     state = irq->server;
-     state |= (uint64_t)(irq->saved_priority & KVM_XICS_PRIORITY_MASK)
-         << KVM_XICS_PRIORITY_SHIFT;
--    if (irq->priority != irq->saved_priority) {
--        assert(irq->priority == 0xff);
-+
-+    /*
-+     * An interrupt can be masked either because the ICS is resetting, in
-+     * which case we expect 'current priority' and 'saved priority' to be
-+     * equal to 0xff, or because the guest has called the ibm,int-off RTAS
-+     * call, in which case we we have recorded the priority the interrupt
-+     * had before it was masked in 'saved priority'. If the interrupt isn't
-+     * masked, 'saved priority' and 'current priority' are equal (see
-+     * ics_get_kvm_state()). Make sure we restore a sane state, otherwise
-+     * fail migration.
-+     */
-+    if (irq->priority != irq->saved_priority && irq->priority != 0xff) {
-+        error_setg(errp, "Corrupted state detected for interrupt source %d",
-+                   srcno);
-+        return -EINVAL;
-     }
- 
-     if (irq->priority == 0xff) {
+And another one.
 
+Max
+
+>> Paolo
+>>
+>>>
+>>> On Fri, Feb 22, 2019 at 03:46:23PM +0200, Alberto Garcia wrote:
+>>>> This fixes a race condition in which the tcp_chr_read() ioc handler
+>>>> can close a connection that is being written to from another thread.=
+
+>>>>
+>>>> Note: vhost-user-test still fails if QTEST_VHOST_USER_FIXME is set.
+>>>>
+>>>> Berto
+>>>>
+>>>> RFC: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01510.=
+html
+>>>>
+>>>> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01834.h=
+tml
+>>>> - Fixes memory leaks and adds a qemu_idle_add() function
+>>>>
+>>>> v2: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg06137.h=
+tml
+>>>> - Rebased on top of the current master (fc3dbb90f2eb069801bfb4cfe9cb=
+c)
+>>>> - Patches 1 and 2: Remove the changes in char-pty.c, they're not
+>>>>                    needed after the rebase.
+>>>> - Patch 3: Fix conflicts after the rebase.
+>>>>
+>>>> v3:
+>>>> - Patch 3: Add tcp_chr_disconnect_locked() [Daniel]
+>>>>
+>>>> Alberto Garcia (3):
+>>>>   main-loop: Fix GSource leak in qio_task_thread_worker()
+>>>>   main-loop: Add qemu_idle_add()
+>>>>   char-socket: Lock tcp_chr_disconnect() and socket_reconnect_timeou=
+t()
+>>>>
+>>>>  chardev/char-socket.c    | 25 +++++++++++++++++++++----
+>>>>  include/qemu/main-loop.h | 12 ++++++++++++
+>>>>  io/task.c                |  9 +++------
+>>>>  util/main-loop.c         |  9 +++++++++
+>>>>  4 files changed, 45 insertions(+), 10 deletions(-)
+>>>>
+>>>> --=20
+>>>> 2.11.0
+>>>>
+>>>
+>>> Regards,
+>>> Daniel
+>>>
+>>
+>>
+>>
+>=20
+>=20
+
+
+
+--03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8--
+
+--nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0c6xEACgkQ9AfbAGHV
+z0Dv8AgAvFf2TkCUs/dyZ3PrsAvz0LWga1EMYEnzBMVqL4/mr21QykxEFC2MvEo6
+YD7V2N4qWN/lhkREYGrh62fu1ftCq4pnkNoQ5peOEDes3uI16qubM8Y72vJ/MaWA
+ZDth9VsWAybMJTeLWig42W5zM3Hl3mv5GorSyQIoW1JsmYHXPPdlggdYydN32olA
+vZTY8VS5i0DSd54T7rpPSIeoMCc1z0n8yonUnAirOJkhkLSeVOFbvQGN+aryZGd9
+LyrTkGdYrL0+EUpB6Bh513IMi4yVR4TFKw20s/I9TYImVQxxLakjCrgrRli1bvIk
+cenDzMLI/HWEl5rcZ3wBJNXpkwRN6Q==
+=Ao6K
+-----END PGP SIGNATURE-----
+
+--nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD--
 
