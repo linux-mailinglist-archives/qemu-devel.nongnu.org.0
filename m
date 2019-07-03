@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15DB5EBCB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:44:14 +0200 (CEST)
-Received: from localhost ([::1]:38518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5459A5EC25
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 21:03:29 +0200 (CEST)
+Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hikEo-0004cN-0P
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56891)
+	id 1hikXQ-0006tG-Ih
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 15:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56901)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hijgh-0005FH-BE
+ (envelope-from <ehabkost@redhat.com>) id 1hijgi-0005Id-Mw
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hijge-0000yi-DP
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46802)
+ (envelope-from <ehabkost@redhat.com>) id 1hijgg-000116-LP
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46834)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijge-0000xa-5f
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:56 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijgg-00010E-Dn
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7D0E381DE5;
- Wed,  3 Jul 2019 18:08:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B216285360;
+ Wed,  3 Jul 2019 18:08:57 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9332A58775;
- Wed,  3 Jul 2019 18:08:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07AA118233;
+ Wed,  3 Jul 2019 18:08:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 15:07:20 -0300
-Message-Id: <20190703180726.31267-38-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 15:07:21 -0300
+Message-Id: <20190703180726.31267-39-ehabkost@redhat.com>
 In-Reply-To: <20190703180726.31267-1-ehabkost@redhat.com>
 References: <20190703180726.31267-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 03 Jul 2019 18:08:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Wed, 03 Jul 2019 18:08:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v4 37/43] i386: Replace -noTSX, -IBRS,
- -IBPB CPU models with aliases
+Subject: [Qemu-devel] [PULL v4 38/43] i386: Make unversioned CPU models be
+ aliases
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,876 +62,427 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The old CPU models will be just aliases for specific versions of
-the original CPU models.
+This will make unversioned CPU models behavior depend on the
+machine type:
+
+* "pc-*-4.0" and older will not report them as aliases.
+  This is done to keep compatibility with older QEMU versions
+  after management software starts translating aliases.
+
+* "pc-*-4.1" will translate unversioned CPU models to -v1.
+  This is done to keep compatibility with existing management
+  software, that still relies on CPU model runnability promises.
+
+* "none" will translate unversioned CPU models to their latest
+  version.  This is planned become the default in future machine
+  types (probably in pc-*-4.3).
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190628002844.24894-7-ehabkost@redhat.com>
+Message-Id: <20190628002844.24894-8-ehabkost@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 601 ++--------------------------------------------
- 1 file changed, 21 insertions(+), 580 deletions(-)
+ include/hw/i386/pc.h                       |   3 +
+ target/i386/cpu.h                          |  12 ++
+ hw/i386/pc.c                               |   3 +
+ hw/i386/pc_piix.c                          |   4 +
+ hw/i386/pc_q35.c                           |   4 +
+ target/i386/cpu.c                          |  52 ++++++++-
+ tests/acceptance/x86_cpu_model_versions.py | 126 +++++++++++++++++++++
+ 7 files changed, 203 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index ee79d71ccc..1946c1023f 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -109,6 +109,9 @@ typedef struct PCMachineClass {
+=20
+     /* Compat options: */
+=20
++    /* Default CPU model version.  See x86_cpu_set_default_version(). */
++    int default_cpu_version;
++
+     /* ACPI compat: */
+     bool has_acpi_build;
+     bool rsdp_in_ram;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 12bc3cd4a8..05393cf9d1 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1934,11 +1934,23 @@ void x86_cpu_change_kvm_default(const char *prop,=
+ const char *value);
+ /* Resolve to latest CPU version */
+ #define CPU_VERSION_LATEST -1
+=20
++/*
++ * Resolve to version defined by current machine type.
++ * See x86_cpu_set_default_version()
++ */
++#define CPU_VERSION_AUTO   -2
++
+ /* Don't resolve to any versioned CPU models, like old QEMU versions */
+ #define CPU_VERSION_LEGACY  0
+=20
+ typedef int X86CPUVersion;
+=20
++/*
++ * Set default CPU model version for CPU models having
++ * version =3D=3D CPU_VERSION_AUTO.
++ */
++void x86_cpu_set_default_version(X86CPUVersion version);
++
+ /* Return name of 32-bit register, from a R_* constant */
+ const char *get_register_name_32(unsigned int reg);
+=20
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 3f0f221a5b..1df569620a 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1649,6 +1649,9 @@ void pc_cpus_init(PCMachineState *pcms)
+     const CPUArchIdList *possible_cpus;
+     MachineState *ms =3D MACHINE(pcms);
+     MachineClass *mc =3D MACHINE_GET_CLASS(pcms);
++    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(mc);
++
++    x86_cpu_set_default_version(pcmc->default_cpu_version);
+=20
+     /* Calculates the limit to CPU APIC ID values
+      *
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index c07c4a5b38..0a069bff54 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -430,9 +430,11 @@ static void pc_i440fx_machine_options(MachineClass *=
+m)
+=20
+ static void pc_i440fx_4_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+     m->alias =3D "pc";
+     m->is_default =3D 1;
++    pcmc->default_cpu_version =3D 1;
+ }
+=20
+ DEFINE_I440FX_MACHINE(v4_1, "pc-i440fx-4.1", NULL,
+@@ -440,9 +442,11 @@ DEFINE_I440FX_MACHINE(v4_1, "pc-i440fx-4.1", NULL,
+=20
+ static void pc_i440fx_4_0_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_i440fx_4_1_machine_options(m);
+     m->alias =3D NULL;
+     m->is_default =3D 0;
++    pcmc->default_cpu_version =3D CPU_VERSION_LEGACY;
+     compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+     compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 57232aed6b..397e1fdd2f 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -367,8 +367,10 @@ static void pc_q35_machine_options(MachineClass *m)
+=20
+ static void pc_q35_4_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+     m->alias =3D "q35";
++    pcmc->default_cpu_version =3D 1;
+ }
+=20
+ DEFINE_Q35_MACHINE(v4_1, "pc-q35-4.1", NULL,
+@@ -376,8 +378,10 @@ DEFINE_Q35_MACHINE(v4_1, "pc-q35-4.1", NULL,
+=20
+ static void pc_q35_4_0_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+     pc_q35_4_1_machine_options(m);
+     m->alias =3D NULL;
++    pcmc->default_cpu_version =3D CPU_VERSION_LEGACY;
+     /*
+      * This is the default machine for the 4.0-stable branch. It is basi=
+cally
+      * a 4.0 that doesn't use split irqchip by default. It MUST hence ap=
+ply the
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 99ab6104f4..4646b0dde9 100644
+index 4646b0dde9..9b16cffb22 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1439,6 +1439,7 @@ typedef struct PropValue {
-=20
- typedef struct X86CPUVersionDefinition {
+@@ -1470,6 +1470,11 @@ struct X86CPUModel {
+     X86CPUDefinition *cpudef;
+     /* CPU model version */
      X86CPUVersion version;
-+    const char *alias;
-     PropValue *props;
- } X86CPUVersionDefinition;
++    /*
++     * If true, this is an alias CPU model.
++     * This matters only for "-cpu help" and query-cpu-definitions
++     */
++    bool is_alias;
+ };
 =20
-@@ -1855,7 +1856,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Nehalem-IBRS */
-+                .alias =3D "Nehalem-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "spec-ctrl", "on" },
-                     { "model-id",
-@@ -1866,36 +1867,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Nehalem-IBRS",
--        .level =3D 11,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 26,
--        .stepping =3D 3,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_POPCNT | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
--            CPUID_EXT_CX16 | CPUID_EXT_SSSE3 | CPUID_EXT_SSE3,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_SYSCALL | CPUID_EXT2_NX,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_LAHF_LM,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core i7 9xx (Nehalem Core i7, IBRS update)"=
-,
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Westmere",
-         .level =3D 11,
-@@ -1925,7 +1896,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Westmere-IBRS */
-+                .alias =3D "Westmere-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "spec-ctrl", "on" },
-                     { "model-id",
-@@ -1936,39 +1907,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Westmere-IBRS",
--        .level =3D 11,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 44,
--        .stepping =3D 1,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AES | CPUID_EXT_POPCNT | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_SYSCALL | CPUID_EXT2_NX,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Westmere E56xx/L56xx/X56xx (IBRS update)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "SandyBridge",
-         .level =3D 0xd,
-@@ -2003,7 +1941,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to SandyBridge-IBRS */
-+                .alias =3D "SandyBridge-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "spec-ctrl", "on" },
-                     { "model-id",
-@@ -2014,44 +1952,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "SandyBridge-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 42,
--        .stepping =3D 1,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_POPCNT |
--            CPUID_EXT_X2APIC | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
--            CPUID_EXT_CX16 | CPUID_EXT_SSSE3 | CPUID_EXT_PCLMULQDQ |
--            CPUID_EXT_SSE3,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Xeon E312xx (Sandy Bridge, IBRS update)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "IvyBridge",
-         .level =3D 0xd,
-@@ -2089,7 +1989,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to IvyBridge-IBRS */
-+                .alias =3D "IvyBridge-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "spec-ctrl", "on" },
-                     { "model-id",
-@@ -2100,131 +2000,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "IvyBridge-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 58,
--        .stepping =3D 9,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_POPCNT |
--            CPUID_EXT_X2APIC | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
--            CPUID_EXT_CX16 | CPUID_EXT_SSSE3 | CPUID_EXT_PCLMULQDQ |
--            CPUID_EXT_SSE3 | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_ERMS,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
--    {
--        .name =3D "Haswell-noTSX",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 60,
--        .stepping =3D 1,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Haswell, no TSX)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
--    {
--        .name =3D "Haswell-noTSX-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 60,
--        .stepping =3D 1,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Haswell, no TSX, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Haswell",
-         .level =3D 0xd,
-@@ -2265,7 +2040,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Haswell-noTSX */
-+                .alias =3D "Haswell-noTSX",
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-@@ -2276,7 +2051,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             },
-             {
-                 .version =3D 3,
--                /* Equivalent to Haswell-IBRS */
-+                .alias =3D "Haswell-IBRS",
-                 .props =3D (PropValue[]) {
-                     /* Restore TSX features removed by -v2 above */
-                     { "hle", "on" },
-@@ -2294,7 +2069,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             },
-             {
-                 .version =3D 4,
--                /* Equivalent to Haswell-noTSX-IBRS */
-+                .alias =3D "Haswell-noTSX-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-@@ -2308,138 +2083,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Haswell-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 60,
--        .stepping =3D 4,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP =
-|
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RTM,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Haswell, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
--    {
--        .name =3D "Broadwell-noTSX",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 61,
--        .stepping =3D 2,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFET=
-CH,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
--            CPUID_7_0_EBX_SMAP,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Broadwell, no TSX)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
--    {
--        .name =3D "Broadwell-noTSX-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 61,
--        .stepping =3D 2,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFET=
-CH,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
--            CPUID_7_0_EBX_SMAP,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Broadwell, no TSX, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Broadwell",
-         .level =3D 0xd,
-@@ -2481,7 +2124,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Broadwell-noTSX */
-+                .alias =3D "Broadwell-noTSX",
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-@@ -2491,7 +2134,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             },
-             {
-                 .version =3D 3,
--                /* Equivalent to Broadwell-IBRS */
-+                .alias =3D "Broadwell-IBRS",
-                 .props =3D (PropValue[]) {
-                     /* Restore TSX features removed by -v2 above */
-                     { "hle", "on" },
-@@ -2504,7 +2147,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             },
-             {
-                 .version =3D 4,
--                /* Equivalent to Broadwell-noTSX-IBRS */
-+                .alias =3D "Broadwell-noTSX-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-@@ -2517,51 +2160,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Broadwell-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 61,
--        .stepping =3D 2,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFET=
-CH,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP =
-|
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX=
- |
--            CPUID_7_0_EBX_SMAP,
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Broadwell, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Skylake-Client",
-         .level =3D 0xd,
-@@ -2610,7 +2208,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Skylake-Client-IBRS */
-+                .alias =3D "Skylake-Client-IBRS",
-                 .props =3D (PropValue[]) {
-                     { "spec-ctrl", "on" },
-                     { "model-id",
-@@ -2621,58 +2219,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Skylake-Client-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 94,
--        .stepping =3D 3,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFET=
-CH,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP =
-|
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX=
- |
--            CPUID_7_0_EBX_SMAP,
--        /* Missing: XSAVES (not supported by some Linux versions,
--         * including v4.1 to v4.12).
--         * KVM doesn't yet expose any XSAVES state save component,
--         * and the only one defined in Skylake (processor tracing)
--         * probably will block migration anyway.
--         */
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
--            CPUID_XSAVE_XGETBV1,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Core Processor (Skylake, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Skylake-Server",
-         .level =3D 0xd,
-@@ -2726,7 +2272,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to Skylake-Server-IBRS */
-+                .alias =3D "Skylake-Server-IBRS",
-                 .props =3D (PropValue[]) {
-                     /* clflushopt was not added to Skylake-Server-IBRS *=
-/
-                     /* TODO: add -v3 including clflushopt */
-@@ -2740,63 +2286,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "Skylake-Server-IBRS",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_INTEL,
--        .family =3D 6,
--        .model =3D 85,
--        .stepping =3D 4,
--        .features[FEAT_1_EDX] =3D
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX =
-|
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID=
-_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 =
-|
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOV=
-BE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_PDPE1GB | CPUID_EXT2_RDTSCP |
--            CPUID_EXT2_NX | CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFET=
-CH,
--        .features[FEAT_7_0_EDX] =3D
--            CPUID_7_0_EDX_SPEC_CTRL,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP =
-|
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVP=
-CID |
--            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX=
- |
--            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLWB |
--            CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
--            CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
--            CPUID_7_0_EBX_AVX512VL,
--        .features[FEAT_7_0_ECX] =3D
--            CPUID_7_0_ECX_PKU,
--        /* Missing: XSAVES (not supported by some Linux versions,
--         * including v4.1 to v4.12).
--         * KVM doesn't yet expose any XSAVES state save component,
--         * and the only one defined in Skylake (processor tracing)
--         * probably will block migration anyway.
--         */
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
--            CPUID_XSAVE_XGETBV1,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .xlevel =3D 0x80000008,
--        .model_id =3D "Intel Xeon Processor (Skylake, IBRS)",
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Cascadelake-Server",
-         .level =3D 0xd,
-@@ -3258,7 +2747,7 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { .version =3D 1 },
-             {
-                 .version =3D 2,
--                /* Equivalent to EPYC-IBPB */
-+                .alias =3D "EPYC-IBPB",
-                 .props =3D (PropValue[]) {
-                     { "ibpb", "on" },
-                     { "model-id",
-@@ -3269,61 +2758,6 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name =3D "EPYC-IBPB",
--        .level =3D 0xd,
--        .vendor =3D CPUID_VENDOR_AMD,
--        .family =3D 23,
--        .model =3D 1,
--        .stepping =3D 2,
--        .features[FEAT_1_EDX] =3D
--            CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX | CPUID_CLFL=
-USH |
--            CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA | CPUID_PGE=
- |
--            CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 | CPUID_MCE =
-|
--            CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE | CPUID_DE |
--            CPUID_VME | CPUID_FP87,
--        .features[FEAT_1_ECX] =3D
--            CPUID_EXT_RDRAND | CPUID_EXT_F16C | CPUID_EXT_AVX |
--            CPUID_EXT_XSAVE | CPUID_EXT_AES |  CPUID_EXT_POPCNT |
--            CPUID_EXT_MOVBE | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
--            CPUID_EXT_CX16 | CPUID_EXT_FMA | CPUID_EXT_SSSE3 |
--            CPUID_EXT_MONITOR | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3,
--        .features[FEAT_8000_0001_EDX] =3D
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_PDPE1GB |
--            CPUID_EXT2_FFXSR | CPUID_EXT2_MMXEXT | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =3D
--            CPUID_EXT3_OSVW | CPUID_EXT3_3DNOWPREFETCH |
--            CPUID_EXT3_MISALIGNSSE | CPUID_EXT3_SSE4A | CPUID_EXT3_ABM |
--            CPUID_EXT3_CR8LEG | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM |
--            CPUID_EXT3_TOPOEXT,
--        .features[FEAT_8000_0008_EBX] =3D
--            CPUID_8000_0008_EBX_IBPB,
--        .features[FEAT_7_0_EBX] =3D
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_=
-AVX2 |
--            CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSE=
-ED |
--            CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLU=
-SHOPT |
--            CPUID_7_0_EBX_SHA_NI,
--        /* Missing: XSAVES (not supported by some Linux versions,
--         * including v4.1 to v4.12).
--         * KVM doesn't yet expose any XSAVES state save component.
--         */
--        .features[FEAT_XSAVE] =3D
--            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
--            CPUID_XSAVE_XGETBV1,
--        .features[FEAT_6_EAX] =3D
--            CPUID_6_EAX_ARAT,
--        .features[FEAT_SVM] =3D
--            CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
--        .xlevel =3D 0x8000001E,
--        .model_id =3D "AMD EPYC Processor (with IBPB)",
--        .cache_info =3D &epyc_cache_info,
--        /*
--         * This CPU model will eventually be replaced by an alias,
--         * don't register any versions for it.
--         */
--        .versions =3D (X86CPUVersionDefinition[]) { { /* end of list */ =
-} },
--    },
-     {
-         .name =3D "Dhyana",
-         .level =3D 0xd,
-@@ -4648,6 +4082,13 @@ static void x86_register_cpudef_types(X86CPUDefini=
-tion *def)
-         name =3D x86_cpu_versioned_model_name(def, vdef->version);
-         x86_register_cpu_model_type(name, m);
-         g_free(name);
+ /* Get full model name for CPU version */
+@@ -2835,6 +2840,15 @@ static PropValue tcg_default_props[] =3D {
+ };
+=20
+=20
++X86CPUVersion default_cpu_version =3D CPU_VERSION_LATEST;
 +
-+        if (vdef->alias) {
-+            X86CPUModel *am =3D g_new0(X86CPUModel, 1);
-+            am->cpudef =3D def;
-+            am->version =3D vdef->version;
-+            x86_register_cpu_model_type(vdef->alias, am);
-+        }
++void x86_cpu_set_default_version(X86CPUVersion version)
++{
++    /* Translating CPU_VERSION_AUTO to CPU_VERSION_AUTO doesn't make sen=
+se */
++    assert(version !=3D CPU_VERSION_AUTO);
++    default_cpu_version =3D version;
++}
++
+ static X86CPUVersion x86_cpu_model_last_version(const X86CPUModel *model=
+)
+ {
+     int v =3D 0;
+@@ -2851,6 +2865,9 @@ static X86CPUVersion x86_cpu_model_last_version(con=
+st X86CPUModel *model)
+ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *mo=
+del)
+ {
+     X86CPUVersion v =3D model->version;
++    if (v =3D=3D CPU_VERSION_AUTO) {
++        v =3D default_cpu_version;
++    }
+     if (v =3D=3D CPU_VERSION_LATEST) {
+         return x86_cpu_model_last_version(model);
      }
-=20
+@@ -3589,13 +3606,35 @@ static char *x86_cpu_class_get_model_id(X86CPUCla=
+ss *xc)
+     return r;
  }
+=20
++static char *x86_cpu_class_get_alias_of(X86CPUClass *cc)
++{
++    X86CPUVersion version;
++
++    if (!cc->model || !cc->model->is_alias) {
++        return NULL;
++    }
++    version =3D x86_cpu_model_resolve_version(cc->model);
++    if (version <=3D 0) {
++        return NULL;
++    }
++    return x86_cpu_versioned_model_name(cc->model->cpudef, version);
++}
++
+ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+ {
+     ObjectClass *oc =3D data;
+     X86CPUClass *cc =3D X86_CPU_CLASS(oc);
+     char *name =3D x86_cpu_class_get_model_name(cc);
+     char *desc =3D g_strdup(cc->model_description);
++    char *alias_of =3D x86_cpu_class_get_alias_of(cc);
+=20
++    if (!desc && alias_of) {
++        if (cc->model && cc->model->version =3D=3D CPU_VERSION_AUTO) {
++            desc =3D g_strdup("(alias configured by machine type)");
++        } else {
++            desc =3D g_strdup_printf("(alias of %s)", alias_of);
++        }
++    }
+     if (!desc) {
+         desc =3D x86_cpu_class_get_model_id(cc);
+     }
+@@ -3603,6 +3642,7 @@ static void x86_cpu_list_entry(gpointer data, gpoin=
+ter user_data)
+     qemu_printf("x86 %-20s  %-48s\n", name, desc);
+     g_free(name);
+     g_free(desc);
++    g_free(alias_of);
+ }
+=20
+ /* list available CPU models and flags */
+@@ -3651,6 +3691,14 @@ static void x86_cpu_definition_entry(gpointer data=
+, gpointer user_data)
+     info->migration_safe =3D cc->migration_safe;
+     info->has_migration_safe =3D true;
+     info->q_static =3D cc->static_model;
++    /*
++     * Old machine types won't report aliases, so that alias translation
++     * doesn't break compatibility with previous QEMU versions.
++     */
++    if (default_cpu_version !=3D CPU_VERSION_LEGACY) {
++        info->alias_of =3D x86_cpu_class_get_alias_of(cc);
++        info->has_alias_of =3D !!info->alias_of;
++    }
+=20
+     entry =3D g_malloc0(sizeof(*entry));
+     entry->value =3D info;
+@@ -4070,7 +4118,8 @@ static void x86_register_cpudef_types(X86CPUDefinit=
+ion *def)
+     /* Unversioned model: */
+     m =3D g_new0(X86CPUModel, 1);
+     m->cpudef =3D def;
+-    m->version =3D CPU_VERSION_LEGACY;
++    m->version =3D CPU_VERSION_AUTO;
++    m->is_alias =3D true;
+     x86_register_cpu_model_type(def->name, m);
+=20
+     /* Versioned models: */
+@@ -4087,6 +4136,7 @@ static void x86_register_cpudef_types(X86CPUDefinit=
+ion *def)
+             X86CPUModel *am =3D g_new0(X86CPUModel, 1);
+             am->cpudef =3D def;
+             am->version =3D vdef->version;
++            am->is_alias =3D true;
+             x86_register_cpu_model_type(vdef->alias, am);
+         }
+     }
+diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
+e/x86_cpu_model_versions.py
+index b85d6f8604..165c0c7601 100644
+--- a/tests/acceptance/x86_cpu_model_versions.py
++++ b/tests/acceptance/x86_cpu_model_versions.py
+@@ -103,3 +103,129 @@ class X86CPUModelAliases(avocado_qemu.Test):
+         # On pc-*-4.0, no CPU model should be reported as an alias:
+         for name,c in cpus.items():
+             self.assertNotIn('alias-of', c, "%s shouldn't be an alias" %=
+ (name))
++
++    def test_4_1_alias(self):
++        """Check if unversioned CPU model is an alias pointing to right =
+version"""
++        self.vm.add_args('-S')
++        self.vm.set_machine('pc-i440fx-4.1')
++        self.vm.launch()
++
++        cpus =3D dict((m['name'], m) for m in self.vm.command('query-cpu=
+-definitions'))
++
++        self.assertFalse(cpus['Cascadelake-Server']['static'],
++                         'unversioned Cascadelake-Server CPU model must =
+not be static')
++        self.assertEquals(cpus['Cascadelake-Server'].get('alias-of'), 'C=
+ascadelake-Server-v1',
++                          'Cascadelake-Server must be an alias of Cascad=
+elake-Server-v1')
++        self.assertNotIn('alias-of', cpus['Cascadelake-Server-v1'],
++                         'Cascadelake-Server-v1 must not be an alias')
++
++        self.assertFalse(cpus['qemu64']['static'],
++                         'unversioned qemu64 CPU model must not be stati=
+c')
++        self.assertEquals(cpus['qemu64'].get('alias-of'), 'qemu64-v1',
++                          'qemu64 must be an alias of qemu64-v1')
++        self.assertNotIn('alias-of', cpus['qemu64-v1'],
++                         'qemu64-v1 must not be an alias')
++
++        self.validate_variant_aliases(cpus)
++
++        # On pc-*-4.1, -noTSX and -IBRS models should be aliases:
++        self.assertEquals(cpus["Haswell"].get('alias-of'),
++                          "Haswell-v1",
++                         "Haswell must be an alias")
++        self.assertEquals(cpus["Haswell-noTSX"].get('alias-of'),
++                          "Haswell-v2",
++                         "Haswell-noTSX must be an alias")
++        self.assertEquals(cpus["Haswell-IBRS"].get('alias-of'),
++                          "Haswell-v3",
++                         "Haswell-IBRS must be an alias")
++        self.assertEquals(cpus["Haswell-noTSX-IBRS"].get('alias-of'),
++                          "Haswell-v4",
++                         "Haswell-noTSX-IBRS must be an alias")
++
++        self.assertEquals(cpus["Broadwell"].get('alias-of'),
++                          "Broadwell-v1",
++                         "Broadwell must be an alias")
++        self.assertEquals(cpus["Broadwell-noTSX"].get('alias-of'),
++                          "Broadwell-v2",
++                         "Broadwell-noTSX must be an alias")
++        self.assertEquals(cpus["Broadwell-IBRS"].get('alias-of'),
++                          "Broadwell-v3",
++                         "Broadwell-IBRS must be an alias")
++        self.assertEquals(cpus["Broadwell-noTSX-IBRS"].get('alias-of'),
++                          "Broadwell-v4",
++                         "Broadwell-noTSX-IBRS must be an alias")
++
++        self.assertEquals(cpus["Nehalem"].get('alias-of'),
++                          "Nehalem-v1",
++                         "Nehalem must be an alias")
++        self.assertEquals(cpus["Nehalem-IBRS"].get('alias-of'),
++                          "Nehalem-v2",
++                         "Nehalem-IBRS must be an alias")
++
++        self.assertEquals(cpus["Westmere"].get('alias-of'),
++                          "Westmere-v1",
++                         "Westmere must be an alias")
++        self.assertEquals(cpus["Westmere-IBRS"].get('alias-of'),
++                          "Westmere-v2",
++                         "Westmere-IBRS must be an alias")
++
++        self.assertEquals(cpus["SandyBridge"].get('alias-of'),
++                          "SandyBridge-v1",
++                         "SandyBridge must be an alias")
++        self.assertEquals(cpus["SandyBridge-IBRS"].get('alias-of'),
++                          "SandyBridge-v2",
++                         "SandyBridge-IBRS must be an alias")
++
++        self.assertEquals(cpus["IvyBridge"].get('alias-of'),
++                          "IvyBridge-v1",
++                         "IvyBridge must be an alias")
++        self.assertEquals(cpus["IvyBridge-IBRS"].get('alias-of'),
++                          "IvyBridge-v2",
++                         "IvyBridge-IBRS must be an alias")
++
++        self.assertEquals(cpus["Skylake-Client"].get('alias-of'),
++                          "Skylake-Client-v1",
++                         "Skylake-Client must be an alias")
++        self.assertEquals(cpus["Skylake-Client-IBRS"].get('alias-of'),
++                          "Skylake-Client-v2",
++                         "Skylake-Client-IBRS must be an alias")
++
++        self.assertEquals(cpus["Skylake-Server"].get('alias-of'),
++                          "Skylake-Server-v1",
++                         "Skylake-Server must be an alias")
++        self.assertEquals(cpus["Skylake-Server-IBRS"].get('alias-of'),
++                          "Skylake-Server-v2",
++                         "Skylake-Server-IBRS must be an alias")
++
++        self.assertEquals(cpus["EPYC"].get('alias-of'),
++                          "EPYC-v1",
++                         "EPYC must be an alias")
++        self.assertEquals(cpus["EPYC-IBPB"].get('alias-of'),
++                          "EPYC-v2",
++                         "EPYC-IBPB must be an alias")
++
++        self.validate_aliases(cpus)
++
++    def test_none_alias(self):
++        """Check if unversioned CPU model is an alias pointing to some v=
+ersion"""
++        self.vm.add_args('-S')
++        self.vm.set_machine('none')
++        self.vm.launch()
++
++        cpus =3D dict((m['name'], m) for m in self.vm.command('query-cpu=
+-definitions'))
++
++        self.assertFalse(cpus['Cascadelake-Server']['static'],
++                         'unversioned Cascadelake-Server CPU model must =
+not be static')
++        self.assertTrue(re.match('Cascadelake-Server-v[0-9]+', cpus['Cas=
+cadelake-Server']['alias-of']),
++                        'Cascadelake-Server must be an alias of versione=
+d CPU model')
++        self.assertNotIn('alias-of', cpus['Cascadelake-Server-v1'],
++                         'Cascadelake-Server-v1 must not be an alias')
++
++        self.assertFalse(cpus['qemu64']['static'],
++                         'unversioned qemu64 CPU model must not be stati=
+c')
++        self.assertTrue(re.match('qemu64-v[0-9]+', cpus['qemu64']['alias=
+-of']),
++                        'qemu64 must be an alias of versioned CPU model'=
+)
++        self.assertNotIn('alias-of', cpus['qemu64-v1'],
++                         'qemu64-v1 must not be an alias')
++
++        self.validate_aliases(cpus)
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
