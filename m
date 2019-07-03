@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575B65E970
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:44:22 +0200 (CEST)
-Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6586A5E9B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:51:16 +0200 (CEST)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiiMn-00028w-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
+	id 1hiiTT-0005Yx-75
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39391)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <julio.montes@intel.com>) id 1hiiJf-0000TB-3X
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:41:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hiiMo-0003CF-Qk
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:44:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <julio.montes@intel.com>) id 1hiiJZ-0002YA-5P
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:41:02 -0400
-Received: from mga04.intel.com ([192.55.52.120]:45053)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <julio.montes@intel.com>)
- id 1hiiJY-0002Vm-Lo
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:41:00 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2019 09:40:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,446,1557212400"; d="scan'208";a="164400865"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
- by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2019 09:40:56 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.38]) by
- fmsmsx104.amr.corp.intel.com ([169.254.3.66]) with mapi id 14.03.0439.000;
- Wed, 3 Jul 2019 09:40:56 -0700
-From: "Montes, Julio" <julio.montes@intel.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>
-Thread-Topic: [PATCH] hw/i386: Fix linker error when ISAPC is disabled
-Thread-Index: AQHVMbb+drGPa6kziEinFlTruSZuLqa5iKYAgAAFaIA=
-Date: Wed, 3 Jul 2019 16:40:56 +0000
-Message-ID: <69cb55e2b337cd24f195305683a070cda8b0befd.camel@intel.com>
-References: <20190703154958.29004-1-julio.montes@intel.com>
- <366f287a-7f83-235c-5141-331117f50bb4@redhat.com>
-In-Reply-To: <366f287a-7f83-235c-5141-331117f50bb4@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.254.186.140]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B5C309EF9A8E8D4282C17585C8425315@intel.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <alex.bennee@linaro.org>) id 1hiiMn-0004gJ-Gw
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:44:22 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51251)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hiiMn-0004fR-Ah
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:44:21 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 207so2914901wma.1
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 09:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7C4mFnjuzIWCK0XbKb7En7qRSpsPwvIHjTK7pDd1ej4=;
+ b=PvB3hkdIzOk8mm/QrKDbVK7TPWb3BqgeVKqsP6u0IcqwB9YgFqECmqvJ33aVF7X3Pb
+ uzk4wFDbImzekZhVeqX0BiCMugy3zic/SfirL+pSL+qjk4T0qbXqpic5zP3dm+ptVYdt
+ pmL4ZMDETrxK9AZ1aI1JoldLdXHPGADg4XFYFnttMlmntz1dFkLqO/CGZxdHXvEgnxhR
+ /D13pG9HPlvFCXPUTRJk1b3sovC1VOzzA0nvQXV6Q0PAmlyRFJRWRcV4xksNc0LHmT8x
+ eruztuP0bt3C+75g+SGgMmoBG3QwZ53x0+yRHKtXhmVJGjI3kzqfzNAwBUv8rbTBFYml
+ gRdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=7C4mFnjuzIWCK0XbKb7En7qRSpsPwvIHjTK7pDd1ej4=;
+ b=XhkIuR23hPc4hzgzB0dBYRNPWFdD4ubHdcZtJwzsQ3kkWSeSYYvNKYSTPh+btR41rM
+ yJu69XkslDewnv6gmtzlpdsSHfHyc69fCNpARS6tvAbMQjOgrbJMKpF1QAYZYVDEJYH8
+ rt+l37uqeObpoLgRcGTdwhvAIwWGyLbBQukmHb/07RqUCynFmu3yG9bv7IlvHVvdyuWY
+ oscw759Sc0a33AfMkNGIbc4bE6XJoyWvCODIfXPdxBjHywvD/j23YaddtJAPXUubU72u
+ hooCD6bd2zpZxdYFQmZOrAC6Z1ngTF6I0l4GAfDAs8tnPwfg8ExeY0YR1UcXJtYtxpHn
+ 4WNw==
+X-Gm-Message-State: APjAAAVQuB1JcIT2ve43gd9DlAViV4Zi4Gqham66Y8QSyx9PxMRpPNND
+ YbkV7wYqsrG80Qx/sUNd4idVEA==
+X-Google-Smtp-Source: APXvYqx0pYxh+YpWb6ik6o/H6X3kActfZEOqz525ifQJjoWDhcACbZPcWacXLRdmBjgcP95hOt81yA==
+X-Received: by 2002:a1c:7a15:: with SMTP id v21mr8679029wmc.176.1562172259600; 
+ Wed, 03 Jul 2019 09:44:19 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id h14sm3430954wrs.66.2019.07.03.09.44.19
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 03 Jul 2019 09:44:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id ADD6A1FF87;
+ Wed,  3 Jul 2019 17:44:18 +0100 (BST)
+References: <20190703155244.28166-1-alex.bennee@linaro.org>
+ <20190703155244.28166-5-alex.bennee@linaro.org>
+ <2c0b9e7f-f4d1-b52b-1f3a-4100bf50c151@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <2c0b9e7f-f4d1-b52b-1f3a-4100bf50c151@redhat.com>
+Date: Wed, 03 Jul 2019 17:44:18 +0100
+Message-ID: <87lfxfvzj1.fsf@zen.linaroharston>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.120
-Subject: Re: [Qemu-devel] [PATCH] hw/i386: Fix linker error when ISAPC is
- disabled
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v1 4/4] target/arm: remove run time
+ semihosting checks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,54 +84,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gV2VkLCAyMDE5LTA3LTAzIGF0IDE4OjIxICswMjAwLCBQYW9sbyBCb256aW5pIHdyb3RlOg0K
-PiBPbiAwMy8wNy8xOSAxNzo0OSwgSnVsaW8gTW9udGVzIHdyb3RlOg0KPiA+IEluIHBjX2luaXQx
-KCksIElTQSBJREUgaXMgaW5pdGlhbGl6ZWQgd2l0aG91dCBjaGVja2luZyBpZiBJU0FQQyBvcg0K
-PiA+IElERV9JU0ENCj4gPiBjb25maWdzIGFyZSBlbmFibGVkLiBUaGlzIHJlc3VsdHMgaW4gYSBs
-aW5rIGVycm9yIHdoZW4NCj4gPiBDT05GSUdfSVNBUEMgaXMgc2V0IHRvICduJyBpbiB0aGUgZmls
-ZSBkZWZhdWx0LWNvbmZpZ3MvaTM4Ni0NCj4gPiBzb2Z0bW11Lm1hazoNCj4gPiANCj4gPiBody9p
-Mzg2L3BjX3BpaXgubzogSW4gZnVuY3Rpb24gYHBjX2luaXQxJzoNCj4gPiBody9pMzg2L3BjX3Bp
-aXguYzoyNjE6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGlzYV9pZGVfaW5pdCcNCj4gPiBody9p
-Mzg2L3BjX3BpaXguYzoyNjE6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGlzYV9pZGVfaW5pdCcN
-Cj4gPiANCj4gPiBQbGFjZSBpZGVfaXNhIGNvZGUgdW5kZXIgI2lmZGVmIENPTkZJR19JREVfSVNB
-IHRvIGZpeCBsaW5rZXIgZXJyb3JzDQo+IA0KPiBCdXQgdGhlcmUgaXMgbm90aGluZyB0aGF0IGRl
-ZmluZXMgQ09ORklHX0lERV9JU0EsIHJpZ2h0Pw0KDQp5ZXMgSSB0aGluayB5b3UncmUgcmlnaHQs
-IGRvIEkgbmVlZCB0byB1c2UgI2lmZGVmIENPTkZJR19JU0FQQyBpbnN0ZWFkPw0Kb3IgaG93IEkg
-Y2FuIGRlZmluZSBDT05GSUdfSURFX0lTQSBhdCBidWlsZCB0aW1lPw0KDQo+IA0KPiBQYW9sbw0K
-PiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBKdWxpbyBNb250ZXMgPGp1bGlvLm1vbnRlc0BpbnRlbC5j
-b20+DQo+ID4gLS0tDQo+ID4gIGh3L2kzODYvcGNfcGlpeC5jIHwgMTEgKysrKysrKystLS0NCj4g
-PiAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4gPiAN
-Cj4gPiBkaWZmIC0tZ2l0IGEvaHcvaTM4Ni9wY19waWl4LmMgYi9ody9pMzg2L3BjX3BpaXguYw0K
-PiA+IGluZGV4IGMwN2M0YTViMzguLmI5M2Y5MzI3YmUgMTAwNjQ0DQo+ID4gLS0tIGEvaHcvaTM4
-Ni9wY19waWl4LmMNCj4gPiArKysgYi9ody9pMzg2L3BjX3BpaXguYw0KPiA+IEBAIC02MSw5ICs2
-MSwxMSBAQA0KPiA+ICANCj4gPiAgI2RlZmluZSBNQVhfSURFX0JVUyAyDQo+ID4gIA0KPiA+ICsj
-aWZkZWYgQ09ORklHX0lERV9JU0ENCj4gPiAgc3RhdGljIGNvbnN0IGludCBpZGVfaW9iYXNlW01B
-WF9JREVfQlVTXSA9IHsgMHgxZjAsIDB4MTcwIH07DQo+ID4gIHN0YXRpYyBjb25zdCBpbnQgaWRl
-X2lvYmFzZTJbTUFYX0lERV9CVVNdID0geyAweDNmNiwgMHgzNzYgfTsNCj4gPiAgc3RhdGljIGNv
-bnN0IGludCBpZGVfaXJxW01BWF9JREVfQlVTXSA9IHsgMTQsIDE1IH07DQo+ID4gKyNlbmRpZg0K
-PiA+ICANCj4gPiAgLyogUEMgaGFyZHdhcmUgaW5pdGlhbGlzYXRpb24gKi8NCj4gPiAgc3RhdGlj
-IHZvaWQgcGNfaW5pdDEoTWFjaGluZVN0YXRlICptYWNoaW5lLA0KPiA+IEBAIC0yNTQsNyArMjU2
-LDEwIEBAIHN0YXRpYyB2b2lkIHBjX2luaXQxKE1hY2hpbmVTdGF0ZSAqbWFjaGluZSwNCj4gPiAg
-ICAgICAgICB9DQo+ID4gICAgICAgICAgaWRlYnVzWzBdID0gcWRldl9nZXRfY2hpbGRfYnVzKCZk
-ZXYtPnFkZXYsICJpZGUuMCIpOw0KPiA+ICAgICAgICAgIGlkZWJ1c1sxXSA9IHFkZXZfZ2V0X2No
-aWxkX2J1cygmZGV2LT5xZGV2LCAiaWRlLjEiKTsNCj4gPiAtICAgIH0gZWxzZSB7DQo+ID4gKyAg
-ICAgICAgcGNfY21vc19pbml0KHBjbXMsIGlkZWJ1c1swXSwgaWRlYnVzWzFdLCBydGNfc3RhdGUp
-Ow0KPiA+ICsgICAgfQ0KPiA+ICsjaWZkZWYgQ09ORklHX0lERV9JU0ENCj4gPiArZWxzZSB7DQo+
-ID4gICAgICAgICAgZm9yKGkgPSAwOyBpIDwgTUFYX0lERV9CVVM7IGkrKykgew0KPiA+ICAgICAg
-ICAgICAgICBJU0FEZXZpY2UgKmRldjsNCj4gPiAgICAgICAgICAgICAgY2hhciBidXNuYW1lW10g
-PSAiaWRlLjAiOw0KPiA+IEBAIC0yNjgsOSArMjczLDkgQEAgc3RhdGljIHZvaWQgcGNfaW5pdDEo
-TWFjaGluZVN0YXRlICptYWNoaW5lLA0KPiA+ICAgICAgICAgICAgICBidXNuYW1lWzRdID0gJzAn
-ICsgaTsNCj4gPiAgICAgICAgICAgICAgaWRlYnVzW2ldID0gcWRldl9nZXRfY2hpbGRfYnVzKERF
-VklDRShkZXYpLCBidXNuYW1lKTsNCj4gPiAgICAgICAgICB9DQo+ID4gKyAgICAgICAgcGNfY21v
-c19pbml0KHBjbXMsIGlkZWJ1c1swXSwgaWRlYnVzWzFdLCBydGNfc3RhdGUpOw0KPiA+ICAgICAg
-fQ0KPiA+IC0NCj4gPiAtICAgIHBjX2Ntb3NfaW5pdChwY21zLCBpZGVidXNbMF0sIGlkZWJ1c1sx
-XSwgcnRjX3N0YXRlKTsNCj4gPiArI2VuZGlmDQo+ID4gIA0KPiA+ICAgICAgaWYgKHBjbWMtPnBj
-aV9lbmFibGVkICYmIG1hY2hpbmVfdXNiKG1hY2hpbmUpKSB7DQo+ID4gICAgICAgICAgcGNpX2Ny
-ZWF0ZV9zaW1wbGUocGNpX2J1cywgcGlpeDNfZGV2Zm4gKyAyLCAicGlpeDMtdXNiLQ0KPiA+IHVo
-Y2kiKTsNCj4gPiANCg==
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Hi Alex, Peter.
+>
+> On 7/3/19 5:52 PM, Alex Benn=C3=A9e wrote:
+>> Now we do all our checking and use a common EXCP_SEMIHOST for
+>> semihosting operations we can make helper code a lot simpler.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  target/arm/helper.c | 84 +++++++++------------------------------------
+>>  1 file changed, 17 insertions(+), 67 deletions(-)
+>>
+>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>> index ad29dc4072..5c1f741380 100644
+>> --- a/target/arm/helper.c
+>> +++ b/target/arm/helper.c
+>> @@ -10364,83 +10364,33 @@ static void arm_cpu_do_interrupt_aarch64(CPUSt=
+ate *cs)
+>>                    new_el, env->pc, pstate_read(env));
+>>  }
+>>
+>> -static inline bool check_for_semihosting(CPUState *cs)
+>> +/*
+>> + * Check whether this exception is a semihosting call; if so
+>> + * then handle it and return true; otherwise return false.
+>> + *
+>> + * All the permission and validity checks are done at translate time.
+>> + */
+>> +static inline bool handle_semihosting(CPUState *cs)
+>>  {
+>> -    /* Check whether this exception is a semihosting call; if so
+>> -     * then handle it and return true; otherwise return false.
+>> -     */
+>>      ARMCPU *cpu =3D ARM_CPU(cs);
+>>      CPUARMState *env =3D &cpu->env;
+>>
+>> -    if (is_a64(env)) {
+>> -        if (cs->exception_index =3D=3D EXCP_SEMIHOST) {
+>> -            /* This is always the 64-bit semihosting exception.
+>> -             * The "is this usermode" and "is semihosting enabled"
+>> -             * checks have been done at translate time.
+>> -             */
+>> +    if (cs->exception_index =3D=3D EXCP_SEMIHOST) {
+>> +        if (is_a64(env)) {
+>>              qemu_log_mask(CPU_LOG_INT,
+>>                            "...handling as semihosting call 0x%" PRIx64 =
+"\n",
+>>                            env->xregs[0]);
+>>              env->xregs[0] =3D do_arm_semihosting(env);
+>> -            return true;
+>> -        }
+>> -        return false;
+>> -    } else {
+>> -        uint32_t imm;
+>> -
+>> -        /* Only intercept calls from privileged modes, to provide some
+>> -         * semblance of security.
+>> -         */
+>> -        if (cs->exception_index !=3D EXCP_SEMIHOST &&
+>> -            (!semihosting_enabled() ||
+>> -             ((env->uncached_cpsr & CPSR_M) =3D=3D ARM_CPU_MODE_USR))) {
+>> -            return false;
+>> -        }
+>> -
+>> -        switch (cs->exception_index) {
+>> -        case EXCP_SEMIHOST:
+>> -            /* This is always a semihosting call; the "is this usermode"
+>> -             * and "is semihosting enabled" checks have been done at
+>> -             * translate time.
+>> -             */
+>> -            break;
+>> -        case EXCP_SWI:
+>> -            /* Check for semihosting interrupt.  */
+>> -            if (env->thumb) {
+>> -                imm =3D arm_lduw_code(env, env->regs[15] - 2, arm_sctlr=
+_b(env))
+>> -                    & 0xff;
+>> -                if (imm =3D=3D 0xab) {
+>> -                    break;
+>> -                }
+>> -            } else {
+>> -                imm =3D arm_ldl_code(env, env->regs[15] - 4, arm_sctlr_=
+b(env))
+>> -                    & 0xffffff;
+>> -                if (imm =3D=3D 0x123456) {
+>> -                    break;
+>> -                }
+>> -            }
+>> -            return false;
+>> -        case EXCP_BKPT:
+>> -            /* See if this is a semihosting syscall.  */
+>> -            if (env->thumb) {
+>> -                imm =3D arm_lduw_code(env, env->regs[15], arm_sctlr_b(e=
+nv))
+>> -                    & 0xff;
+>> -                if (imm =3D=3D 0xab) {
+>> -                    env->regs[15] +=3D 2;
+>> -                    break;
+>> -                }
+>> -            }
+>> -            return false;
+>> -        default:
+>> -            return false;
+>> +        } else {
+>> +            qemu_log_mask(CPU_LOG_INT,
+>> +                          "...handling as semihosting call 0x%x\n",
+>> +                          env->regs[0]);
+>> +            env->regs[0] =3D do_arm_semihosting(env);
+>>          }
+>> -
+>> -        qemu_log_mask(CPU_LOG_INT,
+>> -                      "...handling as semihosting call 0x%x\n",
+>> -                      env->regs[0]);
+>> -        env->regs[0] =3D do_arm_semihosting(env);
+>>          return true;
+>>      }
+>> +
+>> +    return false;
+>>  }
+>>
+>>  /* Handle a CPU exception for A and R profile CPUs.
+>> @@ -10476,7 +10426,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
+>>       * code that caused the exception, not the target exception level,
+>>       * so must be handled here.
+>>       */
+>> -    if (check_for_semihosting(cs)) {
+>> +    if (handle_semihosting(cs)) {
+>>          return;
+>>      }
+>>
+>>
+>
+> This patch clashes with this one:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00343.html
+> that Peter already queued:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00692.html
+>
+> Peter, if you want this for 4.1, it might be easier to dequeue "Restrict
+> semi-hosting to TCG", apply Alex series, and re-apply "Restrict
+> semi-hosting to TCG", the conflicts should be trivial (function name
+> changed check_for_semihosting -> handle_semihosting).
+
+This isn't 4.1 material - unless I can figure out the weird single-step
+while semihosting bug.
+
+>
+> Thanks,
+>
+> Phil.
+
+
+--
+Alex Benn=C3=A9e
 
