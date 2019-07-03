@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932905E0D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:18:09 +0200 (CEST)
-Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C0A5E0B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:15:03 +0200 (CEST)
+Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibOy-0001Gg-NQ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:18:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
+	id 1hibLy-0005VN-9e
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54820)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hiazH-0007Lp-C4
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:36 -0400
+ (envelope-from <clg@kaod.org>) id 1hib1f-00022P-Be
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hiazG-0005IY-D6
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:35 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42283)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiazG-0005H4-7F
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:34 -0400
-Received: by mail-wr1-f65.google.com with SMTP id a10so695616wrp.9
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:51:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1k+wCEISVNeW6UxjqDwSgie9/hwhw3XLp95GoY0l/Tg=;
- b=CSvn4dO4e7jDLDo/O/bbI5YVaIwGGuik4P0aZgWIcoyxbVzaACm12ZIXLCKw7iqt4j
- qcn5eJf9DDMrP0TZS0ptoRuSDRajnzgcaiuHlVhz7qeEUGnd3oElPoZqsBU4vHSGcdqi
- xH4NCJzAt7Nc4b+/V1siDZehqtIVHiSUYNFLq/YFnyp8JbanOVpyeDeXp/HABVgikfeq
- M/EPUGkqFsUYjc2dxI3neU+Q8VUHo9+9jzhsR925twT5jBdf78ZtIgC1JOqvkkAuJeBP
- vME/dSX/CbY+GA2kHpFNoC/gXvklM7S4jqTka4UbO8WLFHujoA1zQrZg4FnHwRWCoJnr
- kfmw==
-X-Gm-Message-State: APjAAAXLyQeE8ut0uTzMso9rgTtM1YcCMeLxWtbiWsxNpR1gNC87j06+
- 8e9v91fztR0l2hE0/2l2B0MlcT6HEQ4=
-X-Google-Smtp-Source: APXvYqxqXj+7DGA9E44xmHSEGZ4x1NyBKQKvkXINEt8Fm13mw7s0/ia15HuKAsgy53eDjL6YO9eW4A==
-X-Received: by 2002:adf:e2c7:: with SMTP id d7mr26980819wrj.272.1562143893182; 
- Wed, 03 Jul 2019 01:51:33 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id q10sm1445446wrf.32.2019.07.03.01.51.32
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 01:51:32 -0700 (PDT)
-To: Alex Williamson <alex.williamson@redhat.com>, cohuck@redhat.com,
- farman@linux.ibm.com, alifm@linux.ibm.com
-References: <156209642116.14915.9598593247782519613.stgit@gimli.home>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <7d1588b7-d963-59a5-7bcf-132a83908b0d@redhat.com>
-Date: Wed, 3 Jul 2019 10:51:31 +0200
+ (envelope-from <clg@kaod.org>) id 1hib1e-0002ED-16
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:03 -0400
+Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:42745)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hib1d-0001NQ-Rl
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:01 -0400
+Received: from player772.ha.ovh.net (unknown [10.108.54.59])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id ADD8766C06
+ for <qemu-devel@nongnu.org>; Wed,  3 Jul 2019 10:53:36 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player772.ha.ovh.net (Postfix) with ESMTPSA id A610C77E3311;
+ Wed,  3 Jul 2019 08:53:29 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190618165311.27066-1-clg@kaod.org>
+ <20190618165311.27066-11-clg@kaod.org>
+ <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <b88cc8cf-6cf0-6611-28a9-64372eccbeef@kaod.org>
+Date: Wed, 3 Jul 2019 10:53:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <156209642116.14915.9598593247782519613.stgit@gimli.home>
+In-Reply-To: <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 7858781350846237611
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrfedtgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: Test vfio_set_irq_signaling()
- return value
+X-Received-From: 46.105.49.171
+Subject: Re: [Qemu-devel] [PATCH v2 10/21] aspeed/timer: Provide
+ back-pressure information for short periods
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +60,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/2/19 9:41 PM, Alex Williamson wrote:
-> Coverity doesn't like that most callers of vfio_set_irq_signaling() check
-> the return value and doesn't understand the equivalence of testing the
-> error pointer instead.  Test the return value consistently.
-> 
-> Reported-by: Coverity (CID 1402783)
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
->  hw/vfio/ccw.c |    5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 6d0296fe4d9c..16f200e6fe6a 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -327,9 +327,8 @@ static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
->  {
->      Error *err = NULL;
->  
-> -    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-> -                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
-> -    if (err) {
-> +    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
->          error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
->      }
->  
-> 
-> 
+On 01/07/2019 14:59, Peter Maydell wrote:
+> On Tue, 18 Jun 2019 at 17:54, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
+e:
+>>
+>> From: Andrew Jeffery <andrew@aj.id.au>
+>>
+>> First up: This is not the way the hardware behaves.
+>>
+>> However, it helps resolve real-world problems with short periods being
+>> used under Linux. Commit 4451d3f59f2a ("clocksource/drivers/fttmr010:
+>> Fix set_next_event handler") in Linux fixed the timer driver to
+>> correctly schedule the next event for the Aspeed controller, and in
+>> combination with 5daa8212c08e ("ARM: dts: aspeed: Describe random numb=
+er
+>> device") Linux will now set a timer with a period as low as 1us.
+>>
+>> Configuring a qemu timer with such a short period results in spending
+>> time handling the interrupt in the model rather than executing guest
+>> code, leading to noticeable "sticky" behaviour in the guest.
+>>
+>> The behaviour of Linux is correct with respect to the hardware, so we
+>> need to improve our handling under emulation. The approach chosen is t=
+o
+>> provide back-pressure information by calculating an acceptable minimum
+>> number of ticks to be set on the model. Under Linux an additional read
+>> is added in the timer configuration path to detect back-pressure, whic=
+h
+>> will never occur on hardware. However if back-pressure is observed, th=
+e
+>> driver alerts the clock event subsystem, which then performs its own
+>> next event dilation via a config option - d1748302f70b ("clockevents:
+>> Make minimum delay adjustments configurable")
+>>
+>> A minimum period of 5us was experimentally determined on a Lenovo
+>> T480s, which I've increased to 20us for "safety".
+>>
+>> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>=20
+>> --- a/hw/misc/aspeed_scu.c
+>> +++ b/hw/misc/aspeed_scu.c
+>> @@ -423,6 +423,12 @@ static void aspeed_scu_realize(DeviceState *dev, =
+Error **errp)
+>>                            TYPE_ASPEED_SCU, SCU_IO_REGION_SIZE);
+>>
+>>      sysbus_init_mmio(sbd, &s->iomem);
+>> +
+>> +    /*
+>> +     * Reset on realize to ensure the APB clock value is calculated i=
+n time for
+>> +     * use by the timer model, which is reset before the SCU.
+>> +     */
+>> +    aspeed_scu_reset(dev);
+>=20
+> This looks wrong. QEMU should always be resetting devices
+> after realize and before actually running anything.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+We have something better for this patch (getting rid of the reset=20
+ordering issue). Can we still send you the fix this week ?
+
+Thanks,
+
+C.
 
