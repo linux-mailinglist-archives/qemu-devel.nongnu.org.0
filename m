@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773925EC51
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 21:09:56 +0200 (CEST)
-Received: from localhost ([::1]:38730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FDC5EC0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:59:13 +0200 (CEST)
+Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hikdf-0003sT-Ng
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 15:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35785)
+	id 1hikTI-0003uB-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37797)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hikJu-0002iT-5r
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:49:31 -0400
+ (envelope-from <mst@redhat.com>) id 1hikSI-00032B-LC
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hikJr-00026i-HX
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:49:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52952)
+ (envelope-from <mst@redhat.com>) id 1hikSH-0000Oh-I3
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48010)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hikJr-00025S-70
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:49:27 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hikSH-0000Lf-92
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:09 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A113F3082E57;
- Wed,  3 Jul 2019 18:49:25 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BC6A83286;
- Wed,  3 Jul 2019 18:49:24 +0000 (UTC)
-Date: Wed, 3 Jul 2019 15:49:22 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <rth@twiddle.net>
-Message-ID: <20190703184922.GX5198@habkost.net>
-References: <20190703180726.31267-1-ehabkost@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id B262830832C9;
+ Wed,  3 Jul 2019 18:58:01 +0000 (UTC)
+Received: from redhat.com (ovpn-123-166.rdu2.redhat.com [10.10.123.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 773761001DC7;
+ Wed,  3 Jul 2019 18:57:54 +0000 (UTC)
+Date: Wed, 3 Jul 2019 14:57:53 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Message-ID: <20190703031041-mutt-send-email-mst@kernel.org>
+References: <6EF9E5BE-2FBF-4CC4-BA1F-AE55ADD82A6E@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190703180726.31267-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <6EF9E5BE-2FBF-4CC4-BA1F-AE55ADD82A6E@nutanix.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 03 Jul 2019 18:49:25 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Wed, 03 Jul 2019 18:58:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v4 00/43] Machine and x86 queue, 2019-07-03
+Subject: Re: [Qemu-devel] Should memory hotplug work with vhost-user
+ backends?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,216 +57,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mike Cui <cui@nutanix.com>, Malcolm Crossley <malcolm@nutanix.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "changchun.ouyang@intel.com" <changchun.ouyang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like this conflicts with commit 374f63f6810a ("Merge
-remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-07-02-v2'
-into staging"), and I'll have to manually fix the conflicts and
-send a new pull request.
+On Tue, Jul 02, 2019 at 10:08:54PM +0000, Raphael Norwitz wrote:
+> For background I am trying to work around a ram slot limit imposed by t=
+he
+> vhost-user protocol. We are having trouble reconciling the comment here=
+: https:
+> //github.com/qemu/qemu/blob/master/hw/virtio/vhost-user.c#L333  that =E2=
+=80=9CFor
+> non-vring specific requests, like VHOST_USER_SET_MEM_TABLE., we just ne=
+ed to
+> send it once the first time=E2=80=9D and the high level implementation =
+of memory
+> hot-add, which calls set_mem_table every time a VM hot adds memory.
 
-I've learned a lesson here: if queueing a series that touches too
-many files (like the SMP refactor included in this pull request),
-never wait more than 2 days to send a pull request.
+IIUC the comment refers to multiple virtqueue. It is trying to say that
+we do not need to send VHOST_USER_SET_MEM_TABLE for each
+virtqueue.
 
 
-On Wed, Jul 03, 2019 at 03:06:43PM -0300, Eduardo Habkost wrote:
-> Changes v3 -> v4:
-> * Fix ppc64 "make check" failure
+
+> =20
 >=20
-> Changes v2 -> v3:
-> * Fix "make check" warnings (Igor Mammedov)
-> * Fix conflicts of "hw/arm: Replace global smp variables with
->   machine smp properties" with recent arm changes (Eduardo Habkost)
-> * x86 versioned CPU models (Eduardo Habkost)
-> * SnowRidge CPU model (Paul Lai)
-> * Add deprecation information to query-machines (Eduardo Habkost)
+> A few questions:
 >=20
-> Changes v1 -> v2:
-> * Fix s390x build failure
+> 1.
 >=20
-> The following changes since commit 506179e42112be77bfd071f050b15762d3b2=
-cd43:
+> What exactly is the check `if (vhost_user_one_time_request(msg->hdr.req=
+uest) &&
+> dev->vq_index !=3D 0)` for?
+
+Some backends register multiple dev instances per backend: one for each
+virtqueue.  This check avoids sending VHOST_USER_SET_MEM_TABLE more than
+once in this case.
+
+
+> In the message for commit
+> b931bfbf042983f311b3b09894d8030b2755a638, which introduced the check, I=
+ see it
+> says =E2=80=9Cnon-vring specific messages[, which should] be sent only =
+once=E2=80=9D and gives
+> VHOST_USER_SET_MEM_TABLE as an example one such message. The
+> `vhost_user_one_time_request()` call clearly checks whether this type o=
+f
+> message is the kind of message is supposed to be sent once of which
+> VHOST_USER_SET_MEM_TABLE is one. Why, then, does this commit add the ch=
+eck if
+> `dev->vq_index !=3D 0`? It seems like there is a latent assumption that=
+ after the
+> first call dev->vq_index should be set to some value greater than one, =
+however
+> for many cases such as vhost-user-scsi devices we can see this is clear=
+ly not
+> the case https://github.com/qemu/qemu/blob/master/hw/scsi/vhost-user-sc=
+si.c#
+> L95. Is this check then =E2=80=98broken=E2=80=99 for such devices?
+
+I think vhost-scsi has a single instance per backend, that is
+why vq_index is 0.
+
+> =20
 >=20
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-201907=
-02' into staging (2019-07-02 18:56:44 +0100)
+> 2.
 >=20
-> are available in the Git repository at:
+> If this check is indeed broken for such devices, and set_mem_table call=
+ is only
+> supposed to be run once for such devices, is the ability to call it mul=
+tiple
+> times technically a bug for devices such as vhost-user-scsci devices? I=
+f so,
+> this would imply that the existing ability to hot add memory to vhost-u=
+ser-scsi
+> devices is by extension technically a bug/unintended behavior. Is this =
+the
+> case?
 >=20
->   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+> =20
 >=20
-> for you to fetch changes up to 7796c85de813f1a18f2afd747b5332585ef7a4d6=
-:
+> Thanks,
 >=20
->   tests: use -numa memdev option in tests instead of legacy 'mem' optio=
-n (2019-07-02 18:59:45 -0300)
->=20
-> ----------------------------------------------------------------
-> Machine and x86 queue, 2019-07-02
->=20
-> * CPU die topology support (Like Xu)
-> * Deprecation of features (Igor Mammedov):
->   * 'mem' parameter of '-numa node' option
->   * implict memory distribution between NUMA nodes
->   * deprecate -mem-path fallback to anonymous RAM
-> * x86 versioned CPU models (Eduardo Habkost)
-> * SnowRidge CPU model (Paul Lai)
-> * Add deprecation information to query-machines (Eduardo Habkost)
-> * Other i386 fixes
->=20
-> ----------------------------------------------------------------
->=20
-> Queue for Machine Core patches
->=20
->=20
-> Alex Benn=E9e (1):
->   target/i386: fix feature check in hyperv-stub.c
->=20
-> Eduardo Habkost (15):
->   hppa: Delete unused hppa_cpu_list() function
->   i386: Don't print warning if phys-bits was set automatically
->   i386: Fix signedness of hyperv_spinlock_attempts
->   i386: Remove unused host_cpudef variable
->   qmp: Add deprecation information to query-machines
->   qmp: Add "alias-of" field to query-cpu-definitions
->   i386: Add x-force-features option for testing
->   i386: Get model-id from CPU object on "-cpu help"
->   i386: Register versioned CPU models
->   i386: Define -IBRS, -noTSX, -IBRS versions of CPU models
->   i386: Replace -noTSX, -IBRS, -IBPB CPU models with aliases
->   i386: Make unversioned CPU models be aliases
->   docs: Deprecate CPU model runnability guarantees
->   i386: Add Cascadelake-Server-v2 CPU model
->   numa: Make deprecation warnings conditional on !qtest_enabled()
->=20
-> Igor Mammedov (7):
->   pc: fix possible NULL pointer dereference in
->     pc_machine_get_device_memory_region_size()
->   machine: show if CLI option '-numa node,mem' is supported in QAPI
->     schema
->   numa: deprecate 'mem' parameter of '-numa node' option
->   numa: deprecate implict memory distribution between nodes
->   deprecate -mem-path fallback to anonymous RAM
->   numa: allow memory-less nodes when using memdev as backend
->   tests: use -numa memdev option in tests instead of legacy 'mem' optio=
-n
->=20
-> Like Xu (17):
->   hw/boards: Add struct CpuTopology to MachineState
->   machine: Refactor smp-related call chains to pass MachineState
->   general: Replace global smp variables with smp machine properties
->   hw/ppc: Replace global smp variables with machine smp properties
->   hw/riscv: Replace global smp variables with machine smp properties
->   hw/s390x: Replace global smp variables with machine smp properties
->   hw/i386: Replace global smp variables with machine smp properties
->   hw/arm: Replace global smp variables with machine smp properties
->   hw: Replace global smp variables with MachineState for all remaining
->     archs
->   vl.c: Replace smp global variables with smp machine properties
->   i386: Add die-level cpu topology to x86CPU on PCMachine
->   hw/i386: Adjust nr_dies with configured smp_dies for PCMachine
->   i386/cpu: Consolidate die-id validity in smp context
->   i386: Update new x86_apicid parsing rules with die_offset support
->   target/i386: Add CPUID.1F generation support for multi-dies PCMachine
->   machine: Refactor smp_parse() in vl.c as MachineClass::smp_parse()
->   vl.c: Add -smp, dies=3D* command line support and update doc
->=20
-> Paul Lai (1):
->   i386: Introduce SnowRidge CPU model
->=20
-> Roman Kagan (1):
->   i386: make 'hv-spinlocks' a regular uint32 property
->=20
-> Wei Yang (1):
->   x86/cpu: use FeatureWordArray to define filtered_features
->=20
->  qapi/misc.json                             |   16 +-
->  qapi/target.json                           |    9 +-
->  include/hw/boards.h                        |   27 +-
->  include/hw/firmware/smbios.h               |    5 +-
->  include/hw/i386/pc.h                       |    8 +-
->  include/hw/i386/topology.h                 |   76 +-
->  target/hppa/cpu.h                          |    2 -
->  target/i386/cpu-qom.h                      |   10 +-
->  target/i386/cpu.h                          |   36 +-
->  accel/kvm/kvm-all.c                        |    4 +-
->  backends/hostmem.c                         |    6 +-
->  cpus.c                                     |    6 +-
->  exec.c                                     |    3 +-
->  gdbstub.c                                  |    4 +
->  hw/alpha/dp264.c                           |    1 +
->  hw/arm/aspeed.c                            |    2 +-
->  hw/arm/fsl-imx6.c                          |    6 +-
->  hw/arm/fsl-imx6ul.c                        |    6 +-
->  hw/arm/fsl-imx7.c                          |    7 +-
->  hw/arm/highbank.c                          |    1 +
->  hw/arm/mcimx6ul-evk.c                      |    2 +-
->  hw/arm/mcimx7d-sabre.c                     |    2 +-
->  hw/arm/raspi.c                             |    4 +-
->  hw/arm/realview.c                          |    1 +
->  hw/arm/sabrelite.c                         |    2 +-
->  hw/arm/sbsa-ref.c                          |    4 +
->  hw/arm/vexpress.c                          |   16 +-
->  hw/arm/virt.c                              |   11 +-
->  hw/arm/xlnx-zynqmp.c                       |   16 +-
->  hw/core/machine.c                          |   88 ++
->  hw/cpu/core.c                              |    4 +-
->  hw/hppa/machine.c                          |    4 +-
->  hw/i386/acpi-build.c                       |   13 +-
->  hw/i386/kvmvapic.c                         |    7 +-
->  hw/i386/pc.c                               |  186 +++-
->  hw/i386/pc_piix.c                          |    4 +
->  hw/i386/pc_q35.c                           |    4 +
->  hw/i386/xen/xen-hvm.c                      |    4 +
->  hw/mips/boston.c                           |    2 +-
->  hw/mips/mips_malta.c                       |   24 +-
->  hw/openrisc/openrisc_sim.c                 |    1 +
->  hw/ppc/e500.c                              |    3 +
->  hw/ppc/mac_newworld.c                      |    3 +-
->  hw/ppc/mac_oldworld.c                      |    3 +-
->  hw/ppc/pnv.c                               |    9 +-
->  hw/ppc/prep.c                              |    4 +-
->  hw/ppc/spapr.c                             |   38 +-
->  hw/ppc/spapr_rtas.c                        |    4 +-
->  hw/riscv/sifive_e.c                        |    6 +-
->  hw/riscv/sifive_plic.c                     |    3 +
->  hw/riscv/sifive_u.c                        |    6 +-
->  hw/riscv/spike.c                           |    3 +
->  hw/riscv/virt.c                            |    1 +
->  hw/s390x/s390-virtio-ccw.c                 |    9 +-
->  hw/s390x/sclp.c                            |    2 +-
->  hw/smbios/smbios.c                         |   26 +-
->  hw/sparc/sun4m.c                           |    2 +
->  hw/sparc64/sun4u.c                         |    4 +-
->  hw/xtensa/sim.c                            |    2 +-
->  hw/xtensa/xtfpga.c                         |    1 +
->  migration/postcopy-ram.c                   |    8 +-
->  monitor/hmp-cmds.c                         |    3 +
->  monitor/qmp-cmds.c                         |    2 +-
->  numa.c                                     |   36 +-
->  target/arm/cpu.c                           |    8 +-
->  target/hppa/cpu.c                          |   17 -
->  target/i386/cpu.c                          | 1171 ++++++++++----------
->  target/i386/hyperv-stub.c                  |    2 +-
->  target/i386/kvm.c                          |   12 +
->  target/openrisc/sys_helper.c               |    6 +-
->  target/s390x/cpu.c                         |    3 +
->  target/s390x/excp_helper.c                 |    5 +
->  target/s390x/kvm.c                         |   10 +-
->  tcg/tcg.c                                  |   13 +-
->  tests/bios-tables-test.c                   |   40 +-
->  tests/test-x86-cpuid.c                     |   84 +-
->  vl.c                                       |   98 +-
->  qemu-deprecated.texi                       |   52 +
->  qemu-options.hx                            |   17 +-
->  tests/acceptance/x86_cpu_model_versions.py |  304 +++++
->  80 files changed, 1703 insertions(+), 951 deletions(-)
->  create mode 100644 tests/acceptance/x86_cpu_model_versions.py
->=20
-> --=20
-> 2.18.0.rc1.1.g3f1ff2140
->=20
+> Raphael
+
+I don't think that is the case. It's possible that memory hotplug has
+bugs with vhost-user, but I don't think it's anything fundamental.
 
 --=20
-Eduardo
+MST
 
