@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FB15E9C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:52:37 +0200 (CEST)
-Received: from localhost ([::1]:37654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F195E9CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:56:28 +0200 (CEST)
+Received: from localhost ([::1]:37712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiiUm-0006kp-7D
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36421)
+	id 1hiiYV-0004qw-VE
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hiiDs-0002Yz-RH
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:10 -0400
+ (envelope-from <berrange@redhat.com>) id 1hiiEd-0002yU-Cs
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hiiDq-0007Cr-TZ
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:08 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55776)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hiiDp-000785-2k
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a15so2869212wmj.5
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 09:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qaGODbYJKsxE/CqG0c/kMGgXk1sGBE9vDO+cWlS4gVQ=;
- b=XhycOE3zX977xr6vIqBIUjNd9o8TK1F4TDPx06fGeZrWfh1iBRmfp13v0I9oRseLYO
- pes2TdDmV9TbaDk0GSfh3po7rVidVvqiXxDjs2kmFJxvpP9A3pJs6VMNBrnui6gl3p8u
- cLz5Asn7tjyhAoXEbDN3kZ3hRAyvjxCpkp8/TZpXJ6dX6RivHBPkzoglGVJ2c5tsV9Q5
- PgGbToL8O9F3gv4lY6Cz16Zbx+sNjYPtnRyGd94Wd4ymhjAxbDnKJvGkgzLyU+0YfGyp
- BGQa+dvsYCWlN8Rrv2Ebqecj+1Bkk6eXfLPF4qPpc9eh7Mge535GYVbmK5HHpiIi7gpb
- zEdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qaGODbYJKsxE/CqG0c/kMGgXk1sGBE9vDO+cWlS4gVQ=;
- b=DLJghecsl9BEUqxgLmFa1jruYM4FUZsIqCQ9iz0mOUoL3EYCAUByMJ4czC0evbKUB+
- gnMLlzDPtqrcvW8U8QltlnwrwgsCz4C2C4APCYUJGC06rv5rJL1bJJZypcErj/2h+XSo
- TEPImjHVTGhwh1wO72bV3hrqQ7gv6AHUugua2I5k9rXd7jZlKkvakObrEuWaTEvEztzJ
- Tpu/+KRBZfuy/5PcwoqObNfnvCKg87C8WjAA0BISGRsfuOBNGhum/cuSdZfxQI8xWBPf
- w1HiUeyCPkWFhCepSefgNMv3lrCbyWLEWao0vZ0/9hKPLTHcVF+3KbssBEi+Ujm92q2e
- sSdA==
-X-Gm-Message-State: APjAAAVaPaDSE72a/BwbqgK7dFcnsZpuzUdKtbiB8LlEfR8zfq9GpKwb
- pt3L6ahU2po9QMeow63yC+JnJw==
-X-Google-Smtp-Source: APXvYqwAcLEIazn1Dpw2KBfxADhgZQz7f3OF1yEEX87evuT/xi9dz/YKpfJA8al79HBu3I/BKLsfoQ==
-X-Received: by 2002:a1c:1d83:: with SMTP id d125mr8588366wmd.63.1562171702441; 
- Wed, 03 Jul 2019 09:35:02 -0700 (PDT)
-Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id x129sm2678662wmg.44.2019.07.03.09.35.01
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 09:35:01 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190703155244.28166-1-alex.bennee@linaro.org>
- <20190703155244.28166-4-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <3081fb0b-0e87-6907-4055-e939c1f52573@linaro.org>
-Date: Wed, 3 Jul 2019 18:35:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <berrange@redhat.com>) id 1hiiEb-0007r0-Vr
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49432)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hiiEZ-0007oe-U9
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:35:52 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EAA0A3082E5F;
+ Wed,  3 Jul 2019 16:35:45 +0000 (UTC)
+Received: from dhcp-17-95.lcy.redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52091832B6;
+ Wed,  3 Jul 2019 16:35:42 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  3 Jul 2019 17:35:41 +0100
+Message-Id: <20190703163541.19520-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190703155244.28166-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v1 3/4] target/arm: handle A-profile A32
- semihosting at translate time
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Wed, 03 Jul 2019 16:35:45 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2] doc: document that the monitor console is a
+ privileged control interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,22 +54,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, P J P <ppandit@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/19 5:52 PM, Alex Bennée wrote:
-> As for the other semihosting calls we can resolve this at translate
-> time.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/arm/translate.c | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
+A supposed exploit of QEMU was recently announced as CVE-2019-12928
+claiming that the monitor console was insecure because the "migrate"
+command enabled arbitrary command execution for a remote attacker.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+To be a security risk the user launching QEMU must have configured
+the monitor in a way that allows for other users to access it. The
+exploit report quoted use of the "tcp" character device backend for
+QMP.
 
+This would indeed allow any network user to connect to QEMU and
+execute arbitrary commands, however, this is not a flaw in QEMU.
+It is the normal expected behaviour of the monitor console and the
+commands it supports. Given a monitor connection, there are many
+ways to access host filesystem content besides the migrate command.
 
-r~
+The reality is that the monitor console (whether QMP or HMP) is
+considered a privileged interface to QEMU and as such must only
+be made available to trusted users. IOW, making it available with
+no authentication over TCP is simply a, very serious, user
+configuration error not a security flaw in QEMU itself.
+
+The one thing this bogus security report highlights though is that
+we have not clearly documented the security implications around the
+use of the monitor. Add a few paragraphs of text to the security
+docs explaining why the monitor is a privileged interface and making
+a recommendation to only use the UNIX socket character device backend.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+
+Changed in v2:
+
+ - Addressed misc typos (Eric / Philippe)
+
+ docs/security.texi | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/docs/security.texi b/docs/security.texi
+index 927764f1e6..3f5d5e7adc 100644
+--- a/docs/security.texi
++++ b/docs/security.texi
+@@ -129,3 +129,39 @@ those resources that were granted to it.
+ system calls that are not needed by QEMU, thereby reducing the host kern=
+el
+ attack surface.
+ @end itemize
++
++@section Sensitive configurations
++
++There are aspects of QEMU that can have non-obvious security implication=
+s
++which users & management applications must be aware of.
++
++@subsection Monitor console (QMP and HMP)
++
++The monitor console (whether used with QMP or HMP) provides an RPC inter=
+face
++to dynamically control many aspects of QEMU's runtime operation. Many of=
+ the
++commands exposed will instruct QEMU to access content on the host filesy=
+system
++and/or trigger spawning of external processes.
++
++For example, the @code{migrate} command allows for the spawning of arbit=
+rary
++processes for the purpose of tunnelling the migration data stream. The
++@code{blockdev-add} command instructs QEMU to open arbitrary files, expo=
+sing
++their content to the guest as a virtual disk.
++
++Unless QEMU is otherwise confined using technologies such as SELinux, Ap=
+pArmor,
++or Linux namespaces, the monitor console should be considered to have pr=
+ivileges
++equivalent to those of the user account QEMU is running under.
++
++It is further important to consider the security of the character device=
+ backend
++over which the monitor console is exposed. It needs to have protection a=
+gainst
++malicious third parties which might try to make unauthorized connections=
+, or
++perform man-in-the-middle attacks. Many of the character device backends=
+ do not
++satisfy this requirement and so must not be used for the monitor console=
+.
++
++The general recommendation is that the monitor console should be exposed=
+ over
++a UNIX domain socket backend to the local host only. Use of the TCP base=
+d
++character device backend is inappropriate unless configured to use both =
+TLS
++encryption and authorization control policy on client connections.
++
++In summary, the monitor console is considered a privileged control inter=
+face to
++QEMU and as such should only be made accessible to a trusted management
++application or user.
+--=20
+2.21.0
 
 
