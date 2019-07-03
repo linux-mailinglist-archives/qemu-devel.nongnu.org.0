@@ -2,49 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26B75E5B3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 15:46:23 +0200 (CEST)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F155E293
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 13:07:55 +0200 (CEST)
+Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hifaX-0001i3-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 09:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44494)
+	id 1hid7C-0007ER-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 07:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59974)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fba36fa141d8796a85d3d57750786df63c21ee4b@lizzy.crudebyte.com>)
- id 1hifXY-0000ta-R6
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:43:18 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hid1F-0000oX-Uo
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:01:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fba36fa141d8796a85d3d57750786df63c21ee4b@lizzy.crudebyte.com>)
- id 1hifXW-0004vu-Qu
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:43:16 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:40169)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <fba36fa141d8796a85d3d57750786df63c21ee4b@lizzy.crudebyte.com>)
- id 1hifXW-0004KK-Cq
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 09:43:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
- Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=c7sH7C/Hoe7GC2Fl4SU8G2NWhxVSnWiOVhZpSZRCgLU=; b=SpTB52nQytOsZ6ZXjxFFUAIA7
- XKXXMRAMLH1veVGrkb2rQYDzghX2dzwK4i1oP8fS2YrfUs2rv7S7+i1FMKn7QM37BwtYR12OmRwdX
- W88xgG1SgdJ+cXVBl+1ysbbeYmCq8jJG/WXpFynu7geMP4OuTd1v/9XbHXA2NgFecb9MXPqib2k97
- JGH8InBqNHyJkEA2i2Fq+LhFDFsNQPbYkws2klk7t715u+ARTFUx0ztSbHy5l33PCA4wtDfw5yIaZ
- ZnT71ma5JR/b3hq5xzkX3J7VmQJc2dMi+RVRdQ/jOA38Ld3pC3rLg2azUXn6D9boEuT+Re4lnWova
- Xdd7NR4Bg==;
-Message-Id: <fba36fa141d8796a85d3d57750786df63c21ee4b.1562154272.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1562154272.git.qemu_oss@crudebyte.com>
-References: <cover.1562154272.git.qemu_oss@crudebyte.com>
+ (envelope-from <balaton@eik.bme.hu>) id 1hid1D-0005ER-BT
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:01:44 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:44210)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hid1C-00054c-RV
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 07:01:43 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A88937462B7;
+ Wed,  3 Jul 2019 13:01:38 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 1FE477462B8; Wed,  3 Jul 2019 13:01:38 +0200 (CEST)
+Message-Id: <045b82d2c5167e0b2a23dfbf8a80085b0550e4ca.1562151410.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1562151410.git.balaton@eik.bme.hu>
+References: <cover.1562151410.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Wed, 03 Jul 2019 12:56:50 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 To: qemu-devel@nongnu.org
-Date: Wed, 3 Jul 2019 12:55:45 +0200
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v5 1/5] 9p: unsigned type for type, version,
- path
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
+Subject: [Qemu-devel] [PATCH 3/3] ati-vga: Fix reverse bit blts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,112 +49,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need for signedness on these QID fields for 9p.
+The pixman library only supports blts with left to right, top to
+bottom order but the ATI VGA engine can also do different directions.
+Fix support for these via a temporary buffer for now. This fixes
+rendering issues related to such blts (such as moving windows) but
+some other glitches still remain.
 
-Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-[CS: - Also make QID type unsigned.
-     - Adjust donttouch_stat() to new types.
-     - Adjust trace-events to new types. ]
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- fsdev/9p-marshal.h   |  6 +++---
- hw/9pfs/9p.c         |  6 +++---
- hw/9pfs/trace-events | 14 +++++++-------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ hw/display/ati_2d.c | 53 ++++++++++++++++++++++++++++++++++++++---------=
+------
+ 1 file changed, 38 insertions(+), 15 deletions(-)
 
-diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
-index c8823d878f..8f3babb60a 100644
---- a/fsdev/9p-marshal.h
-+++ b/fsdev/9p-marshal.h
-@@ -9,9 +9,9 @@ typedef struct V9fsString
- 
- typedef struct V9fsQID
- {
--    int8_t type;
--    int32_t version;
--    int64_t path;
-+    uint8_t type;
-+    uint32_t version;
-+    uint64_t path;
- } V9fsQID;
- 
- typedef struct V9fsStat
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 55821343e5..586a6dccba 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -743,9 +743,9 @@ static int donttouch_stat(V9fsStat *stat)
- {
-     if (stat->type == -1 &&
-         stat->dev == -1 &&
--        stat->qid.type == -1 &&
--        stat->qid.version == -1 &&
--        stat->qid.path == -1 &&
-+        stat->qid.type == 0xff &&
-+        stat->qid.version == (uint32_t) -1 &&
-+        stat->qid.path == (uint64_t) -1 &&
-         stat->mode == -1 &&
-         stat->atime == -1 &&
-         stat->mtime == -1 &&
-diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-index c0a0a4ab5d..10188daf7f 100644
---- a/hw/9pfs/trace-events
-+++ b/hw/9pfs/trace-events
-@@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id %d err %d"
- v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
- v9fs_version_return(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
- v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char* uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"
--v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
-+v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u type %u version %u path %"PRIu64
- v9fs_stat(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_stat_return(uint16_t tag, uint8_t id, int32_t mode, int32_t atime, int32_t mtime, int64_t length) "tag %d id %d stat={mode %d atime %d mtime %d length %"PRId64"}"
- v9fs_getattr(uint16_t tag, uint8_t id, int32_t fid, uint64_t request_mask) "tag %d id %d fid %d request_mask %"PRIu64
-@@ -14,9 +14,9 @@ v9fs_getattr_return(uint16_t tag, uint8_t id, uint64_t result_mask, uint32_t mod
- v9fs_walk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, uint16_t nwnames) "tag %d id %d fid %d newfid %d nwnames %d"
- v9fs_walk_return(uint16_t tag, uint8_t id, uint16_t nwnames, void* qids) "tag %d id %d nwnames %d qids %p"
- v9fs_open(uint16_t tag, uint8_t id, int32_t fid, int32_t mode) "tag %d id %d fid %d mode %d"
--v9fs_open_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_open_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
- v9fs_lcreate(uint16_t tag, uint8_t id, int32_t dfid, int32_t flags, int32_t mode, uint32_t gid) "tag %d id %d dfid %d flags %d mode %d gid %u"
--v9fs_lcreate_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_lcreate_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int32_t iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
- v9fs_fsync(uint16_t tag, uint8_t id, int32_t fid, int datasync) "tag %d id %d fid %d datasync %d"
- v9fs_clunk(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_read(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t max_count) "tag %d id %d fid %d off %"PRIu64" max_count %u"
-@@ -26,21 +26,21 @@ v9fs_readdir_return(uint16_t tag, uint8_t id, uint32_t count, ssize_t retval) "t
- v9fs_write(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t count, int cnt) "tag %d id %d fid %d off %"PRIu64" count %u cnt %d"
- v9fs_write_return(uint16_t tag, uint8_t id, int32_t total, ssize_t err) "tag %d id %d total %d err %zd"
- v9fs_create(uint16_t tag, uint8_t id, int32_t fid, char* name, int32_t perm, int8_t mode) "tag %d id %d fid %d name %s perm %d mode %d"
--v9fs_create_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_create_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %u id %u qid={type %u version %u path %"PRIu64"} iounit %d"
- v9fs_symlink(uint16_t tag, uint8_t id, int32_t fid,  char* name, char* symname, uint32_t gid) "tag %d id %d fid %d name %s symname %s gid %u"
--v9fs_symlink_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-+v9fs_symlink_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u qid={type %u version %u path %"PRIu64"}"
- v9fs_flush(uint16_t tag, uint8_t id, int16_t flush_tag) "tag %d id %d flush_tag %d"
- v9fs_link(uint16_t tag, uint8_t id, int32_t dfid, int32_t oldfid, char* name) "tag %d id %d dfid %d oldfid %d name %s"
- v9fs_remove(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_wstat(uint16_t tag, uint8_t id, int32_t fid, int32_t mode, int32_t atime, int32_t mtime) "tag %u id %u fid %d stat={mode %d atime %d mtime %d}"
- v9fs_mknod(uint16_t tag, uint8_t id, int32_t fid, int mode, int major, int minor) "tag %d id %d fid %d mode %d major %d minor %d"
--v9fs_mknod_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-+v9fs_mknod_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %u id %u qid={type %u version %u path %"PRIu64"}"
- v9fs_lock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length) "tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
- v9fs_lock_return(uint16_t tag, uint8_t id, int8_t status) "tag %d id %d status %d"
- v9fs_getlock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length)"tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
- v9fs_getlock_return(uint16_t tag, uint8_t id, uint8_t type, uint64_t start, uint64_t length, uint32_t proc_id) "tag %d id %d type %d start %"PRIu64" length %"PRIu64" proc_id %u"
- v9fs_mkdir(uint16_t tag, uint8_t id, int32_t fid, char* name, int mode, uint32_t gid) "tag %u id %u fid %d name %s mode %d gid %u"
--v9fs_mkdir_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
-+v9fs_mkdir_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int err) "tag %u id %u qid={type %u version %u path %"PRIu64"} err %d"
- v9fs_xattrwalk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, char* name) "tag %d id %d fid %d newfid %d name %s"
- v9fs_xattrwalk_return(uint16_t tag, uint8_t id, int64_t size) "tag %d id %d size %"PRId64
- v9fs_xattrcreate(uint16_t tag, uint8_t id, int32_t fid, char* name, uint64_t size, int flags) "tag %d id %d fid %d name %s size %"PRIu64" flags %d"
--- 
-2.11.0
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index b09753320a..07a776c31d 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -53,6 +53,10 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
+             surface_bits_per_pixel(ds),
+             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
++    int dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
++    int dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height)=
+;
+     int bpp =3D ati_bpp_from_datatype(s);
+     int dst_stride =3D DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.defaul=
+t_pitch;
+     uint8_t *dst_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+@@ -63,20 +67,25 @@ void ati_2d_blt(ATIVGAState *s)
+         dst_stride *=3D bpp;
+     }
+     uint8_t *end =3D s->vga.vram_ptr + s->vga.vram_size;
+-    if (dst_bits >=3D end ||
+-        dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) =
+*
++    if (dst_bits >=3D end || dst_bits + dst_x + (dst_y + s->regs.dst_hei=
+ght) *
+         dst_stride >=3D end) {
+         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
+         return;
+     }
+-    DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d\n",
++    DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
+             s->regs.src_offset, s->regs.dst_offset, s->regs.default_offs=
+et,
+             s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
+             s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
+-            s->regs.dst_width, s->regs.dst_height);
++            s->regs.dst_width, s->regs.dst_height,
++            (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
++            (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
+     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
+     case ROP3_SRCCOPY:
+     {
++        int src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_wid=
+th);
++        int src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_hei=
+ght);
+         int src_stride =3D DEFAULT_CNTL ?
+                          s->regs.src_pitch : s->regs.default_pitch;
+         uint8_t *src_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+@@ -86,9 +95,8 @@ void ati_2d_blt(ATIVGAState *s)
+             src_bits +=3D s->regs.crtc_offset & 0x07ffffff;
+             src_stride *=3D bpp;
+         }
+-        if (src_bits >=3D end ||
+-            src_bits + s->regs.src_x + (s->regs.src_y + s->regs.dst_heig=
+ht) *
+-            src_stride >=3D end) {
++        if (src_bits >=3D end || src_bits + src_x +
++            (src_y + s->regs.dst_height) * src_stride >=3D end) {
+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n=
+");
+             return;
+         }
+@@ -97,19 +105,34 @@ void ati_2d_blt(ATIVGAState *s)
+         dst_stride /=3D sizeof(uint32_t);
+         DPRINTF("pixman_blt(%p, %p, %d, %d, %d, %d, %d, %d, %d, %d, %d, =
+%d)\n",
+                 src_bits, dst_bits, src_stride, dst_stride, bpp, bpp,
+-                s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst=
+_y,
++                src_x, src_y, dst_x, dst_y,
+                 s->regs.dst_width, s->regs.dst_height);
+-        pixman_blt((uint32_t *)src_bits, (uint32_t *)dst_bits,
+-                   src_stride, dst_stride, bpp, bpp,
+-                   s->regs.src_x, s->regs.src_y,
+-                   s->regs.dst_x, s->regs.dst_y,
+-                   s->regs.dst_width, s->regs.dst_height);
++        if (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT &&
++            s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM) {
++            pixman_blt((uint32_t *)src_bits, (uint32_t *)dst_bits,
++                       src_stride, dst_stride, bpp, bpp,
++                       src_x, src_y, dst_x, dst_y,
++                       s->regs.dst_width, s->regs.dst_height);
++        } else {
++            /* FIXME: We only really need a temporary if src and dst ove=
+rlap */
++            uint32_t *tmp =3D g_malloc(src_stride * sizeof(uint32_t) *
++                                     s->regs.dst_height);
++            pixman_blt((uint32_t *)src_bits, tmp,
++                       src_stride, src_stride, bpp, bpp,
++                       src_x, src_y, 0, 0,
++                       s->regs.dst_width, s->regs.dst_height);
++            pixman_blt(tmp, (uint32_t *)dst_bits,
++                       src_stride, dst_stride, bpp, bpp,
++                       0, 0, dst_x, dst_y,
++                       s->regs.dst_width, s->regs.dst_height);
++            g_free(tmp);
++        }
+         if (dst_bits >=3D s->vga.vram_ptr + s->vga.vbe_start_addr &&
+             dst_bits < s->vga.vram_ptr + s->vga.vbe_start_addr +
+             s->vga.vbe_regs[VBE_DISPI_INDEX_YRES] * s->vga.vbe_line_offs=
+et) {
+             memory_region_set_dirty(&s->vga.vram, s->vga.vbe_start_addr =
++
+                                     s->regs.dst_offset +
+-                                    s->regs.dst_y * surface_stride(ds),
++                                    dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+         s->regs.dst_x +=3D s->regs.dst_width;
+@@ -151,7 +174,7 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_regs[VBE_DISPI_INDEX_YRES] * s->vga.vbe_line_offs=
+et) {
+             memory_region_set_dirty(&s->vga.vram, s->vga.vbe_start_addr =
++
+                                     s->regs.dst_offset +
+-                                    s->regs.dst_y * surface_stride(ds),
++                                    dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+         s->regs.dst_y +=3D s->regs.dst_height;
+--=20
+2.13.7
 
 
