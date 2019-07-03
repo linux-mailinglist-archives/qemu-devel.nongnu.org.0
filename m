@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A065E084
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:09:09 +0200 (CEST)
-Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248ED5E0E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:21:38 +0200 (CEST)
+Received: from localhost ([::1]:34042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibGG-00070v-PE
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51745)
+	id 1hibSL-0005lP-CS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hiaq9-0006TQ-NH
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:14 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hiaq9-0006ST-BE
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hiaq6-0008IM-Qf
+ (envelope-from <palmer@dabbelt.com>) id 1hiaq6-0008FV-7h
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:09 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:46965)
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45487)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiaq6-0007wx-Fc
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiaq5-000832-Lt
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:06 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v24so1442448ljg.13
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:42:00 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id u10so1136732lfm.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:42:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=KdUinYphzGQDVuTLX+/ZSu8nDN42cj53AMC4AE9KtVs=;
- b=Pjbr1BznpyNeg8qVVNFNE8JpGBYw/5XPQlLg1f9uS1dvPG2KzLKQdbH/3MxDkjhHdq
- NjuRZL7zjh29kjRSD+1gQtEqBRdDfvOrhfvohOYMOyTrQtS3Q55K4FHgkNqkcWj4D4H+
- eX4OYO5Urr9f8qF+JKU4hLXsF/AZuKARdpJTO+JJGrqhHhTZslzc4sqSTPZRPl5Tquwd
- VJmZcf7Z4O/nUwz2Td8lp2D0u/BuHg38dHMZq9PO93dUnttjk9SG1n0fV+4zB8uQJxvO
- Qu9gxrX5O+5TokCLCercny6sAnxflD6MBroeak0ML+HFidFYrB0c/DjkeavAovmRz+tM
- PAzQ==
-X-Gm-Message-State: APjAAAW8eR1LxA8Hn17pi/BTxcjAvJbMkHs5nMQGhZjoXmYufQSSQFYx
- W3Z1b4mvRvcGFGdjt06zKH0T+gQfqelfXg==
-X-Google-Smtp-Source: APXvYqydcDtnVQuKd0gDMWB5wzuGQh09aeOwyrXV7Cj7sc4WuKU6YEV1CfJRk1+LIlOIDbb0q+NWUQ==
-X-Received: by 2002:a2e:9dca:: with SMTP id x10mr18884931ljj.17.1562143319439; 
- Wed, 03 Jul 2019 01:41:59 -0700 (PDT)
+ bh=fcm0+r8fxMNfE/F4H9Cg6/O9Ghx9bryN1yVdrSBGRYk=;
+ b=gW1jk82WZB8sXwiRHoGyvegO5RRJU0HdSKV4cZMl94bnCnsCwGEVBaEHuw0D/QeJ9o
+ g0EQITsP5ddX3q2XPKCjXSEQu2qOVHwqqeU5ee1HXlsGzOEh/UiO15l29d5lodIhasWL
+ lj/qtxuXfsi86lRtUR2FN8/RRS8KTB8GT/LpfLM3Grsh/ELoNKUVeGqbogD0EjbPsqyl
+ KjKSM1vo/RbcAe/NhiO2ubXUdh8BivVzbRChJVCTFs9cpsEvAeB1Whqvoo7WvFJwkfDh
+ YfZiHUKdT74HNKYiJA6Q8M8eB58yB4ACSqCADMZkPh4tivtxJRfQjOZi64m4gcI2kEFD
+ V3pQ==
+X-Gm-Message-State: APjAAAWXiqCx1cOJJpDjFVcVUY1Zro5rOFvuE/DEmuVy+/cKVZ600dXj
+ kzEQklGYJaHWOBiDPA181s3Vrhiu6Mn0lg==
+X-Google-Smtp-Source: APXvYqykY4Uqid8OF1QFBuN0VY1kVUF2+SmKyo/Fzt9IeDNnvrNr2fvexi5s6o6JCiohGxWzQq4hFw==
+X-Received: by 2002:a19:5e4e:: with SMTP id z14mr14667529lfi.11.1562143321205; 
+ Wed, 03 Jul 2019 01:42:01 -0700 (PDT)
 Received: from localhost ([134.17.27.127])
- by smtp.gmail.com with ESMTPSA id q6sm342969lji.70.2019.07.03.01.41.58
+ by smtp.gmail.com with ESMTPSA id w28sm343979ljd.12.2019.07.03.01.42.00
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 01:41:58 -0700 (PDT)
-Date: Wed,  3 Jul 2019 01:40:44 -0700
-Message-Id: <20190703084048.6980-29-palmer@sifive.com>
+ Wed, 03 Jul 2019 01:42:00 -0700 (PDT)
+Date: Wed,  3 Jul 2019 01:40:45 -0700
+Message-Id: <20190703084048.6980-30-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190703084048.6980-1-palmer@sifive.com>
 References: <20190703084048.6980-1-palmer@sifive.com>
@@ -53,9 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.208.196
-Subject: [Qemu-devel] [PULL 28/32] riscv: sifive_u: Do not create hard-coded
- phandles in DT
+X-Received-From: 209.85.167.68
+Subject: [Qemu-devel] [PULL 29/32] riscv: sifive_u: Update the plic hart
+ config to support multicore
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,84 +75,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-At present the cpu, plic and ethclk nodes' phandles are hard-coded
-to 1/2/3 in DT. If we configure more than 1 cpu for the machine,
-all cpu nodes' phandles conflict with each other as they are all 1.
-Fix it by removing the hardcode.
+At present the PLIC is instantiated to support only one hart, while
+the machine allows at most 4 harts to be created. When more than 1
+hart is configured, PLIC needs to instantiated to support multicore,
+otherwise an SMP OS does not work.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_u.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ hw/riscv/sifive_u.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 5ecc47cea35d..e2120ac7a5d3 100644
+index e2120ac7a5d3..a416d5d08b4d 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -86,7 +86,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     uint32_t *cells;
-     char *nodename;
-     char ethclk_names[] = "pclk\0hclk\0tx_clk";
--    uint32_t plic_phandle, ethclk_phandle;
-+    uint32_t plic_phandle, ethclk_phandle, phandle = 1;
+@@ -344,6 +344,8 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     MemoryRegion *system_memory = get_system_memory();
+     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+     qemu_irq plic_gpios[SIFIVE_U_PLIC_NUM_SOURCES];
++    char *plic_hart_config;
++    size_t plic_hart_config_len;
+     int i;
+     Error *err = NULL;
+     NICInfo *nd = &nd_table[0];
+@@ -357,9 +359,21 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(system_memory, memmap[SIFIVE_U_MROM].base,
+                                 mask_rom);
  
-     fdt = s->fdt = create_device_tree(&s->fdt_size);
-     if (!fdt) {
-@@ -121,6 +121,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
- 
-     for (cpu = s->soc.cpus.num_harts - 1; cpu >= 0; cpu--) {
-+        int cpu_phandle = phandle++;
-         nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         char *isa = riscv_isa_string(&s->soc.cpus.harts[cpu]);
-@@ -134,8 +135,8 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-         qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
-         qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
-         qemu_fdt_add_subnode(fdt, intc);
--        qemu_fdt_setprop_cell(fdt, intc, "phandle", 1);
--        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", 1);
-+        qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
-+        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
-         qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
-         qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
-         qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
-@@ -167,6 +168,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     g_free(cells);
-     g_free(nodename);
- 
-+    plic_phandle = phandle++;
-     cells =  g_new0(uint32_t, s->soc.cpus.num_harts * 4);
-     for (cpu = 0; cpu < s->soc.cpus.num_harts; cpu++) {
-         nodename =
-@@ -192,20 +194,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-     qemu_fdt_setprop_string(fdt, nodename, "reg-names", "control");
-     qemu_fdt_setprop_cell(fdt, nodename, "riscv,max-priority", 7);
-     qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
--    qemu_fdt_setprop_cells(fdt, nodename, "phandle", 2);
--    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", 2);
-+    qemu_fdt_setprop_cells(fdt, nodename, "phandle", plic_phandle);
-+    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", plic_phandle);
-     plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
-     g_free(cells);
-     g_free(nodename);
- 
-+    ethclk_phandle = phandle++;
-     nodename = g_strdup_printf("/soc/ethclk");
-     qemu_fdt_add_subnode(fdt, nodename);
-     qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
-     qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
-     qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
-         SIFIVE_U_GEM_CLOCK_FREQ);
--    qemu_fdt_setprop_cell(fdt, nodename, "phandle", 3);
--    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", 3);
-+    qemu_fdt_setprop_cell(fdt, nodename, "phandle", ethclk_phandle);
-+    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", ethclk_phandle);
-     ethclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
-     g_free(nodename);
- 
++    /* create PLIC hart topology configuration string */
++    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) * smp_cpus;
++    plic_hart_config = g_malloc0(plic_hart_config_len);
++    for (i = 0; i < smp_cpus; i++) {
++        if (i != 0) {
++            strncat(plic_hart_config, ",", plic_hart_config_len);
++        }
++        strncat(plic_hart_config, SIFIVE_U_PLIC_HART_CONFIG,
++                plic_hart_config_len);
++        plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
++    }
++
+     /* MMIO */
+     s->plic = sifive_plic_create(memmap[SIFIVE_U_PLIC].base,
+-        (char *)SIFIVE_U_PLIC_HART_CONFIG,
++        plic_hart_config,
+         SIFIVE_U_PLIC_NUM_SOURCES,
+         SIFIVE_U_PLIC_NUM_PRIORITIES,
+         SIFIVE_U_PLIC_PRIORITY_BASE,
 -- 
 2.21.0
 
