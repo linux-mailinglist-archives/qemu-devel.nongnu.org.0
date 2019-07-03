@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5005DB40
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 03:59:42 +0200 (CEST)
-Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5295E5DCB5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 05:03:33 +0200 (CEST)
+Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiUYf-0004f7-Kf
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 21:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47649)
+	id 1hiVYS-0000Vk-He
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 23:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35732)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hiUWp-000412-GO
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 21:57:49 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiVXA-0007tV-EN
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 23:02:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hiUWn-0003a4-AA
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 21:57:47 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8560)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiVX0-0007Du-5W
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 23:02:06 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37107)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hiUWm-0003Xb-Vu
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 21:57:45 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2019 18:57:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; d="scan'208";a="187087420"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga004.fm.intel.com with ESMTP; 02 Jul 2019 18:57:39 -0700
-Date: Wed, 3 Jul 2019 09:57:18 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Pankaj Gupta <pagupta@redhat.com>
-Message-ID: <20190703015718.GA3752@richard>
-References: <20190619094907.10131-1-pagupta@redhat.com>
- <20190702084934.GA25987@richard>
- <1872807933.38582516.1562062064161.JavaMail.zimbra@redhat.com>
- <20190703005836.GA18621@richard>
- <1866293380.38744564.1562117503276.JavaMail.zimbra@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hiVWy-0006zq-6T; Tue, 02 Jul 2019 23:02:01 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45dm914NBYz9s8m; Wed,  3 Jul 2019 13:01:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1562122901;
+ bh=rgCX0IrJYCxPv+qq1Hfy049nCoVrO9NBgLbWwx3lc4E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G6er8AzMR2GiexQ8XQXLJ1IOtTnjB9ioz/ocnryCYmj6l0886vS0e6MEHbN1DAYXB
+ wm+6Ol8kmAwF8n0yof/wwTANTDrFb5IFei2N286rXhUGlcgAQ1K1rycj0YgbdtXgOu
+ EoXhs8nNzmbe3yqdvRG2IJKmR+pnCdy18lqsXP58=
+Date: Wed, 3 Jul 2019 12:07:48 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190703020748.GD9442@umbus.fritz.box>
+References: <20190630204601.30574-1-clg@kaod.org>
+ <20190630204601.30574-9-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k4f25fnPtRuIRUb3"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1866293380.38744564.1562117503276.JavaMail.zimbra@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190630204601.30574-9-clg@kaod.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.136
-Subject: Re: [Qemu-devel] [PATCH v2 0/7] Qemu virtio pmem device
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH 08/10] ppc/xive: Extend XiveTCTX with an
+ router object pointer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,265 +57,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: kwolf@redhat.com, aarcange@redhat.com, nilal@redhat.com,
- xiaoguangrong eric <xiaoguangrong.eric@gmail.com>, mst@redhat.com,
- rth@twiddle.net, cohuck@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
- stefanha@redhat.com, imammedo@redhat.com, pbonzini@redhat.com,
- riel@surriel.com, lcapitulino@redhat.com,
- dan j williams <dan.j.williams@intel.com>, dgilbert@redhat.com,
- ehabkost@redhat.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 09:31:43PM -0400, Pankaj Gupta wrote:
->
->> >
->> >> 
->> >> On Wed, Jun 19, 2019 at 03:19:00PM +0530, Pankaj Gupta wrote:
->> >> > This patch series has implementation for "virtio pmem"
->> >> > device. "virtio pmem" is persistent memory(nvdimm) device in
->> >> > guest which allows to bypass the guest page cache. This
->> >> > also implements a VIRTIO based asynchronous flush mechanism.
->> >> > Details of project idea for 'virtio pmem' flushing interface
->> >> > is shared [2] & [3].
->> >> >
->> >> > Sharing Qemu device emulation in this patchset. Tested with
->> >> > guest kernel driver [1]. This series is based on David's
->> >> > memory device refactoring [5] work with modified version of
->> >> > my initial virtio pmem [4] series.
->> >> >
->> >> > Usage:
->> >> > ./qemu -name test -machine pc -m 8G,slots=240,maxmem=20G
->> >> > -object memory-backend-file,id=mem1,share,mem-path=test.img,
->> >> >  size=4G,share
->> >> > -device virtio-pmem-pci,memdev=mem1,id=nv1
->> >> >
->> >> 
->> >> Hi, Pankaj
->> >
->> >Hi Wei,
->> >
->> >> 
->> >> I tried this series with v14 kernel driver, while getting some error on
->> >> using
->> >> this. Not sure this is my error configuration.
->> >> 
->> >> The qemu command line is:
->> >> 
->> >>     -object
->> >>     memory-backend-file,id=mem1,share=on,mem-path=/dev/dax0.0,size=1G,align=2M
->> >>     -device virtio-pmem-pci,memdev=mem1,id=nv1
->> >
->> >Are you using host backing on real NVDIMM? Currently, we only support
->> >backing image
->> >file on regular SSD. We have plans to support backing file on real NVDIMM
->> >device
->> >as well but this is part of future work.
->> >
->> >Can you please try by allocating a raw image file on regular SSD. It is
->> >working fine
->> >for me.
->> >
->> 
->> I created a file with 2G on my disk.
->> 
->> #ll -h 2G-file
->> -rw-r--r-- 1 richard richard 2.0G 6月  26 09:26 2G-file
->> 
->> The command line is changed to:
->> 
->>     -object
->>     memory-backend-file,id=mem1,share,mem-path=/home/richard/guest/2G-file,size=2G
->>     -device virtio-pmem-pci,memdev=mem1,id=nv1
->> 
->> The behavior in guest is the same.
->
->Are you still facing an error with this? or its working fine for you?
->
 
-I can partition and mkfs with /dev/pmem0 after I use the SSD backend.
+--k4f25fnPtRuIRUb3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> 
->> I took a look into the directory /sys/bus/nd/device. These files are listed.
->> Compared with normal system, one device file is missed.
->
->virtio pmem does not support namespace/region mappings which ACPI NFIT supports.
->
+On Sun, Jun 30, 2019 at 10:45:59PM +0200, C=E9dric Le Goater wrote:
+> This is to perform lookups in the NVT table when a vCPU is dispatched
+> and possibly resend interrupts.
 
-Ok, thanks.
+I'm slightly confused by this one.  Aren't there multiple router
+objects, each of which can deliver to any thread?  In which case what
+router object is associated with a specific TCTX?
 
->> 
->> btt0.0  dax0.0  namespace0.0  ndbus0  pfn0.0  region0
->> 
->> But the sysfs shows pmem0 block device is created.
->> 
->> /sys/devices/pci0000:00/0000:00:04.0/virtio0/ndbus0/region0/namespace0.0/block/pmem0
->> 
->> Then I took a look into the pci device:
->> 
->> # lspci -vs 00:04.0
->> 00:04.0 Unclassified device [00ff]: Red Hat, Inc. Device 1013
->>         Subsystem: Red Hat, Inc. Device 001b
->>         Physical Slot: 4
->>         Flags: bus master, fast devsel, latency 0, IRQ 11
->>         I/O ports at c040 [size=64]
->>         Memory at fe000000 (64-bit, prefetchable) [size=16K]
->>         Capabilities: [84] Vendor Specific Information: VirtIO: 
->>         Capabilities: [70] Vendor Specific Information: VirtIO: Notify
->>         Capabilities: [60] Vendor Specific Information: VirtIO: DeviceCfg
->>         Capabilities: [50] Vendor Specific Information: VirtIO: ISR
->>         Capabilities: [40] Vendor Specific Information: VirtIO: CommonCfg
->>         Kernel driver in use: virtio-pci
->> 
->> This looks good.
->
->Good to know.
->
->> 
->> >> 
->> >> The guest boots up and I can see /dev/pmem0 device. But when I want to
->> >> partition this device, I got the error:
->> >> 
->> >>     # parted /dev/pmem0 mklabel gpt
->> >>     Warning: Error fsyncing/closing /dev/pmem0: Input/output error
->> >> 
->> >> Also I see an error when running "ndctl list":
->> >> 
->> >>     libndctl: __sysfs_device_parse: ndctl0: add_dev() failed
->> >
->> >Will look at this if it is related.
->> 
->> This log still there.
->
->It looks to me libndctl needs to be taught about about virtio pmem
->data parsing. But this is unrelated to kernel and qemu patch series.
->
+> Future XIVE chip will use a different class for the model of the
+> interrupt controller. So use an 'Object *' instead of a 'XiveRouter *'.
 
-Ok, if it works, we could list those regions? and change pmem0 mode to dax
-mode, right?
+This seems odd to me, shouldn't it be an interface pointer or
+something in that case?
 
->> 
->> >
->> >Thanks,
->> >Pankaj
->> >> 
->> >> Would you mind letting me know which part I am wrong?
->> >> 
->> >> > (qemu) info memory-devices
->> >> >  Memory device [virtio-pmem]: "nv1"
->> >> >  memaddr: 0x240000000
->> >> >  size: 4294967296
->> >> >  memdev: /objects/mem1
->> >> >
->> >> > Implementation is divided into two parts:
->> >> > New virtio pmem guest driver and qemu code changes for new
->> >> > virtio pmem paravirtualized device. In this series we are
->> >> > sharing Qemu device emulation.
->> >> >
->> >> >1. Guest virtio-pmem kernel driver
->> >> >---------------------------------
->> >> >   - Reads persistent memory range from paravirt device and
->> >> >     registers with 'nvdimm_bus'.
->> >> >   - 'nvdimm/pmem' driver uses this information to allocate
->> >> >     persistent memory region and setup filesystem operations
->> >> >     to the allocated memory.
->> >> >   - virtio pmem driver implements asynchronous flushing
->> >> >     interface to flush from guest to host.
->> >> >
->> >> >2. Qemu virtio-pmem device
->> >> >---------------------------------
->> >> >   - Creates virtio pmem device and exposes a memory range to
->> >> >     KVM guest.
->> >> >   - At host side this is file backed memory which acts as
->> >> >     persistent memory.
->> >> >   - Qemu side flush uses aio thread pool API's and virtio
->> >> >     for asynchronous guest multi request handling.
->> >> >
->> >> > Virtio-pmem security implications and suggested countermeasures:
->> >> > ---------------------------------------------------------------
->> >> >
->> >> > In previous posting of kernel driver, there was discussion [7]
->> >> > on possible implications of page cache side channel attacks with
->> >> > virtio pmem. After thorough analysis of details of known side
->> >> > channel attacks, below are the suggestions:
->> >> >
->> >> > - Depends entirely on how host backing image file is mapped
->> >> >   into guest address space.
->> >> >
->> >> > - virtio-pmem device emulation, by default shared mapping is used
->> >> >   to map host backing file. It is recommended to use separate
->> >> >   backing file at host side for every guest. This will prevent
->> >> >   any possibility of executing common code from multiple guests
->> >> >   and any chance of inferring guest local data based based on
->> >> >   execution time.
->> >> >
->> >> > - If backing file is required to be shared among multiple guests
->> >> >   it is recommended to don't support host page cache eviction
->> >> >   commands from the guest driver. This will avoid any possibility
->> >> >   of inferring guest local data or host data from another guest.
->> >> >
->> >> > - Proposed device specification [6] for virtio-pmem device with
->> >> >   details of possible security implications and suggested
->> >> >   countermeasures for device emulation.
->> >> >
->> >> >Changes from PATCH v1:
->> >> > - Change proposed version from qemu 4.0 to 4.1 - Eric
->> >> > - Remove virtio queue_add from unrealize function - Cornelia
->> >> >
->> >> >[1] https://lkml.org/lkml/2019/6/12/624
->> >> >[2] https://www.spinics.net/lists/kvm/msg149761.html
->> >> >[3] https://www.spinics.net/lists/kvm/msg153095.html
->> >> >[4] https://marc.info/?l=linux-kernel&m=153572228719237&w=2
->> >> >[5] https://marc.info/?l=qemu-devel&m=153555721901824&w=2
->> >> >[6] https://lists.oasis-open.org/archives/virtio-dev/201903/msg00083.html
->> >> >[7] https://lkml.org/lkml/2019/1/9/1191
->> >> >
->> >> > Pankaj Gupta (3):
->> >> >  virtio-pmem: add virtio device
->> >> >  virtio-pmem: sync linux headers
->> >> >  virtio-pci: proxy for virtio-pmem
->> >> >
->> >> > David Hildenbrand (4):
->> >> >  virtio-pci: Allow to specify additional interfaces for the base type
->> >> >  hmp: Handle virtio-pmem when printing memory device infos
->> >> >  numa: Handle virtio-pmem in NUMA stats
->> >> >  pc: Support for virtio-pmem-pci
->> >> >
->> >> > hmp.c                                        |   27 ++-
->> >> > hw/i386/Kconfig                              |    1
->> >> > hw/i386/pc.c                                 |   72 ++++++++++
->> >> > hw/virtio/Kconfig                            |   10 +
->> >> > hw/virtio/Makefile.objs                      |    2
->> >> > hw/virtio/virtio-pci.c                       |    1
->> >> > hw/virtio/virtio-pci.h                       |    1
->> >> > hw/virtio/virtio-pmem-pci.c                  |  131 ++++++++++++++++++
->> >> > hw/virtio/virtio-pmem-pci.h                  |   34 ++++
->> >> > hw/virtio/virtio-pmem.c                      |  189
->> >> > +++++++++++++++++++++++++++
->> >> > include/hw/pci/pci.h                         |    1
->> >> > include/hw/virtio/virtio-pmem.h              |   49 +++++++
->> >> > include/standard-headers/linux/virtio_ids.h  |    1
->> >> > include/standard-headers/linux/virtio_pmem.h |   35 +++++
->> >> > numa.c                                       |   24 +--
->> >> > qapi/misc.json                               |   28 +++-
->> >> > 16 files changed, 580 insertions(+), 26 deletions(-)
->> >> >----
->> >> 
->> >> --
->> >> Wei Yang
->> >> Help you, Help me
->> >> 
->> >> 
->> 
->> --
->> Wei Yang
->> Help you, Help me
->> 
->> 
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
--- 
-Wei Yang
-Help you, Help me
+> ---
+>  include/hw/ppc/xive.h |  4 +++-
+>  hw/intc/xive.c        | 11 ++++++++++-
+>  hw/ppc/pnv.c          |  2 +-
+>  hw/ppc/spapr_irq.c    |  2 +-
+>  4 files changed, 15 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index d922524982d3..b764e1e4e6d4 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -321,6 +321,8 @@ typedef struct XiveTCTX {
+>      qemu_irq    os_output;
+> =20
+>      uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
+> +
+> +    Object      *xrtr;
+>  } XiveTCTX;
+> =20
+>  /*
+> @@ -416,7 +418,7 @@ void xive_tctx_tm_write(XiveTCTX *tctx, hwaddr offset=
+, uint64_t value,
+>  uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr offset, unsigned size);
+> =20
+>  void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+> -Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+> +Object *xive_tctx_create(Object *cpu, Object *xrtr, Error **errp);
+> =20
+>  static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+>  {
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index f7ba1c3b622f..56700681884f 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -573,6 +573,14 @@ static void xive_tctx_realize(DeviceState *dev, Erro=
+r **errp)
+>      Object *obj;
+>      Error *local_err =3D NULL;
+> =20
+> +    obj =3D object_property_get_link(OBJECT(dev), "xrtr", &local_err);
+> +    if (!obj) {
+> +        error_propagate(errp, local_err);
+> +        error_prepend(errp, "required link 'xrtr' not found: ");
+> +        return;
+> +    }
+> +    tctx->xrtr =3D obj;
+> +
+>      obj =3D object_property_get_link(OBJECT(dev), "cpu", &local_err);
+>      if (!obj) {
+>          error_propagate(errp, local_err);
+> @@ -657,7 +665,7 @@ static const TypeInfo xive_tctx_info =3D {
+>      .class_init    =3D xive_tctx_class_init,
+>  };
+> =20
+> -Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
+> +Object *xive_tctx_create(Object *cpu, Object *xrtr, Error **errp)
+>  {
+>      Error *local_err =3D NULL;
+>      Object *obj;
+> @@ -666,6 +674,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrt=
+r, Error **errp)
+>      object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
+>      object_unref(obj);
+>      object_property_add_const_link(obj, "cpu", cpu, &error_abort);
+> +    object_property_add_const_link(obj, "xrtr", xrtr, &error_abort);
+>      object_property_set_bool(obj, true, "realized", &local_err);
+>      if (local_err) {
+>          goto error;
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index b87e01e5b925..11916dc273c2 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -765,7 +765,7 @@ static void pnv_chip_power9_intc_create(PnvChip *chip=
+, PowerPCCPU *cpu,
+>       * controller object is initialized afterwards. Hopefully, it's
+>       * only used at runtime.
+>       */
+> -    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), &lo=
+cal_err);
+> +    obj =3D xive_tctx_create(OBJECT(cpu), OBJECT(&chip9->xive), &local_e=
+rr);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index b2b01e850de8..5b3c3c50967b 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -353,7 +353,7 @@ static void spapr_irq_cpu_intc_create_xive(SpaprMachi=
+neState *spapr,
+>      Object *obj;
+>      SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> =20
+> -    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(spapr->xive), &loc=
+al_err);
+> +    obj =3D xive_tctx_create(OBJECT(cpu), OBJECT(spapr->xive), &local_er=
+r);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--k4f25fnPtRuIRUb3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0cDfIACgkQbDjKyiDZ
+s5LdPA/8C/KS/TbnO0IIXGTtq4uZ5Zwj7Am+3T+PopFEzheHmOMDJEfPGyoJNB/K
+bVQtWMaiR5OR6ScvdIBrJ+LgyMBpVo3Ff3bR/5c/EWA1dYxA/aUXMktyI2Q8/5Ez
+YMHOnUMFqke7OeUfBkPdKMqdBiYLrfmynur5UHPlK/H4/JuFg16FjSfZJWWiFcBO
+hObKwZdIfwrNx3stfbJMBLHu/xJAa7Ko0Na4gjPt3jGnIp9EVpt2MFlau6Q/6zqV
+XMPbT3dI0aCHIvwXidfZ52nvhlhof2zL/QpICcso6l2MP7lJC21H9IJ+0p5S/+Hf
+g7gpt03pZcN+GwnVEgafWNJc1Ia73Z9GZJy0i+3xlbOX1R/qoA3KBSu623vCBq+9
+niT2lhEbAXjzpfXVxWWrMxj/TRAuBI7GGy1rWZA6+sl136xOYN+gF7L4LrG2h9Lt
+UsFABVLT1xbB0ZIObTBbivFzZLi50niD9d3iP6soNP0JkizVJsa31fpNV0auxpQR
+RazOndEPLqItJt9tOK4xpxyEaiFMxuz0KOuzxGFToJnUPDvFDk0LmrBF/j43033d
+1b7LCvHmE3l6M22jXWgyQ2nJQf5aGTzMQ9Ixh4SHExjBDxV+pSyij6rVVzpjCoWp
+B4mh4jd0UCpgqEkSzK2r+tpERxtBpc8ieN4dxKVmiS6LoWwCp/4=
+=aRKw
+-----END PGP SIGNATURE-----
+
+--k4f25fnPtRuIRUb3--
 
