@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262E15E0F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:24:05 +0200 (CEST)
-Received: from localhost ([::1]:34116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEED5E0FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:27:17 +0200 (CEST)
+Received: from localhost ([::1]:34154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibUi-0000wx-BH
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58066)
+	id 1hibXo-00044P-Uf
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58268)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hibC8-0002Y6-BF
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:04:53 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hibCQ-0002np-0X
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hibC5-0007cL-8g
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:04:51 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36481)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hibBq-0006wY-6J
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:04:38 -0400
-Received: by mail-wm1-f68.google.com with SMTP id u8so1488030wmm.1
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 02:04:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZS5/2cf/icmS19boYz8m743AZWGi4w6tVSomu4+4+Tc=;
- b=ddURh+JVduOY0UyTrkbyvGbDeqUma7BY5VHyYwoaVrbvVyJYzZ+xc5EzIZucWZ1Jg8
- xRu8mg5/JDDUOYqcWeJ2ma9nWnP493NhQAM8W2VmJqelyjxHU3Gv190Ha25H2seYl9Fe
- XTk/3x5iB9Fbd+jaJU7PagUcc3IT+culwAITDgTFatD1mAMDC56qfqYcdYoHCotmgqW1
- C4pGeD5aLZex2125ZGw/Q9jUvDNs4YuZcXe/aRhlREztBCsokw/ASJzoaNMOwHPPvf5b
- J+296y3koNQdXMctqYGBm7vSvj5Y7ZVFvw8+J9dZ6aV7u+t40N75EzyHCYA48WRA6g0b
- cf2A==
-X-Gm-Message-State: APjAAAU5NZsmt7beWbl2uwgA2Ziny2HwMnOcuidrp7wMEPFLkD6b9974
- CFqPDh2EX8v6GRy/k0zoZ3+a2Q==
-X-Google-Smtp-Source: APXvYqxe4VU2E9ze8ovdg8mZETW439ayN7YRKaXJvN9wvZZB85qHEqDFPow3WJ8kWcebPF9N77TUhw==
-X-Received: by 2002:a7b:cae9:: with SMTP id t9mr7101205wml.126.1562144667926; 
- Wed, 03 Jul 2019 02:04:27 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id m24sm1788504wmi.39.2019.07.03.02.04.27
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 02:04:27 -0700 (PDT)
-To: Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
-References: <20190703011234.20517-1-richardw.yang@linux.intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d6934c75-f428-f4ed-6f6e-fb47a2b674cf@redhat.com>
-Date: Wed, 3 Jul 2019 11:04:26 +0200
+ (envelope-from <eric.auger@redhat.com>) id 1hibCO-0008Fq-CA
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:05:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47060)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hibCG-0007hE-OE; Wed, 03 Jul 2019 05:05:00 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0374230923DD;
+ Wed,  3 Jul 2019 09:04:46 +0000 (UTC)
+Received: from [10.36.116.95] (ovpn-116-95.ams2.redhat.com [10.36.116.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A572968C1;
+ Wed,  3 Jul 2019 09:04:39 +0000 (UTC)
+To: Peter Xu <peterx@redhat.com>
+References: <20190701093034.18873-1-eric.auger@redhat.com>
+ <20190701093034.18873-4-eric.auger@redhat.com> <20190703054116.GD10408@xz-x1>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <ac7cb635-b420-e04d-1a80-6fcfe81d12a8@redhat.com>
+Date: Wed, 3 Jul 2019 11:04:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20190703011234.20517-1-richardw.yang@linux.intel.com>
+In-Reply-To: <20190703054116.GD10408@xz-x1>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 03 Jul 2019 09:04:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH] migration/postcopy: fix document of
- postcopy_send_discard_bm_ram()
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 3/6] hw/vfio/common: Do not replay IOMMU
+ mappings in nested case
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +60,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgilbert@redhat.com, quintela@redhat.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, alex.williamson@redhat.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/19 3:12 AM, Wei Yang wrote:
-> Commit 6b6712efccd3 ('ram: Split dirty bitmap by RAMBlock') changes the
-> parameter of postcopy_send_discard_bm_ram(), while left the document
-> part untouched.
-> 
-> This patch correct the document and fix one typo by hand.
-> 
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> ---
->  migration/ram.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 246efe6939..410e0f89fe 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2763,8 +2763,7 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms)
->   *
->   * @ms: current migration state
->   * @pds: state for postcopy
-> - * @start: RAMBlock starting page
-> - * @length: RAMBlock size
-> + * @block: RAMBlock to discard
->   */
->  static int postcopy_send_discard_bm_ram(MigrationState *ms,
->                                          PostcopyDiscardState *pds,
-> @@ -2961,7 +2960,7 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
->  }
->  
->  /**
-> - * postcopy_chuck_hostpages: discrad any partially sent host page
-> + * postcopy_chuck_hostpages: discard any partially sent host page
->   *
->   * Utility for the outgoing postcopy code.
->   *
-> 
+Hi Peter,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 7/3/19 7:41 AM, Peter Xu wrote:
+> On Mon, Jul 01, 2019 at 11:30:31AM +0200, Eric Auger wrote:
+>> In nested mode, the stage 1 translation tables are owned by
+>> the guest and there is no caching on host side. So there is
+>> no need to replay the mappings.
+>>
+>> As of today, the SMMUv3 nested mode is not yet implemented
+>> and there is no functional VFIO integration without. But
+>> keeping the replay call would execute the default implementation
+>> of memory_region_iommu_replay and attempt to translate the whole
+>> address range, completely stalling qemu. Keeping the MAP/UNMAP
+>> notifier registration allows to hit a warning message in the
+>> SMMUv3 device that tells the user which VFIO device will not
+>> function properly:
+>>
+>> "qemu-system-aarch64: -device vfio-pci,host=0000:89:00.0: warning:
+>> SMMUv3 does not support notification on MAP: device vfio-pci will not
+>> function properly"
+>>
+>> Besides, removing the replay call now allows the guest to boot.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/vfio/common.c | 7 ++++++-
+>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index a859298fda..9ea58df67a 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -604,6 +604,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>>      if (memory_region_is_iommu(section->mr)) {
+>>          VFIOGuestIOMMU *giommu;
+>>          IOMMUMemoryRegion *iommu_mr = IOMMU_MEMORY_REGION(section->mr);
+>> +        bool nested = false;
+>>          int iommu_idx;
+>>  
+>>          trace_vfio_listener_region_add_iommu(iova, end);
+>> @@ -631,8 +632,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>>          QLIST_INSERT_HEAD(&container->giommu_list, giommu, giommu_next);
+>>  
+>>          memory_region_register_iommu_notifier(section->mr, &giommu->n);
+>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>  
+>> +        memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
+>> +                                     (void *)&nested);
+>> +        if (!nested) {
+>> +            memory_region_iommu_replay(iommu_mr, &giommu->n);
+>> +        }
+> 
+> For nested, do we need these IOMMU notifiers after all?
+> 
+> I'm asking because the no-IOMMU case of vfio_listener_region_add()
+> seems to suite very well for nested page tables to me.  For example,
+> vfio does not need to listen to MAP events any more because we'll
+> simply share the guest IOMMU page table to be the 1st level page table
+> of the host SMMU IIUC.
+We don't need the MAP notifier but we need the UNMAP notifier: when the
+guest invalidates an ASID/IOVA we need to propagate this to the physical
+IOMMU.
+
+As mentioned in the cover letter, at the moment, I still register both
+MAP/UNMAP notifiers as the MAP notifier registration produces an
+explicit warning message in the SMMUv3 device. If I remove the
+registration we will loose this message. I hope this code is just an
+intermediate state towards the actual nested stage support.
+
+  And if we have 2nd page table changes (like
+> memory hotplug) then IMHO vfio_listener_region_add() will do this for
+> us as well just like when there's no SMMU.
+
+In the current integration, see [RFC v4 20/27] hw/vfio/common: Setup
+nested stage mappings (https://patchwork.kernel.org/patch/10962721/) I
+use a prereg_listener for stage 2 mappings.
+> 
+> Another thing is that IOMMU_ATTR_VFIO_NESTED will be the same for all
+> the memory regions, so it also seems a bit awkward to make it per
+> memory region.  If you see the other real user of this flag (which is
+> IOMMU_ATTR_SPAPR_TCE_FD) it's per memory region.
+
+That's correct all SMMUv3 regions will return this value. But what other
+API can be used to query IOMMU level attributes?
+
+On the other hand,
+
+Alexey's commit f1334de60b2 ("memory/iommu: Add get_attr()") says:
+    This adds get_attr() to IOMMUMemoryRegionClass, like
+    iommu_ops::domain_get_attr in the Linux kernel.
+
+and DOMAIN_ATTR_NESTING is part of enum iommu_attr at kernel level.
+
+Thanks
+
+Eric
+
+
+
+> 
+> Regards,
+> 
 
