@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57445E02B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 10:48:22 +0200 (CEST)
-Received: from localhost ([::1]:33730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B63B5E03D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 10:52:00 +0200 (CEST)
+Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiaw9-0002wb-Pu
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 04:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51305)
+	id 1hiazf-0007An-MN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 04:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hiapX-0005pX-26
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:31 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hiapZ-0005y8-8X
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hiapV-0006l7-1F
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:30 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:43019)
+ (envelope-from <palmer@dabbelt.com>) id 1hiapY-0006sa-8k
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:33 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41379)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiapU-0006iK-RD
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:28 -0400
-Received: by mail-lf1-f68.google.com with SMTP id j29so1141078lfk.10
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:41:28 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiapY-0006nD-1x
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:41:32 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 62so1150301lfa.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:41:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=EKsqQug7v7zszsNqo0b9Js3bl54LND9OiSrVub9vLW4=;
- b=Kq5BNuuwkGvrj3t85YG1KdARtxO4kpMpYpT3t5w2e/xuI+HbW2KVi3U3sV7Fnb/Aym
- +Fd3KxAkhLQbjOh6kU1zu18IIQXqTOoABExjJpxlHafZ1BUwkmfzzUKTR74ilXP10aJe
- vAaP73apbc/xGHKz/YIGvxJJG13N5EyJUzYMndCH49FUKbbDvL7GXIP96vV6GG679Iuh
- 3o5HLmGBqXeXHBBfQvlwflBbn1NnZzsuzNmvywYWTkQporQrif93kgRhMXtiUCzv0XaH
- m+Vksb5VP6JzeKcjl3jHlDWFyR+aOdivWF3aHrF3K6b9o3l7okfkl792wGoMoNM4VP00
- eNmg==
-X-Gm-Message-State: APjAAAXTk70ax+R/SwZdqW44s2+E8n4M6MNyYRHGV13cqY9o5bUFJg1G
- +URJ1zi4CpwA396p6sqStv3R2c8py0PYJA==
-X-Google-Smtp-Source: APXvYqyn4n9521d2hOkcHVW+EI+Acl3piueTwGMcX5TUUBLc+rBNDW9kGpchGKgfDDrE6NEPdilYhw==
-X-Received: by 2002:ac2:5c1d:: with SMTP id r29mr1396312lfp.72.1562143287106; 
- Wed, 03 Jul 2019 01:41:27 -0700 (PDT)
+ bh=tHJ8TJeA8y3lZE06LLG15C3UoFOsuUPcKgVUlFGD2eo=;
+ b=GwTHRJVeH69VULbul4TEnXp2/PLjEnew+Ysc1+XKf8ujrZ+yE5kp1gt2Stou+Ml6rN
+ ZArubXdZtZbxTDkm2GGuTMaSvB93WHSp0+Jmqi+HLp85c0o3arqNxKv7iS7dUG2ypmLe
+ WlG2O1d5ROgrCiysH+nGu7+mawKyx11eQVm2yVz9Npg0jVWpKn/ZatgQRfsXaQ5uqrkL
+ NVmff/Kasgfw7aDhfSX+Z1diRaEXuw0bcf13OqsmDdaX6wI9Xshugb72n3l/KMimPyK8
+ BQy1GKqA8/BKyUo2XKc1hnc8+ohUsZBwI1LJqgKPI4FIqdH+LbrZRDMJ7SmkZ8xRn4F3
+ Wkxw==
+X-Gm-Message-State: APjAAAU3kp71pFJ0xM8VBBvrpCBn43PWMaoMAQKwCwMmciMXbD6UBWgZ
+ o2ONeWv+yVuWIl1jjHutal8/SPDrefcgrw==
+X-Google-Smtp-Source: APXvYqyuiIk+wleDbejEspM+dfPiJcUX9JS9D5MT/5qe28JxnqZXkBHNfg6Cmo+JuCnroX9eMseljw==
+X-Received: by 2002:a19:9156:: with SMTP id y22mr16788597lfj.43.1562143289182; 
+ Wed, 03 Jul 2019 01:41:29 -0700 (PDT)
 Received: from localhost ([134.17.27.127])
- by smtp.gmail.com with ESMTPSA id w1sm377128ljm.81.2019.07.03.01.41.26
+ by smtp.gmail.com with ESMTPSA id 2sm334879lji.94.2019.07.03.01.41.27
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 01:41:26 -0700 (PDT)
-Date: Wed,  3 Jul 2019 01:40:26 -0700
-Message-Id: <20190703084048.6980-11-palmer@sifive.com>
+ Wed, 03 Jul 2019 01:41:28 -0700 (PDT)
+Date: Wed,  3 Jul 2019 01:40:27 -0700
+Message-Id: <20190703084048.6980-12-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190703084048.6980-1-palmer@sifive.com>
 References: <20190703084048.6980-1-palmer@sifive.com>
@@ -54,8 +54,8 @@ To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.167.68
-Subject: [Qemu-devel] [PULL 10/32] RISC-V: Fix a PMP check with the correct
- access size
+Subject: [Qemu-devel] [PULL 11/32] riscv: virt: Correct pci "bus-range"
+ encoding
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-The PMP check should be of the memory access size rather
-than TARGET_PAGE_SIZE.
+The largest pci bus number should be calculated from ECAM size,
+instead of its base address.
 
-Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/riscv/virt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 66be83210f11..e1b079e69c60 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -452,8 +452,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
-     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-         (ret == TRANSLATE_SUCCESS) &&
--        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
--        mode)) {
-+        !pmp_hart_has_privs(env, pa, size, 1 << access_type, mode)) {
-         ret = TRANSLATE_PMP_FAIL;
-     }
-     if (ret == TRANSLATE_PMP_FAIL) {
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 84d94d0c42d8..487f61404b21 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -298,7 +298,7 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_string(fdt, nodename, "device_type", "pci");
+     qemu_fdt_setprop_cell(fdt, nodename, "linux,pci-domain", 0);
+     qemu_fdt_setprop_cells(fdt, nodename, "bus-range", 0,
+-                           memmap[VIRT_PCIE_ECAM].base /
++                           memmap[VIRT_PCIE_ECAM].size /
+                                PCIE_MMCFG_SIZE_MIN - 1);
+     qemu_fdt_setprop(fdt, nodename, "dma-coherent", NULL, 0);
+     qemu_fdt_setprop_cells(fdt, nodename, "reg", 0, memmap[VIRT_PCIE_ECAM].base,
 -- 
 2.21.0
 
