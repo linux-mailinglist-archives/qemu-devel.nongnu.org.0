@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B1C5EBC1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:41:34 +0200 (CEST)
-Received: from localhost ([::1]:38496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B5D5EC10
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 21:00:14 +0200 (CEST)
+Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hikCE-0000o5-25
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:41:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
+	id 1hikUH-0004oE-9j
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 15:00:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56813)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hijgY-0004uB-31
+ (envelope-from <ehabkost@redhat.com>) id 1hijgY-0004uA-31
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hijgW-0000sv-8d
+ (envelope-from <ehabkost@redhat.com>) id 1hijgW-0000sq-87
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54878)
+Received: from mx1.redhat.com ([209.132.183.28]:44632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijgW-0000qL-2R
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijgW-0000rj-1j
  for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E50EF30860A2;
- Wed,  3 Jul 2019 18:08:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0343630BC57D;
+ Wed,  3 Jul 2019 18:08:47 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B47817DD0;
- Wed,  3 Jul 2019 18:08:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 873AB457C7;
+ Wed,  3 Jul 2019 18:08:46 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 15:07:16 -0300
-Message-Id: <20190703180726.31267-34-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 15:07:17 -0300
+Message-Id: <20190703180726.31267-35-ehabkost@redhat.com>
 In-Reply-To: <20190703180726.31267-1-ehabkost@redhat.com>
 References: <20190703180726.31267-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Wed, 03 Jul 2019 18:08:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Wed, 03 Jul 2019 18:08:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v4 33/43] i386: Add x-force-features option for
- testing
+Subject: [Qemu-devel] [PULL v4 34/43] i386: Get model-id from CPU object on
+ "-cpu help"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,65 +62,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new option that can be used to disable feature flag
-filtering.  This will allow CPU model compatibility test cases to
-work without host hardware dependencies.
+When introducing versioned CPU models, the string at
+X86CPUDefinition::model_id might not be the model-id we'll really
+use.  Instantiate a CPU object and check the model-id property on
+"-cpu help"
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190628002844.24894-3-ehabkost@redhat.com>
+Message-Id: <20190628002844.24894-4-ehabkost@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.h | 6 ++++++
- target/i386/cpu.c | 8 ++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0a96c78669..4727226a6a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1417,6 +1417,12 @@ struct X86CPU {
-=20
-     bool check_cpuid;
-     bool enforce_cpuid;
-+    /*
-+     * Force features to be enabled even if the host doesn't support the=
-m.
-+     * This is dangerous and should be done only for testing CPUID
-+     * compatibility.
-+     */
-+    bool force_features;
-     bool expose_kvm;
-     bool expose_tcg;
-     bool migratable;
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6c04a258ed..9059121273 100644
+index 9059121273..955ea20d69 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5250,8 +5250,11 @@ static int x86_cpu_filter_features(X86CPU *cpu)
-         uint32_t host_feat =3D
-             x86_cpu_get_supported_feature_word(w, false);
-         uint32_t requested_features =3D env->features[w];
--        env->features[w] &=3D host_feat;
--        cpu->filtered_features[w] =3D requested_features & ~env->feature=
-s[w];
-+        uint32_t available_features =3D requested_features & host_feat;
-+        if (!cpu->force_features) {
-+            env->features[w] =3D available_features;
-+        }
-+        cpu->filtered_features[w] =3D requested_features & ~available_fe=
-atures;
-         if (cpu->filtered_features[w]) {
-             rv =3D 1;
-         }
-@@ -5980,6 +5983,7 @@ static Property x86_cpu_properties[] =3D {
+@@ -3837,18 +3837,28 @@ static GSList *get_sorted_cpu_model_list(void)
+     return list;
+ }
 =20
-     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
-+    DEFINE_PROP_BOOL("x-force-features", X86CPU, force_features, false),
-     DEFINE_PROP_BOOL("kvm", X86CPU, expose_kvm, true),
-     DEFINE_PROP_UINT32("phys-bits", X86CPU, phys_bits, 0),
-     DEFINE_PROP_BOOL("host-phys-bits", X86CPU, host_phys_bits, false),
++static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
++{
++    Object *obj =3D object_new(object_class_get_name(OBJECT_CLASS(xc)));
++    char *r =3D object_property_get_str(obj, "model-id", &error_abort);
++    object_unref(obj);
++    return r;
++}
++
+ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+ {
+     ObjectClass *oc =3D data;
+     X86CPUClass *cc =3D X86_CPU_CLASS(oc);
+     char *name =3D x86_cpu_class_get_model_name(cc);
+-    const char *desc =3D cc->model_description;
+-    if (!desc && cc->cpu_def) {
+-        desc =3D cc->cpu_def->model_id;
++    char *desc =3D g_strdup(cc->model_description);
++
++    if (!desc) {
++        desc =3D x86_cpu_class_get_model_id(cc);
+     }
+=20
+     qemu_printf("x86 %-20s  %-48s\n", name, desc);
+     g_free(name);
++    g_free(desc);
+ }
+=20
+ /* list available CPU models and flags */
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
