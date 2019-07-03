@@ -2,36 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDAB5DC94
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 04:41:43 +0200 (CEST)
-Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735A05DC9A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 04:43:47 +0200 (CEST)
+Received: from localhost ([::1]:58852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiVDK-0000qR-3f
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 22:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57980)
+	id 1hiVFK-00021E-NC
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 22:43:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aik@ozlabs.ru>) id 1hiVC7-0000Hd-GW
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 22:40:28 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hiVEP-0001cS-8V
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 22:42:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1hiVC6-0001ja-IW
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 22:40:27 -0400
-Received: from ozlabs.ru ([107.173.13.209]:47308)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>)
- id 1hiVC6-0001dl-Cq; Tue, 02 Jul 2019 22:40:26 -0400
-Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id 3395AAE80020;
- Tue,  2 Jul 2019 22:39:51 -0400 (EDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed,  3 Jul 2019 12:39:50 +1000
-Message-Id: <20190703023950.123474-1-aik@ozlabs.ru>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 107.173.13.209
-Subject: [Qemu-devel] [GIT PULL for qemu-pseries] pseries: Update SLOF
- firmware image
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hiVEO-0003WW-Cm
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 22:42:49 -0400
+Received: from mga05.intel.com ([192.55.52.43]:64616)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hiVEO-0003Tj-4H
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 22:42:48 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2019 19:42:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; d="scan'208";a="247480765"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga001.jf.intel.com with ESMTP; 02 Jul 2019 19:42:40 -0700
+Date: Wed, 3 Jul 2019 10:42:19 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190703024219.GA4444@richard>
+References: <20190619094907.10131-1-pagupta@redhat.com>
+ <20190702084934.GA25987@richard>
+ <1872807933.38582516.1562062064161.JavaMail.zimbra@redhat.com>
+ <20190703005836.GA18621@richard>
+ <1866293380.38744564.1562117503276.JavaMail.zimbra@redhat.com>
+ <20190703015718.GA3752@richard>
+ <1195441475.38747365.1562121061024.JavaMail.zimbra@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1195441475.38747365.1562121061024.JavaMail.zimbra@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+Subject: Re: [Qemu-devel] [PATCH v2 0/7] Qemu virtio pmem device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,32 +62,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: kwolf@redhat.com, aarcange@redhat.com,
+ xiaoguangrong eric <xiaoguangrong.eric@gmail.com>, mst@redhat.com,
+ cohuck@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com, armbru@redhat.com,
+ Wei Yang <richardw.yang@linux.intel.com>, stefanha@redhat.com,
+ pbonzini@redhat.com, lcapitulino@redhat.com, imammedo@redhat.com,
+ riel@surriel.com, nilal@redhat.com, dan j williams <dan.j.williams@intel.com>,
+ dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 506179e42112be77bfd071f050b15762d3b2cd43:
+On Tue, Jul 02, 2019 at 10:31:01PM -0400, Pankaj Gupta wrote:
+>
+>
+>> 
+>> Ok, if it works, we could list those regions? and change pmem0 mode to dax
+>> mode, right?
+>
+>You mean fs dax?
+>I don't think currently we support this because raw image wont have any metadata. 
+>Will have to think if this is at all possible or how we can achieve such behavior.
+>
 
-  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190702' into staging (2019-07-02 18:56:44 +0100)
+Ok, I got it.
 
-are available in the Git repository at:
+>Also, there is requirement to support host backing file on real NVDIMM and
+>virtio. Once we have have first version of virtio pmem series merged upstream
+>we will continue to work on advance features depending upon feasibility.
+>
 
-  git@github.com:aik/qemu.git tags/qemu-slof-20190703
+One curiosity, what difference make NVDIMM backend doesn't work now?
 
-for you to fetch changes up to cb20f6ca4faf79895ebbe279d1176344e0638b37:
+The /dev/dax0.0 is a char file. The nvdimm device use mmap to map HVA to HPA.
+It looks a normal file to me. Would appreciated it if you would share some
+light on it.
 
-  pseries: Update SLOF firmware image (2019-07-03 12:32:19 +1000)
+>Thanks,
+>Pankaj 
+>
+>
 
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
-
- pc-bios/README   |   2 +-
- pc-bios/slof.bin | Bin 926392 -> 926432 bytes
- roms/SLOF        |   2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
-
-
-*** Note: this is not for master, this is for pseries
+-- 
+Wei Yang
+Help you, Help me
 
