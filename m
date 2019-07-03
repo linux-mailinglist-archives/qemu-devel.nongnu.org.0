@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A0D5E953
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:37:33 +0200 (CEST)
-Received: from localhost ([::1]:37540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5785E93A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:35:31 +0200 (CEST)
+Received: from localhost ([::1]:37502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiiGC-0004gH-Td
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55222)
+	id 1hiiEE-0001gO-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55210)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hihgb-0007rc-IF
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:00:47 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hihgX-0007qa-O0
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:00:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hihgZ-0002bA-JA
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:00:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42324)
+ (envelope-from <mlevitsk@redhat.com>) id 1hihgV-0002Zu-9S
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:00:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41054)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hihgT-0002Z6-CA; Wed, 03 Jul 2019 12:00:37 -0400
+ id 1hihgR-0002YP-L2; Wed, 03 Jul 2019 12:00:35 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A97BB21BAA;
- Wed,  3 Jul 2019 16:00:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E56A031628E7;
+ Wed,  3 Jul 2019 16:00:34 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (dhcp-4-67.tlv.redhat.com
  [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B59BB183B2;
- Wed,  3 Jul 2019 16:00:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 047FE503EA;
+ Wed,  3 Jul 2019 16:00:31 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 18:59:42 +0300
-Message-Id: <20190703155944.9637-5-mlevitsk@redhat.com>
+Date: Wed,  3 Jul 2019 18:59:43 +0300
+Message-Id: <20190703155944.9637-6-mlevitsk@redhat.com>
 In-Reply-To: <20190703155944.9637-1-mlevitsk@redhat.com>
 References: <20190703155944.9637-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 16:00:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Wed, 03 Jul 2019 16:00:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 4/6] block/nvme: add support for image
- creation
+Subject: [Qemu-devel] [PATCH v3 5/6] block/nvme: add support for write zeros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,161 +60,182 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tesed on a nvme device like that:
-
-# create preallocated qcow2 image
-$ qemu-img create -f qcow2 nvme://0000:06:00.0/1 10G -o preallocation=metadata
-Formatting 'nvme://0000:06:00.0/1', fmt=qcow2 size=10737418240 cluster_size=65536 preallocation=metadata lazy_refcounts=off refcount_bits=16
-
-# create an empty qcow2 image
-$ qemu-img create -f qcow2 nvme://0000:06:00.0/1 10G -o preallocation=off
-Formatting 'nvme://0000:06:00.0/1', fmt=qcow2 size=10737418240 cluster_size=65536 preallocation=off lazy_refcounts=off refcount_bits=16
-
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/nvme.c | 108 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 108 insertions(+)
+ block/nvme.c         | 69 +++++++++++++++++++++++++++++++++++++++++++-
+ block/trace-events   |  1 +
+ include/block/nvme.h | 19 +++++++++++-
+ 3 files changed, 87 insertions(+), 2 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 1f0d09349f..152d27b07f 100644
+index 152d27b07f..02e0846643 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -1148,6 +1148,90 @@ static void nvme_aio_unplug(BlockDriverState *bs)
+@@ -110,6 +110,8 @@ typedef struct {
+     uint64_t max_transfer;
+     bool plugged;
+ 
++    bool supports_write_zeros;
++
+     CoMutex dma_map_lock;
+     CoQueue dma_flush_queue;
+ 
+@@ -457,6 +459,8 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     s->max_transfer = MIN_NON_ZERO(s->max_transfer,
+                           s->page_size / sizeof(uint64_t) * s->page_size);
+ 
++    s->supports_write_zeros = (idctrl->oncs & NVME_ONCS_WRITE_ZEROS) != 0;
++
+     memset(resp, 0, 4096);
+ 
+     cmd.cdw10 = 0;
+@@ -469,6 +473,11 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     s->nsze = le64_to_cpu(idns->nsze);
+     lbaf = &idns->lbaf[NVME_ID_NS_FLBAS_INDEX(idns->flbas)];
+ 
++    if (NVME_ID_NS_DLFEAT_WRITE_ZEROS(idns->dlfeat) &&
++            NVME_ID_NS_DLFEAT_READ_BEHAVIOR(idns->dlfeat) ==
++                    NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ZEROS)
++        bs->supported_write_flags |= BDRV_REQ_MAY_UNMAP;
++
+     if (lbaf->ms) {
+         error_setg(errp, "Namespaces with metadata are not yet supported");
+         goto out;
+@@ -763,6 +772,8 @@ static int nvme_file_open(BlockDriverState *bs, QDict *options, int flags,
+     int ret;
+     BDRVNVMeState *s = bs->opaque;
+ 
++    bs->supported_write_flags = BDRV_REQ_FUA;
++
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+     qemu_opts_absorb_qdict(opts, options, &error_abort);
+     device = qemu_opt_get(opts, NVME_BLOCK_OPT_DEVICE);
+@@ -791,7 +802,6 @@ static int nvme_file_open(BlockDriverState *bs, QDict *options, int flags,
+             goto fail;
+         }
      }
+-    bs->supported_write_flags = BDRV_REQ_FUA;
+     return 0;
+ fail:
+     nvme_close(bs);
+@@ -1085,6 +1095,60 @@ static coroutine_fn int nvme_co_flush(BlockDriverState *bs)
  }
  
-+static int coroutine_fn nvme_co_create_opts(const char *filename,
-+        QemuOpts *opts, Error **errp)
+ 
++static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
++                                              int64_t offset,
++                                              int bytes,
++                                              BdrvRequestFlags flags)
 +{
++    BDRVNVMeState *s = bs->opaque;
++    NVMeQueuePair *ioq = s->queues[1];
++    NVMeRequest *req;
 +
-+    int64_t total_size = 0;
-+    char *buf = NULL;
-+    BlockDriverState *bs;
-+    QEMUIOVector local_qiov;
-+    int ret = 0;
-+    int64_t blocksize;
-+    QDict *options;
-+    Error *local_err = NULL;
-+    PreallocMode prealloc;
-+
-+    total_size = ROUND_UP(qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0),
-+                              BDRV_SECTOR_SIZE);
-+
-+    buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-+    prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
-+                                  PREALLOC_MODE_OFF, &local_err);
-+    g_free(buf);
-+
-+    if (prealloc != PREALLOC_MODE_OFF) {
-+        error_setg(errp, "Only prealloc=off is supported");
-+        return -EINVAL;
-+    }
-+
-+    options = qdict_new();
-+    qdict_put_str(options, "driver", "nvme");
-+    nvme_parse_filename(filename, options, &local_err);
-+
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        qobject_unref(options);
-+        return -EINVAL;
-+    }
-+
-+    bs = bdrv_open(NULL, NULL, options,
-+                       BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
-+    if (bs == NULL) {
-+        return -EIO;
-+    }
-+
-+    if (nvme_getlength(bs) < total_size) {
-+        error_setg(errp, "Device is too small");
-+        bdrv_unref(bs);
-+        qobject_unref(options);
-+        return -ENOSPC;
-+    }
-+
-+    blocksize = nvme_get_blocksize(bs);
-+    buf = qemu_try_blockalign0(bs, blocksize);
-+    qemu_iovec_init(&local_qiov, 1);
-+    qemu_iovec_add(&local_qiov, buf, blocksize);
-+
-+    ret = nvme_co_prw_aligned(bs, 0, blocksize,
-+            &local_qiov, true, BDRV_REQ_FUA);
-+    if (ret) {
-+        error_setg(errp, "Write error to sector 0");
-+    }
-+
-+    qemu_vfree(buf);
-+    bdrv_unref(bs);
-+    return ret;
-+}
-+
-+
-+static int coroutine_fn nvme_co_truncate(BlockDriverState *bs, int64_t offset,
-+                                        PreallocMode prealloc, Error **errp)
-+{
-+    if (prealloc != PREALLOC_MODE_OFF) {
-+        error_setg(errp, "Preallocation mode '%s' unsupported nvme devices",
-+                PreallocMode_str(prealloc));
++    if (!s->supports_write_zeros) {
 +        return -ENOTSUP;
 +    }
 +
-+    if (offset > nvme_getlength(bs)) {
-+        error_setg(errp, "Cannot grow nvme devices");
-+        return -EINVAL;
++    uint32_t cdw12 = ((bytes >> s->blkshift) - 1) & 0xFFFF;
++
++    NvmeCmd cmd = {
++        .opcode = NVME_CMD_WRITE_ZEROS,
++        .nsid = cpu_to_le32(s->nsid),
++        .cdw10 = cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
++        .cdw11 = cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFFFFF),
++    };
++
++    NVMeCoData data = {
++        .ctx = bdrv_get_aio_context(bs),
++        .ret = -EINPROGRESS,
++    };
++
++    if (flags & BDRV_REQ_MAY_UNMAP) {
++        cdw12 |= (1 << 25);
 +    }
 +
-+    return 0;
++    if (flags & BDRV_REQ_FUA) {
++        cdw12 |= (1 << 30);
++    }
++
++    cmd.cdw12 = cpu_to_le32(cdw12);
++
++    trace_nvme_write_zeros(s, offset, bytes, flags);
++    assert(s->nr_queues > 1);
++    req = nvme_get_free_req(ioq);
++    assert(req);
++
++    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
++
++    data.co = qemu_coroutine_self();
++    while (data.ret == -EINPROGRESS) {
++        qemu_coroutine_yield();
++    }
++
++    trace_nvme_rw_done(s, true, offset, bytes, data.ret);
++    return data.ret;
 +}
 +
- static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
++
+ static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+                                BlockReopenQueue *queue, Error **errp)
  {
-     int ret;
-@@ -1169,6 +1253,7 @@ static void nvme_unregister_buf(BlockDriverState *bs, void *host)
-     qemu_vfio_dma_unmap(s->vfio, host);
- }
+@@ -1297,6 +1361,9 @@ static BlockDriver bdrv_nvme = {
  
-+
- static const char *const nvme_strong_runtime_opts[] = {
-     NVME_BLOCK_OPT_DEVICE,
-     NVME_BLOCK_OPT_NAMESPACE,
-@@ -1176,6 +1261,25 @@ static const char *const nvme_strong_runtime_opts[] = {
-     NULL
- };
- 
-+
-+static QemuOptsList nvme_create_opts = {
-+    .name = "nvme-create-opts",
-+    .head = QTAILQ_HEAD_INITIALIZER(nvme_create_opts.head),
-+    .desc = {
-+        {
-+            .name = BLOCK_OPT_SIZE,
-+            .type = QEMU_OPT_SIZE,
-+            .help = "Virtual disk size"
-+        },
-+        {
-+            .name = BLOCK_OPT_PREALLOC,
-+            .type = QEMU_OPT_STRING,
-+            .help = "Preallocation mode (allowed values: off)",
-+        },
-+        { /* end of list */ }
-+    }
-+};
-+
- static BlockDriver bdrv_nvme = {
-     .format_name              = "nvme",
-     .protocol_name            = "nvme",
-@@ -1187,6 +1291,10 @@ static BlockDriver bdrv_nvme = {
-     .bdrv_getlength           = nvme_getlength,
-     .bdrv_probe_blocksizes    = nvme_probe_blocksizes,
- 
-+    .bdrv_co_create_opts      = nvme_co_create_opts,
-+    .bdrv_co_truncate         = nvme_co_truncate,
-+    .create_opts              = &nvme_create_opts,
-+
      .bdrv_co_preadv           = nvme_co_preadv,
      .bdrv_co_pwritev          = nvme_co_pwritev,
++
++    .bdrv_co_pwrite_zeroes    = nvme_co_pwrite_zeroes,
++
      .bdrv_co_flush_to_disk    = nvme_co_flush,
+     .bdrv_reopen_prepare      = nvme_reopen_prepare,
+ 
+diff --git a/block/trace-events b/block/trace-events
+index 9ccea755da..12f363bb44 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -148,6 +148,7 @@ nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6,
+ nvme_handle_event(void *s) "s %p"
+ nvme_poll_cb(void *s) "s %p"
+ nvme_prw_aligned(void *s, int is_write, uint64_t offset, uint64_t bytes, int flags, int niov) "s %p is_write %d offset %"PRId64" bytes %"PRId64" flags %d niov %d"
++nvme_write_zeros(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offset %"PRId64" bytes %"PRId64" flags %d"
+ nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+ nvme_prw_buffered(void *s, uint64_t offset, uint64_t bytes, int niov, int is_write) "s %p offset %"PRId64" bytes %"PRId64" niov %d is_write %d"
+ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s %p is_write %d offset %"PRId64" bytes %"PRId64" ret %d"
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 3ec8efcc43..65eb65c740 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -653,12 +653,29 @@ typedef struct NvmeIdNs {
+     uint8_t     mc;
+     uint8_t     dpc;
+     uint8_t     dps;
+-    uint8_t     res30[98];
++
++    uint8_t     nmic;
++    uint8_t     rescap;
++    uint8_t     fpi;
++    uint8_t     dlfeat;
++
++    uint8_t     res30[94];
+     NvmeLBAF    lbaf[16];
+     uint8_t     res192[192];
+     uint8_t     vs[3712];
+ } NvmeIdNs;
+ 
++
++/*Deallocate Logical Block Features*/
++#define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
++#define NVME_ID_NS_DLFEAT_WRITE_ZEROS(dlfeat)     ((dlfeat) & 0x04)
++
++#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR(dlfeat)     ((dlfeat) & 0x3)
++#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_UNDEFINED   0
++#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ZEROS       1
++#define NVME_ID_NS_DLFEAT_READ_BEHAVIOR_ONES        2
++
++
+ #define NVME_ID_NS_NSFEAT_THIN(nsfeat)      ((nsfeat & 0x1))
+ #define NVME_ID_NS_FLBAS_EXTENDED(flbas)    ((flbas >> 4) & 0x1)
+ #define NVME_ID_NS_FLBAS_INDEX(flbas)       ((flbas & 0xf))
 -- 
 2.17.2
 
