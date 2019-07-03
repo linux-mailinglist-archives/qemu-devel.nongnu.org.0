@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370415EAE5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:52:02 +0200 (CEST)
-Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEF85EAA0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:39:33 +0200 (CEST)
+Received: from localhost ([::1]:38072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hijQH-0008RJ-Ca
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49647)
+	id 1hijEC-0008Vj-R8
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50773)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hij6H-00033L-D1
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:31:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1hijBP-0006fJ-9y
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:36:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hij6F-00026w-DF
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:31:21 -0400
-Received: from mail-eopbgr130103.outbound.protection.outlook.com
- ([40.107.13.103]:64390 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hij66-0001yF-4Z; Wed, 03 Jul 2019 13:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t4ibbr2Vk2u5SlHpjw4Q7RvWlA4llkaf1jNSwEeXNe8=;
- b=cbBTCMzMZLCG5ncAxE0VN9VRMB2xnPzuQqDV1hBXN9DJhiWdODKtAr2UtBQwzGB2XIFM32b8dwzb4bOgWVrkA85KxKFdfdyaII5NK/Gyet/XubhwbfuJWx196qzJJJCbGumT7MPOpkoLhwU9MJ44Wr0/wHFNPsSWCqaqgJaQJd0=
-Received: from DB7PR08MB3258.eurprd08.prod.outlook.com (52.134.111.155) by
- DB7PR08MB3740.eurprd08.prod.outlook.com (20.178.84.84) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.20; Wed, 3 Jul 2019 17:31:07 +0000
-Received: from DB7PR08MB3258.eurprd08.prod.outlook.com
- ([fe80::5d2:b836:e08a:f5cf]) by DB7PR08MB3258.eurprd08.prod.outlook.com
- ([fe80::5d2:b836:e08a:f5cf%3]) with mapi id 15.20.2052.010; Wed, 3 Jul 2019
- 17:31:07 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v3 7/7] iotests: Set read-zeroes on in null block driver
- for Valgrind
-Thread-Index: AQHVLbfg6HDDOa716EeGIxU1+RHDY6a5Lr4A
-Date: Wed, 3 Jul 2019 17:31:06 +0000
-Message-ID: <cad53641-15c6-2ab1-9e22-a2700c640140@virtuozzo.com>
-References: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1561729574-530879-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-In-Reply-To: <1561729574-530879-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0102CA0023.eurprd01.prod.exchangelabs.com
- (2603:10a6:7:14::36) To DB7PR08MB3258.eurprd08.prod.outlook.com
- (2603:10a6:5:20::27)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d0a08f1d-47db-47be-3282-08d6ffdc3af1
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB7PR08MB3740; 
-x-ms-traffictypediagnostic: DB7PR08MB3740:
-x-microsoft-antispam-prvs: <DB7PR08MB3740CA93B2E12033B819D27EF4FB0@DB7PR08MB3740.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 00872B689F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(376002)(136003)(366004)(346002)(39850400004)(199004)(189003)(31696002)(110136005)(86362001)(316002)(478600001)(2906002)(6246003)(5660300002)(6436002)(229853002)(36756003)(6486002)(6512007)(54906003)(31686004)(66066001)(53936002)(6116002)(3846002)(99286004)(4326008)(76176011)(446003)(11346002)(2501003)(305945005)(25786009)(71190400001)(8936002)(186003)(6506007)(71200400001)(8676002)(256004)(102836004)(66946007)(53546011)(81166006)(81156014)(7736002)(386003)(73956011)(44832011)(66446008)(476003)(486006)(52116002)(64756008)(66556008)(66476007)(68736007)(14454004)(26005)(2616005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB7PR08MB3740;
- H:DB7PR08MB3258.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: MZDV24TsULSxJVOEMSVIAkOgMeek18PXvRPjenf6bB76W99MsLTVLXlyy3JkdkibArGo+TbRmXXPwa1tyag6wAxI9TRWRKqHNqY+UeRI4jXz9Jgba6qzzBjSCA4hkLeuHBD/hKb6yZqLAAnDhCz5v2GHkEfmvMe8q6SLSmHCqwZCVnChjjZAnrepo3TT4WU/FVXBuGJ5orVVppKHp+tZrw6KuihqwnUFXj3tgYHWV6qmNuBF9MfjxodIqMS1y1m1rjvC21PTgvFimbvx19dQwORexUZVCU5gPfsE8/CvgpSF7xwDr3erYVrNVH0Qk5HKSrhXQilv2wAv+szjTvqYF1m17PxBWyi9pzh/S1Q4tRsk5mSixfFcqBiHfeWZVfTFUK7KXGgLMy+bd3NVeFniF/QKqiZlkhi8+MfSz4swBoY=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3E4A2147178AAD47990C235C7EB0F7DC@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1hijBO-0006yp-6f
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:36:39 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38809)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hijBO-0006y3-0Y
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:36:38 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p11so3764380wro.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 10:36:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aI0yeQc6v5UMU4Kp3fLSRgG8ukXdGmTXoUoMZxVeetE=;
+ b=uFF1imYbgUx9tdANyUdF+nR21MxhY6a7BV3gE8dxUdGXhW6oTUL6wJegDta041tA3C
+ cD2QrowI+S55VuyxIyvvVL2DzqrI0a3X9d8OeNEUb1ZXDgrOf2ecbLTPIsL3oRwiiCH7
+ A6kcpQPd0VEJq7NWeCzTdD51Gc4+0HOVARegDC5SC1ahpkhrzqzLjKhRP1e5irxRQall
+ 88WVyxMzW78iwJ/Rl9+tKC0zAIFmqmAskFjJ4vmK3D8OAyF6lN+C9hIwQ8dpoG5GPb/d
+ V+6HoW/51PYbZZGAG5DTH5MIqqbWEIft3JHRPVRGO+whs08V1zanAIen+bLBprgIspHX
+ Yy9g==
+X-Gm-Message-State: APjAAAXdAhZim0yVjKoLFyyH0+iA0Mbx7FXdZxUrSP/w7UHzmoQlHzhy
+ h6/U7N3VA3I7aaRpM4PscbjWWg==
+X-Google-Smtp-Source: APXvYqyJk9Dw8RIGpm8nsP7B76dDpbQeeJvQUiHK7vGFlj9fFBHUKJ9qyddjIyXKsTdfW7t8+vyfLQ==
+X-Received: by 2002:a5d:6508:: with SMTP id x8mr31798943wru.310.1562175396917; 
+ Wed, 03 Jul 2019 10:36:36 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id 72sm4132317wrk.22.2019.07.03.10.36.36
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 03 Jul 2019 10:36:36 -0700 (PDT)
+To: Thomas Huth <huth@tuxfamily.org>, qemu-devel@nongnu.org
+References: <20190628181536.13729-1-huth@tuxfamily.org>
+ <20190628181536.13729-4-huth@tuxfamily.org>
+ <074eb5c6-8a7f-1018-47f9-9801e0aba704@redhat.com>
+ <9b4187dd-9079-b511-aea7-2b8c992a3067@posteo.de>
+ <6242593f-9472-8bc5-c65e-bea3aa0149c8@tuxfamily.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <586ab7ad-9acb-e6f8-36c1-170942d8a888@redhat.com>
+Date: Wed, 3 Jul 2019 19:36:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0a08f1d-47db-47be-3282-08d6ffdc3af1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2019 17:31:06.9265 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3740
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.103
-Subject: Re: [Qemu-devel] [PATCH v3 7/7] iotests: Set read-zeroes on in null
- block driver for Valgrind
+In-Reply-To: <6242593f-9472-8bc5-c65e-bea3aa0149c8@tuxfamily.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v2 3/4] m68k: Add NeXTcube machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,37 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI4LzA2LzIwMTkgMTY6NDYsIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPiBUaGUg
-VmFsZ3JpbmQgdG9vbCByZXBvcnRzIGFib3V0IHRoZSB1bmluaXRpYWxpc2VkIGJ1ZmZlciAnYnVm
-Jw0KPiBpbnN0YW50aWF0ZWQgb24gdGhlIHN0YWNrIG9mIHRoZSBmdW5jdGlvbiBndWVzc19kaXNr
-X2xjaHMoKS4NCj4gSXQgaXMgcmV2ZWFsZWQgaW4gdGhlIHRlc3RzIDA1MSwgMTg2LCAyMjcgYW5k
-IDI0MC4NCj4gUGFzcyAncmVhZC16ZXJvZXM9b24nIHRvIHRoZSBudWxsIGJsb2NrIGRyaXZlciBp
-biB0aGUgbWVudGlvbmVkIHRlc3RzDQo+IHRvIG1ha2UgdGhlbSBkZXRlcm1pbmlzdGljLg0KPiBU
-aGUgb3V0cHV0IG9mIHRoZSB0ZXN0cyBhYm92ZSBub3cgaW5jbHVkZXMgdGhlIHBhcmFtZXRlciAn
-cmVhZC16ZXJvZXMnLg0KPiBTbywgdGhlIGJlbmNobWFyayBvdXRwdXQgZmlsZXMgYXJlIGJlaW5n
-IGNoYW5nZWQgdG9vLg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBLZXZpbiBXb2xmIDxrd29sZkByZWRo
-YXQuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5r
-ZXZpY2hAdmlydHVvenpvLmNvbT4NCj4gLS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzA1MSAg
-ICAgICAgfCAgMTAgKy0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzA1MS5wYy5vdXQgfCAgMTAg
-Ky0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzE4NiAgICAgICAgfCAgMjAgKysrLS0tDQo+ICAg
-dGVzdHMvcWVtdS1pb3Rlc3RzLzE4Ni5vdXQgICAgfCAxNTIgKysrKysrKysrKysrKysrKysrKysr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzIyNyAgICAgICAg
-fCAgIDQgKy0NCj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMjI3Lm91dCAgICB8ICAgNCArLQ0KPiAg
-IHRlc3RzL3FlbXUtaW90ZXN0cy8yNDAgICAgICAgIHwgICA4ICstLQ0KPiAgIDcgZmlsZXMgY2hh
-bmdlZCwgMTA0IGluc2VydGlvbnMoKyksIDEwNCBkZWxldGlvbnMoLSkNCj4gDQoNClRoZSBWYWxn
-cmluZCByZWJ1a2VzIHRoZSB1bmluaXRpYWxpemVkIGJ1ZmZlciBpbiB0aGUgZmluZF9pbWFnZV9m
-b3JtYXQoKSANCm9mIGJsb2NrLmMgd2hlbiB0ZXN0IDE1NSBydW5zLg0KSSB3b3VsZCBsaWtlIHRv
-IG1vZGlmeSB0aGUgcHl0aG9uIGNvZGUgaW4gdGhlIG1lbnRpb25lZCB0ZXN0IGJ5IA0KcmVwbGFj
-aW5nIHRoZSBiYWNraW5nIGZpbGUgbmFtZToNCg0KdGFyZ2V0X2JhY2tpbmcgPSAnbnVsbC1jbzov
-LycNCg0Kd2l0aA0KDQp0YXJnZXRfYmFja2luZyA9ICdqc29uOnsicmVhZC16ZXJvZXMiOiB0cnVl
-LCAiZHJpdmVyIjogIm51bGwtY28ifScNCg0KSXMgdGhhdCB0aGUgcmlnaHQgYW5kIGVsZWdhbnQg
-d2F5IHRvIGRvPw0KSWYgc28sIEkgd2lsbCBhZGQgaXQgdG8gdGhlIG5leHQgdmVyc2lvbi4NCg0K
-QW5kcmV5DQoNCi0tIA0KV2l0aCB0aGUgYmVzdCByZWdhcmRzLA0KQW5kcmV5IFNoaW5rZXZpY2gN
-Cg==
+On 7/3/19 7:00 PM, Thomas Huth wrote:
+> On 02/07/2019 19.43, Thomas Huth wrote:
+>> On 29/06/2019 14.26, Philippe Mathieu-Daudé wrote:
+>>> On 6/28/19 8:15 PM, Thomas Huth wrote:
+> [...]
+>>>> +static uint32_t mmio_readb(NeXTState *s, hwaddr addr)
+>>>> +{
+>>>> +    switch (addr) {
+>>>> +    case 0xc000:
+>>>> +        return (s->scr1 >> 24) & 0xFF;
+>>>> +    case 0xc001:
+>>>> +        return (s->scr1 >> 16) & 0xFF;
+>>>> +    case 0xc002:
+>>>> +        return (s->scr1 >> 8)  & 0xFF;
+>>>> +    case 0xc003:
+>>>> +        return (s->scr1 >> 0)  & 0xFF;
+>>>
+>>> So you have a 32-bit implementation (DMA accessed device?).
+>>>
+>>> memory::access_with_adjusted_size() already does this work
+>>> for you if you use:
+>>>
+>>>    .impl.min_access_size = 4,
+>>>    .valid.min_access_size = 1,
+>>>    .valid.max_access_size = 4,
+>>
+>> Yeah, it's old code from 2011 ... I'll try to rework it as you suggested.
+> 
+> That does not really seem to work. I'm then still seeing accesses to
+> 0xc002 in my "readl" handler. Looks like access_with_adjusted_size() is
+> not really ready for that yet (see the FIXME in that function - it does
+> not take care of unaligned accesses yet).
+
+I was convinced the unaligned series [*] was already merged. Anyway you
+give me a good news, we have new a test for it :)
+
+[*] https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg06957.html
 
