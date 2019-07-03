@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DDB5EBB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:33:21 +0200 (CEST)
-Received: from localhost ([::1]:38430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC8E5EC04
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:53:43 +0200 (CEST)
+Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hik4G-0001mb-Sb
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56954)
+	id 1hikNy-0005G0-OS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hijgn-0005W8-Rk
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:07 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hijgs-0005hN-4t
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hijgm-00017B-JH
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59104)
+ (envelope-from <ehabkost@redhat.com>) id 1hijgr-0001B5-2a
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36484)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijgm-00016c-Ao
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:04 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijgq-0001Ai-TY
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:09:09 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 966BF44BD1;
- Wed,  3 Jul 2019 18:09:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 36EBCC057E65;
+ Wed,  3 Jul 2019 18:09:08 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C69258C9D;
- Wed,  3 Jul 2019 18:09:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA10918248;
+ Wed,  3 Jul 2019 18:09:05 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 15:07:23 -0300
-Message-Id: <20190703180726.31267-41-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 15:07:24 -0300
+Message-Id: <20190703180726.31267-42-ehabkost@redhat.com>
 In-Reply-To: <20190703180726.31267-1-ehabkost@redhat.com>
 References: <20190703180726.31267-1-ehabkost@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 18:09:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.32]); Wed, 03 Jul 2019 18:09:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v4 40/43] i386: Add Cascadelake-Server-v2 CPU
- model
+Subject: [Qemu-devel] [PULL v4 41/43] numa: Make deprecation warnings
+ conditional on !qtest_enabled()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,163 +59,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new version of Cascadelake-Server CPU model, setting
-stepping=3D5 and enabling the IA32_ARCH_CAPABILITIES MSR
-with some flags.
+This will help us avoid spurious warnings during "make check".
 
-The new feature will introduce a new host software requirement,
-breaking our CPU model runnability promises.  This means we can't
-enable the new CPU model version by default in QEMU 4.1, because
-management software isn't ready yet to resolve CPU model aliases.
-This is why "pc-*-4.1" will keep returning Cascadelake-Server-v1
-if "-cpu Cascadelake-Server" is specified.
-
-Includes a test case to ensure the right combinations of
-machine-type + CPU model + command-line feature flags will work
-as expected.
+Note that this will silence the warnings generated by
+tests/numa-test, but not the ones generated by
+tests/bios-tables-test.  We still need to change
+tests/bios-tables-test to use "-numa ...,memdev=" to silence
+these warnings.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190628002844.24894-10-ehabkost@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20190702215726.23661-1-ehabkost@redhat.com>
 ---
- target/i386/cpu.c                          | 14 +++++
- tests/acceptance/x86_cpu_model_versions.py | 73 ++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
+ numa.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9b16cffb22..0298396a91 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2343,6 +2343,20 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-             CPUID_6_EAX_ARAT,
-         .xlevel =3D 0x80000008,
-         .model_id =3D "Intel Xeon Processor (Cascadelake)",
-+        .versions =3D (X86CPUVersionDefinition[]) {
-+            { .version =3D 1 },
-+            { .version =3D 2,
-+              .props =3D (PropValue[]) {
-+                  { "stepping", "5" },
-+                  { "arch-capabilities", "on" },
-+                  { "rdctl-no", "on" },
-+                  { "ibrs-all", "on" },
-+                  { "skip-l1dfl-vmentry", "on" },
-+                  { /* end of list */ }
-+              },
-+            },
-+            { /* end of list */ }
+diff --git a/numa.c b/numa.c
+index 48fd43ecc6..2fcc99e154 100644
+--- a/numa.c
++++ b/numa.c
+@@ -35,6 +35,7 @@
+ #include "qapi/qapi-visit-misc.h"
+ #include "hw/boards.h"
+ #include "sysemu/hostmem.h"
++#include "sysemu/qtest.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/memory-device.h"
+ #include "qemu/option.h"
+@@ -122,8 +123,10 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+ 
+     if (node->has_mem) {
+         numa_info[nodenr].node_mem = node->mem;
+-        warn_report("Parameter -numa node,mem is deprecated,"
+-                    " use -numa node,memdev instead");
++        if (!qtest_enabled()) {
++            warn_report("Parameter -numa node,mem is deprecated,"
++                        " use -numa node,memdev instead");
 +        }
-     },
-     {
-         .name =3D "Icelake-Client",
-diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
-e/x86_cpu_model_versions.py
-index 165c0c7601..1c9fd6a56e 100644
---- a/tests/acceptance/x86_cpu_model_versions.py
-+++ b/tests/acceptance/x86_cpu_model_versions.py
-@@ -25,6 +25,10 @@
- import avocado_qemu
- import re
-=20
-+def get_cpu_prop(vm, prop):
-+    cpu_path =3D vm.command('query-cpus')[0].get('qom_path')
-+    return vm.command('qom-get', path=3Dcpu_path, property=3Dprop)
-+
- class X86CPUModelAliases(avocado_qemu.Test):
-     """
-     Validation of PC CPU model versions and CPU model aliases
-@@ -229,3 +233,72 @@ class X86CPUModelAliases(avocado_qemu.Test):
-                          'qemu64-v1 must not be an alias')
-=20
-         self.validate_aliases(cpus)
-+
-+    def test_Cascadelake_arch_capabilities_result(self):
-+        # machine-type only:
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.1')
-+        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff')
-+        vm.launch()
-+        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.1 + Cascadelake-Server should not =
-have arch-capabilities')
-+
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.0')
-+        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff')
-+        vm.launch()
-+        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.0 + Cascadelake-Server should not =
-have arch-capabilities')
-+
-+        # command line must override machine-type if CPU model is not ve=
-rsioned:
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.0')
-+        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff,+arch-capabilities')
-+        vm.launch()
-+        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-+                        'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabi=
-lities should have arch-capabilities')
-+
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.1')
-+        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff,-arch-capabilities')
-+        vm.launch()
-+        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.1 + Cascadelake-Server,-arch-capab=
-ilities should not have arch-capabilities')
-+
-+        # versioned CPU model overrides machine-type:
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.0')
-+        vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-features=3Don=
-,check=3Doff,enforce=3Doff')
-+        vm.launch()
-+        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.1 + Cascadelake-Server-v1 should n=
-ot have arch-capabilities')
-+
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.0')
-+        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3Don=
-,check=3Doff,enforce=3Doff')
-+        vm.launch()
-+        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.1 + Cascadelake-Server-v1 should h=
-ave arch-capabilities')
-+
-+        # command line must override machine-type and versioned CPU mode=
-l:
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.0')
-+        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=3Don,ch=
-eck=3Doff,enforce=3Doff,+arch-capabilities')
-+        vm.launch()
-+        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-ca=
-pabilities should have arch-capabilities')
-+
-+        vm =3D self.get_vm()
-+        vm.add_args('-S')
-+        vm.set_machine('pc-i440fx-4.1')
-+        vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-features=3Don=
-,check=3Doff,enforce=3Doff,-arch-capabilities')
-+        vm.launch()
-+        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-+                         'pc-i440fx-4.1 + Cascadelake-Server-v2,-arch-ca=
-pabilities should not have arch-capabilities')
---=20
+     }
+     if (node->has_memdev) {
+         Object *o;
+@@ -410,9 +413,11 @@ void numa_complete_configuration(MachineState *ms)
+         if (i == nb_numa_nodes) {
+             assert(mc->numa_auto_assign_ram);
+             mc->numa_auto_assign_ram(mc, numa_info, nb_numa_nodes, ram_size);
+-            warn_report("Default splitting of RAM between nodes is deprecated,"
+-                        " Use '-numa node,memdev' to explictly define RAM"
+-                        " allocation per node");
++            if (!qtest_enabled()) {
++                warn_report("Default splitting of RAM between nodes is deprecated,"
++                            " Use '-numa node,memdev' to explictly define RAM"
++                            " allocation per node");
++            }
+         }
+ 
+         numa_total = 0;
+-- 
 2.18.0.rc1.1.g3f1ff2140
 
 
