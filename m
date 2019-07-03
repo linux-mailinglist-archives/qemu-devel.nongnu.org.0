@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75385EE9C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:34:37 +0200 (CEST)
-Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EBC5EED7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:54:44 +0200 (CEST)
+Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1himth-000745-1l
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38336)
+	id 1hinD9-0002UA-TA
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1himVU-0006Gi-Nk
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:38 -0400
+ (envelope-from <marlies.ruck@gmail.com>) id 1himX8-0007kN-AA
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:11:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1himVT-0007AA-IY
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:36 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43800)
+ (envelope-from <marlies.ruck@gmail.com>) id 1himX6-0008Ll-PK
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:11:18 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44662)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1himVT-00078o-90
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:35 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p13so4303268wru.10
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 14:09:35 -0700 (PDT)
+ (Exim 4.71) (envelope-from <marlies.ruck@gmail.com>)
+ id 1himX5-0008Ic-ST
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:11:16 -0400
+Received: by mail-io1-xd42.google.com with SMTP id s7so8236874iob.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 14:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FIBgkNMuS9WBSFnNTVA2oFYZ9kIFylQR6qM1JudMkmc=;
+ b=CXPOGxjaDKwFRxtHvQOTouHZsKSqB+Oy7zbHqCOQe2tM23fFE60YxpgBPH1q+zr4tu
+ PUa+BMZO6ILAh3kDlNU6DLaaH7zSJK/9jSFN9SGK9olEEYbcZsSpccPNMwJo5J12s6+k
+ Pw/ybR+4IpCW45YX3+yHileGOuxE5UeW0aPB0Eb0wQ+kmc8M5JWgB9oWOBgA3OE9nv+B
+ XzpJ1Kuf5BtgPzfXsUC/+DZB8QEXp+uKivmS4DuWs7zxcHtxUjqy/nQw+wrbTpGuvPwt
+ tEl8X/AioUM0woXp9SFrNE0BjEmCQu4/jLLGwHy9dGD39ZhYdlxeEjZiz1G0NTpNiMby
+ IlFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D26PSec2/xWEYy7NkXWaAuAXncdIOhjnPwacv4ApJtA=;
- b=Jlve8ZmGQCbnvVdeBuyrvnVdpyFF28fURs4h9CSogwh3zX/R+6q6ugmYCV7DQeraoQ
- Km5xkT1FCmdF/KMaX5Lw6lT8cCHvH08nIOktz99+g7Ui4W0tdJBpfZRV1TL+JAzqKatD
- F0JrO7GRFbH8LyM/t4iCQqdExPa8hzxvuNqR1RiY/2LmcTjUyE4W+tfh+uKQYlW/OwUh
- 9y70k0di7WfUou9PHp+our4QU4cW5weRBfDIFS9QO8Iuox8hTos/wFldpuRALxKaIqkU
- km1LUuab/4AjFx5oN7cIHNdgI9AMIeazZsv2+/gBXAJKoPkKcq1kBXh4Sng4jQXk7lYB
- /U4A==
-X-Gm-Message-State: APjAAAWU4SLx6Bi5yKM45x8o55Lkk2G7763x2/PYjOwETVJu7c+ExCmj
- pQjbyPKIITZ5jKJ5DufcShifzg==
-X-Google-Smtp-Source: APXvYqz4CoNOE6rgf6MZk/Snb2Jxb1aajy8xDz6X16DQcB53/OKtJZ7RUjwg85eUjJYhj5S4L5P0aw==
-X-Received: by 2002:a5d:4647:: with SMTP id j7mr32477019wrs.334.1562188173996; 
- Wed, 03 Jul 2019 14:09:33 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e5b7:d6bb:ed2d:4d20?
- ([2001:b07:6468:f312:e5b7:d6bb:ed2d:4d20])
- by smtp.gmail.com with ESMTPSA id z25sm3282317wmf.38.2019.07.03.14.09.33
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 14:09:33 -0700 (PDT)
-To: "Montes, Julio" <julio.montes@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190703154958.29004-1-julio.montes@intel.com>
- <366f287a-7f83-235c-5141-331117f50bb4@redhat.com>
- <69cb55e2b337cd24f195305683a070cda8b0befd.camel@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <be6aa304-a8e4-d64a-432f-24d52e42c097@redhat.com>
-Date: Wed, 3 Jul 2019 23:09:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FIBgkNMuS9WBSFnNTVA2oFYZ9kIFylQR6qM1JudMkmc=;
+ b=VxXP67uznRBidIllWBvATkzIzq3I5tbvGj78O4/5KEf5xOp0VpCBjLlqWZYPkqFd96
+ lc2WnxmKjwsO77XYCWxtp+SNgjOXDLNvNu3o5mzMdbzEsvXFZkpCV/THy3KrTo0/A2NF
+ ly/IBW69oLz/oUBcefZyqFNUzMMepdAAogEmRw7HkYq0Im90ZF3UEdJFwfq8wuhkYsyc
+ vrLHGOErxlvs2zrEcq/k8xZ06kYMe7cbzK6hIzSllaAXu++ihXZRKOSp1te+ouL+AAki
+ 5HiosGSlnglKhK9A6Q7ONPQ4mljuh13bn9WY8ucCBGlGeB2nZnTd/phxqe+z3auMmPH0
+ loMA==
+X-Gm-Message-State: APjAAAXYwILc28D+1QeLwd0+ENOYiGAxwZfypFNCoeIipGB5Jtit6dqc
+ erYwPgWCQ9CwWQD4g6LxMmjv170qqvKcwnWqk3U=
+X-Google-Smtp-Source: APXvYqywkHuA5aNgyE36c9MmR2igQKDZyeSlqN4iwH+ZEryTDXvteMbIUeFvXTt+Y3U8iQ7+ctWF6O0WBQcPpCUcce4=
+X-Received: by 2002:a5d:860e:: with SMTP id f14mr7739514iol.242.1562188272508; 
+ Wed, 03 Jul 2019 14:11:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <69cb55e2b337cd24f195305683a070cda8b0befd.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH] hw/i386: Fix linker error when ISAPC is
- disabled
+References: <CALw29ZZZ08Lt13oZsbZCwV+uP0roLuT6t+8m16y+8YT-KH4t7A@mail.gmail.com>
+ <CALw29ZbiqpGFOGHOP_7K2DvAfap_xE+PWAfXvvr35eK7aKn-dA@mail.gmail.com>
+ <e3282346-166b-ef37-b874-2c2625cf31c1@redhat.com>
+ <CAFEAcA-ZVGq1bD4+fu2+7GOVq_nBXBy8h31AY-0=i2ixnvvRnQ@mail.gmail.com>
+ <CALw29Za+za-Pncr5esvnaNU8C3dx6Jws+jSbJAPJ0fSc50NotA@mail.gmail.com>
+In-Reply-To: <CALw29Za+za-Pncr5esvnaNU8C3dx6Jws+jSbJAPJ0fSc50NotA@mail.gmail.com>
+From: Marlies Ruck <marlies.ruck@gmail.com>
+Date: Wed, 3 Jul 2019 14:11:01 -0700
+Message-ID: <CALw29ZZS+CzCDNCR4DLZb4j=3KX4dzxKk3JdUZGUXUeJn0hW0w@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] patch to swap SIGRTMIN + 1 and SIGRTMAX - 1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,86 +77,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/07/19 18:40, Montes, Julio wrote:
-> On Wed, 2019-07-03 at 18:21 +0200, Paolo Bonzini wrote:
->> On 03/07/19 17:49, Julio Montes wrote:
->>> In pc_init1(), ISA IDE is initialized without checking if ISAPC or
->>> IDE_ISA
->>> configs are enabled. This results in a link error when
->>> CONFIG_ISAPC is set to 'n' in the file default-configs/i386-
->>> softmmu.mak:
->>>
->>> hw/i386/pc_piix.o: In function `pc_init1':
->>> hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
->>> hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
->>>
->>> Place ide_isa code under #ifdef CONFIG_IDE_ISA to fix linker errors
+Hi,
+
+Just wanted to follow up to see what your thoughts are.  Is it preferable
+if I submit a PR to the Go runtime first?  That would mitigate concerns
+about Go breaking on QEMU with this patch.
+
+Thanks,
+Marli
+
+On Mon, Jul 1, 2019 at 3:04 PM Marlies Ruck <marlies.ruck@gmail.com> wrote:
+
+> Hi All,
+>
+> You are correct, this would break Go binaries.  I was planning on
+> submitting a PR to the Go runtime if my patch was accepted to QEMU.  The =
+Go
+> PR would ignore the failure to register a handler for SIGRTMAX - 1, just =
+as
+> it currently ignores the failure on SIGRTMAX (
+> https://github.com/golang/go/blob/master/src/runtime/os_linux.go#L443).
+> Does this seem reasonable to you?  My local set up has these patches to
+> QEMU and Go and it allows me to run both Go guest programs, and guest
+> programs that use SIGRTMIN + 1.
+>
+> Also, thank you Peter and Phil for your patience as this is my first time
+> contributing to QEMU.  If you decide to use this patch, I'm happy to rese=
+nd
+> the patch via `git send email`.
+>
+> Thanks!
+> Marli
+>
+>
+>
+> On Mon, Jul 1, 2019 at 2:08 AM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+>
+>> On Sat, 29 Jun 2019 at 11:53, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+>> wrote:
+>> >
+>> > Hi Marlies,
+>> >
+>> > On 6/29/19 1:26 AM, Marlies Ruck wrote:
+>> > > Hi,
+>> > >
+>> > > I just wanted to follow up since I sent this patch a week ago to mak=
+e
+>> sure
+>> > > it was a received.  An ack would be appreciated.
+>> >
+>> > You did not Cc'ed the maintainer, so he likely missed it.
+>> > See:
+>> >
+>> https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
+>> >
+>> > $ ./scripts/get_maintainer.pl -f linux-user/signal.c
+>> > Riku Voipio <riku.voipio@iki.fi> (maintainer:Linux user)
+>> > Laurent Vivier <laurent@vivier.eu> (reviewer:Linux user)
+>> >
+>> > BTW you should also look at the next paragraph in this wiki page:
+>> >
+>> https://wiki.qemu.org/Contribute/SubmitAPatch#Do_not_send_as_an_attachme=
+nt
+>> >
+>> > Since you credit Peter Maydell, it would be kind to Cc him too.
 >>
->> But there is nothing that defines CONFIG_IDE_ISA, right?
-> 
-> yes I think you're right, do I need to use #ifdef CONFIG_ISAPC instead?
-> or how I can define CONFIG_IDE_ISA at build time?
-
-No, Kconfig symbols do not end up in any header.  We could have one that
-is only included in obj-y files though, since hw/i386/pc_piix.c is obj-y
-rather than common-obj-y.
-
-Paolo
-
+>> I have a strong suspicion that if we applied this patch it would
+>> break running a pile of Go binaries that currently work, which means
+>> it's something we need to be cautious about. (The Go runtime special
+>> cases the fact that when it tries to register some signals they don't
+>> work, but will abort on startup I think if it can't register a handler
+>> for SIGRTMAX-1, which will be the case after this patch.)
 >>
->> Paolo
+>> thanks
+>> -- PMM
 >>
->>> Signed-off-by: Julio Montes <julio.montes@intel.com>
->>> ---
->>>  hw/i386/pc_piix.c | 11 ++++++++---
->>>  1 file changed, 8 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->>> index c07c4a5b38..b93f9327be 100644
->>> --- a/hw/i386/pc_piix.c
->>> +++ b/hw/i386/pc_piix.c
->>> @@ -61,9 +61,11 @@
->>>  
->>>  #define MAX_IDE_BUS 2
->>>  
->>> +#ifdef CONFIG_IDE_ISA
->>>  static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
->>>  static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
->>>  static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
->>> +#endif
->>>  
->>>  /* PC hardware initialisation */
->>>  static void pc_init1(MachineState *machine,
->>> @@ -254,7 +256,10 @@ static void pc_init1(MachineState *machine,
->>>          }
->>>          idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
->>>          idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
->>> -    } else {
->>> +        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
->>> +    }
->>> +#ifdef CONFIG_IDE_ISA
->>> +else {
->>>          for(i = 0; i < MAX_IDE_BUS; i++) {
->>>              ISADevice *dev;
->>>              char busname[] = "ide.0";
->>> @@ -268,9 +273,9 @@ static void pc_init1(MachineState *machine,
->>>              busname[4] = '0' + i;
->>>              idebus[i] = qdev_get_child_bus(DEVICE(dev), busname);
->>>          }
->>> +        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
->>>      }
->>> -
->>> -    pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
->>> +#endif
->>>  
->>>      if (pcmc->pci_enabled && machine_usb(machine)) {
->>>          pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-
->>> uhci");
->>>
-
-
+>
