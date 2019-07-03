@@ -2,78 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCBE5E728
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 16:52:37 +0200 (CEST)
-Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453875E742
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 16:59:01 +0200 (CEST)
+Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1higcd-0000RJ-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 10:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60879)
+	id 1higiq-00048A-Fb
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 10:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34234)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1higb9-0007Ms-Re
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 10:51:08 -0400
+ (envelope-from <lvivier@redhat.com>) id 1higho-0003Tj-LA
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 10:57:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1higb7-0004d0-Sn
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 10:51:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47422)
+ (envelope-from <lvivier@redhat.com>) id 1highh-0000Et-2M
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 10:57:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33372)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1higb2-0004Yy-Lk; Wed, 03 Jul 2019 10:50:57 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1higha-00009o-4U
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 10:57:43 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9BB5031628E6;
- Wed,  3 Jul 2019 14:50:55 +0000 (UTC)
-Received: from [10.3.116.152] (ovpn-116-152.phx2.redhat.com [10.3.116.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3AB17C635;
- Wed,  3 Jul 2019 14:50:52 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190630150855.1016-1-mlevitsk@redhat.com>
- <20190630150855.1016-2-mlevitsk@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 58B8481129;
+ Wed,  3 Jul 2019 14:57:39 +0000 (UTC)
+Received: from [10.36.116.109] (ovpn-116-109.ams2.redhat.com [10.36.116.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C983817CFC;
+ Wed,  3 Jul 2019 14:57:34 +0000 (UTC)
+To: Amit Shah <amit@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20190529143106.11789-1-lvivier@redhat.com>
+ <20190702092133-mutt-send-email-mst@kernel.org>
+ <af659b81-25ef-afc3-3e16-7fd8183fd2ef@redhat.com>
+ <8f76716c60febb890da7956bce02c4ece6c2db25.camel@infradead.org>
+From: Laurent Vivier <lvivier@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <70330e00-ebe9-ce2a-5155-6f7e032e0aae@redhat.com>
-Date: Wed, 3 Jul 2019 09:50:51 -0500
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <236b14d4-53cc-273f-1995-86eff4a73637@redhat.com>
+Date: Wed, 3 Jul 2019 16:57:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190630150855.1016-2-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="BSNUoYfn4nUJg7mOeoHxJ6GsSQLqVT7b2"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <8f76716c60febb890da7956bce02c4ece6c2db25.camel@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 03 Jul 2019 14:50:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Wed, 03 Jul 2019 14:57:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/1] raw-posix.c - use max transfer length
- / max segemnt count only for SCSI passthrough
+Subject: Re: [Qemu-devel] [PATCH v7 0/4] rng-builtin: add an RNG backend
+ that uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,140 +105,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
- John Ferlan <jferlan@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
+ Amit Shah <amit@kernel.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---BSNUoYfn4nUJg7mOeoHxJ6GsSQLqVT7b2
-Content-Type: multipart/mixed; boundary="s2C8lxX3XGWnK5uUPhAEgRFqdj9BEnAkz";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, John Ferlan <jferlan@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-Message-ID: <70330e00-ebe9-ce2a-5155-6f7e032e0aae@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH 1/1] raw-posix.c - use max transfer length /
- max segemnt count only for SCSI passthrough
-References: <20190630150855.1016-1-mlevitsk@redhat.com>
- <20190630150855.1016-2-mlevitsk@redhat.com>
-In-Reply-To: <20190630150855.1016-2-mlevitsk@redhat.com>
+On 03/07/2019 16:23, Amit Shah wrote:
+> On Tue, 2019-07-02 at 18:48 +0200, Laurent Vivier wrote:
+>> On 02/07/2019 15:21, Michael S. Tsirkin wrote:
+>>> On Wed, May 29, 2019 at 04:31:02PM +0200, Laurent Vivier wrote:
+>>>> Add a new RNG backend using QEMU builtin getrandom function.
+>>>>
+>>>> v7: rebase on master
+>>>>     Make rng-builtin asynchronous with QEMUBH (removed existing
+>>>> R-b)
+>>>>
+>>>> v6: remove "sysemu/rng-random.h" from virtio-rng.c
+>>>>     rebase on qemu_getrandom v8
+>>>>
+>>>> v5: PATCH 1 s/linux/Linux/
+>>>>     remove superfluous includes from rng-builtin.c
+>>>>     don't update rng-random documentation
+>>>>     add a patch from Markus to keep the default backend out of
+>>>> VirtIORNGConf
+>>>>     move TYPE_RNG_BUILTIN to sysemu/rng.h and remove sysemu/rng-
+>>>> builtin.h
+>>>>
+>>>> v4: update PATCH 1 commit message
+>>>>
+>>>> v3: Include Kashyap's patch in the series
+>>>>     Add a patch to change virtio-rng default backend to rng-
+>>>> builtin
+>>>>
+>>>> v2: Update qemu-options.hx
+>>>>     describe the new backend and specify virtio-rng uses the
+>>>>     rng-random by default
+>>>
+>>>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>>
+>>> feel free to merge.
+>>
+>> Thank you Michael.
+>>
+>> I've already included PATCH 1 in a pull-request for trivial patches
+>> branch.
+>>
+>> I'm not sure the other patches are good candidates for trivial
+>> patches
+>> branch, but is there any other maintainer that can include them in a
+>> pull request (before the freeze)?
+>>
+>> Amit?
+>> [Do you want I manage a virtio-rng pull-request for you?]
+> 
+> Hello Laurent,
+> 
+> Apologies as I haven't been around for a bit.
 
---s2C8lxX3XGWnK5uUPhAEgRFqdj9BEnAkz
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+No problem.
 
-On 6/30/19 10:08 AM, Maxim Levitsky wrote:
-> Regular block devices (/dev/sda*, /dev/nvme*, etc) interface is not lim=
-ited
+> I don't mind you doing the pull req yourself if you have sufficient
+> reviews.
 
-The regular block device interface is
+I think it's too late to push this in 4.1., so it this will wait next
+release.
 
-or
+>   Do you also want to consider maintaining rng yourself?
 
-Regular block devices interfaces are
+It's up to you: if you think you don't have time to maintain virtio-rng,
+I can manage this.
 
-> by the underlying storage limits, but rather the kernel block layer
-> takes care to split the requests that are too large/fragmented.
->=20
-> Doing so allows us to have less overhead in qemu.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  block/file-posix.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
->=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index ab05b51a66..66dad34f8a 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1038,15 +1038,13 @@ static void raw_reopen_abort(BDRVReopenState *s=
-tate)
->      s->reopen_state =3D NULL;
->  }
-> =20
-> -static int hdev_get_max_transfer_length(BlockDriverState *bs, int fd)
-> +static int sg_get_max_transfer_length(BlockDriverState *bs, int fd)
->  {
->  #ifdef BLKSECTGET
->      int max_bytes =3D 0;
-> -    short max_sectors =3D 0;
-> -    if (bs->sg && ioctl(fd, BLKSECTGET, &max_bytes) =3D=3D 0) {
-> +
-> +    if (ioctl(fd, BLKSECTGET, &max_bytes) =3D=3D 0) {
->          return max_bytes;
-> -    } else if (!bs->sg && ioctl(fd, BLKSECTGET, &max_sectors) =3D=3D 0=
-) {
-> -        return max_sectors << BDRV_SECTOR_BITS;
->      } else {
->          return -errno;
->      }
-> @@ -1055,7 +1053,7 @@ static int hdev_get_max_transfer_length(BlockDriv=
-erState *bs, int fd)
->  #endif
->  }
-> =20
-> -static int hdev_get_max_segments(const struct stat *st)
-> +static int sg_get_max_segments(const struct stat *st)
->  {
->  #ifdef CONFIG_LINUX
->      char buf[32];
-> @@ -1106,12 +1104,12 @@ static void raw_refresh_limits(BlockDriverState=
- *bs, Error **errp)
->      struct stat st;
-> =20
->      if (!fstat(s->fd, &st)) {
-> -        if (S_ISBLK(st.st_mode) || S_ISCHR(st.st_mode)) {
-> -            int ret =3D hdev_get_max_transfer_length(bs, s->fd);
-
-Is it worth delaying the fstat()...
-
-> +        if (bs->sg) {
-> +            int ret =3D sg_get_max_transfer_length(bs, s->fd);
->              if (ret > 0 && ret <=3D BDRV_REQUEST_MAX_BYTES) {
->                  bs->bl.max_transfer =3D pow2floor(ret);
->              }
-> -            ret =3D hdev_get_max_segments(&st);
-> +            ret =3D sg_get_max_segments(&st);
-
-=2E..until inside the if (bs->sg) condition, to avoid wasted work for
-other scenarios?
-
->              if (ret > 0) {
->                  bs->bl.max_transfer =3D MIN(bs->bl.max_transfer,
->                                            ret * getpagesize());
->=20
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---s2C8lxX3XGWnK5uUPhAEgRFqdj9BEnAkz--
-
---BSNUoYfn4nUJg7mOeoHxJ6GsSQLqVT7b2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0cwMsACgkQp6FrSiUn
-Q2qN8AgAnOr7AIX+CYBiWaV9LSuiEzVHnW7ZbaGKEh1/+GCiBeydxOzwHxIWQjJx
-OrueXJOMQSFKYOwxKalggQmvlpWzUEWIJma4SRCmZ0WqhKsdHX2K9X2FQnp8bbkr
-XgQ/FMQIFkYPkfBMgWd8OacRufNBxJtMrKdbDCJ1vvOwrtA+2VozL7RaR0UAYZsu
-LYyVGaM4Vg4Di6pqSVFTs1I0m6k7MPbUwFxSh7iVCIA1RN6yG97ny24f0wWPeFJD
-BvSCh2F/L3OlMmG0JaNHNOWCNdnXGHbW+eUabOceRVwkiZKfwZDkH00d9Zx2tgGu
-JnvjSCG6R9SPxj7EmKDFB8ziqWErvA==
-=OVZt
------END PGP SIGNATURE-----
-
---BSNUoYfn4nUJg7mOeoHxJ6GsSQLqVT7b2--
+Thanks,
+Laurent
 
