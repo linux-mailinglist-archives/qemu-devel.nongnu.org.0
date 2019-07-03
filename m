@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDFF85DDEE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 08:15:01 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7D95DE09
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 08:27:51 +0200 (CEST)
+Received: from localhost ([::1]:33064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiYXk-00059x-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 02:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46397)
+	id 1hiYkA-0002h5-AA
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 02:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49125)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiYVy-0003YC-L9
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 02:13:12 -0400
+ (envelope-from <armbru@redhat.com>) id 1hiYii-0002Be-9W
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 02:26:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiYVw-000693-MN
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 02:13:10 -0400
-Received: from ozlabs.org ([203.11.71.1]:48135)
+ (envelope-from <armbru@redhat.com>) id 1hiYih-0006R2-4s
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 02:26:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48078)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiYVs-0005v7-R1; Wed, 03 Jul 2019 02:13:07 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45drPZ6vdNz9s8m; Wed,  3 Jul 2019 16:12:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562134370;
- bh=L0hzMQEO0XtEEAC39b0ZkqGoNcv63Ivk7isOm0lqxgo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gTSxu9c1HwBwzRfxWLRvg3pVPbgs5v+5LFxkCevImWaqxVYy1FIDgsBMkPGP8Q78Q
- eIjivssXPLgEiiEOnYU2+ayPVHPOniNa3Q9KWroDGeVtLVkN4Gm4QTQTtFYb1dyiH8
- Z09HAOGnJFfOGjvw4K3KIGtaEbZ0MLvHLYVtUgUk=
-Date: Wed, 3 Jul 2019 16:12:39 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190703061239.GK9442@umbus.fritz.box>
-References: <20190701061946.32636-1-sjitindarsingh@gmail.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hiYie-0006PG-Qc; Wed, 03 Jul 2019 02:26:17 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 78F2786677;
+ Wed,  3 Jul 2019 06:26:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
+ [10.36.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 445FC608A7;
+ Wed,  3 Jul 2019 06:26:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C18BA1132ABF; Wed,  3 Jul 2019 08:26:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-3-mehta.aaru20@gmail.com>
+ <20190611073653.bfp22e6s4jed2qdx@debian>
+ <20190611093250.GO14257@stefanha-x1.localdomain>
+Date: Wed, 03 Jul 2019 08:26:05 +0200
+In-Reply-To: <20190611093250.GO14257@stefanha-x1.localdomain> (Stefan
+ Hajnoczi's message of "Tue, 11 Jun 2019 10:32:50 +0100")
+Message-ID: <87pnmry6pu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NqNl6FRZtoRUn5bW"
-Content-Disposition: inline
-In-Reply-To: <20190701061946.32636-1-sjitindarsingh@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Wed, 03 Jul 2019 06:26:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH v3] powerpc/spapr: Add host
- threads parameter to ibm, get_system_parameter
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 02/12] qapi/block-core: add option for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,177 +63,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I apologize for replying so late.
 
---NqNl6FRZtoRUn5bW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-On Mon, Jul 01, 2019 at 04:19:46PM +1000, Suraj Jitindar Singh wrote:
-> The ibm,get_system_parameter rtas call is used by the guest to retrieve
-> data relating to certain parameters of the system. The SPLPAR
-> characteristics option (token 20) is used to determin characteristics of
-> the environment in which the lpar will run.
->=20
-> It may be useful for a guest to know the number of physical host threads
-> present on the underlying system where it is being run. Add the
-> characteristic "HostThrs" to the SPLPAR Characteristics
-> ibm,get_system_parameter rtas call to expose this information to a
-> guest and provide an implementation which determines this information
-> based on the number of interrupt servers present in the device tree.
->=20
-> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> On Tue, Jun 11, 2019 at 03:36:53PM +0800, Fam Zheng wrote:
+>> On Mon, 06/10 19:18, Aarushi Mehta wrote:
+>> > Option only enumerates for hosts that support it.
+>> > 
+>> > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+>> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> > ---
+>> >  qapi/block-core.json | 4 +++-
+>> >  1 file changed, 3 insertions(+), 1 deletion(-)
+>> > 
+>> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> > index 1defcde048..db7eedd058 100644
+>> > --- a/qapi/block-core.json
+>> > +++ b/qapi/block-core.json
+>> > @@ -2792,11 +2792,13 @@
+>> >  #
+>> >  # @threads:     Use qemu's thread pool
+>> >  # @native:      Use native AIO backend (only Linux and Windows)
+>> > +# @io_uring:    Use linux io_uring (since 4.1)
+>> >  #
+>> >  # Since: 2.9
+>> >  ##
+>> >  { 'enum': 'BlockdevAioOptions',
+>> > -  'data': [ 'threads', 'native' ] }
+>> > +  'data': [ 'threads', 'native',
+>> > +            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)' } ] }
+>> 
+>> Question: 'native' has a dependency on libaio but it doesn't have the
+>> condition.  Is the inconsistency intended?
+>
+> 'native' could be conditional too but I guess it's a historical thing.
+> Either QAPI 'if' didn't exit when BlockdevAioOptions was defined or we
+> simply forgot to use it :).
 
-Hrm, as I said on our call, I have some misgivings about this.
+The former.  QAPI supports 'if' in partially since 3.0, and fully since
+4.0.
 
-Starting with the most general: this again publishes host information
-to the guest without filtering, which has caused us problems before
-(e.g. security issues with publishing the host serial and model
-information).  Now, I can't immediately see what harm a guest could do
-with the host # threads (especially since it could in theory deduce it
-=66rom the PVR, I think) but it still makes me uneasy.
+> It doesn't need to be changed in this patch series.
 
-Secondly, the "HostThrs" tag doesn't seem to be documented in PAPR as
-something that this system-parameter will include.  I don't much like
-the idea of adding ad-hoc bits of information here without some
-thought going into designing and specifying it first.
+Making the QAPI schema reflect the underlying C code's ifdeffery can
+help QMP clients.  Compare:
 
->=20
-> ---
->=20
-> V1 -> V2:
-> - Take into account that the core may be operating in split core mode
->   meaning a single core may be split into multiple subcores.
-> V2 -> V3:
-> - Add curly braces for single line if statements
-> ---
->  hw/ppc/spapr_rtas.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 62 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 5bc1a93271..1bab71c90c 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -229,6 +229,58 @@ static inline int sysparm_st(target_ulong addr, targ=
-et_ulong len,
->      return RTAS_OUT_SUCCESS;
->  }
-> =20
-> +#define CPUS_PATH       "/proc/device-tree/cpus/"
-> +#define SUBCORE_PATH    "/sys/devices/system/cpu/subcores_per_core"
-> +
-> +static int rtas_get_num_host_threads(void)
-> +{
-> +    int num_threads =3D -1;
-> +    unsigned long len;
-> +    const char *entry;
-> +    char *buf;
-> +    GDir *dir;
-> +
-> +    if (!kvm_enabled()) {
-> +        return 1;
-> +    }
-> +
-> +    /* Read interrupt servers to determine number of threads per core */
-> +    dir =3D g_dir_open(CPUS_PATH, 0, NULL);
-> +    if (!dir) {
-> +        return -1;
-> +    }
-> +
-> +    while ((entry =3D g_dir_read_name(dir))) {
-> +        if (!strncmp(entry, "PowerPC,POWER", strlen("PowerPC,POWER"))) {
-> +            char *path;
-> +
-> +            path =3D g_strconcat(CPUS_PATH, entry, "/ibm,ppc-interrupt-s=
-erver#s",
-> +                               NULL);
-> +            if (g_file_get_contents(path, &buf, &len, NULL)) {
-> +                num_threads =3D len / sizeof(int);
-> +                g_free(buf);
-> +            }
-> +
-> +            g_free(path);
-> +            break;
-> +        }
-> +    }
-> +
-> +    g_dir_close(dir);
-> +
-> +    /* Check if split core mode in use */
-> +    if (g_file_get_contents(SUBCORE_PATH, &buf, &len, NULL)) {
-> +        int subcores =3D g_ascii_strtoll(buf, NULL, 10);
-> +
-> +        if (subcores) {
-> +            num_threads /=3D subcores;
-> +        }
-> +        g_free(buf);
-> +    }
+* query-qmp-schema reports member "native" even when attempting to use
+  it will always fail.
 
-Finally, all the logic above is built on the assumption of a ppc host
-- and not just that but an IBM POWER host...
+* It reports member "io_uring" only when it can work.
 
-> +    return num_threads;
-> +}
-> +
->  static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
->                                            SpaprMachineState *spapr,
->                                            uint32_t token, uint32_t nargs,
-> @@ -250,6 +302,16 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU=
- *cpu,
->                                            current_machine->ram_size / Mi=
-B,
->                                            smp_cpus,
->                                            max_cpus);
-> +        int num_host_threads =3D rtas_get_num_host_threads();
-> +
-> +        if (num_host_threads > 0) {
-
-=2E.. this sort of implements a fallback in other cases (KVM PR with a
-non-IBM host, TCG, but the boundary conditions are not really well defined.
-
-> +            char *hostthr_val, *old =3D param_val;
-> +
-> +            hostthr_val =3D g_strdup_printf(",HostThrs=3D%d", num_host_t=
-hreads);
-> +            param_val =3D g_strconcat(param_val, hostthr_val, NULL);
-> +            g_free(hostthr_val);
-> +            g_free(old);
-> +        }
->          ret =3D sysparm_st(buffer, length, param_val, strlen(param_val) =
-+ 1);
->          g_free(param_val);
->          break;
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---NqNl6FRZtoRUn5bW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0cR1QACgkQbDjKyiDZ
-s5Ly/xAAqNGEvipjwrwJ77b1y1ukUPIsEeDiY6Laglmcq3e/PQkp0ojLdIC0Tkst
-38OxnlBnaqthW5eKMwcKlTRlyDygOrJCVKZzr2R2z8sXSlA7tfuaOlp7EEEXRIOr
-ylUE2/4n4Ow8W6hzdvKmkjFc2gZ6Fj5sptIzzT0c7sKRSARtxSKQXdDgkUNS41AR
-pREFN/pl5P19QWs4NSOftQ47ETa84auyVKt0gNUpf4ONuny2rSo+iapq7KihhicO
-6SL/NlVVpWF0w9QpwuYssVIL3VovW48hplhj2YvUZwViF52omG5mXUAjqBTKZe40
-FohK9xpacdPnn/KdRXsE1+3ibkOc5m3luOUoIz1IOcnU7pVA+HpS00Rf5a1IPldK
-l2Bu9yQMoDlpPPLw03mAXFY+xvRRyXy9EOlEZzX5+gKPFVtjP+V4yNCVD3fjk9/4
-leTXG8GRqlVI3bJ03CB5S+UWHPMauCRYhxE+CSciAXTwjkNkle03NJpUjxpPXZsZ
-SIvGoWlD6mxh2q5alGJpVWXjptFIlR9kn8mbPd6V0lzN1pO0XbVYbrz6AUWI2heX
-XasPfqvs6YU+1eCqL04pf0oaDY/To7mGu6bB5SOlZ38z0MJXXZfpvwUa7VQwUDVy
-P58NN7FCs9u/WLjtNnZrVzd+KK50nEwOulIhx32cv8S7mC2xgu4=
-=T8+i
------END PGP SIGNATURE-----
-
---NqNl6FRZtoRUn5bW--
+This is particularly useful when a QMP client has logic like "do it this
+way if X is available, else do it that way".  With accurate
+introspection, you can check whether X is available safely and easily.
+Without introspection, you'll likely have to try "this way", and if it
+fails, figure out why, so you can decide whether to try "that way".
+Worse when a multi-step "this way" fails half way through, and you get
+to revert its initial steps.
 
