@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1435EB79
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:22:55 +0200 (CEST)
-Received: from localhost ([::1]:38362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E85EBC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:40:47 +0200 (CEST)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hijuA-0001fh-E9
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56563)
+	id 1hikBS-0000Mb-Ft
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:40:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56574)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hijfx-0004XW-4G
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:15 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hijg2-0004YG-0R
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hijfv-0000Vn-Ow
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35974)
+ (envelope-from <ehabkost@redhat.com>) id 1hijfx-0000Wz-SA
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52868)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijfv-0000V7-HA
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:11 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hijfx-0000WV-IA
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:08:13 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D03E5C05566B;
- Wed,  3 Jul 2019 18:08:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D1C5A356CD;
+ Wed,  3 Jul 2019 18:08:12 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 614CF17F37;
- Wed,  3 Jul 2019 18:08:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63BA9173B9;
+ Wed,  3 Jul 2019 18:08:12 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 15:07:00 -0300
-Message-Id: <20190703180726.31267-18-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 15:07:01 -0300
+Message-Id: <20190703180726.31267-19-ehabkost@redhat.com>
 In-Reply-To: <20190703180726.31267-1-ehabkost@redhat.com>
 References: <20190703180726.31267-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 03 Jul 2019 18:08:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 18:08:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v4 17/43] numa: deprecate 'mem' parameter of
- '-numa node' option
+Subject: [Qemu-devel] [PULL v4 18/43] numa: deprecate implict memory
+ distribution between nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,80 +62,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-The parameter allows to configure fake NUMA topology where guest
-VM simulates NUMA topology but not actually getting performance
-benefits from it. The same or better results could be achieved
-using 'memdev' parameter.
-Beside of unpredictable performance, '-numa node.mem' option has
-other issues when it's used with combination of -mem-path +
-+ -mem-prealloc + memdev backends (pc-dimm), breaking binding of
-memdev backends since mem-path/mem-prealloc are global and affect
-the most of RAM allocations.
+Implicit RAM distribution between nodes has exactly the same issues as:
+  "numa: deprecate 'mem' parameter of '-numa node' option"
+only with QEMU being the user that's 'adding' 'mem' parameter.
 
-It's possible to make memdevs and global -mem-path/mem-prealloc
-to play nicely together but that will just complicate already
-complicated code and add unobious ways it could break on 2
-different memmory allocation pathes and their combinations.
-
-Instead of it, consolidate all guest RAM allocation over memdev
-which still allows to create fake NUMA configurations if desired
-and leaves one simplifyed code path to consider when it comes
-to guest RAM allocation.
-
-To achieve desired simplification deprecate 'mem' parameter as its
-ad-hoc partitioning of initial RAM MemoryRegion can't be translated
-to memdev based backend transparently to users and in compatible
-manner (migration wise).
-
-Later down the road that will allow to consolidate means of how
-guest RAM is allocated and would permit us to clean up quite
-a bit memory allocations and numa code, leaving only 'memdev'
-implementation in place.
+Deprecate it, to get it out of the way so that we could consolidate
+guest RAM allocation using memory backends making it consistent and
+possibly later on transition to using memory devices instead of
+adhoc memory mapping for the initial RAM.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1559205199-233510-3-git-send-email-imammedo@redhat.com>
+Message-Id: <1559205199-233510-4-git-send-email-imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- numa.c               |  2 ++
- qemu-deprecated.texi | 16 ++++++++++++++++
- 2 files changed, 18 insertions(+)
+ numa.c               | 3 +++
+ qemu-deprecated.texi | 8 ++++++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/numa.c b/numa.c
-index 7594eb5a7e..7d449c7e95 100644
+index 7d449c7e95..c1f5e84fa5 100644
 --- a/numa.c
 +++ b/numa.c
-@@ -122,6 +122,8 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+@@ -410,6 +410,9 @@ void numa_complete_configuration(MachineState *ms)
+         if (i == nb_numa_nodes) {
+             assert(mc->numa_auto_assign_ram);
+             mc->numa_auto_assign_ram(mc, numa_info, nb_numa_nodes, ram_size);
++            warn_report("Default splitting of RAM between nodes is deprecated,"
++                        " Use '-numa node,memdev' to explictly define RAM"
++                        " allocation per node");
+         }
  
-     if (node->has_mem) {
-         numa_info[nodenr].node_mem = node->mem;
-+        warn_report("Parameter -numa node,mem is deprecated,"
-+                    " use -numa node,memdev instead");
-     }
-     if (node->has_memdev) {
-         Object *o;
+         numa_total = 0;
 diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index df04f2840b..44c9a95966 100644
+index 44c9a95966..2fe9b72121 100644
 --- a/qemu-deprecated.texi
 +++ b/qemu-deprecated.texi
-@@ -88,6 +88,22 @@ The @code{-realtime mlock=on|off} argument has been replaced by the
- The ``-virtfs_synth'' argument is now deprecated. Please use ``-fsdev synth''
- and ``-device virtio-9p-...'' instead.
+@@ -104,6 +104,14 @@ In future new machine versions will not accept the option but it will still
+ work with old machine types. User can check QAPI schema to see if the legacy
+ option is supported by looking at MachineInfo::numa-mem-supported property.
  
-+@subsection -numa node,mem=@var{size} (since 4.1)
++@subsection -numa node (without memory specified) (since 4.1)
 +
-+The parameter @option{mem} of @option{-numa node} is used to assign a part of
-+guest RAM to a NUMA node. But when using it, it's impossible to manage specified
-+RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
-+so guest end-ups with the fake NUMA configuration with suboptiomal performance.
-+However since 2014 there is an alternative way to assign RAM to a NUMA node
-+using parameter @option{memdev}, which does the same as @option{mem} and adds
-+means to actualy manage node RAM on the host side. Use parameter @option{memdev}
-+with @var{memory-backend-ram} backend as an replacement for parameter @option{mem}
-+to achieve the same fake NUMA effect or a properly configured
-+@var{memory-backend-file} backend to actually benefit from NUMA configuration.
-+In future new machine versions will not accept the option but it will still
-+work with old machine types. User can check QAPI schema to see if the legacy
-+option is supported by looking at MachineInfo::numa-mem-supported property.
++Splitting RAM by default between NUMA nodes has the same issues as @option{mem}
++parameter described above with the difference that the role of the user plays
++QEMU using implicit generic or board specific splitting rule.
++Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
++it's supported by used machine type) to define mapping explictly instead.
 +
  @section QEMU Machine Protocol (QMP) commands
  
