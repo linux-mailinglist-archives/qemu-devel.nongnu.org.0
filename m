@@ -2,66 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A065EF1E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 00:22:12 +0200 (CEST)
-Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFE95EF16
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 00:19:14 +0200 (CEST)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hindj-0002Om-AN
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 18:22:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47499)
+	id 1hinas-0007Df-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 18:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50759)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hinK6-0003q4-Kd
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:01:57 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hinZH-00060b-2d
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:17:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hinK4-0001n4-MT
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:01:54 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45190)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hinK3-0001gL-QE
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:01:52 -0400
-Received: by mail-ot1-x344.google.com with SMTP id x21so3955662otq.12
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 15:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3J0be21DAQXd0O5N4+4qUpeRAOAtNdGJd9Hd1SsvNoE=;
- b=DkcnH20rnxeHil++e+O0Ik+giSAaXlGWNHWKnLHzpG1Lb33bqNUiwpS4hVdDwDBG72
- b3L2l7M7+9oeLRGwC5/hNu7YvA9rWwwyweYrL2DEbl4YcjHfB0Y30xROzbEhkqGgaToH
- ybeGws+IhsQzY1TMCsJpjixRIQ+WQJ1BWrBeed1xwAsNGfGcZkO8EkBgUEjgnP6nUuhf
- t/cWgCaVEV7c9oWs3Tum+DVJqGefucxe8UzD2pLUXBcMoQycgNte+XO1Y0Q9qz77liQi
- BltomorjsIv7Mb+nhHspBe3zWI6aYxSekIPmIr+eqyHda1Ow9XXcEXyJhQG0MEUJvj/H
- srGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3J0be21DAQXd0O5N4+4qUpeRAOAtNdGJd9Hd1SsvNoE=;
- b=RGHwp0XE8Mwy6VDGY4VIgrYD+4iVDaxqhPL5NMaE2WViO2iZHTwnN0pk+cmr3fPPj5
- jIFrXfdCcdwRHfVtPIukPOgjJdR4Kp55P8zxZx6T+WfjieKhTFCrqKKoZUCROnshcrpZ
- aZCsLNELIAGazlwvBVqnSBoFdrqgO7UER8ZiVF3ys5byn7xMkHIPsHsSELVdqXAxWhBe
- Mt8TsJysHOVLNg45Ftr8BfLKNbte8sk8pwjI6wUCK7HuWA47GJMVLTt6yfbLLj8IDChs
- //qne0I/z0OMKHUlMM01VDY8obzFRX68waFZADh5N1Zop8qo2tmKVkVLEj4Uw4wbbvk2
- DT1Q==
-X-Gm-Message-State: APjAAAWU7K0Fv7Ue7ncxh+esnKMfFc8WU1e9uksPrBBfNbx0mepJpU8L
- 9jCjqrYkcA33PJbP1nSVmtlK/UANwPaiI7/mpcFK1A==
-X-Google-Smtp-Source: APXvYqyQqOqt2eRP9pfY2wfuT1f6Xx2421OlEXKXB686SG5DvKwKyHwCi6b8dDRDk7UOl4CaAkql+fTdcHJV0hLqTvA=
-X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr32189174otn.135.1562191303867; 
- Wed, 03 Jul 2019 15:01:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190701043536.26019-1-jan.bobek@gmail.com>
- <20190701043536.26019-7-jan.bobek@gmail.com>
-In-Reply-To: <20190701043536.26019-7-jan.bobek@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 Jul 2019 23:01:32 +0100
-Message-ID: <CAFEAcA9cqbD0HjLmTOzF_fGHGOXeBhnJ0uRoQe2kQqeNYgTdXA@mail.gmail.com>
-To: Jan Bobek <jan.bobek@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [RISU RFC PATCH v2 06/14] x86.risu: add MMX
- instructions
+ (envelope-from <ehabkost@redhat.com>) id 1hinZF-0005mW-T7
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:17:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41581)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hinZF-0005kM-O5
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 18:17:33 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 33113308FF2C;
+ Wed,  3 Jul 2019 22:17:30 +0000 (UTC)
+Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D05491F5C;
+ Wed,  3 Jul 2019 22:17:25 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  3 Jul 2019 19:17:23 -0300
+Message-Id: <20190703221723.8161-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Wed, 03 Jul 2019 22:17:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] i386: Update Cascadelake-Server-v2 CPU model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,27 +50,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: jingqi.liu@intel.com, Tao Xu <tao3.xu@intel.com>, "Hu,
+ Robert" <robert.hu@intel.com>, Igor Mammedov <imammedo@redhat.com>, "Lai,
+ Paul C" <paul.c.lai@intel.com>, Xiaoyao Li <xiaoyao.li@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 05:43, Jan Bobek <jan.bobek@gmail.com> wrote:
->
-> Add an x86 configuration file with all MMX instructions.
->
-> Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+Cascadelake-Server-v2 had stepping=5 set by mistake (I misread an
+old patch setting stepping=5 at compat_props), and doesn't have
+mds-no set.  Fix these two issues.
 
-> --- /dev/null
-> +++ b/x86.risu
-> @@ -0,0 +1,96 @@
-> +###############################################################################
-> +# Copyright (c) 2019 Linaro Limited
+Reported-by: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm guessing from your email address that this copyright line probably
-isn't right :-)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 3a66c86c14..805ce95247 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -2347,11 +2347,11 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             { .version = 2,
+               .props = (PropValue[]) {
+-                  { "stepping", "5" },
+                   { "arch-capabilities", "on" },
+                   { "rdctl-no", "on" },
+                   { "ibrs-all", "on" },
+                   { "skip-l1dfl-vmentry", "on" },
++                  { "mds-no", "on" },
+                   { /* end of list */ }
+               },
+             },
+-- 
+2.18.0.rc1.1.g3f1ff2140
 
-thanks
--- PMM
 
