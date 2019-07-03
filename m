@@ -2,50 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FDC5EC0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:59:13 +0200 (CEST)
-Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323655EC88
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 21:11:31 +0200 (CEST)
+Received: from localhost ([::1]:38760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hikTI-0003uB-Ud
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37797)
+	id 1hikfC-0005CC-EM
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 15:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39683)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hikSI-00032B-LC
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:11 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hikcZ-0003dx-VX
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 15:08:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hikSH-0000Oh-I3
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48010)
+ (envelope-from <ppandit@redhat.com>) id 1hikcZ-000895-5L
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 15:08:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60216)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hikSH-0000Lf-92
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:58:09 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>)
+ id 1hikcW-000871-Jh; Wed, 03 Jul 2019 15:08:44 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B262830832C9;
- Wed,  3 Jul 2019 18:58:01 +0000 (UTC)
-Received: from redhat.com (ovpn-123-166.rdu2.redhat.com [10.10.123.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 773761001DC7;
- Wed,  3 Jul 2019 18:57:54 +0000 (UTC)
-Date: Wed, 3 Jul 2019 14:57:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-ID: <20190703031041-mutt-send-email-mst@kernel.org>
-References: <6EF9E5BE-2FBF-4CC4-BA1F-AE55ADD82A6E@nutanix.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 530DE3082E51;
+ Wed,  3 Jul 2019 19:08:26 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-160.sin2.redhat.com
+ [10.67.116.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18C05968A0;
+ Wed,  3 Jul 2019 19:08:21 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Qemu Developers <qemu-devel@nongnu.org>
+Date: Thu,  4 Jul 2019 00:36:15 +0530
+Message-Id: <20190703190615.31436-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6EF9E5BE-2FBF-4CC4-BA1F-AE55ADD82A6E@nutanix.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Wed, 03 Jul 2019 18:58:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 03 Jul 2019 19:08:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Should memory hotplug work with vhost-user
- backends?
+Subject: [Qemu-devel] [PATCH] hw/ssi/xilinx_spips: add lqspi_write routine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,98 +53,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mike Cui <cui@nutanix.com>, Malcolm Crossley <malcolm@nutanix.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "changchun.ouyang@intel.com" <changchun.ouyang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Prasad J Pandit <pjp@fedoraproject.org>, Lei Sun <slei.casper@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 10:08:54PM +0000, Raphael Norwitz wrote:
-> For background I am trying to work around a ram slot limit imposed by t=
-he
-> vhost-user protocol. We are having trouble reconciling the comment here=
-: https:
-> //github.com/qemu/qemu/blob/master/hw/virtio/vhost-user.c#L333  that =E2=
-=80=9CFor
-> non-vring specific requests, like VHOST_USER_SET_MEM_TABLE., we just ne=
-ed to
-> send it once the first time=E2=80=9D and the high level implementation =
-of memory
-> hot-add, which calls set_mem_table every time a VM hot adds memory.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-IIUC the comment refers to multiple virtqueue. It is trying to say that
-we do not need to send VHOST_USER_SET_MEM_TABLE for each
-virtqueue.
+Define skeleton lqspi_write routine. Avoid NULL dereference.
 
+Reported-by: Lei Sun <slei.casper@gmail.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/ssi/xilinx_spips.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-
-> =20
->=20
-> A few questions:
->=20
-> 1.
->=20
-> What exactly is the check `if (vhost_user_one_time_request(msg->hdr.req=
-uest) &&
-> dev->vq_index !=3D 0)` for?
-
-Some backends register multiple dev instances per backend: one for each
-virtqueue.  This check avoids sending VHOST_USER_SET_MEM_TABLE more than
-once in this case.
-
-
-> In the message for commit
-> b931bfbf042983f311b3b09894d8030b2755a638, which introduced the check, I=
- see it
-> says =E2=80=9Cnon-vring specific messages[, which should] be sent only =
-once=E2=80=9D and gives
-> VHOST_USER_SET_MEM_TABLE as an example one such message. The
-> `vhost_user_one_time_request()` call clearly checks whether this type o=
-f
-> message is the kind of message is supposed to be sent once of which
-> VHOST_USER_SET_MEM_TABLE is one. Why, then, does this commit add the ch=
-eck if
-> `dev->vq_index !=3D 0`? It seems like there is a latent assumption that=
- after the
-> first call dev->vq_index should be set to some value greater than one, =
-however
-> for many cases such as vhost-user-scsi devices we can see this is clear=
-ly not
-> the case https://github.com/qemu/qemu/blob/master/hw/scsi/vhost-user-sc=
-si.c#
-> L95. Is this check then =E2=80=98broken=E2=80=99 for such devices?
-
-I think vhost-scsi has a single instance per backend, that is
-why vq_index is 0.
-
-> =20
->=20
-> 2.
->=20
-> If this check is indeed broken for such devices, and set_mem_table call=
- is only
-> supposed to be run once for such devices, is the ability to call it mul=
-tiple
-> times technically a bug for devices such as vhost-user-scsci devices? I=
-f so,
-> this would imply that the existing ability to hot add memory to vhost-u=
-ser-scsi
-> devices is by extension technically a bug/unintended behavior. Is this =
-the
-> case?
->=20
-> =20
->=20
-> Thanks,
->=20
-> Raphael
-
-I don't think that is the case. It's possible that memory hotplug has
-bugs with vhost-user, but I don't think it's anything fundamental.
-
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index 8115bb6d46..0836b8977a 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1221,8 +1221,15 @@ lqspi_read(void *opaque, hwaddr addr, unsigned int=
+ size)
+     }
+ }
+=20
++static void
++lqspi_write(void *opaque, hwaddr addr, uint64_t data, unsigned size)
++{
++    return;
++}
++
+ static const MemoryRegionOps lqspi_ops =3D {
+     .read =3D lqspi_read,
++    .write =3D lqspi_write,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
 --=20
-MST
+2.21.0
+
 
