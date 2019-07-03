@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354475E123
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:36:22 +0200 (CEST)
-Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B395E169
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:53:54 +0200 (CEST)
+Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibgb-0005No-Dy
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37099)
+	id 1hibxZ-00085g-HN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hibaK-0000Gv-7L
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:29:54 -0400
+ (envelope-from <bounces@canonical.com>) id 1hibup-0007E9-Ho
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:51:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hibaI-0001rk-NQ
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:29:51 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37667)
+ (envelope-from <bounces@canonical.com>) id 1hibun-0006cA-Kg
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51278)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hibaI-0001oh-8v
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:29:50 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f17so1572483wme.2
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 02:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0VQIdhRt7QU6cz7jhJl3r46rRPA1e7U3Np2p2pEGy3g=;
- b=Nblo87h1lBXXWJEll1Sgst+kqi1W2gWjxN/S+1AKupdUdH+1e9UIPyGikF+Xi/6CK0
- o7XgpSRxpiiGmFx1g2c1cJIepExlRtT7UuMIB+syC99eB6+IEqe9v8P4TxwEdQVce493
- T7s438GmUKckxhfgep3dYB2R7e6FS6eGUpcE6WIb8//k3mrGh4ej5wHpYCPxt+4zludk
- u0vDp2l0IPNig5yq38wO4R1eLeS6WBJ576dudbfBrHR0QHgmT9sY7DggzJM5SeWO4i9T
- d9Mp2agmpkRQ5qz91hbbt/Odf1spddNhFvd/HYu5RTNmqcsJ62DIYjOAqRqKAaBd/yw7
- CXvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0VQIdhRt7QU6cz7jhJl3r46rRPA1e7U3Np2p2pEGy3g=;
- b=s2yZEGc/1/tDGUDIhhKIZcVxHpBaPxNomaECr8ST5G6R5EFWZjuB8U4PhOTuvBSNji
- omlNb5MxlqmP8LhfEm+tN73DEtiRJUiJNJx7Bw/v4fRaB570wYZpE/SzAlX60F4mf1jy
- pNCOvWxYSqquZoxcI5StY0x2afYeNYoY3BGhs608Vn716a4Q0Fb3dhFmgFmskKO773dK
- QhGYhphI3QqseywQFhE8n88IcWFA9RPMXxbRu2cZxqvqfLNPNkQdYYCcaoG09M3quSKz
- eLuMQIWAZO4koQ8pfEQiS/+MNM+YTvhbeKXm0AhmOwN+03MEaibU5m/B6exvG8OF62X4
- OGNw==
-X-Gm-Message-State: APjAAAUGicb6yi+FF+mIlW5/T6lXf0KVDsSSCBORqc/ysFvaFyejVo/c
- I4yDzJmnN2Nl9pczoJQna4s=
-X-Google-Smtp-Source: APXvYqzsFSqOdzY+9Ze52Ivq/xyTNB0LEGpcuVggKK9kLlOEusoN/swDF91g2xTrZnudWTNAWf2rXg==
-X-Received: by 2002:a1c:1f06:: with SMTP id f6mr7555926wmf.60.1562146188810;
- Wed, 03 Jul 2019 02:29:48 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id w14sm1212905wrt.51.2019.07.03.02.29.47
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 02:29:47 -0700 (PDT)
-Date: Wed, 3 Jul 2019 10:29:46 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190703092946.GC11844@stefanha-x1.localdomain>
-References: <20190628124534.10679-1-damien.hedde@greensocs.com>
- <20190701083710.GA18173@stefanha-x1.localdomain>
- <94a3da17-c1c5-b9ce-8e92-4d346ed98782@redhat.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hibul-0006Wu-PP
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 05:50:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hibuk-0000YF-FI
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 09:50:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6997E2E8078
+ for <qemu-devel@nongnu.org>; Wed,  3 Jul 2019 09:50:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Izn7cH1Com+I3R9J"
-Content-Disposition: inline
-In-Reply-To: <94a3da17-c1c5-b9ce-8e92-4d346ed98782@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Jul 2019 09:36:28 -0000
+From: DDoSolitary <DDoSolitary@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ddosolitary laurent-vivier
+X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
+X-Launchpad-Bug-Modifier: DDoSolitary (ddosolitary)
+References: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
+Message-Id: <156214658912.16853.12895930110720821938.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18991";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 3dc1c41c448c5ea0bbd2b89c9a554a79a6ab268f
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1834613] Re: Crypto related operations failing on
+ Alpine Linux on QEMU 4.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,90 +66,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
- sakisp@xilinx.com, mark.burton@greensocs.com, armbru@redhat.com,
- qemu-devel@nongnu.org, edgari@xilinx.com, crosa@redhat.com,
- pbonzini@redhat.com, luc.michel@greensocs.com, rth@twiddle.net
+Reply-To: Bug 1834613 <1834613@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+@laurent-vivier I just tested the binary built from git master and the
+error went away. Thanks.
 
---Izn7cH1Com+I3R9J
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-On Mon, Jul 01, 2019 at 12:16:44PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 7/1/19 10:37 AM, Stefan Hajnoczi wrote:
-> > On Fri, Jun 28, 2019 at 02:45:29PM +0200, Damien Hedde wrote:
-> >> This series adds a python framework aiming to provide some ways to do =
-fault
-> >> injection in a running vm. In its current state, it allows to easily i=
-nteract
-> >> with memory, change gpios and qom properties.
-> >>
-> >> The framework consists in a python script based on the qmp existing mo=
-dule
-> >> which allows to interact with the vm.
-> >=20
-> > How does this compare to qtest?  There seems to be a lot of overlap
-> > between them.
-> >=20
-> > Why is it called "fault injection"?  The commands seem to be
-> > general-purpose device testing functions (like qtest and libqos), not
-> > functions for testing error code paths as would be expected from a fault
-> > injection framework.
->=20
-> I understand qtest is to test QEMU, while this framework/command is to
-> test how the guest react to an hardware faults.
+-- =
 
-The commands seems to be equivalent to qtest commands, just implemented
-as QMP commands.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1834613
 
-Damien: Can you explain the use case more and show some example test
-cases?
+Title:
+  Crypto related operations failing on Alpine Linux on QEMU 4.0
 
-> To use the qtest_mem commands you need to run QEMU with the qtest
-> chardev backend, while this series expose a QMP interface.
->=20
-> To avoid the overlap, a cleaner follow up might be to have qtest wrap
-> these QMP commands (mostly like HMP commands do).
->=20
-> Another note while looking at a glance, qtest uses the 1st cpu address
-> space view, this series allow to select a specific cpu.
->=20
-> It makes sense to me to be able to select address spaces by name (more
-> generic, not restricted to a cpu view, since one might want to inject
-> fault in a device ram not always mapped to a cpu: dma, emac desc).
+Status in QEMU:
+  Fix Committed
 
-The naming issue still stands: none of the commands actually perform
-fault injection.  They can be used for other types of testing or even
-non-testing purposes.
+Bug description:
+  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
 
-Fault injection commands would be "make the next watchdog expiry fail",
-"return error code X on the next DMA request", "report an AHCI link
-failure", etc.
+  Steps to reproduce:
 
-These commands are lower-level.  Therefore, I think "fault injection
-framework" is a misnomer and will age poorly if this API is extended in
-the future.
+  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
+ot/vmlinuz-vanilla
+  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
+ot/initramfs-vanilla
+  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
+aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
+inux.org/alpine/v3.10/main"
 
-Stefan
+  The init script will automatically download and install an in-memory
+  Alpine Linux environment. However, with QEMU 4.0, the installation
+  process will fail with "BAD signature" errors:
 
---Izn7cH1Com+I3R9J
-Content-Type: application/pgp-signature; name="signature.asc"
+  (1/20) Installing musl (1.1.22-r2)
+  ERROR: musl-1.1.22-r2: BAD signature
+  (2/20) Installing busybox (1.30.1-r2)
+  ERROR: busybox-1.30.1-r2: BAD signature
+  (3/20) Installing alpine-baselayout (3.1.2-r0)
+  Executing alpine-baselayout-3.1.2-r0.pre-install
+  ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
+27
+  ERROR: alpine-baselayout-3.1.2-r0: BAD signature
+  (4/20) Installing openrc (0.41.2-r1)
+  ERROR: openrc-0.41.2-r1: BAD signature
+  (5/20) Installing alpine-conf (3.8.3-r0)
+  ERROR: alpine-conf-3.8.3-r0: BAD signature
+  (6/20) Installing libcrypto1.1 (1.1.1c-r0)
+  ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
+  (7/20) Installing libssl1.1 (1.1.1c-r0)
+  ERROR: libssl1.1-1.1.1c-r0: BAD signature
+  (8/20) Installing ca-certificates-cacert (20190108-r0)
+  ERROR: ca-certificates-cacert-20190108-r0: BAD signature
+  (9/20) Installing libtls-standalone (2.9.1-r0)
+  ERROR: libtls-standalone-2.9.1-r0: BAD signature
+  (10/20) Installing ssl_client (1.30.1-r2)
+  ERROR: ssl_client-1.30.1-r2: BAD signature
+  (11/20) Installing zlib (1.2.11-r1)
+  ERROR: zlib-1.2.11-r1: BAD signature
+  (12/20) Installing apk-tools (2.10.4-r1)
+  ERROR: apk-tools-2.10.4-r1: BAD signature
+  (13/20) Installing busybox-suid (1.30.1-r2)
+  ERROR: busybox-suid-1.30.1-r2: BAD signature
+  (14/20) Installing busybox-initscripts (3.1-r7)
+  ERROR: busybox-initscripts-3.1-r7: BAD signature
+  (15/20) Installing scanelf (1.2.3-r0)
+  ERROR: scanelf-1.2.3-r0: BAD signature
+  (16/20) Installing musl-utils (1.1.22-r2)
+  ERROR: musl-utils-1.1.22-r2: BAD signature
+  (17/20) Installing libc-utils (0.7.1-r0)
+  ERROR: libc-utils-0.7.1-r0: BAD signature
+  (18/20) Installing alpine-keys (2.1-r2)
+  ERROR: alpine-keys-2.1-r2: BAD signature
+  (19/20) Installing alpine-base (3.10.0-r0)
+  ERROR: alpine-base-3.10.0-r0: BAD signature
+  (20/20) Installing openssl (1.1.1c-r0)
+  ERROR: openssl-1.1.1c-r0: BAD signature
+  20 errors; 0 MiB in 0 packages
+  ok.
+  grep: /sysroot/etc/inittab: No such file or directory
+  /sbin/init not found in new root. Launching emergency recovery shell
+  Type exit to continue boot.
+  sh: can't access tty; job control turned off
+  / #
 
------BEGIN PGP SIGNATURE-----
+  If I boot up a disk image created by a previous version of QEMU,
+  crypto related operations like verifying a RSA signature using the
+  "openssl" command will also fail.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0cdYoACgkQnKSrs4Gr
-c8hXmQf/X42SKF49+0QZV3M3PToQG2p2r4iV9dKp1WYT9QbgbkvNDrspHAlWhwMv
-lERQvvSdiELMl/i2EBUGWPh1D0788r7gFdeyVESTVRptnm27QuqrH3l1KeheE2Ui
-cHDT93Hy/RmxRUgdtfzsAXHVBhSQPUMbq6mMb0xctAYbPJ1jl7XCPg0/LvCPtjXA
-HegfFPKU7wpbx6pMS4hWxoE/3Zq+645QVLugsOqoYP2XC56caUgcUbXKDJ+c8jry
-cOeTjn5Er0YtaiNDfDTd56zwrSEXKxLwOqzPTwcVr1xtb43GwKJYKCn8dQCFjKLK
-+7HFhq2mYUbI1i63viym4GKyiD4M2g==
-=o4Ew
------END PGP SIGNATURE-----
+  I didn't see these errors on previous QEMU versions or other
+  architectures on QEMU 4.0
 
---Izn7cH1Com+I3R9J--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1834613/+subscriptions
 
