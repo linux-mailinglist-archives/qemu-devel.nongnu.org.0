@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF0D5E7D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:29:54 +0200 (CEST)
-Received: from localhost ([::1]:36876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63C65E7E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:32:29 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hihCj-0003rA-W1
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
+	id 1hihFE-0005mY-VR
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40232)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hih8n-0000MR-Si
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:25:51 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hih9t-0001ex-06
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:26:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hih8m-0007bJ-6H
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:25:49 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:58737)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1hih8l-0007aW-TW; Wed, 03 Jul 2019 11:25:48 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MGygv-1hnySj3sYt-00E5F2; Wed, 03 Jul 2019 17:25:19 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 17:25:13 +0200
-Message-Id: <20190703152513.29166-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190703152513.29166-1-laurent@vivier.eu>
-References: <20190703152513.29166-1-laurent@vivier.eu>
+ (envelope-from <peter.maydell@linaro.org>) id 1hih9r-0007za-Vx
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:26:56 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:36582)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hih9r-0007zN-Qu
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:26:55 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id r6so2776967oti.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 08:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Wa2nr3pOM9YKTME2p6Fzl53abg1fxXpLRiMqueo6uI8=;
+ b=WQskWGM6+0qAozo1azCIT9M2IsdelXHiT42wo8lHJ5L6SXr7qgTaZL3AxPR1MMYdII
+ MtbqhTb1teDO3rD9S2bujgCOLZNvN68epszZXnpZYsW9XoWf7K8ZgP8odmHfVM1+4tnI
+ xp/haFerp0BOI+dSo2L0q8TXNLCTp/TB6DMoRr9A+GUEY24u/VYLPWpG8kGj0zWcgwEv
+ RDKUdzLj56VWpyY3R6/AVrHl9oD2H+eyc2W6SZxFgVrsoqOehf28F8WAX8USq3vStOOM
+ wfXjfV1cTQBBg0MQP1phnOyfBvjV27XfZ3z97lmUCBcbZiyDa9tBEa/LKXYlgdH4WAZz
+ hyKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Wa2nr3pOM9YKTME2p6Fzl53abg1fxXpLRiMqueo6uI8=;
+ b=hZOJ3U0DZytGdgj9sZcXAe9P/S3wRpEUP6CmaA6Mn/IsNcYbDWWbRGTKbI9BsZpfgu
+ mMS5GoSfLTqzu7vumnB7F0FdFOHXg9Gc4GUyXL/9GvqpQMSDa0iTZ6kZEGBQat85oy6I
+ l8/nYIoZQatldv2ikmHOrSwPGHpRkG+kxTBtEI8GhmZJNtDx+Anjm1CKIhr3x23/JTie
+ VD0+xqLB5Y6amc2iMNhM9dF5DJns+w9Jw6Tozh0kXx2+JcskS2lgCTNjer8lrQt3gw4X
+ BHh592NKNQNfygfken132ViLt580chELNoCGI8+bmQiEdT19LDrUjl9F28rk2/c5qOG1
+ T1JA==
+X-Gm-Message-State: APjAAAVKuAtJNbR2tW32vuC5H71zrCjEPQtYEZvd6EzuQUUIv8MfFOJt
+ sU5AMEK3dwKX7qmWmGCqKMPe6kbx5XPdqIet1CpeVQ==
+X-Google-Smtp-Source: APXvYqwmPugBG1HtIX84qwVCR7XgbML7sbDxo2sSjRnkwTm2yUdF9shsc3/B5ti+HrRGwt/HHNyg/lz6+0vhqAV0CF8=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr28002523otj.97.1562167614519; 
+ Wed, 03 Jul 2019 08:26:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:CFwtnTstsssEAZxEab7dPL1/l04v+e+hSWnQdqzA7gsy6P8nMpC
- F3sq1A0e2hSp4A7W0+Qj/BUjeCkyfASVqo98aA1mpzHsvyavWuSuuq9nI+P5OzHbKeKh5QP
- qecSmGKsmUPfMcpYG1x70BWhoMU7N3qSjHVNUl/3pmmyBEmj37XtpWr/h3gP2JWIYGO0Mbd
- tH/3I9kkaC3wOj+RmrnOw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vRnzmMuTWqQ=:0WC3lvtOnfNZJeWqWZrTlg
- ruPqzNnSf2KRgcwOiRf1sQscwNUanVtk76jj19RxskOPM+MMk/cE0IzIaOtqO52BDniTzx7IQ
- pFucYXZRne1r+hU6RH6zENEPD8WKBGqUNcX5mkrhYK/4n0drMqf5ZljadCLk4TTqeW5qAtYWT
- q2sZGw0EdsBQKEgFAPbuHzITCqfrVIxcWx4CaZZz3o9fCmVwn6IlimfEMufjVnqrV+jkG2O6v
- d7EU6A8uWpyt5WIL5CclL9knZDU5CpvoShAhIaBFMGBN7YQNA9GnTrP4S3R45Z7I17IMDCA5K
- XiqyIbAYAv6myJrZxJ79A6o2/+aQsDjKC1y213lVfbStvymTyjCljLaV4HNBcsb8zToyz5wKm
- e84lhGqa9/T39m1ktmDysdKX5hiHGEnMVfc83sSTvEBt1ouJ7jXsv2hoQDeoqelk667G+gqqX
- fwiH5CuosXCgU2IbthFjWLyX2B9L9TGb4SqAC6j9j45UZZLXB+7WeHbtTcgYnYkHiNUpVlO4+
- Fspf5piZfms6nI4e27Q/d+hXtazh3cKJjj/KhonvHn3wbnaEvfbamQpN7gN1Zv8QD0zsD7nj0
- 9nvGGDLVNqig3uoVwvDeDqtvuVVJqmsF5itWDudLCmcOHsQwI4+5v9vrZN10i64RO8ELZLvZk
- coyKxPLGJ9576cMNRH6bpbm40hmMR397H8wBw8O7cJoamTflzfr4wNZBbQ1wPsBjOuq5RyTuq
- qbRLd0b9Yj4qnB7+ZxmvGEcNXQaZ9I6mqqTYSSMcThR6cDSlHIbhzrqFaIQ=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL v2 2/2] docs/devel/testing: Fix typo in
- dockerfile path
+References: <20190702123713.14396-1-laurent@vivier.eu>
+ <CAFEAcA_Zu0X1zLfKtBkQdi25KCkjf_PNu8zKWE5Dx7uzzLEzBA@mail.gmail.com>
+ <5d7fa8ef-c56c-1f90-d5d6-b230d1e3f363@vivier.eu>
+In-Reply-To: <5d7fa8ef-c56c-1f90-d5d6-b230d1e3f363@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 3 Jul 2019 16:26:43 +0100
+Message-ID: <CAFEAcA_5y6HcTXWeyGHuLx_=ROiMBttQw7enW3HGgxuWPYb_kQ@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32b
+Subject: Re: [Qemu-devel] [PULL 0/3] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,40 +73,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>, Amit Shah <amit@kernel.org>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Justin Hibbits <chmeeedalf@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liam Merwick <liam.merwick@oracle.com>
+On Wed, 3 Jul 2019 at 16:22, Laurent Vivier <laurent@vivier.eu> wrote:
+> Is there a HOWTO explaining how to build QEMU on MacOS X?
 
-Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <1561727317-30655-1-git-send-email-liam.merwick@oracle.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- docs/devel/testing.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://wiki.qemu.org/Hosts/Mac though I think it's a little out of
+date now. The short answer is "osx 10.12 or better, use homebrew
+to install QEMU's dependencies, then just configure and make
+the same as for a Linux host".
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index da2d0fc9646f..3ef50a61db4d 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -327,7 +327,7 @@ Images
- ------
- 
- Along with many other images, the ``min-glib`` image is defined in a Dockerfile
--in ``tests/docker/dockefiles/``, called ``min-glib.docker``. ``make docker``
-+in ``tests/docker/dockerfiles/``, called ``min-glib.docker``. ``make docker``
- command will list all the available images.
- 
- To add a new image, simply create a new ``.docker`` file under the
--- 
-2.21.0
-
+thanks
+-- PMM
 
