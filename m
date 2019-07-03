@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072D25E7CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:36840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2625E7D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:29:11 +0200 (CEST)
+Received: from localhost ([::1]:36868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hih9K-0000Nk-88
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39210)
+	id 1hihC2-0002vv-T0
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39931)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hih6d-0005yW-1W
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:23:37 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hih8W-00008B-HW
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:25:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hih6b-0006LR-MC
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:23:34 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33858)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hih6b-000698-9B
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:23:33 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w9so3176559wmd.1
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 08:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EOZgi02Wum0KCa8+L/d68Sd4QzvsgI777S87nkuIcy8=;
- b=ewJtjr9WW9ghpoQiNnIYInXuR8yLNET/6aXGFU1bcqP3iquBGV1kBSE1pQmKDnLlAW
- aPy1tv5XIAJgd7VAYDXEF2kCI7e5T3VoRRMZRxLAu1g+MXuJe8WCSymjb3ZNtIK8SN4O
- 48wtlXC+34pU28bMD3iEll9wc0y0xJEKmdmNok7OTNbzNZLTijRg2XE4vJ7Pn9rm9kvk
- 8t8/pP+qQLGhyR3tkB9CVdIcQjN4x0j/6bvkem4+Cr2P5SqQwkAP/FIff22YfQedmgrK
- 0VwVOQH86jXvNTRh7a8DwlUXCwqs6u80tHFMJIJxnOoaUyOUzCpTRulqzIGV+R2lqf0R
- u2QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EOZgi02Wum0KCa8+L/d68Sd4QzvsgI777S87nkuIcy8=;
- b=IFm5/FLZBusMByrCNfptpDV5ZO2lfuapoWeEhmHvaLke9VeKb+/pciL8Mpt+v7PavV
- kDq8xtg6NijIcIShBzuE/xcJ1pGc+ICiCygmJi1+K8HyWQf3IZ/eBwrgBzH82ogF4Iz0
- Ma0J4/jBiHbjazUoHtur9vrg1qdCMVgFuzMlAWV2sHddgRGyVF6ZBNKici5QVm8jLIPK
- QdZbNFzQYCKMy5EfILt4iwTl2xqvVmczJ6RWMJqLhuqLM/oWAZGj099y3F+KbGV87FjS
- lPmmGW1nWT9IchayTFz8+pIC7SzJkWuhn2zdsG6G4hGJFJg16WvfwiJbknye70vgL0oj
- mS8A==
-X-Gm-Message-State: APjAAAV/hfpy0VNurHsPyRUfTX1K/4OowRnLz3BQ1368bLtVbG4RIyx7
- byLJVb1JDqnuQqL1aV6HYmZhzg==
-X-Google-Smtp-Source: APXvYqwJAz7uiNGZmf33qLJ71sLkKOi6kfWTwyrfzyCF5dWy0ksCHrt25luNjyCt1gSWIrfZymkhCA==
-X-Received: by 2002:a1c:7d56:: with SMTP id y83mr8803547wmc.77.1562167381759; 
- Wed, 03 Jul 2019 08:23:01 -0700 (PDT)
-Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id y133sm3494254wmg.5.2019.07.03.08.23.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 08:23:01 -0700 (PDT)
-To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
-References: <20190701043536.26019-1-jan.bobek@gmail.com>
- <20190701043536.26019-2-jan.bobek@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <8e5e96dd-ed35-895c-1fd3-d6b60ccba44b@linaro.org>
-Date: Wed, 3 Jul 2019 17:22:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <laurent@vivier.eu>) id 1hih8U-0007U5-IZ
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:25:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:52003)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1hih8L-0007MJ-2k; Wed, 03 Jul 2019 11:25:22 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MsZeX-1iXu6g0mnj-00u1lA; Wed, 03 Jul 2019 17:25:17 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Wed,  3 Jul 2019 17:25:11 +0200
+Message-Id: <20190703152513.29166-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190701043536.26019-2-jan.bobek@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [RISU RFC PATCH v2 01/14] risugen_common: add
- insnv, randint_constr, rand_fill
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:gND+3XxiSssqpgSROM9KhdPJJtssIGci3B5o7MLOWAawL6WRIC2
+ vTzxATdxPZFSj8jcSJO8u6jsSD1t0SjHREqiFgLxM6EjB8IbzJgoAIRbSEoIPF7/FE8xReb
+ 6uNTJ6ypGOO7Qt9O4Kor6LCdLCKRnLrSqR1ywtjGQEJqXuPlE9I9coYlphZhReqnVV/NH3z
+ zlCw9IEPxDrgnmCfQwGmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5crU/5KEY9w=:TaftfNzQVpFbNdrn0nFxAC
+ 5PwmyasuWn1lKXvreTyC4/OMGqbigug49ab7OdMVe2iHSwPc3q8xNpQvvc3CwwAZVE7xYM5D1
+ Jq+XYpCAfy7lNvu7TqdedUfdv7YwBsIjWf/4f6ag+ZbCc4x3Y3MaxME71SbS8g8w8I/LwwefF
+ 9yYZaV+6JEVsWljgwIxteLuw1gG4JXjkQWSDnta4yW3qr3IM6SpDjWR33ZHvpqOY+KD2fOqYi
+ /OetzrDuTQnd8jldUmhiovbkiddxFoWc4bHBqIPeVpim4t5NI662nLrXpFGK2KNRki3RBAz1f
+ Kt2mLaV7hmIVKcU6VnJWPTMKq6eDnf19JVXf3dEdPNmqYplx7P70ELmtQ97aGroAa8bsJpkVc
+ trmx5dDJcQwIECzi3p6zegdJMc+oFZ4GnVxDf0dJUi8USBYGvJiAzp6lAt9XaLU/A8mILNkbi
+ Clzpo2GqNKhebgwPohHCNkNQ8aiiSCvR40a937Gzx8lkcQPjwcVeYIp+EWApyOlzThiPmkoTH
+ ZgRyNk+mjXuFmwf5KXX7vSLn2atDShITy7WwMqGCJqexJR6k/Cikc5EWgqLeCYE+SKQfieLqU
+ aLP5z2buGBbUbSXwF96rgP61kjstEDQxP1ut/Y4BbQ+CJBBPjc1LCHaYXvRBAMIQjO+rc+V5q
+ rjCYF8v3VzosFiychcR0rL6JlpADWSZY7dBvA/9wiTK1S1BL6H7NXByyV1jX8M5h6/NfCKTgV
+ UbfigYVeyKy77kxtWuPJvqptR7uE+fUBunvKdUcOFwKPGNGQIgv0Hep/mls=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.10
+Subject: [Qemu-devel] [PULL v2 0/2] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,38 +61,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Amit Shah <amit@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 6:35 AM, Jan Bobek wrote:
-> +    while ($bitcur < $bitend) {
-> +        my $format;
-> +        my $bitlen;
-> +
-> +        if ($bitcur + 64 <= $bitend) {
-> +            $format = "Q";
-> +            $bitlen = 64;
-> +        } elsif ($bitcur + 32 <= $bitend) {
-> +            $format = "L";
-> +            $bitlen = 32;
-> +        } elsif ($bitcur + 16 <= $bitend) {
-> +            $format = "S";
-> +            $bitlen = 16;
-> +        } else {
-> +            $format = "C";
-> +            $bitlen = 8;
-> +        }
-> +
-> +        $format .= ($args{bigendian} ? ">" : "<") if $bitlen > 8;
+The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
 
-It now occurs to me to wonder if it's worth simplifying this function to always
-emit bytes, and thus take care of all of the endianness ourselves, since we're
-doing it anyway for larger/odd-sized hunks.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+are available in the Git repository at:
 
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 
-r~
+for you to fetch changes up to 2cd925dac80d708d01f124b26de52fb447a333aa:
+
+  docs/devel/testing: Fix typo in dockerfile path (2019-07-03 17:23:39 +0200)
+
+----------------------------------------------------------------
+Fix typo, change virtio-rng default to urandom
+
+----------------------------------------------------------------
+
+Kashyap Chamarthy (1):
+  VirtIO-RNG: Update default entropy source to `/dev/urandom`
+
+Liam Merwick (1):
+  docs/devel/testing: Fix typo in dockerfile path
+
+ backends/rng-random.c  | 2 +-
+ docs/devel/testing.rst | 2 +-
+ qemu-options.hx        | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+2.21.0
+
 
