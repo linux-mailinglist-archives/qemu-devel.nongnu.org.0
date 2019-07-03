@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3825E97A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:46:37 +0200 (CEST)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C7C5E942
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:36:17 +0200 (CEST)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiiOz-0003RX-0D
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
+	id 1hiiEy-0002QL-QS
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58499)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hihrK-0006Pk-Qx
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:11:52 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hihsY-0007GP-Gu
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:13:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hihrH-0002it-Lq
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:11:49 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39684)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hihrF-0002ZX-UF
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:11:46 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x4so3467075wrt.6
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 09:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ja8X9o8TZK7VI/HAyJqWieWnjSf1kwpgGfQElS+bbKM=;
- b=TU4/I6n434thCemGvN8vd2ySzkXslEAvU0RoVZW8hhqoH1FOMYWZD1FUbnOIP2PDBU
- kNAFvABVKPjXI38z5WCcgzOXN8IpCVgzbDWScc68i4Eo/ava7hIMNpmHZ8wAQVbzYUck
- +Cl2l2ZFubipcCYHfTYfnromNuaiXibEWnoo1aUgrXncCtQWWVcY8EZ2Qyp1TE+hGBma
- JvFGBwIF1wyW2TOVzp7I9WFjW4pXH2OUiXj7YOy2zSNnpG3pSCMPV1+wNeyKtq5ly4KS
- H7yiKG6GVjS/pPoEo4gq6/esU9ZQjq0bBbHddLjmc89L1ajSILYE5x9kYW637Tz4wl/u
- clyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ja8X9o8TZK7VI/HAyJqWieWnjSf1kwpgGfQElS+bbKM=;
- b=A20SKkm5vnCbp8/C1/OTJL6ecDCUkVUy39MmABYlMiyZ2bB1mlxi9sYmUk7No45biD
- jWcKXanqrOlkhsz1mMIuNZQDBcYl71L01M6tNvfSOACi6ZGbJCNCkvR4/cSuZoW3H6KJ
- 8/nUCrJH8PzlZHUyvMl2estP8/RmsLCfRCYV3vJakGCccE0KR13iZQIQAs/kopWXd/kB
- 7+pB46Ma+MOHLO6LcHbMZGTG6LDNL+LssXIEsxvzuVicDWTj1tZoUB3akG7CkdNFQ+Wj
- u8JeMYdD5CFBHpIOzRawsRmpzVJ3J2iwt0Ts3K0PHiMe+VCnj4rZxdYHnbUK7CW1/1Ux
- 7XUw==
-X-Gm-Message-State: APjAAAWEfsHlvP81xuorAFrIswPHNYUrqKIfMNejWmyRUINdIIIiiVXQ
- QSpwlRbpiaby55ongQGQE3Hcdw==
-X-Google-Smtp-Source: APXvYqzv1kjUTfLSHQTMJXAmgk9inC42PZulnccxqA2P+fvgddx+FBjDIkixE2syg9EM2CaEmIzNUg==
-X-Received: by 2002:adf:f28a:: with SMTP id k10mr31256203wro.343.1562170286989; 
- Wed, 03 Jul 2019 09:11:26 -0700 (PDT)
-Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id k63sm3263661wmb.2.2019.07.03.09.11.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 09:11:26 -0700 (PDT)
-To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
-References: <20190701043536.26019-1-jan.bobek@gmail.com>
- <20190701043536.26019-5-jan.bobek@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <67fbe51c-ab7c-11e9-ecbc-aa72ff430911@linaro.org>
-Date: Wed, 3 Jul 2019 18:11:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
-MIME-Version: 1.0
-In-Reply-To: <20190701043536.26019-5-jan.bobek@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [RISU RFC PATCH v2 04/14] risugen_x86: add module
+ (envelope-from <laurent@vivier.eu>) id 1hihsV-0003KL-Cg
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 12:13:06 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:48293)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1hihsQ-0003HC-Iq; Wed, 03 Jul 2019 12:12:59 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.184]) with ESMTPSA (Nemesis) id
+ 1N9Mh8-1icbvW2rXo-015Msg; Wed, 03 Jul 2019 18:12:55 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <EBA933C4-69B4-43BF-9049-FF1E6A327429@vivier.eu>
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Date: Wed, 3 Jul 2019 18:12:51 +0200
+In-Reply-To: <5d7fa8ef-c56c-1f90-d5d6-b230d1e3f363@vivier.eu>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190702123713.14396-1-laurent@vivier.eu>
+ <CAFEAcA_Zu0X1zLfKtBkQdi25KCkjf_PNu8zKWE5Dx7uzzLEzBA@mail.gmail.com>
+ <5d7fa8ef-c56c-1f90-d5d6-b230d1e3f363@vivier.eu>
+X-Mailer: Apple Mail (2.3445.9.1)
+X-Provags-ID: V03:K1:dPmjrw+1Ja+a3JyiZ15YSPoVd78DBu+ZECVlnaQrPAKSxLS/Bdw
+ G4IH/1gBQQG3tIXmvukoCXj9MWJdWTiUlqlNnolp240dq4tAptpyx3XOfvD5az3oLYGpMCY
+ izpbY7z8EpjW7NwQ26QXBsIco5jQbvKKW/dIQrHCfxemx9Yoq/Orn1bW+pKtPyYxpQIYZ6N
+ w5WqeHja3mCD55cR8M54w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8Mo6p8AFCoA=:mnw6/ltJ3dj2n6K25E88Rg
+ /nYWV0G4teL3ZnADEp9Vl3IQEYQ1itxhqPMB7MuXbieHtzoT0dvP/D9z7tp86ruSlHeWEM637
+ c2XaqBn80XFSK/VXUgPu3bG21t0/Hd5XBjLUikehjFkSxvhZaEWWnkdFaSIJ94wXSgUeSEXqv
+ EUtw2GcACSucYfd60CgOk9Z2PvM7IsGNwxTUQTe6qde+nsCCjD6tbb7mvH4cqZVh/IWl2ava0
+ 5zt51dxljoLtzmun8XezxfSZSDEtyQEIZlux4PlfQd4zbHn/6CcqVGv6qIb0z/tTeEPeWzgVB
+ ukJXHxSyrNBeFAVS/m+5yxqLNRacdfxadaKLXHaIaEsBSysfEvz1pQ9jIOaxed4/fkhZO/pmX
+ AMFeI7gDGePUkywnyzIoWMNXWGUgvKnCX3tgZMznCctJL872EWGbbtRtWpAH6kJXvdhhI3NWR
+ R2YuIgBzLLOurtNJ7zuvvS4Dsb8iWEfOFXIHB6Y6Yxc5D220D0ZZ8guiwwVf+JsiXk8Ei+86l
+ dsuySAT4QyaT5MqbueW0nMT+O5sWo78eLS4ycC/2Vvc1CA3yPsT9vmWsVt0awYehiSdLktKHB
+ jIFqqVu0P7WXAQrs8rMeoovTuY9MIYjkTLkbauvrT1ueXrtXxgx9DFKvMuey7DTrPZbNEYDRY
+ eKCHQyhkqvKgCzUjNaOfzasaUQCNjMUbW0w8UD3Y1/c5ZT44ix/ss9BmnjAWPRGvCmP+acSr3
+ ezhSljGOkOdGW9i3Y5yKiHbR1gIi6Xtqgro8Gix3lejoCyCEJdRTuGEylD4=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.13
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PULL 0/3] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,84 +67,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Justin Hibbits <chmeeedalf@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 6:35 AM, Jan Bobek wrote:
-> +sub write_mov_rr($$)
-> +{
-> +    my ($r1, $r2) = @_;
-> +
-> +    my %insn = (opcode => X86OP_MOV,
-> +                modrm => {mod => MOD_DIRECT,
-> +                          reg => ($r1 & 0x7),
-> +                          rm => ($r2 & 0x7)});
-> +
-> +    $insn{rex}{w} = 1 if $is_x86_64;
-> +    $insn{rex}{r} = 1 if $r1 >= 8;
-> +    $insn{rex}{b} = 1 if $r2 >= 8;
-
-This is where maybe it's better to leave rex.[rb] to risugen_x86_asm, and just
-leave $modrm{reg} and $modrm{rm} as 4-bit quantities.
-
-> +sub write_mov_reg_imm($$)
-> +{
-> +    my ($reg, $imm) = @_;
-> +    my %insn;
-> +
-> +    if (0 <= $imm && $imm <= 0xffffffff) {
-
-Should include !$is_x86_64 here,
-
-> +        %insn = (opcode => {value => 0xB8 | ($reg & 0x7), len => 1},
-> +                 imm => {value => $imm, len => 4});
-> +    } elsif (-0x80000000 <= $imm && $imm <= 0x7fffffff) {
-> +        %insn = (opcode => {value => 0xC7, len => 1},
-> +                 modrm => {mod => MOD_DIRECT,
-> +                           reg => 0, rm => ($reg & 0x7)},
-> +                 imm => {value => $imm, len => 4});
-> +
-> +        $insn{rex}{w} = 1 if $is_x86_64;
-
-making this unconditional.
-
-> +sub write_random_ymmdata()
-> +{
-> +    my $ymm_cnt = $is_x86_64 ? 16 : 8;
-> +    my $ymm_len = 32;
-> +    my $datalen = $ymm_cnt * $ymm_len;
-> +
-> +    # Generate random data blob
-> +    write_random_datablock($datalen);
-> +
-> +    # Load the random data into YMM regs.
-> +    for (my $ymm_reg = 0; $ymm_reg < $ymm_cnt; $ymm_reg++) {
-> +        write_insn(vex => {l => VEX_L_256, p => VEX_P_DATA16,
-> +                           r => !($ymm_reg >= 8)},
-
-Again, vex.r should be handled in vex_encode.
-
-> +                   opcode => X86OP_VMOVAPS,
-> +                   modrm => {mod => MOD_INDIRECT_DISP32,
-> +                             reg => ($ymm_reg & 0x7),
-> +                             rm => REG_EAX},
-> +                   disp => {value => $ymm_reg * $ymm_len,
-> +                            len => 4});
-> +    }
-
-So... this now generates code that cannot run without AVX2.
-
-Which is probably fine for testing right now, since we do
-want to be able to notice effects of SSE/AVX insns on the
-high bits of the registers.
-
-But we'll probably need to have the same --xsave=foo
-command-line option that we have for risu itself.
-
-That would let you initialize only 16-bytes here, or
-for avx512 initialize 64-bytes, plus the k-registers.
 
 
-r~
+> Le 3 juil. 2019 =C3=A0 17:22, Laurent Vivier <laurent@vivier.eu> a =
+=C3=A9crit :
+>=20
+> Le 03/07/2019 =C3=A0 16:45, Peter Maydell a =C3=A9crit :
+>> On Tue, 2 Jul 2019 at 13:39, Laurent Vivier <laurent@vivier.eu> =
+wrote:
+>>>=20
+>>> The following changes since commit =
+7d0e02405fc02a181319b1ab8681d2f72246b7c6:
+>>>=20
+>>>  Merge remote-tracking branch =
+'remotes/vivier2/tags/trivial-patches-pull-request' into staging =
+(2019-07-01 17:40:32 +0100)
+>>>=20
+>>> are available in the Git repository at:
+>>>=20
+>>>  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+>>>=20
+>>> for you to fetch changes up to =
+7c955080d40ccc7952a0479bc160f2b048c0af53:
+>>>=20
+>>>  docs/devel/testing: Fix typo in dockerfile path (2019-07-02 =
+10:12:32 +0200)
+>>>=20
+>>> ----------------------------------------------------------------
+>>> Fix typo, fix sys_cache_info() on FreeBSD/powerpc,
+>>> change virtio-rng default to urandom
+>>>=20
+>>> ----------------------------------------------------------------
+>>=20
+>> Hi; this makes 'make check' fail on OSX:
+>>=20
+>> MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> tests/test-char -m=3Dquick -k --tap < /dev/null |
+>> ./scripts/tap-driver.pl --test-name=3D"test-char"
+>> Assertion failed: ((isize & (isize - 1)) =3D=3D 0), function
+>> init_cache_info, file
+>> /Users/pm215/src/qemu-for-merges/util/cacheinfo.c, line 179.
+>>=20
+>> I guess this is the sys_cache_info change.
+>=20
+> OK, I will try to reproduce the problem.
+>=20
+> I think before this patch (regarding the kind of change we have
+> introduced) isize and dsize were always set to 0 and then changed to =
+16
+> in fallback_cache_info()... or perhaps MacOS X sysctlbyname() needs a =
+long.
+
+It seems MacOS X (x86_64) needs a long:
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
+int main(void)
+{
+        long size;
+        int ret;
+        size_t len =3D sizeof(size);
+        ret =3D sysctlbyname("hw.cachelinesize", &size, &len, NULL, 0);
+        printf("ret %d size 0x%lx\n", ret, size);
+        return 0;
+}
+$ cc -o cachesize cachesize.c
+$ ./cachesize=20
+ret 0 size 0x40
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
+int main(void)
+{
+        int size;
+        int ret;
+        size_t len =3D sizeof(size);
+        ret =3D sysctlbyname("hw.cachelinesize", &size, &len, NULL, 0);
+        printf("ret %d size 0x%x\n", ret, size);
+        return 0;
+}
+$ cc -o cachesize cachesize.c
+$ ./cachesize=20
+ret 0 size 0x1737b1d2
+$ sysctl hw.cachelinesize
+hw.cachelinesize: 64
+
+But man page is not up-to-date:
+
+$ uname -r
+17.7.0
+$ man sysctl
+SYSCTL(8)                 BSD System Manager's Manual                =
+SYSCTL(8)
+=E2=80=A6
+     The string and integer information is summarized below.  For a =
+detailed
+     description of these variable see sysctl(3).
+
+     The changeable column indicates whether a process with appropriate =
+privi-
+     lege can change the value.  String and integer values can be set =
+using
+     sysctl.
+
+     Name                                        Type          =
+Changeable
+=E2=80=A6
+     hw.cachelinesize                            integer       no
+=E2=80=A6
+
+In fact, it is in sysctl(3):
+
+SYSCTL(3)                BSD Library Functions Manual                =
+SYSCTL(3)
+=E2=80=A6
+   CTL_HW
+     The string and integer information available for the CTL_HW level =
+is
+     detailed below.  The changeable column shows whether a process with
+     appropriate privilege may change the value.
+
+           Name                         Type          Changeable
+...
+           hw.cachelinesize             int64_t       no
+
+I will try to check on MacOS/X ppc and ppc64.
+
+Thanks,
+Laurent
 
