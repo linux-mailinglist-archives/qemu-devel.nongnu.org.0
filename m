@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2426A5E0AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:13:36 +0200 (CEST)
-Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BDD5E0C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:17:03 +0200 (CEST)
+Received: from localhost ([::1]:34002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibKZ-0003bg-9H
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55262)
+	id 1hibNu-0007j1-9z
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:17:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55586)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hib2h-0004Lb-Jm
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:55:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1hib3p-0005Wu-MX
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:56:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hib2e-0004N2-42
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:55:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:26864)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hib2U-0003Ep-57; Wed, 03 Jul 2019 04:54:54 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B85F1307D866;
- Wed,  3 Jul 2019 08:54:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7992B7D8AE;
- Wed,  3 Jul 2019 08:54:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 89ED917515; Wed,  3 Jul 2019 10:54:16 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 10:54:16 +0200
-Message-Id: <20190703085416.21837-5-kraxel@redhat.com>
-In-Reply-To: <20190703085416.21837-1-kraxel@redhat.com>
-References: <20190703085416.21837-1-kraxel@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hib3o-0006jS-7G
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:56:17 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41984)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hib3m-0006ae-GC
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:56:16 -0400
+Received: by mail-wr1-f65.google.com with SMTP id a10so712943wrp.9
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:56:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5hqKXw0WigrRDM/xfFgMojUW0/duKskBtxOPqigeWcw=;
+ b=uFwWDkbgfsTeZDNUShZbKMv1oOHr9J4pwigIa9o85WAmz27n1o9T7gEMQAYKuv97mu
+ g/L980/KXlkArve18oRhkPcX21nPrtjDfNCCQdBe+WiAo2Y1akCFlGQMAkEMZPCJ6mh8
+ xYeatqicjEkAjxTbjBpSG4bho8LKmI7PCZrt/JJHgelGcmsZmGh/4IjcbRh1l11c+roh
+ AelTDRnzI9GTCdhvTbJ6n7+lsKBpBTbTRdcD3XZo4fAhKNq6oEpDrBSarPYkxCsItMjK
+ f51AnFSIhiDp+o6yqUugGd9Dn43G6wqtFaYOCHjoQGrvdLWnfRmtLG3kbyeI0L54sren
+ zTRQ==
+X-Gm-Message-State: APjAAAWfHITM1OrzZ5xxWCvx0cs16Qp22W44HxpCQUqib1qOUADtAc7B
+ szf38vhZdcZnXRC+R3E+kauRJQ==
+X-Google-Smtp-Source: APXvYqxRLurFUFdT0/F3EwipHLVNDnGsLNTGcxxb/tF1XaUUOaxCO+wbCWGOXegMwSxtDvBMXeIUkQ==
+X-Received: by 2002:adf:a19e:: with SMTP id u30mr22783948wru.33.1562144172123; 
+ Wed, 03 Jul 2019 01:56:12 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id g14sm1823903wro.11.2019.07.03.01.56.11
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 03 Jul 2019 01:56:11 -0700 (PDT)
+To: Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+References: <20190703013805.2722-1-chen.zhang@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <bab54e27-0e4f-3701-1562-92b062f37415@redhat.com>
+Date: Wed, 3 Jul 2019 10:56:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 03 Jul 2019 08:54:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190703013805.2722-1-chen.zhang@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 4/4] Add ati vgabios to INSTALL_BLOBS.
+ [fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] net/colo-compare.c: Fix memory leak and
+ code style issue.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,39 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 0cca7e7bfd6c81cc3c29ec2b3a0a98954c4ba71a
-Reported-by: Bruce Rogers <BROGERS@suse.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-id: 20190703045212.31039-1-kraxel@redhat.com
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/3/19 3:38 AM, Zhang Chen wrote:
+> From: Zhang Chen <chen.zhang@intel.com>
+> 
+> Address Peter's comments in patch "COLO-compare:Add colo-compare
+> remote notify support".
 
-diff --git a/Makefile b/Makefile
-index b1c93ac02721..d657df904166 100644
---- a/Makefile
-+++ b/Makefile
-@@ -750,7 +750,7 @@ bepo    cz
- ifdef INSTALL_BLOBS
- BLOBS=3Dbios.bin bios-256k.bin sgabios.bin vgabios.bin vgabios-cirrus.bi=
-n \
- vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin=
- \
--vgabios-ramfb.bin vgabios-bochs-display.bin \
-+vgabios-ramfb.bin vgabios-bochs-display.bin vgabios-ati.bin \
- ppc_rom.bin openbios-sparc32 openbios-sparc64 openbios-ppc QEMU,tcx.bin =
-QEMU,cgthree.bin \
- pxe-e1000.rom pxe-eepro100.rom pxe-ne2k_pci.rom \
- pxe-pcnet.rom pxe-rtl8139.rom pxe-virtio.rom \
---=20
-2.18.1
+This comment is not useful in the git history (no reference).
 
+You might reword him, use full coment, or simply:
+
+Reported-by: Coverity (CID 1402785)
+
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>  net/colo-compare.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/net/colo-compare.c b/net/colo-compare.c
+> index 909dd6c6eb..363b1edd11 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -1008,21 +1008,20 @@ static void compare_notify_rs_finalize(SocketReadState *notify_rs)
+>  {
+>      CompareState *s = container_of(notify_rs, CompareState, notify_rs);
+>  
+> -    /* Get Xen colo-frame's notify and handle the message */
+> -    char *data = g_memdup(notify_rs->buf, notify_rs->packet_len);
+> -    char msg[] = "COLO_COMPARE_GET_XEN_INIT";
+> +    const char msg[] = "COLO_COMPARE_GET_XEN_INIT";
+>      int ret;
+>  
+> -    if (!strcmp(data, "COLO_USERSPACE_PROXY_INIT")) {
+> +    if (!strcmp((char *)notify_rs->buf, "COLO_USERSPACE_PROXY_INIT")) {
+>          ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
+>          if (ret < 0) {
+>              error_report("Notify Xen COLO-frame INIT failed");
+>          }
+> -    }
+> -
+> -    if (!strcmp(data, "COLO_CHECKPOINT")) {
+> +    } else if (!strcmp((char *)notify_rs->buf, "COLO_CHECKPOINT")) {
+>          /* colo-compare do checkpoint, flush pri packet and remove sec packet */
+>          g_queue_foreach(&s->conn_list, colo_flush_packets, s);
+> +    } else {
+> +        error_report("COLO compare got unsupported instruction '%s'",
+> +                     (char *)notify_rs->buf);
+>      }
+>  }
+>  
+> 
 
