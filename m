@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894FE5E83E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 17:58:36 +0200 (CEST)
-Received: from localhost ([::1]:37062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD4C5E865
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 18:07:37 +0200 (CEST)
+Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiheV-0005ED-Ky
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 11:58:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53215)
+	id 1hihnE-0001uG-Fi
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 12:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53167)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hihZS-0002iv-T6
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:25 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hihZK-0002hr-Lw
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hihZR-0007Co-Lb
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:22 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44029)
+ (envelope-from <alex.bennee@linaro.org>) id 1hihZI-00079x-Su
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:13 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45364)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hihZQ-0006vZ-JF
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:21 -0400
-Received: by mail-wr1-x442.google.com with SMTP id p13so3385144wru.10
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 08:52:46 -0700 (PDT)
+ id 1hihZF-0006w6-Gh
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 11:53:10 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f9so3383636wre.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 08:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=//Wpc08mM5q/cSaFPICPcz9+DodTG0MeCuuW1XebhP8=;
- b=r2Tc0jV3jXYmUHw/XhFIYmFA7bk0IbvAdH+XlCTUwhKfS66u/qbq1WIh2O9aIow4sR
- hmhg8ZobtYV5Hm5XfHqCdh1Qs8QaQ4vv93SQA8gknih9AdeOO2rBtkxF2GX9seK+8OuJ
- O0NsaD7VTDG/EOSA4u1mh1kR8fYmuIDfFm3DfvbGCGXeEoHO7tAk7askTTQXxPl/GNjr
- tzIEILwygns2ATK8pwOevtuo3yaTwoB2jIONF26EPhP/zPS70pXl1nUTCbBx54Tqk04G
- fZqXY4nllVICnw+y8WWg28T7HB7ZM3m472gHA0U5HkaJZ0C578bkgsVB3OC8RNba1Swl
- rzJA==
+ bh=C07JYTlYo1eRUyog0KlI6elnxskISjJIiJwzTqYbA+8=;
+ b=UtJvVyLQpFu+8IgfqaAEMNMXJWLmQyXi+bDVxiCfPuwPqgKn002GhB+RB+WCgmtwJS
+ TsEpn8lLQnlbq2E0s9MXi1OPnHM6+alece4fBnrrIsTUvtx5zm4iTXVn8MqWyavDbZj9
+ 8Hhn8MFlQ0GDEvlWXOAYR26dURU3/EjICp7kRcjNfiI6mXipb0qXJlefUeQdl4xlg+KW
+ B85WWKyksDDgkPa+h2SKbTh4j5tSgonXS/KCQCs0psHRjbuib/zVXZNp307gJkvdtqre
+ HUD/zePH4Kteu1+xOlARFpbHLJBX+lPG9/lh7tKZ15NLRpDa3Amh7tM4ZpbCmsyg+HDg
+ aGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=//Wpc08mM5q/cSaFPICPcz9+DodTG0MeCuuW1XebhP8=;
- b=LpRchaEKUPt3TDIoJCM7Bs6y56rELkp0UbDQhkFVZPiaW5/ousX3LAygTymYO1LZ7g
- w1nGXU2fllN5FpCdFLoik+y7ri9EB6Y+eL5zpXDGooHx+BkjM68D50PeKdhfcUel+NkE
- JxhLMc8Cey31+PZAcHuYdX24AdVNkvJq9jkl4YI2tFDhH13YeSBLQSkLyLwAukE22k4I
- vroEMaoyIu34ZYIMdFzv/xDS7dpi2Q8C4ssIBAmy+bKrWLz60qDrcOVHVJqeCvgCUIAS
- SN0m/B1KoSJXW5PGaQe7Qoh5nQHHWudhU5MYYlKnZzKSQLhLSBu43DI9dEySQtDpn7Aj
- 5Iig==
-X-Gm-Message-State: APjAAAVQ7jMf56Fkodu2PcdXeFL4883momMVJSaJZkyBVExI0aGN10kI
- RlSYZerPYbHSlxtDk7kol0rBEw==
-X-Google-Smtp-Source: APXvYqxFmxNFk+kiHEsCjSgIx2+OIGhfbuM2kxAPeB1ApIoA7x/UNsPo08LIAdzgvx0j+/s3PgMk5g==
-X-Received: by 2002:adf:aa93:: with SMTP id h19mr27153178wrc.3.1562169165617; 
- Wed, 03 Jul 2019 08:52:45 -0700 (PDT)
+ bh=C07JYTlYo1eRUyog0KlI6elnxskISjJIiJwzTqYbA+8=;
+ b=qkppvTYUdyJ9FuTXsAaXCM3+M0Y9HtckKM66kc1NLPTkB3NedYL6YuE3jlpfR7f4Dj
+ eZxS+aMGKc/aMNGJuHNrFffw5oJT5Ok90Mge75IiQRvd0QfdwOfyCL3vavEMZYLft3na
+ Pst9FWSz+dEDQTWnFLb7dck5AXYsiSSvoPLdTPXEF23sk7+23IIzsSV8eQS0F/sI4d9A
+ a7SMcBct3PNJF1IakgiiumbuCqkXytb8I6R2SfNKgI4c9tXmDB+MXG0zFNoQwD+9l6ab
+ W+48gz8cEMsgkhkGWIrIIdwqHNVZwXoQV313vy1ZE66IUIxNdeYH3KG4qWLWI/Vn50zz
+ WNMA==
+X-Gm-Message-State: APjAAAXxldG494MbW+Z5Irv25097iudtGHz3DtFY5imX7XnnJGMCpsqK
+ OwdqzL9yH6Q4THSX635akzKszA==
+X-Google-Smtp-Source: APXvYqxHnJXkvGG6d8gcPOJYWDokuaIRvBf92J0NCD8K9WvytITZeLvT3IMJd96b+I5OPJCmgwZQOQ==
+X-Received: by 2002:adf:ed41:: with SMTP id u1mr28077120wro.162.1562169167053; 
+ Wed, 03 Jul 2019 08:52:47 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id f7sm2450062wrp.55.2019.07.03.08.52.44
+ by smtp.gmail.com with ESMTPSA id f204sm4014304wme.18.2019.07.03.08.52.44
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 08:52:44 -0700 (PDT)
+ Wed, 03 Jul 2019 08:52:45 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 68D361FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 7BE1A1FF8F;
  Wed,  3 Jul 2019 16:52:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 16:52:41 +0100
-Message-Id: <20190703155244.28166-2-alex.bennee@linaro.org>
+Date: Wed,  3 Jul 2019 16:52:42 +0100
+Message-Id: <20190703155244.28166-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190703155244.28166-1-alex.bennee@linaro.org>
 References: <20190703155244.28166-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v1 1/4] target/arm: handle M-profile
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v1 2/4] target/arm: handle A-profile T32
  semihosting at translate time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,61 +87,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do this for other semihosting calls so we might as well do it for
-M-profile as well.
+As for the other semihosting calls we can resolve this at translate
+time.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/helper.c    | 18 ++++++------------
- target/arm/translate.c | 20 +++++++++++++++++++-
- 2 files changed, 25 insertions(+), 13 deletions(-)
+ target/arm/translate.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index df4276f5f6..ad29dc4072 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9692,19 +9692,13 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-             break;
-         }
-         break;
-+    case EXCP_SEMIHOST:
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "...handling as semihosting call 0x%x\n",
-+                      env->regs[0]);
-+        env->regs[0] = do_arm_semihosting(env);
-+        return;
-     case EXCP_BKPT:
--        if (semihosting_enabled()) {
--            int nr;
--            nr = arm_lduw_code(env, env->regs[15], arm_sctlr_b(env)) & 0xff;
--            if (nr == 0xab) {
--                env->regs[15] += 2;
--                qemu_log_mask(CPU_LOG_INT,
--                              "...handling as semihosting call 0x%x\n",
--                              env->regs[0]);
--                env->regs[0] = do_arm_semihosting(env);
--                return;
--            }
--        }
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_DEBUG, false);
-         break;
-     case EXCP_IRQ:
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4750b9fa1b..aaab043636 100644
+index aaab043636..8e2e955cbe 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10977,6 +10977,24 @@ illegal_op:
-                        default_exception_el(s));
+@@ -10995,6 +10995,24 @@ static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
+     gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
  }
  
 +/*
-+ * Thumb BKPT. On M-profile CPUs this may be a semihosting call which
-+ * we can process much the same way as gen_hlt() above.
++ * Thumb SWI. On A-profile CPUs this may be a semihosting call.
 + */
-+static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
++static inline void gen_thumb_swi(DisasContext *s, int imm8)
 +{
-+    if (arm_dc_feature(s, ARM_FEATURE_M) &&
-+        semihosting_enabled() &&
++    if (semihosting_enabled() &&
 +#ifndef CONFIG_USER_ONLY
 +        s->current_el != 0 &&
 +#endif
@@ -149,21 +116,27 @@ index 4750b9fa1b..aaab043636 100644
 +        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
 +        return;
 +    }
-+    gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
++    gen_set_pc_im(s, s->pc);
++    s->svc_imm = imm8;
++    s->base.is_jmp = DISAS_SWI;
 +}
 +
  static void disas_thumb_insn(DisasContext *s, uint32_t insn)
  {
      uint32_t val, op, rm, rn, rd, shift, cond;
-@@ -11605,7 +11623,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         {
-             int imm8 = extract32(insn, 0, 8);
-             ARCH(5);
--            gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
-+            gen_thumb_bkpt(s, imm8);
+@@ -11752,10 +11770,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+             goto undef;
+ 
+         if (cond == 0xf) {
+-            /* swi */
+-            gen_set_pc_im(s, s->pc);
+-            s->svc_imm = extract32(insn, 0, 8);
+-            s->base.is_jmp = DISAS_SWI;
++            /* swi/svc  */
++            gen_thumb_swi(s, extract32(insn, 0, 8));
              break;
          }
- 
+         /* generate a conditional jump to next instruction */
 -- 
 2.20.1
 
