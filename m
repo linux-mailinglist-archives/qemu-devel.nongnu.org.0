@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C715EEFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 00:06:54 +0200 (CEST)
-Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054375EEDC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:58:42 +0200 (CEST)
+Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hinOv-0008EN-EY
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 18:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45971)
+	id 1hinGz-0007TK-6a
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46035)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hinES-0005CA-Fn
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:05 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hinEg-0005Pq-2S
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hinER-0003kQ-5x
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48014)
+ (envelope-from <jsnow@redhat.com>) id 1hinEe-0003sx-8G
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43904)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hinEO-0003hR-P3; Wed, 03 Jul 2019 17:56:00 -0400
+ id 1hinEa-0003pe-96; Wed, 03 Jul 2019 17:56:12 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15789307D88C;
- Wed,  3 Jul 2019 21:56:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8DDA085538;
+ Wed,  3 Jul 2019 21:56:10 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-123-117.rdu2.redhat.com [10.10.123.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B7A15235E;
- Wed,  3 Jul 2019 21:55:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5894D18249;
+ Wed,  3 Jul 2019 21:56:00 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 17:55:27 -0400
-Message-Id: <20190703215542.16123-4-jsnow@redhat.com>
+Date: Wed,  3 Jul 2019 17:55:28 -0400
+Message-Id: <20190703215542.16123-5-jsnow@redhat.com>
 In-Reply-To: <20190703215542.16123-1-jsnow@redhat.com>
 References: <20190703215542.16123-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 03 Jul 2019 21:56:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Wed, 03 Jul 2019 21:56:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 03/18] blockdev-backup: utilize
- do_backup_common
+Subject: [Qemu-devel] [PATCH v2 04/18] qapi: add BitmapSyncMode enum
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,105 +65,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Depending on what a user is trying to accomplish, there might be a few
+bitmap cleanup actions that occur when an operation is finished that
+could be useful.
+
+I am proposing three:
+- NEVER: The bitmap is never synchronized against what was copied.
+- ALWAYS: The bitmap is always synchronized, even on failures.
+- CONDITIONAL: The bitmap is synchronized only on success.
+
+The existing incremental backup modes use 'conditional' semantics,
+so add just that one for right now.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- blockdev.c | 73 +++---------------------------------------------------
- 1 file changed, 3 insertions(+), 70 deletions(-)
+ qapi/block-core.json | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index 5fd663a7e5..cad300d526 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3638,82 +3638,15 @@ XDbgBlockGraph *qmp_x_debug_query_block_graph(Err=
-or **errp)
- BlockJob *do_blockdev_backup(BlockdevBackup *backup, JobTxn *txn,
-                              Error **errp)
- {
--    BlockDriverState *bs;
-     BlockDriverState *target_bs;
--    Error *local_err =3D NULL;
--    BdrvDirtyBitmap *bmap =3D NULL;
--    AioContext *aio_context;
--    BlockJob *job =3D NULL;
--    int job_flags =3D JOB_DEFAULT;
--    int ret;
--
--    if (!backup->has_speed) {
--        backup->speed =3D 0;
--    }
--    if (!backup->has_on_source_error) {
--        backup->on_source_error =3D BLOCKDEV_ON_ERROR_REPORT;
--    }
--    if (!backup->has_on_target_error) {
--        backup->on_target_error =3D BLOCKDEV_ON_ERROR_REPORT;
--    }
--    if (!backup->has_job_id) {
--        backup->job_id =3D NULL;
--    }
--    if (!backup->has_auto_finalize) {
--        backup->auto_finalize =3D true;
--    }
--    if (!backup->has_auto_dismiss) {
--        backup->auto_dismiss =3D true;
--    }
--    if (!backup->has_compress) {
--        backup->compress =3D false;
--    }
--
--    bs =3D bdrv_lookup_bs(backup->device, backup->device, errp);
--    if (!bs) {
--        return NULL;
--    }
--
--    aio_context =3D bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7b23efcf13..87eba5a5d9 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1134,6 +1134,20 @@
+ { 'enum': 'MirrorSyncMode',
+   'data': ['top', 'full', 'none', 'incremental'] }
 =20
-     target_bs =3D bdrv_lookup_bs(backup->target, backup->target, errp);
-     if (!target_bs) {
--        goto out;
-+        return NULL;
-     }
-=20
--    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
--    if (ret < 0) {
--        goto out;
--    }
--
--    if (backup->has_bitmap) {
--        bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
--        if (!bmap) {
--            error_setg(errp, "Bitmap '%s' could not be found", backup->b=
-itmap);
--            goto out;
--        }
--        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
--            goto out;
--        }
--    }
--
--    if (!backup->auto_finalize) {
--        job_flags |=3D JOB_MANUAL_FINALIZE;
--    }
--    if (!backup->auto_dismiss) {
--        job_flags |=3D JOB_MANUAL_DISMISS;
--    }
--    job =3D backup_job_create(backup->job_id, bs, target_bs, backup->spe=
-ed,
--                            backup->sync, bmap, backup->compress,
--                            backup->on_source_error, backup->on_target_e=
-rror,
--                            job_flags, NULL, NULL, txn, &local_err);
--    if (local_err !=3D NULL) {
--        error_propagate(errp, local_err);
--    }
--out:
--    aio_context_release(aio_context);
--    return job;
-+    return do_backup_common(qapi_BlockdevBackup_base(backup),
-+                            target_bs, txn, errp);
- }
-=20
- void qmp_blockdev_backup(BlockdevBackup *arg, Error **errp)
++##
++# @BitmapSyncMode:
++#
++# An enumeration of possible behaviors for the synchronization of a bitm=
+ap
++# when used for data copy operations.
++#
++# @conditional: The bitmap is only synced when the operation is successf=
+ul.
++#               This is the behavior always used for 'INCREMENTAL' backu=
+ps.
++#
++# Since: 4.2
++##
++{ 'enum': 'BitmapSyncMode',
++  'data': ['conditional'] }
++
+ ##
+ # @MirrorCopyMode:
+ #
 --=20
 2.21.0
 
