@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559B65E129
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:39:48 +0200 (CEST)
-Received: from localhost ([::1]:34334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932905E0D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:18:09 +0200 (CEST)
+Received: from localhost ([::1]:34014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibjv-0000mf-JW
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52794)
+	id 1hibOy-0001Gg-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hiat1-0002FV-Oe
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:45:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1hiazH-0007Lp-C4
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hiat0-0007CM-R4
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:45:07 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34986)
+ (envelope-from <philmd@redhat.com>) id 1hiazG-0005IY-D6
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:35 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42283)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiat0-0007AX-Kz
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:45:06 -0400
-Received: by mail-wr1-f67.google.com with SMTP id c27so1790684wrb.2
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:45:06 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hiazG-0005H4-7F
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:51:34 -0400
+Received: by mail-wr1-f65.google.com with SMTP id a10so695616wrp.9
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:51:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WInNSCjqC7qkEv3gjxExZW1ipgoTKOlaseoZa9uT2cw=;
- b=jvcuI4Wz78JNjGLzUIEOL/ZFnoZV05YJYJkhZWb8oguEJSc/FC3I6nNAPCsstURIZK
- uOOoX6R3cEMViQfcloQkkfdHfdhdzKkdHHsJyqkpiXlp2iNrf2k0905r3lQBsI5ZcfwB
- pthinvCQYIAmmQWZdLEEqLMQWw+lYB5K/YRe5mhfqfulhGbMdwQPcbLetmyDCML3c+Ws
- w7wYTEhcyqziLDOmokwRJ6Ks/ChZ3XV7WLsyU9ZaH5CXi6NyZjIRnIbT5GCFrdelkXPY
- 6yu/Rr6awTF2nT8uuTdbXn5lYjA1C81o271hOkcvYxUJTjIAvGIbrBrpkB+FYYGkm33p
- Fftg==
-X-Gm-Message-State: APjAAAWZLCQ76JLQjUZ+5dtTzvIzm2FBBnkt4T6OQtJZGKEGe/q6C1HV
- 2bjIItr6rypcqpS+KhJMGWXadyO8OjY=
-X-Google-Smtp-Source: APXvYqzlfprKCorae/+JB6jDtB7aWJS6Hm0T9w0gXO8uXVyYjROt97USomSzhQMazCi614teLpa8cA==
-X-Received: by 2002:adf:e442:: with SMTP id t2mr28943874wrm.286.1562143505596; 
- Wed, 03 Jul 2019 01:45:05 -0700 (PDT)
+ bh=1k+wCEISVNeW6UxjqDwSgie9/hwhw3XLp95GoY0l/Tg=;
+ b=CSvn4dO4e7jDLDo/O/bbI5YVaIwGGuik4P0aZgWIcoyxbVzaACm12ZIXLCKw7iqt4j
+ qcn5eJf9DDMrP0TZS0ptoRuSDRajnzgcaiuHlVhz7qeEUGnd3oElPoZqsBU4vHSGcdqi
+ xH4NCJzAt7Nc4b+/V1siDZehqtIVHiSUYNFLq/YFnyp8JbanOVpyeDeXp/HABVgikfeq
+ M/EPUGkqFsUYjc2dxI3neU+Q8VUHo9+9jzhsR925twT5jBdf78ZtIgC1JOqvkkAuJeBP
+ vME/dSX/CbY+GA2kHpFNoC/gXvklM7S4jqTka4UbO8WLFHujoA1zQrZg4FnHwRWCoJnr
+ kfmw==
+X-Gm-Message-State: APjAAAXLyQeE8ut0uTzMso9rgTtM1YcCMeLxWtbiWsxNpR1gNC87j06+
+ 8e9v91fztR0l2hE0/2l2B0MlcT6HEQ4=
+X-Google-Smtp-Source: APXvYqxqXj+7DGA9E44xmHSEGZ4x1NyBKQKvkXINEt8Fm13mw7s0/ia15HuKAsgy53eDjL6YO9eW4A==
+X-Received: by 2002:adf:e2c7:: with SMTP id d7mr26980819wrj.272.1562143893182; 
+ Wed, 03 Jul 2019 01:51:33 -0700 (PDT)
 Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id c1sm2324175wrh.1.2019.07.03.01.45.04
+ by smtp.gmail.com with ESMTPSA id q10sm1445446wrf.32.2019.07.03.01.51.32
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 01:45:05 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190703045212.31039-1-kraxel@redhat.com>
+ Wed, 03 Jul 2019 01:51:32 -0700 (PDT)
+To: Alex Williamson <alex.williamson@redhat.com>, cohuck@redhat.com,
+ farman@linux.ibm.com, alifm@linux.ibm.com
+References: <156209642116.14915.9598593247782519613.stgit@gimli.home>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <230938b3-e2dc-23ad-82a0-af56f27836e9@redhat.com>
-Date: Wed, 3 Jul 2019 10:45:04 +0200
+Message-ID: <7d1588b7-d963-59a5-7bcf-132a83908b0d@redhat.com>
+Date: Wed, 3 Jul 2019 10:51:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190703045212.31039-1-kraxel@redhat.com>
+In-Reply-To: <156209642116.14915.9598593247782519613.stgit@gimli.home>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH] Add ati vgabios to INSTALL_BLOBS.
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: Test vfio_set_irq_signaling()
+ return value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,31 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: BROGERS@suse.com
+Cc: eric.auger@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/19 6:52 AM, Gerd Hoffmann wrote:
-> Fixes: 0cca7e7bfd6c81cc3c29ec2b3a0a98954c4ba71a
-> Reported-by: Bruce Rogers <BROGERS@suse.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/2/19 9:41 PM, Alex Williamson wrote:
+> Coverity doesn't like that most callers of vfio_set_irq_signaling() check
+> the return value and doesn't understand the equivalence of testing the
+> error pointer instead.  Test the return value consistently.
 > 
-> diff --git a/Makefile b/Makefile
-> index cfb18f152544..452f63dc8429 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -746,7 +746,7 @@ bepo    cz
->  ifdef INSTALL_BLOBS
->  BLOBS=bios.bin bios-256k.bin sgabios.bin vgabios.bin vgabios-cirrus.bin \
->  vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin \
-> -vgabios-ramfb.bin vgabios-bochs-display.bin \
-> +vgabios-ramfb.bin vgabios-bochs-display.bin vgabios-ati.bin \
->  ppc_rom.bin openbios-sparc32 openbios-sparc64 openbios-ppc QEMU,tcx.bin QEMU,cgthree.bin \
->  pxe-e1000.rom pxe-eepro100.rom pxe-ne2k_pci.rom \
->  pxe-pcnet.rom pxe-rtl8139.rom pxe-virtio.rom \
+> Reported-by: Coverity (CID 1402783)
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
+>  hw/vfio/ccw.c |    5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 6d0296fe4d9c..16f200e6fe6a 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -327,9 +327,8 @@ static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
+>  {
+>      Error *err = NULL;
+>  
+> -    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> -                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
+> -    if (err) {
+> +    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
+>          error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+>      }
+>  
+> 
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
