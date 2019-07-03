@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EBF5EEF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 00:04:27 +0200 (CEST)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8295EF14
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 00:17:50 +0200 (CEST)
+Received: from localhost ([::1]:41412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hinMY-0005V6-IQ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 18:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46180)
+	id 1hinZV-0005Mr-VN
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 18:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hinEu-0005ot-NE
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:34 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hinFF-0005ws-NY
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hinEt-00046D-Nm
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43290)
+ (envelope-from <jsnow@redhat.com>) id 1hinFD-0004Jv-Nm
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:56:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43304)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hinEr-00044B-Fp; Wed, 03 Jul 2019 17:56:29 -0400
+ id 1hinEw-00047a-6h; Wed, 03 Jul 2019 17:56:34 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C37E8C028353;
- Wed,  3 Jul 2019 21:56:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 75C08C01F28C;
+ Wed,  3 Jul 2019 21:56:33 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-123-117.rdu2.redhat.com [10.10.123.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 683FE52737;
- Wed,  3 Jul 2019 21:56:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8C595235E;
+ Wed,  3 Jul 2019 21:56:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Wed,  3 Jul 2019 17:55:32 -0400
-Message-Id: <20190703215542.16123-9-jsnow@redhat.com>
+Date: Wed,  3 Jul 2019 17:55:33 -0400
+Message-Id: <20190703215542.16123-10-jsnow@redhat.com>
 In-Reply-To: <20190703215542.16123-1-jsnow@redhat.com>
 References: <20190703215542.16123-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Wed, 03 Jul 2019 21:56:28 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 03 Jul 2019 21:56:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 08/18] hbitmap: enable merging across
- granularities
+Subject: [Qemu-devel] [PATCH v2 09/18] block/dirty-bitmap: add
+ bdrv_dirty_bitmap_merge_internal
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,74 +66,122 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I'm surprised it didn't come up sooner, but sometimes we have a +busy
+bitmap as a source. This is dangerous from the QMP API, but if we are
+the owner that marked the bitmap busy, it's safe to merge it using it as
+a read only source.
+
+It is not safe in the general case to allow users to read from in-use
+bitmaps, so create an internal variant that foregoes the safety
+checking.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- util/hbitmap.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ block/dirty-bitmap.c      | 51 +++++++++++++++++++++++++++++++++------
+ include/block/block_int.h |  3 +++
+ 2 files changed, 47 insertions(+), 7 deletions(-)
 
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 3b6acae42b..306bc4876d 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -777,7 +777,27 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 95a9c2a5d8..b0f76826b3 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -810,11 +810,15 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBit=
+map *bitmap,
+     return hbitmap_next_dirty_area(bitmap->bitmap, offset, bytes);
+ }
 =20
- bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
++/**
++ * bdrv_merge_dirty_bitmap: merge src into dest.
++ * Ensures permissions on bitmaps are reasonable; use for public API.
++ *
++ * @backup: If provided, make a copy of dest here prior to merge.
++ */
+ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitma=
+p *src,
+                              HBitmap **backup, Error **errp)
  {
--    return (a->size =3D=3D b->size) && (a->granularity =3D=3D b->granula=
-rity);
-+    return (a->orig_size =3D=3D b->orig_size);
+-    bool ret;
+-
+     qemu_mutex_lock(dest->mutex);
+     if (src->mutex !=3D dest->mutex) {
+         qemu_mutex_lock(src->mutex);
+@@ -833,6 +837,37 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, =
+const BdrvDirtyBitmap *src,
+         goto out;
+     }
+=20
++    assert(bdrv_dirty_bitmap_merge_internal(dest, src, backup, false));
++
++out:
++    qemu_mutex_unlock(dest->mutex);
++    if (src->mutex !=3D dest->mutex) {
++        qemu_mutex_unlock(src->mutex);
++    }
 +}
 +
 +/**
-+ * hbitmap_sparse_merge: performs dst =3D dst | src
-+ * works with differing granularities.
-+ * best used when src is sparsely populated.
-+ */
-+static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
-+{
-+    uint64_t offset =3D 0;
-+    uint64_t count =3D src->orig_size;
-+
-+    while (hbitmap_next_dirty_area(src, &offset, &count)) {
-+        hbitmap_set(dst, offset, count);
-+        offset +=3D count;
-+        if (offset >=3D src->orig_size) {
-+            break;
-+        }
-+        count =3D src->orig_size - offset;
-+    }
- }
-=20
- /**
-@@ -808,10 +828,24 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap =
-*b, HBitmap *result)
-         return true;
-     }
-=20
-+    if (a->granularity !=3D b->granularity) {
-+        if ((a !=3D result) && (b !=3D result)) {
-+            hbitmap_reset_all(result);
-+        }
-+        if (a !=3D result) {
-+            hbitmap_sparse_merge(result, a);
-+        }
-+        if (b !=3D result) {
-+            hbitmap_sparse_merge(result, b);
-+        }
-+        return true;
-+    }
-+
-     /* This merge is O(size), as BITS_PER_LONG and HBITMAP_LEVELS are co=
-nstant.
-      * It may be possible to improve running times for sparsely populate=
-d maps
-      * by using hbitmap_iter_next, but this is suboptimal for dense maps=
++ * bdrv_dirty_bitmap_merge_internal: merge src into dest.
++ * Does NOT check bitmap permissions; not suitable for use as public API=
 .
-      */
-+    assert(a->size =3D=3D b->size);
-     for (i =3D HBITMAP_LEVELS - 1; i >=3D 0; i--) {
-         for (j =3D 0; j < a->sizes[i]; j++) {
-             result->levels[i][j] =3D a->levels[i][j] | b->levels[i][j];
++ *
++ * @backup: If provided, make a copy of dest here prior to merge.
++ * @lock: If true, lock and unlock bitmaps on the way in/out.
++ * returns true if the merge succeeded; false if unattempted.
++ */
++bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
++                                      const BdrvDirtyBitmap *src,
++                                      HBitmap **backup,
++                                      bool lock)
++{
++    bool ret;
++
++    if (lock) {
++        qemu_mutex_lock(dest->mutex);
++        if (src->mutex !=3D dest->mutex) {
++            qemu_mutex_lock(src->mutex);
++        }
++    }
++
+     if (backup) {
+         *backup =3D dest->bitmap;
+         dest->bitmap =3D hbitmap_alloc(dest->size, hbitmap_granularity(*=
+backup));
+@@ -840,11 +875,13 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest,=
+ const BdrvDirtyBitmap *src,
+     } else {
+         ret =3D hbitmap_merge(dest->bitmap, src->bitmap, dest->bitmap);
+     }
+-    assert(ret);
+=20
+-out:
+-    qemu_mutex_unlock(dest->mutex);
+-    if (src->mutex !=3D dest->mutex) {
+-        qemu_mutex_unlock(src->mutex);
++    if (lock) {
++        qemu_mutex_unlock(dest->mutex);
++        if (src->mutex !=3D dest->mutex) {
++            qemu_mutex_unlock(src->mutex);
++        }
+     }
++
++    return ret;
+ }
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index e1f2aa627e..83ffdf4950 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1238,6 +1238,9 @@ void bdrv_set_dirty(BlockDriverState *bs, int64_t o=
+ffset, int64_t bytes);
+=20
+ void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out);
+ void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup)=
+;
++bool bdrv_dirty_bitmap_merge_internal(BdrvDirtyBitmap *dest,
++                                      const BdrvDirtyBitmap *src,
++                                      HBitmap **backup, bool lock);
+=20
+ void bdrv_inc_in_flight(BlockDriverState *bs);
+ void bdrv_dec_in_flight(BlockDriverState *bs);
 --=20
 2.21.0
 
