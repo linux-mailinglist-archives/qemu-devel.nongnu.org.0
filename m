@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF475EAF6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:55:20 +0200 (CEST)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9374E5EB1D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 20:05:58 +0200 (CEST)
+Received: from localhost ([::1]:38246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hijTU-0004NK-4G
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:55:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53182)
+	id 1hijdl-00028f-2e
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 14:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55447)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hijPt-0000Vu-2n
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:38 -0400
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1hijbW-0001Fo-PS
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:03:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hijPq-0002hq-84
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47140)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hijPp-0002hG-Uo
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:51:34 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DC4A030821FF;
- Wed,  3 Jul 2019 17:51:21 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-65.brq.redhat.com
- [10.40.204.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37AFC83085;
- Wed,  3 Jul 2019 17:51:15 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Alberto Garcia <berto@igalia.com>
-References: <cover.1550842915.git.berto@igalia.com>
- <20190423165501.GA27867@redhat.com>
- <b5fe7ed7-c11c-4f36-4973-c86031cbe046@redhat.com>
- <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1c1c3302-a87c-6e3e-d1d7-c805972a7384@redhat.com>
-Date: Wed, 3 Jul 2019 19:51:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1hijbV-0005pb-8H
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:03:38 -0400
+Received: from rs224.mailgun.us ([209.61.151.224]:61941)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71)
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1hijbT-0005lz-Cs
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 14:03:36 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
+ s=pic; 
+ t=1562177012; h=Content-Type: Cc: To: Subject: Message-ID: Date: From:
+ In-Reply-To: References: MIME-Version: Sender;
+ bh=cFsveXpt62Kbr2tJ04ztChy5Zigq6AHRo8hGSNeg8p4=;
+ b=7PV+YFqSdg0FnA5FdHFZyGlU8IApcFNK+DFFQyvgPY3SfQtvqjN+KQmVij+bHpRtZyspb8DD
+ +ujE8G1HO9BVAW62/5Z7iWpZlFFgc3UbGEud8jd5lakgDLECUxJANIqHzFEC/bkc73TvSCHO
+ 0xQBh0gaLS48mARhM6/oH7azSAlV94lYJWbsXe6qjRXCEHbcxdCHZCqBoEOzs2hR2YTAi2Kn
+ kwjhRoz2cP8Q7/SFIeTOgjBwXvFpdqfNYe6IHEXHEytZU1TzTKlIsULLiA8poZ5Tv4ZYWETM
+ R+Y3QAZSbaJndSTB4nKWrpWHZr2L/tc6hZSb19gCFhZLr+vddwvwfA==
+X-Mailgun-Sending-Ip: 209.61.151.224
+X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mxa.mailgun.org with ESMTP id 5d1cedf3.7fc2f111b030-smtp-out-n02;
+ Wed, 03 Jul 2019 18:03:31 -0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id z15so2392517lfh.13;
+ Wed, 03 Jul 2019 11:03:31 -0700 (PDT)
+X-Gm-Message-State: APjAAAUNo8WnduhiZa61H6vJ65JHFWDaNauAJurHs0s/9EJajyQkmGt7
+ 4r1rqJQGun0DKs4xQaaf5nmgFODwzqXShxBbC0A=
+X-Google-Smtp-Source: APXvYqyfkgQCPmcR1HsXdOf3vkEZa5etH7twRV+o969RC9jqcMtEoMisHD18e7OZIoxF79/wPFUY0d7yrmPLsnxsQcM=
+X-Received: by 2002:ac2:518d:: with SMTP id u13mr18744065lfi.40.1562177010158; 
+ Wed, 03 Jul 2019 11:03:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 03 Jul 2019 17:51:28 +0000 (UTC)
+References: <20190701154617.22908-1-jonathan@fintelia.io>
+ <CAKmqyKOsMO7SvvDfiqhywxb=oaqo=NDjw==reVpU9sLh+3dGuw@mail.gmail.com>
+ <CAEUhbmXBnu_Fet99AjQj6XZ10m045N8kY7d8VNy28ktmFBsrQQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmXBnu_Fet99AjQj6XZ10m045N8kY7d8VNy28ktmFBsrQQ@mail.gmail.com>
+From: Jonathan Behrens <jonathan@fintelia.io>
+Date: Wed, 3 Jul 2019 14:02:56 -0400
+X-Gmail-Original-Message-ID: <CANnJOVGXcTkH2_2cRqAv0CnZx4xHQ_npEjW-au-FPxe_cU0=5Q@mail.gmail.com>
+Message-ID: <CANnJOVGXcTkH2_2cRqAv0CnZx4xHQ_npEjW-au-FPxe_cU0=5Q@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/3] char-socket: Fix race condition
+X-Received-From: 209.61.151.224
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2] target/riscv: Hardwire mcounter.TM and
+ upper bits of [m|s]counteren
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,124 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD
-Content-Type: multipart/mixed; boundary="03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Alberto Garcia <berto@igalia.com>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-Message-ID: <1c1c3302-a87c-6e3e-d1d7-c805972a7384@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 0/3] char-socket: Fix race condition
-References: <cover.1550842915.git.berto@igalia.com>
- <20190423165501.GA27867@redhat.com>
- <b5fe7ed7-c11c-4f36-4973-c86031cbe046@redhat.com>
- <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
-In-Reply-To: <9a76848c-f499-6355-70ca-1d638dad3e8e@redhat.com>
+Bin, that proposal proved to be somewhat more controversial than I was
+expecting, since it was different than how currently available hardware
+worked. This option seemed much more likely to be accepted in the short
+term.
 
---03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Jonathan
 
-On 05.06.19 21:36, Max Reitz wrote:
-> On 26.04.19 09:51, Paolo Bonzini wrote:
->> On 23/04/19 18:55, Daniel P. Berrang=C3=A9 wrote:
->>> ping - paolo/marc-andr=C3=A9 - unless I'm missing something, it looks=
- like
->>> this chardev series slipped through the cracks and missed 4.0
->>
->> Yeah, it had a bug unfortunately.  I'm looking at it RSN.
->=20
-> I=E2=80=99ll just leave another ping here
+On Mon, Jul 1, 2019 at 9:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-And another one.
-
-Max
-
->> Paolo
->>
->>>
->>> On Fri, Feb 22, 2019 at 03:46:23PM +0200, Alberto Garcia wrote:
->>>> This fixes a race condition in which the tcp_chr_read() ioc handler
->>>> can close a connection that is being written to from another thread.=
-
->>>>
->>>> Note: vhost-user-test still fails if QTEST_VHOST_USER_FIXME is set.
->>>>
->>>> Berto
->>>>
->>>> RFC: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01510.=
-html
->>>>
->>>> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg01834.h=
-tml
->>>> - Fixes memory leaks and adds a qemu_idle_add() function
->>>>
->>>> v2: https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg06137.h=
-tml
->>>> - Rebased on top of the current master (fc3dbb90f2eb069801bfb4cfe9cb=
-c)
->>>> - Patches 1 and 2: Remove the changes in char-pty.c, they're not
->>>>                    needed after the rebase.
->>>> - Patch 3: Fix conflicts after the rebase.
->>>>
->>>> v3:
->>>> - Patch 3: Add tcp_chr_disconnect_locked() [Daniel]
->>>>
->>>> Alberto Garcia (3):
->>>>   main-loop: Fix GSource leak in qio_task_thread_worker()
->>>>   main-loop: Add qemu_idle_add()
->>>>   char-socket: Lock tcp_chr_disconnect() and socket_reconnect_timeou=
-t()
->>>>
->>>>  chardev/char-socket.c    | 25 +++++++++++++++++++++----
->>>>  include/qemu/main-loop.h | 12 ++++++++++++
->>>>  io/task.c                |  9 +++------
->>>>  util/main-loop.c         |  9 +++++++++
->>>>  4 files changed, 45 insertions(+), 10 deletions(-)
->>>>
->>>> --=20
->>>> 2.11.0
->>>>
->>>
->>> Regards,
->>> Daniel
->>>
->>
->>
->>
->=20
->=20
-
-
-
---03z1CoyzL7Cmzpbsuj9UXhCmNjzeatXk8--
-
---nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0c6xEACgkQ9AfbAGHV
-z0Dv8AgAvFf2TkCUs/dyZ3PrsAvz0LWga1EMYEnzBMVqL4/mr21QykxEFC2MvEo6
-YD7V2N4qWN/lhkREYGrh62fu1ftCq4pnkNoQ5peOEDes3uI16qubM8Y72vJ/MaWA
-ZDth9VsWAybMJTeLWig42W5zM3Hl3mv5GorSyQIoW1JsmYHXPPdlggdYydN32olA
-vZTY8VS5i0DSd54T7rpPSIeoMCc1z0n8yonUnAirOJkhkLSeVOFbvQGN+aryZGd9
-LyrTkGdYrL0+EUpB6Bh513IMi4yVR4TFKw20s/I9TYImVQxxLakjCrgrRli1bvIk
-cenDzMLI/HWEl5rcZ3wBJNXpkwRN6Q==
-=Ao6K
------END PGP SIGNATURE-----
-
---nVmHrCsHTydHnhNtJWSIRlIDEmZkbMmgD--
-
+> On Tue, Jul 2, 2019 at 8:20 AM Alistair Francis <alistair23@gmail.com>
+> wrote:
+> >
+> > On Mon, Jul 1, 2019 at 8:56 AM <jonathan@fintelia.io> wrote:
+> > >
+> > > From: Jonathan Behrens <jonathan@fintelia.io>
+> > >
+> > > QEMU currently always triggers an illegal instruction exception when
+> > > code attempts to read the time CSR. This is valid behavor, but only if
+> > > the TM bit in mcounteren is hardwired to zero. This change also
+> > > corrects mcounteren and scounteren CSRs to be 32-bits on both 32-bit
+> > > and 64-bit targets.
+> > >
+> > > Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+>
+> I am a little bit lost here. I think we agreed to allow directly read
+> to time CSR when mcounteren.TM is set, no?
+>
+> Regards,
+> Bin
+>
