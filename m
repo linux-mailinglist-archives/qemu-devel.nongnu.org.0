@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C0A5E0B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:15:03 +0200 (CEST)
-Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514005E12B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:41:55 +0200 (CEST)
+Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibLy-0005VN-9e
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54820)
+	id 1hibly-00038s-Ih
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55161)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hib1f-00022P-Be
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:04 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hib2S-0004Cl-JF
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hib1e-0002ED-16
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:03 -0400
-Received: from 4.mo178.mail-out.ovh.net ([46.105.49.171]:42745)
+ (envelope-from <kraxel@redhat.com>) id 1hib2R-0003xe-KE
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53236)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hib1d-0001NQ-Rl
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:54:01 -0400
-Received: from player772.ha.ovh.net (unknown [10.108.54.59])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id ADD8766C06
- for <qemu-devel@nongnu.org>; Wed,  3 Jul 2019 10:53:36 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id A610C77E3311;
- Wed,  3 Jul 2019 08:53:29 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190618165311.27066-1-clg@kaod.org>
- <20190618165311.27066-11-clg@kaod.org>
- <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b88cc8cf-6cf0-6611-28a9-64372eccbeef@kaod.org>
-Date: Wed, 3 Jul 2019 10:53:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>)
+ id 1hib2P-00030Z-0c; Wed, 03 Jul 2019 04:54:49 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C59BD30C0DDA;
+ Wed,  3 Jul 2019 08:54:24 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
+ [10.36.116.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7973E5945E;
+ Wed,  3 Jul 2019 08:54:17 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5E9AC16E18; Wed,  3 Jul 2019 10:54:16 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  3 Jul 2019 10:54:12 +0200
+Message-Id: <20190703085416.21837-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 7858781350846237611
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrfedtgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Wed, 03 Jul 2019 08:54:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.49.171
-Subject: Re: [Qemu-devel] [PATCH v2 10/21] aspeed/timer: Provide
- back-pressure information for short periods
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/4] Vga 20190703 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,72 +56,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/07/2019 14:59, Peter Maydell wrote:
-> On Tue, 18 Jun 2019 at 17:54, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
->>
->> From: Andrew Jeffery <andrew@aj.id.au>
->>
->> First up: This is not the way the hardware behaves.
->>
->> However, it helps resolve real-world problems with short periods being
->> used under Linux. Commit 4451d3f59f2a ("clocksource/drivers/fttmr010:
->> Fix set_next_event handler") in Linux fixed the timer driver to
->> correctly schedule the next event for the Aspeed controller, and in
->> combination with 5daa8212c08e ("ARM: dts: aspeed: Describe random numb=
-er
->> device") Linux will now set a timer with a period as low as 1us.
->>
->> Configuring a qemu timer with such a short period results in spending
->> time handling the interrupt in the model rather than executing guest
->> code, leading to noticeable "sticky" behaviour in the guest.
->>
->> The behaviour of Linux is correct with respect to the hardware, so we
->> need to improve our handling under emulation. The approach chosen is t=
-o
->> provide back-pressure information by calculating an acceptable minimum
->> number of ticks to be set on the model. Under Linux an additional read
->> is added in the timer configuration path to detect back-pressure, whic=
-h
->> will never occur on hardware. However if back-pressure is observed, th=
-e
->> driver alerts the clock event subsystem, which then performs its own
->> next event dilation via a config option - d1748302f70b ("clockevents:
->> Make minimum delay adjustments configurable")
->>
->> A minimum period of 5us was experimentally determined on a Lenovo
->> T480s, which I've increased to 20us for "safety".
->>
->> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
->> --- a/hw/misc/aspeed_scu.c
->> +++ b/hw/misc/aspeed_scu.c
->> @@ -423,6 +423,12 @@ static void aspeed_scu_realize(DeviceState *dev, =
-Error **errp)
->>                            TYPE_ASPEED_SCU, SCU_IO_REGION_SIZE);
->>
->>      sysbus_init_mmio(sbd, &s->iomem);
->> +
->> +    /*
->> +     * Reset on realize to ensure the APB clock value is calculated i=
-n time for
->> +     * use by the timer model, which is reset before the SCU.
->> +     */
->> +    aspeed_scu_reset(dev);
->=20
-> This looks wrong. QEMU should always be resetting devices
-> after realize and before actually running anything.
+The following changes since commit 506179e42112be77bfd071f050b15762d3b2cd=
+43:
 
-We have something better for this patch (getting rid of the reset=20
-ordering issue). Can we still send you the fix this week ?
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190702=
+' into staging (2019-07-02 18:56:44 +0100)
 
-Thanks,
+are available in the Git repository at:
 
-C.
+  git://git.kraxel.org/qemu tags/vga-20190703-pull-request
+
+for you to fetch changes up to 0a87fd693d4e955a6877a2166b65bb7b7192aaaa:
+
+  Add ati vgabios to INSTALL_BLOBS. (2019-07-03 10:52:15 +0200)
+
+----------------------------------------------------------------
+vga: virtio fixes, bitbang i2c asan fix, install ati vgabios.
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (2):
+  virtio-gpu: fix unmap in error path
+  Add ati vgabios to INSTALL_BLOBS.
+
+Li Qiang (1):
+  virtio-gpu: check if the resource already exists in virtio_gpu_load()
+
+Peter Maydell (1):
+  hw/i2c/bitbang_i2c: Use in-place rather than malloc'd
+    bitbang_i2c_interface struct
+
+ Makefile                     |  2 +-
+ hw/display/ati_int.h         |  2 +-
+ include/hw/i2c/bitbang_i2c.h | 38 ++++++++++++++++++++++++++++-
+ include/hw/i2c/ppc4xx_i2c.h  |  2 +-
+ hw/display/ati.c             |  7 +++---
+ hw/display/virtio-gpu.c      |  9 +++++--
+ hw/i2c/bitbang_i2c.c         | 47 +++---------------------------------
+ hw/i2c/ppc4xx_i2c.c          |  6 ++---
+ hw/i2c/versatile_i2c.c       |  8 +++---
+ 9 files changed, 61 insertions(+), 60 deletions(-)
+
+--=20
+2.18.1
+
 
