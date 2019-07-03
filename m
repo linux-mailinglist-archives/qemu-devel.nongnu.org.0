@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C355EE7E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:28:11 +0200 (CEST)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F3E5EE9D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:35:00 +0200 (CEST)
+Received: from localhost ([::1]:40856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1himnS-0007tA-VU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
+	id 1himu3-0007iJ-9E
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38149)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1himVN-0006Ai-BQ
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:31 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1himVH-000684-PP
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1himVM-000753-AA
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34640)
+ (envelope-from <ehabkost@redhat.com>) id 1himVG-0006z3-5g
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1himVL-000747-Oy
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:28 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1himVF-0006qJ-GO
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCA1F307D913;
- Wed,  3 Jul 2019 21:09:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A3BD930C084B;
+ Wed,  3 Jul 2019 21:09:07 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 563428351B;
- Wed,  3 Jul 2019 21:09:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3118E83788;
+ Wed,  3 Jul 2019 21:09:07 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 18:08:03 -0300
-Message-Id: <20190703210821.27550-26-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 18:07:54 -0300
+Message-Id: <20190703210821.27550-17-ehabkost@redhat.com>
 In-Reply-To: <20190703210821.27550-1-ehabkost@redhat.com>
 References: <20190703210821.27550-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 03 Jul 2019 21:09:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 03 Jul 2019 21:09:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v5 25/43] x86/cpu: use FeatureWordArray to
- define filtered_features
+Subject: [Qemu-devel] [PULL v5 16/43] machine: show if CLI option '-numa
+ node, mem' is supported in QAPI schema
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,34 +56,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-Use the same definition as features/user_features in CPUX86State.
+Legacy '-numa node,mem' option has a number of issues and mgmt often
+defaults to it. Unfortunately it's no possible to replace it with
+an alternative '-numa memdev' without breaking migration compatibility.
+What's possible though is to deprecate it, keeping option working with
+old machine types only.
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190620023746.9869-1-richardw.yang@linux.intel.com>
+In order to help users to find out if being deprecated CLI option
+'-numa node,mem' is still supported by particular machine type, add new
+"numa-mem-supported" property to output of query-machines.
+
+"numa-mem-supported" is set to 'true' for machines that currently support
+NUMA, but it will be flipped to 'false' later on, once deprecation period
+expires and kept 'true' only for old machine types that used to support
+the legacy option so it won't break existing configuration that are using
+it.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1560172207-378962-1-git-send-email-imammedo@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qapi/machine.json          | 5 ++++-
+ include/hw/boards.h        | 3 +++
+ hw/arm/virt.c              | 1 +
+ hw/core/machine-qmp-cmds.c | 1 +
+ hw/i386/pc.c               | 1 +
+ hw/ppc/spapr.c             | 1 +
+ 6 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index ff26351538..85319f4ae1 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1440,7 +1440,7 @@ struct X86CPU {
-     } mwait;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 979bc41e49..78d34ef717 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -318,12 +318,15 @@
+ #
+ # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
+ #
++# @numa-mem-supported: true if '-numa node,mem' option is supported by
++#                      the machine type and false otherwise (since 4.1)
++#
+ # Since: 1.2.0
+ ##
+ { 'struct': 'MachineInfo',
+   'data': { 'name': 'str', '*alias': 'str',
+             '*is-default': 'bool', 'cpu-max': 'int',
+-            'hotpluggable-cpus': 'bool'} }
++            'hotpluggable-cpus': 'bool', 'numa-mem-supported': 'bool'} }
  
-     /* Features that were filtered out because of missing host capabilities */
--    uint32_t filtered_features[FEATURE_WORDS];
-+    FeatureWordArray filtered_features;
+ ##
+ # @query-machines:
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index d84f48c4af..ae7a542511 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -160,6 +160,8 @@ typedef struct {
+  * @kvm_type:
+  *    Return the type of KVM corresponding to the kvm-type string option or
+  *    computed based on other criteria such as the host kernel capabilities.
++ * @numa_mem_supported:
++ *    true if '--numa node.mem' option is supported and false otherwise
+  */
+ struct MachineClass {
+     /*< private >*/
+@@ -212,6 +214,7 @@ struct MachineClass {
+     bool ignore_boot_device_suffixes;
+     bool smbus_no_migration_support;
+     bool nvdimm_supported;
++    bool numa_mem_supported;
  
-     /* Enable PMU CPUID bits. This can't be enabled by default yet because
-      * it doesn't have ABI stability guarantees, as it passes all PMU CPUID
+     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+                                            DeviceState *dev);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 20f191bc93..0b5138cb22 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1952,6 +1952,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     assert(!mc->get_hotplug_handler);
+     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
+     hc->plug = virt_machine_device_plug_cb;
++    mc->numa_mem_supported = true;
+ }
+ 
+ static void virt_instance_init(Object *obj)
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 14dbad1d6e..754ce77664 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -226,6 +226,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
+         info->name = g_strdup(mc->name);
+         info->cpu_max = !mc->max_cpus ? 1 : mc->max_cpus;
+         info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
++        info->numa_mem_supported = mc->numa_mem_supported;
+ 
+         entry = g_malloc0(sizeof(*entry));
+         entry->value = info;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 9b953eeeea..114fd5f8d4 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2792,6 +2792,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     nc->nmi_monitor_handler = x86_nmi;
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
++    mc->numa_mem_supported = true;
+ 
+     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
+         pc_machine_get_device_memory_region_size, NULL,
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 51256ac9ca..821f0d4a49 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4367,6 +4367,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+      * in which LMBs are represented and hot-added
+      */
+     mc->numa_mem_align_shift = 28;
++    mc->numa_mem_supported = true;
+ 
+     smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
+     smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
