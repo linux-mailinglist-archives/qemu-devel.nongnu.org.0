@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3575EAC1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:46:56 +0200 (CEST)
-Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370415EAE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:52:02 +0200 (CEST)
+Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hijLL-0004Af-G5
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49204)
+	id 1hijQH-0008RJ-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49647)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hij4P-0008A4-0U
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:29:26 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hij6H-00033L-D1
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hij4N-0000V5-Ry
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:29:24 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:40371)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hij4N-0000UO-Lj
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:29:23 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p11so3722482wre.7
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 10:29:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MEn7K/TgOp/IuaIZLgOCuQC1NjhtCJuVxJS1zARlZn8=;
- b=hcQhC+14pWgKjJ3YobzQgn/YuKS0Tebegn0sI62PjjNSKhfYupEl595NcFTjVwZetm
- Wd+zwb0g/jGyiBda64bK+o3vfVp23K5rsyP9H0gijFrooiOmGsd0HaR3Ei/xO2w7/5Wy
- jNO8y6xdTOEmD/R+PzZyauh0TBcAhUPhDBeeJkAtKLoY9U2q2d9MFQfpj4/pmZLW2u4h
- jz8+OwQ5KzhtXSazdjacwj4PuRIPyKZa2wvX6WRDvgbMay3MlVbnXYfeU9pK7d8mkmTa
- dc2x3HQXMwb5Y1YgZqs0mkuOw90UE0mT4YlQq8RK5Hxc1s81wpClP21P2nSUIHRCT3l5
- CzBw==
-X-Gm-Message-State: APjAAAXszA79vvjCZxhnZlU0BP9npPMxi3PmrurTaoRR00ckSZONjiYh
- Fh5ssEVEr8YUeDnRyENCl2PPYw==
-X-Google-Smtp-Source: APXvYqz4dwrdn7d72Zb6rx8+AvLe5LwgV4X7Z3Kp84py24LdPiAd5HQemNBO4HwOFPI50tHsZg2TuQ==
-X-Received: by 2002:a05:6000:1285:: with SMTP id
- f5mr14595394wrx.315.1562174962604; 
- Wed, 03 Jul 2019 10:29:22 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id h6sm3478029wre.82.2019.07.03.10.29.21
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 03 Jul 2019 10:29:22 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190703171005.26231-1-philmd@redhat.com>
- <20190703172501.GI23082@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <68e01f65-7dc2-232f-0b7b-436867a1f28b@redhat.com>
-Date: Wed, 3 Jul 2019 19:29:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190703172501.GI23082@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hij6F-00026w-DF
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:31:21 -0400
+Received: from mail-eopbgr130103.outbound.protection.outlook.com
+ ([40.107.13.103]:64390 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hij66-0001yF-4Z; Wed, 03 Jul 2019 13:31:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t4ibbr2Vk2u5SlHpjw4Q7RvWlA4llkaf1jNSwEeXNe8=;
+ b=cbBTCMzMZLCG5ncAxE0VN9VRMB2xnPzuQqDV1hBXN9DJhiWdODKtAr2UtBQwzGB2XIFM32b8dwzb4bOgWVrkA85KxKFdfdyaII5NK/Gyet/XubhwbfuJWx196qzJJJCbGumT7MPOpkoLhwU9MJ44Wr0/wHFNPsSWCqaqgJaQJd0=
+Received: from DB7PR08MB3258.eurprd08.prod.outlook.com (52.134.111.155) by
+ DB7PR08MB3740.eurprd08.prod.outlook.com (20.178.84.84) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.20; Wed, 3 Jul 2019 17:31:07 +0000
+Received: from DB7PR08MB3258.eurprd08.prod.outlook.com
+ ([fe80::5d2:b836:e08a:f5cf]) by DB7PR08MB3258.eurprd08.prod.outlook.com
+ ([fe80::5d2:b836:e08a:f5cf%3]) with mapi id 15.20.2052.010; Wed, 3 Jul 2019
+ 17:31:07 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v3 7/7] iotests: Set read-zeroes on in null block driver
+ for Valgrind
+Thread-Index: AQHVLbfg6HDDOa716EeGIxU1+RHDY6a5Lr4A
+Date: Wed, 3 Jul 2019 17:31:06 +0000
+Message-ID: <cad53641-15c6-2ab1-9e22-a2700c640140@virtuozzo.com>
+References: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1561729574-530879-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1561729574-530879-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [RFC PATCH-for-4.2] tracing: Allow to tune tracing
- options via the environment
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0102CA0023.eurprd01.prod.exchangelabs.com
+ (2603:10a6:7:14::36) To DB7PR08MB3258.eurprd08.prod.outlook.com
+ (2603:10a6:5:20::27)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d0a08f1d-47db-47be-3282-08d6ffdc3af1
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB7PR08MB3740; 
+x-ms-traffictypediagnostic: DB7PR08MB3740:
+x-microsoft-antispam-prvs: <DB7PR08MB3740CA93B2E12033B819D27EF4FB0@DB7PR08MB3740.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 00872B689F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(376002)(136003)(366004)(346002)(39850400004)(199004)(189003)(31696002)(110136005)(86362001)(316002)(478600001)(2906002)(6246003)(5660300002)(6436002)(229853002)(36756003)(6486002)(6512007)(54906003)(31686004)(66066001)(53936002)(6116002)(3846002)(99286004)(4326008)(76176011)(446003)(11346002)(2501003)(305945005)(25786009)(71190400001)(8936002)(186003)(6506007)(71200400001)(8676002)(256004)(102836004)(66946007)(53546011)(81166006)(81156014)(7736002)(386003)(73956011)(44832011)(66446008)(476003)(486006)(52116002)(64756008)(66556008)(66476007)(68736007)(14454004)(26005)(2616005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DB7PR08MB3740;
+ H:DB7PR08MB3258.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: MZDV24TsULSxJVOEMSVIAkOgMeek18PXvRPjenf6bB76W99MsLTVLXlyy3JkdkibArGo+TbRmXXPwa1tyag6wAxI9TRWRKqHNqY+UeRI4jXz9Jgba6qzzBjSCA4hkLeuHBD/hKb6yZqLAAnDhCz5v2GHkEfmvMe8q6SLSmHCqwZCVnChjjZAnrepo3TT4WU/FVXBuGJ5orVVppKHp+tZrw6KuihqwnUFXj3tgYHWV6qmNuBF9MfjxodIqMS1y1m1rjvC21PTgvFimbvx19dQwORexUZVCU5gPfsE8/CvgpSF7xwDr3erYVrNVH0Qk5HKSrhXQilv2wAv+szjTvqYF1m17PxBWyi9pzh/S1Q4tRsk5mSixfFcqBiHfeWZVfTFUK7KXGgLMy+bd3NVeFniF/QKqiZlkhi8+MfSz4swBoY=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3E4A2147178AAD47990C235C7EB0F7DC@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0a08f1d-47db-47be-3282-08d6ffdc3af1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2019 17:31:06.9265 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3740
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.103
+Subject: Re: [Qemu-devel] [PATCH v3 7/7] iotests: Set read-zeroes on in null
+ block driver for Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,74 +101,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>, "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/19 7:25 PM, Daniel P. Berrangé wrote:
-> On Wed, Jul 03, 2019 at 07:10:05PM +0200, Philippe Mathieu-Daudé wrote:
->> We can pass trace trace options with the -trace command line
->> argument.
->>
->> Tracing might be useful when running qtests. To avoid to have
->> to modify the tests and recompile, add the possibility to pass
->> trace options via the shell environment.
->>
->> We add:
->> - QEMU_TRACE_EVENTS:    List of events to enable (coma separated)
->> - QEMU_TRACE_EVENTFILE: File with list of events to enable
->> - QEMU_TRACE_LOGFILE:   File to log the trace events.
->>
->> Example of use:
->>
->>   $ QEMU_TRACE_EVENTS=pl011\* make check-qtest-arm
->>     TEST    check-qtest-arm: tests/boot-serial-test
->>   18650@1562168430.027490:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18650@1562168430.027535:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18650@1562168430.027544:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18650@1562168430.028037:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18650@1562168430.028049:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18650@1562168430.028057:pl011_can_receive LCR 0x00000000 read_count 0 returning 1
->>   18653@1562168430.053250:pl011_write addr 0x00000000 value 0x00000054
->>   18653@1562168430.053276:pl011_irq_state irq state 0
->>   [...]
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> I'm not sure where to document that...
->> ---
->>  trace/control.c | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/trace/control.c b/trace/control.c
->> index 43fb7868db..aea802623c 100644
->> --- a/trace/control.c
->> +++ b/trace/control.c
->> @@ -288,6 +288,8 @@ void trace_fini_vcpu(CPUState *vcpu)
->>  
->>  bool trace_init_backends(void)
->>  {
->> +    char *trace_env;
->> +
->>  #ifdef CONFIG_TRACE_SIMPLE
->>      if (!st_init()) {
->>          fprintf(stderr, "failed to initialize simple tracing backend.\n");
->> @@ -306,6 +308,13 @@ bool trace_init_backends(void)
->>      openlog(NULL, LOG_PID, LOG_DAEMON);
->>  #endif
->>  
->> +    trace_init_file(getenv("QEMU_TRACE_LOGFILE"));
->> +    trace_init_events(getenv("QEMU_TRACE_EVENTFILE"));
->> +    trace_env = getenv("QEMU_TRACE_EVENTS");
->> +    if (trace_env) {
->> +        trace_enable_events(trace_env);
->> +    }
->> +
-> 
-> I don't think it is a nice idea to add this via environment variables
-> to QEMU itself. Why not modify libqtest qtest_init_without_qmp_handshake
-> to read the env vars and then pass a suitable -trace arg when spawning
-> QEMU ?
-
-Fine by me.
+DQoNCk9uIDI4LzA2LzIwMTkgMTY6NDYsIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPiBUaGUg
+VmFsZ3JpbmQgdG9vbCByZXBvcnRzIGFib3V0IHRoZSB1bmluaXRpYWxpc2VkIGJ1ZmZlciAnYnVm
+Jw0KPiBpbnN0YW50aWF0ZWQgb24gdGhlIHN0YWNrIG9mIHRoZSBmdW5jdGlvbiBndWVzc19kaXNr
+X2xjaHMoKS4NCj4gSXQgaXMgcmV2ZWFsZWQgaW4gdGhlIHRlc3RzIDA1MSwgMTg2LCAyMjcgYW5k
+IDI0MC4NCj4gUGFzcyAncmVhZC16ZXJvZXM9b24nIHRvIHRoZSBudWxsIGJsb2NrIGRyaXZlciBp
+biB0aGUgbWVudGlvbmVkIHRlc3RzDQo+IHRvIG1ha2UgdGhlbSBkZXRlcm1pbmlzdGljLg0KPiBU
+aGUgb3V0cHV0IG9mIHRoZSB0ZXN0cyBhYm92ZSBub3cgaW5jbHVkZXMgdGhlIHBhcmFtZXRlciAn
+cmVhZC16ZXJvZXMnLg0KPiBTbywgdGhlIGJlbmNobWFyayBvdXRwdXQgZmlsZXMgYXJlIGJlaW5n
+IGNoYW5nZWQgdG9vLg0KPiANCj4gU3VnZ2VzdGVkLWJ5OiBLZXZpbiBXb2xmIDxrd29sZkByZWRo
+YXQuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5r
+ZXZpY2hAdmlydHVvenpvLmNvbT4NCj4gLS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzA1MSAg
+ICAgICAgfCAgMTAgKy0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzA1MS5wYy5vdXQgfCAgMTAg
+Ky0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzE4NiAgICAgICAgfCAgMjAgKysrLS0tDQo+ICAg
+dGVzdHMvcWVtdS1pb3Rlc3RzLzE4Ni5vdXQgICAgfCAxNTIgKysrKysrKysrKysrKysrKysrKysr
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzIyNyAgICAgICAg
+fCAgIDQgKy0NCj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMjI3Lm91dCAgICB8ICAgNCArLQ0KPiAg
+IHRlc3RzL3FlbXUtaW90ZXN0cy8yNDAgICAgICAgIHwgICA4ICstLQ0KPiAgIDcgZmlsZXMgY2hh
+bmdlZCwgMTA0IGluc2VydGlvbnMoKyksIDEwNCBkZWxldGlvbnMoLSkNCj4gDQoNClRoZSBWYWxn
+cmluZCByZWJ1a2VzIHRoZSB1bmluaXRpYWxpemVkIGJ1ZmZlciBpbiB0aGUgZmluZF9pbWFnZV9m
+b3JtYXQoKSANCm9mIGJsb2NrLmMgd2hlbiB0ZXN0IDE1NSBydW5zLg0KSSB3b3VsZCBsaWtlIHRv
+IG1vZGlmeSB0aGUgcHl0aG9uIGNvZGUgaW4gdGhlIG1lbnRpb25lZCB0ZXN0IGJ5IA0KcmVwbGFj
+aW5nIHRoZSBiYWNraW5nIGZpbGUgbmFtZToNCg0KdGFyZ2V0X2JhY2tpbmcgPSAnbnVsbC1jbzov
+LycNCg0Kd2l0aA0KDQp0YXJnZXRfYmFja2luZyA9ICdqc29uOnsicmVhZC16ZXJvZXMiOiB0cnVl
+LCAiZHJpdmVyIjogIm51bGwtY28ifScNCg0KSXMgdGhhdCB0aGUgcmlnaHQgYW5kIGVsZWdhbnQg
+d2F5IHRvIGRvPw0KSWYgc28sIEkgd2lsbCBhZGQgaXQgdG8gdGhlIG5leHQgdmVyc2lvbi4NCg0K
+QW5kcmV5DQoNCi0tIA0KV2l0aCB0aGUgYmVzdCByZWdhcmRzLA0KQW5kcmV5IFNoaW5rZXZpY2gN
+Cg==
 
