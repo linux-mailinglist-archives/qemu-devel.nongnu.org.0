@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3545EE8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:31:44 +0200 (CEST)
-Received: from localhost ([::1]:40820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFA15EEA1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 23:36:48 +0200 (CEST)
+Received: from localhost ([::1]:40874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1himqt-0003PB-K3
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38326)
+	id 1himvn-0001N7-DH
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 17:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1himVU-0006Ge-7M
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:37 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1himVX-0006Jk-QC
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1himVT-00079z-9z
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36624)
+ (envelope-from <ehabkost@redhat.com>) id 1himVV-0007Ba-Qa
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1himVT-000783-3u
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:35 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1himVU-0007Ad-Sx
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 17:09:37 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EE2A63680B;
- Wed,  3 Jul 2019 21:09:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E7FAF3082A8F;
+ Wed,  3 Jul 2019 21:09:35 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BAFA194AE;
- Wed,  3 Jul 2019 21:09:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74E398378F;
+ Wed,  3 Jul 2019 21:09:35 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Wed,  3 Jul 2019 18:08:04 -0300
-Message-Id: <20190703210821.27550-27-ehabkost@redhat.com>
+Date: Wed,  3 Jul 2019 18:08:05 -0300
+Message-Id: <20190703210821.27550-28-ehabkost@redhat.com>
 In-Reply-To: <20190703210821.27550-1-ehabkost@redhat.com>
 References: <20190703210821.27550-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 21:09:34 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Wed, 03 Jul 2019 21:09:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v5 26/43] i386: Remove unused host_cpudef
- variable
+Subject: [Qemu-devel] [PULL v5 27/43] target/i386: Add CPUID.1F generation
+ support for multi-dies PCMachine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,39 +56,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Like Xu <like.xu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The variable is completely unused, probably a leftover from
-previous code clean up.
+From: Like Xu <like.xu@linux.intel.com>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190625050008.12789-3-ehabkost@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The CPUID.1F as Intel V2 Extended Topology Enumeration Leaf would be
+exposed if guests want to emulate multiple software-visible die within
+each package. Per Intel's SDM, the 0x1f is a superset of 0xb, thus they
+can be generated by almost same code as 0xb except die_offset setting.
+
+If the number of dies per package is greater than 1, the cpuid_min_level
+would be adjusted to 0x1f regardless of whether the host supports CPUID.1F.
+Likewise, the CPUID.1F wouldn't be exposed if env->nr_dies < 2.
+
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Like Xu <like.xu@linux.intel.com>
+Message-Id: <20190620054525.37188-2-like.xu@linux.intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/i386/cpu.h |  1 +
+ target/i386/cpu.c | 41 +++++++++++++++++++++++++++++++++++++++++
+ target/i386/kvm.c | 12 ++++++++++++
+ 3 files changed, 54 insertions(+)
 
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 85319f4ae1..0a96c78669 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -736,6 +736,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_TOPOLOGY_LEVEL_INVALID  (0U << 8)
+ #define CPUID_TOPOLOGY_LEVEL_SMT      (1U << 8)
+ #define CPUID_TOPOLOGY_LEVEL_CORE     (2U << 8)
++#define CPUID_TOPOLOGY_LEVEL_DIE      (5U << 8)
+ 
+ /* MSR Feature Bits */
+ #define MSR_ARCH_CAP_RDCL_NO    (1U << 0)
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6787da4209..b9d6f32945 100644
+index b9d6f32945..296ef6c918 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3134,14 +3134,8 @@ static void max_x86_cpu_initfn(Object *obj)
-         char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
-         char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
-         int family, model, stepping;
--        X86CPUDefinition host_cpudef = { };
--        uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
--
--        host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
--        x86_cpu_vendor_words2str(host_cpudef.vendor, ebx, edx, ecx);
+@@ -4413,6 +4413,42 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             *ecx |= CPUID_TOPOLOGY_LEVEL_INVALID;
+         }
  
-         host_vendor_fms(vendor, &family, &model, &stepping);
--
-         cpu_x86_fill_model_id(model_id);
++        assert(!(*eax & ~0x1f));
++        *ebx &= 0xffff; /* The count doesn't need to be reliable. */
++        break;
++    case 0x1F:
++        /* V2 Extended Topology Enumeration Leaf */
++        if (env->nr_dies < 2) {
++            *eax = *ebx = *ecx = *edx = 0;
++            break;
++        }
++
++        *ecx = count & 0xff;
++        *edx = cpu->apic_id;
++        switch (count) {
++        case 0:
++            *eax = apicid_core_offset(env->nr_dies, cs->nr_cores,
++                                                    cs->nr_threads);
++            *ebx = cs->nr_threads;
++            *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
++            break;
++        case 1:
++            *eax = apicid_die_offset(env->nr_dies, cs->nr_cores,
++                                                   cs->nr_threads);
++            *ebx = cs->nr_cores * cs->nr_threads;
++            *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
++            break;
++        case 2:
++            *eax = apicid_pkg_offset(env->nr_dies, cs->nr_cores,
++                                                   cs->nr_threads);
++            *ebx = env->nr_dies * cs->nr_cores * cs->nr_threads;
++            *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
++            break;
++        default:
++            *eax = 0;
++            *ebx = 0;
++            *ecx |= CPUID_TOPOLOGY_LEVEL_INVALID;
++        }
+         assert(!(*eax & ~0x1f));
+         *ebx &= 0xffff; /* The count doesn't need to be reliable. */
+         break;
+@@ -5094,6 +5130,11 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+             x86_cpu_adjust_level(cpu, &cpu->env.cpuid_min_level, 0x14);
+         }
  
-         object_property_set_str(OBJECT(cpu), vendor, "vendor", &error_abort);
++        /* CPU topology with multi-dies support requires CPUID[0x1F] */
++        if (env->nr_dies > 1) {
++            x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x1F);
++        }
++
+         /* SVM requires CPUID[0x8000000A] */
+         if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
+             x86_cpu_adjust_level(cpu, &env->cpuid_min_xlevel, 0x8000000A);
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index e4b4f5756a..473a17e9a5 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1451,6 +1451,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+             }
+             break;
+         }
++        case 0x1f:
++            if (env->nr_dies < 2) {
++                break;
++            }
+         case 4:
+         case 0xb:
+         case 0xd:
+@@ -1458,6 +1462,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+                 if (i == 0xd && j == 64) {
+                     break;
+                 }
++
++                if (i == 0x1f && j == 64) {
++                    break;
++                }
++
+                 c->function = i;
+                 c->flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+                 c->index = j;
+@@ -1469,6 +1478,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
+                 if (i == 0xb && !(c->ecx & 0xff00)) {
+                     break;
+                 }
++                if (i == 0x1f && !(c->ecx & 0xff00)) {
++                    break;
++                }
+                 if (i == 0xd && c->eax == 0) {
+                     continue;
+                 }
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
