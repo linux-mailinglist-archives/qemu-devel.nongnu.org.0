@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235F75E0B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:15:28 +0200 (CEST)
-Received: from localhost ([::1]:33988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A065E084
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 11:09:09 +0200 (CEST)
+Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hibMN-0005uY-9t
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:15:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
+	id 1hibGG-00070v-PE
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 05:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51745)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hiaq7-0006Kx-3Q
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:11 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hiaq9-0006TQ-NH
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hiaq5-0008DK-Jb
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:06 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45471)
+ (envelope-from <palmer@dabbelt.com>) id 1hiaq6-0008IM-Qf
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:09 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46965)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiaq5-0007sF-9M
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:05 -0400
-Received: by mail-lf1-f67.google.com with SMTP id u10so1136560lfm.12
- for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:41:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hiaq6-0007wx-Fc
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 04:42:06 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v24so1442448ljg.13
+ for <qemu-devel@nongnu.org>; Wed, 03 Jul 2019 01:42:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=jNAXnuen/EqceGboq9jqUh/HLce5kvK8361K7LpbToc=;
- b=jBG6YboXUDPFnJHfgzd2lAAH8uI8Kr7LmwHZA7SUOA4F6+tZKnVzMh6qfHAEL2Ejo4
- GehXZA8YPKzsv36Kges0NeZzmR771qVexvbAAR8UDwKSxux88GVHF3CK7wH4o9ZUxJrd
- EQfRG6WHYtJFuCZ5s6pJnh2YjqZgp8CwcanZK/9/OC3hHtJZ4ie2oHdATiNWofEp0z6e
- yA0gyDK9IojwoS7+WrGASN4LngJ0/Jjwd0uDDZhHmxgoec6lzQNnOz+PkxHqjjGF4F5f
- 5ZGq8fdJKBzd7bqJoR3ttNPsqy2QOXvzrNQ3vX3pqANoCBIrZ+KvgEaFF/YMG6aCl7bW
- p0Yw==
-X-Gm-Message-State: APjAAAWlWgrkFwO5QFHTkSJbBvYPMqTnquwHBYjzdc9dC1V4mGeUhaUl
- ZkbxIbBciE7UJXxDGxXfHgtMvVfE9LAYqw==
-X-Google-Smtp-Source: APXvYqw0177dRk8t6+GqkUBQqdB02q7H755r2HjoQgikU9Vobzver7vtSZb6cxvP5oBSZvfHRvyJ5w==
-X-Received: by 2002:a19:491d:: with SMTP id w29mr14152929lfa.149.1562143317411; 
- Wed, 03 Jul 2019 01:41:57 -0700 (PDT)
+ bh=KdUinYphzGQDVuTLX+/ZSu8nDN42cj53AMC4AE9KtVs=;
+ b=Pjbr1BznpyNeg8qVVNFNE8JpGBYw/5XPQlLg1f9uS1dvPG2KzLKQdbH/3MxDkjhHdq
+ NjuRZL7zjh29kjRSD+1gQtEqBRdDfvOrhfvohOYMOyTrQtS3Q55K4FHgkNqkcWj4D4H+
+ eX4OYO5Urr9f8qF+JKU4hLXsF/AZuKARdpJTO+JJGrqhHhTZslzc4sqSTPZRPl5Tquwd
+ VJmZcf7Z4O/nUwz2Td8lp2D0u/BuHg38dHMZq9PO93dUnttjk9SG1n0fV+4zB8uQJxvO
+ Qu9gxrX5O+5TokCLCercny6sAnxflD6MBroeak0ML+HFidFYrB0c/DjkeavAovmRz+tM
+ PAzQ==
+X-Gm-Message-State: APjAAAW8eR1LxA8Hn17pi/BTxcjAvJbMkHs5nMQGhZjoXmYufQSSQFYx
+ W3Z1b4mvRvcGFGdjt06zKH0T+gQfqelfXg==
+X-Google-Smtp-Source: APXvYqydcDtnVQuKd0gDMWB5wzuGQh09aeOwyrXV7Cj7sc4WuKU6YEV1CfJRk1+LIlOIDbb0q+NWUQ==
+X-Received: by 2002:a2e:9dca:: with SMTP id x10mr18884931ljj.17.1562143319439; 
+ Wed, 03 Jul 2019 01:41:59 -0700 (PDT)
 Received: from localhost ([134.17.27.127])
- by smtp.gmail.com with ESMTPSA id z23sm291802lfq.77.2019.07.03.01.41.56
+ by smtp.gmail.com with ESMTPSA id q6sm342969lji.70.2019.07.03.01.41.58
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 01:41:56 -0700 (PDT)
-Date: Wed,  3 Jul 2019 01:40:43 -0700
-Message-Id: <20190703084048.6980-28-palmer@sifive.com>
+ Wed, 03 Jul 2019 01:41:58 -0700 (PDT)
+Date: Wed,  3 Jul 2019 01:40:44 -0700
+Message-Id: <20190703084048.6980-29-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190703084048.6980-1-palmer@sifive.com>
 References: <20190703084048.6980-1-palmer@sifive.com>
@@ -53,8 +53,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.67
-Subject: [Qemu-devel] [PULL 27/32] disas/riscv: Fix `rdinstreth` constraint
+X-Received-From: 209.85.208.196
+Subject: [Qemu-devel] [PULL 28/32] riscv: sifive_u: Do not create hard-coded
+ phandles in DT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,50 +67,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wladimir J. van der Laan" <laanwj@gmail.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- Michael Clark <mjc@sifive.com>, Alistair Francis <alistair.francis@wdc.com>,
- qemu-riscv@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Wladimir J. van der Laan" <laanwj@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-The constraint for `rdinstreth` was comparing the csr number to 0xc80,
-which is `cycleh` instead. Fix this.
+At present the cpu, plic and ethclk nodes' phandles are hard-coded
+to 1/2/3 in DT. If we configure more than 1 cpu for the machine,
+all cpu nodes' phandles conflict with each other as they are all 1.
+Fix it by removing the hardcode.
 
-Signed-off-by: Wladimir J. van der Laan <laanwj@gmail.com>
-Signed-off-by: Michael Clark <mjc@sifive.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- disas/riscv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_u.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index d37312705516..278d9be9247e 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -614,7 +614,8 @@ static const rvc_constraint rvcc_rdtime[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc01, r
- static const rvc_constraint rvcc_rdinstret[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc02, rvc_end };
- static const rvc_constraint rvcc_rdcycleh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
- static const rvc_constraint rvcc_rdtimeh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc81, rvc_end };
--static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
-+static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0,
-+                                                  rvc_csr_eq_0xc82, rvc_end };
- static const rvc_constraint rvcc_frcsr[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x003, rvc_end };
- static const rvc_constraint rvcc_frrm[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x002, rvc_end };
- static const rvc_constraint rvcc_frflags[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x001, rvc_end };
-@@ -1038,7 +1039,7 @@ const rv_opcode_data opcode_data[] = {
-     { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai,
-       rv_op_srai, rv_op_srai, rvcd_imm_nz },
-     { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi,
--      rv_op_andi, rv_op_andi, rvcd_imm_nz },
-+      rv_op_andi, rv_op_andi },
-     { "c.sub", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_sub, rv_op_sub, rv_op_sub },
-     { "c.xor", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_xor, rv_op_xor, rv_op_xor },
-     { "c.or", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_or, rv_op_or, rv_op_or },
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 5ecc47cea35d..e2120ac7a5d3 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -86,7 +86,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     uint32_t *cells;
+     char *nodename;
+     char ethclk_names[] = "pclk\0hclk\0tx_clk";
+-    uint32_t plic_phandle, ethclk_phandle;
++    uint32_t plic_phandle, ethclk_phandle, phandle = 1;
+ 
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+     if (!fdt) {
+@@ -121,6 +121,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
+ 
+     for (cpu = s->soc.cpus.num_harts - 1; cpu >= 0; cpu--) {
++        int cpu_phandle = phandle++;
+         nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+         char *isa = riscv_isa_string(&s->soc.cpus.harts[cpu]);
+@@ -134,8 +135,8 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
+         qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
+         qemu_fdt_add_subnode(fdt, intc);
+-        qemu_fdt_setprop_cell(fdt, intc, "phandle", 1);
+-        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", 1);
++        qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
++        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
+         qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
+         qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
+         qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
+@@ -167,6 +168,7 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     g_free(cells);
+     g_free(nodename);
+ 
++    plic_phandle = phandle++;
+     cells =  g_new0(uint32_t, s->soc.cpus.num_harts * 4);
+     for (cpu = 0; cpu < s->soc.cpus.num_harts; cpu++) {
+         nodename =
+@@ -192,20 +194,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_string(fdt, nodename, "reg-names", "control");
+     qemu_fdt_setprop_cell(fdt, nodename, "riscv,max-priority", 7);
+     qemu_fdt_setprop_cell(fdt, nodename, "riscv,ndev", 0x35);
+-    qemu_fdt_setprop_cells(fdt, nodename, "phandle", 2);
+-    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", 2);
++    qemu_fdt_setprop_cells(fdt, nodename, "phandle", plic_phandle);
++    qemu_fdt_setprop_cells(fdt, nodename, "linux,phandle", plic_phandle);
+     plic_phandle = qemu_fdt_get_phandle(fdt, nodename);
+     g_free(cells);
+     g_free(nodename);
+ 
++    ethclk_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/ethclk");
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
+     qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
+     qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
+         SIFIVE_U_GEM_CLOCK_FREQ);
+-    qemu_fdt_setprop_cell(fdt, nodename, "phandle", 3);
+-    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", 3);
++    qemu_fdt_setprop_cell(fdt, nodename, "phandle", ethclk_phandle);
++    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", ethclk_phandle);
+     ethclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
+     g_free(nodename);
+ 
 -- 
 2.21.0
 
