@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557625EA7F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:31:58 +0200 (CEST)
-Received: from localhost ([::1]:38008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E350D5EAA3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jul 2019 19:40:23 +0200 (CEST)
+Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hij6r-0002SE-FB
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48954)
+	id 1hijF1-0001I7-5O
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jul 2019 13:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49068)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hij3s-0007bK-Ns
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hij3y-0007p3-Dx
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hij3r-0008P7-Gt
- for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60506)
+ (envelope-from <mreitz@redhat.com>) id 1hij3x-00006C-GS
+ for qemu-devel@nongnu.org; Wed, 03 Jul 2019 13:28:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hij3o-0007wf-9A; Wed, 03 Jul 2019 13:28:48 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hij3u-0007yC-UG; Wed, 03 Jul 2019 13:28:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 303B83082200;
- Wed,  3 Jul 2019 17:28:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7589B369A0;
+ Wed,  3 Jul 2019 17:28:29 +0000 (UTC)
 Received: from localhost (ovpn-204-65.brq.redhat.com [10.40.204.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF7D17DE5;
- Wed,  3 Jul 2019 17:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10B7E1001B35;
+ Wed,  3 Jul 2019 17:28:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed,  3 Jul 2019 19:28:06 +0200
-Message-Id: <20190703172813.6868-6-mreitz@redhat.com>
+Date: Wed,  3 Jul 2019 19:28:07 +0200
+Message-Id: <20190703172813.6868-7-mreitz@redhat.com>
 In-Reply-To: <20190703172813.6868-1-mreitz@redhat.com>
 References: <20190703172813.6868-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 03 Jul 2019 17:28:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 17:28:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 05/12] block: Reduce (un)drains when
- replacing a child
+Subject: [Qemu-devel] [PATCH v2 06/12] block: Deep-clear inherits_from
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,128 +59,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, bdrv_replace_child_noperm() undrains the parent until it is
-completely undrained, then re-drains it after attaching the new child
-node.
+BDS.inherits_from does not always point to an immediate parent node.
+When launching a block job with a filter node, for example, the node
+directly below the filter will not point to the filter, but keep its old
+pointee (above the filter).
 
-This is a problem with bdrv_drop_intermediate(): We want to keep the
-whole subtree drained, including parents, while the operation is
-under way.  bdrv_replace_child_noperm() breaks this by allowing every
-parent to become unquiesced briefly, and then redraining it.
-
-In fact, there is no reason why the parent should become unquiesced and
-be allowed to submit requests to the new child node if that new node is
-supposed to be kept drained.  So if anything, we have to drain the
-parent before detaching the old child node.  Conversely, we have to
-undrain it only after attaching the new child node.
-
-Thus, change the whole drain algorithm here: Calculate the number of
-times we have to drain/undrain the parent before replacing the child
-node then drain it (if necessary), replace the child node, and then
-undrain it.
+If that pointee goes away while the job is still running, the node's
+inherits_from will not be updated and thus point to garbage.  To fix
+this, bdrv_unref_child() has to check not only the parent node's
+immediate children for nodes whose inherits_from needs to be cleared,
+but its whole subtree.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 49 +++++++++++++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 16 deletions(-)
+ block.c | 34 ++++++++++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 10 deletions(-)
 
 diff --git a/block.c b/block.c
-index 96b3dc7d53..1fc9e709ad 100644
+index 1fc9e709ad..5f5a06eb7d 100644
 --- a/block.c
 +++ b/block.c
-@@ -2246,13 +2246,27 @@ static void bdrv_replace_child_noperm(BdrvChild *=
-child,
-                                       BlockDriverState *new_bs)
- {
-     BlockDriverState *old_bs =3D child->bs;
--    int i;
-+    int new_bs_quiesce_counter;
-+    int drain_saldo;
-=20
-     assert(!child->frozen);
-=20
-     if (old_bs && new_bs) {
-         assert(bdrv_get_aio_context(old_bs) =3D=3D bdrv_get_aio_context(=
-new_bs));
-     }
-+
-+    new_bs_quiesce_counter =3D (new_bs ? new_bs->quiesce_counter : 0);
-+    drain_saldo =3D new_bs_quiesce_counter - child->parent_quiesce_count=
-er;
-+
-+    /*
-+     * If the new child node is drained but the old one was not, flush
-+     * all outstanding requests to the old child node.
-+     */
-+    while (drain_saldo > 0 && child->role->drained_begin) {
-+        bdrv_parent_drained_begin_single(child, true);
-+        drain_saldo--;
-+    }
-+
-     if (old_bs) {
-         /* Detach first so that the recursive drain sections coming from=
- @child
-          * are already gone and we only end the drain sections that came=
- from
-@@ -2260,28 +2274,22 @@ static void bdrv_replace_child_noperm(BdrvChild *=
-child,
-         if (child->role->detach) {
-             child->role->detach(child);
-         }
--        while (child->parent_quiesce_counter) {
--            bdrv_parent_drained_end_single(child, true);
--        }
-         QLIST_REMOVE(child, next_parent);
--    } else {
--        assert(child->parent_quiesce_counter =3D=3D 0);
-     }
-=20
-     child->bs =3D new_bs;
-=20
-     if (new_bs) {
-         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
--        if (new_bs->quiesce_counter) {
--            int num =3D new_bs->quiesce_counter;
--            if (child->role->parent_is_bds) {
--                num -=3D bdrv_drain_all_count;
--            }
--            assert(num >=3D 0);
--            for (i =3D 0; i < num; i++) {
--                bdrv_parent_drained_begin_single(child, true);
--            }
--        }
-+
-+        /*
-+         * Detaching the old node may have led to the new node's
-+         * quiesce_counter having been decreased.  Not a problem, we
-+         * just need to recognize this here and then invoke
-+         * drained_end appropriately more often.
-+         */
-+        assert(new_bs->quiesce_counter <=3D new_bs_quiesce_counter);
-+        drain_saldo +=3D new_bs->quiesce_counter - new_bs_quiesce_counte=
-r;
-=20
-         /* Attach only after starting new drained sections, so that recu=
-rsive
-          * drain sections coming from @child don't get an extra .drained=
-_begin
-@@ -2290,6 +2298,15 @@ static void bdrv_replace_child_noperm(BdrvChild *c=
-hild,
-             child->role->attach(child);
-         }
-     }
-+
-+    /*
-+     * If the old child node was drained but the new one is not, allow
-+     * requests to come in only after the new node has been attached.
-+     */
-+    while (drain_saldo < 0 && child->role->drained_end) {
-+        bdrv_parent_drained_end_single(child, true);
-+        drain_saldo++;
-+    }
+@@ -2493,18 +2493,20 @@ void bdrv_root_unref_child(BdrvChild *child)
+     bdrv_unref(child_bs);
  }
 =20
- /*
+-void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
++/**
++ * Clear all inherits_from pointers from children and grandchildren of
++ * @root that point to @root, where necessary.
++ */
++static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *=
+child)
+ {
+-    if (child =3D=3D NULL) {
+-        return;
+-    }
+-
+-    if (child->bs->inherits_from =3D=3D parent) {
+-        BdrvChild *c;
++    BdrvChild *c;
+=20
+-        /* Remove inherits_from only when the last reference between par=
+ent and
+-         * child->bs goes away. */
+-        QLIST_FOREACH(c, &parent->children, next) {
++    if (child->bs->inherits_from =3D=3D root) {
++        /*
++         * Remove inherits_from only when the last reference between roo=
+t and
++         * child->bs goes away.
++         */
++        QLIST_FOREACH(c, &root->children, next) {
+             if (c !=3D child && c->bs =3D=3D child->bs) {
+                 break;
+             }
+@@ -2514,6 +2516,18 @@ void bdrv_unref_child(BlockDriverState *parent, Bd=
+rvChild *child)
+         }
+     }
+=20
++    QLIST_FOREACH(c, &child->bs->children, next) {
++        bdrv_unset_inherits_from(root, c);
++    }
++}
++
++void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
++{
++    if (child =3D=3D NULL) {
++        return;
++    }
++
++    bdrv_unset_inherits_from(parent, child);
+     bdrv_root_unref_child(child);
+ }
+=20
 --=20
 2.21.0
 
