@@ -2,47 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE9C5F877
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 14:45:39 +0200 (CEST)
-Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F5C5F87D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 14:47:47 +0200 (CEST)
+Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj17K-0005Ui-77
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 08:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42306)
+	id 1hj19O-0007MY-Je
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 08:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hj15l-0004dd-WE
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 08:44:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hj16k-0005wu-AC
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 08:45:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hj15k-0002fr-Mw
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 08:44:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44852)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hj15h-0002bJ-T4; Thu, 04 Jul 2019 08:43:58 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9298B2F8BFE;
- Thu,  4 Jul 2019 12:43:51 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (dhcp-4-67.tlv.redhat.com
- [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2FBA6B8CC;
- Thu,  4 Jul 2019 12:43:49 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 15:43:42 +0300
-Message-Id: <20190704124342.7753-2-mlevitsk@redhat.com>
-In-Reply-To: <20190704124342.7753-1-mlevitsk@redhat.com>
-References: <20190704124342.7753-1-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 04 Jul 2019 12:43:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 1/1] raw-posix.c - use max transfer length /
- max segement count only for SCSI passthrough
+ (envelope-from <peter.maydell@linaro.org>) id 1hj16i-0002zj-SS
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 08:45:02 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:32868)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hj16i-0002zW-Ke
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 08:45:00 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id u15so4872586oiv.0
+ for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 05:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=whnbUgl1cVb9DFYoNg5igsT3p5GLfWmPY7USps62CfU=;
+ b=HC3UvwMmfkBgz7WATe2ZqEZqUJxo5/W7wupQoDJVh0WI+kR1IzUeoYHXRLMi7UHmL+
+ ba3skqP7Zd8r3Se1b870aqcv1jB5aH/eQ+ytHshDi6KlanPI4kJdjR1GLijaHpIwpPGi
+ FTFoTIUUzkq7NjKIIFrZSW+kX8jbSui62o22KJfj+Z2cNS2aKSaO4+lCPcseFZCxZHIP
+ IUUChq//s4JBKiFnWP6zYDn++we6xu3vpvYES3N6ybZcTU89otYIDIfb5OBMkFCUZE97
+ 5MO6J3fPemIr/e8DQ8eheIVExBeeLSU2DvLgcyUL3+nTqBwOXs1+SSTm253ujAULNOZT
+ UZRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=whnbUgl1cVb9DFYoNg5igsT3p5GLfWmPY7USps62CfU=;
+ b=NPOVIfEN6oJY6qLzh20j429nG8yXGk2Ibqd4SYq57SYVJkNLcFqYCQIHMk704DkUzW
+ IafwP0S7L5Mp9aDdkkoKM78HCGJLVXvBbQRCSOqAB6ZGvfsrx49ZDy7lGdVANACPTAPZ
+ ST+DCju18qNhwMiWDTqcfwNADN0xSxpVFFNIsKdMuiavdATOmYOORcnOsw4ac12swCWk
+ Bvayq2s+sKooE3956eBGid+vU+2A6jObhjQvnBy8d7+UhCJsJkc7GQl8BJBMcGBs7ao6
+ uObOWNEX1NkbElCiKk98QCXHXadJoiAgGvIgPQ5h23QC6jNUXiT8YJToHXUAloT3tISV
+ 4rqA==
+X-Gm-Message-State: APjAAAUoMfK7Fh61c6aFvP4PzMoxlbNZEHkXGoHgpTEMDdHnJmGzp0Xx
+ +9+KYGXHuzmTIQTXp3bWxlVxAR+hyIXEktK5aBKmTQ==
+X-Google-Smtp-Source: APXvYqxJ+6ofGkT6v/A3XAWZ5NW5IU8AwjlN1aQwXvuxRDQwiYC57qhIp9r0YpH1fulCzmBrqlg0q+p0A04XkchORrU=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr1752818oij.98.1562244299767; 
+ Thu, 04 Jul 2019 05:44:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <156210666074.19884.7711861336532593819.stgit@gimli.home>
+In-Reply-To: <156210666074.19884.7711861336532593819.stgit@gimli.home>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 Jul 2019 13:44:48 +0100
+Message-ID: <CAFEAcA8gM4eBk6hgLmknnN6EUzKkYuCahHo7c+jO_NWqstGYEA@mail.gmail.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22d
+Subject: Re: [Qemu-devel] [PULL 0/2] vfio fixes 2019-07-02
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,147 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- John Ferlan <jferlan@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Regular kernel block devices (/dev/sda*, /dev/nvme*, etc) don't have
-max segment size/max segment count hardware requirements exposed
-to the userspace, but rather the kernel block layer
-takes care to split the incoming requests that
-violate these requirements.
+On Tue, 2 Jul 2019 at 23:36, Alex Williamson <alex.williamson@redhat.com> wrote:
+>
+> The following changes since commit 506179e42112be77bfd071f050b15762d3b2cd43:
+>
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190702' into staging (2019-07-02 18:56:44 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/awilliam/qemu-vfio.git tags/vfio-fixes-20190702.0
+>
+> for you to fetch changes up to 5053bd781143c354dfe3c8747d6c013dc22851b6:
+>
+>   vfio/pci: Trace vfio_set_irq_signaling() failure in vfio_msix_vector_release() (2019-07-02 13:16:29 -0600)
+>
+> ----------------------------------------------------------------
+> VFIO fixes 2019-07-02
+>
+>  - Remove outdated comment (Fabiano Rosas)
+>
+>  - Log MSI-X eventfd switch failure, fix Coverity issue (Eric Auger)
+>
+> ----------------------------------------------------------------
+> Eric Auger (1):
+>       vfio/pci: Trace vfio_set_irq_signaling() failure in vfio_msix_vector_release()
+>
+> Fabiano Rosas (1):
+>       vfio-common.h: Remove inaccurate comment
+>
 
-Allowing the kernel to do the splitting allows qemu to avoid
-various overheads that arise otherwise from this.
 
-This is especially visible in nbd server,
-exposing as a raw file, a mostly empty qcow2 image over the net.
-In this case most of the reads by the remote user
-won't even hit the underlying kernel block device,
-and therefore most of the  overhead will be in the
-nbd traffic which increases significantly with lower max transfer size.
+Applied, thanks.
 
-In addition to that even for local block device
-access the peformance improves a bit due to less
-traffic between qemu and the kernel when large
-transfer sizes are used (e.g for image conversion)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-More info can be found at:
-https://bugzilla.redhat.com/show_bug.cgi?id=1647104
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- block/file-posix.c | 54 ++++++++++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index ab05b51a66..4479cc7ab4 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1038,15 +1038,13 @@ static void raw_reopen_abort(BDRVReopenState *state)
-     s->reopen_state = NULL;
- }
- 
--static int hdev_get_max_transfer_length(BlockDriverState *bs, int fd)
-+static int sg_get_max_transfer_length(int fd)
- {
- #ifdef BLKSECTGET
-     int max_bytes = 0;
--    short max_sectors = 0;
--    if (bs->sg && ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
-+
-+    if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
-         return max_bytes;
--    } else if (!bs->sg && ioctl(fd, BLKSECTGET, &max_sectors) == 0) {
--        return max_sectors << BDRV_SECTOR_BITS;
-     } else {
-         return -errno;
-     }
-@@ -1055,25 +1053,31 @@ static int hdev_get_max_transfer_length(BlockDriverState *bs, int fd)
- #endif
- }
- 
--static int hdev_get_max_segments(const struct stat *st)
-+static int sg_get_max_segments(int fd)
- {
- #ifdef CONFIG_LINUX
-     char buf[32];
-     const char *end;
--    char *sysfspath;
-+    char *sysfspath = NULL;
-     int ret;
--    int fd = -1;
-+    int sysfd = -1;
-     long max_segments;
-+    struct stat st;
-+
-+    if (fstat(fd, &st)) {
-+        ret = -errno;
-+        goto out;
-+    }
- 
-     sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
--                                major(st->st_rdev), minor(st->st_rdev));
--    fd = open(sysfspath, O_RDONLY);
--    if (fd == -1) {
-+                                major(st.st_rdev), minor(st.st_rdev));
-+    sysfd = open(sysfspath, O_RDONLY);
-+    if (sysfd == -1) {
-         ret = -errno;
-         goto out;
-     }
-     do {
--        ret = read(fd, buf, sizeof(buf) - 1);
-+        ret = read(sysfd, buf, sizeof(buf) - 1);
-     } while (ret == -1 && errno == EINTR);
-     if (ret < 0) {
-         ret = -errno;
-@@ -1090,8 +1094,8 @@ static int hdev_get_max_segments(const struct stat *st)
-     }
- 
- out:
--    if (fd != -1) {
--        close(fd);
-+    if (sysfd != -1) {
-+        close(sysfd);
-     }
-     g_free(sysfspath);
-     return ret;
-@@ -1103,19 +1107,17 @@ out:
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     BDRVRawState *s = bs->opaque;
--    struct stat st;
- 
--    if (!fstat(s->fd, &st)) {
--        if (S_ISBLK(st.st_mode) || S_ISCHR(st.st_mode)) {
--            int ret = hdev_get_max_transfer_length(bs, s->fd);
--            if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
--                bs->bl.max_transfer = pow2floor(ret);
--            }
--            ret = hdev_get_max_segments(&st);
--            if (ret > 0) {
--                bs->bl.max_transfer = MIN(bs->bl.max_transfer,
--                                          ret * getpagesize());
--            }
-+    if (bs->sg) {
-+        int ret = sg_get_max_transfer_length(s->fd);
-+
-+        if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-+            bs->bl.max_transfer = pow2floor(ret);
-+        }
-+
-+        ret = sg_get_max_segments(s->fd);
-+        if (ret > 0) {
-+            bs->bl.max_transfer = MIN(bs->bl.max_transfer, ret * getpagesize());
-         }
-     }
- 
--- 
-2.17.2
-
+-- PMM
 
