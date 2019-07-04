@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECCB5FBB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:25:29 +0200 (CEST)
-Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC795FBAA
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:21:48 +0200 (CEST)
+Received: from localhost ([::1]:47522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj4Y3-0007NB-6h
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44221)
+	id 1hj4UV-0003j9-UZ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44219)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4Hd-00084K-W0
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4He-00084J-6X
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4Hb-0002JM-Ve
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4Hb-0002JO-VZ
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:29 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50648)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38354)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hj4HU-00029z-9v
+ id 1hj4HU-0002AT-99
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:22 -0400
-Received: by mail-wm1-x342.google.com with SMTP id n9so6260236wmi.0
- for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:17 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id p11so1674609wro.5
+ for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jcWZDKHnpMlELavBPABwOL/us8df3sdUAODi66ZZKI0=;
- b=tSXv39r13iwNG0UMBVZxL5JOUyLSsMKDQbaRCGhSqkt1FWsOdMal/CvCbXCi2nLdxA
- idWGRwgkXZmjDwg/rLVNlcPxDj3HV69/HtdTYd36IouEMcclmRmJuta31v476WlV2xf6
- noepUSQ7aq3jgHqUQiwG8qhl2bdvigoPnlKygNMdHaFRh6obu3sbs5TkmBAle5fIM1cC
- sqsJT0x3uWYmECCQwU69yHhauh8uudmSDzL0xQNXZDUaDpG3zMzFFupG+NK1PNyNToMD
- 6DuMUiOEKum2CB6NXGxsFsIJcLnAO0yugMs0my9qB7bpaDhcdlSkNrxtIXHbHna8DTjp
- /F1A==
+ bh=Fw40v64gwndWG5ZTpcv6OGPGniw0mg+4+kLx37gJbPc=;
+ b=dTf84enzxEGbbHLJlNjJx0ux0knDfC7GnEcWwI9MObcb/+zOtSF3K0hqeZpPy8pUOP
+ MBNTjKxUpjzeCYA/vnK7z5R4ngqL9jpLEefbSxRqbWU9fcOtG1XN+ZCayspheymYLxk2
+ 8jix/7o1bDY0XUdM2x7A8oHwnmvVC31SP8to4+PnHpZKyOhMYr8tba04//FBsqzaKmX7
+ mPYAADmyw4HlNNENTyk5fDKzyE7rED7nolQApYwEPHtCVFvQyfGnXZ7RXZleOsiTS1o9
+ reGqZZ+7cT+sMT1eMA+4sXxf9+/wqr/xb3Ce7mwXpIp5owlRDQYezqqsc3S/7I9frr4a
+ VVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jcWZDKHnpMlELavBPABwOL/us8df3sdUAODi66ZZKI0=;
- b=hK1sMVyGX4KZ17v6oHpoLtRXuRH1ygM4Kurt0lZDol64Psw7usia7MpvRIfKraTWbp
- EUxqeGe+OLF2Va/GUAATmeVnwUuJBe7jsB+ElFiqDh4AVLVUcumGFHDp4sZ5sah1xgJA
- CoRa12o8u3NCTW81szeefNBAD6Q+UOibhx/mgXwg+wjwDiIeZxq3ELf/AeRMgsifEfOu
- vmM6xKGNpHOsLbwk2arL+KfADxFLBYOJdqgFwMtPsXogYPpbyPcz+40NxReGjhWL0qSW
- GVEkDuD5YVOcRdf5OBevs8zo7eP+dulBpIDVHJppOKaes+zcsczkgfl4B+STp1QNM04E
- BeUQ==
-X-Gm-Message-State: APjAAAUdOm6sSXEAdLp7amh9wctMXnALrm6ExqCdvHVUVKCJ+QSX9aYt
- D+7/cuWxQsCpTgRnqSsR/nLRVHyCg/NnAQ==
-X-Google-Smtp-Source: APXvYqzBX+EHenXYqytwBzWzz1kyfQkeD/L8LEBMOOgUEIk+aZ55TMN9OaUV0FRdIHrnlBnXaV/+EA==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr209600wme.56.1562256496744; 
- Thu, 04 Jul 2019 09:08:16 -0700 (PDT)
+ bh=Fw40v64gwndWG5ZTpcv6OGPGniw0mg+4+kLx37gJbPc=;
+ b=WxsissNXbsvTUNFGTU5dm6UnCtP/EfMp8LRY+FKWUNh8C08c1/+mzdT1JV4WsxunuA
+ GGcGnizHSWsduhBPtNMOqVgkeHp4Csv99pTWhAAQoihAsrTETyb4Q620R0HVz3TIOJ2H
+ dtE/GWacpWHoxn4TsN96oLf3zBCeIfexzx8AONeRxA4aGE/GX4SklLvJ8RfiKn8swq/W
+ 1KSOxYtj95k2GfTdxF8+LnfiNjOLW9Eeh3dMq36l5Q4S/2aiTnEn0iteq4QsgH3PNyQP
+ pt/jOSY/ulaoPf7a74tzTe8ACjytvgPey7IXoNinV7+bTbfW/ZIFMcYP7FvaJyeTHwGY
+ vR7A==
+X-Gm-Message-State: APjAAAW/1QptnS9qKYfd8hdFNUOjj7OpahDS4R0WqDNBCDwRkQqXDR/o
+ ooCw7LDjcbZCMmqv3lSskGy3/IjC5Gwi9Q==
+X-Google-Smtp-Source: APXvYqzPwNfZzzg/bCwrawXMW/8qx7DknDMEQaGe5JK/lJFoUAQwRMQwko71w9tBERnxnJ0NTgbEMQ==
+X-Received: by 2002:a5d:5302:: with SMTP id e2mr33618128wrv.347.1562256497574; 
+ Thu, 04 Jul 2019 09:08:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.15
+ by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 04 Jul 2019 09:08:16 -0700 (PDT)
+ Thu, 04 Jul 2019 09:08:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 17:08:01 +0100
-Message-Id: <20190704160802.12419-9-peter.maydell@linaro.org>
+Date: Thu,  4 Jul 2019 17:08:02 +0100
+Message-Id: <20190704160802.12419-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190704160802.12419-1-peter.maydell@linaro.org>
 References: <20190704160802.12419-1-peter.maydell@linaro.org>
@@ -66,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 8/9] target/arm: Execute Thumb instructions when
- their condbits are 0xf
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PULL 9/9] target/arm: Correct VMOV_imm_dp handling of
+ short vectors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,62 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thumb instructions in an IT block are set up to be conditionally
-executed depending on a set of condition bits encoded into the IT
-bits of the CPSR/XPSR.  The architecture specifies that if the
-condition bits are 0b1111 this means "always execute" (like 0b1110),
-not "never execute"; we were treating it as "never execute".  (See
-the ConditionHolds() pseudocode in both the A-profile and M-profile
-Arm ARM.)
+Coverity points out (CID 1402195) that the loop in trans_VMOV_imm_dp()
+that iterates over the destination registers in a short-vector VMOV
+accidentally throws away the returned updated register number
+from vfp_advance_dreg(). Add the missing assignment. (We got this
+correct in trans_VMOV_imm_sp().)
 
-This is a bit of an obscure corner case, because the only legal
-way to get to an 0b1111 set of condbits is to do an exception
-return which sets the XPSR/CPSR up that way. An IT instruction
-which encodes a condition sequence that would include an 0b1111 is
-UNPREDICTABLE, and for v8A the CONSTRAINED UNPREDICTABLE choices
-for such an IT insn are to NOP, UNDEF, or treat 0b1111 like 0b1110.
-Add a comment noting that we take the latter option.
-
+Fixes: 18cf951af9a27ae573a
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190617175317.27557-7-peter.maydell@linaro.org
+Message-id: 20190702105115.9465-1-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ target/arm/translate-vfp.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index a5d77234232..7853462b21b 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -11594,7 +11594,14 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-                 gen_nop_hint(s, (insn >> 4) & 0xf);
-                 break;
-             }
--            /* If Then.  */
-+            /*
-+             * IT (If-Then)
-+             *
-+             * Combinations of firstcond and mask which set up an 0b1111
-+             * condition are UNPREDICTABLE; we take the CONSTRAINED
-+             * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
-+             * i.e. both meaning "execute always".
-+             */
-             s->condexec_cond = (insn >> 4) & 0xe;
-             s->condexec_mask = insn & 0x1f;
-             /* No actual code generated for this insn, just setup state.  */
-@@ -12128,7 +12135,11 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     if (dc->condexec_mask && !thumb_insn_is_unconditional(dc, insn)) {
-         uint32_t cond = dc->condexec_cond;
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index deaddb04421..092eb5ec53d 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -1971,7 +1971,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
  
--        if (cond != 0x0e) {     /* Skip conditional when condition is AL. */
-+        /*
-+         * Conditionally skip the insn. Note that both 0xe and 0xf mean
-+         * "always"; 0xf is not "never".
-+         */
-+        if (cond < 0x0e) {
-             arm_skip_unless(dc, cond);
-         }
+         /* Set up the operands for the next iteration */
+         veclen--;
+-        vfp_advance_dreg(vd, delta_d);
++        vd = vfp_advance_dreg(vd, delta_d);
      }
+ 
+     tcg_temp_free_i64(fd);
 -- 
 2.20.1
 
