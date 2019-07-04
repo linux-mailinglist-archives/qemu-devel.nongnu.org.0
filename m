@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C605FB8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:11:27 +0200 (CEST)
-Received: from localhost ([::1]:47396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB91B5FB94
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:13:53 +0200 (CEST)
+Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj4KU-0002Og-6h
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43193)
+	id 1hj4Mq-0004Nv-VM
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44110)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4Bw-0005eR-CE
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:02:37 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4HI-0007oS-BX
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4Bv-00079h-Do
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:02:36 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38553)
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4HH-0001yf-8Z
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:08 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51635)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hj4Bu-000761-VS
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:02:35 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id d17so6414081oth.5
- for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:02:28 -0700 (PDT)
+ id 1hj4HH-0001x2-04
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:07 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 207so6254745wma.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=aUaGRFqGwaGwOvo0cSAoDNVu3YjQ9jD7eDEAqJfnWgU=;
- b=GEEgULEJ1p8GSRUrsvfrFI89LlyaJlR5mzn+L9JVUUt2ojMP6weEOBM168NTVJufll
- tb7bzharOu5aogs3/nj6YcjKYVFpSU96xYA6fzVyqfgZp7paGhro/VfxuOO6SHj7O0bT
- +fqCuySD25ttPfsgR5/Jf+hSHjxJoDupmszWoGtdiCxrK4XDQe+KzRH8q3Pn0yh+pa/L
- htMqZk/S0O1HrI9EM5DJM7pw9ASLhnn6Xb7A/jgRKsQO4r+2U+Oz/3nVe/ZfAjO8dziF
- IrZFVObKlwNT9pf/P1d0WzpEbTNdq/sfdOb9RRYV+EXeWWDIdpDLuyG673R4veHzPfYw
- r0oA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zBVYAiG6J50jyh6l/OEdqGwdCdY22/qgM39X5626rSE=;
+ b=eKsgB1IaArU/OtJJYKsHYB3LjhtViqctk6WV64FikoiGuYIXwkUir90Iz+PJULF0GY
+ WIbcH19C/J1NgJJpld+L/u5sLEIqBMK8sYibG9bcAS6yCcBbbeysi4bLALpyPZ7aV9Er
+ JC5S1SV7KY0mloYxwdDOzF01vfeyyOm0uOpIxGQCG/WnrVK1Xf8Ni59kSCSbPC9PYpUZ
+ C1OR6xHXqQUb6rHktkQZEVsg0x1pGdGwcV2SniWq2ScJEKB3ejFqDfQG8ZxY4DXvDvpk
+ Z+7lvkChuQB1YR7q9/lbYVpaJ0Z7GbhkYsm8j5ZuPfkBLLXdZ7Cd3YijSDSP0I+6WgAN
+ 00JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=aUaGRFqGwaGwOvo0cSAoDNVu3YjQ9jD7eDEAqJfnWgU=;
- b=DAdKGQfzIouD8wsYKcn4qn3tTC3xKqi6G994nfuqlkIY+CUv6SbZ6AGv8wBoW3fEe+
- o2BLnWm0RY0elN3JbZYG2r5+/0X2zY6XA9/wyLGOvWpaB2dnOLwF3CzG4QW1rVL5EXrP
- Z3AtxxEpVvGyT5bGHHh4GoANZ+ugHq/qBTcwouES0/3JMKv9Q+FzDo7HWrAl/asG9j1u
- F+w2yMKLSq5d7ncpKg5GNGP9yf76jwi05OCCh6PEA3vrnykQi6pRwT5eeaeziTjs6m5a
- 6QxZ29ilE92LNO3HtHicT/VK42l/9JPme/TXAihvuk8jG1JdNyUn7waQVRWz6G9oFCbI
- 9XAA==
-X-Gm-Message-State: APjAAAWNfAoo0/3zHXC6zn4BRR9X+28MQkf79uZnikxO513tvhvAgjE0
- EliVEw6Eabf3sypAl6NKnCMqhzUzydPu1E0lnOFxmhqVeKU=
-X-Google-Smtp-Source: APXvYqzMcfOyoEQZwVmms6740aQ/sFUNcnEKXJYGPRmTrsfGuYCviAbOUzsFM6e2D3f3YWXGv+Jrao1HJk2mD+M5Qco=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr1872302oti.91.1562256147975; 
- Thu, 04 Jul 2019 09:02:27 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zBVYAiG6J50jyh6l/OEdqGwdCdY22/qgM39X5626rSE=;
+ b=pF/0xxMouIMuYdQwVw3m9V0k8eaeXo6r7L5QgxjakwV3IzvFD20HyaEr8RdlDpscko
+ 9sLw6b6PQZ+eSGJaYTfcEqgZMNPHpyfAF5ppkPFqbqL++aHPS+HvqJNzPF+BWFlwDNCQ
+ x01rJhfQbGOqxjnBmwEqEvwKg6eEZOSahDmpUmsocgC87ITeHf637QD9xS2+5nRWcbyM
+ eXqLtlvfz4jbJMzJKyCxzNW1MsxSjo0WO3UsE9t/rT8gjd65IUPlHp1jKpNMSo7GxsqD
+ 8h+7Y/+GOP50R3jEHsFvn7gTuNf8MNXxQ6H1jL0s9FImOziuZ23xz5TL3d2EQ6EXy2C0
+ ai1Q==
+X-Gm-Message-State: APjAAAXwA0lvfD5spXM2SmvuqwaeZzzj0ISvpyypJ2W9p47iT060jodE
+ KacAbW048A4KuAGN4zv9GeuJAm6U6BS4Ow==
+X-Google-Smtp-Source: APXvYqzRj+U7Bbj5zptd5ywZ6ZT1OsHodocQq25oSNfHkn23Y9/Q4B0U4q8ezE2kR1/pXPjDUi0RnA==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr231688wmh.76.1562256484812;
+ Thu, 04 Jul 2019 09:08:04 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.03
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 04 Jul 2019 09:08:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Jul 2019 17:02:17 +0100
-Message-ID: <CAFEAcA-yzWhwYPzC9px0H-=x3XEPVBjZOhk402is49YpbmJX9g@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Date: Thu,  4 Jul 2019 17:07:53 +0100
+Message-Id: <20190704160802.12419-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
-Subject: [Qemu-devel] pl031 time across vm save/reload
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 0/9] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,48 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've had a report that the way the PL031 model handles time
-across a vm save/reload fails to correctly advance the guest
-RTC when the host RTC has advanced between the save and reload.
-I looked at the code and my correspondent's analysis (which
-I quote below, lightly edited) looks correct to me, but I'm not
-entirely sure how our RTC stuff is supposed to work. Paolo,
-you wrote this (way back in commit b0f26631bc5179006) -- any opinions?
-
-In the pl031 RTC device. the current time is given by:
-
-    int64_t now = qemu_clock_get_ns(rtc_clock);
-    return s->tick_offset + now / NANOSECONDS_PER_SECOND;
-
-On save we do:
-
-    /* tick_offset is base_time - rtc_clock base time.  Instead, we want to
-     * store the base time relative to the QEMU_CLOCK_VIRTUAL for
-backwards-compatibility.  */
-    int64_t delta = qemu_clock_get_ns(rtc_clock) -
-qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-    s->tick_offset_vmstate = s->tick_offset + delta / NANOSECONDS_PER_SECOND;
-
-On restore:
-
-    int64_t delta = qemu_clock_get_ns(rtc_clock) -
-qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-    s->tick_offset = s->tick_offset_vmstate - delta / NANOSECONDS_PER_SECOND;
-
-So, no matter what is requested, if "qemu_clock_get_ns(rtc_clock)"
-increases (eg, because host time increased), then tick_offset
-reduces, which makes time follow QEMU_CLOCK_VIRTUAL no matter what
-was requested on qemu's command line.
-
-(That is, because we migrate "offset relative to CLOCK_VIRTUAL"
-and CLOCK_VIRTUAL does not advance when the VM is stopped,
-we don't get the right behaviour of "offset is relative to
-the new CLOCK_RTC, which might have advanced".).
+A last collection of patches to squeeze in before rc0.
+The patches from me are all bugfixes. Philippe's are just
+code-movement, but I wanted to get these into 4.1 because
+that kind of patch is so painful to have to rebase.
+(The diffstat is huge but it's just code moving from file to file.)
 
 thanks
 -- PMM
+
+The following changes since commit 234e256511e588680300600ce087c5185d68cf2a:
+
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-build-2019-07-02-v2' into staging (2019-07-04 15:58:46 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190704
+
+for you to fetch changes up to b75f3735802b5b33f10e4bfe374d4b17bb86d29a:
+
+  target/arm: Correct VMOV_imm_dp handling of short vectors (2019-07-04 16:52:05 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * more code-movement to separate TCG-only functions into their own files
+ * Correct VMOV_imm_dp handling of short vectors
+ * Execute Thumb instructions when their condbits are 0xf
+ * armv7m_systick: Forbid non-privileged accesses
+ * Use _ra versions of cpu_stl_data() in v7M helpers
+ * v8M: Check state of exception being returned from
+ * v8M: Forcibly clear negative-priority exceptions on deactivate
+
+----------------------------------------------------------------
+Peter Maydell (6):
+      arm v8M: Forcibly clear negative-priority exceptions on deactivate
+      target/arm: v8M: Check state of exception being returned from
+      target/arm: Use _ra versions of cpu_stl_data() in v7M helpers
+      hw/timer/armv7m_systick: Forbid non-privileged accesses
+      target/arm: Execute Thumb instructions when their condbits are 0xf
+      target/arm: Correct VMOV_imm_dp handling of short vectors
+
+Philippe Mathieu-Daudé (3):
+      target/arm: Move debug routines to debug_helper.c
+      target/arm: Restrict semi-hosting to TCG
+      target/arm/helper: Move M profile routines to m_helper.c
+
+ target/arm/Makefile.objs       |    5 +-
+ target/arm/cpu.h               |    7 +
+ hw/intc/armv7m_nvic.c          |   54 +-
+ hw/timer/armv7m_systick.c      |   26 +-
+ target/arm/cpu.c               |    9 +-
+ target/arm/debug_helper.c      |  311 +++++
+ target/arm/helper.c            | 2646 +--------------------------------------
+ target/arm/m_helper.c          | 2679 ++++++++++++++++++++++++++++++++++++++++
+ target/arm/op_helper.c         |  295 -----
+ target/arm/translate-vfp.inc.c |    2 +-
+ target/arm/translate.c         |   15 +-
+ 11 files changed, 3096 insertions(+), 2953 deletions(-)
+ create mode 100644 target/arm/debug_helper.c
+ create mode 100644 target/arm/m_helper.c
 
