@@ -2,74 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C115F8E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 15:11:58 +0200 (CEST)
-Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF275F8F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 15:14:34 +0200 (CEST)
+Received: from localhost ([::1]:45706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj1Wn-0005Y6-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 09:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45968)
+	id 1hj1ZJ-00007q-Ql
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 09:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46103)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hj1Ub-0003vs-MI
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:09:42 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1hj1V8-0004Y3-OX
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:10:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hj1Ua-000874-Dt
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:09:41 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53362)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hj1UY-00084x-4j
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:09:39 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x15so5702746wmj.3
- for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 06:09:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b132ckLAFzTygZc6K/YJHNlB74aRxhffSzRchlj64Jw=;
- b=NzQNTdccu+CXH5BpPxJecm5+WLvqSWZZkMo+/CBoSz4qnvcPwhouNr0aHdAxFApYJJ
- W3HlQ9elENyTBtSH+Veb00RyHmXvbzwiaS6xmvfwRWQ4Ecg2CXImwELpmsW2AnPqY8tG
- ZbO5XANdyVlxLJZ6AscEr3y9uySzNCwKgNyHqeCW6d2bJ55c26jDLjzJLHiceKUs2h01
- gGs7cmmovdfoDABPgdFzy9aD76BS0wDO2ered1cKNE9PnMXjjP7Htz7y1sH4LDDsrNJh
- KGBI43wbK/1hsM61qr+Fm/hgU2CljSxz96ppcoXYjq04m76c8hW9e9I3wvhDcOJbPaYC
- 0vyw==
-X-Gm-Message-State: APjAAAUjR2J6/PVlTnMU98DRcqxKoWK1aI5tmKTcOn6gaWk2ig/6d1hg
- vYHTrBaq2H5MXrkjLZx3PEgP0aDP/w4=
-X-Google-Smtp-Source: APXvYqxVHeN1MYzJEKpnVY61NyQeZopdQSnBPMC7eS5TLb0bTyQRh2GQ/eK9c/Dqo9CPJzJanzhYxQ==
-X-Received: by 2002:a1c:ca14:: with SMTP id a20mr12148147wmg.71.1562245773989; 
- Thu, 04 Jul 2019 06:09:33 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id v204sm6890353wma.20.2019.07.04.06.09.33
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 Jul 2019 06:09:33 -0700 (PDT)
-To: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <1557953433-19663-1-git-send-email-pbonzini@redhat.com>
- <1557953433-19663-19-git-send-email-pbonzini@redhat.com>
- <20190521115259.GK25835@redhat.com>
- <f0d7e267-5f21-927a-ee38-2330fde5a419@redhat.com>
- <20190521125408.GL25835@redhat.com>
- <9d0def85-3e5c-71ca-0e25-e07fbc7d90c2@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <856e6edf-2b2e-9ab9-c422-519d16bc64f0@redhat.com>
-Date: Thu, 4 Jul 2019 15:09:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <9d0def85-3e5c-71ca-0e25-e07fbc7d90c2@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PULL 18/21] build: don't build hardware objects
- with linux-user
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1hj1V5-0008Me-0x
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:10:13 -0400
+Received: from relay.sw.ru ([185.231.240.75]:54568)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1hj1Uv-0008Gi-W1; Thu, 04 Jul 2019 09:10:02 -0400
+Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1hj1Up-000226-Rt; Thu, 04 Jul 2019 16:09:55 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: kwolf@redhat.com, mreitz@redhat.com, eblake@redhat.com, armbru@redhat.com
+Date: Thu,  4 Jul 2019 16:09:46 +0300
+Message-Id: <20190704130949.14017-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v2 0/3] add zstd cluster compression
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,78 +43,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, den@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/19 10:16 PM, Laurent Vivier wrote:
-> On 21/05/2019 14:54, Daniel P. Berrangé wrote:
->> On Tue, May 21, 2019 at 02:52:42PM +0200, Laurent Vivier wrote:
->>> On 21/05/2019 13:52, Daniel P. Berrangé wrote:
->>>> On Wed, May 15, 2019 at 10:50:30PM +0200, Paolo Bonzini wrote:
->>>>> From: Laurent Vivier <lvivier@redhat.com>
->>>>>
->>>>> Some objects are only needed for system emulation and tools.
->>>>> We can ignore them for the user mode case
->>>>>
->>>>> Update tests to run accordingly: conditionally build some tests
->>>>> on CONFIG_BLOCK.
->>>>>
->>>>> Some tests use components that are only built when softmmu or
->>>>> block tools are enabled, not for linux-user. So, if these components
->>>>> are not available, disable the tests.
->>>>>
->>>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->>>>> Message-Id: <20190401141222.30034-6-lvivier@redhat.com>
->>>>> ---
->>>>>    Makefile               |  4 +++
->>>>>    Makefile.objs          | 14 +++++---
->>>>>    tests/Makefile.include | 90
->>>>> +++++++++++++++++++++++++-------------------------
->>>>>    3 files changed, 58 insertions(+), 50 deletions(-)
->>>>>
->>>>> diff --git a/Makefile b/Makefile
->>>>> index 1851f8c..155f066 100644
->>>>> --- a/Makefile
->>>>> +++ b/Makefile
->>>>> @@ -87,6 +87,10 @@ endif
->>>>>    include $(SRC_PATH)/rules.mak
->>>>> +# notempy and lor are defined in rules.mak
->>>>> +CONFIG_TOOLS := $(call notempty,$(TOOLS))
->>>>> +CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
->>>>
->>>> IMHO calling this CONFIG_BLOCK is a really poor choice, as
->>>> the decision is completely unrelated to block modules. It
->>>> made really confused when trying to understand why all the
->>>> crypto or auth code had been made conditional on the block
->>>> drivers.  The block code is just one part of QEMU that
->>>> is used in tools & softmmu.
->>>>
->>>> It would be better as CONFIG_SOFTMMU_TOOLS, or
->>>> CONFIG_NOT_USER, or something else.
->>>
->>> Do you think it's worth a patch to change the name?
->>
->> Personally I'd like to see a patch to give it a better name.
-> 
-> I'm wondering which name to use.
-> 
-> CONFIG_NOT_USER is not correct because the flag can be 'y' with
-> CONFIG_USER_ONLY set.
-> CONFIG_SOFTMMU_TOOLS is too fuzzy.
-> 
-> CONFIG_HW ?
-> CONFIG_IO ?
-> CONFIG_DEVICE ?
+change log:
 
-CONFIG_MACHINE_HW?
-CONFIG_MACHINE_IO_HELPERS?
-CONFIG_AIO?
+v2:
+    * relax the compression type setting restriction in the spec
+    * fix qcow2 header size checking
+    * fix error processing and messaging
+    * fix qcow2 image specific info reporting
+    * set Qcow2CompressionType zstd config dependant
+    * add zstd compressed cluster format description to the spec
 
-BTW looking at util/Makefile.objs there is various think you can skip
-for linux-user IMO.
+v1:
+    * extend qcow2 header instead of adding a new incompatible extension header
+      specification re-written accordingly
+    * enable zstd compression via config
+    * fix zstd (de)compression functions
+    * fix comments/description
+    * fix function naming
 
-Regards,
+---
+The goal of the patch-set is to enable qcow2 to use zstd compression for
+clusters. ZSTD provides better (de)compression performance than currently
+used ZLIB. Using it will improve perforamnce (reduce compression time)
+when the compressed clusters is used, e.g backup scenarios.
 
-Phil.
+Also, the patch-set extends qcow2 specification by adding compression_type
+feature. The feature enables adding ZSTD and another compression algorithms
+in the future.
+
+Here is some measurements ZSTD vs ZLIB:
+
+The test:
+    Test compresses and decompresses qemu qcow2 image with just
+    installed rhel-7.6 guest.
+    Image cluster size: 64K. Image on disk size: 2.2G
+    
+    The test was conducted with brd disk to reduce the influence
+    of disk subsystem to the test results.
+    The results is given in seconds.
+    
+    compress cmd:
+      time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
+                      src.img [zlib|zstd]_compressed.img
+    decompress cmd
+      time ./qemu-img convert -O qcow2
+                      [zlib|zstd]_compressed.img uncompressed.img
+
+
+The results:    
+               compression               decompression
+             zlib       zstd           zlib         zstd
+    ------------------------------------------------------------
+    real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
+    user     65.0       15.8            5.3          2.5
+    sys       3.3        0.2            2.0          2.0
+    
+    Both ZLIB and ZSTD gave the same compression ratio: ~1.5
+    compressed image size in both cases: ~1.4G
+
+Denis Plotnikov (3):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+
+ block/qcow2.c             | 287 +++++++++++++++++++++++++++++++++++---
+ block/qcow2.h             |  26 +++-
+ configure                 |  32 +++++
+ docs/interop/qcow2.txt    |  40 +++++-
+ include/block/block_int.h |   1 +
+ qapi/block-core.json      |  23 ++-
+ 6 files changed, 379 insertions(+), 30 deletions(-)
+
+-- 
+2.17.0
+
 
