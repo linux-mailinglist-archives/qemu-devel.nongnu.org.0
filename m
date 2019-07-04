@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913215FB9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:17:12 +0200 (CEST)
-Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647445FB93
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:13:47 +0200 (CEST)
+Received: from localhost ([::1]:47424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj4Q3-0008QB-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44134)
+	id 1hj4Mi-0004AD-PE
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44132)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4HK-0007sS-IY
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4HK-0007s6-ED
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4HI-0001zm-2f
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4HJ-00021B-BW
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:10 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51076)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37707)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hj4HH-0001yT-Pk
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:08 -0400
-Received: by mail-wm1-x329.google.com with SMTP id n9so6259736wmi.0
- for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:07 -0700 (PDT)
+ id 1hj4HJ-00020F-5C
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:09 -0400
+Received: by mail-wm1-x336.google.com with SMTP id f17so6686070wme.2
+ for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fSFZ8Ir8Fwh9s0wZTfDaC/mvf3m/iW0XU/LH1HBLDR0=;
- b=NGcTqBRm2PynsN7hq/DXokeKxMcmvxGRIL5GVUOTbXMgJ+42s/oBXHB1X42ilUKRoK
- zo+yPN0hPJzIsMgy5784f4+fsyuGTukng97q3CVuq+1d1+LdVGKTC4XVBbI8PLEN8WVn
- CjV1XksWAGESasi3iGxEts3AZpmEhDgx8lK04+sDXcIpHv62NgZpPsezKuyNZb3wks4x
- VfZN85TA7ORvxIU6UnS7D4jteD04olzPOri+7AXdDwN5bUWUH8p95kTIhnTOdHO1yffy
- LBDI74CoHj47678hEgb7K/ajn/xa3P4eWDsvudOk94fTZmd2+5g0ggE/Gh2EjCqT83Tm
- Ah5g==
+ bh=VE11EFgntOX7Py1z1pIxszbPG3fn/oQDUqV4xv6+5lo=;
+ b=PLz/uHrqH7NhLrA0ptL+BMwzByMhnXEx1PEocfmIeYN6gVyxX+Pk7gClle0ATmDKSF
+ XAbI8XuyRCRr1NoF0ZFYnQdlpTjXDt9onHxAVRTiX40DJf1cg58tnRzg8i3CWirBj/wm
+ yEGWdp3d3EWkftLFg+V3j+qvSg+FRTSP3JkUtWyn9fL+Y/U5zsfyIG8pH394LuWcawMd
+ qFLD1sjx63/XZFnED5YcbzMIi3mAoblahSqr2kH4jQNDtqbTYYEImAJD7HWmOR/CFNoh
+ /xpa3NhqIhX8WurMtOU5LL7Xbrkz1jYHrxFbdN3OYU2hQlzjSvztjWb7bCq+9x2CDuew
+ 1g1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fSFZ8Ir8Fwh9s0wZTfDaC/mvf3m/iW0XU/LH1HBLDR0=;
- b=FHyFTmaI9Y+Zr3kVZpTq+XGlQ2Q9EF2uNF10zWA1il+etEDGjn7ZhgcpZ5W2idfkMl
- PNL9FGx6AI7nDhwVz+xPgzGvpGq16D5BNSSpjTpeU7dsS5GDzWFBmGQTFnKL1hQ/koZk
- zm+O5WNMMYsoRl8kjpRC1FA2F2m3c4O4csTDWHMo+pCVnh4IQBVD1LTFAe5gGv4DqRFU
- a+v64EwqIAR9yb2a8Ncv+ZrDEaOE+i8TBk3R4M2HP3aCLJtac0GDZXvmdOPlHYx+bvVY
- hBWFC2qM4e/yqGpZ1GR7dnfAxFIFE0rs6VTZ8FqIyosr1Y6FJ6JxS3U9275RgGB8glD9
- +pig==
-X-Gm-Message-State: APjAAAXNUQHMOjIWrgZF7OLnURodEHiV0sqg24EwVwmZ/BXgDfLogthm
- m/0oAWrtthAAy/ZyHFfOTnXqvpzImcbENQ==
-X-Google-Smtp-Source: APXvYqyJlDAcfRbiWzNIuaEcbZOljVo3CgcXLa6XpGvVUORxx/niCM3QqgyXvajyvoNw6R0+xsuGHg==
-X-Received: by 2002:a1c:a7c6:: with SMTP id q189mr211113wme.146.1562256486068; 
- Thu, 04 Jul 2019 09:08:06 -0700 (PDT)
+ bh=VE11EFgntOX7Py1z1pIxszbPG3fn/oQDUqV4xv6+5lo=;
+ b=L3Y5RSjavaiYkwcU065UME+0eXEvU0j29BZpFSj88yDrm7yVEVSenF/vVCUNmzhy+/
+ 5RecwIarUK3gNhiVDy6KvvC609oy2N9dZxdK3sHqV/H5m5KC/0e0HcA/UeRNk4mNsynD
+ VbY5VRQU3pREPv/tjssIWc13JXQ0hLUiOT/oeGm3NCAmfcnPQun9SOlv+FsH9HfQOnhT
+ rpuHwjzvY7MLPY7d3dogpsJ1xw/HwUbv9LYzT5T/lfo992INkdWhhSb2vusfaFaTbk9D
+ oHXeRw+wfrzI/qVlokdOSVWW01A/PX0iDS40m8PfFY4fwgb5wMcFl0N++97+JiLxOpbz
+ yRyQ==
+X-Gm-Message-State: APjAAAX6FvIJF7uy0nnH5agvVjUNQfovM93OC6Kzg8JJ+vU4CvTojtjS
+ r6ix+AtTnsoeOnq82nFFhsUOHJNQpf18nA==
+X-Google-Smtp-Source: APXvYqzQGXk1mEgOjrpVlEjyrQnD6ITeu4+Be+QwHmow2AxPrYo5B75OC/EL827veeOtvfOwcoeJDA==
+X-Received: by 2002:a05:600c:206:: with SMTP id 6mr184033wmi.73.1562256487826; 
+ Thu, 04 Jul 2019 09:08:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.04
+ by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 04 Jul 2019 09:08:05 -0700 (PDT)
+ Thu, 04 Jul 2019 09:08:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 17:07:54 +0100
-Message-Id: <20190704160802.12419-2-peter.maydell@linaro.org>
+Date: Thu,  4 Jul 2019 17:07:55 +0100
+Message-Id: <20190704160802.12419-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190704160802.12419-1-peter.maydell@linaro.org>
 References: <20190704160802.12419-1-peter.maydell@linaro.org>
@@ -66,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
-Subject: [Qemu-devel] [PULL 1/9] target/arm: Move debug routines to
- debug_helper.c
+X-Received-From: 2a00:1450:4864:20::336
+Subject: [Qemu-devel] [PULL 2/9] target/arm: Restrict semi-hosting to TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,683 +84,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-These routines are TCG specific.
+Per Peter Maydell:
+
+  Semihosting hooks either SVC or HLT instructions, and inside KVM
+  both of those go to EL1, ie to the guest, and can't be trapped to
+  KVM.
+
+Let check_for_semihosting() return False when not running on TCG.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701194942.10092-2-philmd@redhat.com
+Message-id: 20190701194942.10092-3-philmd@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/Makefile.objs  |   2 +-
- target/arm/cpu.c          |   9 +-
- target/arm/debug_helper.c | 311 ++++++++++++++++++++++++++++++++++++++
- target/arm/op_helper.c    | 295 ------------------------------------
- 4 files changed, 315 insertions(+), 302 deletions(-)
- create mode 100644 target/arm/debug_helper.c
+ target/arm/Makefile.objs | 2 +-
+ target/arm/cpu.h         | 7 +++++++
+ target/arm/helper.c      | 8 +++++++-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 5c154f01c58..294433da880 100644
+index 294433da880..82bedefc3d0 100644
 --- a/target/arm/Makefile.objs
 +++ b/target/arm/Makefile.objs
-@@ -32,7 +32,7 @@ target/arm/translate-sve.o: target/arm/decode-sve.inc.c
- target/arm/translate.o: target/arm/decode-vfp.inc.c
- target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
- 
--obj-y += tlb_helper.o
-+obj-y += tlb_helper.o debug_helper.o
- obj-y += translate.o op_helper.o
- obj-y += crypto_helper.o
- obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f21261c8ff8..ca718fb38f4 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2578,19 +2578,16 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_arch_name = arm_gdb_arch_name;
-     cc->gdb_get_dynamic_xml = arm_gdb_get_dynamic_xml;
-     cc->gdb_stop_before_watchpoint = true;
--    cc->debug_excp_handler = arm_debug_excp_handler;
--    cc->debug_check_watchpoint = arm_debug_check_watchpoint;
--#if !defined(CONFIG_USER_ONLY)
--    cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
--#endif
--
-     cc->disas_set_info = arm_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_initialize = arm_translate_init;
-     cc->tlb_fill = arm_cpu_tlb_fill;
-+    cc->debug_excp_handler = arm_debug_excp_handler;
-+    cc->debug_check_watchpoint = arm_debug_check_watchpoint;
- #if !defined(CONFIG_USER_ONLY)
-     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
-     cc->do_transaction_failed = arm_cpu_do_transaction_failed;
-+    cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
- #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+@@ -1,4 +1,4 @@
+-obj-y += arm-semi.o
++obj-$(CONFIG_TCG) += arm-semi.o
+ obj-y += helper.o vfp_helper.o
+ obj-y += cpu.o gdbstub.o
+ obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a9be18660fd..94c990cddbd 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -964,7 +964,14 @@ static inline void aarch64_sve_change_el(CPUARMState *env, int o,
+ { }
  #endif
- }
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-new file mode 100644
-index 00000000000..dde80273ff1
---- /dev/null
-+++ b/target/arm/debug_helper.c
-@@ -0,0 +1,311 @@
-+/*
-+ * ARM debug helpers.
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+
-+/* Return true if the linked breakpoint entry lbn passes its checks */
-+static bool linked_bp_matches(ARMCPU *cpu, int lbn)
+ 
++#if !defined(CONFIG_TCG)
++static inline target_ulong do_arm_semihosting(CPUARMState *env)
 +{
-+    CPUARMState *env = &cpu->env;
-+    uint64_t bcr = env->cp15.dbgbcr[lbn];
-+    int brps = extract32(cpu->dbgdidr, 24, 4);
-+    int ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
-+    int bt;
-+    uint32_t contextidr;
-+
-+    /*
-+     * Links to unimplemented or non-context aware breakpoints are
-+     * CONSTRAINED UNPREDICTABLE: either behave as if disabled, or
-+     * as if linked to an UNKNOWN context-aware breakpoint (in which
-+     * case DBGWCR<n>_EL1.LBN must indicate that breakpoint).
-+     * We choose the former.
-+     */
-+    if (lbn > brps || lbn < (brps - ctx_cmps)) {
-+        return false;
-+    }
-+
-+    bcr = env->cp15.dbgbcr[lbn];
-+
-+    if (extract64(bcr, 0, 1) == 0) {
-+        /* Linked breakpoint disabled : generate no events */
-+        return false;
-+    }
-+
-+    bt = extract64(bcr, 20, 4);
-+
-+    /*
-+     * We match the whole register even if this is AArch32 using the
-+     * short descriptor format (in which case it holds both PROCID and ASID),
-+     * since we don't implement the optional v7 context ID masking.
-+     */
-+    contextidr = extract64(env->cp15.contextidr_el[1], 0, 32);
-+
-+    switch (bt) {
-+    case 3: /* linked context ID match */
-+        if (arm_current_el(env) > 1) {
-+            /* Context matches never fire in EL2 or (AArch64) EL3 */
-+            return false;
-+        }
-+        return (contextidr == extract64(env->cp15.dbgbvr[lbn], 0, 32));
-+    case 5: /* linked address mismatch (reserved in AArch64) */
-+    case 9: /* linked VMID match (reserved if no EL2) */
-+    case 11: /* linked context ID and VMID match (reserved if no EL2) */
-+    default:
-+        /*
-+         * Links to Unlinked context breakpoints must generate no
-+         * events; we choose to do the same for reserved values too.
-+         */
-+        return false;
-+    }
-+
-+    return false;
++    g_assert_not_reached();
 +}
-+
-+static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
-+{
-+    CPUARMState *env = &cpu->env;
-+    uint64_t cr;
-+    int pac, hmc, ssc, wt, lbn;
-+    /*
-+     * Note that for watchpoints the check is against the CPU security
-+     * state, not the S/NS attribute on the offending data access.
-+     */
-+    bool is_secure = arm_is_secure(env);
-+    int access_el = arm_current_el(env);
-+
-+    if (is_wp) {
-+        CPUWatchpoint *wp = env->cpu_watchpoint[n];
-+
-+        if (!wp || !(wp->flags & BP_WATCHPOINT_HIT)) {
-+            return false;
-+        }
-+        cr = env->cp15.dbgwcr[n];
-+        if (wp->hitattrs.user) {
-+            /*
-+             * The LDRT/STRT/LDT/STT "unprivileged access" instructions should
-+             * match watchpoints as if they were accesses done at EL0, even if
-+             * the CPU is at EL1 or higher.
-+             */
-+            access_el = 0;
-+        }
-+    } else {
-+        uint64_t pc = is_a64(env) ? env->pc : env->regs[15];
-+
-+        if (!env->cpu_breakpoint[n] || env->cpu_breakpoint[n]->pc != pc) {
-+            return false;
-+        }
-+        cr = env->cp15.dbgbcr[n];
-+    }
-+    /*
-+     * The WATCHPOINT_HIT flag guarantees us that the watchpoint is
-+     * enabled and that the address and access type match; for breakpoints
-+     * we know the address matched; check the remaining fields, including
-+     * linked breakpoints. We rely on WCR and BCR having the same layout
-+     * for the LBN, SSC, HMC, PAC/PMC and is-linked fields.
-+     * Note that some combinations of {PAC, HMC, SSC} are reserved and
-+     * must act either like some valid combination or as if the watchpoint
-+     * were disabled. We choose the former, and use this together with
-+     * the fact that EL3 must always be Secure and EL2 must always be
-+     * Non-Secure to simplify the code slightly compared to the full
-+     * table in the ARM ARM.
-+     */
-+    pac = extract64(cr, 1, 2);
-+    hmc = extract64(cr, 13, 1);
-+    ssc = extract64(cr, 14, 2);
-+
-+    switch (ssc) {
-+    case 0:
-+        break;
-+    case 1:
-+    case 3:
-+        if (is_secure) {
-+            return false;
-+        }
-+        break;
-+    case 2:
-+        if (!is_secure) {
-+            return false;
-+        }
-+        break;
-+    }
-+
-+    switch (access_el) {
-+    case 3:
-+    case 2:
-+        if (!hmc) {
-+            return false;
-+        }
-+        break;
-+    case 1:
-+        if (extract32(pac, 0, 1) == 0) {
-+            return false;
-+        }
-+        break;
-+    case 0:
-+        if (extract32(pac, 1, 1) == 0) {
-+            return false;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    wt = extract64(cr, 20, 1);
-+    lbn = extract64(cr, 16, 4);
-+
-+    if (wt && !linked_bp_matches(cpu, lbn)) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool check_watchpoints(ARMCPU *cpu)
-+{
-+    CPUARMState *env = &cpu->env;
-+    int n;
-+
-+    /*
-+     * If watchpoints are disabled globally or we can't take debug
-+     * exceptions here then watchpoint firings are ignored.
-+     */
-+    if (extract32(env->cp15.mdscr_el1, 15, 1) == 0
-+        || !arm_generate_debug_exceptions(env)) {
-+        return false;
-+    }
-+
-+    for (n = 0; n < ARRAY_SIZE(env->cpu_watchpoint); n++) {
-+        if (bp_wp_matches(cpu, n, true)) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static bool check_breakpoints(ARMCPU *cpu)
-+{
-+    CPUARMState *env = &cpu->env;
-+    int n;
-+
-+    /*
-+     * If breakpoints are disabled globally or we can't take debug
-+     * exceptions here then breakpoint firings are ignored.
-+     */
-+    if (extract32(env->cp15.mdscr_el1, 15, 1) == 0
-+        || !arm_generate_debug_exceptions(env)) {
-+        return false;
-+    }
-+
-+    for (n = 0; n < ARRAY_SIZE(env->cpu_breakpoint); n++) {
-+        if (bp_wp_matches(cpu, n, false)) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+void HELPER(check_breakpoints)(CPUARMState *env)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+
-+    if (check_breakpoints(cpu)) {
-+        HELPER(exception_internal(env, EXCP_DEBUG));
-+    }
-+}
-+
-+bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
-+{
-+    /*
-+     * Called by core code when a CPU watchpoint fires; need to check if this
-+     * is also an architectural watchpoint match.
-+     */
-+    ARMCPU *cpu = ARM_CPU(cs);
-+
-+    return check_watchpoints(cpu);
-+}
-+
-+void arm_debug_excp_handler(CPUState *cs)
-+{
-+    /*
-+     * Called by core code when a watchpoint or breakpoint fires;
-+     * need to check which one and raise the appropriate exception.
-+     */
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+    CPUWatchpoint *wp_hit = cs->watchpoint_hit;
-+
-+    if (wp_hit) {
-+        if (wp_hit->flags & BP_CPU) {
-+            bool wnr = (wp_hit->flags & BP_WATCHPOINT_HIT_WRITE) != 0;
-+            bool same_el = arm_debug_target_el(env) == arm_current_el(env);
-+
-+            cs->watchpoint_hit = NULL;
-+
-+            env->exception.fsr = arm_debug_exception_fsr(env);
-+            env->exception.vaddress = wp_hit->hitaddr;
-+            raise_exception(env, EXCP_DATA_ABORT,
-+                    syn_watchpoint(same_el, 0, wnr),
-+                    arm_debug_target_el(env));
-+        }
-+    } else {
-+        uint64_t pc = is_a64(env) ? env->pc : env->regs[15];
-+        bool same_el = (arm_debug_target_el(env) == arm_current_el(env));
-+
-+        /*
-+         * (1) GDB breakpoints should be handled first.
-+         * (2) Do not raise a CPU exception if no CPU breakpoint has fired,
-+         * since singlestep is also done by generating a debug internal
-+         * exception.
-+         */
-+        if (cpu_breakpoint_test(cs, pc, BP_GDB)
-+            || !cpu_breakpoint_test(cs, pc, BP_CPU)) {
-+            return;
-+        }
-+
-+        env->exception.fsr = arm_debug_exception_fsr(env);
-+        /*
-+         * FAR is UNKNOWN: clear vaddress to avoid potentially exposing
-+         * values to the guest that it shouldn't be able to see at its
-+         * exception/security level.
-+         */
-+        env->exception.vaddress = 0;
-+        raise_exception(env, EXCP_PREFETCH_ABORT,
-+                        syn_breakpoint(same_el),
-+                        arm_debug_target_el(env));
-+    }
-+}
-+
-+#if !defined(CONFIG_USER_ONLY)
-+
-+vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+
-+    /*
-+     * In BE32 system mode, target memory is stored byteswapped (on a
-+     * little-endian host system), and by the time we reach here (via an
-+     * opcode helper) the addresses of subword accesses have been adjusted
-+     * to account for that, which means that watchpoints will not match.
-+     * Undo the adjustment here.
-+     */
-+    if (arm_sctlr_b(env)) {
-+        if (len == 1) {
-+            addr ^= 3;
-+        } else if (len == 2) {
-+            addr ^= 2;
-+        }
-+    }
-+
-+    return addr;
-+}
-+
++#else
+ target_ulong do_arm_semihosting(CPUARMState *env);
 +#endif
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 9850993c114..1ab91f915e4 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -831,301 +831,6 @@ void HELPER(pre_smc)(CPUARMState *env, uint32_t syndrome)
+ void aarch64_sync_32_to_64(CPUARMState *env);
+ void aarch64_sync_64_to_32(CPUARMState *env);
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 9a1fe3b72ed..055bf831a61 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -20,7 +20,6 @@
+ #include "qemu/qemu-print.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "arm_ldst.h"
+ #include <zlib.h> /* For crc32 */
+ #include "hw/semihosting/semihost.h"
+ #include "sysemu/cpus.h"
+@@ -29,6 +28,9 @@
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
++#ifdef CONFIG_TCG
++#include "arm_ldst.h"
++#endif
+ 
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+ 
+@@ -10399,6 +10401,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+ 
+ static inline bool check_for_semihosting(CPUState *cs)
+ {
++#ifdef CONFIG_TCG
+     /* Check whether this exception is a semihosting call; if so
+      * then handle it and return true; otherwise return false.
+      */
+@@ -10474,6 +10477,9 @@ static inline bool check_for_semihosting(CPUState *cs)
+         env->regs[0] = do_arm_semihosting(env);
+         return true;
      }
++#else
++    return false;
++#endif
  }
  
--/* Return true if the linked breakpoint entry lbn passes its checks */
--static bool linked_bp_matches(ARMCPU *cpu, int lbn)
--{
--    CPUARMState *env = &cpu->env;
--    uint64_t bcr = env->cp15.dbgbcr[lbn];
--    int brps = extract32(cpu->dbgdidr, 24, 4);
--    int ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
--    int bt;
--    uint32_t contextidr;
--
--    /*
--     * Links to unimplemented or non-context aware breakpoints are
--     * CONSTRAINED UNPREDICTABLE: either behave as if disabled, or
--     * as if linked to an UNKNOWN context-aware breakpoint (in which
--     * case DBGWCR<n>_EL1.LBN must indicate that breakpoint).
--     * We choose the former.
--     */
--    if (lbn > brps || lbn < (brps - ctx_cmps)) {
--        return false;
--    }
--
--    bcr = env->cp15.dbgbcr[lbn];
--
--    if (extract64(bcr, 0, 1) == 0) {
--        /* Linked breakpoint disabled : generate no events */
--        return false;
--    }
--
--    bt = extract64(bcr, 20, 4);
--
--    /*
--     * We match the whole register even if this is AArch32 using the
--     * short descriptor format (in which case it holds both PROCID and ASID),
--     * since we don't implement the optional v7 context ID masking.
--     */
--    contextidr = extract64(env->cp15.contextidr_el[1], 0, 32);
--
--    switch (bt) {
--    case 3: /* linked context ID match */
--        if (arm_current_el(env) > 1) {
--            /* Context matches never fire in EL2 or (AArch64) EL3 */
--            return false;
--        }
--        return (contextidr == extract64(env->cp15.dbgbvr[lbn], 0, 32));
--    case 5: /* linked address mismatch (reserved in AArch64) */
--    case 9: /* linked VMID match (reserved if no EL2) */
--    case 11: /* linked context ID and VMID match (reserved if no EL2) */
--    default:
--        /*
--         * Links to Unlinked context breakpoints must generate no
--         * events; we choose to do the same for reserved values too.
--         */
--        return false;
--    }
--
--    return false;
--}
--
--static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
--{
--    CPUARMState *env = &cpu->env;
--    uint64_t cr;
--    int pac, hmc, ssc, wt, lbn;
--    /*
--     * Note that for watchpoints the check is against the CPU security
--     * state, not the S/NS attribute on the offending data access.
--     */
--    bool is_secure = arm_is_secure(env);
--    int access_el = arm_current_el(env);
--
--    if (is_wp) {
--        CPUWatchpoint *wp = env->cpu_watchpoint[n];
--
--        if (!wp || !(wp->flags & BP_WATCHPOINT_HIT)) {
--            return false;
--        }
--        cr = env->cp15.dbgwcr[n];
--        if (wp->hitattrs.user) {
--            /*
--             * The LDRT/STRT/LDT/STT "unprivileged access" instructions should
--             * match watchpoints as if they were accesses done at EL0, even if
--             * the CPU is at EL1 or higher.
--             */
--            access_el = 0;
--        }
--    } else {
--        uint64_t pc = is_a64(env) ? env->pc : env->regs[15];
--
--        if (!env->cpu_breakpoint[n] || env->cpu_breakpoint[n]->pc != pc) {
--            return false;
--        }
--        cr = env->cp15.dbgbcr[n];
--    }
--    /*
--     * The WATCHPOINT_HIT flag guarantees us that the watchpoint is
--     * enabled and that the address and access type match; for breakpoints
--     * we know the address matched; check the remaining fields, including
--     * linked breakpoints. We rely on WCR and BCR having the same layout
--     * for the LBN, SSC, HMC, PAC/PMC and is-linked fields.
--     * Note that some combinations of {PAC, HMC, SSC} are reserved and
--     * must act either like some valid combination or as if the watchpoint
--     * were disabled. We choose the former, and use this together with
--     * the fact that EL3 must always be Secure and EL2 must always be
--     * Non-Secure to simplify the code slightly compared to the full
--     * table in the ARM ARM.
--     */
--    pac = extract64(cr, 1, 2);
--    hmc = extract64(cr, 13, 1);
--    ssc = extract64(cr, 14, 2);
--
--    switch (ssc) {
--    case 0:
--        break;
--    case 1:
--    case 3:
--        if (is_secure) {
--            return false;
--        }
--        break;
--    case 2:
--        if (!is_secure) {
--            return false;
--        }
--        break;
--    }
--
--    switch (access_el) {
--    case 3:
--    case 2:
--        if (!hmc) {
--            return false;
--        }
--        break;
--    case 1:
--        if (extract32(pac, 0, 1) == 0) {
--            return false;
--        }
--        break;
--    case 0:
--        if (extract32(pac, 1, 1) == 0) {
--            return false;
--        }
--        break;
--    default:
--        g_assert_not_reached();
--    }
--
--    wt = extract64(cr, 20, 1);
--    lbn = extract64(cr, 16, 4);
--
--    if (wt && !linked_bp_matches(cpu, lbn)) {
--        return false;
--    }
--
--    return true;
--}
--
--static bool check_watchpoints(ARMCPU *cpu)
--{
--    CPUARMState *env = &cpu->env;
--    int n;
--
--    /*
--     * If watchpoints are disabled globally or we can't take debug
--     * exceptions here then watchpoint firings are ignored.
--     */
--    if (extract32(env->cp15.mdscr_el1, 15, 1) == 0
--        || !arm_generate_debug_exceptions(env)) {
--        return false;
--    }
--
--    for (n = 0; n < ARRAY_SIZE(env->cpu_watchpoint); n++) {
--        if (bp_wp_matches(cpu, n, true)) {
--            return true;
--        }
--    }
--    return false;
--}
--
--static bool check_breakpoints(ARMCPU *cpu)
--{
--    CPUARMState *env = &cpu->env;
--    int n;
--
--    /*
--     * If breakpoints are disabled globally or we can't take debug
--     * exceptions here then breakpoint firings are ignored.
--     */
--    if (extract32(env->cp15.mdscr_el1, 15, 1) == 0
--        || !arm_generate_debug_exceptions(env)) {
--        return false;
--    }
--
--    for (n = 0; n < ARRAY_SIZE(env->cpu_breakpoint); n++) {
--        if (bp_wp_matches(cpu, n, false)) {
--            return true;
--        }
--    }
--    return false;
--}
--
--void HELPER(check_breakpoints)(CPUARMState *env)
--{
--    ARMCPU *cpu = env_archcpu(env);
--
--    if (check_breakpoints(cpu)) {
--        HELPER(exception_internal(env, EXCP_DEBUG));
--    }
--}
--
--bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
--{
--    /*
--     * Called by core code when a CPU watchpoint fires; need to check if this
--     * is also an architectural watchpoint match.
--     */
--    ARMCPU *cpu = ARM_CPU(cs);
--
--    return check_watchpoints(cpu);
--}
--
--vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
--{
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--
--    /*
--     * In BE32 system mode, target memory is stored byteswapped (on a
--     * little-endian host system), and by the time we reach here (via an
--     * opcode helper) the addresses of subword accesses have been adjusted
--     * to account for that, which means that watchpoints will not match.
--     * Undo the adjustment here.
--     */
--    if (arm_sctlr_b(env)) {
--        if (len == 1) {
--            addr ^= 3;
--        } else if (len == 2) {
--            addr ^= 2;
--        }
--    }
--
--    return addr;
--}
--
--void arm_debug_excp_handler(CPUState *cs)
--{
--    /*
--     * Called by core code when a watchpoint or breakpoint fires;
--     * need to check which one and raise the appropriate exception.
--     */
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--    CPUWatchpoint *wp_hit = cs->watchpoint_hit;
--
--    if (wp_hit) {
--        if (wp_hit->flags & BP_CPU) {
--            bool wnr = (wp_hit->flags & BP_WATCHPOINT_HIT_WRITE) != 0;
--            bool same_el = arm_debug_target_el(env) == arm_current_el(env);
--
--            cs->watchpoint_hit = NULL;
--
--            env->exception.fsr = arm_debug_exception_fsr(env);
--            env->exception.vaddress = wp_hit->hitaddr;
--            raise_exception(env, EXCP_DATA_ABORT,
--                    syn_watchpoint(same_el, 0, wnr),
--                    arm_debug_target_el(env));
--        }
--    } else {
--        uint64_t pc = is_a64(env) ? env->pc : env->regs[15];
--        bool same_el = (arm_debug_target_el(env) == arm_current_el(env));
--
--        /*
--         * (1) GDB breakpoints should be handled first.
--         * (2) Do not raise a CPU exception if no CPU breakpoint has fired,
--         * since singlestep is also done by generating a debug internal
--         * exception.
--         */
--        if (cpu_breakpoint_test(cs, pc, BP_GDB)
--            || !cpu_breakpoint_test(cs, pc, BP_CPU)) {
--            return;
--        }
--
--        env->exception.fsr = arm_debug_exception_fsr(env);
--        /*
--         * FAR is UNKNOWN: clear vaddress to avoid potentially exposing
--         * values to the guest that it shouldn't be able to see at its
--         * exception/security level.
--         */
--        env->exception.vaddress = 0;
--        raise_exception(env, EXCP_PREFETCH_ABORT,
--                        syn_breakpoint(same_el),
--                        arm_debug_target_el(env));
--    }
--}
--
- /* ??? Flag setting arithmetic is awkward because we need to do comparisons.
-    The only way to do that in TCG is a conditional branch, which clobbers
-    all our temporaries.  For now implement these as helper functions.  */
+ /* Handle a CPU exception for A and R profile CPUs.
 -- 
 2.20.1
 
