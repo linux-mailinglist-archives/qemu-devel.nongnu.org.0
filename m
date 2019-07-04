@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF7E5F44B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 10:07:33 +0200 (CEST)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CEA5F45D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 10:13:33 +0200 (CEST)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiwmB-0003CR-WA
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 04:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51505)
+	id 1hiwrz-0006ua-I6
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 04:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52249)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hiwku-0002Uo-IA
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:06:17 -0400
+ (envelope-from <groug@kaod.org>) id 1hiwqn-00068P-CO
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:12:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hiwks-0007jj-Qx
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:06:12 -0400
-Resent-Date: Thu, 04 Jul 2019 04:06:12 -0400
-Resent-Message-Id: <E1hiwks-0007jj-Qx@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21407)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hiwks-0007ia-Ij; Thu, 04 Jul 2019 04:06:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562227510; cv=none; d=zoho.com; s=zohoarc; 
- b=LyPR9PX4g91GVxYrRs82oBXv3JQ2Ib8dFR6GoxjbpM/xoieClM24Jw1WV5/eql6ufqpzS3FdLVqUrEc6ExR8t38yoVE58nQzg6uGCbciJuNdfoucsTIqh67bMakPwdpvjqSFXpqt4o6/mPFPT3sbnJ69KGMLo7IVrpW9vUa6S3A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562227510;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=0hrJdJsUEiclc3/L/9oz3wKB+Lwun6WJQ1SLIuoeCZw=; 
- b=ADaTu+EMCVLZ8qMAj8+kVusLKYLd4Sshbpt/sFI/algjujBoXYq0oI/X4qElRvN0A2SJpRkz6mB0PGoK6+/NULPQbDP28FcTs5Ha8g9ViyBLFHsdp6LIkzqkDtcnz9slHpsQhJOaqsE931hDxaECRzWKEpZI24gNekrMrS06G54=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562227507859290.5570158904585;
- Thu, 4 Jul 2019 01:05:07 -0700 (PDT)
-Message-ID: <156222750645.21218.4512744542143739311@c4a48874b076>
-In-Reply-To: <20190703085416.21837-1-kraxel@redhat.com>
+ (envelope-from <groug@kaod.org>) id 1hiwqm-0001oB-6M
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:12:17 -0400
+Received: from 8.mo1.mail-out.ovh.net ([178.33.110.239]:42314)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hiwql-0001mb-VS
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:12:16 -0400
+Received: from player693.ha.ovh.net (unknown [10.109.143.216])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id A30F5183930
+ for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 10:12:11 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player693.ha.ovh.net (Postfix) with ESMTPSA id CC19F788DE9F;
+ Thu,  4 Jul 2019 08:12:07 +0000 (UTC)
+Date: Thu, 4 Jul 2019 10:12:04 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20190704101204.4968e0a1@bahia.lan>
+In-Reply-To: <20190704002357.GR9442@umbus.fritz.box>
+References: <156217621200.562209.8968691631915806468.stgit@bahia.lan>
+ <20190704002357.GR9442@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kraxel@redhat.com
-Date: Thu, 4 Jul 2019 01:05:07 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13032009949517814246
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrfedvgddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PULL 0/4] Vga 20190703 patches
+X-Received-From: 178.33.110.239
+Subject: Re: [Qemu-devel] [PATCH for-4.2] xics/kvm: Convert assert() to
+ error_setg()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,34 +57,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, kraxel@redhat.com,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwMzA4NTQxNi4yMTgz
-Ny0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTA3MDMwODU0MTYuMjE4Mzct
-MS1rcmF4ZWxAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BVTEwgMC80XSBWZ2Eg
-MjAxOTA3MDMgcGF0Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApn
-aXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVl
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2No
-ZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVw
-ZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRw
-czovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgYzIwNGUzNC4uZjA1NzdjNiAg
-bWFzdGVyICAgICAtPiBtYXN0ZXIKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDE5MDcw
-MzA4NTQxNi4yMTgzNy0xLWtyYXhlbEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAxOTA3MDMwODU0
-MTYuMjE4MzctMS1rcmF4ZWxAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
-c3QnCgo9PT0gT1VUUFVUIEJFR0lOID09PQpjaGVja3BhdGNoLnBsOiBubyByZXZpc2lvbnMgcmV0
-dXJuZWQgZm9yIHJldmxpc3QgJzEnCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4
-aXRlZCB3aXRoIGNvZGU6IDI1NQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDov
-L3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA3MDMwODU0MTYuMjE4MzctMS1rcmF4ZWxAcmVkaGF0LmNv
-bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
-dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
-bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, 4 Jul 2019 10:23:57 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> On Wed, Jul 03, 2019 at 07:50:12PM +0200, Greg Kurz wrote:
+> > ics_set_kvm_state_one() is called either during reset, in which case
+> > both 'saved priority' and 'current priority' are equal to 0xff, or
+> > during migration. In the latter case, 'saved priority' may differ
+> > from 'current priority' only if the interrupt had been masked with
+> > the ibm,int-off RTAS call. Instead of aborting QEMU, print out an
+> > error and exit.
+> 
+> What's the rationale for this?  Doesn't hitting this indicate an error
+> in the qemu code, for which an abort is the usual response?
+> 
+
+This error can be hit by the destination during migration if the
+incoming stream is corrupted. Aborting in this case would mislead
+the user into suspecting a bug in the destination QEMU, which isn't
+the case.
+
+Appart from that, when the in-kernel XICS is in use, only two functions
+manipulate the ICS state: ics_set_kvm_state_one() and ics_get_kvm_state().
+The code is trivial enough that I don't see a great value in the assert
+in the first place... BTW, it comes from the commit:
+
+commit 11ad93f68195f68cc94d988f2aa50b4d190ee52a
+Author: David Gibson <david@gibson.dropbear.id.au>
+Date:   Thu Sep 26 16:18:44 2013 +1000
+
+    xics-kvm: Support for in-kernel XICS interrupt controller
+
+Maybe you remember some context that justified the assert at the time ?
+
+> > 
+> > Based-on: <156217454083.559957.7359208229523652842.stgit@bahia.lan>
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> > 
+> > This isn't a bugfix, hence targetting 4.2, but it depends on an actual
+> > fix for 4.1, as mentionned in the Based-on tag.
+> > ---
+> >  hw/intc/xics_kvm.c |   17 +++++++++++++++--
+> >  1 file changed, 15 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+> > index 2df1f3e92c7e..f8758b928250 100644
+> > --- a/hw/intc/xics_kvm.c
+> > +++ b/hw/intc/xics_kvm.c
+> > @@ -255,8 +255,21 @@ int ics_set_kvm_state_one(ICSState *ics, int srcno, Error **errp)
+> >      state = irq->server;
+> >      state |= (uint64_t)(irq->saved_priority & KVM_XICS_PRIORITY_MASK)
+> >          << KVM_XICS_PRIORITY_SHIFT;
+> > -    if (irq->priority != irq->saved_priority) {
+> > -        assert(irq->priority == 0xff);
+> > +
+> > +    /*
+> > +     * An interrupt can be masked either because the ICS is resetting, in
+> > +     * which case we expect 'current priority' and 'saved priority' to be
+> > +     * equal to 0xff, or because the guest has called the ibm,int-off RTAS
+> > +     * call, in which case we we have recorded the priority the interrupt
+> > +     * had before it was masked in 'saved priority'. If the interrupt isn't
+> > +     * masked, 'saved priority' and 'current priority' are equal (see
+> > +     * ics_get_kvm_state()). Make sure we restore a sane state, otherwise
+> > +     * fail migration.
+> > +     */
+> > +    if (irq->priority != irq->saved_priority && irq->priority != 0xff) {
+> > +        error_setg(errp, "Corrupted state detected for interrupt source %d",
+> > +                   srcno);
+> > +        return -EINVAL;
+> >      }
+> >  
+> >      if (irq->priority == 0xff) {
+> > 
+> 
 
 
