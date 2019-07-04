@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA565FD57
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 21:14:12 +0200 (CEST)
-Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D47F5FD79
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 21:37:11 +0200 (CEST)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj7BK-0007cB-NS
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 15:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36789)
+	id 1hj7XZ-0000sQ-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 15:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39512)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <frasse.iglesias@gmail.com>) id 1hj79t-00075s-DW
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:12:42 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hj7WE-0008SP-49
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:35:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frasse.iglesias@gmail.com>) id 1hj79s-0004D0-9q
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:12:41 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36343)
+ (envelope-from <alistair23@gmail.com>) id 1hj7WC-00081B-7p
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:35:46 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36670)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
- id 1hj79s-0004C6-08; Thu, 04 Jul 2019 15:12:40 -0400
-Received: by mail-lj1-x243.google.com with SMTP id i21so7051395ljj.3;
- Thu, 04 Jul 2019 12:12:39 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hj7W8-0007yr-GQ; Thu, 04 Jul 2019 15:35:40 -0400
+Received: by mail-lj1-x243.google.com with SMTP id i21so7095546ljj.3;
+ Thu, 04 Jul 2019 12:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=MYLsK+KgpWko9IY90dDqVXRWtw25c37fNovrwPJIMhE=;
- b=VlRwQwqaog5CTdT+rrqF4Hnt5s/6HTrbRvfM6lGXvB3t3a5mD8nSBj8JwmEkoOey+w
- 7s4fg8G3vEKCENOpFrjxzCYkiDkNx0kis7zdCbgZos+nl0R+J14HyvCaOdwp264TUQhs
- Hv3T+upZxm4ldcMhnhGDfYzPsj+FAlr7ntux7a4uqt59XtcoD21m9V0/86IzFs95WVVA
- JyWDF28fwV2slg5tAWiF3Gd3ANC8IJmVOkiBt0tLF/LnCG8zxPjOVXwsJlRyoioRYNRZ
- T0JIH8v4e3FLn0Ft+g/zTbObu63/Y+TPsQFQyinvloQ/rf3RYGPNEbe72G1J6mxJAPUI
- AV4w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E6Tcmt5otAUU2XTXCLw1nuAqN5iG/uBQgQi3iOtPumc=;
+ b=qHLW2V5O7gtnNeTdoLPa83c0cebJN/VbaSL7HP4WIo7iDvcCXALcAd53v/nzqQ36ep
+ jAaghOBBpducG4406sfuFHzJSe+3v+DFdbhMqk3fkjO7owVOyOx6FtDfBZq+ExgaSPLY
+ pLztlcIi+rdBqE9wQVm2Gt0MSHyD1ZBD62r1ndd/drZ2zhUYUVwaE1SItPJ7Luhc5Dlv
+ pzz2o7atPBqjmB3tjOJYqEWefWNWe7SSew0YYgYrDZnrOcQa2ZhofMBfrW8ITndfMExL
+ /HI53XWA6do7xTMnFNBSLoPyXX1Rn7lVM0KD4+i576sIhDh6vzh8TLp3uNx0bOyOH8bh
+ 1oAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=MYLsK+KgpWko9IY90dDqVXRWtw25c37fNovrwPJIMhE=;
- b=fVLj4n4AILHJvSIQ7jd+dJ4aNor+DBZyaIHjZJyFj1YBM2UkZwUp70wUQFzQcMn6Lc
- CcLIHyfdxIW1Yhq9n+9JjjM3Qn/YSSr5J23E1f+TybR7XPAJzmOXivXCmXNjsvGic7Ct
- EYteUPYmC7OC5EvTxH3au0Rj0FQWW1tomg3vAc9pmxX/wk9f8FhPDSVZbbbKFFafbatY
- FW98rDgQWoA8XDuYqgdQzxjfk7a0Nmppbskb8Qt5rLGE7baRA9+U/c4ZloSCx9Q0tUye
- CcD3JsW8m+pC+D2ZEZv+ZalqMz24ZeU/h6ph21uudrCsmjRALsYp10ewVmxjZP7/LVh2
- t8Ng==
-X-Gm-Message-State: APjAAAU+COcB2FXRIrsCgL7fZf3lgOff3Zv+ItAfg+ISFWrVKZheAvL9
- DP16oTfXArd7PekVpeFVCdY=
-X-Google-Smtp-Source: APXvYqz/VpVN0+4q1LHaq+Heg8O//JEqi8D5GW4iBv1MU7RxYJww/1RY6xttNlIMerbdAuMqy3EJkQ==
-X-Received: by 2002:a2e:5b0f:: with SMTP id p15mr25104340ljb.82.1562267557826; 
- Thu, 04 Jul 2019 12:12:37 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- e26sm1294711ljl.33.2019.07.04.12.12.36
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 04 Jul 2019 12:12:37 -0700 (PDT)
-Date: Thu, 4 Jul 2019 21:12:35 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190704191234.72ozyrtwdnc7r35a@fralle-msi>
-References: <20190703190615.31436-1-ppandit@redhat.com>
- <59f87427-3d1d-928b-ac87-0a0a4049c4f5@redhat.com>
- <CAFEAcA86=RDpZEzWF_5QL_ix8Bghqxvn7ykXUBkAzTWp7KUVcw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E6Tcmt5otAUU2XTXCLw1nuAqN5iG/uBQgQi3iOtPumc=;
+ b=gVKbLr4j0TzGCLunJn0SVTQOeO2ixLdS1Cj1YHDxRp5elQ1t3rVJbxtB3n9t5NrUnR
+ 2/oGYrsFKuh+Eng7SeXwBGq5+WeRCICQMu+jIDyshDHao5QrTzX9jgwYAEYEVZf1/OTY
+ JBY9kDLTp86DWi3qRPnEIeOlnYWszcX4d5bk0OSodxAKMAjAkpG1UzZJLT36LwaSYfgY
+ ErgE3ps59wi2BfexZuYlJNG01eQ68RuZz3NoVfOTjTI6iFghFOpwnvX/pnFTRedv/ehR
+ dyz3tdSZONB3ox8OUesZ5otsmcUn8XgmXAfvMERMX12Yp9hXnANWwugkv1aBQnRi6tjY
+ VMQw==
+X-Gm-Message-State: APjAAAVfpHx+k0JlDEXLg2pbZmrY5Cdo244VVIJy/t0M1mzBWm3NtUXL
+ lma30WZyIoP5dIcz13ZQ0dd25+ZnJPzviaWm5pA=
+X-Google-Smtp-Source: APXvYqztp20KGV7BgMUNNQKoDLCsYmWq67+Ef8IVLBcmo+DPQzuBUZ4149vLtBB40Sw2LmdtOZN9Rz58oZRq3US698I=
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr20206890ljg.33.1562268939114; 
+ Thu, 04 Jul 2019 12:35:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA86=RDpZEzWF_5QL_ix8Bghqxvn7ykXUBkAzTWp7KUVcw@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+ <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
+ <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+ <20190704160055.GH1609@stefanha-x1.localdomain>
+In-Reply-To: <20190704160055.GH1609@stefanha-x1.localdomain>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 4 Jul 2019 12:35:12 -0700
+Message-ID: <CAKmqyKPxu-vWmfHsv=L=60_aU8JRtc5mQrS9KTcbWSA5j6siig@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH] hw/ssi/xilinx_spips: add lqspi_write
- routine
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,43 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- Alistair Francis <alistair@alistair23.me>,
- Qemu Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- Sai Pavan Boddu <saipava@xilinx.com>, Lei Sun <slei.casper@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Jeff Cody <codyprime@gmail.com>, "palmer@sifive.com" <palmer@sifive.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On [2019 Jul 04] Thu 11:42:54, Peter Maydell wrote:
-> On Thu, 4 Jul 2019 at 11:11, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> > However, looking at the datasheet 'UG1085 (v1.0) November 24, 2015',
-> > Chapter 22: Quad-SPI Controller, I understand this region is only
-> > accessible by the CPU in READ mode, as an AXI slave.
-
-'Chapter 24: Quad-SPI controllers' in a newer UG1085 [1] says that
-writes are ignored and that "All AXI writes generate an external AXI slave
-error (SLVERR) on the write response channel" (when speaking of writes to
-the linear address memory region). Philip's solution seems correct to me
-with the minor change to return MEMTX_ERROR.
-
-Best regards,
-Francisco
-
-[1] https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf)
-
+On Thu, Jul 4, 2019 at 9:11 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Mon, Jul 01, 2019 at 07:01:12PM +0100, Peter Maydell wrote:
+> > On Mon, 1 Jul 2019 at 18:50, Alistair Francis <Alistair.Francis@wdc.com> wrote:
+> > >
+> > > On Mon, 2019-07-01 at 17:54 +0100, Peter Maydell wrote:
+> > > > On Thu, 27 Jun 2019 at 16:24, Palmer Dabbelt <palmer@sifive.com>
+> > > > wrote:
+> > > > > From: Alistair Francis <alistair.francis@wdc.com>
+> > > > Also, new git modules in .gitmodules should be qemu.org
+> > > > URLs, not random external ones. (ie, we should set up
+> > > > mirroring of any new external repo we start shipping
+> > > > code and binaries for). We can set this up and fix up the
+> > > > gitmodules file after the fact, but the ideal is to do
+> > > > it in advance rather than afterwards.
+> > >
+> > > Ok, who can setup a git mirror for the QEMU repo?
 > >
-> > So, if we model this, even logging LOG_GUEST_ERROR is incorrect, we
-> > should trap some AXI bus access error.
-> 
-> Well, that depends on what the decode and the device really do --
-> often datasheets are pretty sloppy and just describe what
-> software "should" do, not what the h/w does if software does
-> odd things...
-> 
-> thanks
-> -- PMM
+> > That would be Jeff or Stefan (cc'd).
+>
+> Please let me know when you're ready and I'll set up a git mirror.
+
+I'm ready whenever. We have a long weekend here so I'll be back at
+work on Monday and send the new version of the patch with version 0.4
+of OpenSBI.
+
+>
+> Your commit can be merged as normal and then I'll send another one
+> updating it to a git.qemu.org mirror.
+
+Works for me. If the mirror is setup by Monday I will use it in the
+first commit as well.
+
+Thanks for helping with this Stefan
+
+Alistair
+
+>
+> Stefan
 
