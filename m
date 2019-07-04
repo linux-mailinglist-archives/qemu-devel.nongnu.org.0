@@ -2,47 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874955F4B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 10:43:00 +0200 (CEST)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E935F4F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 10:51:42 +0200 (CEST)
+Received: from localhost ([::1]:43582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hixKV-0002KK-OA
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 04:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55807)
+	id 1hixSv-0005AK-CO
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 04:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56789)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hixJG-0001X3-7J
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:41:43 -0400
+ (envelope-from <berrange@redhat.com>) id 1hixRf-0004jx-Dz
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:50:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hixJF-0000BD-7w
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:41:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45960)
+ (envelope-from <berrange@redhat.com>) id 1hixRe-0006CU-2P
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:50:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50506)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hixJF-000079-2S
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:41:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hixRd-0006C5-SS
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:50:22 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E69F03092651;
- Thu,  4 Jul 2019 08:41:24 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-116-109.ams2.redhat.com
- [10.36.116.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 14F5A98429;
- Thu,  4 Jul 2019 08:41:15 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 10:41:15 +0200
-Message-Id: <20190704084115.24713-1-lvivier@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 933C637F46;
+ Thu,  4 Jul 2019 08:50:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6132B86C24;
+ Thu,  4 Jul 2019 08:50:18 +0000 (UTC)
+Date: Thu, 4 Jul 2019 09:50:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Message-ID: <20190704085016.GC20871@redhat.com>
+References: <20190703135411.28436-1-berrange@redhat.com>
+ <87k1cywznu.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87k1cywznu.fsf@zen.linaroharston>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 04 Jul 2019 08:41:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 04 Jul 2019 08:50:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] linux-user: check valid address in access_ok()
+Subject: Re: [Qemu-devel] [PATCH] doc: document that the monitor console is
+ a privileged control interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,77 +59,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: R=C3=A9mi Denis-Courmont <remi@remlab.net>
+On Wed, Jul 03, 2019 at 10:56:05PM +0100, Alex Benn=C3=A9e wrote:
+>=20
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>=20
+> > A supposed exploit of QEMU was recently announced as CVE-2019-12928
+> > claiming that the monitor console was insecure because the "migrate"
+> > comand enabled arbitrary command execution for a remote attacker.
+> >
+> > For this to be a flaw the user launching QEMU must have configured
+> > the monitor in a way that allows for other userrs to access it. The
+> > exploit report quoted use of the "tcp" character device backend for
+> > QMP.
+> >
+> > This would indeed allow any network user to connect to QEMU and
+> > execute arbitrary comamnds, however, this is not a flaw in QEMU.
+> > It is the normal expected behaviour of the monitor console and the
+> > commands it supports. Given a monitor connection, there are many
+> > ways to access host filesystem content besides the migrate command.
+> >
+> > The reality is that the monitor console (whether QMP or HMP) is
+> > considered a privileged interface to QEMU and as such must only
+> > be made available to trusted users. IOW, making it available with
+> > no authentication over TCP is simply a, very serious, user
+> > configuration error not a security flaw in QEMU itself.
+>=20
+> Is this the sort of thing we should emit warnings for? I guess this is =
+a
+> philosophical question as QEMU tends to err towards being taciturn on
+> the command line unless something is actually wrong (and not just
+> stupid).
+>=20
+> I wouldn't expect a warning for -serial mon:stdio but maybe a
+> non-localhost tcp chardev for o+rw socket might be worth a mention? Of
+> course this sort of sanitising of the command line options does incur
+> cost and complexity in our option processing.
 
-Fix a crash with LTP testsuite and aarch64:
+The challenge with issuing warnings is ensuring that we don't give
+false positives, and that's pretty much impossible IMHO.
 
-  tst_test.c:1015: INFO: Timeout per run is 0h 05m 00s
-  qemu-aarch64: .../qemu/accel/tcg/translate-all.c:2522: page_check_range=
-: Assertion `start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS)' failed.
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x60=
-001554
+Even use of plain non-localhost TCP chardevs can be valid in some
+circumstances. For example it would not be surprising to see it
+used if QEMU was inside a Kubernetes container, as two containers
+can communicate with each other over IP & rely on Kubernetes
+networking layer to provide security
 
-page_check_range() should never be called with address outside the guest
-address space. This patch adds a guest_addr_valid() check in access_ok()
-to only call page_check_range() with a valid address.
-
-Fixes: f6768aa1b4c6 ("target/arm: fix AArch64 virtual address space size"=
-)
-Signed-off-by: R=C3=A9mi Denis-Courmont <remi@remlab.net>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
-
-Notes:
-    v2: Check addr + size - 1
-        guest_addr_valid() is always true if
-        HOST_LONG_BITS <=3D TARGET_VIRT_ADDR_SPACE_BITS
-
- include/exec/cpu_ldst.h | 4 ++++
- linux-user/qemu.h       | 4 +++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index a08b11bd2c07..06080d27ba15 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -62,7 +62,11 @@ typedef uint64_t abi_ptr;
- /* All direct uses of g2h and h2g need to go away for usermode softmmu. =
- */
- #define g2h(x) ((void *)((unsigned long)(abi_ptr)(x) + guest_base))
-=20
-+#if HOST_LONG_BITS <=3D TARGET_VIRT_ADDR_SPACE_BITS
-+#define guest_addr_valid(x) (1)
-+#else
- #define guest_addr_valid(x) ((x) <=3D GUEST_ADDR_MAX)
-+#endif
- #define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
-=20
- static inline int guest_range_valid(unsigned long start, unsigned long l=
-en)
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index fab287b7ec50..4258e4162d26 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -456,7 +456,9 @@ extern unsigned long guest_stack_size;
-=20
- static inline int access_ok(int type, abi_ulong addr, abi_ulong size)
- {
--    return page_check_range((target_ulong)addr, size,
-+    return guest_addr_valid(addr) &&
-+           (size =3D=3D 0 || guest_addr_valid(addr + size - 1)) &&
-+           page_check_range((target_ulong)addr, size,
-                             (type =3D=3D VERIFY_READ) ? PAGE_READ : (PAG=
-E_READ | PAGE_WRITE)) =3D=3D 0;
- }
-=20
+Regards,
+Daniel
 --=20
-2.21.0
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
