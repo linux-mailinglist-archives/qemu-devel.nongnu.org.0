@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0055F33C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 09:09:44 +0200 (CEST)
-Received: from localhost ([::1]:43220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844D45F337
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 09:08:08 +0200 (CEST)
+Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hivsF-0003LU-KP
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 03:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44792)
+	id 1hivqh-0001Of-3t
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 03:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44783)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hivne-0000QN-8E
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:04:59 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hivnd-0008OO-4o
+ (envelope-from <kraxel@redhat.com>) id 1hivnd-0000Pz-FK
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:04:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48972)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hivnc-0008O6-WB
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1hivnc-0008Nw-D4
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:04:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37054)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hivnZ-0008Lw-6G
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:04:54 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2C4DD30A56A6
- for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 07:04:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id ED0915946B
+ for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 07:04:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-222.ams2.redhat.com
  [10.36.116.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6877D1001B29;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 687D51001B2C;
  Thu,  4 Jul 2019 07:04:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8006E16E05; Thu,  4 Jul 2019 09:04:42 +0200 (CEST)
+ id 8719E17474; Thu,  4 Jul 2019 09:04:42 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 09:04:41 +0200
-Message-Id: <20190704070442.2277-1-kraxel@redhat.com>
+Date: Thu,  4 Jul 2019 09:04:42 +0200
+Message-Id: <20190704070442.2277-2-kraxel@redhat.com>
+In-Reply-To: <20190704070442.2277-1-kraxel@redhat.com>
+References: <20190704070442.2277-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 04 Jul 2019 07:04:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Thu, 04 Jul 2019 07:04:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/1] Ui 20190704 patches
+Subject: [Qemu-devel] [PULL 1/1] console: fix cell overflow
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,29 +59,80 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 506179e42112be77bfd071f050b15762d3b2cd43:
+Linux terminal behavior (coming from vt100 I think) is somewhat strange
+when it comes to line wraps:  When a character is printed to the last
+char cell of a line the cursor does NOT jump to the next line but stays
+where it is.  The line feed happens when the next character is printed.
 
-  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190702' into staging (2019-07-02 18:56:44 +0100)
+So the valid range for the cursor position is not 0 .. width-1 but
+0 .. width, where x == width represents the state where the line is
+full but the cursor didn't jump to the next line yet.
 
-are available in the Git repository at:
+The code for the 'clear from start of line' control sequence (ESC[1K)
+fails to handle this corner case correctly and may call
+console_clear_xy() with x == width.  That will incorrectly clear the
+first char cell of the next line, or in case the cursor happens to be on
+the last line overflow the cell buffer by one character (three bytes).
 
-  git://git.kraxel.org/qemu tags/ui-20190704-pull-request
+Add a check to the loop to fix that.
 
-for you to fetch changes up to 5b8541c6c70db776d0701bb5ce5862ae15779fb5:
+Didn't spot any other places with the same problem.  But it's easy to
+miss that corner case, so also allocate one extra cell as precaution, so
+in case we have simliar issues lurking elsewhere it at least wouldn't be
+a buffer overflow.
 
-  console: fix cell overflow (2019-07-03 10:57:12 +0200)
+v2: squashed in additional checks suggested by Christophe de Dinechin.
 
-----------------------------------------------------------------
-ui: terminal emulation fix.
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (1):
-  console: fix cell overflow
-
+Reported-by: Alexander Oleinik <alxndr@bu.edu>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
+Message-id: 20190701075301.14165-1-kraxel@redhat.com
+---
  ui/console.c | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/ui/console.c b/ui/console.c
+index eb7e7e0c517a..82d1ddac9cfd 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -484,7 +484,7 @@ static void text_console_resize(QemuConsole *s)
+     if (s->width < w1)
+         w1 = s->width;
+ 
+-    cells = g_new(TextCell, s->width * s->total_height);
++    cells = g_new(TextCell, s->width * s->total_height + 1);
+     for(y = 0; y < s->total_height; y++) {
+         c = &cells[y * s->width];
+         if (w1 > 0) {
+@@ -541,6 +541,9 @@ static void update_xy(QemuConsole *s, int x, int y)
+         y2 += s->total_height;
+     }
+     if (y2 < s->height) {
++        if (x >= s->width) {
++            x = s->width - 1;
++        }
+         c = &s->cells[y1 * s->width + x];
+         vga_putcharxy(s, x, y2, c->ch,
+                       &(c->t_attrib));
+@@ -787,6 +790,9 @@ static void console_handle_escape(QemuConsole *s)
+ static void console_clear_xy(QemuConsole *s, int x, int y)
+ {
+     int y1 = (s->y_base + y) % s->total_height;
++    if (x >= s->width) {
++        x = s->width - 1;
++    }
+     TextCell *c = &s->cells[y1 * s->width + x];
+     c->ch = ' ';
+     c->t_attrib = s->t_attrib_default;
+@@ -992,7 +998,7 @@ static void console_putchar(QemuConsole *s, int ch)
+                     break;
+                 case 1:
+                     /* clear from beginning of line */
+-                    for (x = 0; x <= s->x; x++) {
++                    for (x = 0; x <= s->x && x < s->width; x++) {
+                         console_clear_xy(s, x, s->y);
+                     }
+                     break;
 -- 
 2.18.1
 
