@@ -2,64 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F13D5F41E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 09:50:49 +0200 (CEST)
-Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288B55F454
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 10:08:57 +0200 (CEST)
+Received: from localhost ([::1]:43436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiwW0-0007VM-OD
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 03:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49569)
+	id 1hiwnY-0004HV-D9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 04:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51559)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel.stan@gmail.com>) id 1hiwV0-0006wh-Ja
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:49:48 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hiwl2-0002cP-V3
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:06:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1hiwUw-0006Sx-Rf
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 03:49:45 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:41933)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1hiwUe-0006Ia-CJ; Thu, 04 Jul 2019 03:49:26 -0400
-Received: by mail-qt1-x843.google.com with SMTP id d17so5729365qtj.8;
- Thu, 04 Jul 2019 00:49:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=c2arl7QFyQiG434wqZ8b5wc77IqMT54t33qFFEulGPk=;
- b=XOs/Xq6GiSKSWJxHLpMT8Tx6OcMJRgUznAjM0WuDVDNj9/z1MQ6WGSJ+SweAAKcjrS
- iyeen7PZw1k3awhEsHzvILOdWlxktd4BxMQLEsXwPz33gf1QOT7SGrtJIXGwvJ2FVm9b
- fBmNAIyV6tr/lTVwyHHxLnPNGBU5ORRZiaYmQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=c2arl7QFyQiG434wqZ8b5wc77IqMT54t33qFFEulGPk=;
- b=sHlFmXBuZDo/6A4qGwqzhfb7PWaZ0OKFZmZgYU41iPysHpNp8L3XcVjWqjsb6Ai3v0
- NJsrC95LfX751IhdcO5zarBdJZvUBv7UvkxYGQv8t+UWOsXtFuK5SHSa0ZUdcnW1x0eG
- HYbx/OLaWrWqCjAsOO1l1nfOJR4/v/4MtzY45aO6GMgdWE//MHehjucc1gc4v1CQAZXR
- OjFoPI4ZKgUDR7fHBrJrjTiYUVbvry4ZocaAwzpRcYrjxAwZCBKXFvNBUf3YiAVJX00g
- E4vL6HhGjZvOOJsO9ulEMazLrJUfzr6S/z10vPtj3/IW2B+IWgH2LZ/Du7Dao8uKJU1w
- eBAg==
-X-Gm-Message-State: APjAAAV1/6mhoT/t/54GkljFdEGCZaykc5l1LilokjV/2dYt/w3fEoy6
- el8Tq9X2ry5UNQlzcblvKfWfBgA8heXn/XPPKuAtCBTW
-X-Google-Smtp-Source: APXvYqw5mSPWexB4mk5Y1EVQ+0zGm8xVybfaN1fltapvooa8jRWH89GlZJKGLN1zdMChvu2JBAiHIGRBhPAHbpxJeas=
-X-Received: by 2002:a0c:ae31:: with SMTP id y46mr35975520qvc.172.1562226561081; 
- Thu, 04 Jul 2019 00:49:21 -0700 (PDT)
+ (envelope-from <balaton@eik.bme.hu>) id 1hiwl1-0007oK-Ln
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:06:20 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57181)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hiwl1-0007iP-BX
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 04:06:19 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 17F3474569A;
+ Thu,  4 Jul 2019 10:06:04 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id DEB9F7462AA; Thu,  4 Jul 2019 10:06:03 +0200 (CEST)
+Message-Id: <e21855faaeb30d7b1771f084f283f6a30bedb1a3.1562227303.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1562227303.git.balaton@eik.bme.hu>
+References: <cover.1562227303.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Thu, 04 Jul 2019 10:01:43 +0200
 MIME-Version: 1.0
-References: <20190618165311.27066-1-clg@kaod.org>
- <20190618165311.27066-4-clg@kaod.org>
- <CAFEAcA_wCFE0BL_LjF+04MBPa2XnVgCKk4SP4nPrBjrcjmNVVQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_wCFE0BL_LjF+04MBPa2XnVgCKk4SP4nPrBjrcjmNVVQ@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 4 Jul 2019 07:49:09 +0000
-Message-ID: <CACPK8XfdqDARHV4TupC+c-qsgscOn4kWjtYdpdR+GxOZQzNNMA@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: Re: [Qemu-devel] [PATCH v2 03/21] hw: timer: Add ASPEED RTC device
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
+Subject: [Qemu-devel] [PATCH v2 1/1] ati-vga: Fix reverse bit blts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,66 +48,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 19:19, Peter Maydell <peter.maydell@linaro.org> wrote=
-:
->
-> On Tue, 18 Jun 2019 at 17:53, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> >
-> > From: Joel Stanley <joel@jms.id.au>
-> >
-> > The RTC is modeled to provide time and date functionality. It is
-> > initialised at zero to match the hardware.
-> >
-> > There is no modelling of the alarm functionality, which includes the IR=
-Q
-> > line. As there is no guest code to exercise this function that is
-> > acceptable for now.
-> >
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> Hi; Coverity complains about this function (CID 1402782):
->
-> > +static void aspeed_rtc_calc_offset(AspeedRtcState *rtc)
-> > +{
-> > +    struct tm tm;
-> > +    uint32_t year, cent;
-> > +    uint32_t reg1 =3D rtc->reg[COUNTER1];
-> > +    uint32_t reg2 =3D rtc->reg[COUNTER2];
-> > +
-> > +    tm.tm_mday =3D (reg1 >> 24) & 0x1f;
-> > +    tm.tm_hour =3D (reg1 >> 16) & 0x1f;
-> > +    tm.tm_min =3D (reg1 >> 8) & 0x3f;
-> > +    tm.tm_sec =3D (reg1 >> 0) & 0x3f;
-> > +
-> > +    cent =3D (reg2 >> 16) & 0x1f;
-> > +    year =3D (reg2 >> 8) & 0x7f;
-> > +    tm.tm_mon =3D ((reg2 >>  0) & 0x0f) - 1;
-> > +    tm.tm_year =3D year + (cent * 100) - 1900;
-> > +
-> > +    rtc->offset =3D qemu_timedate_diff(&tm);
-> > +}
->
-> because the tm_wday field of 'struct tm tm' is not initialized
-> before we call qemu_timedate_diff(). This is a false
-> positive because the "read" of this field is just the place
-> in qemu_timedate_diff() that does "struct tm tmp =3D *tm;"
-> before calling mktime(), and mktime() ignores tm_wday.
-> We could make Coverity happy by using a struct initializer
-> on 'tm' here; on the other hand we don't do that anywhere else
-> which calls qemu_timedate_diff(), so maybe I should just mark
-> this a false positive?
+The pixman library only supports blts with left to right, top to
+bottom order but the ATI VGA engine can also do different directions.
+Fix support for these via a temporary buffer for now. This fixes
+rendering issues related to such blts (such as moving windows) but
+some other glitches still remain.
 
-I don't have an opinion on which option to take. Perhaps mark it as a
-false positive?
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+v2: Only allocate needed amount of memory for tmp,
+rest of the series is unchanged
 
-Cheers,
+ hw/display/ati_2d.c | 55 ++++++++++++++++++++++++++++++++++++++---------=
+------
+ 1 file changed, 40 insertions(+), 15 deletions(-)
 
-Joel
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index b09753320a..42e82311eb 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -53,6 +53,10 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
+             surface_bits_per_pixel(ds),
+             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
++    int dst_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
++    int dst_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height)=
+;
+     int bpp =3D ati_bpp_from_datatype(s);
+     int dst_stride =3D DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.defaul=
+t_pitch;
+     uint8_t *dst_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+@@ -63,20 +67,25 @@ void ati_2d_blt(ATIVGAState *s)
+         dst_stride *=3D bpp;
+     }
+     uint8_t *end =3D s->vga.vram_ptr + s->vga.vram_size;
+-    if (dst_bits >=3D end ||
+-        dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) =
+*
++    if (dst_bits >=3D end || dst_bits + dst_x + (dst_y + s->regs.dst_hei=
+ght) *
+         dst_stride >=3D end) {
+         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
+         return;
+     }
+-    DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d\n",
++    DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
+             s->regs.src_offset, s->regs.dst_offset, s->regs.default_offs=
+et,
+             s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
+             s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
+-            s->regs.dst_width, s->regs.dst_height);
++            s->regs.dst_width, s->regs.dst_height,
++            (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
++            (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
+     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
+     case ROP3_SRCCOPY:
+     {
++        int src_x =3D (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_wid=
+th);
++        int src_y =3D (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_hei=
+ght);
+         int src_stride =3D DEFAULT_CNTL ?
+                          s->regs.src_pitch : s->regs.default_pitch;
+         uint8_t *src_bits =3D s->vga.vram_ptr + (DEFAULT_CNTL ?
+@@ -86,9 +95,8 @@ void ati_2d_blt(ATIVGAState *s)
+             src_bits +=3D s->regs.crtc_offset & 0x07ffffff;
+             src_stride *=3D bpp;
+         }
+-        if (src_bits >=3D end ||
+-            src_bits + s->regs.src_x + (s->regs.src_y + s->regs.dst_heig=
+ht) *
+-            src_stride >=3D end) {
++        if (src_bits >=3D end || src_bits + src_x +
++            (src_y + s->regs.dst_height) * src_stride >=3D end) {
+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n=
+");
+             return;
+         }
+@@ -97,19 +105,36 @@ void ati_2d_blt(ATIVGAState *s)
+         dst_stride /=3D sizeof(uint32_t);
+         DPRINTF("pixman_blt(%p, %p, %d, %d, %d, %d, %d, %d, %d, %d, %d, =
+%d)\n",
+                 src_bits, dst_bits, src_stride, dst_stride, bpp, bpp,
+-                s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst=
+_y,
++                src_x, src_y, dst_x, dst_y,
+                 s->regs.dst_width, s->regs.dst_height);
+-        pixman_blt((uint32_t *)src_bits, (uint32_t *)dst_bits,
+-                   src_stride, dst_stride, bpp, bpp,
+-                   s->regs.src_x, s->regs.src_y,
+-                   s->regs.dst_x, s->regs.dst_y,
+-                   s->regs.dst_width, s->regs.dst_height);
++        if (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT &&
++            s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM) {
++            pixman_blt((uint32_t *)src_bits, (uint32_t *)dst_bits,
++                       src_stride, dst_stride, bpp, bpp,
++                       src_x, src_y, dst_x, dst_y,
++                       s->regs.dst_width, s->regs.dst_height);
++        } else {
++            /* FIXME: We only really need a temporary if src and dst ove=
+rlap */
++            int llb =3D s->regs.dst_width * (bpp / 8);
++            int tmp_stride =3D DIV_ROUND_UP(llb, sizeof(uint32_t));
++            uint32_t *tmp =3D g_malloc(tmp_stride * sizeof(uint32_t) *
++                                     s->regs.dst_height);
++            pixman_blt((uint32_t *)src_bits, tmp,
++                       src_stride, tmp_stride, bpp, bpp,
++                       src_x, src_y, 0, 0,
++                       s->regs.dst_width, s->regs.dst_height);
++            pixman_blt(tmp, (uint32_t *)dst_bits,
++                       tmp_stride, dst_stride, bpp, bpp,
++                       0, 0, dst_x, dst_y,
++                       s->regs.dst_width, s->regs.dst_height);
++            g_free(tmp);
++        }
+         if (dst_bits >=3D s->vga.vram_ptr + s->vga.vbe_start_addr &&
+             dst_bits < s->vga.vram_ptr + s->vga.vbe_start_addr +
+             s->vga.vbe_regs[VBE_DISPI_INDEX_YRES] * s->vga.vbe_line_offs=
+et) {
+             memory_region_set_dirty(&s->vga.vram, s->vga.vbe_start_addr =
++
+                                     s->regs.dst_offset +
+-                                    s->regs.dst_y * surface_stride(ds),
++                                    dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+         s->regs.dst_x +=3D s->regs.dst_width;
+@@ -151,7 +176,7 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_regs[VBE_DISPI_INDEX_YRES] * s->vga.vbe_line_offs=
+et) {
+             memory_region_set_dirty(&s->vga.vram, s->vga.vbe_start_addr =
++
+                                     s->regs.dst_offset +
+-                                    s->regs.dst_y * surface_stride(ds),
++                                    dst_y * surface_stride(ds),
+                                     s->regs.dst_height * surface_stride(=
+ds));
+         }
+         s->regs.dst_y +=3D s->regs.dst_height;
+--=20
+2.13.7
+
 
