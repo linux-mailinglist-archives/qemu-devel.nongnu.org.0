@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6EF5F949
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 15:43:30 +0200 (CEST)
-Received: from localhost ([::1]:46200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626EF5F970
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 15:56:13 +0200 (CEST)
+Received: from localhost ([::1]:46304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj21J-000791-2r
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 09:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52141)
+	id 1hj2Db-00022D-8r
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 09:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hj20h-0006hb-HS
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:42:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hj2CM-0001WT-Pb
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:54:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hj20g-0004Tw-Hi
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:42:51 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34361)
+ (envelope-from <peter.maydell@linaro.org>) id 1hj2CL-0004Rt-Mz
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:54:54 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:37887)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hj20g-0004SG-AW
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:42:50 -0400
-Received: by mail-ot1-x333.google.com with SMTP id n5so6036286otk.1
- for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 06:42:50 -0700 (PDT)
+ id 1hj2CL-0004RQ-GV
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 09:54:53 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id t76so4998599oih.4
+ for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 06:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z/cIzpwxteA4/CK4kElxmJs/wubV2e8rga+DEaRDRoQ=;
- b=NTB9ijogpmXX9M+RPtPkhV2JD+AUrl6pvnd/Uvhi1n0Jcx4e3NL1xIgUsB/nQmnZ3P
- 9N+Wm2KLG8MSKvI7mGNVL5RaO/7Zft3bjjN/FHDvJXRc9qPg/HZsq4EuCMOwzwN8eJD5
- tIHi4FgxtczsJf+rCeP3cWJPxBihVZbMPf0K9U51g8+pPIWnxnpsU20W9WPpKPA+QgJl
- 7hndEwbOKnNWLDFiNSSCzEZqpcJ8G/UzWQ6Cniu1oQXhEZNP3Qn4PB3enYP+Mr2iAqru
- 6LzlrcRcq/Yob2x9vT6qPfTEB0i02htcQGlS5GHaktD9GGPBmyhh0x3QM7IZTyPMf+A4
- nZQg==
+ :cc; bh=BcJnkPVUuBJw2p5pJtwyjKocw+rUgX1kCGJBg1xUB1g=;
+ b=Wb9YC4w7anxjfERa7LiDYRbnjNvW2/PM2Fg6/6iw1IsSJwhUEEeOnhfsmgNGBrimvP
+ BXfUdtuDl27D/IpJ8XR8A4t51U60rLp59n4RNMmhIBnjY1eC8jieOb3Ue4nzRkmE/FTP
+ XpfE8i/PtfjKBFluO1/3N8/4siwSAP770YMUCIlTYtNNs1ZHoDORpsykkSo0SOs/pLX7
+ +7WEmV4OSh4t6UDE5l1rb9iSu1Yrcu9L5KRt8jMBzPodSuKVAf5aP47VUqvb0TQbMk/9
+ SCNCo62U04ilKlPD/r4I17ufHabrjkUMSX+P/B2bOZriB1+PksCZErCHAPufDVcvKv8m
+ 2HRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Z/cIzpwxteA4/CK4kElxmJs/wubV2e8rga+DEaRDRoQ=;
- b=huJr8L3RurcwzPgQMEpHEtMu7rRe7C8cFCSwUQ63q8b3Zbys66ZflMTio7f9mowM1t
- hX0fHwbcnVXjjyQeOdudhn4zzfUWZuR8J5fqxGANjd2IGTAQmLNHVjElaNxqHVAwqSYA
- 9U6pry/i68oZwjpEy9JZOzig6RptLhgqWxdfCMp1VW/rHV0IaE9/nOCfX+3/GSlagM5j
- EciuAwFz8wUlWEZXud2SnDtM1PvrlsFKgbSUPJHPHw6Kqxt9b2Yh+zlqj9ip9QUejsCW
- zfmAKX+CzF+ZGpnJhmDOWJgNd5pMG20txTIn8eRLLDbttqnMHPL/z+1XLAQteMXLh190
- dZSQ==
-X-Gm-Message-State: APjAAAXGLbwv3K1TcPtjFR30umvIceScrVxb+V1SI32slpOfzNX58g9Y
- 2KnsZiXxhTQwKK96yt0AB/QgyBoX4j5Uhbz4QP4u7Q==
-X-Google-Smtp-Source: APXvYqyKsliT7hZ1/PHKjV50/kHM+JERrntKJz+b/Q4zfXavd0X1WYbtGXfXyxYW4TDqZXX+pUZMoKxfB8uKP01ZPAA=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr12685836otk.232.1562247769163; 
- Thu, 04 Jul 2019 06:42:49 -0700 (PDT)
+ bh=BcJnkPVUuBJw2p5pJtwyjKocw+rUgX1kCGJBg1xUB1g=;
+ b=F3gzmVuP2VlBOt1FAVXs7ZYv+QkkHOZ0WZA9qzpCxK3wEYNj7rdHPC6dHKDmgeNVnH
+ 3cWpQr9Fx1DuwqDkvQs5tm7xU8tLsx311cJciEt+atLygjKzq21KqKhkm2Ub3TG093/c
+ P15gwF2XF2stzo2oOBEXqfa5Svwchd9Gc0kPJQIlHHRrN7CX0v6Dqt4IPZ7HKthR1rIq
+ MFYBf70ZujzzcEqB/cqHzREFoP5eBVwnafGU/tgtfWIQnpAtT2dQ0VwP8TzSZ0HJlkSr
+ lIC8TNVePPx7YMVNFg+jPRdyX3p13yhEADNwwK7S1dKg/xqNQ2kSv915VlpQDYJLetg3
+ qtdw==
+X-Gm-Message-State: APjAAAUJyneUT8QVhy2uUNd5k8+Q/AM150w2f8Jb2Ubi5+psL+JsyROw
+ Cx6k5wGpNRDb+9Q5w7A8NP9fcTTgO3h4PmHXCyYb4w==
+X-Google-Smtp-Source: APXvYqxzj/Og6e+63+EVbvAkSOujtI2RrhTlGv9D/4d4shmAeVSEYBqtAirxxA7lTiYFzSHNG3JdDdEN5kPwBf5ute8=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr1865915oie.48.1562248492354; 
+ Thu, 04 Jul 2019 06:54:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190703065600.13535-1-kraxel@redhat.com>
-In-Reply-To: <20190703065600.13535-1-kraxel@redhat.com>
+References: <20190703210821.27550-1-ehabkost@redhat.com>
+In-Reply-To: <20190703210821.27550-1-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Jul 2019 14:42:38 +0100
-Message-ID: <CAFEAcA8D3yAPop79=-cr=Rqrc1MVOgPUiFerhQOhP4tPFP2+qQ@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
+Date: Thu, 4 Jul 2019 14:54:41 +0100
+Message-ID: <CAFEAcA-FjsmPXBJsxMC5rbKSvYixp_bWsg-xvYQs1ao3uHAZzw@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::333
-Subject: Re: [Qemu-devel] [PULL 0/1] Audio 20190703 patches
+X-Received-From: 2607:f8b0:4864:20::22d
+Subject: Re: [Qemu-devel] [PULL v5 00/43] Machine and x86 queue, 2019-07-03
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Jul 2019 at 07:57, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Wed, 3 Jul 2019 at 22:08, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+> Changes v4 -> v5:
+> * Rebase and solve conflicts with commit 374f63f6810a ("Merge remote-tracking
+>   branch 'remotes/armbru/tags/pull-monitor-2019-07-02-v2' into staging")
 >
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+> Changes v3 -> v4:
+> * Fix ppc64 "make check" failure
+>
+> Changes v2 -> v3:
+> * Fix "make check" warnings (Igor Mammedov)
+> * Fix conflicts of "hw/arm: Replace global smp variables with
+>   machine smp properties" with recent arm changes (Eduardo Habkost)
+> * x86 versioned CPU models (Eduardo Habkost)
+> * SnowRidge CPU model (Paul Lai)
+> * Add deprecation information to query-machines (Eduardo Habkost)
+>
+> Changes v1 -> v2:
+> * Fix s390x build failure
+>
+>
+> The following changes since commit 374f63f6810a2f99254cdf32af67035d951301c8:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-07-02-v2' into staging (2019-07-03 00:16:43 +0100)
 >
 > are available in the Git repository at:
 >
->   git://git.kraxel.org/qemu tags/audio-20190703-pull-request
+>   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
 >
-> for you to fetch changes up to 58c15e523af3e70149248e8a2a9dab0fefb4ce91:
+> for you to fetch changes up to adae41278c7e3472b1f4f0228c37dbcfd95fa6a5:
 >
->   fix microphone lag with PA (2019-07-03 08:50:56 +0200)
->
-> ----------------------------------------------------------------
-> audio: pulse bugfix
+>   tests: use -numa memdev option in tests instead of legacy 'mem' option (2019-07-03 15:41:29 -0300)
 >
 > ----------------------------------------------------------------
+> Machine and x86 queue, 2019-07-03
 >
-> Martin Schrodt (1):
->   fix microphone lag with PA
+> * CPU die topology support (Like Xu)
+> * Deprecation of features (Igor Mammedov):
+>   * 'mem' parameter of '-numa node' option
+>   * implict memory distribution between NUMA nodes
+>   * deprecate -mem-path fallback to anonymous RAM
+> * x86 versioned CPU models (Eduardo Habkost)
+> * SnowRidge CPU model (Paul Lai)
+> * Add deprecation information to query-machines (Eduardo Habkost)
+> * Other i386 fixes
 >
->  audio/paaudio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
 
+Hi; this fails to link (all platforms):
 
-Applied, thanks.
+hw/riscv/sifive_u.o: In function `riscv_sifive_u_soc_realize':
+/home/petmay01/linaro/qemu-for-merges/hw/riscv/sifive_u.c:356:
+undefined reference to `smp_cpus'
+/home/petmay01/linaro/qemu-for-merges/hw/riscv/sifive_u.c:358:
+undefined reference to `smp_cpus'
+collect2: error: ld returned 1 exit status
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+I guess you have a conflict with the recent riscv pullreq.
 
+thanks
 -- PMM
 
