@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA185FB97
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:15:06 +0200 (CEST)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECCB5FBB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 18:25:29 +0200 (CEST)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj4O1-0006Sq-71
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
+	id 1hj4Y3-0007NB-6h
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 12:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44221)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4He-00084I-6W
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4Hd-00084K-W0
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hj4Hb-0002J3-Qy
+ (envelope-from <peter.maydell@linaro.org>) id 1hj4Hb-0002JM-Ve
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:29 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38342)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50648)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hj4HU-00029V-8V
+ id 1hj4HU-00029z-9v
  for qemu-devel@nongnu.org; Thu, 04 Jul 2019 12:08:22 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p11so1674521wro.5
+Received: by mail-wm1-x342.google.com with SMTP id n9so6260236wmi.0
  for <qemu-devel@nongnu.org>; Thu, 04 Jul 2019 09:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZYBnDUJAtZx/GB1Y3ulbQN75K6eLU21AWTYRu4y7eKY=;
- b=AISnyTEvdVKOJfjt6IejblXYshj9aENKpqh+Ur/b/hX3dMAA7E7EunEMkLtXZtxrmO
- 55JJWGpVEoulv5hO59X2SknscOR5EItwZJvUb7RZne8CKYL2WK4FaR7jEWtXIwITiicL
- QUscExFORSmRgRGjy40UXiPm5Ah3BAVJEXQYxiEf4AHYYrARKmVcxfKX3apgtavF3kBz
- zbzI7ImOM7N5f6vcemUD7iKT+8Oc9gTQ0TFErXHoQ5vt5Da445fBmhy2m400Gxwr7yX5
- Ny1eFog0PtBXj1zASCJJvmkjb15Z/tboeDx/c2gaQfp/MvExohXWdn36mgse3u5dy8o2
- Xuvg==
+ bh=jcWZDKHnpMlELavBPABwOL/us8df3sdUAODi66ZZKI0=;
+ b=tSXv39r13iwNG0UMBVZxL5JOUyLSsMKDQbaRCGhSqkt1FWsOdMal/CvCbXCi2nLdxA
+ idWGRwgkXZmjDwg/rLVNlcPxDj3HV69/HtdTYd36IouEMcclmRmJuta31v476WlV2xf6
+ noepUSQ7aq3jgHqUQiwG8qhl2bdvigoPnlKygNMdHaFRh6obu3sbs5TkmBAle5fIM1cC
+ sqsJT0x3uWYmECCQwU69yHhauh8uudmSDzL0xQNXZDUaDpG3zMzFFupG+NK1PNyNToMD
+ 6DuMUiOEKum2CB6NXGxsFsIJcLnAO0yugMs0my9qB7bpaDhcdlSkNrxtIXHbHna8DTjp
+ /F1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZYBnDUJAtZx/GB1Y3ulbQN75K6eLU21AWTYRu4y7eKY=;
- b=FnqlBZrg7af3dyqLw2kBErIDQ/EfQXQUhcWjo6PkTsOVkeLxkW9O8UyUGNm1/sEI+n
- vcxZR5HwgcnOki6hWsqP55jQ+daDDIUX3v2f0lSNNw5VHt0W2MD8xLf15lL+k3jioCJU
- R4rYEBStTZP0bn0z65RLNbCgDq0wmLuYmhdPXd0cnvjQUv9EFzfwDKA3FdRLEq9bBKbx
- PRTvcxtb0+fzbqmP/ZnGlK8SGd3PzHZPPBYPaB21l47qilAyrhNc+sfB4W+4tsEo55Nu
- ZQZUc/PiGMTNYjPnLwOklDeTp/2cu+J8AZYkQDAKf918Z+DTVjeq/k7xguLB29HAXtU0
- VZfw==
-X-Gm-Message-State: APjAAAVFxucRl7jDE5uLZ1yoxH5PFP+tgdrW01SHQxWyi3YQO+S9aI5Q
- 9B6pUl6hHl8+XSY3Nu5qJ6AtC1IIqO0Ojw==
-X-Google-Smtp-Source: APXvYqz5HTYdfWdWgpV0Q6MGOZLcygTIq1IOI6fMwO27e11z406Xm6NwEnGE4ZDJMBXbHl5KgA0SqQ==
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr28912059wrq.193.1562256495923; 
- Thu, 04 Jul 2019 09:08:15 -0700 (PDT)
+ bh=jcWZDKHnpMlELavBPABwOL/us8df3sdUAODi66ZZKI0=;
+ b=hK1sMVyGX4KZ17v6oHpoLtRXuRH1ygM4Kurt0lZDol64Psw7usia7MpvRIfKraTWbp
+ EUxqeGe+OLF2Va/GUAATmeVnwUuJBe7jsB+ElFiqDh4AVLVUcumGFHDp4sZ5sah1xgJA
+ CoRa12o8u3NCTW81szeefNBAD6Q+UOibhx/mgXwg+wjwDiIeZxq3ELf/AeRMgsifEfOu
+ vmM6xKGNpHOsLbwk2arL+KfADxFLBYOJdqgFwMtPsXogYPpbyPcz+40NxReGjhWL0qSW
+ GVEkDuD5YVOcRdf5OBevs8zo7eP+dulBpIDVHJppOKaes+zcsczkgfl4B+STp1QNM04E
+ BeUQ==
+X-Gm-Message-State: APjAAAUdOm6sSXEAdLp7amh9wctMXnALrm6ExqCdvHVUVKCJ+QSX9aYt
+ D+7/cuWxQsCpTgRnqSsR/nLRVHyCg/NnAQ==
+X-Google-Smtp-Source: APXvYqzBX+EHenXYqytwBzWzz1kyfQkeD/L8LEBMOOgUEIk+aZ55TMN9OaUV0FRdIHrnlBnXaV/+EA==
+X-Received: by 2002:a05:600c:2189:: with SMTP id
+ e9mr209600wme.56.1562256496744; 
+ Thu, 04 Jul 2019 09:08:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id s2sm3849690wmj.33.2019.07.04.09.08.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 04 Jul 2019 09:08:15 -0700 (PDT)
+ Thu, 04 Jul 2019 09:08:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  4 Jul 2019 17:08:00 +0100
-Message-Id: <20190704160802.12419-8-peter.maydell@linaro.org>
+Date: Thu,  4 Jul 2019 17:08:01 +0100
+Message-Id: <20190704160802.12419-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190704160802.12419-1-peter.maydell@linaro.org>
 References: <20190704160802.12419-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 7/9] hw/timer/armv7m_systick: Forbid
- non-privileged accesses
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 8/9] target/arm: Execute Thumb instructions when
+ their condbits are 0xf
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,83 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like most of the v7M memory mapped system registers, the systick
-registers are accessible to privileged code only and user accesses
-must generate a BusFault. We implement that for registers in
-the NVIC proper already, but missed it for systick since we
-implement it as a separate device. Correct the omission.
+Thumb instructions in an IT block are set up to be conditionally
+executed depending on a set of condition bits encoded into the IT
+bits of the CPSR/XPSR.  The architecture specifies that if the
+condition bits are 0b1111 this means "always execute" (like 0b1110),
+not "never execute"; we were treating it as "never execute".  (See
+the ConditionHolds() pseudocode in both the A-profile and M-profile
+Arm ARM.)
+
+This is a bit of an obscure corner case, because the only legal
+way to get to an 0b1111 set of condbits is to do an exception
+return which sets the XPSR/CPSR up that way. An IT instruction
+which encodes a condition sequence that would include an 0b1111 is
+UNPREDICTABLE, and for v8A the CONSTRAINED UNPREDICTABLE choices
+for such an IT insn are to NOP, UNDEF, or treat 0b1111 like 0b1110.
+Add a comment noting that we take the latter option.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190617175317.27557-6-peter.maydell@linaro.org
+Message-id: 20190617175317.27557-7-peter.maydell@linaro.org
 ---
- hw/timer/armv7m_systick.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ target/arm/translate.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
-index a17317ce2fe..94640743b5d 100644
---- a/hw/timer/armv7m_systick.c
-+++ b/hw/timer/armv7m_systick.c
-@@ -75,11 +75,17 @@ static void systick_timer_tick(void *opaque)
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index a5d77234232..7853462b21b 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -11594,7 +11594,14 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+                 gen_nop_hint(s, (insn >> 4) & 0xf);
+                 break;
+             }
+-            /* If Then.  */
++            /*
++             * IT (If-Then)
++             *
++             * Combinations of firstcond and mask which set up an 0b1111
++             * condition are UNPREDICTABLE; we take the CONSTRAINED
++             * UNPREDICTABLE choice to treat 0b1111 the same as 0b1110,
++             * i.e. both meaning "execute always".
++             */
+             s->condexec_cond = (insn >> 4) & 0xe;
+             s->condexec_mask = insn & 0x1f;
+             /* No actual code generated for this insn, just setup state.  */
+@@ -12128,7 +12135,11 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     if (dc->condexec_mask && !thumb_insn_is_unconditional(dc, insn)) {
+         uint32_t cond = dc->condexec_cond;
+ 
+-        if (cond != 0x0e) {     /* Skip conditional when condition is AL. */
++        /*
++         * Conditionally skip the insn. Note that both 0xe and 0xf mean
++         * "always"; 0xf is not "never".
++         */
++        if (cond < 0x0e) {
+             arm_skip_unless(dc, cond);
+         }
      }
- }
- 
--static uint64_t systick_read(void *opaque, hwaddr addr, unsigned size)
-+static MemTxResult systick_read(void *opaque, hwaddr addr, uint64_t *data,
-+                                unsigned size, MemTxAttrs attrs)
- {
-     SysTickState *s = opaque;
-     uint32_t val;
- 
-+    if (attrs.user) {
-+        /* Generate BusFault for unprivileged accesses */
-+        return MEMTX_ERROR;
-+    }
-+
-     switch (addr) {
-     case 0x0: /* SysTick Control and Status.  */
-         val = s->control;
-@@ -121,14 +127,21 @@ static uint64_t systick_read(void *opaque, hwaddr addr, unsigned size)
-     }
- 
-     trace_systick_read(addr, val, size);
--    return val;
-+    *data = val;
-+    return MEMTX_OK;
- }
- 
--static void systick_write(void *opaque, hwaddr addr,
--                          uint64_t value, unsigned size)
-+static MemTxResult systick_write(void *opaque, hwaddr addr,
-+                                 uint64_t value, unsigned size,
-+                                 MemTxAttrs attrs)
- {
-     SysTickState *s = opaque;
- 
-+    if (attrs.user) {
-+        /* Generate BusFault for unprivileged accesses */
-+        return MEMTX_ERROR;
-+    }
-+
-     trace_systick_write(addr, value, size);
- 
-     switch (addr) {
-@@ -172,11 +185,12 @@ static void systick_write(void *opaque, hwaddr addr,
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "SysTick: Bad write offset 0x%" HWADDR_PRIx "\n", addr);
-     }
-+    return MEMTX_OK;
- }
- 
- static const MemoryRegionOps systick_ops = {
--    .read = systick_read,
--    .write = systick_write,
-+    .read_with_attrs = systick_read,
-+    .write_with_attrs = systick_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid.min_access_size = 4,
-     .valid.max_access_size = 4,
 -- 
 2.20.1
 
