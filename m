@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E935FD0B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 20:39:37 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB38A5FD5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 21:15:22 +0200 (CEST)
+Received: from localhost ([::1]:48320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj6dr-0004rC-If
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 14:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33270)
+	id 1hj7CT-0000Ld-Td
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 15:15:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hj6cK-0004Fn-3l
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 14:38:01 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hj7BW-0008DV-Rm
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:14:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hj6cI-0003aY-29
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 14:38:00 -0400
-Received: from 14.mo7.mail-out.ovh.net ([178.33.251.19]:38359)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hj6cH-0003SG-Sf
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 14:37:58 -0400
-Received: from player786.ha.ovh.net (unknown [10.109.160.40])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 00E3812351E
- for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 20:37:45 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 968657AAB9C6;
- Thu,  4 Jul 2019 18:37:36 +0000 (UTC)
-Date: Thu, 4 Jul 2019 20:37:35 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190704203735.30c7fc8a@bahia.lan>
-In-Reply-To: <cbabc1ce-4360-64ac-9d06-a57887130c4d@linux.vnet.ibm.com>
-References: <156033104292.26635.15759339817253067370.stgit@aravinda>
- <156033129836.26635.3348706829139659071.stgit@aravinda>
- <20190702041129.GJ6779@umbus.fritz.box>
- <89a68bbd-801e-876c-3105-877790a3189b@linux.vnet.ibm.com>
- <20190703032027.GI9442@umbus.fritz.box>
- <c8f78a4c-d4a0-10e9-e0c9-0e37e3415b5c@linux.vnet.ibm.com>
- <20190704011222.GT9442@umbus.fritz.box>
- <cbabc1ce-4360-64ac-9d06-a57887130c4d@linux.vnet.ibm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <no-reply@patchew.org>) id 1hj7BV-0005BO-Bs
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:14:22 -0400
+Resent-Date: Thu, 04 Jul 2019 15:14:22 -0400
+Resent-Message-Id: <E1hj7BV-0005BO-Bs@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21977)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hj7BU-0005Al-LB
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 15:14:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562266691; cv=none; d=zoho.com; s=zohoarc; 
+ b=gwoHjdNxLLmLZm+apEybGS9lMSCoeZKK8U8Cul4J35kw9UxHa9SZKV1XAbkRdBngt0bZruSlZMwLuSx0b9Z4+7zLdLzB1tPrwe9bGH0+ANnuaLyuvbejdRh7kZM4vTuTV/SvrltZwrySbNmAfMQ8VdifFqcUyt5KSZBe9wK2Dkw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562266691;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=OKO2IUJYYMhq+L8LwV1iFZ0vux4+mz8lhHYD3/KLO8U=; 
+ b=BRFad7E2CBXqQfMFqPvhEvuVEGKIZerhCaqpiBs0zx7O0nHu5NtlATInPRoHpysBk1b3zRKqPTtiVKA3DEkDc90lJ3FIJXu53Rp6kP839UNIE5WqkLXJyLA8vppUwb8g+ry5FC0TdzfX4AlckanVx2/04Dh97Lz1u0nrOUKEE90=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562266689669525.4643905160094;
+ Thu, 4 Jul 2019 11:58:09 -0700 (PDT)
+Message-ID: <156226668801.29820.5987152854769823334@c4a48874b076>
+In-Reply-To: <20190703215542.16123-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 5150147649766594964
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrfedvgdduvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jsnow@redhat.com
+Date: Thu, 4 Jul 2019 11:58:09 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.19
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v10 6/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH v2 00/18] bitmaps: introduce 'bitmap' sync
+ mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,257 +62,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, quintela@redhat.com, wencongyang2@huawei.com,
+ xiechanglong.d@gmail.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, mreitz@redhat.com, jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Jul 2019 10:49:05 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-
-> 
-> 
-> On Thursday 04 July 2019 06:42 AM, David Gibson wrote:
-> > On Wed, Jul 03, 2019 at 02:30:31PM +0530, Aravinda Prasad wrote:
-> >>
-> >>
-> >> On Wednesday 03 July 2019 08:50 AM, David Gibson wrote:
-> >>> On Tue, Jul 02, 2019 at 04:10:08PM +0530, Aravinda Prasad wrote:
-> >>>>
-> >>>>
-> >>>> On Tuesday 02 July 2019 09:41 AM, David Gibson wrote:
-> >>>>> On Wed, Jun 12, 2019 at 02:51:38PM +0530, Aravinda Prasad wrote:
-> >>>>>> This patch adds support in QEMU to handle "ibm,nmi-register"
-> >>>>>> and "ibm,nmi-interlock" RTAS calls and sets the default
-> >>>>>> value of SPAPR_CAP_FWNMI_MCE to SPAPR_CAP_ON for machine
-> >>>>>> type 4.0.
-> >>>>>>
-> >>>>>> The machine check notification address is saved when the
-> >>>>>> OS issues "ibm,nmi-register" RTAS call.
-> >>>>>>
-> >>>>>> This patch also handles the case when multiple processors
-> >>>>>> experience machine check at or about the same time by
-> >>>>>> handling "ibm,nmi-interlock" call. In such cases, as per
-> >>>>>> PAPR, subsequent processors serialize waiting for the first
-> >>>>>> processor to issue the "ibm,nmi-interlock" call. The second
-> >>>>>> processor that also received a machine check error waits
-> >>>>>> till the first processor is done reading the error log.
-> >>>>>> The first processor issues "ibm,nmi-interlock" call
-> >>>>>> when the error log is consumed.
-> >>>>>>
-> >>>>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> >>>>>> ---
-> >>>>>>  hw/ppc/spapr.c         |    6 ++++-
-> >>>>>>  hw/ppc/spapr_rtas.c    |   63 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >>>>>>  include/hw/ppc/spapr.h |    5 +++-
-> >>>>>>  3 files changed, 72 insertions(+), 2 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >>>>>> index 3d6d139..213d493 100644
-> >>>>>> --- a/hw/ppc/spapr.c
-> >>>>>> +++ b/hw/ppc/spapr.c
-> >>>>>> @@ -2946,6 +2946,9 @@ static void spapr_machine_init(MachineState *machine)
-> >>>>>>          /* Create the error string for live migration blocker */
-> >>>>>>          error_setg(&spapr->fwnmi_migration_blocker,
-> >>>>>>                  "Live migration not supported during machine check handling");
-> >>>>>> +
-> >>>>>> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
-> >>>>>> +        spapr_fwnmi_register();
-> >>>>>>      }
-> >>>>>>  
-> >>>>>>      spapr->rtas_blob = g_malloc(spapr->rtas_size);
-> >>>>>> @@ -4408,7 +4411,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
-> >>>>>> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
-> >>>>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_ON;
-> >>>>>
-> >>>>> Turning this on by default really isn't ok if it stops you running TCG
-> >>>>> guests at all.
-> >>>>
-> >>>> If so this can be "off" by default until TCG is supported.
-> >>>>
-> >>>>>
-> >>>>>>      spapr_caps_add_properties(smc, &error_abort);
-> >>>>>>      smc->irq = &spapr_irq_dual;
-> >>>>>>      smc->dr_phb_enabled = true;
-> >>>>>> @@ -4512,6 +4515,7 @@ static void spapr_machine_3_1_class_options(MachineClass *mc)
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_BROKEN;
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_BROKEN;
-> >>>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_OFF;
-> >>>>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
-> >>>>>
-> >>>>> We're now well past 4.0, and in fact we're about to go into soft
-> >>>>> freeze for 4.1, so we're going to miss that too.  So 4.1 and earlier
-> >>>>> will need to retain the old default.
-> >>>>
-> >>>> ok.
-> >>>>
-> >>>>>
-> >>>>>>  }
-> >>>>>>  
-> >>>>>>  DEFINE_SPAPR_MACHINE(3_1, "3.1", false);
-> >>>>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> >>>>>> index a015a80..e010cb2 100644
-> >>>>>> --- a/hw/ppc/spapr_rtas.c
-> >>>>>> +++ b/hw/ppc/spapr_rtas.c
-> >>>>>> @@ -49,6 +49,7 @@
-> >>>>>>  #include "hw/ppc/fdt.h"
-> >>>>>>  #include "target/ppc/mmu-hash64.h"
-> >>>>>>  #include "target/ppc/mmu-book3s-v3.h"
-> >>>>>> +#include "migration/blocker.h"
-> >>>>>>  
-> >>>>>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> >>>>>>                                     uint32_t token, uint32_t nargs,
-> >>>>>> @@ -352,6 +353,60 @@ static void rtas_get_power_level(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> >>>>>>      rtas_st(rets, 1, 100);
-> >>>>>>  }
-> >>>>>>  
-> >>>>>> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> >>>>>> +                                  SpaprMachineState *spapr,
-> >>>>>> +                                  uint32_t token, uint32_t nargs,
-> >>>>>> +                                  target_ulong args,
-> >>>>>> +                                  uint32_t nret, target_ulong rets)
-> >>>>>> +{
-> >>>>>> +    int ret;
-> >>>>>> +    hwaddr rtas_addr = spapr_get_rtas_addr();
-> >>>>>> +
-> >>>>>> +    if (!rtas_addr) {
-> >>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> >>>>>> +        return;
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_OFF) {
-> >>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> >>>>>> +        return;
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    ret = kvmppc_fwnmi_enable(cpu);
-> >>>>>> +    if (ret == 1) {
-> >>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> >>>>>
-> >>>>> I don't understand this case separate from the others.  We've already
-> >>>>> set the cap, so fwnmi support should be checked and available.
-> >>>>
-> >>>> But we have not enabled fwnmi in KVM. kvmppc_fwnmi_enable() returns 1 if
-> >>>> cap_ppc_fwnmi is not available in KVM.
-> >>>
-> >>> But you've checked for the presence of the extension, yes?  So a
-> >>> failure to enable the cap would be unexpected.  In which case how does
-> >>> this case differ from.. 
-> >>
-> >> No, this is the function where I check for the presence of the
-> >> extension. In kvm_arch_init() we just set cap_ppc_fwnmi to 1 if KVM
-> >> support is available, but don't take any action if unavailable.
-> > 
-> > Yeah, that's not ok.  You should be checking for the presence of the
-> > extension in the .apply() function.  If you start up with the spapr
-> > cap selected then failing at nmi-register time means something has
-> > gone badly wrong.
-> 
-> So, I should check for two things in the .apply() function: first if
-> cap_ppc_fwnmi is supported and second if cap_ppc_fwnmi is enabled in KVM.
-> 
-> In that case kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0) should be
-> called during spapr_machine_init().
-> 
-> So, we will fail to boot (when SPAPR_CAP_FWNMI_MCE=ON) if cap_ppc_fwnmi
-> can't be enabled irrespective of whether a guest issues nmi,register or not.
-> 
-
-Yes. The idea is that we don't want to expose some feature to the guest
-if we already know it cannot work. The same stands for migration, if
-we know the destination host doesn't support the feature, we don't want
-to confuse the guest because the feature disappeared unexpectedly. The
-correct way to address that is to check the feature is supported in QEMU
-and/or KVM before we start the guest or before we accept a migration
-stream and fail early if we can't provide the feature.
-
-Speaking of migration, kvmppc_fwnmi_enable() should be called in a
-post load callback... and the problem I see is that this is a vCPU
-ioctl. So either we add a state "I should enable FWNMI on post load"
-to the vCPU that called nmi,register, or maybe first_cpu can do the
-trick in a post load callback of vmstate_spapr_machine_check.
-
-BTW, since FWNMI is a platform wide feature, ie. you don't need to
-enable it on a per-CPU basis), why is KVM_CAP_PPC_FWNMI a vCPU ioctl
-and not a VM ioctl ?
-
-> > 
-> > This is necessary for migration: if you start on a system with nmi
-> > support and the guest registers for it, you can't then migrate safely
-> > to a system that doesn't have nmi support.  The way to handle that
-> > case is to have qemu fail to even start up on a destination without
-> > the support.
-> > 
-> >> So this case is when we are running an old version of KVM with no
-> >> cap_ppc_fwnmi support.
-> >>
-> >>>
-> >>>>
-> >>>>>
-> >>>>>> +        return;
-> >>>>>> +    } else if (ret < 0) {
-> >>>>>> +        error_report("Couldn't enable KVM FWNMI capability");
-> >>>>>> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> >>>>>> +        return;
-> >>>
-> >>> ..this case.
-> >>
-> >> And this is when we have the KVM support but due to some problem with
-> >> either KVM or QEMU we are unable to enable cap_ppc_fwnmi.
-> >>
-> >>>
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    spapr->guest_machine_check_addr = rtas_ld(args, 1);
-> >>>>>> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-> >>>>>> +                                   SpaprMachineState *spapr,
-> >>>>>> +                                   uint32_t token, uint32_t nargs,
-> >>>>>> +                                   target_ulong args,
-> >>>>>> +                                   uint32_t nret, target_ulong rets)
-> >>>>>> +{
-> >>>>>> +    if (spapr->guest_machine_check_addr == -1) {
-> >>>>>> +        /* NMI register not called */
-> >>>>>> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> >>>>>> +    } else {
-> >>>>>> +        /*
-> >>>>>> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> >>>>>> +         * hence unset mc_status.
-> >>>>>> +         */
-> >>>>>> +        spapr->mc_status = -1;
-> >>>>>> +        qemu_cond_signal(&spapr->mc_delivery_cond);
-> >>>>>> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
-> >>>>>
-> >>>>> Hrm.  We add the blocker at the mce request point.  First, that's in
-> >>>>> another patch, which isn't great.  Second, does that mean we could add
-> >>>>> multiple times if we get an MCE on multiple CPUs?  Will that work and
-> >>>>> correctly match adds and removes properly?
-> >>>>
-> >>>> If it is fine to move the migration patch as the last patch in the
-> >>>> sequence, then we will have add and del blocker in the same patch.
-> >>>>
-> >>>> And yes we could add multiple times if we get MCE on multiple CPUs and
-> >>>> as all those cpus call interlock there should be matching number of
-> >>>> delete blockers.
-> >>>
-> >>> Ok, and I think adding the same pointer to the list multiple times
-> >>> will work ok.
-> >>
-> >> I think so
-> >>
-> >>>
-> >>> Btw, add_blocker() can fail - have you handled failure conditions?
-> >>
-> >> yes, I am handling it.
-> >>
-> >>>
-> >>
-> > 
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwMzIxNTU0Mi4xNjEy
+My0xLWpzbm93QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjIgMDAvMThdIGJpdG1hcHM6
+IGludHJvZHVjZSAnYml0bWFwJyBzeW5jIG1vZGUKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIw
+MTkwNzAzMjE1NTQyLjE2MTIzLTEtanNub3dAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
+aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
+U1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMjlkMmU4
+OSBibG9jay9iYWNrdXA6IGxvb3NlbiByZXN0cmljdGlvbiBvbiByZWFkb25seSBiaXRtYXBzCjNk
+YWM1ZTggaW90ZXN0czogYWRkIHRlc3QgMjU3IGZvciBiaXRtYXAtbW9kZSBiYWNrdXBzCjliMzM0
+ZjIgaW90ZXN0czogQWRkIHZpcnRpby1zY3NpIGRldmljZSBoZWxwZXIKNzZkZTkxOCBpb3Rlc3Rz
+OiB0ZWFjaCBGaWxlUGF0aCB0byBwcm9kdWNlIG11bHRpcGxlIHBhdGhzCjI1ZTQ3Y2YgaW90ZXN0
+czogdGVhY2ggcnVuX2pvYiB0byBjYW5jZWwgcGVuZGluZyBqb2JzCjI0Njk3OWEgaW90ZXN0czog
+YWRkIHRlc3Rpbmcgc2hpbSBmb3Igc2NyaXB0LXN0eWxlIHB5dGhvbiB0ZXN0cwpkYTlmNWIyIGJs
+b2NrL2JhY2t1cDogYWRkICdhbHdheXMnIGJpdG1hcCBzeW5jIHBvbGljeQphMGRhNGE0IGJsb2Nr
+L2JhY2t1cDogdXBncmFkZSBjb3B5X2JpdG1hcCB0byBCZHJ2RGlydHlCaXRtYXAKYzM4YmViMCBi
+bG9jay9kaXJ0eS1iaXRtYXA6IGFkZCBiZHJ2X2RpcnR5X2JpdG1hcF9nZXQKZTFmOTEwMSBibG9j
+ay9kaXJ0eS1iaXRtYXA6IGFkZCBiZHJ2X2RpcnR5X2JpdG1hcF9tZXJnZV9pbnRlcm5hbAo4ZGNi
+YjZlIGhiaXRtYXA6IGVuYWJsZSBtZXJnaW5nIGFjcm9zcyBncmFudWxhcml0aWVzCmYwYTAxZjUg
+aGJpdG1hcDogRml4IG1lcmdlIHdoZW4gYiBpcyBlbXB0eSwgYW5kIHJlc3VsdCBpcyBub3QgYW4g
+YWxpYXMgb2YgYQpjZmRkYWFjIGJsb2NrL2JhY2t1cDogYWRkICduZXZlcicgcG9saWN5IHRvIGJp
+dG1hcCBzeW5jIG1vZGUKM2Q4N2M3ZSBibG9jay9iYWNrdXA6IEFkZCBtaXJyb3Igc3luYyBtb2Rl
+ICdiaXRtYXAnCjRiZmVhZWEgcWFwaTogYWRkIEJpdG1hcFN5bmNNb2RlIGVudW0KYWExNTNjYiBi
+bG9ja2Rldi1iYWNrdXA6IHV0aWxpemUgZG9fYmFja3VwX2NvbW1vbgo5YjJlYTZkIGRyaXZlLWJh
+Y2t1cDogY3JlYXRlIGRvX2JhY2t1cF9jb21tb24KZjFkZmU1NyBxYXBpL2Jsb2NrLWNvcmU6IElu
+dHJvZHVjZSBCYWNrdXBDb21tb24KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTggQ2hlY2tpbmcg
+Y29tbWl0IGYxZGZlNTczMWNkZCAocWFwaS9ibG9jay1jb3JlOiBJbnRyb2R1Y2UgQmFja3VwQ29t
+bW9uKQoyLzE4IENoZWNraW5nIGNvbW1pdCA5YjJlYTZkMTJhZDEgKGRyaXZlLWJhY2t1cDogY3Jl
+YXRlIGRvX2JhY2t1cF9jb21tb24pCjMvMTggQ2hlY2tpbmcgY29tbWl0IGFhMTUzY2JjMWQ3YiAo
+YmxvY2tkZXYtYmFja3VwOiB1dGlsaXplIGRvX2JhY2t1cF9jb21tb24pCjQvMTggQ2hlY2tpbmcg
+Y29tbWl0IDRiZmVhZWFlYTVjMCAocWFwaTogYWRkIEJpdG1hcFN5bmNNb2RlIGVudW0pCjUvMTgg
+Q2hlY2tpbmcgY29tbWl0IDNkODdjN2U5NTk5NCAoYmxvY2svYmFja3VwOiBBZGQgbWlycm9yIHN5
+bmMgbW9kZSAnYml0bWFwJykKNi8xOCBDaGVja2luZyBjb21taXQgY2ZkZGFhY2I3M2UzIChibG9j
+ay9iYWNrdXA6IGFkZCAnbmV2ZXInIHBvbGljeSB0byBiaXRtYXAgc3luYyBtb2RlKQpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjY6
+IEZJTEU6IGJsb2NrL2JhY2t1cC5jOjI2OToKKyAgICAgICAgLyogRmFpbHVyZSwgb3Igd2UgZG9u
+J3Qgd2FudCB0byBzeW5jaHJvbml6ZSB0aGUgYml0bWFwLgoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMyNzogRklMRTogYmxvY2sv
+YmFja3VwLmM6MjcwOgorICAgICAgICAgKiBNZXJnZSB0aGUgc3VjY2Vzc29yIGJhY2sgaW50byB0
+aGUgcGFyZW50LCBkZWxldGUgbm90aGluZy4gKi8KCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5n
+cywgMjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
+ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
+b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
+Lgo3LzE4IENoZWNraW5nIGNvbW1pdCBmMGEwMWY1NThjZTUgKGhiaXRtYXA6IEZpeCBtZXJnZSB3
+aGVuIGIgaXMgZW1wdHksIGFuZCByZXN1bHQgaXMgbm90IGFuIGFsaWFzIG9mIGEpCjgvMTggQ2hl
+Y2tpbmcgY29tbWl0IDhkY2JiNmU5ZjIwNSAoaGJpdG1hcDogZW5hYmxlIG1lcmdpbmcgYWNyb3Nz
+IGdyYW51bGFyaXRpZXMpCjkvMTggQ2hlY2tpbmcgY29tbWl0IGUxZjkxMDE4MjhkYyAoYmxvY2sv
+ZGlydHktYml0bWFwOiBhZGQgYmRydl9kaXJ0eV9iaXRtYXBfbWVyZ2VfaW50ZXJuYWwpCjEwLzE4
+IENoZWNraW5nIGNvbW1pdCBjMzhiZWIwMzRhZDggKGJsb2NrL2RpcnR5LWJpdG1hcDogYWRkIGJk
+cnZfZGlydHlfYml0bWFwX2dldCkKRVJST1I6IG9wZW4gYnJhY2UgJ3snIGZvbGxvd2luZyBmdW5j
+dGlvbiBkZWNsYXJhdGlvbnMgZ28gb24gdGhlIG5leHQgbGluZQojMzY6IEZJTEU6IGJsb2NrL2Rp
+cnR5LWJpdG1hcC5jOjUxNzoKK2Jvb2wgYmRydl9kaXJ0eV9iaXRtYXBfZ2V0KEJkcnZEaXJ0eUJp
+dG1hcCAqYml0bWFwLCBpbnQ2NF90IG9mZnNldCkgewoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5p
+bmdzLCA3MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKMTEvMTggQ2hlY2tpbmcgY29tbWl0IGEwZGE0YTQwZDc0NCAoYmxvY2svYmFja3VwOiB1
+cGdyYWRlIGNvcHlfYml0bWFwIHRvIEJkcnZEaXJ0eUJpdG1hcCkKV0FSTklORzogbGluZSBvdmVy
+IDgwIGNoYXJhY3RlcnMKIzYwOiBGSUxFOiBibG9jay9iYWNrdXAuYzoxNzQ6CisgICAgYmRydl9y
+ZXNldF9kaXJ0eV9iaXRtYXAoam9iLT5jb3B5X2JpdG1hcCwgc3RhcnQsIGpvYi0+Y2x1c3Rlcl9z
+aXplICogbnJfY2x1c3RlcnMpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzY2
+OiBGSUxFOiBibG9jay9iYWNrdXAuYzoxNzk6CisgICAgICAgIGJkcnZfc2V0X2RpcnR5X2JpdG1h
+cChqb2ItPmNvcHlfYml0bWFwLCBzdGFydCwgam9iLT5jbHVzdGVyX3NpemUgKiBucl9jbHVzdGVy
+cyk7Cgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDE5MiBsaW5lcyBjaGVja2VkCgpQYXRj
+aCAxMS8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMi8xOCBDaGVja2luZyBjb21taXQg
+ZGE5ZjViMjQ4ODMyIChibG9jay9iYWNrdXA6IGFkZCAnYWx3YXlzJyBiaXRtYXAgc3luYyBwb2xp
+Y3kpCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0
+ZSBsaW5lCiM0MTogRklMRTogYmxvY2svYmFja3VwLmM6MjczOgorICAgICAgICAvKiBXZSBzdWNj
+ZWVkZWQsIG9yIHdlIGFsd2F5cyBpbnRlbmRlZCB0byBzeW5jIHRoZSBiaXRtYXAuCgpXQVJOSU5H
+OiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzQy
+OiBGSUxFOiBibG9jay9iYWNrdXAuYzoyNzQ6CisgICAgICAgICAqIERlbGV0ZSB0aGlzIGJpdG1h
+cCBhbmQgaW5zdGFsbCB0aGUgY2hpbGQuICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2Ug
+YSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNDY6IEZJTEU6IGJsb2NrL2JhY2t1cC5j
+OjI3NzoKKyAgICAgICAgLyogV2UgZmFpbGVkLCBvciB3ZSBuZXZlciBpbnRlbmRlZCB0byBzeW5j
+IHRoZSBiaXRtYXAgYW55d2F5LgoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxp
+bmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiM0NzogRklMRTogYmxvY2svYmFja3VwLmM6Mjc4Ogor
+ICAgICAgICAgKiBNZXJnZSB0aGUgc3VjY2Vzc29yIGJhY2sgaW50byB0aGUgcGFyZW50LCBrZWVw
+aW5nIGFsbCBkYXRhLiAqLwoKdG90YWw6IDAgZXJyb3JzLCA0IHdhcm5pbmdzLCA0NyBsaW5lcyBj
+aGVja2VkCgpQYXRjaCAxMi8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMy8xOCBDaGVj
+a2luZyBjb21taXQgMjQ2OTc5YTYyM2U3IChpb3Rlc3RzOiBhZGQgdGVzdGluZyBzaGltIGZvciBz
+Y3JpcHQtc3R5bGUgcHl0aG9uIHRlc3RzKQoxNC8xOCBDaGVja2luZyBjb21taXQgMjVlNDdjZjM3
+ZjkyIChpb3Rlc3RzOiB0ZWFjaCBydW5fam9iIHRvIGNhbmNlbCBwZW5kaW5nIGpvYnMpCjE1LzE4
+IENoZWNraW5nIGNvbW1pdCA3NmRlOTE4MGM2MjkgKGlvdGVzdHM6IHRlYWNoIEZpbGVQYXRoIHRv
+IHByb2R1Y2UgbXVsdGlwbGUgcGF0aHMpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
+CiM2MzogRklMRTogdGVzdHMvcWVtdS1pb3Rlc3RzL2lvdGVzdHMucHk6MzkyOgorICAgICIiIkZp
+bGVQYXRoIGlzIGEgc3BlY2lhbGl6YXRpb24gb2YgRmlsZVBhdGhzIHRoYXQgdGFrZXMgYSBzaW5n
+bGUgZmlsZW5hbWUuIiIiCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDY3IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDE1LzE4IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE2LzE4IENoZWNr
+aW5nIGNvbW1pdCA5YjMzNGYyY2YxMmIgKGlvdGVzdHM6IEFkZCB2aXJ0aW8tc2NzaSBkZXZpY2Ug
+aGVscGVyKQoxNy8xOCBDaGVja2luZyBjb21taXQgM2RhYzVlOGY4NDIyIChpb3Rlc3RzOiBhZGQg
+dGVzdCAyNTcgZm9yIGJpdG1hcC1tb2RlIGJhY2t1cHMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
+ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzExOiAK
+bmV3IGZpbGUgbW9kZSAxMDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMjYxMiBs
+aW5lcyBjaGVja2VkCgpQYXRjaCAxNy8xOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOC8x
+OCBDaGVja2luZyBjb21taXQgMjlkMmU4OTk1ZWMzIChibG9jay9iYWNrdXA6IGxvb3NlbiByZXN0
+cmljdGlvbiBvbiByZWFkb25seSBiaXRtYXBzKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
+bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
+dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcwMzIxNTU0Mi4xNjEyMy0xLWpzbm93QHJlZGhh
+dC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
+ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
+ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
