@@ -2,49 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9EA5FA2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 16:36:49 +0200 (CEST)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F9A5FA57
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 16:55:01 +0200 (CEST)
+Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hj2qu-00038e-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 10:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59142)
+	id 1hj38W-0000fP-JT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 10:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33668)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hj2ny-0001Nm-LH
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:33:51 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hj37d-0000GJ-OV
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:54:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hj2nn-0006kZ-Ql
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:33:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37258)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hj37c-0002t7-RU
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:54:05 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:48651 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hj2nj-0006cE-Qe
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:33:33 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4D2B4368E3
- for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 14:33:09 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D8BB7D502;
- Thu,  4 Jul 2019 14:33:08 +0000 (UTC)
-Date: Thu, 4 Jul 2019 16:33:03 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Message-ID: <20190704163303.329b034b@redhat.com>
-In-Reply-To: <20190612114125.22060-1-berrange@redhat.com>
-References: <20190612114125.22060-1-berrange@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 04 Jul 2019 14:33:17 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] qapi: report the default CPU type for
- each machine
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hj37c-0002BB-Ko
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 10:54:04 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id BAF9E1A21D6;
+ Thu,  4 Jul 2019 16:52:59 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A18031A2143;
+ Thu,  4 Jul 2019 16:52:59 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Date: Thu,  4 Jul 2019 16:52:46 +0200
+Message-Id: <1562251966-19318-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.1] linux-user: Fix structure
+ target_ucontext for MIPS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,103 +50,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Dragan Mladjenovic <dmladjenovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jun 2019 13:41:25 +0200
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-> When user doesn't request any explicit CPU model with libvirt or QEMU,
-> a machine type specific CPU model is picked. Currently there is no way
-> to determine what this QEMU built-in default is, so libvirt cannot
-> report this back to the user in the XML config.
->=20
-> This extends the "query-machines" QMP command so that it reports the
-> default CPU model typename for each machine.
->=20
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Structure ucontext for MIPS is defined in the following way in
+Linux kernel:
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+(arch/mips/include/uapi/asm/ucontext.h, lines 54-64)
 
+struct ucontext {
+    /* Historic fields matching asm-generic */
+    unsigned long       uc_flags;
+    struct ucontext     *uc_link;
+    stack_t             uc_stack;
+    struct sigcontext   uc_mcontext;
+    sigset_t            uc_sigmask;
 
-we probably need to allow feed it back to QEMU -cpu directly
-for all machines (currently it will work only with a handfull of them)
-something like:
+    /* Extended context structures may follow ucontext */
+    unsigned long long	uc_extcontext[0];
+};
 
-diff --git a/exec.c b/exec.c
-index e7622d1956..ea4d2d74a6 100644
---- a/exec.c
-+++ b/exec.c
-@@ -999,11 +999,14 @@ const char *parse_cpu_option(const char *cpu_option)
-         exit(1);
-     }
-=20
--    oc =3D cpu_class_by_name(CPU_RESOLVING_TYPE, model_pieces[0]);
--    if (oc =3D=3D NULL) {
--        error_report("unable to find CPU model '%s'", model_pieces[0]);
--        g_strfreev(model_pieces);
--        exit(EXIT_FAILURE);
-+    oc =3D object_class_by_name(model_pieces[0]);
-+    if (!oc) {
-+        oc =3D cpu_class_by_name(CPU_RESOLVING_TYPE, model_pieces[0]);
-+        if (oc =3D=3D NULL) {
-+            error_report("unable to find CPU model '%s'", model_pieces[0]);
-+            g_strfreev(model_pieces);
-+            exit(EXIT_FAILURE);
-+        }
-     }
-=20
-     cpu_type =3D object_class_get_name(oc);
+Fix the structure target_sigset_t for MIPS to reflect the definition
+above, except the correction for field uc_extcontext, which will
+follow at some later time.
 
-> ---
->=20
-> Changed in v2:
->=20
->  - Fix qapi docs version tag
->=20
->  qapi/misc.json | 6 +++++-
->  vl.c           | 4 ++++
->  2 files changed, 9 insertions(+), 1 deletion(-)
->=20
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 8b3ca4fdd3..9e2dedd938 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -2018,12 +2018,16 @@
->  #
->  # @hotpluggable-cpus: cpu hotplug via -device is supported (since 2.7.0)
->  #
-> +# @default-cpu-type: default CPU model typename if none is requested via
-> +#                    the -cpu argument. (since 4.1)
-> +#
->  # Since: 1.2.0
->  ##
->  { 'struct': 'MachineInfo',
->    'data': { 'name': 'str', '*alias': 'str',
->              '*is-default': 'bool', 'cpu-max': 'int',
-> -            'hotpluggable-cpus': 'bool'} }
-> +            'hotpluggable-cpus': 'bool',
-> +            '*default-cpu-type': 'str'} }
-> =20
->  ##
->  # @query-machines:
-> diff --git a/vl.c b/vl.c
-> index 201144b162..b2de329bd2 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -1519,6 +1519,10 @@ MachineInfoList *qmp_query_machines(Error **errp)
->          info->name =3D g_strdup(mc->name);
->          info->cpu_max =3D !mc->max_cpus ? 1 : mc->max_cpus;
->          info->hotpluggable_cpus =3D mc->has_hotpluggable_cpus;
-> +        if (mc->default_cpu_type) {
-> +            info->default_cpu_type =3D g_strdup(mc->default_cpu_type);
-> +            info->has_default_cpu_type =3D true;
-> +        }
-> =20
->          entry =3D g_malloc0(sizeof(*entry));
->          entry->value =3D info;
+Fixes: 94c5495d
+
+Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ linux-user/mips/signal.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
+index 6aa303e..455a8a2 100644
+--- a/linux-user/mips/signal.c
++++ b/linux-user/mips/signal.c
+@@ -71,10 +71,9 @@ struct sigframe {
+ };
+ 
+ struct target_ucontext {
+-    target_ulong tuc_flags;
+-    target_ulong tuc_link;
++    abi_ulong tuc_flags;
++    abi_ulong tuc_link;
+     target_stack_t tuc_stack;
+-    target_ulong pad0;
+     struct target_sigcontext tuc_mcontext;
+     target_sigset_t tuc_sigmask;
+ };
+-- 
+2.7.4
 
 
