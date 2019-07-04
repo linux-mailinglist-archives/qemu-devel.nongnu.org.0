@@ -2,52 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201435F666
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 12:15:01 +0200 (CEST)
-Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF735F89A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jul 2019 14:54:53 +0200 (CEST)
+Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiylY-0001fR-C9
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 06:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43101)
+	id 1hj1GF-0004kG-ME
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jul 2019 08:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44776)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hiykt-00012m-6M
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 06:14:19 -0400
+ (envelope-from <zhang.lei@jp.fujitsu.com>) id 1hiyrR-0003bO-EB
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 06:21:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hiyko-0008Ig-F0
- for qemu-devel@nongnu.org; Thu, 04 Jul 2019 06:14:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57524)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hiykm-000886-Fl; Thu, 04 Jul 2019 06:14:12 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 744B730821FF;
- Thu,  4 Jul 2019 10:13:55 +0000 (UTC)
-Received: from localhost (ovpn-117-206.ams2.redhat.com [10.36.117.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1E886BB0;
- Thu,  4 Jul 2019 10:13:46 +0000 (UTC)
-Date: Thu, 4 Jul 2019 11:13:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190704101345.GC1609@stefanha-x1.localdomain>
-References: <20190704055150.4899-1-clg@kaod.org>
- <cd1f8a48-27cb-5cc5-1fd2-46f1597a7094@redhat.com>
+ (envelope-from <zhang.lei@jp.fujitsu.com>) id 1hiyrQ-0005Ab-Ke
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 06:21:05 -0400
+Received: from mgwkm03.jp.fujitsu.com ([202.219.69.170]:22741)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <zhang.lei@jp.fujitsu.com>)
+ id 1hiyrQ-000545-6z
+ for qemu-devel@nongnu.org; Thu, 04 Jul 2019 06:21:04 -0400
+Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
+ mgwkm03.jp.fujitsu.com with smtp
+ id 7eee_76f4_1801cc77_d74d_44e3_87d2_38dc8eecba75;
+ Thu, 04 Jul 2019 19:20:54 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+ (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+ by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 98702AC0071
+ for <qemu-devel@nongnu.org>; Thu,  4 Jul 2019 19:20:53 +0900 (JST)
+Received: from G01JPEXCHKW17.g01.fujitsu.local
+ (G01JPEXCHKW17.g01.fujitsu.local [10.0.194.56])
+ by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id CDF55BD6845;
+ Thu,  4 Jul 2019 19:20:17 +0900 (JST)
+Received: from G01JPEXMBKW03.g01.fujitsu.local ([10.0.194.67]) by
+ g01jpexchkw17 ([10.0.194.56]) with mapi id 14.03.0439.000; Thu, 4 Jul 2019
+ 19:20:15 +0900
+From: "Zhang, Lei" <zhang.lei@jp.fujitsu.com>
+To: "'drjones@redhat.com'" <drjones@redhat.com>, "'qemu-devel@nongnu.org'"
+ <qemu-devel@nongnu.org>
+Thread-Topic: [Qemu-devel] [PATCH v2 00/14] target/arm/kvm: enable SVE in
+ guests
+Thread-Index: AdUyUIJX95Pq/vyrTJWcUgcHWRhmbw==
+Date: Thu, 4 Jul 2019 10:20:16 +0000
+Message-ID: <8898674D84E3B24BA3A2D289B872026A78BAAEAF@G01JPEXMBKW03>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.18.70.226]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uh9ZiVrAOUUm9fzH"
-Content-Disposition: inline
-In-Reply-To: <cd1f8a48-27cb-5cc5-1fd2-46f1597a7094@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 04 Jul 2019 10:13:55 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for 4.1] aspeed/timer: Provide
- back-pressure information for short periods
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.219.69.170
+X-Mailman-Approved-At: Thu, 04 Jul 2019 08:53:26 -0400
+Subject: [Qemu-devel] [PATCH v2 00/14] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,42 +70,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: "Mizuma, Masayoshi" <masayoshi.mizuma@fujitsu.com>, "Okamoto,
+ Takayuki" <tokamoto@jp.fujitsu.com>, "Zhang, Lei" <zhang.lei@jp.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---uh9ZiVrAOUUm9fzH
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 04, 2019 at 11:26:53AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> CC'ing Stefan & Paolo for a non-ARM view on this...
-
-I'm not familiar with the various clock smoothing techniques implemented
-in QEMU and KVM, but this looks okay given that Linux guests expect
-this.
-
-Stefan
-
---uh9ZiVrAOUUm9fzH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0d0VkACgkQnKSrs4Gr
-c8jvKAf/Wr+UzmujJSPJXSN6CYrGku1rXIRyQeJxMV+bcQy5zBL9TstWE15OtL2e
-s9L5/8zhIcDECNHEQZrKz6+Tfr5kmnMUbCBjVL8nQTxjty+YZusB6kDIH8u5RN4c
-dCGS4YJu9vNw8HouuFIstWTzUIfGTV0Jc9PearfhilGLuQLBilus4PlEnzIeAZau
-at4IRB8duBArX60lwjLIETwLMoiM3qyZ4PUQWdAAEMwJ0avQ2O3MBEZjRgbm4RD+
-ktXp8Y09K4fBdZyXy9ClqGF4o3QI3lO+6Ziety/HXtYuA7neo7k8TsX/RzGIQAzv
-xhNqKi2jtN2/SkdJNowvcU16wZUIcQ==
-=FQf2
------END PGP SIGNATURE-----
-
---uh9ZiVrAOUUm9fzH--
+SGkgQW5kcmV3LA0KDQpUaGlzIHBhdGNoIHNlcmllcyB3b3JrcyBmaW5lIGZv
+ciBteSB1c2UgY2FzZXMuDQpQbGVhc2UgZmVlbCBmcmVlIHRvIGFkZC4NCg0K
+ICAgVGVzdGVkLWJ5OiBaaGFuZywgTGVpIDx6aGFuZy5sZWlAanAuZnVqaXRz
+dS5jb20+DQoNCkkgc3VwcG9zZSB2MyBwYXRjaGVzIHdpbGwgYmUgcmVsZWFz
+ZWQuIEknbSBsb29raW5nIGZvcndhcmQgdG8gdGhlIHYzIHBhdGNoZXMuDQoN
+CkJlc3QgUmVnYXJkcywNCkxlaSBaaGFuZw0K
 
