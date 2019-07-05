@@ -2,49 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B7961088
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 13:36:09 +0200 (CEST)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3B360AAC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:55:50 +0200 (CEST)
+Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjizB-0007m1-4E
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jul 2019 07:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52701)
+	id 1hjRUz-00050g-D4
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51323)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yi.l.liu@intel.com>) id 1hjije-0003TD-U0
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 07:20:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1hjRTj-00047I-U8
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:54:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1hjijd-0006WB-SL
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 07:20:06 -0400
-Received: from mga14.intel.com ([192.55.52.115]:2961)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1hjijd-0005e0-Hc
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 07:20:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2019 04:19:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,458,1557212400"; d="scan'208";a="363355079"
-Received: from yiliu-dev.bj.intel.com ([10.238.156.139])
- by fmsmga005.fm.intel.com with ESMTP; 06 Jul 2019 04:19:39 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
- alex.williamson@redhat.com, peterx@redhat.com
-Date: Fri,  5 Jul 2019 19:01:51 +0800
-Message-Id: <1562324511-2910-19-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
-References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [RFC v1 18/18] intel_iommu: do not passdown pasid bind
- for PASID #0
+ (envelope-from <bounces@canonical.com>) id 1hjRTg-0006tw-U6
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:54:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51984)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hjRTg-0006q2-NX
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:54:28 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hjRTe-0008VJ-TE
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 16:54:26 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D2A642E80CD
+ for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 16:54:26 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jul 2019 16:42:00 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: mips testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee janitor laurent-vivier megari pmaydell
+ th-huth v-adrien
+X-Launchpad-Bug-Reporter: AH (v-adrien)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
+Message-Id: <156234492057.24844.17341201600049097992.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: d3fbc8ee2c2c6e0f73e3b11728901354377ee423
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,62 +66,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, jun.j.tian@intel.com,
- eric.auger@redhat.com, yi.y.sun@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, david@gibson.dropbear.id.au
+Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RID_PASID field was introduced in VT-d 3.0 spec, it is used for DMA
-requests w/o PASID in scalable mode VT-d. It is also known as IOVA.
-And in VT-d 3.1 spec, there is further definition on it:
+It's no less reasonable than doing an mmap() with a fixed address -- if
+the application knows what it's doing then it's fine. It's just that it
+bumps into our internal implementation details of (a) doing an mmap to
+reserve the full 32-bit space we want to allow the guest to do and (b)
+just passing guest mappings through to the kernel rather than tracking
+ourselves what memory the guest has allocated (which would allow us to
+implement the SHM_REMAP vs no-remap ourselves, modulo race conditions
+between threads).
 
-"Implementations not supporting RID_PASID capability (ECAP_REG.RPS is
-0b), use a PASID value of 0 to perform address translation for requests
-without PASID."
+(b) also prevents us from implementing the memory-related rlimits
+correctly, incidentally.
 
-This patch adds a check on the PASIDs which are going to be bound to
-device. For PASID #0, no need to passdown pasid binding since PASID #0
-is used as RID_PASID for requests without pasid. Reason is current Intel
-vIOMMU supports guest IOVA by shadowing guest 2nd level page table.
-However, in future, if guest OS uses 1st level page table to store IOVA
-mappings, thus guest IOVA support will also be done via nested translation
-in host side. Then vIOMMU could passdown the pasid binding for PASID #0
-to host with a special PASID value. A special PASID value is to indicate
-host to bind the guest page table to a proper PASID. e.g PASID value from
-RID_PASID field for PF/VF or default PASID for ADI (Assignable Device
-Interface in Scalable IOV solution).
+-- =
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- hw/i386/intel_iommu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1462640
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index e4286e5..ee55209 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1853,6 +1853,14 @@ static void vtd_bind_guest_pasid(IntelIOMMUState *s, int bus_n,
- {
-     PCIBus *bus;
-     struct gpasid_bind_data *g_bind_data;
-+
-+    if (pasid < VTD_MIN_HPASID) {
-+        /*
-+         * If pasid < VTD_HPASID_MIN, this pasid is not allocated
-+         * from host. No need to passdown the changes on it to host.
-+         */
-+        return;
-+    }
-     bus = vtd_find_pci_bus_from_bus_num(s, bus_n);
-     g_bind_data = g_malloc0(sizeof(*g_bind_data));
- 
--- 
-2.7.4
+Title:
+  shmat fails on 32-to-64 setup
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  =
+
+  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
+he program fails on a call to shmat() reproducibly. when digging into this =
+problem, I could make a small guest POC that fails when compiled as i386 (-=
+m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
+ has to do with mmap flags.
+
+  From what I can understand, when running 32bits guests programs, qemu
+  reserve the whole guest virtual space with an mmap call. That mmap
+  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
+  part of that region MAP_SHARED and that fails.
+
+  As a possible fix, it looks like it is possible to first unmap the shm
+  region before calling shmat.
+
+  steps to reproduce: =
+
+  1 - create a file shm.c with content below
+  2 - compile with: gcc -m32 shm.c -o shm32
+  3 - run on a x86_64 host: qemu-i386 ./shm32 =
+
+  4 - observe shmat fails, by returning ptr -1
+
+  5- compile without -m32: : gcc shm.c -o shm64
+  6 - observe it pass: qemu-x84_64 ./shm64
+
+
+  #include <sys/ipc.h>
+  #include <sys/shm.h>
+  #include <sys/mman.h>
+  #include <stdio.h>
+
+  int main()
+  {
+      struct shmid_ds shm_desc;
+      int err =3D 0;
+      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
+      err =3D shmctl(id, IPC_STAT, &shm_desc);
+      const void *at =3D 0x7f7df38ea000;
+      void* ptr =3D shmat(id, at, 0);
+      printf( "got err %d, ptr %p\n", err, ptr );
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
