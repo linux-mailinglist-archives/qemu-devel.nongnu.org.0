@@ -2,50 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197A360A1F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:21:40 +0200 (CEST)
-Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B97C60A3E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:28:27 +0200 (CEST)
+Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQxv-0001gy-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42291)
+	id 1hjR4U-0007c0-8j
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQoi-0002hH-Ae
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:12:10 -0400
+ (envelope-from <bounces@canonical.com>) id 1hjR1K-0006Wm-4k
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:25:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQog-0008Mz-9T
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:12:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57748)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjQoW-0007p5-T0; Fri, 05 Jul 2019 12:11:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C963EC057EC6;
- Fri,  5 Jul 2019 16:11:52 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC5FD80A33;
- Fri,  5 Jul 2019 16:11:46 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 18:11:44 +0200
-Message-Id: <20190705161144.18533-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hjR1I-00010M-Ru
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:25:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46688)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hjR1I-0000qt-KK
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:25:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hjR1D-00056K-TF
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 16:25:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A177A2E80CD
+ for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 16:24:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Fri, 05 Jul 2019 16:11:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jul 2019 16:13:09 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: mips testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee janitor laurent-vivier megari th-huth
+ v-adrien
+X-Launchpad-Bug-Reporter: AH (v-adrien)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
+Message-Id: <156234318920.20622.16625135904535455564.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e91f56a484a5ecf79ad7ae471e550d8cbe417631
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1] Revert "hw/block/pflash_cfi02: Reduce
- I/O accesses to 16-bit"
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,93 +66,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stephen Checkoway noticed commit 3ae0343db69 is incorrect.
-This commit state all parallel flashes are limited to 16-bit
-accesses, however the x32 configuration exists in some models,
-such the Cypress S29CL032J, which CFI Device Geometry Definition
-announces:
+Mapping an arbitrary address in the memory takes the risk to have this addr=
+ess already in use by the loader or a library.
+Where does this address come from?
+Why the qemu-mips program doesn't call shmat() with NULL?
 
-  CFI ADDR     DATA
-  0x28,0x29 =3D 0x0003 (x32-only asynchronous interface)
+-- =
 
-Guests should not be affected by the previous change, because
-QEMU does not announce itself as x32 capable:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1462640
 
-    /* Flash device interface (8 & 16 bits) */
-    pfl->cfi_table[0x28] =3D 0x02;
-    pfl->cfi_table[0x29] =3D 0x00;
+Title:
+  shmat fails on 32-to-64 setup
 
-Commit 3ae0343db69 does not restrict the bus to 16-bit accesses,
-but restrict the implementation as 16-bit access max, so a guest
-32-bit access will result in 2x 16-bit calls.
+Status in QEMU:
+  Confirmed
 
-Now, we have 2 boards that register the flash device in 32-bit
-access:
+Bug description:
+  =
 
-- PPC: taihu_405ep
+  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
+he program fails on a call to shmat() reproducibly. when digging into this =
+problem, I could make a small guest POC that fails when compiled as i386 (-=
+m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
+ has to do with mmap flags.
 
-  The CFI id matches the S29AL008J that is a 1MB in x16, while
-  the code QEMU forces it to be 2MB, and checking Linux it expects
-  a 4MB flash.
+  From what I can understand, when running 32bits guests programs, qemu
+  reserve the whole guest virtual space with an mmap call. That mmap
+  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
+  part of that region MAP_SHARED and that fails.
 
-- ARM: Digic4
+  As a possible fix, it looks like it is possible to first unmap the shm
+  region before calling shmat.
 
-  While the comment says "Samsung K8P3215UQB 64M Bit (4Mx16)",
-  this flash is 32Mb (2MB). Also note the CFI id does not match
-  the comment.
+  steps to reproduce: =
 
-To avoid unexpected side effect, we revert commit 3ae0343db69,
-and will clean the board code later.
+  1 - create a file shm.c with content below
+  2 - compile with: gcc -m32 shm.c -o shm32
+  3 - run on a x86_64 host: qemu-i386 ./shm32 =
 
-Reported-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/block/pflash_cfi02.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+  4 - observe shmat fails, by returning ptr -1
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 5392290c72..83084b9d72 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -317,6 +317,8 @@ static uint64_t pflash_read(void *opaque, hwaddr offs=
-et, unsigned int width)
-     boff =3D offset & 0xFF;
-     if (pfl->width =3D=3D 2) {
-         boff =3D boff >> 1;
-+    } else if (pfl->width =3D=3D 4) {
-+        boff =3D boff >> 2;
-     }
-     switch (pfl->cmd) {
-     default:
-@@ -447,6 +449,8 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
-     boff =3D offset;
-     if (pfl->width =3D=3D 2) {
-         boff =3D boff >> 1;
-+    } else if (pfl->width =3D=3D 4) {
-+        boff =3D boff >> 2;
-     }
-     /* Only the least-significant 11 bits are used in most cases. */
-     boff &=3D 0x7FF;
-@@ -706,7 +710,6 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
- static const MemoryRegionOps pflash_cfi02_ops =3D {
-     .read =3D pflash_read,
-     .write =3D pflash_write,
--    .impl.max_access_size =3D 2,
-     .valid.min_access_size =3D 1,
-     .valid.max_access_size =3D 4,
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
---=20
-2.20.1
+  5- compile without -m32: : gcc shm.c -o shm64
+  6 - observe it pass: qemu-x84_64 ./shm64
 
+
+  #include <sys/ipc.h>
+  #include <sys/shm.h>
+  #include <sys/mman.h>
+  #include <stdio.h>
+
+  int main()
+  {
+      struct shmid_ds shm_desc;
+      int err =3D 0;
+      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
+      err =3D shmctl(id, IPC_STAT, &shm_desc);
+      const void *at =3D 0x7f7df38ea000;
+      void* ptr =3D shmat(id, at, 0);
+      printf( "got err %d, ptr %p\n", err, ptr );
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
