@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4149609E2
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:03:23 +0200 (CEST)
-Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F11609D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:56:51 +0200 (CEST)
+Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQgE-000119-Sf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36705)
+	id 1hjQZv-0004LN-1T
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38068)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQQw-0003Vl-UT
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:40 -0400
+ (envelope-from <eblake@redhat.com>) id 1hjQWv-0002DP-GI
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:53:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQQt-0007jC-0E
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51118)
+ (envelope-from <eblake@redhat.com>) id 1hjQWt-0001E2-Bb
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:53:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35034)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjQQm-00077o-U6; Fri, 05 Jul 2019 11:47:25 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hjQWl-0000Tw-9j; Fri, 05 Jul 2019 11:53:35 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4104030C1AEA;
- Fri,  5 Jul 2019 15:47:22 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DFED1001B30;
- Fri,  5 Jul 2019 15:47:19 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 034A381F13;
+ Fri,  5 Jul 2019 15:53:32 +0000 (UTC)
+Received: from [10.3.116.152] (ovpn-116-152.phx2.redhat.com [10.3.116.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B81E1001B2B;
+ Fri,  5 Jul 2019 15:53:31 +0000 (UTC)
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:46:39 +0200
-Message-Id: <20190705154639.16591-10-philmd@redhat.com>
-In-Reply-To: <20190705154639.16591-1-philmd@redhat.com>
-References: <20190705154639.16591-1-philmd@redhat.com>
+References: <20190705152812.26438-1-eblake@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
+Date: Fri, 5 Jul 2019 10:53:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190705152812.26438-1-eblake@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Rpw4Gms6CyQ7jQZhgVE0Imi2Vd9NKsDSW"
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 05 Jul 2019 15:47:22 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.27]); Fri, 05 Jul 2019 15:53:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 9/9] hw/block/pflash_cfi01: Hold the PRI
- table offset in a variable
+Subject: Re: [Qemu-devel] [PATCH for-4.1] qcow2: Allow -o compat=v3 during
+ qemu-img amend
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,119 +84,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Manufacturers are allowed to move the PRI table, this is why the
-offset is queryable via fixed offsets 0x15/0x16.
-Add a variable to hold the offset, so it will be easier to later
-move the PRI table.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Rpw4Gms6CyQ7jQZhgVE0Imi2Vd9NKsDSW
+Content-Type: multipart/mixed; boundary="OYrRvEtoj6Iak8CgCeeALn2TkKcSxInJK";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
+Message-ID: <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH for-4.1] qcow2: Allow -o compat=v3 during
+ qemu-img amend
+References: <20190705152812.26438-1-eblake@redhat.com>
+In-Reply-To: <20190705152812.26438-1-eblake@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/block/pflash_cfi01.c | 41 ++++++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+--OYrRvEtoj6Iak8CgCeeALn2TkKcSxInJK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index ab72af22a7..67e714b32d 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -761,6 +761,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
-ror **errp)
-     }
-=20
-     /* Hardcoded CFI table */
-+    const uint16_t pri_ofs =3D 0x31;
-     /* Standard "QRY" string */
-     pfl->cfi_table[0x10] =3D 'Q';
-     pfl->cfi_table[0x11] =3D 'R';
-@@ -769,14 +770,17 @@ static void pflash_cfi01_realize(DeviceState *dev, =
-Error **errp)
-     pfl->cfi_table[0x13] =3D 0x01;
-     pfl->cfi_table[0x14] =3D 0x00;
-     /* Primary extended table address (none) */
--    pfl->cfi_table[0x15] =3D 0x31;
--    pfl->cfi_table[0x16] =3D 0x00;
-+    pfl->cfi_table[0x15] =3D pri_ofs;
-+    pfl->cfi_table[0x16] =3D pri_ofs >> 8;
-     /* Alternate command set (none) */
-     pfl->cfi_table[0x17] =3D 0x00;
-     pfl->cfi_table[0x18] =3D 0x00;
-     /* Alternate extended table (none) */
-     pfl->cfi_table[0x19] =3D 0x00;
-     pfl->cfi_table[0x1A] =3D 0x00;
-+
-+    /* CFI: System Interface Information */
-+
-     /* Vcc min */
-     pfl->cfi_table[0x1B] =3D 0x45;
-     /* Vcc max */
-@@ -801,6 +805,9 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
-ror **errp)
-     pfl->cfi_table[0x25] =3D 0x04;
-     /* Max timeout for chip erase */
-     pfl->cfi_table[0x26] =3D 0x00;
-+
-+    /* CFI: Device Geometry Definition */
-+
-     /* Device size */
-     pfl->cfi_table[0x27] =3D ctz32(device_len); /* + 1; */
-     /* Flash device interface (8 & 16 bits) */
-@@ -825,26 +832,30 @@ static void pflash_cfi01_realize(DeviceState *dev, =
-Error **errp)
-     pfl->cfi_table[0x2E] =3D (blocks_per_device - 1) >> 8;
-     pfl->cfi_table[0x2F] =3D sector_len_per_device >> 8;
-     pfl->cfi_table[0x30] =3D sector_len_per_device >> 16;
-+    assert(0x30 < pri_ofs);
-+
-+    /* CFI: Primary-Vendor Specific */
-=20
-     /* Extended */
--    pfl->cfi_table[0x31] =3D 'P';
--    pfl->cfi_table[0x32] =3D 'R';
--    pfl->cfi_table[0x33] =3D 'I';
-+    pfl->cfi_table[0x00 + pri_ofs] =3D 'P';
-+    pfl->cfi_table[0x01 + pri_ofs] =3D 'R';
-+    pfl->cfi_table[0x02 + pri_ofs] =3D 'I';
-=20
--    pfl->cfi_table[0x34] =3D '1';
--    pfl->cfi_table[0x35] =3D '0';
-+    pfl->cfi_table[0x03 + pri_ofs] =3D '1';
-+    pfl->cfi_table[0x04 + pri_ofs] =3D '0';
-=20
--    pfl->cfi_table[0x36] =3D 0x00;
--    pfl->cfi_table[0x37] =3D 0x00;
--    pfl->cfi_table[0x38] =3D 0x00;
--    pfl->cfi_table[0x39] =3D 0x00;
-+    pfl->cfi_table[0x05 + pri_ofs] =3D 0x00; /* Optional features */
-+    pfl->cfi_table[0x06 + pri_ofs] =3D 0x00;
-+    pfl->cfi_table[0x07 + pri_ofs] =3D 0x00;
-+    pfl->cfi_table[0x08 + pri_ofs] =3D 0x00;
-=20
--    pfl->cfi_table[0x3a] =3D 0x00;
-+    pfl->cfi_table[0x09 + pri_ofs] =3D 0x00; /* Func. supported after su=
-spend */
-=20
--    pfl->cfi_table[0x3b] =3D 0x00;
--    pfl->cfi_table[0x3c] =3D 0x00;
-+    pfl->cfi_table[0x0a + pri_ofs] =3D 0x00; /* Block status register ma=
-sk */
-+    pfl->cfi_table[0x0b + pri_ofs] =3D 0x00;
-=20
--    pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
-+    pfl->cfi_table[0x0e + pri_ofs] =3D 0x01; /* Number of protection fie=
-lds */
-+    assert(0x0e + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
- }
-=20
- static void pflash_cfi01_system_reset(DeviceState *dev)
+On 7/5/19 10:28 AM, Eric Blake wrote:
+> Commit b76b4f60 allowed '-o compat=3Dv3' as an alias for the
+> less-appealing '-o compat=3D1.1' for 'qemu-img create' since we want to=
+
+> use the QMP form as much as possible, but forgot to do likewise for
+> qemu-img amend.  Also, it doesn't help that '-o help' doesn't list our
+> new preferred spellings.
+>=20
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>=20
+> I'm arguing that the lack of consistency is a bug, even though the bug
+> has been present since 2.12.
+
+I found this bug while chasing down another one: trying to see if we can
+now lift our restriction against 'qemu-img resize' on an image with
+internal snapshots.  For v3 images, the limitation is artificial (the
+spec says every snapshot is required to have an associated size, so you
+know what size to change back to when reverting to that snapshot); but
+for v2 the limitation is real (the spec did not require tracking image
+size, and therefore changing the size meant that you might not be able
+to safely revert).  Except that we ALSO have a bug in qemu-img amend:
+
+1. Create a v2 file with internal snapshot. On CentOS 6:
+$ qemu-img create -f qcow2 file 1m
+$ qemu-img snapshot -c s1 file
+2. Check that the internal snapshot header uses the smaller size:
+$ od -Ax -j64 -N8 -tx1 file  # Learn the offset for the next command
+$ offset=3D$((0x50000+36))
+$ od -Ax -j$offset -N 4 -tx1 file
+ =3D> extra field is 0
+3. Upgrade it to v3. Using qemu.git master:
+$ qemu-img amend -o compat=3D1.1 file
+4. Check the internal snapshot header size:
+$ od -Ax -j64 -N8 -tx1 file  # Learn the offset for the next command
+$ offset=3D$((0x50000+36))
+$ od -Ax -j$offset -N 4 -tx1 file
+ =3D> oops - extra field is still 0, but should now be at least 16.
+
 --=20
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
+
+--OYrRvEtoj6Iak8CgCeeALn2TkKcSxInJK--
+
+--Rpw4Gms6CyQ7jQZhgVE0Imi2Vd9NKsDSW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0fcnoACgkQp6FrSiUn
+Q2oAnAf/QaiMsty471AgbhH+LlyncEFREjkvHWcvmdP6+XAzfyqJ9ZwUcrLgl2P8
+ioI9+7QSbiZIM7qEePFrsQStgWRoAQU3OjUtLyKYcqhleEPUOiQRtoTS7yjUdefE
+D9H835fGdgB/yzTAlgQXJ6G4pGrN+l1Sy3wKCmx31wVlmffK08kTLiu4pkdG/N7e
+IUhUpTUcw75URafLMW45GmNbIJFtA+lDzwwj3qdIhH+nnUBf8CF/7yuRfRCNxEgw
+JRITt2nd0oLxuX6qNolSh9VmjeaSqFl4pWCAt+dEC+uJLcloLxkmVnnWlgSvpP85
+8p+lPvkg6eP+cX7ccOBvKvthKGOEwQ==
+=LQAa
+-----END PGP SIGNATURE-----
+
+--Rpw4Gms6CyQ7jQZhgVE0Imi2Vd9NKsDSW--
 
