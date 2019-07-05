@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76B760CFE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:10:56 +0200 (CEST)
-Received: from localhost ([::1]:56182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC1760CBB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:48:03 +0200 (CEST)
+Received: from localhost ([::1]:56010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVTs-0005jV-2W
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34691)
+	id 1hjV7i-0000mS-I0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjUls-000650-Lk
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:25:29 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hjUxe-0002Qd-1h
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjUlr-0004UJ-IZ
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:25:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60326)
+ (envelope-from <ehabkost@redhat.com>) id 1hjUxa-0005bM-As
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33448)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjUlp-0004Ak-9O; Fri, 05 Jul 2019 16:25:25 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjUxY-0005Vp-V3
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:33 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 54AECC01F28C;
- Fri,  5 Jul 2019 20:25:17 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1340C1969A;
- Fri,  5 Jul 2019 20:25:14 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:25:00 +0200
-Message-Id: <20190705202500.18853-4-philmd@redhat.com>
-In-Reply-To: <20190705202500.18853-1-philmd@redhat.com>
-References: <20190705202500.18853-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 25056307D846;
+ Fri,  5 Jul 2019 20:37:30 +0000 (UTC)
+Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A08E5772D7;
+ Fri,  5 Jul 2019 20:37:29 +0000 (UTC)
+Date: Fri, 5 Jul 2019 17:37:28 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190705203728.GE5198@habkost.net>
+References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
+ <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 20:25:17 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.48]); Fri, 05 Jul 2019 20:37:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH-for-4.1 v4 3/3] hw/ssi/xilinx_spips: Avoid
- out-of-bound access to lqspi_buf[]
+Subject: Re: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features
+ in a new function mark_unavailable_features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,45 +57,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Prasad J Pandit <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both lqspi_read() and lqspi_load_cache() expect a 32-bit
-aligned address.
+On Tue, Jul 02, 2019 at 05:01:15PM +0200, Paolo Bonzini wrote:
+> The next patch will add a different reason for filtering features, unrelated
+> to host feature support.  Extract a new function that takes care of disabling
+> the features and reporting them.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  target/i386/cpu.c | 76 ++++++++++++++++++++++++++++++-------------------------
+>  1 file changed, 41 insertions(+), 35 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index da6eb67..9149d0d 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -3236,17 +3236,39 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
+>      return NULL;
+>  }
+>  
+> -static void report_unavailable_features(FeatureWord w, uint32_t mask)
+> +static bool x86_cpu_have_filtered_features(X86CPU *cpu)
+>  {
+> +    FeatureWord w;
+> +
+> +    for (w = 0; w < ARRAY_SIZE(feature_word_info); w++) {
 
-Set MemoryRegionOps.impl values to force 32-bit accesses,
-this way we are sure we do not access the lqspi_buf[] array
-out of bound.
+I prefer to use FEATURE_WORDS instead of
+ARRAY_SIZE(feature_word_info), for consistency.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Late friday patch...
+I'm becoming more and more inclined to transform FeatureWordArray
+into a bitmap.  We have too many "for (w; w < FEATURE_WORDS;
+w++)" loops in the code that could be simplified using bitmap
+operations.
 
- hw/ssi/xilinx_spips.c | 4 ++++
- 1 file changed, 4 insertions(+)
+But this is independent from this patch.
 
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 3c4e8365ee..8f705132a3 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -1243,6 +1243,10 @@ static const MemoryRegionOps lqspi_ops =3D {
-         .min_access_size =3D 1,
-         .max_access_size =3D 4
-     }
-+    .impl =3D {
-+        .min_access_size =3D 4,
-+        .max_access_size =3D 4,
-+    }
- };
-=20
- static void xilinx_spips_realize(DeviceState *dev, Error **errp)
---=20
-2.20.1
 
+> +         if (cpu->filtered_features[w]) {
+> +             return true;
+> +         }
+> +    }
+> +
+> +    return false;
+> +}
+> +
+> +static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
+> +                                      const char *prefix)
+> +{
+> +    CPUX86State *env = &cpu->env;
+>      FeatureWordInfo *f = &feature_word_info[w];
+>      int i;
+>      char *feat_word_str;
+>  
+> +    env->features[w] &= ~mask;
+> +    cpu->filtered_features[w] |= mask;
+> +
+> +    if (!cpu->check_cpuid && !cpu->enforce_cpuid) {
+> +        return;
+> +    }
+> +
+>      for (i = 0; i < 32; ++i) {
+>          if ((1UL << i) & mask) {
+>              feat_word_str = feature_word_description(f, i);
+> -            warn_report("%s doesn't support requested feature: %s%s%s [bit %d]",
+> -                        accel_uses_host_cpuid() ? "host" : "TCG",
+> +            warn_report("%s: %s%s%s [bit %d]",
+> +                        prefix,
+>                          feat_word_str,
+>                          f->feat_names[i] ? "." : "",
+>                          f->feat_names[i] ? f->feat_names[i] : "", i);
+
+This seems to undo commit 8ca30e8673af ("target-i386: Move
+warning code outside x86_cpu_filter_features()").
+
+Filtering and reporting is separate because
+x86_cpu_filter_features() is also called from a QMP command
+handler that is not supposed to generate any warnings on stderr
+(query-cpu-model-expansion).
+
+
+> @@ -3691,7 +3713,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
+>  }
+>  
+>  static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
+> -static int x86_cpu_filter_features(X86CPU *cpu);
+> +static void x86_cpu_filter_features(X86CPU *cpu);
+>  
+>  /* Build a list with the name of all features on a feature word array */
+>  static void x86_cpu_list_feature_names(FeatureWordArray features,
+> @@ -3923,15 +3945,6 @@ static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
+>      return r;
+>  }
+>  
+> -static void x86_cpu_report_filtered_features(X86CPU *cpu)
+> -{
+> -    FeatureWord w;
+> -
+> -    for (w = 0; w < FEATURE_WORDS; w++) {
+> -        report_unavailable_features(w, cpu->filtered_features[w]);
+> -    }
+> -}
+> -
+>  static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
+>  {
+>      PropValue *pv;
+> @@ -5170,21 +5183,20 @@ out:
+>   *
+>   * Returns: 0 if all flags are supported by the host, non-zero otherwise.
+>   */
+> -static int x86_cpu_filter_features(X86CPU *cpu)
+> +static void x86_cpu_filter_features(X86CPU *cpu)
+>  {
+>      CPUX86State *env = &cpu->env;
+>      FeatureWord w;
+> -    int rv = 0;
+> +    const char *prefix = accel_uses_host_cpuid()
+> +                         ? "host doesn't support requested feature"
+> +                         : "TCG doesn't support requested feature";
+>  
+>      for (w = 0; w < FEATURE_WORDS; w++) {
+>          uint32_t host_feat =
+>              x86_cpu_get_supported_feature_word(w, false);
+>          uint32_t requested_features = env->features[w];
+> -        env->features[w] &= host_feat;
+> -        cpu->filtered_features[w] = requested_features & ~env->features[w];
+> -        if (cpu->filtered_features[w]) {
+> -            rv = 1;
+> -        }
+> +        uint32_t unavailable_features = requested_features & ~host_feat;
+> +        mark_unavailable_features(cpu, w, unavailable_features, prefix);
+>      }
+>  
+>      if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
+> @@ -5210,13 +5222,9 @@ static int x86_cpu_filter_features(X86CPU *cpu)
+>               * host can't emulate the capabilities we report on
+>               * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
+>               */
+> -            env->features[FEAT_7_0_EBX] &= ~CPUID_7_0_EBX_INTEL_PT;
+> -            cpu->filtered_features[FEAT_7_0_EBX] |= CPUID_7_0_EBX_INTEL_PT;
+> -            rv = 1;
+> +            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
+>          }
+>      }
+> -
+> -    return rv;
+>  }
+>  
+>  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+> @@ -5257,16 +5265,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>          goto out;
+>      }
+>  
+> -    if (x86_cpu_filter_features(cpu) &&
+> -        (cpu->check_cpuid || cpu->enforce_cpuid)) {
+> -        x86_cpu_report_filtered_features(cpu);
+> -        if (cpu->enforce_cpuid) {
+> -            error_setg(&local_err,
+> -                       accel_uses_host_cpuid() ?
+> -                           "Host doesn't support requested features" :
+> -                           "TCG doesn't support requested features");
+> -            goto out;
+> -        }
+> +    x86_cpu_filter_features(cpu);
+> +
+> +    if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
+> +        error_setg(&local_err,
+> +                   accel_uses_host_cpuid() ?
+> +                       "Host doesn't support requested features" :
+> +                       "TCG doesn't support requested features");
+> +        goto out;
+>      }
+>  
+>      /* On AMD CPUs, some CPUID[8000_0001].EDX bits must match the bits on
+> -- 
+> 1.8.3.1
+> 
+> 
+> 
+
+-- 
+Eduardo
 
