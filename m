@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921D160BE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:53:12 +0200 (CEST)
-Received: from localhost ([::1]:55611 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA5460C01
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:58:23 +0200 (CEST)
+Received: from localhost ([::1]:55660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUGd-0007af-PR
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
+	id 1hjULf-0005k3-0D
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEN-0005Sd-Pc
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:52 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEO-0005Ur-Ja
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEM-0004BJ-Kq
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:51 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38356)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEN-0004By-Iz
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:52 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39196)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUEM-00049F-EZ
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:50 -0400
-Received: by mail-wr1-x430.google.com with SMTP id g17so823217wrr.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:50 -0700 (PDT)
+ id 1hjUEN-0004BO-CY
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:51 -0400
+Received: by mail-wm1-x342.google.com with SMTP id z23so10740108wma.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yDJUvL9nWhLhts5GRxzh+3OuJBbBUiS1ssTSFuvIqR4=;
- b=fxLeZO+7AFx4RLsW1Py7PqJ9GRusLAGI09wVD/k7KO9DRnwKEMl40K1xzy9VefrDl4
- 66O1sLDFLMFacqTaMAoFeSD0okyRXROEXmkr9wvd81i6P9hJPSQHwSdipKO+Il5XwYV8
- k1321fQRfWhQHnDDDqmv5uDmcgGsIwMpft08hgxcdGULWfhgeD4LIiP6DdCKPZPO8Dye
- Se6ngm1ekbCdvhRelA762EMJs3pI5bGW3NfGl0wSifqOghqTHlDzEeMCAoBVSKuxJknn
- oN8Rm5Yd2bTQWkni3butBWHPV7Zv982kJ5wlo5m+dmM1sVOpr6pG+mGTOj1rB60nbjAx
- efrg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NL1qamEi1SWCxCZDQ+Ft1vPKiyaKCd/QL3Bjak1vxXQ=;
+ b=fxJZ3Yoqg8OHwz53erMfDvAHc5CGSxdzOcMQ+kT3NQyCpD5BmplEnSVWGgJZs5hSEc
+ 15tBoG21dneEE+K24cQQ/qEdkEqqBicBHf46O+IeR9wzgdWKsJe0D7nIF5/g67Ze2DV1
+ OUbfVUdHbPXuBfWN70bKvNYMs3jlPL9TdBaw1ntdB2+Vb2sXPurSg9NlGrOlc7jc/Wgr
+ if0nnkHUT2RDd5W16earw6sPNlUKA+IhZoCJNF4IN/2ihD3T7w9kSt7+EhqLxIZfj68B
+ tI2Q5/5Up+XNQP8PWbK5fmztDkOcCAtlBxkiAIwkLG7lcqDWPtjZV6xiHYNt/vvJudSz
+ 21GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=yDJUvL9nWhLhts5GRxzh+3OuJBbBUiS1ssTSFuvIqR4=;
- b=iN59Vvqqtewcp7SvnzntG7z6UEh3UWxCAXDuLYXYVhlb8bPi/xbdBgBXvv/Jbh3JJD
- Fo+j8AgPW5twOpx4Fs7WmHmpvPv+9KseOUTF8AKvC/47pNXC79x+I8ljM0B9Lqep5K+d
- DWKt7EzxwWkZyRbBItW48C6udUUbuHpynVD8VktZ2bKmbYTAb2Mqbem4K6PQEIO+6Otg
- hQ60veaXljysMfyczB7dB/aV+kO6+X9++HDG3piLtS+8Aeq37X6UznFjvL4JY7LoWX8G
- /QyAT2FuwBf1PxKnkfVSK6PsvUpLICkbKe9B83nkEYh2eVMnIcqCVVc4rt6cZ7nHQlhN
- +vdg==
-X-Gm-Message-State: APjAAAVNcqKejSgPy/XBgPa6HaZmWHkJPN84I1jI6YVuD+1aTDPYoCv6
- mki2XAXdJYXBU0zTgSWI6f7qpMnGC4U=
-X-Google-Smtp-Source: APXvYqwgbBF2ys4oZAz2MtCSLDPambQZM5LdOHxfNyK+PPz+dNjnNGhe0wmuxnLVtxytT4/1pJ0izw==
-X-Received: by 2002:a5d:438f:: with SMTP id i15mr5207861wrq.37.1562356249171; 
- Fri, 05 Jul 2019 12:50:49 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=NL1qamEi1SWCxCZDQ+Ft1vPKiyaKCd/QL3Bjak1vxXQ=;
+ b=kI9ta6WI1N/yFrElgb9KJCebyAiDBlIS2tjpv9udTSvLwbJ4L7DMOro21hA29198S4
+ 5edQo+Xo+/xLWhf9MbHEGy3wH2V3HTFJtihqK4J4BGK3wQQZFM7siEmB9ZFpzKQi5oS9
+ sRDfQ8HHLTmwVdTHVhd2lER1ZHDRTAuKs7snUqkFP5jY/yDhurbNdAtQZxMiaRjHqvT/
+ t0PVbY9Kbo0GZQQZci2KOjCW7QDCrLC8JfL9pBx/HTfTWfFqdGSxHMvL3IL36fWhCUw3
+ UVhxbYGG/PVqCeiOEdDM5WLC8PKaQPf1V5QcqQUI/ZCE+PtQ9FPedu6mqo6e6wqWuE9w
+ QFnA==
+X-Gm-Message-State: APjAAAXmASaqhwLWV0CIiimY5gSat9WLucZdysQFJ7ewr9hE1wdae6CT
+ koMSLRndG8YKLJgPRIddZMQS4tDkm1k=
+X-Google-Smtp-Source: APXvYqzdysGP6KWHtcfyiy+5CHe7kwFtrdzJ67i/12GsoyxT8it3L1g9cH3yJdMOXRBs9oJH9onegw==
+X-Received: by 2002:a1c:9dc5:: with SMTP id g188mr4670924wme.93.1562356250131; 
+ Fri, 05 Jul 2019 12:50:50 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.48
+ by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 12:50:48 -0700 (PDT)
+ Fri, 05 Jul 2019 12:50:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 21:50:33 +0200
-Message-Id: <1562356239-19391-7-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 21:50:34 +0200
+Message-Id: <1562356239-19391-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 References: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 06/12] ioapic: clear irq_eoi when updating the
- ioapic redirect table entry
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 07/12] target/i386: fix feature check in
+ hyperv-stub.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Roman Kagan <rkagan@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Qiang <liq3ea@163.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-irq_eoi is used to count the number of irq injected during eoi
-broadcast. It should be set to 0 when updating the ioapic's redirect
-table entry.
+Commit 2d384d7c8 broken the build when built with:
 
-Suggested-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Li Qiang <liq3ea@163.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20190624151635.22494-1-liq3ea@163.com>
+  configure --without-default-devices --disable-user
+
+The reason was the conversion of cpu->hyperv_synic to
+cpu->hyperv_synic_kvm_only although the rest of the patch introduces a
+feature checking mechanism. So I've fixed the KVM_EXIT_HYPERV_SYNIC in
+hyperv-stub to do the same feature check as in the real hyperv.c
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Roman Kagan <rkagan@virtuozzo.com>
+Message-Id: <20190624123835.28869-1-alex.bennee@linaro.org>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/intc/ioapic.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/hyperv-stub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-index 7074489..db9e518 100644
---- a/hw/intc/ioapic.c
-+++ b/hw/intc/ioapic.c
-@@ -380,6 +380,7 @@ ioapic_mem_write(void *opaque, hwaddr addr, uint64_t val,
-                 /* restore RO bits */
-                 s->ioredtbl[index] &= IOAPIC_RW_BITS;
-                 s->ioredtbl[index] |= ro_bits;
-+                s->irq_eoi[index] = 0;
-                 ioapic_fix_edge_remote_irr(&s->ioredtbl[index]);
-                 ioapic_service(s);
-             }
+diff --git a/target/i386/hyperv-stub.c b/target/i386/hyperv-stub.c
+index fe548cb..0028527 100644
+--- a/target/i386/hyperv-stub.c
++++ b/target/i386/hyperv-stub.c
+@@ -15,7 +15,7 @@ int kvm_hv_handle_exit(X86CPU *cpu, struct kvm_hyperv_exit *exit)
+ {
+     switch (exit->type) {
+     case KVM_EXIT_HYPERV_SYNIC:
+-        if (!cpu->hyperv_synic) {
++        if (!hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
+             return -1;
+         }
+ 
 -- 
 1.8.3.1
 
