@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CB460DFF
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:52:02 +0200 (CEST)
-Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189AD60DF3
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:42:35 +0200 (CEST)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjX3h-0001J8-1K
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55359)
+	id 1hjWuY-0008C2-93
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjWVt-0008MZ-AK
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:17:07 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hjWVk-0008LE-Fk
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjWVp-00041J-4S
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:17:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49582)
+ (envelope-from <ehabkost@redhat.com>) id 1hjWVT-0003vF-1O
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33970)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWVo-0003xM-RY
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:17:01 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWVM-0003sp-G6
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:33 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2D9AF308FC4B;
- Fri,  5 Jul 2019 22:16:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A83C830821C2;
+ Fri,  5 Jul 2019 22:16:29 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B056290CD1;
- Fri,  5 Jul 2019 22:16:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 389CC4C7;
+ Fri,  5 Jul 2019 22:16:29 +0000 (UTC)
+Date: Fri, 5 Jul 2019 19:16:16 -0300
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <rth@twiddle.net>
-Date: Fri,  5 Jul 2019 19:15:04 -0300
-Message-Id: <20190705221504.25166-43-ehabkost@redhat.com>
-In-Reply-To: <20190705221504.25166-1-ehabkost@redhat.com>
-References: <20190705221504.25166-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190705221616.GK5198@habkost.net>
+References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
+ <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
+ <20190705203728.GE5198@habkost.net>
+ <0c1f3a3f-c59d-9866-7fc9-3d9c99af17e5@redhat.com>
+ <20190705214446.GI5198@habkost.net>
+ <2cc393a3-1f8c-896b-ed35-64ca58e70407@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2cc393a3-1f8c-896b-ed35-64ca58e70407@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 05 Jul 2019 22:16:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 05 Jul 2019 22:16:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v6 42/42] tests: use -numa memdev option in
- tests instead of legacy 'mem' option
+Subject: Re: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features
+ in a new function mark_unavailable_features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,129 +61,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+On Sat, Jul 06, 2019 at 12:07:29AM +0200, Paolo Bonzini wrote:
+> On 05/07/19 23:44, Eduardo Habkost wrote:
+> > On Fri, Jul 05, 2019 at 11:32:07PM +0200, Paolo Bonzini wrote:
+> >> On 05/07/19 22:37, Eduardo Habkost wrote:
+> >>> Filtering and reporting is separate because
+> >>> x86_cpu_filter_features() is also called from a QMP command
+> >>> handler that is not supposed to generate any warnings on stderr
+> >>> (query-cpu-model-expansion).
+> >>
+> >> But that one should not set check_cpuid or enforce_cpuid, should it?
+> > 
+> > check_cpuid is set to true by default.
+> 
+> Ok, that's what I missed.
+> 
+> >>
+> >> (I can still split the filtering and reporting if you prefer).
+> > 
+> > Maybe it will work if we just add a 'bool verbose' parameter to
+> > x86_cpu_filter_features().
+> > 
+> > x86_cpu_realizefn() would call:
+> >   x86_cpu_filter_features(cpu, cpu->check_cpuid);
+> 
+> ... "|| cpu->enforce_cpuid".
+> 
+> > x86_cpu_class_check_missing_features() would call:
+> >   x86_cpu_filter_features(cpu, false);
+> 
+> Or set check_cpuid to false there after creating the object?
 
-it will test preferred memdev option more extensively and remove
-undesired deprecation warnings during 'make check'
+It would work too, but I prefer to make the side effects of
+x86_cpu_filter_features() more explicit.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20190702140745.27767-3-imammedo@redhat.com>
-[ehabkost: remove numa-test.c changes]
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- tests/bios-tables-test.c | 40 ++++++++++++++++++++++++++++------------
- 1 file changed, 28 insertions(+), 12 deletions(-)
-
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 0ce55182f2..d863233fe9 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -688,6 +688,8 @@ static void test_acpi_q35_tcg_mmio64(void)
-     };
- 
-     test_acpi_one("-m 128M,slots=1,maxmem=2G "
-+                  "-object memory-backend-ram,id=ram0,size=128M "
-+                  "-numa node,memdev=ram0 "
-                   "-device pci-testdev,membar=2G",
-                   &data);
-     free_test_data(&data);
-@@ -701,7 +703,9 @@ static void test_acpi_piix4_tcg_cphp(void)
-     data.machine = MACHINE_PC;
-     data.variant = ".cphp";
-     test_acpi_one("-smp 2,cores=3,sockets=2,maxcpus=6"
--                  " -numa node -numa node"
-+                  " -object memory-backend-ram,id=ram0,size=64M"
-+                  " -object memory-backend-ram,id=ram1,size=64M"
-+                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
-                   " -numa dist,src=0,dst=1,val=21",
-                   &data);
-     free_test_data(&data);
-@@ -715,7 +719,9 @@ static void test_acpi_q35_tcg_cphp(void)
-     data.machine = MACHINE_Q35;
-     data.variant = ".cphp";
-     test_acpi_one(" -smp 2,cores=3,sockets=2,maxcpus=6"
--                  " -numa node -numa node"
-+                  " -object memory-backend-ram,id=ram0,size=64M"
-+                  " -object memory-backend-ram,id=ram1,size=64M"
-+                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
-                   " -numa dist,src=0,dst=1,val=21",
-                   &data);
-     free_test_data(&data);
-@@ -766,7 +772,9 @@ static void test_acpi_q35_tcg_memhp(void)
-     data.machine = MACHINE_Q35;
-     data.variant = ".memhp";
-     test_acpi_one(" -m 128,slots=3,maxmem=1G"
--                  " -numa node -numa node"
-+                  " -object memory-backend-ram,id=ram0,size=64M"
-+                  " -object memory-backend-ram,id=ram1,size=64M"
-+                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
-                   " -numa dist,src=0,dst=1,val=21",
-                   &data);
-     free_test_data(&data);
-@@ -780,7 +788,9 @@ static void test_acpi_piix4_tcg_memhp(void)
-     data.machine = MACHINE_PC;
-     data.variant = ".memhp";
-     test_acpi_one(" -m 128,slots=3,maxmem=1G"
--                  " -numa node -numa node"
-+                  " -object memory-backend-ram,id=ram0,size=64M"
-+                  " -object memory-backend-ram,id=ram1,size=64M"
-+                  " -numa node,memdev=ram0 -numa node,memdev=ram1"
-                   " -numa dist,src=0,dst=1,val=21",
-                   &data);
-     free_test_data(&data);
-@@ -793,7 +803,8 @@ static void test_acpi_q35_tcg_numamem(void)
-     memset(&data, 0, sizeof(data));
-     data.machine = MACHINE_Q35;
-     data.variant = ".numamem";
--    test_acpi_one(" -numa node -numa node,mem=128", &data);
-+    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
-+                  " -numa node -numa node,memdev=ram0", &data);
-     free_test_data(&data);
- }
- 
-@@ -804,7 +815,8 @@ static void test_acpi_piix4_tcg_numamem(void)
-     memset(&data, 0, sizeof(data));
-     data.machine = MACHINE_PC;
-     data.variant = ".numamem";
--    test_acpi_one(" -numa node -numa node,mem=128", &data);
-+    test_acpi_one(" -object memory-backend-ram,id=ram0,size=128M"
-+                  " -numa node -numa node,memdev=ram0", &data);
-     free_test_data(&data);
- }
- 
-@@ -818,17 +830,21 @@ static void test_acpi_tcg_dimm_pxm(const char *machine)
-     test_acpi_one(" -machine nvdimm=on,nvdimm-persistence=cpu"
-                   " -smp 4,sockets=4"
-                   " -m 128M,slots=3,maxmem=1G"
--                  " -numa node,mem=32M,nodeid=0"
--                  " -numa node,mem=32M,nodeid=1"
--                  " -numa node,mem=32M,nodeid=2"
--                  " -numa node,mem=32M,nodeid=3"
-+                  " -object memory-backend-ram,id=ram0,size=32M"
-+                  " -object memory-backend-ram,id=ram1,size=32M"
-+                  " -object memory-backend-ram,id=ram2,size=32M"
-+                  " -object memory-backend-ram,id=ram3,size=32M"
-+                  " -numa node,memdev=ram0,nodeid=0"
-+                  " -numa node,memdev=ram1,nodeid=1"
-+                  " -numa node,memdev=ram2,nodeid=2"
-+                  " -numa node,memdev=ram3,nodeid=3"
-                   " -numa cpu,node-id=0,socket-id=0"
-                   " -numa cpu,node-id=1,socket-id=1"
-                   " -numa cpu,node-id=2,socket-id=2"
-                   " -numa cpu,node-id=3,socket-id=3"
--                  " -object memory-backend-ram,id=ram0,size=128M"
-+                  " -object memory-backend-ram,id=ram4,size=128M"
-                   " -object memory-backend-ram,id=nvm0,size=128M"
--                  " -device pc-dimm,id=dimm0,memdev=ram0,node=1"
-+                  " -device pc-dimm,id=dimm0,memdev=ram4,node=1"
-                   " -device nvdimm,id=dimm1,memdev=nvm0,node=2",
-                   &data);
-     free_test_data(&data);
 -- 
-2.18.0.rc1.1.g3f1ff2140
-
+Eduardo
 
