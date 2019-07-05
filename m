@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA30960462
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:24:29 +0200 (CEST)
-Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADF860471
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:28:14 +0200 (CEST)
+Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjLOF-00028x-2C
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:24:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52699)
+	id 1hjLRt-0004Ro-AA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53798)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hjLMw-0001E3-JH
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:23:08 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hjLOT-000304-O4
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:24:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hjLMs-0002RR-KW
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:23:05 -0400
-Resent-Date: Fri, 05 Jul 2019 06:23:05 -0400
-Resent-Message-Id: <E1hjLMs-0002RR-KW@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21838)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hjLMr-0002L7-Hd
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:23:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562322159; cv=none; d=zoho.com; s=zohoarc; 
- b=oKF/PiDKJBWndT9fkblXSvEhuEPbf97rARq+YZmneIpeKVJ1gQurFv+Euv5lhrdcnVHvx3o31vqKw4gsv2ahH422WCwKySmBqkgi7B/azlEiF0QRhxHPc+sV/2avugqMZYHRSDwUl6b6BYPVcQq/HAIPju5p3usjaJkdg+QZSdY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562322159;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=f5T1xv4frN3NyjIMJk7C63V4+MxAbr8+u2DD9TTw2HY=; 
- b=ZCpLYv/lXEphf+BVQUrRDVpVOuxtt4/Gks5Nn7NPvHZ+3qYQ4HOi3K4Crwdaq7AlR0Q2ga+YMiDQw/D8EsdCPdXkM9vZd1tg5kjbfumGsdz7DtRfgCHBJITchpiu88nA3/zmmquEpjF+q7gbwKa8QAfvpInwr8n0v+6HvvlmToQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562322158251599.3122833800396;
- Fri, 5 Jul 2019 03:22:38 -0700 (PDT)
-Message-ID: <156232215706.2067.5469091182001692802@c4a48874b076>
-In-Reply-To: <20190705083141.106254-1-ysato@users.sourceforge.jp>
+ (envelope-from <alex.bennee@linaro.org>) id 1hjLOP-0005xj-Q3
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:24:41 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37248)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hjLON-0005a1-Hl
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:24:36 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n9so219360wrr.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=uQdYE/AVIrWdOvyaHAPVmk+aMlsyCgbqZj2Kh8lJ8+0=;
+ b=FYgnc4y2ciu8jNs89GWonf9RaE9u46HpyiJc+IWfHNTOnOv2dd70NnHnMOIyp2+2tP
+ fQ5uf5qf14e9ex0UVEjRmancUTr7NJQDx2891OzN+JfNNZjAxEQX8005LBRcebj0ezGY
+ pBg3VRRidwIi5qOVfQfdCbyladahGVPN7DJek1cmX692o1AHOigUay6d+DR2y47ren4p
+ do65yM3yeOiBB1mmDE5PPC++SXohN80y2kf7RrFY5qjr/TLHYgqQPPScMD/HCDCbdh4h
+ QbJbPn8iIwE82Bdhxyizzhv9jVR9ySa6f1v/QTQA0IlFPwNd/wgWgoGZl70B1eaMsPgT
+ eRmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=uQdYE/AVIrWdOvyaHAPVmk+aMlsyCgbqZj2Kh8lJ8+0=;
+ b=eKVJDqcI2sm4NAOrslg5+BubETijkAe4hPQFE//O8bZsijT70VgMYcAfcfohhkPc8v
+ Qdl23u/KXNJ4tUj8M+9HUTN7owCulq1Ng2X5IfersVvmJe0A5Dq3KDHfxixv0z5IsyMp
+ ZExyuxAxYMcWt+mt2g6O2nB1uqhaJyY416YXewt711nGGTTDU3Yp0Nh16cvoJzQ5zywo
+ xVpRsrJJWhnflcGzzH24GqsalUmVPVf72Z7XIZ4ZtEu9KDQPoE0LI1lchKv5aek6XsrI
+ 144h44fN5PZLq08aWOhOLnxkhZlROlKp7NhIjJ1wbQ1Xszr+KbQRKIoV5wtAv20DrJ9G
+ wJ2w==
+X-Gm-Message-State: APjAAAVCKtg3NA7U8h5A2WmbnbpW8U/lzL/Fwlk9Iz47eH6jeySTKsDG
+ brdV3x4zDj6SzutVAnOtmii6j8Plfxw=
+X-Google-Smtp-Source: APXvYqwsCsZxUjUXrV1SPhbeDJnsdXTUWWE/Jx7JwqHCoLntinZst+/DpoiBRqqN0QhGvSLr8ZjG5A==
+X-Received: by 2002:adf:e802:: with SMTP id o2mr3628161wrm.171.1562322267621; 
+ Fri, 05 Jul 2019 03:24:27 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id a3sm8565724wmb.35.2019.07.05.03.24.26
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 05 Jul 2019 03:24:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9F5521FF87;
+ Fri,  5 Jul 2019 11:24:26 +0100 (BST)
+References: <20190617043858.8290-1-kraxel@redhat.com>
+ <20190617043858.8290-10-kraxel@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-reply-to: <20190617043858.8290-10-kraxel@redhat.com>
+Date: Fri, 05 Jul 2019 11:24:26 +0100
+Message-ID: <87zhlsvkx1.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Fri, 5 Jul 2019 03:22:38 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
-Subject: Re: [Qemu-devel] [PATCH v22 00/22] Add RX archtecture support
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v4 09/11] tests/vm: netbsd autoinstall,
+ using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,149 +83,272 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, qemu-devel@nongnu.org,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwNTA4MzE0MS4xMDYy
-NTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
-UEFUQ0ggdjIyIDAwLzIyXSBBZGQgUlggYXJjaHRlY3R1cmUgc3VwcG9ydApNZXNzYWdlLWlkOiAy
-MDE5MDcwNTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcAoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3Bh
-dGNoZXctcHJvamVjdC9xZW11CiAgIDU3ZGZjMmMuLmMzNWQxN2MgIG1hc3RlciAgICAgLT4gbWFz
-dGVyClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKN2RjOTRjOSB0YXJnZXQvcng6IHJl
-bW92ZSB1bnVzZWQgZnVuY3Rpb25zLgphMWRjYmMyIEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0
-IHRoZSBSWC1WaXJ0IG1hY2hpbmUKYzliMTE1YiBBZGQgcngtc29mdG1tdQoyOWQxZTQ3IGh3L3J4
-OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9jb250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29y
-ZQozN2QzMjNiIGh3L3J4OiBIb25vciAtYWNjZWwgcXRlc3QKMmU5ZjI0ZSBody9yeDogUlggVGFy
-Z2V0IGhhcmR3YXJlIGRlZmluaXRpb24KYzY5YzM1NSBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29t
-bXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkKZTEwODZmZSBody90aW1lcjogUlg2Mk4gaW50ZXJu
-YWwgdGltZXIgbW9kdWxlcwpkODY0NmZkIGh3L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9s
-bGVyIChJQ1VhKQplODU4ZjY4IHRhcmdldC9yeDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1
-cmluZyBkaXNhc3NlbWJseQozYTYwOGM1IHRhcmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVy
-aW5nIGRpc2Fzc2VtYmx5Cjc3ZDAwZGEgdGFyZ2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBp
-biBvbmUgcHJ0KCkKMTAxZWQ1MyB0YXJnZXQvcng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBk
-aXNhc3NlbWJseQo2NzQwYzM0IHRhcmdldC9yeDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xk
-bWkgaW4gZGlzYXNzZW1ibGVyCjIxYjc4MDEgdGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRl
-eF9hZGRyIGludG8gYSBzdHJpbmcKYzM5OGEyYSB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgpl
-NmM2NDVkIHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24KZmE2ODJhZiB0YXJnZXQvcng6IFRDRyBo
-ZWxwZXIKN2QxMGE4MiB0YXJnZXQvcng6IFRDRyB0cmFuc2xhdGlvbgo5ZmQ0ZmFhIGh3L3JlZ2lz
-dGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAxNmJpdCByZWdpc3RlciBtYWNyb3MKYzc3YTAyZiBx
-ZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNgo5MTVmY2Y1IE1BSU5UQUlO
-RVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IDkx
-NWZjZjVkYWFhZCAoTUFJTlRBSU5FUlM6IEFkZCBSWCkKMi8yMiBDaGVja2luZyBjb21taXQgYzc3
-YTAyZjBkMTExIChxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8y
-MiBDaGVja2luZyBjb21taXQgOWZkNGZhYTNiNmEyIChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQg
-OGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFjcm9zKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1
-ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBzdHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgbGluZSAyNDY3LgpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91
-bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3
-L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVmaW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAj
-IyByZWcgPSAoYWRkcikgfTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRo
-IG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBs
-b29wCiMzMTogRklMRTogaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBS
-RUcxNihyZWcsIGFkZHIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBcCisgICAgZW51bSB7IEFfICMjIHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFk
-ZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNv
-bW1pdCA3ZDEwYTgyNDUwMmIgKHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBh
-ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
-YXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fy
-bmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1pdCBmYTY4MmFmZTAzMGIgKHRhcmdldC9yeDogVENH
-IGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
-YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2NDkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzIyIENoZWNraW5nIGNvbW1pdCBlNmM2NDVkOTIz
-NTMgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBk
-ZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI5OiAKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjIyIGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVj
-a2luZyBjb21taXQgYzM5OGEyYWZiMjhjICh0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FS
-TklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBu
-ZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3Jz
-LCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2luZyBjb21taXQgMjFiNzgwMTMyNGY4ICh0YXJnZXQv
-cng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2FkZHIgaW50byBhIHN0cmluZykKOS8yMiBDaGVja2lu
-ZyBjb21taXQgNjc0MGMzNGE4N2UzICh0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBy
-dF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAvMjIgQ2hlY2tpbmcgY29tbWl0IDEwMWVkNTM3Y2Yy
-NiAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIy
-IENoZWNraW5nIGNvbW1pdCA3N2QwMGRhNjhlYzYgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNz
-ZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBDaGVja2luZyBjb21taXQgM2E2MDhjNWIwNjYxICh0
-YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hl
-Y2tpbmcgY29tbWl0IGU4NThmNjgyM2UxZSAodGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNo
-IGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQoxNC8yMiBDaGVja2luZyBjb21taXQgZDg2NDZmZGUx
-NjJkIChody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6
-IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
-cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
-YXJuaW5ncywgNDQyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNvbW1pdCBlMTA4NmZlOWI2OWQgKGh3L3RpbWVyOiBS
-WDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgzOSBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVj
-a2luZyBjb21taXQgYzY5YzM1NWUwZTFkIChody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNh
-dGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzk4IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNv
-bW1pdCAyZTlmMjRlMGY4MmIgKGh3L3J4OiBSWCBUYXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikK
-V0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVS
-UyBuZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJy
-b3JzLCAxIHdhcm5pbmdzLCA0NzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMjIgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hlY2tpbmcgY29tbWl0IDM3ZDMyM2I5MWVlZiAoaHcv
-cng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkvMjIgQ2hlY2tpbmcgY29tbWl0IDI5ZDFlNDdiNzc2
-OSAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJO
-IENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBjb21taXQgYzliMTE1YmQ0YzI0IChBZGQgcngtc29m
-dG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
-VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6
-IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA3MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8yMiBDaGVja2luZyBjb21taXQgYTFkY2JjMmYyYzQ0
-IChCb290TGludXhDb25zb2xlVGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBD
-aGVja2luZyBjb21taXQgN2RjOTRjOTQzOGMyICh0YXJnZXQvcng6IHJlbW92ZSB1bnVzZWQgZnVu
-Y3Rpb25zLikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQK
-CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMi8y
-MiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcwNTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vy
-cy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
-YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
-cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
-b20=
 
+Gerd Hoffmann <kraxel@redhat.com> writes:
+
+> Instead of fetching the prebuilt image from patchew download the install
+> iso and prepare the image locally.  Install to disk, using the serial
+> console.  Create qemu user, configure ssh login.  Install packages
+> needed for qemu builds.
+
+I've had to drop this from my v3 PR as Peter was seeing a very
+slow/hanging install when running his merge tests. I've tried to
+reproduce and I see it stall while installing packages but nowhere near
+the delay Peter has seen.
+
+Any pointers on how to debug gratefully received.
+
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Kamil Rytarowski <n54@gmx.com>
+> Tested-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/vm/netbsd | 187 +++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 177 insertions(+), 10 deletions(-)
+>
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index 4c6624ea5ed5..be59a2c1da1d 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -2,10 +2,11 @@
+>  #
+>  # NetBSD VM image
+>  #
+> -# Copyright 2017 Red Hat Inc.
+> +# Copyright 2017-2019 Red Hat Inc.
+>  #
+>  # Authors:
+>  #  Fam Zheng <famz@redhat.com>
+> +#  Gerd Hoffmann <kraxel@redhat.com>
+>  #
+>  # This code is licensed under the GPL version 2 or later.  See
+>  # the COPYING file in the top-level directory.
+> @@ -13,32 +14,198 @@
+>
+>  import os
+>  import sys
+> +import time
+>  import subprocess
+>  import basevm
+>
+>  class NetBSDVM(basevm.BaseVM):
+>      name =3D "netbsd"
+>      arch =3D "x86_64"
+> +
+> +    link =3D "https://cdn.netbsd.org/pub/NetBSD/NetBSD-8.0/images/NetBSD=
+-8.0-amd64.iso"
+> +    size =3D "20G"
+> +    pkgs =3D [
+> +        # tools
+> +        "git-base",
+> +        "pkgconf",
+> +        "xz",
+> +        "python37",
+> +
+> +        # gnu tools
+> +        "bash",
+> +        "gmake",
+> +        "gsed",
+> +        "flex", "bison",
+> +
+> +        # libs: crypto
+> +        "gnutls",
+> +
+> +        # libs: images
+> +        "jpeg",
+> +        "png",
+> +
+> +	# libs: ui
+> +        "SDL2",
+> +        "gtk3+",
+> +        "libxkbcommon",
+> +    ]
+> +
+>      BUILD_SCRIPT =3D """
+>          set -e;
+> -        rm -rf /var/tmp/qemu-test.*
+> -        cd $(mktemp -d /var/tmp/qemu-test.XXXXXX);
+> +        rm -rf /home/qemu/qemu-test.*
+> +        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
+> +        mkdir src build; cd src;
+>          tar -xf /dev/rld1a;
+> -        ./configure --python=3Dpython2.7 {configure_opts};
+> +        cd ../build
+> +        ../src/configure --python=3Dpython3.7 --disable-opengl {configur=
+e_opts};
+>          gmake --output-sync -j{jobs} {target} {verbose};
+>      """
+> +    poweroff =3D "/sbin/poweroff"
+>
+>      def build_image(self, img):
+> -        cimg =3D self._download_with_cache("http://download.patchew.org/=
+netbsd-7.1-amd64.img.xz",
+> -                                         sha256sum=3D'b633d565b0eac3d020=
+15cd0c81440bd8a7a8df8512615ac1ee05d318be015732')
+> -        img_tmp_xz =3D img + ".tmp.xz"
+> +        cimg =3D self._download_with_cache(self.link)
+>          img_tmp =3D img + ".tmp"
+> -        sys.stderr.write("Extracting the image...\n")
+> -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
+> -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
+> +        iso =3D img + ".install.iso"
+> +
+> +        self.print_step("Preparing iso and disk image")
+> +        subprocess.check_call(["cp", "-f", cimg, iso])
+> +        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+> +                               img_tmp, self.size])
+> +
+> +        self.print_step("Booting installer")
+> +        self.boot(img_tmp, extra_args =3D [
+> +            "-bios", "pc-bios/bios-256k.bin",
+> +            "-machine", "graphics=3Doff",
+> +            "-cdrom", iso
+> +        ])
+> +        self.console_init()
+> +        self.console_wait("Primary Bootstrap")
+> +
+> +        # serial console boot menu output doesn't work for some
+> +        # reason, so we have to fly blind ...
+> +        for char in list("5consdev com0\n"):
+> +            time.sleep(0.2)
+> +            self.console_send(char)
+> +            self.console_wait("")
+> +        self.console_wait_send("> ", "boot\n")
+> +
+> +        self.console_wait_send("Terminal type",            "xterm\n")
+> +        self.console_wait_send("a: Installation messages", "a\n")
+> +        self.console_wait_send("b: US-English",            "b\n")
+> +        self.console_wait_send("a: Install NetBSD",        "a\n")
+> +        self.console_wait("Shall we continue?")
+> +        self.console_wait_send("b: Yes",                   "b\n")
+> +
+> +        self.console_wait_send("a: ld0",                   "a\n")
+> +        self.console_wait_send("a: This is the correct",   "a\n")
+> +        self.console_wait_send("b: Use the entire disk",   "b\n")
+> +        self.console_wait("NetBSD bootcode")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +        self.console_wait_send("b: Use existing part",     "b\n")
+> +        self.console_wait_send("x: Partition sizes ok",    "x\n")
+> +        self.console_wait_send("for your NetBSD disk",     "\n")
+> +        self.console_wait("Shall we continue?")
+> +        self.console_wait_send("b: Yes",                   "b\n")
+> +
+> +        self.console_wait_send("b: Use serial port com0",  "b\n")
+> +        self.console_wait_send("f: Set serial baud rate",  "f\n")
+> +        self.console_wait_send("a: 9600",                  "a\n")
+> +        self.console_wait_send("x: Exit",                  "x\n")
+> +
+> +        self.console_wait_send("a: Full installation",     "a\n")
+> +        self.console_wait_send("a: CD-ROM",                "a\n")
+> +
+> +        self.print_step("Installation started now, this will take a whil=
+e")
+> +        self.console_wait_send("Hit enter to continue",    "\n")
+> +
+> +        self.console_wait_send("d: Change root password",  "d\n")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +        self.console_wait("New password:")
+> +        self.console_send("%s\n" % self.ROOT_PASS)
+> +        self.console_wait("New password:")
+> +        self.console_send("%s\n" % self.ROOT_PASS)
+> +        self.console_wait("Retype new password:")
+> +        self.console_send("%s\n" % self.ROOT_PASS)
+> +
+> +        self.console_wait_send("o: Add a user",            "o\n")
+> +        self.console_wait("username")
+> +        self.console_send("%s\n" % self.GUEST_USER)
+> +        self.console_wait("to group wheel")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +        self.console_wait_send("a: /bin/sh",               "a\n")
+> +        self.console_wait("New password:")
+> +        self.console_send("%s\n" % self.GUEST_PASS)
+> +        self.console_wait("New password:")
+> +        self.console_send("%s\n" % self.GUEST_PASS)
+> +        self.console_wait("Retype new password:")
+> +        self.console_send("%s\n" % self.GUEST_PASS)
+> +
+> +        self.console_wait_send("a: Configure network",     "a\n")
+> +        self.console_wait_send("a: vioif0",                "a\n")
+> +        self.console_wait_send("Network media type",       "\n")
+> +        self.console_wait("autoconfiguration")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +        self.console_wait_send("DNS domain",               "localnet\n")
+> +        self.console_wait("Are they OK?")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +        self.console_wait("installed in /etc")
+> +        self.console_wait_send("a: Yes",                   "a\n")
+> +
+> +        self.console_wait_send("e: Enable install",        "e\n")
+> +        proxy =3D os.environ.get("http_proxy")
+> +        if not proxy is None:
+> +            self.console_wait_send("f: Proxy",             "f\n")
+> +            self.console_wait("Proxy")
+> +            self.console_send("%s\n" % proxy)
+> +        self.console_wait_send("x: Install pkgin",         "x\n")
+> +        self.console_init(1200)
+> +        self.console_wait_send("Hit enter to continue", "\n")
+> +        self.console_init()
+> +
+> +        self.console_wait_send("g: Enable sshd",           "g\n")
+> +        self.console_wait_send("x: Finished conf",         "x\n")
+> +        self.console_wait_send("Hit enter to continue",    "\n")
+> +
+> +        self.print_step("Installation finished, rebooting")
+> +        self.console_wait_send("d: Reboot the computer",   "d\n")
+> +
+> +        # setup qemu user
+> +        prompt =3D "localhost$"
+> +        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
+> +        self.console_wait_send(prompt, "exit\n")
+> +
+> +        # setup root user
+> +        prompt =3D "localhost#"
+> +        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
+> +        self.console_sshd_config(prompt)
+> +
+> +        # setup virtio-blk #1 (tarfile)
+> +        self.console_wait(prompt)
+> +        self.console_send("echo 'chmod 666 /dev/rld1a' >> /etc/rc.local\=
+n")
+> +
+> +        # turn off mprotect (conflicts with tcg)
+> +        self.console_wait(prompt)
+> +        self.console_send("echo security.pax.mprotect.enabled=3D0 >> /et=
+c/sysctl.conf\n")
+> +
+> +        self.print_step("Configuration finished, rebooting")
+> +        self.console_wait_send(prompt, "reboot\n")
+> +        self.console_wait("login:")
+> +        self.wait_ssh()
+> +
+> +        self.print_step("Installing packages")
+> +        self.ssh_root_check("pkgin update\n")
+> +        self.ssh_root_check("pkgin -y install %s\n" % " ".join(self.pkgs=
+))
+> +
+> +        # shutdown
+> +        self.ssh_root(self.poweroff)
+> +        self.console_wait("entering state S5")
+> +        self.wait()
+> +
+>          if os.path.exists(img):
+>              os.remove(img)
+>          os.rename(img_tmp, img)
+> +        os.remove(iso)
+> +        self.print_step("All done")
+>
+>  if __name__ =3D=3D "__main__":
+>      sys.exit(basevm.main(NetBSDVM))
+
+
+--
+Alex Benn=C3=A9e
 
