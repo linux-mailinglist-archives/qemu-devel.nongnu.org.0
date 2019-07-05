@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496B260524
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 13:14:08 +0200 (CEST)
-Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B73560535
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 13:21:18 +0200 (CEST)
+Received: from localhost ([::1]:51742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjMAJ-0006B1-GM
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 07:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35539)
+	id 1hjMHF-0000ij-B0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 07:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hjM7Q-0004lu-Mi
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:11:09 -0400
+ (envelope-from <aravinda@linux.vnet.ibm.com>) id 1hjM7y-0005IU-HL
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:11:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hjM7P-0002xs-Dg
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:11:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60698)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hjM7M-0002do-3w; Fri, 05 Jul 2019 07:11:04 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0322C18B2EE;
- Fri,  5 Jul 2019 11:10:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-154.brq.redhat.com
- [10.40.204.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AACDC68C63;
- Fri,  5 Jul 2019 11:10:55 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190703155944.9637-1-mlevitsk@redhat.com>
- <20190703155944.9637-3-mlevitsk@redhat.com>
- <3f2dad51-aa82-c7dc-ec8b-953607270ea9@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1a2f433a-f5cb-f119-a3ed-62ddc1039f91@redhat.com>
-Date: Fri, 5 Jul 2019 13:10:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <aravinda@linux.vnet.ibm.com>) id 1hjM7w-0005Dd-HE
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:11:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17734
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
+ id 1hjM7t-0004r2-PT
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:11:38 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x65B9ggG079116
+ for <qemu-devel@nongnu.org>; Fri, 5 Jul 2019 07:11:35 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tj5bwg8ye-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 07:11:34 -0400
+Received: from localhost
+ by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
+ Fri, 5 Jul 2019 12:11:34 +0100
+Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
+ by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 5 Jul 2019 12:11:30 +0100
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x65BBTGS48693506
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Jul 2019 11:11:29 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F6C0AC05B;
+ Fri,  5 Jul 2019 11:11:29 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5FA6AC059;
+ Fri,  5 Jul 2019 11:11:26 +0000 (GMT)
+Received: from [9.85.75.69] (unknown [9.85.75.69])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Jul 2019 11:11:26 +0000 (GMT)
+To: Greg Kurz <groug@kaod.org>
+References: <156033104292.26635.15759339817253067370.stgit@aravinda>
+ <156033129836.26635.3348706829139659071.stgit@aravinda>
+ <20190702041129.GJ6779@umbus.fritz.box>
+ <89a68bbd-801e-876c-3105-877790a3189b@linux.vnet.ibm.com>
+ <20190703032027.GI9442@umbus.fritz.box>
+ <c8f78a4c-d4a0-10e9-e0c9-0e37e3415b5c@linux.vnet.ibm.com>
+ <20190704011222.GT9442@umbus.fritz.box>
+ <cbabc1ce-4360-64ac-9d06-a57887130c4d@linux.vnet.ibm.com>
+ <20190704203735.30c7fc8a@bahia.lan>
+From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Date: Fri, 5 Jul 2019 16:41:25 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <3f2dad51-aa82-c7dc-ec8b-953607270ea9@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HY5kOGbJb1LXuBi1gZY9vBbrco2yO07Ng"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 11:11:02 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 2/6] block/nvme: fix doorbell stride
+In-Reply-To: <20190704203735.30c7fc8a@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19070511-0052-0000-0000-000003DAC601
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011382; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01227752; UDB=6.00646466; IPR=6.01008994; 
+ MB=3.00027596; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-05 11:11:32
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070511-0053-0000-0000-00006193D017
+Message-Id: <ec4f5cf3-ae91-8160-6df6-27829c5f5401@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-05_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907050137
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v10 6/6] ppc: spapr: Handle "ibm,
+ nmi-register" and "ibm, nmi-interlock" RTAS calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,82 +106,285 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HY5kOGbJb1LXuBi1gZY9vBbrco2yO07Ng
-Content-Type: multipart/mixed; boundary="d6tAsslP43VX4OVzEt2EpiNcraKk3EITW";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org
-Message-ID: <1a2f433a-f5cb-f119-a3ed-62ddc1039f91@redhat.com>
-Subject: Re: [PATCH v3 2/6] block/nvme: fix doorbell stride
-References: <20190703155944.9637-1-mlevitsk@redhat.com>
- <20190703155944.9637-3-mlevitsk@redhat.com>
- <3f2dad51-aa82-c7dc-ec8b-953607270ea9@redhat.com>
-In-Reply-To: <3f2dad51-aa82-c7dc-ec8b-953607270ea9@redhat.com>
 
---d6tAsslP43VX4OVzEt2EpiNcraKk3EITW
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-On 05.07.19 13:09, Max Reitz wrote:
-> On 03.07.19 17:59, Maxim Levitsky wrote:
->> Fix the math involving non standard doorbell stride
+On Friday 05 July 2019 12:07 AM, Greg Kurz wrote:
+> On Thu, 4 Jul 2019 10:49:05 +0530
+> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+> 
 >>
->> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
->> ---
->>  block/nvme.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/block/nvme.c b/block/nvme.c
->> index 6d4e7f3d83..52798081b2 100644
->> --- a/block/nvme.c
->> +++ b/block/nvme.c
->> @@ -217,7 +217,7 @@ static NVMeQueuePair *nvme_create_queue_pair(Block=
-DriverState *bs,
->>          error_propagate(errp, local_err);
->>          goto fail;
->>      }
->> -    q->cq.doorbell =3D &s->regs->doorbells[idx * 2 * s->doorbell_scal=
-e + 1];
->> +    q->cq.doorbell =3D &s->regs->doorbells[(idx * 2 + 1) * s->doorbel=
-l_scale];
->> =20
->>      return q;
->>  fail:
->=20
-> Hm.  How has this ever worked?
+>> On Thursday 04 July 2019 06:42 AM, David Gibson wrote:
+>>> On Wed, Jul 03, 2019 at 02:30:31PM +0530, Aravinda Prasad wrote:
+>>>>
+>>>>
+>>>> On Wednesday 03 July 2019 08:50 AM, David Gibson wrote:
+>>>>> On Tue, Jul 02, 2019 at 04:10:08PM +0530, Aravinda Prasad wrote:
+>>>>>>
+>>>>>>
+>>>>>> On Tuesday 02 July 2019 09:41 AM, David Gibson wrote:
+>>>>>>> On Wed, Jun 12, 2019 at 02:51:38PM +0530, Aravinda Prasad wrote:
+>>>>>>>> This patch adds support in QEMU to handle "ibm,nmi-register"
+>>>>>>>> and "ibm,nmi-interlock" RTAS calls and sets the default
+>>>>>>>> value of SPAPR_CAP_FWNMI_MCE to SPAPR_CAP_ON for machine
+>>>>>>>> type 4.0.
+>>>>>>>>
+>>>>>>>> The machine check notification address is saved when the
+>>>>>>>> OS issues "ibm,nmi-register" RTAS call.
+>>>>>>>>
+>>>>>>>> This patch also handles the case when multiple processors
+>>>>>>>> experience machine check at or about the same time by
+>>>>>>>> handling "ibm,nmi-interlock" call. In such cases, as per
+>>>>>>>> PAPR, subsequent processors serialize waiting for the first
+>>>>>>>> processor to issue the "ibm,nmi-interlock" call. The second
+>>>>>>>> processor that also received a machine check error waits
+>>>>>>>> till the first processor is done reading the error log.
+>>>>>>>> The first processor issues "ibm,nmi-interlock" call
+>>>>>>>> when the error log is consumed.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+>>>>>>>> ---
+>>>>>>>>  hw/ppc/spapr.c         |    6 ++++-
+>>>>>>>>  hw/ppc/spapr_rtas.c    |   63 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>>  include/hw/ppc/spapr.h |    5 +++-
+>>>>>>>>  3 files changed, 72 insertions(+), 2 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>>>>>>>> index 3d6d139..213d493 100644
+>>>>>>>> --- a/hw/ppc/spapr.c
+>>>>>>>> +++ b/hw/ppc/spapr.c
+>>>>>>>> @@ -2946,6 +2946,9 @@ static void spapr_machine_init(MachineState *machine)
+>>>>>>>>          /* Create the error string for live migration blocker */
+>>>>>>>>          error_setg(&spapr->fwnmi_migration_blocker,
+>>>>>>>>                  "Live migration not supported during machine check handling");
+>>>>>>>> +
+>>>>>>>> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
+>>>>>>>> +        spapr_fwnmi_register();
+>>>>>>>>      }
+>>>>>>>>  
+>>>>>>>>      spapr->rtas_blob = g_malloc(spapr->rtas_size);
+>>>>>>>> @@ -4408,7 +4411,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
+>>>>>>>> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
+>>>>>>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_ON;
+>>>>>>>
+>>>>>>> Turning this on by default really isn't ok if it stops you running TCG
+>>>>>>> guests at all.
+>>>>>>
+>>>>>> If so this can be "off" by default until TCG is supported.
+>>>>>>
+>>>>>>>
+>>>>>>>>      spapr_caps_add_properties(smc, &error_abort);
+>>>>>>>>      smc->irq = &spapr_irq_dual;
+>>>>>>>>      smc->dr_phb_enabled = true;
+>>>>>>>> @@ -4512,6 +4515,7 @@ static void spapr_machine_3_1_class_options(MachineClass *mc)
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_BROKEN;
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_BROKEN;
+>>>>>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_OFF;
+>>>>>>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
+>>>>>>>
+>>>>>>> We're now well past 4.0, and in fact we're about to go into soft
+>>>>>>> freeze for 4.1, so we're going to miss that too.  So 4.1 and earlier
+>>>>>>> will need to retain the old default.
+>>>>>>
+>>>>>> ok.
+>>>>>>
+>>>>>>>
+>>>>>>>>  }
+>>>>>>>>  
+>>>>>>>>  DEFINE_SPAPR_MACHINE(3_1, "3.1", false);
+>>>>>>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>>>>>>>> index a015a80..e010cb2 100644
+>>>>>>>> --- a/hw/ppc/spapr_rtas.c
+>>>>>>>> +++ b/hw/ppc/spapr_rtas.c
+>>>>>>>> @@ -49,6 +49,7 @@
+>>>>>>>>  #include "hw/ppc/fdt.h"
+>>>>>>>>  #include "target/ppc/mmu-hash64.h"
+>>>>>>>>  #include "target/ppc/mmu-book3s-v3.h"
+>>>>>>>> +#include "migration/blocker.h"
+>>>>>>>>  
+>>>>>>>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>>>>>>>                                     uint32_t token, uint32_t nargs,
+>>>>>>>> @@ -352,6 +353,60 @@ static void rtas_get_power_level(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>>>>>>>      rtas_st(rets, 1, 100);
+>>>>>>>>  }
+>>>>>>>>  
+>>>>>>>> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>>>>>>>> +                                  SpaprMachineState *spapr,
+>>>>>>>> +                                  uint32_t token, uint32_t nargs,
+>>>>>>>> +                                  target_ulong args,
+>>>>>>>> +                                  uint32_t nret, target_ulong rets)
+>>>>>>>> +{
+>>>>>>>> +    int ret;
+>>>>>>>> +    hwaddr rtas_addr = spapr_get_rtas_addr();
+>>>>>>>> +
+>>>>>>>> +    if (!rtas_addr) {
+>>>>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>>>>>>>> +        return;
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_OFF) {
+>>>>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>>>>>>>> +        return;
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    ret = kvmppc_fwnmi_enable(cpu);
+>>>>>>>> +    if (ret == 1) {
+>>>>>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>>>>>>>
+>>>>>>> I don't understand this case separate from the others.  We've already
+>>>>>>> set the cap, so fwnmi support should be checked and available.
+>>>>>>
+>>>>>> But we have not enabled fwnmi in KVM. kvmppc_fwnmi_enable() returns 1 if
+>>>>>> cap_ppc_fwnmi is not available in KVM.
+>>>>>
+>>>>> But you've checked for the presence of the extension, yes?  So a
+>>>>> failure to enable the cap would be unexpected.  In which case how does
+>>>>> this case differ from.. 
+>>>>
+>>>> No, this is the function where I check for the presence of the
+>>>> extension. In kvm_arch_init() we just set cap_ppc_fwnmi to 1 if KVM
+>>>> support is available, but don't take any action if unavailable.
+>>>
+>>> Yeah, that's not ok.  You should be checking for the presence of the
+>>> extension in the .apply() function.  If you start up with the spapr
+>>> cap selected then failing at nmi-register time means something has
+>>> gone badly wrong.
+>>
+>> So, I should check for two things in the .apply() function: first if
+>> cap_ppc_fwnmi is supported and second if cap_ppc_fwnmi is enabled in KVM.
+>>
+>> In that case kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0) should be
+>> called during spapr_machine_init().
+>>
+>> So, we will fail to boot (when SPAPR_CAP_FWNMI_MCE=ON) if cap_ppc_fwnmi
+>> can't be enabled irrespective of whether a guest issues nmi,register or not.
+>>
+> 
+> Yes. The idea is that we don't want to expose some feature to the guest
+> if we already know it cannot work. The same stands for migration, if
+> we know the destination host doesn't support the feature, we don't want
+> to confuse the guest because the feature disappeared unexpectedly. The
+> correct way to address that is to check the feature is supported in QEMU
+> and/or KVM before we start the guest or before we accept a migration
+> stream and fail early if we can't provide the feature.
 
-(Ah, because CAP.DSTRD has probably been 0 in most devices.)
+ok.
 
+> 
+> Speaking of migration, kvmppc_fwnmi_enable() should be called in a
+> post load callback... and the problem I see is that this is a vCPU
+> ioctl. So either we add a state "I should enable FWNMI on post load"
+> to the vCPU that called nmi,register, or maybe first_cpu can do the
+> trick in a post load callback of vmstate_spapr_machine_check.
 
---d6tAsslP43VX4OVzEt2EpiNcraKk3EITW--
+To summarize the changes I am planning:
 
---HY5kOGbJb1LXuBi1gZY9vBbrco2yO07Ng
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+If SPAPR_CAP_FWNMI_MCE=ON, then enable cap_ppc_fwnmi in KVM. If
+cap_ppc_fwnmi can't be enabled then fail early. This can be included in
+spapr_machine_init() function.
 
------BEGIN PGP SIGNATURE-----
+During migration, if SPAPR_CAP_FWNMI_MCE=ON then enable cap_ppc_fwnmi by
+having a .post_load callback which calls kvmppc_fwnmi_enable(). Fail the
+migration if we can't enable cap_ppc_fwnmi on the destination host.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0fMD4ACgkQ9AfbAGHV
-z0DNVAf9EOEsNo0jQ8JjVymrgpIyYup6hswKgwI+5qGTi5VrE6AdzRlipaBZut+R
-UuwCC/ipBLOVse6xbipPStZuBceDvKz1e8H2N62Twmyi1Sueurr6nlK6jYn5nSy/
-1AZ6EzQPdcvE26+n0TP9TqvRTcPlbCZgTgp7upAcCJDvQSEcLaLj+P+8PUwrnrrw
-7N5j6RvtmZCeU2G9G5SLIY9bJ+/TFYbUIfa8I74oCfLhyLynndczLSsXQGZZeG+m
-I7rzmB7zcZKChguLeGXswuji3zAPxwnS4Tht+QceSV38yX6CouAXPfZHFdeTFP7G
-zKr+W1yUsKRQEJV4pG4u0lKBIrszCA==
-=/dKD
------END PGP SIGNATURE-----
+> 
+> BTW, since FWNMI is a platform wide feature, ie. you don't need to
+> enable it on a per-CPU basis), why is KVM_CAP_PPC_FWNMI a vCPU ioctl
+> and not a VM ioctl ?
 
---HY5kOGbJb1LXuBi1gZY9vBbrco2yO07Ng--
+I think it should be VM ioctl, let me check.
+
+Regards,
+Aravinda
+
+> 
+>>>
+>>> This is necessary for migration: if you start on a system with nmi
+>>> support and the guest registers for it, you can't then migrate safely
+>>> to a system that doesn't have nmi support.  The way to handle that
+>>> case is to have qemu fail to even start up on a destination without
+>>> the support.
+>>>
+>>>> So this case is when we are running an old version of KVM with no
+>>>> cap_ppc_fwnmi support.
+>>>>
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>>> +        return;
+>>>>>>>> +    } else if (ret < 0) {
+>>>>>>>> +        error_report("Couldn't enable KVM FWNMI capability");
+>>>>>>>> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
+>>>>>>>> +        return;
+>>>>>
+>>>>> ..this case.
+>>>>
+>>>> And this is when we have the KVM support but due to some problem with
+>>>> either KVM or QEMU we are unable to enable cap_ppc_fwnmi.
+>>>>
+>>>>>
+>>>>>>>> +    }
+>>>>>>>> +
+>>>>>>>> +    spapr->guest_machine_check_addr = rtas_ld(args, 1);
+>>>>>>>> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>>>>>>>> +                                   SpaprMachineState *spapr,
+>>>>>>>> +                                   uint32_t token, uint32_t nargs,
+>>>>>>>> +                                   target_ulong args,
+>>>>>>>> +                                   uint32_t nret, target_ulong rets)
+>>>>>>>> +{
+>>>>>>>> +    if (spapr->guest_machine_check_addr == -1) {
+>>>>>>>> +        /* NMI register not called */
+>>>>>>>> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>>>>>>>> +    } else {
+>>>>>>>> +        /*
+>>>>>>>> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+>>>>>>>> +         * hence unset mc_status.
+>>>>>>>> +         */
+>>>>>>>> +        spapr->mc_status = -1;
+>>>>>>>> +        qemu_cond_signal(&spapr->mc_delivery_cond);
+>>>>>>>> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>>>>>>>
+>>>>>>> Hrm.  We add the blocker at the mce request point.  First, that's in
+>>>>>>> another patch, which isn't great.  Second, does that mean we could add
+>>>>>>> multiple times if we get an MCE on multiple CPUs?  Will that work and
+>>>>>>> correctly match adds and removes properly?
+>>>>>>
+>>>>>> If it is fine to move the migration patch as the last patch in the
+>>>>>> sequence, then we will have add and del blocker in the same patch.
+>>>>>>
+>>>>>> And yes we could add multiple times if we get MCE on multiple CPUs and
+>>>>>> as all those cpus call interlock there should be matching number of
+>>>>>> delete blockers.
+>>>>>
+>>>>> Ok, and I think adding the same pointer to the list multiple times
+>>>>> will work ok.
+>>>>
+>>>> I think so
+>>>>
+>>>>>
+>>>>> Btw, add_blocker() can fail - have you handled failure conditions?
+>>>>
+>>>> yes, I am handling it.
+>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
+-- 
+Regards,
+Aravinda
+
 
