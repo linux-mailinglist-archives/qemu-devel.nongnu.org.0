@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769A16024F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:39:29 +0200 (CEST)
-Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888C7602AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:54:05 +0200 (CEST)
+Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjJke-00040d-Mq
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
+	id 1hjJym-0002Cv-PT
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60949)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdj-0003ML-5A
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1hjJwk-00018W-Cn
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdg-00063M-2i
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:19 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:39718)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdf-0005sh-Md
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:15 -0400
-Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
- [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 0E9AF4DEAD;
- Fri,  5 Jul 2019 17:32:08 +0900 (JST)
-Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
- [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id A0350240086;
- Fri,  5 Jul 2019 17:32:07 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:31:41 +0900
-Message-Id: <20190705083141.106254-23-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190705083141.106254-1-ysato@users.sourceforge.jp>
-References: <20190705083141.106254-1-ysato@users.sourceforge.jp>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v22 22/22] target/rx: remove unused functions.
+ (envelope-from <philmd@redhat.com>) id 1hjJwj-0004aT-5T
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:58 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53552)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjJwi-0004Zw-Uc
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:57 -0400
+Received: by mail-wm1-f68.google.com with SMTP id x15so8005450wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 01:51:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mk4ycAxdx0O0XvVyW6e66hkGhmNaiymjWNoGqwtdors=;
+ b=G6Ox8OOraOqp5nfzf8ODpLVg3oLjUZat49KzpUJ5bw8BMgVMar+0QYK95usyGwBXpY
+ /WB9Wz0gutvUlWau87ZJVf0poi6oytFCu6jb2F+5qk0vreZA5oXNKiQGK5jJbabMoaWN
+ JrxJ/XSl0j8mo+1Py6BdlZV+isnlpgt/AS4NJ8da4LlyPfeXTUhumLiSDgLt/Jp1Lz2g
+ O/WW47ZlB3gMVgYcT5XQEDFjUSx2RONR7p5yzLnBvs23HONPgSULJJCiUJbQ5ws1SxbB
+ OHpWnSxhnKIek1x1p/L8tS0g88nHoXVyCIlO1momsbU5lRnaDNXZpebUjiGnnlXj9Hu0
+ /z9Q==
+X-Gm-Message-State: APjAAAVTwhGw7hB5U+j5rGBhvTlBQ0OUD3YrCUsE7qUCb/+eEF3rRXVa
+ PENM4OKfEwpCyx5OWa9xOM5QPA==
+X-Google-Smtp-Source: APXvYqylONjj7snnNoLr97Ea0N5uQNID92/OspJwidDSnxT+IIykm+GMigOv0sBv/pId90OVWTUWOA==
+X-Received: by 2002:a1c:9696:: with SMTP id y144mr2398569wmd.73.1562316715449; 
+ Fri, 05 Jul 2019 01:51:55 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id x20sm7612123wmc.1.2019.07.05.01.51.54
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 01:51:54 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190704142004.7150-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <3bb189fa-8e47-acb0-89a2-9b5121c2269f@redhat.com>
+Date: Fri, 5 Jul 2019 10:51:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190704142004.7150-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH for-4.1] hw/arm/sbsa-ref: Remove
+ unnecessary check for secure_sysmem == NULL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,73 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, imammedo@redhat.com, richard.henderson@linaro.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
+Cc: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- target/rx/monitor.c     | 38 --------------------------------------
- target/rx/Makefile.objs |  1 -
- 2 files changed, 39 deletions(-)
- delete mode 100644 target/rx/monitor.c
+On 7/4/19 4:20 PM, Peter Maydell wrote:
+> In the virt machine, we support TrustZone being either present or
+> absent, and so the code must deal with the secure_sysmem pointer
+> possibly being NULL. In the sbsa-ref machine, TrustZone is always
+> present, but some code and comments copied from virt still treat
+> it as possibly not being present.
+> 
+> This causes Coverity to complain (CID 1407287) that we check
+> secure_sysmem for being NULL after an unconditional dereference.
+> Simplify the code so that instead of initializing the variable
+> to NULL, unconditionally assigning it, and then testing it for NULL,
+> we just initialize it correctly in the variable declaration and
+> then assume it to be non-NULL. We also delete a comment which
+> only applied to the non-TrustZone config.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Not a bug as such, but we should put it in for 4.1 to
+> keep Coverity happy.
+> ---
+>  hw/arm/sbsa-ref.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index ee53f0ff60d..6f315b79445 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -254,8 +254,6 @@ static void sbsa_flash_map(SBSAMachineState *sms,
+>       * sysmem is the system memory space. secure_sysmem is the secure view
+>       * of the system, and the first flash device should be made visible only
+>       * there. The second flash device is visible to both secure and nonsecure.
+> -     * If sysmem == secure_sysmem this means there is no separate Secure
+> -     * address space and both flash devices are generally visible.
+>       */
+>      hwaddr flashsize = sbsa_ref_memmap[SBSA_FLASH].size / 2;
+>      hwaddr flashbase = sbsa_ref_memmap[SBSA_FLASH].base;
+> @@ -588,7 +586,7 @@ static void sbsa_ref_init(MachineState *machine)
+>      SBSAMachineState *sms = SBSA_MACHINE(machine);
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+>      MemoryRegion *sysmem = get_system_memory();
+> -    MemoryRegion *secure_sysmem = NULL;
+> +    MemoryRegion *secure_sysmem = g_new(MemoryRegion, 1);
+>      MemoryRegion *ram = g_new(MemoryRegion, 1);
+>      bool firmware_loaded;
+>      const CPUArchIdList *possible_cpus;
+> @@ -612,13 +610,11 @@ static void sbsa_ref_init(MachineState *machine)
+>       * containing the system memory at low priority; any secure-only
+>       * devices go in at higher priority and take precedence.
+>       */
+> -    secure_sysmem = g_new(MemoryRegion, 1);
+>      memory_region_init(secure_sysmem, OBJECT(machine), "secure-memory",
+>                         UINT64_MAX);
+>      memory_region_add_subregion_overlap(secure_sysmem, 0, sysmem, -1);
+>  
+> -    firmware_loaded = sbsa_firmware_init(sms, sysmem,
+> -                                         secure_sysmem ?: sysmem);
+> +    firmware_loaded = sbsa_firmware_init(sms, sysmem, secure_sysmem);
+>  
+>      if (machine->kernel_filename && firmware_loaded) {
+>          error_report("sbsa-ref: No fw_cfg device on this machine, "
+> 
 
-diff --git a/target/rx/monitor.c b/target/rx/monitor.c
-deleted file mode 100644
-index 5d7a1e58b5..0000000000
---- a/target/rx/monitor.c
-+++ /dev/null
-@@ -1,38 +0,0 @@
--/*
-- * QEMU monitor
-- *
-- * Copyright (c) 2003-2004 Fabrice Bellard
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "monitor/monitor.h"
--#include "monitor/hmp-target.h"
--#include "hmp.h"
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    CPUArchState *env = mon_get_cpu_env();
--
--    if (!env) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--}
-diff --git a/target/rx/Makefile.objs b/target/rx/Makefile.objs
-index aa6f2d2d6c..a0018d5bc5 100644
---- a/target/rx/Makefile.objs
-+++ b/target/rx/Makefile.objs
-@@ -1,5 +1,4 @@
- obj-y += translate.o op_helper.o helper.o cpu.o gdbstub.o disas.o
--obj-$(CONFIG_SOFTMMU) += monitor.o
- 
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
- 
--- 
-2.11.0
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
