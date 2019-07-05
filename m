@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D601609FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:07:35 +0200 (CEST)
-Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC36D60A1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:21:12 +0200 (CEST)
+Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQkI-0004Ua-8V
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38573)
+	id 1hjQxS-0001Fw-Mn
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40380)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hjQYh-0004bA-Uy
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:55:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hjQhh-0002zx-50
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:04:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hjQYg-0000m7-SQ
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:55:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47272)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hjQYM-0007f9-VP; Fri, 05 Jul 2019 11:55:16 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EAE87C04958C;
- Fri,  5 Jul 2019 15:55:11 +0000 (UTC)
-Received: from [10.3.116.152] (ovpn-116-152.phx2.redhat.com [10.3.116.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 470794C7;
- Fri,  5 Jul 2019 15:55:08 +0000 (UTC)
+ (envelope-from <alex.bennee@linaro.org>) id 1hjQhe-00029b-RH
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:04:52 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53527)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hjQhd-0000L4-FS
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:04:50 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x15so9662741wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 09:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IA9jQ8jl+c2/RuKmRF2JO1M1hIb19YRvsyc1s94BgiI=;
+ b=nQns0QcnvgprMmSFmKg5ZouU0gP9psSbjKFL8wMX043yaIIxFUSa+x42/W8Vi186Yl
+ SRXMAtZr1bmPw0Qidze+ppB6RniA2CNcoVR9vPYjOeW0bHCxWls4tUFK2D9ePcQetXCB
+ FOU4M1uR8G1KRunwrsbroZyQPvPkMGLb+J4z6zkehHfHvzLPB1RDfViqCOPlXSpCtQtJ
+ 3iGcWYE3uVSDkd1WVK5TkDw1Dywp5XvPE7pCa6AihtXPWPZLXnAlOwOMgMQCQgIYNIZx
+ MwSG6N1wSkv5c5qXRfSXZcmXYA2hbHJmd79TS+8afu9FUXDfPoGeSdolSONgzxfh4ak5
+ 4/Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IA9jQ8jl+c2/RuKmRF2JO1M1hIb19YRvsyc1s94BgiI=;
+ b=Iaiapthzel2jBkvRrMdQw5xMwC2ArNQI2MifKpUDdfK+Om5kOwGrOE01prjbAFYVRa
+ 3abCVMNUPFn1+CJWMcvfLhQcD1bOxwGS4/1fGuU78yIi9+2RPYqcA9ysdvKxsF9AeT8l
+ xnjq7Xy0vE/dVQsZKBZ2FqxcKOco/p9K26yPM9H43pDFhvYNvF+CM45ZvU0p/BXgn+Ff
+ 9K4+vpD0lvZ8yMydJf9ciMro6cxvXimLhoPZcTG/6oth3SNxUaVRaFVImYYRqrA6Pi0M
+ T8mKiO+LoDhUQ17/+mhzQhTAnIMz7cS+24uXK1x1I0b4qasxHAuY3MJhdgDvZntaERCF
+ RKrA==
+X-Gm-Message-State: APjAAAUNDfNrb25lbeXtFJUAHpCih/TvqZxOriqmqt5r4IBmh0T+HKzX
+ roALqN6/h28uynrea7/z635lcg==
+X-Google-Smtp-Source: APXvYqx8Y0QnLP6sttdvemxWuSeVTny9+BqnQqqW5MweVjINCO3XuUmU2DlCXCpp564P0mDqpfo8/A==
+X-Received: by 2002:a1c:a514:: with SMTP id o20mr4162743wme.149.1562342662369; 
+ Fri, 05 Jul 2019 09:04:22 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id d9sm13335588wrb.71.2019.07.05.09.04.21
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 05 Jul 2019 09:04:21 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 75FCB1FF87;
+ Fri,  5 Jul 2019 17:04:21 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-References: <20190705152812.26438-1-eblake@redhat.com>
- <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <1887bd36-b343-26ed-ac9f-4abd13f4b0ca@redhat.com>
-Date: Fri, 5 Jul 2019 10:55:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Date: Fri,  5 Jul 2019 17:04:16 +0100
+Message-Id: <20190705160421.19015-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="kBNxtzENiHicM0DEYLGuJDFpbtmTWBx14"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 15:55:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1] qcow2: Allow -o compat=v3 during
- qemu-img amend
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH for 4.1 0/5] tcg tests and gdbstub fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,104 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---kBNxtzENiHicM0DEYLGuJDFpbtmTWBx14
-Content-Type: multipart/mixed; boundary="HJfxtkzemix7WKV2SYc5XF4rWxFCj2FPF";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:qcow2" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
-Message-ID: <1887bd36-b343-26ed-ac9f-4abd13f4b0ca@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH for-4.1] qcow2: Allow -o compat=v3 during
- qemu-img amend
-References: <20190705152812.26438-1-eblake@redhat.com>
- <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
-In-Reply-To: <7c01df31-e606-6524-db02-8cbbdef93a3b@redhat.com>
+Hi,
 
---HJfxtkzemix7WKV2SYc5XF4rWxFCj2FPF
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+A small selection of clean-up patches covering failing tests and
+gdbstub.
 
-On 7/5/19 10:53 AM, Eric Blake wrote:
-> On 7/5/19 10:28 AM, Eric Blake wrote:
->> Commit b76b4f60 allowed '-o compat=3Dv3' as an alias for the
->> less-appealing '-o compat=3D1.1' for 'qemu-img create' since we want t=
-o
->> use the QMP form as much as possible, but forgot to do likewise for
->> qemu-img amend.  Also, it doesn't help that '-o help' doesn't list our=
+The following patches need review
+ patch 0002/tests tcg fix up test i386 fprem.ref generation.patch
+ patch 0003/tests tcg fix diff out pass to properly report fa.patch
+ patch 0004/gdbstub add some notes to the header comment.patch
 
->> new preferred spellings.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
->>
->> I'm arguing that the lack of consistency is a bug, even though the bug=
+Alex Bennée (4):
+  tests/tcg: fix up test-i386-fprem.ref generation
+  tests/tcg: fix diff-out pass to properly report failure
+  gdbstub: add some notes to the header comment
+  gdbstub: revert to previous set_reg behaviour
 
->> has been present since 2.12.
->=20
-> I found this bug while chasing down another one: trying to see if we ca=
-n
-> now lift our restriction against 'qemu-img resize' on an image with
-> internal snapshots.  For v3 images, the limitation is artificial (the
-> spec says every snapshot is required to have an associated size, so you=
+Philippe Mathieu-Daudé (1):
+  target/arm/vfp_helper: Call set_fpscr_to_host before updating FPSCR
+    reg
 
-> know what size to change back to when reverting to that snapshot); but
-> for v2 the limitation is real (the spec did not require tracking image
-> size, and therefore changing the size meant that you might not be able
-> to safely revert).  Except that we ALSO have a bug in qemu-img amend:
->=20
-> 1. Create a v2 file with internal snapshot. On CentOS 6:
-> $ qemu-img create -f qcow2 file 1m
-> $ qemu-img snapshot -c s1 file
-> 2. Check that the internal snapshot header uses the smaller size:
-> $ od -Ax -j64 -N8 -tx1 file  # Learn the offset for the next command
-> $ offset=3D$((0x50000+36))
-> $ od -Ax -j$offset -N 4 -tx1 file
->  =3D> extra field is 0
-> 3. Upgrade it to v3. Using qemu.git master:
-> $ qemu-img amend -o compat=3D1.1 file
-> 4. Check the internal snapshot header size:
-> $ od -Ax -j64 -N8 -tx1 file  # Learn the offset for the next command
-> $ offset=3D$((0x50000+36))
-> $ od -Ax -j$offset -N 4 -tx1 file
->  =3D> oops - extra field is still 0, but should now be at least 16.
->=20
+ gdbstub.c                      | 24 ++++++++++++++++++------
+ target/arm/vfp_helper.c        |  4 ++--
+ tests/tcg/Makefile             |  6 +++++-
+ tests/tcg/i386/Makefile.target |  4 ++--
+ 4 files changed, 27 insertions(+), 11 deletions(-)
 
+-- 
+2.20.1
 
-Oh, and 'qemu-img check file' fails to diagnose the v3 image as
-violating the qcow2 spec.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---HJfxtkzemix7WKV2SYc5XF4rWxFCj2FPF--
-
---kBNxtzENiHicM0DEYLGuJDFpbtmTWBx14
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0fctsACgkQp6FrSiUn
-Q2rhZAf/S7NUKLV+39RWO64ET1ZFnVHZT03AQK2kN3uBlsKISCHf1/Ywl82cQ+Yn
-Z7RcKdovj6Rb2IgIMGZN3k7/BZmrtBKaUSPShMPZnnnYFyOP3RumIgwhaOWXZhAs
-PvpgmxpcaRsbva05DEN+u+u8eO3lvWq9gesfjnnfNHWt5zaPim5+e6QJxeqpcUys
-KVo8VMLxXmLyQgrxjghWhr4+SY2hNZWsRDyoj2oVuqVUD21gBc5t91opflgznxpT
-Uvug2w7WbBtlTx7y622G9eIcz7mwmQmJZXQU6H8qgkaDoUenZAstnib3PohIHcz2
-YSvAwycGDvesjWMjNV8rXOeGztEJvg==
-=h13J
------END PGP SIGNATURE-----
-
---kBNxtzENiHicM0DEYLGuJDFpbtmTWBx14--
 
