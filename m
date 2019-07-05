@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C4E6089A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:02:07 +0200 (CEST)
-Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4F5608C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:07:18 +0200 (CEST)
+Received: from localhost ([::1]:54034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjPiu-0005Rv-Q3
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
+	id 1hjPnx-0000PR-1v
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56989)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hjPgj-0004sG-Gt
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:59:50 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hjPmL-0007oq-Rk
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:05:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hjPgh-0000Kg-D8
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:59:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57044)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hjPgh-0008SR-5u
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:59:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hjPgc-0002RE-Sb
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 14:59:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CAA142E80CD
- for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 14:59:42 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hjPmI-0001Hy-MK
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:05:36 -0400
+Resent-Date: Fri, 05 Jul 2019 11:05:36 -0400
+Resent-Message-Id: <E1hjPmI-0001Hy-MK@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21801)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hjPmI-0000xM-CN
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:05:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562338210; cv=none; d=zoho.com; s=zohoarc; 
+ b=J7TDLGIBlZeVRu9wqxd9U8Rxs32Gty42qgGG7L+MzqbW0otK8V+HOe0kswcVh97VOgmqh4OxujWT7CSM6xgqcg+YX4LbDm1NlO3pC4gFK1L1LlUZORgDJTeq7/9VVF5gAmoTMV8xf5InPtA415aZycHzl5Nc2ouS8esHz+sUZDY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562338210;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=G8MCxrU+kukJcmJlmv9viZjd1yUsOk6n7sy2OWMqY44=; 
+ b=dd7S2fjzjugOby85tgW7DzfotV22JfCqzeM01NPzn8XClYyasNP7JqGmEIDp6aHtfjdBrsAwh1vpgNcGquLZa/rB5K036FXMPiTmkmy3IshMEltEY0yss2CcqOkIpO2zdwERTl/q68alFn7yrjhwLdjh5nyNjf1hfnrcE/uYjm4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562338210303696.7143635139587;
+ Fri, 5 Jul 2019 07:50:10 -0700 (PDT)
+Message-ID: <156233820952.4051.5819777599182156401@c4a48874b076>
+In-Reply-To: <20190704160802.12419-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jul 2019 14:48:18 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: mips testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee janitor megari th-huth v-adrien
-X-Launchpad-Bug-Reporter: AH (v-adrien)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
-Message-Id: <156233809816.21113.10714261367390158519.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 79e43e3c59a1bc8a4bdb816be455109381d2eb3b
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Fri, 5 Jul 2019 07:50:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PULL 0/9] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,71 +61,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Erm isn't your 64bit pointer being truncated when you build for 32 bit?
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwNDE2MDgwMi4xMjQx
+OS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+YnVpbGQgdGVzdCBvbiBzMzkweCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4K
+Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKIyBUZXN0aW5nIHNjcmlwdCB3
+aWxsIGJlIGludm9rZWQgdW5kZXIgdGhlIGdpdCBjaGVja291dCB3aXRoCiMgSEVBRCBwb2ludGlu
+ZyB0byBhIGNvbW1pdCB0aGF0IGhhcyB0aGUgcGF0Y2hlcyBhcHBsaWVkIG9uIHRvcCBvZiAiYmFz
+ZSIKIyBicmFuY2gKc2V0IC1lCgplY2hvCmVjaG8gIj09PSBFTlYgPT09IgplbnYKCmVjaG8KZWNo
+byAiPT09IFBBQ0tBR0VTID09PSIKcnBtIC1xYQoKZWNobwplY2hvICI9PT0gVU5BTUUgPT09Igp1
+bmFtZSAtYQoKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxsCkJVSUxEPSRQV0Qv
+YnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRCVUlMRAokU1JDL2Nv
+bmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAojIFhYWDogd2UgbmVl
+ZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtlIGluc3RhbGwKPT09
+IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBsbTMyLXNvZnRtbXUvdGNnL3RjZy1vcC12
+ZWMubwogIENDICAgICAgbG0zMi1zb2Z0bW11L3RjZy90Y2ctb3AtZ3ZlYy5vCiAgQ0MgICAgICBh
+YXJjaDY0LXNvZnRtbXUvdGFyZ2V0L2FybS9tX2hlbHBlci5vCi92YXIvdG1wL3BhdGNoZXctdGVz
+dGVyLXRtcC03OV9scDlrdi9zcmMvdGFyZ2V0L2FybS9tX2hlbHBlci5jOjI3OjEwOiBmYXRhbCBl
+cnJvcjogcWFwaS9xYXBpLWNvbW1hbmRzLXRhcmdldC5oOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0
+b3J5CiAgIDI3IHwgI2luY2x1ZGUgInFhcGkvcWFwaS1jb21tYW5kcy10YXJnZXQuaCIKICAgICAg
+fCAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgpjb21waWxhdGlvbiB0ZXJt
+aW5hdGVkLgotLS0KICBDQyAgICAgIGFybS1zb2Z0bW11L3RhcmdldC9hcm0vbmVvbl9oZWxwZXIu
+bwogIENDICAgICAgYXJtLXNvZnRtbXUvdGFyZ2V0L2FybS9tX2hlbHBlci5vCiAgQ0MgICAgICBh
+cm0tc29mdG1tdS90YXJnZXQvYXJtL3BzY2kubwovdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAt
+NzlfbHA5a3Yvc3JjL3RhcmdldC9hcm0vbV9oZWxwZXIuYzoyNzoxMDogZmF0YWwgZXJyb3I6IHFh
+cGkvcWFwaS1jb21tYW5kcy10YXJnZXQuaDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQogICAy
+NyB8ICNpbmNsdWRlICJxYXBpL3FhcGktY29tbWFuZHMtdGFyZ2V0LmgiCiAgICAgIHwgICAgICAg
+ICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KY29tcGlsYXRpb24gdGVybWluYXRlZC4K
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
+MTkwNzA0MTYwODAyLjEyNDE5LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuczM5
+MHgvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-** Tags added: mips testcase
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1462640
-
-Title:
-  shmat fails on 32-to-64 setup
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  =
-
-  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
-he program fails on a call to shmat() reproducibly. when digging into this =
-problem, I could make a small guest POC that fails when compiled as i386 (-=
-m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
- has to do with mmap flags.
-
-  From what I can understand, when running 32bits guests programs, qemu
-  reserve the whole guest virtual space with an mmap call. That mmap
-  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
-  part of that region MAP_SHARED and that fails.
-
-  As a possible fix, it looks like it is possible to first unmap the shm
-  region before calling shmat.
-
-  steps to reproduce: =
-
-  1 - create a file shm.c with content below
-  2 - compile with: gcc -m32 shm.c -o shm32
-  3 - run on a x86_64 host: qemu-i386 ./shm32 =
-
-  4 - observe shmat fails, by returning ptr -1
-
-  5- compile without -m32: : gcc shm.c -o shm64
-  6 - observe it pass: qemu-x84_64 ./shm64
-
-
-  #include <sys/ipc.h>
-  #include <sys/shm.h>
-  #include <sys/mman.h>
-  #include <stdio.h>
-
-  int main()
-  {
-      struct shmid_ds shm_desc;
-      int err =3D 0;
-      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
-      err =3D shmctl(id, IPC_STAT, &shm_desc);
-      const void *at =3D 0x7f7df38ea000;
-      void* ptr =3D shmat(id, at, 0);
-      printf( "got err %d, ptr %p\n", err, ptr );
-  }
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
