@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E07360C58
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:26:58 +0200 (CEST)
-Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7E760C3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:19:50 +0200 (CEST)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUnJ-0006X9-8A
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60764)
+	id 1hjUgP-0007NJ-Lr
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60765)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hjUda-00056h-6C
+ (envelope-from <jsnow@redhat.com>) id 1hjUda-00056i-6C
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:16:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hjUdY-0006kT-5u
+ (envelope-from <jsnow@redhat.com>) id 1hjUdY-0006kH-4a
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:16:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50912)
+Received: from mx1.redhat.com ([209.132.183.28]:57748)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hjUdT-0006f2-7i; Fri, 05 Jul 2019 16:16:47 -0400
+ id 1hjUdU-0006fz-7Q; Fri, 05 Jul 2019 16:16:48 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9617581F11;
- Fri,  5 Jul 2019 20:16:45 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 83D60C049589;
+ Fri,  5 Jul 2019 20:16:47 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-122-149.rdu2.redhat.com [10.10.122.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7ED0D86432;
- Fri,  5 Jul 2019 20:16:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3DD3867FF;
+ Fri,  5 Jul 2019 20:16:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Fri,  5 Jul 2019 16:16:15 -0400
-Message-Id: <20190705201631.26266-3-jsnow@redhat.com>
+Date: Fri,  5 Jul 2019 16:16:16 -0400
+Message-Id: <20190705201631.26266-4-jsnow@redhat.com>
 In-Reply-To: <20190705201631.26266-1-jsnow@redhat.com>
 References: <20190705201631.26266-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 05 Jul 2019 20:16:45 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 20:16:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 02/18] drive-backup: create do_backup_common
+Subject: [Qemu-devel] [PATCH v3 03/18] blockdev-backup: utilize
+ do_backup_common
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,108 +66,27 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a common core that comprises the actual meat of what the backup AP=
-I
-boundary needs to do, and then switch drive-backup to use it.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- blockdev.c | 122 +++++++++++++++++++++++++++++------------------------
- 1 file changed, 67 insertions(+), 55 deletions(-)
+ blockdev.c | 65 +++++-------------------------------------------------
+ 1 file changed, 6 insertions(+), 59 deletions(-)
 
 diff --git a/blockdev.c b/blockdev.c
-index 4d141e9a1f..5bc8ecd087 100644
+index 5bc8ecd087..77365d8166 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -3425,6 +3425,70 @@ out:
-     aio_context_release(aio_context);
- }
-=20
-+/* Common QMP interface for drive-backup and blockdev-backup */
-+static BlockJob *do_backup_common(BackupCommon *backup,
-+                                  BlockDriverState *bs,
-+                                  BlockDriverState *target_bs,
-+                                  AioContext *aio_context,
-+                                  JobTxn *txn, Error **errp)
-+{
-+    BlockJob *job =3D NULL;
-+    BdrvDirtyBitmap *bmap =3D NULL;
-+    int job_flags =3D JOB_DEFAULT;
-+    int ret;
-+
-+    if (!backup->has_speed) {
-+        backup->speed =3D 0;
-+    }
-+    if (!backup->has_on_source_error) {
-+        backup->on_source_error =3D BLOCKDEV_ON_ERROR_REPORT;
-+    }
-+    if (!backup->has_on_target_error) {
-+        backup->on_target_error =3D BLOCKDEV_ON_ERROR_REPORT;
-+    }
-+    if (!backup->has_job_id) {
-+        backup->job_id =3D NULL;
-+    }
-+    if (!backup->has_auto_finalize) {
-+        backup->auto_finalize =3D true;
-+    }
-+    if (!backup->has_auto_dismiss) {
-+        backup->auto_dismiss =3D true;
-+    }
-+    if (!backup->has_compress) {
-+        backup->compress =3D false;
-+    }
-+
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        return NULL;
-+    }
-+
-+    if (backup->has_bitmap) {
-+        bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
-+        if (!bmap) {
-+            error_setg(errp, "Bitmap '%s' could not be found", backup->b=
-itmap);
-+            return NULL;
-+        }
-+        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
-+            return NULL;
-+        }
-+    }
-+
-+    if (!backup->auto_finalize) {
-+        job_flags |=3D JOB_MANUAL_FINALIZE;
-+    }
-+    if (!backup->auto_dismiss) {
-+        job_flags |=3D JOB_MANUAL_DISMISS;
-+    }
-+
-+    job =3D backup_job_create(backup->job_id, bs, target_bs, backup->spe=
-ed,
-+                            backup->sync, bmap, backup->compress,
-+                            backup->on_source_error, backup->on_target_e=
-rror,
-+                            job_flags, NULL, NULL, txn, errp);
-+    return job;
-+}
-+
- static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
-                                  Error **errp)
+@@ -3624,78 +3624,25 @@ BlockJob *do_blockdev_backup(BlockdevBackup *back=
+up, JobTxn *txn,
  {
-@@ -3432,39 +3496,16 @@ static BlockJob *do_drive_backup(DriveBackup *bac=
-kup, JobTxn *txn,
+     BlockDriverState *bs;
      BlockDriverState *target_bs;
-     BlockDriverState *source =3D NULL;
-     BlockJob *job =3D NULL;
+-    Error *local_err =3D NULL;
 -    BdrvDirtyBitmap *bmap =3D NULL;
      AioContext *aio_context;
-     QDict *options =3D NULL;
-     Error *local_err =3D NULL;
--    int flags, job_flags =3D JOB_DEFAULT;
-+    int flags;
-     int64_t size;
-     bool set_backing_hd =3D false;
+-    BlockJob *job =3D NULL;
+-    int job_flags =3D JOB_DEFAULT;
 -    int ret;
-=20
+-
 -    if (!backup->has_speed) {
 -        backup->speed =3D 0;
 -    }
@@ -176,9 +96,6 @@ kup, JobTxn *txn,
 -    if (!backup->has_on_target_error) {
 -        backup->on_target_error =3D BLOCKDEV_ON_ERROR_REPORT;
 -    }
-     if (!backup->has_mode) {
-         backup->mode =3D NEW_IMAGE_MODE_ABSOLUTE_PATHS;
-     }
 -    if (!backup->has_job_id) {
 -        backup->job_id =3D NULL;
 -    }
@@ -191,46 +108,49 @@ kup, JobTxn *txn,
 -    if (!backup->has_compress) {
 -        backup->compress =3D false;
 -    }
++    BlockJob *job;
 =20
      bs =3D bdrv_lookup_bs(backup->device, backup->device, errp);
      if (!bs) {
-@@ -3541,12 +3582,6 @@ static BlockJob *do_drive_backup(DriveBackup *back=
-up, JobTxn *txn,
-         goto out;
+         return NULL;
+     }
+=20
+-    aio_context =3D bdrv_get_aio_context(bs);
+-    aio_context_acquire(aio_context);
+-
+     target_bs =3D bdrv_lookup_bs(backup->target, backup->target, errp);
+     if (!target_bs) {
+-        goto out;
++        return NULL;
      }
 =20
 -    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
 -    if (ret < 0) {
--        bdrv_unref(target_bs);
 -        goto out;
 -    }
--
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-         if (local_err) {
-@@ -3554,31 +3589,8 @@ static BlockJob *do_drive_backup(DriveBackup *back=
-up, JobTxn *txn,
-         }
-     }
++    aio_context =3D bdrv_get_aio_context(bs);
++    aio_context_acquire(aio_context);
 =20
 -    if (backup->has_bitmap) {
 -        bmap =3D bdrv_find_dirty_bitmap(bs, backup->bitmap);
 -        if (!bmap) {
 -            error_setg(errp, "Bitmap '%s' could not be found", backup->b=
 itmap);
--            goto unref;
+-            goto out;
 -        }
 -        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
--            goto unref;
+-            goto out;
 -        }
 -    }
++    job =3D do_backup_common(qapi_BlockdevBackup_base(backup),
++                           bs, target_bs, aio_context, txn, errp);
+=20
 -    if (!backup->auto_finalize) {
 -        job_flags |=3D JOB_MANUAL_FINALIZE;
 -    }
 -    if (!backup->auto_dismiss) {
 -        job_flags |=3D JOB_MANUAL_DISMISS;
 -    }
--
 -    job =3D backup_job_create(backup->job_id, bs, target_bs, backup->spe=
 ed,
 -                            backup->sync, bmap, backup->compress,
@@ -239,13 +159,11 @@ rror,
 -                            job_flags, NULL, NULL, txn, &local_err);
 -    if (local_err !=3D NULL) {
 -        error_propagate(errp, local_err);
--        goto unref;
 -    }
-+    job =3D do_backup_common(qapi_DriveBackup_base(backup),
-+                           bs, target_bs, aio_context, txn, errp);
-=20
- unref:
-     bdrv_unref(target_bs);
+-out:
+     aio_context_release(aio_context);
+     return job;
+ }
 --=20
 2.21.0
 
