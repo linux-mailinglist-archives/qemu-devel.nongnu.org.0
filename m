@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED1E60178
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:29:49 +0200 (CEST)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CB060173
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:27:14 +0200 (CEST)
+Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjIfE-0003Z9-AA
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
+	id 1hjIcj-00080e-OP
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44102)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <klaus@birkelund.eu>) id 1hjIZZ-0005GY-5K
+ (envelope-from <klaus@birkelund.eu>) id 1hjIZZ-0005HD-Mj
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:24:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <klaus@birkelund.eu>) id 1hjIZX-0005ja-Eh
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:23:56 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50510)
+ (envelope-from <klaus@birkelund.eu>) id 1hjIZY-0005kh-D6
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:23:57 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:50524)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <klaus@birkelund.eu>)
- id 1hjIZV-0005g0-3x; Fri, 05 Jul 2019 03:23:53 -0400
+ id 1hjIZV-0005g7-B5; Fri, 05 Jul 2019 03:23:53 -0400
 Received: from localhost.localdomain (ip-5-186-120-196.cgn.fibianet.dk
  [5.186.120.196])
- by charlie.dont.surf (Postfix) with ESMTPSA id 7CA09BFF3D;
+ by charlie.dont.surf (Postfix) with ESMTPSA id B8668BFFA7;
  Fri,  5 Jul 2019 07:23:51 +0000 (UTC)
 From: Klaus Birkelund Jensen <klaus@birkelund.eu>
 To: qemu-block@nongnu.org
-Date: Fri,  5 Jul 2019 09:23:20 +0200
-Message-Id: <20190705072333.17171-4-klaus@birkelund.eu>
+Date: Fri,  5 Jul 2019 09:23:21 +0200
+Message-Id: <20190705072333.17171-5-klaus@birkelund.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190705072333.17171-1-klaus@birkelund.eu>
 References: <20190705072333.17171-1-klaus@birkelund.eu>
@@ -35,7 +35,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 128.199.63.193
-Subject: [Qemu-devel] [PATCH 03/16] nvme: fix lpa field
+Subject: [Qemu-devel] [PATCH 04/16] nvme: add missing fields in identify
+ controller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,29 +53,75 @@ Cc: kwolf@redhat.com, matt.fitzpatrick@oakgatetech.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Log Page Attributes in the Identify Controller structure indicates
-that the controller supports the SMART / Health Information log page on
-a per namespace basis. It does not, given that neither this log page or
-the Get Log Page command is implemented.
+Not used by the device model but added for completeness. See NVM Express
+1.2.1, Section 5.11 ("Identify command"), Figure 90.
 
 Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
 ---
- hw/block/nvme.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/block/nvme.h | 34 +++++++++++++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a3f83f3c2135..ce2e5365385b 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1366,7 +1366,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     id->ieee[2] =3D 0xb3;
-     id->oacs =3D cpu_to_le16(0);
-     id->frmw =3D 7 << 1;
--    id->lpa =3D 1 << 0;
-     id->sqes =3D (0x6 << 4) | 0x6;
-     id->cqes =3D (0x4 << 4) | 0x4;
-     id->nn =3D cpu_to_le32(n->num_namespaces);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 3ec8efcc435e..1b0accd4fe2b 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -543,7 +543,13 @@ typedef struct NvmeIdCtrl {
+     uint8_t     ieee[3];
+     uint8_t     cmic;
+     uint8_t     mdts;
+-    uint8_t     rsvd255[178];
++    uint16_t    cntlid;
++    uint32_t    ver;
++    uint16_t    rtd3r;
++    uint32_t    rtd3e;
++    uint32_t    oaes;
++    uint32_t    ctratt;
++    uint8_t     rsvd255[156];
+     uint16_t    oacs;
+     uint8_t     acl;
+     uint8_t     aerl;
+@@ -551,10 +557,22 @@ typedef struct NvmeIdCtrl {
+     uint8_t     lpa;
+     uint8_t     elpe;
+     uint8_t     npss;
+-    uint8_t     rsvd511[248];
++    uint8_t     avscc;
++    uint8_t     apsta;
++    uint16_t    wctemp;
++    uint16_t    cctemp;
++    uint16_t    mtfa;
++    uint32_t    hmpre;
++    uint32_t    hmmin;
++    uint8_t     tnvmcap[16];
++    uint8_t     unvmcap[16];
++    uint32_t    rpmbs;
++    uint8_t     rsvd319[4];
++    uint16_t    kas;
++    uint8_t     rsvd511[190];
+     uint8_t     sqes;
+     uint8_t     cqes;
+-    uint16_t    rsvd515;
++    uint16_t    maxcmd;
+     uint32_t    nn;
+     uint16_t    oncs;
+     uint16_t    fuses;
+@@ -562,8 +580,14 @@ typedef struct NvmeIdCtrl {
+     uint8_t     vwc;
+     uint16_t    awun;
+     uint16_t    awupf;
+-    uint8_t     rsvd703[174];
+-    uint8_t     rsvd2047[1344];
++    uint8_t     nvscc;
++    uint8_t     rsvd531;
++    uint16_t    acwu;
++    uint16_t    rsvd535;
++    uint32_t    sgls;
++    uint8_t     rsvd767[228];
++    uint8_t     subnqn[256];
++    uint8_t     rsvd2047[1024];
+     NvmePSD     psd[32];
+     uint8_t     vs[1024];
+ } NvmeIdCtrl;
 --=20
 2.20.1
 
