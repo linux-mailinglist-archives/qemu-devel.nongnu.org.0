@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189AD60DF3
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:42:35 +0200 (CEST)
-Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD61460E10
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 01:03:44 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjWuY-0008C2-93
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55312)
+	id 1hjXF1-0005Iy-U8
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 19:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjWVk-0008LE-Fk
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:58 -0400
+ (envelope-from <frasse.iglesias@gmail.com>) id 1hjWdD-0007DM-27
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:24:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjWVT-0003vF-1O
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33970)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWVM-0003sp-G6
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:16:33 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A83C830821C2;
- Fri,  5 Jul 2019 22:16:29 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 389CC4C7;
- Fri,  5 Jul 2019 22:16:29 +0000 (UTC)
-Date: Fri, 5 Jul 2019 19:16:16 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190705221616.GK5198@habkost.net>
-References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
- <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
- <20190705203728.GE5198@habkost.net>
- <0c1f3a3f-c59d-9866-7fc9-3d9c99af17e5@redhat.com>
- <20190705214446.GI5198@habkost.net>
- <2cc393a3-1f8c-896b-ed35-64ca58e70407@redhat.com>
+ (envelope-from <frasse.iglesias@gmail.com>) id 1hjWdC-0001Wp-5N
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:24:38 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45805)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1hjWdB-0001Tl-Bz; Fri, 05 Jul 2019 18:24:37 -0400
+Received: by mail-lj1-x244.google.com with SMTP id m23so10506987lje.12;
+ Fri, 05 Jul 2019 15:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=XW3tmrwiN3lQGHCFyidFYxKHrgyhO62gI0oGWxjTRsM=;
+ b=q2FbWTCrsorrIH+D8uBPpBxoBPMFzqUoJ0FySqRd8iXxZjcX16zXzvCtwdPHPHUs6W
+ SOGQw8l1xSNO9nysD/a67O+sc42OE9hGNBziIhbwmZZ0zluAEyO/yd00Yxinpz09ir9C
+ cypYl2jL97L9UKGbOsqPT6l6Yxj1TTE350CPygL2LpItZmtDDxGMcw/f8578Yqtg33K4
+ +w9vumWoaPnOOXpj77II7h1fEIGXu0q1BEDOvhCtCrAwTuewvzRb3BguYEMrVmdQgv61
+ Fd6q6DkPw9dk65X1EsSEcpg1PkcRydLuxugoNeyLcZeWw92S/m/vs6jwK60Yw1aRI19b
+ 9rJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=XW3tmrwiN3lQGHCFyidFYxKHrgyhO62gI0oGWxjTRsM=;
+ b=BE+ve23l+Ynoc4p8itKJsPkxBSr9NoEjP8/TiAM00jYe7mehU8DBxo5yeaJF3W/5k2
+ hW3/UM8onbCVZTv7NPcGfy4Cs4ZnNdaw+vQ+2stvd+jOIqyLUsbFZ2FYSsikvfZcZldL
+ JnEeuBJFkKeKY7tx6BvvWqk/qtoEtO1DDelvhOdp8mirg68VegSRDSFRaKcHb8xnE3Eo
+ vTWh66i4dm5UVj9J2i8dLx08uyp0XnlnIMije1EODULIzuWJiFU5vkKeRncbc2XlQXr8
+ ye2MqJw/AUDVW3norcYn0PAgWR/UKKACXHO8ZUe5Eg51CbGvY2y+boIreviYNO2mj5Jj
+ 0Rgw==
+X-Gm-Message-State: APjAAAXDFRiOOGOTw1BIB2PCeDMlf3cAtw4YprKUrnu0PIoIqTNvXBUB
+ Z9detRPoYBh0Qod0dN4B5PA=
+X-Google-Smtp-Source: APXvYqxiSFenwZ9l3V1vC5ooT6tzJ+gkmuG6PcNMrdaiHNAI5J4J79+6NMuMmAfgplc7ZlS/eE/7Rw==
+X-Received: by 2002:a2e:9d18:: with SMTP id t24mr3485658lji.2.1562365473110;
+ Fri, 05 Jul 2019 15:24:33 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ b192sm1575650lfg.75.2019.07.05.15.24.32
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 05 Jul 2019 15:24:32 -0700 (PDT)
+Date: Sat, 6 Jul 2019 00:24:30 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190705222429.ox6z6wckkupjpug2@fralle-msi>
+References: <20190705202500.18853-1-philmd@redhat.com>
+ <20190705202500.18853-4-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2cc393a3-1f8c-896b-ed35-64ca58e70407@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 05 Jul 2019 22:16:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features
- in a new function mark_unavailable_features
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190705202500.18853-4-philmd@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [RFC PATCH-for-4.1 v4 3/3] hw/ssi/xilinx_spips:
+ Avoid out-of-bound access to lqspi_buf[]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,44 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Prasad J Pandit <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
+ qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 06, 2019 at 12:07:29AM +0200, Paolo Bonzini wrote:
-> On 05/07/19 23:44, Eduardo Habkost wrote:
-> > On Fri, Jul 05, 2019 at 11:32:07PM +0200, Paolo Bonzini wrote:
-> >> On 05/07/19 22:37, Eduardo Habkost wrote:
-> >>> Filtering and reporting is separate because
-> >>> x86_cpu_filter_features() is also called from a QMP command
-> >>> handler that is not supposed to generate any warnings on stderr
-> >>> (query-cpu-model-expansion).
-> >>
-> >> But that one should not set check_cpuid or enforce_cpuid, should it?
-> > 
-> > check_cpuid is set to true by default.
-> 
-> Ok, that's what I missed.
-> 
-> >>
-> >> (I can still split the filtering and reporting if you prefer).
-> > 
-> > Maybe it will work if we just add a 'bool verbose' parameter to
-> > x86_cpu_filter_features().
-> > 
-> > x86_cpu_realizefn() would call:
-> >   x86_cpu_filter_features(cpu, cpu->check_cpuid);
-> 
-> ... "|| cpu->enforce_cpuid".
-> 
-> > x86_cpu_class_check_missing_features() would call:
-> >   x86_cpu_filter_features(cpu, false);
-> 
-> Or set check_cpuid to false there after creating the object?
+Hi Philippe,
 
-It would work too, but I prefer to make the side effects of
-x86_cpu_filter_features() more explicit.
+On [2019 Jul 05] Fri 22:25:00, Philippe Mathieu-Daudé wrote:
+> Both lqspi_read() and lqspi_load_cache() expect a 32-bit
+> aligned address.
+> 
+> Set MemoryRegionOps.impl values to force 32-bit accesses,
+> this way we are sure we do not access the lqspi_buf[] array
+> out of bound.
 
--- 
-Eduardo
+The patch and correction follows chapter 24 aswell (UG1085) so I suggest
+dropping 'RFC' in the subject.
+
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Late friday patch...
+> 
+>  hw/ssi/xilinx_spips.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+> index 3c4e8365ee..8f705132a3 100644
+> --- a/hw/ssi/xilinx_spips.c
+> +++ b/hw/ssi/xilinx_spips.c
+> @@ -1243,6 +1243,10 @@ static const MemoryRegionOps lqspi_ops = {
+>          .min_access_size = 1,
+>          .max_access_size = 4
+>      }
+
+A comma is missing on the line above (else the patch doesn't compile).
+
+Best regards,
+Francisco
+
+> +    .impl = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4,
+> +    }
+>  };
+>  
+>  static void xilinx_spips_realize(DeviceState *dev, Error **errp)
+> -- 
+> 2.20.1
+> 
 
