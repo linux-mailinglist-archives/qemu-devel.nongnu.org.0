@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B189460BD5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:41:50 +0200 (CEST)
-Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF2060BE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:53:07 +0200 (CEST)
+Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjU5d-0003Cq-Ex
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54251)
+	id 1hjUGY-0007LQ-Aj
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55577)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjU4w-0002oJ-4t
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:41:08 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEJ-0005LC-It
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjU4t-0004aB-97
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:41:04 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40203)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEI-00045X-J8
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:47 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40601)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjU4p-0004T6-KT
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:41:00 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v19so10702536wmj.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:40:57 -0700 (PDT)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1hjUEI-00043H-9C
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:46 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id v19so10720812wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XsBjbOIOnF0NdNk38gbkzat6rzrjMaJMR2gk3cNRDd4=;
+ b=J4Az28aD6REx1TLqBpd/q2tJa1iDUgprAW9a7COmESqxYkQkWTrgtnYt4AFgFsjLs+
+ 3oaHIvb2+Mb1s9q10JbaNG8ao423/xg7FjUYyAtJuLof4gY5adQuWuBnoLzMgL7/1J8+
+ 3qqvcDkqVx2fHvRvITGQ3pJzali7vB0L9czP3aBPczhUTexzRSG6GM2qDaw1T+t8CZFr
+ OAG0pdpm0cHI8nKxA/DWkDAxw9xMrUZCiAYcy6sIPehyF7Xo++rSgzIyLAWx4rNHvm03
+ 7BrnmCbdZ9XL0o+FlAUsUB/xY3QK5b4IN31HS3xSPzIvLYKnCMz2ktnopYmYy4qnwzEt
+ C5EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oca/SvrvcPFJh9jjl695Eix/jMCghmhCnd35eJim0mk=;
- b=XLqzNwqpq59pVSrpNdS2RYkDAMEKMEjUmIDemOcPAhIYaZ406aVBhGtPFEmWBSbW8s
- RlEywqXxle71vw+5bCJoVh5KepvcWZ5LF43ANZyM/MlGttSbp9XL0RQsld4a+Mq1S5q3
- eMN2hBPNw6qK8vHzRz9JnWwuONtLpV3Q+YDb9kthskmFF2qcWUl93FG9nI8yzVd9w5n3
- iqSwv5YDpE9YfMMhCWmuTCI5fgQClFU+FazURlDyYkBygCCx5MNCK5KyjbBfT939UWU3
- e7IwWH+qH8hmd8weX2o057+jUziPfqGwsWJPZPolIJwtoBDGqnkOT1vYWFWkt+SHOusD
- gTmA==
-X-Gm-Message-State: APjAAAXO5/bSgPJcL9RKYn9MN5n9g0vUi58s5ZODfd6fZn4ouiKg8ehN
- dzIeM1fJ8Qwwi4mPJDZPVPZWzw==
-X-Google-Smtp-Source: APXvYqzHektSEEx71ZewM/0jJ89TiZozGpZ6QGHAhh+PUZVIsvSO+okoT2lMiYJqOiTwIv43koKtgw==
-X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr4404331wmj.94.1562355656768; 
- Fri, 05 Jul 2019 12:40:56 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id z19sm7164399wmi.7.2019.07.05.12.40.55
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 12:40:56 -0700 (PDT)
-To: Julio Montes <julio.montes@intel.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20190703154958.29004-1-julio.montes@intel.com>
- <20190705143554.10295-1-julio.montes@intel.com>
- <20190705143554.10295-2-julio.montes@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <efa960f6-76cd-84e1-0e30-7c1a8312f263@redhat.com>
-Date: Fri, 5 Jul 2019 21:40:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XsBjbOIOnF0NdNk38gbkzat6rzrjMaJMR2gk3cNRDd4=;
+ b=aPQFLTJ5PMEcMuQP2mexbAICDXwyNWdZ1zQXNuXomjbi6kDl6dHUQyIAF0ddiGhzVU
+ /7l79zZ21rf7fn5ojTX+77MuwVC/kJnWDwwxdqXeIt4Azsum6EzaLINJEIkN+LBcXLeT
+ cVYOrfeP/mZdqwD+y9yaD8YqPSukz4UrjZ74rRNsCr2NYY0sYV97619HPuMFCpd6+hg6
+ h2kzGiwFbP563l1fktPfLHYA4a7k5tjNTQeKfHQR7jZmsmuQ3/aY3biKscV9jKm8zvIC
+ a7SKC3NQTQDQU5qDo79dPcHpZrrrUu7kCn+OWdHR+2PCUKOSEhuP/uLX98t3TxX8smtM
+ cjJA==
+X-Gm-Message-State: APjAAAVKhOiMFZoYdq41gkW6tHtCfA0TKZdTYzm4u4Vo/OmyTb8qam00
+ GpPSGZsM6EwDo6KW+CEM1OgUeppoqu8=
+X-Google-Smtp-Source: APXvYqxR6lR1sAfUp/8BCJGejV2FHKzORqULAjET7ttiGMBgZ51o/vsspPjDD01nl0kNH9j9KAfJGg==
+X-Received: by 2002:a1c:618a:: with SMTP id v132mr4465825wmb.17.1562356242618; 
+ Fri, 05 Jul 2019 12:50:42 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 12:50:41 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  5 Jul 2019 21:50:27 +0200
+Message-Id: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20190705143554.10295-2-julio.montes@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] hw/i386: Fix linker error when
- ISAPC is disabled
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PULL 00/12] Misc bugfixes for QEMU hard freeze
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,99 +77,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mst@redhat.com, Markus Armbruster <armbru@redhat.com>,
- sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Markus, Peter.
+The following changes since commit 68d7ff0cff0c4905802104843cf0100543b47314:
 
-On 7/5/19 4:35 PM, Julio Montes wrote:
-> v2: include config-devices.h to use CONFIG_IDE_ISA
-> 
-> ---
-> In pc_init1(), ISA IDE is initialized without checking if ISAPC or IDE_ISA
-> configs are enabled. This results in a link error when
-> CONFIG_ISAPC is set to 'n' in the file default-configs/i386-softmmu.mak:
-> 
-> hw/i386/pc_piix.o: In function `pc_init1':
-> hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
-> hw/i386/pc_piix.c:261: undefined reference to `isa_ide_init'
-> 
-> Place ide_isa code under #ifdef CONFIG_IDE_ISA to fix linker errors
-> 
-> Signed-off-by: Julio Montes <julio.montes@intel.com>
-> ---
->  hw/i386/pc_piix.c    | 11 ++++++++---
->  include/qemu/osdep.h |  1 +
->  2 files changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index f29de58636..c7d4645a3f 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -61,9 +61,11 @@
-> 
->  #define MAX_IDE_BUS 2
-> 
-> +#ifdef CONFIG_IDE_ISA
->  static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
->  static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
->  static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
-> +#endif
-> 
->  /* PC hardware initialisation */
->  static void pc_init1(MachineState *machine,
-> @@ -254,7 +256,10 @@ static void pc_init1(MachineState *machine,
->          }
->          idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
->          idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
-> -    } else {
-> +        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-> +    }
-> +#ifdef CONFIG_IDE_ISA
-> +else {
->          for(i = 0; i < MAX_IDE_BUS; i++) {
->              ISADevice *dev;
->              char busname[] = "ide.0";
-> @@ -268,9 +273,9 @@ static void pc_init1(MachineState *machine,
->              busname[4] = '0' + i;
->              idebus[i] = qdev_get_child_bus(DEVICE(dev), busname);
->          }
-> +        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
->      }
-> -
-> -    pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-> +#endif
-> 
->      if (pcmc->pci_enabled && machine_usb(machine)) {
->          pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index af2b91f0b8..f1c682e52c 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -29,6 +29,7 @@
-> 
->  #include "config-host.h"
->  #ifdef NEED_CPU_H
-> +#include "config-devices.h"
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-06-21 13:32:10 +0100)
 
-So now a Kconfig change will update this header, and all our codebase
-depends of "osdep.h", so we'll rebuild the whole project...
+are available in the git repository at:
 
-However so far only one (which happens to be arch-specific) file
-requires this header: pc_piix.c.
 
-If we move this header inclusion in "hw/hw.h", this already reduce the
-impact (of invalidating ccache, and so on).
+  git://github.com/bonzini/qemu.git tags/for-upstream
 
-Another (not good enough) idea is to only include it where we need
-kconfig definitions to be accessible, this single file?
+for you to fetch changes up to 2994e7e66a8902d0e42c5e528489ca6484c66d2d:
 
->  #include "config-target.h"
->  #else
->  #include "exec/poison.h"
-> --
-> 2.17.2
-> 
+  ioapic: use irq number instead of vector in ioapic_eoi_broadcast (2019-07-05 18:35:43 +0200)
+
+----------------------------------------------------------------
+Bugfixes.
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      target/i386: fix feature check in hyperv-stub.c
+
+Igor Mammedov (1):
+      pc: fix possible NULL pointer dereference in pc_machine_get_device_memory_region_size()
+
+Julio Montes (2):
+      Makefile: generate header file with the list of devices enabled
+      hw/i386: Fix linker error when ISAPC is disabled
+
+Li Qiang (2):
+      ioapic: clear irq_eoi when updating the ioapic redirect table entry
+      ioapic: use irq number instead of vector in ioapic_eoi_broadcast
+
+Liran Alon (1):
+      target/i386: kvm: Fix when nested state is needed for migration
+
+Max Reitz (1):
+      i386/kvm: Fix build with -m32
+
+Paolo Bonzini (2):
+      checkpatch: do not warn for multiline parenthesized returned value
+      minikconf: do not include variables from MINIKCONF_ARGS in config-all-devices.mak
+
+Peter Xu (1):
+      intel_iommu: Fix unexpected unmaps during global unmap
+
+Yan Zhao (1):
+      intel_iommu: Fix incorrect "end" for vtd_address_space_unmap
+
+ Makefile.target           |  5 ++++
+ hw/i386/intel_iommu.c     | 71 ++++++++++++++++++++++++++++-------------------
+ hw/i386/pc.c              |  6 +++-
+ hw/i386/pc_piix.c         | 12 ++++++--
+ hw/intc/ioapic.c          | 11 ++++----
+ scripts/checkpatch.pl     |  3 +-
+ scripts/clean-includes    |  2 +-
+ scripts/create_config     |  2 ++
+ scripts/minikconf.py      |  5 +++-
+ target/i386/hyperv-stub.c |  2 +-
+ target/i386/kvm.c         |  7 +++--
+ target/i386/machine.c     |  5 ++--
+ 12 files changed, 84 insertions(+), 47 deletions(-)
+-- 
+1.8.3.1
+
 
