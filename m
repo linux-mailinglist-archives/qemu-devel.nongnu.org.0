@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD61460E10
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 01:03:44 +0200 (CEST)
-Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA7160E01
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:54:15 +0200 (CEST)
+Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjXF1-0005Iy-U8
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 19:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
+	id 1hjX5q-00049H-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57231)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <frasse.iglesias@gmail.com>) id 1hjWdD-0007DM-27
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:24:40 -0400
+ (envelope-from <frasse.iglesias@gmail.com>) id 1hjWg7-0002Pf-JC
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:27:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frasse.iglesias@gmail.com>) id 1hjWdC-0001Wp-5N
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:24:38 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45805)
+ (envelope-from <frasse.iglesias@gmail.com>) id 1hjWg6-0004FV-GS
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:27:39 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:32801)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <frasse.iglesias@gmail.com>)
- id 1hjWdB-0001Tl-Bz; Fri, 05 Jul 2019 18:24:37 -0400
-Received: by mail-lj1-x244.google.com with SMTP id m23so10506987lje.12;
- Fri, 05 Jul 2019 15:24:34 -0700 (PDT)
+ id 1hjWg6-0004Ek-86; Fri, 05 Jul 2019 18:27:38 -0400
+Received: by mail-lj1-x241.google.com with SMTP id h10so10559645ljg.0;
+ Fri, 05 Jul 2019 15:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=XW3tmrwiN3lQGHCFyidFYxKHrgyhO62gI0oGWxjTRsM=;
- b=q2FbWTCrsorrIH+D8uBPpBxoBPMFzqUoJ0FySqRd8iXxZjcX16zXzvCtwdPHPHUs6W
- SOGQw8l1xSNO9nysD/a67O+sc42OE9hGNBziIhbwmZZ0zluAEyO/yd00Yxinpz09ir9C
- cypYl2jL97L9UKGbOsqPT6l6Yxj1TTE350CPygL2LpItZmtDDxGMcw/f8578Yqtg33K4
- +w9vumWoaPnOOXpj77II7h1fEIGXu0q1BEDOvhCtCrAwTuewvzRb3BguYEMrVmdQgv61
- Fd6q6DkPw9dk65X1EsSEcpg1PkcRydLuxugoNeyLcZeWw92S/m/vs6jwK60Yw1aRI19b
- 9rJg==
+ :user-agent; bh=EuO3SQ1JkM9Sd0A/U/2k2/nifapET8PHFaQtDL31u1I=;
+ b=ibIK3ttGn3y6OwHghSKS4CWfwU2hlW5hCVVf1qlvKSggOTE6xh9i9ERDm6QmSVXNT3
+ 4oGf5fraHkS12ccn0dr5MBgNHe8srC5WadCTZsrqsc/3yZLxO20MqmKO+vN2Sy499Ik7
+ jHjUPBiwToAmAS77npBS2rk63lYHKGGb81p7pBeNTcP6asMdqIsiaCC/WhD9r/9QdPTb
+ 8bAWpE6pDrO451+cp2feCGmo2teoC5GFWnPBjRSmidKJ+yZAeZc14Xavc+ORvDRF8E3T
+ CjzkufJuj2P0tTxTUZam+3U5oRkaSxnulqQskbo6sRwl2sBXpiUMSWdXVfhfTg9zni8O
+ NJyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=XW3tmrwiN3lQGHCFyidFYxKHrgyhO62gI0oGWxjTRsM=;
- b=BE+ve23l+Ynoc4p8itKJsPkxBSr9NoEjP8/TiAM00jYe7mehU8DBxo5yeaJF3W/5k2
- hW3/UM8onbCVZTv7NPcGfy4Cs4ZnNdaw+vQ+2stvd+jOIqyLUsbFZ2FYSsikvfZcZldL
- JnEeuBJFkKeKY7tx6BvvWqk/qtoEtO1DDelvhOdp8mirg68VegSRDSFRaKcHb8xnE3Eo
- vTWh66i4dm5UVj9J2i8dLx08uyp0XnlnIMije1EODULIzuWJiFU5vkKeRncbc2XlQXr8
- ye2MqJw/AUDVW3norcYn0PAgWR/UKKACXHO8ZUe5Eg51CbGvY2y+boIreviYNO2mj5Jj
- 0Rgw==
-X-Gm-Message-State: APjAAAXDFRiOOGOTw1BIB2PCeDMlf3cAtw4YprKUrnu0PIoIqTNvXBUB
- Z9detRPoYBh0Qod0dN4B5PA=
-X-Google-Smtp-Source: APXvYqxiSFenwZ9l3V1vC5ooT6tzJ+gkmuG6PcNMrdaiHNAI5J4J79+6NMuMmAfgplc7ZlS/eE/7Rw==
-X-Received: by 2002:a2e:9d18:: with SMTP id t24mr3485658lji.2.1562365473110;
- Fri, 05 Jul 2019 15:24:33 -0700 (PDT)
+ bh=EuO3SQ1JkM9Sd0A/U/2k2/nifapET8PHFaQtDL31u1I=;
+ b=RcE5M96lcpUrA0wBne+K1sBcmUjpPbF/NccmkPoVdrjyLy2DmSfJRj689UP6bkkLj1
+ FXOlmxKONzkhB0+56w/q40dIyOtHneamDomNH6rfx6NSm1jLUU5D1pE0+GHZlPpzQhir
+ F0V/51Hwupr7meePor/vILPo3uTNXXSln0piIBDaw5g6VgkooIx2aliIikJPcH2zq3BE
+ T21F8KoFab+zJ1NskhOVSEuNtHOtQPJoPdBciuLn25BBoNa5fv2pjaPOwK2gyn5zhQ1q
+ Rk2ky+tuyO+aZE7N5IdP09gBFdMSeJAd7bo1cQYYOn9KveC7Edu438H3FoCDc3uhsrXD
+ 2MHQ==
+X-Gm-Message-State: APjAAAUCBnAPdiBNcY+g9QrXriysg5M87d7QqocftmBl78NfjreWpM/S
+ Tya1OVWJoR2gyJSjf3sqp7E=
+X-Google-Smtp-Source: APXvYqwISrK/ObJxxZqaJCQQKctuBubUmguSy9iqdU9S3E0S+ViQCKDRkXOmpCKWtAJv+Y0Co4p8IQ==
+X-Received: by 2002:a2e:864d:: with SMTP id i13mr3297723ljj.92.1562365656593; 
+ Fri, 05 Jul 2019 15:27:36 -0700 (PDT)
 Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
  by smtp.gmail.com with ESMTPSA id
- b192sm1575650lfg.75.2019.07.05.15.24.32
+ z17sm2027186ljc.37.2019.07.05.15.27.35
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 05 Jul 2019 15:24:32 -0700 (PDT)
-Date: Sat, 6 Jul 2019 00:24:30 +0200
+ Fri, 05 Jul 2019 15:27:36 -0700 (PDT)
+Date: Sat, 6 Jul 2019 00:27:34 +0200
 From: Francisco Iglesias <frasse.iglesias@gmail.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190705222429.ox6z6wckkupjpug2@fralle-msi>
+Message-ID: <20190705222733.csufstr4iua5wfle@fralle-msi>
 References: <20190705202500.18853-1-philmd@redhat.com>
- <20190705202500.18853-4-philmd@redhat.com>
+ <20190705202500.18853-2-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190705202500.18853-4-philmd@redhat.com>
+In-Reply-To: <20190705202500.18853-2-philmd@redhat.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [RFC PATCH-for-4.1 v4 3/3] hw/ssi/xilinx_spips:
- Avoid out-of-bound access to lqspi_buf[]
+X-Received-From: 2a00:1450:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v4 1/3] hw/ssi/xilinx_spips:
+ Convert lqspi_read() to read_with_attrs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,48 +89,64 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On [2019 Jul 05] Fri 22:25:00, Philippe Mathieu-Daudé wrote:
-> Both lqspi_read() and lqspi_load_cache() expect a 32-bit
-> aligned address.
-> 
-> Set MemoryRegionOps.impl values to force 32-bit accesses,
-> this way we are sure we do not access the lqspi_buf[] array
-> out of bound.
-
-The patch and correction follows chapter 24 aswell (UG1085) so I suggest
-dropping 'RFC' in the subject.
-
+On [2019 Jul 05] Fri 22:24:58, Philippe Mathieu-Daudé wrote:
+> In the next commit we will implement the write_with_attrs()
+> handler. To avoid using different APIs, convert the read()
+> handler first.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+
 > ---
-> Late friday patch...
-> 
->  hw/ssi/xilinx_spips.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> v4: Do not ignore lqspi_read() return value (Francisco)
+> ---
+>  hw/ssi/xilinx_spips.c | 23 +++++++++++------------
+>  1 file changed, 11 insertions(+), 12 deletions(-)
 > 
 > diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-> index 3c4e8365ee..8f705132a3 100644
+> index 8115bb6d46..b7c7275dbe 100644
 > --- a/hw/ssi/xilinx_spips.c
 > +++ b/hw/ssi/xilinx_spips.c
-> @@ -1243,6 +1243,10 @@ static const MemoryRegionOps lqspi_ops = {
->          .min_access_size = 1,
->          .max_access_size = 4
+> @@ -1202,27 +1202,26 @@ static void lqspi_load_cache(void *opaque, hwaddr addr)
 >      }
-
-A comma is missing on the line above (else the patch doesn't compile).
-
-Best regards,
-Francisco
-
-> +    .impl = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 4,
-> +    }
->  };
+>  }
 >  
->  static void xilinx_spips_realize(DeviceState *dev, Error **errp)
+> -static uint64_t
+> -lqspi_read(void *opaque, hwaddr addr, unsigned int size)
+> +static MemTxResult lqspi_read(void *opaque, hwaddr addr, uint64_t *value,
+> +                              unsigned size, MemTxAttrs attrs)
+>  {
+> -    XilinxQSPIPS *q = opaque;
+> -    uint32_t ret;
+> +    XilinxQSPIPS *q = XILINX_QSPIPS(opaque);
+>  
+>      if (addr >= q->lqspi_cached_addr &&
+>              addr <= q->lqspi_cached_addr + LQSPI_CACHE_SIZE - 4) {
+>          uint8_t *retp = &q->lqspi_buf[addr - q->lqspi_cached_addr];
+> -        ret = cpu_to_le32(*(uint32_t *)retp);
+> -        DB_PRINT_L(1, "addr: %08x, data: %08x\n", (unsigned)addr,
+> -                   (unsigned)ret);
+> -        return ret;
+> -    } else {
+> -        lqspi_load_cache(opaque, addr);
+> -        return lqspi_read(opaque, addr, size);
+> +        *value = cpu_to_le32(*(uint32_t *)retp);
+> +        DB_PRINT_L(1, "addr: %08" HWADDR_PRIx ", data: %08" PRIx64 "\n",
+> +                   addr, *value);
+> +        return MEMTX_OK;
+>      }
+> +
+> +    lqspi_load_cache(opaque, addr);
+> +    return lqspi_read(opaque, addr, value, size, attrs);
+>  }
+>  
+>  static const MemoryRegionOps lqspi_ops = {
+> -    .read = lqspi_read,
+> +    .read_with_attrs = lqspi_read,
+>      .endianness = DEVICE_NATIVE_ENDIAN,
+>      .valid = {
+>          .min_access_size = 1,
 > -- 
 > 2.20.1
 > 
