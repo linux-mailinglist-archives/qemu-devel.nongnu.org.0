@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF2A609AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:50:14 +0200 (CEST)
-Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B2D609B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:50:28 +0200 (CEST)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQTR-0004Tb-Py
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
+	id 1hjQTj-0004im-W5
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQQQ-0002fN-Mz
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1hjQQV-0002im-6D
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQQO-0005dF-OI
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56844)
+ (envelope-from <philmd@redhat.com>) id 1hjQQQ-0005o7-Uk
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47230)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjQQF-0004vh-NY; Fri, 05 Jul 2019 11:46:51 -0400
+ id 1hjQQL-0005Cy-Tp; Fri, 05 Jul 2019 11:46:58 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0FBE42F8BDA;
- Fri,  5 Jul 2019 15:46:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C329E307D84D;
+ Fri,  5 Jul 2019 15:46:54 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 371661001B27;
- Fri,  5 Jul 2019 15:46:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7ED4E1001B27;
+ Fri,  5 Jul 2019 15:46:51 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:46:30 +0200
-Message-Id: <20190705154639.16591-1-philmd@redhat.com>
+Date: Fri,  5 Jul 2019 17:46:31 +0200
+Message-Id: <20190705154639.16591-2-philmd@redhat.com>
+In-Reply-To: <20190705154639.16591-1-philmd@redhat.com>
+References: <20190705154639.16591-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 05 Jul 2019 15:46:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Fri, 05 Jul 2019 15:46:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 0/9] hw/block/pflash_cfi01: Add
- DeviceReset() handler
+Subject: [Qemu-devel] [PATCH v3 1/9] hw/block/pflash_cfi01: Removed an
+ unused timer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,72 +58,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  John Snow <jsnow@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pflash device lacks a reset() function.
-When a machine is resetted, the flash might be in an
-inconsistent state, leading to unexpected behavior:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
-Resolve this issue by adding a DeviceReset() handler.
+The 'CFI02' NOR flash was introduced in commit 29133e9a0fff, with
+timing modelled. One year later, the CFI01 model was introduced
+(commit 05ee37ebf630) based on the CFI02 model. As noted in the
+header, "It does not support timings". 12 years later, we never
+had to model the device timings. Time to remove the unused timer,
+we can still add it back if required.
 
-Fix also two minor issues, and clean a bit the codebase.
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v2: Fixed commit description (Laszlo)
+---
+ hw/block/pflash_cfi01.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00962.=
-html
-- addressed Laszlo review comments
-
-Since v2:
-- consider migration (Laszlo, Peter)
-
-$ git backport-diff -u v2
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/9:[----] [--] 'hw/block/pflash_cfi01: Removed an unused timer'
-002/9:[0008] [FC] 'hw/block/pflash_cfi01: Use the correct READ_ARRAY valu=
-e'
-003/9:[----] [-C] 'hw/block/pflash_cfi01: Extract pflash_mode_read_array(=
-)'
-004/9:[----] [--] 'hw/block/pflash_cfi01: Start state machine as READY to=
- accept commands'
-005/9:[----] [--] 'hw/block/pflash_cfi01: Add the DeviceReset() handler'
-006/9:[----] [--] 'hw/block/pflash_cfi01: Simplify CFI_QUERY processing'
-007/9:[----] [--] 'hw/block/pflash_cfi01: Improve command comments'
-008/9:[----] [--] 'hw/block/pflash_cfi01: Replace DPRINTF by qemu_log_mas=
-k(GUEST_ERROR)'
-009/9:[----] [--] 'hw/block/pflash_cfi01: Hold the PRI table offset in a =
-variable'
-
-Functional differences on patch #2 are the 6 lines added for
-migration of the 'cmd' field, and the updated commit description.
-
-Regards,
-
-Phil.
-
-Philippe Mathieu-Daud=C3=A9 (9):
-  hw/block/pflash_cfi01: Removed an unused timer
-  hw/block/pflash_cfi01: Use the correct READ_ARRAY value
-  hw/block/pflash_cfi01: Extract pflash_mode_read_array()
-  hw/block/pflash_cfi01: Start state machine as READY to accept commands
-  hw/block/pflash_cfi01: Add the DeviceReset() handler
-  hw/block/pflash_cfi01: Simplify CFI_QUERY processing
-  hw/block/pflash_cfi01: Improve command comments
-  hw/block/pflash_cfi01: Replace DPRINTF by qemu_log_mask(GUEST_ERROR)
-  hw/block/pflash_cfi01: Hold the PRI table offset in a variable
-
- hw/block/pflash_cfi01.c | 148 ++++++++++++++++++++++------------------
- hw/block/trace-events   |   1 +
- 2 files changed, 81 insertions(+), 68 deletions(-)
-
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index db4a246b22..9e34fd4e82 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -42,7 +42,6 @@
+ #include "hw/block/flash.h"
+ #include "sysemu/block-backend.h"
+ #include "qapi/error.h"
+-#include "qemu/timer.h"
+ #include "qemu/bitops.h"
+ #include "qemu/error-report.h"
+ #include "qemu/host-utils.h"
+@@ -90,7 +89,6 @@ struct PFlashCFI01 {
+     uint8_t cfi_table[0x52];
+     uint64_t counter;
+     unsigned int writeblock_size;
+-    QEMUTimer *timer;
+     MemoryRegion mem;
+     char *name;
+     void *storage;
+@@ -114,18 +112,6 @@ static const VMStateDescription vmstate_pflash =3D {
+     }
+ };
+=20
+-static void pflash_timer (void *opaque)
+-{
+-    PFlashCFI01 *pfl =3D opaque;
+-
+-    trace_pflash_timer_expired(pfl->cmd);
+-    /* Reset flash */
+-    pfl->status ^=3D 0x80;
+-    memory_region_rom_device_set_romd(&pfl->mem, true);
+-    pfl->wcycle =3D 0;
+-    pfl->cmd =3D 0;
+-}
+-
+ /* Perform a CFI query based on the bank width of the flash.
+  * If this code is called we know we have a device_width set for
+  * this flash.
+@@ -774,7 +760,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+         pfl->max_device_width =3D pfl->device_width;
+     }
+=20
+-    pfl->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+     pfl->wcycle =3D 0;
+     pfl->cmd =3D 0;
+     pfl->status =3D 0;
 --=20
 2.20.1
 
