@@ -2,37 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440BB6045E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:23:20 +0200 (CEST)
-Received: from localhost ([::1]:51316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A2460463
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:25:06 +0200 (CEST)
+Received: from localhost ([::1]:51328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjLN9-00017r-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:23:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52337)
+	id 1hjLOr-0002h9-70
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hjLLD-0008JL-Da
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:21:20 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hjLLH-0008Qa-Js
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:21:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hjLLB-00070J-Az
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:21:19 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37638)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1hjLL3-0006XU-Fy; Fri, 05 Jul 2019 06:21:11 -0400
-Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1hjLKv-00062j-Oc; Fri, 05 Jul 2019 13:21:01 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: kwolf@redhat.com,
-	mreitz@redhat.com
-Date: Fri,  5 Jul 2019 13:21:01 +0300
-Message-Id: <20190705102101.1114-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v7] qemu-io: add pattern file for write command
+ (envelope-from <peter.maydell@linaro.org>) id 1hjLLG-0007BX-Ju
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:21:23 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:36673)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hjLLG-000789-DU
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:21:22 -0400
+Received: by mail-ot1-x335.google.com with SMTP id r6so8586822oti.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:21:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oLyn7LjqKhRHs1v6bvFGYiniargHMFddlRTh7OzHlxI=;
+ b=MGiPEehUPrWtHDN6HzvEPlBlA4UNeZPXPJwDLd1OE91kYs5tD61eZTF95SKxQvBvC4
+ IUHYUzaL0gTr0pTzM6Y32JbeGbHVjMccLMjIqbgceXF9OiTjU5KBzYaicfN91y/dmNuM
+ UTeo5ejUFXwl/DoWexAtFOCdg3nP/iz0CZhSGmm4+LiiQXJ2ALz6HtrpNzwX4dAjHO1q
+ e10Y8UUWTXQTLWTH5WKR8fQK1Mf3lTpZzuSmM30n9W8MKqnn2wGosoe8oRLXCU5+bsq9
+ wC0LFAbHv4Hekzp3gdMHZAHRYafll7R7/3hZSc4GbFZ4ghfuse7sEG04aW6GAfcG6gLU
+ YU3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oLyn7LjqKhRHs1v6bvFGYiniargHMFddlRTh7OzHlxI=;
+ b=fBcT8vImH1h3DsozNJGu3MBkeosTD67iuwKZNxVD0X7xau4W5ynUIAQ2lfNHmO0JP9
+ 21Ie9lcJ7/gx2+ODdyUcFwAIxb2x4gyeYAtXN3oAqCQy+3UDLC/wpGDA2WlA/nZrLInK
+ g+w0OTRMnRFZsIKU6WRG67PJLDgzxXUhh2WA69J6YZJUwiX8ZRqD7f4vjQjtfO/dySl3
+ e6rWVqJwIa24in9vyHhOf57/lS6t0u3bHr8vk9Uf78mYdoA5w1zNyp2+2W39CRin828f
+ 4YsdA2cMS8tQCAqYh8JyzfjhiuF/rfIu6E2c/ewCUYOg/bCv9smlzVOKTlaH//Q0C/lP
+ Oywg==
+X-Gm-Message-State: APjAAAVikegjCJ5s1atQP47JlmrGunntGqAuFNSxZerqjJpeAIy0P5MS
+ QFcvDIZB91mkWxKwYEfeqUoaDHhABMFU/npioFrQLA==
+X-Google-Smtp-Source: APXvYqyRPCt47g7TYnwjAnBa+7apD23Hi1S/qBb0PUuwgSvpgd2zkwtfQSvaRavws2DHG8hCbsBOweV8pCpHz/+lJ88=
+X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr2315750otn.135.1562322080907; 
+ Fri, 05 Jul 2019 03:21:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAFEAcA-yzWhwYPzC9px0H-=x3XEPVBjZOhk402is49YpbmJX9g@mail.gmail.com>
+ <ac682594-fac7-ca67-2cef-85db15920c7c@redhat.com>
+ <CAFEAcA-giDCA8ZTR3Ft3ZNQUBEJBaXNaMnZOmgPo3Auw1gvZjg@mail.gmail.com>
+ <faeb493b-f61b-16fe-3aff-aa40dffaf06b@redhat.com>
+In-Reply-To: <faeb493b-f61b-16fe-3aff-aa40dffaf06b@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 5 Jul 2019 11:21:09 +0100
+Message-ID: <CAFEAcA-o-_tvgxZFs8rWcgK147pFLrbQLZ1s_fD0Gzc+iQc4UQ@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
+Subject: Re: [Qemu-devel] pl031 time across vm save/reload
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,187 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- den@virtuozzo.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch allows to provide a pattern file for write
-command. There was no similar ability before.
+On Fri, 5 Jul 2019 at 11:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 05/07/19 11:58, Peter Maydell wrote:
+> > On Fri, 5 Jul 2019 at 10:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >> You're right, the compatibility causes wrong behavior for the default
+> >> -rtc settings (the RC pauses across migration).  The right thing to do
+> >> would be to store the base rather than the offset: that is, you store
+> >> the time at which LR was written.  Then the offset is s->lr - s->base
+> >> and it's independent of the machine on which the rtc_clock is being read.
+> >
+> > Right. How do we handle this for back-compat purposes? I guess
+> > we need to have a new migration subsection, so if it's present
+> > it has the 'base' value and we ignore the 'offset' in the
+> > main migration data, and if it's not present we assume an
+> > old->new migration and use the existing offset code. New->old
+> > migration would not be possible as the new subsection is
+> > always-present.
+>
+> Yes, something like that but I would just bump the version.  Version 1
+> has the old meaning for the first field, version 2 has the new meaning.
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
-v7:
-  * fix variable naming
-  * make code more readable
-  * extend help for write command
+Yeah, we could do that. I thought we preferred to avoid using
+version-numbers for migration though these days ? (cc'ing DG
+in case he has an opinion.)
 
-v6:
-  * the pattern file is read once to reduce io
+> And also, since our brains are fresh on pl031... currently s->lr is
+> always 0; besides the bug that writing RTC_LR should update it, the
+> datasheet says the counter counts up from 1 so perhaps at startup s->lr
+> should be set to a nonzero value?   That would be
+> qemu_ref_timedate(QEMU_CLOCK_VIRTUAL) - 1.
 
-v5:
-  * file name initiated with null to make compilers happy
+The 'summary of RTC registers' section in the datasheet says
+that RTCLR's reset value is zero...
 
-v4:
-  * missing signed-off clause added
-
-v3:
-  * missing file closing added
-  * exclusive flags processing changed
-  * buffer void* converted to char* to fix pointer arithmetics
-  * file reading error processing added
----
- qemu-io-cmds.c | 86 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 80 insertions(+), 6 deletions(-)
-
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 09750a23ce..495170380a 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -343,6 +343,66 @@ static void *qemu_io_alloc(BlockBackend *blk, size_t len, int pattern)
-     return buf;
- }
- 
-+static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
-+                                     char *file_name)
-+{
-+    char *buf, *buf_origin;
-+    FILE *f = fopen(file_name, "r");
-+    int pattern_len;
-+
-+    if (!f) {
-+        printf("'%s': %s\n", file_name, strerror(errno));
-+        return NULL;
-+    }
-+
-+    if (qemuio_misalign) {
-+        len += MISALIGN_OFFSET;
-+    }
-+
-+    buf_origin = buf = blk_blockalign(blk, len);
-+
-+    pattern_len = fread(buf, sizeof(char), len, f);
-+
-+    if (ferror(f)) {
-+        printf("'%s': %s\n", file_name, strerror(errno));
-+        goto error;
-+    }
-+
-+    if (pattern_len == 0) {
-+        printf("'%s' is empty\n", file_name);
-+        goto error;
-+    }
-+
-+    fclose(f);
-+
-+    if (len > pattern_len) {
-+        char *file_buf = g_malloc(sizeof(char) * pattern_len);
-+        memcpy(file_buf, buf, pattern_len);
-+        len -= pattern_len;
-+        buf += pattern_len;
-+
-+        while (len > 0) {
-+            size_t len_to_copy = MIN(pattern_len, len);
-+
-+            memcpy(buf, file_buf, len_to_copy);
-+
-+            len -= len_to_copy;
-+            buf += len_to_copy;
-+        }
-+        qemu_vfree(file_buf);
-+    }
-+
-+    if (qemuio_misalign) {
-+        buf_origin += MISALIGN_OFFSET;
-+    }
-+
-+    return buf_origin;
-+
-+error:
-+    qemu_vfree(buf_origin);
-+    return NULL;
-+}
-+
- static void qemu_io_free(void *p)
- {
-     if (qemuio_misalign) {
-@@ -949,6 +1009,7 @@ static void write_help(void)
- " -n, -- with -z, don't allow slow fallback\n"
- " -p, -- ignored for backwards compatibility\n"
- " -P, -- use different pattern to fill file\n"
-+" -s, -- use a pattern file to fill the write buffer\n"
- " -C, -- report statistics in a machine parsable format\n"
- " -q, -- quiet mode, do not show I/O statistics\n"
- " -u, -- with -z, allow unmapping\n"
-@@ -965,7 +1026,7 @@ static const cmdinfo_t write_cmd = {
-     .perm       = BLK_PERM_WRITE,
-     .argmin     = 2,
-     .argmax     = -1,
--    .args       = "[-bcCfnquz] [-P pattern] off len",
-+    .args       = "[-bcCfnquz] [-P pattern | -s source_file] off len",
-     .oneline    = "writes a number of bytes at a specified offset",
-     .help       = write_help,
- };
-@@ -974,7 +1035,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
- {
-     struct timeval t1, t2;
-     bool Cflag = false, qflag = false, bflag = false;
--    bool Pflag = false, zflag = false, cflag = false;
-+    bool Pflag = false, zflag = false, cflag = false, sflag = false;
-     int flags = 0;
-     int c, cnt, ret;
-     char *buf = NULL;
-@@ -983,8 +1044,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     /* Some compilers get confused and warn if this is not initialized.  */
-     int64_t total = 0;
-     int pattern = 0xcd;
-+    char *file_name = NULL;
- 
--    while ((c = getopt(argc, argv, "bcCfnpP:quz")) != -1) {
-+    while ((c = getopt(argc, argv, "bcCfnpP:quzs:")) != -1) {
-         switch (c) {
-         case 'b':
-             bflag = true;
-@@ -1020,6 +1082,10 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         case 'z':
-             zflag = true;
-             break;
-+        case 's':
-+            sflag = true;
-+            file_name = g_strdup(optarg);
-+            break;
-         default:
-             qemuio_command_usage(&write_cmd);
-             return -EINVAL;
-@@ -1051,8 +1117,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-         return -EINVAL;
-     }
- 
--    if (zflag && Pflag) {
--        printf("-z and -P cannot be specified at the same time\n");
-+    if ((int)zflag + (int)Pflag + (int)sflag > 1) {
-+        printf("Only one of -z, -P, and -s"
-+               "can be specified at the same time\n");
-         return -EINVAL;
-     }
- 
-@@ -1088,7 +1155,14 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     }
- 
-     if (!zflag) {
--        buf = qemu_io_alloc(blk, count, pattern);
-+        if (sflag) {
-+            buf = qemu_io_alloc_from_file(blk, count, file_name);
-+            if (!buf) {
-+                return -EINVAL;
-+            }
-+        } else {
-+            buf = qemu_io_alloc(blk, count, pattern);
-+        }
-     }
- 
-     gettimeofday(&t1, NULL);
--- 
-2.17.0
-
+thanks
+-- PMM
 
