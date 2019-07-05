@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80A060E05
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:56:35 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFD660E11
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 01:06:35 +0200 (CEST)
+Received: from localhost ([::1]:56895 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjX87-0007Dh-4W
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58338)
+	id 1hjXHm-0007XA-B6
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 19:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjWm2-0007ut-Ge
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:33:49 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hjWuQ-0000dM-3P
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:42:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjWlz-0007ii-HR
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:33:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55286)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWlt-0007dX-QW
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:33:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5215F3082B4D;
- Fri,  5 Jul 2019 22:33:31 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D26F37999;
- Fri,  5 Jul 2019 22:33:30 +0000 (UTC)
-Date: Fri, 5 Jul 2019 19:33:29 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190705223329.GL5198@habkost.net>
+ (envelope-from <pbonzini@redhat.com>) id 1hjWuO-0004Kz-Sr
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:42:25 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35095)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hjWuO-0004KI-M6
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:42:24 -0400
+Received: by mail-wm1-f65.google.com with SMTP id l2so3759895wmg.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 15:42:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WbT8uddacS0MBsLdGmYorxeWsRGrlw65adq5Yikgh7Q=;
+ b=pbKlR5K5AUhAGymJsWyweRu4RO+gAhl6RcsQdb8KMlwC4yTKCdwAXRFEpOzCLIu3qD
+ O1ByPrPll1iE8/uhBmwjppNk4P0FWqA5qpLDZWLhyNq5d0Z4OviUUTXmR/lJoaqz7EcN
+ QaasimhJLM2+XLwa6z7fMXU0GCDVZvR/qXNn9Vbe5DNg2BXDw1h4LYQdMAOAREGEcNNk
+ 2c+MbdnqSgKkbQyLoFg5+6CRkewT/XZQHzRvGgIukQgT3p89fla8sYWCCr2iZc4vB/xf
+ E7Qox2DE6H+qnIurdRFCgdssn9mnN3U8ZTK9Uqu+sQrwBFqry17MdaeBMr+8u89eHw6H
+ /4gA==
+X-Gm-Message-State: APjAAAW2w6KkEFwKK4VSLHAXf69y2N4Bas2yu+/kAP8yDF+MUOeB/fC2
+ y+jMWMtO9GSdr0dihpPRP7EXYA==
+X-Google-Smtp-Source: APXvYqzeCo4L6f6LHpoYFhUbGgmsJBWyyOpFBbl08JEHh4/Bf9dmtuN/tgls3y/DCnl1AMJKBcF48A==
+X-Received: by 2002:a1c:3587:: with SMTP id c129mr5055283wma.90.1562366543536; 
+ Fri, 05 Jul 2019 15:42:23 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id p4sm10293875wrs.35.2019.07.05.15.42.22
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 15:42:22 -0700 (PDT)
+To: Eduardo Habkost <ehabkost@redhat.com>
 References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
  <1562079681-19204-7-git-send-email-pbonzini@redhat.com>
  <20190705212249.GG5198@habkost.net>
  <6262c798-fc94-5100-8836-e3cbea306282@redhat.com>
+ <20190705223329.GL5198@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ea52e4c3-2553-b778-2b25-6a460fd67967@redhat.com>
+Date: Sat, 6 Jul 2019 00:42:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6262c798-fc94-5100-8836-e3cbea306282@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 05 Jul 2019 22:33:31 +0000 (UTC)
+In-Reply-To: <20190705223329.GL5198@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+ [fuzzy]
+X-Received-From: 209.85.128.65
 Subject: Re: [Qemu-devel] [PATCH 6/7] target/i386: add VMX features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,130 +78,47 @@ Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 06, 2019 at 12:12:49AM +0200, Paolo Bonzini wrote:
-> On 05/07/19 23:22, Eduardo Habkost wrote:
-> >> +    switch (index) {
-> >> +    case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
-> >> +        default1 = 0x00000016;
-> >> +        break;
-> >> +    case MSR_IA32_VMX_TRUE_PROCBASED_CTLS:
-> >> +        default1 = 0x0401e172;
-> >> +        break;
-> >> +    case MSR_IA32_VMX_TRUE_ENTRY_CTLS:
-> >> +        default1 = 0x000011ff;
-> >> +        break;
-> >> +    case MSR_IA32_VMX_TRUE_EXIT_CTLS:
-> >> +        default1 = 0x00036dff;
-> >> +        break;
-> >> +    case MSR_IA32_VMX_PROCBASED_CTLS2:
-> >> +        default1 = 0;
-> >> +        break;
-> > How do you plan to implement backwards compatibility if these
-> > defaults ever change?  Shouldn't these values be part of the CPU
-> > model definitions so we can update them in the future?
-> 
-> These are not defaults, they are "default-1 bits": if a feature is
-> disabled, these bits are 1 in both halves of the MSR rather than zero.
-> The set of default-1 bits is documented and is not going to change in
-> the future.
-> 
-> Some default-1 bits *could* however become features in the future, and
-> four of these already have features associated to them:
-> vmx-cr3-load-noexit, vmx-cr3-store-noexit, vmx-exit-nosave-debugctl,
-> vmx-entry-noload-debugctl.  You can see that they have "no" in their
-> name because the feature is about the ability to "do less" rather than
-> "do more".
+On 06/07/19 00:33, Eduardo Habkost wrote:
+> Oh, that's the info I was missing.  I always expected
+> kvm_arch_get_supported_*() to be subject to change (depending on
+> KVM and hardware capabilities), and not be part of guest ABI.
 
-Understood.  Thanks!
+For most bits that's true.  Just not for these ones, because they are
+integer values rather than bit flags.
 
-> 
-> >> +    uint64_t kvm_vmx_basic =
-> >> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> >> +                                           MSR_IA32_VMX_BASIC);
-> >> +    uint64_t kvm_vmx_misc =
-> >> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> >> +                                           MSR_IA32_VMX_MISC);
-> >> +    uint64_t kvm_vmx_ept_vpid =
-> >> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> >> +                                           MSR_IA32_VMX_EPT_VPID_CAP);
-> > 
-> > If the MSR value we're exposing to the guest depends on
-> > kvm_arch_get_supported_msr_feature(), how will we ensure this
-> > will be safe for live migration?
-> 
-> Because KVM guarantees that this part of the guest ABI will never
-> change.  These values do not come from the host values of the MSRs, they
-> are fixed by KVM.  More details below.
-> 
-> > If we really need to tweak the MSR values based on the host for
-> > some reason (which is not clear to me yet), why don't we update
-> > env->features[...] at x86_cpu_expand_features() to reflect what
-> > the guest is really seeing?
-> > 
-> > 
-> >> +    /*
-> >> +     * Bits 0-30, 32-44 and 50-53 come from the host.  KVM should
-> >> +     * not change them for backwards compatibility.
-> > 
-> > Backwards compatibility with what?
-> > 
-> > Don't we want the MSR values to depend solely on the QEMU command
-> > line in the future?
-> 
-> These bits are: VMCS revision, VMCS size and VMCS memory type.  QEMU
-> cannot know them, as they depend on the internal implementation details
-> of KVM.
-> 
-> Now that KVM supports nested virt live migration they cannot change
-> anymore---otherwise KVM would break KVM live migration compatibility.
-> However, theoretically in the future KVM could add some capability
-> (which userspace would have to manually enable) and when the capability
-> is enabled the values can change.
+The reason for the complex rules is that you need to know what is a
+flag, what is a fixed value that the guest uses, and what is a maximum
+supported value.  Simpler userspace than QEMU can just use the defaults
+since they don't care about maintaining the guest ABI.
 
-Oh, that's the info I was missing.  I always expected
-kvm_arch_get_supported_*() to be subject to change (depending on
-KVM and hardware capabilities), and not be part of guest ABI.
-
-Now, if KVM is going to to implement the guest ABI guarantee at
-KVM_GET_MSRS, that's OK.  Is this going to be obvious to people
-touching KVM_GET_MSRS in the future?
-
-What if we do want the guest ABI to change in the future?  How do
-you expect QEMU to ask KVM to enable the new guest ABI?  How do
-you expect the user to ask QEMU to enable the new guest ABI?
-
-
+> Now, if KVM is going to to implement the guest ABI guarantee at
+> KVM_GET_MSRS, that's OK.  Is this going to be obvious to people
+> touching KVM_GET_MSRS in the future?
 > 
-> > +    /*
-> > +     * Same for bits 0-4 and 25-27.  Bits 16-24 (CR3 target count) can
-> > +     * change in the future but are always zero for now, clear them to be
-> > +     * future proof.  Bits 32-63 in theory could change, though KVM does
-> > +     * not support dual-monitor treatment and probably never will; mask
-> > +     * them out as well.
-> > +     */
-> 
-> The reasoning is more or less the same here.  These bits are part of the
-> guest ABI (preemption timer scaling, CR3 target count, MSR count, MSEG
-> revision).  Right now bits 0-4 are 5 and the others are 0; in the future:
-> 
-> - KVM cannot change bits 0-4 and 32-63 them without breaking guest ABI
-> (the values must match between what you read and what you set)
-> 
-> - KVM could change bits 16-24, but it always allows writing a value that
-> is _smaller_ than the one you read.  So I'm zeroing those, ensuring no
-> future ABI changes.
-> 
-> - KVM could in theory change bits 25-27: here it also allows writing a
-> value that is smaller than the one you read, so guest ABI is preserved.
->  Such a change is very unlikely, all Intel silicon has always had 0
-> here.  But I can change the code to zero these three bits just like bits
-> 16-24.
+> What if we do want the guest ABI to change in the future?  How do
+> you expect QEMU to ask KVM to enable the new guest ABI?  How do
+> you expect the user to ask QEMU to enable the new guest ABI?
 
-The complex rules above make me a bit nervous.  Can we at least
-make QEMU validate the values returned by
-kvm_arch_get_supported_msr_feature() to catch ABI-breaking
-mistakes in the future?
+That would be with ioctl(KVM_ENABLE_CAP) for KVM, and with -cpu for QEMU.
 
--- 
-Eduardo
+>> - KVM could change bits 16-24, but it always allows writing a value that
+>> is _smaller_ than the one you read.  So I'm zeroing those, ensuring no
+>> future ABI changes.
+>>
+>> - KVM could in theory change bits 25-27: here it also allows writing a
+>> value that is smaller than the one you read, so guest ABI is preserved.
+>>  Such a change is very unlikely, all Intel silicon has always had 0
+>> here.  But I can change the code to zero these three bits just like bits
+>> 16-24.
+> 
+> The complex rules above make me a bit nervous.  Can we at least
+> make QEMU validate the values returned by
+> kvm_arch_get_supported_msr_feature() to catch ABI-breaking
+> mistakes in the future?
+
+I don't know... I'm a bit wary of adding hard-coded values in QEMU,
+userspace simply should not care.  But I can add comments to KVM to
+remind people of values that should not be changed.
+
+Paolo
 
