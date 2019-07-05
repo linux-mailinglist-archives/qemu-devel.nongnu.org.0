@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888C7602AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:54:05 +0200 (CEST)
-Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31FF602BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:58:47 +0200 (CEST)
+Received: from localhost ([::1]:50712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjJym-0002Cv-PT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60949)
+	id 1hjK3K-0004uW-VT
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33701)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjJwk-00018W-Cn
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:59 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hjK1i-0003yL-F7
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:57:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjJwj-0004aT-5T
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:58 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53552)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjJwi-0004Zw-Uc
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:51:57 -0400
-Received: by mail-wm1-f68.google.com with SMTP id x15so8005450wmj.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 01:51:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mk4ycAxdx0O0XvVyW6e66hkGhmNaiymjWNoGqwtdors=;
- b=G6Ox8OOraOqp5nfzf8ODpLVg3oLjUZat49KzpUJ5bw8BMgVMar+0QYK95usyGwBXpY
- /WB9Wz0gutvUlWau87ZJVf0poi6oytFCu6jb2F+5qk0vreZA5oXNKiQGK5jJbabMoaWN
- JrxJ/XSl0j8mo+1Py6BdlZV+isnlpgt/AS4NJ8da4LlyPfeXTUhumLiSDgLt/Jp1Lz2g
- O/WW47ZlB3gMVgYcT5XQEDFjUSx2RONR7p5yzLnBvs23HONPgSULJJCiUJbQ5ws1SxbB
- OHpWnSxhnKIek1x1p/L8tS0g88nHoXVyCIlO1momsbU5lRnaDNXZpebUjiGnnlXj9Hu0
- /z9Q==
-X-Gm-Message-State: APjAAAVTwhGw7hB5U+j5rGBhvTlBQ0OUD3YrCUsE7qUCb/+eEF3rRXVa
- PENM4OKfEwpCyx5OWa9xOM5QPA==
-X-Google-Smtp-Source: APXvYqylONjj7snnNoLr97Ea0N5uQNID92/OspJwidDSnxT+IIykm+GMigOv0sBv/pId90OVWTUWOA==
-X-Received: by 2002:a1c:9696:: with SMTP id y144mr2398569wmd.73.1562316715449; 
- Fri, 05 Jul 2019 01:51:55 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id x20sm7612123wmc.1.2019.07.05.01.51.54
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 01:51:54 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20190704142004.7150-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <3bb189fa-8e47-acb0-89a2-9b5121c2269f@redhat.com>
-Date: Fri, 5 Jul 2019 10:51:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <no-reply@patchew.org>) id 1hjK1c-0007hM-0T
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:57:02 -0400
+Resent-Date: Fri, 05 Jul 2019 04:57:01 -0400
+Resent-Message-Id: <E1hjK1c-0007hM-0T@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21996)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hjK1T-0007YM-D0; Fri, 05 Jul 2019 04:56:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562316971; cv=none; d=zoho.com; s=zohoarc; 
+ b=ZfszsWUfnXCVtXaSIaql4ghET2CS1ANkQTcwrH42e8zp6V2Pq1sYpxqBvGfwrWXVlOwdvszgGszwvVD/R9T9zsgW/CJREYmBm456iH86bZlOEn3mCASIm6hJ31R4IlQXbw6k+2qlVo6kLP4nZxefbOYJ9zipIs+J/9Wzza97VFM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562316971;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=RicTqFJAQXdNW3nyWL5a8Jo6psVcU6usJ4YFk+VRuE4=; 
+ b=BOkKRw8WWMoYGf6H4O3BxB+4ZW/NLK3voqko34RX0Vp4ahKnUpeYWokxSBUHKNnTRive/xJajr+9owgffdqhr4VtgEY0rlHxTZVb1twcMYehQCtCZGSIU1W7MafxmjwExG0uswwZvkWgNOf25DEnedqXtmmwvRpU29pIor7ecP4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562316970204954.057136241254;
+ Fri, 5 Jul 2019 01:56:10 -0700 (PDT)
+Message-ID: <156231696891.2067.8881453516176970028@c4a48874b076>
+In-Reply-To: <20190705072333.17171-1-klaus@birkelund.eu>
 MIME-Version: 1.0
-In-Reply-To: <20190704142004.7150-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: klaus@birkelund.eu
+Date: Fri, 5 Jul 2019 01:56:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH for-4.1] hw/arm/sbsa-ref: Remove
- unnecessary check for secure_sysmem == NULL
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH 00/16] nvme: support NVMe v1.3d,
+ SGLs and multiple namespaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,72 +61,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Leif Lindholm <leif.lindholm@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, matt.fitzpatrick@oakgatetech.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, keith.busch@intel.com,
+ mreitz@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/19 4:20 PM, Peter Maydell wrote:
-> In the virt machine, we support TrustZone being either present or
-> absent, and so the code must deal with the secure_sysmem pointer
-> possibly being NULL. In the sbsa-ref machine, TrustZone is always
-> present, but some code and comments copied from virt still treat
-> it as possibly not being present.
-> 
-> This causes Coverity to complain (CID 1407287) that we check
-> secure_sysmem for being NULL after an unconditional dereference.
-> Simplify the code so that instead of initializing the variable
-> to NULL, unconditionally assigning it, and then testing it for NULL,
-> we just initialize it correctly in the variable declaration and
-> then assume it to be non-NULL. We also delete a comment which
-> only applied to the non-TrustZone config.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Not a bug as such, but we should put it in for 4.1 to
-> keep Coverity happy.
-> ---
->  hw/arm/sbsa-ref.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index ee53f0ff60d..6f315b79445 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -254,8 +254,6 @@ static void sbsa_flash_map(SBSAMachineState *sms,
->       * sysmem is the system memory space. secure_sysmem is the secure view
->       * of the system, and the first flash device should be made visible only
->       * there. The second flash device is visible to both secure and nonsecure.
-> -     * If sysmem == secure_sysmem this means there is no separate Secure
-> -     * address space and both flash devices are generally visible.
->       */
->      hwaddr flashsize = sbsa_ref_memmap[SBSA_FLASH].size / 2;
->      hwaddr flashbase = sbsa_ref_memmap[SBSA_FLASH].base;
-> @@ -588,7 +586,7 @@ static void sbsa_ref_init(MachineState *machine)
->      SBSAMachineState *sms = SBSA_MACHINE(machine);
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->      MemoryRegion *sysmem = get_system_memory();
-> -    MemoryRegion *secure_sysmem = NULL;
-> +    MemoryRegion *secure_sysmem = g_new(MemoryRegion, 1);
->      MemoryRegion *ram = g_new(MemoryRegion, 1);
->      bool firmware_loaded;
->      const CPUArchIdList *possible_cpus;
-> @@ -612,13 +610,11 @@ static void sbsa_ref_init(MachineState *machine)
->       * containing the system memory at low priority; any secure-only
->       * devices go in at higher priority and take precedence.
->       */
-> -    secure_sysmem = g_new(MemoryRegion, 1);
->      memory_region_init(secure_sysmem, OBJECT(machine), "secure-memory",
->                         UINT64_MAX);
->      memory_region_add_subregion_overlap(secure_sysmem, 0, sysmem, -1);
->  
-> -    firmware_loaded = sbsa_firmware_init(sms, sysmem,
-> -                                         secure_sysmem ?: sysmem);
-> +    firmware_loaded = sbsa_firmware_init(sms, sysmem, secure_sysmem);
->  
->      if (machine->kernel_filename && firmware_loaded) {
->          error_report("sbsa-ref: No fw_cfg device on this machine, "
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwNTA3MjMzMy4xNzE3
+MS0xLWtsYXVzQGJpcmtlbHVuZC5ldS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggMDAv
+MTZdIG52bWU6IHN1cHBvcnQgTlZNZSB2MS4zZCwgU0dMcyBhbmQgbXVsdGlwbGUgbmFtZXNwYWNl
+cwpNZXNzYWdlLWlkOiAyMDE5MDcwNTA3MjMzMy4xNzE3MS0xLWtsYXVzQGJpcmtlbHVuZC5ldQoK
+PT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2Ug
+PiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWls
+YmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKYWVkODJlNiBudm1lOiBzdXBwb3J0IG11bHRpcGxlIG5hbWVzcGFjZXMKMTI0
+YWJhNSBudm1lOiBzdXBwb3J0IHNjYXR0ZXIgZ2F0aGVyIGxpc3RzCjg3ZWQ0ODUgbnZtZTogc3Vw
+cG9ydCBtdWx0aXBsZSBibG9jayByZXF1ZXN0cyBwZXIgcmVxdWVzdAphMDkzNzI5IG52bWU6IHNp
+bXBsaWZ5IGRtYS9jbWIgbWFwcGluZ3MKNDc2OTExZiBudm1lOiBidW1wIHN1cHBvcnRlZCBOVk1l
+IHJldmlzaW9uIHRvIDEuM2QKNTg1NmUyOCBudm1lOiBhZGQgbWlzc2luZyBtYW5kYXRvcnkgRmVh
+dHVyZXMKYzE1NTVlMSBudm1lOiBzdXBwb3J0IEdldCBMb2cgUGFnZSBjb21tYW5kCjM2NDExZmMg
+bnZtZTogc3VwcG9ydCBBc3luY2hyb25vdXMgRXZlbnQgUmVxdWVzdCBjb21tYW5kCmMyNzI5NWYg
+bnZtZTogcmVmYWN0b3IgZGV2aWNlIHJlYWxpemF0aW9uCjliODUyOTcgbnZtZTogc3VwcG9ydCBB
+Ym9ydCBjb21tYW5kCmI0NzUyZWUgbnZtZTogc3VwcG9ydCBjb21wbGV0aW9uIHF1ZXVlIGluIGNt
+YgpjZWNiNTAyIG52bWU6IHBvcHVsYXRlIHRoZSBtYW5kYXRvcnkgc3VibnFuIGFuZCB2ZXIgZmll
+bGRzCjAxMjgzYTMgbnZtZTogYWRkIG1pc3NpbmcgZmllbGRzIGluIGlkZW50aWZ5IGNvbnRyb2xs
+ZXIKYzhkY2IzZiBudm1lOiBmaXggbHBhIGZpZWxkCjQ1MTU0NDYgbnZtZTogbW92ZSBkZXZpY2Ug
+cGFyYW1ldGVycyB0byBzZXBhcmF0ZSBzdHJ1Y3QKOWYxYTE0MCBudm1lOiBzaW1wbGlmeSBuYW1l
+c3BhY2UgY29kZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xNiBDaGVja2luZyBjb21taXQgOWYx
+YTE0MDhjYzM4IChudm1lOiBzaW1wbGlmeSBuYW1lc3BhY2UgY29kZSkKMi8xNiBDaGVja2luZyBj
+b21taXQgNDUxNTQ0NjY3ZmM4IChudm1lOiBtb3ZlIGRldmljZSBwYXJhbWV0ZXJzIHRvIHNlcGFy
+YXRlIHN0cnVjdCkKRVJST1I6IE1hY3JvcyB3aXRoIGNvbXBsZXggdmFsdWVzIHNob3VsZCBiZSBl
+bmNsb3NlZCBpbiBwYXJlbnRoZXNpcwojMjA0OiBGSUxFOiBody9ibG9jay9udm1lLmg6NjoKKyNk
+ZWZpbmUgREVGSU5FX05WTUVfUFJPUEVSVElFUyhfc3RhdGUsIF9wcm9wcykgXAorICAgIERFRklO
+RV9QUk9QX1NUUklORygic2VyaWFsIiwgX3N0YXRlLCBfcHJvcHMuc2VyaWFsKSwgXAorICAgIERF
+RklORV9QUk9QX1VJTlQzMigiY21iX3NpemVfbWIiLCBfc3RhdGUsIF9wcm9wcy5jbWJfc2l6ZV9t
+YiwgMCksIFwKKyAgICBERUZJTkVfUFJPUF9VSU5UMzIoIm51bV9xdWV1ZXMiLCBfc3RhdGUsIF9w
+cm9wcy5udW1fcXVldWVzLCA2NCkKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjA1IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDIvMTYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMTYg
+Q2hlY2tpbmcgY29tbWl0IGM4ZGNiM2Y2M2ZiNyAobnZtZTogZml4IGxwYSBmaWVsZCkKNC8xNiBD
+aGVja2luZyBjb21taXQgMDEyODNhMzk3NWQ3IChudm1lOiBhZGQgbWlzc2luZyBmaWVsZHMgaW4g
+aWRlbnRpZnkgY29udHJvbGxlcikKNS8xNiBDaGVja2luZyBjb21taXQgY2VjYjUwMjk4ZjlmIChu
+dm1lOiBwb3B1bGF0ZSB0aGUgbWFuZGF0b3J5IHN1Ym5xbiBhbmQgdmVyIGZpZWxkcykKNi8xNiBD
+aGVja2luZyBjb21taXQgYjQ3NTJlZWNmOWUxIChudm1lOiBzdXBwb3J0IGNvbXBsZXRpb24gcXVl
+dWUgaW4gY21iKQo3LzE2IENoZWNraW5nIGNvbW1pdCA5Yjg1Mjk3MzYyOTQgKG52bWU6IHN1cHBv
+cnQgQWJvcnQgY29tbWFuZCkKOC8xNiBDaGVja2luZyBjb21taXQgYzI3Mjk1ZjFlYTU1IChudm1l
+OiByZWZhY3RvciBkZXZpY2UgcmVhbGl6YXRpb24pCjkvMTYgQ2hlY2tpbmcgY29tbWl0IDM2NDEx
+ZmNkMWE2NyAobnZtZTogc3VwcG9ydCBBc3luY2hyb25vdXMgRXZlbnQgUmVxdWVzdCBjb21tYW5k
+KQoxMC8xNiBDaGVja2luZyBjb21taXQgYzE1NTVlMTgzNWRhIChudm1lOiBzdXBwb3J0IEdldCBM
+b2cgUGFnZSBjb21tYW5kKQoxMS8xNiBDaGVja2luZyBjb21taXQgNTg1NmUyODc2ZTNjIChudm1l
+OiBhZGQgbWlzc2luZyBtYW5kYXRvcnkgRmVhdHVyZXMpCjEyLzE2IENoZWNraW5nIGNvbW1pdCA0
+NzY5MTFmNmNhNDIgKG52bWU6IGJ1bXAgc3VwcG9ydGVkIE5WTWUgcmV2aXNpb24gdG8gMS4zZCkK
+MTMvMTYgQ2hlY2tpbmcgY29tbWl0IGEwOTM3MjlhZjA4MCAobnZtZTogc2ltcGxpZnkgZG1hL2Nt
+YiBtYXBwaW5ncykKMTQvMTYgQ2hlY2tpbmcgY29tbWl0IDg3ZWQ0ODU2OWY2ZiAobnZtZTogc3Vw
+cG9ydCBtdWx0aXBsZSBibG9jayByZXF1ZXN0cyBwZXIgcmVxdWVzdCkKMTUvMTYgQ2hlY2tpbmcg
+Y29tbWl0IDEyNGFiYTU1ODI3NyAobnZtZTogc3VwcG9ydCBzY2F0dGVyIGdhdGhlciBsaXN0cykK
+MTYvMTYgQ2hlY2tpbmcgY29tbWl0IGFlZDgyZTZlOGY2MiAobnZtZTogc3VwcG9ydCBtdWx0aXBs
+ZSBuYW1lc3BhY2VzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDYzMSBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
+Ni8xNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
+Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
+dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcwNTA3MjMzMy4xNzE3MS0xLWtsYXVzQGJp
+cmtlbHVuZC5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
