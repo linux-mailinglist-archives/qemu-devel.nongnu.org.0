@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57CA60C03
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:59:47 +0200 (CEST)
-Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19F160BF5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:55:29 +0200 (CEST)
+Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUN0-0007Vg-T7
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55663)
+	id 1hjUIq-0002Re-SO
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEP-0005Wx-DY
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:54 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEQ-0005ZP-A6
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEO-0004Cf-Eu
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:53 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53116)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEP-0004DB-D2
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:54 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42409)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUEO-0004C4-8G
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:52 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id s3so10219422wms.2
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:52 -0700 (PDT)
+ id 1hjUEP-0004Cj-6U
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:53 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a10so9869667wrp.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=hD3kbFvZZ3EzTHJ9PgPfFOKh05+UxEjCQiiQlxvG2pQ=;
- b=L/GazzT1zkbF8TSIvZubIFTiW3kJakHnSA1vULketHlMfw8D+3r8kaK9Qy8tWRok+t
- H/5pMy/Ki9O4917VesFP4Loigy53kkRO6gA47VxT+cCHpsvpITLxjCJnHZP2dGO6PTmK
- c1gSE9FygVfN0P0i47Jd6TXKbVVH5+LBkEssUiFHYOptZf4vtUsbAfyZenCFaLSwH6Rb
- zIIvrygXu0l/Qeo+hXzj4I1DAApGq3OG6f3w2hveUU6vIJ9Gg2KYiTYUqfJvlzSY8dST
- Nu4PCWG3UDXXrddHtDFMEuok5BudXp+YK5dUIelLHnNWoDMzA4XjmqeiGEgcbHvtUG5t
- d2jQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=JvV1iVqyAdHF++s4qbNgPhXah3+qiDNHrezSixoPhkU=;
+ b=uJrrVdOk7q43i0HZsmCIPUc/TBYmv9/RHoDKVZZoLoKvFfSlrGtrySIM0vfpPf2C4X
+ IhNU/vw0drcBOHJNn4pINAdwlMa+DlDi7HjXS7kQlI0M9lcWQElLH9TOKi9KGeV4qpfl
+ XOCRjqAYNQQ1DyncI0e9hU7y42G+T3Cs5/9/vBjRUpCM/1ODrQBrrB4jCWxw2RWuFbIv
+ gjrEZdcY6Vxw2eiQWbAa8LjsTVTqg1RQ8OLLb80CT0Jspbwpb4MSuB5og31E21zMZ2Nj
+ vVSpvOeRfcmWYc7g6gIoVyuLE5Jr3bZQcxZUpIYvsEARJ4dpYcIuuVLyQihwXngB7G3B
+ nAoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=hD3kbFvZZ3EzTHJ9PgPfFOKh05+UxEjCQiiQlxvG2pQ=;
- b=KRwvT64m1dIg1ztatUaptJF7+r4A8vi/c9ua3mk5hT5bDN/0ideln9+c5t6Vd/jHfs
- qihc37//zkOMv1dyGl+sx5fP3AZUJdFiGQWMLMNQcwhSOsLmaQwoVxC4EeNas/HBhH1D
- KDos9j/HK2sOxl7548onU3929BEoCpHdz/Rv71GSlnJkGe9tNqCfO32wLr1YyPXDkwDZ
- w/Ys6ZhhlP6oVZ7Lx+/pz8tItPL8AfJkQ5Hv2qGAWOfaskTX9vAXVdkOL7ZRydsTO2oJ
- GDv/Ql+9SBUT9ao+7uvMqffoUPK0IyDDhUAtF1b31/xfSVQyWl0LMu89DLTxaZjGHYij
- zOJw==
-X-Gm-Message-State: APjAAAXA6XuyJkfffKTmpamhYc9U3JNjiaxS894Q7D0OnZs+tbD9jqXS
- u00U45i+k+g6jvZUHvfofCzavPdOr4k=
-X-Google-Smtp-Source: APXvYqylYBEzGDQiSd2QkNJXu37b3cEiULeK6+TfCGuLRnhU13Bg5ZcGTTrwNY/A+lo6LNotYV+YMw==
-X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr4516690wme.29.1562356250974; 
- Fri, 05 Jul 2019 12:50:50 -0700 (PDT)
+ bh=JvV1iVqyAdHF++s4qbNgPhXah3+qiDNHrezSixoPhkU=;
+ b=hd6sqJZlC5D/JKiW9CyLbhPmle4fjazEJvt0UbKuq7toY4Mz2ABZLijS9rzF7eHLJx
+ RA1XD48kJFm2rN8iq2GC6aZ5uz/XeKF4SGpVn/O1Ge9sNOf/yMcQVjr/OrZPIrOffVAy
+ xGxnrvqNFlEPo7FFj1/Eh+9J5PQXj5O2A45Wj6yH8/QLlehDBbdX1guppIK834kdxYml
+ DGtv7PtU66ogSzyFfAbO1lpIijbyo0Ta66hkntX8hPuIY0pVA8zwBgI59p/NHuDTY09U
+ 4/9wKKxrhIoDuFjqY0gTosZ3Alm5Hjwvgoo6HhOYVOmrimE82cGByun0YHFQ9fMSI1ss
+ drqA==
+X-Gm-Message-State: APjAAAVUj85fojgZenjmziDu6/i9xMjEaN3DP4WkUlaXFy9njrTPY6AI
+ Rwedg3kp911Mwr8UU1y7z5Jjg+EeI20=
+X-Google-Smtp-Source: APXvYqy6aaKv2FTeR8AcrAMfDyJTfOPqmnt9qnEPkjb0hUjRQlgbkyHFVESRpa+i/c9QR6huE+NGrg==
+X-Received: by 2002:a5d:6949:: with SMTP id r9mr4903101wrw.73.1562356251921;
+ Fri, 05 Jul 2019 12:50:51 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.50
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.51
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 12:50:50 -0700 (PDT)
+ Fri, 05 Jul 2019 12:50:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 21:50:35 +0200
-Message-Id: <1562356239-19391-9-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 21:50:36 +0200
+Message-Id: <1562356239-19391-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 References: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 08/12] minikconf: do not include variables from
- MINIKCONF_ARGS in config-all-devices.mak
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 09/12] target/i386: kvm: Fix when nested state
+ is needed for migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,51 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Liran Alon <liran.alon@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When minikconf writes config-devices.mak, it includes all variables including
-those from MINIKCONF_ARGS.  This causes values from config-host.mak to "stick" to
-the ones used in generating config-devices.mak, because config-devices.mak is
-included after config-host.mak.  Avoid this by omitting assignments coming
-from the command line in the output of minikconf.
+From: Liran Alon <liran.alon@oracle.com>
 
-Reported-by: Christophe de Dinechin <dinechin@redhat.com>
-Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
-Tested-by: Christophe de Dinechin <dinechin@redhat.com>
+When vCPU is in VMX operation and enters SMM mode,
+it temporarily exits VMX operation but KVM maintained nested-state
+still stores the VMXON region physical address, i.e. even when the
+vCPU is in SMM mode then (nested_state->hdr.vmx.vmxon_pa != -1ull).
+
+Therefore, there is no need to explicitly check for
+KVM_STATE_NESTED_SMM_VMXON to determine if it is necessary
+to save nested-state as part of migration stream.
+
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Message-Id: <20190624230514.53326-1-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/minikconf.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ target/i386/machine.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-index 0ffc6c3..3109a81 100644
---- a/scripts/minikconf.py
-+++ b/scripts/minikconf.py
-@@ -688,11 +688,13 @@ if __name__ == '__main__':
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 851b249..704ba6d 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -997,9 +997,8 @@ static bool vmx_nested_state_needed(void *opaque)
+ {
+     struct kvm_nested_state *nested_state = opaque;
  
-     data = KconfigData(mode)
-     parser = KconfigParser(data)
-+    external_vars = set()
-     for arg in argv[3:]:
-         m = re.match(r'^(CONFIG_[A-Z0-9_]+)=([yn]?)$', arg)
-         if m is not None:
-             name, value = m.groups()
-             parser.do_assignment(name, value == 'y')
-+            external_vars.add(name[7:])
-         else:
-             fp = open(arg, 'r')
-             parser.parse_file(fp)
-@@ -700,7 +702,8 @@ if __name__ == '__main__':
+-    return ((nested_state->format == KVM_STATE_NESTED_FORMAT_VMX) &&
+-            ((nested_state->hdr.vmx.vmxon_pa != -1ull) ||
+-             (nested_state->hdr.vmx.smm.flags & KVM_STATE_NESTED_SMM_VMXON)));
++    return (nested_state->format == KVM_STATE_NESTED_FORMAT_VMX &&
++            nested_state->hdr.vmx.vmxon_pa != -1ull);
+ }
  
-     config = data.compute_config()
-     for key in sorted(config.keys()):
--        print ('CONFIG_%s=%s' % (key, ('y' if config[key] else 'n')))
-+        if key not in external_vars:
-+            print ('CONFIG_%s=%s' % (key, ('y' if config[key] else 'n')))
- 
-     deps = open(argv[2], 'w')
-     for fname in data.previously_included:
+ static const VMStateDescription vmstate_vmx_nested_state = {
 -- 
 1.8.3.1
 
