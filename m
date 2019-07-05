@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19F160BF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:55:29 +0200 (CEST)
-Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3A060C02
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:58:26 +0200 (CEST)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUIq-0002Re-SO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55674)
+	id 1hjULh-0005oA-Rr
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55687)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEQ-0005ZP-A6
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:55 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUER-0005ci-Fx
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEP-0004DB-D2
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42409)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEQ-0004E4-FH
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:55 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36118)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUEP-0004Cj-6U
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a10so9869667wrp.9
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:53 -0700 (PDT)
+ id 1hjUEQ-0004DI-8l
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:54 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n4so10988493wrs.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=JvV1iVqyAdHF++s4qbNgPhXah3+qiDNHrezSixoPhkU=;
- b=uJrrVdOk7q43i0HZsmCIPUc/TBYmv9/RHoDKVZZoLoKvFfSlrGtrySIM0vfpPf2C4X
- IhNU/vw0drcBOHJNn4pINAdwlMa+DlDi7HjXS7kQlI0M9lcWQElLH9TOKi9KGeV4qpfl
- XOCRjqAYNQQ1DyncI0e9hU7y42G+T3Cs5/9/vBjRUpCM/1ODrQBrrB4jCWxw2RWuFbIv
- gjrEZdcY6Vxw2eiQWbAa8LjsTVTqg1RQ8OLLb80CT0Jspbwpb4MSuB5og31E21zMZ2Nj
- vVSpvOeRfcmWYc7g6gIoVyuLE5Jr3bZQcxZUpIYvsEARJ4dpYcIuuVLyQihwXngB7G3B
- nAoQ==
+ bh=SPExf4yDsumfqyFIHIT50jMK4mdhNlTATWWdAQczcRU=;
+ b=r0EsWzym8DRq+tQDvJWeK2r8kpvG/HRHDBLLDnKc1no3EyQZPMyg1dU59vzc+KmH5I
+ +7SlSow5GViq9pzZiqRp9fhhpqPVQrdWJIhfnjU/OmNAWmBKs5ZF2Vxe5QUIFq3bcm6+
+ Q3ZY5jDpQ0rPURMoLJDIC+ZQV27jQwuhP3/3I4Nd+vraClbaBfMALTucdPFWDeBAzDw6
+ YEsJZ0BBz0Y7QGC2rnbfNaFTazvYMyfPTSRqgpJ/24Pbty6PvrPJytfb6o6qSs+0rVOs
+ 5lEhWmMHX1jTpG71tupu5eMlynEcl2tIGJ+Ugu73RJawqitm5rUOQRq2cW8KWw1ohAzP
+ k1TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=JvV1iVqyAdHF++s4qbNgPhXah3+qiDNHrezSixoPhkU=;
- b=hd6sqJZlC5D/JKiW9CyLbhPmle4fjazEJvt0UbKuq7toY4Mz2ABZLijS9rzF7eHLJx
- RA1XD48kJFm2rN8iq2GC6aZ5uz/XeKF4SGpVn/O1Ge9sNOf/yMcQVjr/OrZPIrOffVAy
- xGxnrvqNFlEPo7FFj1/Eh+9J5PQXj5O2A45Wj6yH8/QLlehDBbdX1guppIK834kdxYml
- DGtv7PtU66ogSzyFfAbO1lpIijbyo0Ta66hkntX8hPuIY0pVA8zwBgI59p/NHuDTY09U
- 4/9wKKxrhIoDuFjqY0gTosZ3Alm5Hjwvgoo6HhOYVOmrimE82cGByun0YHFQ9fMSI1ss
- drqA==
-X-Gm-Message-State: APjAAAVUj85fojgZenjmziDu6/i9xMjEaN3DP4WkUlaXFy9njrTPY6AI
- Rwedg3kp911Mwr8UU1y7z5Jjg+EeI20=
-X-Google-Smtp-Source: APXvYqy6aaKv2FTeR8AcrAMfDyJTfOPqmnt9qnEPkjb0hUjRQlgbkyHFVESRpa+i/c9QR6huE+NGrg==
-X-Received: by 2002:a5d:6949:: with SMTP id r9mr4903101wrw.73.1562356251921;
- Fri, 05 Jul 2019 12:50:51 -0700 (PDT)
+ bh=SPExf4yDsumfqyFIHIT50jMK4mdhNlTATWWdAQczcRU=;
+ b=UNxQSKtCLlBqzSvMXi2hZS9PRZn4S+xTJQVnh9litcCyFT1J6KRMVlkVlkRe/zH/7J
+ t7CgYXUv5KrclPLYXFRez1Z7DNAPtes2xGG6c7pUvuJ2OaH2YahBPsZqmpYR3F0XQwy0
+ KSMonMexz8JjiTq2IlP+mCdf2ok17alCFIwgtZG2bSRxtfx2+zUGt9QsG02ZMON+gXRo
+ As8QP8AT/07YVzTCXNyTBa7vhHWTbZMQRWPkiKqwxfG2GQG8WOJHrif4WrmemJEeDFGG
+ 3QQUK1pfk/cpH03Q+kBAvJ0MapOPBwypQGBqONbWy8wTCT51+iGN11jggRjOccdp7DGd
+ WDDw==
+X-Gm-Message-State: APjAAAWu1vgaaNvu7SPE1KI1gUUYnBMI66HeDnf96L+o+SMxwQUf9Eli
+ vvgH1/3fLDsRzRqv/Nav5OStKMqDn/s=
+X-Google-Smtp-Source: APXvYqxWhQd3ByMpzrY+K5JmWRAaPZr86sPYmCKIxQbsLqu4pdxSHObrDkujHECafv7LkYZr22QO8g==
+X-Received: by 2002:adf:fb8d:: with SMTP id a13mr5226223wrr.273.1562356252789; 
+ Fri, 05 Jul 2019 12:50:52 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.51
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 12:50:51 -0700 (PDT)
+ Fri, 05 Jul 2019 12:50:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 21:50:36 +0200
-Message-Id: <1562356239-19391-10-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 21:50:37 +0200
+Message-Id: <1562356239-19391-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 References: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 09/12] target/i386: kvm: Fix when nested state
- is needed for migration
+X-Received-From: 2a00:1450:4864:20::42c
+Subject: [Qemu-devel] [PULL 10/12] Makefile: generate header file with the
+ list of devices enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +75,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Julio Montes <julio.montes@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liran Alon <liran.alon@oracle.com>
+From: Julio Montes <julio.montes@intel.com>
 
-When vCPU is in VMX operation and enters SMM mode,
-it temporarily exits VMX operation but KVM maintained nested-state
-still stores the VMXON region physical address, i.e. even when the
-vCPU is in SMM mode then (nested_state->hdr.vmx.vmxon_pa != -1ull).
+v2: generate config-devices.h which contains the list of devices enabled
 
-Therefore, there is no need to explicitly check for
-KVM_STATE_NESTED_SMM_VMXON to determine if it is necessary
-to save nested-state as part of migration stream.
-
-Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20190624230514.53326-1-liran.alon@oracle.com>
+Message-Id: <20190705143554.10295-1-julio.montes@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/machine.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ Makefile.target        | 5 +++++
+ scripts/clean-includes | 2 +-
+ scripts/create_config  | 2 ++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 851b249..704ba6d 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -997,9 +997,8 @@ static bool vmx_nested_state_needed(void *opaque)
- {
-     struct kvm_nested_state *nested_state = opaque;
+diff --git a/Makefile.target b/Makefile.target
+index 72c267f..25383f5 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -45,6 +45,9 @@ include $(SRC_PATH)/tests/tcg/Makefile.include
+ config-target.h: config-target.h-timestamp
+ config-target.h-timestamp: config-target.mak
  
--    return ((nested_state->format == KVM_STATE_NESTED_FORMAT_VMX) &&
--            ((nested_state->hdr.vmx.vmxon_pa != -1ull) ||
--             (nested_state->hdr.vmx.smm.flags & KVM_STATE_NESTED_SMM_VMXON)));
-+    return (nested_state->format == KVM_STATE_NESTED_FORMAT_VMX &&
-+            nested_state->hdr.vmx.vmxon_pa != -1ull);
- }
++config-devices.h: config-devices.h-timestamp
++config-devices.h-timestamp: config-devices.mak
++
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ stap: $(QEMU_PROG).stp-installed $(QEMU_PROG).stp $(QEMU_PROG)-simpletrace.stp $(QEMU_PROG)-log.stp
  
- static const VMStateDescription vmstate_vmx_nested_state = {
+@@ -171,6 +174,8 @@ generated-files-y += hmp-commands.h hmp-commands-info.h
+ 
+ endif # CONFIG_SOFTMMU
+ 
++generated-files-y += config-devices.h
++
+ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
+ 
+diff --git a/scripts/clean-includes b/scripts/clean-includes
+index dd938da..fb05a63 100755
+--- a/scripts/clean-includes
++++ b/scripts/clean-includes
+@@ -161,7 +161,7 @@ for f in "$@"; do
+   # Remove includes that osdep.h already provides
+   perl -n -i -e 'print if !/\s*#\s*include\s*(["<][^>"]*[">])/ ||
+                           ! (grep { $_ eq $1 } qw (
+-           "config-host.h" "config-target.h" "qemu/compiler.h"
++           "config-host.h" "config-target.h" "config-devices.h" "qemu/compiler.h"
+            <setjmp.h> <stdarg.h> <stddef.h> <stdbool.h> <stdint.h> <sys/types.h>
+            <stdlib.h> <stdio.h> <string.h> <strings.h> <inttypes.h>
+            <limits.h> <unistd.h> <time.h> <ctype.h> <errno.h> <fcntl.h>
+diff --git a/scripts/create_config b/scripts/create_config
+index d727e5e..00e86c8 100755
+--- a/scripts/create_config
++++ b/scripts/create_config
+@@ -58,6 +58,8 @@ case $line in
+     name=${line%=*}
+     echo "#define $name 1"
+     ;;
++ CONFIG_*=n) # configuration
++    ;;
+  CONFIG_*=*) # configuration
+     name=${line%=*}
+     value=${line#*=}
 -- 
 1.8.3.1
 
