@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC3B60537
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 13:22:32 +0200 (CEST)
-Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939386059F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 13:58:35 +0200 (CEST)
+Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjMIR-0002tB-Ph
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 07:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37478)
+	id 1hjMrK-0004Z1-QA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 07:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46227)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hjMG2-0001LN-7m
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:20:04 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hjMpY-0003nJ-AI
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:56:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hjMFz-0002Kq-Td
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:20:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35594)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1hjMFz-0002FS-M4
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:19:59 -0400
-Received: by mail-wm1-x342.google.com with SMTP id l2so1704169wmg.0
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 04:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=i5N916ZZU6PVVurCyATVnY4bU3Pe4QcAycgXtts55DA=;
- b=tubR0VvKfjc0k7+ueD6TtG/XRRfRGKc+eMEqe5MwJmHXwsa9CyNAO/dY0zqlJGTUao
- HaIacxudkXYfqHFyVzANPl3qEAiEHxX/Y41tKLMg9AJeKrJNB2ZBmZkXxAGWIlgpR3Lp
- O1irdWQCD709rrll/a1wfivRwNRoGD/WKa+nR9yD3PYoC2XGI+hmqOFf4+oktAtYT3sj
- 98VE5Jw09is+lpiqODoVcBXfcoFxbBMxe7z8n/ssqDFIh1JvDTpxx/1Shovr/RtuucCH
- OtRaOtFOcOw+XOWlQ4Jpzy+8r6VNmEVFNn2bLPPUEfqoo8qhMkMRnwDctkwLc8AKG8cK
- uu4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=i5N916ZZU6PVVurCyATVnY4bU3Pe4QcAycgXtts55DA=;
- b=Kt2J4PZSwvSjkqspeLuYqWUT2JG9Vl0pIdVlb58ehjywlWVZVOdTlEYO+3WQ6RwHhQ
- xKYhqUDxaXZ7yXlk67bP6/dEcDM/QWK4GQk6nDj3HCDE4Haz+b/7Y/9f/Vb/A2r4id7O
- Z2IETG8NDTj/LUSmOfjmIN8NVUCSGusrppm2xbBTa0jjt4jCMXNqGLfBWDz4gHmi/Kku
- BAbirpzg/d48mUWh1pnflpgHJjs8RWDcpyn3mJih7DfV+jKGuyEWmKkeokgWJDwQ4+oG
- tfTDN0qNVDlboqKc9xNDhlmsM9IvmZ0stkkMqye7dWtWpu+020o2u4uT9gYwiBr06xHs
- UW2A==
-X-Gm-Message-State: APjAAAWATeEP2U0klmsbfnxUY0Dl1ajHBRzrVbuVBv9r8Bb+55eXh7Li
- IHRPyJ/W/22uWAQ0f5bpk4aNdyPP
-X-Google-Smtp-Source: APXvYqzx8QgWMOfTLBSJ5CijS61of2LqD58WHY/BYfeTeizf74YWnFDXDBViRuw2jxGsMagXrbbaHg==
-X-Received: by 2002:a1c:343:: with SMTP id 64mr3330913wmd.116.1562325597924;
- Fri, 05 Jul 2019 04:19:57 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id t6sm9935955wmb.29.2019.07.05.04.19.56
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 04:19:57 -0700 (PDT)
-To: Sukrit Bhatnagar <skrtbhtngr@gmail.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20190705010711.23277-1-marcel.apfelbaum@gmail.com>
- <03CB6DEC-3D25-4C09-9C9C-3A5206D1D1F7@gmail.com>
- <CAMzgYoMzLHEpSwLOu4nZAEK_E50xBsaYUfdXeCeHrq+-kaL=4w@mail.gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <49bb8456-a4b1-5a0e-e34d-cf5977e821ae@gmail.com>
-Date: Fri, 5 Jul 2019 14:20:09 +0300
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hjMpW-0001ie-2e
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:56:44 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:48620
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hjMpV-0006GW-Ru
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 07:56:42 -0400
+Received: from host109-146-132-17.range109-146.btcentralplus.com
+ ([109.146.132.17] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hjMjV-0001If-MN; Fri, 05 Jul 2019 12:50:33 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <4453b1be-8775-1d47-83fa-19102bf8dd95@ilande.co.uk>
+Date: Fri, 5 Jul 2019 12:50:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <CAMzgYoMzLHEpSwLOu4nZAEK_E50xBsaYUfdXeCeHrq+-kaL=4w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH] hw/net: fix vmxnet3 live migration
+X-SA-Exim-Connect-IP: 109.146.132.17
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.43.2.167
+Subject: [Qemu-devel] Unable to set register on qemu-system-sparc64 via
+ gdbstub
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,159 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Yuval Shaia <yuval.shaia@oracle.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, arilou@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all,
+
+It looks as if the recent gdbstub code rework has broken the ability to set registers
+under qemu-system-sparc64:
+
+$ sparc64-linux-gdb obj-sparc64/openbios-builtin.elf.nostrip
+GNU gdb (GDB) 8.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "--host=x86_64-pc-linux-gnu --target=sparc64-linux".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from obj-sparc64/openbios-builtin.elf.nostrip...done.
+(gdb) target remote :1234
+Remote debugging using :1234
+0x000001fff0000020 in ?? ()
+(gdb) info regi $g1
+g1             0x0      0
+(gdb) set $g1 = 0x55
+Could not write register "g1"; remote failure reply 'E00'
+(gdb)
+
+I managed to narrow this down to the recent gdbstub rework, and in particular to this
+patch:
+
+commit 62b3320bddd79c050553ea7f81f20c6d3b401ce3
+Author: Jon Doron <arilou@gmail.com>
+Date:   Wed May 29 09:41:36 2019 +0300
+
+    gdbstub: Implement set register (P pkt) with new infra
+
+    Signed-off-by: Jon Doron <arilou@gmail.com>
+    Message-Id: <20190529064148.19856-9-arilou@gmail.com>
+    Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
+Tracing through I see that the problem occurs because of this code in gdbstub's
+handle_set_reg:
+
+static void handle_set_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
+{
+    int reg_size;
+
+    if (!gdb_has_xml) {
+        put_packet(gdb_ctx->s, "E00");
+        return;
+    }
+
+    ...
+    ...
+}
+
+Because SPARC doesn't have any GDB XML files then this check always fails which is
+why the E00 error code is being returned.
+
+In fact if I simply comment out the above check then everything appears to work
+again, however I'm not sure that this is the correct fix because there are several
+other references to gdb_has_xml remaining in the file?
 
 
-On 7/5/19 2:14 PM, Sukrit Bhatnagar wrote:
-> On Fri, 5 Jul 2019 at 16:29, Dmitry Fleytman <dmitry.fleytman@gmail.com> wrote:
->>
->>> On 5 Jul 2019, at 4:07, Marcel Apfelbaum <marcel.apfelbaum@gmail.com> wrote:
->>>
->>> At some point vmxnet3 live migration stopped working and git-bisect
->>> didn't help finding a working version.
->>> The issue is the PCI configuration space is not being migrated
->>> successfully and MSIX remains masked at destination.
->>>
->>> Remove the migration differentiation between PCI and PCIe since
->>> the logic resides now inside VMSTATE_PCI_DEVICE.
->>> Remove also the VMXNET3_COMPAT_FLAG_DISABLE_PCIE based differentiation
->>> since at 'realize' time is decided if the device is PCI or PCIe,
->>> then the above macro is enough.
->>>
->>> Use the opportunity to move to the standard VMSTATE_MSIX
->>> instead of the deprecated SaveVMHandlers.
->>>
->>> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->>
->> Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
->>
-> Tested-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+ATB,
 
-Thanks for the fast testing and review!
-
-David, since the live migration was broken long before this patch,
-I don't need  to add any compatibility code, right?
-
-If so, can you merge it using your migration tree?
-
-Thanks,
-Marcel
-
-
->>> ---
->>> hw/net/vmxnet3.c | 52 ++----------------------------------------------
->>> 1 file changed, 2 insertions(+), 50 deletions(-)
->>>
->>> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
->>> index 10d01d0058..8b17548b02 100644
->>> --- a/hw/net/vmxnet3.c
->>> +++ b/hw/net/vmxnet3.c
->>> @@ -2141,21 +2141,6 @@ vmxnet3_cleanup_msi(VMXNET3State *s)
->>>      msi_uninit(d);
->>> }
->>>
->>> -static void
->>> -vmxnet3_msix_save(QEMUFile *f, void *opaque)
->>> -{
->>> -    PCIDevice *d = PCI_DEVICE(opaque);
->>> -    msix_save(d, f);
->>> -}
->>> -
->>> -static int
->>> -vmxnet3_msix_load(QEMUFile *f, void *opaque, int version_id)
->>> -{
->>> -    PCIDevice *d = PCI_DEVICE(opaque);
->>> -    msix_load(d, f);
->>> -    return 0;
->>> -}
->>> -
->>> static const MemoryRegionOps b0_ops = {
->>>      .read = vmxnet3_io_bar0_read,
->>>      .write = vmxnet3_io_bar0_write,
->>> @@ -2176,11 +2161,6 @@ static const MemoryRegionOps b1_ops = {
->>>      },
->>> };
->>>
->>> -static SaveVMHandlers savevm_vmxnet3_msix = {
->>> -    .save_state = vmxnet3_msix_save,
->>> -    .load_state = vmxnet3_msix_load,
->>> -};
->>> -
->>> static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
->>> {
->>>      uint64_t dsn_payload;
->>> @@ -2203,7 +2183,6 @@ static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
->>>
->>> static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
->>> {
->>> -    DeviceState *dev = DEVICE(pci_dev);
->>>      VMXNET3State *s = VMXNET3(pci_dev);
->>>      int ret;
->>>
->>> @@ -2249,8 +2228,6 @@ static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
->>>          pcie_dev_ser_num_init(pci_dev, VMXNET3_DSN_OFFSET,
->>>                                vmxnet3_device_serial_num(s));
->>>      }
->>> -
->>> -    register_savevm_live(dev, "vmxnet3-msix", -1, 1, &savevm_vmxnet3_msix, s);
->>> }
->>>
->>> static void vmxnet3_instance_init(Object *obj)
->>> @@ -2440,29 +2417,6 @@ static const VMStateDescription vmstate_vmxnet3_int_state = {
->>>      }
->>> };
->>>
->>> -static bool vmxnet3_vmstate_need_pcie_device(void *opaque)
->>> -{
->>> -    VMXNET3State *s = VMXNET3(opaque);
->>> -
->>> -    return !(s->compat_flags & VMXNET3_COMPAT_FLAG_DISABLE_PCIE);
->>> -}
->>> -
->>> -static bool vmxnet3_vmstate_test_pci_device(void *opaque, int version_id)
->>> -{
->>> -    return !vmxnet3_vmstate_need_pcie_device(opaque);
->>> -}
->>> -
->>> -static const VMStateDescription vmstate_vmxnet3_pcie_device = {
->>> -    .name = "vmxnet3/pcie",
->>> -    .version_id = 1,
->>> -    .minimum_version_id = 1,
->>> -    .needed = vmxnet3_vmstate_need_pcie_device,
->>> -    .fields = (VMStateField[]) {
->>> -        VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
->>> -        VMSTATE_END_OF_LIST()
->>> -    }
->>> -};
->>> -
->>> static const VMStateDescription vmstate_vmxnet3 = {
->>>      .name = "vmxnet3",
->>>      .version_id = 1,
->>> @@ -2470,9 +2424,8 @@ static const VMStateDescription vmstate_vmxnet3 = {
->>>      .pre_save = vmxnet3_pre_save,
->>>      .post_load = vmxnet3_post_load,
->>>      .fields = (VMStateField[]) {
->>> -            VMSTATE_STRUCT_TEST(parent_obj, VMXNET3State,
->>> -                                vmxnet3_vmstate_test_pci_device, 0,
->>> -                                vmstate_pci_device, PCIDevice),
->>> +            VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
->>> +            VMSTATE_MSIX(parent_obj, VMXNET3State),
->>>              VMSTATE_BOOL(rx_packets_compound, VMXNET3State),
->>>              VMSTATE_BOOL(rx_vlan_stripping, VMXNET3State),
->>>              VMSTATE_BOOL(lro_supported, VMXNET3State),
->>> @@ -2508,7 +2461,6 @@ static const VMStateDescription vmstate_vmxnet3 = {
->>>      },
->>>      .subsections = (const VMStateDescription*[]) {
->>>          &vmxstate_vmxnet3_mcast_list,
->>> -        &vmstate_vmxnet3_pcie_device,
->>>          NULL
->>>      }
->>> };
->>> --
->>> 2.17.1
->>>
-
+Mark.
 
