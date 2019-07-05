@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC1760CBB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:48:03 +0200 (CEST)
-Received: from localhost ([::1]:56010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8F460CD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:55:31 +0200 (CEST)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjV7i-0000mS-I0
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
+	id 1hjVEw-0007t1-81
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:55:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40349)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjUxe-0002Qd-1h
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:42 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hjVC5-0006UV-07
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:52:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjUxa-0005bM-As
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33448)
+ (envelope-from <ehabkost@redhat.com>) id 1hjVC3-0008Jh-Dl
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:52:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42144)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjUxY-0005Vp-V3
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:37:33 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjVC3-0008J3-53
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:52:31 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 25056307D846;
- Fri,  5 Jul 2019 20:37:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F3CB559442;
+ Fri,  5 Jul 2019 20:52:29 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A08E5772D7;
- Fri,  5 Jul 2019 20:37:29 +0000 (UTC)
-Date: Fri, 5 Jul 2019 17:37:28 -0300
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EFC0867F8;
+ Fri,  5 Jul 2019 20:52:29 +0000 (UTC)
+Date: Fri, 5 Jul 2019 17:52:28 -0300
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190705203728.GE5198@habkost.net>
+Message-ID: <20190705205228.GF5198@habkost.net>
 References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
- <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
+ <1562079681-19204-3-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1562079681-19204-2-git-send-email-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <1562079681-19204-3-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 05 Jul 2019 20:37:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Fri, 05 Jul 2019 20:52:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/7] target/i386: handle filtered_features
- in a new function mark_unavailable_features
+Subject: Re: [Qemu-devel] [PATCH 2/7] target/i386: introduce generic feature
+ dependency mechanism
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,178 +61,195 @@ Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 05:01:15PM +0200, Paolo Bonzini wrote:
-> The next patch will add a different reason for filtering features, unrelated
-> to host feature support.  Extract a new function that takes care of disabling
-> the features and reporting them.
+On Tue, Jul 02, 2019 at 05:01:16PM +0200, Paolo Bonzini wrote:
+> Sometimes a CPU feature does not make sense unless another is
+> present.  In the case of VMX features, KVM does not even allow
+> setting the VMX controls to some invalid combinations.
+> 
+> Therefore, this patch adds a generic mechanism that looks for bits
+> that the user explicitly cleared, and uses them to remove other bits
+> from the expanded CPU definition.  If these dependent bits were also
+> explicitly *set* by the user, this will be a warning for "-cpu check"
+> and an error for "-cpu enforce".  If not, then the dependent bits are
+> cleared silently, for convenience.
+> 
+> With VMX features, this will be used so that for example
+> "-cpu host,-rdrand" will also hide support for RDRAND exiting.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  target/i386/cpu.c | 76 ++++++++++++++++++++++++++++++-------------------------
->  1 file changed, 41 insertions(+), 35 deletions(-)
+>  target/i386/cpu.c | 77 +++++++++++++++++++++++++++++++++++--------------------
+>  1 file changed, 49 insertions(+), 28 deletions(-)
 > 
 > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index da6eb67..9149d0d 100644
+> index 9149d0d..412e834 100644
 > --- a/target/i386/cpu.c
 > +++ b/target/i386/cpu.c
-> @@ -3236,17 +3236,39 @@ static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
->      return NULL;
->  }
+> @@ -799,10 +799,6 @@ typedef struct FeatureWordInfo {
+>          /* If type==MSR_FEATURE_WORD */
+>          struct {
+>              uint32_t index;
+> -            struct {   /*CPUID that enumerate this MSR*/
+> -                FeatureWord cpuid_class;
+> -                uint32_t    cpuid_flag;
+> -            } cpuid_dep;
+>          } msr;
+>      };
+>      uint32_t tcg_features; /* Feature flags supported by TCG */
+> @@ -1197,10 +1193,6 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>          },
+>          .msr = {
+>              .index = MSR_IA32_ARCH_CAPABILITIES,
+> -            .cpuid_dep = {
+> -                FEAT_7_0_EDX,
+> -                CPUID_7_0_EDX_ARCH_CAPABILITIES
+> -            }
+>          },
+>      },
+>      [FEAT_CORE_CAPABILITY] = {
+> @@ -1217,14 +1209,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>          },
+>          .msr = {
+>              .index = MSR_IA32_CORE_CAPABILITY,
+> -            .cpuid_dep = {
+> -                FEAT_7_0_EDX,
+> -                CPUID_7_0_EDX_CORE_CAPABILITY,
+> -            },
+>          },
+>      },
+>  };
 >  
-> -static void report_unavailable_features(FeatureWord w, uint32_t mask)
-> +static bool x86_cpu_have_filtered_features(X86CPU *cpu)
->  {
-> +    FeatureWord w;
+> +typedef struct FeatureDep {
+> +    uint16_t from, to;
+
+Why uint16_t and not FeatureWord?
+
+> +    uint64_t from_flag, to_flags;
+
+There are other parts of the code that take a
+FeatureWord/uint32_t pair (which will become uint64_t).  I'd wrap
+this into a typedef.  I also miss documentation on the exact
+meaning of those fields.
+
+    typedef struct FeatureMask {
+        FeatureWord w;
+        uint64_t mask;
+    };
+    
+    
+    typedef struct FeatureDependency {
+       /*
+        * Features in @to may be present only if _all_ features in @from
+        * present too.
+        */
+       FeatureMask from, to;
+    };
+    
+    static FeatureDep feature_dependencies[] = {
+        {
+            .from = { FEAT_7_0_EDX, CPUID_7_0_EDX_ARCH_CAPABILITIES
+            .to =   { FEAT_ARCH_CAPABILITIES, ~0ull },
+        },
+        {
+            .from = { FEAT_7_0_EDX, CPUID_7_0_EDX_CORE_CAPABILITY },
+            .to =   { FEAT_CORE_CAPABILITY, ~0ull },
+        },
+    };
+
+
+> +} FeatureDep;
 > +
-> +    for (w = 0; w < ARRAY_SIZE(feature_word_info); w++) {
-
-I prefer to use FEATURE_WORDS instead of
-ARRAY_SIZE(feature_word_info), for consistency.
-
-I'm becoming more and more inclined to transform FeatureWordArray
-into a bitmap.  We have too many "for (w; w < FEATURE_WORDS;
-w++)" loops in the code that could be simplified using bitmap
-operations.
-
-But this is independent from this patch.
-
-
-> +         if (cpu->filtered_features[w]) {
-> +             return true;
-> +         }
-> +    }
+> +static FeatureDep feature_dependencies[] = {
+> +    {
+> +        .from = FEAT_7_0_EDX,            .from_flag = CPUID_7_0_EDX_ARCH_CAPABILITIES,
+> +        .to = FEAT_ARCH_CAPABILITIES,    .to_flags = ~0ull,
+> +    },
+> +    {
+> +        .from = FEAT_7_0_EDX,            .from_flag = CPUID_7_0_EDX_CORE_CAPABILITY,
+> +        .to = FEAT_CORE_CAPABILITY,      .to_flags = ~0ull,
+> +    },
+> +};
 > +
-> +    return false;
-> +}
-> +
-> +static void mark_unavailable_features(X86CPU *cpu, FeatureWord w, uint32_t mask,
-> +                                      const char *prefix)
-> +{
-> +    CPUX86State *env = &cpu->env;
->      FeatureWordInfo *f = &feature_word_info[w];
->      int i;
->      char *feat_word_str;
->  
-> +    env->features[w] &= ~mask;
-> +    cpu->filtered_features[w] |= mask;
-> +
-> +    if (!cpu->check_cpuid && !cpu->enforce_cpuid) {
-> +        return;
-> +    }
-> +
->      for (i = 0; i < 32; ++i) {
->          if ((1UL << i) & mask) {
->              feat_word_str = feature_word_description(f, i);
-> -            warn_report("%s doesn't support requested feature: %s%s%s [bit %d]",
-> -                        accel_uses_host_cpuid() ? "host" : "TCG",
-> +            warn_report("%s: %s%s%s [bit %d]",
-> +                        prefix,
->                          feat_word_str,
->                          f->feat_names[i] ? "." : "",
->                          f->feat_names[i] ? f->feat_names[i] : "", i);
-
-This seems to undo commit 8ca30e8673af ("target-i386: Move
-warning code outside x86_cpu_filter_features()").
-
-Filtering and reporting is separate because
-x86_cpu_filter_features() is also called from a QMP command
-handler that is not supposed to generate any warnings on stderr
-(query-cpu-model-expansion).
-
-
-> @@ -3691,7 +3713,7 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
->  }
->  
->  static void x86_cpu_expand_features(X86CPU *cpu, Error **errp);
-> -static int x86_cpu_filter_features(X86CPU *cpu);
-> +static void x86_cpu_filter_features(X86CPU *cpu);
->  
->  /* Build a list with the name of all features on a feature word array */
->  static void x86_cpu_list_feature_names(FeatureWordArray features,
-> @@ -3923,15 +3945,6 @@ static uint32_t x86_cpu_get_supported_feature_word(FeatureWord w,
->      return r;
->  }
->  
-> -static void x86_cpu_report_filtered_features(X86CPU *cpu)
-> -{
-> -    FeatureWord w;
-> -
-> -    for (w = 0; w < FEATURE_WORDS; w++) {
-> -        report_unavailable_features(w, cpu->filtered_features[w]);
-> -    }
-> -}
-> -
->  static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
->  {
->      PropValue *pv;
-> @@ -5170,21 +5183,20 @@ out:
->   *
->   * Returns: 0 if all flags are supported by the host, non-zero otherwise.
->   */
-> -static int x86_cpu_filter_features(X86CPU *cpu)
-> +static void x86_cpu_filter_features(X86CPU *cpu)
+>  typedef struct X86RegisterInfo32 {
+>      /* Name of register */
+>      const char *name;
+> @@ -5086,9 +5090,42 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
 >  {
 >      CPUX86State *env = &cpu->env;
 >      FeatureWord w;
-> -    int rv = 0;
-> +    const char *prefix = accel_uses_host_cpuid()
-> +                         ? "host doesn't support requested feature"
-> +                         : "TCG doesn't support requested feature";
+> +    int i;
+>      GList *l;
+>      Error *local_err = NULL;
 >  
->      for (w = 0; w < FEATURE_WORDS; w++) {
->          uint32_t host_feat =
->              x86_cpu_get_supported_feature_word(w, false);
->          uint32_t requested_features = env->features[w];
-> -        env->features[w] &= host_feat;
-> -        cpu->filtered_features[w] = requested_features & ~env->features[w];
-> -        if (cpu->filtered_features[w]) {
-> -            rv = 1;
-> -        }
-> +        uint32_t unavailable_features = requested_features & ~host_feat;
-> +        mark_unavailable_features(cpu, w, unavailable_features, prefix);
->      }
->  
->      if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
-> @@ -5210,13 +5222,9 @@ static int x86_cpu_filter_features(X86CPU *cpu)
->               * host can't emulate the capabilities we report on
->               * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
->               */
-> -            env->features[FEAT_7_0_EBX] &= ~CPUID_7_0_EBX_INTEL_PT;
-> -            cpu->filtered_features[FEAT_7_0_EBX] |= CPUID_7_0_EBX_INTEL_PT;
-> -            rv = 1;
-> +            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
+> +    for (l = plus_features; l; l = l->next) {
+> +        const char *prop = l->data;
+> +        object_property_set_bool(OBJECT(cpu), true, prop, &local_err);
+> +        if (local_err) {
+> +            goto out;
+> +        }
+> +    }
+> +
+> +    for (l = minus_features; l; l = l->next) {
+> +        const char *prop = l->data;
+> +        object_property_set_bool(OBJECT(cpu), false, prop, &local_err);
+> +        if (local_err) {
+> +            goto out;
+> +        }
+> +    }
+
+Maybe getting rid of plus_features/minus_features (as described
+in the TODO comment below) will make things simpler.
+
+> +
+> +    for (i = 0; i < ARRAY_SIZE(feature_dependencies); i++) {
+> +        FeatureDep *d = &feature_dependencies[i];
+> +        if ((env->user_features[d->from] & d->from_flag) &&
+> +            !(env->features[d->from] & d->from_flag)) {
+
+Why does it matter if the feature was cleared explicitly by the
+user?
+
+> +            uint64_t unavailable_features = env->features[d->to] & d->to_flags;
+> +
+> +            /* Not an error unless the dependent feature was added explicitly.  */
+> +            mark_unavailable_features(cpu, d->to, unavailable_features & env->user_features[d->to],
+> +                                      "This feature depends on other features that were not requested");
+> +
+> +            /* Prevent adding the feature in the loop below.  */
+> +            env->user_features[d->to] |= d->to_flags;
+> +            env->features[d->to] &= ~d->to_flags;
+> +        }
+> +    }
+
+Maybe move this entire block inside x86_cpu_filter_features()?
+
+> +
+>      /*TODO: Now cpu->max_features doesn't overwrite features
+>       * set using QOM properties, and we can convert
+>       * plus_features & minus_features to global properties
+> @@ -5106,22 +5143,6 @@ static void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
 >          }
 >      }
-> -
-> -    return rv;
->  }
 >  
->  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-> @@ -5257,16 +5265,14 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->          goto out;
->      }
->  
-> -    if (x86_cpu_filter_features(cpu) &&
-> -        (cpu->check_cpuid || cpu->enforce_cpuid)) {
-> -        x86_cpu_report_filtered_features(cpu);
-> -        if (cpu->enforce_cpuid) {
-> -            error_setg(&local_err,
-> -                       accel_uses_host_cpuid() ?
-> -                           "Host doesn't support requested features" :
-> -                           "TCG doesn't support requested features");
+> -    for (l = plus_features; l; l = l->next) {
+> -        const char *prop = l->data;
+> -        object_property_set_bool(OBJECT(cpu), true, prop, &local_err);
+> -        if (local_err) {
 > -            goto out;
 > -        }
-> +    x86_cpu_filter_features(cpu);
-> +
-> +    if (cpu->enforce_cpuid && x86_cpu_have_filtered_features(cpu)) {
-> +        error_setg(&local_err,
-> +                   accel_uses_host_cpuid() ?
-> +                       "Host doesn't support requested features" :
-> +                       "TCG doesn't support requested features");
-> +        goto out;
+> -    }
+> -
+> -    for (l = minus_features; l; l = l->next) {
+> -        const char *prop = l->data;
+> -        object_property_set_bool(OBJECT(cpu), false, prop, &local_err);
+> -        if (local_err) {
+> -            goto out;
+> -        }
+> -    }
+> -
+>      if (!kvm_enabled() || !cpu->expose_kvm) {
+>          env->features[FEAT_KVM] = 0;
 >      }
->  
->      /* On AMD CPUs, some CPUID[8000_0001].EDX bits must match the bits on
 > -- 
 > 1.8.3.1
 > 
