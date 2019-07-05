@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A10D60C59
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:27:27 +0200 (CEST)
-Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836F460C61
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:31:03 +0200 (CEST)
+Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUnm-00079E-8T
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33001)
+	id 1hjUrG-00034E-OU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33047)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hjUeK-0005gW-4X
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:41 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hjUeO-0005tl-SL
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hjUeI-0007Ld-Pw
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34562)
+ (envelope-from <jsnow@redhat.com>) id 1hjUeN-0007Qo-SS
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60284)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hjUeF-0007F3-T2; Fri, 05 Jul 2019 16:17:36 -0400
+ id 1hjUeL-0007NL-FO; Fri, 05 Jul 2019 16:17:41 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 25334308427C;
- Fri,  5 Jul 2019 20:17:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BE3F03082A98;
+ Fri,  5 Jul 2019 20:17:40 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-122-149.rdu2.redhat.com [10.10.122.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AB1C867E6;
- Fri,  5 Jul 2019 20:17:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58B48867E6;
+ Fri,  5 Jul 2019 20:17:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Fri,  5 Jul 2019 16:16:26 -0400
-Message-Id: <20190705201631.26266-14-jsnow@redhat.com>
+Date: Fri,  5 Jul 2019 16:16:27 -0400
+Message-Id: <20190705201631.26266-15-jsnow@redhat.com>
 In-Reply-To: <20190705201631.26266-1-jsnow@redhat.com>
 References: <20190705201631.26266-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 05 Jul 2019 20:17:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 05 Jul 2019 20:17:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 13/18] iotests: add testing shim for
- script-style python tests
+Subject: [Qemu-devel] [PATCH v3 14/18] iotests: teach run_job to cancel
+ pending jobs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,99 +66,61 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because the new-style python tests don't use the iotests.main() test
-launcher, we don't turn on the debugger logging for these scripts
-when invoked via ./check -d.
-
-Refactor the launcher shim into new and old style shims so that they
-share environmental configuration.
-
-Two cleanup notes: debug was not actually used as a global, and there
-was no reason to create a class in an inner scope just to achieve
-default variables; we can simply create an instance of the runner with
-the values we want instead.
+run_job can cancel pending jobs to simulate failure. This lets us use
+the pending callback to issue test commands while the job is open, but
+then still have the job fail in the end.
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 40 +++++++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 14 deletions(-)
+ tests/qemu-iotests/iotests.py | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
 y
-index 3ecef5bc90..fcad957d63 100644
+index fcad957d63..c544659ecb 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -61,7 +61,6 @@ cachemode =3D os.environ.get('CACHEMODE')
- qemu_default_machine =3D os.environ.get('QEMU_DEFAULT_MACHINE')
+@@ -541,7 +541,22 @@ class VM(qtest.QEMUQtestMachine):
 =20
- socket_scm_helper =3D os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_he=
-lper')
--debug =3D False
-=20
- luks_default_secret_object =3D 'secret,id=3Dkeysec0,data=3D' + \
-                              os.environ.get('IMGKEYSECRET', '')
-@@ -834,11 +833,22 @@ def skip_if_unsupported(required_formats=3D[], read=
-_only=3DFalse):
-         return func_wrapper
-     return skip_test_decorator
-=20
--def main(supported_fmts=3D[], supported_oses=3D['linux'], supported_cach=
-e_modes=3D[],
--         unsupported_fmts=3D[]):
--    '''Run tests'''
-+def execute_unittest(output, verbosity, debug):
-+    runner =3D unittest.TextTestRunner(stream=3Doutput, descriptions=3DT=
-rue,
-+                                     verbosity=3Dverbosity)
-+    try:
-+        # unittest.main() will use sys.exit(); so expect a SystemExit
-+        # exception
-+        unittest.main(testRunner=3Drunner)
-+    finally:
-+        if not debug:
-+            sys.stderr.write(re.sub(r'Ran (\d+) tests? in [\d.]+s',
-+                                    r'Ran \1 tests', output.getvalue()))
-=20
--    global debug
-+def execute_test(test_function=3DNone,
-+                 supported_fmts=3D[], supported_oses=3D['linux'],
-+                 supported_cache_modes=3D[], unsupported_fmts=3D[]):
-+    """Run either unittest or script-style tests."""
-=20
-     # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
-     # indicate that we're not being run via "check". There may be
-@@ -870,13 +880,15 @@ def main(supported_fmts=3D[], supported_oses=3D['li=
-nux'], supported_cache_modes=3D[],
-=20
-     logging.basicConfig(level=3D(logging.DEBUG if debug else logging.WAR=
-N))
-=20
--    class MyTestRunner(unittest.TextTestRunner):
--        def __init__(self, stream=3Doutput, descriptions=3DTrue, verbosi=
-ty=3Dverbosity):
--            unittest.TextTestRunner.__init__(self, stream, descriptions,=
- verbosity)
-+    if not test_function:
-+        execute_unittest(output, verbosity, debug)
-+    else:
-+        test_function()
-=20
--    # unittest.main() will use sys.exit() so expect a SystemExit excepti=
-on
--    try:
--        unittest.main(testRunner=3DMyTestRunner)
--    finally:
--        if not debug:
--            sys.stderr.write(re.sub(r'Ran (\d+) tests? in [\d.]+s', r'Ra=
-n \1 tests', output.getvalue()))
-+def script_main(test_function, *args, **kwargs):
-+    """Run script-style tests outside of the unittest framework"""
-+    execute_test(test_function, *args, **kwargs)
+     # Returns None on success, and an error string on failure
+     def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
+-                pre_finalize=3DNone, wait=3D60.0):
++                pre_finalize=3DNone, cancel=3DFalse, wait=3D60.0):
++        """
++        run_job moves a job from creation through to dismissal.
 +
-+def main(*args, **kwargs):
-+    """Run tests using the unittest framework"""
-+    execute_test(None, *args, **kwargs)
++        :param job: String. ID of recently-launched job
++        :param auto_finalize: Bool. True if the job was launched with
++                              auto_finalize. Defaults to True.
++        :param auto_dismiss: Bool. True if the job was launched with
++                             auto_dismiss=3DTrue. Defaults to False.
++        :param pre_finalize: Callback. A callable that takes no argument=
+s to be
++                             invoked prior to issuing job-finalize, if a=
+ny.
++        :param cancel: Bool. When true, cancels the job after the pre_fi=
+nalize
++                       callback.
++        :param wait: Float. Timeout value specifying how long to wait fo=
+r any
++                     event, in seconds. Defaults to 60.0.
++        """
+         match_device =3D {'data': {'device': job}}
+         match_id =3D {'data': {'id': job}}
+         events =3D [
+@@ -568,7 +583,10 @@ class VM(qtest.QEMUQtestMachine):
+             elif status =3D=3D 'pending' and not auto_finalize:
+                 if pre_finalize:
+                     pre_finalize()
+-                self.qmp_log('job-finalize', id=3Djob)
++                if cancel:
++                    self.qmp_log('job-cancel', id=3Djob)
++                else:
++                    self.qmp_log('job-finalize', id=3Djob)
+             elif status =3D=3D 'concluded' and not auto_dismiss:
+                 self.qmp_log('job-dismiss', id=3Djob)
+             elif status =3D=3D 'null':
 --=20
 2.21.0
 
