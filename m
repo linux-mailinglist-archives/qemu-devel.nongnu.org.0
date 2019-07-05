@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D089D60C78
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:41:03 +0200 (CEST)
-Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A67060CAF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:46:59 +0200 (CEST)
+Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjV0x-0003HX-2E
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33145)
+	id 1hjV6f-0000D7-RQ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hjUeZ-0006KV-2U
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:56 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiH-0002PV-AG
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hjUeY-0007Zy-3h
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:17:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53306)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hjUeV-0007Y4-Q9; Fri, 05 Jul 2019 16:17:51 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1ED18308FEC0;
- Fri,  5 Jul 2019 20:17:51 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-122-149.rdu2.redhat.com [10.10.122.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 27639867F8;
- Fri,  5 Jul 2019 20:17:49 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Fri,  5 Jul 2019 16:16:31 -0400
-Message-Id: <20190705201631.26266-19-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-1-jsnow@redhat.com>
-References: <20190705201631.26266-1-jsnow@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 05 Jul 2019 20:17:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 18/18] block/backup: loosen restriction on
- readonly bitmaps
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiG-0001cT-FD
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:45 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39479)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1hjUiG-0001b7-6I
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:44 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id z23so10800666wma.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id;
+ bh=YKQVzgq3S8pbHfjxunqcgSDhYJoFnQL+HqhuUJeM31w=;
+ b=YcRMO2xuF/PGz4izIJ33oJsb5r1HuQd7mOW0zsdRczOF/WFYsrm8p+kiuzMUeUHam2
+ 1DMSV0bsZZQkQZIbJLYhObPK7/autPJIvtyEf5j8bvBBLyUzU5D9DPb0VojMPek/yx5I
+ 1gnyYg6NH+5BxqaGcAXPkGUMPHqEZooRgSb54LMmoSlGWHh1r5AnezRUHSwrtnMi0jc6
+ NHNWI4IJSEgb7MiY7Ah8DAhMPGhiYqKoBYq8L4RqeWR9buDg6e18jslubUYY5VJdASea
+ DGH5X+HeX+0JbnP22cIqcxj5v9chve/krihycZ92zeJQHrF/xmlVrP2rxS/jpC0hDD3e
+ BhSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id;
+ bh=YKQVzgq3S8pbHfjxunqcgSDhYJoFnQL+HqhuUJeM31w=;
+ b=L0qQl3vDAo3X33SNrRrBRwRspxctwqZDfCxFY82Mxz2QaW4t8SQ5GsvH3wMlSKnwKM
+ KnMQJYc10YQ2UX+67wUV1uY0CdNA0o9ZjxIYWXE9TOUqRX5taI5FXeuPUZruy6va9LlR
+ KcQi46HQWxjEbu5/0qUG6Fb7Y8tnqiNP5gIadQX3X5evw2WyBgVD1pY8w02S8D20AQqI
+ rbOb9rC+Zk7+FS5ae0kbiympWLSe/mQxS/x2AsEb9ywhCYQyZzwQdBhXBxcoXQasatQy
+ S/fBAPfHD3Kuopurvir/IXgNNXcXFGjW2SgY2XVMpht7S9Q/dZhNunxo/mui8CUwEC7Q
+ qmCg==
+X-Gm-Message-State: APjAAAXjtm98A14V43CTIGDvq56RnYUodo0CjU5C4pSSHXN0nGQngMDa
+ RbGwLaLdfyh7FnYooWhgszEQpp6Jceg=
+X-Google-Smtp-Source: APXvYqwGF8reefmdYF95hIC3k2rFbuF4xWS3wak7WZAeqX8/fHz8igfCTxccEBnF8J1LA6XgLIdCJQ==
+X-Received: by 2002:a1c:6a11:: with SMTP id f17mr4265723wmc.110.1562358102083; 
+ Fri, 05 Jul 2019 13:21:42 -0700 (PDT)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id l9sm5582926wmh.36.2019.07.05.13.21.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 13:21:41 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  5 Jul 2019 22:21:38 +0200
+Message-Id: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32e
+Subject: [Qemu-devel] [PATCH v3 0/2] hw/i386: Fix linker error when ISAPC is
+ disabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,62 +73,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the "never" sync policy, we actually can utilize readonly bitmaps
-now. Loosen the check at the QMP level, and tighten it based on
-provided arguments down at the job creation level instead.
+v3 fixes the issue pointed out by Patchew and Philippe.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- block/backup.c | 6 ++++++
- blockdev.c     | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+Julio Montes (2):
+  Makefile: generate header file with the list of devices enabled
+  hw/i386: Fix linker error when ISAPC is disabled
 
-diff --git a/block/backup.c b/block/backup.c
-index b25e6179cf..a59962cea8 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -607,6 +607,12 @@ BlockJob *backup_job_create(const char *job_id, Bloc=
-kDriverState *bs,
-             return NULL;
-         }
-=20
-+        /* If we need to write to this bitmap, check that we can: */
-+        if (bitmap_mode !=3D BITMAP_SYNC_MODE_NEVER &&
-+            bdrv_dirty_bitmap_check(sync_bitmap, BDRV_BITMAP_DEFAULT, er=
-rp)) {
-+            return NULL;
-+        }
-+
-         /* Create a new bitmap, and freeze/disable this one. */
-         if (bdrv_dirty_bitmap_create_successor(bs, sync_bitmap, errp) < =
-0) {
-             return NULL;
-diff --git a/blockdev.c b/blockdev.c
-index 5dfaa976c9..3e30bc2ca7 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3489,7 +3489,7 @@ static BlockJob *do_backup_common(BackupCommon *bac=
-kup,
-                        "when providing a bitmap");
-             return NULL;
-         }
--        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
-+        if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_ALLOW_RO, errp)) {
-             return NULL;
-         }
-     }
---=20
-2.21.0
+ Makefile.target       |  4 ++++
+ hw/i386/pc_piix.c     | 12 +++++++++---
+ scripts/create_config |  2 ++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
+
+-- 
+1.8.3.1
 
 
