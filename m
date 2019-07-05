@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70B5602F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 11:13:25 +0200 (CEST)
-Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4699460326
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 11:34:34 +0200 (CEST)
+Received: from localhost ([::1]:50988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjKHU-0002zZ-HO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 05:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
+	id 1hjKbw-0002Fk-T9
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 05:34:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41110)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hjKGR-0002ZG-7P
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:12:21 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hjKZW-00015Y-DN
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:32:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hjKGO-0000FE-5t
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:12:18 -0400
-Resent-Date: Fri, 05 Jul 2019 05:12:17 -0400
-Resent-Message-Id: <E1hjKGO-0000FE-5t@eggs.gnu.org>
-Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21905)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hjKGL-0000EK-U5
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:12:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562317896; cv=none; d=zoho.com; s=zohoarc; 
- b=C3lYXp+W27dLL7lg90lcHutnmOGzpcQ4rKYeMV+svgNPhoqxm0jIH8X2p04YWxv7QtEtCHZm1KPc5XHc4HxKBm+/3PxNzoRLjms1Y9jq7DhNs6sDbk8+B7cGUdOpqnmhw0ZJqOULiDPckKfa4aEHGPuWzu/EJkl/oqDh9/lr5j4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562317896;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=Jn8eKRwkkwEpgQEqYdrPihdJdsZ6b823kUyvBIU1IXM=; 
- b=jamGMnIvWF7bNd1XixvGCN7Ge66UH47teNwORryOm+Z0QBcogh8EYYHMuP92FhggUPDdEXBtfQx7hyCJ2RjY+/rl6XMGrtB2UnsayR+M4UNOpzJ/mij3t9oaBbUZZbbVKCk422qr3C4Wo+kPsc5BJrfa0BfFVkx5yCdvxz9b0HY=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562317895329365.4080166203571;
- Fri, 5 Jul 2019 02:11:35 -0700 (PDT)
-Message-ID: <156231789414.2067.1693820146009884797@c4a48874b076>
-In-Reply-To: <20190705083141.106254-1-ysato@users.sourceforge.jp>
+ (envelope-from <mreitz@redhat.com>) id 1hjKZU-0001e0-Nl
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:32:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32798)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hjKZR-0001aL-0y; Fri, 05 Jul 2019 05:31:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B0B7C18B2C3;
+ Fri,  5 Jul 2019 09:31:55 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-154.brq.redhat.com
+ [10.40.204.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A8667E660;
+ Fri,  5 Jul 2019 09:31:53 +0000 (UTC)
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20190703224707.12437-1-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
+Date: Fri, 5 Jul 2019 11:31:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Fri, 5 Jul 2019 02:11:35 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190703224707.12437-1-eblake@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jvkPEaOa0neXOSMHxtRPkKge0TydhWp3Q"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 09:31:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.59
-Subject: Re: [Qemu-devel] [PATCH v22 00/22] Add RX archtecture support
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 RFC] qemu-nbd: Permit TLS with Unix
+ sockets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,150 +85,317 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
- philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, rjones@redhat.com,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwNTA4MzE0MS4xMDYy
-NTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
-UEFUQ0ggdjIyIDAwLzIyXSBBZGQgUlggYXJjaHRlY3R1cmUgc3VwcG9ydApNZXNzYWdlLWlkOiAy
-MDE5MDcwNTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcAoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
-L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
-YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3Bh
-dGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAxOTA3MDUw
-ODMxNDEuMTA2MjU0LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAgLT4gcGF0Y2hldy8yMDE5
-MDcwNTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcApTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjQzNTIwYWEgdGFyZ2V0L3J4OiByZW1vdmUgdW51c2VkIGZ1
-bmN0aW9ucy4KOGM0ZmEzNyBCb290TGludXhDb25zb2xlVGVzdDogVGVzdCB0aGUgUlgtVmlydCBt
-YWNoaW5lCjA0NTY0ZTQgQWRkIHJ4LXNvZnRtbXUKOTM3ODA1NSBody9yeDogUmVzdHJpY3QgdGhl
-IFJYNjJOIG1pY3JvY29udHJvbGxlciB0byB0aGUgUlg2Mk4gQ1BVIGNvcmUKNjIzZDEwNiBody9y
-eDogSG9ub3IgLWFjY2VsIHF0ZXN0CmNlOTAxMDggaHcvcng6IFJYIFRhcmdldCBoYXJkd2FyZSBk
-ZWZpbml0aW9uCjVlMWZkOTEgaHcvY2hhcjogUlg2Mk4gc2VyaWFsIGNvbW11bmljYXRpb24gaW50
-ZXJmYWNlIChTQ0kpCmVkMTJlNGYgaHcvdGltZXI6IFJYNjJOIGludGVybmFsIHRpbWVyIG1vZHVs
-ZXMKNGVlMTcxZiBody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkKM2U5
-OWQzYSB0YXJnZXQvcng6IER1bXAgYnl0ZXMgZm9yIGVhY2ggaW5zbiBkdXJpbmcgZGlzYXNzZW1i
-bHkKOGFiNWU1YSB0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJs
-eQpiZmMwNTQ5IHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpCjhi
-YzU0YTEgdGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkKYzMz
-N2YzZSB0YXJnZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2Vt
-YmxlcgowNmY1NmVmIHRhcmdldC9yeDogRGlzYXNzZW1ibGUgcnhfaW5kZXhfYWRkciBpbnRvIGEg
-c3RyaW5nCjI5MTc0MTAxIHRhcmdldC9yeDogUlggZGlzYXNzZW1ibGVyCmM2OTM2NTUgdGFyZ2V0
-L3J4OiBDUFUgZGVmaW5pdGlvbgo0MzliZDkwIHRhcmdldC9yeDogVENHIGhlbHBlcgo4M2RmZWZi
-IHRhcmdldC9yeDogVENHIHRyYW5zbGF0aW9uCjNmN2ZiNzIgaHcvcmVnaXN0ZXJmaWVsZHMuaDog
-QWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3JvcwoyNjBhYTM5IHFlbXUvYml0b3BzLmg6
-IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2CjcwNTliOGYgTUFJTlRBSU5FUlM6IEFkZCBSWAoK
-PT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yMiBDaGVja2luZyBjb21taXQgNzA1OWI4ZmI0NDkwIChN
-QUlOVEFJTkVSUzogQWRkIFJYKQoyLzIyIENoZWNraW5nIGNvbW1pdCAyNjBhYTM5MDk1ZjQgKHFl
-bXUvYml0b3BzLmg6IEFkZCBleHRyYWN0OCBhbmQgZXh0cmFjdDE2KQozLzIyIENoZWNraW5nIGNv
-bW1pdCAzZjdmYjcyYjczZTUgKGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAxNmJp
-dCByZWdpc3RlciBtYWNyb3MpClVzZSBvZiB1bmluaXRpYWxpemVkIHZhbHVlIGluIGNvbmNhdGVu
-YXRpb24gKC4pIG9yIHN0cmluZyBhdCAuL3NjcmlwdHMvY2hlY2twYXRjaC5wbCBsaW5lIDI0Njcu
-CkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBiZSBlbmNsb3Nl
-ZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojMjc6IEZJTEU6IGluY2x1ZGUvaHcvcmVnaXN0ZXJmaWVs
-ZHMuaDoyNToKKyNkZWZpbmUgUkVHOChyZWcsIGFkZHIpICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMjIHJlZyA9IChhZGRy
-KSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICBlbnVt
-IHsgUl8gIyMgcmVnID0gKGFkZHIpIH07CgpFUlJPUjogTWFjcm9zIHdpdGggbXVsdGlwbGUgc3Rh
-dGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxlIGxvb3AKIzMxOiBGSUxF
-OiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6Mjk6CisjZGVmaW5lIFJFRzE2KHJlZywgYWRk
-cikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAg
-ICBlbnVtIHsgQV8gIyMgcmVnID0gKGFkZHIpIH07ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBSXyAjIyByZWcgPSAoYWRkcikgLyAyIH07Cgp0
-b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDU2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMjIg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQvMjIgQ2hlY2tpbmcgY29tbWl0IDgzZGZlZmJh
-NWVkMSAodGFyZ2V0L3J4OiBUQ0cgdHJhbnNsYXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
-ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIwOiAK
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzA2NSBs
-aW5lcyBjaGVja2VkCgpQYXRjaCA0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvMjIg
-Q2hlY2tpbmcgY29tbWl0IDQzOWJkOTAyOTNkMSAodGFyZ2V0L3J4OiBUQ0cgaGVscGVyKQpXQVJO
-SU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5l
-ZWQgdXBkYXRpbmc/CiMyNTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMs
-IDEgd2FybmluZ3MsIDY0OSBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzIyIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjYvMjIgQ2hlY2tpbmcgY29tbWl0IGM2OTM2NTUxMDU3NiAodGFyZ2V0L3J4
-OiBDUFUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
-KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjk6IApuZXcgZmlsZSBtb2RlIDEw
-MDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2MjIgbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggNi8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzIyIENoZWNraW5nIGNvbW1pdCAy
-OTE3NDEwMWRkNjYgKHRhcmdldC9yeDogUlggZGlzYXNzZW1ibGVyKQpXQVJOSU5HOiBhZGRlZCwg
-bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
-CiMzODogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDE0OTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo4LzIyIENoZWNraW5nIGNvbW1pdCAwNmY1NmVmMWY2OGQgKHRhcmdldC9yeDogRGlzYXNzZW1i
-bGUgcnhfaW5kZXhfYWRkciBpbnRvIGEgc3RyaW5nKQo5LzIyIENoZWNraW5nIGNvbW1pdCBjMzM3
-ZjNlODI5NzggKHRhcmdldC9yeDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlz
-YXNzZW1ibGVyKQoxMC8yMiBDaGVja2luZyBjb21taXQgOGJjNTRhMThlMzkyICh0YXJnZXQvcng6
-IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseSkKMTEvMjIgQ2hlY2tpbmcgY29t
-bWl0IGJmYzA1NDkxMDg5MyAodGFyZ2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUg
-cHJ0KCkpCjEyLzIyIENoZWNraW5nIGNvbW1pdCA4YWI1ZTVhNjQ1MzEgKHRhcmdldC9yeDogQ29s
-bGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5KQoxMy8yMiBDaGVja2luZyBjb21taXQg
-M2U5OWQzYTE3NTkwICh0YXJnZXQvcng6IER1bXAgYnl0ZXMgZm9yIGVhY2ggaW5zbiBkdXJpbmcg
-ZGlzYXNzZW1ibHkpCjE0LzIyIENoZWNraW5nIGNvbW1pdCA0ZWUxNzFmMWIzMGMgKGh3L2ludGM6
-IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKSkKV0FSTklORzogYWRkZWQsIG1vdmVk
-IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDA6
-IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NDIg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTUv
-MjIgQ2hlY2tpbmcgY29tbWl0IGVkMTJlNGY3OGRlZCAoaHcvdGltZXI6IFJYNjJOIGludGVybmFs
-IHRpbWVyIG1vZHVsZXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyks
-IGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzUwOiAKbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgODM5IGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDE1LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE2LzIyIENoZWNraW5nIGNvbW1pdCA1
-ZTFmZDkxYWU5ZWMgKGh3L2NoYXI6IFJYNjJOIHNlcmlhbCBjb21tdW5pY2F0aW9uIGludGVyZmFj
-ZSAoU0NJKSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNDM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
-YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzOTggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTYvMjIg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTcvMjIgQ2hlY2tpbmcgY29tbWl0IGNlOTAxMDhl
-YzQwYiAoaHcvcng6IFJYIFRhcmdldCBoYXJkd2FyZSBkZWZpbml0aW9uKQpXQVJOSU5HOiBhZGRl
-ZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRp
-bmc/CiMyNjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDQ3OSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoxOC8yMiBDaGVja2luZyBjb21taXQgNjIzZDEwNjYyMDVkIChody9yeDogSG9ub3IgLWFj
-Y2VsIHF0ZXN0KQoxOS8yMiBDaGVja2luZyBjb21taXQgOTM3ODA1NWVlNmI1IChody9yeDogUmVz
-dHJpY3QgdGhlIFJYNjJOIG1pY3JvY29udHJvbGxlciB0byB0aGUgUlg2Mk4gQ1BVIGNvcmUpCjIw
-LzIyIENoZWNraW5nIGNvbW1pdCAwNDU2NGU0MTFhYmMgKEFkZCByeC1zb2Z0bW11KQpXQVJOSU5H
-OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
-dXBkYXRpbmc/CiM2MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEg
-d2FybmluZ3MsIDczIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIwLzIyIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCjIxLzIyIENoZWNraW5nIGNvbW1pdCA4YzRmYTM3OWJkMjEgKEJvb3RMaW51eENv
-bnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUpCjIyLzIyIENoZWNraW5nIGNvbW1p
-dCA0MzUyMGFhMmE0MTAgKHRhcmdldC9yeDogcmVtb3ZlIHVudXNlZCBmdW5jdGlvbnMuKQpXQVJO
-SU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5l
-ZWQgdXBkYXRpbmc/CiMyMTogCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJy
-b3JzLCAxIHdhcm5pbmdzLCA1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIyLzIyIGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
-aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMTkwNzA1MDgzMTQxLjEwNjI1NC0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdl
-LmpwL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jvkPEaOa0neXOSMHxtRPkKge0TydhWp3Q
+Content-Type: multipart/mixed; boundary="P0l5W86QwN17nGtihkdRpbhKHxkNy5KPp";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, rjones@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Message-ID: <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
+Subject: Re: [PATCH v2 RFC] qemu-nbd: Permit TLS with Unix sockets
+References: <20190703224707.12437-1-eblake@redhat.com>
+In-Reply-To: <20190703224707.12437-1-eblake@redhat.com>
 
+--P0l5W86QwN17nGtihkdRpbhKHxkNy5KPp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 04.07.19 00:47, Eric Blake wrote:
+> Although you generally won't use encryption with a Unix socket (after
+> all, everything is local, so why waste the CPU power), there are
+> situations in testsuites where Unix sockets are much nicer than TCP
+> sockets.  Since nbdkit allows encryption over both types of sockets,
+> it makes sense for qemu-nbd to do likewise.
+
+Hmm.  The code is simple enough, so I don=E2=80=99t see a good reason not=
+ to.
+
+> The restriction has been present since its introduction in commits
+> 145614a1 and 75822a12 (v2.6), where the former documented the
+> limitation but did not provide any additional explanation why it was
+> added; but looking closer, it seems the most likely reason is that
+> x509 verification requires a hostname. But we can do the same as
+> migration did, and add a tls-hostname parameter to supply that
+> information.
+>=20
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+>=20
+> ---
+>=20
+> Since this is now adding a new qemu-nbd command-line option, as well
+> as new QMP for blockdev-add, it has missed 4.1 softfreeze and should
+> probably be delayed to 4.2.
+>=20
+> RFC: The test is racy - it sometimes passes, and sometimes fails with:
+>=20
+>  =3D=3D check TLS with authorization over Unix =3D=3D
+>  qemu-img: Could not open 'driver=3Dnbd,path=3DSOCKET,tls-creds=3Dtls0,=
+tls-hostname=3Dlocalhost': Failed to read option reply: Cannot read from =
+TLS channel: Input/output error
+> -qemu-img: Could not open 'driver=3Dnbd,path=3DSOCKET,tls-creds=3Dtls0,=
+tls-hostname=3Dlocalhost': Failed to read option reply: Cannot read from =
+TLS channel: Input/output error
+> +qemu-img: Could not open 'driver=3Dnbd,path=3DSOCKET,tls-creds=3Dtls0,=
+tls-hostname=3Dlocalhost': Failed to read option reply: Cannot read from =
+TLS channel: Software caused connection abort
+
+Well, the first thing is that over TCP, the reference output shows that
+it should indeed fail with ECONNABORTED.  So to me it seems like EIO is
+actually the wrong error code.
+
+Um, also, a perhaps stupid question: Why is there no passing test for
+client authorization?
+
+> I suspect that there is a bug in the qio TLS channel code when it
+> comes to handling a failed TLS handshake, which results in the racy
+> output. I'll need help solving that first.  It might also be nice if
+> we had a bit more visibility into the gnutls error message when TLS
+> handshake fails.
+
+Well, what I can see is that the error code comes from
+qcrypto_tls_session_read().  You get ECONNABORTED for
+GNUTLS_E_PREMATURE_TERMINATION, and EIO for GNUTLS_E_PULL_ERROR (under
+default; but that=E2=80=99s the error that appears if it isn=E2=80=99t
+PREMATURE_TERMINATION).
+
+So I suppose you get ECONNABORTED if the first read happens after the
+RST is received (or the equivalent on Unix sockets, I have no idea how
+they work on the low level); and you get EIO if you try to read before
+that (because the TLS connection has just not been established
+successfully).
+
+I have experimented a bit, but unfortunately couldn=E2=80=99t find anythi=
+ng to
+change the test results in any way... :/
+
+> ---
+>  qemu-nbd.texi              |  3 ++
+>  qapi/block-core.json       |  5 ++
+>  block/nbd.c                | 27 +++++++++--
+>  qemu-nbd.c                 | 26 ++++++++---
+>  tests/qemu-iotests/233     | 94 ++++++++++++++++++++++++++++++++++++--=
+
+>  tests/qemu-iotests/233.out | 61 +++++++++++++++++++++++--
+>  tests/qemu-iotests/group   |  2 +-
+>  7 files changed, 198 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/qemu-nbd.texi b/qemu-nbd.texi
+> index 7f55657722bd..764518baef84 100644
+> --- a/qemu-nbd.texi
+> +++ b/qemu-nbd.texi
+> @@ -123,6 +123,9 @@ Store the server's process ID in the given file.
+>  Specify the ID of a qauthz object previously created with the
+>  --object option. This will be used to authorize connecting users
+>  against their x509 distinguished name.
+> +@item --tls-hostname=3DNAME
+> +When using list mode with TLS over a Unix socket, supply the hostname
+> +to use during validation of the server's x509 certificate.
+>  @item -v, --verbose
+>  Display extra debugging information.
+>  @item -h, --help
+
+qemu-nbd.c has some parameter documentation, too.  Maybe this option
+should be listed there.
+
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0d43d4f37c1a..95da0d44c220 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3856,6 +3856,10 @@
+>  #
+>  # @tls-creds:   TLS credentials ID
+>  #
+> +# @tls-hostname: Hostname of the server, required only when using x509=
+ based
+> +#                TLS credentials when @server lacks a hostname (such a=
+s
+> +#                using a Unix socket). (Since 4.1)
+
+Well, 4.2 now.
+
+> +#
+>  # @x-dirty-bitmap: A "qemu:dirty-bitmap:NAME" string to query in place=
+ of
+>  #                  traditional "base:allocation" block status (see
+>  #                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (sin=
+ce 3.0)
+
+[...]
+
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 81edabbf35ed..ce3db21190ce 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+
+[...]
+
+> @@ -1624,12 +1629,25 @@ static int nbd_open(BlockDriverState *bs, QDict=
+ *options, int flags,
+>              goto error;
+>          }
+>=20
+> -        /* TODO SOCKET_ADDRESS_KIND_FD where fd has AF_INET or AF_INET=
+6 */
+> -        if (s->saddr->type !=3D SOCKET_ADDRESS_TYPE_INET) {
+> -            error_setg(errp, "TLS only supported over IP sockets");
+> +        switch (s->saddr->type) {
+> +        case SOCKET_ADDRESS_TYPE_INET:
+> +            hostname =3D s->saddr->u.inet.host;
+> +            if (qemu_opt_get(opts, "tls-hostname")) {
+> +                error_setg(errp, "tls-hostname not required with inet =
+socket");
+
+This is more =E2=80=9Cnot allowed=E2=80=9D, right?
+
+(Actually, why not?  We could make the information from @server a
+default, but this would override it.  Maybe useful just for testing, but
+why not.)
+
+> +                goto error;
+> +            }
+> +            break;
+> +        case SOCKET_ADDRESS_TYPE_UNIX:
+> +            hostname =3D qemu_opt_get(opts, "tls-hostname");
+
+Shouldn=E2=80=99t we check that @hostname is non-NULL?  As far as I read =
+the
+code now, if this option doesn=E2=80=99t exist, =E2=80=9C<null>=E2=80=9D =
+will be used as the
+hostname somewhere down the stack.  Which probably gives a weird error.
+
+> +            break;
+> +        default:
+> +            /* TODO SOCKET_ADDRESS_KIND_FD where fd has AF_INET or AF_=
+INET6 */
+> +            error_setg(errp, "TLS only supported over IP or Unix socke=
+ts");
+>              goto error;
+>          }
+> -        hostname =3D s->saddr->u.inet.host;
+> +    } else if (qemu_opt_get(opts, "tls-hostname")) {
+> +        error_setg(errp, "tls-hostname not supported without tls-creds=
+");
+> +        goto error;
+>      }
+>=20
+>      /* NBD handshake */
+
+[...]
+
+> diff --git a/qemu-nbd.c b/qemu-nbd.c
+> index a8cb39e51043..40ea1e299dc7 100644
+> --- a/qemu-nbd.c
+> +++ b/qemu-nbd.c
+
+[...]
+
+> @@ -931,18 +937,22 @@ int main(int argc, char **argv)
+>      }
+>=20
+>      if (tlscredsid) {
+> -        if (sockpath) {
+> -            error_report("TLS is only supported with IPv4/IPv6");
+> -            exit(EXIT_FAILURE);
+> -        }
+>          if (device) {
+>              error_report("TLS is not supported with a host device");
+>              exit(EXIT_FAILURE);
+>          }
+>          if (tlsauthz && list) {
+> -            error_report("TLS authorization is incompatible with expor=
+t list");
+> +            error_report("TLS authorization is incompatible with --lis=
+t");
+>              exit(EXIT_FAILURE);
+>          }
+> +        if (tlshost) {
+> +            if (!list) {
+> +                error_report("TLS hostname is only for use with --list=
+");
+> +                exit(EXIT_FAILURE);
+> +            }
+> +        } else {
+> +            tlshost =3D bindto;
+
+Again, I wonder whether there should be a nice error message here if
+bindto is NULL.
+
+> +        }
+>          tlscreds =3D nbd_get_tls_creds(tlscredsid, list, &local_err);
+>          if (local_err) {
+>              error_report("Failed to get TLS creds %s",
+
+[...]
+
+> diff --git a/tests/qemu-iotests/233.out b/tests/qemu-iotests/233.out
+> index 9b46284ab0de..b86bee020649 100644
+> --- a/tests/qemu-iotests/233.out
+> +++ b/tests/qemu-iotests/233.out
+
+[...]
+
+> +=3D=3D check TLS works over Unix =3D=3D
+> +image: nbd+unix://?socket=3DSOCKET
+> +file format: nbd
+> +virtual size: 64 MiB (67108864 bytes)
+> +disk size: unavailable
+
+This has worked surprisingly well considering you did not pass tls-hostna=
+me.
+
+On the same note: If I remove the tls-hostname option from the =E2=80=9Cp=
+erform
+I/O over TLS=E2=80=9D test, it keeps working.
+
+> +image: nbd+unix://?socket=3DSOCKET
+> +file format: nbd
+> +virtual size: 64 MiB (67108864 bytes)
+> +disk size: unavailable
+> +qemu-nbd: Certificate does not match the hostname 0.0.0.0
+
+Yeah, that=E2=80=99s a weird error message.  I think it could be better.
+
+Max
+
+> +exports available: 1
+> + export: ''
+> +  size:  67108864
+> +  flags: 0x4ed ( flush fua trim zeroes df cache )
+> +  min block: 1
+> +  opt block: 4096
+> +  max block: 33554432
+> +  available meta contexts: 1
+> +   base:allocation
+
+
+--P0l5W86QwN17nGtihkdRpbhKHxkNy5KPp--
+
+--jvkPEaOa0neXOSMHxtRPkKge0TydhWp3Q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0fGQcACgkQ9AfbAGHV
+z0A2eQgAiUe3GKHUqaLNcfiLZCixhqOdHYjF7+8xYhMZRtrFm8+pWwzuzmjTLejL
+K+H8JbcaQlW6zXShQIYmOWra6/mtg/mWPA3ngEcGuhcqeCqbD58RAkJ66Kf5yTD8
++zl8HrRIIK2967olENDGL/Ur1rTfdaHGq/c9wkppjZutLj7LBWtWEO5S/XaKcY10
+V3TGR1zLXO9FYB4GDr+eWymoISg7yiHbdXmi0kaM7tFClxEsomiudLF0ChiSyEg3
+rmtxOMPZtQpuEMjpzkcVplmQRYXrRACx550c9LiaMm5AbGbt5scMoxnb0y1dzRbx
+9AnYh9r+jF3WZm5szVWC3P7q9ApU0Q==
+=nk6B
+-----END PGP SIGNATURE-----
+
+--jvkPEaOa0neXOSMHxtRPkKge0TydhWp3Q--
 
