@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5740660809
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:40:15 +0200 (CEST)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFA76085A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:51:42 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjPNm-0004lQ-IU
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:40:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51855)
+	id 1hjPYp-0001PI-UA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hjPLx-00032q-Pm
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:38:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1hjPXo-0000y1-Lo
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hjPLv-0008Hx-M6
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:38:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37254)
+ (envelope-from <bounces@canonical.com>) id 1hjPXn-0001VB-J5
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55436)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hjPJr-0007gY-W9
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:38:19 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n9so1025407wrr.4
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 07:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=qa0PQaRVLZzo5QsPehq/XCw5GiwLGdS0EHMST0VXnmQ=;
- b=ezE2aJV4nZEI55EeUjjPDnqvvfhPzpwB1RDD76Tl5JfAJPrpbmly0IXcdMskjB1Rng
- jReuferUhh1ZitKawecc1v0JOCpVQSBUmISZQddxlMqqsxUlDsueKPKRXCMFcDZ27CMP
- DImFHZLVFU4i3JSAEF92I+Fp17Cs0HiMFr4wnM5T3eu9KGzxHKnhaGuRyFfIffY/oFoB
- JNoQkDiYhp56hYaORz+t9b0Oy8sxouUTN4XdgJAn433N19yZQ5x7UvPvjtu7BVUsd0dL
- hRf8o/iM0eIFcYh/HKA+1H+RqgTLnBmF4Gf1/Dgrb1KeTRwNdokSL/HjwaQHK7Onvfkp
- XRSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=qa0PQaRVLZzo5QsPehq/XCw5GiwLGdS0EHMST0VXnmQ=;
- b=r92GVw47DGUfPkSHyz4xsnTSnr9xy0vHK4lYkReci8zeg8lhkwpn7xEYbkRGrSQPpJ
- 4T59XasprClffNhUzIqqsbeI555hv3CubKFDthrin+tEM6z35rxwnrUgEg22OTItW2v7
- Eaa5M4Bho+QRTVCm3fJCc7oNM8trMNUDCexYgmoQIfUF+LqvEJ71Csf7m7LJocuSv2HH
- yFwhzFWVhuZGuLQnmMyweLb5CisPo7RaUmkOl5eJfB6NXl61YD0/rx4e6wtKp5le4ajL
- Vu/ox5koUiUAyrqEg69AkFXbcWusCDNJ893kBascGTo/X0DDgtHq13K1UMsdpIvZsKAC
- ZH7w==
-X-Gm-Message-State: APjAAAUWtd9jRWppQsT/lFAMdTiOJAWJzy9mXdt/9oMBzr4SbwwDANqO
- ZhnhcFIpJmMIc/UIsGRuRRzWtA==
-X-Google-Smtp-Source: APXvYqy2jnjmZ7NYEE6PtBNDCdtSu7HsXO1GB5rNyv/xnV9QvjyS4NIXL9LKpzhbgIkExpYlMe6aTA==
-X-Received: by 2002:a5d:4d81:: with SMTP id b1mr4682920wru.27.1562337366487;
- Fri, 05 Jul 2019 07:36:06 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id k63sm10451711wmb.2.2019.07.05.07.36.05
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 07:36:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8B4FC1FF87;
- Fri,  5 Jul 2019 15:36:05 +0100 (BST)
-References: <20190702210017.4275-1-vandersonmr2@gmail.com>
- <20190702210017.4275-5-vandersonmr2@gmail.com>
- <877e8wk2nm.fsf@dusky.pond.sub.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <877e8wk2nm.fsf@dusky.pond.sub.org>
-Date: Fri, 05 Jul 2019 15:36:05 +0100
-Message-ID: <87tvc0v99m.fsf@zen.linaroharston>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hjPXn-0001Jn-Cs
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:50:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hjPXk-0001IG-Tp
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 14:50:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DFA832E80C9
+ for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 14:50:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v3 5/6] monitor: adding info tb and tbs to
- monitor
+Date: Fri, 05 Jul 2019 14:42:01 -0000
+From: Moshe Immerman <1835477@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: moshloop
+X-Launchpad-Bug-Reporter: Moshe Immerman (moshloop)
+X-Launchpad-Bug-Modifier: Moshe Immerman (moshloop)
+References: <156230276883.25246.16130789765520855631.malonedeb@soybean.canonical.com>
+Message-Id: <156233772141.22911.17573135422599416222.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: aa5324219dd86c4a9c7e846ee49fbf204cd6dc2b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1835477] Re: Converting qcow2 to vmdk on MacOSX
+ results in a non-bootable image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,55 +64,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vandersonmr <vandersonmr2@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1835477 <1835477@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Try the solutions in 1828508 ( -o
+adapter_type=3Dlsilogic,subformat=3DmonolithicFlat)  1776920 ( -S 0 ) do not
+work either
 
-Markus Armbruster <armbru@redhat.com> writes:
+What other steps can I take to troubleshoot?
 
-> vandersonmr <vandersonmr2@gmail.com> writes:
->
-<snip>
+-- =
 
-I'll leave Vanderson to address your other comments.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835477
 
->
-> Debugging commands are kind of borderline.  Debugging is commonly a
-> human activity, where HMP is just fine.  However, humans create tools to
-> assist with their activities, and then QMP is useful.  While I wouldn't
-> encourage HMP-only for the debugging use case, I wouldn't veto it.
->
-> Your (overly terse!) commit message and help texts make me guess the
-> commands are for gathering statistics.  Statistics can have debugging
-> uses.  But they often have non-debugging uses as well.  What use cases
-> can you imagine for these commands?
+Title:
+  Converting qcow2 to vmdk on MacOSX results in a non-bootable image
 
-So this is all really aimed at making TCG go faster - but before we can
-make it go faster we need better tools for seeing where the time is
-being spent and examining the code that we generate. So I expect the
-main users of this functionality will be QEMU developers.
+Status in QEMU:
+  New
 
-That said I can see a good rationale for supporting QMP because it is
-more amenable to automation. However this is early days so I would
-caution about exposing this stuff too early least we bake in a woolly
-API.
+Bug description:
+  When using qemu-img convert -O vmdk  with version 3.1.0 or 4.0.0 on
+  OSX (10.14.3) with a qcow2 image  (https://cloud-
+  images.ubuntu.com/bionic/20190703/bionic-server-cloudimg-amd64.img),
+  the resulting image is not bootable.
 
-The other wrinkle is we do have to take control of the emulator to
-safely calculate some of the numbers we output. This essentially means
-the HMP commands are asynchronous - we kick of safe work which waits
-until all vCPU threads are stopped before we go through the records and
-add up numbers. This is fine for the HMP because we just output to the
-monitor FD when we are ready. I assume for QMP commands there is more
-housekeeping to do? Can QMP commands wait for a response to be
-calculated by another thread? Are there any existing commands that have
-to support this sort of pattern?
+  Running the same command on Ubuntu 18.04 results in a bootable image
+  as expected
 
->
-> [...]
-
-
---
-Alex Benn=C3=A9e
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835477/+subscriptions
 
