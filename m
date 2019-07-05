@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D105660A3D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:26:50 +0200 (CEST)
-Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0BB60A30
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:23:31 +0200 (CEST)
+Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjR2u-0006qp-6C
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43053)
+	id 1hjQzi-0003sK-25
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44415)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQrD-0005tC-Na
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:14:45 -0400
+ (envelope-from <klaus@birkelund.eu>) id 1hjQxH-00024T-DC
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:21:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQrC-0007fq-JP
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:14:43 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:55732)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjQrC-0007cl-CZ
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:14:42 -0400
-Received: by mail-wm1-f68.google.com with SMTP id a15so9716012wmj.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 09:14:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1ZZYlzSCLdv4OPWBTYntlE8HOA1NAm6/dTGWgZtWsKI=;
- b=rQb2ZPAJZV52/KPHxQ2FNshfpDlqBMbm9WLsqxtn1IWiCu7ThI9PCPCbdGLQ6vNDYc
- iJmCAPSVIFp2R9jKvQRoLPgxSSv7wsrQr0+DX2VaCI0T5NdFd4i4Lwg5ZqShK5WW6GXw
- PgZMa20Jr6e0zpQ32/e/L4vWfU/UFnzgZtcXhjQO72XRs+zNfG7WLjXithYlL4DTpJ2i
- c6bOygCmXuFYJ5h2s0Rmb/rLW/N/oGtuzxttTJInblOj6lXwuQmlOJW1E7/ecB1/AIag
- jLFgGKWasJAXNdICR17p0Iv0CkfEV+i85mLu86jGQyArpe50KRfGyJ4gWXzlRtTZrTZw
- 67qA==
-X-Gm-Message-State: APjAAAVznKJ6En4YocPkTsctJZS/WrBb+aC1lQEIGSrq7HqGT0gdv9Bl
- GNw3ATm8dFc3kM1dQjCBOHnCWA==
-X-Google-Smtp-Source: APXvYqwrWx52UrhB1unI9KFv1Ev5C5ygZ327eKMVDxESM82U3TF+DJ5xiGzt8UKASXlCm7FEl/4C1A==
-X-Received: by 2002:a1c:6a17:: with SMTP id f23mr3990060wmc.91.1562343281236; 
- Fri, 05 Jul 2019 09:14:41 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id y6sm7002226wrp.12.2019.07.05.09.14.40
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 09:14:40 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190705160421.19015-1-alex.bennee@linaro.org>
- <20190705160421.19015-5-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d72546fd-b37d-9175-e871-2c5ad207a060@redhat.com>
-Date: Fri, 5 Jul 2019 18:14:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <klaus@birkelund.eu>) id 1hjQx5-0002bN-6O
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:20:49 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:51918)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+ id 1hjQwe-0000jw-6T; Fri, 05 Jul 2019 12:20:20 -0400
+Received: from bogfinke (ip-5-186-120-196.cgn.fibianet.dk [5.186.120.196])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 46527BF607;
+ Fri,  5 Jul 2019 16:20:15 +0000 (UTC)
+Date: Fri, 5 Jul 2019 18:20:14 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Message-ID: <20190705162013.GB4707@bogfinke>
+Mail-Followup-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?=
+ <berrange@redhat.com>, 
+ qemu-block@nongnu.org, kwolf@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, keith.busch@intel.com, mreitz@redhat.com,
+ lersek@redhat.com
+References: <20190705072333.17171-1-klaus@birkelund.eu>
+ <20190705072333.17171-17-klaus@birkelund.eu>
+ <20190705133616.GA4707@bogfinke>
+ <20190705134929.GM32473@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190705160421.19015-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190705134929.GM32473@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v1 4/5] gdbstub: add some notes to the
- header comment
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 16/16] nvme: support multiple
+ namespaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,44 +57,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, keith.busch@intel.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/19 6:04 PM, Alex Bennée wrote:
-> Add a link to the remote protocol spec and an SPDX tag.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  gdbstub.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 8618e34311..ea3349d1aa 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -1,6 +1,10 @@
->  /*
->   * gdb server stub
->   *
-> + * This implements a subset of the remote protocol as described in:
-> + *
-> + *   https://sourceware.org/gdb/onlinedocs/gdb/Remote-Protocol.html
-> + *
->   * Copyright (c) 2003-2005 Fabrice Bellard
->   *
->   * This library is free software; you can redistribute it and/or
-> @@ -15,6 +19,8 @@
->   *
->   * You should have received a copy of the GNU Lesser General Public
->   * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
->   */
->  
->  #include "qemu/osdep.h"
-> 
+On Fri, Jul 05, 2019 at 02:49:29PM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Jul 05, 2019 at 03:36:17PM +0200, Klaus Birkelund wrote:
+> > On Fri, Jul 05, 2019 at 09:23:33AM +0200, Klaus Birkelund Jensen wrot=
+e:
+> > > This adds support for multiple namespaces by introducing a new 'nvm=
+e-ns'
+> > > device model. The nvme device creates a bus named from the device n=
+ame
+> > > ('id'). The nvme-ns devices then connect to this and registers
+> > > themselves with the nvme device.
+> > >=20
+> > > This changes how an nvme device is created. Example with two namesp=
+aces:
+> > >=20
+> > >   -drive file=3Dnvme0n1.img,if=3Dnone,id=3Ddisk1
+> > >   -drive file=3Dnvme0n2.img,if=3Dnone,id=3Ddisk2
+> > >   -device nvme,serial=3Ddeadbeef,id=3Dnvme0
+> > >   -device nvme-ns,drive=3Ddisk1,bus=3Dnvme0,nsid=3D1
+> > >   -device nvme-ns,drive=3Ddisk2,bus=3Dnvme0,nsid=3D2
+> > >=20
+> > > A maximum of 256 namespaces can be configured.
+> > >=20
+> > =20
+> > Well that was embarrasing.
+> >=20
+> > This patch breaks nvme-test.c. Which I obviously did not run.
+> >=20
+> > In my defense, the test doesn't do much currently, but I'll of course
+> > fix the test for v2.
+>=20
+> That highlights a more serious problem.  This series changes the syntx
+> for configuring the nvme device in a way that is not backwards compatib=
+le.
+> So anyone who is using QEMU with NVME will be broken when they upgrade
+> to the next QEMU release.
+>=20
+> I understand why you wanted to restructure things to have a separate
+> nvme-ns device, but there needs to be some backcompat support in there
+> for the existing syntax to avoid breaking current users IMHO.
+>=20
+=20
+Hi Daniel,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I raised this issue previously. I suggested that we keep the drive
+property for the nvme device and only accept either that or an nvme-ns
+device to be configured (but not both).
+
+That would keep backward compatibilty, but enforce the use of nvme-ns
+for any setup that requires multiple namespaces.
+
+Would that work?
+
+Cheers,
+Klaus
 
