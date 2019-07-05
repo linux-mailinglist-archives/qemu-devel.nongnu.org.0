@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9055960CD0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:50:29 +0200 (CEST)
-Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C1160CB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:47:58 +0200 (CEST)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVA4-0003tx-QG
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
+	id 1hjV7d-0000cj-AU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:47:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33816)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiH-0002QM-JI
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:46 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiI-0002Sv-KT
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiG-0001ck-KM
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:45 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36495)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiH-0001dh-Mn
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:46 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35567)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUiG-0001bh-Dp
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:44 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so11049419wrs.3
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:21:44 -0700 (PDT)
+ id 1hjUiH-0001cx-Gb
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:45 -0400
+Received: by mail-wm1-x332.google.com with SMTP id l2so3528396wmg.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1Q2/Kno8eBtSRnDs1aukgO8GHqqzId6Tt8OoZfKY3WI=;
- b=aRICEbgUlenPNq03o1RTqWe1mKxm+raDhHJlmoxHE8wBYhlnCtsg2ANxxnGctl+yS3
- mofc0FY7YL1JLwR1dKBVXojjC3BgQujgbu4dEm/MOl1K/j2VdToNdQy3lX/7AiAfMEYE
- 1W9q4IqYRRTGysMaHtPigxnABrs5DJVkL4omA0cx+ydi1yqYEoH1QNrC9Dk8w8VJ7Qru
- XdI2YluuWGY8NhIhHCgyeTcjLJCzFULdHVUQSQEtzohR4BNmIY9EZg97mzisHvdi/Put
- eZyX2OedrFrU1P3wbMLeqIlPKe1rxd9Zm+OnBu6SOmFzkbJdnM5KYq7zO/vrj7EIqrX0
- SoLA==
+ bh=UHc1AWBOadewTEukk6xNWZCM4+ZLGS/wJxEaP2onOLs=;
+ b=LjsCK22pv1uN8WBKKJS6KgnvSnHCbMUyPFro9GaDWH02FTncOGU7xExugoOqd6Fwx1
+ sPQ1Vtqgc9tTpmuQyHzWKw6LfAa289EYaAm4f3jLkr2GWguK7Uvm1gA5ZQWVg9mBllNz
+ m5xscpZzrmTxytxFZ6q2sJa9SsINM//GYrDrEI6o2hGT93yYno+iAIeS8OmWdM0yV6a8
+ neTe7j1WK74fu2OQjOJliXeYZtlrrysfXL64k+Xzmc0bxv9g5c5ilpqfy0v5Br1B8pii
+ nNYbsBi0pRzQ5VKJFLuAT8q37iv4afHFgpvB9yoyqQKo/hTw4AM57e0z7SUIKBXVLAKX
+ MFzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=1Q2/Kno8eBtSRnDs1aukgO8GHqqzId6Tt8OoZfKY3WI=;
- b=Ekh5aeTFacomAoZirfDVUM9WZNqGknUWBjKgmryAbLIm1W7dixvmqLcUL99CGwEniR
- RxlQWSK6nOAk3fgYREF6WmgbsOvQWfev0Jt6vRqL/bmHOA0fmt9eYLtDCvVdYvejVy3o
- ntydLKJH1TUSQcFcvc2leO/JdNSykwon7aM2qpVENkJUtDJ4yG+OSsUZwg8s3r0W+Pso
- kP9OxSyph2egT18O2Hc6/Dz+LjK0oo/PdbVF8MQP2Fl3dWNP3QdlLPOABlSBWz7PgVmI
- v1WMf1YfeqT7HnITPX4dGhElOMAYIeSW8/XTsK/mhSIj8vhcpCQX73bS9m6MrcsiQdRd
- 5Vkw==
-X-Gm-Message-State: APjAAAWG40ZyEtNjFwx2t6iSpjlbxDiwsxxOesJtNcaWj7aRoyVthiqI
- mjyc+yvRMHIp5eTS0T6g7bqEt2pdOo8=
-X-Google-Smtp-Source: APXvYqxMIHhSaWL2xz/FwhURU4L/+LoNQILntLn8Ja33W+VgMpvfu+6h8OKKDCNYFx3EGkLxolN4PA==
-X-Received: by 2002:a5d:4c86:: with SMTP id z6mr5531462wrs.330.1562358102956; 
- Fri, 05 Jul 2019 13:21:42 -0700 (PDT)
+ bh=UHc1AWBOadewTEukk6xNWZCM4+ZLGS/wJxEaP2onOLs=;
+ b=RBdlraDCSzGJjiW4zkydcGv+uHK8H7AlxLEQJgsm7LpmNYa51ZBb9vmAmwoiQCrJPD
+ Sm11U9pEUFd80xuj/EjQ9QrVnuEDAJ2FpwQyTawuMkpfTwDonOL21SmqvM12XTApNBhc
+ kUQdvyzsf870lTh92qfrwGE11dkzXCMRjaqKnW1qY0VvcZH9AHcSzVVoZu83ewHCuEVL
+ qo66TiMkDrBeYHVjK/B6IF6Vg5r5OB/2J49gccQtWEioRjySvmOVhTvyyckqPrRwZ8Hq
+ MszFrXiaFVRUwgIxqrm4g6JsbTZwTBDTZKV4DylEYTTe/YNbD5+a7q29bsWrfNpH7Z35
+ Bnlg==
+X-Gm-Message-State: APjAAAUh68uWQKWMjI0vTmZfILnpu1kl12E9Pu4D2l0bmx52L+GkqxX/
+ fu+KKFKY1iUzOsudxWu2R/M+2sXcLOY=
+X-Google-Smtp-Source: APXvYqyGGrqnfPd3w8Ws2E50Y53uMNgFZGfw9O3Afeg6yhbXkSGoe9xHl298x7EnftUciR3Q3tHLRQ==
+X-Received: by 2002:a1c:f918:: with SMTP id x24mr4373665wmh.132.1562358104236; 
+ Fri, 05 Jul 2019 13:21:44 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id l9sm5582926wmh.36.2019.07.05.13.21.42
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 13:21:42 -0700 (PDT)
+ Fri, 05 Jul 2019 13:21:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:21:39 +0200
-Message-Id: <1562358100-27171-2-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 22:21:40 +0200
+Message-Id: <1562358100-27171-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
 References: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v3 1/2] Makefile: generate header file with the
- list of devices enabled
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PATCH v3 2/2] hw/i386: Fix linker error when ISAPC is
+ disabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,53 +81,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Julio Montes <julio.montes@intel.com>
 
-v2: generate config-devices.h which contains the list of devices enabled
+v2: include config-devices.h to use CONFIG_IDE_ISA
 
-Message-Id: <20190705143554.10295-1-julio.montes@intel.com>
+Message-Id: <20190705143554.10295-2-julio.montes@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Julio Montes <julio.montes@intel.com>
 ---
- Makefile.target       | 4 ++++
- scripts/create_config | 2 ++
- 2 files changed, 6 insertions(+)
+ hw/i386/pc_piix.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile.target b/Makefile.target
-index 72c267f..7154e99 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -45,6 +45,9 @@ include $(SRC_PATH)/tests/tcg/Makefile.include
- config-target.h: config-target.h-timestamp
- config-target.h-timestamp: config-target.mak
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index c07c4a5..cc04c01 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -23,6 +23,7 @@
+  */
  
-+config-devices.h: config-devices.h-timestamp
-+config-devices.h-timestamp: config-devices.mak
-+
- ifdef CONFIG_TRACE_SYSTEMTAP
- stap: $(QEMU_PROG).stp-installed $(QEMU_PROG).stp $(QEMU_PROG)-simpletrace.stp $(QEMU_PROG)-log.stp
+ #include "qemu/osdep.h"
++#include "config-devices.h"
  
-@@ -168,6 +171,7 @@ obj-y += hw/$(TARGET_BASE_ARCH)/
- endif
+ #include "qemu/units.h"
+ #include "hw/hw.h"
+@@ -61,9 +62,11 @@
  
- generated-files-y += hmp-commands.h hmp-commands-info.h
-+generated-files-y += config-devices.h
+ #define MAX_IDE_BUS 2
  
- endif # CONFIG_SOFTMMU
++#ifdef CONFIG_IDE_ISA
+ static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
+ static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
+ static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
++#endif
  
-diff --git a/scripts/create_config b/scripts/create_config
-index d727e5e..00e86c8 100755
---- a/scripts/create_config
-+++ b/scripts/create_config
-@@ -58,6 +58,8 @@ case $line in
-     name=${line%=*}
-     echo "#define $name 1"
-     ;;
-+ CONFIG_*=n) # configuration
-+    ;;
-  CONFIG_*=*) # configuration
-     name=${line%=*}
-     value=${line#*=}
+ /* PC hardware initialisation */
+ static void pc_init1(MachineState *machine,
+@@ -254,7 +257,10 @@ static void pc_init1(MachineState *machine,
+         }
+         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
+         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
+-    } else {
++        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
++    }
++#ifdef CONFIG_IDE_ISA
++else {
+         for(i = 0; i < MAX_IDE_BUS; i++) {
+             ISADevice *dev;
+             char busname[] = "ide.0";
+@@ -268,9 +274,9 @@ static void pc_init1(MachineState *machine,
+             busname[4] = '0' + i;
+             idebus[i] = qdev_get_child_bus(DEVICE(dev), busname);
+         }
++        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
+     }
+-
+-    pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
++#endif
+ 
+     if (pcmc->pci_enabled && machine_usb(machine)) {
+         pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
 -- 
 1.8.3.1
-
 
 
