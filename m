@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEB360AAB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:55:13 +0200 (CEST)
-Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CCF60AB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 19:03:04 +0200 (CEST)
+Received: from localhost ([::1]:54960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjRUO-0004aR-WF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51007)
+	id 1hjRbz-0007ca-Pp
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 13:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52417)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hjRST-0003ds-Tn
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:53:15 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hjRZS-0006pM-4O
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 13:00:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hjRSR-0003Ho-Uw
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 12:53:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55680)
+ (envelope-from <jsnow@redhat.com>) id 1hjRZR-0002Wt-1I
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 13:00:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35050)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hjRSK-0002xH-6s; Fri, 05 Jul 2019 12:53:06 -0400
+ id 1hjRZO-0002PB-IV; Fri, 05 Jul 2019 13:00:22 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A1FF03083394;
- Fri,  5 Jul 2019 16:53:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 556C430BB523;
+ Fri,  5 Jul 2019 17:00:13 +0000 (UTC)
 Received: from [10.10.122.149] (ovpn-122-149.rdu2.redhat.com [10.10.122.149])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05506D1CE;
- Fri,  5 Jul 2019 16:52:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CC01D1E9;
+ Fri,  5 Jul 2019 16:59:57 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 References: <20190703215542.16123-1-jsnow@redhat.com>
- <20190703215542.16123-12-jsnow@redhat.com>
- <6fb4a48b-5b69-7d20-eca9-beb01fd2f225@redhat.com>
+ <20190703215542.16123-13-jsnow@redhat.com>
+ <ee65fb7c-1f19-17f8-ea32-7aa3cc2a1b3d@redhat.com>
+ <63fe8c7b-69ad-d043-d629-664370a2acc5@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,22 +110,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <750e0c38-ba17-b6ae-82d4-bc946b3d029e@redhat.com>
-Date: Fri, 5 Jul 2019 12:52:56 -0400
+Message-ID: <979481d8-7c1c-71d4-cdca-7b1f6954aa6e@redhat.com>
+Date: Fri, 5 Jul 2019 12:59:56 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <6fb4a48b-5b69-7d20-eca9-beb01fd2f225@redhat.com>
+In-Reply-To: <63fe8c7b-69ad-d043-d629-664370a2acc5@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 05 Jul 2019 16:53:01 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.49]); Fri, 05 Jul 2019 17:00:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 11/18] block/backup: upgrade copy_bitmap
- to BdrvDirtyBitmap
+Subject: Re: [Qemu-devel] [PATCH v2 12/18] block/backup: add 'always' bitmap
+ sync policy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -148,201 +149,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 7/4/19 1:29 PM, Max Reitz wrote:
-> On 03.07.19 23:55, John Snow wrote:
->> This simplifies some interface matters; namely the initialization and
->> (later) merging the manifest back into the sync_bitmap if it was
->> provided.
+On 7/4/19 2:05 PM, Max Reitz wrote:
+> On 04.07.19 19:43, Max Reitz wrote:
+>> On 03.07.19 23:55, John Snow wrote:
+>>> This adds an "always" policy for bitmap synchronization. Regardless of if
+>>> the job succeeds or fails, the bitmap is *always* synchronized. This means
+>>> that for backups that fail part-way through, the bitmap retains a record of
+>>> which sectors need to be copied out to accomplish a new backup using the
+>>> old, partial result.
+>>>
+>>> In effect, this allows us to "resume" a failed backup; however the new backup
+>>> will be from the new point in time, so it isn't a "resume" as much as it is
+>>> an "incremental retry." This can be useful in the case of extremely large
+>>> backups that fail considerably through the operation and we'd like to not waste
+>>> the work that was already performed.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>  block/backup.c       | 25 +++++++++++++++++--------
+>>>  qapi/block-core.json |  5 ++++-
+>>>  2 files changed, 21 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/block/backup.c b/block/backup.c
+>>> index 9cc5a7f6ca..495d8f71aa 100644
+>>> --- a/block/backup.c
+>>> +++ b/block/backup.c
+>>> @@ -266,16 +266,25 @@ static void backup_cleanup_sync_bitmap(BackupBlockJob *job, int ret)
+> 
+> [...]
+> 
+>>> +        /* If we failed and synced, merge in the bits we didn't copy: */
+>>> +        bdrv_dirty_bitmap_merge_internal(bm, job->copy_bitmap,
+>>> +                                         NULL, true);
 >>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  block/backup.c | 76 ++++++++++++++++++++++++-------------------------=
--
->>  1 file changed, 37 insertions(+), 39 deletions(-)
->>
->> diff --git a/block/backup.c b/block/backup.c
->> index d7fdafebda..9cc5a7f6ca 100644
->> --- a/block/backup.c
->> +++ b/block/backup.c
->=20
-> [...]
->=20
->> @@ -202,7 +204,7 @@ static int coroutine_fn backup_do_cow(BackupBlockJ=
-ob *job,
->>      cow_request_begin(&cow_request, job, start, end);
->> =20
->>      while (start < end) {
->> -        if (!hbitmap_get(job->copy_bitmap, start)) {
->> +        if (!bdrv_dirty_bitmap_get(job->copy_bitmap, start)) {
->>              trace_backup_do_cow_skip(job, start);
->>              start +=3D job->cluster_size;
->>              continue; /* already copied */
->> @@ -296,14 +298,16 @@ static void backup_abort(Job *job)
->>  static void backup_clean(Job *job)
->>  {
->>      BackupBlockJob *s =3D container_of(job, BackupBlockJob, common.jo=
-b);
->> +    BlockDriverState *bs =3D blk_bs(s->target);
->=20
-> I=E2=80=99d prefer to call it target_bs, because =E2=80=9Cbs=E2=80=9D i=
-s usually the source node.
->=20
+>> I presume this is for sync=full?
+> 
 
-Sure;
+Well, we don't allow bitmaps for sync=full at this point in the series.
 
-> Which brings me to a question: Why is the copy bitmap assigned to the
-> target in the first place?  Wouldn=E2=80=99t it make more sense on the =
-source?
->=20
-
-*cough*;
-
-the idea was that the target is *most likely* to be the temporary node
-created for the purpose of this backup, even though backup does not
-explicitly create the node.
-
-So ... by creating it on the target, we avoid cluttering up the results
-in block query; and otherwise it doesn't actually matter what node we
-created it on, really.
-
-I can move it over to the source, but the testing code has to get a
-little smarter in order to find the "right" anonymous bitmap, which is
-not impossible; but I thought this would actually be a convenience for
-people.
-
->> +
->> +    if (s->copy_bitmap) {
->> +        bdrv_release_dirty_bitmap(bs, s->copy_bitmap);
->> +        s->copy_bitmap =3D NULL;
->> +    }
->> +
->>      assert(s->target);
->>      blk_unref(s->target);
->>      s->target =3D NULL;
->> -
->> -    if (s->copy_bitmap) {
->> -        hbitmap_free(s->copy_bitmap);
->> -        s->copy_bitmap =3D NULL;
->> -    }
->>  }
->> =20
->>  void backup_do_checkpoint(BlockJob *job, Error **errp)
->=20
-> [...]
->=20
->> @@ -387,59 +391,49 @@ static bool bdrv_is_unallocated_range(BlockDrive=
-rState *bs,
->> =20
->>  static int coroutine_fn backup_loop(BackupBlockJob *job)
->>  {
->> -    int ret;
->>      bool error_is_read;
->>      int64_t offset;
->> -    HBitmapIter hbi;
->> +    BdrvDirtyBitmapIter *bdbi;
->>      BlockDriverState *bs =3D blk_bs(job->common.blk);
->> +    int ret =3D 0;
->> =20
->> -    hbitmap_iter_init(&hbi, job->copy_bitmap, 0);
->> -    while ((offset =3D hbitmap_iter_next(&hbi)) !=3D -1) {
->> +    bdbi =3D bdrv_dirty_iter_new(job->copy_bitmap);
->> +    while ((offset =3D bdrv_dirty_iter_next(bdbi)) !=3D -1) {
->>          if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
->>              bdrv_is_unallocated_range(bs, offset, job->cluster_size))
->>          {
->> -            hbitmap_reset(job->copy_bitmap, offset, job->cluster_size=
-);
->> +            bdrv_set_dirty_bitmap(job->copy_bitmap, offset, job->clus=
-ter_size);
->=20
-> Should be reset.
->=20
-
-Whoa, oops! I got through testing FULL but, clearly, not TOP. This also
-doesn't trigger any other failures in our test suite, so I need to make
-sure this is being covered.
-
-Thank you.
-
->>              continue;
->>          }
->> =20
->>          do {
->>              if (yield_and_check(job)) {
->> -                return 0;
->> +                goto out;
->>              }
->>              ret =3D backup_do_cow(job, offset,
->>                                  job->cluster_size, &error_is_read, fa=
-lse);
->>              if (ret < 0 && backup_error_action(job, error_is_read, -r=
-et) =3D=3D
->>                             BLOCK_ERROR_ACTION_REPORT)
->>              {
->> -                return ret;
->> +                goto out;
->>              }
->>          } while (ret < 0);
->>      }
->> =20
->> -    return 0;
->> + out:
->> +    bdrv_dirty_iter_free(bdbi);
->> +    return ret;
->>  }
->> =20
->>  /* init copy_bitmap from sync_bitmap */
->>  static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
->>  {
->> -    uint64_t offset =3D 0;
->> -    uint64_t bytes =3D job->len;
->> -
->> -    while (bdrv_dirty_bitmap_next_dirty_area(job->sync_bitmap,
->> -                                             &offset, &bytes))
->> -    {
->> -        hbitmap_set(job->copy_bitmap, offset, bytes);
->> -
->> -        offset +=3D bytes;
->> -        if (offset >=3D job->len) {
->> -            break;
->> -        }
->> -        bytes =3D job->len - offset;
->> -    }
->> +    bdrv_dirty_bitmap_merge_internal(job->copy_bitmap, job->sync_bitm=
-ap,
->> +                                     NULL, true);
->=20
-> How about asserting that this was successful?
->=20
-
-Sure.
-
->> =20
->>      /* TODO job_progress_set_remaining() would make more sense */
->>      job_progress_update(&job->common.job,
->> -        job->len - hbitmap_count(job->copy_bitmap));
->> +                        job->len - bdrv_get_dirty_count(job->copy_bit=
-map));
->>  }
->> =20
->>  static int coroutine_fn backup_run(Job *job, Error **errp)
->=20
-> [...]
->=20
->> @@ -670,7 +668,7 @@ BlockJob *backup_job_create(const char *job_id, Bl=
-ockDriverState *bs,
->>   error:
->>      if (copy_bitmap) {
->>          assert(!job || !job->copy_bitmap);
->> -        hbitmap_free(copy_bitmap);
->> +        bdrv_release_dirty_bitmap(bs, copy_bitmap);
->=20
-> If you decide to keep the copy_bitmap on the target, s/bs/target/.
-
-Ah, heck. Clearly I didn't test this error pathway either. I'll have to
-add some more tests to make sure the error recovery works right.
-
->=20
+> Ah, no.  This is necessary because the original sync bitmap was
+> discarded by bdrv_dirty_bitmap_abdicate().  So yep, these bits need to
+> go back into the sync bitmap then.
+> 
 > Max
->=20
+> 
+
+Yuh -- we actually want to clear the original bitmap for the 'always'
+case, which the "abdicate" handles for us. This ought to trigger only
+for the always case, so I think the conditional here is correct and as
+simple as it can be.
+
+Does your R-B stand?
+
+--js
 
