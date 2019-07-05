@@ -2,47 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D278560294
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:48:36 +0200 (CEST)
-Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769A16024F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 10:39:29 +0200 (CEST)
+Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjJtU-0006O3-1v
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
+	id 1hjJke-00040d-Mq
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 04:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdk-0003NV-C7
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:21 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdg-00063E-1n
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdj-0003ML-5A
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:20 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:44277)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdg-00063M-2i
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:19 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:39718)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdf-0005sj-Lm
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hjJdf-0005sh-Md
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 04:32:15 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id A8ECF12B07C;
- Fri,  5 Jul 2019 17:32:07 +0900 (JST)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 0E9AF4DEAD;
+ Fri,  5 Jul 2019 17:32:08 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 4442A240085;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id A0350240086;
  Fri,  5 Jul 2019 17:32:07 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:31:40 +0900
-Message-Id: <20190705083141.106254-22-ysato@users.sourceforge.jp>
+Date: Fri,  5 Jul 2019 17:31:41 +0900
+Message-Id: <20190705083141.106254-23-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190705083141.106254-1-ysato@users.sourceforge.jp>
 References: <20190705083141.106254-1-ysato@users.sourceforge.jp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.13
-Subject: [Qemu-devel] [PATCH v22 21/22] BootLinuxConsoleTest: Test the
- RX-Virt machine
+X-Received-From: 202.224.55.15
+Subject: [Qemu-devel] [PATCH v22 22/22] target/rx: remove unused functions.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,126 +50,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, imammedo@redhat.com
+Cc: peter.maydell@linaro.org, imammedo@redhat.com, richard.henderson@linaro.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Add two tests for the rx-virt machine, based on the recommended test
-setup from Yoshinori Sato:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
-
-- U-Boot prompt
-- Linux kernel with Sash shell
-
-These are very quick tests:
-
-  $ avocado run -t arch:rx tests/acceptance/boot_linux_console.py
-  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
-  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef=
-0/job.log
-   (1/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-uboot: PASS (0.11 s)
-   (2/2) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_rx_=
-linux: PASS (0.45 s)
-  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
-
-Tests can also be run with:
-
-  $ avocado --show=3Dconsole run -t arch:rx tests/acceptance/boot_linux_c=
-onsole.py
-  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:5=
-6:06 +0900)
-  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version =
-9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
-  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
-  ...
-  console: SuperH (H)SCI(F) driver initialized
-  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq =3D 215, base_baud =3D=
- 0) is a sci
-  console: console [ttySC0] enabled
-  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq =3D 219, base_baud =3D=
- 0) is a sci
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: 20190517045136.3509-1-richard.henderson@linaro.org
-"RX architecture support"
-
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- tests/acceptance/boot_linux_console.py | 46 ++++++++++++++++++++++++++++=
-++++++
- 1 file changed, 46 insertions(+)
+ target/rx/monitor.c     | 38 --------------------------------------
+ target/rx/Makefile.objs |  1 -
+ 2 files changed, 39 deletions(-)
+ delete mode 100644 target/rx/monitor.c
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index 32159503e9..19aab894d1 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -354,3 +354,49 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_rx_uboot(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        uboot_url =3D ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin=
-.gz')
-+        uboot_hash =3D '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
-+        uboot_path =3D self.fetch_asset(uboot_url, asset_hash=3Duboot_ha=
-sh)
-+        uboot_path =3D archive.uncompress(uboot_path, self.workdir)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        self.vm.add_args('-bios', uboot_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        uboot_version =3D 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
-+        self.wait_for_console_pattern(uboot_version)
-+        gcc_version =3D 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (expe=
-rimental)'
-+        # FIXME limit baudrate on chardev, else we type too fast
-+        #self.exec_command_and_wait_for_pattern('version', gcc_version)
-+
-+    def test_rx_linux(self):
-+        """
-+        :avocado: tags=3Darch:rx
-+        :avocado: tags=3Dmachine:rx-virt
-+        :avocado: tags=3Dendian:little
-+        """
-+        dtb_url =3D ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb'=
-)
-+        dtb_hash =3D '7b4e4e2c71905da44e86ce47adee2210b026ac18'
-+        dtb_path =3D self.fetch_asset(dtb_url, asset_hash=3Ddtb_hash)
-+        kernel_url =3D ('http://acc.dl.osdn.jp/users/23/23845/zImage')
-+        kernel_hash =3D '39a81067f8d72faad90866ddfefa19165d68fc99'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.vm.set_machine('rx-virt')
-+        self.vm.set_console()
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'early=
-con'
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Sash command shell (version 1.1.1=
-)')
-+        self.exec_command_and_wait_for_pattern('printenv',
-+                                               'TERM=3Dlinux')
---=20
+diff --git a/target/rx/monitor.c b/target/rx/monitor.c
+deleted file mode 100644
+index 5d7a1e58b5..0000000000
+--- a/target/rx/monitor.c
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/*
+- * QEMU monitor
+- *
+- * Copyright (c) 2003-2004 Fabrice Bellard
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a copy
+- * of this software and associated documentation files (the "Software"), to deal
+- * in the Software without restriction, including without limitation the rights
+- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+- * copies of the Software, and to permit persons to whom the Software is
+- * furnished to do so, subject to the following conditions:
+- *
+- * The above copyright notice and this permission notice shall be included in
+- * all copies or substantial portions of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+- * THE SOFTWARE.
+- */
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "monitor/monitor.h"
+-#include "monitor/hmp-target.h"
+-#include "hmp.h"
+-
+-void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+-{
+-    CPUArchState *env = mon_get_cpu_env();
+-
+-    if (!env) {
+-        monitor_printf(mon, "No CPU available\n");
+-        return;
+-    }
+-}
+diff --git a/target/rx/Makefile.objs b/target/rx/Makefile.objs
+index aa6f2d2d6c..a0018d5bc5 100644
+--- a/target/rx/Makefile.objs
++++ b/target/rx/Makefile.objs
+@@ -1,5 +1,4 @@
+ obj-y += translate.o op_helper.o helper.o cpu.o gdbstub.o disas.o
+-obj-$(CONFIG_SOFTMMU) += monitor.o
+ 
+ DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+ 
+-- 
 2.11.0
 
 
