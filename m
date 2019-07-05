@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D14F6045A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:20:58 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FC76045C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:22:08 +0200 (CEST)
+Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjLKr-00072R-47
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51552)
+	id 1hjLM0-00082D-1o
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hjLIU-0005WR-3R
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:18:32 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hjLJw-0006GQ-Ag
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hjLIM-0007tY-To
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:18:26 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45665)
+ (envelope-from <pbonzini@redhat.com>) id 1hjLJv-0003w3-Fj
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:20:00 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42293)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hjLIM-0007gE-Hn
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:18:22 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id f9so9323454wre.12
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wEfktrQywFhKxuIx8l/huyZVo0awGrzKRqSSmGMFpUE=;
- b=eMB/7OBnxgA9WpXA++JPO5mgJ8SqoI3KSJCmHuy1owARppjsKUi59/5sIlZ5FSYXCh
- sBWvhUcJvAmuYB5C/7dSgC663N1/oVDkp5t/noMJ2bAYLTXb1pxS8Qcvwal7QUpNf3UU
- JrVV54DSVFiY1IaAli5aY4Hd7zairZckMcKItlejs8r53PiQvVRVJveqX08DrjY4WW7n
- U+DO1WK0FBYQj0ThyRNp5lP/k/GsTDnhyIcSOnz7FJaXiRcQhFX33JdpX6ldDBWfd1BO
- /1dp47tngL9gnTLcZLol0A08Vn5f9MaThp+z+OQ4Sup9WuvZcMbpKQZv+qxNIpoouk3w
- n58w==
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hjLJv-0003sn-97
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:19:59 -0400
+Received: by mail-wr1-f66.google.com with SMTP id a10so8261296wrp.9
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:19:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wEfktrQywFhKxuIx8l/huyZVo0awGrzKRqSSmGMFpUE=;
- b=GFlUXhpd/6AYEg9OPpjsi++RO1P8l8WQ/SB6aMdpJ97684O01o2snoUXycGUXcbTEc
- kGKsLFWVj4hquDlcoTj5pQ2u67mErz0aJCP6SfE+zBnALff7lSADrFsceDGPgnkhxSSy
- sIL8LaJNOIfNnC7iSXqMQrc8FeXSKU6yP/9pKtSy3cnJWyacn5fiphwxEUilxYnxPocE
- MIvxy4sEMQIqKsBEduPyR5bVlh4iP4sl0PDXjOEk2KBCb84PrY4hAE8QkBhKw41JsRnD
- fS9Ppi5pOFQcFf1kJgvoMfWTm77AQqUdG+H5K8cNtqQS8bimjFkISewq/nYZEgFOJvGI
- zp+w==
-X-Gm-Message-State: APjAAAXEGQDoor4RyhtD0sbdo1JsoLt3gXV065F/HjsP+KTKbaItCOPI
- 7PokmsTx9qFOMlNmf9tm5MGLyg==
-X-Google-Smtp-Source: APXvYqzA0yCJdz+08cyRdXT4KeVq2zyrs9We8VIeIUmBqGtLvAamUhyqBUPkBXbiCHlOnZIfzsmy+w==
-X-Received: by 2002:adf:e50b:: with SMTP id j11mr3356743wrm.351.1562321897635; 
- Fri, 05 Jul 2019 03:18:17 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h133sm10380430wme.28.2019.07.05.03.18.17
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 03:18:17 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B578A1FF87;
- Fri,  5 Jul 2019 11:18:16 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Fri,  5 Jul 2019 11:18:16 +0100
-Message-Id: <20190705101816.10291-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=bly6fgPhRNa49Lllahy5LnB63+lFwEc5rVmnEblkrXI=;
+ b=qH6jp8rFScDLRNXSD/57Or/RtnFrsfx2914XPss2hF+83eAu4TjYzK80+NXuvAWDeT
+ fRVLsd/+xVggW1vMRpuX8VY35tRFHe6PsNU3LjJNyzBFKccmowemy5To8SAZ2Ym3WfmL
+ xyMXsetCILWZPnCSRgwaPdaD78tkNusZdHp0reWl/2mvsM7uonK/PH3Iu9ZXH6aXH8Sn
+ n6pCOKfsdIxIiHWqUhKhWoIrZIk6M5t2ODWA7mUBfPl2iN6LThhiEXryi4apSRNsxoxB
+ pOO24VfFs2kNgbjj4inDG3oGscMz1TAlxVxza2hXwjcysu3X9w5tQZB7KTFzyNp3Tn/N
+ Fa4Q==
+X-Gm-Message-State: APjAAAW8tTAcud0LDLJiGETYm5jNXeNbOn3PX/Gz1ool2HymvUsG9MaT
+ xRc5v6hvPno4JH/sQAZigWmoaU8WytM=
+X-Google-Smtp-Source: APXvYqy4NaPyIQtw/hQp/atg2zYKKtUkZZy0Q7P2u65AiVqO/hmr2RdYyBKICOr1/H24ghzuBjf5FQ==
+X-Received: by 2002:a5d:6447:: with SMTP id d7mr1942207wrw.108.1562321997359; 
+ Fri, 05 Jul 2019 03:19:57 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:19db:ad53:90ea:9423?
+ ([2001:b07:6468:f312:19db:ad53:90ea:9423])
+ by smtp.gmail.com with ESMTPSA id d9sm12182998wrb.71.2019.07.05.03.19.56
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 03:19:56 -0700 (PDT)
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
+ <156210201797.16064.1193142357173483033@c4a48874b076>
+ <20190702213824.GS5198@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a94d0cc2-cc2e-4337-4b1c-74bb8de30d95@redhat.com>
+Date: Fri, 5 Jul 2019 12:19:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42e
-Subject: [Qemu-devel] [PULL v3 00/19] testing/next for 4.1 (tests/vm,
- Travis and hyperv build fix)
+In-Reply-To: <20190702213824.GS5198@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] No symbols in LeakSanitizer output (was Re: [RFC
+ PATCH 0/7] target/i386: support VMX features in "-cpu")
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,83 +74,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 57dfc2c4d51e770ed3f617e5d1456d1e2bacf3f0:
+On 02/07/19 23:38, Eduardo Habkost wrote:
+> Can the asan build test in Patchew be updated to include
+> symbolize=1?
+> 
+> For reference, below is the full stack trace of the leak.  It
+> looks like it existed for a long time.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190704-1' into staging (2019-07-04 17:32:24 +0100)
+Sure, just add the "export" lines to tests/docker/test-debug and Patchew
+will pick them up automatically.
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-testing-next-050719-3
-
-for you to fetch changes up to 1f4abd81f7dfeb9d622b37368bef22a6481ebc66:
-
-  migration: move port_attr inside CONFIG_LINUX (2019-07-04 19:23:07 +0100)
-
-----------------------------------------------------------------
-Various testing fixes:
-
-   - tests/vm updates and clean-ups
-   - tests/vm serial autobuild on host (-netbsd v3)
-   - ensure MacOS builds do "brew update"
-   - ensure we test --static user builds
-   - fix hyperv compile failure
-   - fix missing var warning for OpenBSD (v2)
-
-This brings my testing back to green on all CI services. Please note
-the BSD installs will throw out some warnings during the setup phase.
-They shouldn't re-occur once the images are built. NetBSD has been
-dropped for now given slow install issues.
-
-----------------------------------------------------------------
-Alex Bennée (4):
-      .travis.yml: default the --disable-system build to --static
-      .travis.yml: force a brew update for MacOS builds
-      target/i386: fix feature check in hyperv-stub.c
-      migration: move port_attr inside CONFIG_LINUX
-
-Cleber Rosa (4):
-      tests/vm: avoid extra compressed image copy
-      tests/vm: avoid image presence check and removal
-      tests/vm: pin ubuntu.i386 image
-      tests/vm: add source repos on ubuntu.i386
-
-Gerd Hoffmann (10):
-      tests/vm: send proxy environment variables over ssh
-      tests/vm: use ssh with pty unconditionally
-      tests/vm: run test builds on snapshot
-      tests/vm: proper guest shutdown
-      tests/vm: add vm-boot-{ssh,serial}-<guest> targets
-      tests/vm: serial console support helpers
-      tests/vm: openbsd autoinstall, using serial console
-      tests/vm: freebsd autoinstall, using serial console
-      tests/vm: fedora autoinstall, using serial console
-      tests/vm: ubuntu.i386: apt proxy setup
-
-Philippe Mathieu-Daudé (1):
-      Makefile: Rename the 'vm-test' target as 'vm-help'
-
- .travis.yml               |   3 +-
- Makefile                  |   4 +-
- docs/devel/testing.rst    |   4 +-
- migration/rdma.c          |   3 +-
- target/i386/hyperv-stub.c |   2 +-
- tests/vm/Makefile.include |  28 ++++++-
- tests/vm/basevm.py        | 135 ++++++++++++++++++++++++++++-----
- tests/vm/centos           |   6 +-
- tests/vm/fedora           | 189 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/vm/freebsd          | 180 ++++++++++++++++++++++++++++++++++++++++---
- tests/vm/netbsd           |   6 +-
- tests/vm/openbsd          | 159 ++++++++++++++++++++++++++++++++++----
- tests/vm/ubuntu.i386      |  11 ++-
- 13 files changed, 667 insertions(+), 63 deletions(-)
- create mode 100755 tests/vm/fedora
-
---
-2.20.1
-
+Paolo
 
