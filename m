@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290D56071F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:03:12 +0200 (CEST)
-Received: from localhost ([::1]:53470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A576076B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:09:35 +0200 (CEST)
+Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjOnu-00050i-39
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44173)
+	id 1hjOu7-00015u-3Q
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hjOkK-0003SY-NI
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:59:30 -0400
+ (envelope-from <pagupta@redhat.com>) id 1hjOq6-0006Tj-48
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:05:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hjOkI-00035F-NM
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:59:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55890)
+ (envelope-from <pagupta@redhat.com>) id 1hjOq2-0002qY-9n
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:05:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54100)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hjOkG-0002k8-Nb
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:59:26 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hjOq0-0001vc-Py
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:05:21 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F3780307D840;
- Fri,  5 Jul 2019 13:59:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-90.ams2.redhat.com
- [10.36.116.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B60B7900CC;
- Fri,  5 Jul 2019 13:59:20 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F0F6B16E2D; Fri,  5 Jul 2019 15:59:19 +0200 (CEST)
-Date: Fri, 5 Jul 2019 15:59:19 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Message-ID: <20190705135919.vcm3n64qdyr3yrs4@sirius.home.kraxel.org>
-References: <99bb800cba3596e47d2681642116756330dc6f63.1562320946.git.balaton@eik.bme.hu>
+ by mx1.redhat.com (Postfix) with ESMTPS id 4150E85541;
+ Fri,  5 Jul 2019 14:04:48 +0000 (UTC)
+Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-58.sin2.redhat.com
+ [10.67.116.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA42C1B46C;
+ Fri,  5 Jul 2019 14:03:51 +0000 (UTC)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: dm-devel@redhat.com, linux-nvdimm@lists.01.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org
+Date: Fri,  5 Jul 2019 19:33:21 +0530
+Message-Id: <20190705140328.20190-1-pagupta@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99bb800cba3596e47d2681642116756330dc6f63.1562320946.git.balaton@eik.bme.hu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 05 Jul 2019 13:59:22 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Fri, 05 Jul 2019 14:05:04 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] ati-vga: Add registers for getting
- apertures
+Subject: [Qemu-devel] [PATCH v15 0/7] virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,47 +58,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: pagupta@redhat.com, rdunlap@infradead.org, jack@suse.cz, snitzer@redhat.com,
+ mst@redhat.com, jasowang@redhat.com, david@fromorbit.com,
+ lcapitulino@redhat.com, adilger.kernel@dilger.ca, zwisler@kernel.org,
+ aarcange@redhat.com, dave.jiang@intel.com, jstaron@google.com,
+ darrick.wong@oracle.com, vishal.l.verma@intel.com, david@redhat.com,
+ willy@infradead.org, hch@infradead.org, jmoyer@redhat.com, nilal@redhat.com,
+ lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com, yuval.shaia@oracle.com,
+ stefanha@redhat.com, pbonzini@redhat.com, dan.j.williams@intel.com,
+ kwolf@redhat.com, tytso@mit.edu, xiaoguangrong.eric@gmail.com,
+ cohuck@redhat.com, rjw@rjwysocki.net, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 05, 2019 at 12:02:26PM +0200, BALATON Zoltan wrote:
-> Some drivers (e.g. Linux radeon drm and MacOS) access these to find
-> apertures to access card. Try to implement these but not sure these
-> are correct yet.
+ Hi Dan,
 
-> +    case CONFIG_APER_SIZE:
-> +        val = s->vga.vram_size;
-> +        break;
+ This series has only change in patch 2 for linux-next build
+ failure. There is no functional change. Keeping all the
+ existing review/acks and reposting the patch series for
+ merging via libnvdimm tree.
+ ---
 
-Given the math linux is doing I don't think this is correct:
+ This patch series has implementation for "virtio pmem".=20
+ "virtio pmem" is fake persistent memory(nvdimm) in guest=20
+ which allows to bypass the guest page cache. This also
+ implements a VIRTIO based asynchronous flush mechanism. =20
+=20
+ Sharing guest kernel driver in this patchset with the=20
+ changes suggested in v4. Tested with Qemu side device=20
+ emulation [5] for virtio-pmem. Documented the impact of
+ possible page cache side channel attacks with suggested
+ countermeasures.
 
-static u32 r100_get_accessible_vram(struct radeon_device *rdev)
-{
-	u32 aper_size;
-	u8 byte;
+ Details of project idea for 'virtio pmem' flushing interface=20
+ is shared [3] & [4].
 
-	aper_size = RREG32(RADEON_CONFIG_APER_SIZE);
+ Implementation is divided into two parts:
+ New virtio pmem guest driver and qemu code changes for new=20
+ virtio pmem paravirtualized device.
 
-	[ ... ]
+1. Guest virtio-pmem kernel driver
+---------------------------------
+   - Reads persistent memory range from paravirt device and=20
+     registers with 'nvdimm_bus'. =20
+   - 'nvdimm/pmem' driver uses this information to allocate=20
+     persistent memory region and setup filesystem operations=20
+     to the allocated memory.=20
+   - virtio pmem driver implements asynchronous flushing=20
+     interface to flush from guest to host.
 
-	/* Single function older card. We read HDP_APER_CNTL to see how the BIOS
-	 * have set it up. We don't write this as it's broken on some ASICs but
-	 * we expect the BIOS to have done the right thing (might be too optimistic...)
-	 */
-	if (RREG32(RADEON_HOST_PATH_CNTL) & RADEON_HDP_APER_CNTL)
-		return aper_size * 2;
-	return aper_size;
-}
+2. Qemu virtio-pmem device
+---------------------------------
+   - Creates virtio pmem device and exposes a memory range to=20
+     KVM guest.=20
+   - At host side this is file backed memory which acts as=20
+     persistent memory.=20
+   - Qemu side flush uses aio thread pool API's and virtio=20
+     for asynchronous guest multi request handling.=20
 
-IIRC old ati cards had a pci bar twice the size of the vram, where the lower
-half of the pci bar was straight access to the video memory and the upper
-half byteswapped access.
+ Virtio-pmem security implications and countermeasures:
+ -----------------------------------------------------
 
-I think that is the background of the "aper_size * 2" logic above, and
-RADEON_HDP_APER_CNTL is probably a config bit for the behavior.
+ In previous posting of kernel driver, there was discussion [7]
+ on possible implications of page cache side channel attacks with=20
+ virtio pmem. After thorough analysis of details of known side=20
+ channel attacks, below are the suggestions:
 
-cheers,
-  Gerd
+ - Depends entirely on how host backing image file is mapped=20
+   into guest address space.=20
+
+ - virtio-pmem device emulation, by default shared mapping is used
+   to map host backing file. It is recommended to use separate
+   backing file at host side for every guest. This will prevent
+   any possibility of executing common code from multiple guests
+   and any chance of inferring guest local data based based on=20
+   execution time.
+
+ - If backing file is required to be shared among multiple guests=20
+   it is recommended to don't support host page cache eviction=20
+   commands from the guest driver. This will avoid any possibility
+   of inferring guest local data or host data from another guest.=20
+
+ - Proposed device specification [6] for virtio-pmem device with=20
+   details of possible security implications and suggested=20
+   countermeasures for device emulation.
+
+ Virtio-pmem errors handling:
+ ----------------------------------------
+  Checked behaviour of virtio-pmem for below types of errors
+  Need suggestions on expected behaviour for handling these errors?
+
+  - Hardware Errors: Uncorrectable recoverable Errors:=20
+  a] virtio-pmem:=20
+    - As per current logic if error page belongs to Qemu process,=20
+      host MCE handler isolates(hwpoison) that page and send SIGBUS.=20
+      Qemu SIGBUS handler injects exception to KVM guest.=20
+    - KVM guest then isolates the page and send SIGBUS to guest=20
+      userspace process which has mapped the page.=20
+ =20
+  b] Existing implementation for ACPI pmem driver:=20
+    - Handles such errors with MCE notifier and creates a list=20
+      of bad blocks. Read/direct access DAX operation return EIO=20
+      if accessed memory page fall in bad block list.
+    - It also starts backgound scrubbing. =20
+    - Similar functionality can be reused in virtio-pmem with MCE=20
+      notifier but without scrubbing(no ACPI/ARS)? Need inputs to=20
+      confirm if this behaviour is ok or needs any change?
+
+Changes from PATCH v13: [1]=20
+ - Rebase to Linux-5.2-rc7
+ - Fix Linux-next build failure for undefined type
+
+Changes from PATCH v13: [2]=20
+ - Rebased to Linux-5.2-rc5
+ - Fix S390x build failure in patch 3
+ - Fix for !CONFIG_DAX with dax_synchronous
+ - Fix sparse warning in virtio patch 2
+
+Changes from PATCH v12:
+ - Minor changes(function name, dev_err -> dev_info &=20
+   make function static in virtio patch - [Cornelia]
+ - Added r-o-b of Mike in patch 4
+
+Changes from PATCH v11:=20
+ - Change implmentation for setting of synchronous DAX type
+   for device mapper - [Mike]=20
+
+Changes from PATCH v10:
+ - Rebased on Linux-5.2-rc4
+
+Changes from PATCH v9:
+ - Kconfig help text add two spaces - Randy
+ - Fixed libnvdimm 'bio' include warning - Dan
+ - virtio-pmem, separate request/resp struct and=20
+   move to uapi file with updated license - DavidH
+ - Use virtio32* type for req/resp endianess - DavidH
+ - Added tested-by & ack-by of Jakob
+ - Rebased to 5.2-rc1
+
+Changes from PATCH v8:
+ - Set device mapper synchronous if all target devices support - Dan
+ - Move virtio_pmem.h to nvdimm directory  - Dan
+ - Style, indentation & better error messages in patch 2 - DavidH
+ - Added MST's ack in patch 2.
+
+Changes from PATCH v7:
+ - Corrected pending request queue logic (patch 2) - Jakub Staro=C5=84
+ - Used unsigned long flags for passing DAXDEV_F_SYNC (patch 3) - Dan
+ - Fixed typo =3D>  vma 'flag' to 'vm_flag' (patch 4)
+ - Added rob in patch 6 & patch 2
+
+Changes from PATCH v6:=20
+ - Corrected comment format in patch 5 & patch 6. [Dave]
+ - Changed variable declaration indentation in patch 6 [Darrick]
+ - Add Reviewed-by tag by 'Jan Kara' in patch 4 & patch 5
+
+Changes from PATCH v5:=20
+  Changes suggested in by - [Cornelia, Yuval]
+- Remove assignment chaining in virtio driver
+- Better error message and remove not required free
+- Check nd_region before use
+
+  Changes suggested by - [Jan Kara]
+- dax_synchronous() for !CONFIG_DAX
+- Correct 'daxdev_mapping_supported' comment and non-dax implementation
+
+  Changes suggested by - [Dan Williams]
+- Pass meaningful flag 'DAXDEV_F_SYNC' to alloc_dax
+- Gate nvdimm_flush instead of additional async parameter
+- Move block chaining logic to flush callback than common nvdimm_flush
+- Use NULL flush callback for generic flush for better readability [Dan, =
+Jan]
+
+- Use virtio device id 27 from 25(already used) - [MST]
+
+Changes from PATCH v4:
+- Factor out MAP_SYNC supported functionality to a common helper
+				[Dave, Darrick, Jan]
+- Comment, indentation and virtqueue_kick failure handle - Yuval Shaia
+
+Changes from PATCH v3:=20
+- Use generic dax_synchronous() helper to check for DAXDEV_SYNC=20
+  flag - [Dan, Darrick, Jan]
+- Add 'is_nvdimm_async' function
+- Document page cache side channel attacks implications &=20
+  countermeasures - [Dave Chinner, Michael]
+
+Changes from PATCH v2:=20
+- Disable MAP_SYNC for ext4 & XFS filesystems - [Dan]=20
+- Use name 'virtio pmem' in place of 'fake dax'=20
+
+Changes from PATCH v1:=20
+- 0-day build test for build dependency on libnvdimm=20
+
+ Changes suggested by - [Dan Williams]
+- Split the driver into two parts virtio & pmem =20
+- Move queuing of async block request to block layer
+- Add "sync" parameter in nvdimm_flush function
+- Use indirect call for nvdimm_flush
+- Don=E2=80=99t move declarations to common global header e.g nd.h
+- nvdimm_flush() return 0 or -EIO if it fails
+- Teach nsio_rw_bytes() that the flush can fail
+- Rename nvdimm_flush() to generic_nvdimm_flush()
+- Use 'nd_region->provider_data' for long dereferencing
+- Remove virtio_pmem_freeze/restore functions
+- Remove BSD license text with SPDX license text
+
+- Add might_sleep() in virtio_pmem_flush - [Luiz]
+- Make spin_lock_irqsave() narrow
+
+Pankaj Gupta (7):
+   libnvdimm: nd_region flush callback support
+   virtio-pmem: Add virtio-pmem guest driver
+   libnvdimm: add nd_region buffered dax_dev flag
+   dax: check synchronous mapping is supported
+   dm: dm: Enable synchronous dax
+   ext4: disable map_sync for virtio pmem
+   xfs: disable map_sync for virtio pmem
+
+[1] https://lkml.org/lkml/2019/6/21/452
+[2] https://lkml.org/lkml/2019/6/12/624
+[3] https://www.spinics.net/lists/kvm/msg149761.html
+[4] https://www.spinics.net/lists/kvm/msg153095.html =20
+[5] https://marc.info/?l=3Dqemu-devel&m=3D155860751202202&w=3D2
+[6] https://lists.oasis-open.org/archives/virtio-dev/201903/msg00083.html
+[7] https://lkml.org/lkml/2019/1/9/1191
+
+ drivers/acpi/nfit/core.c         |    4 -
+ drivers/dax/bus.c                |    2=20
+ drivers/dax/super.c              |   19 +++++
+ drivers/md/dm-table.c            |   24 +++++--
+ drivers/md/dm.c                  |    5 -
+ drivers/md/dm.h                  |    5 +
+ drivers/nvdimm/Makefile          |    1=20
+ drivers/nvdimm/claim.c           |    6 +
+ drivers/nvdimm/nd.h              |    1=20
+ drivers/nvdimm/nd_virtio.c       |  125 ++++++++++++++++++++++++++++++++=
++++++++
+ drivers/nvdimm/pmem.c            |   18 +++--
+ drivers/nvdimm/region_devs.c     |   33 +++++++++-
+ drivers/nvdimm/virtio_pmem.c     |  122 ++++++++++++++++++++++++++++++++=
+++++++
+ drivers/nvdimm/virtio_pmem.h     |   55 +++++++++++++++++
+ drivers/s390/block/dcssblk.c     |    2=20
+ drivers/virtio/Kconfig           |   11 +++
+ fs/ext4/file.c                   |   10 +--
+ fs/xfs/xfs_file.c                |    9 +-
+ include/linux/dax.h              |   41 ++++++++++++
+ include/linux/libnvdimm.h        |   10 ++-
+ include/uapi/linux/virtio_ids.h  |    1=20
+ include/uapi/linux/virtio_pmem.h |   34 ++++++++++
+ 22 files changed, 504 insertions(+), 34 deletions(-)
+
+
 
 
