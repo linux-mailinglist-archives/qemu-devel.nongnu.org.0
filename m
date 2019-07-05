@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C9C60170
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:27:13 +0200 (CEST)
-Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F8A60175
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:27:34 +0200 (CEST)
+Received: from localhost ([::1]:50100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjIch-0007xj-SW
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
+	id 1hjId4-0000Nv-4N
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <klaus@birkelund.eu>) id 1hjIZZ-0005HB-MI
+ (envelope-from <klaus@birkelund.eu>) id 1hjIZZ-0005Gz-Lb
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:24:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <klaus@birkelund.eu>) id 1hjIZY-0005kJ-3j
+ (envelope-from <klaus@birkelund.eu>) id 1hjIZX-0005k5-UF
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:23:57 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50492)
+Received: from charlie.dont.surf ([128.199.63.193]:50494)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <klaus@birkelund.eu>)
- id 1hjIZV-0005fg-2h; Fri, 05 Jul 2019 03:23:53 -0400
+ id 1hjIZV-0005fm-1a; Fri, 05 Jul 2019 03:23:53 -0400
 Received: from localhost.localdomain (ip-5-186-120-196.cgn.fibianet.dk
  [5.186.120.196])
- by charlie.dont.surf (Postfix) with ESMTPSA id 18B1ABF607;
- Fri,  5 Jul 2019 07:23:49 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id D78D1BF644;
+ Fri,  5 Jul 2019 07:23:50 +0000 (UTC)
 From: Klaus Birkelund Jensen <klaus@birkelund.eu>
 To: qemu-block@nongnu.org
-Date: Fri,  5 Jul 2019 09:23:17 +0200
-Message-Id: <20190705072333.17171-1-klaus@birkelund.eu>
+Date: Fri,  5 Jul 2019 09:23:18 +0200
+Message-Id: <20190705072333.17171-2-klaus@birkelund.eu>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190705072333.17171-1-klaus@birkelund.eu>
+References: <20190705072333.17171-1-klaus@birkelund.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 128.199.63.193
-Subject: [Qemu-devel] [PATCH 00/16] nvme: support NVMe v1.3d,
- SGLs and multiple namespaces
+Subject: [Qemu-devel] [PATCH 01/16] nvme: simplify namespace code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,77 +52,109 @@ Cc: kwolf@redhat.com, matt.fitzpatrick@oakgatetech.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matt Fitzpatrick's post ("[RFC,v1] Namespace Management Support") pushed
-me to finally get my head out of my a** and post this series.
+The device model currently only supports a single namespace and also
+specifically sets num_namespaces to 1. Take this into account and
+simplify the code.
 
-This is basically a follow-up to my previous series ("nvme: v1.3, sgls,
-metadata and new 'ocssd' device"), but I'm not tagging it as a v2
-because the patches for metadata and the ocssd device have been dropped.
-Instead, this series also includes a patch that enables support for
-multiple namespaces in a "proper" way by adding a new 'nvme-ns' device
-model such that the "real" nvme device is composed of the 'nvme' device
-model (the core controller) and multiple 'nvme-ns' devices that model
-the namespaces.
+Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
+---
+ hw/block/nvme.c | 26 +++++++-------------------
+ hw/block/nvme.h |  2 +-
+ 2 files changed, 8 insertions(+), 20 deletions(-)
 
-All in all, the patches in this series should be less controversial, but
-I know there is a lot to go through. I've kept commit 011de3d531b6
-("nvme: refactor device realization") as a single commit, but I can chop
-it up if any reviwers would prefer that, but the series is already at 16
-patches. The refactor patch is basically just code movement.
-
-At a glance, this series:
-
-  - generally fixes up the device to be as close to NVMe 1.3d compliant a=
-s
-    possible (in terms of 'mandatory' features) by:
-      - adding proper setting of the SUBNQN and VER fields
-      - supporting the Abort command
-      - supporting the Asynchronous Event Request command
-      - supporting the Get Log Page command
-      - providing reasonable stub responses to Get/Set Feature command of
-        mandatory features
-  - adds support for scatter gather lists (SGLs)
-  - simplifies DMA/CMB mappings and support PRPs/SGLs in the CMB
-  - adds support for multiple block requests per nvme request (this is
-    useful for future support for metadata, OCSSD 2.0 vector requests
-    and upcoming zoned namespaces)
-  - adds support for multiple namespaces
-
-
-Thanks to everyone who chipped in on the discussion on multiple
-namespaces! You're CC'ed ;)
-
-
-Klaus Birkelund Jensen (16):
-  nvme: simplify namespace code
-  nvme: move device parameters to separate struct
-  nvme: fix lpa field
-  nvme: add missing fields in identify controller
-  nvme: populate the mandatory subnqn and ver fields
-  nvme: support completion queue in cmb
-  nvme: support Abort command
-  nvme: refactor device realization
-  nvme: support Asynchronous Event Request command
-  nvme: support Get Log Page command
-  nvme: add missing mandatory Features
-  nvme: bump supported NVMe revision to 1.3d
-  nvme: simplify dma/cmb mappings
-  nvme: support multiple block requests per request
-  nvme: support scatter gather lists
-  nvme: support multiple namespaces
-
- block/nvme.c           |   18 +-
- hw/block/Makefile.objs |    2 +-
- hw/block/nvme-ns.c     |  139 ++++
- hw/block/nvme-ns.h     |   35 +
- hw/block/nvme.c        | 1629 ++++++++++++++++++++++++++++++++--------
- hw/block/nvme.h        |   99 ++-
- hw/block/trace-events  |   24 +-
- include/block/nvme.h   |  130 +++-
- 8 files changed, 1739 insertions(+), 337 deletions(-)
- create mode 100644 hw/block/nvme-ns.c
- create mode 100644 hw/block/nvme-ns.h
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 36d6a8bb3a3e..28ebaf1368b1 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -424,7 +424,7 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeCmd *cmd=
+, NvmeRequest *req)
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
+=20
+-    ns =3D &n->namespaces[nsid - 1];
++    ns =3D &n->namespace;
+     switch (cmd->opcode) {
+     case NVME_CMD_FLUSH:
+         return nvme_flush(n, ns, cmd, req);
+@@ -670,7 +670,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIde=
+ntify *c)
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
+=20
+-    ns =3D &n->namespaces[nsid - 1];
++    ns =3D &n->namespace;
+=20
+     return nvme_dma_read_prp(n, (uint8_t *)&ns->id_ns, sizeof(ns->id_ns)=
+,
+         prp1, prp2);
+@@ -1306,8 +1306,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+ {
+     NvmeCtrl *n =3D NVME(pci_dev);
+     NvmeIdCtrl *id =3D &n->id_ctrl;
++    NvmeIdNs *id_ns =3D &n->namespace.id_ns;
+=20
+-    int i;
+     int64_t bs_size;
+     uint8_t *pci_conf;
+=20
+@@ -1347,7 +1347,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
+**errp)
+     n->reg_size =3D pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
+     n->ns_size =3D bs_size / (uint64_t)n->num_namespaces;
+=20
+-    n->namespaces =3D g_new0(NvmeNamespace, n->num_namespaces);
+     n->sq =3D g_new0(NvmeSQueue *, n->num_queues);
+     n->cq =3D g_new0(NvmeCQueue *, n->num_queues);
+=20
+@@ -1416,20 +1415,10 @@ static void nvme_realize(PCIDevice *pci_dev, Erro=
+r **errp)
+=20
+     }
+=20
+-    for (i =3D 0; i < n->num_namespaces; i++) {
+-        NvmeNamespace *ns =3D &n->namespaces[i];
+-        NvmeIdNs *id_ns =3D &ns->id_ns;
+-        id_ns->nsfeat =3D 0;
+-        id_ns->nlbaf =3D 0;
+-        id_ns->flbas =3D 0;
+-        id_ns->mc =3D 0;
+-        id_ns->dpc =3D 0;
+-        id_ns->dps =3D 0;
+-        id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
+-        id_ns->ncap  =3D id_ns->nuse =3D id_ns->nsze =3D
+-            cpu_to_le64(n->ns_size >>
+-                id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)].ds)=
+;
+-    }
++    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
++    id_ns->ncap  =3D id_ns->nuse =3D id_ns->nsze =3D
++        cpu_to_le64(n->ns_size >>
++            id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)].ds);
+ }
+=20
+ static void nvme_exit(PCIDevice *pci_dev)
+@@ -1437,7 +1426,6 @@ static void nvme_exit(PCIDevice *pci_dev)
+     NvmeCtrl *n =3D NVME(pci_dev);
+=20
+     nvme_clear_ctrl(n);
+-    g_free(n->namespaces);
+     g_free(n->cq);
+     g_free(n->sq);
+=20
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 557194ee1954..40cedb1ec932 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -83,7 +83,7 @@ typedef struct NvmeCtrl {
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+=20
+     char            *serial;
+-    NvmeNamespace   *namespaces;
++    NvmeNamespace   namespace;
+     NvmeSQueue      **sq;
+     NvmeCQueue      **cq;
+     NvmeSQueue      admin_sq;
 --=20
 2.20.1
 
