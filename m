@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A67060CAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:46:59 +0200 (CEST)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9055960CD0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:50:29 +0200 (CEST)
+Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjV6f-0000D7-RQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
+	id 1hjVA4-0003tx-QG
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiH-0002PV-AG
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiH-0002QM-JI
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiG-0001cT-FD
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUiG-0001ck-KM
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:45 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39479)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36495)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUiG-0001b7-6I
+ id 1hjUiG-0001bh-Dp
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:21:44 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id z23so10800666wma.4
+Received: by mail-wr1-x444.google.com with SMTP id n4so11049419wrs.3
  for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id;
- bh=YKQVzgq3S8pbHfjxunqcgSDhYJoFnQL+HqhuUJeM31w=;
- b=YcRMO2xuF/PGz4izIJ33oJsb5r1HuQd7mOW0zsdRczOF/WFYsrm8p+kiuzMUeUHam2
- 1DMSV0bsZZQkQZIbJLYhObPK7/autPJIvtyEf5j8bvBBLyUzU5D9DPb0VojMPek/yx5I
- 1gnyYg6NH+5BxqaGcAXPkGUMPHqEZooRgSb54LMmoSlGWHh1r5AnezRUHSwrtnMi0jc6
- NHNWI4IJSEgb7MiY7Ah8DAhMPGhiYqKoBYq8L4RqeWR9buDg6e18jslubUYY5VJdASea
- DGH5X+HeX+0JbnP22cIqcxj5v9chve/krihycZ92zeJQHrF/xmlVrP2rxS/jpC0hDD3e
- BhSw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=1Q2/Kno8eBtSRnDs1aukgO8GHqqzId6Tt8OoZfKY3WI=;
+ b=aRICEbgUlenPNq03o1RTqWe1mKxm+raDhHJlmoxHE8wBYhlnCtsg2ANxxnGctl+yS3
+ mofc0FY7YL1JLwR1dKBVXojjC3BgQujgbu4dEm/MOl1K/j2VdToNdQy3lX/7AiAfMEYE
+ 1W9q4IqYRRTGysMaHtPigxnABrs5DJVkL4omA0cx+ydi1yqYEoH1QNrC9Dk8w8VJ7Qru
+ XdI2YluuWGY8NhIhHCgyeTcjLJCzFULdHVUQSQEtzohR4BNmIY9EZg97mzisHvdi/Put
+ eZyX2OedrFrU1P3wbMLeqIlPKe1rxd9Zm+OnBu6SOmFzkbJdnM5KYq7zO/vrj7EIqrX0
+ SoLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id;
- bh=YKQVzgq3S8pbHfjxunqcgSDhYJoFnQL+HqhuUJeM31w=;
- b=L0qQl3vDAo3X33SNrRrBRwRspxctwqZDfCxFY82Mxz2QaW4t8SQ5GsvH3wMlSKnwKM
- KnMQJYc10YQ2UX+67wUV1uY0CdNA0o9ZjxIYWXE9TOUqRX5taI5FXeuPUZruy6va9LlR
- KcQi46HQWxjEbu5/0qUG6Fb7Y8tnqiNP5gIadQX3X5evw2WyBgVD1pY8w02S8D20AQqI
- rbOb9rC+Zk7+FS5ae0kbiympWLSe/mQxS/x2AsEb9ywhCYQyZzwQdBhXBxcoXQasatQy
- S/fBAPfHD3Kuopurvir/IXgNNXcXFGjW2SgY2XVMpht7S9Q/dZhNunxo/mui8CUwEC7Q
- qmCg==
-X-Gm-Message-State: APjAAAXjtm98A14V43CTIGDvq56RnYUodo0CjU5C4pSSHXN0nGQngMDa
- RbGwLaLdfyh7FnYooWhgszEQpp6Jceg=
-X-Google-Smtp-Source: APXvYqwGF8reefmdYF95hIC3k2rFbuF4xWS3wak7WZAeqX8/fHz8igfCTxccEBnF8J1LA6XgLIdCJQ==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr4265723wmc.110.1562358102083; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=1Q2/Kno8eBtSRnDs1aukgO8GHqqzId6Tt8OoZfKY3WI=;
+ b=Ekh5aeTFacomAoZirfDVUM9WZNqGknUWBjKgmryAbLIm1W7dixvmqLcUL99CGwEniR
+ RxlQWSK6nOAk3fgYREF6WmgbsOvQWfev0Jt6vRqL/bmHOA0fmt9eYLtDCvVdYvejVy3o
+ ntydLKJH1TUSQcFcvc2leO/JdNSykwon7aM2qpVENkJUtDJ4yG+OSsUZwg8s3r0W+Pso
+ kP9OxSyph2egT18O2Hc6/Dz+LjK0oo/PdbVF8MQP2Fl3dWNP3QdlLPOABlSBWz7PgVmI
+ v1WMf1YfeqT7HnITPX4dGhElOMAYIeSW8/XTsK/mhSIj8vhcpCQX73bS9m6MrcsiQdRd
+ 5Vkw==
+X-Gm-Message-State: APjAAAWG40ZyEtNjFwx2t6iSpjlbxDiwsxxOesJtNcaWj7aRoyVthiqI
+ mjyc+yvRMHIp5eTS0T6g7bqEt2pdOo8=
+X-Google-Smtp-Source: APXvYqxMIHhSaWL2xz/FwhURU4L/+LoNQILntLn8Ja33W+VgMpvfu+6h8OKKDCNYFx3EGkLxolN4PA==
+X-Received: by 2002:a5d:4c86:: with SMTP id z6mr5531462wrs.330.1562358102956; 
  Fri, 05 Jul 2019 13:21:42 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id l9sm5582926wmh.36.2019.07.05.13.21.41
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id l9sm5582926wmh.36.2019.07.05.13.21.42
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 13:21:41 -0700 (PDT)
+ Fri, 05 Jul 2019 13:21:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:21:38 +0200
-Message-Id: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 22:21:39 +0200
+Message-Id: <1562358100-27171-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
+References: <1562358100-27171-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PATCH v3 0/2] hw/i386: Fix linker error when ISAPC is
- disabled
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 1/2] Makefile: generate header file with the
+ list of devices enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,21 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Julio Montes <julio.montes@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3 fixes the issue pointed out by Patchew and Philippe.
+From: Julio Montes <julio.montes@intel.com>
 
-Julio Montes (2):
-  Makefile: generate header file with the list of devices enabled
-  hw/i386: Fix linker error when ISAPC is disabled
+v2: generate config-devices.h which contains the list of devices enabled
 
- Makefile.target       |  4 ++++
- hw/i386/pc_piix.c     | 12 +++++++++---
- scripts/create_config |  2 ++
- 3 files changed, 15 insertions(+), 3 deletions(-)
+Message-Id: <20190705143554.10295-1-julio.montes@intel.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Julio Montes <julio.montes@intel.com>
+---
+ Makefile.target       | 4 ++++
+ scripts/create_config | 2 ++
+ 2 files changed, 6 insertions(+)
 
+diff --git a/Makefile.target b/Makefile.target
+index 72c267f..7154e99 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -45,6 +45,9 @@ include $(SRC_PATH)/tests/tcg/Makefile.include
+ config-target.h: config-target.h-timestamp
+ config-target.h-timestamp: config-target.mak
+ 
++config-devices.h: config-devices.h-timestamp
++config-devices.h-timestamp: config-devices.mak
++
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ stap: $(QEMU_PROG).stp-installed $(QEMU_PROG).stp $(QEMU_PROG)-simpletrace.stp $(QEMU_PROG)-log.stp
+ 
+@@ -168,6 +171,7 @@ obj-y += hw/$(TARGET_BASE_ARCH)/
+ endif
+ 
+ generated-files-y += hmp-commands.h hmp-commands-info.h
++generated-files-y += config-devices.h
+ 
+ endif # CONFIG_SOFTMMU
+ 
+diff --git a/scripts/create_config b/scripts/create_config
+index d727e5e..00e86c8 100755
+--- a/scripts/create_config
++++ b/scripts/create_config
+@@ -58,6 +58,8 @@ case $line in
+     name=${line%=*}
+     echo "#define $name 1"
+     ;;
++ CONFIG_*=n) # configuration
++    ;;
+  CONFIG_*=*) # configuration
+     name=${line%=*}
+     value=${line#*=}
 -- 
 1.8.3.1
+
 
 
