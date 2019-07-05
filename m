@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D78F6062D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 14:49:35 +0200 (CEST)
-Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6E260685
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 15:21:40 +0200 (CEST)
+Received: from localhost ([::1]:53142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjNeg-0000Mb-Gl
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 08:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56789)
+	id 1hjO9j-0005R8-FP
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 09:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36100)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjNaf-0007My-Je
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 08:45:26 -0400
+ (envelope-from <bounces@canonical.com>) id 1hjO87-0004MF-Na
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjNac-00066Y-Lc
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 08:45:24 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43631)
+ (envelope-from <bounces@canonical.com>) id 1hjO83-0004r9-Qk
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:19:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37524)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjNab-0005pd-Ab
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 08:45:22 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p13so9785211wru.10
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 05:45:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5ZM4aqF6lfbJWO2ZTt7CeV3eGrZxp5R0ZeCOE1k4Nio=;
- b=o8vGxQb4fQHbloAOl93iF95OWLLP+ppq1dammO9gWsWXYXBDeE8tgi/pAc4eP0j4rU
- wnv/o3DgwPPQcix1aBKD0x7dtPDPsXFS7Es4BuqEvK0RvOUKeGNo4vbS5DjVO9h6o3WB
- 0GSVnkGtIYePuINgaYzfZBz57TQw8pQ+0mnki1rQ8iWZaMakx95mMctAut8Qh5zockFR
- 1sKcq0jTc0gt7dr2+vfApmWQA8/skwTOOXAKsbXt8FXYaKXNH6wM1Tglcuhy0l6mHjG4
- 8fmq/lavKZ132ngwBtmh+3oo2pBmprccaFUUoCSL1Nj8A9CAgB/JuJtX57VTLooOuv66
- rHiw==
-X-Gm-Message-State: APjAAAXQD2gjnsq2egHaFWwYURvlzLNNiqbocd4gC0If9AO+JHrB9q8o
- 99v9tCVn9oIAIBNCcKnIISq11Q==
-X-Google-Smtp-Source: APXvYqyWhluM5dF20uilV4CjoWUpOLf+gqGOkSsgMMl0GzNG8onBYAhbrOc+XovPnUV5/nK09PEKYQ==
-X-Received: by 2002:adf:e708:: with SMTP id c8mr3031565wrm.25.1562330719332;
- Fri, 05 Jul 2019 05:45:19 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id x83sm8987408wmb.42.2019.07.05.05.45.18
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 05:45:18 -0700 (PDT)
-To: qemu-devel@nongnu.org
-References: <20190705124318.1075-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <db75031d-e9af-c349-903f-276ec92f850d@redhat.com>
-Date: Fri, 5 Jul 2019 14:45:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hjO81-0004Nb-Dm
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:19:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hjO7x-0008D0-5h
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:19:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1BA662E80D2
+ for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 13:19:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190705124318.1075-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jul 2019 13:06:53 -0000
+From: Ari Sundholm <1462640@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor megari th-huth v-adrien
+X-Launchpad-Bug-Reporter: AH (v-adrien)
+X-Launchpad-Bug-Modifier: Ari Sundholm (megari)
+References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
+Message-Id: <156233201336.2726.2829300029753713180.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 56f037e8266f6bdd86b6fd4f81f1e7218c7d4c13
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH] target/arm/vfp_helper: Call
- set_fpscr_to_host before updating to FPSCR
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,49 +64,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct subject: "Call set_fpscr_to_host before updating FPSCR reg"
-(or without "reg").
+I can confirm that this bug still exists in the current qemu master
+(short commit ID 0050f9978e):
 
-On 7/5/19 2:43 PM, Philippe Mathieu-Daudé wrote:
-> In commit e9d652824b0 we extracted the vfp_set_fpscr_to_host()
-> function but failed at calling it in the correct place, we call
-> it after xregs[ARM_VFP_FPSCR] is modified.
-> 
-> Fix by calling this function before we update FPSCR.
-> 
-> Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  target/arm/vfp_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-> index 46041e3294..9710ef1c3e 100644
-> --- a/target/arm/vfp_helper.c
-> +++ b/target/arm/vfp_helper.c
-> @@ -197,6 +197,8 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
->          val &= 0xf7c0009f;
->      }
->  
-> +    vfp_set_fpscr_to_host(env, val);
-> +
->      /*
->       * We don't implement trapped exception handling, so the
->       * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
-> @@ -217,8 +219,6 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
->      env->vfp.qc[1] = 0;
->      env->vfp.qc[2] = 0;
->      env->vfp.qc[3] = 0;
-> -
-> -    vfp_set_fpscr_to_host(env, val);
->  }
->  
->  void vfp_set_fpscr(CPUARMState *env, uint32_t val)
-> 
+~/qemu$ gcc -m32 shm_bug.c -o shm_bug32
+shm_bug.c: In function =E2=80=98main=E2=80=99:
+shm_bug.c:12:24: warning: initialization makes pointer from integer without=
+ a cast [-Wint-conversion]
+       const void *at =3D 0x7f7df38ea000;
+                        ^~~~~~~~~~~~~~
+~/qemu$ i386-linux-user/qemu-i386 ./shm_bug32 =
+
+got err 0, ptr 0xffffffff
+ari@ari-thinkpad:~/qemu$ gcc shm_bug.c -o shm_bug64
+shm_bug.c: In function =E2=80=98main=E2=80=99:
+shm_bug.c:12:24: warning: initialization makes pointer from integer without=
+ a cast [-Wint-conversion]
+       const void *at =3D 0x7f7df38ea000;
+                        ^~~~~~~~~~~~~~
+~/qemu$ x86_64-linux-user/qemu-x86_64 ./shm_bug64 =
+
+got err 0, ptr 0x7f7df38ea000
+ari@ari-thinkpad:~/qemu$ =
+
+
+Additionally, running each executable directly on a 64-bit Ubuntu 18.04
+system, we can see that the behavior of the 32-bit binary differs
+between qemu-i386 and native, while that of the 64-bit binary does not:
+
+~/qemu$ ./shm_bug32 =
+
+got err 0, ptr 0xf38ea000
+~/qemu$ ./shm_bug64
+got err 0, ptr 0x7f7df38ea000
+~/qemu$ =
+
+
+
+** Changed in: qemu
+       Status: Expired =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1462640
+
+Title:
+  shmat fails on 32-to-64 setup
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  =
+
+  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
+he program fails on a call to shmat() reproducibly. when digging into this =
+problem, I could make a small guest POC that fails when compiled as i386 (-=
+m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
+ has to do with mmap flags.
+
+  From what I can understand, when running 32bits guests programs, qemu
+  reserve the whole guest virtual space with an mmap call. That mmap
+  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
+  part of that region MAP_SHARED and that fails.
+
+  As a possible fix, it looks like it is possible to first unmap the shm
+  region before calling shmat.
+
+  steps to reproduce: =
+
+  1 - create a file shm.c with content below
+  2 - compile with: gcc -m32 shm.c -o shm32
+  3 - run on a x86_64 host: qemu-i386 ./shm32 =
+
+  4 - observe shmat fails, by returning ptr -1
+
+  5- compile without -m32: : gcc shm.c -o shm64
+  6 - observe it pass: qemu-x84_64 ./shm64
+
+
+  #include <sys/ipc.h>
+  #include <sys/shm.h>
+  #include <sys/mman.h>
+  #include <stdio.h>
+
+  int main()
+  {
+      struct shmid_ds shm_desc;
+      int err =3D 0;
+      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
+      err =3D shmctl(id, IPC_STAT, &shm_desc);
+      const void *at =3D 0x7f7df38ea000;
+      void* ptr =3D shmat(id, at, 0);
+      printf( "got err %d, ptr %p\n", err, ptr );
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
