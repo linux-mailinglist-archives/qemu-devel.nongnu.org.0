@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1523A606ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 15:55:54 +0200 (CEST)
-Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413F5606F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 15:57:18 +0200 (CEST)
+Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjOgr-0007L4-8t
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 09:55:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42340)
+	id 1hjOiD-0000YS-Fs
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 09:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43008)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hjObh-0003RQ-63
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:50:38 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hjOf4-0006L4-Ra
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:54:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hjOba-0007un-Es
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:50:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47922)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hjObV-0006tB-CR; Fri, 05 Jul 2019 09:50:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AB9C5882EF;
- Fri,  5 Jul 2019 13:50:12 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-154.brq.redhat.com
- [10.40.204.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B01176AD2D;
- Fri,  5 Jul 2019 13:50:08 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190703155944.9637-7-mlevitsk@redhat.com>
- <20190703160754.12361-1-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <456c2c44-6a67-08c4-c1c0-210ac9c50deb@redhat.com>
-Date: Fri, 5 Jul 2019 15:50:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <no-reply@patchew.org>) id 1hjOf0-0005QF-8a
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:54:00 -0400
+Resent-Date: Fri, 05 Jul 2019 09:54:00 -0400
+Resent-Message-Id: <E1hjOf0-0005QF-8a@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21834)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hjOf0-0005HI-0Q
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:53:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562334816; cv=none; d=zoho.com; s=zohoarc; 
+ b=dZE45MJPTP/yrILvmjS2TJLL5YOCUlun2g0AX+5q4JwCmSrkm8nQ1GzRILFmdQEe2FTBVk2zMvhzFTOz6pZh2lrVU6UXbIdAv8leH865OrBWibBQKKOGGVQlaR1pk3/OJTEVg8wtibW5GrDuKJzm+XzrCmRQU738mk+z1m80nmo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562334816;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=yi/0ee1tBySIqLYM1sph1RdgGeCpsNysh6lzpdOMXak=; 
+ b=A05thifB53iWXGULkWjr8Ln0qKSqCt31quo22s0RPCDd8pCBBp6u6Z9PvpJiCsxsqp3V1Ci/2Gxtns2KA60PFyTksZbCk/HSzdW48jQAxamhJgPY7GuELY5g8P6b8KtPay+XDeJ57jMuvaIYSx1TqztqA1fUh6RDmEIXIIdFFWw=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562334813817307.3279396231785;
+ Fri, 5 Jul 2019 06:53:33 -0700 (PDT)
+Message-ID: <156233481261.3870.3482817842344020269@c4a48874b076>
+In-Reply-To: <20190705083141.106254-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-In-Reply-To: <20190703160754.12361-1-mlevitsk@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ywrmSUJVlhpUufmiXiPUwlr6Gvl3ytKDP"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 05 Jul 2019 13:50:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Fri, 5 Jul 2019 06:53:33 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4] block/nvme: add support for discard
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v22 00/22] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,190 +61,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ysato@users.sourceforge.jp,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, imammedo@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ywrmSUJVlhpUufmiXiPUwlr6Gvl3ytKDP
-Content-Type: multipart/mixed; boundary="PYzIvp4wRjlfLAxel2fTRWhqlv7UBxCzg";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>
-Message-ID: <456c2c44-6a67-08c4-c1c0-210ac9c50deb@redhat.com>
-Subject: Re: [PATCH v4] block/nvme: add support for discard
-References: <20190703155944.9637-7-mlevitsk@redhat.com>
- <20190703160754.12361-1-mlevitsk@redhat.com>
-In-Reply-To: <20190703160754.12361-1-mlevitsk@redhat.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwNTA4MzE0MS4xMDYy
+NTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
+UEFUQ0ggdjIyIDAwLzIyXSBBZGQgUlggYXJjaHRlY3R1cmUgc3VwcG9ydApNZXNzYWdlLWlkOiAy
+MDE5MDcwNTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcAoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2
+L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBi
+YXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKN2I2YzY3MiB0YXJnZXQvcng6IHJlbW92ZSB1bnVzZWQgZnVuY3Rpb25zLgpmNjMxZjI2
+IEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKYWU5NTZjMCBB
+ZGQgcngtc29mdG1tdQpmMzJmYTZmIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9jb250
+cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZQoyZTRiM2E3IGh3L3J4OiBIb25vciAtYWNjZWwg
+cXRlc3QKMzMxMzJhZiBody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KMDM3YjVm
+NyBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkKYWY2
+MDhmZiBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwo2MWMyYTkzIGh3L2lu
+dGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKQoxN2RmYjcxIHRhcmdldC9yeDog
+RHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQo0NjRiMjRkIHRhcmdl
+dC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CmI2MDgxN2EgdGFyZ2V0
+L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUgcHJ0KCkKYTY4NTJhOSB0YXJnZXQvcng6
+IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseQo4NWJkOWI4IHRhcmdldC9yeDog
+UmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCjFlOGY2YTggdGFy
+Z2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKN2NjOWM4YSB0
+YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo0NjAxMzMzIHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
+b24KMjg4NTg2ZCB0YXJnZXQvcng6IFRDRyBoZWxwZXIKZjZlNjQxMyB0YXJnZXQvcng6IFRDRyB0
+cmFuc2xhdGlvbgpjYThmMzhmIGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAxNmJp
+dCByZWdpc3RlciBtYWNyb3MKMmI5MTc4NSBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDggYW5k
+IGV4dHJhY3QxNgpkZTAzYjJlIE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVHSU4g
+PT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IGRlMDNiMmVhZGJiYiAoTUFJTlRBSU5FUlM6IEFkZCBS
+WCkKMi8yMiBDaGVja2luZyBjb21taXQgMmI5MTc4NTg5YjY2IChxZW11L2JpdG9wcy5oOiBBZGQg
+ZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgY2E4ZjM4Zjg0YjE1
+IChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFjcm9z
+KQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBzdHJp
+bmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDY3LgpFUlJPUjogTWFjcm9zIHdp
+dGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdoaWxl
+IGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVmaW5l
+IFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9IChh
+ZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJl
+IGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9yZWdp
+c3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMjIHJl
+ZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwK
+KyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3JzLCAw
+IHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNvbW1pdCBmNmU2NDEzZjVkOWMgKHRhcmdldC9yeDog
+VENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMp
+LCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAw
+NjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1pdCAy
+ODg1ODZkMWRlZGIgKHRhcmdldC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjU6
+IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2NDkg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzIy
+IENoZWNraW5nIGNvbW1pdCA0NjAxMzMzNWJlZmUgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRpb24p
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzI5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgNjIyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVja2luZyBjb21taXQgN2NjOWM4YTEyNDJmICh0YXJn
+ZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQg
+ZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBt
+b2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2luZyBj
+b21taXQgMWU4ZjZhODliNzMzICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2FkZHIg
+aW50byBhIHN0cmluZykKOS8yMiBDaGVja2luZyBjb21taXQgODViZDliODdiZGNmICh0YXJnZXQv
+cng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAvMjIg
+Q2hlY2tpbmcgY29tbWl0IGE2ODUyYTliNDU3ZCAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkgZm9y
+IFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCBiNjA4MTdhY2E1MmEg
+KHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBDaGVj
+a2luZyBjb21taXQgNDY0YjI0ZDc4MmM2ICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1
+cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hlY2tpbmcgY29tbWl0IDE3ZGZiNzE1NzcwYyAodGFy
+Z2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQoxNC8y
+MiBDaGVja2luZyBjb21taXQgNjFjMmE5MzNjMGQyIChody9pbnRjOiBSWDYyTiBpbnRlcnJ1cHQg
+Y29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUo
+cyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9kZSAx
+MDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQyIGxpbmVzIGNoZWNrZWQKClBh
+dGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNvbW1p
+dCBhZjYwOGZmMzI5ZTcgKGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVzKQpX
+QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
+IG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDgzOSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVja2luZyBjb21taXQgMDM3YjVmN2MwNDc2IChody9j
+aGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5JTkc6
+IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
+cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMzk4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNvbW1pdCAzMzEzMmFmYTA0ZDAgKGh3L3J4OiBSWCBU
+YXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
+ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjY6IApuZXcgZmls
+ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0NzkgbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggMTcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTgvMjIgQ2hlY2tp
+bmcgY29tbWl0IDJlNGIzYTdjNDJjMyAoaHcvcng6IEhvbm9yIC1hY2NlbCBxdGVzdCkKMTkvMjIg
+Q2hlY2tpbmcgY29tbWl0IGYzMmZhNmZlMzY2NyAoaHcvcng6IFJlc3RyaWN0IHRoZSBSWDYyTiBt
+aWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBDaGVja2luZyBjb21t
+aXQgYWU5NTZjMGFlNTg4IChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9y
+IGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjE6IApu
+ZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA3MyBsaW5l
+cyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMS8yMiBD
+aGVja2luZyBjb21taXQgZjYzMWYyNjQ4ZTdhIChCb290TGludXhDb25zb2xlVGVzdDogVGVzdCB0
+aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBDaGVja2luZyBjb21taXQgN2I2YzY3MmEzM2VlICh0
+YXJnZXQvcng6IHJlbW92ZSB1bnVzZWQgZnVuY3Rpb25zLikKV0FSTklORzogYWRkZWQsIG1vdmVk
+IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6
+IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
+NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMi8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9
+PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcw
+NTA4MzE0MS4xMDYyNTQtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNr
+cGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
+IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
+ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
---PYzIvp4wRjlfLAxel2fTRWhqlv7UBxCzg
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 03.07.19 18:07, Maxim Levitsky wrote:
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  block/nvme.c       | 81 ++++++++++++++++++++++++++++++++++++++++++++++=
-
->  block/trace-events |  2 ++
->  2 files changed, 83 insertions(+)
->=20
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 02e0846643..96a715dcc1 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-
-[...]
-
-> @@ -460,6 +461,7 @@ static void nvme_identify(BlockDriverState *bs, int=
- namespace, Error **errp)
->                            s->page_size / sizeof(uint64_t) * s->page_si=
-ze);
-> =20
->      s->supports_write_zeros =3D (idctrl->oncs & NVME_ONCS_WRITE_ZEROS)=
- !=3D 0;
-> +    s->supports_discard =3D (idctrl->oncs & NVME_ONCS_DSM) !=3D 0;
-
-Shouldn=E2=80=99t this be le16_to_cpu(idctrl->oncs)?  Same in the previou=
-s
-patch, now that I think about it.
-
-> =20
->      memset(resp, 0, 4096);
-> =20
-> @@ -1149,6 +1151,84 @@ static coroutine_fn int nvme_co_pwrite_zeroes(Bl=
-ockDriverState *bs,
->  }
-> =20
-> =20
-> +static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
-> +                                         int64_t offset,
-> +                                         int bytes)
-> +{
-> +    BDRVNVMeState *s =3D bs->opaque;
-> +    NVMeQueuePair *ioq =3D s->queues[1];
-> +    NVMeRequest *req;
-> +    NvmeDsmRange *buf;
-> +    QEMUIOVector local_qiov;
-> +    int r;
-> +
-> +    NvmeCmd cmd =3D {
-> +        .opcode =3D NVME_CMD_DSM,
-> +        .nsid =3D cpu_to_le32(s->nsid),
-> +        .cdw10 =3D 0, /*number of ranges - 0 based*/
-
-I=E2=80=99d make this cpu_to_le32(0).  Sure, there is no effect for 0, bu=
-t in
-theory this is a variable value, so...
-
-> +        .cdw11 =3D cpu_to_le32(1 << 2), /*deallocate bit*/
-> +    };
-> +
-> +    NVMeCoData data =3D {
-> +        .ctx =3D bdrv_get_aio_context(bs),
-> +        .ret =3D -EINPROGRESS,
-> +    };
-> +
-> +    if (!s->supports_discard) {
-> +        return -ENOTSUP;
-> +    }
-> +
-> +    assert(s->nr_queues > 1);
-> +
-> +    buf =3D qemu_try_blockalign0(bs, 4096);
-
-I=E2=80=99m not sure whether this needs to be 4096 or whether 16 would su=
-ffice,
- but I suppose this gets us the least trouble.
-
-> +    if (!buf) {
-> +            return -ENOMEM;
-
-Indentation is off.
-
-> +    }
-> +
-> +    buf->nlb =3D cpu_to_le32(bytes >> s->blkshift);
-> +    buf->slba =3D cpu_to_le64(offset >> s->blkshift);
-> +    buf->cattr =3D 0;
-> +
-> +    qemu_iovec_init(&local_qiov, 1);
-> +    qemu_iovec_add(&local_qiov, buf, 4096);
-> +
-> +    req =3D nvme_get_free_req(ioq);
-> +    assert(req);
-> +
-> +    qemu_co_mutex_lock(&s->dma_map_lock);
-> +    r =3D nvme_cmd_map_qiov(bs, &cmd, req, &local_qiov);
-> +    qemu_co_mutex_unlock(&s->dma_map_lock);
-> +
-> +    if (r) {
-> +        req->busy =3D false;
-> +        return r;
-
-Leaking buf and local_qiov here.
-
-> +    }
-> +
-> +    trace_nvme_dsm(s, offset, bytes);
-> +
-> +    nvme_submit_command(s, ioq, req, &cmd, nvme_rw_cb, &data);
-> +
-> +    data.co =3D qemu_coroutine_self();
-> +    while (data.ret =3D=3D -EINPROGRESS) {
-> +        qemu_coroutine_yield();
-> +    }
-> +
-> +    qemu_co_mutex_lock(&s->dma_map_lock);
-> +    r =3D nvme_cmd_unmap_qiov(bs, &local_qiov);
-> +    qemu_co_mutex_unlock(&s->dma_map_lock);
-> +    if (r) {
-> +        return r;
-
-Leaking buf and local_qiov here, too.
-
-Max
-
-> +    }
-> +
-> +    trace_nvme_dsm_done(s, offset, bytes, data.ret);
-> +
-> +    qemu_iovec_destroy(&local_qiov);
-> +    qemu_vfree(buf);
-> +    return data.ret;
-> +
-> +}
-> +
-> +
->  static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
->                                 BlockReopenQueue *queue, Error **errp)
->  {
-
-
---PYzIvp4wRjlfLAxel2fTRWhqlv7UBxCzg--
-
---ywrmSUJVlhpUufmiXiPUwlr6Gvl3ytKDP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0fVY8ACgkQ9AfbAGHV
-z0DB5wf/UM9K8BJWH1YhNVP4VU/gitQWsF7bMHgowaTXB+JTbR5bqmrkcCnikhuq
-fPvWBtSN5Zop+tlv8adIQ2ZqLzLgc9CtgsLtJCt17uhb1WEQfb0weTxGZs1IxqkR
-X8ZZoBQTJzlgeRvqrKjYPGJLq38l6lwuvPDd3HDp8CQJUbLfHHY5M82dnkRsrRj+
-iHiEcYt4zsxeJX282oCUbCGYT4Vd6r3A0viH3iQWzEYSwSL1ycHn6y5ljxiNw/eK
-AnvwLnnsFBsyEflwMb03C0QCxgBjw2wscKF5AUkuqXvXfg3KIju/nqGhhLoxuIrh
-8b//OpBnl+SeEGfHT8JiPyajZ987Aw==
-=fx5e
------END PGP SIGNATURE-----
-
---ywrmSUJVlhpUufmiXiPUwlr6Gvl3ytKDP--
 
