@@ -2,62 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43A7609F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 18:06:18 +0200 (CEST)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6942B6097E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:42:59 +0200 (CEST)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQj2-0002xr-An
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 12:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38401)
+	id 1hjQMS-0000wo-Sa
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35473)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hjQXv-0003NZ-8B
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:54:49 -0400
+ (envelope-from <berrange@redhat.com>) id 1hjQLe-0000G4-4F
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:42:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hjQXu-0005lN-4L
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:54:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39058)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hjQXt-0005Xg-UV
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:54:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hjQXq-0000Ht-P6
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 15:54:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BAE7F2E80CC
- for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 15:54:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jul 2019 15:38:59 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
+ (envelope-from <berrange@redhat.com>) id 1hjQLc-0001OU-QH
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:42:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42058)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hjQLc-0001An-IG
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:42:04 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id DD3BE301E111;
+ Fri,  5 Jul 2019 15:42:01 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-48.ams2.redhat.com
+ [10.36.112.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9073E772A7;
+ Fri,  5 Jul 2019 15:41:56 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: mips testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee janitor laurent-vivier megari th-huth
- v-adrien
-X-Launchpad-Bug-Reporter: AH (v-adrien)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
-Message-Id: <156234113927.23172.14823419525649045791.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: bb096c1a180145a4102b398142924ce5e3d656e8
+Date: Fri,  5 Jul 2019 16:41:54 +0100
+Message-Id: <20190705154154.9305-1-berrange@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 05 Jul 2019 15:42:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3] doc: document that the monitor console is a
+ privileged control interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,70 +55,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ P J P <ppandit@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think analysis in comment #1 is correct: If I use "shmat(id, at,
-SHM_REMAP)" it works.
+A supposed exploit of QEMU was recently announced as CVE-2019-12928
+claiming that the monitor console was insecure because the "migrate"
+command enabled arbitrary command execution for a remote attacker.
 
--- =
+To be a security risk the user launching QEMU must have configured
+the monitor in a way that allows for other users to access it. The
+exploit report quoted use of the "tcp" character device backend for
+QMP.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1462640
+This would indeed allow any network user to connect to QEMU and
+execute arbitrary commands, however, this is not a flaw in QEMU.
+It is the normal expected behaviour of the monitor console and the
+commands it supports. Given a monitor connection, there are many
+ways to access host file system content besides the migrate command.
 
-Title:
-  shmat fails on 32-to-64 setup
+The reality is that the monitor console (whether QMP or HMP) is
+considered a privileged interface to QEMU and as such must only
+be made available to trusted users. IOW, making it available with
+no authentication over TCP is simply a, very serious, user
+configuration error not a security flaw in QEMU itself.
 
-Status in QEMU:
-  Confirmed
+The one thing this bogus security report highlights though is that
+we have not clearly documented the security implications around the
+use of the monitor. Add a few paragraphs of text to the security
+docs explaining why the monitor is a privileged interface and making
+a recommendation to only use the UNIX socket character device backend.
 
-Bug description:
-  =
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
 
-  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
-he program fails on a call to shmat() reproducibly. when digging into this =
-problem, I could make a small guest POC that fails when compiled as i386 (-=
-m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
- has to do with mmap flags.
+Changed in v3:
 
-  From what I can understand, when running 32bits guests programs, qemu
-  reserve the whole guest virtual space with an mmap call. That mmap
-  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
-  part of that region MAP_SHARED and that fails.
+ - More copy editing from review feedback (Markus, PJP, Alex)
 
-  As a possible fix, it looks like it is possible to first unmap the shm
-  region before calling shmat.
+Changed in v2:
 
-  steps to reproduce: =
+ - Addressed misc typos (Eric / Philippe)
 
-  1 - create a file shm.c with content below
-  2 - compile with: gcc -m32 shm.c -o shm32
-  3 - run on a x86_64 host: qemu-i386 ./shm32 =
+ docs/security.texi | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-  4 - observe shmat fails, by returning ptr -1
+diff --git a/docs/security.texi b/docs/security.texi
+index 927764f1e6..0d6b30edfc 100644
+--- a/docs/security.texi
++++ b/docs/security.texi
+@@ -129,3 +129,39 @@ those resources that were granted to it.
+ system calls that are not needed by QEMU, thereby reducing the host kern=
+el
+ attack surface.
+ @end itemize
++
++@section Sensitive configurations
++
++There are aspects of QEMU that can have security implications which user=
+s &
++management applications must be aware of.
++
++@subsection Monitor console (QMP and HMP)
++
++The monitor console (whether used with QMP or HMP) provides an interface
++to dynamically control many aspects of QEMU's runtime operation. Many of=
+ the
++commands exposed will instruct QEMU to access content on the host file s=
+ystem
++and/or trigger spawning of external processes.
++
++For example, the @code{migrate} command allows for the spawning of arbit=
+rary
++processes for the purpose of tunnelling the migration data stream. The
++@code{blockdev-add} command instructs QEMU to open arbitrary files, expo=
+sing
++their content to the guest as a virtual disk.
++
++Unless QEMU is otherwise confined using technologies such as SELinux, Ap=
+pArmor,
++or Linux namespaces, the monitor console should be considered to have pr=
+ivileges
++equivalent to those of the user account QEMU is running under.
++
++It is further important to consider the security of the character device=
+ backend
++over which the monitor console is exposed. It needs to have protection a=
+gainst
++malicious third parties which might try to make unauthorized connections=
+, or
++perform man-in-the-middle attacks. Many of the character device backends=
+ do not
++satisfy this requirement and so must not be used for the monitor console=
+.
++
++The general recommendation is that the monitor console should be exposed=
+ over
++a UNIX domain socket backend to the local host only. Use of the TCP base=
+d
++character device backend is inappropriate unless configured to use both =
+TLS
++encryption and authorization control policy on client connections.
++
++In summary, the monitor console is considered a privileged control inter=
+face to
++QEMU and as such should only be made accessible to a trusted management
++application or user.
+--=20
+2.21.0
 
-  5- compile without -m32: : gcc shm.c -o shm64
-  6 - observe it pass: qemu-x84_64 ./shm64
-
-
-  #include <sys/ipc.h>
-  #include <sys/shm.h>
-  #include <sys/mman.h>
-  #include <stdio.h>
-
-  int main()
-  {
-      struct shmid_ds shm_desc;
-      int err =3D 0;
-      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
-      err =3D shmctl(id, IPC_STAT, &shm_desc);
-      const void *at =3D 0x7f7df38ea000;
-      void* ptr =3D shmat(id, at, 0);
-      printf( "got err %d, ptr %p\n", err, ptr );
-  }
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
