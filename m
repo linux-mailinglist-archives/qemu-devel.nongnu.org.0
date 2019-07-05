@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6213607C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:22:24 +0200 (CEST)
-Received: from localhost ([::1]:53674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AB760800
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:38:24 +0200 (CEST)
+Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjP6V-0005J2-Sv
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48945)
+	id 1hjPLx-0002P1-Da
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51446)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjP4h-0003m6-R1
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:20:32 -0400
+ (envelope-from <julio.montes@intel.com>) id 1hjPK6-0001MQ-Ub
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:36:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjP4e-0000IH-Ju
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:20:30 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:56154)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjP4e-0008WC-9G
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:20:28 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so9058209wmj.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 07:20:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kxWgxblh8sq4nVjKmliUU8hXIg5TI3gyeCWkzDz7y/A=;
- b=TGj312/ofirQMrJofBM90CRvyjEJtEB49Qo0XAziAcHzBbEr6F/RF0JPtT5gmoxI5V
- rYurP5riUQPOpkaLt31eQd8FoaB6i9zW9wAx0qx67/erVoR7wJyE2W2M3NIBQ1FxPwGI
- hnozSL6bKjVSp+Prkttb7bLN8f4QEkRgs6DDCIOxf7pM0VsLOrxxACLAgecfy9l8kV+p
- OEqsKzczIdSIuoSioF5OncRTlBtneYqgGvWxAY9/tsuFZQxGL3eekGG4bXd30E+6dZor
- OEFPZDt5QRAjkQe4I5EM/CeDuyA7DS1j9lxBiRC2dm7cFIH2VQYUq4hx+B4/R0QmlyiK
- wt7w==
-X-Gm-Message-State: APjAAAUV1Vqgw2xAdyWZo2rRO3stkLprp6/im0OKEtP8YT/KC4QJa6hb
- d9h0B2U+pgD/j9wtAmGZLqnkfQ==
-X-Google-Smtp-Source: APXvYqxswceVMUwjetkS1ZBWqByoy07gDbaUsDzHRQogdyl99zD3NSZcGQKjHjuRxUrwBCRjQZLB8A==
-X-Received: by 2002:a7b:cae9:: with SMTP id t9mr3766568wml.126.1562336425261; 
- Fri, 05 Jul 2019 07:20:25 -0700 (PDT)
-Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id z9sm11912887wrs.14.2019.07.05.07.20.24
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 07:20:24 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190705132954.19500-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <fee81cc5-dff4-3edc-c871-769f52912acc@redhat.com>
-Date: Fri, 5 Jul 2019 16:20:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190705132954.19500-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH for 4.1] gdbstub: revert to previous
- set_reg behaviour
+ (envelope-from <julio.montes@intel.com>) id 1hjPK2-0000Qf-Vg
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:36:24 -0400
+Received: from mga01.intel.com ([192.55.52.88]:33639)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <julio.montes@intel.com>)
+ id 1hjPK2-0008Cw-NQ
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:36:22 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Jul 2019 07:36:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,455,1557212400"; d="scan'208";a="164878137"
+Received: from unknown (HELO fedora.zpn.intel.com.) ([10.219.4.39])
+ by fmsmga008.fm.intel.com with ESMTP; 05 Jul 2019 07:36:13 -0700
+From: Julio Montes <julio.montes@intel.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  5 Jul 2019 14:35:53 +0000
+Message-Id: <20190705143554.10295-1-julio.montes@intel.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20190703154958.29004-1-julio.montes@intel.com>
+References: <20190703154958.29004-1-julio.montes@intel.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
+Subject: [Qemu-devel] [PATCH v2 1/2] Makefile: generate header file with the
+ list of devices enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +53,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jon Doron <arilou@gmail.com>
+Cc: Julio Montes <julio.montes@intel.com>, pbonzini@redhat.com,
+ sgarzare@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/19 3:29 PM, Alex Bennée wrote:
-> The refactoring of handle_set_reg missed the fact we previously had
-> responded with an empty packet when we were not using XML based
-> protocols. This broke the fallback behaviour for architectures that
-> don't have registers defined in QEMU's gdb-xml directory.
-> 
-> Revert to the previous behaviour and clean up the commentary for what
-> is going on.
-> 
-> Fixes: 62b3320bddd
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Jon Doron <arilou@gmail.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  gdbstub.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/gdbstub.c b/gdbstub.c
-> index ea3349d1aa..b6df7ee25a 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -1669,12 +1669,23 @@ static void handle_remove_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
->      put_packet(gdb_ctx->s, "E22");
->  }
->  
-> +/*
-> + * handle_set/get_reg
-> + *
-> + * Older gdb are really dumb, and don't use 'G/g' if 'P/p' is available.
-> + * This works, but can be very slow. Anything new enough to understand
-> + * XML also knows how to use this properly. However to use this we
-> + * need to define a local XML file as well as be talking to a
-> + * reasonably modern gdb. Responding with an empty packet will cause
-> + * the remote gdb to fallback to older methods.
-> + */
-> +
->  static void handle_set_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
->  {
->      int reg_size;
->  
->      if (!gdb_has_xml) {
-> -        put_packet(gdb_ctx->s, "E00");
-> +        put_packet(gdb_ctx->s, "");
->          return;
->      }
->  
-> @@ -1694,11 +1705,6 @@ static void handle_get_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
->  {
->      int reg_size;
->  
-> -    /*
-> -     * Older gdb are really dumb, and don't use 'g' if 'p' is avaialable.
-> -     * This works, but can be very slow.  Anything new enough to
-> -     * understand XML also knows how to use this properly.
-> -     */
->      if (!gdb_has_xml) {
->          put_packet(gdb_ctx->s, "");
->          return;
-> 
+v2: generate config-devices.h which contains the list of devices enabled
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+config-devices.h is an auto-generated header file that will use
+config-devices.mak to define the list of devices enabled.
+Configs that are set to 'n' are ignored.
+
+Signed-off-by: Julio Montes <julio.montes@intel.com>
+---
+ Makefile.target        | 5 +++++
+ scripts/clean-includes | 2 +-
+ scripts/create_config  | 2 ++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile.target b/Makefile.target
+index a6919e0caf..65eda0994d 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -45,6 +45,9 @@ include $(SRC_PATH)/tests/tcg/Makefile.include
+ config-target.h: config-target.h-timestamp
+ config-target.h-timestamp: config-target.mak
+
++config-devices.h: config-devices.h-timestamp
++config-devices.h-timestamp: config-devices.mak
++
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ stap: $(QEMU_PROG).stp-installed $(QEMU_PROG).stp $(QEMU_PROG)-simpletrace.stp $(QEMU_PROG)-log.stp
+
+@@ -170,6 +173,8 @@ generated-files-y += hmp-commands.h hmp-commands-info.h
+
+ endif # CONFIG_SOFTMMU
+
++generated-files-y += config-devices.h
++
+ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
+
+diff --git a/scripts/clean-includes b/scripts/clean-includes
+index dd938daa3e..fb05a639d5 100755
+--- a/scripts/clean-includes
++++ b/scripts/clean-includes
+@@ -161,7 +161,7 @@ for f in "$@"; do
+   # Remove includes that osdep.h already provides
+   perl -n -i -e 'print if !/\s*#\s*include\s*(["<][^>"]*[">])/ ||
+                           ! (grep { $_ eq $1 } qw (
+-           "config-host.h" "config-target.h" "qemu/compiler.h"
++           "config-host.h" "config-target.h" "config-devices.h" "qemu/compiler.h"
+            <setjmp.h> <stdarg.h> <stddef.h> <stdbool.h> <stdint.h> <sys/types.h>
+            <stdlib.h> <stdio.h> <string.h> <strings.h> <inttypes.h>
+            <limits.h> <unistd.h> <time.h> <ctype.h> <errno.h> <fcntl.h>
+diff --git a/scripts/create_config b/scripts/create_config
+index d727e5e36e..00e86c82b0 100755
+--- a/scripts/create_config
++++ b/scripts/create_config
+@@ -58,6 +58,8 @@ case $line in
+     name=${line%=*}
+     echo "#define $name 1"
+     ;;
++ CONFIG_*=n) # configuration
++    ;;
+  CONFIG_*=*) # configuration
+     name=${line%=*}
+     value=${line#*=}
+--
+2.17.2
 
