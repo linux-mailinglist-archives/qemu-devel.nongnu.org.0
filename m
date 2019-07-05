@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D990260683
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 15:21:10 +0200 (CEST)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8C56068E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 15:25:19 +0200 (CEST)
+Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjO9G-0004f8-10
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 09:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35944)
+	id 1hjODF-0007EQ-4w
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 09:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36763)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hjO7S-0003kC-BR
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:19:22 -0400
+ (envelope-from <groug@kaod.org>) id 1hjOBs-0006dR-8j
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:23:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hjO7O-0001bn-Pv
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:19:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46344)
+ (envelope-from <groug@kaod.org>) id 1hjOBq-0005nX-5y
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:23:52 -0400
+Received: from 13.mo5.mail-out.ovh.net ([87.98.182.191]:42111)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hjO7O-00016g-HY
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:19:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1747D30C0DE1
- for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 13:19:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4337D1001925;
- Fri,  5 Jul 2019 13:19:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C4CBC1132ABF; Fri,  5 Jul 2019 15:19:01 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-References: <20190703171005.26231-1-philmd@redhat.com>
- <20190703172501.GI23082@redhat.com>
- <20190704102457.GE1609@stefanha-x1.localdomain>
- <20190704102837.GA24190@redhat.com>
- <20190705080717.GD10995@stefanha-x1.localdomain>
- <8470a203-430b-1814-b2ef-6adf3fa739a6@redhat.com>
-Date: Fri, 05 Jul 2019 15:19:01 +0200
-In-Reply-To: <8470a203-430b-1814-b2ef-6adf3fa739a6@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 5 Jul 2019 11:48:51
- +0200")
-Message-ID: <87d0iok4ai.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hjOBm-0005DO-C2
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 09:23:47 -0400
+Received: from player760.ha.ovh.net (unknown [10.108.42.192])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id A972123BBAF
+ for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 15:23:41 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player760.ha.ovh.net (Postfix) with ESMTPSA id 43AE87A32412;
+ Fri,  5 Jul 2019 13:23:34 +0000 (UTC)
+Date: Fri, 5 Jul 2019 15:23:32 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190705152332.40126a76@bahia.lan>
+In-Reply-To: <c0ab62c0-b170-2c11-221f-b46b1ba4339f@linux.vnet.ibm.com>
+References: <156033104292.26635.15759339817253067370.stgit@aravinda>
+ <156033126489.26635.3005245220857933178.stgit@aravinda>
+ <20190702035105.GG6779@umbus.fritz.box>
+ <fa2b5983-7cad-9679-489f-c273bd8216fb@linux.vnet.ibm.com>
+ <20190703030334.GF9442@umbus.fritz.box>
+ <a43707b0-8059-b2bd-a461-9f6de3285d8f@linux.vnet.ibm.com>
+ <20190704010714.GS9442@umbus.fritz.box>
+ <d5c75742-4f45-2f26-3837-098e8710ccd9@linux.vnet.ibm.com>
+ <20190705010755.GA3266@umbus.fritz.box>
+ <c0ab62c0-b170-2c11-221f-b46b1ba4339f@linux.vnet.ibm.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 05 Jul 2019 13:19:08 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 5718727102572960148
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrfeeggdeigecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH-for-4.2] tracing: Allow to tune tracing
- options via the environment
+X-Received-From: 87.98.182.191
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v10 2/6] ppc: spapr: Introduce
+ FWNMI capability
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,170 +65,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On Fri, 5 Jul 2019 16:49:17 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
-> On 7/5/19 10:07 AM, Stefan Hajnoczi wrote:
->> On Thu, Jul 04, 2019 at 11:28:37AM +0100, Daniel P. Berrang=C3=A9 wrote:
->>> On Thu, Jul 04, 2019 at 11:24:57AM +0100, Stefan Hajnoczi wrote:
->>>> On Wed, Jul 03, 2019 at 06:25:01PM +0100, Daniel P. Berrang=C3=A9 wrot=
-e:
->>>>> On Wed, Jul 03, 2019 at 07:10:05PM +0200, Philippe Mathieu-Daud=C3=A9=
- wrote:
->>>>>> We can pass trace trace options with the -trace command line
->>>>>> argument.
->>>>>>=20
->>>>>> Tracing might be useful when running qtests. To avoid to have
->>>>>> to modify the tests and recompile, add the possibility to pass
->>>>>> trace options via the shell environment.
+> 
+> 
+> On Friday 05 July 2019 06:37 AM, David Gibson wrote:
+> > On Thu, Jul 04, 2019 at 10:33:11AM +0530, Aravinda Prasad wrote:
+> >>
+> >>
+> >> On Thursday 04 July 2019 06:37 AM, David Gibson wrote:
+> >>> On Wed, Jul 03, 2019 at 02:58:24PM +0530, Aravinda Prasad wrote:
+> >>>>
+> >>>>
+> >>>> On Wednesday 03 July 2019 08:33 AM, David Gibson wrote:
+> >>>>> On Tue, Jul 02, 2019 at 11:54:26AM +0530, Aravinda Prasad wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On Tuesday 02 July 2019 09:21 AM, David Gibson wrote:
+> >>>>>>> On Wed, Jun 12, 2019 at 02:51:04PM +0530, Aravinda Prasad wrote:
+> >>>>>>>> Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
+> >>>>>>>> the KVM causes guest exit with NMI as exit reason
+> >>>>>>>> when it encounters a machine check exception on the
+> >>>>>>>> address belonging to a guest. Without this capability
+> >>>>>>>> enabled, KVM redirects machine check exceptions to
+> >>>>>>>> guest's 0x200 vector.
+> >>>>>>>>
+> >>>>>>>> This patch also introduces fwnmi-mce capability to
+> >>>>>>>> deal with the case when a guest with the
+> >>>>>>>> KVM_CAP_PPC_FWNMI capability enabled is attempted
+> >>>>>>>> to migrate to a host that does not support this
+> >>>>>>>> capability.
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> >>>>>>>> ---
+> >>>>>>>>  hw/ppc/spapr.c         |    1 +
+> >>>>>>>>  hw/ppc/spapr_caps.c    |   26 ++++++++++++++++++++++++++
+> >>>>>>>>  include/hw/ppc/spapr.h |    4 +++-
+> >>>>>>>>  target/ppc/kvm.c       |   19 +++++++++++++++++++
+> >>>>>>>>  target/ppc/kvm_ppc.h   |   12 ++++++++++++
+> >>>>>>>>  5 files changed, 61 insertions(+), 1 deletion(-)
+> >>>>>>>>
+> >>>>>>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> >>>>>>>> index 6dd8aaa..2ef86aa 100644
+> >>>>>>>> --- a/hw/ppc/spapr.c
+> >>>>>>>> +++ b/hw/ppc/spapr.c
+> >>>>>>>> @@ -4360,6 +4360,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+> >>>>>>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
+> >>>>>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+> >>>>>>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
+> >>>>>>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
+> >>>>>>>>      spapr_caps_add_properties(smc, &error_abort);
+> >>>>>>>>      smc->irq = &spapr_irq_dual;
+> >>>>>>>>      smc->dr_phb_enabled = true;
+> >>>>>>>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> >>>>>>>> index 31b4661..2e92eb6 100644
+> >>>>>>>> --- a/hw/ppc/spapr_caps.c
+> >>>>>>>> +++ b/hw/ppc/spapr_caps.c
+> >>>>>>>> @@ -479,6 +479,22 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+> >>>>>>>>      }
+> >>>>>>>>  }
+> >>>>>>>>  
+> >>>>>>>> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
+> >>>>>>>> +                                Error **errp)
+> >>>>>>>> +{
+> >>>>>>>> +    if (!val) {
+> >>>>>>>> +        return; /* Disabled by default */
+> >>>>>>>> +    }
+> >>>>>>>> +
+> >>>>>>>> +    if (tcg_enabled()) {
+> >>>>>>>> +        error_setg(errp,
+> >>>>>>>> +"No Firmware Assisted Non-Maskable Interrupts support in TCG, try cap-fwnmi-mce=off");
+> >>>>>>>
+> >>>>>>> Not allowing this for TCG creates an awkward incompatibility between
+> >>>>>>> KVM and TCG guests.  I can't actually see any reason to ban it for TCG
+> >>>>>>> - with the current code TCG won't ever generate NMIs, but I don't see
+> >>>>>>> that anything will actually break.
+> >>>>>>>
+> >>>>>>> In fact, we do have an nmi monitor command, currently wired to the
+> >>>>>>> spapr_nmi() function which resets each cpu, but it probably makes
+> >>>>>>> sense to wire it up to the fwnmi stuff when present.
+> >>>>>>
+> >>>>>> Yes, but that nmi support is not enough to inject a synchronous error
+> >>>>>> into the guest kernel. For example, we should provide the faulty address
+> >>>>>> along with other information such as the type of error (slb multi-hit,
+> >>>>>> memory error, TLB multi-hit) and when the error occurred (load/store)
+> >>>>>> and whether the error was completely recovered or not. Without such
+> >>>>>> information we cannot build the error log and pass it on to the guest
+> >>>>>> kernel. Right now nmi monitor command takes cpu number as the only argument.
+> >>>>>
+> >>>>> Obviously we can't inject an arbitrary MCE event with that monitor
+> >>>>> command.  But isn't there some sort of catch-all / unknown type of MCE
+> >>>>> event which we could inject?
+> >>>>
+> >>>> We have "unknown" type of error, but we should also pass an address in
+> >>>> the MCE event log. Strictly speaking this address should be a valid
+> >>>> address in the current CPU context as MCEs are synchronous errors
+> >>>> triggered when we touch a bad address.
+> >>>
+> >>> Well, some of them are.  At least historically both synchronous and
+> >>> asnchronous MCEs were possible.  Are there really no versions where
+> >>> you can report an MCE with unknown address?
+> >>
+> >> I am not aware of any such versions. Will cross check.
+> >>
+> >>>
+> >>>> We can pass a default address with every nmi, but I am not sure whether
+> >>>> that will be practically helpful.
+> >>>>
+> >>>>> It seems very confusing to me to have 2 totally separate "nmi"
+> >>>>> mechanisms.
+> >>>>>
+> >>>>>> So I think TCG support should be a separate patch by itself.
+> >>>>>
+> >>>>> Even if we don't wire up the monitor command, I still don't see
+> >>>>> anything that this patch breaks - we can support the nmi-register and
+> >>>>> nmi-interlock calls without ever actually creating MCE events.
+> >>>>
+> >>>> If we support nmi-register and nmi-interlock calls without the monitor
+> >>>> command wire-up then we will be falsely claiming the nmi support to the
+> >>>> guest while it is not actually supported.
+> >>>
+> >>> How so?  AFAICT, from the point of view of the guest this is not
+> >>> observably different from supporting the NMI mechanism but NMIs never
+> >>> occurring.
+> >>
+> >> A guest inserting a duplicate SLB will expect the machine check
+> >> exception delivered to the handler registered via nmi,register.
+> >> But we actually don't do that in TCG.
+> > 
+> > Ah, true, I was thinking of external hardware fault triggered MCEs
+> > rather than software error ones like duplicate SLB.
+> > 
+> > That said, I strongly suspect TCG is buggy enough at present that
+> > exact behaviour in rare error conditions like duplicate SLB is not
+> > really a big problem in the scheme of things.
+> > 
+> > I really don't think we can enable this by default until we allow it
+> > for TCG - we don't want starting a TCG guest to involve manually
+> > switching other options.
+> > 
+> > We could consider allowing it for TCG but just printing a warning that
+> > the behaviour may not be correct in some conditions - we do something
+> > similar for some of the Spectre workarounds already.
+> 
+> I think we better not enable this by default until we enhance TCG to
+> support fwnmi.
+> 
 
-Unless I'm missing something, you don't have to recompile to pass
-additional options.  The qtest binaries already read environment
-variables QTEST_QEMU_BINARY and QTEST_QEMU_IMG.  Have them point to
-suitable wrappers.
+If we ever enhance TCG... until this get done, I concur with David's
+idea of just printing a warning. System emulation+TCG is more a CI
+or developer thing: we just want FWNMI not to break anything, even
+if it doesn't work. KVM is the real life scenario we want to support.
+If the feature is valuable, and I think it is, it should be the
+default otherwise fewer people will have a chance to take benefit
+from it.
 
-Perhaps there's still a need for a more convenient way.
+> > 
+> 
 
->>>>>>=20
->>>>>> We add:
->>>>>> - QEMU_TRACE_EVENTS:    List of events to enable (coma separated)
->>>>>> - QEMU_TRACE_EVENTFILE: File with list of events to enable
->>>>>> - QEMU_TRACE_LOGFILE:   File to log the trace events.
->>>>>>=20
->>>>>> Example of use:
->>>>>>=20
->>>>>>   $ QEMU_TRACE_EVENTS=3Dpl011\* make check-qtest-arm
->>>>>>     TEST    check-qtest-arm: tests/boot-serial-test
->>>>>>   18650@1562168430.027490:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18650@1562168430.027535:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18650@1562168430.027544:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18650@1562168430.028037:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18650@1562168430.028049:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18650@1562168430.028057:pl011_can_receive LCR 0x00000000 read_coun=
-t 0 returning 1
->>>>>>   18653@1562168430.053250:pl011_write addr 0x00000000 value 0x000000=
-54
->>>>>>   18653@1562168430.053276:pl011_irq_state irq state 0
->>>>>>   [...]
->>>>>>=20
->>>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>>>> ---
->>>>>> I'm not sure where to document that...
->>>>>> ---
->>>>>>  trace/control.c | 9 +++++++++
->>>>>>  1 file changed, 9 insertions(+)
->>>>>>=20
->>>>>> diff --git a/trace/control.c b/trace/control.c
->>>>>> index 43fb7868db..aea802623c 100644
->>>>>> --- a/trace/control.c
->>>>>> +++ b/trace/control.c
->>>>>> @@ -288,6 +288,8 @@ void trace_fini_vcpu(CPUState *vcpu)
->>>>>>=20=20
->>>>>>  bool trace_init_backends(void)
->>>>>>  {
->>>>>> +    char *trace_env;
->>>>>> +
->>>>>>  #ifdef CONFIG_TRACE_SIMPLE
->>>>>>      if (!st_init()) {
->>>>>>          fprintf(stderr, "failed to initialize simple tracing backen=
-d.\n");
->>>>>> @@ -306,6 +308,13 @@ bool trace_init_backends(void)
->>>>>>      openlog(NULL, LOG_PID, LOG_DAEMON);
->>>>>>  #endif
->>>>>>=20=20
->>>>>> +    trace_init_file(getenv("QEMU_TRACE_LOGFILE"));
->>>>>> +    trace_init_events(getenv("QEMU_TRACE_EVENTFILE"));
->>>>>> +    trace_env =3D getenv("QEMU_TRACE_EVENTS");
->>>>>> +    if (trace_env) {
->>>>>> +        trace_enable_events(trace_env);
->>>>>> +    }
->>>>>> +
->>>>>
->>>>> I don't think it is a nice idea to add this via environment variables
->>>>> to QEMU itself. Why not modify libqtest qtest_init_without_qmp_handsh=
-ake
->>>>> to read the env vars and then pass a suitable -trace arg when spawning
->>>>> QEMU ?
->>>>
->>>> What is the concern about adding these environment variables to QEMU?
->>>>
->>>> It is convenient to be able to use tracing even if QEMU is invoked by
->>>> something you cannot modify/control.
->>>>
->>>> The main issues I see with environment variables are:
->>>>
->>>> 1. Security.  Is there a scenario where an attacker can use environment
->>>>    variables to influence the behavior of a QEMU process running at a
->>>>    different trust level?
-
-The common (and sad) solution for this is to require whatever runs $PROG
-at a different trust level to scrub the environment.
-
->>>> 2. Name collision.  What is the chance that existing users already
->>>>    define environment variables with these names and that unexpected
->>>>    behavior could result?
->>>
->>> One of the biggest problems with QEMU in general has been poorly modell=
-ed
->>> & defined interfaces for configuration. At runtime we've solved this wi=
-th
->>> QMP. At startup we're still fighting the horror of QemuOpts in general =
-and
->>> haven't got startup modelling to be on a par with that offered by QEMU.
->>> It was even worse when Audio didn't even use QemuOpts and instead used
->>> an arbitrary set of poorly defined env variables. To me adding yet anot=
-her
->>> way to configure QEMU via env vars is moving in the opposite direction =
-to
->>> what we want.
->>=20
->> In this case the environment variables are optional and meant for cases
->> where the user cannot change the QEMU command-line.  I think they serve
->> a different purpose from the audio subsystem environment variables and
->> I'd be happy to merge them.
-
-You're right, there is a difference between "also" and "only".  Audio
-could only be configured via environment, and that was without doubt
-awful.  Does not imply permitting trace configuration via environment
-also would be similarly awful.
-
-However, adding special cases as needed is what got us into the startup
-mess Dan highlighted.  Are we confident tracing will remain the only
-thing we also want to configure via environment?
-
-I sympathize with Dan's plea for more uniform configuration interfaces.
-
->> Philippe: Have you tried adding the environment variable to libqtest as
->> Dan suggested and did it work for your use case?
-
-This would fit into our existing use of the environment with qtest.  Try
-grep '"QTEST_'.
-
-> Yes, but we loose the ability to use this feature from linux-user and
-> other tools:
->
-> $ git grep trace_opt_parse
-> bsd-user/main.c:851:            trace_file =3D trace_opt_parse(optarg);
-> linux-user/main.c:387:    trace_file =3D trace_opt_parse(arg);
-> qemu-img.c:5063:            trace_file =3D trace_opt_parse(optarg);
-> qemu-io.c:579:            trace_file =3D trace_opt_parse(optarg);
-> qemu-nbd.c:862:            trace_file =3D trace_opt_parse(optarg);
-> scsi/qemu-pr-helper.c:969:            trace_file =3D trace_opt_parse(opta=
-rg);
-> vl.c:3730:                trace_file =3D trace_opt_parse(optarg);
->
-> So I'm now mixed about the trade off regarding Daniel worries.
-
-Philippe, your commit message mentions just qtest.  That use case would
-be covered by Dan's suggestion, wouldn't it?  If not, please explain.
-If you have additional use cases, please state them.
 
