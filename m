@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303BA60D09
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:15:55 +0200 (CEST)
-Received: from localhost ([::1]:56244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2802F60CFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:09:33 +0200 (CEST)
+Received: from localhost ([::1]:56168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVYg-0000oS-Cl
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43215)
+	id 1hjVSW-0003Zw-B7
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43217)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hjVQP-0001Qt-6a
+ (envelope-from <eblake@redhat.com>) id 1hjVQP-0001Qv-6g
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hjVQM-00008T-0P
+ (envelope-from <eblake@redhat.com>) id 1hjVQN-00009q-9J
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:21 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:44740)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hjVQK-0008Oi-K3
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:17 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L3ssF119898;
- Fri, 5 Jul 2019 21:07:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2018-07-02;
- bh=c1/s290z5etu0n2dhhW4gTKM/KYEKjonva5/EhYLZIU=;
- b=GqFIVJ+LGAkA/7QG8/2sY22kgXgTR/GX92pg2il3KbclJ+vyFhXi/+Zfq4oOUetdGzgE
- 4OprN6smZGcLb1oNPgc2Ifw91FO98/IQNY8A5i0xe6rx/eNuK3dK3TuRCRe+CQTmjf4j
- LRTqIYEhpHccp5jw+jJxPU0jXg00+KihuiKMIpMAGmCgKiJCtRaUfAyp3vAUjXfIs6wZ
- FORMAdyeYecRlaSMH2yHP9PCcAEhbs6mZHooThE99+uzwKTWFgo1XXDeHLp2/0vkj7QC
- VKSejnb9wqeTmt0g9Sp3soj67dVJPeERAbfdVycDDEPjSQRd1PA/r+Xf8/5BPlJa2bIR eQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2te61emgg7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Jul 2019 21:07:06 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L2X1w107403;
- Fri, 5 Jul 2019 21:07:05 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2thxrvm49m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Jul 2019 21:07:05 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x65L744d030880;
- Fri, 5 Jul 2019 21:07:04 GMT
-Received: from spark.ravello.local (/213.57.127.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 05 Jul 2019 14:07:04 -0700
-From: Liran Alon <liran.alon@oracle.com>
-To: qemu-devel@nongnu.org
-Date: Sat,  6 Jul 2019 00:06:36 +0300
-Message-Id: <20190705210636.3095-5-liran.alon@oracle.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190705210636.3095-1-liran.alon@oracle.com>
-References: <20190705210636.3095-1-liran.alon@oracle.com>
+Received: from mx1.redhat.com ([209.132.183.28]:39042)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hjVQJ-0008LA-6z; Fri, 05 Jul 2019 17:07:15 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12E3DC049D7C;
+ Fri,  5 Jul 2019 21:07:03 +0000 (UTC)
+Received: from [10.3.116.152] (ovpn-116-152.phx2.redhat.com [10.3.116.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DEBF61993;
+ Fri,  5 Jul 2019 21:07:02 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20190703224707.12437-1-eblake@redhat.com>
+ <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <cac6b8b9-2d6d-d736-c5a5-dc84e9819d7e@redhat.com>
+Date: Fri, 5 Jul 2019 16:07:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9309
- signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1907050266
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9309
- signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1907050266
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [PATCH 4/4] target/i386: kvm: Demand nested migration
- kernel capabilities only when vCPU may have enabled VMX
+In-Reply-To: <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="j2QYBrOficePKvFYL60E1NQ1UmkcDADsV"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 05 Jul 2019 21:07:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 RFC] qemu-nbd: Permit TLS with Unix
+ sockets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,201 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Joao Martins <joao.m.martins@oracle.com>,
- Liran Alon <liran.alon@oracle.com>, ehabkost@redhat.com, kvm@vger.kernel.org
+Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, rjones@redhat.com,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous to this change, a vCPU exposed with VMX running on a kernel without KVM_CAP_NESTED_STATE
-or KVM_CAP_EXCEPTION_PAYLOAD resulted in adding a migration blocker. This was because when code
-was written it was thought there is no way to reliabely know if a vCPU is utilising VMX or not
-at runtime. However, it turns out that this can be known to some extent:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--j2QYBrOficePKvFYL60E1NQ1UmkcDADsV
+Content-Type: multipart/mixed; boundary="AQCwozHJepHpYqAaBHqsl0jW25BWIgZQp";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, rjones@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Message-ID: <cac6b8b9-2d6d-d736-c5a5-dc84e9819d7e@redhat.com>
+Subject: Re: [PATCH v2 RFC] qemu-nbd: Permit TLS with Unix sockets
+References: <20190703224707.12437-1-eblake@redhat.com>
+ <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
+In-Reply-To: <265ccc9f-9df9-3885-ec79-fef36b8d0acc@redhat.com>
 
-In order for a vCPU to enter VMX operation it must have CR4.VMXE set.
-Since it was set, CR4.VMXE must remain set as long as vCPU is in
-VMX operation. This is because CR4.VMXE is one of the bits set
-in MSR_IA32_VMX_CR4_FIXED1.
-There is one exception to above statement when vCPU enters SMM mode.
-When a vCPU enters SMM mode, it temporarily exit VMX operation and
-may also reset CR4.VMXE during execution in SMM mode.
-When vCPU exits SMM mode, vCPU state is restored to be in VMX operation
-and CR4.VMXE is restored to it's original value of being set.
-Therefore, when vCPU is not in SMM mode, we can infer whether
-VMX is being used by examining CR4.VMXE. Otherwise, we cannot
-know for certain but assume the worse that vCPU may utilise VMX.
+--AQCwozHJepHpYqAaBHqsl0jW25BWIgZQp
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Summaring all the above, a vCPU may have enabled VMX in case
-CR4.VMXE is set or vCPU is in SMM mode.
+On 7/5/19 4:31 AM, Max Reitz wrote:
+> On 04.07.19 00:47, Eric Blake wrote:
+>> Although you generally won't use encryption with a Unix socket (after
+>> all, everything is local, so why waste the CPU power), there are
+>> situations in testsuites where Unix sockets are much nicer than TCP
+>> sockets.  Since nbdkit allows encryption over both types of sockets,
+>> it makes sense for qemu-nbd to do likewise.
+>=20
+> Hmm.  The code is simple enough, so I don=E2=80=99t see a good reason n=
+ot to.
+>=20
 
-Therefore, remove migration blocker and check before migration (cpu_pre_save())
-if vCPU may have enabled VMX. If true, only then require relevant kernel capabilities.
+> Um, also, a perhaps stupid question: Why is there no passing test for
+> client authorization?
+>=20
 
-While at it, demand KVM_CAP_EXCEPTION_PAYLOAD only when vCPU is in guest-mode and
-there is a pending/injected exception. Otherwise, this kernel capability is
-not required for proper migration.
+Not a stupid question. It's copy-and-paste from the existing test over
+TCP, which Dan added in b25e12daf without any additional successful test
+I guess the earlier tests in the file are the success cases, and this
+just checks that authz restrictions cover the expected failure case of
+something that would succeed without authz? Or maybe that commit really
+is incomplete?
 
-Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
----
- target/i386/cpu.h      | 22 ++++++++++++++++++++++
- target/i386/kvm.c      | 26 ++++++--------------------
- target/i386/kvm_i386.h |  1 +
- target/i386/machine.c  | 24 ++++++++++++++++++++----
- 4 files changed, 49 insertions(+), 24 deletions(-)
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index cdb0e43676a9..c752c4d936ee 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1872,6 +1872,28 @@ static inline bool cpu_has_svm(CPUX86State *env)
-     return env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM;
- }
- 
-+/*
-+ * In order for a vCPU to enter VMX operation it must have CR4.VMXE set.
-+ * Since it was set, CR4.VMXE must remain set as long as vCPU is in
-+ * VMX operation. This is because CR4.VMXE is one of the bits set
-+ * in MSR_IA32_VMX_CR4_FIXED1.
-+ *
-+ * There is one exception to above statement when vCPU enters SMM mode.
-+ * When a vCPU enters SMM mode, it temporarily exit VMX operation and
-+ * may also reset CR4.VMXE during execution in SMM mode.
-+ * When vCPU exits SMM mode, vCPU state is restored to be in VMX operation
-+ * and CR4.VMXE is restored to it's original value of being set.
-+ *
-+ * Therefore, when vCPU is not in SMM mode, we can infer whether
-+ * VMX is being used by examining CR4.VMXE. Otherwise, we cannot
-+ * know for certain.
-+ */
-+static inline bool cpu_vmx_maybe_enabled(CPUX86State *env)
-+{
-+    return cpu_has_vmx(env) &&
-+           ((env->cr[4] & CR4_VMXE_MASK) || (env->hflags & HF_SMM_MASK));
-+}
-+
- /* fpu_helper.c */
- void update_fp_status(CPUX86State *env);
- void update_mxcsr_status(CPUX86State *env);
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 4e2c8652168f..d3af445eeb5d 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -128,6 +128,11 @@ bool kvm_has_adjust_clock_stable(void)
-     return (ret == KVM_CLOCK_TSC_STABLE);
- }
- 
-+bool kvm_has_exception_payload(void)
-+{
-+    return has_exception_payload;
-+}
-+
- bool kvm_allows_irq0_override(void)
- {
-     return !kvm_irqchip_in_kernel() || kvm_has_gsi_routing();
-@@ -1341,7 +1346,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
- }
- 
- static Error *invtsc_mig_blocker;
--static Error *nested_virt_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-@@ -1640,22 +1644,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
-                                   !!(c->ecx & CPUID_EXT_SMX);
-     }
- 
--    if (cpu_has_vmx(env) && !nested_virt_mig_blocker &&
--        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
--        error_setg(&nested_virt_mig_blocker,
--                   "Kernel do not provide required capabilities for "
--                   "nested virtualization migration. "
--                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
--                   kvm_max_nested_state_length() > 0,
--                   has_exception_payload);
--        r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--            error_free(nested_virt_mig_blocker);
--            return r;
--        }
--    }
--
-     if (env->mcg_cap & MCG_LMCE_P) {
-         has_msr_mcg_ext_ctl = has_msr_feature_control = true;
-     }
-@@ -1670,7 +1658,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             if (local_err) {
-                 error_report_err(local_err);
-                 error_free(invtsc_mig_blocker);
--                goto fail2;
-+                return r;
-             }
-         }
-     }
-@@ -1741,8 +1729,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-  fail:
-     migrate_del_blocker(invtsc_mig_blocker);
-- fail2:
--    migrate_del_blocker(nested_virt_mig_blocker);
- 
-     return r;
- }
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 3057ba4f7d19..06fe06bdb3d6 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -35,6 +35,7 @@
- bool kvm_allows_irq0_override(void);
- bool kvm_has_smm(void);
- bool kvm_has_adjust_clock_stable(void);
-+bool kvm_has_exception_payload(void);
- void kvm_synchronize_all_tsc(void);
- void kvm_arch_reset_vcpu(X86CPU *cs);
- void kvm_arch_do_init_vcpu(X86CPU *cs);
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 20bda9f80154..c04021937722 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -7,6 +7,7 @@
- #include "hw/isa/isa.h"
- #include "migration/cpu.h"
- #include "hyperv.h"
-+#include "kvm_i386.h"
- 
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
-@@ -232,10 +233,25 @@ static int cpu_pre_save(void *opaque)
-     }
- 
- #ifdef CONFIG_KVM
--    /* Verify we have nested virtualization state from kernel if required */
--    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
--        error_report("Guest enabled nested virtualization but kernel "
--                "does not support saving of nested state");
-+    /*
-+     * In case vCPU may have enabled VMX, we need to make sure kernel have
-+     * required capabilities in order to perform migration correctly:
-+     *
-+     * 1) We must be able to extract vCPU nested-state from KVM.
-+     *
-+     * 2) In case vCPU is running in guest-mode and it has a pending exception,
-+     * we must be able to determine if it's in a pending or injected state.
-+     * Note that in case KVM don't have required capability to do so,
-+     * a pending/injected exception will always appear as an
-+     * injected exception.
-+     */
-+    if (kvm_enabled() && cpu_vmx_maybe_enabled(env) &&
-+        (!env->nested_state ||
-+         (!kvm_has_exception_payload() && (env->hflags & HF_GUEST_MASK) &&
-+          env->exception_injected))) {
-+        error_report("Guest maybe enabled nested virtualization but kernel "
-+                "does not support required capabilities to save vCPU "
-+                "nested state");
-         return -EINVAL;
-     }
- #endif
--- 
-2.20.1
 
+--AQCwozHJepHpYqAaBHqsl0jW25BWIgZQp--
+
+--j2QYBrOficePKvFYL60E1NQ1UmkcDADsV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0fu/UACgkQp6FrSiUn
+Q2rQygf/RxdGsk7ww0TBifzZXCfdij9M1l/UjjaWsPB4NlbQcMir27tMwOV/x6HT
+T95/BidHVHgYONpzNBRvaOkhJd+gKgx2xleL+TVhJKuTZX15TovvwOs1+DfySH26
+OJj8lgmbSyXq9kozh2/s/nfvnFVe2BX5TlFhZITZ0Xnmpi2BM4AUe5ezxZzVyp1J
+hDdbQASYlB8RC1yye+x9tnmed2oE2I/86QWbpTcAC+tpXVsZ7AfomYjQkdyLsr65
+LV0XXedoyY+znBHUW26qmpQgQtX7teHd2SIwMh09CKZzUmTKHsJlGDd2h/Akg0RW
+ZQhJAvrMDV0cSmARIascBvS9/2Xc1w==
+=hKC6
+-----END PGP SIGNATURE-----
+
+--j2QYBrOficePKvFYL60E1NQ1UmkcDADsV--
 
