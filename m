@@ -2,56 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC05E601B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:48:31 +0200 (CEST)
-Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5705601BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 09:51:18 +0200 (CEST)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjIxI-0002Q3-NZ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47979)
+	id 1hjJ02-0004kH-0P
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 03:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49315)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlureau@redhat.com>) id 1hjIsZ-0000pm-By
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:43:38 -0400
+ (envelope-from <klaus@birkelund.eu>) id 1hjIz6-0004G1-G5
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:50:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1hjIsY-0000UE-A7
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:43:35 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34467)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1hjIsY-0000Rw-5A
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:43:34 -0400
-Received: by mail-ot1-f65.google.com with SMTP id n5so8214630otk.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 00:43:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SrY0bUqYim8fJ27fobjyqu8mDkwZ8lbSUB7TVDZ/EYY=;
- b=TT3kK6NG9paDxmpI00JIcgfP6ULFe41XXJ+3gVaVGPsN1UyQ851P2LuBGssjFAcXkK
- 6nZwugjgJ+uWkZV+W0gD9sC/pg53x2ZH0qwnl5Xdy4YwLSru+6JV6PA6RlIAuGQlN0BR
- ZxThnI811imAPRekPbahOKRJdMVVHKmhc3/Q1Iq7A3jLRIeqF/yNvxmpl3o7Htv2KviN
- EKmU6pOd8JYDlffX+GekNggOZs3c6zE4b/xCyEzD8UcvAom8ILQ4lxCgpmnVmNnxLZyZ
- A1EBS6ZdXg10BOETypuNKVxMG4X/HyNoSZndcNsifcXj894yS85Wc9Y9r7JGvwejOmFL
- 2v6Q==
-X-Gm-Message-State: APjAAAVPcDD2H0DdxUx3B2pclTxbM8ieBIP14mLgdhKhsmBVcYodGxBF
- JqjE3bUX8gdMm10a7ipcZExA+o/60Q0RA5zG3bPwl/BC
-X-Google-Smtp-Source: APXvYqxOsQvPEs48zrffHdS/mQzCc4oqfu5jy1CQNkFyBEWHpSz557Zg9q9XuuHqyr2YRW1YfLHYW26cyP0u9RPuq+M=
-X-Received: by 2002:a9d:6d12:: with SMTP id o18mr1851416otp.166.1562312612133; 
- Fri, 05 Jul 2019 00:43:32 -0700 (PDT)
+ (envelope-from <klaus@birkelund.eu>) id 1hjIz4-000495-GK
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 03:50:20 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:50722)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+ id 1hjIyx-00043i-0E; Fri, 05 Jul 2019 03:50:12 -0400
+Received: from bogfinke (ip-5-186-120-196.cgn.fibianet.dk [5.186.120.196])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 04192BF607;
+ Fri,  5 Jul 2019 07:50:03 +0000 (UTC)
+Date: Fri, 5 Jul 2019 09:50:00 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Matt Fitzpatrick <matt.fitzpatrick@oakgatetech.com>
+Message-ID: <20190705075000.GA17345@bogfinke>
+Mail-Followup-To: Matt Fitzpatrick <matt.fitzpatrick@oakgatetech.com>,
+ keith.busch@intel.com, kwolf@redhat.com, mreitz@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <8115eb18-38c0-2bd9-b7d7-2d0c96a106e7@oakgatetech.com>
 MIME-Version: 1.0
-References: <20190705073957.2921-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20190705073957.2921-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 5 Jul 2019 11:43:21 +0400
-Message-ID: <CAMxuvazqS2PWn80WEhOA+5Z86AyOE0ba25M_czqff0uSDB6uZw@mail.gmail.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <8115eb18-38c0-2bd9-b7d7-2d0c96a106e7@oakgatetech.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.65
-Subject: Re: [Qemu-devel] [PATCH] usbredir: fix buffer-overflow on migration
- load
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [Qemu-block] [RFC, v1] Namespace Management Support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,75 +51,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Hoffmann, Gerd" <kraxel@redhat.com>, qemu-stable <qemu-stable@nongnu.org>
+Cc: keith.busch@intel.com, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Tue, Jul 02, 2019 at 10:39:36AM -0700, Matt Fitzpatrick wrote:
+> Adding namespace management support to the nvme device. Namespace creat=
+ion
+> requires contiguous block space for a simple method of allocation.
+>=20
+> I wrote this a few years ago based on Keith's fork and nvmeqemu fork an=
+d
+> have recently re-synced with the latest trunk.=A0 Some data structures =
+in
+> nvme.h are a bit more filled out that strictly necessary as this is als=
+o the
+> base for sr-iov and IOD patched to be submitted later.
+>=20
 
-On Fri, Jul 5, 2019 at 11:40 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> NO_INTERFACE_INFO (255) is used to indicate no info.
->
-> /home/elmarco/src/qemu/hw/usb/redirect.c:1504:71: runtime error: index 32=
- out of bounds for type 'uint8_t [32]'
-> /home/elmarco/src/qemu/hw/usb/redirect.c:1503:71: runtime error: index 32=
- out of bounds for type 'uint8_t [32]'
-> /home/elmarco/src/qemu/hw/usb/redirect.c:1502:68: runtime error: index 32=
- out of bounds for type 'uint8_t [32]'
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D32073=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address=
- 0x625000252930 at pc 0x556c5126b0b6 bp 0x7fc7793ffa50 sp 0x7fc7793ffa40
-> READ of size 1 at 0x625000252930 thread T0
->     #0 0x556c5126b0b5 in usbredir_check_bulk_receiving /home/elmarco/src/=
-qemu/hw/usb/redirect.c:1504
->     #1 0x556c51275a2a in usbredir_post_load /home/elmarco/src/qemu/hw/usb=
-/redirect.c:2154
->     #2 0x556c51306f5e in vmstate_load_state /home/elmarco/src/qemu/migrat=
-ion/vmstate.c:168
->     #3 0x556c512efb43 in vmstate_load /home/elmarco/src/qemu/migration/sa=
-vevm.c:829
->     #4 0x556c512f9967 in qemu_loadvm_section_start_full /home/elmarco/src=
-/qemu/migration/savevm.c:2212
->     #5 0x556c512faee1 in qemu_loadvm_state_main /home/elmarco/src/qemu/mi=
-gration/savevm.c:2396
->     #6 0x556c512fb16b in qemu_loadvm_state /home/elmarco/src/qemu/migrati=
-on/savevm.c:2468
->     #7 0x556c512c0d2b in process_incoming_migration_co /home/elmarco/src/=
-qemu/migration/migration.c:449
->     #8 0x556c51b62bcc in coroutine_trampoline /home/elmarco/src/qemu/util=
-/coroutine-ucontext.c:115
->     #9 0x7fc80fba637f  (/lib64/libc.so.6+0x4d37f)
->
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Hi Matt,
 
-To be even safer, we should check interface_count has a value <=3D 32 on lo=
-ad.
+Nice! I'm always happy when new features for the nvme device is posted!
 
-> ---
->  hw/usb/redirect.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 998fc6e4b0..3bda19bd64 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -1495,6 +1495,9 @@ static void usbredir_check_bulk_receiving(USBRedirD=
-evice *dev)
->      for (i =3D EP2I(USB_DIR_IN); i < MAX_ENDPOINTS; i++) {
->          dev->endpoint[i].bulk_receiving_enabled =3D 0;
->      }
-> +    if (dev->interface_info.interface_count =3D=3D NO_INTERFACE_INFO) {
-> +        return;
-> +    }
->      for (i =3D 0; i < dev->interface_info.interface_count; i++) {
->          quirks =3D usb_get_quirks(dev->device_info.vendor_id,
->                                  dev->device_info.product_id,
-> --
-> 2.22.0.214.g8dca754b1e
->
+I'll be happy to review it, but I won't start going through it in
+details because I believe the approach to supporting multiple namespaces
+is flawed. We had a recent discussion on this and I also got some
+unrelated patches rejected due to implementing it similarly by carving
+up the image.
+
+I have posted a long series that includes a patch for multiple
+namespaces. It is implemented by introducing a fresh `nvme-ns` device
+model that represents a namespace and attaches to a bus created by the
+parent `nvme` controller device.
+
+The core issue is that a qemu image /should/ be attachable to other
+devices (say ide) and not strictly tied to the one device model. Thus,
+we cannot just shove a bunch of namespaces into a single image.
+
+But, in light of your patch, I'm not convinced that my implementation is
+the correct solution. Maybe the abstraction should not be an `nvme-ns`
+device, but a `nvme-nvm` device that when attached changes TNVMCAP and
+UNVMCAP? Maybe you have some input for this? Or we could have both and
+dynamically create the nvme-ns devices on top of nvme-nvm devices. I
+think it would still require a 1-to-1 mapping, but it could be a way to
+support the namespace management capability.
+
+
+Cheers,
+Klaus
 
