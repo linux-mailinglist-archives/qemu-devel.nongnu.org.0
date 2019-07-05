@@ -2,66 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB173607AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:17:50 +0200 (CEST)
-Received: from localhost ([::1]:53624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47D56082C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 16:44:52 +0200 (CEST)
+Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjP26-0000Ye-4s
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46835)
+	id 1hjPSE-0006pE-BF
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 10:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent.desnogues@gmail.com>) id 1hjOv9-0003JD-1i
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:10:41 -0400
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOxr-0006de-N1
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:13:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent.desnogues@gmail.com>) id 1hjOv8-0008Mv-0Q
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:10:38 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:41514)
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1hjOxo-0003GC-O2
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 10:13:26 -0400
+Received: from mail-lj1-f177.google.com ([209.85.208.177]:36003)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent.desnogues@gmail.com>)
- id 1hjOv7-0007hn-Ml; Fri, 05 Jul 2019 10:10:37 -0400
-Received: by mail-io1-xd43.google.com with SMTP id j5so19070ioj.8;
- Fri, 05 Jul 2019 07:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jc8T6B1sYMgE8KUu3r8iCtOxhFzftBC0DO27E9t5POg=;
- b=tyL3hlikgB7h11DqJBXwuvH1+JMnWTh2xDiNBC/IEwBdd1G6UxmyHfDcWRclCr4OPL
- WGlaPixlePBhQzKgbBNrMvj+a3PtJlAvyOisdABzL1cqS+ZjhhJwsEHMipfeAUzH+6fW
- EpIj8DZL74u/8uKgoI3ZKhpQrdk1YBZwe4sba8xlIkOxiz4phnwIp6nTSyM55dRV9W2Q
- Wv2svVhyMFggrQ0a9BLg9zVx8BJ07DQ48muqSckgK0s+vmqjK0g+Ndp29yBQ1t8s/2hl
- 0O7HiiMSABZLCveKMDOq+0mNSd0voyx+MdyPd6MEMaY/vAu31+5YtK7Bp7yrfqcnehhU
- UOiw==
+ (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
+ id 1hjOxg-0002Cn-CH; Fri, 05 Jul 2019 10:13:17 -0400
+Received: by mail-lj1-f177.google.com with SMTP id i21so9438538ljj.3;
+ Fri, 05 Jul 2019 07:13:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jc8T6B1sYMgE8KUu3r8iCtOxhFzftBC0DO27E9t5POg=;
- b=X86y5N9flKx5B645lIqoXsOLwvZEc5YxLJpdd5MbJWaQfILYnOGWSQH4sc+hO/O3bv
- 2IZUC5mOx2srdtbb2hcD3dZHvFQhmxp5j7hOyQIx2gVjfzBMEnjTaN0qbaqk+WX3yeSd
- KjCSdfQeYwH9E9LkEPEBAAVylqHw5vWwyMNGCjOYkJ4TBd35F19X4Q1cc3b9R+0Ki3xg
- GZXnb5u6K8VkHJHpyeMwJhFqOgWsCVsvZKPHt68Re0yuoRZzk08FV+A40A4bBwJkM5Kb
- iRzFR0laJVXYyYmHCVNeoKEAiEorm3/GpwGkZXf4vfjjC7i/wWKRxo/O2c3p7cLkxqVw
- tk5Q==
-X-Gm-Message-State: APjAAAXIylSBLuwZmNGiJhH17DoUGN/oSmBznfuwzQC5sdbCxW8hi5mY
- 7XR7AtI+RIHk5T62hsc9vumJ9Nfvu7mtjYc329s=
-X-Google-Smtp-Source: APXvYqw498Icl14jRiBkwlADDXenfHTPtE0s9hLvZO1diJiBgjG12GHUUUc/aR3ZyCJaFgHxH5+1DSeq2xvT9WUbiHw=
-X-Received: by 2002:a02:ab83:: with SMTP id t3mr4830212jan.133.1562335828673; 
- Fri, 05 Jul 2019 07:10:28 -0700 (PDT)
+ h=x-gm-message-state:reply-to:subject:to:references:from:openpgp
+ :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=UPStAOy1c+Ks51mTssOUmRiZpxgm477YKKndO49m8Jw=;
+ b=LurpRwKd5ZB+WbArhzLGpuk89+BE2DMgFVPgdNsHXpbfqZ/p46YlZvUCr4fGWR+L02
+ Qq1nVodyA3fRzDe04HyLWG5v+rB1SQ57uBJ2RLkHYVJlRUk/bKAyqZ9MXoSvyWAc6hGw
+ 9D/S7F9nU+vTyB2Zc04Lxrsgb4b4MVYZxyqnErnQ4Ydz3NEB7FBu+ToajZl+IHIyMaG1
+ 2XUJTgCwNmduvrmQDcgUIwYOSC865uXa+pl5CpBqyLgZRwqzqxmZVgZt+v2mIQwBWc30
+ X1amNUQvKVdwL6wGP1l77QBfWa4y3NBBtBygPxRbVBVRMDzWZ9HD0ERFMfAt2ZKzjjoK
+ sH3w==
+X-Gm-Message-State: APjAAAU77IT1ySmoV22PwDohq6ulfVGcjUP+rkdut1fPzo7ofM+8nFmg
+ t6Liz93ubAFAi/NgSYM24yU=
+X-Google-Smtp-Source: APXvYqxU1K9B6OCjsLi8kvhUHY9DGcmuMG2PjhTTk7tMNXI3m+p4SmF8HPPAlgBKm4y09gJBlVN6CA==
+X-Received: by 2002:a2e:981:: with SMTP id 123mr2405380ljj.66.1562335990140;
+ Fri, 05 Jul 2019 07:13:10 -0700 (PDT)
+Received: from [192.168.1.183] (95-28-29-40.broadband.corbina.ru.
+ [95.28.29.40])
+ by smtp.gmail.com with ESMTPSA id q6sm1808371lji.70.2019.07.05.07.13.08
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 07:13:09 -0700 (PDT)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org, mst@redhat.com,
+ pmatouse@redhat.com, sstabellini@kernel.org, mdroth@linux.vnet.ibm.com,
+ pjp@redhat.com
+References: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
+From: Alexander Popov <alex.popov@linux.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
+ 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
+ jXz/74kjFsyRgZA+d6a1pGtOwITEBxtxxg==
+Message-ID: <fb3870a9-3802-41ce-7d26-d2be20f74c45@linux.com>
+Date: Fri, 5 Jul 2019 17:13:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190705124318.1075-1-philmd@redhat.com>
-In-Reply-To: <20190705124318.1075-1-philmd@redhat.com>
-From: Laurent Desnogues <laurent.desnogues@gmail.com>
-Date: Fri, 5 Jul 2019 16:10:27 +0200
-Message-ID: <CABoDooNn3HzrgDd3sreGDogFE=_L26=si-ddkeZ6paeoMF+v6w@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [PATCH] target/arm/vfp_helper: Call
- set_fpscr_to_host before updating to FPSCR
+In-Reply-To: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.208.177
+X-Mailman-Approved-At: Fri, 05 Jul 2019 10:42:17 -0400
+Subject: Re: [Qemu-devel] [QEMU-SECURITY] ide: fix assertion in ide_dma_cb()
+ to prevent qemu DoS from quest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +130,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: alex.popov@linux.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 5, 2019 at 2:43 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> In commit e9d652824b0 we extracted the vfp_set_fpscr_to_host()
-> function but failed at calling it in the correct place, we call
-> it after xregs[ARM_VFP_FPSCR] is modified.
->
-> Fix by calling this function before we update FPSCR.
->
-> Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 05.07.2019 17:07, Alexander Popov wrote:
+> This assertion was introduced in the commit a718978ed58a in July 2015.
+> It implies that the size of successful DMA transfers handled in
+> ide_dma_cb() should be multiple of 512 (the size of a sector).
+> 
+> But guest systems can initiate DMA transfers that don't fit this
+> requirement. Let's improve the assertion to prevent qemu DoS from quests.
 
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Tested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Hello everyone!
 
-Thanks,
+This bug was not considered as a security issue by QEMU security team, so I send
+this patch to the public mailing list.
 
-Laurent
-
-> ---
->  target/arm/vfp_helper.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-> index 46041e3294..9710ef1c3e 100644
-> --- a/target/arm/vfp_helper.c
-> +++ b/target/arm/vfp_helper.c
-> @@ -197,6 +197,8 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t=
- val)
->          val &=3D 0xf7c0009f;
->      }
->
-> +    vfp_set_fpscr_to_host(env, val);
-> +
->      /*
->       * We don't implement trapped exception handling, so the
->       * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES=
-0!)
-> @@ -217,8 +219,6 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t=
- val)
->      env->vfp.qc[1] =3D 0;
->      env->vfp.qc[2] =3D 0;
->      env->vfp.qc[3] =3D 0;
-> -
-> -    vfp_set_fpscr_to_host(env, val);
->  }
->
->  void vfp_set_fpscr(CPUARMState *env, uint32_t val)
-> --
-> 2.20.1
->
+Best regards,
+Alexander
 
