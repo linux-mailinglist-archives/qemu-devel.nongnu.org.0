@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6565660CD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:54:57 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADE760C70
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:35:43 +0200 (CEST)
+Received: from localhost ([::1]:55926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVEO-0007YS-KC
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34120)
+	id 1hjUvm-0007Py-Nh
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34144)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUjz-0004EM-Ps
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:33 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUk4-0004HU-H5
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUjx-0002iE-AO
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:31 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39487)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUjz-0002jn-Ny
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:33 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51742)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUjt-0002fZ-Gp
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:26 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id z23so10803843wma.4
+ id 1hjUjw-0002fq-Aj
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:29 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id 207so10296288wma.1
  for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:23:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7oTLlrL+kWrx1wogDdhfFI1GowG7GhBWapH2sls1gao=;
- b=d6loAQFeiI7Fl8mJKreiScE/qcMTczTfsPs7EIy0K7i0Hiwia30Yisgh7WCqZEEwDT
- EgP5wFW4ACJbQHxjDVWrtWDvla/RK0PYf9xf7hroK03jKaOljCbvwW0qyPnCahq858Xx
- D1a9FAh2JdOHMXnv/E0+i3stUyRQO1IjMmAgUc6gTusKF1eOy2J9ByTdHRfZ5CqYTz3t
- riikpK7K1wY1O9TswvyuVwULMQOhh20q8IE0OXdRCEi4xjIqT+0AH1tRnj+B/67sZ+/b
- acN0OnuoMdLdZp7YgHit0jo5fo9NAkVxPY4dkUj2FRAUEJuIfc8Nfnmt16uNpoLRShBE
- AEHw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=uj5oH2lIOzQhbVvPGa1CJyfr5Ywg7honDl46Ua9isOg=;
+ b=ZkFcGdaeOOtXb1HsONRTcOTJg5JPJgCFAPJaboK8fJcguFC1EaWs9boDlwUxOIXCxX
+ N2UgBnO7kxloDx7t+MWTs20JVBsEGy4POt1Nnj7DiTd64tfZvIHbEVxx07lEOqTcJmyv
+ xeSTBv9tpbeXSH5yy7/zqPHkwP6QFSjNKPrYMd5Kh7FLVSUvvD6DKdJ0/TdXWePVamtS
+ NS1Xu8nAZTjkn59VzUHDDwVoCB39g1Gpm3INb0zOwRNL48WaH08skoJqAP5z6uZ+DTIS
+ TEtvW0MQeO4hFyzbrUZNspI+JvvVXK6jYGvCtzRY3VtvqXJcAJvf8vLqOMGYKWdWCOv9
+ QKtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=7oTLlrL+kWrx1wogDdhfFI1GowG7GhBWapH2sls1gao=;
- b=BzEJ9rI08lWSXq8viaendGYZfWT8ZfJzfu5udrVXBkwfCP3q8iQc5qhhDOLYGMulkf
- sHVfzo2H9p2dzn85OQXkP6Sx8c1UopInAhhn7xKDH0DiPm6Q/ZpRdbfA59r5xnhZOcjR
- 0LDMuIMf1fFG/bPaM94QkkqPRqwevEw2RKHWtgGymnAeEREnKZEzVbLHHkV0Q72nMaFh
- 00Dgwphy4SZDZEW4NRt2FvCQIkP8hb487SrHlK9oKjyIvdl60zngQ5D8HFkJyVnnaAEr
- ZL1v1jufGQzJa7X1BsQwL+G1AiukbuhLKe2XHZOYxWZ1JKnM0sG4+vgX1o3hi3khEk6+
- Fw3g==
-X-Gm-Message-State: APjAAAXm1XOjgnXA1RrPp2DKVjpS3KKLhQuMZ+wUqqZHszhVl3+D2dY8
- zt3ZJlcCTE5spm5NUTOFXUZiMBSpnWY=
-X-Google-Smtp-Source: APXvYqyxIM0q7rB8CzjH7mmlBbYgJ2uyuqnLXEyZSnuANnaLBTYwUKUH3IRhswF1Pe4z00XOWztCMw==
-X-Received: by 2002:a1c:e90f:: with SMTP id q15mr4802759wmc.89.1562358204108; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=uj5oH2lIOzQhbVvPGa1CJyfr5Ywg7honDl46Ua9isOg=;
+ b=YXgyF8DquVgPVDW5jWGCJ0POTLqtFNSILjuFuG9b0HXruZyZm3N8Pm0ogkNUMcgAMx
+ A2YFva7K+Ge4tYxlcjwRnPGlzimuiSBURAWpEGG+sOL31siUdbvu8R5cWdT7zc4OcPLp
+ k6p9aznApDa/fpHXDQSwqW8gf6KLpszoMFqbHkV1Kv4Axe4zay4rQJ4U4Ud5kURtOjLs
+ t9QMaU1Cs5yBAebx5AO+21BpUfPgA1Sm0K87W099cNA/7k4mgEhh7m26soV3cS4+bbIu
+ CmRq5Ez2Z5HnOFlcsxjUxgWdJ1UnM+G6b59gR0SRcmpkJtwIBFqOuQQYqhYGUFOuRfaJ
+ o3VQ==
+X-Gm-Message-State: APjAAAX/EuPUbsKPkU14KW3rZ7jSfKjNxTjMkusOUBTBxj4LRJx5pXGo
+ 2oQBFKY94TJejFLZjzxLFwHBBUdIKVE=
+X-Google-Smtp-Source: APXvYqwjk8NYCC8hvOlyXESbovgMIV9ogtZ3QAfWtu+0+Ylw6xwLggzRSif2kiZBauXw0bXCRM763w==
+X-Received: by 2002:a05:600c:2243:: with SMTP id
+ a3mr4432590wmm.83.1562358204804; 
  Fri, 05 Jul 2019 13:23:24 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.23
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.24
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 13:23:23 -0700 (PDT)
+ Fri, 05 Jul 2019 13:23:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:23:10 +0200
-Message-Id: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 22:23:11 +0200
+Message-Id: <1562358202-28008-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
+References: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PULL 00/12] Misc bugfixes for QEMU hard freeze
+Subject: [Qemu-devel] [PULL 01/12] pc: fix possible NULL pointer dereference
+ in pc_machine_get_device_memory_region_size()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,69 +76,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 39d1b92b810793e02558e05efa23059f67520bc9:
+From: Igor Mammedov <imammedo@redhat.com>
 
-  Merge remote-tracking branch 'remotes/bkoppelmann2/tags/pull-tricore-20190625' into staging (2019-07-01 13:47:21 +0100)
+QEMU will crash when device-memory-region-size property is read if ms->device_memory
+wasn't initialized yet.
 
-are available in the git repository at:
+Crash can be reproduced with:
+ $QEMU -preconfig -qmp unix:qmp_socket,server,nowait &
+ ./scripts/qmp/qom-get -s qmp_socket /machine.device-memory-region-size
 
+Instead of crashing return 0 if ms->device_memory hasn't been initialized.
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1560174635-22602-1-git-send-email-imammedo@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/i386/pc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 03f990a5e31e28c9a2794729638f2117e028bfa5:
-
-  ioapic: use irq number instead of vector in ioapic_eoi_broadcast (2019-07-05 22:19:59 +0200)
-
-----------------------------------------------------------------
-Bugfixes.
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      target/i386: fix feature check in hyperv-stub.c
-
-Igor Mammedov (1):
-      pc: fix possible NULL pointer dereference in pc_machine_get_device_memory_region_size()
-
-Julio Montes (2):
-      Makefile: generate header file with the list of devices enabled
-      hw/i386: Fix linker error when ISAPC is disabled
-
-Li Qiang (2):
-      ioapic: clear irq_eoi when updating the ioapic redirect table entry
-      ioapic: use irq number instead of vector in ioapic_eoi_broadcast
-
-Liran Alon (1):
-      target/i386: kvm: Fix when nested state is needed for migration
-
-Max Reitz (1):
-      i386/kvm: Fix build with -m32
-
-Paolo Bonzini (2):
-      checkpatch: do not warn for multiline parenthesized returned value
-      minikconf: do not include variables from MINIKCONF_ARGS in config-all-devices.mak
-
-Peter Xu (1):
-      intel_iommu: Fix unexpected unmaps during global unmap
-
-Yan Zhao (1):
-      intel_iommu: Fix incorrect "end" for vtd_address_space_unmap
-
- Makefile.target           |  4 +++
- hw/i386/intel_iommu.c     | 71 ++++++++++++++++++++++++++++-------------------
- hw/i386/pc.c              |  6 +++-
- hw/i386/pc_piix.c         | 12 ++++++--
- hw/intc/ioapic.c          | 11 ++++----
- scripts/checkpatch.pl     |  3 +-
- scripts/create_config     |  2 ++
- scripts/minikconf.py      |  5 +++-
- target/i386/hyperv-stub.c |  2 +-
- target/i386/kvm.c         |  7 +++--
- target/i386/machine.c     |  5 ++--
- 11 files changed, 82 insertions(+), 46 deletions(-)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e96360b..552f340 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2458,7 +2458,11 @@ pc_machine_get_device_memory_region_size(Object *obj, Visitor *v,
+                                          Error **errp)
+ {
+     MachineState *ms = MACHINE(obj);
+-    int64_t value = memory_region_size(&ms->device_memory->mr);
++    int64_t value = 0;
++
++    if (ms->device_memory) {
++        value = memory_region_size(&ms->device_memory->mr);
++    }
+ 
+     visit_type_int(v, name, &value, errp);
+ }
 -- 
 1.8.3.1
+
 
 
