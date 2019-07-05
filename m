@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1440604C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:53:55 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD01D604E8
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:59:03 +0200 (CEST)
+Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjLqk-0004gq-TH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
+	id 1hjLvi-0007Ve-Tl
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:59:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60996)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hjLpS-0004HO-1S
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:52:36 -0400
+ (envelope-from <skrtbhtngr@gmail.com>) id 1hjLuW-00076Z-OS
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:57:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hjLpQ-0004bv-Pi
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:52:33 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34374)
+ (envelope-from <skrtbhtngr@gmail.com>) id 1hjLuU-0004Uu-7J
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:57:47 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37115)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hjLpQ-0004XK-IS
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:52:32 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n5so8669062otk.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <skrtbhtngr@gmail.com>)
+ id 1hjLuS-0004JN-SB
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:57:46 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n9so322306wrr.4
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=s9m8SkKZNrCygBnm5ajgKd3iqwTp3zz9Uvroz0OzYng=;
- b=s+4wTve/cMw+UDeUP/dsJW300Lc3kXpLRJGH4XaSThomH8J7TgXmUsZrAm+s7rAh3V
- G4bX8f4Rsl3ydF/hG7EYJlaNQfy0VyQbK4NIA2pXpZXY6j2BY4c5uNr99PAaoMGU4bKm
- qrKQpVlb/rBMJcIhSQAAlhNj2/zm/ison8iZ/cbzwhGw1o5TP/LFkfZiIBeJ/3sKLH+W
- Wq/64WnEhUAaNIBFZKHMSh0NteLSgu00RnAV02ZrMivHYmVLkUkR06sV2x8mMWFxcRSe
- HHLUFN56fI8ts/qh5vflREqvOjeRfZCb7+AU6dvVOAp/NpC3TygUMGyPUxfGUJrpMQ76
- +Rjw==
+ :cc; bh=2ZF0ghNT9B5EnJB2D+K7cDVKXiIxooB4Zu9GlsIVc6o=;
+ b=KK8HGjRulNVdNA7Ct4r+krkx0JADA0nr49Y1eSGGaAemu4NuKIlfSN2Y2nJ+5cswfZ
+ ChQ3dGLXmFBfP3p3TCMwXWdXUWVASvQtvw4j9AytmL1Mx6atmi1qTahcmQ8aJ8bSedIq
+ JBkEadpe5i27KQ72UIWQetZKBWC3MEPGb+DeOHFV2pE/Na1Izh+cm0xwZFPn45uSgnhq
+ WDEcCvFhYpgNG55Ebnk8j4iA6gFcUJKecAMP/vpWiCW+eZnnJYuZPLUH8t2R4eO4d7rj
+ +HZimN72E34/FSnTMlvvZdFL8TEKfyEA7pj2iQ5biSq+/yiu4IYi8ufEsNUzEFLdvLxN
+ PMaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=s9m8SkKZNrCygBnm5ajgKd3iqwTp3zz9Uvroz0OzYng=;
- b=bDXp9zabdXO4eU+URbEyiz2QPwYzqi0FsbUvgsvhrXtiZv9v+FKOanaRtsqBANiSzZ
- X0PZR2UcYCHCK9X6MGu5Pjd3qEtRVkUws53vkY6H/gsyJjrpE4wtGH1y45G2UDKnc2+U
- 4RaqOpuQzesizxwLiWTAb2shMWIgNtZ66WQs0fqxvTGR/vEn02dJLhQPVpO3liWIRGeV
- Cmgqyo9kFqWQEAfSjpsDYbVsse3S2SP/R76yQGMJ96nUBUp7dr/ic5Nib1k2wG1+jjle
- gmTlYRcVb8aUd2d/cNLPMJOIotr+clBkefFO/HpgKzHLtVYJRpJ/tR0W141j/gjtsz6G
- Jf6w==
-X-Gm-Message-State: APjAAAWnXTWw/xH5/1WkOU+yzU4fI6J/+U7+mk+jR27bxth9zBTp729S
- 6gUArah7czcuEHbkglZZnZJFQtAVq37V4O+edQNgtw==
-X-Google-Smtp-Source: APXvYqz+pDQVvaDuCXxXmMhUJkytRfZSlXppccDQx3X23gOwOUCOUZCi2xRo8U3vnzze7fpkfL+j1b4aNxZFU1yayls=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr2150035otj.97.1562323951083; 
- Fri, 05 Jul 2019 03:52:31 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=2ZF0ghNT9B5EnJB2D+K7cDVKXiIxooB4Zu9GlsIVc6o=;
+ b=t52i48mElPTKKC4yBgnQm4kfD11cX3+eXjCbQoqYF2c42b1xh3c5z5BmDD5p85hJCV
+ OQ31W3K6tOeCQ+yeLDlr/prMe/mVFH/tueuMU0He0kZGfqgLb8GIvuPZ+ZfQ7mSPuFMy
+ XD6KDx6bLpBBlVhHXLtKBqJiYEsZnQ8qfEVCvBtjzMGKSgtnpQhrRj8VVFMRM1UtxnJp
+ DWVqTfns5h3u+otPOI2axhekVKz6B7J+Czbd6ZEKOw+4+XltY4Go75dZZKeWaBl085R6
+ yp5RuOcwh1UjKdiecIBhaalendvMGk2K33OHPwoIeIaw4Uh1uhUN9hW8IeZ8JewIX1d8
+ K+DQ==
+X-Gm-Message-State: APjAAAXpHQGtX1T2Ds233EPNT7cv1qVP/bavGo0hCKXMVJ0X3v6iLAkJ
+ unkVk01OjVm+VA8ZOaj8AoHxMpzZ1Y721i9Jk8w=
+X-Google-Smtp-Source: APXvYqz5pB8220HyxMVgiPMJuJoUzyoN9PVlmB6gQsQ8wBvLrAQJTc+KXR8QRo+B5VuKyFs+7/9smzmk/1/0rR9muL8=
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr767630wrn.52.1562324262041;
+ Fri, 05 Jul 2019 03:57:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190617043858.8290-1-kraxel@redhat.com>
- <20190617043858.8290-10-kraxel@redhat.com>
- <87zhlsvkx1.fsf@zen.linaroharston>
- <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
-In-Reply-To: <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Jul 2019 11:52:20 +0100
-Message-ID: <CAFEAcA9yGCXB0XTNeZwzKyX+WtMNjG2s-RPRSc6GSOLN0nh6fQ@mail.gmail.com>
-To: Kamil Rytarowski <n54@gmx.com>
+References: <20190705010711.23277-1-marcel.apfelbaum@gmail.com>
+In-Reply-To: <20190705010711.23277-1-marcel.apfelbaum@gmail.com>
+From: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+Date: Fri, 5 Jul 2019 16:27:29 +0530
+Message-ID: <CAMzgYoNZkEYg9-OEc0p3HkZ6QYNFDR6MkE_WWx+YYduEp2FwUg@mail.gmail.com>
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v4 09/11] tests/vm: netbsd autoinstall,
- using serial console
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] hw/net: fix vmxnet3 live migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,47 +71,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Kamil Rytarowski <kamil@netbsd.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org,
+ Yuval Shaia <yuval.shaia@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Jul 2019 at 11:43, Kamil Rytarowski <n54@gmx.com> wrote:
+On Fri, 5 Jul 2019 at 06:38, Marcel Apfelbaum
+<marcel.apfelbaum@gmail.com> wrote:
 >
-> On 05.07.2019 12:24, Alex Benn=C3=A9e wrote:
-> >
-> > Gerd Hoffmann <kraxel@redhat.com> writes:
-> >
-> >> Instead of fetching the prebuilt image from patchew download the insta=
-ll
-> >> iso and prepare the image locally.  Install to disk, using the serial
-> >> console.  Create qemu user, configure ssh login.  Install packages
-> >> needed for qemu builds.
-> >
-> > I've had to drop this from my v3 PR as Peter was seeing a very
-> > slow/hanging install when running his merge tests. I've tried to
-> > reproduce and I see it stall while installing packages but nowhere near
-> > the delay Peter has seen.
-> >
-> > Any pointers on how to debug gratefully received.
-> >
+> At some point vmxnet3 live migration stopped working and git-bisect
+> didn't help finding a working version.
+> The issue is the PCI configuration space is not being migrated
+> successfully and MSIX remains masked at destination.
 >
-> Does it use virtio? There were performance issues with virio disk device.
+> Remove the migration differentiation between PCI and PCIe since
+> the logic resides now inside VMSTATE_PCI_DEVICE.
+> Remove also the VMXNET3_COMPAT_FLAG_DISABLE_PCIE based differentiation
+> since at 'realize' time is decided if the device is PCI or PCIe,
+> then the above macro is enough.
+>
+> Use the opportunity to move to the standard VMSTATE_MSIX
+> instead of the deprecated SaveVMHandlers.
+>
+> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Tested-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
 
-The symptoms I see with this patch are that the VM appears to
-completely stall, rather than progressing but slowly.
-(I do also see on the current NetBSD tests/vm setup that sometimes
-'make check' runs pretty slowly, but in that case it does make
-progress, it just completes much slower than either the openbsd
-or freebsd VMs. 'make check' is not particularly IO intensive,
-certainly not compared to the actual compile phase, though.
-And sometimes the initial "wait for VM to boot and ssh in"
-phase just hits our 6 minute timeout.)
-
-thanks
--- PMM
+> ---
+>  hw/net/vmxnet3.c | 52 ++----------------------------------------------
+>  1 file changed, 2 insertions(+), 50 deletions(-)
+>
+> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> index 10d01d0058..8b17548b02 100644
+> --- a/hw/net/vmxnet3.c
+> +++ b/hw/net/vmxnet3.c
+> @@ -2141,21 +2141,6 @@ vmxnet3_cleanup_msi(VMXNET3State *s)
+>      msi_uninit(d);
+>  }
+>
+> -static void
+> -vmxnet3_msix_save(QEMUFile *f, void *opaque)
+> -{
+> -    PCIDevice *d = PCI_DEVICE(opaque);
+> -    msix_save(d, f);
+> -}
+> -
+> -static int
+> -vmxnet3_msix_load(QEMUFile *f, void *opaque, int version_id)
+> -{
+> -    PCIDevice *d = PCI_DEVICE(opaque);
+> -    msix_load(d, f);
+> -    return 0;
+> -}
+> -
+>  static const MemoryRegionOps b0_ops = {
+>      .read = vmxnet3_io_bar0_read,
+>      .write = vmxnet3_io_bar0_write,
+> @@ -2176,11 +2161,6 @@ static const MemoryRegionOps b1_ops = {
+>      },
+>  };
+>
+> -static SaveVMHandlers savevm_vmxnet3_msix = {
+> -    .save_state = vmxnet3_msix_save,
+> -    .load_state = vmxnet3_msix_load,
+> -};
+> -
+>  static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
+>  {
+>      uint64_t dsn_payload;
+> @@ -2203,7 +2183,6 @@ static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
+>
+>  static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
+>  {
+> -    DeviceState *dev = DEVICE(pci_dev);
+>      VMXNET3State *s = VMXNET3(pci_dev);
+>      int ret;
+>
+> @@ -2249,8 +2228,6 @@ static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
+>          pcie_dev_ser_num_init(pci_dev, VMXNET3_DSN_OFFSET,
+>                                vmxnet3_device_serial_num(s));
+>      }
+> -
+> -    register_savevm_live(dev, "vmxnet3-msix", -1, 1, &savevm_vmxnet3_msix, s);
+>  }
+>
+>  static void vmxnet3_instance_init(Object *obj)
+> @@ -2440,29 +2417,6 @@ static const VMStateDescription vmstate_vmxnet3_int_state = {
+>      }
+>  };
+>
+> -static bool vmxnet3_vmstate_need_pcie_device(void *opaque)
+> -{
+> -    VMXNET3State *s = VMXNET3(opaque);
+> -
+> -    return !(s->compat_flags & VMXNET3_COMPAT_FLAG_DISABLE_PCIE);
+> -}
+> -
+> -static bool vmxnet3_vmstate_test_pci_device(void *opaque, int version_id)
+> -{
+> -    return !vmxnet3_vmstate_need_pcie_device(opaque);
+> -}
+> -
+> -static const VMStateDescription vmstate_vmxnet3_pcie_device = {
+> -    .name = "vmxnet3/pcie",
+> -    .version_id = 1,
+> -    .minimum_version_id = 1,
+> -    .needed = vmxnet3_vmstate_need_pcie_device,
+> -    .fields = (VMStateField[]) {
+> -        VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
+> -        VMSTATE_END_OF_LIST()
+> -    }
+> -};
+> -
+>  static const VMStateDescription vmstate_vmxnet3 = {
+>      .name = "vmxnet3",
+>      .version_id = 1,
+> @@ -2470,9 +2424,8 @@ static const VMStateDescription vmstate_vmxnet3 = {
+>      .pre_save = vmxnet3_pre_save,
+>      .post_load = vmxnet3_post_load,
+>      .fields = (VMStateField[]) {
+> -            VMSTATE_STRUCT_TEST(parent_obj, VMXNET3State,
+> -                                vmxnet3_vmstate_test_pci_device, 0,
+> -                                vmstate_pci_device, PCIDevice),
+> +            VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
+> +            VMSTATE_MSIX(parent_obj, VMXNET3State),
+>              VMSTATE_BOOL(rx_packets_compound, VMXNET3State),
+>              VMSTATE_BOOL(rx_vlan_stripping, VMXNET3State),
+>              VMSTATE_BOOL(lro_supported, VMXNET3State),
+> @@ -2508,7 +2461,6 @@ static const VMStateDescription vmstate_vmxnet3 = {
+>      },
+>      .subsections = (const VMStateDescription*[]) {
+>          &vmxstate_vmxnet3_mcast_list,
+> -        &vmstate_vmxnet3_pcie_device,
+>          NULL
+>      }
+>  };
+> --
+> 2.17.1
+>
 
