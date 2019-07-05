@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B537C60CD8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:58:11 +0200 (CEST)
-Received: from localhost ([::1]:56086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEAEA60C79
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:41:17 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVHW-0000wM-UC
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34223)
+	id 1hjV1B-00042R-5W
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:41:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkJ-0004Pp-UO
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:54 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkS-0004Yh-LK
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:24:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkC-0002sG-4v
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:46 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44354)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkQ-00033s-LR
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:24:00 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUk5-0002mO-VC
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:39 -0400
-Received: by mail-wr1-x434.google.com with SMTP id b2so9796769wrx.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:23:35 -0700 (PDT)
+ id 1hjUkL-0002n8-Nc
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:55 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r1so4699621wrl.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UHc1AWBOadewTEukk6xNWZCM4+ZLGS/wJxEaP2onOLs=;
- b=XpVZj5QkjsUZUHqI1s+Tr5NLFxI50bXFE7Ep5ymr7yJoELSGbmAeaU26wsI2Axw/fb
- 8ECfvIzLtdfk/QftzjFyauFl/SK12TrUV1nmmB+/TMYfYLvDsHJqWZVlmrDFhXUWFzde
- xtscf8f0l/zkUnQDpkdPknUAs09Y3ubipmZqC2FPqKjiajP4cR4Yn2DXhxKYFCmLVqHt
- NGIRw0OvvuiOjPEuTFj3VF1PRS7aBnQlrwLIE3T0wMWH2Q5eLwVwPjzx8Wg41AL4cXTE
- S13Yff2etYirFdvFYI+Ak4NAloKxM0DCARWmuKODnPCKxla1CFFX1eVhRsJfjtyGjIY5
- Ne0w==
+ bh=tkNz7uqIs0Rv1hq1F0XpRF7vtnO8a8dqtlBjE4VOmbk=;
+ b=CiNK7xa1Jx2Ke2fdyKqozCsgA8qo8aCH4aKnQkiM3/MeT+qSk6SHXC1Ymv5D1/AC/7
+ fAuBD+3TQjrfDG0KN2ddV8fZ2KIWqDra8hQSw6R65TvZ4DptCg/U91j3MxuPZOZyClQF
+ omMlyuylSzdJ4mFjGrG3bul7z3K/4IJj2ka0aMxoj8VIiQ0+R9ikCWYimVjlVRUDjz9K
+ J9P7o6YVdw8dsng2d/sZxlLWnfgFZfvaDU6EcGOileGAXMH7MCf9XzrTX/rfSkjhoKjm
+ L8tPA1rN3AgAlfRTgaTLSHePA85Dg//nz2fNA0nCdrsAApqU2+6gVoFYsH+m6EZ53ST6
+ 7kmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=UHc1AWBOadewTEukk6xNWZCM4+ZLGS/wJxEaP2onOLs=;
- b=DlwY5pbxUOjlTyCV8qFcaUBss/+vftUdSbdKiewLTkqxNE58ImgBT8tx/NLd1OT3X+
- BcRsBQ42jWi4CtqwRuwnDkiOIoE3zZcAs4+PJLV8DAZIVc9eEtpAFhkNk02Q2+jTSYGD
- iPBR3tb5dDgcvEm8PLqG9dRCZg5tbQTFNZudPUFS+/Lirqnv9Q8oHoPXwxNqFCq7xrGU
- XRGdf4vDsnko5yrkeJSI4u5EhLNPuBrEdrTVLSaP/vL7wec61wpHEoNRhn55fA8IR2aS
- ufhvjNLscL/XXk0uZsSl2oyFpRPvXW+ixtAxBCPg537ExvwrLIHG/ZEfuNctcNXqn1rD
- OvUQ==
-X-Gm-Message-State: APjAAAUctTfPmC44ehzwkOzaCyy5Q3NZKloX+IabeDLWSnFZxguZhJ2i
- UR4fEfjPJSHsnZ3tvf8iOuErjtIr/T4=
-X-Google-Smtp-Source: APXvYqwX7n8FYJLojGJ4Ij3rteAMhoEV3vEGRSe0Da8Hg/PZdHSPShNUOiUXW/QbMbLORODBTao8Xg==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr5026623wrm.68.1562358214000;
+ bh=tkNz7uqIs0Rv1hq1F0XpRF7vtnO8a8dqtlBjE4VOmbk=;
+ b=aO2V+zWW2JDclbavJ1EK77mxy1YoMn5EUBQwNFq0jK5ymilT3+HxTL+HawZd1mwJqE
+ 84Ko23kDK0FEbOOIbgS9lUubLoa0NQk+Ndzn2bM0llf/I8d4Bzwgxxb1VyMm4NdNSfdx
+ hcg5IHNfMGeym6PtOmjFpuOK6JbmOCg2/QOmJ0nCkWdlCav+qQ+YZSA6+8VgygjCPqjM
+ /KI0IF7/8cLaebdxO9IDiqn7ICoHc4SmEX80OHN6ahsVUyXmdPnbfGU65/fmRoeTnFYg
+ 6WO7Ye3xF+9woEvnjQJKcvLDeqxxuR+Bqrtl9G8gQKpPRCD9KcNtNb2NIeTJp2tV7+r1
+ 08Tg==
+X-Gm-Message-State: APjAAAXKVxEfJROROsGXRmhE3Kok/UxjtOpMJgqJwL7hUmgKPNsjkpVP
+ V1NlNGkG1ToJR6yfFyS+rjYj5BbRc9E=
+X-Google-Smtp-Source: APXvYqy2kXav6uHXm46tXNoqwg6Z+fTsS1uqDM1WinsjQIMu/CoKLgLdL8FPpnvRixxaFukcdI5A6w==
+X-Received: by 2002:a05:6000:1203:: with SMTP id
+ e3mr5000065wrx.300.1562358214871; 
  Fri, 05 Jul 2019 13:23:34 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.32
+ by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 13:23:33 -0700 (PDT)
+ Fri, 05 Jul 2019 13:23:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:23:21 +0200
-Message-Id: <1562358202-28008-12-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 22:23:22 +0200
+Message-Id: <1562358202-28008-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
 References: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: [Qemu-devel] [PULL 11/12] hw/i386: Fix linker error when ISAPC is
- disabled
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL 12/12] ioapic: use irq number instead of vector
+ in ioapic_eoi_broadcast
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,71 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julio Montes <julio.montes@intel.com>
+Cc: Li Qiang <liq3ea@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Julio Montes <julio.montes@intel.com>
+From: Li Qiang <liq3ea@163.com>
 
-v2: include config-devices.h to use CONFIG_IDE_ISA
+When emulating irqchip in qemu, such as following command:
 
-Message-Id: <20190705143554.10295-2-julio.montes@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Julio Montes <julio.montes@intel.com>
+x86_64-softmmu/qemu-system-x86_64 -m 1024 -smp 4 -hda /home/test/test.img
+-machine kernel-irqchip=off --enable-kvm -vnc :0 -device edu -monitor stdio
+
+We will get a crash with following asan output:
+
+(qemu) /home/test/qemu5/qemu/hw/intc/ioapic.c:266:27: runtime error: index 35 out of bounds for type 'int [24]'
+=================================================================
+==113504==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61b000003114 at pc 0x5579e3c7a80f bp 0x7fd004bf8c10 sp 0x7fd004bf8c00
+WRITE of size 4 at 0x61b000003114 thread T4
+    #0 0x5579e3c7a80e in ioapic_eoi_broadcast /home/test/qemu5/qemu/hw/intc/ioapic.c:266
+    #1 0x5579e3c6f480 in apic_eoi /home/test/qemu5/qemu/hw/intc/apic.c:428
+    #2 0x5579e3c720a7 in apic_mem_write /home/test/qemu5/qemu/hw/intc/apic.c:802
+    #3 0x5579e3b1e31a in memory_region_write_accessor /home/test/qemu5/qemu/memory.c:503
+    #4 0x5579e3b1e6a2 in access_with_adjusted_size /home/test/qemu5/qemu/memory.c:569
+    #5 0x5579e3b28d77 in memory_region_dispatch_write /home/test/qemu5/qemu/memory.c:1497
+    #6 0x5579e3a1b36b in flatview_write_continue /home/test/qemu5/qemu/exec.c:3323
+    #7 0x5579e3a1b633 in flatview_write /home/test/qemu5/qemu/exec.c:3362
+    #8 0x5579e3a1bcb1 in address_space_write /home/test/qemu5/qemu/exec.c:3452
+    #9 0x5579e3a1bd03 in address_space_rw /home/test/qemu5/qemu/exec.c:3463
+    #10 0x5579e3b8b979 in kvm_cpu_exec /home/test/qemu5/qemu/accel/kvm/kvm-all.c:2045
+    #11 0x5579e3ae4499 in qemu_kvm_cpu_thread_fn /home/test/qemu5/qemu/cpus.c:1287
+    #12 0x5579e4cbdb9f in qemu_thread_start util/qemu-thread-posix.c:502
+    #13 0x7fd0146376da in start_thread (/lib/x86_64-linux-gnu/libpthread.so.0+0x76da)
+    #14 0x7fd01436088e in __clone (/lib/x86_64-linux-gnu/libc.so.6+0x12188e
+
+This is because in ioapic_eoi_broadcast function, we uses 'vector' to
+index the 's->irq_eoi'. To fix this, we should uses the irq number.
+
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20190622002119.126834-1-liq3ea@163.com>
 ---
- hw/i386/pc_piix.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ hw/intc/ioapic.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c07c4a5..cc04c01 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -23,6 +23,7 @@
-  */
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index db9e518..c408749 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -245,8 +245,8 @@ void ioapic_eoi_broadcast(int vector)
+             s->ioredtbl[n] = entry & ~IOAPIC_LVT_REMOTE_IRR;
  
- #include "qemu/osdep.h"
-+#include "config-devices.h"
- 
- #include "qemu/units.h"
- #include "hw/hw.h"
-@@ -61,9 +62,11 @@
- 
- #define MAX_IDE_BUS 2
- 
-+#ifdef CONFIG_IDE_ISA
- static const int ide_iobase[MAX_IDE_BUS] = { 0x1f0, 0x170 };
- static const int ide_iobase2[MAX_IDE_BUS] = { 0x3f6, 0x376 };
- static const int ide_irq[MAX_IDE_BUS] = { 14, 15 };
-+#endif
- 
- /* PC hardware initialisation */
- static void pc_init1(MachineState *machine,
-@@ -254,7 +257,10 @@ static void pc_init1(MachineState *machine,
+             if (!(entry & IOAPIC_LVT_MASKED) && (s->irr & (1 << n))) {
+-                ++s->irq_eoi[vector];
+-                if (s->irq_eoi[vector] >= SUCCESSIVE_IRQ_MAX_COUNT) {
++                ++s->irq_eoi[n];
++                if (s->irq_eoi[n] >= SUCCESSIVE_IRQ_MAX_COUNT) {
+                     /*
+                      * Real hardware does not deliver the interrupt immediately
+                      * during eoi broadcast, and this lets a buggy guest make
+@@ -254,16 +254,16 @@ void ioapic_eoi_broadcast(int vector)
+                      * level-triggered interrupt. Emulate this behavior if we
+                      * detect an interrupt storm.
+                      */
+-                    s->irq_eoi[vector] = 0;
++                    s->irq_eoi[n] = 0;
+                     timer_mod_anticipate(s->delayed_ioapic_service_timer,
+                                          qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+                                          NANOSECONDS_PER_SECOND / 100);
+-                    trace_ioapic_eoi_delayed_reassert(vector);
++                    trace_ioapic_eoi_delayed_reassert(n);
+                 } else {
+                     ioapic_service(s);
+                 }
+             } else {
+-                s->irq_eoi[vector] = 0;
++                s->irq_eoi[n] = 0;
+             }
          }
-         idebus[0] = qdev_get_child_bus(&dev->qdev, "ide.0");
-         idebus[1] = qdev_get_child_bus(&dev->qdev, "ide.1");
--    } else {
-+        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-+    }
-+#ifdef CONFIG_IDE_ISA
-+else {
-         for(i = 0; i < MAX_IDE_BUS; i++) {
-             ISADevice *dev;
-             char busname[] = "ide.0";
-@@ -268,9 +274,9 @@ static void pc_init1(MachineState *machine,
-             busname[4] = '0' + i;
-             idebus[i] = qdev_get_child_bus(DEVICE(dev), busname);
-         }
-+        pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
      }
--
--    pc_cmos_init(pcms, idebus[0], idebus[1], rtc_state);
-+#endif
- 
-     if (pcmc->pci_enabled && machine_usb(machine)) {
-         pci_create_simple(pci_bus, piix3_devfn + 2, "piix3-usb-uhci");
 -- 
 1.8.3.1
-
 
 
