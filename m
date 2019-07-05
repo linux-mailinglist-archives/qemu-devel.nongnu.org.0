@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552DB60072
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 07:06:57 +0200 (CEST)
-Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E459060094
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 07:25:04 +0200 (CEST)
+Received: from localhost ([::1]:49868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjGQy-0003FI-4K
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 01:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50011)
+	id 1hjGiV-0008Mm-UH
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 01:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53127)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hjGPj-0002o7-9R
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 01:05:40 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hjGhF-0007We-TD
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 01:23:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hjGPi-0008M0-Ar
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 01:05:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49524)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hjGPi-0008Kc-52
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 01:05:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hjGPf-00083p-LD
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 05:05:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9ABEB2E804B
- for <qemu-devel@nongnu.org>; Fri,  5 Jul 2019 05:05:35 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1hjGhE-0007AR-PR
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 01:23:45 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58719 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hjGhD-00073l-CE; Fri, 05 Jul 2019 01:23:44 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45g3Ct2mNPz9sNp; Fri,  5 Jul 2019 15:23:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1562304218;
+ bh=Rladb2u5r1twdla6zW8hxtyP/5iCd/Z1a8RQPSFhopk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fjv+cF4MU1CjEb5YocgDMh4hf3FfkNsNrGAgJv54udh9821ZIJb7z89R+KsD1FYKX
+ GGbD6FHHg4NRt5IuWHDBOsCjLbtz8d6FWgU9mF955w2iCu7r6gHmWCxVyrVqoU354N
+ 4Ps5TG6FR/kElz14302ICr+A1sL2g/FZJAFBihCw=
+Date: Fri, 5 Jul 2019 15:18:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <20190705051842.GC3266@umbus.fritz.box>
+References: <20190705032501.106966-1-aik@ozlabs.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jul 2019 04:59:28 -0000
-From: Moshe Immerman <1835477@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: moshloop
-X-Launchpad-Bug-Reporter: Moshe Immerman (moshloop)
-X-Launchpad-Bug-Modifier: Moshe Immerman (moshloop)
-Message-Id: <156230276883.25246.16130789765520855631.malonedeb@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 9aa382d60d817d35126f65bfefb191002744030c
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="H8ygTp4AXg6deix2"
+Content-Disposition: inline
+In-Reply-To: <20190705032501.106966-1-aik@ozlabs.ru>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1835477] [NEW] Converting qcow2 to vmdk on MacOSX
- results in a non-bootable image
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [RFC PATCH qemu] vfio-quirks: Pass the actual
+ parent when deleting a memory region
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,45 +55,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835477 <1835477@bugs.launchpad.net>
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-When using qemu-img convert -O vmdk  with version 3.1.0 or 4.0.0 on OSX
-(10.14.3) with a qcow2 image  (https://cloud-
-images.ubuntu.com/bionic/20190703/bionic-server-cloudimg-amd64.img), the
-resulting image is not bootable.
+--H8ygTp4AXg6deix2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Running the same command on Ubuntu 18.04 results in a bootable image as
-expected
+On Fri, Jul 05, 2019 at 01:25:01PM +1000, Alexey Kardashevskiy wrote:
+> The usual way of using a quirk's MR is to add it as a subregion of a BAR
+> as this is what quirks are for. However there is less than standard user
+> of this - NVLink2-enabled NVIDIA GPU which exposes a GPU RAM and a ATSD
+> 64K region outside of PCI MMIO window so these MRs get the system address
+> space root as a parent. So when the user unplugs such device, assert
+> occurs:
+>=20
+> qemu-system-ppc64: /home/aik/p/qemu/memory.c:2391: memory_region_del_subr=
+egion: Assertion `subregion->container =3D=3D mr' failed.
+>=20
+> This passes the actual parent MR to memory_region_del_subregion() in
+> vfio_bar_quirk_exit.
+>=20
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
--- =
+> ---
+>=20
+> This removes an extra sanity check that a quirk has a correct parent;
+> I am not sure if it is very useful.
+> I could use the "system" MR if quirk->mem[i].container=3D=3Dget_system_me=
+mory()
+> and quirk->mem[i].container otherwise to keep that assert working.
+>=20
+> Also this does not help with the actual device removal much because of
+> the closed source driver nature - the associated service
+> (nvidia-persistenced, responsible for onlining GPU memory) crashes
+> the guest system but at least the user can reboot the guest after
+> the crash which is not as bad as assert.
+>=20
+> ---
+>  hw/vfio/pci-quirks.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+> index 27dddbc8fa3e..ef2e182c1d36 100644
+> --- a/hw/vfio/pci-quirks.c
+> +++ b/hw/vfio/pci-quirks.c
+> @@ -1896,7 +1896,8 @@ void vfio_bar_quirk_exit(VFIOPCIDevice *vdev, int n=
+r)
+>          }
+> =20
+>          for (i =3D 0; i < quirk->nr_mem; i++) {
+> -            memory_region_del_subregion(bar->region.mem, &quirk->mem[i]);
+> +            memory_region_del_subregion(quirk->mem[i].container,
+> +                                        &quirk->mem[i]);
+>          }
+>      }
+>  }
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835477
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Title:
-  Converting qcow2 to vmdk on MacOSX results in a non-bootable image
+--H8ygTp4AXg6deix2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Status in QEMU:
-  New
+-----BEGIN PGP SIGNATURE-----
 
-Bug description:
-  When using qemu-img convert -O vmdk  with version 3.1.0 or 4.0.0 on
-  OSX (10.14.3) with a qcow2 image  (https://cloud-
-  images.ubuntu.com/bionic/20190703/bionic-server-cloudimg-amd64.img),
-  the resulting image is not bootable.
+iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0e3bAACgkQbDjKyiDZ
+s5IbKg/44U9BYLm4RP9wadwbqWJRwtMeSQcJicZOcoPmAnkOonp1TllQUjxNA5K+
+Qd1FmtCPBFVnXZfe9hX5O+me7cODWls/G5FbrHGXfYzEkRQVfR63ZGyMlyRdYCpu
+g89bWOVEQWN1NtTKVY6FWTsLHXFXBqSVNzIW8LenxAOhzK3AMHUVV/tu6MsExTSy
+ntZE14/n4WAj6IVGzVUh8Zl0GH6Jh0kNI6CgwkaQNxp9Dc+mf9cKfZfq8/LpcSHZ
+j/R5ub88QXCntDnYbjaLGhMOPatZqrIHJRxf+PENDxlztk7ydYmbYWV0tm7pHDE2
+CGQ32WKLas2ozquAre7jE3YLhrf2Ih81X2uw+cW2YSuvmO57+FAYIPK41e0/P50C
+S7Ua0nb0MOkYUAYI717LJm0c8fYF9WzXcq2VY4oTdayFcTcezJP+OZDlyRiK2EGf
+E7NO1K6FD/V8qsF4nQhOIkAnKPPfqDmuHBCBOHJCApCN/jbf5sxCQo7DgwXsS45u
+RcJguw0lgxWWX+u5vNR6h5xnzC1hy0Q/CAHyD5OaLTnq7y2jQzW9hVN2PR0YqKQd
+zZWBG0KsGMTu7+AN9I6xA1l9HKnCID0H28XaTKJfeo3CwFdqZ135C2d3oYSxNvzG
+n7fuiKuM4WbznZlrjrKXVEnAxCtHKKbbWpXfLUCNfVsP4sOKQQ==
+=txQd
+-----END PGP SIGNATURE-----
 
-  Running the same command on Ubuntu 18.04 results in a bootable image
-  as expected
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835477/+subscriptions
+--H8ygTp4AXg6deix2--
 
