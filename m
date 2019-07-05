@@ -2,65 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811C5603B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:01:14 +0200 (CEST)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AFA603C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:06:51 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjL1k-0006xd-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:01:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47684)
+	id 1hjL7C-0001e5-2A
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48801)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hjKza-0005Y4-A8
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:58:59 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hjL5H-0000Zc-6y
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:04:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hjKzZ-0004JZ-A5
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:58:58 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:44362)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hjKzZ-0004Ir-3d
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 05:58:57 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id e189so6717455oib.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 02:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mu89ZaTr0Q5Rtgrq3rLKUt+w/qx5N2xWCIpIzDByVuY=;
- b=VOePnv+qU8nVTGzRXriUDsDWu7te8OJRcqcAjheW5q0O4smTWY07JsrClc4QTkOuO0
- 9kD7Q/9qpZ6mye/lhQKY1SaCPhuZl5kHkD1rLe2YCUOhH1ucXGOiMTQPOOtCb5gTQOkT
- 2Rj6L/S/HVPeL8ylMTMg4Fm2IVr5rH30XVqmCZEdifrEDqhJ85XMYvu6u883d/dNkLX+
- EEM8r71Rya4JNdVo19TZjBt0lf4Tq8Vl9UWmjwg9seVkmubHY96iPWgoCtQhH/OG7P/+
- li3uwCk+V/bjSQ5MN+TA81bWDszyvQ7m8wJZMVUDp5bWOkaW0+kDOf6cBBiiw0PQVkPp
- 56lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mu89ZaTr0Q5Rtgrq3rLKUt+w/qx5N2xWCIpIzDByVuY=;
- b=Ea/um8OZXgXXrJ+qRFZEYm0JOaM9LfNlRXEsGCW1SsQ0pAXEQuILAEMELHGHwyOmuk
- gJLEBPg/GElbEGRe4IwwEVZzs38WrZ+57PkNwA6//hw1TM1aeGpYlKnM93kKEfSCmwwi
- R/GyKMUSTdKyimj+GnJtw7TpCDTEUeKSMQ31kOjVAdps25aBjWjItaA+1r9m3UnptaGi
- ifR0u1tVInhEBS9IOc8Pyl/K3U6zE66LESnzJl8ct7lyxopprK+vQJSVIu/J/8UqTi4O
- w9qknpKYs52DVi9Fe8I7C9/9E7BHlukCmPugxvuAWHe4287g7145JiR3YUP2S9bAwMFk
- sJJA==
-X-Gm-Message-State: APjAAAUec2gP0QOy+cWxh/pbcz9MnkVCPKTjpeeqJ2DPHqtLGoABIOVm
- iZAPGQQYpK68LKaOce017Wua9/HnKpa3AFm2kQ+ZIg==
-X-Google-Smtp-Source: APXvYqxTvZ8mnr/eU3RQVxWlkDMXCwNAsAG+KjfLU0+8dWrCMo1ZqdgNKYdAjYyvfg55GcGQxJSOGTxudskXNSlaUiE=
-X-Received: by 2002:aca:ac48:: with SMTP id v69mr1454816oie.48.1562320735218; 
- Fri, 05 Jul 2019 02:58:55 -0700 (PDT)
+ (envelope-from <balaton@eik.bme.hu>) id 1hjL5F-0006kV-Iq
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:04:51 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28857)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hjL5F-0006VR-5P
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:04:49 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1C76C7461AE;
+ Fri,  5 Jul 2019 12:04:19 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F18C57461AA; Fri,  5 Jul 2019 12:04:18 +0200 (CEST)
+Message-Id: <99bb800cba3596e47d2681642116756330dc6f63.1562320946.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Fri, 5 Jul 2019 12:00:09 +0200
+Date: Fri, 05 Jul 2019 12:02:26 +0200
 MIME-Version: 1.0
-References: <CAFEAcA-yzWhwYPzC9px0H-=x3XEPVBjZOhk402is49YpbmJX9g@mail.gmail.com>
- <ac682594-fac7-ca67-2cef-85db15920c7c@redhat.com>
-In-Reply-To: <ac682594-fac7-ca67-2cef-85db15920c7c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 Jul 2019 10:58:44 +0100
-Message-ID: <CAFEAcA-giDCA8ZTR3Ft3ZNQUBEJBaXNaMnZOmgPo3Auw1gvZjg@mail.gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22c
-Subject: Re: [Qemu-devel] pl031 time across vm save/reload
+X-Received-From: 2001:738:2001:2001::2001
+Subject: [Qemu-devel] [PATCH] ati-vga: Add registers for getting apertures
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +48,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Jul 2019 at 10:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> You're right, the compatibility causes wrong behavior for the default
-> -rtc settings (the RC pauses across migration).  The right thing to do
-> would be to store the base rather than the offset: that is, you store
-> the time at which LR was written.  Then the offset is s->lr - s->base
-> and it's independent of the machine on which the rtc_clock is being read.
+Some drivers (e.g. Linux radeon drm and MacOS) access these to find
+apertures to access card. Try to implement these but not sure these
+are correct yet.
 
-Right. How do we handle this for back-compat purposes? I guess
-we need to have a new migration subsection, so if it's present
-it has the 'base' value and we ignore the 'offset' in the
-main migration data, and if it's not present we assume an
-old->new migration and use the existing offset code. New->old
-migration would not be possible as the new subsection is
-always-present.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/ati.c      | 15 +++++++++++++++
+ hw/display/ati_dbg.c  |  5 +++++
+ hw/display/ati_regs.h |  5 +++++
+ 3 files changed, 25 insertions(+)
 
-> By the way, the data sheet says "the counter and match values are
-> compared in a comparator. When both values are equal, the RTCINTR
-> interrupt is asserted HIGH"; QEMU compares the RTC value (read from
-> RTC_DR) and not the counter value, but Linux code seems to expect QEMU's
-> behavior.
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index a747c4cc98..c8fc62505b 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -307,6 +307,21 @@ static uint64_t ati_mm_read(void *opaque, hwaddr add=
+r, unsigned int size)
+     case CNFG_MEMSIZE:
+         val =3D s->vga.vram_size;
+         break;
++    case CONFIG_APER_0_BASE:
++    case CONFIG_APER_1_BASE:
++        val =3D pci_default_read_config(&s->dev,
++                                      PCI_BASE_ADDRESS_0, size) & 0xffff=
+fff0;
++        break;
++    case CONFIG_APER_SIZE:
++        val =3D s->vga.vram_size;
++        break;
++    case CONFIG_REG_1_BASE:
++        val =3D pci_default_read_config(&s->dev,
++                                      PCI_BASE_ADDRESS_2, size) & 0xffff=
+fff0;
++        break;
++    case CONFIG_REG_APER_SIZE:
++        val =3D memory_region_size(&s->mm);
++        break;
+     case MC_STATUS:
+         val =3D 5;
+         break;
+diff --git a/hw/display/ati_dbg.c b/hw/display/ati_dbg.c
+index 88b3a11315..cbc52025d0 100644
+--- a/hw/display/ati_dbg.c
++++ b/hw/display/ati_dbg.c
+@@ -28,6 +28,11 @@ static struct ati_regdesc ati_reg_names[] =3D {
+     {"CNFG_CNTL", 0x00e0},
+     {"GEN_RESET_CNTL", 0x00f0},
+     {"CNFG_MEMSIZE", 0x00f8},
++    {"CONFIG_APER_0_BASE", 0x0100},
++    {"CONFIG_APER_1_BASE", 0x0104},
++    {"CONFIG_APER_SIZE", 0x0108},
++    {"CONFIG_REG_1_BASE", 0x010c},
++    {"CONFIG_REG_APER_SIZE", 0x0110},
+     {"MEM_CNTL", 0x0140},
+     {"MC_FB_LOCATION", 0x0148},
+     {"MC_AGP_LOCATION", 0x014C},
+diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
+index d7155c93d5..81fb5302c0 100644
+--- a/hw/display/ati_regs.h
++++ b/hw/display/ati_regs.h
+@@ -46,6 +46,11 @@
+ #define CNFG_CNTL                               0x00e0
+ #define GEN_RESET_CNTL                          0x00f0
+ #define CNFG_MEMSIZE                            0x00f8
++#define CONFIG_APER_0_BASE                      0x0100
++#define CONFIG_APER_1_BASE                      0x0104
++#define CONFIG_APER_SIZE                        0x0108
++#define CONFIG_REG_1_BASE                       0x010c
++#define CONFIG_REG_APER_SIZE                    0x0110
+ #define MEM_CNTL                                0x0140
+ #define MC_FB_LOCATION                          0x0148
+ #define MC_AGP_LOCATION                         0x014C
+--=20
+2.13.7
 
-The datasheet appears to be confused on this point -- for
-instance in section 2.1 figure 2.3 talks about "interrupt
-generation when the current RTC value (RTCDR) equals the
-Match Register value"...
-
-thanks
--- PMM
 
