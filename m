@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E17060CF9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:09:25 +0200 (CEST)
-Received: from localhost ([::1]:56165 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562BD60D17
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:21:25 +0200 (CEST)
+Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVSO-0003GN-D4
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1hjVe0-00055i-J1
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43115)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hjVQJ-0001Nw-DN
+ (envelope-from <liran.alon@oracle.com>) id 1hjVQJ-0001Nv-Df
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hjVQG-00005G-KL
+ (envelope-from <liran.alon@oracle.com>) id 1hjVQG-00005L-KS
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:14 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:35862)
+Received: from userp2130.oracle.com ([156.151.31.86]:44684)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hjVQ9-0008GT-44
+ id 1hjVQ9-0008Iv-41
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:07:08 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L3vPY025585;
- Fri, 5 Jul 2019 21:06:58 GMT
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L40Y7119968;
+ Fri, 5 Jul 2019 21:07:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2018-07-02; bh=bJXeKOcF+TXIe3UVh8CqtegBOh7vgPVZcG5BmVQ7yYo=;
- b=lxvSAqcyHOyvap1hgeVAXdOQJwkuhzOJQ5byYPPrkz1FN46j49qsuSeFmYFfarc3OiAP
- v3xCAiARWGXMUB+FYAmBWfZki/+EqH4fBIizVCVF4OJW09IgK+VTD5iq16Jj8f4faVAg
- PYI1UV/lmmhFkSNwfmXd5jYlWOtbZIDX7kvqLTauablF+WVq+xjcg5b7Yc4JtyreDbm/
- H6sV6GRAKlPlwacBTfcKoU1mOWixifdJhNafEqBrIIUW8fZ6e2IZZ3zR9Faj5eqr0CiT
- XY8DhgPrt1rTVLIiTNxyu/Ayl+DlJmVdkYocsK9ILniSAVId6oDpidPbl6mv3nWy2iNt jA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2te5tc4j6a-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=HMkjJwPA8RsubI7elVoiQ6HwDpd2t3xNOxViQul4hvM=;
+ b=UWDRNAQQhedLQBnYxQDgCyjveW7efcxIg2zD1MkEVWCJPYl0bx8WiQPURPCdtwuuZQts
+ C1kK68oiUMwJa36kym/uGPsTDQKnTYTuEdXJL86Y7G/gI0eWtG3/72lmrwxQliqM4U5x
+ 7YzQ8xoS0tELP/JvPAgPCZlVvnVQteFQ5iJw1DfotHzDA7/ICzL83Q/9Q5wkPvy8L4bs
+ GpWUNBx+v9fuTT1EvWnOq7gvZAefX3pngXXHHH09ahHU+2lzTp6osMe/NbPJ+OrgpeMF
+ tpcSAmppkaRIb8z61/Wy8VNvWwSS3pobU/2kd1fkq29zHCu31mmtutX3VtwsjiX5XsIh lw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2te61emgfs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Jul 2019 21:06:57 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L2X1t107403;
- Fri, 5 Jul 2019 21:06:57 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2thxrvm47h-1
+ Fri, 05 Jul 2019 21:07:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x65L2WNq175954;
+ Fri, 5 Jul 2019 21:07:00 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2th5qmx762-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Jul 2019 21:06:57 +0000
+ Fri, 05 Jul 2019 21:07:00 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x65L6tgQ030839;
- Fri, 5 Jul 2019 21:06:56 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x65L6wQa013862;
+ Fri, 5 Jul 2019 21:06:58 GMT
 Received: from spark.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 05 Jul 2019 14:06:55 -0700
+ with ESMTP ; Fri, 05 Jul 2019 14:06:58 -0700
 From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  6 Jul 2019 00:06:32 +0300
-Message-Id: <20190705210636.3095-1-liran.alon@oracle.com>
+Date: Sat,  6 Jul 2019 00:06:33 +0300
+Message-Id: <20190705210636.3095-2-liran.alon@oracle.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190705210636.3095-1-liran.alon@oracle.com>
+References: <20190705210636.3095-1-liran.alon@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9309
  signatures=668688
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=832
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1907050266
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9309
@@ -69,13 +72,13 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9309
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
  suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=887 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1907050266
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [PATCH 0/4] target/i386: kvm: Various nested-state
- fixes
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [PATCH 1/4] target/i386: kvm: Init nested-state for
+ VMX when vCPU expose VMX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,26 +90,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, kvm@vger.kernel.org
+Cc: pbonzini@redhat.com, Joao Martins <joao.m.martins@oracle.com>,
+ Liran Alon <liran.alon@oracle.com>, ehabkost@redhat.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+---
+ target/i386/kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This series is just a bunch of small fixes to recent QEMU nested-state
-migration support.
-
-1st and 2nd patch can be considered as trivial refactoring patches.
-
-3rd patch fixes a bug of requiring to save VMX nested-state when it is
-not needed.
-
-4rd patch removes migration blocker when vCPU is exposed with VMX and
-instead demand nested migration kernel capabilities only when vCPU may
-have enabled VMX. To provide for better backwards-compatible migration
-scenarios. For more info, refer to relevant commit message.
-
-Thanks,
--Liran
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index e4b4f5756a34..b57f873ec9e8 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1714,7 +1714,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+         env->nested_state->size = max_nested_state_len;
+ 
+-        if (IS_INTEL_CPU(env)) {
++        if (cpu_has_vmx(env)) {
+             struct kvm_vmx_nested_state_hdr *vmx_hdr =
+                 &env->nested_state->hdr.vmx;
+ 
+-- 
+2.20.1
 
 
