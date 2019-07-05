@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A0B60BF0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:55:23 +0200 (CEST)
-Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E8760BE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 21:53:06 +0200 (CEST)
+Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjUIk-00029Y-8D
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
+	id 1hjUGW-0007Dn-KT
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 15:53:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEJ-0005LB-IX
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEJ-0005Lo-PN
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEI-00045S-Ig
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUEI-00045h-QP
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:47 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44199)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40606)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUEI-000443-9A
+ id 1hjUEI-00044v-JY
  for qemu-devel@nongnu.org; Fri, 05 Jul 2019 15:50:46 -0400
-Received: by mail-wr1-x434.google.com with SMTP id b2so9732155wrx.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:45 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id v19so10720893wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 12:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=uj5oH2lIOzQhbVvPGa1CJyfr5Ywg7honDl46Ua9isOg=;
- b=e5pxmWZ2x/jzmd+RME9rArhSd0/w0Vi9e31BTWwALanK87fWMVEx3M0etf5vu5TDXN
- O2e8DaKadtltS0hO/WIPNUIVNvG5iamw0kUMVgotOf7KAwJAIDFmGZuMiWEIdeiyY1Tv
- un4XOoZ+6d2WNBL23xHXL8LzFOC4Pgdb6kQRfqqfnkcssvmYdch1xW+RjOhuuOWqJru4
- rflbiofpPsnR0DRmT2R39evgVCvI5iJGOAj+0hRxcd4aohFzqmB2lFmf0j9QyuTMfxkR
- CkmquloIsvIn3CD7kDCRiTFUVHLQUsElGc0OGn++wjSUOHoHDHllwe+3jyn+Ht4LjFJS
- +MEg==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=2QJXgDdeciu+QM4e3C1K2WEVvDtyNAWGx3hRO2WruJ0=;
+ b=CkGFfgrWkeR0F5/L12QMTojPnvYcn1XgG+NGFGw7TwxeU3f23UxO7GGrJh9n3UieAc
+ YMLV8SKzEEgDGk3NZ6XPPQnLLbCLGeQgwqhdaiXs9rqRUWk5a1HC+10s54vn5vN8XO0/
+ HnuVraVzo0RlFmkBxKhAI+E3MkU1aiX/swHsnm9F+cTweiQhXef5/o9r+ltDIIGZclET
+ eM1T9XcC8ESpWORvPd/49patx2hrfEIpCc1K3cdXawhW9xScLq9RrcbTuWko7SQ5dpJt
+ 1gPYOSQojKupG5uhG+E3ZCpC7Dksen++Lwj+DOyghfbZzEJzvOrWZCOHKJNqUgC9CtCm
+ bLlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=uj5oH2lIOzQhbVvPGa1CJyfr5Ywg7honDl46Ua9isOg=;
- b=f3qoEDJshqg01pPjqjO0L7RIHGu9Zpoujg7TqkLAO5MgNnahCPqV1Xd7T19VqoZAJn
- sPPfDlYSuoR57ckb/fZY1gG1ZGbcjyfRTbhza2kjcUoMu8cGaVio01tGTQ4AN3XqDhb+
- wfxUJUQj19F4A0fb9EzsanZ3xIsDRm7wec7Nbz65xXrro5Ftiy4gE3dVBWwjMWg0AQWI
- kbVgT0Ef3o5Bv71OzOGa/WeXvBJGFA+VY5ytWQ13WwR+YGOWJMT+BhEKVK3TNGUsGuvv
- RVPYHZu9AhsYcUBYouiZGy8+limT73Xz7cRVnFQqcVoA+f90Ecmb54H4ocyDZBxgwgkX
- GYZw==
-X-Gm-Message-State: APjAAAUk/wDZA+w9ZI9HWrXULA4oAZyeS2vjwkx8dQBS6lvmvXppUcvl
- djKnlyFql8pn+nvjKBZGjpuEeOdl2ks=
-X-Google-Smtp-Source: APXvYqzmfCXV3CdgQICaUQf5wpuYRSPAtWCNBwDigJy94AGzPVD1r/sRcH7YFC2hSvdSwMRNkD3kGw==
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr322476wrq.193.1562356244178;
- Fri, 05 Jul 2019 12:50:44 -0700 (PDT)
+ bh=2QJXgDdeciu+QM4e3C1K2WEVvDtyNAWGx3hRO2WruJ0=;
+ b=Wu33JwVqxZV3LD8/NyGnwlt0VcAR7wl9/tKGw/0VhyhmQPZe4oD06J7k9uwmnF6NyA
+ 9iDI2WlX7BYZK9W8TGfVVy7cLK4bIj1EQfUn8Yl7LfIosbrw5BgxY8j8CHn1EJa5TS8X
+ zfNwruNxY7+Y0aZQp+O9JRTyaUvI0ZjcilnCFzmhbCwtuIpauLjC3AGAPjxXopG9E7y9
+ QzZ4Sww1ostfJ+sOgUHrBRDhGrD3y8I0Vhvakj2Yfi005VF3aZwWWzbOOJ6wkPo3lVzL
+ 5jkx2sNviEFP3trcD95IP/qPpi44LkbyPRFO+oQVO9RMc30SZouNSEWMcVVDQKYgsj3d
+ UOLA==
+X-Gm-Message-State: APjAAAWGAE9NZVts6qzeDpNQeSh68HOapZntfAdG8s0nwSmF+MdNv4HP
+ EYlpuY83tTAuSZZlMxpbhwkbQ8IuyLI=
+X-Google-Smtp-Source: APXvYqzWdlsqdj+6q4vWtPe1t8sXQw/xpmWrEkuSyfn8oIhF3fPC6LlPE3Y5vovo77AYKtRKMZDFzw==
+X-Received: by 2002:a1c:a8c9:: with SMTP id r192mr4681860wme.43.1562356245333; 
+ Fri, 05 Jul 2019 12:50:45 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.42
+ by smtp.gmail.com with ESMTPSA id d10sm11478625wro.18.2019.07.05.12.50.44
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 12:50:42 -0700 (PDT)
+ Fri, 05 Jul 2019 12:50:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 21:50:28 +0200
-Message-Id: <1562356239-19391-2-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 21:50:29 +0200
+Message-Id: <1562356239-19391-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 References: <1562356239-19391-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
-Subject: [Qemu-devel] [PULL 01/12] pc: fix possible NULL pointer dereference
- in pc_machine_get_device_memory_region_size()
+X-Received-From: 2a00:1450:4864:20::331
+Subject: [Qemu-devel] [PULL 02/12] checkpatch: do not warn for multiline
+ parenthesized returned value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+While indeed we do not want to have
 
-QEMU will crash when device-memory-region-size property is read if ms->device_memory
-wasn't initialized yet.
+    return (a);
 
-Crash can be reproduced with:
- $QEMU -preconfig -qmp unix:qmp_socket,server,nowait &
- ./scripts/qmp/qom-get -s qmp_socket /machine.device-memory-region-size
+it is less clear that this applies to
 
-Instead of crashing return 0 if ms->device_memory hasn't been initialized.
+    return (a &&
+            b);
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1560174635-22602-1-git-send-email-imammedo@redhat.com>
+Some editors indent more nicely if you have parentheses, and some people's
+eyes may appreciate that as well.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1561116534-21814-1-git-send-email-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ scripts/checkpatch.pl | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e96360b..552f340 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2458,7 +2458,11 @@ pc_machine_get_device_memory_region_size(Object *obj, Visitor *v,
-                                          Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
--    int64_t value = memory_region_size(&ms->device_memory->mr);
-+    int64_t value = 0;
-+
-+    if (ms->device_memory) {
-+        value = memory_region_size(&ms->device_memory->mr);
-+    }
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index c2aaf42..2f81371 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2296,7 +2296,8 @@ sub process {
+ 			       $value =~ s/\([^\(\)]*\)/1/) {
+ 			}
+ #print "value<$value>\n";
+-			if ($value =~ /^\s*(?:$Ident|-?$Constant)\s*$/) {
++			if ($value =~ /^\s*(?:$Ident|-?$Constant)\s*$/ &&
++			    $line =~ /;$/) {
+ 				ERROR("return is not a function, parentheses are not required\n" . $herecurr);
  
-     visit_type_int(v, name, &value, errp);
- }
+ 			} elsif ($spacing !~ /\s+/) {
 -- 
 1.8.3.1
 
