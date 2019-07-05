@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370EE609CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:53:38 +0200 (CEST)
-Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A04C609BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:50:35 +0200 (CEST)
+Received: from localhost ([::1]:54290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQWn-0000R7-CJ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
+	id 1hjQTp-00050m-21
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQQb-0002vo-2q
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1hjQQb-00030s-9k
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQQX-0006HP-NF
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48038)
+ (envelope-from <philmd@redhat.com>) id 1hjQQZ-0006OI-9K
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39094)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjQQP-0005aH-PR; Fri, 05 Jul 2019 11:47:01 -0400
+ id 1hjQQU-0005lY-2y; Fri, 05 Jul 2019 11:47:06 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CC7AB3082135;
- Fri,  5 Jul 2019 15:46:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5A68381F12;
+ Fri,  5 Jul 2019 15:47:02 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBA221001B2F;
- Fri,  5 Jul 2019 15:46:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 440451001B27;
+ Fri,  5 Jul 2019 15:47:00 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:46:33 +0200
-Message-Id: <20190705154639.16591-4-philmd@redhat.com>
+Date: Fri,  5 Jul 2019 17:46:34 +0200
+Message-Id: <20190705154639.16591-5-philmd@redhat.com>
 In-Reply-To: <20190705154639.16591-1-philmd@redhat.com>
 References: <20190705154639.16591-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 05 Jul 2019 15:46:59 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 05 Jul 2019 15:47:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/9] hw/block/pflash_cfi01: Extract
- pflash_mode_read_array()
+Subject: [Qemu-devel] [PATCH v3 4/9] hw/block/pflash_cfi01: Start state
+ machine as READY to accept commands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,167 +63,44 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The same pattern is used when setting the flash in READ_ARRAY mode:
-- Set the state machine command to READ_ARRAY
-- Reset the write_cycle counter
-- Reset the memory region in ROMD
+When the state machine is ready to accept command, the bit 7 of
+the status register (SR) is set to 1.
+The guest polls the status register and check this bit before
+writting command to the internal 'Write State Machine' (WSM).
 
-Refactor the current code by extracting this pattern.
-It is used twice:
-- On a write access (on command failure, error, or explicitly asked)
-- When the device is initialized. Here the ROMD mode is hidden
-  by the memory_region_init_rom_device() call.
+Set SR.7 bit to 1 when the device is created.
 
-Rename the 'reset_flash' as 'mode_read_array' to make explicit we
-do not reset the device, we simply set its internal state machine
-in the READ_ARRAY mode. We do not reset the status register error
-bits, as a device reset would do.
+There is no migration impact by this change.
+
+Reference: Read Array Flowchart
+  "Common Flash Interface (CFI) and Command Sets"
+   (Intel Application Note 646)
+   Appendix B "Basic Command Set"
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 36 ++++++++++++++++++++----------------
- hw/block/trace-events   |  1 +
- 2 files changed, 21 insertions(+), 16 deletions(-)
+v3: Added migration comment.
+---
+ hw/block/pflash_cfi01.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 58cbef0588..81fbdbde7f 100644
+index 81fbdbde7f..200bfd0ab8 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -112,6 +112,14 @@ static const VMStateDescription vmstate_pflash =3D {
-     }
- };
-=20
-+static void pflash_mode_read_array(PFlashCFI01 *pfl)
-+{
-+    trace_pflash_mode_read_array();
-+    pfl->cmd =3D 0xff; /* Read Array */
-+    pfl->wcycle =3D 0;
-+    memory_region_rom_device_set_romd(&pfl->mem, true);
-+}
-+
- /* Perform a CFI query based on the bank width of the flash.
-  * If this code is called we know we have a device_width set for
-  * this flash.
-@@ -469,7 +477,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
-         case 0x50: /* Clear status bits */
-             DPRINTF("%s: Clear status bits\n", __func__);
-             pfl->status =3D 0x0;
--            goto reset_flash;
-+            goto mode_read_array;
-         case 0x60: /* Block (un)lock */
-             DPRINTF("%s: Block unlock\n", __func__);
-             break;
-@@ -494,10 +502,10 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr o=
-ffset,
-             break;
-         case 0xf0: /* Probe for AMD flash */
-             DPRINTF("%s: Probe for AMD flash\n", __func__);
--            goto reset_flash;
-+            goto mode_read_array;
-         case 0xff: /* Read array mode */
-             DPRINTF("%s: Read array mode\n", __func__);
--            goto reset_flash;
-+            goto mode_read_array;
-         default:
-             goto error_flash;
-         }
-@@ -524,7 +532,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
-                 pfl->wcycle =3D 0;
-                 pfl->status |=3D 0x80;
-             } else if (cmd =3D=3D 0xff) { /* Read Array */
--                goto reset_flash;
-+                goto mode_read_array;
-             } else
-                 goto error_flash;
-=20
-@@ -551,15 +559,15 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr o=
-ffset,
-                 pfl->wcycle =3D 0;
-                 pfl->status |=3D 0x80;
-             } else if (cmd =3D=3D 0xff) { /* read array mode */
--                goto reset_flash;
-+                goto mode_read_array;
-             } else {
-                 DPRINTF("%s: Unknown (un)locking command\n", __func__);
--                goto reset_flash;
-+                goto mode_read_array;
-             }
-             break;
-         case 0x98:
-             if (cmd =3D=3D 0xff) {
--                goto reset_flash;
-+                goto mode_read_array;
-             } else {
-                 DPRINTF("%s: leaving query mode\n", __func__);
-             }
-@@ -619,7 +627,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
-                     " the data is already written to storage!\n"
-                     "Flash device reset into READ mode.\n",
-                     __func__);
--                goto reset_flash;
-+                goto mode_read_array;
-             }
-             break;
-         default:
-@@ -629,7 +637,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
-     default:
-         /* Should never happen */
-         DPRINTF("%s: invalid write state\n",  __func__);
--        goto reset_flash;
-+        goto mode_read_array;
-     }
-     return;
-=20
-@@ -638,11 +646,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
-fset,
-                   "(offset " TARGET_FMT_plx ", wcycle 0x%x cmd 0x%x valu=
-e 0x%x)"
-                   "\n", __func__, offset, pfl->wcycle, pfl->cmd, value);
-=20
-- reset_flash:
--    trace_pflash_reset();
--    memory_region_rom_device_set_romd(&pfl->mem, true);
--    pfl->wcycle =3D 0;
--    pfl->cmd =3D 0xff;
-+ mode_read_array:
-+    pflash_mode_read_array(pfl);
- }
-=20
-=20
-@@ -757,8 +762,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+@@ -763,7 +763,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
 ror **errp)
-         pfl->max_device_width =3D pfl->device_width;
      }
 =20
--    pfl->wcycle =3D 0;
--    pfl->cmd =3D 0xff;
-+    pflash_mode_read_array(pfl);
-     pfl->status =3D 0;
+     pflash_mode_read_array(pfl);
+-    pfl->status =3D 0;
++    pfl->status =3D 0x80; /* WSM ready */
      /* Hardcoded CFI table */
      /* Standard "QRY" string */
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 13d1b21dd4..91a8a106c0 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -7,6 +7,7 @@ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0=
-x%02x val 0x%02x"
- # pflash_cfi02.c
- # pflash_cfi01.c
- pflash_reset(void) "reset"
-+pflash_mode_read_array(void) "mode: read array"
- pflash_timer_expired(uint8_t cmd) "command 0x%02x done"
- pflash_io_read(uint64_t offset, int width, int fmt_width, uint32_t value=
-, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*=
-x cmd:0x%02x wcycle:%u"
- pflash_io_write(uint64_t offset, int width, int fmt_width, uint32_t valu=
-e, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x wcycle:%u"
+     pfl->cfi_table[0x10] =3D 'Q';
 --=20
 2.20.1
 
