@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17167609D8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:57:13 +0200 (CEST)
-Received: from localhost ([::1]:54360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807DB609CD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 17:54:53 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjQaE-00052O-21
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36653)
+	id 1hjQXz-0002C1-Nu
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 11:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36675)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hjQQq-0003RJ-Bo
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:30 -0400
+ (envelope-from <philmd@redhat.com>) id 1hjQQs-0003UE-PD
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hjQQm-0007Hk-UW
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57004)
+ (envelope-from <philmd@redhat.com>) id 1hjQQm-0007Hf-U7
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 11:47:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51022)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hjQQf-0006dA-Du; Fri, 05 Jul 2019 11:47:17 -0400
+ id 1hjQQh-0006oI-V2; Fri, 05 Jul 2019 11:47:20 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B563B4E908;
- Fri,  5 Jul 2019 15:47:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3F63930C3192;
+ Fri,  5 Jul 2019 15:47:17 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A26051001B30;
- Fri,  5 Jul 2019 15:47:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF741001B30;
+ Fri,  5 Jul 2019 15:47:14 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 17:46:36 +0200
-Message-Id: <20190705154639.16591-7-philmd@redhat.com>
+Date: Fri,  5 Jul 2019 17:46:37 +0200
+Message-Id: <20190705154639.16591-8-philmd@redhat.com>
 In-Reply-To: <20190705154639.16591-1-philmd@redhat.com>
 References: <20190705154639.16591-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 05 Jul 2019 15:47:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Fri, 05 Jul 2019 15:47:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 6/9] hw/block/pflash_cfi01: Simplify
- CFI_QUERY processing
+Subject: [Qemu-devel] [PATCH v3 7/9] hw/block/pflash_cfi01: Improve command
+ comments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,63 +63,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current code does:
-
-if (write_cycle =3D=3D 0)
-  if (command =3D=3D CFI_QUERY)
-    break
-  write_cycle +=3D 1
-  last_command =3D command
-
-if (write_cycle =3D=3D 1)
-  if (last_command =3D=3D CFI_QUERY)
-    if (command =3D=3D READ_ARRAY
-      write_cycle =3D 0
-      last_command =3D READ_ARRAY
-
-Simplify by not increasing the write_cycle on CFI_QUERY,
-the next command are processed as normal wcycle=3D0.
-
-This matches the hardware datasheet (we do not enter the WRITE
-state machine, thus no write cycle involved).
-
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ hw/block/pflash_cfi01.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index c32c67d01d..e097d9260d 100644
+index e097d9260d..ba00e52923 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -491,7 +491,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
-set,
-             return;
-         case 0x98: /* CFI query */
-             DPRINTF("%s: CFI query\n", __func__);
--            break;
-+            pfl->cmd =3D cmd;
-+            return;
-         case 0xe8: /* Write to buffer */
-             DPRINTF("%s: Write to buffer\n", __func__);
-             /* FIXME should save @offset, @width for case 1+ */
-@@ -565,13 +566,6 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
-fset,
-                 goto mode_read_array;
-             }
+@@ -208,11 +208,11 @@ static uint32_t pflash_devid_query(PFlashCFI01 *pfl=
+, hwaddr offset)
+      * Offsets 2/3 are block lock status, is not emulated.
+      */
+     switch (boff & 0xFF) {
+-    case 0:
++    case 0: /* Manufacturer ID */
+         resp =3D pfl->ident0;
+         trace_pflash_manufacturer_id(resp);
+         break;
+-    case 1:
++    case 1: /* Device ID */
+         resp =3D pfl->ident1;
+         trace_pflash_device_id(resp);
+         break;
+@@ -455,11 +455,11 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr o=
+ffset,
+     case 0:
+         /* read mode */
+         switch (cmd) {
+-        case 0x10: /* Single Byte Program */
+-        case 0x40: /* Single Byte Program */
++        case 0x10: /* Single Byte Program (setup) */
++        case 0x40: /* Single Byte Program (setup) [Intel] */
+             DPRINTF("%s: Single Byte Program\n", __func__);
              break;
--        case 0x98:
--            if (cmd =3D=3D 0xff) {
--                goto mode_read_array;
--            } else {
--                DPRINTF("%s: leaving query mode\n", __func__);
--            }
--            break;
-         default:
-             goto error_flash;
-         }
+-        case 0x20: /* Block erase */
++        case 0x20: /* Block erase (setup) */
+             p =3D pfl->storage;
+             offset &=3D ~(pfl->sector_len - 1);
+=20
+@@ -515,8 +515,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+         break;
+     case 1:
+         switch (pfl->cmd) {
+-        case 0x10: /* Single Byte Program */
+-        case 0x40: /* Single Byte Program */
++        case 0x10: /* Single Byte Program (confirm) */
++        case 0x40: /* Single Byte Program (confirm) [Intel] */
+             DPRINTF("%s: Single Byte Program\n", __func__);
+             if (!pfl->ro) {
+                 pflash_data_write(pfl, offset, value, width, be);
+@@ -527,7 +527,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+             pfl->status |=3D 0x80; /* Ready! */
+             pfl->wcycle =3D 0;
+         break;
+-        case 0x20: /* Block erase */
++        case 0x20: /* Block erase (confirm) */
+         case 0x28:
+             if (cmd =3D=3D 0xd0) { /* confirm */
+                 pfl->wcycle =3D 0;
 --=20
 2.20.1
 
