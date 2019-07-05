@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F374A60CE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:04:07 +0200 (CEST)
-Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B10C60CD5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 22:54:15 +0200 (CEST)
+Received: from localhost ([::1]:56070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVNH-0006N9-4B
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34270)
+	id 1hjVDi-0006ax-5Y
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 16:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34179)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkS-0004Yk-M9
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:24:02 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUk9-0004Lc-L9
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hjUkR-00034V-Eu
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:24:00 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:47082)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hjUk4-0002nV-1N
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:37 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:32826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hjUkQ-0002gi-NQ
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:59 -0400
-Received: by mail-wr1-x443.google.com with SMTP id z1so6392901wru.13
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:23:27 -0700 (PDT)
+ id 1hjUjz-0002hF-Rn
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 16:23:33 -0400
+Received: by mail-wm1-x331.google.com with SMTP id h19so8294532wme.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 13:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=wzOpofdcurA5wsLNGyb10WqGKKid4Jy5IfhsoibOXrE=;
- b=DKyJRbEy18ZuxnVwrFYwij/hUBPHQFs+eLH81D2+OLJm6Lc4O1N7Ka7gP5hp9Kp0Dn
- blHm3xxR9lB89/uQZZHkhWoyKeeJZigr/0d1ESjD+NDw+gXrgyFsNWg19v/QJC7qiJnT
- x+sKOkYqkRJDcG/kFUrOz0efF2ZNTKGdSuHoa6GLbDZeMwGuVrFab3hk6k0FXMJ1Gw7k
- t9zUck5qkEKbpXyKDKTOwLTKiek/TUZ7cIghtugOYxASa88iESXLb4FHKPV3aQ6rwobS
- /m/oEzJlgwqaUCo6xzPdHSn5hvsukjjRaFevxRs9qtv4cWaMluPqOMUvvWIaDJLugGoo
- /khA==
+ bh=6hb8qfyahz2ocOwlim+36bgUK6wk1cqH4qWGOP6ftsg=;
+ b=Hko+fzodl8+JD8D73EYnXwlYk+GPuXKtCus7vta2/z06DkOljoqZf+KDfoztMdtcvg
+ zTnKkGkkuR9JeK6uO95foCLDS85CEpOd4OacedKLXuXJAedBobIU3xGGODI85J0PoNGr
+ d6OKPgiwZ/mwVn3SdAxt7YuhVr92K7Yh1ngSmSr43TnROgE3nKjWZ0UOax8eWM1tGaXc
+ jQf7+2W4LKgxU51sOtJKVp5NbXjYaVpaT5RGVtP/2+Skx0TepFvpL4nr0anyZLSzr5I7
+ zvNkqAo7HVaMCBBdtTTGhMSBYilMa7Do/xi87sn6CNZIJn5korD4ZilJ2h0oeudpOijb
+ h1wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=wzOpofdcurA5wsLNGyb10WqGKKid4Jy5IfhsoibOXrE=;
- b=LbO1p3sWNbc3bdHXWOedVd9DirdVRj2BzuoOl9BFeOIwLKoxbiGFBZuqB3kUsP/c/8
- nILEiYkzrYS2RPuZJxa7qQ9dZI+WzRoVa9LVRGkcKGTyHfT/T9Wvipc5DIfilMLCvkgD
- O/lGoWS8B5PzzAkjmafDwRje/gPuwJ9QMFPaosnELdCUb6/UjKPxVwrFKZDrzj5e42Ys
- keO/QTtGnSkwyN17zYOnc7GfISTgoqA72hyrA/x7jKozqnFpSLTdktKGNVt5lm+tNdDp
- oC6NiThnYuhSUYoRLoiIJciuFzmpMMVG9PhzlImElhkKDSDG0nK87M5ufvCyx5ghRqo8
- APTg==
-X-Gm-Message-State: APjAAAV/w1rsZZtjReKxWA5fZU/Ie0Q/3vwRMpxeUJBRYJTXjEE7BJK1
- iX8gYKCDsPq2l9P5LXEdntEqX4hVgMs=
-X-Google-Smtp-Source: APXvYqwbScvg06K9GOeh0UAuMC5Jp6uHLlTBh7UDryM1cWfw1LeQStZUjOPuXmMI2Gvwgjk0b9S7Eg==
-X-Received: by 2002:adf:ed04:: with SMTP id a4mr4880872wro.86.1562358206572;
- Fri, 05 Jul 2019 13:23:26 -0700 (PDT)
+ bh=6hb8qfyahz2ocOwlim+36bgUK6wk1cqH4qWGOP6ftsg=;
+ b=Poam5avqWEoelLoxor1/1MriiLEUp61dCpR4UW7CLVhpjkhnUTIpbFcQcA/z/h4hdI
+ YHu9Um3eNmedAZFbZscHxPGURsnZfuJR7xUi4KXf+JVWVXqCnwucXnJCBotkhQXjsVjx
+ xx34b51yhyWeDg+0f6cBR9kJic1TB/WfDh8OBvsgqYGD22VdT7UHGXFhfUh0p98BDJgj
+ I3bzivk3T/7Vp+rQklew0X6/P19vcF3BtK97X/YsH3KbAEjdLHFnLKG4I2mAJLhzmmsu
+ Dv2oYAel93920/o5I25P1aODnTUD2+g6T4AWaMfmJzt48uNs8W5F83mMN7C2iKOF3vKQ
+ UmDw==
+X-Gm-Message-State: APjAAAXlVMUKEk9HIPltz9/FmPiq+Yuoo5K+WsbagO25//CHoF4Pm4sU
+ 5FjZfvvrPS19F72hFm9Kf0ZQPm5kxU8=
+X-Google-Smtp-Source: APXvYqzelV1hXtG3JdTtXL5MsM7WN2MTxuYvaYY5mr+BK26XZjbx40EdMQPXu0XUMcYk4Bn7Z86O2A==
+X-Received: by 2002:a1c:96c7:: with SMTP id y190mr4200674wmd.87.1562358207498; 
+ Fri, 05 Jul 2019 13:23:27 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.25
+ by smtp.gmail.com with ESMTPSA id v23sm3035875wmj.32.2019.07.05.13.23.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 05 Jul 2019 13:23:25 -0700 (PDT)
+ Fri, 05 Jul 2019 13:23:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  5 Jul 2019 22:23:13 +0200
-Message-Id: <1562358202-28008-4-git-send-email-pbonzini@redhat.com>
+Date: Fri,  5 Jul 2019 22:23:14 +0200
+Message-Id: <1562358202-28008-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
 References: <1562358202-28008-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 03/12] i386/kvm: Fix build with -m32
+X-Received-From: 2a00:1450:4864:20::331
+Subject: [Qemu-devel] [PULL 04/12] intel_iommu: Fix incorrect "end" for
+ vtd_address_space_unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +75,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Reitz <mreitz@redhat.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Yan Zhao <yan.y.zhao@intel.com>
 
-find_next_bit() takes a pointer of type "const unsigned long *", but the
-first argument passed here is a "uint64_t *".  These types are
-incompatible when compiling qemu with -m32.
+IOMMUNotifier is with inclusive ranges, so we should check
+against (VTD_ADDRESS_SIZE(s->aw_bits) - 1).
 
-Just use ctz64() instead.
-
-Fixes: c686193072a47032d83cb4e131dc49ae30f9e5d
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190624193913.28343-1-mreitz@redhat.com>
+Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+[peterx: split from another bigger patch]
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20190624091811.30412-2-peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/i386/intel_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index e4b4f57..31490bf 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1043,14 +1043,15 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
-     CPUX86State *env = &cpu->env;
-     uint32_t r, fw, bits;
-     uint64_t deps;
--    int i, dep_feat = 0;
-+    int i, dep_feat;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 44b1231..719ce19 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3379,12 +3379,12 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+      * VT-d spec), otherwise we need to consider overflow of 64 bits.
+      */
  
-     if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
-         return 0;
+-    if (end > VTD_ADDRESS_SIZE(s->aw_bits)) {
++    if (end > VTD_ADDRESS_SIZE(s->aw_bits) - 1) {
+         /*
+          * Don't need to unmap regions that is bigger than the whole
+          * VT-d supported address space size
+          */
+-        end = VTD_ADDRESS_SIZE(s->aw_bits);
++        end = VTD_ADDRESS_SIZE(s->aw_bits) - 1;
      }
  
-     deps = kvm_hyperv_properties[feature].dependencies;
--    while ((dep_feat = find_next_bit(&deps, 64, dep_feat)) < 64) {
-+    while (deps) {
-+        dep_feat = ctz64(deps);
-         if (!(hyperv_feat_enabled(cpu, dep_feat))) {
-                 fprintf(stderr,
-                         "Hyper-V %s requires Hyper-V %s\n",
-@@ -1058,7 +1059,7 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
-                         kvm_hyperv_properties[dep_feat].desc);
-                 return 1;
-         }
--        dep_feat++;
-+        deps &= ~(1ull << dep_feat);
-     }
- 
-     for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
+     assert(start <= end);
 -- 
 1.8.3.1
 
