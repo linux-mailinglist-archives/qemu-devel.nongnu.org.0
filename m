@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBB060DC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:26:55 +0200 (CEST)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D8360DAF
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 00:19:10 +0200 (CEST)
+Received: from localhost ([::1]:56510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjWfO-0008JU-EO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54819)
+	id 1hjWXt-0000pn-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 18:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54853)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjWUX-0007CO-25
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:42 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hjWUY-0007EA-Qz
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjWUS-0003F4-Ts
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43710)
+ (envelope-from <ehabkost@redhat.com>) id 1hjWUX-0003Gz-2J
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53168)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWUP-0003DQ-7v
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:34 -0400
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjWUS-0003DR-Uw
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 18:15:39 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7CE2A81F13;
- Fri,  5 Jul 2019 22:15:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 722F13082B4D;
+ Fri,  5 Jul 2019 22:15:29 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02349189E3;
- Fri,  5 Jul 2019 22:15:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01BD72B597;
+ Fri,  5 Jul 2019 22:15:28 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Fri,  5 Jul 2019 19:14:27 -0300
-Message-Id: <20190705221504.25166-6-ehabkost@redhat.com>
+Date: Fri,  5 Jul 2019 19:14:28 -0300
+Message-Id: <20190705221504.25166-7-ehabkost@redhat.com>
 In-Reply-To: <20190705221504.25166-1-ehabkost@redhat.com>
 References: <20190705221504.25166-1-ehabkost@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 05 Jul 2019 22:15:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 05 Jul 2019 22:15:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v6 05/42] hw/riscv: Replace global smp variables
+Subject: [Qemu-devel] [PULL v6 06/42] hw/s390x: Replace global smp variables
  with machine smp properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,175 +62,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Like Xu <like.xu@linux.intel.com>
 
-The global smp variables in riscv are replaced with smp machine properties.
+The global smp variables in s390x are replaced with smp machine properties.
 
 A local variable of the same name would be introduced in the declaration
 phase if it's used widely in the context OR replace it on the spot if it's
 only used once. No semantic changes.
 
 Signed-off-by: Like Xu <like.xu@linux.intel.com>
-Message-Id: <20190518205428.90532-6-like.xu@linux.intel.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-[ehabkost: fix spike_board_init()]
-[ehabkost: fix riscv_sifive_e_soc_init()]
+Message-Id: <20190518205428.90532-7-like.xu@linux.intel.com>
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+[ehabkost: fix build failure at VCPU_IRQ_BUF_SIZE]
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+
+fixup! hw/s390x: Replace global smp variables with machine smp properties
+
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/riscv/sifive_e.c    |  6 ++++--
- hw/riscv/sifive_plic.c |  3 +++
- hw/riscv/sifive_u.c    | 11 +++++++----
- hw/riscv/spike.c       |  3 +++
- hw/riscv/virt.c        |  1 +
- 5 files changed, 18 insertions(+), 6 deletions(-)
+ hw/s390x/s390-virtio-ccw.c |  3 ++-
+ hw/s390x/sclp.c            |  2 +-
+ target/s390x/cpu.c         |  3 +++
+ target/s390x/excp_helper.c |  5 +++++
+ target/s390x/kvm.c         | 10 ++++++----
+ 5 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index d27f626529..2a499d8ed2 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -124,6 +124,7 @@ static void riscv_sifive_e_init(MachineState *machine)
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e09bf8f1b6..5b6a9a4e55 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -84,7 +84,7 @@ static void s390_init_cpus(MachineState *machine)
+     /* initialize possible_cpus */
+     mc->possible_cpu_arch_ids(machine);
  
- static void riscv_sifive_e_soc_init(Object *obj)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-     SiFiveESoCState *s = RISCV_E_SOC(obj);
- 
-     object_initialize_child(obj, "cpus", &s->cpus,
-@@ -131,7 +132,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
-                             &error_abort, NULL);
-     object_property_set_str(OBJECT(&s->cpus), SIFIVE_E_CPU, "cpu-type",
-                             &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), smp_cpus, "num-harts",
-+    object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
-                             &error_abort);
-     sysbus_init_child_obj(obj, "riscv.sifive.e.gpio0",
-                           &s->gpio, sizeof(s->gpio),
-@@ -140,6 +141,7 @@ static void riscv_sifive_e_soc_init(Object *obj)
- 
- static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-     const struct MemmapEntry *memmap = sifive_e_memmap;
-     Error *err = NULL;
- 
-@@ -168,7 +170,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         SIFIVE_E_PLIC_CONTEXT_STRIDE,
-         memmap[SIFIVE_E_PLIC].size);
-     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
--        memmap[SIFIVE_E_CLINT].size, smp_cpus,
-+        memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-     sifive_mmio_emulate(sys_mem, "riscv.sifive.e.aon",
-         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index 70a4413599..0950e89e15 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -24,6 +24,7 @@
- #include "qemu/error-report.h"
- #include "hw/sysbus.h"
- #include "hw/pci/msi.h"
-+#include "hw/boards.h"
- #include "target/riscv/cpu.h"
- #include "sysemu/sysemu.h"
- #include "hw/riscv/sifive_plic.h"
-@@ -439,6 +440,8 @@ static void sifive_plic_irq_request(void *opaque, int irq, int level)
- 
- static void sifive_plic_realize(DeviceState *dev, Error **errp)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    unsigned int smp_cpus = ms->smp.cpus;
-     SiFivePLICState *plic = SIFIVE_PLIC(dev);
-     int i;
- 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 4208671552..ca53a9290d 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -315,13 +315,14 @@ static void riscv_sifive_u_init(MachineState *machine)
- 
- static void riscv_sifive_u_soc_init(Object *obj)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-     SiFiveUSoCState *s = RISCV_U_SOC(obj);
- 
-     object_initialize_child(obj, "cpus", &s->cpus, sizeof(s->cpus),
-                             TYPE_RISCV_HART_ARRAY, &error_abort, NULL);
-     object_property_set_str(OBJECT(&s->cpus), SIFIVE_U_CPU, "cpu-type",
-                             &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), smp_cpus, "num-harts",
-+    object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
-                             &error_abort);
- 
-     sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
-@@ -330,6 +331,7 @@ static void riscv_sifive_u_soc_init(Object *obj)
- 
- static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-     SiFiveUSoCState *s = RISCV_U_SOC(dev);
-     const struct MemmapEntry *memmap = sifive_u_memmap;
-     MemoryRegion *system_memory = get_system_memory();
-@@ -351,9 +353,10 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-                                 mask_rom);
- 
-     /* create PLIC hart topology configuration string */
--    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) * smp_cpus;
-+    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) *
-+                           ms->smp.cpus;
-     plic_hart_config = g_malloc0(plic_hart_config_len);
 -    for (i = 0; i < smp_cpus; i++) {
-+    for (i = 0; i < ms->smp.cpus; i++) {
-         if (i != 0) {
-             strncat(plic_hart_config, ",", plic_hart_config_len);
++    for (i = 0; i < machine->smp.cpus; i++) {
+         s390x_new_cpu(machine->cpu_type, i, &error_fatal);
+     }
+ }
+@@ -411,6 +411,7 @@ static CpuInstanceProperties s390_cpu_index_to_props(MachineState *ms,
+ static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
+ {
+     int i;
++    unsigned int max_cpus = ms->smp.max_cpus;
+ 
+     if (ms->possible_cpus) {
+         g_assert(ms->possible_cpus && ms->possible_cpus->len == max_cpus);
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index 4510a800cb..fac7c3bb6c 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -64,7 +64,7 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+     prepare_cpu_entries(sclp, read_info->entries, &cpu_count);
+     read_info->entries_cpu = cpu_to_be16(cpu_count);
+     read_info->offset_cpu = cpu_to_be16(offsetof(ReadInfo, entries));
+-    read_info->highest_cpu = cpu_to_be16(max_cpus - 1);
++    read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
+ 
+     read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
+ 
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 8540e7a2cb..736a7903e2 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -37,6 +37,7 @@
+ #include "hw/qdev-properties.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/hw.h"
++#include "hw/boards.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
+@@ -197,6 +198,8 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+ 
+ #if !defined(CONFIG_USER_ONLY)
++    MachineState *ms = MACHINE(qdev_get_machine());
++    unsigned int max_cpus = ms->smp.max_cpus;
+     if (cpu->env.core_id >= max_cpus) {
+         error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
+                    ", maximum core-id: %d", cpu->env.core_id,
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 202456cdc5..892f659d5a 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -31,6 +31,7 @@
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/sysemu.h"
+ #include "hw/s390x/s390_flic.h"
++#include "hw/boards.h"
+ #endif
+ 
+ void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
+@@ -315,6 +316,10 @@ static void do_ext_interrupt(CPUS390XState *env)
+         g_assert(cpu_addr < S390_MAX_CPUS);
+         lowcore->cpu_addr = cpu_to_be16(cpu_addr);
+         clear_bit(cpu_addr, env->emergency_signals);
++#ifndef CONFIG_USER_ONLY
++        MachineState *ms = MACHINE(qdev_get_machine());
++        unsigned int max_cpus = ms->smp.max_cpus;
++#endif
+         if (bitmap_empty(env->emergency_signals, max_cpus)) {
+             env->pending_int &= ~INTERRUPT_EMERGENCY_SIGNAL;
          }
-@@ -379,7 +382,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sifive_uart_create(system_memory, memmap[SIFIVE_U_UART1].base,
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
-     sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
--        memmap[SIFIVE_U_CLINT].size, smp_cpus,
-+        memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index 0267c6c2f6..6e814c230b 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -119,8 +119,8 @@
+  * Needs to be big enough to contain max_cpus emergency signals
+  * and in addition NR_LOCAL_IRQS interrupts
+  */
+-#define VCPU_IRQ_BUF_SIZE (sizeof(struct kvm_s390_irq) * \
+-                           (max_cpus + NR_LOCAL_IRQS))
++#define VCPU_IRQ_BUF_SIZE(max_cpus) (sizeof(struct kvm_s390_irq) * \
++                                     (max_cpus + NR_LOCAL_IRQS))
  
-     for (i = 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index e68be00a5f..2991b341a2 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -159,6 +159,7 @@ static void spike_board_init(MachineState *machine)
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     int i;
-+    unsigned int smp_cpus = machine->smp.cpus;
+ static CPUWatchpoint hw_watchpoint;
+ /*
+@@ -362,9 +362,10 @@ unsigned long kvm_arch_vcpu_id(CPUState *cpu)
  
-     /* Initialize SOC */
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-@@ -241,6 +242,7 @@ static void spike_v1_10_0_board_init(MachineState *machine)
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     int i;
-+    unsigned int smp_cpus = machine->smp.cpus;
+ int kvm_arch_init_vcpu(CPUState *cs)
+ {
++    unsigned int max_cpus = MACHINE(qdev_get_machine())->smp.max_cpus;
+     S390CPU *cpu = S390_CPU(cs);
+     kvm_s390_set_cpu_state(cpu, cpu->env.cpu_state);
+-    cpu->irqstate = g_malloc0(VCPU_IRQ_BUF_SIZE);
++    cpu->irqstate = g_malloc0(VCPU_IRQ_BUF_SIZE(max_cpus));
+     return 0;
+ }
  
-     if (!qtest_enabled()) {
-         info_report("The Spike v1.10.0 machine has been deprecated. "
-@@ -329,6 +331,7 @@ static void spike_v1_09_1_board_init(MachineState *machine)
-     MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     int i;
-+    unsigned int smp_cpus = machine->smp.cpus;
+@@ -1950,9 +1951,10 @@ int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state)
  
-     if (!qtest_enabled()) {
-         info_report("The Spike v1.09.1 machine has been deprecated. "
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index d8181a4ff1..ecdc77d728 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -371,6 +371,7 @@ static void riscv_virt_board_init(MachineState *machine)
-     char *plic_hart_config;
-     size_t plic_hart_config_len;
-     int i;
-+    unsigned int smp_cpus = machine->smp.cpus;
-     void *fdt;
- 
-     /* Initialize SOC */
+ void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu)
+ {
++    unsigned int max_cpus = MACHINE(qdev_get_machine())->smp.max_cpus;
+     struct kvm_s390_irq_state irq_state = {
+         .buf = (uint64_t) cpu->irqstate,
+-        .len = VCPU_IRQ_BUF_SIZE,
++        .len = VCPU_IRQ_BUF_SIZE(max_cpus),
+     };
+     CPUState *cs = CPU(cpu);
+     int32_t bytes;
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
