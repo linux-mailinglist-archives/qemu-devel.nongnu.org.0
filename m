@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0B9604AF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:45:34 +0200 (CEST)
-Received: from localhost ([::1]:51504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9887604B6
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 12:49:26 +0200 (CEST)
+Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjLif-00082Z-KB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58099)
+	id 1hjLmP-0002Nw-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 06:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58771)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hjLga-0006fv-Br
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:43:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hjLkV-0001Fx-Es
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:47:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hjLgZ-0005gJ-14
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:43:24 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46740)
+ (envelope-from <philmd@redhat.com>) id 1hjLkT-0007Ew-DL
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:47:27 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:56161)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hjLgY-0005e4-P2
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:43:22 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z1so4794539wru.13
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:43:22 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hjLkP-0006yy-D7
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 06:47:23 -0400
+Received: by mail-wm1-f65.google.com with SMTP id a15so8378948wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 03:47:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=uUX8H1e+XL3KDdnpYS4qjFFDhuP6GaNmKAvjKyAJy78=;
- b=cR/HnZniZSbSf5GH3x5sJU/2g3pLRxelxmWzaAAzIBAt0yRiZxZEa7/1t+MA+8dz3G
- AsO6EP5rE6EVAR4XT+4iRjotpacvE+7qrPPm1yeC1oHL5WZ6aleRSkeTQP4Fzj4zP8XO
- /4RM/qCrkpnNEvqKVM0xMsuOmYb86jpTKYVQLszYnhrwLRZwKNvAyJFAr1CeRq7RcyYM
- 0S9ylFQuqSnKfP/FY5SQaZyvFZj4+OdEkpVdsDQO+DTHsn6deA+bju3+hqsIu+llmtHG
- QipDCjqV3VWhquO54A+Ele+ntE4oq9asJr3xbzYiOdS684XmP3fhNouAM8ocK5yTvJOc
- Yq2Q==
-X-Gm-Message-State: APjAAAX1Jla4piDdd//9GfUS2llCARfSBzXiZZ0pvvpLhAVyeXCfkDmn
- B56FBmxjLV0FViTGrYSNsEli3Q==
-X-Google-Smtp-Source: APXvYqzAcV3z5cNa9XJsvxjrcR+3+48zyEhV5JfHYvpPnG6g7s61z2jq76UxOSFLS0CZGZmu8YIh3Q==
-X-Received: by 2002:a5d:6182:: with SMTP id j2mr3337036wru.275.1562323401503; 
- Fri, 05 Jul 2019 03:43:21 -0700 (PDT)
-Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.207.21])
- by smtp.gmail.com with ESMTPSA id 72sm8468936wrk.22.2019.07.05.03.43.20
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 03:43:21 -0700 (PDT)
-Date: Fri, 5 Jul 2019 12:43:18 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, Jason Dillaman <jdillama@redhat.com>
-Message-ID: <20190705104318.dngmmu3lpuvbe2nh@steredhat>
-References: <20190705093258.47856-1-sgarzare@redhat.com>
- <dcc9f3dc-78b4-4216-2791-b7e90f6d79ff@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to;
+ bh=+p6vBhAJ6v2YbDrmrcHlDCjUmNmBA4B3mQi/9Tlf36M=;
+ b=ba9FGETvZQ+/S80a8H8d0Yd+1RfH16kQEPX8rWeiLxl4vycHZyneXqdkRkXF/lu6Ia
+ yOBmCDk4hvsJYrVDALvsAbYemcJXjqpwaQGXr2A5yrhuUKzYwvn/o3Kyvdu4JPZjtKRZ
+ OEVM1b+7Q/xJlmCQfT7ykVgYt3O+uE5K+DPvjDNpf9fvEQWVmEIzaSDR87nZPgP6gI/n
+ ffdOzu1bQhw771jJHAcYz1FgOcigq9tSb3smW4DQkgp4AeLCLkKIYrn1W0PK/yx/Hape
+ yYOO0nSWtQy973MXvTDcOatTOSIkl19kMu5PDgdkzKwAjWuaPOWOeE2ibqCCCNd3/Tso
+ B3QA==
+X-Gm-Message-State: APjAAAWxXxvlpEzAWCpy2TEYT6ot+GlH7iKuUJCwerdI4dH9qWU5luA7
+ NZQ8TylIrc+L787pK3U0au5QMA==
+X-Google-Smtp-Source: APXvYqyZ+HA7gijoOPT9HhChDPaBcoAM5dNXD54tslH2fxqzY53ZkUk8Bzqaw0MV5J6Vrmm2Y+Ax/w==
+X-Received: by 2002:a1c:b604:: with SMTP id g4mr3105900wmf.111.1562323638615; 
+ Fri, 05 Jul 2019 03:47:18 -0700 (PDT)
+Received: from [192.168.1.38] (56.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.56])
+ by smtp.gmail.com with ESMTPSA id v18sm9877761wrs.80.2019.07.05.03.47.17
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 05 Jul 2019 03:47:17 -0700 (PDT)
+To: Kamil Rytarowski <n54@gmx.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20190617043858.8290-1-kraxel@redhat.com>
+ <20190617043858.8290-10-kraxel@redhat.com> <87zhlsvkx1.fsf@zen.linaroharston>
+ <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <908e3e29-eb07-deac-e753-6968fc68b2b6@redhat.com>
+Date: Fri, 5 Jul 2019 12:47:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dcc9f3dc-78b4-4216-2791-b7e90f6d79ff@redhat.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="w82dQgFgpVYzMR4rZDRlSAWkpX1HFTFlm"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: implement
- .bdrv_get_allocated_file_size callback
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v4 09/11] tests/vm: netbsd autoinstall,
+ using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,138 +76,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, qemu-devel@nongnu.org,
+ Kamil Rytarowski <kamil@netbsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 05, 2019 at 11:58:43AM +0200, Max Reitz wrote:
-> On 05.07.19 11:32, Stefano Garzarella wrote:
-> > This patch allows 'qemu-img info' to show the 'disk size' for
-> > the RBD images that have the fast-diff feature enabled.
-> > 
-> > If this feature is enabled, we use the rbd_diff_iterate2() API
-> > to calculate the allocated size for the image.
-> > 
-> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > ---
-> > v3:
-> >   - return -ENOTSUP instead of -1 when fast-diff is not available
-> >     [John, Jason]
-> > v2:
-> >   - calculate the actual usage only if the fast-diff feature is
-> >     enabled [Jason]
-> > ---
-> >  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 54 insertions(+)
-> 
-> Well, the librbd documentation is non-existing as always, but while
-> googling, I at least found that libvirt has exactly the same code.  So I
-> suppose it must be quite correct, then.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--w82dQgFgpVYzMR4rZDRlSAWkpX1HFTFlm
+Content-Type: multipart/mixed; boundary="zd4aa28jUfN66WCXwUvPIm97hyJl16nbr";
+ protected-headers="v1"
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Kamil Rytarowski <n54@gmx.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, qemu-devel@nongnu.org,
+ Kamil Rytarowski <kamil@netbsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Brad Smith <brad@comstyle.com>
+Message-ID: <908e3e29-eb07-deac-e753-6968fc68b2b6@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v4 09/11] tests/vm: netbsd autoinstall, using
+ serial console
+References: <20190617043858.8290-1-kraxel@redhat.com>
+ <20190617043858.8290-10-kraxel@redhat.com> <87zhlsvkx1.fsf@zen.linaroharston>
+ <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
+In-Reply-To: <5d0e35f4-964e-e6e0-d644-ea19fc9cd029@gmx.com>
 
-While I wrote this code I took a look at libvirt implementation and also
-at the "rbd" tool in the ceph repository: compute_image_disk_usage() in
-src/tools/rbd/action/DiskUsage.cc
+--zd4aa28jUfN66WCXwUvPIm97hyJl16nbr
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> > diff --git a/block/rbd.c b/block/rbd.c
-> > index 59757b3120..b6bed683e5 100644
-> > --- a/block/rbd.c
-> > +++ b/block/rbd.c
-> > @@ -1084,6 +1084,59 @@ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
-> >      return info.size;
-> >  }
-> >  
-> > +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exists,
-> > +                                 void *arg)
-> > +{
-> > +    int64_t *alloc_size = (int64_t *) arg;
-> > +
-> > +    if (exists) {
-> > +        (*alloc_size) += len;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
-> > +{
-> > +    BDRVRBDState *s = bs->opaque;
-> > +    uint64_t flags, features;
-> > +    int64_t alloc_size = 0;
-> > +    int r;
-> > +
-> > +    r = rbd_get_flags(s->image, &flags);
-> > +    if (r < 0) {
-> > +        return r;
-> > +    }
-> > +
-> > +    r = rbd_get_features(s->image, &features);
-> > +    if (r < 0) {
-> > +        return r;
-> > +    }
-> > +
-> > +    /*
-> > +     * We use rbd_diff_iterate2() only if the RBD image have fast-diff
-> > +     * feature enabled. If it is disabled, rbd_diff_iterate2() could be
-> > +     * very slow on a big image.
-> > +     */
-> > +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
-> > +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
-> > +        return -ENOTSUP;
-> > +    }
-> > +
-> > +    /*
-> > +     * rbd_diff_iterate2(), if the source snapshot name is NULL, invokes
-> > +     * the callback on all allocated regions of the image.
-> > +     */
-> > +    r = rbd_diff_iterate2(s->image, NULL, 0,
-> > +                          bs->total_sectors * BDRV_SECTOR_SIZE, 0, 1,
-> > +                          &rbd_allocated_size_cb, &alloc_size);
-> 
-> But I have a question.  This is basically block_status, right?  So it
-> gives us information on which areas are allocated and which are not.
-> The result thus gives us a lower bound on the allocation size, but is it
-> really exactly the allocation size?
-> 
-> There are two things I’m concerned about:
-> 
-> 1. What about metadata?
+On 7/5/19 12:43 PM, Kamil Rytarowski wrote:
+> On 05.07.2019 12:24, Alex Benn=C3=A9e wrote:
+>>
+>> Gerd Hoffmann <kraxel@redhat.com> writes:
+>>
+>>> Instead of fetching the prebuilt image from patchew download the inst=
+all
+>>> iso and prepare the image locally.  Install to disk, using the serial=
 
-Good question, I don't think it includes the size used by metadata and I
-don't know if there is a way to know it. I'll check better.
+>>> console.  Create qemu user, configure ssh login.  Install packages
+>>> needed for qemu builds.
+>>
+>> I've had to drop this from my v3 PR as Peter was seeing a very
+>> slow/hanging install when running his merge tests. I've tried to
+>> reproduce and I see it stall while installing packages but nowhere nea=
+r
+>> the delay Peter has seen.
+>>
+>> Any pointers on how to debug gratefully received.
+>>
+>=20
+> Does it use virtio? There were performance issues with virio disk devic=
+e.
 
-> 
-> 2. If you have multiple snapshots, this will only report the overall
-> allocation information, right?  So say there is something like this:
-> 
-> (“A” means an allocated MB, “-” is an unallocated MB)
-> 
-> Snapshot 1: AAAA---
-> Snapshot 2: --AAAAA
-> Snapshot 3: -AAAA--
-> 
-> I think the allocated data size is the number of As in total (13 MB).
-> But I suppose this API will just return 7 MB, because it looks on
-> everything an it sees the whole image range (7 MB) to be allocated.  It
-> doesn’t report in how many snapshots some region is allocated.
+Yes, virtio-blk, you can see how the VM is started looking at
+tests/vm/basevm.py:
 
-Looking at the documentation of rbd_diff_iterate2() [1] they says:
+ "-drive",
+ "file=3D%s,if=3Dnone,id=3D%s,cache=3Dwriteback,format=3Draw" % (tarfile,=
+ name),
 
- *                        If the source snapshot name is NULL, we
- * interpret that as the beginning of time and return all allocated
- * regions of the image.
+ "-device",
+ "virtio-blk,drive=3D%s,serial=3D%s,bootindex=3D1" % (name, name)
 
-But I don't know the answer of your question (maybe Jason can help
-here).
-I should check better the implementation to understand if I can cycle
-on all snapshot to get the exact allocated data size.
 
-https://github.com/ceph/ceph/blob/master/src/include/rbd/librbd.h#L925
+--zd4aa28jUfN66WCXwUvPIm97hyJl16nbr--
 
-I'll back when I have more details on the rbd implementation to better
-answer your questions.
+--w82dQgFgpVYzMR4rZDRlSAWkpX1HFTFlm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks,
-Stefano
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0fKrQACgkQoqP9bt6t
+wN5GzBAArdWMRHpF75Eny9x/ZkTU/KIaWMm/feSX5IGcCSNtWeW2u0YwfkpUlaCN
+8UvTopEkXPABjyofAMsNZ8dOspM9lYbRqu2UQPsIOdS4qOvPfMLaYXkLcdgYGNhV
+Y5j7S4ef/EOm4hkaOxxgE4MpLUpqNHku7wKVhYJ1vspUgBgdZFRaFmb7nh/6d7kY
+Ae7TSFgRMUUDgmwbh/vAa0eX8gYkKQgfE6vfrdT4S4g/MwM9CU/fMiYUUSFYlvhT
+v4hSRNkJTkfU5tG/mC5RHmD89rIHqqbW+ZIvZzH+q5rD1uN2nVibTFK5fFboDVXp
+PHyoBax3iluH8py/mVTtPQg6If+o4WRcrhJaMN8BehEvlRIJVjhUmYAyXmS2be6F
+OhpkSSuRqNLFUZjEMkJOk+Q0MgrSTlF3Dp5xbaj51SZE+7oDEkhY3LuOaTq7Ow31
+GygcY6Fm0Oqi+OrzZBXkhRAoutT+sFAOtXCwHNqNIcP8moPzlRzPYV/karhXDv5a
+YXNIfxedMexIchPsXD881K+lPq81qiDMdZ+2zbZAu+g6A47ND29xK5ttimjdWI19
+YiyXst73uET9G2vfXQPpUXO2rJur7j9/u35cN2NTqR3DDiheU/GrM+PuG0VGqOQ9
+ihaRJYAHHIwR3s3DndWtilfGNbYjGb2N1mFuV6XhCbQ3O87Lt1s=
+=d8EW
+-----END PGP SIGNATURE-----
+
+--w82dQgFgpVYzMR4rZDRlSAWkpX1HFTFlm--
 
