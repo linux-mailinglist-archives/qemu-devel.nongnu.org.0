@@ -2,49 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9268E60D1C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:24:42 +0200 (CEST)
-Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FD460D2F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jul 2019 23:34:14 +0200 (CEST)
+Received: from localhost ([::1]:56350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjVhB-0007NI-Qf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46063)
+	id 1hjVqP-0001uf-G2
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jul 2019 17:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47759)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hjVfU-0006Ws-1e
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:22:58 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1hjVoQ-0000qx-MG
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:32:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hjVfR-0000F9-Qq
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:22:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47634)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hjVfR-0000E2-G3
- for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:22:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1251587628;
- Fri,  5 Jul 2019 21:22:51 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 642DA5126B;
- Fri,  5 Jul 2019 21:22:50 +0000 (UTC)
-Date: Fri, 5 Jul 2019 18:22:49 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190705212249.GG5198@habkost.net>
-References: <1562079681-19204-1-git-send-email-pbonzini@redhat.com>
- <1562079681-19204-7-git-send-email-pbonzini@redhat.com>
+ (envelope-from <borntraeger@de.ibm.com>) id 1hjVoO-000538-Uh
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:32:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57644)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1hjVoO-0004xO-Et
+ for qemu-devel@nongnu.org; Fri, 05 Jul 2019 17:32:08 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x65LVk11123819
+ for <qemu-devel@nongnu.org>; Fri, 5 Jul 2019 17:31:47 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tjcmfkdam-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 17:31:47 -0400
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Fri, 5 Jul 2019 22:31:39 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 5 Jul 2019 22:31:37 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x65LVaTc26739140
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 Jul 2019 21:31:36 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A07742041;
+ Fri,  5 Jul 2019 21:31:36 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B74544203F;
+ Fri,  5 Jul 2019 21:31:35 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.35.167])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  5 Jul 2019 21:31:35 +0000 (GMT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190702113414.6896-1-armbru@redhat.com>
+ <20190702113414.6896-5-armbru@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ syiRa+UVlsKmx1hsEg==
+Date: Fri, 5 Jul 2019 23:31:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1562079681-19204-7-git-send-email-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 05 Jul 2019 21:22:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 6/7] target/i386: add VMX features
+In-Reply-To: <20190702113414.6896-5-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19070521-0008-0000-0000-000002FA43F4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070521-0009-0000-0000-000022679B17
+Message-Id: <e7916e59-75a9-cfd2-a2a3-ab30787a60e6@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-05_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907050273
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x65LVk11123819
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PULL 4/4] Makefile: Reuse all's recursion
+ machinery for clean and install
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,512 +140,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 02, 2019 at 05:01:20PM +0200, Paolo Bonzini wrote:
-> Add code to convert the VMX feature words back into MSR values,
-> allowing the user to enable/disable VMX features as they wish.  The same
-> infrastructure enables support for limiting VMX features in named
-> CPU models.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+This seems to break "make clean" and "make distclean" in the source direc=
+tory if there was never
+a configure.
+
+qemu]$ make clean
+  LD      recurse-clean.mo
+cc: fatal error: no input files
+compilation terminated.
+make: *** [rules.mak:118: recurse-clean.mo] Error 1
+
+
+
+On 02.07.19 13:34, Markus Armbruster wrote:
+> Targets "clean" and "install" run make recursively in a for loop.
+> This ignores -j and -k.  Target "all" depends on SUBDIR/all to recurse
+> into each SUBDIR.  Behaves nicely with -j and -k.  Put that to use for
+> "clean" and "install": depend on SUBDIR/clean or SUBDIR/install,
+> respectively, and delete the loop.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20190528082308.22032-5-armbru@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  target/i386/cpu.c | 221 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |   9 +++
->  target/i386/kvm.c | 154 ++++++++++++++++++++++++++++++++++++-
->  3 files changed, 382 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 4de44e4..12f76a3 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -1211,6 +1211,163 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->              .index = MSR_IA32_CORE_CAPABILITY,
->          },
->      },
-> +
-> +    [FEAT_VMX_PROCBASED_CTLS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            NULL, NULL, "vmx-vintr-pending", "vmx-tsc-offset",
-> +            NULL, NULL, NULL, "vmx-hlt-exit",
-> +            NULL, "vmx-invlpg-exit", "vmx-mwait-exit", "vmx-rdpmc-exit",
-> +            "vmx-rdtsc-exit", NULL, NULL, "vmx-cr3-load-noexit",
-> +            "vmx-cr3-store-noexit", NULL, NULL, "vmx-cr8-load-exit",
-> +            "vmx-cr8-store-exit", "vmx-flexpriority", "vmx-vnmi-pending", "vmx-movdr-exit",
-> +            "vmx-io-exit", "vmx-io-bitmap", NULL, "vmx-mtf",
-> +            "vmx-msr-bitmap", "vmx-monitor-exit", "vmx-pause-exit", "vmx-secondary-ctls",
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_TRUE_PROCBASED_CTLS,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_SECONDARY_CTLS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            "vmx-apicv-xapic", "vmx-ept", "vmx-desc-exit", "vmx-rdtscp-exit",
-> +            "vmx-apicv-x2apic", "vmx-vpid", "vmx-wbinvd-exit", "vmx-unrestricted-guest",
-> +            "vmx-apicv-register", "vmx-apicv-vid", "vmx-ple", "vmx-rdrand-exit",
-> +            "vmx-invpcid-exit", "vmx-vmfunc", "vmx-shadow-vmcs", "vmx-encls-exit",
-> +            "vmx-rdseed-exit", "vmx-pml", NULL, NULL,
-> +            "vmx-xsaves", NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_PROCBASED_CTLS2,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_PINBASED_CTLS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            "vmx-intr-exit", NULL, NULL, "vmx-nmi-exit",
-> +            NULL, "vmx-vnmi", "vmx-preemption-timer", "vmx-posted-intr",
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_TRUE_PINBASED_CTLS,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_EXIT_CTLS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        /*
-> +         * VMX_VM_EXIT_HOST_ADDR_SPACE_SIZE is copied from
-> +         * the LM CPUID bit.
-> +         */
-> +        .feat_names = {
-> +            NULL, NULL, "vmx-exit-nosave-debugctl", NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL /* vmx-exit-host-addr-space-size */, NULL, NULL,
-> +            "vmx-exit-load-perf-global-ctrl", NULL, NULL, "vmx-exit-ack-intr",
-> +            NULL, NULL, "vmx-exit-save-pat", "vmx-exit-load-pat",
-> +            "vmx-exit-save-efer", "vmx-exit-load-efer",
-> +                "vmx-exit-save-preemption-timer", "vmx-exit-clear-bndcfgs",
-> +            NULL, "vmx-exit-clear-rtit-ctl", NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_TRUE_EXIT_CTLS,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_ENTRY_CTLS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            NULL, NULL, "vmx-entry-noload-debugctl", NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, "vmx-entry-ia32e-mode", NULL, NULL,
-> +            NULL, "vmx-entry-load-perf-global-ctrl", "vmx-entry-load-pat", "vmx-entry-load-efer",
-> +            "vmx-entry-load-bndcfgs", NULL, "vmx-entry-load-rtit-ctl", NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_TRUE_ENTRY_CTLS,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_MISC] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, "vmx-store-lma", "vmx-activity-hlt", "vmx-activity-shutdown",
-> +            "vmx-activity-wait-sipi", NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, "vmx-vmwrite-vmexit-fields", "vmx-zero-len-inject", NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_MISC,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_EPT_VPID_CAPS] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            "vmx-ept-execonly", NULL, NULL, NULL,
-> +            NULL, NULL, "vmx-page-walk-4", "vmx-page-walk-5",
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            "vmx-ept-2mb", "vmx-ept-1gb", NULL, NULL,
-> +            "vmx-invept", "vmx-eptad", "vmx-ept-advanced-exitinfo", NULL,
-> +            NULL, "vmx-invept-single-context", "vmx-invept-all-context", NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            "vmx-invvpid", NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            "vmx-invvpid-single-addr", "vmx-invept-single-context",
-> +                "vmx-invvpid-all-context", "vmx-invept-single-context-noglobals",
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, NULL,
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_EPT_VPID_CAP,
-> +        }
-> +    },
-> +
-> +    [FEAT_VMX_BASIC] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            [54] = "vmx-ins-outs",
-> +            [55] = "vmx-true-ctls",
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_BASIC,
-> +        },
-> +        /* Just to be safe - we don't support setting the MSEG version field.  */
-> +        .no_autoenable_flags = MSR_VMX_BASIC_DUAL_MONITOR,
-> +    },
-> +
-> +    [FEAT_VMX_VMFUNC] = {
-> +        .type = MSR_FEATURE_WORD,
-> +        .feat_names = {
-> +            [0] = "vmx-eptp-switching",
-> +        },
-> +        .msr = {
-> +            .index = MSR_IA32_VMX_VMFUNC,
-> +        }
-> +    },
-> +
->  };
->  
->  typedef struct FeatureDep {
-> @@ -1227,6 +1384,70 @@ static FeatureDep feature_dependencies[] = {
->          .from = FEAT_7_0_EDX,            .from_flag = CPUID_7_0_EDX_CORE_CAPABILITY,
->          .to = FEAT_CORE_CAPABILITY,      .to_flags = ~0ull,
->      },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_PROCBASED_CTLS,   .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_PINBASED_CTLS,    .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_EXIT_CTLS,        .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_ENTRY_CTLS,       .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_MISC,             .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_VMX,
-> +        .to = FEAT_VMX_BASIC,            .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_8000_0001_EDX,      .from_flag = CPUID_EXT2_LM,
-> +        .to = FEAT_VMX_ENTRY_CTLS,       .to_flags = VMX_VM_ENTRY_IA32E_MODE,
-> +    },
-> +    {
-> +        .from = FEAT_VMX_PROCBASED_CTLS, .from_flag = VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = ~0ull,
-> +    },
-> +    {
-> +        .from = FEAT_XSAVE,              .from_flag = CPUID_XSAVE_XSAVES,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = VMX_SECONDARY_EXEC_XSAVES,
-> +    },
-> +    {
-> +        .from = FEAT_1_ECX,              .from_flag = CPUID_EXT_RDRAND,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = VMX_SECONDARY_EXEC_RDRAND_EXITING,
-> +    },
-> +    {
-> +        .from = FEAT_7_0_EBX,            .from_flag = CPUID_7_0_EBX_INVPCID,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = VMX_SECONDARY_EXEC_ENABLE_INVPCID,
-> +    },
-> +    {
-> +        .from = FEAT_7_0_EBX,            .from_flag = CPUID_7_0_EBX_RDSEED,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = VMX_SECONDARY_EXEC_RDSEED_EXITING,
-> +    },
-> +    {
-> +        .from = FEAT_8000_0001_EDX,      .from_flag = CPUID_EXT2_RDTSCP,
-> +        .to = FEAT_VMX_SECONDARY_CTLS,   .to_flags = VMX_SECONDARY_EXEC_RDTSCP,
-> +    },
-> +    {
-> +        .from = FEAT_VMX_SECONDARY_CTLS, .from_flag = VMX_SECONDARY_EXEC_ENABLE_EPT,
-> +        .to = FEAT_VMX_EPT_VPID_CAPS,    .to_flags = 0xffffffffull,
-> +    },
-> +    {
-> +        .from = FEAT_VMX_SECONDARY_CTLS, .from_flag = VMX_SECONDARY_EXEC_ENABLE_VPID,
-> +        .to = FEAT_VMX_EPT_VPID_CAPS,    .to_flags = 0xffffffffull << 32,
-> +    },
-> +    {
-> +        .from = FEAT_VMX_SECONDARY_CTLS, .from_flag = VMX_SECONDARY_EXEC_ENABLE_VMFUNC,
-> +        .to = FEAT_VMX_VMFUNC,           .to_flags = ~0ull,
-> +    },
->  };
->  
->  typedef struct X86RegisterInfo32 {
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index ec479d5..a5710c1 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -517,6 +517,15 @@ typedef enum FeatureWord {
->      FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
->      FEAT_ARCH_CAPABILITIES,
->      FEAT_CORE_CAPABILITY,
-> +    FEAT_VMX_PROCBASED_CTLS,
-> +    FEAT_VMX_SECONDARY_CTLS,
-> +    FEAT_VMX_PINBASED_CTLS,
-> +    FEAT_VMX_EXIT_CTLS,
-> +    FEAT_VMX_ENTRY_CTLS,
-> +    FEAT_VMX_MISC,
-> +    FEAT_VMX_EPT_VPID_CAPS,
-> +    FEAT_VMX_BASIC,
-> +    FEAT_VMX_VMFUNC,
->      FEATURE_WORDS,
->  } FeatureWord;
->  
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 6801696..e35489c 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -96,6 +96,7 @@ static bool has_msr_virt_ssbd;
->  static bool has_msr_smi_count;
->  static bool has_msr_arch_capabs;
->  static bool has_msr_core_capabs;
-> +static bool has_msr_vmx_vmfunc;
->  
->  static uint32_t has_architectural_pmu_version;
->  static uint32_t num_architectural_pmu_gp_counters;
-> @@ -438,7 +439,8 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
->          struct kvm_msrs info;
->          struct kvm_msr_entry entries[1];
->      } msr_data;
-> -    uint32_t ret;
-> +    uint64_t value;
-> +    uint32_t ret, can_be_one, must_be_one;
->  
->      if (kvm_feature_msrs == NULL) { /* Host doesn't support feature MSRs */
->          return 0;
-> @@ -464,7 +466,25 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
->          exit(1);
->      }
->  
-> -    return msr_data.entries[0].data;
-> +    value = msr_data.entries[0].data;
-> +    switch (index) {
-> +    case MSR_IA32_VMX_PROCBASED_CTLS2:
-> +    case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
-> +    case MSR_IA32_VMX_TRUE_PROCBASED_CTLS:
-> +    case MSR_IA32_VMX_TRUE_ENTRY_CTLS:
-> +    case MSR_IA32_VMX_TRUE_EXIT_CTLS:
-> +        /*
-> +         * Return true for bits that can be one, but do not have to be one.
-> +         * The SDM tells us which bits could have a "must be one" setting,
-> +         * so we can do the opposite transformation in make_vmx_msr_value.
-> +         */
-> +        must_be_one = (uint32_t)value;
-> +        can_be_one = (uint32_t)(value >> 32);
-> +        return can_be_one & ~must_be_one;
-> +
-> +    default:
-> +        return value;
-> +    }
->  }
->  
->  
-> @@ -1933,6 +1953,9 @@ static int kvm_get_supported_msrs(KVMState *s)
->                  case MSR_IA32_CORE_CAPABILITY:
->                      has_msr_core_capabs = true;
->                      break;
-> +                case MSR_IA32_VMX_VMFUNC:
-> +                    has_msr_vmx_vmfunc = true;
-> +                    break;
->                  }
->              }
->          }
-> @@ -2407,6 +2430,126 @@ static int kvm_put_msr_feature_control(X86CPU *cpu)
->      return 0;
->  }
->  
-> +static uint64_t make_vmx_msr_value(uint32_t index, uint32_t features)
-> +{
-> +    uint32_t default1, can_be_one, can_be_zero;
-> +    uint32_t must_be_one;
-> +
-> +    switch (index) {
-> +    case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
-> +        default1 = 0x00000016;
-> +        break;
-> +    case MSR_IA32_VMX_TRUE_PROCBASED_CTLS:
-> +        default1 = 0x0401e172;
-> +        break;
-> +    case MSR_IA32_VMX_TRUE_ENTRY_CTLS:
-> +        default1 = 0x000011ff;
-> +        break;
-> +    case MSR_IA32_VMX_TRUE_EXIT_CTLS:
-> +        default1 = 0x00036dff;
-> +        break;
-> +    case MSR_IA32_VMX_PROCBASED_CTLS2:
-> +        default1 = 0;
-> +        break;
+>  Makefile | 53 +++++++++++++++++++++++++----------------------------
+>  1 file changed, 25 insertions(+), 28 deletions(-)
+>=20
+> diff --git a/Makefile b/Makefile
+> index e68982bd99..8cf6cbc4c4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -454,20 +454,22 @@ config-host.h-timestamp: config-host.mak
+>  qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxto=
+ol
+>  	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN"=
+,"$@")
+> =20
+> -SUBDIR_RULES=3D$(addsuffix /all, $(TARGET_DIRS))
+> -SOFTMMU_SUBDIR_RULES=3D$(filter %-softmmu/all,$(SUBDIR_RULES))
+> +TARGET_DIRS_RULES :=3D $(foreach t, all clean install, $(addsuffix /$(=
+t), $(TARGET_DIRS)))
+> =20
+> -$(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
+> -$(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
+> -$(SOFTMMU_SUBDIR_RULES): $(chardev-obj-y)
+> -$(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
+> -$(SOFTMMU_SUBDIR_RULES): $(io-obj-y)
+> -$(SOFTMMU_SUBDIR_RULES): config-all-devices.mak
+> -$(SOFTMMU_SUBDIR_RULES): $(edk2-decompressed)
+> +SOFTMMU_ALL_RULES=3D$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
+> +$(SOFTMMU_ALL_RULES): $(authz-obj-y)
+> +$(SOFTMMU_ALL_RULES): $(block-obj-y)
+> +$(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+> +$(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+> +$(SOFTMMU_ALL_RULES): $(io-obj-y)
+> +$(SOFTMMU_ALL_RULES): config-all-devices.mak
+> +$(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+> =20
+> -.PHONY: $(SUBDIR_RULES)
+> -$(SUBDIR_RULES):
+> -	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(=
+V)" TARGET_DIR=3D"$(dir $@)" all,)
+> +.PHONY: $(TARGET_DIRS_RULES)
+> +# The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
+> +# $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-=
+goal
+> +$(TARGET_DIRS_RULES):
+> +	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(=
+V)" TARGET_DIR=3D"$(dir $@)" $(notdir $@),)
+> =20
+>  DTC_MAKE_ARGS=3D-I$(SRC_PATH)/dtc VPATH=3D$(SRC_PATH)/dtc -C dtc V=3D"=
+$(V)" LIBFDT_srcdir=3D$(SRC_PATH)/dtc/libfdt
+>  DTC_CFLAGS=3D$(CFLAGS) $(QEMU_CFLAGS)
+> @@ -500,19 +502,19 @@ capstone/all: .git-submodule-status
+>  slirp/all: .git-submodule-status
+>  	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR=3D"$(BUIL=
+D_DIR)/slirp" CC=3D"$(CC)" AR=3D"$(AR)" LD=3D"$(LD)" RANLIB=3D"$(RANLIB)"=
+ CFLAGS=3D"$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS=3D"$(LDFLAGS)")
+> =20
+> -$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) \
+> +$(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+>  	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
+> =20
+>  ROM_DIRS =3D $(addprefix pc-bios/, $(ROMS))
+> -ROMSUBDIR_RULES=3D$(addsuffix /all, $(ROM_DIRS))
+> +ROM_DIRS_RULES=3D$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS=
+)))
+>  # Only keep -O and -g cflags
+> -.PHONY: $(ROMSUBDIR_RULES)
+> -$(ROMSUBDIR_RULES):
+> -	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(=
+V)" TARGET_DIR=3D"$(dir $@)" CFLAGS=3D"$(filter -O% -g%,$(CFLAGS))",)
+> +.PHONY: $(ROM_DIRS_RULES)
+> +$(ROM_DIRS_RULES):
+> +	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V=3D"$(=
+V)" TARGET_DIR=3D"$(dir $@)" CFLAGS=3D"$(filter -O% -g%,$(CFLAGS))" $(not=
+dir $@),)
+> =20
+> -ALL_SUBDIRS=3D$(TARGET_DIRS) $(ROM_DIRS)
+> -
+> -recurse-all: $(SUBDIR_RULES) $(ROMSUBDIR_RULES)
+> +recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
+> +recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
+> +recurse-install: $(addsuffix /install, $(TARGET_DIRS))
+> =20
+>  $(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
+>  	$(call quiet-command,$(WINDRES) -I$(BUILD_DIR) -o $@ $<,"RC","version=
+.o")
+> @@ -661,7 +663,7 @@ clean-coverage:
+>  		"CLEAN", "coverage files")
+>  endif
+> =20
+> -clean:
+> +clean: recurse-clean
+>  # avoid old build problems by removing potentially incorrect old files
+>  	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.=
+h gen-op-arm.h
+>  	rm -f qemu-options.def
+> @@ -682,9 +684,6 @@ clean:
+>  	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+>  	rm -f qapi-gen-timestamp
+>  	rm -rf qga/qapi-generated
+> -	for d in $(ALL_SUBDIRS); do \
+> -	if test -d $$d; then $(MAKE) -C $$d $@ || exit 1; fi; \
+> -        done
+>  	rm -f config-all-devices.mak
+> =20
+>  VERSION ?=3D $(shell cat VERSION)
+> @@ -832,7 +831,8 @@ endif
+>  ICON_SIZES=3D16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+> =20
+>  install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-l=
+ocalstatedir \
+> -	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
+> +	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+> +	recurse-install
+>  ifneq ($(TOOLS),)
+>  	$(call install-prog,$(subst qemu-ga,qemu-ga$(EXESUF),$(TOOLS)),$(DEST=
+DIR)$(bindir))
+>  endif
+> @@ -898,9 +898,6 @@ endif
+>  		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_da=
+tadir)/keymaps"; \
+>  	done
+>  	$(INSTALL_DATA) $(BUILD_DIR)/trace-events-all "$(DESTDIR)$(qemu_datad=
+ir)/trace-events-all"
+> -	for d in $(TARGET_DIRS); do \
+> -	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=3D$$d/ -C $$d $@ || exit 1 ; \
+> -        done
+> =20
+>  .PHONY: ctags
+>  ctags:
+>=20
 
-How do you plan to implement backwards compatibility if these
-defaults ever change?  Shouldn't these values be part of the CPU
-model definitions so we can update them in the future?
-
-
-> +    default:
-> +        abort();
-> +    }
-> +
-> +    /* If a feature bit is set, the control can be either set or clear.
-> +     * Otherwise the value is limited to either 0 or 1 by default1.
-> +     */
-> +    can_be_one = features | default1;
-> +    can_be_zero = features | ~default1;
-> +    must_be_one = ~can_be_zero;
-> +
-> +    /*
-> +     * Bit 0:31 -> 0 if the control bit can be zero (i.e. 1 if it must be one).
-> +     * Bit 32:63 -> 1 if the control bit can be one.
-> +     */
-> +    return must_be_one | (((uint64_t)can_be_one) << 32);
-> +}
-> +
-> +#define VMCS12_MAX_FIELD_INDEX (0x17)
-> +
-> +static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
-> +{
-> +    uint64_t kvm_vmx_basic =
-> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                           MSR_IA32_VMX_BASIC);
-> +    uint64_t kvm_vmx_misc =
-> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                           MSR_IA32_VMX_MISC);
-> +    uint64_t kvm_vmx_ept_vpid =
-> +        kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                           MSR_IA32_VMX_EPT_VPID_CAP);
-
-If the MSR value we're exposing to the guest depends on
-kvm_arch_get_supported_msr_feature(), how will we ensure this
-will be safe for live migration?
-
-If we really need to tweak the MSR values based on the host for
-some reason (which is not clear to me yet), why don't we update
-env->features[...] at x86_cpu_expand_features() to reflect what
-the guest is really seeing?
-
-
-> +
-> +    /*
-> +     * If the guest is 64-bit, a value of 1 is allowed for the host address
-> +     * space size vmexit control.
-> +     */
-> +    uint64_t fixed_vmx_exit = f[FEAT_8000_0001_EDX] & CPUID_EXT2_LM
-> +        ? (uint64_t)VMX_VM_EXIT_HOST_ADDR_SPACE_SIZE << 32 : 0;
-> +
-> +    /*
-> +     * Bits 0-30, 32-44 and 50-53 come from the host.  KVM should
-> +     * not change them for backwards compatibility.
-
-Backwards compatibility with what?
-
-Don't we want the MSR values to depend solely on the QEMU command
-line in the future?
-
-
-> +     */
-> +    uint64_t fixed_vmx_basic = kvm_vmx_basic & 0x003c1fff7fffffffULL;
-> +
-> +    /*
-> +     * Same for bits 0-4 and 25-27.  Bits 16-24 (CR3 target count) can
-> +     * change in the future but are always zero for now, clear them to be
-> +     * future proof.  Bits 32-63 in theory could change, though KVM does
-> +     * not support dual-monitor treatment and probably never will; mask
-> +     * them out as well.
-> +     */
-> +    uint64_t fixed_vmx_misc = kvm_vmx_misc & 0x0e00001f;
-> +
-> +    /*
-> +     * EPT memory types should not change either, so we do not bother
-> +     * adding features for them.
-> +     */
-> +    uint64_t fixed_vmx_ept_mask =
-> +            (f[FEAT_VMX_SECONDARY_CTLS] & VMX_SECONDARY_EXEC_ENABLE_EPT ? 0x4100ull : 0);
-> +    uint64_t fixed_vmx_ept_vpid = kvm_vmx_ept_vpid & fixed_vmx_ept_mask;
-> +
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_PROCBASED_CTLS,
-> +                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_PROCBASED_CTLS,
-> +                                         f[FEAT_VMX_PROCBASED_CTLS]));
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_PINBASED_CTLS,
-> +                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_PINBASED_CTLS,
-> +                                         f[FEAT_VMX_PINBASED_CTLS]));
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_EXIT_CTLS,
-> +                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_EXIT_CTLS,
-> +                                         f[FEAT_VMX_EXIT_CTLS]) | fixed_vmx_exit);
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_TRUE_ENTRY_CTLS,
-> +                      make_vmx_msr_value(MSR_IA32_VMX_TRUE_ENTRY_CTLS,
-> +                                         f[FEAT_VMX_ENTRY_CTLS]));
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_PROCBASED_CTLS2,
-> +                      make_vmx_msr_value(MSR_IA32_VMX_PROCBASED_CTLS2,
-> +                                         f[FEAT_VMX_SECONDARY_CTLS]));
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_EPT_VPID_CAP,
-> +                      f[FEAT_VMX_EPT_VPID_CAPS] | fixed_vmx_ept_vpid);
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
-> +                      f[FEAT_VMX_BASIC] | fixed_vmx_basic);
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_MISC,
-> +                      f[FEAT_VMX_MISC] | fixed_vmx_misc);
-> +    if (has_msr_vmx_vmfunc) {
-> +        kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMFUNC, f[FEAT_VMX_VMFUNC]);
-> +    }
-> +
-> +    /*
-> +     * Just to be safe, write these with constant values.  The CRn_FIXED1
-> +     * MSRs are generated by KVM based on the vCPU's CPUID.
-> +     */
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_CR0_FIXED0,
-> +                      CR0_PE_MASK | CR0_PG_MASK | CR0_NE_MASK);
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_CR4_FIXED0,
-> +                      CR4_VMXE_MASK);
-> +    kvm_msr_entry_add(cpu, MSR_IA32_VMX_VMCS_ENUM,
-> +                      VMCS12_MAX_FIELD_INDEX << 1);
-> +}
-> +
->  static int kvm_put_msrs(X86CPU *cpu, int level)
->  {
->      CPUX86State *env = &cpu->env;
-> @@ -2659,6 +2802,13 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
->              kvm_msr_entry_add(cpu, MSR_MC0_CTL + i, env->mce_banks[i]);
->          }
->      }
-> +    /*
-> +     * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
-> +     * all kernels with MSR features should have them.
-> +     */
-> +    if (kvm_feature_msrs && cpu_has_vmx(env)) {
-> +        kvm_msr_entry_add_vmx(cpu, env->features);
-> +    }
->  
->      ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
->      if (ret < 0) {
-> -- 
-> 1.8.3.1
-> 
-> 
-> 
-
--- 
-Eduardo
 
