@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5F560EAC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 06:11:59 +0200 (CEST)
-Received: from localhost ([::1]:57644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A4160EAF
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 Jul 2019 06:23:22 +0200 (CEST)
+Received: from localhost ([::1]:57684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hjc3K-0007Bt-Er
-	for lists+qemu-devel@lfdr.de; Sat, 06 Jul 2019 00:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53263)
+	id 1hjcEL-0002tM-E1
+	for lists+qemu-devel@lfdr.de; Sat, 06 Jul 2019 00:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54767)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <skrtbhtngr@gmail.com>) id 1hjc1M-0006Ek-7n
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:09:58 -0400
+ (envelope-from <armbru@redhat.com>) id 1hjcCw-0002T2-G1
+ for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:21:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <skrtbhtngr@gmail.com>) id 1hjc1K-0000lr-C4
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:09:56 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38840)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <skrtbhtngr@gmail.com>)
- id 1hjc1J-0000kp-6W
- for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:09:54 -0400
-Received: by mail-pl1-x641.google.com with SMTP id 9so5450089ple.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jul 2019 21:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fPlaR/RqYJOcV/wH+fB4Exz5LrXEWktWATpatpBFvpM=;
- b=pLUjFOCahEbZMEf0vwt/aothmGLK+23E2hJVmP17C3SdOTaWvTv/DC3q6SXyLGGpra
- Ay9sgxz2LlU6PmAxkGe4ImDJL5RKl5ie0P9UKSZbQ9cmjaSdFPvr7DWw/lzZVJOuX5nN
- TbTYz50+a+zThAfhT9ZtdPzYn7TeCT5of+Ym4ZMlsUY9wwInZ9Kmncvz8LOpSCUnrra0
- c2ltJE7+6WUFkZwpbb6gL+eHzyb+asdFSI51a1tI68LyKbUYHOvxIDyDO7khFG6nRSFg
- D5BJQ9DsgDA70ucGaVi9JUM1upV8IL1s+VIi5FS+z0rncpMXXdu8ll9gejqDEF5bEh1F
- zEqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fPlaR/RqYJOcV/wH+fB4Exz5LrXEWktWATpatpBFvpM=;
- b=ByCLKXD/pMC0q9BwNlT/cwFXZHrVwFXTtuQbXcNrebcd5kS0XTXzlSVLbyWnHUJQVL
- GqLoXWTsL8bTr+C+yW0rv9WNME9T3QQvo8Gh/gqhe0BgBQo3C3stfmXU3q8k+Ck9SsB3
- 1udfshyNTJOsK+zC8gugykobZzfXNRVmJwjU0QCJu5perLGQy9yPlCTxr5ONF6njtz2/
- aHzDlIzlH1stJWKsi9WVsU9lOow/O1wiTsyEcATqwnN09044DZ5aTfiE5t5iIGgqek/4
- jYCWblWWMgIx44HmgbY1/xWjfPPREiHTD9S+W+7ZfmSpg+QDXdqqTv4VTjWYroZUG2Fp
- 5XFw==
-X-Gm-Message-State: APjAAAW6SD6+f6GmQUNQXU6KF36d65ClaU/qG7r3F1kCfNbjtWiNMKCK
- ib3S6ypTCuM+Wh74zvHswG/v2s1y
-X-Google-Smtp-Source: APXvYqxS3JGDrFserN4A8HEly63a7Qgii+XdrUVXoXhdsgGWSjoazqnzu0SCue5o0nu5YAtpveuVyw==
-X-Received: by 2002:a17:902:e282:: with SMTP id
- cf2mr9538885plb.301.1562386191851; 
- Fri, 05 Jul 2019 21:09:51 -0700 (PDT)
-Received: from localhost.localdomain ([2405:204:22f:6255:6f39:949d:5942:eaaf])
- by smtp.gmail.com with ESMTPSA id
- q126sm17330847pfq.123.2019.07.05.21.09.49
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 21:09:51 -0700 (PDT)
-From: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Sat,  6 Jul 2019 09:39:40 +0530
-Message-Id: <20190706040940.7884-3-skrtbhtngr@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190706040940.7884-1-skrtbhtngr@gmail.com>
-References: <20190706040940.7884-1-skrtbhtngr@gmail.com>
+ (envelope-from <armbru@redhat.com>) id 1hjcCu-0006xL-Oe
+ for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:21:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53142)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hjcCu-0006uz-Is
+ for qemu-devel@nongnu.org; Sat, 06 Jul 2019 00:21:52 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E7895C049D7C;
+ Sat,  6 Jul 2019 04:21:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
+ [10.36.116.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5538A5141E;
+ Sat,  6 Jul 2019 04:21:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A9B4E1132ABF; Sat,  6 Jul 2019 06:21:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Julio Montes <julio.montes@intel.com>
+References: <20190703154958.29004-1-julio.montes@intel.com>
+ <20190705143554.10295-1-julio.montes@intel.com>
+Date: Sat, 06 Jul 2019 06:21:45 +0200
+In-Reply-To: <20190705143554.10295-1-julio.montes@intel.com> (Julio Montes's
+ message of "Fri, 5 Jul 2019 14:35:53 +0000")
+Message-ID: <87v9wfg5d2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [RFC v2 2/2] hw/pvrdma: add live migration support
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Sat, 06 Jul 2019 04:21:50 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] Makefile: generate header file with
+ the list of devices enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,158 +61,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuval Shaia <yuval.shaia@oracle.com>
+Cc: pbonzini@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use VMStateDescription for migrating device state. Currently,
-'vmstate_pvrdma' describes the PCI and MSIX state for pvrdma and
-'vmstate_pvrdma_dsr_dma' describes a temporary state containing
-some values obtained only after mapping to dsr in the source.
-Since the dsr will not be available on dest until we map to the
-dma address we had on source, these values cannot be migrated
-directly.
+Advice for your *next* patch submission (this one's already queued):
 
-Add PVRDMAMigTmp to store this temporary state which consists of
-dma addresses and ring page information. The 'parent' member is
-used to refer to the device state (PVRDMADev) so that parent PCI
-device object is accessible, which is needed to remap to DSR.
+1. Use a cover letter for submitting multiple patches together.
 
-pvrdma_dsr_dma_pre_save() saves the dsr state into this temporary
-representation and pvrdma_dsr_dma_post_load() loads it back.
-This load function also remaps to the dsr and and calls
-load_dsr() for further map and ring init operations.
+Julio Montes <julio.montes@intel.com> writes:
 
-Please note that this call to load_dsr() can be removed from the
-migration flow and included in pvrdma_regs_write() to perform a
-lazy load.
-As of now, migration will fail if there in an error in load_dsr().
-Also, there might be a considerable amount of pages in the rings,
-which will have dma map operations when the init functions are
-called.
-If this takes noticeable time, it might be better to have lazy
-load instead.
+> v2: generate config-devices.h which contains the list of devices enabled
+> ---
+> config-devices.h is an auto-generated header file that will use
+> config-devices.mak to define the list of devices enabled.
+> Configs that are set to 'n' are ignored.
+>
+> Signed-off-by: Julio Montes <julio.montes@intel.com>
 
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Yuval Shaia <yuval.shaia@oracle.com>
-Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
----
- hw/rdma/vmw/pvrdma_main.c | 87 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
-
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 6c90db96f9..4a10bd2fc7 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -28,6 +28,7 @@
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
- #include "hw/rdma/rdma.h"
-+#include "migration/register.h"
- 
- #include "../rdma_rm.h"
- #include "../rdma_backend.h"
-@@ -593,6 +594,91 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
-     pvrdma_fini(pci_dev);
- }
- 
-+struct PVRDMAMigTmp {
-+    PVRDMADev *parent;
-+    uint64_t dma;
-+    uint64_t cmd_slot_dma;
-+    uint64_t resp_slot_dma;
-+    uint32_t cq_ring_pages_num_pages;
-+    uint64_t cq_ring_pages_pdir_dma;
-+    uint32_t async_ring_pages_num_pages;
-+    uint64_t async_ring_pages_pdir_dma;
-+};
-+
-+static int pvrdma_dsr_dma_pre_save(void *opaque)
-+{
-+    struct PVRDMAMigTmp *tmp = opaque;
-+    DSRInfo *dsr_info = &tmp->parent->dsr_info;
-+    struct pvrdma_device_shared_region *dsr = dsr_info->dsr;
-+
-+    tmp->dma = dsr_info->dma;
-+    tmp->cmd_slot_dma = dsr->cmd_slot_dma;
-+    tmp->resp_slot_dma = dsr->resp_slot_dma;
-+    tmp->cq_ring_pages_num_pages = dsr->cq_ring_pages.num_pages;
-+    tmp->cq_ring_pages_pdir_dma = dsr->cq_ring_pages.pdir_dma;
-+    tmp->async_ring_pages_num_pages = dsr->async_ring_pages.num_pages;
-+    tmp->async_ring_pages_pdir_dma = dsr->async_ring_pages.pdir_dma;
-+
-+    return 0;
-+}
-+
-+static int pvrdma_dsr_dma_post_load(void *opaque, int version_id)
-+{
-+    struct PVRDMAMigTmp *tmp = opaque;
-+    PVRDMADev *dev = tmp->parent;
-+    PCIDevice *pci_dev = PCI_DEVICE(dev);
-+    DSRInfo *dsr_info = &dev->dsr_info;
-+    struct pvrdma_device_shared_region *dsr;
-+
-+    dsr_info->dma = tmp->dma;
-+    dsr_info->dsr = rdma_pci_dma_map(pci_dev, dsr_info->dma,
-+                                sizeof(struct pvrdma_device_shared_region));
-+    if (!dsr_info->dsr) {
-+        rdma_error_report("Failed to map to DSR");
-+        return -ENOMEM;
-+    }
-+
-+    dsr = dsr_info->dsr;
-+    dsr->cmd_slot_dma = tmp->cmd_slot_dma;
-+    dsr->resp_slot_dma = tmp->resp_slot_dma;
-+    dsr->cq_ring_pages.num_pages = tmp->cq_ring_pages_num_pages;
-+    dsr->cq_ring_pages.pdir_dma = tmp->cq_ring_pages_pdir_dma;
-+    dsr->async_ring_pages.num_pages = tmp->async_ring_pages_num_pages;
-+    dsr->async_ring_pages.pdir_dma = tmp->async_ring_pages_pdir_dma;
-+
-+    return load_dsr(dev);
-+}
-+
-+static const VMStateDescription vmstate_pvrdma_dsr_dma = {
-+    .name = "pvrdma-dsr-dma",
-+    .pre_save = pvrdma_dsr_dma_pre_save,
-+    .post_load = pvrdma_dsr_dma_post_load,
-+    .fields = (VMStateField[]) {
-+            VMSTATE_UINT64(dma, struct PVRDMAMigTmp),
-+            VMSTATE_UINT64(cmd_slot_dma, struct PVRDMAMigTmp),
-+            VMSTATE_UINT64(resp_slot_dma, struct PVRDMAMigTmp),
-+            VMSTATE_UINT32(async_ring_pages_num_pages, struct PVRDMAMigTmp),
-+            VMSTATE_UINT64(async_ring_pages_pdir_dma, struct PVRDMAMigTmp),
-+            VMSTATE_UINT32(cq_ring_pages_num_pages, struct PVRDMAMigTmp),
-+            VMSTATE_UINT64(cq_ring_pages_pdir_dma, struct PVRDMAMigTmp),
-+            VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static const VMStateDescription vmstate_pvrdma = {
-+    .name = "pvrdma",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+            VMSTATE_PCI_DEVICE(parent_obj, PVRDMADev),
-+            VMSTATE_MSIX(parent_obj, PVRDMADev),
-+            VMSTATE_WITH_TMP(PVRDMADev,
-+                             struct PVRDMAMigTmp,
-+                             vmstate_pvrdma_dsr_dma),
-+            VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void pvrdma_realize(PCIDevice *pdev, Error **errp)
- {
-     int rc = 0;
-@@ -688,6 +774,7 @@ static void pvrdma_class_init(ObjectClass *klass, void *data)
- 
-     dc->desc = "RDMA Device";
-     dc->props = pvrdma_dev_properties;
-+    dc->vmsd = &vmstate_pvrdma;
-     set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
- 
-     ir->print_statistics = pvrdma_print_statistics;
--- 
-2.21.0
-
+2. Anything below a '---' line will be thrown away on commit.  The text
+describing the patch must go above the '---' line, not below.
+Additional notes of no permanent interest, such as changes since prior
+revisions, go below the '---' line.
 
