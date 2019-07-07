@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274466154A
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jul 2019 16:41:10 +0200 (CEST)
-Received: from localhost ([::1]:35678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694B561548
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jul 2019 16:41:03 +0200 (CEST)
+Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hk8Ll-0000VS-BU
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jul 2019 10:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49517)
+	id 1hk8Le-0000Dy-Jz
+	for lists+qemu-devel@lfdr.de; Sun, 07 Jul 2019 10:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49537)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hk8Dz-0008FF-Vw
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:11 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hk8E1-0008Fe-A8
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hk8Dx-0003PG-JV
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:07 -0400
-Received: from mga03.intel.com ([134.134.136.65]:31569)
+ (envelope-from <tao3.xu@intel.com>) id 1hk8Dy-0003QE-Jn
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:08 -0400
+Received: from mga03.intel.com ([134.134.136.65]:31568)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hk8Dw-00037I-K3
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:04 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hk8Dx-000363-Al
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 10:33:05 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2019 07:32:51 -0700
+ 07 Jul 2019 07:32:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,462,1557212400"; d="scan'208";a="185497832"
+X-IronPort-AV: E=Sophos;i="5.63,462,1557212400"; d="scan'208";a="185497835"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
- by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2019 07:32:49 -0700
+ by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2019 07:32:51 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Date: Sun,  7 Jul 2019 22:29:49 +0800
-Message-Id: <20190707142958.31316-6-tao3.xu@intel.com>
+Date: Sun,  7 Jul 2019 22:29:50 +0800
+Message-Id: <20190707142958.31316-7-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190707142958.31316-1-tao3.xu@intel.com>
 References: <20190707142958.31316-1-tao3.xu@intel.com>
@@ -43,8 +43,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 134.134.136.65
-Subject: [Qemu-devel] [PATCH v6 05/14] numa: Extend CLI to provide initiator
- information for numa nodes
+Subject: [Qemu-devel] [PATCH v6 06/14] hmat acpi: Build Memory Proximity
+ Domain Attributes Structure(s)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,193 +61,254 @@ Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ACPI 6.3 chapter 5.2.27 Heterogeneous Memory Attribute Table (HMAT),
-The initiator represents processor which access to memory. And in 5.2.27.3
-Memory Proximity Domain Attributes Structure, the attached initiator is
-defined as where the memory controller responsible for a memory proximity
-domain. With attached initiator information, the topology of heterogeneous
-memory can be described.
+From: Liu Jingqi <jingqi.liu@intel.com>
 
-Extend CLI of "-numa node" option to indicate the initiator numa
-node-id.
+HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
+(HMAT). The specification references below link:
+http://www.uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
 
-Suggested-by: Dan Williams <dan.j.williams@intel.com>
+It describes the memory attributes, such as memory side cache
+attributes and bandwidth and latency details, related to the
+Memory Proximity Domain. The software is
+expected to use this information as hint for optimization.
+
+This structure describes Memory Proximity Domain Attributes by memory
+subsystem and its associativity with processor proximity domain as well as
+hint for memory usage.
+
+Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
- hw/core/machine.c     | 24 ++++++++++++++++++++++++
- include/sysemu/numa.h |  3 +++
- numa.c                | 13 +++++++++++++
- qapi/misc.json        |  6 +++++-
- qemu-options.hx       | 27 +++++++++++++++++++++++----
- 5 files changed, 68 insertions(+), 5 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 77b5967a68..c48e5b8078 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -649,6 +649,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
-                                const CpuInstanceProperties *props, Error **errp)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-+    NodeInfo *numa_info = machine->numa_state->nodes;
-     bool match = false;
-     int i;
+Changes in v6:
+Update to ACPI 6.3, main changes are:
+    - Renamed as Memory Proximity Domain Attributes, use numa nodes to
+      replace memory ranges
+    - Use "-numa initiator" to describe "the Attached Initiator", more
+      clear for memory topology
+    - Because HMAT does not use memory ranges, remove the codes to build
+      mem_renges for dimm device
+---
+ hw/acpi/Kconfig       |   5 +++
+ hw/acpi/Makefile.objs |   1 +
+ hw/acpi/hmat.c        | 101 ++++++++++++++++++++++++++++++++++++++++++
+ hw/acpi/hmat.h        |  45 +++++++++++++++++++
+ hw/i386/acpi-build.c  |   3 ++
+ 5 files changed, 155 insertions(+)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index 7c59cf900b..039bb99efa 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -7,6 +7,7 @@ config ACPI_X86
+     select ACPI_NVDIMM
+     select ACPI_CPU_HOTPLUG
+     select ACPI_MEMORY_HOTPLUG
++    select ACPI_HMAT
  
-@@ -709,6 +710,16 @@ void machine_set_cpu_numa_node(MachineState *machine,
-         match = true;
-         slot->props.node_id = props->node_id;
-         slot->props.has_node_id = props->has_node_id;
+ config ACPI_X86_ICH
+     bool
+@@ -31,3 +32,7 @@ config ACPI_VMGENID
+     bool
+     default y
+     depends on PC
 +
-+        if (numa_info[props->node_id].initiator_valid &&
-+            (props->node_id != numa_info[props->node_id].initiator)) {
-+            error_setg(errp, "The initiator of CPU NUMA node %" PRId64
-+                       " should be itself.", props->node_id);
-+            return;
++config ACPI_HMAT
++    bool
++    depends on ACPI
+diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+index 9bb2101e3b..c05019b059 100644
+--- a/hw/acpi/Makefile.objs
++++ b/hw/acpi/Makefile.objs
+@@ -6,6 +6,7 @@ common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
+ common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
+ common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
+ common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
++common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
+ common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
+ 
+ common-obj-y += acpi_interface.o
+diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
+new file mode 100644
+index 0000000000..abf99b1adc
+--- /dev/null
++++ b/hw/acpi/hmat.c
+@@ -0,0 +1,101 @@
++/*
++ * HMAT ACPI Implementation
++ *
++ * Copyright(C) 2019 Intel Corporation.
++ *
++ * Author:
++ *  Liu jingqi <jingqi.liu@linux.intel.com>
++ *  Tao Xu <tao3.xu@intel.com>
++ *
++ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
++ * (HMAT)
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/numa.h"
++#include "hw/acpi/hmat.h"
++
++/*
++ * ACPI 6.3:
++ * 5.2.27.3 Memory Proximity Domain Attributes Structure: Table 5-141
++ */
++static void build_hmat_mpda(GArray *table_data, uint16_t flags, int initiator,
++                           int mem_node)
++{
++
++    /* Memory Proximity Domain Attributes Structure */
++    /* Type */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Length */
++    build_append_int_noprefix(table_data, 40, 4);
++    /* Flags */
++    build_append_int_noprefix(table_data, flags, 2);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Proximity Domain for the Attached Initiator */
++    build_append_int_noprefix(table_data, initiator, 4);
++    /* Proximity Domain for the Memory */
++    build_append_int_noprefix(table_data, mem_node, 4);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 4);
++    /*
++     * Reserved:
++     * Previously defined as the Start Address of the System Physical
++     * Address Range. Deprecated since ACPI Spec 6.3.
++     */
++    build_append_int_noprefix(table_data, 0, 8);
++    /*
++     * Reserved:
++     * Previously defined as the Range Length of the region in bytes.
++     * Deprecated since ACPI Spec 6.3.
++     */
++    build_append_int_noprefix(table_data, 0, 8);
++}
++
++/* Build HMAT sub table structures */
++static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
++{
++    uint16_t flags;
++    int i;
++
++    for (i = 0; i < nstat->num_nodes; i++) {
++        flags = 0;
++
++        if (nstat->nodes[i].initiator_valid) {
++            flags |= HMAT_PROX_INIT_VALID;
 +        }
-+        numa_info[props->node_id].initiator_valid = true;
-+        numa_info[props->node_id].has_cpu = true;
-+        numa_info[props->node_id].initiator = props->node_id;
-     }
++
++        build_hmat_mpda(table_data, flags, nstat->nodes[i].initiator, i);
++    }
++}
++
++void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat)
++{
++    uint64_t hmat_start;
++
++    hmat_start = table_data->len;
++
++    /* reserve space for HMAT header  */
++    acpi_data_push(table_data, 40);
++
++    hmat_build_table_structs(table_data, nstat);
++
++    build_header(linker, table_data,
++                 (void *)(table_data->data + hmat_start),
++                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
++}
+diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
+new file mode 100644
+index 0000000000..574cfba60a
+--- /dev/null
++++ b/hw/acpi/hmat.h
+@@ -0,0 +1,45 @@
++/*
++ * HMAT ACPI Implementation Header
++ *
++ * Copyright(C) 2019 Intel Corporation.
++ *
++ * Author:
++ *  Liu jingqi <jingqi.liu@linux.intel.com>
++ *  Tao Xu <tao3.xu@intel.com>
++ *
++ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
++ * (HMAT)
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ */
++
++#ifndef HMAT_H
++#define HMAT_H
++
++#include "hw/acpi/acpi-defs.h"
++#include "hw/acpi/acpi.h"
++#include "hw/acpi/bios-linker-loader.h"
++#include "hw/acpi/aml-build.h"
++
++/*
++ * ACPI 6.3: 5.2.27.3 Memory Proximity Domain Attributes Structure,
++ * Table 5-141, Field "flag", Bit [0]: set to 1 to indicate that data in
++ * the Proximity Domain for the Attached Initiator field is valid.
++ * Other bits reserved.
++ */
++#define HMAT_PROX_INIT_VALID 0x1
++
++void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat);
++
++#endif
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0e451e06d1..34f2f898ce 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -65,6 +65,7 @@
+ #include "hw/i386/intel_iommu.h"
  
-     if (!match) {
-@@ -974,6 +985,7 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
-     GString *s = g_string_new(NULL);
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(machine);
-+    NodeInfo *numa_info = machine->numa_state->nodes;
+ #include "hw/acpi/ipmi.h"
++#include "hw/acpi/hmat.h"
  
-     assert(machine->numa_state->num_nodes);
-     for (i = 0; i < possible_cpus->len; i++) {
-@@ -1007,6 +1019,18 @@ static void machine_numa_finish_cpu_init(MachineState *machine)
-             machine_set_cpu_numa_node(machine, &props, &error_fatal);
+ /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+@@ -2684,6 +2685,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+             acpi_add_table(table_offsets, tables_blob);
+             build_slit(tables_blob, tables->linker, machine);
          }
++        acpi_add_table(table_offsets, tables_blob);
++        build_hmat(tables_blob, tables->linker, machine->numa_state);
      }
-+
-+    for (i = 0; i < machine->numa_state->num_nodes; i++) {
-+        if (numa_info[i].initiator_valid &&
-+            !numa_info[numa_info[i].initiator].has_cpu) {
-+            error_report("The initiator-id %"PRIu16 " of NUMA node %d"
-+                         " does not exist.", numa_info[i].initiator, i);
-+            error_printf("\n");
-+
-+            exit(1);
-+        }
-+    }
-+
-     if (s->len && !qtest_enabled()) {
-         warn_report("CPU(s) not present in any NUMA nodes: %s",
-                     s->str);
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index 957ad60560..357aaeda80 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -10,6 +10,9 @@ struct NodeInfo {
-     uint64_t node_mem;
-     struct HostMemoryBackend *node_memdev;
-     bool present;
-+    bool has_cpu;
-+    bool initiator_valid;
-+    uint16_t initiator;
-     uint8_t distance[MAX_NODES];
- };
- 
-diff --git a/numa.c b/numa.c
-index 850c7f4573..4a3a1726be 100644
---- a/numa.c
-+++ b/numa.c
-@@ -131,6 +131,19 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-         numa_info[nodenr].node_mem = object_property_get_uint(o, "size", NULL);
-         numa_info[nodenr].node_memdev = MEMORY_BACKEND(o);
-     }
-+
-+    if (node->has_initiator) {
-+        if (numa_info[nodenr].initiator_valid &&
-+            (node->initiator != numa_info[nodenr].initiator)) {
-+            error_setg(errp, "The initiator of NUMA node %" PRIu16 " has been "
-+                       "set to node %" PRIu16, nodenr,
-+                       numa_info[nodenr].initiator);
-+            return;
-+        }
-+
-+        numa_info[nodenr].initiator_valid = true;
-+        numa_info[nodenr].initiator = node->initiator;
-+    }
-     numa_info[nodenr].present = true;
-     max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
-     ms->numa_state->num_nodes++;
-diff --git a/qapi/misc.json b/qapi/misc.json
-index dc4cf9da20..3059bb3119 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -2572,6 +2572,9 @@
- # @memdev: memory backend object.  If specified for one node,
- #          it must be specified for all nodes.
- #
-+# @initiator: the initiator numa nodeid that is closest (as in directly
-+#             attached) to this numa node.
-+#
- # Since: 2.1
- ##
- { 'struct': 'NumaNodeOptions',
-@@ -2579,7 +2582,8 @@
-    '*nodeid': 'uint16',
-    '*cpus':   ['uint16'],
-    '*mem':    'size',
--   '*memdev': 'str' }}
-+   '*memdev': 'str',
-+   '*initiator': 'uint16' }}
- 
- ##
- # @NumaDistOptions:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index c18b79099a..e6f5da469d 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -160,14 +160,14 @@ specifies the maximum number of hotpluggable CPUs.
- ETEXI
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
--    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
--    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
-+    "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
-+    "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node][,initiator=node]\n"
-     "-numa dist,src=source,dst=destination,val=distance\n"
-     "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n",
-     QEMU_ARCH_ALL)
- STEXI
--@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
--@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
-+@item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
-+@itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}][,initiator=@var{initiator}]
- @itemx -numa dist,src=@var{source},dst=@var{destination},val=@var{distance}
- @itemx -numa cpu,node-id=@var{node}[,socket-id=@var{x}][,core-id=@var{y}][,thread-id=@var{z}]
- @findex -numa
-@@ -214,6 +214,25 @@ split equally between them.
- @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
- if one node uses @samp{memdev}, all of them have to use it.
- 
-+@samp{initiator} indicate the initiator NUMA @var{initiator} that is
-+closest (as in directly attached) to this NUMA @var{node}.
-+
-+For example, the following option assigns 2 NUMA nodes, node 0 has CPU.
-+node 1 has only memory, and its' initiator is node 0. Note that because
-+node 0 has CPU, by default the initiator of node 0 is itself and must be
-+itself.
-+@example
-+-M pc \
-+-m 2G,slots=2,maxmem=4G \
-+-object memory-backend-ram,size=1G,id=m0 \
-+-object memory-backend-ram,size=1G,id=m1 \
-+-numa node,nodeid=0,memdev=m0 \
-+-numa node,nodeid=1,memdev=m1,initiator=0 \
-+-smp 2,sockets=2,maxcpus=2  \
-+-numa cpu,node-id=0,socket-id=0 \
-+-numa cpu,node-id=0,socket-id=1 \
-+@end example
-+
- @var{source} and @var{destination} are NUMA node IDs.
- @var{distance} is the NUMA distance from @var{source} to @var{destination}.
- The distance from a node to itself is always 10. If any pair of nodes is
+     if (acpi_get_mcfg(&mcfg)) {
+         acpi_add_table(table_offsets, tables_blob);
 -- 
 2.20.1
 
