@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D957362115
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 17:04:07 +0200 (CEST)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B906F620FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 16:59:09 +0200 (CEST)
+Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkVBX-0004kI-4K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 11:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1hkV6i-00011M-Vs
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 10:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49487)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkV8a-00039q-8m
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 11:01:06 -0400
+ (envelope-from <laurent.desnogues@gmail.com>) id 1hkV4n-0000Yr-N4
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 10:57:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkV8V-0006iH-0Z
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 11:01:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34288)
+ (envelope-from <laurent.desnogues@gmail.com>) id 1hkV4l-0005ro-Ni
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 10:57:09 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46296)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkV8L-0006Ep-NC
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 11:00:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkV8I-0000Be-5n
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 15:00:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 27E472E80BA
- for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 15:00:46 +0000 (UTC)
+ (Exim 4.71) (envelope-from <laurent.desnogues@gmail.com>)
+ id 1hkV4c-0005Rg-5G
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 10:57:02 -0400
+Received: by mail-io1-xd41.google.com with SMTP id i10so35828309iol.13
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 07:56:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/rRKzhyGWKOD7mZw2Ana2bXzl4VgoPxKy6pQ3ErWFuc=;
+ b=eA+gpvjyWtTLBO9cC7mr1YQM5DXwuNnlOWNlT1dT8l8MksnJL925gb78+BNX3mccFf
+ fAo1SP/0NWfkplm9R7GJNLjjF610eUoVrdX2a5q2+k4AZkWnncIqAUYU2Fcy3HWn2LC6
+ cWYoqsFY2EV+RBB2Z3IBbEj1koobRWi+bDBYEZHmfmo75/44kTN5erKLcb0lIiD+Klqj
+ HxZv4IAvD0GZFLjiBa8JDLErtZuq3hFVkl6k+F7ImblDFJ0tpd3D7bN1Wu52JrX/13Nr
+ 8Oi72N9dkThGvFsG3lH1mpjYZ13odvdOEDc4r3YVndpswwj3GwD8DNysnJIBpq8Cg9VE
+ V6uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/rRKzhyGWKOD7mZw2Ana2bXzl4VgoPxKy6pQ3ErWFuc=;
+ b=RBYIz6YEucb3LHAgrCqKVsnLokHLlbBSmfCZu6Hhf2MOYNqV3BIqvsvf+1id8xKf0P
+ nuB9fuKHoQlcRe7AF/mF5PAgukmqhCG15915+cwy4ZYm1GDg8iawUw+qoyEeNre1SY2p
+ ks1RzfxaDjaMMdL1n6puNaaIwpu30lwVPEqrZfWH+YYH4L3cXNUmzgdEiqdDFq9ulEQ/
+ xgjaROTrjJwX93F7XVALBMLnVXziwnMHER1u8afH2cmFUlkQBVn1Cx2wyOwNqQW+rw3v
+ hHTxu++0YJmXYjJ4EtkfMt2ckv4vZBP4y85E3gHja9avOBPjINZjwrl1rbuejfD9m0o3
+ ifAA==
+X-Gm-Message-State: APjAAAWG/AfJQjYOB18TZixLfgIdj3VoAdViInhzPJVsOQXDk/ujNcrC
+ kM/xaYjFwEX0RMT0ViW5PJVPsCUKkbjw9j+yPsI=
+X-Google-Smtp-Source: APXvYqzPN+Nfq+BFwZSOcfqmKHE6Q9uDrR+7LnrNvKOKB67vcTFKzi0ow860Nmv5EtsXMq5ZTpbp8oY3O/rtL3dO0/k=
+X-Received: by 2002:a5d:80cd:: with SMTP id h13mr20591074ior.259.1562597816143; 
+ Mon, 08 Jul 2019 07:56:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jul 2019 14:54:46 -0000
-From: Matthew Intriago <1835793@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mintriago
-X-Launchpad-Bug-Reporter: Matthew Intriago (mintriago)
-X-Launchpad-Bug-Modifier: Matthew Intriago (mintriago)
-Message-Id: <156259768655.23216.11898576300198780398.malonedeb@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 33d2cf596d17e8e3db58ebd9823ab21052831082
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1835793] [NEW] Running an edk2 based bios
+References: <20190705221504.25166-1-ehabkost@redhat.com>
+ <20190705221504.25166-11-ehabkost@redhat.com>
+In-Reply-To: <20190705221504.25166-11-ehabkost@redhat.com>
+From: Laurent Desnogues <laurent.desnogues@gmail.com>
+Date: Mon, 8 Jul 2019 16:56:56 +0200
+Message-ID: <CABoDooPx3i4RhsXLJoca83ghN-ejhBbLGj3ZTJXvvdkZKCbbNg@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Like Xu <like.xu@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
+Subject: Re: [Qemu-devel] [PULL v6 10/42] vl.c: Replace smp global variables
+ with smp machine properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,68 +73,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835793 <1835793@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi,
 
-This is not necessarily a bug, however I wasn't sure were to get help.
+On Sat, Jul 6, 2019 at 12:40 AM Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> From: Like Xu <like.xu@linux.intel.com>
+>
+> The global smp variables in vl.c are completely replaced with machine properties.
+>
+> Form this commit, the smp_cpus/smp_cores/smp_threads/max_cpus are deprecated
+> and only machine properties within MachineState are fully applied and enabled.
 
-I am currently working on using QEMU  to run a BIOS my company has
-developed. In order to see if the software was working correctly, I was
-able to successfully run the edk2 bios using the following command:
+Wouldn't it make sense to now remove the declarations in
+include/sysemu/cpus.h and include/sysemu/sysemu.h?
 
-qemu-system-x86_64.exe -bios "C:\Users\matthew.intriago\Desktop\ovmf.fd"
--net none
+Thanks,
 
-However, when running the same command using  our personalized bios,
-QEMU launches stating that =E2=80=9Cguest has not initialized display=E2=80=
-=9D.
-Theoretically, QEMU should be able to run the bios since it is edk2
-based, the only difference between the two is that our bios has more
-features.
+Laurent
 
-If anyone has any insight on what the issue might be I would greatly
-appreciate any help.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835793
-
-Title:
-  Running an edk2 based bios
-
-Status in QEMU:
-  New
-
-Bug description:
-  This is not necessarily a bug, however I wasn't sure were to get help.
-
-  I am currently working on using QEMU  to run a BIOS my company has
-  developed. In order to see if the software was working correctly, I
-  was able to successfully run the edk2 bios using the following
-  command:
-
-  qemu-system-x86_64.exe -bios
-  "C:\Users\matthew.intriago\Desktop\ovmf.fd" -net none
-
-  However, when running the same command using  our personalized bios,
-  QEMU launches stating that =E2=80=9Cguest has not initialized display=E2=
-=80=9D.
-  Theoretically, QEMU should be able to run the bios since it is edk2
-  based, the only difference between the two is that our bios has more
-  features.
-
-  If anyone has any insight on what the issue might be I would greatly
-  appreciate any help.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835793/+subscriptions
+> Signed-off-by: Like Xu <like.xu@linux.intel.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Message-Id: <20190518205428.90532-11-like.xu@linux.intel.com>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  vl.c | 53 ++++++++++++++++++++++++++---------------------------
+>  1 file changed, 26 insertions(+), 27 deletions(-)
+>
+> diff --git a/vl.c b/vl.c
+> index d657faec03..56aa221385 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -163,10 +163,6 @@ static Chardev **serial_hds;
+>  Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+>  int win2k_install_hack = 0;
+>  int singlestep = 0;
+> -int smp_cpus;
+> -unsigned int max_cpus;
+> -int smp_cores = 1;
+> -int smp_threads = 1;
+>  int acpi_enabled = 1;
+>  int no_hpet = 0;
+>  int fd_bootchk = 1;
+> @@ -1265,8 +1261,9 @@ static void smp_parse(QemuOpts *opts)
+>                  sockets = sockets > 0 ? sockets : 1;
+>                  cpus = cores * threads * sockets;
+>              } else {
+> -                max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
+> -                sockets = max_cpus / (cores * threads);
+> +                current_machine->smp.max_cpus =
+> +                        qemu_opt_get_number(opts, "maxcpus", cpus);
+> +                sockets = current_machine->smp.max_cpus / (cores * threads);
+>              }
+>          } else if (cores == 0) {
+>              threads = threads > 0 ? threads : 1;
+> @@ -1283,34 +1280,37 @@ static void smp_parse(QemuOpts *opts)
+>              exit(1);
+>          }
+>
+> -        max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
+> +        current_machine->smp.max_cpus =
+> +                qemu_opt_get_number(opts, "maxcpus", cpus);
+>
+> -        if (max_cpus < cpus) {
+> +        if (current_machine->smp.max_cpus < cpus) {
+>              error_report("maxcpus must be equal to or greater than smp");
+>              exit(1);
+>          }
+>
+> -        if (sockets * cores * threads > max_cpus) {
+> +        if (sockets * cores * threads > current_machine->smp.max_cpus) {
+>              error_report("cpu topology: "
+>                           "sockets (%u) * cores (%u) * threads (%u) > "
+>                           "maxcpus (%u)",
+> -                         sockets, cores, threads, max_cpus);
+> +                         sockets, cores, threads,
+> +                         current_machine->smp.max_cpus);
+>              exit(1);
+>          }
+>
+> -        if (sockets * cores * threads != max_cpus) {
+> +        if (sockets * cores * threads != current_machine->smp.max_cpus) {
+>              warn_report("Invalid CPU topology deprecated: "
+>                          "sockets (%u) * cores (%u) * threads (%u) "
+>                          "!= maxcpus (%u)",
+> -                        sockets, cores, threads, max_cpus);
+> +                        sockets, cores, threads,
+> +                        current_machine->smp.max_cpus);
+>          }
+>
+> -        smp_cpus = cpus;
+> -        smp_cores = cores;
+> -        smp_threads = threads;
+> +        current_machine->smp.cpus = cpus;
+> +        current_machine->smp.cores = cores;
+> +        current_machine->smp.threads = threads;
+>      }
+>
+> -    if (smp_cpus > 1) {
+> +    if (current_machine->smp.cpus > 1) {
+>          Error *blocker = NULL;
+>          error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
+>          replay_add_blocker(blocker);
+> @@ -4009,26 +4009,25 @@ int main(int argc, char **argv, char **envp)
+>      machine_class->default_cpus = machine_class->default_cpus ?: 1;
+>
+>      /* default to machine_class->default_cpus */
+> -    smp_cpus = machine_class->default_cpus;
+> -    max_cpus = machine_class->default_cpus;
+> +    current_machine->smp.cpus = machine_class->default_cpus;
+> +    current_machine->smp.max_cpus = machine_class->default_cpus;
+> +    current_machine->smp.cores = 1;
+> +    current_machine->smp.threads = 1;
+>
+>      smp_parse(qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
+>
+> -    current_machine->smp.cpus = smp_cpus;
+> -    current_machine->smp.max_cpus = max_cpus;
+> -    current_machine->smp.cores = smp_cores;
+> -    current_machine->smp.threads = smp_threads;
+> -
+>      /* sanity-check smp_cpus and max_cpus against machine_class */
+> -    if (smp_cpus < machine_class->min_cpus) {
+> +    if (current_machine->smp.cpus < machine_class->min_cpus) {
+>          error_report("Invalid SMP CPUs %d. The min CPUs "
+> -                     "supported by machine '%s' is %d", smp_cpus,
+> +                     "supported by machine '%s' is %d",
+> +                     current_machine->smp.cpus,
+>                       machine_class->name, machine_class->min_cpus);
+>          exit(1);
+>      }
+> -    if (max_cpus > machine_class->max_cpus) {
+> +    if (current_machine->smp.max_cpus > machine_class->max_cpus) {
+>          error_report("Invalid SMP CPUs %d. The max CPUs "
+> -                     "supported by machine '%s' is %d", max_cpus,
+> +                     "supported by machine '%s' is %d",
+> +                     current_machine->smp.max_cpus,
+>                       machine_class->name, machine_class->max_cpus);
+>          exit(1);
+>      }
+> --
+> 2.18.0.rc1.1.g3f1ff2140
+>
+>
 
