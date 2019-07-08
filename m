@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665E6626D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 19:07:31 +0200 (CEST)
-Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5877F62750
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 19:35:42 +0200 (CEST)
+Received: from localhost ([::1]:43562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkX6w-0002jv-Kl
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 13:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
+	id 1hkXYD-0003Zz-JG
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 13:35:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hkX6B-0002L1-8p
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:44 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hkXV6-0001dN-0u
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:32:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hkX6A-0002sV-2u
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:43 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:52608
- helo=mail.default.ilande.uk0.bigv.io)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hkXV5-0002cV-0U
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:32:27 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59004)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hkX69-0001y8-Sx
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:42 -0400
-Received: from host86-189-155-55.range86-189.btcentralplus.com
- ([86.189.155.55] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hkX2F-0005tl-OB; Mon, 08 Jul 2019 18:02:41 +0100
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <3c8b83fe-120b-40e6-84d5-5a3b88e46ee3@ilande.co.uk>
- <CAFEAcA9KjJUE7R0OYfM9AT=Ydu8eXBYJR=sGoGog25xrpRMZig@mail.gmail.com>
- <914f608a-5128-87a5-1c08-e20db88ad216@ilande.co.uk>
- <CAFEAcA9=KKtbR624rV77cu41zUTyu2N8-+1Gjmg-rQwdS1htuw@mail.gmail.com>
- <20190708094107.GD3082@redhat.com>
- <28ca7c60-5795-31ff-1d71-1fac477ad996@redhat.com>
- <20190708101919.GF3082@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <267315a5-9969-9bfb-b4f6-57c61890fae4@ilande.co.uk>
-Date: Mon, 8 Jul 2019 18:03:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190708101919.GF3082@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.189.155.55
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] Parallel make build fails on fast machine
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hkXV2-0002VB-C3; Mon, 08 Jul 2019 13:32:24 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x68HTIdF070612;
+ Mon, 8 Jul 2019 17:32:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=TbNAHlRjxIbp2SEP53b193hmruioVlsOFpGoXJN5pzs=;
+ b=tzCZiG/PNinL6MC4jgtwivQmeuhXIELlr0MRUQwNe2jAROkwF476x3RmjBTsorB8arI2
+ 6ExkGjurq8OW9QJIBT8HzESEyMgL2yZMPVWYU90yiCqCR1jaYxtqU7UQbpMa4DvF/xde
+ 9BrtLVdLg3kC+9NBSeBR1QGH/Okpg3QPqf9VujrtlQLpNheX+oFIZduhTTTpmy6x0+94
+ iiKbuIVDaFbgkDKMKNt9ae6vWSjSTWF5Rh6N/RyZtpDNnDCg2s6i5qVC+sU1g8zh6IMK
+ bChrJzNX6j/cTeHlqYEdNLIVsDmbcfeLQvAgomwPstybr1tvzQTdM1LaY/QRosTXdADq mA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2tjkkpfsmc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 08 Jul 2019 17:32:16 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x68HRbj5147563;
+ Mon, 8 Jul 2019 17:30:16 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 2tjhpcm125-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 08 Jul 2019 17:30:16 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x68HUBIk012018;
+ Mon, 8 Jul 2019 17:30:12 GMT
+Received: from [10.0.0.38] (/79.181.134.95)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 08 Jul 2019 10:30:11 -0700
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+In-Reply-To: <20190701074117.pkmzhon6v7nafq2p@sirius.home.kraxel.org>
+Date: Mon, 8 Jul 2019 20:30:06 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <424BE97C-7EAF-4B28-B580-AC2B5261197C@oracle.com>
+References: <20190626123948.10199-1-shmuel.eiderman@oracle.com>
+ <20190701074117.pkmzhon6v7nafq2p@sirius.home.kraxel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ qemu-block@nongnu.org
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9312
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1907080215
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9312
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1907080215
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: Re: [Qemu-devel] [QEMU] [PATCH v5 0/8] Add Qemu to SeaBIOS LCHS
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,86 +93,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, Arbel Moshe <arbel.moshe@oracle.com>, seabios@seabios.org,
+ Max Reitz <mreitz@redhat.com>, Kevin O'Connor <kevin@koconnor.net>,
+ Liran Alon <liran.alon@oracle.com>, Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/2019 11:19, Daniel P. Berrangé wrote:
+Thanks Gerd,
 
-> On Mon, Jul 08, 2019 at 12:17:12PM +0200, Philippe Mathieu-Daudé wrote:
->> On 7/8/19 11:41 AM, Daniel P. Berrangé wrote:
->>> On Sat, Jul 06, 2019 at 09:35:30PM +0100, Peter Maydell wrote:
->>>> On Sat, 6 Jul 2019 at 11:28, Mark Cave-Ayland
->>>> <mark.cave-ayland@ilande.co.uk> wrote:
->>>>>
->>>>> On 06/07/2019 11:16, Peter Maydell wrote:
->>>>>> If you just do 'make' rather than 'make install' does it fail the same way?
->>>>>
->>>>> Interesting. A quick test shows that "make V=1 -j2" works fine, it's just "make V=1
->>>>> -j2 install" which is failing.
->>>>
->>>> Mmm. I suspect most people just do the plain make (with the make install
->>>> phase either never or as a second command afterwards), so missing-dependency
->>>> bugs between the install targets and the build targets are probably more
->>>> likely to lurk around. We should stil fix them, though, assuming we
->>>> can track them down...
->>>
->>> The main 'install' target depends on 'all':
->>>
->>> install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstatedir \
->>>
->>>
->>> but I think still allows 'install-doc', 'install-datadir' and
->>> 'install-localstatedir'  to parallelize wrt 'all'. I guess the fix is to
->>> make each of those 'install-xxx' targets depend on 'all' instead.
->>
->> I'm not sure I follow, are you suggesting this as a kludge for this
->> release, or you recommend this as a default?
-> 
-> I think it is the right solution in general.
-> 
->> Apparently only 'recurse-install' depends of 'all'.
+Gentle ping on this.
 
-Something also looks a bit odd with distclean here on a fresh checkout:
+Sam
 
-build@ezio:~/src/qemu/git/tmp/qemu$ make distclean
-  LD      recurse-clean.mo
-cc: fatal error: no input files
-compilation terminated.
-rules.mak:118: recipe for target 'recurse-clean.mo' failed
-make: *** [recurse-clean.mo] Error 1
+> On 1 Jul 2019, at 10:41, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>=20
+> On Wed, Jun 26, 2019 at 03:39:40PM +0300, Sam Eiderman wrote:
+>> v1:
+>>=20
+>> Non-standard logical geometries break under QEMU.
+>>=20
+>> A virtual disk which contains an operating system which depends on
+>> logical geometries (consistent values being reported from BIOS INT13
+>> AH=3D08) will most likely break under QEMU/SeaBIOS if it has =
+non-standard
+>> logical geometries - for example 56 SPT (sectors per track).
+>> No matter what QEMU will guess - SeaBIOS, for large enough disks - =
+will
+>> use LBA translation, which will report 63 SPT instead.
+>>=20
+>> In addition we can not enforce SeaBIOS to rely on phyiscal geometries =
+at
+>> all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+>> report more than 16 physical heads when moved to an IDE controller, =
+the
+>> ATA spec allows a maximum of 16 heads - this is an artifact of
+>> virtualization.
+>>=20
+>> By supplying the logical geometies directly we are able to support =
+such
+>> "exotic" disks.
+>>=20
+>> We will use fw_cfg to do just that.
+>>=20
+>> v2:
+>>=20
+>> Fix missing parenthesis check in
+>>    "hd-geo-test: Add tests for lchs override"
+>>=20
+>> v3:
+>>=20
+>> * Rename fw_cfg key to "bios-geometry".
+>> * Remove "extendible" interface.
+>> * Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
+>> * Fix last qtest commit - automatic docker tester for some reason =
+does not have qemu-img set
+>>=20
+>> v4:
+>>=20
+>> * Change fw_cfg interface from mixed textual/binary to textual only
+>>=20
+>> v5:
+>>=20
+>> * Fix line > 80 chars in tests/hd-geo-test.c
+>=20
+> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+>=20
+> cheers,
+>  Gerd
+>=20
 
-A bit more experimentation shows that it's related to having multiple softmmu targets:
-
-Works:
-
-'./configure' '--target-list=x86_64-softmmu' '--prefix=/home/build/rel-qemu-git'
-make V=1 -j4 install
-
-'./configure' '--target-list=x86_64-softmmu arm-softmmu'
-'--prefix=/home/build/rel-qemu-git'
-make V=1 -j4 install
-
-'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu'
-'--prefix=/home/build/rel-qemu-git'
-make V=1 -j4 install
-
-Fails:
-
-'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu sparc-softmmu'
-'--prefix=/home/build/rel-qemu-git'
-make V=1 -j4 install
-
-'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu mips-softmmu'
-'--prefix=/home/build/rel-qemu-git'
-make V=1 -j4 install
-
-Looking at the output it feels as if we're trying to build something that depends
-upon libqemu.a before it's ready, but only with a long list of targets on a fast machine.
-
-
-ATB,
-
-Mark.
 
