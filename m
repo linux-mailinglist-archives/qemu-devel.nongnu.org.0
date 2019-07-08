@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B989E61E84
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:35:17 +0200 (CEST)
-Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3310261D23
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 12:39:52 +0200 (CEST)
+Received: from localhost ([::1]:40296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkSrU-00034j-5M
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40709)
+	id 1hkR3n-00017A-EF
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 06:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37431)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkREP-0005Cr-4S
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:50 -0400
+ (envelope-from <berrange@redhat.com>) id 1hkR2H-0000fM-IP
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkREN-0008Nn-5g
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48666)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkREG-00087H-99
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkRED-0005Ns-4q
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 10:50:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 205ED2E802D
- for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 10:50:37 +0000 (UTC)
+ (envelope-from <berrange@redhat.com>) id 1hkR2F-0000DG-Vy
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:38:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42016)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hkR2F-0000Ca-OT
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:38:15 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D8F7281DFC
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 10:38:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAE5D5C46B;
+ Mon,  8 Jul 2019 10:38:06 +0000 (UTC)
+Date: Mon, 8 Jul 2019 11:38:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190708103804.GG3082@redhat.com>
+References: <20190703172501.GI23082@redhat.com>
+ <20190704102457.GE1609@stefanha-x1.localdomain>
+ <20190704102837.GA24190@redhat.com>
+ <20190705080717.GD10995@stefanha-x1.localdomain>
+ <8470a203-430b-1814-b2ef-6adf3fa739a6@redhat.com>
+ <87d0iok4ai.fsf@dusky.pond.sub.org>
+ <c4997dee-932c-eb57-23b9-4b51e8856f91@redhat.com>
+ <874l3zhktx.fsf@dusky.pond.sub.org>
+ <20190708093400.GB3082@redhat.com>
+ <e396d430-1e6e-2e0b-454b-5c4208756742@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e396d430-1e6e-2e0b-454b-5c4208756742@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Mon, 08 Jul 2019 10:38:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jul 2019 10:36:02 -0000
-From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: tristan-vanberkom
-X-Launchpad-Bug-Reporter: Tristan Van Berkom (tristan-vanberkom)
-X-Launchpad-Bug-Modifier: Tristan Van Berkom (tristan-vanberkom)
-Message-Id: <156258216266.21278.12556510470216212187.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3e2d57d78e59198b5a2f9082c31f2ec82fd18f49
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Mon, 08 Jul 2019 08:32:36 -0400
-Subject: [Qemu-devel] [Bug 1835729] [NEW] GTK display does not support host
- scale factor
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH-for-4.2] tracing: Allow to tune tracing
+ options via the environment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,59 +67,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835729 <1835729@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Mon, Jul 08, 2019 at 12:27:12PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> On 7/8/19 11:34 AM, Daniel P. Berrang=C3=A9 wrote:
+> > On Sat, Jul 06, 2019 at 06:02:18AM +0200, Markus Armbruster wrote:
+> >> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >>
+> >>> On 7/5/19 3:19 PM, Markus Armbruster wrote:
+> >>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> >>>>> On 7/5/19 10:07 AM, Stefan Hajnoczi wrote:
+> >>>>>> On Thu, Jul 04, 2019 at 11:28:37AM +0100, Daniel P. Berrang=C3=A9=
+ wrote:
+> >>>>>>> On Thu, Jul 04, 2019 at 11:24:57AM +0100, Stefan Hajnoczi wrote=
+:
+> >> [...]
+> >>>>>>>> What is the concern about adding these environment variables t=
+o QEMU?
+> >>>>>>>>
+> >>>>>>>> It is convenient to be able to use tracing even if QEMU is inv=
+oked by
+> >>>>>>>> something you cannot modify/control.
+> >>>>>>>>
+> >>>>>>>> The main issues I see with environment variables are:
+> >>>>>>>>
+> >>>>>>>> 1. Security.  Is there a scenario where an attacker can use en=
+vironment
+> >>>>>>>>    variables to influence the behavior of a QEMU process runni=
+ng at a
+> >>>>>>>>    different trust level?
+> >>>>
+> >>>> The common (and sad) solution for this is to require whatever runs=
+ $PROG
+> >>>> at a different trust level to scrub the environment.
+> >>>
+> >>> I hope people concerned by security build QEMU with the NOP trace b=
+ackend.
+> >>
+> >> I sure hope at least one of our tracing backends (other than nop) ca=
+n be
+> >> used safely in production.
+>=20
+> I'm not saying production and security are orthogonal, but recent trend
+> in security seems to reduce code exposure by disabling component, so I'=
+d
+> not be surprise if people who primary concern is strong security to use
+> the NOP trace backend as default.
+>=20
+> > AFAIK, *all* of the trace backends are safe for use in production. Th=
+e
+> > only questions are around performance in production.  If anyone knows=
+ of
+> > any security problems with specific backends we should either address=
+ them,
+> > or document the backend is unsafe.
+>=20
+> I hope the tracing backend/frontends are safe. Now the trace events log
+> a bunch of interesting information, so I'd not be surprise if some
+> security researcher open a "QEMU information leak" CVE because we log
+> various guest pointers i.e.
 
-In the GNOME desktop environment, for HiDPI displays there is support to
-upscale everything.
+There would only be an information leak if the information was made
+available to users/apps which are running at a lower privilege level
+than QEMU. If you are root, or running as the QEMU user/group, then
+all the information is already available by ptrace'ing QEMU or other
+means. The tracing framework merely makes it available in an easier
+to access way.
 
-This can be set in "System Settings -> Displays -> Scale".
+> Anyway, to stop bikeshedding this thread, can you add few lines about
+> why not use getenv() in the HACKING?
 
-I believe this affects GDK in the same way as setting the "GDK_SCALE"
-environment variable does.
+I don't actually think the getenv thing is a security issue in any case.
+If there was a security problem exploitable via getenv, then the bug woul=
+d
+lie in the application invoking QEMU for not ensuring the ENV contents
+were safe before exec'ing QEMU. Libvirt is paranoid by default and scrubs
+QEMU's env only keeping a specific sanitized whitelist for exactly these
+reasons.
 
-When launching `qemu-system-x86_64 ... -display gtk`, this scale factor
-seems to get lost; the result is that the host window is upscaled and
-doubled in size, while the guest appears only in the bottom left corner
-of the UI.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "Screenshot displaying the problem"
-   https://bugs.launchpad.net/bugs/1835729/+attachment/5275625/+files/qemu-=
-gtk-display.png
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835729
-
-Title:
-  GTK display does not support host scale factor
-
-Status in QEMU:
-  New
-
-Bug description:
-  In the GNOME desktop environment, for HiDPI displays there is support
-  to upscale everything.
-
-  This can be set in "System Settings -> Displays -> Scale".
-
-  I believe this affects GDK in the same way as setting the "GDK_SCALE"
-  environment variable does.
-
-  When launching `qemu-system-x86_64 ... -display gtk`, this scale
-  factor seems to get lost; the result is that the host window is
-  upscaled and doubled in size, while the guest appears only in the
-  bottom left corner of the UI.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835729/+subscriptions
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
