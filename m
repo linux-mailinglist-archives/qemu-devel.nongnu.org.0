@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE60461D42
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 12:51:12 +0200 (CEST)
-Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007F661D43
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 12:51:22 +0200 (CEST)
+Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkREk-0004RV-TS
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 06:51:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39859)
+	id 1hkREv-0004sJ-6h
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 06:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39876)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hkRBz-0002o1-MC
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:48:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1hkRC0-0002on-Oh
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:48:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hkRBy-0006Cp-Kf
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:48:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59102)
+ (envelope-from <philmd@redhat.com>) id 1hkRBz-0006Da-N3
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:48:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hkRBu-00069n-Gn; Mon, 08 Jul 2019 06:48:14 -0400
+ id 1hkRBw-0006A2-JJ; Mon, 08 Jul 2019 06:48:16 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 099FCC05B038;
- Mon,  8 Jul 2019 10:48:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4AABAC05B03F;
+ Mon,  8 Jul 2019 10:48:13 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-112.brq.redhat.com [10.40.204.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B770057986;
- Mon,  8 Jul 2019 10:47:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E46857984;
+ Mon,  8 Jul 2019 10:48:08 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  8 Jul 2019 12:47:47 +0200
-Message-Id: <20190708104750.1071-1-philmd@redhat.com>
+Date: Mon,  8 Jul 2019 12:47:48 +0200
+Message-Id: <20190708104750.1071-2-philmd@redhat.com>
+In-Reply-To: <20190708104750.1071-1-philmd@redhat.com>
+References: <20190708104750.1071-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 08 Jul 2019 10:48:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 08 Jul 2019 10:48:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v5 0/3] hw/ssi/xilinx_spips: Avoid NULL
- dereference and out-of-bound access
+Subject: [Qemu-devel] [PATCH-for-4.1 v5 1/3] hw/ssi/xilinx_spips: Convert
+ lqspi_read() to read_with_attrs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,21 +65,63 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01238.html
-v2: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01586.html
-v3: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01657.html
-v4: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01777.html
-v5:
-- address Francisco comments from v4
+In the next commit we will implement the write_with_attrs()
+handler. To avoid using different APIs, convert the read()
+handler first.
 
-Philippe Mathieu-Daud=C3=A9 (3):
-  hw/ssi/xilinx_spips: Convert lqspi_read() to read_with_attrs
-  hw/ssi/xilinx_spips: Avoid AXI writes to the LQSPI linear memory
-  hw/ssi/xilinx_spips: Avoid out-of-bound access to lqspi_buf[]
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+v4: Do not ignore lqspi_read() return value (Francisco)
+---
+ hw/ssi/xilinx_spips.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
- hw/ssi/xilinx_spips.c | 43 +++++++++++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 12 deletions(-)
-
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index 8115bb6d46..b7c7275dbe 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1202,27 +1202,26 @@ static void lqspi_load_cache(void *opaque, hwaddr=
+ addr)
+     }
+ }
+=20
+-static uint64_t
+-lqspi_read(void *opaque, hwaddr addr, unsigned int size)
++static MemTxResult lqspi_read(void *opaque, hwaddr addr, uint64_t *value=
+,
++                              unsigned size, MemTxAttrs attrs)
+ {
+-    XilinxQSPIPS *q =3D opaque;
+-    uint32_t ret;
++    XilinxQSPIPS *q =3D XILINX_QSPIPS(opaque);
+=20
+     if (addr >=3D q->lqspi_cached_addr &&
+             addr <=3D q->lqspi_cached_addr + LQSPI_CACHE_SIZE - 4) {
+         uint8_t *retp =3D &q->lqspi_buf[addr - q->lqspi_cached_addr];
+-        ret =3D cpu_to_le32(*(uint32_t *)retp);
+-        DB_PRINT_L(1, "addr: %08x, data: %08x\n", (unsigned)addr,
+-                   (unsigned)ret);
+-        return ret;
+-    } else {
+-        lqspi_load_cache(opaque, addr);
+-        return lqspi_read(opaque, addr, size);
++        *value =3D cpu_to_le32(*(uint32_t *)retp);
++        DB_PRINT_L(1, "addr: %08" HWADDR_PRIx ", data: %08" PRIx64 "\n",
++                   addr, *value);
++        return MEMTX_OK;
+     }
++
++    lqspi_load_cache(opaque, addr);
++    return lqspi_read(opaque, addr, value, size, attrs);
+ }
+=20
+ static const MemoryRegionOps lqspi_ops =3D {
+-    .read =3D lqspi_read,
++    .read_with_attrs =3D lqspi_read,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
 --=20
 2.20.1
 
