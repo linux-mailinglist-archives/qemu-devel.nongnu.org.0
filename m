@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D12F62685
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 18:41:41 +0200 (CEST)
-Received: from localhost ([::1]:43344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD02626C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 19:03:53 +0200 (CEST)
+Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkWhw-0003C0-Be
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 12:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51767)
+	id 1hkX3Q-0000BR-3e
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 13:03:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hkWgN-0002Wz-Q3
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:40:05 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkX0i-0007gv-GG
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:01:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hkWgM-0000B6-RP
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:40:03 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:33907)
+ (envelope-from <bounces@canonical.com>) id 1hkX0h-00073j-Cb
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:01:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39786)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hkWgI-00005d-MW
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:40:00 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id l12so13126510oil.1
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 09:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=V/QbX43fnqNoAWQIN4sTALdsFUnCoKf7FtMkq1efSjg=;
- b=hBaP0/J5hPzqr9ARNaM7bDXsPuk05DbG5eI0wAQsWl2RXiR8XlrCl6kk2ucRjaPJgI
- OHZWpThV0iMCulH/oc47hJpqShC9RE2HTVuYZxaRBpTxVO9SYybHjZRkCjJRqBp5mNbw
- rPNMZ0qdQ9EikGb+CoR8pUqMLE4dmPnX5McwOYKzWh2V4s4LdzSoCxqFHu4x9BSPU9TG
- JCCfcgN7EHxFZ6b5jJC02Oa9uh1f7Sq90V/a3oqwWkEtNs+bT1ir0aG7fHYzW8ah4w+I
- Wtb0MAW18Th/IWkZNzJqA4eVs2mrmcCFosGPSDT51GIK6r/zscL7nLy/+W8b2Nn++jqo
- Sq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=V/QbX43fnqNoAWQIN4sTALdsFUnCoKf7FtMkq1efSjg=;
- b=ckF3UVwOyPXRpnaq2jhv1O+zAthPZtwFVl/uOpRX8kq+/uf+JwGKEE4nVQmAxG4Myg
- mKIX5ZsaBORtmT8ex8tkKz5/lV9wLNyriijnk1b34dCNqWUZshrwohht8aMU/c9awe8R
- eos/APaDLP4Tl4Q1m/AOIG1y2T4oEtz/6S5xmQg+R9l+HvbB4p/UUQg/Nl3pkJGymmmi
- Dxb+Z5yRZjjOUXXnrBQ+LO3QIfKj3ERaoG2K3KJsvsN4aUnxZ9c+VQagAI7itEz9XARK
- +K7R6wVMmfdSLAZpPxrqpXPit1gRUyPJxRZzS3LsZBaezGRXEQC/bvY2IGE2iKumJVL8
- fQbQ==
-X-Gm-Message-State: APjAAAWTtUHfyJ0Yue8ZIEtjBXJUaTPNg1HRTsmeKmcfbgtRHWU1IFEa
- FMe5XwCoOMJFxOEpZTWf84Pd0DFkML1wv4j8obCZBQ==
-X-Google-Smtp-Source: APXvYqzVl/x47Ls+zLCJy1KKlmUVR4+ZzH4xC1GBEih0VNualodpY4CazKOoPwcLCeCJ+Mm17lFz5yrMqavI/eCNI+A=
-X-Received: by 2002:aca:ac48:: with SMTP id v69mr9483848oie.48.1562603996735; 
- Mon, 08 Jul 2019 09:39:56 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkX0h-00073F-7D
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:01:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkX0g-0008UB-Gy
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 17:01:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7BF1A2E8024
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 17:01:02 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190107122304.22997-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20190107122304.22997-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Jul 2019 17:39:45 +0100
-Message-ID: <CAFEAcA_AFvdzWP7a9hE9qeqAp22swiP7MKBTO9yWJUoW4JnRjA@mail.gmail.com>
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22b
-Subject: Re: [Qemu-devel] [PULL v2 00/28] Machine props patches
+Date: Mon, 08 Jul 2019 16:48:28 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1797262@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee philmd pmaydell xrobau
+X-Launchpad-Bug-Reporter: Rob Thomas (xrobau)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <153921596093.13046.16485884973780639345.malonedeb@wampee.canonical.com>
+Message-Id: <156260450874.21327.2119033689390664564.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: df46c56e2ef318097d3c1fc795b8b82564f9621e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1797262] Re: qemu arm no longer able to boot RPI
+ Kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,46 +67,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1797262 <1797262@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Jan 2019 at 12:23, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
-> ----------------------------------------------------------------
-> Generalize machine compatibility properties
->
-> During "[PATCH v2 05/10] qom/globals: generalize
-> object_property_set_globals()" review, Eduardo suggested to rework the
-> GlobalProperty handling, so that -global is limited to QDev only and
-> we avoid mixing the machine compats and the user-provided -global
-> properties (instead of generalizing -global to various object kinds,
-> like I proposed in v2).
->
-> "qdev: do not mix compat props with global props" patch decouples a
-> bit user-provided -global from machine compat properties. This allows
-> to get rid of "user_provided" and "errp" fields in following patches.
->
-> A new compat property "x-use-canonical-path-for-ramblock-id" is added
-> to hostmem for legacy canonical path names, set to true for -file and
-> -memfd with qemu < 4.0.
->
-> (this series was initially titled "[PATCH v2 00/10] hostmem: use
-> object "id" for memory region name with >=3D 3.1", but its focus is more
-> in refactoring the global and compatilibity properties handling now)
+latest series posted:
+https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg00191.html
 
-Hi; I've just noticed that this refactoring that removed all the
-HW_COMPAT and PC_COMPAT macros left a couple of references to
-them behind in documentation/comments:
+-- =
 
-$ git grep HW_COMPAT
-docs/devel/migration.rst:   b) Add an entry to the ``HW_COMPAT_`` for
-the previous version that sets
-hw/i386/pc_piix.c: * HW_COMPAT_*, PC_COMPAT_*, or * pc_*_machine_options().
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1797262
 
-Could you write a patch which updates these bits of documentation
-to refer to the new scheme, please?
+Title:
+  qemu arm no longer able to boot RPI Kernels
 
-thanks
--- PMM
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Since RPi Kernel 1.20170427, qemu is no longer able to emulate the
+  Rasberry Pi, as the linux kernel is complaining about timing issues.
+
+  Old kernel output - https://pastebin.com/wvkneNNF
+  New kernel output - https://pastebin.com/QTwgCkV2
+
+  Note that the actual error is caused by the kernel being unable to get
+  the timing source for the mmc (Line 160), which causes an unable-to-
+  mount-root panic.  There are other issues with the serial port
+  returning an invalid speed, which displays a divide-by-zero error,
+  which is PROBABLY a symptom of the same root cause.
+
+  This is simple to replicate - The last working kernel is available
+  here:
+
+  https://github.com/raspberrypi/firmware/tree/1.20170405/boot
+
+  Download kernel7 and the dtb, and try to boot with (for example)
+
+  qemu-system-aarch64 -M raspi2 -kernel kernel7.img -dtb
+  bcm2709-rpi-2-b.dtb -serial stdio -sd noobs.img -append
+  "root=3D/dev/mmcblk0p2 init=3D/bin/bash"
+
+  This works, and boots successfully.
+
+  However, if you replace the kernel7.img and dtb with ones taken from
+  https://github.com/raspberrypi/firmware/tree/1.20170427/boot it will
+  NOT boot because of various clock timing issues (as in the second
+  paste)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1797262/+subscriptions
 
