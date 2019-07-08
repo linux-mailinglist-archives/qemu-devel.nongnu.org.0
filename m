@@ -2,67 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34F762997
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 21:29:34 +0200 (CEST)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A33629C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 21:39:48 +0200 (CEST)
+Received: from localhost ([::1]:44312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkZKQ-0007f2-6W
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 15:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
+	id 1hkZUJ-0002bh-9T
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 15:39:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39416)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwankhede@nvidia.com>) id 1hkZCl-0005c9-4l
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:21:40 -0400
+ (envelope-from <amarkovic@wavecomp.com>) id 1hkZTe-0002AN-No
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:39:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1hkZCk-0003RV-0e
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:21:39 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:6585)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1hkZCj-0003QM-O5
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:21:37 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d2397bf0000>; Mon, 08 Jul 2019 12:21:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 08 Jul 2019 12:21:36 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 08 Jul 2019 12:21:36 -0700
-Received: from HQMAIL102.nvidia.com (172.18.146.10) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 8 Jul
- 2019 19:21:36 +0000
-Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL102.nvidia.com
- (172.18.146.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 8 Jul
- 2019 19:21:35 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 8 Jul 2019 19:21:29 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Tue, 9 Jul 2019 00:47:32 +0530
-Message-ID: <1562613452-24969-14-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1562613452-24969-1-git-send-email-kwankhede@nvidia.com>
-References: <1562613452-24969-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (envelope-from <amarkovic@wavecomp.com>) id 1hkZTd-0004gw-M5
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:39:06 -0400
+Received: from mail-eopbgr690106.outbound.protection.outlook.com
+ ([40.107.69.106]:14311 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
+ id 1hkZTd-0004gi-B4
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:39:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4pKNt9UE21vJIkh8aGlnng8mItXEa7Q43F+PXKwLpBg=;
+ b=bNiBmVWv5o2ew3wuP2oPixb/HK/XMPQhxzgAanv9V7I5Le5sm0hhV+3YyWo9fZfSCRHbRNLHN7oC4Yhm4hfMaSS1sV0h5bqaJh9thK3PCrR+wKqwDdRqfqNU+kdtAw0LU1AztZormUEm8JmIwKNg4BUmN6mqo3MxhnQSa+0Rs/w=
+Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
+ BN6PR2201MB1730.namprd22.prod.outlook.com (10.161.152.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2052.19; Mon, 8 Jul 2019 19:39:00 +0000
+Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
+ ([fe80::509b:7797:a22a:f2bb]) by BN6PR2201MB1251.namprd22.prod.outlook.com
+ ([fe80::509b:7797:a22a:f2bb%3]) with mapi id 15.20.2052.020; Mon, 8 Jul 2019
+ 19:39:00 +0000
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
+To: Stefan Weil <sw@weilnetz.de>, Aleksandar Markovic
+ <aleksandar.m.mail@gmail.com>, "Daniel P. Berrange" <berrange@redhat.com>
+Thread-Topic: [Qemu-devel] Handling of fall through code (was: [PATCH v8
+ 04/87] target/mips: Mark switch fallthroughs with interpretable comments
+Thread-Index: AQHVNWUdmanK06Ai10ycVAoxonexAqbAn8qAgAB8TaI=
+Date: Mon, 8 Jul 2019 19:39:00 +0000
+Message-ID: <BN6PR2201MB12519E6C72689FF70B5CA3E4C6F60@BN6PR2201MB1251.namprd22.prod.outlook.com>
+References: <1534182832-554-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1534182832-554-5-git-send-email-aleksandar.markovic@rt-rk.com>
+ <4da49ffe-902f-2cf2-8a21-2bbd511b17a4@weilnetz.de>
+ <CAL1e-=jE8X1ODnA0aSXe5OCqJzYA0J47h5b6=H_UivPP11zSQA@mail.gmail.com>,
+ <591d71a5-5b10-ab22-4751-01da8613d84c@weilnetz.de>
+In-Reply-To: <591d71a5-5b10-ab22-4751-01da8613d84c@weilnetz.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=amarkovic@wavecomp.com; 
+x-originating-ip: [82.117.201.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 417b1ec7-498b-4b20-b7e6-08d703dbed0e
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:BN6PR2201MB1730; 
+x-ms-traffictypediagnostic: BN6PR2201MB1730:
+x-microsoft-antispam-prvs: <BN6PR2201MB17303E3858D4EEC84ECE5BF6C6F60@BN6PR2201MB1730.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:328;
+x-forefront-prvs: 00922518D8
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(136003)(366004)(39840400004)(396003)(189003)(199004)(25786009)(5660300002)(68736007)(3846002)(66476007)(6116002)(478600001)(6436002)(446003)(66556008)(229853002)(11346002)(7416002)(66446008)(64756008)(6246003)(73956011)(76116006)(110136005)(316002)(2906002)(54906003)(14454004)(4326008)(52536014)(476003)(33656002)(66946007)(486006)(14444005)(74316002)(256004)(26005)(8676002)(81156014)(8936002)(71200400001)(71190400001)(76176011)(66066001)(102836004)(7736002)(7696005)(6506007)(99286004)(305945005)(53936002)(86362001)(55236004)(9686003)(55016002)(186003)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1730;
+ H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 6TRf5ouCYjklj+T166PNO5Nofv8veNkcsPF4Twr1S/mgZxxoDnzz5VAAaMID2IGr65CNLt7yiz4/eii1z+m7KshLXVo3FVl4wbkp2lGS3mOqwqUoTj+SIPFJHOEV9RoZDuGJLa6XH49H1Il63HIvOinrl0KoeyA9Yl7EN4MqNnw06VG3URR7OTzr/Ll6IPQ2WkeFuNkDMkl4QiqeIxMDPUCmuJ+/Lh8OY26JxBYC9D4pl+Pp+4B0S8lzzpxqTdlaHgFkI99AWOut7W2exWzNxunfdtn2AT4EIwsKeg1Y+WbUI9I6mEHwXT11yP4Sy7UhiRKwPv5g/M+cfq+Yw4WVCG24bsiH6IxxVA/uMl/LJb1oh6jtdlFuapKQNp3linZnx53ds2VfcDeW4gHXRzDN2FiGByr2REsTFVp9QDILOpo=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1562613695; bh=oDXfXH2QKaDnSbDGeApTn7hYtedGL0xz2YwbKpIZ7YQ=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=hkEckyTqceQ7ZuOUApUq+btbeR/s75gk/lOdasN9vmBc/xHOL6jNHTj/i+8gxu6lu
- PeNE8+Ypov31sqs+SY11qaSuRUxZLgA4fEnqZzj7iK36XZkwDD61bz1DyKalr2FrjK
- ctx/7CdbbhNawncX3b45MNNGczqR2yDugnBYZTNkXouKt4ct1T7K/FawpyLzLt7e2x
- RX9xXctfz4PZB1r67C8ukaEe6QZzveZFJMVh4lZh4dKqiOdZswPs9HfXWAuhn4LF/X
- oWmOcYtBmSk8zxn7S+fDVFnFz/MjniiOtnSMm6FedFzKq4+uvWT1y2ikdKGfMoHCwJ
- 9zzbDvk4wl74A==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.65
-Subject: [Qemu-devel] [PATCH v5 13/13] vfio: Make vfio-pci device migration
- capable.
+X-OriginatorOrg: wavecomp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 417b1ec7-498b-4b20-b7e6-08d703dbed0e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2019 19:39:00.2462 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: amarkovic@wavecomp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1730
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.69.106
+Subject: Re: [Qemu-devel] Handling of fall through code (was: [PATCH v8
+ 04/87] target/mips: Mark switch fallthroughs with interpretable comments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,88 +100,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
- eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
- changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: Paul Burton <pburton@wavecomp.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "philippe.mathieu.daude@gmail.com" <philippe.mathieu.daude@gmail.com>,
+ Petar Jovanovic <pjovanovic@wavecomp.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call vfio_migration_probe() and vfio_migration_finalize() functions for
-vfio-pci device to enable migration for vfio PCI device.
-Removed vfio_pci_vmstate structure.
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/pci.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 5fe4f8076cac..2ea17a814d55 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2852,6 +2852,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     vdev->vbasedev.ops = &vfio_pci_ops;
-     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
-     vdev->vbasedev.dev = DEVICE(vdev);
-+    vdev->vbasedev.device_state = 0;
- 
-     tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-@@ -3112,6 +3113,12 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
-+    ret = vfio_migration_probe(&vdev->vbasedev, errp);
-+    if (ret) {
-+            error_report("%s: Failed to setup for migration",
-+                         vdev->vbasedev.name);
-+    }
-+
-     vfio_register_err_notifier(vdev);
-     vfio_register_req_notifier(vdev);
-     vfio_setup_resetfn_quirk(vdev);
-@@ -3131,6 +3138,7 @@ static void vfio_instance_finalize(Object *obj)
-     VFIOPCIDevice *vdev = PCI_VFIO(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-+    vdev->vbasedev.device_state = 0;
-     vfio_display_finalize(vdev);
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-@@ -3159,6 +3167,7 @@ static void vfio_exitfn(PCIDevice *pdev)
-     }
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
-+    vfio_migration_finalize(&vdev->vbasedev);
- }
- 
- static void vfio_pci_reset(DeviceState *dev)
-@@ -3267,11 +3276,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static const VMStateDescription vfio_pci_vmstate = {
--    .name = "vfio-pci",
--    .unmigratable = 1,
--};
--
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3279,7 +3283,6 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     dc->props = vfio_pci_dev_properties;
--    dc->vmsd = &vfio_pci_vmstate;
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
--- 
-2.7.0
-
+> ...this is the list of warnings for target/mips/translate.c:=0A=
+=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:10047:13: warni=
+ng: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:10056:13: warni=
+ng: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:20138:13: warni=
+ng: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:20144:13: warni=
+ng: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:6739:9: warning=
+: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:9820:13: warnin=
+g: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+> /home/debian/src/github/qemu/qemu/target/mips/translate.c:9829:13: warnin=
+g: this statement may fall through [-Wimplicit-fallthrough=3D]=0A=
+=0A=
+They are all real issues. Two of them are cases of missing '/* fall through=
+ */' (I plan to send fixes for them in 4.2 timeframe) and five of them are =
+cases of missing 'break' (I plan to send corresponding fixes for 4.1 in few=
+ days).=0A=
+=0A=
+Last time I checked gcc 'implicit-fallthrough' option was around five month=
+s ago, and meanwhile some new code with missing annotation sneaked in. Howe=
+ver, there is some news - it appears to me that gcc 8 improved that feature=
+ significantly compared to gcc 7: some cases now detected by gcc 8 are simp=
+ly went undetected by gcc 7. It appears that at least some of such cases ar=
+e ignored by Coverity too.=0A=
+=0A=
+Great info! Thanks again!!=0A=
+=0A=
+Aleksandar=0A=
+=0A=
+=0A=
+=0A=
+=0A=
+> Stefan=0A=
 
