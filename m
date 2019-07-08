@@ -2,81 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8ABF61E63
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:27:17 +0200 (CEST)
-Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B2F61EB6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:46:10 +0200 (CEST)
+Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkSjj-00007R-2C
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1hkT21-00081Y-7m
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkSh3-0007n8-JA
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:24:30 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hkT0E-00071Z-3P
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:44:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkSh2-0001dg-Ib
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:24:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47804)
+ (envelope-from <imammedo@redhat.com>) id 1hkT0C-0002qX-S0
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:44:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkSgu-0001Vp-Hw; Mon, 08 Jul 2019 08:24:21 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hkT0C-0002pj-Ll
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:44:16 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F12E659455;
- Mon,  8 Jul 2019 12:24:05 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-127.brq.redhat.com
- [10.40.204.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 92A7B5D9C8;
- Mon,  8 Jul 2019 12:24:00 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20190703155944.9637-1-mlevitsk@redhat.com>
- <20190703155944.9637-2-mlevitsk@redhat.com>
- <c47da7ef-82ac-1a76-9c8e-f76336c20c44@redhat.com>
- <d009ad68b237aae51d327955367dc2356f33bba0.camel@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5d32c846-1ff6-ec99-af20-8e7a794c4fe2@redhat.com>
-Date: Mon, 8 Jul 2019 14:23:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 50838307D923;
+ Mon,  8 Jul 2019 12:44:13 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12DF25D70D;
+ Mon,  8 Jul 2019 12:44:10 +0000 (UTC)
+Date: Mon, 8 Jul 2019 14:44:10 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190708144410.23de5e70@redhat.com>
+In-Reply-To: <CAFEAcA-sJ0VDvxUgWO6H6E1kgCU8RVrygcJYpbk_341wwW+H2A@mail.gmail.com>
+References: <20190705221504.25166-1-ehabkost@redhat.com>
+ <CAFEAcA-sJ0VDvxUgWO6H6E1kgCU8RVrygcJYpbk_341wwW+H2A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d009ad68b237aae51d327955367dc2356f33bba0.camel@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="USCwwg2j1GX8g46N9jXoW4sJJc16TrjzP"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 08 Jul 2019 12:24:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Mon, 08 Jul 2019 12:44:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/6] block/nvme: don't touch the
- completion entries
+Subject: Re: [Qemu-devel] [PULL v6 00/42] Machine and x86 queue, 2019-07-05
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,97 +56,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---USCwwg2j1GX8g46N9jXoW4sJJc16TrjzP
-Content-Type: multipart/mixed; boundary="gdQUBiS15iMXSaUEvDyHWdGaa1XfG5TXb";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org
-Message-ID: <5d32c846-1ff6-ec99-af20-8e7a794c4fe2@redhat.com>
-Subject: Re: [PATCH v3 1/6] block/nvme: don't touch the completion entries
-References: <20190703155944.9637-1-mlevitsk@redhat.com>
- <20190703155944.9637-2-mlevitsk@redhat.com>
- <c47da7ef-82ac-1a76-9c8e-f76336c20c44@redhat.com>
- <d009ad68b237aae51d327955367dc2356f33bba0.camel@redhat.com>
-In-Reply-To: <d009ad68b237aae51d327955367dc2356f33bba0.camel@redhat.com>
+On Mon, 8 Jul 2019 10:26:05 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
---gdQUBiS15iMXSaUEvDyHWdGaa1XfG5TXb
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> On Fri, 5 Jul 2019 at 23:15, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >
+> > Changes v5 -> v6:
+> > * Rebase and solve conflicts with other pull requests
+> >   (for the 4th time)
+> > * Included Cascadelake-Server-v2 update
+> >
+> > Changes v4 -> v5:
+> > * Rebase and solve conflicts with commit 374f63f6810a ("Merge remote-tracking
+> >   branch 'remotes/armbru/tags/pull-monitor-2019-07-02-v2' into staging")
+> >
+> > Changes v3 -> v4:
+> > * Fix ppc64 "make check" failure
+> >
+> > Changes v2 -> v3:
+> > * Fix "make check" warnings (Igor Mammedov)
+> > * Fix conflicts of "hw/arm: Replace global smp variables with
+> >   machine smp properties" with recent arm changes (Eduardo Habkost)
+> > * x86 versioned CPU models (Eduardo Habkost)
+> > * SnowRidge CPU model (Paul Lai)
+> > * Add deprecation information to query-machines (Eduardo Habkost)
+> >
+> > Changes v1 -> v2:
+> > * Fix s390x build failure
+> >
+> > The following changes since commit d2c5f91ca944aaade642624397e1853801bbc744:
+> >
+> >   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-07-05 16:16:15 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
+> >
+> > for you to fetch changes up to af135030e3405af5ce234a9f92cf8cc4e55fec96:
+> >
+> >   tests: use -numa memdev option in tests instead of legacy 'mem' option (2019-07-05 17:12:45 -0300)
+> >
+> > ----------------------------------------------------------------
+> > Machine and x86 queue, 2019-07-05
+> >
+> > * CPU die topology support (Like Xu)
+> > * Deprecation of features (Igor Mammedov):
+> >   * 'mem' parameter of '-numa node' option
+> >   * implict memory distribution between NUMA nodes
+> >   * deprecate -mem-path fallback to anonymous RAM
+> > * x86 versioned CPU models (Eduardo Habkost)
+> > * SnowRidge CPU model (Paul Lai)
+> > * Add deprecation information to query-machines (Eduardo Habkost)
+> > * Other i386 fixes
+> >  
+> 
+> 
+> Applied, thanks.
+> 
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+> for any user-visible changes.
+Updated "Miscellaneous" + "New deprecated options and features"
+with NUMA related changes.
 
-On 07.07.19 10:43, Maxim Levitsky wrote:
-> On Fri, 2019-07-05 at 13:03 +0200, Max Reitz wrote:
->> On 03.07.19 17:59, Maxim Levitsky wrote:
->>> Completion entries are meant to be only read by the host and written =
-by the device.
->>> The driver is supposed to scan the completions from the last point wh=
-ere it left,
->>> and until it sees a completion with non flipped phase bit.
->>
->> (Disclaimer: This is the first time I read the nvme driver, or really
->> something in the nvme spec.)
->>
->> Well, no, completion entries are also meant to be initialized by the
->> host.  To me it looks like this is the place where that happens:
->> Everything that has been processed by the device is immediately being
->> re-initialized.
->>
->> Maybe we shouldn=E2=80=99t do that here but in nvme_submit_command(). =
- But
->> currently we don=E2=80=99t, and I don=E2=80=99t see any other place wh=
-ere we currently
->> initialize the CQ entries.
->=20
-> Hi!
-> I couldn't find any place in the spec that says that completion entries=
- should be initialized.
-> It is probably wise to initialize that area to 0 on driver initializati=
-on, but nothing beyond that.
+> 
+> -- PMM
+> 
 
-Ah, you=E2=80=99re right, I misread.  I didn=E2=80=99t pay as much attent=
-ion to the
-=E2=80=9C...prior to setting CC.EN to =E2=80=981=E2=80=99=E2=80=9D as I s=
-hould have.  Yep, and that is
-done in nvme_init_queue().
-
-OK, I cease my wrongful protest:
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-> In particular that is what the kernel nvme driver does.=20
-> Other that allocating a zeroed memory (and even that I am not sure it d=
-oes),=20
-> it doesn't write to the completion entrie
-
-
---gdQUBiS15iMXSaUEvDyHWdGaa1XfG5TXb--
-
---USCwwg2j1GX8g46N9jXoW4sJJc16TrjzP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0jNd4ACgkQ9AfbAGHV
-z0DN5gf/UG3C0NhsOGgY68EqJEOnUfHBdD2zTYukESt4vb+GcXBuHoSP+GpwcnKO
-qeOlBOffwCmpmyOrHr6derj6J9jLn2G5Pj6yz9x/01z3A0KzBRvf/2hEpBxw5Biy
-Ik+4AvXYh+ZeYY9fltKOg0T241T7EkWrGKNoDoSktQrl/DMVFKt1vqNJTEydXYtF
-KQbNI/7rnBppMKPj+HnLTxxd4yezYe9h48tctGhTy/tFU51yjlLl7o4HqabpISns
-8OhHroBBj0JBv2b2DHwA4aeaVMsy41vpRMSLEspxd0mn7wyjaBENEiPrzou9lbCj
-vRUv9Cim/2A4QIMuyoIaf8qkvF44fQ==
-=L0W2
------END PGP SIGNATURE-----
-
---USCwwg2j1GX8g46N9jXoW4sJJc16TrjzP--
 
