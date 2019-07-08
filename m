@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD863626CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 19:03:56 +0200 (CEST)
-Received: from localhost ([::1]:43422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665E6626D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 19:07:31 +0200 (CEST)
+Received: from localhost ([::1]:43438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkX3S-0000Fm-QB
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 13:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56332)
+	id 1hkX6w-0002jv-Kl
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 13:07:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stephen.checkoway@oberlin.edu>) id 1hkX0b-0007Zf-TO
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:00:59 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hkX6B-0002L1-8p
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stephen.checkoway@oberlin.edu>) id 1hkX0Z-0006w4-AR
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:00:57 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:43498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stephen.checkoway@oberlin.edu>)
- id 1hkX0Z-0006sI-2T
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:00:55 -0400
-Received: by mail-io1-xd44.google.com with SMTP id k20so36818280ios.10
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 10:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oberlin.edu; s=google;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=r5PspHPHKhzPUlD+t/b0NIdyINQGbCGRIUtmVTzM6Ko=;
- b=kn8vkCfuNVNUYb569n21S8ks6MFZ7SjYAMrNaQa5oQ+CCU0kVBTl2gmJZ65jSPU/kb
- EELOhDjgGkJtVd9Gksqtn7Q+R+I0lNKyC/0uoLqLvsRSXJ+Rjy+Oi7fjSk/s7AB9uZnV
- coIVLbStsjCvrDXEczaX9xiIh8nfetgVbneYH0CFDIw1eqMVYnRC/FleKigFujbpW+/W
- 9r/NGZhfCXdb68b6nziEUdOcRzErx12Mp4M+YjJMeJH5oVEXAcumH/GuYjQwiBI4Nh29
- NrF6YlJGf4QuxmZAy9/moJFACRBgx9PxsnFnWU81ICPY3dq/E6Is4P66poSJQ4fQoki2
- Fueg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=r5PspHPHKhzPUlD+t/b0NIdyINQGbCGRIUtmVTzM6Ko=;
- b=R7UsRtfJi39zyqesjYICzrDXZYRUDzRWRn3o/i/Qy18MwFkUQtolmkqzZCKJKP75fw
- k/n5WJRG1e1xGEZUfUl5eiaL3jt14DYF9DiwF5tvtwM9lquoK4e0D123hSoMn/4rDTJJ
- gTk6jp4o72wESYLuXQ7H57RgfSkiBwncFyaI30v1zpLsdrL29CAfycZu5ZB9d76IUZEc
- riiCHbryauCDlU3wJUMpDMTxIbKFWeAy7zOsX35zEtIB0q3MiO32/phKN9WZQQBlonPW
- oj+A/7ZmONNHmfAKDDFhBNEK9FBakLsXPneYWKCXL82osdF1UJCv3Ls9ZnUs2vGvMIDu
- FejQ==
-X-Gm-Message-State: APjAAAUbAV6Q8BngquVBc9P2IX7OIQpexEqwiS/z79KOLD0Z68944qNT
- oCgdVenmX+naecdDOF4O2Mn4Vw==
-X-Google-Smtp-Source: APXvYqzS/zj3egNhYUJrQZxG45S3Ri5BGkv7J66rbJzKbkaK9by7xU+Qrsu0+L7wv4sgEMvxo+ErBw==
-X-Received: by 2002:a5e:8e42:: with SMTP id r2mr19187187ioo.305.1562605249091; 
- Mon, 08 Jul 2019 10:00:49 -0700 (PDT)
-Received: from worksec.oberlin.net (ip-210-181.oberlin.net. [208.66.210.181])
- by smtp.gmail.com with ESMTPSA id
- t19sm15562509iog.41.2019.07.08.10.00.47
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Jul 2019 10:00:48 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
-From: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-In-Reply-To: <9cf78fb6-e56c-8ebc-3158-34cdf8fa70e6@redhat.com>
-Date: Mon, 8 Jul 2019 13:00:47 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FA5364E5-4AE9-4BFB-ACA2-BEA50B7BB0D4@oberlin.edu>
-References: <20190702005912.15905-1-philmd@redhat.com>
- <20190702005912.15905-28-philmd@redhat.com>
- <C6F80CB3-2D5D-4EE0-A085-DDA8AA334279@oberlin.edu>
- <05be219a-4af9-f939-3abe-6137f5a7deba@redhat.com>
- <3D8F6CD2-6C74-469C-83C1-3DF0A458B757@oberlin.edu>
- <e8d65586-63b0-0c43-a043-efd4a59b3834@redhat.com>
- <9cf78fb6-e56c-8ebc-3158-34cdf8fa70e6@redhat.com>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-X-Mailer: Apple Mail (2.3445.102.3)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Subject: Re: [Qemu-devel] [PULL 27/27] hw/block/pflash_cfi02: Reduce I/O
- accesses to 16-bit
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hkX6A-0002sV-2u
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:43 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:52608
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hkX69-0001y8-Sx
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 13:06:42 -0400
+Received: from host86-189-155-55.range86-189.btcentralplus.com
+ ([86.189.155.55] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hkX2F-0005tl-OB; Mon, 08 Jul 2019 18:02:41 +0100
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <3c8b83fe-120b-40e6-84d5-5a3b88e46ee3@ilande.co.uk>
+ <CAFEAcA9KjJUE7R0OYfM9AT=Ydu8eXBYJR=sGoGog25xrpRMZig@mail.gmail.com>
+ <914f608a-5128-87a5-1c08-e20db88ad216@ilande.co.uk>
+ <CAFEAcA9=KKtbR624rV77cu41zUTyu2N8-+1Gjmg-rQwdS1htuw@mail.gmail.com>
+ <20190708094107.GD3082@redhat.com>
+ <28ca7c60-5795-31ff-1d71-1fac477ad996@redhat.com>
+ <20190708101919.GF3082@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <267315a5-9969-9bfb-b4f6-57c61890fae4@ilande.co.uk>
+Date: Mon, 8 Jul 2019 18:03:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <20190708101919.GF3082@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.189.155.55
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.43.2.167
+Subject: Re: [Qemu-devel] Parallel make build fails on fast machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,101 +90,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:sPAPR" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 08/07/2019 11:19, Daniel P. Berrangé wrote:
+
+> On Mon, Jul 08, 2019 at 12:17:12PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 7/8/19 11:41 AM, Daniel P. Berrangé wrote:
+>>> On Sat, Jul 06, 2019 at 09:35:30PM +0100, Peter Maydell wrote:
+>>>> On Sat, 6 Jul 2019 at 11:28, Mark Cave-Ayland
+>>>> <mark.cave-ayland@ilande.co.uk> wrote:
+>>>>>
+>>>>> On 06/07/2019 11:16, Peter Maydell wrote:
+>>>>>> If you just do 'make' rather than 'make install' does it fail the same way?
+>>>>>
+>>>>> Interesting. A quick test shows that "make V=1 -j2" works fine, it's just "make V=1
+>>>>> -j2 install" which is failing.
+>>>>
+>>>> Mmm. I suspect most people just do the plain make (with the make install
+>>>> phase either never or as a second command afterwards), so missing-dependency
+>>>> bugs between the install targets and the build targets are probably more
+>>>> likely to lurk around. We should stil fix them, though, assuming we
+>>>> can track them down...
+>>>
+>>> The main 'install' target depends on 'all':
+>>>
+>>> install: all $(if $(BUILD_DOCS),install-doc) install-datadir install-localstatedir \
+>>>
+>>>
+>>> but I think still allows 'install-doc', 'install-datadir' and
+>>> 'install-localstatedir'  to parallelize wrt 'all'. I guess the fix is to
+>>> make each of those 'install-xxx' targets depend on 'all' instead.
+>>
+>> I'm not sure I follow, are you suggesting this as a kludge for this
+>> release, or you recommend this as a default?
+> 
+> I think it is the right solution in general.
+> 
+>> Apparently only 'recurse-install' depends of 'all'.
+
+Something also looks a bit odd with distclean here on a fresh checkout:
+
+build@ezio:~/src/qemu/git/tmp/qemu$ make distclean
+  LD      recurse-clean.mo
+cc: fatal error: no input files
+compilation terminated.
+rules.mak:118: recipe for target 'recurse-clean.mo' failed
+make: *** [recurse-clean.mo] Error 1
+
+A bit more experimentation shows that it's related to having multiple softmmu targets:
+
+Works:
+
+'./configure' '--target-list=x86_64-softmmu' '--prefix=/home/build/rel-qemu-git'
+make V=1 -j4 install
+
+'./configure' '--target-list=x86_64-softmmu arm-softmmu'
+'--prefix=/home/build/rel-qemu-git'
+make V=1 -j4 install
+
+'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu'
+'--prefix=/home/build/rel-qemu-git'
+make V=1 -j4 install
+
+Fails:
+
+'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu sparc-softmmu'
+'--prefix=/home/build/rel-qemu-git'
+make V=1 -j4 install
+
+'./configure' '--target-list=x86_64-softmmu arm-softmmu ppc-softmmu mips-softmmu'
+'--prefix=/home/build/rel-qemu-git'
+make V=1 -j4 install
+
+Looking at the output it feels as if we're trying to build something that depends
+upon libqemu.a before it's ready, but only with a long list of targets on a fast machine.
 
 
-> On Jul 4, 2019, at 08:45, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->=20
-> Cc'ing PPC/taihu_405ep and ARM/Digic4 maintainers.
->=20
-> On 7/3/19 6:36 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 7/3/19 6:20 PM, Stephen Checkoway wrote:
->>>> On Jul 3, 2019, at 12:02, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->>>> On 7/3/19 5:52 PM, Stephen Checkoway wrote:
->>>>>=20
->>>>>=20
->>>>>> On Jul 1, 2019, at 20:59, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->>>>>>=20
->>>>>> Parallel NOR flashes are limited to 16-bit bus accesses.
->>>>>=20
->>>>> I don't think this is correct. The CFI spec defines an x32 =
-interface for parallel NOR. CFI addresses 0x28 and 0x29 specify the =
-interface and value 3 is x32 and value 5 is x16/x32.
->>>>>=20
->>>>> Here's an example of an x32 device =
-<https://www.mouser.com/datasheet/2/100/002-00948_29CD032J_S29CD016J_S29CL=
-032J_S29CL016J_3-1316792.pdf>.
->>>>=20
->>>> OK, I was not aware of these.
->>>>=20
->>>> QEMU never CFI-announced itself as x32 capable:
->>>>=20
->>>>   /* Flash device interface (8 & 16 bits) */
->>>>   pfl->cfi_table[0x28] =3D 0x02;
->>>>   pfl->cfi_table[0x29] =3D 0x00;
->>>>=20
->>>> So while the commit description is incorrect, the code is safe with =
-the
->>>> current device model.
->>>>=20
->>>> I am not comfortable keeping untested 32-bit mode.
->>>> Were you using it?
->>>=20
->>> I'm not using it. I did have some code to set these CFI values based =
-on the parameters used to control the interleaving =
-<https://github.com/stevecheckoway/qemu/commit/f9a79a6e18b2c7c5a05e344ff55=
-4a7d980a56042#diff-d33881bd0ef099e2f46ebd4797c653bcR599>.
->>>=20
->>> In general, a better testing harness would be nice though.
->>=20
->> We can revert it if it helps you.
->=20
-> So after further analysis, there are not guest visible changes, =
-because
-> 32-bit accesses are still valid (.valid.max_access_size =3D 4) but now
-> they are processed as two 16-bit accesses, shifted by
-> access_with_adjusted_size().
-> Well, I haven't checked (yet) when the guest and the flash are in
-> different endianess, and I wish we don't use that.
->=20
-> Now I see 2 different guests "registering" the flash in 32-bit access:
->=20
-> - PPC/taihu_405ep
->=20
->  The CFI id matches the S29AL008J that is a 1MB in x16, while the code
->  QEMU forces it to be 2MB, and checking Linux it expects a 4MB flash
->  there, Yay \o/
->=20
-> - ARM/Digic4
->=20
->  While the comment says "Samsung K8P3215UQB 64M Bit (4Mx16)", this
->  flash is 32Mb (2MB). Also note the CFI id does not match the comment.
->  Again, Yay.
->=20
-> Anyway, better safe than sorry, so I'll revert.
->=20
-> Thanks for following and catching this,
+ATB,
 
-Great, thanks!
-
---=20
-Stephen Checkoway
-
-
-
-
-
+Mark.
 
