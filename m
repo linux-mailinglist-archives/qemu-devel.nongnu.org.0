@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E598761D15
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 12:34:51 +0200 (CEST)
-Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B989E61E84
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:35:17 +0200 (CEST)
+Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkQyx-00084V-5q
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 06:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36019)
+	id 1hkSrU-00034j-5M
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40709)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hkQvL-0007KY-9t
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:31:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkREP-0005Cr-4S
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hkQvK-0005lr-53
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:31:07 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46740)
+ (envelope-from <bounces@canonical.com>) id 1hkREN-0008Nn-5g
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48666)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hkQvJ-0005lU-Rd
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:31:05 -0400
-Received: by mail-wr1-f66.google.com with SMTP id z1so11811568wru.13
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 03:31:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hF7UVqwijPHZ9t69gGwYDNbu+YA+hZic/Nq2VgyNwJ4=;
- b=OBezDiqL+RFyBkLwCRiRpyDWy7kAoQ8kG0zzI0p9uX7oLvSemhuuQZhf8wFJNQ+qp5
- xPf4X1Wqtusx6PTLxqrjjEclbpgMF1ARuYhWv/N7PmFscpJ86hF4+i6PkL5LpMyjlg9F
- C3IH+syZ5Ut9zT2sqNGo9bYkcFuCBqUUmN8FZgsLgFysTFUVwKc859qU3uHv45UkAYO6
- 2QTyeeEqwOL4UsT+/+qz3yA67UxhMkQapJAxPVHuCy6lqM25JKKLoyoCuohMA3iMNg3V
- 8ice7W3QZajG18eAzynys8MAHwwTPOUexufQKt8gVcYu+xhZ1ybRCqajIdI0Nx4YjJ5q
- Tofg==
-X-Gm-Message-State: APjAAAVTYW6w+DhThjoBhw/TBmtg4GSZE2I9Qdq6uAkuiyLEMB2IdyZf
- Vf5FKJ0S6pkkwanqSLFCYTP5aA==
-X-Google-Smtp-Source: APXvYqxpiXJ0zU5+9vs/stvk+BZZf3glwtKTYz09yA7S45gyGAET6Sp+2d2rRQU+Cu9PWJLD8B1hxg==
-X-Received: by 2002:adf:ea45:: with SMTP id j5mr17520034wrn.11.1562581864769; 
- Mon, 08 Jul 2019 03:31:04 -0700 (PDT)
-Received: from [192.168.1.103] (56.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.56])
- by smtp.gmail.com with ESMTPSA id u18sm15832471wmd.19.2019.07.08.03.31.03
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Jul 2019 03:31:04 -0700 (PDT)
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-References: <20190705202500.18853-1-philmd@redhat.com>
- <20190705202500.18853-4-philmd@redhat.com>
- <20190705222429.ox6z6wckkupjpug2@fralle-msi>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <cc2c2c78-70ad-f7e2-99a9-a428303c7f5e@redhat.com>
-Date: Mon, 8 Jul 2019 12:31:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkREG-00087H-99
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 06:50:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkRED-0005Ns-4q
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 10:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 205ED2E802D
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 10:50:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190705222429.ox6z6wckkupjpug2@fralle-msi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jul 2019 10:36:02 -0000
+From: Tristan Van Berkom <tristan.vanberkom@codethink.co.uk>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: tristan-vanberkom
+X-Launchpad-Bug-Reporter: Tristan Van Berkom (tristan-vanberkom)
+X-Launchpad-Bug-Modifier: Tristan Van Berkom (tristan-vanberkom)
+Message-Id: <156258216266.21278.12556510470216212187.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 3e2d57d78e59198b5a2f9082c31f2ec82fd18f49
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [RFC PATCH-for-4.1 v4 3/3] hw/ssi/xilinx_spips:
- Avoid out-of-bound access to lqspi_buf[]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 08 Jul 2019 08:32:36 -0400
+Subject: [Qemu-devel] [Bug 1835729] [NEW] GTK display does not support host
+ scale factor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,64 +64,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Prasad J Pandit <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Reply-To: Bug 1835729 <1835729@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/19 12:24 AM, Francisco Iglesias wrote:
-> Hi Philippe,
-> 
-> On [2019 Jul 05] Fri 22:25:00, Philippe Mathieu-Daudé wrote:
->> Both lqspi_read() and lqspi_load_cache() expect a 32-bit
->> aligned address.
->>
->> Set MemoryRegionOps.impl values to force 32-bit accesses,
->> this way we are sure we do not access the lqspi_buf[] array
->> out of bound.
-> 
-> The patch and correction follows chapter 24 aswell (UG1085) so I suggest
-> dropping 'RFC' in the subject.
+Public bug reported:
 
-OK.
+In the GNOME desktop environment, for HiDPI displays there is support to
+upscale everything.
 
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> Late friday patch...
->>
->>  hw/ssi/xilinx_spips.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
->> index 3c4e8365ee..8f705132a3 100644
->> --- a/hw/ssi/xilinx_spips.c
->> +++ b/hw/ssi/xilinx_spips.c
->> @@ -1243,6 +1243,10 @@ static const MemoryRegionOps lqspi_ops = {
->>          .min_access_size = 1,
->>          .max_access_size = 4
->>      }
-> 
-> A comma is missing on the line above (else the patch doesn't compile).
+This can be set in "System Settings -> Displays -> Scale".
 
-Sorry, I first added this block before '.valid' and tested it, then
-moved it and thought the trailing comma was not useful and forgot to
-test for the previous '.valid' field :/
+I believe this affects GDK in the same way as setting the "GDK_SCALE"
+environment variable does.
 
-> 
-> Best regards,
-> Francisco
-> 
->> +    .impl = {
->> +        .min_access_size = 4,
->> +        .max_access_size = 4,
->> +    }
->>  };
->>  
->>  static void xilinx_spips_realize(DeviceState *dev, Error **errp)
->> -- 
->> 2.20.1
->>
+When launching `qemu-system-x86_64 ... -display gtk`, this scale factor
+seems to get lost; the result is that the host window is upscaled and
+doubled in size, while the guest appears only in the bottom left corner
+of the UI.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Screenshot displaying the problem"
+   https://bugs.launchpad.net/bugs/1835729/+attachment/5275625/+files/qemu-=
+gtk-display.png
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835729
+
+Title:
+  GTK display does not support host scale factor
+
+Status in QEMU:
+  New
+
+Bug description:
+  In the GNOME desktop environment, for HiDPI displays there is support
+  to upscale everything.
+
+  This can be set in "System Settings -> Displays -> Scale".
+
+  I believe this affects GDK in the same way as setting the "GDK_SCALE"
+  environment variable does.
+
+  When launching `qemu-system-x86_64 ... -display gtk`, this scale
+  factor seems to get lost; the result is that the host window is
+  upscaled and doubled in size, while the guest appears only in the
+  bottom left corner of the UI.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835729/+subscriptions
 
