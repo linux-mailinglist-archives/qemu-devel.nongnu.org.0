@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E062B55
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 00:07:43 +0200 (CEST)
-Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CAB62B60
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 00:18:59 +0200 (CEST)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkbnS-0003f0-DG
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 18:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44088)
+	id 1hkbyM-0000Lm-9A
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 18:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46603)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hkblG-00025i-Cd
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 18:05:27 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hkbvo-0008K2-Fp
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 18:16:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hkblF-0003m7-1W
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 18:05:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36624)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hkbl8-0003f6-8v; Mon, 08 Jul 2019 18:05:18 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C9E4B7FDEC;
- Mon,  8 Jul 2019 22:05:13 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-215.bos.redhat.com [10.18.17.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 990091001B01;
- Mon,  8 Jul 2019 22:05:12 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Mon,  8 Jul 2019 18:05:02 -0400
-Message-Id: <20190708220502.12977-4-jsnow@redhat.com>
-In-Reply-To: <20190708220502.12977-1-jsnow@redhat.com>
-References: <20190708220502.12977-1-jsnow@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1hkbvn-000202-6S
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 18:16:20 -0400
+Resent-Date: Mon, 08 Jul 2019 18:16:20 -0400
+Resent-Message-Id: <E1hkbvn-000202-6S@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21483)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hkbvm-0001xk-SV
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 18:16:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562624108; cv=none; d=zoho.com; s=zohoarc; 
+ b=XFdrkSmnbzW8amcD36iFReyA8PHPI8qvKL/V9+vUjTyPFOrEPbR32Ibt2oeSMG3c3Dgl5TPTestwOrUUzFS3of2Q5drukeE2kfVC2eajzYaLKcDTzMcnLrjggDEBhxkGaBXDeO0f4ADY71hqSHyt1xxUbSy9oZspc/QcupQ5fqk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562624108;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=Xhdj2DeEhjR9S7hw6CA/gr+SCzLOPefHIS3TIw1Dnik=; 
+ b=SWgzN8snISr4vpdZgBSDTUZNViR4EEAmd2bMj6rIYox/O94y6MmOLhw6a9H7Yb7X0lyQRXwG6d/lsGG5m+rc4L8Khx4064N8YHjlcbnneHAxJ4DKlD3Xiv2Vvhw22L3FTUy+m2u0EVsGraauJmWZZBxlzFqYvs7OkUUA5LPrsYQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 156262410736543.6120295990529;
+ Mon, 8 Jul 2019 15:15:07 -0700 (PDT)
+Message-ID: <156262410486.25929.605075715050003163@c4a48874b076>
+In-Reply-To: <1562613452-24969-1-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 08 Jul 2019 22:05:13 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwankhede@nvidia.com
+Date: Mon, 8 Jul 2019 15:15:07 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/3] iotests: test bitmap moving inside 254
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v5 00/13] Add migration support for VFIO
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,206 +62,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, kwankhede@nvidia.com,
+ eauger@redhat.com, yi.l.liu@intel.com, eskultet@redhat.com,
+ ziye.yang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, Ken.Xue@amd.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ changpeng.liu@intel.com, cohuck@redhat.com, zhi.a.wang@intel.com,
+ jonathan.davies@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-Test persistent bitmap copying with and without removal of original
-bitmap.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/254     | 30 +++++++++++++-
- tests/qemu-iotests/254.out | 82 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 110 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-index 8edba91c5d..9a57bccc26 100755
---- a/tests/qemu-iotests/254
-+++ b/tests/qemu-iotests/254
-@@ -1,6 +1,6 @@
- #!/usr/bin/env python
- #
--# Test external snapshot with bitmap copying.
-+# Test external snapshot with bitmap copying and moving.
- #
- # Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
- #
-@@ -32,6 +32,10 @@ vm =3D iotests.VM().add_drive(disk, opts=3D'node-name=3D=
-base')
- vm.launch()
-=20
- vm.qmp_log('block-dirty-bitmap-add', node=3D'drive0', name=3D'bitmap0')
-+vm.qmp_log('block-dirty-bitmap-add', node=3D'drive0', name=3D'bitmap1',
-+           persistent=3DTrue)
-+vm.qmp_log('block-dirty-bitmap-add', node=3D'drive0', name=3D'bitmap2',
-+           persistent=3DTrue)
-=20
- vm.hmp_qemu_io('drive0', 'write 0 512K')
-=20
-@@ -39,16 +43,38 @@ vm.qmp_log('transaction', indent=3D2, actions=3D[
-     {'type': 'blockdev-snapshot-sync',
-      'data': {'device': 'drive0', 'snapshot-file': top,
-               'snapshot-node-name': 'snap'}},
-+
-+    # copy non-persistent bitmap0
-     {'type': 'block-dirty-bitmap-add',
-      'data': {'node': 'snap', 'name': 'bitmap0'}},
-     {'type': 'block-dirty-bitmap-merge',
-      'data': {'node': 'snap', 'target': 'bitmap0',
--              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}},
-+
-+    # copy persistent bitmap1, original will be saved to base image
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap1', 'persistent': True}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap1',
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap1'}]}},
-+
-+    # move persistent bitmap1, original will be removed and not saved
-+    # to base image
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap2', 'persistent': True}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap2',
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap2'}]}},
-+    {'type': 'block-dirty-bitmap-remove',
-+     'data': {'node': 'base', 'name': 'bitmap2'}}
- ], filters=3D[iotests.filter_qmp_testfiles])
-=20
- result =3D vm.qmp('query-block')['return'][0]
- log("query-block: device =3D {}, node-name =3D {}, dirty-bitmaps:".forma=
-t(
-     result['device'], result['inserted']['node-name']))
- log(result['dirty-bitmaps'], indent=3D2)
-+log("\nbitmaps in backing image:")
-+log(result['inserted']['image']['backing-image']['format-specific'] \
-+    ['data']['bitmaps'], indent=3D2)
-=20
- vm.shutdown()
-diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
-index d7394cf002..d185c0532f 100644
---- a/tests/qemu-iotests/254.out
-+++ b/tests/qemu-iotests/254.out
-@@ -1,5 +1,9 @@
- {"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "=
-node": "drive0"}}
- {"return": {}}
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap1", "=
-node": "drive0", "persistent": true}}
-+{"return": {}}
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap2", "=
-node": "drive0", "persistent": true}}
-+{"return": {}}
- {
-   "execute": "transaction",
-   "arguments": {
-@@ -31,6 +35,55 @@
-           "target": "bitmap0"
-         },
-         "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap1",
-+          "node": "snap",
-+          "persistent": true
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [
-+            {
-+              "name": "bitmap1",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap1"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap2",
-+          "node": "snap",
-+          "persistent": true
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [
-+            {
-+              "name": "bitmap2",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap2"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap2",
-+          "node": "base"
-+        },
-+        "type": "block-dirty-bitmap-remove"
-       }
-     ]
-   }
-@@ -40,6 +93,24 @@
- }
- query-block: device =3D drive0, node-name =3D snap, dirty-bitmaps:
- [
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap2",
-+    "persistent": true,
-+    "recording": true,
-+    "status": "active"
-+  },
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap1",
-+    "persistent": true,
-+    "recording": true,
-+    "status": "active"
-+  },
-   {
-     "busy": false,
-     "count": 524288,
-@@ -50,3 +121,14 @@ query-block: device =3D drive0, node-name =3D snap, d=
-irty-bitmaps:
-     "status": "active"
-   }
- ]
-+
-+bitmaps in backing image:
-+[
-+  {
-+    "flags": [
-+      "auto"
-+    ],
-+    "granularity": 65536,
-+    "name": "bitmap1"
-+  }
-+]
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYyNjEzNDUyLTI0OTY5LTEt
+Z2l0LXNlbmQtZW1haWwta3dhbmtoZWRlQG52aWRpYS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMg
+ZmFpbGVkIHRoZSBhc2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09S
+Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2XzY0
+LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAg
+ICBibG9jay9xZWQtdGFibGUubwogIENDICAgICAgYmxvY2svcWVkLWNsdXN0ZXIubwpJbiBmaWxl
+IGluY2x1ZGVkIGZyb20gaHcvdmZpby90cmFjZS5jOjQ6Ci90bXAvcWVtdS10ZXN0L2J1aWxkL2h3
+L3ZmaW8vdHJhY2UuaDozNjU1OjEyNjogZXJyb3I6IGV4cGVjdGVkICcpJwogICAgICAgIHFlbXVf
+bG9nKCIlZEAlenUuJTA2enU6dmZpb19zYXZlX3BlbmRpbmcgIiAiICglcyksIHByZWNvcHkgMHgl
+IlBSSXg2NCIgcG9zdGNvcHkgMHgleCJQUkl4NjQiIGNvbXBhdGlibGUgMHglIiJQUkl4NjQgIlxu
+IiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L2J1aWxkL2h3L3ZmaW8vdHJhY2UuaDozNjU1
+OjE3OiBub3RlOiB0byBtYXRjaCB0aGlzICcoJwogICAgICAgIHFlbXVfbG9nKCIlZEAlenUuJTA2
+enU6dmZpb19zYXZlX3BlbmRpbmcgIiAiICglcyksIHByZWNvcHkgMHglIlBSSXg2NCIgcG9zdGNv
+cHkgMHgleCJQUkl4NjQiIGNvbXBhdGlibGUgMHglIiJQUkl4NjQgIlxuIiwKICAgICAgICAgICAg
+ICAgIF4KL3RtcC9xZW11LXRlc3QvYnVpbGQvaHcvdmZpby90cmFjZS5oOjM2NTU6MTI4OiBlcnJv
+cjogbWlzc2luZyB0ZXJtaW5hdGluZyAnIicgY2hhcmFjdGVyIFstV2Vycm9yLC1XaW52YWxpZC1w
+cC10b2tlbl0KICAgICAgICBxZW11X2xvZygiJWRAJXp1LiUwNnp1OnZmaW9fc2F2ZV9wZW5kaW5n
+ICIgIiAoJXMpLCBwcmVjb3B5IDB4JSJQUkl4NjQiIHBvc3Rjb3B5IDB4JXgiUFJJeDY0IiBjb21w
+YXRpYmxlIDB4JSIiUFJJeDY0ICJcbiIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L2J1
+aWxkL2h3L3ZmaW8vdHJhY2UuaDozNzcwOjk4OiBlcnJvcjogZXhwZWN0ZWQgJyknCiAgICAgICAg
+cWVtdV9sb2coIiVkQCV6dS4lMDZ6dTp2ZmlvX2xvYWRfc3RhdGVfZGV2aWNlX2RhdGEgIiAiICgl
+cyksIE9mZnNldCAweCUiUFJJeDY0IiBzaXplIDB4JSJQUkl4NiAiXG4iLAogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9idWlsZC9ody92Zmlv
+L3RyYWNlLmg6Mzc3MDoxNzogbm90ZTogdG8gbWF0Y2ggdGhpcyAnKCcKCgpUaGUgZnVsbCBsb2cg
+aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1NjI2MTM0NTItMjQ5Njkt
+MS1naXQtc2VuZC1lbWFpbC1rd2Fua2hlZGVAbnZpZGlhLmNvbS90ZXN0aW5nLmFzYW4vP3R5cGU9
+bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
+dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
+LWRldmVsQHJlZGhhdC5jb20=
 
 
