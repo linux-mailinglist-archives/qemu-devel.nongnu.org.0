@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CE7628CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 20:56:32 +0200 (CEST)
-Received: from localhost ([::1]:43996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7165E628C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 20:52:18 +0200 (CEST)
+Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkYoR-0004MP-8N
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 14:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56062)
+	id 1hkYkL-0001Rv-N1
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 14:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55859)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
- id 1hkYkT-0001vy-8O
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:52:26 -0400
+ (envelope-from <jan.kiszka@siemens.com>) id 1hkYjk-00013H-3x
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
- id 1hkYkR-0007gd-Pb
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:52:25 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:34036)
+ (envelope-from <jan.kiszka@siemens.com>) id 1hkYji-00067O-5G
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:40 -0400
+Received: from goliath.siemens.de ([192.35.17.28]:49978)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
- id 1hkYkR-0007eP-Eo; Mon, 08 Jul 2019 14:52:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1562611944; x=1594147944;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=T6YiDf12c8wOd9ACRSmxjp+ckUQZqqOt2r2ntOHABno=;
- b=IhqGYys1BRaRtdnBNWJ4an1KaHxAaQxDRypJ5uyIsi9PRGIoKQ+/5BB6
- WT0RUp1ENZa6tx0+J2GbyyIUhLItpEcCMzVgGVkUXIIb5eEwnRoBPZluq
- HUAp4TYkqCH8ID4e13qQ7bZTgdy4ykRQCJeg7gfgl3NLFFIyYTwr1RoNL
- X6Aw35qw6P7pH5dYwYVEILkB6mZSpkU7mk/RgZlwfr9pq5WmdBsmNwNDA
- 7FZS0bZG40yQKVzJi1IQn980F1svocYzMa0DO1L7tDCcbqvmUncvfmKc7
- znU+tBDc/+dvK9rrdneoA//cOzu/ppFYP00nzt9l9lx5kpBiIhHS5sqIL A==;
-IronPort-SDR: LB9AG0i0YwfuxTfy0LvgameF1xlTlXqUiQkrABkLlvwxTkK35I8+VtHbt16U0dJtBxvIFMtAyB
- kDpeBqkwbJ9CUMHi53FQEFQ1mNKOx9DPYT/DUFbvDkJl9m63E/tngBQQyGI1nbRi/bJol0y6bj
- fvzuHrpmexduIotYHYHbAH7S8zMsIS+rooD4R1k6WWBVdj9chGcYZH0p7IEOoxiIF0iXKVhb5+
- x+BnVSqkUWtt8eF+B5qixTpaiEsCyQ6obkQ57+457HnOz1Y0pbacY9jyUZioFa8oKiY6fA5zLS
- vQ8=
-X-IronPort-AV: E=Sophos;i="5.63,466,1557158400"; d="scan'208";a="114094446"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2019 02:52:23 +0800
-IronPort-SDR: NZB23f5wkNAHHnC5SHq3Fo3FGKuRNudJwJ5RVCmf+fp5lC/ToRjkd2WXomOGP+q2ZwmSJN23Sc
- XCxcecTY1Ao4otw2J+vPLZEM8veHpM/VHqkQ+49WiEswTu+UxL+tQVv1Ji42SNPZtt3SGdCVzB
- x9dPqmjSKCk0Ws6keosdDOwFtgDH/mGqcyw+WKiTPst6DuWZBJ7YpJAiBGsBlqPt/JWvCkN/yj
- RgXxDHxKhIdud7qnQH8hYpFtXnn8jlotGwwPcRMtKDRcGolhqBsonlUukOrkm8LW8wKqRdWFi5
- bd6aMwivulDXTgMZzyCUFoG/
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP; 08 Jul 2019 11:51:11 -0700
-IronPort-SDR: 9hPGORpEkam5d22xCJG4dovNcn4HlwdHNtmA2Qrdw4lo9v1FQBEO+fHQPk9qo2E7MRRs3203CX
- t5ix7dhhAc3r3+sCpz63COvNH1tGPIzN0Pxi/Pa1XLviH5TyruxP76w6J4tDIToaNqCpk+xtez
- gjXmmQZkbc/peCv8x+8yryKtYREuWz4brhrGJ9Bzbn7PxQv/P9CmJsZ+cmOHh8Dhi6SC+drOjd
- ZPO9tDFFl6BhKSLVoQFl7NspTO4ztunUI2pDUQiSfGp7u9788FM4IDtdFx6LQreH1ckhKH/IPY
- DX0=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip01.wdc.com with ESMTP; 08 Jul 2019 11:52:23 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Mon,  8 Jul 2019 11:49:40 -0700
-Message-Id: <238062dcf3a9b99a048c8e7ae439cad7745af1da.1562611535.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1562611535.git.alistair.francis@wdc.com>
-References: <cover.1562611535.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1hkYjg-0005vs-Uy
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:38 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x68IpWE4029344
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 8 Jul 2019 20:51:32 +0200
+Received: from [167.87.37.3] ([167.87.37.3])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x68IpUOS011958;
+ Mon, 8 Jul 2019 20:51:31 +0200
+From: Jan Kiszka <jan.kiszka@siemens.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+ <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
+ <e253d736-8cf5-0c5c-5766-ee71ad808cfd@siemens.com>
+Message-ID: <ffeb0352-0040-5f37-3cb1-b1931714f744@siemens.com>
+Date: Mon, 8 Jul 2019 20:51:30 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+ Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.154.45
-Subject: [Qemu-devel] [PATCH v1 2/2] hw/riscv: Load OpenSBI as the default
- firmware
+In-Reply-To: <e253d736-8cf5-0c5c-5766-ee71ad808cfd@siemens.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 192.35.17.28
+Subject: Re: [Qemu-devel] [PULL 22/25] target/i386: kvm: Add nested
+ migration blocker only when kernel lacks required capabilities
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,194 +57,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, codyprime@gmail.com, anup@brainfault.org,
- palmer@sifive.com, alistair.francis@wdc.com, stefanha@redhat.com,
- pbonzini@redhat.com, alistair23@gmail.com, bmeng.cn@gmail.com
+Cc: Liran Alon <liran.alon@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user hasn't specified a firmware to load (with -bios) or
-specified no bios (with -bios none) then load OpenSBI by default. This
-allows users to boot a RISC-V kernel with just -kernel.
+On 08.07.19 20:31, Jan Kiszka wrote:
+> 
+> On 21.06.19 13:30, Paolo Bonzini wrote:
+>> From: Liran Alon <liran.alon@oracle.com>
+>>
+>> Previous commits have added support for migration of nested virtualization
+>> workloads. This was done by utilising two new KVM capabilities:
+>> KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
+>> required in order to correctly migrate such workloads.
+>>
+>> Therefore, change code to add a migration blocker for vCPUs exposed with
+>> Intel VMX or AMD SVM in case one of these kernel capabilities is
+>> missing.
+>>
+>> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+>> Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
+>> Message-Id: <20190619162140.133674-11-liran.alon@oracle.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  target/i386/kvm.c     | 9 +++++++--
+>>  target/i386/machine.c | 2 +-
+>>  2 files changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+>> index c931e9d..e4b4f57 100644
+>> --- a/target/i386/kvm.c
+>> +++ b/target/i386/kvm.c
+>> @@ -1640,9 +1640,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>>                                    !!(c->ecx & CPUID_EXT_SMX);
+>>      }
+>>  
+>> -    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
+>> +    if (cpu_has_vmx(env) && !nested_virt_mig_blocker &&
+>> +        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
+>>          error_setg(&nested_virt_mig_blocker,
+>> -                   "Nested virtualization does not support live migration yet");
+>> +                   "Kernel do not provide required capabilities for "
+>> +                   "nested virtualization migration. "
+>> +                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
+>> +                   kvm_max_nested_state_length() > 0,
+>> +                   has_exception_payload);
+>>          r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
+>>          if (local_err) {
+>>              error_report_err(local_err);
+>> diff --git a/target/i386/machine.c b/target/i386/machine.c
+>> index fc49e5a..851b249 100644
+>> --- a/target/i386/machine.c
+>> +++ b/target/i386/machine.c
+>> @@ -233,7 +233,7 @@ static int cpu_pre_save(void *opaque)
+>>  
+>>  #ifdef CONFIG_KVM
+>>      /* Verify we have nested virtualization state from kernel if required */
+>> -    if (cpu_has_nested_virt(env) && !env->nested_state) {
+>> +    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
+>>          error_report("Guest enabled nested virtualization but kernel "
+>>                  "does not support saving of nested state");
+>>          return -EINVAL;
+>>
+> 
+> Starting with this commit latest (bisection issue...), running Jailhouse in a
+> guest first stalls L1 (looks like we lose interrupts), and if I try to reset
+> that VM, I lose my host as well:
+> 
+> kvm: vmptrld           (null)/6eb900000000 failed
+> kvm: vmclear fail:           (null)/6eb900000000
+> 
+> and then things start to lock up because we seem to lose the CPUs the guest was
+> running on. Once I had this in the logs:
+> 
+> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 7-... } 15040
+> jiffies s: 4673 root: 0x80/.
+> rcu: blocking rcu_node structures:
+> Task dump for CPU 7:
+> qemu-system-x86 R  running task        0 17413  17345 0x00000008
+> Call Trace:
+>  ? x86_virt_spec_ctrl+0x7/0xe0
+>  ? vmx_vcpu_run.part.0+0x2a4/0xfa0 [kvm_intel]
+>  ? vcpu_enter_guest+0x349/0xe80 [kvm]
+>  ? kvm_arch_vcpu_ioctl_run+0xff/0x550 [kvm]
+>  ? kvm_vcpu_ioctl+0x20d/0x590 [kvm]
+>  ? get_futex_key+0x35d/0x3b0
+>  ? do_vfs_ioctl+0x447/0x640
+>  ? do_futex+0x157/0x1d0
+>  ? ksys_ioctl+0x5e/0x90
+>  ? __x64_sys_ioctl+0x16/0x20
+>  ? do_syscall_64+0x60/0x120
+>  ? entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> 
+> This was on a 5.1.16 distro kernel. Currently rebuilding 5.2 vanilla.
+> 
+> Looks like we have up to two critical bugs here...
+> 
+> Jan
+> 
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
----
- hw/riscv/boot.c         | 49 +++++++++++++++++++++++++++++++++++++++++
- hw/riscv/sifive_u.c     |  7 +++---
- hw/riscv/virt.c         | 11 ++++++---
- include/hw/riscv/boot.h |  3 +++
- qemu-deprecated.texi    | 20 +++++++++++++++++
- 5 files changed, 84 insertions(+), 6 deletions(-)
+It turns out it's actually patch 20 that introduces the problem. Maybe it is
+only the kernel, but I rather suspect a combination of userspace not providing
+the right state (specifically on reset) and the kernel accepting that.
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index ff023f42d0..c7d72f682f 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "exec/cpu-defs.h"
-@@ -32,6 +33,54 @@
- # define KERNEL_BOOT_ADDRESS 0x80200000
- #endif
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr)
-+{
-+    char *firmware_filename;
-+
-+    if (!machine->firmware) {
-+        /*
-+         * The user didn't specify -bios.
-+         * At the moment we default to loading nothing when this hapens.
-+         * In the future this defaul will change to loading the prebuilt
-+         * OpenSBI firmware. Let's warn the user and then continue.
-+        */
-+        warn_report("No -bios option specified. Not loading a firmware.");
-+        warn_report("This default will change in QEMU 4.3. Please use the " \
-+                    "-bios option to aviod breakages when this happens.");
-+        warn_report("See QEMU's deprecation documentation for details");
-+        return;
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        /*
-+         * The user has specified "-bios default". That means we are going to
-+         * load the OpenSBI binary included in the QEMU source.
-+         *
-+         * We can't load the binary by default as it will break existing users
-+         * as users are already loading their own firmware.
-+         *
-+         * Let's try to get everyone to specify the -bios option at all times,
-+         * so then in the future we can make "-bios default" the default option
-+         * if no -bios option is set without breaking anything.
-+         */
-+        firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
-+                                           default_machine_firmware);
-+    } else {
-+        firmware_filename = machine->firmware;
-+    }
-+
-+    if (strcmp(firmware_filename, "none")) {
-+        /* If not "none" load the firmware */
-+        riscv_load_firmware(firmware_filename, firmware_load_addr);
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        g_free(firmware_filename);
-+    }
-+}
-+
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr)
- {
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ca53a9290d..71b8083c05 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -49,6 +49,8 @@
- 
- #include <libfdt.h>
- 
-+#define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -269,9 +271,8 @@ static void riscv_sifive_u_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[SIFIVE_U_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[SIFIVE_U_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ecdc77d728..25faf3b417 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -44,6 +44,12 @@
- 
- #include <libfdt.h>
- 
-+#if defined(TARGET_RISCV32)
-+# define BIOS_FILENAME "opensbi-riscv32-virt-fw_jump.bin"
-+#else
-+# define BIOS_FILENAME "opensbi-riscv64-virt-fw_jump.bin"
-+#endif
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -399,9 +405,8 @@ static void riscv_virt_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[VIRT_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[VIRT_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename);
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index daa179b600..d56f2ae3eb 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -20,6 +20,9 @@
- #ifndef RISCV_BOOT_H
- #define RISCV_BOOT_H
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_kernel(const char *kernel_filename);
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index c90b08d553..fff07bb2a3 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -121,6 +121,26 @@ the backing storage specified with @option{-mem-path} can actually provide
- the guest RAM configured with @option{-m} and QEMU will fail to start up if
- RAM allocation is unsuccessful.
- 
-+@subsection RISC-V -bios (since 4.1)
-+
-+QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
-+RISC-V virt machine and sifive_u machine.
-+
-+QEMU 4.1 has no changes to the default behaviour to avoid breakages. This
-+default will change in a future QEMU release, so please prepare now. All users
-+of the virt or sifive_u machine must change their command line usage.
-+
-+QEMU 4.1 has three options, please migrate to one of these three:
-+ 1. ``-bios none`` - This is the current default behavior if no -bios option
-+      is included. QEMU will not automatically load any firmware. It is up
-+      to the user to load all the images they need.
-+ 2. ``-bios default`` - In a future QEMU release this will become the default
-+      behaviour if no -bios option is specified. This option will load the
-+      default OpenSBI firmware automatically. The firmware is included with
-+      the QEMU release and no user interaction is required. All a user needs
-+      to do is specify the kernel they want to boot with the -kernel option
-+ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+Continuing the search on 5.2 now.
+
+Jan
+
 -- 
-2.22.0
-
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
