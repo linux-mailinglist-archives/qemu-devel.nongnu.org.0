@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A423A6292D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 21:18:38 +0200 (CEST)
-Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DD562AA7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 22:59:15 +0200 (CEST)
+Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkZ9p-0003dP-T8
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 15:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
+	id 1hkajC-0007i7-Vx
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 16:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36147)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hkZ6a-0002it-L9
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:15:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkZGf-0003Qp-0H
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hkZ6Z-0007TP-MG
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:15:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39106)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hkZ6X-0007QB-CB; Mon, 08 Jul 2019 15:15:13 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 45633E3E08;
- Mon,  8 Jul 2019 19:15:12 +0000 (UTC)
-Received: from [10.3.116.78] (ovpn-116-78.phx2.redhat.com [10.3.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96EAA5C219;
- Mon,  8 Jul 2019 19:15:11 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190705152812.26438-1-eblake@redhat.com>
- <20190708165112.GA14296@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <dd2d4013-799a-3ddf-c7a9-48d72aaa756d@redhat.com>
-Date: Mon, 8 Jul 2019 14:15:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <bounces@canonical.com>) id 1hkZGd-0005Sm-4N
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56004)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkZGc-0005SD-Ue
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkZGb-0002nH-LI
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 19:25:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9ED972E80C7
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 19:25:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190708165112.GA14296@linux.fritz.box>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="240tCPFZRpnmYcVxAFCDYl4pLzldhCYzT"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 08 Jul 2019 19:15:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jul 2019 19:15:56 -0000
+From: shacknetisp <shacknetisp@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: shacknetisp
+X-Launchpad-Bug-Reporter: shacknetisp (shacknetisp)
+X-Launchpad-Bug-Modifier: shacknetisp (shacknetisp)
+Message-Id: <156261335686.24679.15455554757536791509.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 995ce5da9a40e7379afdaf7f912602d5b8246fe8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1] qcow2: Allow -o compat=v3 during
- qemu-img amend
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 08 Jul 2019 16:58:03 -0400
+Subject: [Qemu-devel] [Bug 1835827] [NEW] HTIF symbols no longer recognized
+ by RISC-V spike board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,79 +64,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "open list:qcow2" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1835827 <1835827@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---240tCPFZRpnmYcVxAFCDYl4pLzldhCYzT
-Content-Type: multipart/mixed; boundary="C6Tae2Cwq6p5hTYVR8GUxz9TWQYJH9Oq7";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- "open list:qcow2" <qemu-block@nongnu.org>
-Message-ID: <dd2d4013-799a-3ddf-c7a9-48d72aaa756d@redhat.com>
-Subject: Re: [PATCH for-4.1] qcow2: Allow -o compat=v3 during qemu-img amend
-References: <20190705152812.26438-1-eblake@redhat.com>
- <20190708165112.GA14296@linux.fritz.box>
-In-Reply-To: <20190708165112.GA14296@linux.fritz.box>
+Public bug reported:
 
---C6Tae2Cwq6p5hTYVR8GUxz9TWQYJH9Oq7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
 
-On 7/8/19 11:51 AM, Kevin Wolf wrote:
-> Am 05.07.2019 um 17:28 hat Eric Blake geschrieben:
->> Commit b76b4f60 allowed '-o compat=3Dv3' as an alias for the
->> less-appealing '-o compat=3D1.1' for 'qemu-img create' since we want t=
-o
->> use the QMP form as much as possible, but forgot to do likewise for
->> qemu-img amend.  Also, it doesn't help that '-o help' doesn't list our=
+I belive this was introduced in 0ac24d56c5e7d32423ea78ac58a06b444d1df04d
+when the spike's load_kernel() was moved to riscv_load_kernel() which no
+longer included htif_symbol_callback().
 
->> new preferred spellings.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->=20
-> This broke qemu-iotests 082. Please send a follow-up to update the
-> reference output.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-I know that I did not specifically run iotests explicitly for this one
-patch, but thought I had at least ran 'make check', since I know we've
-been improving lately to run at least some of the iotests.
+-- =
 
-/me goes and rechecks...
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835827
 
-well, 82 is definitely marked 'auto', and group claims that auto tests
-will be run by 'make check', but that didn't trigger the failure for me.
- I wonder why?  At least I've posted the fix, as requested.
+Title:
+  HTIF symbols no longer recognized by RISC-V spike board
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Status in QEMU:
+  New
 
+Bug description:
+  Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
 
---C6Tae2Cwq6p5hTYVR8GUxz9TWQYJH9Oq7--
+  I belive this was introduced in
+  0ac24d56c5e7d32423ea78ac58a06b444d1df04d when the spike's
+  load_kernel() was moved to riscv_load_kernel() which no longer
+  included htif_symbol_callback().
 
---240tCPFZRpnmYcVxAFCDYl4pLzldhCYzT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0jlj4ACgkQp6FrSiUn
-Q2qFrggAgkCbPR+AIBQjXNhi+tAR5V1ECt98AmsfDjRAIdsFecoPSwaCip2lMpsk
-7RsLDE+FLnRZtA6XII7MUv/0uN+ruMTJLsD/nFAofrEwUKYR7TzKSYo1uZfSHMdi
-CFcDstmbO39hDubsRpxIgOytQrSHOhzFVjhQOsxlnCIJyUhWLYhB1Xvxh4AkPVA6
-b4Uoa91HusoWRzA0/zDo/yjdAreSWQAA3eL6/pI4aNIKw0SArSR0LABU0+FxWSU+
-vKpoaTEtTQ75mYRlXgl6R4+HvZQbNAtOuJHSJOPBP5Y/mcJDDE361grUyadW3za1
-aKZZaNVJUj8+XmqOdVxkW7ZMSOBnTw==
-=ptor
------END PGP SIGNATURE-----
-
---240tCPFZRpnmYcVxAFCDYl4pLzldhCYzT--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835827/+subscriptions
 
