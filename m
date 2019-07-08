@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1006176E
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 Jul 2019 22:27:26 +0200 (CEST)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EA461B52
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 09:44:10 +0200 (CEST)
+Received: from localhost ([::1]:39146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkDkr-000212-5r
-	for lists+qemu-devel@lfdr.de; Sun, 07 Jul 2019 16:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
+	id 1hkOJl-0000jl-5u
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 03:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sw@weilnetz.de>) id 1hkDk1-0001a1-Q0
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 16:26:34 -0400
+ (envelope-from <smaudet2@gmail.com>) id 1hkIkI-0003MH-D5
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 21:47:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1hkDk0-0003Iq-MQ
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 16:26:33 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:50116
- helo=v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1hkDk0-0003HZ-DB
- for qemu-devel@nongnu.org; Sun, 07 Jul 2019 16:26:32 -0400
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id F3C69DB8568;
- Sun,  7 Jul 2019 22:26:24 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id MUhB0Xmefk1O; Sun,  7 Jul 2019 22:26:23 +0200 (CEST)
-Received: from edv-macbook-pro.fritz.box (p57B4293C.dip0.t-ipconnect.de
- [87.180.41.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 54912DB8566;
- Sun,  7 Jul 2019 22:26:23 +0200 (CEST)
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1534182832-554-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1534182832-554-5-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <4da49ffe-902f-2cf2-8a21-2bbd511b17a4@weilnetz.de>
-Date: Sun, 7 Jul 2019 22:26:22 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.7.2
+ (envelope-from <smaudet2@gmail.com>) id 1hkIkE-000415-Fb
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 21:47:08 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:36258)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <smaudet2@gmail.com>) id 1hkIkC-0003hF-2U
+ for qemu-devel@nongnu.org; Sun, 07 Jul 2019 21:47:04 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id w7so11357377oic.3
+ for <qemu-devel@nongnu.org>; Sun, 07 Jul 2019 18:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=MahICUuQ6SZjZZLLPUdHjN8T+mq9Dy9zcudO00EK+v4=;
+ b=E5Fgg9N/dLlTF7tvyInxg1aRDbN0u/q9bz6ympfL5SdtBIfJqnYEHP58O8qnpZtIet
+ wcaC0sI1CkRYCDmyuyq7qbjy97SKTk646fx4D3ZpBPw7fZxQ9tD0bdwZ0nYWznWTjg07
+ QyQ46oFCwrOuPhMnXTS6wHil5p2khzMqNBfk7Ngyb3HoFUj/6oW2Y8YhfyuEeBJOTT1+
+ T+zp8DX6LVCBcDzz5P8eGu9HBAKmm2jjwh2btRGh4ldC8l5R4KusdVBPtGHOqtLwWB+N
+ GQu3dYnCkkLFgoK1hgbnJFVgeXhMHyYyj//1IlQSmCQ8bwfZilBAhKxoa+np5RkekuCE
+ 8Rug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=MahICUuQ6SZjZZLLPUdHjN8T+mq9Dy9zcudO00EK+v4=;
+ b=KgxM9wj5kQpe2GIJoJTQfzVaeegq1EdC1HrZS9c+fjVZqwZaEAI1fgS/Bm37FWbIM8
+ /9Mu/mp2hB5l4PtNhYdo4c5YMo+cGBfVae79eHn7WD2HiRn1gX+4MObLvlKbagIoLyLM
+ 8Z9T15E9tU5pqmAYMn49EquAJ2okTzprG5Nvr4Z+92XewE6QQq7+RO3LZCfyHDFfbkzX
+ pFeNHTWWzJKsMXi8F2X/6E1xTofhgs+TbnoXsNoMhDjxAmvIVtzmXBny2O+Cigw5HSXz
+ NQWkD1ljoXWh5ny+oNeooKfMIPhM8o3tcj1oWwoUDqm1gYKteEZgy9NXtaIyxKyt4d0E
+ jsbQ==
+X-Gm-Message-State: APjAAAUyjlupFttgdwmgk/Fia6Av9AQSHcPn5ErY2JS+LX2pONyHAbxJ
+ tiJWvUcu7iYh+4vKabtwbptLVaOWVUVfQJA0c7R894np
+X-Google-Smtp-Source: APXvYqwAfew4txJKPkcn2dZ4kXIw69lKiHjg/vmTpQZTBqvrGRdG7M7yziI5syLPJdywkMkR4nJcrg3GJmARlWE6RhA=
+X-Received: by 2002:aca:c5d0:: with SMTP id v199mr7348052oif.144.1562550406452; 
+ Sun, 07 Jul 2019 18:46:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1534182832-554-5-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 37.120.169.71
-Subject: [Qemu-devel] Handling of fall through code (was: [PATCH v8 04/87]
- target/mips: Mark switch fallthroughs with interpretable comments
+From: Sebastian Audet <smaudet2@gmail.com>
+Date: Sun, 7 Jul 2019 21:46:32 -0400
+Message-ID: <CAB8WYtoXtTxS18a6iOUfQKUFiaiz08jy69eQF3xp4nxoFsx4Mw@mail.gmail.com>
+To: qemu-devel@nongnu.org
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22e
+X-Mailman-Approved-At: Mon, 08 Jul 2019 03:42:43 -0400
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: [Qemu-devel] Use Case for Qemu BT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,89 +69,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pburton@wavecomp.com, smarkovic@wavecomp.com,
- riku.voipio@iki.fi, richard.henderson@linaro.org, laurent@vivier.eu,
- philippe.mathieu.daude@gmail.com, amarkovic@wavecomp.com,
- pjovanovic@wavecomp.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.08.18 um 19:52 schrieb Aleksandar Markovic:
+So...this is not really a use-case per-say as it is actually a thing I
+would like to do but can't at present...
 
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> Mark switch fallthroughs with comments, in cases fallthroughs
-> are intentional.
+Win 10 is lacking an ad2p sink and this means if I'm using it to play a
+windows-only game and want to stream from e.g. my phone to my computer, I
+can't (natively). Enter Linux, which mostly ignores most of the crazy crap
+from MS... and VirtualBox which can see my bluetooth adapter, relay to the
+audio outputs, problem solved (yay? - well I also had to modify a kernel
+parameter and some config files, but it worked at least)!
 
+So anyhow, the bluetooth stuff not working from qemu is a bit of a shame -
+VBox is bad at virtualizing stuff I guess unless the OS explicitly says
+"hey I support this!" and I was hoping to use a super-light-weight distro
+to solve my problem, not the mega-behemoths such as Manjaro, Ubuntu,
+Fedora...
 
-This is a general problem all over the QEMU code. I usually compile with=20
-nearly all warnings enabled and get now lots of errors with the latest=20
-code and after updating to gcc-8.3.0 (Debian buster). It should be=20
-reproducible by enabling -Werror=3Dimplicit-fallthrough.
+I'm not familiar with the project, so I don't know, but it seems like this
+shouldn't have changed very much, and probably should just work? The only
+way I know bit-rot happens at the protocol layer is that a bunch of
+developers made a bunch of changes they didn't have any business making, or
+the original code wasn't written very well to begin with...
 
-The current situation is like this:
-
-- Some code has fallthrough comments which are accepted by the compiler.
-
-- Other code has fallthrough comments which are not accepted (resulting=20
-in a compiler error).
-
-- Some code is correct, but has no indication that the fallthrough is=20
-intentional.
-
-- There is also fallthrough code which is obviously not correct (even in=20
-target/mips/translate.c).
-
-
-I suggest to enable -Werror=3Dimplicit-fallthrough by default and add a=20
-new macro to mark all fallthrough locations which are correct, but not=20
-accepted by the compiler.
-
-This can be done with a definition for GCC compatible compilers in=20
-include/qemu/compiler.h:
-
-#define QEMU_FALLTHROUGH __attribute__ ((fallthrough))
-
-Then fallthrough code would look like this:
-
- =C2=A0=C2=A0=C2=A0 case 1:
- =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 do_something();
- =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 QEMU_FALLTHROUGH;
-
- =C2=A0=C2=A0=C2=A0 case 2:
-
-
-VIXL_FALLTHROUGH also needs a similar definition to work with gcc-8.3.0.
-
-Please comment. Would you prefer another macro name or a macro with=20
-parentheses like this:
-
-#define QEMU_FALLTHROUGH() __attribute__ ((fallthrough))
-
-
-As soon as there is consensus on the macro name and form, I can send a=20
-patch which adds it (but would not mind if someone else adds it).
-
-Then I suggest that the maintainers build with the fallthrough warning=20
-enabled and fix all warnings, either by using the new macro or by adding=20
-the missing break.
-
-Finally we can enforce the warning by default.
-
-
-Another macro which is currently missing is a scanf variant of GCC_FMT_AT=
-TR.
-
-I suggest to add and use a GCC_SCANF_ATTR macro:
-
-#define GCC_SCANF_ATTR(n, m) __attribute__((format(gnu_scanf, n, m)))
-
-A more regular solution would require renaming GCC_FMT_ATTR to=20
-GCC_FMT_PRINTF and use GCC_FMT_SCANF for the new macro.
-
-
-Regards
-Stefan Weil
-
-
-
+Anyhow, cheers. Hope to see BT live in Qemu again someday!
