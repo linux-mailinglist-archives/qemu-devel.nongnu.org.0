@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7165E628C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 20:52:18 +0200 (CEST)
-Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC77B628CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 21:00:07 +0200 (CEST)
+Received: from localhost ([::1]:44016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkYkL-0001Rv-N1
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 14:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55859)
+	id 1hkYrv-0005py-5h
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 15:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57738)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.kiszka@siemens.com>) id 1hkYjk-00013H-3x
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:41 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hkYqH-0005NQ-Df
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:58:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.kiszka@siemens.com>) id 1hkYji-00067O-5G
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:40 -0400
-Received: from goliath.siemens.de ([192.35.17.28]:49978)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
- id 1hkYjg-0005vs-Uy
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:51:38 -0400
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
- by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x68IpWE4029344
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 Jul 2019 20:51:32 +0200
-Received: from [167.87.37.3] ([167.87.37.3])
- by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x68IpUOS011958;
- Mon, 8 Jul 2019 20:51:31 +0200
-From: Jan Kiszka <jan.kiszka@siemens.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
- <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
- <e253d736-8cf5-0c5c-5766-ee71ad808cfd@siemens.com>
-Message-ID: <ffeb0352-0040-5f37-3cb1-b1931714f744@siemens.com>
-Date: Mon, 8 Jul 2019 20:51:30 +0200
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
- Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hkYqG-0005bm-6W
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:58:25 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54779)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1hkYqF-0005ZF-RV
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:58:24 -0400
+Received: by mail-wm1-x341.google.com with SMTP id p74so561840wme.4
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 11:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=lSsBfvNV08XOjlhDYAo1s5GOzPqIGaZbDXHmO4YtGQw=;
+ b=vYL/zdXysbbJ3tq4vGkxc/HCGoYswq8JbBDFAP7YESQSFXdtMJZ5vofaf3ZSvtY8+x
+ jO850+2t48OBuRLBniu39pKAn2kA9rU62jCGlUvPvXD1yEllcr1UDbYtUUJklmbAWwkI
+ rOtiW09tYvf1+El7/PgorDd5bnmGpYb5ntXPWyZQ/1LuiYhoib5MR1XL7gLZqA9llVep
+ l5O0R4R1YrBUj869GJmGp9Cz+kgtm/UkncPA8eh/BnK9ThkJozOyxssknkuDyjJ3Iz5z
+ znCcdiG0QR/7gGxwe2OCavtAErjZ0GpqYJaG7rEyA01FvxeQeR6MmkCZTkt1PI6tAD4n
+ NSGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=lSsBfvNV08XOjlhDYAo1s5GOzPqIGaZbDXHmO4YtGQw=;
+ b=rxX/dqOYIeq5XRH/IIoTqmmrn8cl7sl9eGFN7MZ/0kXaGLMbJpdfMJVwzX0cx7SKiO
+ QdQUQy66uKatIbZRzqRaaTXECj5EhbxF7Qoc1ybEuiJBbci5T5uIMsvpZLs3IUfy70eF
+ fLC/yasn/LLRVoqxs5aJo+gAT7xAqUUWg368u5bA/N4qtEi5xXJ8pKSCT2rQvjN1O5Ff
+ mucOkeU/8FkltBO6UP9slDFgSBR7NAz51+edqRly2lWIrvSkR15erSiiIqFS5u9uXqSr
+ 3h8FRrTGDsbFsSGu7TSW0hZYZsP25s5a41w/xbuQ0pgyH7OkhFbQ6hHWtwAeXlCGMPuA
+ PtHw==
+X-Gm-Message-State: APjAAAW7moJ9uOiAW/Y8aTeg2eqojo2X887WXK6lqyyoNlEz8c5N4Dl+
+ O25xj2owJExEkvbYCkQ6Gbg=
+X-Google-Smtp-Source: APXvYqxqhoLsnUkjsI8SFqATktSteBuXa7bzcuX1SmTpc3hX51L+jKUl/GmkMeNFDhiDCv45nNuJZw==
+X-Received: by 2002:a1c:2e09:: with SMTP id u9mr18115680wmu.137.1562612302636; 
+ Mon, 08 Jul 2019 11:58:22 -0700 (PDT)
+Received: from localhost.localdomain ([37.142.144.12])
+ by smtp.gmail.com with ESMTPSA id e3sm13811019wrs.37.2019.07.08.11.58.21
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Jul 2019 11:58:21 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190706040940.7884-1-skrtbhtngr@gmail.com>
+ <26ae890e-ca8a-6a5b-0d93-67cd266c8e93@gmail.com>
+ <20190708093833.GC3082@redhat.com>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <2945aace-7bff-4713-4117-eb0688e4b488@gmail.com>
+Date: Mon, 8 Jul 2019 21:58:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <e253d736-8cf5-0c5c-5766-ee71ad808cfd@siemens.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190708093833.GC3082@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 192.35.17.28
-Subject: Re: [Qemu-devel] [PULL 22/25] target/i386: kvm: Add nested
- migration blocker only when kernel lacks required capabilities
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [RFC v2 0/2] Add live migration support in the
+ PVRDMA device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,114 +84,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Sukrit Bhatnagar <skrtbhtngr@gmail.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
+ Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.07.19 20:31, Jan Kiszka wrote:
-> 
-> On 21.06.19 13:30, Paolo Bonzini wrote:
->> From: Liran Alon <liran.alon@oracle.com>
->>
->> Previous commits have added support for migration of nested virtualization
->> workloads. This was done by utilising two new KVM capabilities:
->> KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
->> required in order to correctly migrate such workloads.
->>
->> Therefore, change code to add a migration blocker for vCPUs exposed with
->> Intel VMX or AMD SVM in case one of these kernel capabilities is
->> missing.
->>
->> Signed-off-by: Liran Alon <liran.alon@oracle.com>
->> Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
->> Message-Id: <20190619162140.133674-11-liran.alon@oracle.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  target/i386/kvm.c     | 9 +++++++--
->>  target/i386/machine.c | 2 +-
->>  2 files changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
->> index c931e9d..e4b4f57 100644
->> --- a/target/i386/kvm.c
->> +++ b/target/i386/kvm.c
->> @@ -1640,9 +1640,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
->>                                    !!(c->ecx & CPUID_EXT_SMX);
->>      }
->>  
->> -    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
->> +    if (cpu_has_vmx(env) && !nested_virt_mig_blocker &&
->> +        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
->>          error_setg(&nested_virt_mig_blocker,
->> -                   "Nested virtualization does not support live migration yet");
->> +                   "Kernel do not provide required capabilities for "
->> +                   "nested virtualization migration. "
->> +                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
->> +                   kvm_max_nested_state_length() > 0,
->> +                   has_exception_payload);
->>          r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
->>          if (local_err) {
->>              error_report_err(local_err);
->> diff --git a/target/i386/machine.c b/target/i386/machine.c
->> index fc49e5a..851b249 100644
->> --- a/target/i386/machine.c
->> +++ b/target/i386/machine.c
->> @@ -233,7 +233,7 @@ static int cpu_pre_save(void *opaque)
->>  
->>  #ifdef CONFIG_KVM
->>      /* Verify we have nested virtualization state from kernel if required */
->> -    if (cpu_has_nested_virt(env) && !env->nested_state) {
->> +    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
->>          error_report("Guest enabled nested virtualization but kernel "
->>                  "does not support saving of nested state");
->>          return -EINVAL;
->>
-> 
-> Starting with this commit latest (bisection issue...), running Jailhouse in a
-> guest first stalls L1 (looks like we lose interrupts), and if I try to reset
-> that VM, I lose my host as well:
-> 
-> kvm: vmptrld           (null)/6eb900000000 failed
-> kvm: vmclear fail:           (null)/6eb900000000
-> 
-> and then things start to lock up because we seem to lose the CPUs the guest was
-> running on. Once I had this in the logs:
-> 
-> rcu: INFO: rcu_sched detected expedited stalls on CPUs/tasks: { 7-... } 15040
-> jiffies s: 4673 root: 0x80/.
-> rcu: blocking rcu_node structures:
-> Task dump for CPU 7:
-> qemu-system-x86 R  running task        0 17413  17345 0x00000008
-> Call Trace:
->  ? x86_virt_spec_ctrl+0x7/0xe0
->  ? vmx_vcpu_run.part.0+0x2a4/0xfa0 [kvm_intel]
->  ? vcpu_enter_guest+0x349/0xe80 [kvm]
->  ? kvm_arch_vcpu_ioctl_run+0xff/0x550 [kvm]
->  ? kvm_vcpu_ioctl+0x20d/0x590 [kvm]
->  ? get_futex_key+0x35d/0x3b0
->  ? do_vfs_ioctl+0x447/0x640
->  ? do_futex+0x157/0x1d0
->  ? ksys_ioctl+0x5e/0x90
->  ? __x64_sys_ioctl+0x16/0x20
->  ? do_syscall_64+0x60/0x120
->  ? entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> 
-> This was on a 5.1.16 distro kernel. Currently rebuilding 5.2 vanilla.
-> 
-> Looks like we have up to two critical bugs here...
-> 
-> Jan
-> 
 
-It turns out it's actually patch 20 that introduces the problem. Maybe it is
-only the kernel, but I rather suspect a combination of userspace not providing
-the right state (specifically on reset) and the kernel accepting that.
 
-Continuing the search on 5.2 now.
+On 7/8/19 12:38 PM, Daniel P. Berrangé wrote:
+> On Sat, Jul 06, 2019 at 10:04:55PM +0300, Marcel Apfelbaum wrote:
+>> Hi Sukrit,
+>>
+>> On 7/6/19 7:09 AM, Sukrit Bhatnagar wrote:
+>>> Changes in v2:
+>>>
+>>> * Modify load_dsr() such that dsr mapping is not performed if dsr value
+>>>     is non-NULL. Also move free_dsr() out of load_dsr() and call it right
+>>>     before if needed. These two changes will allow us to call load_dsr()
+>>>     even when we have already done dsr mapping and would like to go on
+>>>     with the rest of mappings.
+>>>
+>>> * Use VMStateDescription instead of SaveVMHandlers to describe migration
+>>>     state. Also add fields for parent PCI object and MSIX.
+>>>
+>>> * Use a temporary structure (struct PVRDMAMigTmp) to hold some fields
+>>>     during migration. These fields, such as cmd_slot_dma and resp_slot_dma
+>>>     inside dsr, do not fit into VMSTATE macros as their container
+>>>     (dsr_info->dsr) will not be ready until it is mapped on the dest.
+>>>
+>>> * Perform mappings to CQ and event notification rings after the state is
+>>>     loaded. This is an extension to the mappings performed in v1;
+>>>     following the flow of load_dsr(). All the mappings are succesfully
+>>>     done on the dest on state load.
+>> Nice!
+>>
+>>> Link(s) to v1:
+>>> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04924.html
+>>> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04923.html
+>>>
+>>>
+>>> Things working now (were not working at the time of v1):
+>>>
+>>> * vmxnet3 is migrating successfully. The issue was in the migration of
+>>>     its PCI configuration space, and is solved by the patch Marcel had sent:
+>>>     https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01500.html
+>>>
+>>> * There is no problem due to BounceBuffers which were failing the dma mapping
+>>>     calls in state load logic earlier. Not sure exactly how it went away. I am
+>>>     guessing that adding the PCI and MSIX state to migration solved the issue.
+>>>
+>> I am sure it was connected somehow, anyway, I am glad we can continue
+>> with the project.
+>>
+>>> What is still needed:
+>>>
+>>> * A workaround to get libvirt to support same-host migration. Since
+>>>     the problems faced in v1 (mentioned above) are out of the way, we
+>>>     can move further, and in doing so, we will need this.
+>> [Adding Daniel  and Michal]
+>> Is there anyway to test live-migration for libvirt domains on the same host?
+>> Even a 'hack' would be enough.
+> Create two VMs on your host & run inside those. Or create two containers
+> if you want a lighter weight solution. You must have two completely
+> independant libvirtd instances, sharing nothing, except optionally where
+> you store disk images.
 
-Jan
+We'll work with live-cd, no storage is needed.
 
--- 
-Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-Corporate Competence Center Embedded Linux
+Thank you for the help!
+Marcel
+
+> Regards,
+> Daniel
+
 
