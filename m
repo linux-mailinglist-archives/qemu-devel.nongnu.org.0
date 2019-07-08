@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BD6625C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 18:08:04 +0200 (CEST)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BA6625D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 18:10:26 +0200 (CEST)
+Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkWBP-0006zo-DJ
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 12:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42719)
+	id 1hkWDh-00013z-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 12:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43718)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hkW8N-0005uh-Iy
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:04:57 -0400
+ (envelope-from <berrange@redhat.com>) id 1hkWC1-0000Bl-IP
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:08:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hkW8L-0006bZ-M3
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:04:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48010)
+ (envelope-from <berrange@redhat.com>) id 1hkWC0-000311-DD
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:08:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44432)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hkW8L-0006T7-FM
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:04:53 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hkWC0-00030Q-5U
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:08:40 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 48FF883F51
- for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 16:04:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6F82FC004BA8
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 16:08:39 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.17.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 154691001B19;
- Mon,  8 Jul 2019 16:04:44 +0000 (UTC)
-Date: Mon, 8 Jul 2019 17:04:42 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E87C55D9E5;
+ Mon,  8 Jul 2019 16:08:35 +0000 (UTC)
+Date: Mon, 8 Jul 2019 17:08:33 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190708160442.GL3082@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190708160833.GM3082@redhat.com>
 References: <20190708072437.3339-1-marcandre.lureau@redhat.com>
+ <20190708154406.GL2746@work-vm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190708072437.3339-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20190708154406.GL2746@work-vm>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 08 Jul 2019 16:04:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Mon, 08 Jul 2019 16:08:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
@@ -60,59 +61,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 08, 2019 at 11:24:34AM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Hi,
+On Mon, Jul 08, 2019 at 04:44:06PM +0100, Dr. David Alan Gilbert wrote:
+> * Marc-Andr=C3=A9 Lureau (marcandre.lureau@redhat.com) wrote:
+> > Hi,
+> >=20
+> > With external processes or helpers participating to the VM support, i=
+t
+> > becomes necessary to handle their migration. Various options exist to
+> > transfer their state:
+> > 1) as the VM memory, RAM or devices (we could say that's how
+> >    vhost-user devices can be handled today, they are expected to
+> >    restore from ring state)
+> > 2) other "vmstate" (as with TPM emulator state blobs)
+> > 3) left to be handled by management layer
+> >=20
+> > 1) is not practical, since an external processes may legitimatelly
+> > need arbitrary state date to back a device or a service, or may not
+> > even have an associated device.
+> >=20
+> > 2) needs ad-hoc code for each helper, but is simple and working
+> >=20
+> > 3) is complicated for management layer, QEMU has the migration timing
+> >=20
+> > The proposed "dbus-vmstate" object will connect to a given D-Bus
+> > address, and save/load from org.qemu.VMState1 owners on migration.
 >=20
-> With external processes or helpers participating to the VM support, it
-> becomes necessary to handle their migration. Various options exist to
-> transfer their state:
-> 1) as the VM memory, RAM or devices (we could say that's how
->    vhost-user devices can be handled today, they are expected to
->    restore from ring state)
-> 2) other "vmstate" (as with TPM emulator state blobs)
-> 3) left to be handled by management layer
->=20
-> 1) is not practical, since an external processes may legitimatelly
-> need arbitrary state date to back a device or a service, or may not
-> even have an associated device.
->=20
-> 2) needs ad-hoc code for each helper, but is simple and working
->=20
-> 3) is complicated for management layer, QEMU has the migration timing
->=20
-> The proposed "dbus-vmstate" object will connect to a given D-Bus
-> address, and save/load from org.qemu.VMState1 owners on migration.
->=20
-> Thus helpers can easily have their state migrated with QEMU, without
-> implementing ad-hoc support (such as done for TPM emulation)
->=20
-> I chose D-Bus as it is ubiquitous on Linux (it is systemd IPC), and
-> can be made to work on various other OSes. There are several
-> implementations and good bindings for various languages.
-> (the tests/dbus-vmstate-test.c is a good example of how simple
-> the implementation of services can be, even in C)
->=20
-> The D-Bus protocol can be made to work peer-to-peer, but the most
-> common and practical way is through a bus daemon. This also has the
-> advantage of increased debuggability (you can eavesdrop on the bus and
-> introspect it).
+> Some very high level questions:
+>   a) If I've got two QEMU's running, how do the right devices
+>    end up migrating to the right qemu?
 
-The downside of using the bus daemon is that we have to spawn a new
-instance of dbus-daemon for every QEMU VM that's running on the host,
-which is yet more memory overhead for each VM & another process to
-manage, and yet another thing to go wrong.
+This isn't using the normal DBus instance. It needs a new isntance of
+dbus-daemon to be spawned for each VM IIUC.
 
-QEMU already has a direct UNIX socket connection to the helper
-processes in question. I'd much rather we just had another direct
-UNIX socket  connection to that helper, using D-Bus peer-to-peer.
-The benefit of debugging doesn't feel compelling enough to justify
-running an extra daemon for each VM.
+>   b) Why use dbus for the comms? Don't all of the daemons have some
+>    protocol'd socket between QEMU and the daemon? If so they could
+>    send up a separate FD for migration data
 
+There's two distinct aspects here
+
+ - Whether to use a bus vs peer-to-peer
+ - What protocol to run over the wire
+
+DBus defines a low level wire protocol. It just happens that it is
+commonly used in bus topology, but it is fine being used peer-to-peer
+instead.
+
+IOW, we could use Dbus as the wire encoding, and still have a direct
+FD betwwen QEMU & the helper program, without needign dbus-daemon
+present.
+
+>   c) Your 1MB limit is pretty aribtary - it's nice to have a limit
+>     but it's hard to justify why it's that one.
+
+IIRC, that's the default DBus message size limit. You can choose to
+raise that in the client & server impl if desired, or alternatively
+just pass back a memfd() handle with the DBus relpy, over which to
+access the bulk data out of band.
 
 Regards,
 Daniel
