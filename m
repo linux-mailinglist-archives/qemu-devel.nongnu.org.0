@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D905F628BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 20:50:32 +0200 (CEST)
-Received: from localhost ([::1]:43940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863EE628C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 20:53:50 +0200 (CEST)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkYie-00081F-3E
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 14:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54481)
+	id 1hkYlp-0002fM-Lp
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 14:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hkYg5-00079G-6i
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:47:56 -0400
+ (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
+ id 1hkYkQ-0001t4-M2
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:52:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hkYg0-00005q-QP
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:47:51 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34788)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1hkYfx-0008Fn-5N
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:47:46 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w9so646043wmd.1
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 11:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=YCIv1whswcl9y1jZV8PWG62hVjY7KfMM30SH+nNvvso=;
- b=XqRcxjlO9jV/jo1mwCx6dls5f1fMp4xGRreYpzzfjLtqlvhVl0DM+PAo2ZBVWZ1ASF
- mxylhjbtNdU9er9IWtGdHwFD1e6GSDy7SJ61aK+NjOxrv3RLRDKFhwd+NWrrIFFDsFSs
- RuP2vOSE3BWEf2en1P4EoeAUHsYcKYmDeSyDAQxX+d79NG3pCQFng/3IM8ashchoqL08
- biuIoNtZ9A6jzIpMwb+83W269lik5e/X1uaOUpz6+bqsmZMDTBVcmHkMbtTwdbjkFAZx
- 8EIQyZrdHZWQqr56MYNZhi7vLNbDMAQ6MOwd5444eHXKxMRohi3KyMkLO5qvY01D4x3z
- tbcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=YCIv1whswcl9y1jZV8PWG62hVjY7KfMM30SH+nNvvso=;
- b=Pc2IEy/fhHjjyaXZ2/KYChK8w//xi3x/j3UiSVy9NgM5/pUarjuD6FpQMzu8XEI4an
- HEtxW07MyU4I0avtTNnyrsion8FJYtF3BDngpbPIoqcD12IWR5L9WnQRKCqkP4mxYULR
- KgD12cu78X7wz5LMs1ELq61DLZDmXPZ5m4ipd8jGeOuPMCsdArN3kaBr4zDYg/wdKZ7H
- un3vrTir2AmDPJCzCTa0GPd+8qQoaZqMPixRvdkiIFk2Xga03Cf55gq7Xx+B3nYQqsGO
- apqK84ETuxNC6R+fwyKOC9eYfQQDf+BIdobzRMBzACESperBRUR0rK+YMuYfgnX18yL8
- QiRQ==
-X-Gm-Message-State: APjAAAXh3305NRkQhqtS5lzuq4jD1ud8JH1RUlj6ez6Cq2jAV7+v8eri
- cnxzd0DlnUzta6NCzO3ttqQ=
-X-Google-Smtp-Source: APXvYqwMifVeY6PCcNCLUrnVKs0vdfonLFxVpaHoleQRm9yMz6snaV2YKm7sFgujyNWgsL1cSEvWYA==
-X-Received: by 2002:a1c:1f06:: with SMTP id f6mr18516539wmf.60.1562611631026; 
- Mon, 08 Jul 2019 11:47:11 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id o6sm33474533wra.27.2019.07.08.11.47.09
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Jul 2019 11:47:10 -0700 (PDT)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20190705010711.23277-1-marcel.apfelbaum@gmail.com>
- <03CB6DEC-3D25-4C09-9C9C-3A5206D1D1F7@gmail.com>
- <CAMzgYoMzLHEpSwLOu4nZAEK_E50xBsaYUfdXeCeHrq+-kaL=4w@mail.gmail.com>
- <49bb8456-a4b1-5a0e-e34d-cf5977e821ae@gmail.com>
- <20190708160320.GM2746@work-vm>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <f0110394-1dbe-5f7a-0022-d17ad1c9ee76@gmail.com>
-Date: Mon, 8 Jul 2019 21:47:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
+ id 1hkYkP-0007ah-Hv
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 14:52:22 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:34026)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=085e8ccea=alistair.francis@wdc.com>)
+ id 1hkYkO-0007Tx-TH; Mon, 08 Jul 2019 14:52:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1562611941; x=1594147941;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uH/qkDo1j7ujLLdk0clrf+B7ILiNXAyEMMTKL2p6PX8=;
+ b=Nf0cqUeZNrSXfrB+RA4MKQhJmF8DlwEeZ1vGHCUUoNBIkRlu6S2S4KQ3
+ uX9lHUsSlbKDK53T9QmvSp7aTYMPYvBn1oFeZEqw/FGNE35bV3sWGIMW2
+ ZCaNT6Caj41m0t1MFo+lQ4Hf+a2sQmobVLh8WVfy8m94i3ebVhJgjTg02
+ YrhT6f/wzg/uGVU9RZzoNWDnghtrAnPv3o0IzX0xh+6LK6KTiQizXF2H5
+ yEeUcTZk8ZXPguE3N1aq2TYdKAsgzeXSb4NRH8LtjCey4aIPV6G7nLpdN
+ /opXhCo9JWXMgKdJeHCovM5a1aF6baw8YrVFGrDPKiFpkHdNCLBwyhVMb g==;
+IronPort-SDR: kyDHa5/+E1dyV9LuAzJTkH8CTm1bcOMXwNrk0h6rLTtyGTkcSg1YYbKZws27JsK8FYNKtVPwzN
+ YhAvNkSN+uV8iH3QxIebfh5na6uxAOUKj46PsyTmTOqMqJSRCwdQBxYEGFXdlWlLn9ewJgKljq
+ Euqhhf6z71MMRLy7SB9RL/BdK66XfbFOKe9r0y0AO+dbFghXVtCn1mBsftE5nsE742ayedbnWs
+ nNS4+0HppC6AAUOOj+Aoh4qinpCOgjHxwjzkQYClZhDPHUfaNbzhfjB1ZLJZSSefL6qusd0E8s
+ /9Y=
+X-IronPort-AV: E=Sophos;i="5.63,466,1557158400"; d="scan'208";a="114094437"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2019 02:52:17 +0800
+IronPort-SDR: sMTAdbsjPN8JRjOv0H5as+1T7/fW2UEerkVZPwM4oHJyiS//gdJ6HRMsMDin8ngpfUzWbs/mXB
+ kDnSeuuPgBOXjhfTVX4tV/mhcGGwCMoGKiK8SbCA7BhfglNwmCjZEP6KkAej7R5LVhi/Ub6je6
+ fg5oPelyGzsQDX1QCTc6+7H3g8mrUQ9S2QIlVO8HHtNl2Z8ssjd9PX1/0Z2i2HrBuGBGG2/P5r
+ s2VW/FaZmwTm8GtI9B/9GK4aqKDr50afg8/q51JkknZgbrmWKkG4EcLpjci5ZfpTT6Ig8joJ9f
+ a12g3eOmt/ORZphWbslvSARQ
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP; 08 Jul 2019 11:51:05 -0700
+IronPort-SDR: 2CDX3KCgjO4UtPgO4JCzKn2W0LO8r5MBzp8ocAF72h1yX2uC3Efcu+2oKRD+LNH8da8rU8giR0
+ O/hSTJ7uuNV+Jj/ap0gDmq81N9AjLsJz2ceYtPYhYLV+yIdZlQk2FtT4qfdu9yvSF762ZTL1me
+ kUzpPHuOdvnHeNw+NJVr9L3SAwwIyFkuXEg6UB2SkslCxcdhW/uE9fjVkMKJPETJIgAcVlvHNM
+ sSbAuKJ4YzqXYDw/hbO59wmCO9of2rgsXCoq0pB/EjVFlm9z31Xdss5iYapQZT9SKNN5NGo6Ny
+ OH8=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+ by uls-op-cesaip01.wdc.com with ESMTP; 08 Jul 2019 11:52:18 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Mon,  8 Jul 2019 11:49:35 -0700
+Message-Id: <cover.1562611535.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190708160320.GM2746@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH] hw/net: fix vmxnet3 live migration
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.154.45
+Subject: [Qemu-devel] [PATCH v1 0/2]  RISC-V: Add default OpenSBI ROM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,176 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sukrit Bhatnagar <skrtbhtngr@gmail.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org,
- Yuval Shaia <yuval.shaia@oracle.com>
+Cc: peter.maydell@linaro.org, codyprime@gmail.com, anup@brainfault.org,
+ palmer@sifive.com, alistair.francis@wdc.com, stefanha@redhat.com,
+ pbonzini@redhat.com, alistair23@gmail.com, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series includes the OpenSBI firmware for QEMU RISC-V users.
 
+To avoid breakages we have not changed the default behaviour of QEMU.
+The plan is to change the default though, which is why an entry to the
+qemu-deprecated.texi file has been added as well as a new warning.
 
-On 7/8/19 7:03 PM, Dr. David Alan Gilbert wrote:
-> * Marcel Apfelbaum (marcel.apfelbaum@gmail.com) wrote:
->>
->> On 7/5/19 2:14 PM, Sukrit Bhatnagar wrote:
->>> On Fri, 5 Jul 2019 at 16:29, Dmitry Fleytman <dmitry.fleytman@gmail.com> wrote:
->>>>> On 5 Jul 2019, at 4:07, Marcel Apfelbaum <marcel.apfelbaum@gmail.com> wrote:
->>>>>
->>>>> At some point vmxnet3 live migration stopped working and git-bisect
->>>>> didn't help finding a working version.
->>>>> The issue is the PCI configuration space is not being migrated
->>>>> successfully and MSIX remains masked at destination.
->>>>>
->>>>> Remove the migration differentiation between PCI and PCIe since
->>>>> the logic resides now inside VMSTATE_PCI_DEVICE.
->>>>> Remove also the VMXNET3_COMPAT_FLAG_DISABLE_PCIE based differentiation
->>>>> since at 'realize' time is decided if the device is PCI or PCIe,
->>>>> then the above macro is enough.
->>>>>
->>>>> Use the opportunity to move to the standard VMSTATE_MSIX
->>>>> instead of the deprecated SaveVMHandlers.
->>>>>
->>>>> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
->>>> Reviewed-by: Dmitry Fleytman <dmitry.fleytman@gmail.com>
->>>>
->>> Tested-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
->> Thanks for the fast testing and review!
->>
->> David, since the live migration was broken long before this patch,
->> I don't need  to add any compatibility code, right?
-> Right, although we should probably bump the version_id field, that way
-> you'll get a nice clean error if you try and migrate from the old<->new.
+After this series QEMU 4.1 has three options:
+ 1. ``-bios none`` - This is the current default behavior if no -bios option
+      is included. QEMU will not automatically load any firmware. It is up
+      to the user to load all the images they need.
+ 2. ``-bios default`` - In a future QEMU release this will become the default
+      behaviour if no -bios option is specified. This option will load the
+      default OpenSBI firmware automatically. The firmware is included with
+      the QEMU release and no user interaction is required. All a user needs
+      to do is specify the kernel they want to boot with the -kernel option
+ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
 
-Will do, thanks.
+All users should transition to using a -bios option. We can start
+updating all documentation after the release of 4.1.
 
-> (It's nice to get rid of the old msix oddity).
->
->> If so, can you merge it using your migration tree?
-> I could do; or since it's entirely in vmxnet3 Dmitry can take it.
+At the end of this series and the transition period we are in the good
+place of no longer requiring users to build firmware to boot a kernel.
+Instead users can just run QEMU with the -kernel option and everything
+will work. They can also override the firmware with their own using
+the -bios option. Using "-bios none" will result in no firmware being
+loaded (as it is today).
 
-I'll ask him, thanks!
-Marcel
+This is based on my original series adding OpenSBI support but now has
+improved documentation changes around the license.
 
->
-> Dave
->
->> Thanks,
->> Marcel
->>
->>
->>>>> ---
->>>>> hw/net/vmxnet3.c | 52 ++----------------------------------------------
->>>>> 1 file changed, 2 insertions(+), 50 deletions(-)
->>>>>
->>>>> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
->>>>> index 10d01d0058..8b17548b02 100644
->>>>> --- a/hw/net/vmxnet3.c
->>>>> +++ b/hw/net/vmxnet3.c
->>>>> @@ -2141,21 +2141,6 @@ vmxnet3_cleanup_msi(VMXNET3State *s)
->>>>>       msi_uninit(d);
->>>>> }
->>>>>
->>>>> -static void
->>>>> -vmxnet3_msix_save(QEMUFile *f, void *opaque)
->>>>> -{
->>>>> -    PCIDevice *d = PCI_DEVICE(opaque);
->>>>> -    msix_save(d, f);
->>>>> -}
->>>>> -
->>>>> -static int
->>>>> -vmxnet3_msix_load(QEMUFile *f, void *opaque, int version_id)
->>>>> -{
->>>>> -    PCIDevice *d = PCI_DEVICE(opaque);
->>>>> -    msix_load(d, f);
->>>>> -    return 0;
->>>>> -}
->>>>> -
->>>>> static const MemoryRegionOps b0_ops = {
->>>>>       .read = vmxnet3_io_bar0_read,
->>>>>       .write = vmxnet3_io_bar0_write,
->>>>> @@ -2176,11 +2161,6 @@ static const MemoryRegionOps b1_ops = {
->>>>>       },
->>>>> };
->>>>>
->>>>> -static SaveVMHandlers savevm_vmxnet3_msix = {
->>>>> -    .save_state = vmxnet3_msix_save,
->>>>> -    .load_state = vmxnet3_msix_load,
->>>>> -};
->>>>> -
->>>>> static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
->>>>> {
->>>>>       uint64_t dsn_payload;
->>>>> @@ -2203,7 +2183,6 @@ static uint64_t vmxnet3_device_serial_num(VMXNET3State *s)
->>>>>
->>>>> static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
->>>>> {
->>>>> -    DeviceState *dev = DEVICE(pci_dev);
->>>>>       VMXNET3State *s = VMXNET3(pci_dev);
->>>>>       int ret;
->>>>>
->>>>> @@ -2249,8 +2228,6 @@ static void vmxnet3_pci_realize(PCIDevice *pci_dev, Error **errp)
->>>>>           pcie_dev_ser_num_init(pci_dev, VMXNET3_DSN_OFFSET,
->>>>>                                 vmxnet3_device_serial_num(s));
->>>>>       }
->>>>> -
->>>>> -    register_savevm_live(dev, "vmxnet3-msix", -1, 1, &savevm_vmxnet3_msix, s);
->>>>> }
->>>>>
->>>>> static void vmxnet3_instance_init(Object *obj)
->>>>> @@ -2440,29 +2417,6 @@ static const VMStateDescription vmstate_vmxnet3_int_state = {
->>>>>       }
->>>>> };
->>>>>
->>>>> -static bool vmxnet3_vmstate_need_pcie_device(void *opaque)
->>>>> -{
->>>>> -    VMXNET3State *s = VMXNET3(opaque);
->>>>> -
->>>>> -    return !(s->compat_flags & VMXNET3_COMPAT_FLAG_DISABLE_PCIE);
->>>>> -}
->>>>> -
->>>>> -static bool vmxnet3_vmstate_test_pci_device(void *opaque, int version_id)
->>>>> -{
->>>>> -    return !vmxnet3_vmstate_need_pcie_device(opaque);
->>>>> -}
->>>>> -
->>>>> -static const VMStateDescription vmstate_vmxnet3_pcie_device = {
->>>>> -    .name = "vmxnet3/pcie",
->>>>> -    .version_id = 1,
->>>>> -    .minimum_version_id = 1,
->>>>> -    .needed = vmxnet3_vmstate_need_pcie_device,
->>>>> -    .fields = (VMStateField[]) {
->>>>> -        VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
->>>>> -        VMSTATE_END_OF_LIST()
->>>>> -    }
->>>>> -};
->>>>> -
->>>>> static const VMStateDescription vmstate_vmxnet3 = {
->>>>>       .name = "vmxnet3",
->>>>>       .version_id = 1,
->>>>> @@ -2470,9 +2424,8 @@ static const VMStateDescription vmstate_vmxnet3 = {
->>>>>       .pre_save = vmxnet3_pre_save,
->>>>>       .post_load = vmxnet3_post_load,
->>>>>       .fields = (VMStateField[]) {
->>>>> -            VMSTATE_STRUCT_TEST(parent_obj, VMXNET3State,
->>>>> -                                vmxnet3_vmstate_test_pci_device, 0,
->>>>> -                                vmstate_pci_device, PCIDevice),
->>>>> +            VMSTATE_PCI_DEVICE(parent_obj, VMXNET3State),
->>>>> +            VMSTATE_MSIX(parent_obj, VMXNET3State),
->>>>>               VMSTATE_BOOL(rx_packets_compound, VMXNET3State),
->>>>>               VMSTATE_BOOL(rx_vlan_stripping, VMXNET3State),
->>>>>               VMSTATE_BOOL(lro_supported, VMXNET3State),
->>>>> @@ -2508,7 +2461,6 @@ static const VMStateDescription vmstate_vmxnet3 = {
->>>>>       },
->>>>>       .subsections = (const VMStateDescription*[]) {
->>>>>           &vmxstate_vmxnet3_mcast_list,
->>>>> -        &vmstate_vmxnet3_pcie_device,
->>>>>           NULL
->>>>>       }
->>>>> };
->>>>> --
->>>>> 2.17.1
->>>>>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Alistair Francis (2):
+  roms: Add OpenSBI version 0.4
+  hw/riscv: Load OpenSBI as the default firmware
+
+ .gitmodules                                  |   3 ++
+ LICENSE                                      |  21 +++++---
+ Makefile                                     |   5 +-
+ hw/riscv/boot.c                              |  49 +++++++++++++++++++
+ hw/riscv/sifive_u.c                          |   7 +--
+ hw/riscv/virt.c                              |  11 +++--
+ include/hw/riscv/boot.h                      |   3 ++
+ pc-bios/README                               |  11 +++++
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 0 -> 36888 bytes
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 0 -> 40968 bytes
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 0 -> 40968 bytes
+ qemu-deprecated.texi                         |  20 ++++++++
+ roms/Makefile                                |  48 +++++++++++++-----
+ roms/opensbi                                 |   1 +
+ 14 files changed, 152 insertions(+), 27 deletions(-)
+ create mode 100755 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+ create mode 100755 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ create mode 100755 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+ create mode 160000 roms/opensbi
+
+-- 
+2.22.0
 
 
