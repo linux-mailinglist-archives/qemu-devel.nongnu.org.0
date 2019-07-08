@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAC16266D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 18:33:15 +0200 (CEST)
-Received: from localhost ([::1]:43290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB84C6267A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 18:38:59 +0200 (CEST)
+Received: from localhost ([::1]:43322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkWZl-0006Fb-N3
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 12:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49370)
+	id 1hkWfL-0001AG-0U
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 12:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49944)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chouteau@adacore.com>) id 1hkWYa-0005mZ-3Q
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:32:00 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hkWas-0006rg-H2
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:34:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chouteau@adacore.com>) id 1hkWYZ-0005kv-1u
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:32:00 -0400
-Received: from mel.act-europe.fr ([194.98.77.210]:46083
- helo=smtp.eu.adacore.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chouteau@adacore.com>)
- id 1hkWYY-0005bn-QM; Mon, 08 Jul 2019 12:31:58 -0400
-Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 99B5881388;
- Mon,  8 Jul 2019 18:31:55 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
-Received: from smtp.eu.adacore.com ([127.0.0.1])
- by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6L-nMUoHqIIY; Mon,  8 Jul 2019 18:31:55 +0200 (CEST)
-Received: from [192.168.0.19] (89-157-139-225.rev.numericable.fr
- [89.157.139.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id 23C4581387;
- Mon,  8 Jul 2019 18:31:55 +0200 (CEST)
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>
-References: <1558108285-19571-1-git-send-email-bmeng.cn@gmail.com>
- <1558108285-19571-2-git-send-email-bmeng.cn@gmail.com>
-From: Fabien Chouteau <chouteau@adacore.com>
-Message-ID: <9338c7b4-6a05-2189-b93d-25cb2bd4dd54@adacore.com>
-Date: Mon, 8 Jul 2019 18:31:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <no-reply@patchew.org>) id 1hkWaq-0001yO-5u
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 12:34:22 -0400
+Resent-Date: Mon, 08 Jul 2019 12:34:21 -0400
+Resent-Message-Id: <E1hkWaq-0001yO-5u@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21543)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hkWap-0001tT-SK; Mon, 08 Jul 2019 12:34:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562603597; cv=none; d=zoho.com; s=zohoarc; 
+ b=GJm0vS2rzZ9fzm7LjbWdzDFpdEmZvsCGeAF94E+nhQtyKmVbHZUWD77xVkYWhBiPy9WMg0L8h/CCBs9eQbcHX/y/fkyzjK7IiCYEVH2vaGaQoPB6cLGPdsvo2xVcnITqXkTKEdM0ybaOGBlyfFDl5wt0kmMvqAvZpgEUnZmZP0k=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562603597;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=R9iSp79pwt78qKQIRhKolWKS9M8ZmKFvCPwATKGimXc=; 
+ b=UsfLndpVPZ4w/vGZLKMdyEQ2ZsPYZwIK31s3Pm7XYuE5dy9OWi2gP04y2c4DblSgNKVvxg7k+t0rpgexHlttenoK5EuuASOjkat4yYPJKKe30G6aeq93fu6oxYAUotHjix+Uz3dWjjXyCAOK5b4iZZzdLUOkiHi/Iyc0dMijtI4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562603595458331.2448027429275;
+ Mon, 8 Jul 2019 09:33:15 -0700 (PDT)
+Message-ID: <156260359401.25929.14953771987329923345@c4a48874b076>
+In-Reply-To: <20190708144013.83474-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <1558108285-19571-2-git-send-email-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 194.98.77.210
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH 2/2] riscv: sifive_u: Update
- the plic hart config to support multicore
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: borntraeger@de.ibm.com
+Date: Mon, 8 Jul 2019 09:33:15 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] s390: cpumodel: fix name and description
+ for the new vector facility
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,50 +61,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: akrowiak@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwODE0NDAxMy44MzQ3
+NC0xLWJvcm50cmFlZ2VyQGRlLmlibS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNzA4MTQ0MDEzLjgzNDc0LTEtYm9ybnRy
+YWVnZXJAZGUuaWJtLmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRD
+SF0gczM5MDogY3B1bW9kZWw6IGZpeCBuYW1lIGFuZCBkZXNjcmlwdGlvbiBmb3IgdGhlIG5ldyB2
+ZWN0b3IgZmFjaWxpdHkKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0
+IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVj
+a3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0
+Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjZmZDQxNTc1YzMgczM5MDogY3B1bW9kZWw6IGZp
+eCBuYW1lIGFuZCBkZXNjcmlwdGlvbiBmb3IgdGhlIG5ldyB2ZWN0b3IgZmFjaWxpdHkKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjQ6IEZJTEU6
+IHRhcmdldC9zMzkweC9jcHVfZmVhdHVyZXNfZGVmLmluYy5oOjEwNjoKK0RFRl9GRUFUKFZFQ1RP
+Ul9QQUNLRURfREVDLCAidnhwIiwgU1RGTCwgMTUyLCAiVmVjdG9yLVBhY2tlZC1EZWNpbWFsLUVu
+aGFuY2VtZW50IEZhY2lsaXR5IikKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjQgbGlu
+ZXMgY2hlY2tlZAoKQ29tbWl0IDZmZDQxNTc1YzMyNyAoczM5MDogY3B1bW9kZWw6IGZpeCBuYW1l
+IGFuZCBkZXNjcmlwdGlvbiBmb3IgdGhlIG5ldyB2ZWN0b3IgZmFjaWxpdHkpIGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3
+aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
+Lm9yZy9sb2dzLzIwMTkwNzA4MTQ0MDEzLjgzNDc0LTEtYm9ybnRyYWVnZXJAZGUuaWJtLmNvbS90
+ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-Thanks for this patch.
-
-I know I am very late to the game but I have a comment here.
-
-On 17/05/2019 17:51, Bin Meng wrote:
-> +    /* create PLIC hart topology configuration string */
-> +    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) * smp_cpus;
-> +    plic_hart_config = g_malloc0(plic_hart_config_len);
-> +    for (i = 0; i < smp_cpus; i++) {
-> +        if (i != 0) {
-> +            strncat(plic_hart_config, ",", plic_hart_config_len);
-> +        }
-> +        strncat(plic_hart_config, SIFIVE_U_PLIC_HART_CONFIG,
-> +                plic_hart_config_len);
-> +        plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
-> +    }
-> +
-
-This will create up to 4 MS PLIC devices. However on the Unleashed FU540 the PLICs are M,MS,MS,MS,MS because of the monitor hart #0.
-
-This means a different memory layout than the real hardware.
-
-For instance address 0x0C00_2080 will be hart #0 S-Mode interrupt enables in QEMU, instead of #1 M-Mode interrupt enables for the real hardware.
-
-To fix this I suggest to change this loop to:
-
-    for (i = 0; i < smp_cpus; i++) {
-        if (i != 0) {
-            strncat(plic_hart_config, "," SIFIVE_U_PLIC_HART_CONFIG,
-                    plic_hart_config_len);
-        } else {
-            strncat(plic_hart_config, "M", plic_hart_config_len);
-        }
-        plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
-    }
-
-This will make hart #0 PLIC in M mode and the others in MS.
-
-What do you think?
-
-Best regards,
 
