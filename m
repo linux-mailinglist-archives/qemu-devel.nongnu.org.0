@@ -2,100 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3423461E2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:08:57 +0200 (CEST)
-Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149F261E31
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 14:10:38 +0200 (CEST)
+Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkSS0-0002Kv-5K
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57191)
+	id 1hkSTd-0004J8-9x
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 08:10:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57377)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sw@weilnetz.de>) id 1hkSNr-0008Qg-JH
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:04:51 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hkSOe-0000MT-Qq
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:05:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1hkSNp-000601-3w
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:04:39 -0400
-Received: from smtp.mail.uni-mannheim.de ([2001:7c0:600:60::869b:6050]:50838)
+ (envelope-from <mreitz@redhat.com>) id 1hkSOc-0006W0-WB
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:05:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53730)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1hkSNo-0005yk-PW
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 08:04:37 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.mail.uni-mannheim.de (Postfix) with ESMTP id C40BD1034F5;
- Mon,  8 Jul 2019 14:04:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at uni-mannheim.de
-Received: from smtp.mail.uni-mannheim.de ([134.155.96.80])
- by localhost (mail-r83.rz.uni-mannheim.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id Qs9KWNL2eVN0; Mon,  8 Jul 2019 14:04:27 +0200 (CEST)
-Received: from [134.155.36.73] (edv13.bib.uni-mannheim.de [134.155.36.73])
- by smtp.mail.uni-mannheim.de (Postfix) with ESMTPSA id A766B103701;
- Mon,  8 Jul 2019 14:04:25 +0200 (CEST)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
-References: <1534182832-554-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1534182832-554-5-git-send-email-aleksandar.markovic@rt-rk.com>
- <4da49ffe-902f-2cf2-8a21-2bbd511b17a4@weilnetz.de>
- <CAL1e-=jE8X1ODnA0aSXe5OCqJzYA0J47h5b6=H_UivPP11zSQA@mail.gmail.com>
-From: Stefan Weil <sw@weilnetz.de>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hkSOH-00068U-1n; Mon, 08 Jul 2019 08:05:06 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8F21B2F8BDC;
+ Mon,  8 Jul 2019 12:05:02 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-127.brq.redhat.com
+ [10.40.204.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E414B39A45;
+ Mon,  8 Jul 2019 12:04:54 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190703215542.16123-1-jsnow@redhat.com>
+ <20190703215542.16123-13-jsnow@redhat.com>
+ <ee65fb7c-1f19-17f8-ea32-7aa3cc2a1b3d@redhat.com>
+ <63fe8c7b-69ad-d043-d629-664370a2acc5@redhat.com>
+ <979481d8-7c1c-71d4-cdca-7b1f6954aa6e@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=sw@weilnetz.de; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <591d71a5-5b10-ab22-4751-01da8613d84c@weilnetz.de>
-Date: Mon, 8 Jul 2019 14:04:27 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <41c350ee-2e11-563f-16db-4472321cc775@redhat.com>
+Date: Mon, 8 Jul 2019 14:04:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jE8X1ODnA0aSXe5OCqJzYA0J47h5b6=H_UivPP11zSQA@mail.gmail.com>
-Content-Language: en-GB
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:7c0:600:60::869b:6050
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] Handling of fall through code (was: [PATCH v8
- 04/87] target/mips: Mark switch fallthroughs with interpretable comments
+In-Reply-To: <979481d8-7c1c-71d4-cdca-7b1f6954aa6e@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="05dYt25Bbf5K1AHEHhZzLkiLlAPalM0UN"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Mon, 08 Jul 2019 12:05:02 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 12/18] block/backup: add 'always' bitmap
+ sync policy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,234 +89,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pburton@wavecomp.com, peter.maydell@linaro.org, smarkovic@wavecomp.com,
- riku.voipio@iki.fi, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- laurent@vivier.eu, Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- philippe.mathieu.daude@gmail.com, amarkovic@wavecomp.com,
- pjovanovic@wavecomp.com, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.07.2019 um 10:14 schrieb Aleksandar Markovic:
->
-> On Jul 7, 2019 10:26 PM, "Stefan Weil" <sw@weilnetz.de
-> <mailto:sw@weilnetz.de>> wrote:
-> > - There is also fallthrough code which is obviously not correct
-> (even in target/mips/translate.c).
->
-> Can you please be more specific about those cases from
-> target/mips/translate.c?
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--05dYt25Bbf5K1AHEHhZzLkiLlAPalM0UN
+Content-Type: multipart/mixed; boundary="dk9EVwhWcPB6G9nRASgzSjnmoRsVeioJK";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, vsementsov@virtuozzo.com,
+ Xie Changlong <xiechanglong.d@gmail.com>
+Message-ID: <41c350ee-2e11-563f-16db-4472321cc775@redhat.com>
+Subject: Re: [PATCH v2 12/18] block/backup: add 'always' bitmap sync policy
+References: <20190703215542.16123-1-jsnow@redhat.com>
+ <20190703215542.16123-13-jsnow@redhat.com>
+ <ee65fb7c-1f19-17f8-ea32-7aa3cc2a1b3d@redhat.com>
+ <63fe8c7b-69ad-d043-d629-664370a2acc5@redhat.com>
+ <979481d8-7c1c-71d4-cdca-7b1f6954aa6e@redhat.com>
+In-Reply-To: <979481d8-7c1c-71d4-cdca-7b1f6954aa6e@redhat.com>
 
-Hi Aleksandar,
+--dk9EVwhWcPB6G9nRASgzSjnmoRsVeioJK
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-this is the list of warnings for target/mips/translate.c:
+On 05.07.19 18:59, John Snow wrote:
+>=20
+>=20
+> On 7/4/19 2:05 PM, Max Reitz wrote:
+>> On 04.07.19 19:43, Max Reitz wrote:
+>>> On 03.07.19 23:55, John Snow wrote:
+>>>> This adds an "always" policy for bitmap synchronization. Regardless =
+of if
+>>>> the job succeeds or fails, the bitmap is *always* synchronized. This=
+ means
+>>>> that for backups that fail part-way through, the bitmap retains a re=
+cord of
+>>>> which sectors need to be copied out to accomplish a new backup using=
+ the
+>>>> old, partial result.
+>>>>
+>>>> In effect, this allows us to "resume" a failed backup; however the n=
+ew backup
+>>>> will be from the new point in time, so it isn't a "resume" as much a=
+s it is
+>>>> an "incremental retry." This can be useful in the case of extremely =
+large
+>>>> backups that fail considerably through the operation and we'd like t=
+o not waste
+>>>> the work that was already performed.
+>>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>  block/backup.c       | 25 +++++++++++++++++--------
+>>>>  qapi/block-core.json |  5 ++++-
+>>>>  2 files changed, 21 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/block/backup.c b/block/backup.c
+>>>> index 9cc5a7f6ca..495d8f71aa 100644
+>>>> --- a/block/backup.c
+>>>> +++ b/block/backup.c
+>>>> @@ -266,16 +266,25 @@ static void backup_cleanup_sync_bitmap(BackupB=
+lockJob *job, int ret)
+>>
+>> [...]
+>>
+>>>> +        /* If we failed and synced, merge in the bits we didn't cop=
+y: */
+>>>> +        bdrv_dirty_bitmap_merge_internal(bm, job->copy_bitmap,
+>>>> +                                         NULL, true);
+>>>
+>>> I presume this is for sync=3Dfull?
+>>
+>=20
+> Well, we don't allow bitmaps for sync=3Dfull at this point in the serie=
+s.
+>=20
+>> Ah, no.  This is necessary because the original sync bitmap was
+>> discarded by bdrv_dirty_bitmap_abdicate().  So yep, these bits need to=
 
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:10047:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:10056:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:20138:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:20144:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:6739:9:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:9820:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
-/home/debian/src/github/qemu/qemu/target/mips/translate.c:9829:13:
-warning: this statement may fall through [-Wimplicit-fallthrough=3D]
+>> go back into the sync bitmap then.
+>>
+>> Max
+>>
+>=20
+> Yuh -- we actually want to clear the original bitmap for the 'always'
+> case, which the "abdicate" handles for us. This ought to trigger only
+> for the always case, so I think the conditional here is correct and as
+> simple as it can be.
+>=20
+> Does your R-B stand?
 
-I have built using
+Sure.
 
-=C2=A0=C2=A0=C2=A0 ../configure --disable-werror '--extra-cflags=3D-Wextr=
-a
--Wimplicit-fallthrough=3D2'
+Max
 
-The build process produced warnings for 79 fallthrough locations. See
-build protocol:
 
-=C2=A0=C2=A0=C2=A0 https://qemu.weilnetz.de/results/build-20190708.txt (1=
-16 MiB !)
+--dk9EVwhWcPB6G9nRASgzSjnmoRsVeioJK--
 
-Sometimes the fallthrough comment is misplaced in the following case
-statement or followed by code, so the compiler (correctly) won't accept
-it. Maybe there exist also fallthrough comments although there is no
-fallthrough code.
+--05dYt25Bbf5K1AHEHhZzLkiLlAPalM0UN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-The protocol also shows 18 warnings [-Wcast-function-type] which might
-indicate bugs:
+-----BEGIN PGP SIGNATURE-----
 
-/home/debian/src/github/qemu/qemu/chardev/char-fe.c:372:32: warning:
-cast between incompatible function types from =E2=80=98GIOFunc=E2=80=99 {=
-aka =E2=80=98int
-(*)(struct _GIOChannel *, enum <anonymous>,=C2=A0 void *)=E2=80=99} to =E2=
-=80=98gboolean
-(*)(void *)=E2=80=99 {aka =E2=80=98int (*)(void *)=E2=80=99} [-Wcast-func=
-tion-type]
-/home/debian/src/github/qemu/qemu/chardev/char-io.c:92:20: warning: cast
-between incompatible function types from =E2=80=98QIOChannelFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *)=E2=80=99} to =E2=
-=80=98gboolean
-(*)(void *)=E2=80=99 {aka =E2=80=98int (*)(void *)=E2=80=99} [-Wcast-func=
-tion-type]
-/home/debian/src/github/qemu/qemu/chardev/char-socket.c:606:42: warning:
-cast between incompatible function types from =E2=80=98gboolean (*)(QIOCh=
-annel
-*, GIOCondition,=C2=A0 void *)=E2=80=99 {aka =E2=80=98int (*)(struct QIOC=
-hannel *, enum
-<anonymous>,=C2=A0 void *)=E2=80=99} to =E2=80=98gboolean (*)(void *)=E2=80=
-=99 {aka =E2=80=98int (*)(void
-*)=E2=80=99} [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/contrib/libvhost-user/libvhost-user-gli=
-b.c:59:6:
-warning: cast between incompatible function types from =E2=80=98GSourceFu=
-nc=E2=80=99
-{aka =E2=80=98int (*)(void *)=E2=80=99} to =E2=80=98void (*)(VuDev *, int=
-,=C2=A0 void *)=E2=80=99 {aka =E2=80=98void
-(*)(struct VuDev *, int,=C2=A0 void *)=E2=80=99} [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/contrib/libvhost-user/libvhost-user-gli=
-b.c:85:33:
-warning: cast between incompatible function types from =E2=80=98vu_watch_=
-cb=E2=80=99
-{aka =E2=80=98void (*)(struct VuDev *, int,=C2=A0 void *)=E2=80=99} to =E2=
-=80=98gboolean (*)(void *)=E2=80=99
-{aka =E2=80=98int (*)(void *)=E2=80=99} [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/channel-buffer.c:182:27: warning:
-cast between incompatible function types from =E2=80=98GSourceFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(void *)=E2=80=99} to =E2=80=98gboolean (*)(QIOChannel *, GIOCondition=
-,=C2=A0 void *)=E2=80=99
-{aka =E2=80=98int (*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *=
-)=E2=80=99}
-[-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/channel.c:315:35: warning: cast
-between incompatible function types from =E2=80=98QIOChannelFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *)=E2=80=99} to =E2=
-=80=98gboolean
-(*)(void *)=E2=80=99 {aka =E2=80=98int (*)(void *)=E2=80=99} [-Wcast-func=
-tion-type]
-/home/debian/src/github/qemu/qemu/io/channel.c:507:27: warning: cast
-between incompatible function types from =E2=80=98gboolean (*)(QIOChannel=
- *,
-GIOCondition,=C2=A0 void *)=E2=80=99 {aka =E2=80=98int (*)(struct QIOChan=
-nel *, enum
-<anonymous>,=C2=A0 void *)=E2=80=99} to =E2=80=98gboolean (*)(void *)=E2=80=
-=99 {aka =E2=80=98int (*)(void
-*)=E2=80=99} [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/channel-watch.c:216:27: warning:
-cast between incompatible function types from =E2=80=98GSourceFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(void *)=E2=80=99} to =E2=80=98gboolean (*)(QIOChannel *, GIOCondition=
-,=C2=A0 void *)=E2=80=99
-{aka =E2=80=98int (*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *=
-)=E2=80=99}
-[-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/channel-watch.c:81:27: warning:
-cast between incompatible function types from =E2=80=98GSourceFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(void *)=E2=80=99} to =E2=80=98gboolean (*)(QIOChannel *, GIOCondition=
-,=C2=A0 void *)=E2=80=99
-{aka =E2=80=98int (*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *=
-)=E2=80=99}
-[-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/channel-websock.c:1258:27: warning:
-cast between incompatible function types from =E2=80=98GSourceFunc=E2=80=99=
- {aka =E2=80=98int
-(*)(void *)=E2=80=99} to =E2=80=98gboolean (*)(QIOChannel *, GIOCondition=
-,=C2=A0 void *)=E2=80=99
-{aka =E2=80=98int (*)(struct QIOChannel *, enum <anonymous>,=C2=A0 void *=
-)=E2=80=99}
-[-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/io/net-listener.c:236:31: warning:
-cast between incompatible function types from =E2=80=98gboolean (*)(QIOCh=
-annel
-*, GIOCondition,=C2=A0 void *)=E2=80=99 {aka =E2=80=98int (*)(struct QIOC=
-hannel *, enum
-<anonymous>,=C2=A0 void *)=E2=80=99} to =E2=80=98gboolean (*)(void *)=E2=80=
-=99 {aka =E2=80=98int (*)(void
-*)=E2=80=99} [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:2850:16:
-warning: cast between incompatible function types from =E2=80=98void (*)(=
-struct
-TCGv_ptr_d *, struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_i32_d *)=E2=80=99 to =E2=80=98void (*)(struct TCGv_ptr_d *, struct T=
-CGv_ptr_d *,
-struct TCGv_ptr_d *)=E2=80=99 [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:2850:16:
-warning: cast between incompatible function types from =E2=80=98void (*)(=
-struct
-TCGv_ptr_d *, struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_i64_d *)=E2=80=99 to =E2=80=98void (*)(struct TCGv_ptr_d *, struct T=
-CGv_ptr_d *,
-struct TCGv_ptr_d *)=E2=80=99 [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:2851:16:
-warning: cast between incompatible function types from =E2=80=98void (*)(=
-struct
-TCGv_ptr_d *, struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_i32_d *)=E2=80=99 to =E2=80=98void (*)(struct TCGv_ptr_d *, struct T=
-CGv_ptr_d *,
-struct TCGv_ptr_d *)=E2=80=99 [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:2851:16:
-warning: cast between incompatible function types from =E2=80=98void (*)(=
-struct
-TCGv_ptr_d *, struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_i64_d *)=E2=80=99 to =E2=80=98void (*)(struct TCGv_ptr_d *, struct T=
-CGv_ptr_d *,
-struct TCGv_ptr_d *)=E2=80=99 [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:4469:27:
-warning: cast between incompatible function types from =E2=80=98SSEFunc_0=
-_epp=E2=80=99
-{aka =E2=80=98void (*)(struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_ptr_d *)=E2=80=99} to =E2=80=98void (*)(struct TCGv_ptr_d *, struct =
-TCGv_ptr_d *,
-struct TCGv_ptr_d *, struct TCGv_i32_d *)=E2=80=99 [-Wcast-function-type]
-/home/debian/src/github/qemu/qemu/target/i386/translate.c:4469:27:
-warning: cast between incompatible function types from =E2=80=98SSEFunc_0=
-_epp=E2=80=99
-{aka =E2=80=98void (*)(struct TCGv_ptr_d *, struct TCGv_ptr_d *, struct
-TCGv_ptr_d *)=E2=80=99} to =E2=80=98void (*)(struct TCGv_ptr_d *, struct =
-TCGv_ptr_d *,
-struct TCGv_ptr_d *, struct TCGv_i64_d *)=E2=80=99 [-Wcast-function-type]
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0jMWUACgkQ9AfbAGHV
+z0AC+Qf/WQMC92G/ftD/Hs/bRJDFldpaXYASzXt7vEXrAnK1S3JQq2xiNaAkrG2R
+xGM/DfDHmtUTuT6E4jytLuJz7aS+BHG7QWeoa6y/pzZhTDawX4xc4TFiVtyRnpah
+vEKCdhdqDod5B62SV536BBWF055mDKvOQ4p1/r0StPuyPGJ914by4mDYcpQfoaov
+zM/MRCZV0Dft7IdDc6yt6deHrHDLZKOoRBn3g4jh65MgdF2G+eAGz/qNVewOfthI
+z39B0zQtO6rDvxeURcuil7AqjqlvLPM+LHGAQe9WE+uny8w+N5LvXcHI32gy4Mp3
+37UWSR3VQU1kS6U/KxzfIQCB7WRdag==
+=tKck
+-----END PGP SIGNATURE-----
 
-Daniel, here is one possible fix (I am not sure how important that is):
-
-diff --git a/crypto/hash-nettle.c b/crypto/hash-nettle.c
-index 96f186f442..074cece468 100644
---- a/crypto/hash-nettle.c
-+++ b/crypto/hash-nettle.c
-@@ -28,10 +28,10 @@
-=C2=A0
-=C2=A0typedef void (*qcrypto_nettle_init)(void *ctx);
-=C2=A0typedef void (*qcrypto_nettle_write)(void *ctx,
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uns=
-igned int len,
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 siz=
-e_t len,
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-const uint8_t *buf);
-=C2=A0typedef void (*qcrypto_nettle_result)(void *ctx,
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- unsigned int len,
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- size_t len,
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 uint8_t *buf);
-
-Regards
-Stefan
+--05dYt25Bbf5K1AHEHhZzLkiLlAPalM0UN--
 
