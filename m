@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DD562AA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 22:59:15 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C934562930
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 21:22:15 +0200 (CEST)
+Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkajC-0007i7-Vx
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 16:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36147)
+	id 1hkZDK-0005qH-R5
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 15:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkZGf-0003Qp-0H
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:42 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hkZBV-0004T5-7l
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:20:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkZGd-0005Sm-4N
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56004)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkZGc-0005SD-Ue
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:25:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkZGb-0002nH-LI
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 19:25:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9ED972E80C7
- for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 19:25:37 +0000 (UTC)
+ (envelope-from <kwankhede@nvidia.com>) id 1hkZBT-0002Lh-7n
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:20:21 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:6460)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1hkZBL-0002FF-P2
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 15:20:16 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d2397640001>; Mon, 08 Jul 2019 12:20:04 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 08 Jul 2019 12:20:06 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 08 Jul 2019 12:20:06 -0700
+Received: from HQMAIL108.nvidia.com (172.18.146.13) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 8 Jul
+ 2019 19:20:05 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 8 Jul 2019 19:19:59 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Date: Tue, 9 Jul 2019 00:47:19 +0530
+Message-ID: <1562613452-24969-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jul 2019 19:15:56 -0000
-From: shacknetisp <shacknetisp@hotmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: shacknetisp
-X-Launchpad-Bug-Reporter: shacknetisp (shacknetisp)
-X-Launchpad-Bug-Modifier: shacknetisp (shacknetisp)
-Message-Id: <156261335686.24679.15455554757536791509.malonedeb@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 995ce5da9a40e7379afdaf7f912602d5b8246fe8
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Mon, 08 Jul 2019 16:58:03 -0400
-Subject: [Qemu-devel] [Bug 1835827] [NEW] HTIF symbols no longer recognized
- by RISC-V spike board
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1562613604; bh=zBVpX9Xq34EYdQxebDD5X/GA9qHF/JijG14LqrJfwME=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=FTYr2xd7LCCrZAjN+YRBTXJdTG5Ov7S/D+kqSkZRkASE+9h4I1vcJ+oUced4xaypf
+ Fcox2IpzR95+NmRhZXUK3v2DkFJ6D2lYNTGzlXkFuZ9/IRYyX5X9n3ooOySi/kpTGM
+ RgJDKulEACfIASBtu3B+NOXUQCQagN4u8Zb6yynTAcW/2hsXnrclA3GShmrfdAEvps
+ jZYM03oWe6EQ1l62ljbVcOI7KHaFmfXdhcne6597Usnvl31YdQgHrQIFREdjoJQXtl
+ a5SY30dqph4+gMyhiOE+lvdcf562nnja0L0xU9jOGkUyVhHn0+CqxJ++dbBOvfsOI8
+ 1WVTliI9WJiiA==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.65
+Subject: [Qemu-devel] [PATCH v5 00/13] Add migration support for VFIO device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,42 +67,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835827 <1835827@bugs.launchpad.net>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Add migration support for VFIO device
 
-Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
+This Patch set include patches as below:
+- Define KABI for VFIO device for migration support.
+- Added save and restore functions for PCI configuration space
+- Generic migration functionality for VFIO device.
+  * This patch set adds functionality only for PCI devices, but can be
+    extended to other VFIO devices.
+  * Added all the basic functions required for pre-copy, stop-and-copy and
+    resume phases of migration.
+  * Added state change notifier and from that notifier function, VFIO
+    device's state changed is conveyed to VFIO device driver.
+  * During save setup phase and resume/load setup phase, migration region
+    is queried and is used to read/write VFIO device data.
+  * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+    functionality of iteration during pre-copy phase.
+  * In .save_live_complete_precopy, that is in stop-and-copy phase,
+    iteration to read data from VFIO device driver is implemented till pending
+    bytes returned by driver are not zero.
+  * Added function to get dirty pages bitmap for the pages which are used by
+    driver.
+- Add vfio_listerner_log_sync to mark dirty pages.
+- Make VFIO PCI device migration capable. If migration region is not provided by
+  driver, migration is blocked.
 
-I belive this was introduced in 0ac24d56c5e7d32423ea78ac58a06b444d1df04d
-when the spike's load_kernel() was moved to riscv_load_kernel() which no
-longer included htif_symbol_callback().
+Below is the flow of state change for live migration where states in brackets
+represent VM state, migration state and VFIO device state as:
+    (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Live migration save path:
+        QEMU normal running state
+        (RUNNING, _NONE, _RUNNING)
+                        |
+    migrate_init spawns migration_thread.
+    (RUNNING, _SETUP, _RUNNING|_SAVING)
+    Migration thread then calls each device's .save_setup()
+                        |
+    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+    If device is active, get pending bytes by .save_live_pending()
+    if pending bytes >= threshold_size,  call save_live_iterate()
+    Data of VFIO device for pre-copy phase is copied.
+    Iterate till pending bytes converge and are less than threshold
+                        |
+    On migration completion, vCPUs stops and calls .save_live_complete_precopy
+    for each active device. VFIO device is then transitioned in
+     _SAVING state.
+    (FINISH_MIGRATE, _DEVICE, _SAVING)
+    For VFIO device, iterate in  .save_live_complete_precopy  until
+    pending data is 0.
+    (FINISH_MIGRATE, _DEVICE, _STOPPED)
+                        |
+    (FINISH_MIGRATE, _COMPLETED, STOPPED)
+    Migraton thread schedule cleanup bottom half and exit
 
--- =
+Live migration resume path:
+    Incomming migration calls .load_setup for each device
+    (RESTORE_VM, _ACTIVE, STOPPED)
+                        |
+    For each device, .load_state is called for that device section data
+                        |
+    At the end, called .load_cleanup for each device and vCPUs are started.
+                        |
+        (RUNNING, _NONE, _RUNNING)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835827
+Note that:
+- Migration post copy is not supported.
 
-Title:
-  HTIF symbols no longer recognized by RISC-V spike board
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of structure
+  vfio_device_migration_info to be followed based on Alex's suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
 
-Status in QEMU:
-  New
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration, that
+  is removed assumption that data will be till end of migration region.
+- If vendor driver supports mappable sparsed region, map those region during
+  setup state of save/load, similarly unmap those from cleanup routines.
+- Handles race condition that causes data corruption in migration region during
+  save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Splitted into multiple functional patches.
 
-Bug description:
-  Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined action
+  on read and write access on its members.
 
-  I belive this was introduced in
-  0ac24d56c5e7d32423ea78ac58a06b444d1df04d when the spike's
-  load_kernel() was moved to riscv_load_kernel() which no longer
-  included htif_symbol_callback().
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with region
+  type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed at 0th
+  offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section of the
+  region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested pages
+  are copied.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835827/+subscriptions
+Thanks,
+Kirti
+
+Kirti Wankhede (13):
+  vfio: KABI for migration interface
+  vfio: Add function to unmap VFIO region
+  vfio: Add vfio_get_object callback to VFIODeviceOps
+  vfio: Add save and load functions for VFIO PCI devices
+  vfio: Add migration region initialization and finalize function
+  vfio: Add VM state change handler to know state of VM
+  vfio: Add migration state change notifier
+  vfio: Register SaveVMHandlers for VFIO device
+  vfio: Add save state functions to SaveVMHandlers
+  vfio: Add load state functions to SaveVMHandlers
+  vfio: Add function to get dirty page list
+  vfio: Add vfio_listerner_log_sync to mark dirty pages
+  vfio: Make vfio-pci device migration capable.
+
+ hw/vfio/Makefile.objs         |   2 +-
+ hw/vfio/common.c              |  55 +++
+ hw/vfio/migration.c           | 874 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c                 | 137 ++++++-
+ hw/vfio/trace-events          |  19 +
+ include/hw/vfio/vfio-common.h |  25 ++
+ linux-headers/linux/vfio.h    | 166 ++++++++
+ 7 files changed, 1271 insertions(+), 7 deletions(-)
+ create mode 100644 hw/vfio/migration.c
+
+-- 
+2.7.0
+
 
