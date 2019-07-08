@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B0B62AA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 22:54:44 +0200 (CEST)
-Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3E662AB0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 23:12:10 +0200 (CEST)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkaeq-0005mE-7M
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 16:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56592)
+	id 1hkavh-00046F-Io
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 17:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60400)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hkae3-0005KM-OC
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 16:53:56 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkauT-0003NU-09
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 17:10:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hkae2-0008Pm-I6
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 16:53:55 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34071)
+ (envelope-from <bounces@canonical.com>) id 1hkauR-0000W5-VB
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 17:10:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hkae2-0008Oq-Af; Mon, 08 Jul 2019 16:53:54 -0400
-Received: by mail-lf1-x141.google.com with SMTP id b29so11909691lfq.1;
- Mon, 08 Jul 2019 13:53:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xNJdLUDck8N9rbAuIyFgiog/r0oXVAnMf289PEsEveo=;
- b=ZFcFxu0A6CFFdXyMSYXszvSKQEC4F6z4B1lO9Ppiwl8uVruxwaqIeedovwYy9NDwXY
- Qr/rN10312vkO9aykNxla35kH1TD3EFVfW64M2kJENbVSHnYqvTFqr6UtfBc6g0OxamB
- Gs2oDIKKExvihq+1G0AXrBPyBYmd97WnmvInMAWXHCm8aIxhm2QyBAcWuj/E24vHerZF
- Ags0buF03ozRPeLYJeJ7GbQqij/hYux7e0ByncsOvwUXi0mky8HIfPVk4woYvpgVnLhF
- OSUTiYJu9IL/DlWhGOlrsXCfBuAlnRVEYXtQqxQKy6AiNRAdqnHO181PDJLKRaJrEhd6
- dGBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xNJdLUDck8N9rbAuIyFgiog/r0oXVAnMf289PEsEveo=;
- b=i7s4/PrDrtPVoKZjxmnAR4mPHmMvcmmKyhYYPjKRtvPRwsbsfjVbJ5rF/9sc3xZp8V
- eyKSaxCAwXJ/hqu9sX9ZZFzLois+rv+NAgaxw3m095khmJKYpL7haDLokVIuO6NvW6RO
- lfGSFFpAmAnzSlNWdMPPcdR/kP7ijsEzU6X1vUAWaCqEmhWqQ5BUULfHirXvlKsup3OL
- DMsjEbX8arN3ujKWp9iPweO1I0k3EFulUPaAPuCsf0B9b2sUeIqQZP+1/J8sgfsQAIY4
- eyi4182NiW0iAt40SsWHDMZlG4p3fbD/HhyvQeiAu0Uu3gTEKdQXEa4p3j/j4n4gyUdg
- SrnA==
-X-Gm-Message-State: APjAAAVtqjr9iEwjrFP7RrUM+4mpsi2H0L1/ubHeNRCXIjDxRBGqRdw3
- 7VIEEKIaVST7LJq0wkeU9we/CRnXxHiM6re2Kx0=
-X-Google-Smtp-Source: APXvYqzA+QhzXF/x/NjBw9Nj5ay/KPe0X8lbf7hUr63Gnh3Teal5BBP9wMpXNIoymlfQqiCAV9rEZWkNpdRB3L5djOk=
-X-Received: by 2002:a19:6a01:: with SMTP id u1mr9466275lfu.141.1562619231633; 
- Mon, 08 Jul 2019 13:53:51 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkauR-0000VJ-80
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 17:10:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkauP-0000A5-8g
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 21:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2A1F02E80C7
+ for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 21:10:49 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190705154639.16591-1-philmd@redhat.com>
- <20190705154639.16591-6-philmd@redhat.com>
-In-Reply-To: <20190705154639.16591-6-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 Jul 2019 13:50:43 -0700
-Message-ID: <CAKmqyKPoM+=0+pa6mG6mE4JVz99dDpnx0cciYfOvYWgpBTtXWg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH v3 5/9] hw/block/pflash_cfi01: Add the
- DeviceReset() handler
+Date: Mon, 08 Jul 2019 21:02:54 -0000
+From: Alistair Francis <alistair@alistair23.me>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 shacknetisp
+X-Launchpad-Bug-Reporter: shacknetisp (shacknetisp)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <156261335686.24679.15455554757536791509.malonedeb@soybean.canonical.com>
+Message-Id: <156261977490.24530.10266320590607056352.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 416477eda7c256e755e0c5d53322319ac5e45074
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1835827] Re: HTIF symbols no longer recognized by
+ RISC-V spike board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,95 +64,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- John Snow <jsnow@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Laszlo Ersek <lersek@redhat.com>
+Reply-To: Bug 1835827 <1835827@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 5, 2019 at 8:51 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> A "system reset" sets the device state machine in READ_ARRAY mode
-> and, after some delay, set the SR.7 READY bit.
->
-> We do not model timings, so we set the SR.7 bit directly.
->
-> The TYPE_DEVICE interface provides a DeviceReset handler.
-> This pflash device is a subclass of TYPE_SYS_BUS_DEVICE (which
-> is a subclass of TYPE_DEVICE).
-> SYS_BUS devices are automatically plugged into the 'main system
-> bus', which is the root of the qbus tree.
-> Devices in the qbus tree are guaranteed to have their reset()
-> handler called after realize() and before we try to run the guest.
->
-> To avoid incoherent states when the machine resets (see but report
-> below), factor out the reset code into pflash_cfi01_system_reset,
-> and register the method as a device reset callback.
->
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> Reviewed-by: John Snow <jsnow@redhat.com>
-> Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I think you are right. Would you like to write a patch to fix the issue?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+-- =
 
-Alistair
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835827
 
-> ---
-> v3: reword description
-> ---
->  hw/block/pflash_cfi01.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 200bfd0ab8..c32c67d01d 100644
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -762,8 +762,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
-ror **errp)
->          pfl->max_device_width =3D pfl->device_width;
->      }
->
-> -    pflash_mode_read_array(pfl);
-> -    pfl->status =3D 0x80; /* WSM ready */
->      /* Hardcoded CFI table */
->      /* Standard "QRY" string */
->      pfl->cfi_table[0x10] =3D 'Q';
-> @@ -851,6 +849,18 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
-rror **errp)
->      pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
->  }
->
-> +static void pflash_cfi01_system_reset(DeviceState *dev)
-> +{
-> +    PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
-> +
-> +    pflash_mode_read_array(pfl);
-> +    /*
-> +     * The WSM ready timer occurs at most 150ns after system reset.
-> +     * This model deliberately ignores this delay.
-> +     */
-> +    pfl->status =3D 0x80;
-> +}
-> +
->  static Property pflash_cfi01_properties[] =3D {
->      DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
->      /* num-blocks is the number of blocks actually visible to the guest,
-> @@ -895,6 +905,7 @@ static void pflash_cfi01_class_init(ObjectClass *klas=
-s, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->
-> +    dc->reset =3D pflash_cfi01_system_reset;
->      dc->realize =3D pflash_cfi01_realize;
->      dc->props =3D pflash_cfi01_properties;
->      dc->vmsd =3D &vmstate_pflash;
-> --
-> 2.20.1
->
->
+Title:
+  HTIF symbols no longer recognized by RISC-V spike board
+
+Status in QEMU:
+  New
+
+Bug description:
+  Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
+
+  I belive this was introduced in
+  0ac24d56c5e7d32423ea78ac58a06b444d1df04d when the spike's
+  load_kernel() was moved to riscv_load_kernel() which no longer
+  included htif_symbol_callback().
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835827/+subscriptions
 
