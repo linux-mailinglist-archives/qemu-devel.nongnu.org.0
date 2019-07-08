@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F26A61C66
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 11:28:00 +0200 (CEST)
-Received: from localhost ([::1]:39744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37E361C78
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 Jul 2019 11:36:48 +0200 (CEST)
+Received: from localhost ([::1]:39800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkPwF-0008Na-9k
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 05:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
+	id 1hkQ4m-0004K7-0z
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 05:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47860)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hkPug-0007OD-6S
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:26:23 -0400
+ (envelope-from <pizhenwei@bytedance.com>) id 1hkQ0w-0000s7-N5
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:32:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hkPue-0001dd-G4
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:26:22 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:41215)
+ (envelope-from <pizhenwei@bytedance.com>) id 1hkQ0u-00054i-Kz
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:32:50 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38714)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hkPud-0001cP-T9
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:26:20 -0400
-Received: by mail-ot1-x333.google.com with SMTP id o101so15492576ota.8
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 02:26:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X8q78jn6JanoTAhsBQyowuRiRowJqQ9lzD7506F5mx8=;
- b=U/EI+C9VnD/7+fP3PpoU+tu1Ci3lSJkcPrRYdKPQJVwNPSQwnpsh+2wKhB9O+C1y5E
- tQaKPMGFAy4y+5ARR95RJy6Vq6OnC66FGVtWxo9h8yhCy7S0btFIQFxWxebyzZlz0T/8
- yyqlxqSunioZRXfy5CAHBijLIg0iHE0Ylb/3UY/Yq3x2DJ88Vm0BJBqTAqJHzQKzWHgv
- uqZ7nEl3VHNXXNP6sKyWmqitPQ6+nvV0WFS9JqJZqtlnRUDkOINq/KQLsY6zRSABlvw9
- WwPuK7s214sl46nVZoXD39ze1vw3Pt5DYpvzE7BP3LUBclA8XUizciqG3PGbdmQ94eou
- ZtNw==
+ (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
+ id 1hkQ0s-0004tS-Lb
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 05:32:48 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id y15so7307206pfn.5
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 02:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=9b9kg0vnquUdQTshbTUU30MRkKJ6BAHt/Fak/mTer0k=;
+ b=ywHttSfm4q2kcyJ1Kp0isTz/VR5XxsbfxuvWwxEWXDfLwmYSr5UA2px7FW+N7gCuEA
+ NmV6CSNgr03it17fgNJZC9FlmL8ax5cz27/GPjXwNAU6l1Sl+zfDetlMLoDhP4qhY/RJ
+ Fcq6dijBfhA2jKykAEu6S1ybld5SKXZwEItlDfr42WV9Js9vhPn+tkSboSbgLluNLIxB
+ zO8iUcZbjUAHLLfXD6wlanJ4DzrEGMTOKdQrWUxjzarY18qM+JFnm9DPWzySB89+Iwe7
+ rh9Tr/Y3FrLTnLEhxVYuaoERhh5YbM6aZd+1oqmI8jUN0qibPnqFFSeMOB9Ozf7w19HJ
+ apvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X8q78jn6JanoTAhsBQyowuRiRowJqQ9lzD7506F5mx8=;
- b=T5piAeU6L8X6bAZcDuz/hSZ+Cj/KY9hfPiGtPaTA/I88taNRFPK/F2QAlwKaciKzw8
- /xm9MINj6GPlTw9JrD0j9343lHdo06xncPQ4WT0wc/9MkGMqle7hixyH4RJiuydi3+p6
- u9TwpZHXJoUdRNLAO5dxPoZwoxyX91K1ZJQg8t5z5rpqIJ7RKpJw8eZg7EBi0+wpSh1Y
- cYchYMAXXGTR07H3gX84nxMwZdbgl1/bNxC6zuoHZkPuMIBPIOWePr2bEn7ihVlHi9C7
- MeOg28zL/RivEuOfcBTmGIZvltH3su6k8M/jsWjujeJJLbKqCW6JEC/J4HlZVij1S52V
- erpw==
-X-Gm-Message-State: APjAAAWrm45xm5zW743n7lz4e8Q4nzkw3FmiEQ6R5+lH/PO6+VRQhigM
- mayAe6Rpn0UwBVmU8BEND3WEv8OrOCBQ/ru9pXPqKg==
-X-Google-Smtp-Source: APXvYqzyaAD6/YjAwUZaVCZtqaKxfteH1ub2EYUgSm00DLy0CG9c3nzlR+Mn4SjEt/ICoLFL+xao1RBi9/F1AfEw8Xc=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr13123122otk.221.1562577976631; 
- Mon, 08 Jul 2019 02:26:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190705221504.25166-1-ehabkost@redhat.com>
-In-Reply-To: <20190705221504.25166-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 8 Jul 2019 10:26:05 +0100
-Message-ID: <CAFEAcA-sJ0VDvxUgWO6H6E1kgCU8RVrygcJYpbk_341wwW+H2A@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=9b9kg0vnquUdQTshbTUU30MRkKJ6BAHt/Fak/mTer0k=;
+ b=WeNnubHExXOXwtGEMFOYDLXwGbje3vsWjAZXhwfbGmnJzt+tzubjh1aGZY3S+I+XmZ
+ aqChHqcJ644Hr7Q2XcS71wyLsnkY8pwZepgzI/znrMLHlY+xsm/ssn5psIT/UBqXx/K0
+ IB1N2Kvbapk2WAS698I2r/b1uAWM+Hku1nMgULAKjcUwKpROFiNkdqHRk1/ULYBCor+h
+ rqm6GCZtPgcw0rfnKbTh7x0rmnUMOtPswBSXO1B6qe1IndPm/8i24S0cH9q9Ccj/db9y
+ NWf/WUNipY+14OvuVDj8BZ3qe1Jq3diCIs+5MV4e4548m+oVZvBXq8KXJoCTgmzi9Teo
+ 1psg==
+X-Gm-Message-State: APjAAAU6fP26EkhNBnGV/LLANgKGDG3SZvMJGuIpBRRVRBmwjJ4/8Cub
+ WkK87S5azJpH0Q7alKlaT12gNA==
+X-Google-Smtp-Source: APXvYqw9hQrwJtdxyHHOQnhIX14j0HWIK1bX0gnOTHeM5niy8AnsNRXGacynxsoaFJaeaZAXxxThBA==
+X-Received: by 2002:a63:e953:: with SMTP id q19mr22422824pgj.313.1562578355151; 
+ Mon, 08 Jul 2019 02:32:35 -0700 (PDT)
+Received: from always-ThinkPad-T480.bytedance.net ([61.120.150.76])
+ by smtp.gmail.com with ESMTPSA id q7sm236504pff.2.2019.07.08.02.32.32
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Mon, 08 Jul 2019 02:32:34 -0700 (PDT)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: kwolf@redhat.com,
+	vsementsov@virtuozzo.com,
+	eblake@redhat.com
+Date: Mon,  8 Jul 2019 17:32:26 +0800
+Message-Id: <1562578349-12333-1-git-send-email-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.7.4
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::333
-Subject: Re: [Qemu-devel] [PULL v6 00/42] Machine and x86 queue, 2019-07-05
+X-Received-From: 2607:f8b0:4864:20::42d
+Subject: [Qemu-devel] [PATCH v2 0/3] Add block size histogram qapi interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,67 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, pizhenwei@bytedance.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 5 Jul 2019 at 23:15, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> Changes v5 -> v6:
-> * Rebase and solve conflicts with other pull requests
->   (for the 4th time)
-> * Included Cascadelake-Server-v2 update
->
-> Changes v4 -> v5:
-> * Rebase and solve conflicts with commit 374f63f6810a ("Merge remote-tracking
->   branch 'remotes/armbru/tags/pull-monitor-2019-07-02-v2' into staging")
->
-> Changes v3 -> v4:
-> * Fix ppc64 "make check" failure
->
-> Changes v2 -> v3:
-> * Fix "make check" warnings (Igor Mammedov)
-> * Fix conflicts of "hw/arm: Replace global smp variables with
->   machine smp properties" with recent arm changes (Eduardo Habkost)
-> * x86 versioned CPU models (Eduardo Habkost)
-> * SnowRidge CPU model (Paul Lai)
-> * Add deprecation information to query-machines (Eduardo Habkost)
->
-> Changes v1 -> v2:
-> * Fix s390x build failure
->
-> The following changes since commit d2c5f91ca944aaade642624397e1853801bbc744:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-07-05 16:16:15 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to af135030e3405af5ce234a9f92cf8cc4e55fec96:
->
->   tests: use -numa memdev option in tests instead of legacy 'mem' option (2019-07-05 17:12:45 -0300)
->
-> ----------------------------------------------------------------
-> Machine and x86 queue, 2019-07-05
->
-> * CPU die topology support (Like Xu)
-> * Deprecation of features (Igor Mammedov):
->   * 'mem' parameter of '-numa node' option
->   * implict memory distribution between NUMA nodes
->   * deprecate -mem-path fallback to anonymous RAM
-> * x86 versioned CPU models (Eduardo Habkost)
-> * SnowRidge CPU model (Paul Lai)
-> * Add deprecation information to query-machines (Eduardo Habkost)
-> * Other i386 fixes
->
+Modify command 'block-latency-histogram-set' to make block histogram
+interface common to use. And support block size histogram.
+Thanks to Eric Blake&Vladimir Sementsov-Ogievskiy for the suggestions.
 
+This command has been tested for half year on QEMU-2.12, and we found
+that 3K+ virtual machines write 25GB/s totally, the block size
+histogram like following:
+        0 ~ 8k: 58% ~ 62%
+        8k ~ 32k: 10% ~ 12%
+        32k ~ 128k: 2% ~ 3%
+        128K ~ 512K: 24% ~ 26%
+        512K ~ : ...
 
-Applied, thanks.
+And the histogram data help us to optimise backend distributed
+storage.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+Changelog:
+v2:
+  - make 'block-latency-histogram-set' common.
+  - remove duplicated functions.
+  - fix uncommon indentation(reviewed by Vladimir Sementsov-Ogievskiy).
 
--- PMM
+zhenwei pi (3):
+  block/accounting: rename struct BlockLatencyHistogram
+  block/accounting: introduce block size histogram
+  qapi: make block histogram interface common
+
+ block/accounting.c         |  62 ++++++++++++++++++++--------
+ block/qapi.c               |  32 ++++++++------
+ blockdev.c                 |  33 +++++++++++----
+ include/block/accounting.h |  13 +++---
+ qapi/block-core.json       | 101 +++++++++++++++++++++++++++------------------
+ 5 files changed, 158 insertions(+), 83 deletions(-)
+
+-- 
+2.11.0
+
 
