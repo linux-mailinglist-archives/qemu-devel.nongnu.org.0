@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9428A63BDC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:25:47 +0200 (CEST)
-Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE182640FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 08:12:57 +0200 (CEST)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkvkI-0006bU-R4
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55537)
+	id 1hl5qa-00062W-NG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 02:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37366)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hkvQ4-0007jj-5B
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:54 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hl5pd-0005Vk-3n
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hkvQ1-0001Mx-LC
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:51 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:42076)
+ (envelope-from <richard.henderson@linaro.org>) id 1hl5pb-0007Qo-0C
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:57 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:44652)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hkvPy-0001CX-2z
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:47 -0400
-Received: by mail-io1-xd30.google.com with SMTP id u19so45480097ior.9
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 12:04:41 -0700 (PDT)
+ id 1hl5pa-0007QJ-Qb
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:54 -0400
+Received: by mail-ot1-x334.google.com with SMTP id b7so972600otl.11
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 23:11:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
@@ -39,21 +39,21 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=lf3EnFwJ5D9ZPFimQQP7oOEz9HE97ug8lc33kyMVnFU=;
- b=QmY5adYCF+iAOIG4cyvXX1L8rkD/YL2yzK6NwkGyyDNXpFjR3zIfmm7sTvcJ8WDYfN
- yssTcklIeaAGuAfw5jmwhIR3uzjCnMFhhPm1CcwbKi3t+VPDkPvfSJv12lfkcOyHZP/C
- T/fFxT9FXhvVtC9g4xNPJloUDnifl8ZmuzmMG7zBYY5hXleBbghwxpyU5eD5csSuEKZ8
- EQdMaXVAnNeWtsidBlnozocMyO1+4mT5ywDJDR844JNneFTBgRXgrCJDhcFrF2nbhGWD
- wH3MUx/vitZo64CoOHlNdgW6R1i4CRamqBU9VEChcM9oP9hJ66qo1Y9YKdg6MIR5VDrN
- j7AA==
-X-Gm-Message-State: APjAAAVm67QRxFJznErm/gdpELNfevMgJdM+uXBaOaYNmPtDC3SygkFx
- zCe6Qz3loq94PUuzuKEkTswxwg==
-X-Google-Smtp-Source: APXvYqznpi1PqBwV2vLkODThvTAkdyC/dmVHF1GKzKKGFq6zJoojY1DchoIL9jxy7mp4PWiCSkCxFQ==
-X-Received: by 2002:a02:c916:: with SMTP id t22mr29447803jao.24.1562699078977; 
- Tue, 09 Jul 2019 12:04:38 -0700 (PDT)
-Received: from [192.168.43.94] ([172.56.12.212])
- by smtp.gmail.com with ESMTPSA id q13sm16403348ioh.36.2019.07.09.12.04.28
+ b=XFZL4+OoTHZP036OQKrRb0c1hR0AWf7nSo8ioORuiz9U5yBtqyn+y54z7FCayIhSS5
+ 2QqUnojAC1+JajsNOy87AkGbmh6q/iNOCpRAKI422SZQ2LQ0zqL4EsV5KYuYX0QjGAVg
+ ihZ/TPJT+10JZ6nzOceFTftLMMuix7eftY6sj6NNZtR3tpZWzaPwB12TWQdF7UpFacHA
+ 2/bFbaqiSPzYXNWaC1fqlzTPnAZ40lWDPzFR1MQM7hTLUXa/K3ePonmAvpErDMD7tMls
+ XSG1BGJ5iyU1YTQ/tGC1KH9cxONdJ0h9RFCzT+XZ7FFxGshyJIg9PwuJ4wzEv70Om7c3
+ WARg==
+X-Gm-Message-State: APjAAAVvf7uclDOdnzchNR+uEKjrcqpJDveCinYz+0K9daJ/S9n0OAT6
+ gELXwFXC5EKVUXJIvy/3zBA6mg==
+X-Google-Smtp-Source: APXvYqw/hgtpj8YGDjZMrhXFDMRmz6NenvdvLxOLteHTaZWSqzmm8h77Hy61lcWZweBNwru/9ZgdIQ==
+X-Received: by 2002:a9d:4048:: with SMTP id o8mr22557308oti.217.1562739113544; 
+ Tue, 09 Jul 2019 23:11:53 -0700 (PDT)
+Received: from [192.168.43.94] ([172.56.7.82])
+ by smtp.gmail.com with ESMTPSA id b23sm475374otl.75.2019.07.09.23.11.38
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Jul 2019 12:04:38 -0700 (PDT)
+ Tue, 09 Jul 2019 23:11:53 -0700 (PDT)
 To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
@@ -82,7 +82,7 @@ Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d30
+X-Received-From: 2607:f8b0:4864:20::334
 Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
  gen_exception
 X-BeenThere: qemu-devel@nongnu.org
