@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EF462F36
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:13:32 +0200 (CEST)
-Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109C962F17
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 05:54:53 +0200 (CEST)
+Received: from localhost ([::1]:46452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkhVT-0007ld-6e
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
+	id 1hkhDQ-0006zO-8n
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 23:54:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40729)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwankhede@nvidia.com>) id 1hkhQn-0002Vu-My
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:08:42 -0400
+ (envelope-from <zhexu@redhat.com>) id 1hkfcP-0007We-ET
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:12:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1hkhQk-0003Pm-P1
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:08:39 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:11839)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1hkhQk-0003Op-6V
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:08:38 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d2413280008>; Mon, 08 Jul 2019 21:08:09 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 08 Jul 2019 21:08:10 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 08 Jul 2019 21:08:10 -0700
-Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
- 2019 02:03:13 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 9 Jul 2019 02:03:06 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Tue, 9 Jul 2019 07:29:14 +0530
-Message-ID: <1562637554-22439-14-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1562637554-22439-1-git-send-email-kwankhede@nvidia.com>
-References: <1562637554-22439-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (envelope-from <zhexu@redhat.com>) id 1hkfcO-0001nl-7A
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:12:33 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41169)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hkfcN-0001iI-W6
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:12:32 -0400
+Received: by mail-pl1-f196.google.com with SMTP id m9so5552976pls.8
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 19:12:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=p4fDztI4yK31b1rF1iA4XA0Zx6iti4MMOhx5dDcCLyE=;
+ b=nyLXNMyFA1QY2/4Jq+IRBegAjr0IcXsuzrPRlb0bw2PnktUVerGXVxFQE4no3ZCPQu
+ 2P0H33YmeumCndWIIfA9kG4F/yvxvV+PlSJRwChC1nJjV24DdXpaoSa8K0xT+Kb0ig+g
+ LYaDw97l2uM2OnFUyCasau0fhvThQUHJOODDelH6MeKl+YbFp8MpucaqlAF5AfdA0XRY
+ mDZgMR/wcTyn7uqIHrPPNeSJmkqPvGWj5FLeBmO2/3EuUMThuBQVQB8USZyfGMpKoCt+
+ zJEav2s86yxP9sPTkuJY/ZPjaHOS25XGJPK4MNdy6VlFdxxG1gIuZITmq0u4BaTVFJKY
+ /2ng==
+X-Gm-Message-State: APjAAAU2VoEY3iok8AasCxFsjvTbp7gCFaU6NYBMJKInoBlXWZG4kUyq
+ 7jqwJqULgq8OE2XYhvshI5zVig==
+X-Google-Smtp-Source: APXvYqyDXF+Yj2ZJU2o9g+rr0hX8h4xaruANo3s6o4ynyp6Dm020aqXWZ83GJ+YvwWGkq45XhF1A5A==
+X-Received: by 2002:a17:902:7043:: with SMTP id
+ h3mr29873175plt.10.1562638340979; 
+ Mon, 08 Jul 2019 19:12:20 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id 34sm7144861pgl.15.2019.07.08.19.12.16
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 08 Jul 2019 19:12:20 -0700 (PDT)
+From: Peter Xu <zhexu@redhat.com>
+X-Google-Original-From: Peter Xu <peterx@redhat.com>
+Date: Tue, 9 Jul 2019 10:12:09 +0800
+To: Liu Yi L <yi.l.liu@intel.com>
+Message-ID: <20190709021209.GA5178@xz-x1>
+References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
+ <1562324511-2910-4-git-send-email-yi.l.liu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1562645296; bh=oDXfXH2QKaDnSbDGeApTn7hYtedGL0xz2YwbKpIZ7YQ=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=Hnrrjp0wk6SdJX/6NHmxeiN13Cby44HgAKY6a+IMh6Z+aAC8d5PFtVCwoymLtMYks
- iTz0MervqLRW3kooXvy7h9qgxt+FvGlofQRLxkyBqNg91P8uqGKNC6YVefQN5w7HDB
- LMJ8juz6D6QkaJCUtca6JN2F++KZEIGUnf5i+kno/L8yB20ctmHsuP5OORArtcKpF6
- 5zDnEmlCwMwFBIJEnpia+2T6agJBJelIJCALXVFxZpPdBEE38p0m7nrHXamIIQN+cY
- puSjkJHvCoKSxH+ISq1nUbgpPaBNxDbUTQjkx0x7oWQY2PI5IdXXUtmQohzw6TvIDQ
- GOKYlZYq6Eseg==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.65
-Subject: [Qemu-devel] [PATCH v6 13/13] vfio: Make vfio-pci device migration
- capable.
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1562324511-2910-4-git-send-email-yi.l.liu@intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.214.196
+X-Mailman-Approved-At: Mon, 08 Jul 2019 23:51:52 -0400
+Subject: Re: [Qemu-devel] [RFC v1 03/18] hw/pci: introduce PCIPASIDOps to
+ PCIDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,88 +72,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
- eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
- changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: tianyu.lan@intel.com, kevin.tian@intel.com,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com, yi.y.sun@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call vfio_migration_probe() and vfio_migration_finalize() functions for
-vfio-pci device to enable migration for vfio PCI device.
-Removed vfio_pci_vmstate structure.
+On Fri, Jul 05, 2019 at 07:01:36PM +0800, Liu Yi L wrote:
+> +void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
+> +{
+> +    assert(ops && !dev->pasid_ops);
+> +    dev->pasid_ops = ops;
+> +}
+> +
+> +bool pci_device_is_ops_set(PCIBus *bus, int32_t devfn)
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/pci.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Name should be "pci_device_is_pasid_ops_set".  Or maybe you can simply
+drop this function because as long as you check it in helper functions
+like [1] below always then it seems even unecessary.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 5fe4f8076cac..2ea17a814d55 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2852,6 +2852,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     vdev->vbasedev.ops = &vfio_pci_ops;
-     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
-     vdev->vbasedev.dev = DEVICE(vdev);
-+    vdev->vbasedev.device_state = 0;
- 
-     tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-@@ -3112,6 +3113,12 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
-+    ret = vfio_migration_probe(&vdev->vbasedev, errp);
-+    if (ret) {
-+            error_report("%s: Failed to setup for migration",
-+                         vdev->vbasedev.name);
-+    }
-+
-     vfio_register_err_notifier(vdev);
-     vfio_register_req_notifier(vdev);
-     vfio_setup_resetfn_quirk(vdev);
-@@ -3131,6 +3138,7 @@ static void vfio_instance_finalize(Object *obj)
-     VFIOPCIDevice *vdev = PCI_VFIO(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-+    vdev->vbasedev.device_state = 0;
-     vfio_display_finalize(vdev);
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-@@ -3159,6 +3167,7 @@ static void vfio_exitfn(PCIDevice *pdev)
-     }
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
-+    vfio_migration_finalize(&vdev->vbasedev);
- }
- 
- static void vfio_pci_reset(DeviceState *dev)
-@@ -3267,11 +3276,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static const VMStateDescription vfio_pci_vmstate = {
--    .name = "vfio-pci",
--    .unmigratable = 1,
--};
--
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3279,7 +3283,6 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     dc->props = vfio_pci_dev_properties;
--    dc->vmsd = &vfio_pci_vmstate;
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
+> +{
+> +    PCIDevice *dev;
+> +
+> +    if (!bus) {
+> +        return false;
+> +    }
+> +
+> +    dev = bus->devices[devfn];
+> +    return !!(dev && dev->pasid_ops);
+> +}
+> +
+> +int pci_device_request_pasid_alloc(PCIBus *bus, int32_t devfn,
+> +                                   uint32_t min_pasid, uint32_t max_pasid)
+
+From VT-d spec I see that the virtual command "allocate pasid" does
+not have bdf information so it's global, but here we've got bus/devfn.
+I'm curious is that reserved for ARM or some other arch?
+
+> +{
+> +    PCIDevice *dev;
+> +
+> +    if (!bus) {
+> +        return -1;
+> +    }
+> +
+> +    dev = bus->devices[devfn];
+> +    if (dev && dev->pasid_ops && dev->pasid_ops->alloc_pasid) {
+
+[1]
+
+> +        return dev->pasid_ops->alloc_pasid(bus, devfn, min_pasid, max_pasid);
+> +    }
+> +    return -1;
+> +}
+> +
+> +int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn,
+> +                                  uint32_t pasid)
+> +{
+> +    PCIDevice *dev;
+> +
+> +    if (!bus) {
+> +        return -1;
+> +    }
+> +
+> +    dev = bus->devices[devfn];
+> +    if (dev && dev->pasid_ops && dev->pasid_ops->free_pasid) {
+> +        return dev->pasid_ops->free_pasid(bus, devfn, pasid);
+> +    }
+> +    return -1;
+> +}
+> +
+>  static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+>  {
+>      Range *range = opaque;
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index d082707..16e5b8e 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -262,6 +262,13 @@ struct PCIReqIDCache {
+>  };
+>  typedef struct PCIReqIDCache PCIReqIDCache;
+>  
+> +typedef struct PCIPASIDOps PCIPASIDOps;
+> +struct PCIPASIDOps {
+> +    int (*alloc_pasid)(PCIBus *bus, int32_t devfn,
+> +                         uint32_t min_pasid, uint32_t max_pasid);
+> +    int (*free_pasid)(PCIBus *bus, int32_t devfn, uint32_t pasid);
+> +};
+> +
+>  struct PCIDevice {
+>      DeviceState qdev;
+>  
+> @@ -351,6 +358,7 @@ struct PCIDevice {
+>      MSIVectorUseNotifier msix_vector_use_notifier;
+>      MSIVectorReleaseNotifier msix_vector_release_notifier;
+>      MSIVectorPollNotifier msix_vector_poll_notifier;
+> +    PCIPASIDOps *pasid_ops;
+>  };
+>  
+>  void pci_register_bar(PCIDevice *pci_dev, int region_num,
+> @@ -484,6 +492,12 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void *, int);
+>  AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
+>  void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
+>  
+> +void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops);
+> +bool pci_device_is_ops_set(PCIBus *bus, int32_t devfn);
+> +int pci_device_request_pasid_alloc(PCIBus *bus, int32_t devfn,
+> +                                   uint32_t min_pasid, uint32_t max_pasid);
+> +int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn, uint32_t pasid);
+> +
+>  static inline void
+>  pci_set_byte(uint8_t *config, uint8_t val)
+>  {
+> -- 
+> 2.7.4
+> 
+
+Regards,
+
 -- 
-2.7.0
-
+Peter Xu
 
