@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F316388D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:23:26 +0200 (CEST)
-Received: from localhost ([::1]:51002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E7563899
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:26:43 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkrxl-0003EM-VF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43275)
+	id 1hks0w-0006f9-F6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hkrvT-0001Rv-4e
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:21:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1hkrwQ-0002oh-0v
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:22:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hkrvR-0006xU-7H
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:21:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53016)
+ (envelope-from <philmd@redhat.com>) id 1hkrwO-0007hf-PW
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:22:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50510)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hkrvP-0006va-3C
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:21:01 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hkrwJ-0007cn-UE; Tue, 09 Jul 2019 11:21:56 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3927CC02938A;
- Tue,  9 Jul 2019 15:20:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5F957E481;
- Tue,  9 Jul 2019 15:20:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 692BC1138661; Tue,  9 Jul 2019 17:20:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 17:20:53 +0200
-Message-Id: <20190709152053.16670-3-armbru@redhat.com>
-In-Reply-To: <20190709152053.16670-1-armbru@redhat.com>
-References: <20190709152053.16670-1-armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 350823001473;
+ Tue,  9 Jul 2019 15:21:55 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-166.brq.redhat.com [10.40.204.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21EED8491B;
+ Tue,  9 Jul 2019 15:21:47 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 17:21:44 +0200
+Message-Id: <20190709152145.21308-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 09 Jul 2019 15:20:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 09 Jul 2019 15:21:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] qapi: Move query-target from misc.json to
- machine.json
+Subject: [Qemu-devel] [PULL 0/1] pflash-next patches for hard features freeze
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,219 +54,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move query-target and its return type TargetInfo from misc.json to
-machine.json, where they are covered by MAINTAINERS section "Machine
-core".  Also move its implementation from arch_init.c to
-hw/core/machine-qmp-cmds, where it is likewise covered.
+The following changes since commit a538626aff7c8934ec47bc6ed41cac5bd1b772=
+3c:
 
-All users of SysEmuTarget are now in machine.json.  Move it there from
-common.json.
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190709' into =
+staging (2019-07-09 11:49:26 +0100)
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- arch_init.c                | 11 ---------
- docs/interop/firmware.json |  2 +-
- hw/core/machine-qmp-cmds.c | 10 ++++++++
- qapi/common.json           | 25 --------------------
- qapi/machine.json          | 48 +++++++++++++++++++++++++++++++++++++-
- qapi/misc.json             | 23 ------------------
- 6 files changed, 58 insertions(+), 61 deletions(-)
+are available in the Git repository at:
 
-diff --git a/arch_init.c b/arch_init.c
-index 74b0708634..0a1531124c 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -106,14 +106,3 @@ int xen_available(void)
-     return 0;
- #endif
- }
--
--
--TargetInfo *qmp_query_target(Error **errp)
--{
--    TargetInfo *info =3D g_malloc0(sizeof(*info));
--
--    info->arch =3D qapi_enum_parse(&SysEmuTarget_lookup, TARGET_NAME, -1=
-,
--                                 &error_abort);
--
--    return info;
--}
-diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-index ff8c2ce5f2..8ffb7856d2 100644
---- a/docs/interop/firmware.json
-+++ b/docs/interop/firmware.json
-@@ -13,7 +13,7 @@
- # =3D Firmware
- ##
-=20
--{ 'include' : 'common.json' }
-+{ 'include' : 'machine.json' }
- { 'include' : 'block-core.json' }
-=20
- ##
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 5bd95b8ab0..ac2dd8b56e 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -247,6 +247,16 @@ CurrentMachineParams *qmp_query_current_machine(Erro=
-r **errp)
-     return params;
- }
-=20
-+TargetInfo *qmp_query_target(Error **errp)
-+{
-+    TargetInfo *info =3D g_malloc0(sizeof(*info));
-+
-+    info->arch =3D qapi_enum_parse(&SysEmuTarget_lookup, TARGET_NAME, -1=
-,
-+                                 &error_abort);
-+
-+    return info;
-+}
-+
- HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
- {
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-diff --git a/qapi/common.json b/qapi/common.json
-index 99d313ef3b..3083e7005b 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -168,28 +168,3 @@
- ##
- { 'enum': 'PCIELinkWidth',
-   'data': [ '1', '2', '4', '8', '12', '16', '32' ] }
--
--##
--# @SysEmuTarget:
--#
--# The comprehensive enumeration of QEMU system emulation ("softmmu")
--# targets. Run "./configure --help" in the project root directory, and
--# look for the *-softmmu targets near the "--target-list" option. The
--# individual target constants are not documented here, for the time
--# being.
--#
--# Notes: The resulting QMP strings can be appended to the "qemu-system-"
--#        prefix to produce the corresponding QEMU executable name. This
--#        is true even for "qemu-system-x86_64".
--#
--# ppcemb: dropped in 3.1
--#
--# Since: 3.0
--##
--{ 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
--             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
--             'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
--             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
--             'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
--             'x86_64', 'xtensa', 'xtensaeb' ] }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6db8a7e2ec..de5c742d72 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -7,7 +7,30 @@
- # =3D Machines
- ##
-=20
--{ 'include': 'common.json' }
-+##
-+# @SysEmuTarget:
-+#
-+# The comprehensive enumeration of QEMU system emulation ("softmmu")
-+# targets. Run "./configure --help" in the project root directory, and
-+# look for the *-softmmu targets near the "--target-list" option. The
-+# individual target constants are not documented here, for the time
-+# being.
-+#
-+# Notes: The resulting QMP strings can be appended to the "qemu-system-"
-+#        prefix to produce the corresponding QEMU executable name. This
-+#        is true even for "qemu-system-x86_64".
-+#
-+# ppcemb: dropped in 3.1
-+#
-+# Since: 3.0
-+##
-+{ 'enum' : 'SysEmuTarget',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+             'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-+             'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-+             'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-+             'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
-+             'x86_64', 'xtensa', 'xtensaeb' ] }
-=20
- ##
- # @CpuInfoArch:
-@@ -368,6 +391,29 @@
- ##
- { 'command': 'query-current-machine', 'returns': 'CurrentMachineParams' =
-}
-=20
-+##
-+# @TargetInfo:
-+#
-+# Information describing the QEMU target.
-+#
-+# @arch: the target architecture
-+#
-+# Since: 1.2.0
-+##
-+{ 'struct': 'TargetInfo',
-+  'data': { 'arch': 'SysEmuTarget' } }
-+
-+##
-+# @query-target:
-+#
-+# Return information about the target for this QEMU
-+#
-+# Returns: TargetInfo
-+#
-+# Since: 1.2.0
-+##
-+{ 'command': 'query-target', 'returns': 'TargetInfo' }
-+
- ##
- # @NumaOptionsType:
- #
-diff --git a/qapi/misc.json b/qapi/misc.json
-index a7fba7230c..6bd11f50e6 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1341,29 +1341,6 @@
- ##
- { 'command': 'query-fdsets', 'returns': ['FdsetInfo'] }
-=20
--##
--# @TargetInfo:
--#
--# Information describing the QEMU target.
--#
--# @arch: the target architecture
--#
--# Since: 1.2.0
--##
--{ 'struct': 'TargetInfo',
--  'data': { 'arch': 'SysEmuTarget' } }
--
--##
--# @query-target:
--#
--# Return information about the target for this QEMU
--#
--# Returns: TargetInfo
--#
--# Since: 1.2.0
--##
--{ 'command': 'query-target', 'returns': 'TargetInfo' }
--
- ##
- # @AcpiTableOptions:
- #
+  https://gitlab.com/philmd/qemu.git tags/pflash-next-20190709
+
+for you to fetch changes up to 51500d37700904a0ee1ef775a585d871b36f7060:
+
+  Revert "hw/block/pflash_cfi02: Reduce I/O accesses to 16-bit" (2019-07-=
+09 17:14:39 +0200)
+
+----------------------------------------------------------------
+Restore 32-bit I/O accesses on AMD flashes
+(precautionary revert).
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  Revert "hw/block/pflash_cfi02: Reduce I/O accesses to 16-bit"
+
+ hw/block/pflash_cfi02.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
 --=20
-2.21.0
+2.20.1
 
 
