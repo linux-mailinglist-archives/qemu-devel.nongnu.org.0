@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789856360B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:38:20 +0200 (CEST)
-Received: from localhost ([::1]:49622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B94D6365E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:03:24 +0200 (CEST)
+Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkpNz-0004os-KE
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59518)
+	id 1hkpmF-0000oU-FG
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hkpJ1-0002lP-Bo
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkpkE-0008LF-Ur
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hkpJ0-0004cQ-9l
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36630)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hkpIw-0004ZI-Jq; Tue, 09 Jul 2019 08:33:06 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AB24C30C26A1;
- Tue,  9 Jul 2019 12:33:00 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-166.brq.redhat.com [10.40.204.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E36721001B0F;
- Tue,  9 Jul 2019 12:32:57 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 14:32:40 +0200
-Message-Id: <20190709123240.16298-4-philmd@redhat.com>
-In-Reply-To: <20190709123240.16298-1-philmd@redhat.com>
-References: <20190709123240.16298-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hkpk2-0005D3-2l
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:01:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38576)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkpjs-0004yi-LI
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:00:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkpjm-0006IZ-US
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 13:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E2FE52E80AD
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 13:00:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 09 Jul 2019 12:33:00 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jul 2019 12:51:06 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
+ <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
+ <06bf8be7-c97e-9a42-06c4-82f303dc1a76@physik.fu-berlin.de>
+Message-Id: <3e3ac1b4-dd46-988a-9801-cd1353e81714@vivier.eu>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 15a9e4992ef2801cad836ee3d443c7f4ae81f340
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v6 3/3] hw/ssi/xilinx_spips: Avoid
- out-of-bound access to lqspi_buf[]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
+ reports absolute path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,59 +66,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-stable@nongnu.org,
- Prasad J Pandit <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both lqspi_read() and lqspi_load_cache() expect a 32-bit
-aligned address.
+Le 09/07/2019 =C3=A0 14:12, John Paul Adrian Glaubitz a =C3=A9crit=C2=A0:
+> On 7/9/19 1:54 PM, Laurent Vivier wrote:
+>> ** Patch added: "Enable binfmt-misc preserve-arg[0] flag"
+>>    https://bugs.launchpad.net/qemu/+bug/1835839/+attachment/5275869/+fil=
+es/0001-linux-user-manage-binfmt-misc-preserve-arg-0-flags.patch
+> =
 
-From UG1085 datasheet [*] chapter on 'Quad-SPI Controller':
+> Thanks! I just tried the patch and ran the setup script with:
+> =
 
-  Transfer Size Limitations
+> ./scripts/qemu-binfmt-conf.sh --debian --qemu-path=3D/usr/bin --qemu-
+> suffix=3D-static --preserve-arg0 yes
+> =
 
-    Because of the 32-bit wide TX, RX, and generic FIFO, all
-    APB/AXI transfers must be an integer multiple of 4-bytes.
-    Shorter transfers are not possible.
+> and:
+> =
 
-Set MemoryRegionOps.impl values to force 32-bit accesses,
-this way we are sure we do not access the lqspi_buf[] array
-out of bound.
+> root@nofan:~/qemu> systemctl restart binfmt-support.service =
 
-[*] https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-=
-ultrascale-trm.pdf
+> root@nofan:~/qemu>
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v6: fix datasheet reference
-v5: add datasheet reference, drop RFC prefix, fix build (Francisco)
----
- hw/ssi/xilinx_spips.c | 4 ++++
- 1 file changed, 4 insertions(+)
+if you use systemctl, the parameter of "./scripts/qemu-binfmt-conf.sh"
+must be "--systemd m68k" rather than "--debian".
 
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 3c4e8365ee..b29e0a4a89 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -1239,6 +1239,10 @@ static const MemoryRegionOps lqspi_ops =3D {
-     .read_with_attrs =3D lqspi_read,
-     .write_with_attrs =3D lqspi_write,
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .impl =3D {
-+        .min_access_size =3D 4,
-+        .max_access_size =3D 4,
-+    },
-     .valid =3D {
-         .min_access_size =3D 1,
-         .max_access_size =3D 4
---=20
-2.20.1
+> =
 
+> But still don't get the correct path:
+> =
+
+> (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
+> /bin/sh
+> (sid-m68k-sbuild)root@nofan:/#
+
+Well, I've tested that, and it should work...
+
+Thanks,
+LAurent
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835839
+
+Title:
+  qemu-user: $0 incorrectly always reports absolute path
+
+Status in QEMU:
+  New
+
+Bug description:
+  We just ran into an issue with the Perl package on Debian/m68k when
+  being built with qemu-user [1].
+
+  The problem can be boiled down to qemu-user always reporting absolute
+  paths for the shell variable $0 no matter on how the command was
+  invoked.
+
+  A simple reproducer is this:
+
+  On normal system (no emulation):
+
+  root@nofan:~> sh -c 'echo $0'
+  sh
+  root@nofan:~>
+
+  On qemu-user:
+
+  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
+  /bin/sh
+  (sid-m68k-sbuild)root@nofan:/#
+
+  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
 
