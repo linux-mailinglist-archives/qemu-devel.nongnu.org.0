@@ -2,46 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D85B638C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:37:45 +0200 (CEST)
-Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F066389F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:30:08 +0200 (CEST)
+Received: from localhost ([::1]:51090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hksBX-0001TT-89
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47226)
+	id 1hks4F-00033c-10
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44472)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hks9m-00006z-IM
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:52 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hks09-0006S4-1i
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hks9k-0005is-Je
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46022)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hks9g-0005gx-Tc
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hks9e-0002LA-PS
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 15:35:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BC9D32E80C7
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 15:35:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jul 2019 15:25:46 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+ (envelope-from <laurent@vivier.eu>) id 1hks08-0000sq-0Z
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:25:52 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:47211)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hks07-0000rd-Nm
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:25:51 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mq2Wi-1iG1wP2rGE-00n98V; Tue, 09 Jul 2019 17:25:47 +0200
+To: Bug 1835839 <1835839@bugs.launchpad.net>, qemu-devel@nongnu.org
 References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
  <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
  <06bf8be7-c97e-9a42-06c4-82f303dc1a76@physik.fu-berlin.de>
@@ -49,19 +31,82 @@ References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.c
  <b88a6279-8e7a-32b6-4fc1-98be496aaaf0@physik.fu-berlin.de>
  <30e7b9fe-a99d-a83c-e4b6-7021a076332d@vivier.eu>
  <0211fabd-65fe-f6b0-00b9-1f0969e4bc1c@physik.fu-berlin.de>
-Message-Id: <4b359373-608c-d4a4-c9ac-e2a3af840b21@vivier.eu>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: c9733dfe4db99945e7a7f550e163c1bdcee0311b
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4b359373-608c-d4a4-c9ac-e2a3af840b21@vivier.eu>
+Date: Tue, 9 Jul 2019 17:25:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <0211fabd-65fe-f6b0-00b9-1f0969e4bc1c@physik.fu-berlin.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XCNSPOM1g9k9M+kfpbemTFHTX89HqvwzHov+AVjqLMDgxyxuxKX
+ iY/fdjOdIo8HvQHmi3ALAh9u09gtwmQvedu2L2P+DhXOjleNSnJ1ppomP0ussBNUS89niyK
+ A3EZYRl/xY2WlHi3GAHfPldurw539DMoeyqOAi7bgyE2uUw8LH3brvjC9NmD64NvyLtzZNT
+ ti0Uapmn/y5/N5UJqm5XQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+ACP/YPQi28=:8YaM7Mwf60rr+QzAF/ggAl
+ AcSso0gG9U46H9W2olCQNAp0kK/pXQa+wIazaXkenLWB/ZpRIzZdY6nPu4gR0Qt6XXg+kjPa+
+ jDBWipCNgR53TDLfsaiDB724Vyu5qzeTBIlH6nb+cbz7T0SzJ9PAX9a2Y4SXreM0qEE2BNpJU
+ hry6pHk8TDEHODlc+q9HrDvzL+qKM8Hd7iOilxGYg/IFnAZAsJfWE0a5O9XZ5oQF9UU3yonIM
+ +SoyU3/FeKFo759dBX6PNLIZlGXpogcV3wSHElaQ70WGygTHl2fXuRK56Wei+0VwjV35znTpt
+ NY6jNMr/pWG3Oie03rBQLph7oKhKAmbwIsXQUJkZM38jnWIzvLFJs8XxHqgkVpMVSgB/32pOv
+ fKtY8DgvGTnwLRcLiPvosyJhviWtviW193jCHexHJUlU1FEP1TvEdToSVVIfz2Fpvn/0HkjQX
+ u7+vyxyfk1ng9b8SgW2LjN1W1VvyGgJyB7cLVgPSQBsfa8+Okgsv87LRS6KT3cMsGBfuSkIBt
+ D5LShg4QgNcWRyvaiUVb6br38s8BTh8pVZRb1bWf4T+qG0brdC/hwzwnMgd3uyAdJLODMrtFB
+ WAKTFoPuw34exQs0W4wm03RHi+yZsGfmXVsxhrHANXHehDboXNFSAy7kMNl4fBn7faM/GYaQ/
+ VFLxp9Q2q8CuMnufU5k5lHJUrGErQwOVVnl+RzXFkNbbiPa+Y3xST6SbCsmVKRp5Iq9AweR74
+ G1TK0b1oVkZy4TTZtyRdx7ixnbuYFank2WBemlGvl0G2H1R7gqMmxnghans=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 217.72.192.75
 Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
  reports absolute path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,22 +115,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/07/2019 =C3=A0 17:09, John Paul Adrian Glaubitz a =C3=A9crit=C2=A0:
+Le 09/07/2019 à 17:09, John Paul Adrian Glaubitz a écrit :
 > On 7/9/19 4:01 PM, Laurent Vivier wrote:
 >> What is the content of:
 >>
 >> /etc/binfmt.d/qemu-m68k.conf
 >> /proc/sys/fs/binfmt_misc/qemu-m68k
-> =
-
+> 
 > root@nofan:~> cat /etc/binfmt.d/qemu-m68k.conf
-> :qemu-m68k:M::\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00=
-\x02\x00\x04:\xff\xff\xff\xff\xff\xff\xfe\x00\xff\xff\xff\xff\xff\xff\xff\x=
-ff\xff\xfe\xff\xff:/usr/bin/qemu-m68k-static:P
+> :qemu-m68k:M::\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x04:\xff\xff\xff\xff\xff\xff\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff:/usr/bin/qemu-m68k-static:P
 > root@nofan:~> cat /proc/sys/fs/binfmt_misc/qemu-m68k
 > enabled
 > interpreter /usr/bin/qemu-m68k-static
@@ -106,42 +147,4 @@ updated.
 Thanks,
 Laurent
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835839
-
-Title:
-  qemu-user: $0 incorrectly always reports absolute path
-
-Status in QEMU:
-  New
-
-Bug description:
-  We just ran into an issue with the Perl package on Debian/m68k when
-  being built with qemu-user [1].
-
-  The problem can be boiled down to qemu-user always reporting absolute
-  paths for the shell variable $0 no matter on how the command was
-  invoked.
-
-  A simple reproducer is this:
-
-  On normal system (no emulation):
-
-  root@nofan:~> sh -c 'echo $0'
-  sh
-  root@nofan:~>
-
-  On qemu-user:
-
-  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
-  /bin/sh
-  (sid-m68k-sbuild)root@nofan:/#
-
-  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
 
