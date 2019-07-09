@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C19633D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 12:00:23 +0200 (CEST)
-Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12630633F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 12:09:30 +0200 (CEST)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkmv9-0003Z0-1a
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 06:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50282)
+	id 1hkn3w-0002vh-6b
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 06:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53541)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwankhede@nvidia.com>) id 1hkmoZ-0005OQ-Ut
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:53:37 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hkn0a-0008Q3-NI
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:06:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1hkmoW-0004n1-Qd
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:53:34 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10392)
+ (envelope-from <dgilbert@redhat.com>) id 1hkn0Z-0003ok-Gj
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:06:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46572)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1hkmoW-0004g9-HO
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:53:32 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d24640f0000>; Tue, 09 Jul 2019 02:53:19 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Tue, 09 Jul 2019 02:53:20 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Tue, 09 Jul 2019 02:53:20 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL108.nvidia.com
- (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
- 2019 09:53:20 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Jul
- 2019 09:53:19 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 9 Jul 2019 09:53:13 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Tue, 9 Jul 2019 15:19:20 +0530
-Message-ID: <1562665760-26158-14-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
-References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hkn0Z-0003ZG-6Y
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:05:59 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EFBF830860C1;
+ Tue,  9 Jul 2019 09:57:19 +0000 (UTC)
+Received: from work-vm (ovpn-117-75.ams2.redhat.com [10.36.117.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EF535DA96;
+ Tue,  9 Jul 2019 09:57:18 +0000 (UTC)
+Date: Tue, 9 Jul 2019 10:57:16 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: vandersonmr <vandersonmr2@gmail.com>
+Message-ID: <20190709095716.GC2725@work-vm>
+References: <20190702210017.4275-1-vandersonmr2@gmail.com>
+ <20190702210017.4275-5-vandersonmr2@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1562665999; bh=oDXfXH2QKaDnSbDGeApTn7hYtedGL0xz2YwbKpIZ7YQ=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=HwGDLJS5Kuidr8Ti94elCiXBnJzlCm1wpNt9wVAl2G3sf03WK5mvvb0zjLclG6nRQ
- 7rWYwer1CW2ILiWczhkz6pFZJl7bxkoWCjBiZwxWCVDS6hBxQi7gCamD8ZZY9yPgJX
- OCF9BnlTTfP80v91pUcAxCrCfN9zQemok9TAVtGuO7UrvAllmvp2PeHN6+21K4xswM
- ks0RIV1GjBOa08dD+bSgamoOr+Ih18tCos2fCh4UZ1fODnjKb/eJSyJr2U4Gv0RV36
- rCl6dx023hn54Z0iPiA9fOlTBpqAoRSggvHQmYKmRDiNEnTQdMJn+JOgJsY8+OKosY
- 0Gy0rMvY9QFxw==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.65
-Subject: [Qemu-devel] [PATCH v7 13/13] vfio: Make vfio-pci device migration
- capable.
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190702210017.4275-5-vandersonmr2@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 09 Jul 2019 09:57:20 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 5/6] monitor: adding info tb and tbs to
+ monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,88 +58,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
- eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
- changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call vfio_migration_probe() and vfio_migration_finalize() functions for
-vfio-pci device to enable migration for vfio PCI device.
-Removed vfio_pci_vmstate structure.
+* vandersonmr (vandersonmr2@gmail.com) wrote:
+> adding options to list tbs by some metric and
+> investigate their code.
+> 
+> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/pci.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+As Markus said you need a short justification that it's for debug etc
+to justify HMP only; it doesn't need to be huge, but we should have it.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 5fe4f8076cac..2ea17a814d55 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2852,6 +2852,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     vdev->vbasedev.ops = &vfio_pci_ops;
-     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
-     vdev->vbasedev.dev = DEVICE(vdev);
-+    vdev->vbasedev.device_state = 0;
- 
-     tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-@@ -3112,6 +3113,12 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
-+    ret = vfio_migration_probe(&vdev->vbasedev, errp);
-+    if (ret) {
-+            error_report("%s: Failed to setup for migration",
-+                         vdev->vbasedev.name);
-+    }
-+
-     vfio_register_err_notifier(vdev);
-     vfio_register_req_notifier(vdev);
-     vfio_setup_resetfn_quirk(vdev);
-@@ -3131,6 +3138,7 @@ static void vfio_instance_finalize(Object *obj)
-     VFIOPCIDevice *vdev = PCI_VFIO(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-+    vdev->vbasedev.device_state = 0;
-     vfio_display_finalize(vdev);
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-@@ -3159,6 +3167,7 @@ static void vfio_exitfn(PCIDevice *pdev)
-     }
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
-+    vfio_migration_finalize(&vdev->vbasedev);
- }
- 
- static void vfio_pci_reset(DeviceState *dev)
-@@ -3267,11 +3276,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static const VMStateDescription vfio_pci_vmstate = {
--    .name = "vfio-pci",
--    .unmigratable = 1,
--};
--
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3279,7 +3283,6 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     dc->props = vfio_pci_dev_properties;
--    dc->vmsd = &vfio_pci_vmstate;
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
--- 
-2.7.0
+> ---
+>  hmp-commands-info.hx | 22 ++++++++++++++
+>  monitor/misc.c       | 69 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 91 insertions(+)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index c59444c461..0b8c0de95d 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -288,6 +288,28 @@ ETEXI
+>          .params     = "",
+>          .help       = "show dynamic compiler info",
+>          .cmd        = hmp_info_jit,
+> +    {
+> +        .name       = "tbs",
+> +        .args_type  = "number:i?,sortedby:s?",
+> +        .params     = "[number sortedby]",
+> +        .help       = "show a [number] translated blocks sorted by [sortedby]"
+> +                      "sortedby opts: hotness hg",
 
+If this is showing 'number' blocks then I think it should be called
+'count'
+
+> +        .cmd        = hmp_info_tbs,
+> +    },
+> +    {
+> +        .name       = "tb",
+> +        .args_type  = "id:i,flags:s?",
+> +        .params     = "id [log1[,...] flags]",
+> +        .help       = "show information about one translated block by id",
+> +        .cmd        = hmp_info_tb,
+
+That doesn't say what those flags are for; qemu has lots of flags for
+different things; I think you're  saying it's some log flag?
+
+> +    },
+> +    {
+> +        .name       = "coverset",
+> +        .args_type  = "number:i?",
+> +        .params     = "[number]",
+> +        .help       = "show hottest translated blocks neccesary to cover"
+> +                      "[number]% of the execution count",
+> +        .cmd        = hmp_info_coverset,
+>      },
+
+That 'number' should be something like 'percent' or 'coverage'
+>  #endif
+>  
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index bf9faceb86..1fb4d75871 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -469,6 +469,75 @@ static void hmp_info_jit(Monitor *mon, const QDict *qdict)
+>      dump_drift_info();
+>  }
+>  
+> +static void hmp_info_tbs(Monitor *mon, const QDict *qdict)
+> +{
+> +    int n;
+> +    const char *s = NULL;
+> +    if (!tcg_enabled()) {
+> +        error_report("TB information is only available with accel=tcg");
+> +        return;
+> +    }
+> +    if (!tb_ctx.tb_stats.map) {
+> +        error_report("no TB information recorded");
+> +        return;
+> +    }
+> +
+> +    n = qdict_get_try_int(qdict, "number", 10);
+> +    s = qdict_get_try_str(qdict, "sortedby");
+
+No need to use single characters; sortedby_str  is fine for
+example.
+
+> +    int sortedby = 0;
+> +    if (s == NULL || strcmp(s, "hotness") == 0) {
+> +        sortedby = SORT_BY_HOTNESS;
+> +    } else if (strcmp(s, "hg") == 0) {
+> +        sortedby = SORT_BY_HG;
+> +    }
+
+You should error if there's another word in 's'
+
+> +    dump_tbs_info(n, sortedby, true);
+> +}
+> +
+> +static void hmp_info_tb(Monitor *mon, const QDict *qdict)
+> +{
+> +    const int id = qdict_get_int(qdict, "id");
+> +    const char *flags = qdict_get_try_str(qdict, "flags");
+> +    int mask;
+> +
+> +    if (!tcg_enabled()) {
+> +        error_report("TB information is only available with accel=tcg");
+> +        return;
+> +    }
+> +
+> +    mask = flags ? qemu_str_to_log_mask(flags) : CPU_LOG_TB_IN_ASM;
+> +
+> +    if (!mask) {
+> +        help_cmd(mon, "log");
+
+That's not obvious - I'd perfer you said something like
+     Unable to parse log flags, see 'help log'
+
+> +        return;
+> +    }
+> +
+> +    dump_tb_info(id, mask, true);
+> +}
+> +
+> +static void hmp_info_coverset(Monitor *mon, const QDict *qdict)
+> +{
+> +    int n;
+> +    if (!tcg_enabled()) {
+> +        error_report("TB information is only available with accel=tcg");
+> +        return;
+> +    }
+> +    if (!qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
+> +        error_report("TB information not being recorded");
+> +        return;
+> +    }
+> +
+> +    n = qdict_get_try_int(qdict, "number", 90);
+> +
+> +    if (n < 0 || n > 100) {
+> +        error_report("Coverset percentage should be between 0 and 100");
+> +        return;
+> +    }
+> +
+> +    dump_coverset_info(n, true);
+> +}
+> +
+>  static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
+>  {
+>      dump_opcount_info();
+> -- 
+> 2.22.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
