@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA2D62F22
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:03:01 +0200 (CEST)
-Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 966C862FA7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:36:49 +0200 (CEST)
+Received: from localhost ([::1]:46724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkhLI-0001L0-1l
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32999)
+	id 1hkhs0-00023F-Qa
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40072)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hkhIj-0000X2-Jd
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:00:23 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkhqo-0001Zv-4B
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:35:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hkhIh-0007Vd-Od
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:00:21 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35217)
+ (envelope-from <bounces@canonical.com>) id 1hkhqm-00016O-0S
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:35:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42120)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
- id 1hkhIZ-0007JQ-MK; Tue, 09 Jul 2019 00:00:12 -0400
-Received: by mail-pl1-x643.google.com with SMTP id w24so9349530plp.2;
- Mon, 08 Jul 2019 21:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=MywKGIWHhYx6+3uyRA+KWyEmtwfHUd3+7N47je1pKRw=;
- b=r+wNw9IzX/5HPx7TgANB2WWGHu9LI84xrTh6VX0WIlZxrCVYADDnlYElGh6/bmWV4z
- p4s2b9JbzFXLbxMiIJTIsLPEdcmc9XcaBURXXeOBTAx77sBEy4gTFSjiIVV5zwUS3I6F
- J+QM2l1+LFXCMpu6jvB1niM8Gfl6II5njW99HSrfN5jxAna5ZR5t6D2w2i06iGGDFJtL
- fk5697xn5QKcPLKH+cLtkjDQNTksPLVDFxOeNfuB57RAR1+uM46bpTVo4/kqiClkdJXp
- RsrtAIhHZxlrLbN2QZkpVwzNJOCAEJtIK9dqd2abnO8lWOZHyXTvVJbRDXyrQ8aIDLoM
- xjdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MywKGIWHhYx6+3uyRA+KWyEmtwfHUd3+7N47je1pKRw=;
- b=ZpeAHr8dM37MHBiznqiI2SVZAFssCpHtiGWhmawjxO7rXUZYNpIjikcBTeSfLyCPi1
- GOwLgHl9LTrrFWt/TTiY9Z+nklimTDoEZAC4T74PKeaMu774Sq+g18BLgvG+G0wAfLoT
- FmG9euJAPSY038/gSzm6xxuJI2qrlLI5cN38wVY3UfaJFSMnlJ/h5XXi0oOmJKmsZ8zh
- jypIjdZdwL7Xb74/ocqlN23RPTW4jGxI/+seoIRjdj3eaCM9OGNUaYIvXtZ4Or6ODdAh
- kSOPMHOLcQajVwkwPY+4gaVPnLB8dPiRmtHIPYX4feCzCTjusWYECZvzPAWoob+KSJra
- B7Hg==
-X-Gm-Message-State: APjAAAXYA49WveIk1XFlFKU8Kmc9TKKfZ6mcs/eGKXkPVUbkVjo1KSVy
- eYpnKW6jsm3AokcO7EXmsYRyrmdH
-X-Google-Smtp-Source: APXvYqxU0ZTa/YR0MPK8MRatLJOMHWT3Yy3drexQk985bF6toYhS+icoxcLI9YQJIIh256Aa9MIwTQ==
-X-Received: by 2002:a17:902:381:: with SMTP id
- d1mr28861062pld.331.1562644809405; 
- Mon, 08 Jul 2019 21:00:09 -0700 (PDT)
-Received: from surajjs2.ozlabs.ibm.com ([122.99.82.10])
- by smtp.googlemail.com with ESMTPSA id j1sm20969536pfe.101.2019.07.08.21.00.06
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 08 Jul 2019 21:00:08 -0700 (PDT)
-Message-ID: <1562644804.2073.7.camel@gmail.com>
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Tue, 09 Jul 2019 14:00:04 +1000
-In-Reply-To: <20190704045954.GV9442@umbus.fritz.box>
-References: <20190701061946.32636-1-sjitindarsingh@gmail.com>
- <20190703061239.GK9442@umbus.fritz.box>
- <1562211719.10832.15.camel@gmail.com>
- <20190704045954.GV9442@umbus.fritz.box>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH v3] powerpc/spapr: Add host
- threads parameter to ibm, get_system_parameter
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hkhqk-00014c-Sj
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:35:31 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hkhqh-0007fX-SU
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 04:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D13782E80C8
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 04:35:27 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jul 2019 04:25:48 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1835865@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: acpi piix
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156264634854.21327.17484948855790653898.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 4fd513cce23361a4747c61466e2e305a8f2c3a9a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1835865] [NEW] piix crashes on mips when
+ accessing acpi-pci-hotplug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,265 +66,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Reply-To: Bug 1835865 <1835865@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2019-07-04 at 14:59 +1000, David Gibson wrote:
-> On Thu, Jul 04, 2019 at 01:41:59PM +1000, Suraj Jitindar Singh wrote:
-> > On Wed, 2019-07-03 at 16:12 +1000, David Gibson wrote:
-> > > On Mon, Jul 01, 2019 at 04:19:46PM +1000, Suraj Jitindar Singh
-> > > wrote:
-> > > > The ibm,get_system_parameter rtas call is used by the guest to
-> > > > retrieve
-> > > > data relating to certain parameters of the system. The SPLPAR
-> > > > characteristics option (token 20) is used to determin
-> > > > characteristics of
-> > > > the environment in which the lpar will run.
-> > > > 
-> > > > It may be useful for a guest to know the number of physical
-> > > > host
-> > > > threads
-> > > > present on the underlying system where it is being run. Add the
-> > > > characteristic "HostThrs" to the SPLPAR Characteristics
-> > > > ibm,get_system_parameter rtas call to expose this information
-> > > > to a
-> > > > guest and provide an implementation which determines this
-> > > > information
-> > > > based on the number of interrupt servers present in the device
-> > > > tree.
-> > > > 
-> > > > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> > > 
-> > > Hrm, as I said on our call, I have some misgivings about this.
-> > > 
-> > > Starting with the most general: this again publishes host
-> > > information
-> > > to the guest without filtering, which has caused us problems
-> > > before
-> > > (e.g. security issues with publishing the host serial and model
-> > > information).  Now, I can't immediately see what harm a guest
-> > > could
-> > > do
-> > > with the host # threads (especially since it could in theory
-> > > deduce
-> > > it
-> > > from the PVR, I think) but it still makes me uneasy.
-> > 
-> > Correct, a guest could pretty reliably determine this information
-> > anyway based on the PVR. It can't account for a POWER8 operating in
-> > split core mode, but I don't know any harm that could be done by
-> > introducing this information.
-> > 
-> > Additionally it doesn't really tell you anything about how you're
-> > going
-> > to be scheduled (at least on POWER9) since vcpus are scheduled on a
-> > per
-> > thread, not per core basis.
-> 
-> Hmm.
-> 
-> > > Secondly, the "HostThrs" tag doesn't seem to be documented in
-> > > PAPR as
-> > > something that this system-parameter will include.  I don't much
-> > > like
-> > > the idea of adding ad-hoc bits of information here without some
-> > > thought going into designing and specifying it first.
-> > 
-> > This isn't documented in papr, it has been decided that this is how
-> > the
-> > information will be communicated to a guest. This is the most
-> > appropriate place to put this information and the HostThrs name is
-> > consistent with the naming of other information in this property.
-> 
-> Grr.  If someone can decide this, they can bloody well document it
-> somewhere.
-> 
-> > We have other non-papr information in qemu, for example hcall
-> > numbers,
-> > so this isn't exactly a precedent.
-> 
-> I suppose
-> 
-> > > > ---
-> > > > 
-> > > > V1 -> V2:
-> > > > - Take into account that the core may be operating in split
-> > > > core
-> > > > mode
-> > > >   meaning a single core may be split into multiple subcores.
-> > > > V2 -> V3:
-> > > > - Add curly braces for single line if statements
-> > > > ---
-> > > >  hw/ppc/spapr_rtas.c | 62
-> > > > +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 62 insertions(+)
-> > > > 
-> > > > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> > > > index 5bc1a93271..1bab71c90c 100644
-> > > > --- a/hw/ppc/spapr_rtas.c
-> > > > +++ b/hw/ppc/spapr_rtas.c
-> > > > @@ -229,6 +229,58 @@ static inline int sysparm_st(target_ulong
-> > > > addr, target_ulong len,
-> > > >      return RTAS_OUT_SUCCESS;
-> > > >  }
-> > > >  
-> > > > +#define CPUS_PATH       "/proc/device-tree/cpus/"
-> > > > +#define
-> > > > SUBCORE_PATH    "/sys/devices/system/cpu/subcores_per_core"
-> > > > +
-> > > > +static int rtas_get_num_host_threads(void)
-> > > > +{
-> > > > +    int num_threads = -1;
-> > > > +    unsigned long len;
-> > > > +    const char *entry;
-> > > > +    char *buf;
-> > > > +    GDir *dir;
-> > > > +
-> > > > +    if (!kvm_enabled()) {
-> > > > +        return 1;
-> > > > +    }
-> > > > +
-> > > > +    /* Read interrupt servers to determine number of threads
-> > > > per
-> > > > core */
-> > > > +    dir = g_dir_open(CPUS_PATH, 0, NULL);
-> > > > +    if (!dir) {
-> > > > +        return -1;
-> > > > +    }
-> > > > +
-> > > > +    while ((entry = g_dir_read_name(dir))) {
-> > > > +        if (!strncmp(entry, "PowerPC,POWER",
-> > > > strlen("PowerPC,POWER"))) {
-> > > > +            char *path;
-> > > > +
-> > > > +            path = g_strconcat(CPUS_PATH, entry, "/ibm,ppc-
-> > > > interrupt-server#s",
-> > > > +                               NULL);
-> > > > +            if (g_file_get_contents(path, &buf, &len, NULL)) {
-> > > > +                num_threads = len / sizeof(int);
-> > > > +                g_free(buf);
-> > > > +            }
-> > > > +
-> > > > +            g_free(path);
-> > > > +            break;
-> > > > +        }
-> > > > +    }
-> > > > +
-> > > > +    g_dir_close(dir);
-> > > > +
-> > > > +    /* Check if split core mode in use */
-> > > > +    if (g_file_get_contents(SUBCORE_PATH, &buf, &len, NULL)) {
-> > > > +        int subcores = g_ascii_strtoll(buf, NULL, 10);
-> > > > +
-> > > > +        if (subcores) {
-> > > > +            num_threads /= subcores;
-> > > > +        }
-> > > > +        g_free(buf);
-> > > > +    }
-> > > 
-> > > Finally, all the logic above is built on the assumption of a ppc
-> > > host
-> > > - and not just that but an IBM POWER host...
-> > 
-> > RTAS services are defined as being provided by a papr platform, and
-> > the
-> > existence of the ibm,ppc-interrupt-server#s device tree property is
-> > a
-> > requirement of a papr platform. So I don't see this being an issue.
-> 
-> The *guest* is a PAPR platform, there's no guarantee the host has to
-> be a PAPR platform (in fact it usually won't be, it's just that
-> powernv has a lot of the same device tree properties).
+Public bug reported:
 
-Well I think technically the host is a papr platform which supplies an
-environment to the papr guest partition. But the terminology isn't
-really important here.
+$ qemu-system-mips --version
+QEMU emulator version 4.0.50 (v4.0.0-1975-gf34edbc760)
 
-> 
-> > > 
-> > > > +    return num_threads;
-> > > > +}
-> > > > +
-> > > >  static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
-> > > >                                            SpaprMachineState
-> > > > *spapr,
-> > > >                                            uint32_t token,
-> > > > uint32_t
-> > > > nargs,
-> > > > @@ -250,6 +302,16 @@ static void
-> > > > rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
-> > > >                                            current_machine-
-> > > > > ram_size / MiB,
-> > > > 
-> > > >                                            smp_cpus,
-> > > >                                            max_cpus);
-> > > > +        int num_host_threads = rtas_get_num_host_threads();
-> > > > +
-> > > > +        if (num_host_threads > 0) {
-> > > 
-> > > ... this sort of implements a fallback in other cases (KVM PR
-> > > with a
-> > > non-IBM host, TCG, but the boundary conditions are not really
-> > > well
-> > > defined.
-> > 
-> > This is essentially catching the error case of
-> > rtas_get_num_host_threads() returning a negative number or not
-> > finding
-> > the required properties (which as mentioned above are required).
-> > The
-> > KVM-PR case will work the same as the KVM-HV case where the host
-> > device
-> > tree will be queried.
-> 
-> Not if you're using PR on, say, an embedded ppc or an old Apple
-> machine that doesn't have the PAPR-ish properties in the host device
-> tree.
+$ qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor stdi=
+o -S
+(qemu) o 0xaf00 0
+qemu-system-mips: hw/acpi/cpu.c:197: cpu_hotplug_hw_init: Assertion `mc->po=
+ssible_cpu_arch_ids' failed.
+Aborted (core dumped)
 
-In which case we won't find the device tree property and so we don't
-have a reliable way to determine the number of host threads, so we will
-omit the property.
+(gdb) bt
+#0  0x00007f6fd748957f in raise () at /lib64/libc.so.6
+#1  0x00007f6fd7473895 in abort () at /lib64/libc.so.6
+#2  0x00007f6fd7473769 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+#3  0x00007f6fd7481a26 in .annobin_assert.c_end () at /lib64/libc.so.6
+#4  0x00005646d58ca7bd in cpu_hotplug_hw_init (as=3D0x5646d6ae3300, owner=
+=3D0x5646d6fd5b10, state=3D0x5646d6fd7a30, base_addr=3D44800) at hw/acpi/cp=
+u.c:197
+#5  0x00005646d58c5284 in acpi_switch_to_modern_cphp (gpe_cpu=3D0x5646d6fd7=
+910, cpuhp_state=3D0x5646d6fd7a30, io_port=3D44800) at hw/acpi/cpu_hotplug.=
+c:107
+#6  0x00005646d58c3431 in piix4_set_cpu_hotplug_legacy (obj=3D0x5646d6fd5b1=
+0, value=3Dfalse, errp=3D0x5646d61cdb28 <error_abort>) at hw/acpi/piix4.c:6=
+17
+#7  0x00005646d5b00c70 in property_set_bool (obj=3D0x5646d6fd5b10, v=3D0x56=
+46d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", opaque=3D0x5646d707=
+d110, errp=3D0x5646d61cdb28 <error_abort>) at qom/object.c:2076
+#8  0x00005646d5afeee6 in object_property_set (obj=3D0x5646d6fd5b10, v=3D0x=
+5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d61c=
+db28 <error_abort>) at qom/object.c:1268
+#9  0x00005646d5b01fb8 in object_property_set_qobject (obj=3D0x5646d6fd5b10=
+, value=3D0x5646d75b5450, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=
+=3D0x5646d61cdb28 <error_abort>) at qom/qom-qobject.c:26
+#10 0x00005646d5aff1cb in object_property_set_bool (obj=3D0x5646d6fd5b10, v=
+alue=3Dfalse, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d61c=
+db28 <error_abort>) at qom/object.c:1334
+#11 0x00005646d58c4fce in cpu_status_write (opaque=3D0x5646d6fd7910, addr=
+=3D0, data=3D0, size=3D1) at hw/acpi/cpu_hotplug.c:44
+#12 0x00005646d569c707 in memory_region_write_accessor (mr=3D0x5646d6fd7920=
+, addr=3D0, value=3D0x7ffc18053068, size=3D1, shift=3D0, mask=3D255, attrs=
+=3D...) at memory.c:503
+#13 0x00005646d569c917 in access_with_adjusted_size (addr=3D0, value=3D0x7f=
+fc18053068, size=3D1, access_size_min=3D1, access_size_max=3D4, access_fn=
+=3D0x5646d569c61e <memory_region_write_accessor>, mr=3D0x5646d6fd7920, attr=
+s=3D...)
+    at memory.c:569
+#14 0x00005646d569f8f3 in memory_region_dispatch_write (mr=3D0x5646d6fd7920=
+, addr=3D0, data=3D0, size=3D1, attrs=3D...) at memory.c:1497
+#15 0x00005646d563e5c5 in flatview_write_continue (fv=3D0x5646d751b000, add=
+r=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4, addr1=3D0, l=3D1,=
+ mr=3D0x5646d6fd7920) at exec.c:3324
+#16 0x00005646d563e70a in flatview_write (fv=3D0x5646d751b000, addr=3D44800=
+, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) at exec.c:3363
+#17 0x00005646d563ea0f in address_space_write (as=3D0x5646d618abc0 <address=
+_space_io>, addr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) at=
+ exec.c:3453
+#18 0x00005646d5696ee5 in cpu_outl (addr=3D44800, val=3D0) at ioport.c:80
+#19 0x00005646d57585d0 in hmp_ioport_write (mon=3D0x5646d6bc70e0, qdict=3D0=
+x5646d6cf7140) at monitor/misc.c:1058
+#20 0x00005646d5a77b99 in handle_hmp_command (mon=3D0x5646d6bc70e0, cmdline=
+=3D0x5646d6bc2542 "0xaf00 0") at monitor/hmp.c:1082
+#21 0x00005646d5a7540a in monitor_command_cb (opaque=3D0x5646d6bc70e0, cmdl=
+ine=3D0x5646d6bc2540 "o 0xaf00 0", readline_opaque=3D0x0) at monitor/hmp.c:=
+47
+#22 0x00005646d5c71450 in readline_handle_byte (rs=3D0x5646d6bc2540, ch=3D1=
+3) at util/readline.c:408
+#23 0x00005646d5a7858f in monitor_read (opaque=3D0x5646d6bc70e0, buf=3D0x7f=
+fc180533d0 "\rtc\327FV", size=3D1) at monitor/hmp.c:1312
+#24 0x00005646d5bc8d17 in qemu_chr_be_write_impl (s=3D0x5646d6add000, buf=
+=3D0x7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:177
+#25 0x00005646d5bc8d7b in qemu_chr_be_write (s=3D0x5646d6add000, buf=3D0x7f=
+fc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:189
+#26 0x00005646d5bcb6bf in fd_chr_read (chan=3D0x5646d6a80d60, cond=3DG_IO_I=
+N, opaque=3D0x5646d6add000) at chardev/char-fd.c:68
+#27 0x00005646d5bec485 in qio_channel_fd_source_dispatch (source=3D0x5646d7=
+65a480, callback=3D0x5646d5bcb561 <fd_chr_read>, user_data=3D0x5646d6add000=
+) at io/channel-watch.c:84
+#28 0x00007f6fd9c1606d in g_main_context_dispatch () at /lib64/libglib-2.0.=
+so.0
+#29 0x00005646d5c5323a in glib_pollfds_poll () at util/main-loop.c:213
+#30 0x00005646d5c532b4 in os_host_main_loop_wait (timeout=3D29821719) at ut=
+il/main-loop.c:236
+#31 0x00005646d5c533b9 in main_loop_wait (nonblocking=3D0) at util/main-loo=
+p.c:512
+#32 0x00005646d581d1a1 in main_loop () at vl.c:1791
+#33 0x00005646d582485f in main (argc=3D11, argv=3D0x7ffc18054868, envp=3D0x=
+7ffc180548c8) at vl.c:4473
 
-> 
-> > For TCG we just default to 1 since this
-> > information shouldn't be relevant to a TCG guest.
-> 
-> Uh.. it doesn't though, it omits it entirely.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-No,
-if (!kvm_enabled()) return 1;
-above
 
-> 
-> Also I don't really understand how it's relevant to a KVM guest in
-> the
-> first place.
+** Tags: acpi piix
 
-There are registers which were previously scaled based on the threads
-per core, for example the PURR, but which aren't on POWER9 when running
-in lpar per thread mode and instead count per thread. This will look
-different to a guest OS, and so for whatever reason the guest might
-want to scale these registers based on the host threading mode.
+** Summary changed:
 
-> 
-> > 
-> > > 
-> > > > +            char *hostthr_val, *old = param_val;
-> > > > +
-> > > > +            hostthr_val = g_strdup_printf(",HostThrs=%d",
-> > > > num_host_threads);
-> > > > +            param_val = g_strconcat(param_val, hostthr_val,
-> > > > NULL);
-> > > > +            g_free(hostthr_val);
-> > > > +            g_free(old);
-> > > > +        }
-> > > >          ret = sysparm_st(buffer, length, param_val,
-> > > > strlen(param_val) + 1);
-> > > >          g_free(param_val);
-> > > >          break;
-> > > 
-> > > 
-> 
-> 
+- mips/malta crashes when accessing acpi-pci-hotplug
++ piix crashes on mips when accessing acpi-pci-hotplug
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835865
+
+Title:
+  piix crashes on mips when accessing acpi-pci-hotplug
+
+Status in QEMU:
+  New
+
+Bug description:
+  $ qemu-system-mips --version
+  QEMU emulator version 4.0.50 (v4.0.0-1975-gf34edbc760)
+
+  $ qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor st=
+dio -S
+  (qemu) o 0xaf00 0
+  qemu-system-mips: hw/acpi/cpu.c:197: cpu_hotplug_hw_init: Assertion `mc->=
+possible_cpu_arch_ids' failed.
+  Aborted (core dumped)
+
+  (gdb) bt
+  #0  0x00007f6fd748957f in raise () at /lib64/libc.so.6
+  #1  0x00007f6fd7473895 in abort () at /lib64/libc.so.6
+  #2  0x00007f6fd7473769 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+  #3  0x00007f6fd7481a26 in .annobin_assert.c_end () at /lib64/libc.so.6
+  #4  0x00005646d58ca7bd in cpu_hotplug_hw_init (as=3D0x5646d6ae3300, owner=
+=3D0x5646d6fd5b10, state=3D0x5646d6fd7a30, base_addr=3D44800) at hw/acpi/cp=
+u.c:197
+  #5  0x00005646d58c5284 in acpi_switch_to_modern_cphp (gpe_cpu=3D0x5646d6f=
+d7910, cpuhp_state=3D0x5646d6fd7a30, io_port=3D44800) at hw/acpi/cpu_hotplu=
+g.c:107
+  #6  0x00005646d58c3431 in piix4_set_cpu_hotplug_legacy (obj=3D0x5646d6fd5=
+b10, value=3Dfalse, errp=3D0x5646d61cdb28 <error_abort>) at hw/acpi/piix4.c=
+:617
+  #7  0x00005646d5b00c70 in property_set_bool (obj=3D0x5646d6fd5b10, v=3D0x=
+5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", opaque=3D0x5646d7=
+07d110, errp=3D0x5646d61cdb28 <error_abort>) at qom/object.c:2076
+  #8  0x00005646d5afeee6 in object_property_set (obj=3D0x5646d6fd5b10, v=3D=
+0x5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
+1cdb28 <error_abort>) at qom/object.c:1268
+  #9  0x00005646d5b01fb8 in object_property_set_qobject (obj=3D0x5646d6fd5b=
+10, value=3D0x5646d75b5450, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", err=
+p=3D0x5646d61cdb28 <error_abort>) at qom/qom-qobject.c:26
+  #10 0x00005646d5aff1cb in object_property_set_bool (obj=3D0x5646d6fd5b10,=
+ value=3Dfalse, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
+1cdb28 <error_abort>) at qom/object.c:1334
+  #11 0x00005646d58c4fce in cpu_status_write (opaque=3D0x5646d6fd7910, addr=
+=3D0, data=3D0, size=3D1) at hw/acpi/cpu_hotplug.c:44
+  #12 0x00005646d569c707 in memory_region_write_accessor (mr=3D0x5646d6fd79=
+20, addr=3D0, value=3D0x7ffc18053068, size=3D1, shift=3D0, mask=3D255, attr=
+s=3D...) at memory.c:503
+  #13 0x00005646d569c917 in access_with_adjusted_size (addr=3D0, value=3D0x=
+7ffc18053068, size=3D1, access_size_min=3D1, access_size_max=3D4, access_fn=
+=3D0x5646d569c61e <memory_region_write_accessor>, mr=3D0x5646d6fd7920, attr=
+s=3D...)
+      at memory.c:569
+  #14 0x00005646d569f8f3 in memory_region_dispatch_write (mr=3D0x5646d6fd79=
+20, addr=3D0, data=3D0, size=3D1, attrs=3D...) at memory.c:1497
+  #15 0x00005646d563e5c5 in flatview_write_continue (fv=3D0x5646d751b000, a=
+ddr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4, addr1=3D0, l=3D=
+1, mr=3D0x5646d6fd7920) at exec.c:3324
+  #16 0x00005646d563e70a in flatview_write (fv=3D0x5646d751b000, addr=3D448=
+00, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) at exec.c:3363
+  #17 0x00005646d563ea0f in address_space_write (as=3D0x5646d618abc0 <addre=
+ss_space_io>, addr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) =
+at exec.c:3453
+  #18 0x00005646d5696ee5 in cpu_outl (addr=3D44800, val=3D0) at ioport.c:80
+  #19 0x00005646d57585d0 in hmp_ioport_write (mon=3D0x5646d6bc70e0, qdict=
+=3D0x5646d6cf7140) at monitor/misc.c:1058
+  #20 0x00005646d5a77b99 in handle_hmp_command (mon=3D0x5646d6bc70e0, cmdli=
+ne=3D0x5646d6bc2542 "0xaf00 0") at monitor/hmp.c:1082
+  #21 0x00005646d5a7540a in monitor_command_cb (opaque=3D0x5646d6bc70e0, cm=
+dline=3D0x5646d6bc2540 "o 0xaf00 0", readline_opaque=3D0x0) at monitor/hmp.=
+c:47
+  #22 0x00005646d5c71450 in readline_handle_byte (rs=3D0x5646d6bc2540, ch=
+=3D13) at util/readline.c:408
+  #23 0x00005646d5a7858f in monitor_read (opaque=3D0x5646d6bc70e0, buf=3D0x=
+7ffc180533d0 "\rtc\327FV", size=3D1) at monitor/hmp.c:1312
+  #24 0x00005646d5bc8d17 in qemu_chr_be_write_impl (s=3D0x5646d6add000, buf=
+=3D0x7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:177
+  #25 0x00005646d5bc8d7b in qemu_chr_be_write (s=3D0x5646d6add000, buf=3D0x=
+7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:189
+  #26 0x00005646d5bcb6bf in fd_chr_read (chan=3D0x5646d6a80d60, cond=3DG_IO=
+_IN, opaque=3D0x5646d6add000) at chardev/char-fd.c:68
+  #27 0x00005646d5bec485 in qio_channel_fd_source_dispatch (source=3D0x5646=
+d765a480, callback=3D0x5646d5bcb561 <fd_chr_read>, user_data=3D0x5646d6add0=
+00) at io/channel-watch.c:84
+  #28 0x00007f6fd9c1606d in g_main_context_dispatch () at /lib64/libglib-2.=
+0.so.0
+  #29 0x00005646d5c5323a in glib_pollfds_poll () at util/main-loop.c:213
+  #30 0x00005646d5c532b4 in os_host_main_loop_wait (timeout=3D29821719) at =
+util/main-loop.c:236
+  #31 0x00005646d5c533b9 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:512
+  #32 0x00005646d581d1a1 in main_loop () at vl.c:1791
+  #33 0x00005646d582485f in main (argc=3D11, argv=3D0x7ffc18054868, envp=3D=
+0x7ffc180548c8) at vl.c:4473
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835865/+subscriptions
 
