@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6D6639C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:02:28 +0200 (CEST)
-Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7000E639F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:12:05 +0200 (CEST)
+Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktVc-0000Vz-15
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46285)
+	id 1hkteu-000687-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50135)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hktSG-0007VC-0S
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:59:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hktaL-0004HX-Ux
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hktSE-0000kv-R1
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:59 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41421)
+ (envelope-from <peter.maydell@linaro.org>) id 1hktaG-0006jy-K2
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:19 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37554)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
- id 1hktSE-0000hm-1g
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:58 -0400
-Received: by mail-qk1-x742.google.com with SMTP id v22so16555139qkj.8
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hktaA-0006ci-Cr
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:12 -0400
+Received: by mail-oi1-x241.google.com with SMTP id t76so15951594oih.4
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 10:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HPQ1tvy+lFmiR442HCJw9Ev+cSVFjJw7MuU1lWnI/nY=;
- b=Pq3CAL2YhhehKuhfKMRb/CIZbj1s5j+2Y5bYmIoQyq8ZxpozyQmq7Hhjqg2xLt5lwY
- 6tinbflSpoHECKZfzR1G5nrbiFFnrh0/ViOXlCBJqxvHKiMxxYXP6IIAXJm/kH1kNEMp
- E/R09tMDlCsqOL1B7fZug/7g2+CrUP+IggOlber29PXrYBwbSapLtUBE3ur7k9GkziSn
- WGlMWHMRxBqUGlcXV8kff69KVCY5qJbAXzJzCW/Ty5aUiekcaW3kuq1mf+KYa1lvtoHq
- 2EB1A1ICZ1HuewOogeJ/bYnf+57jq7Hdv4egnE5KK7u3SDQFBW2g6DUUHOJstu9jTWpd
- xV9A==
+ :cc; bh=cS9iqPnFf/f8ixjaudjLolIR9G/QaJ05phEjjSxvs9M=;
+ b=roJZ0rhCWPA20jjDPYubNT7hfcIxK+HZmsrgY8murJZfUu/klMArrHdWX8zyd/Y15u
+ v9hIO5J+xc7BoKPisrErdiyMiOutz7u3B6jEmZizyNESEn2/k/X8g6Qq1FHzn5H/+zVS
+ QteMvpJzJ5nH1EbNdsAZiVD0D+stfAUQB84l+rVy6cs2G+iPb1mnfwsDBtSG/pTn5aqR
+ UOP1wNSEPh8K+WAWEA3gSBmb+3q1Fbq+3Fhx/KqbkcYfcNzO1v5DdJ32p13glulgFYL8
+ VI6aG88KNc5Yc0YkS9ghAR6N2L8Wd9mi6ZbfYJQ1n7S/15seO9VLlj4XXGU6jMyuZ9QF
+ PS7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HPQ1tvy+lFmiR442HCJw9Ev+cSVFjJw7MuU1lWnI/nY=;
- b=P+YUjTmIccM9iTurhA0SGspAQZxSVoQOvtMHD/EqO0VycKmoTP475hstaFfzm4Rg9f
- LbB80niNNbV3zE1fvD2nYINpLE9409WLpvPc5GWWE/bu2Wq8iktZzQvc6FPoswzL46+n
- FMaIGWsIXdHFCbJIHNHID6cAJrrpIWODBTZCq326kq0ve1oG/kzCqXgwKOFIHByiKqLS
- q+veA/z0RJ1xQxJktb6DPtSZNfUBRutqYLirmktvRqxOmDzkHI3pZSyCF4ImDK8q/MRN
- hxL4jDwyxzF2AstK4EhDqv9fLJTX1ByQveVCnJXjNKjrWso/QIEtYf+NWFNpI3vEBqxh
- KnQg==
-X-Gm-Message-State: APjAAAVDUgWWqA9dtT8/1V7m66y/wDtwAIh1N9F8eUcWhvVMkq3Fpzo3
- LNRgKlMLsQk268HQI7onQ3wXEnEAmk/M83fXQ4U=
-X-Google-Smtp-Source: APXvYqz/GDwLrcPehHkWu2lcRJe+VpMo6oixaTM2cTp9s1nKwJV73ZbRmA1hTOfnd2CY5yZAcSEwilCXK4YHs0zzlBY=
-X-Received: by 2002:a05:620a:4:: with SMTP id
- j4mr19561311qki.269.1562691535245; 
- Tue, 09 Jul 2019 09:58:55 -0700 (PDT)
+ bh=cS9iqPnFf/f8ixjaudjLolIR9G/QaJ05phEjjSxvs9M=;
+ b=HlRgkmZwbl8uyAUE6UNP19CMfoxxLcV+5IfD9j1ikVfeEoferQFfUXVyvQjT7AgEBP
+ PbrAZbMB9mQrs6PNyr4+LzLeJypsg8k2FXjmWcDB9eBwxsU2yUBGA1EZx7fjiFYcsdQ2
+ 5yhfLXRkuCKpRhXxKG2K2dcPck1SqIfr9D012oQEXbdVZ6fTc0jaEfgxKC1YLi28U5Eu
+ Yea02XxN3yX9yjE3ip6VvDf0b5e0d3Yp0Wv/PMwm8UaJUO+ZQx4AR+dOJSObN4o8m5ky
+ vxHwkC3CqthIBvWVtQFMbO/0n4fzF+/l6IBuPivF8lEakWJttLUiytWzNujUqmwvsdyZ
+ bIMA==
+X-Gm-Message-State: APjAAAUJuj8wpq1kkrBX4CYku3EkLUBlej/mRXr3PJY0lwKXM4WLdmsI
+ CTP4noT3x3RKWm5Fk6Q3tmyu+YFmTA5b1NYhFHDY1w==
+X-Google-Smtp-Source: APXvYqwd2gb16UwILKcA4ca9PGsyZ8lbXyGimVLCuG5yHD05WLBCszpX4HK5gljrHje9/1nSeg9rE6QR2d2Bd8CTKGQ=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr637259oib.163.1562692023714; 
+ Tue, 09 Jul 2019 10:07:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
  <2136180936.260219.1561641583358@mail.yahoo.com>
@@ -62,16 +61,16 @@ References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
  <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
  <1399218244.1210557.1561982640362@mail.yahoo.com>
  <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
-From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-Date: Wed, 10 Jul 2019 01:58:40 +0900
-Message-ID: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+ <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+In-Reply-To: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 Jul 2019 18:06:52 +0100
+Message-ID: <CAFEAcA8smaPX-h1qit=b14z_4JRuB-qF+U7TQNTJF+iWMOneFQ@mail.gmail.com>
+To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::742
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+X-Received-From: 2607:f8b0:4864:20::241
 Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
  gen_exception
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,56 +90,31 @@ Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 9:11 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+On Tue, 9 Jul 2019 at 17:58, Lucien Murray-Pitts
+<lucienmp.qemu@gmail.com> wrote:
+> On Mon, Jul 1, 2019 at 9:11 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > Yes, that's a known bug for arm -- we treat "single step" as
+>> > "execute one instruction", whereas I think most debuggers will
+>> > treat "we took an exception" as a reason to stop the single step
+>> > and return control to the user, rather than executing the insn at
+>> > the exception entry point as the one instruction of the step.
+>> > (You can see similar odd behaviour if you try to single step a
+>> > load instruction which causes a data abort, for instance -- on
+>> > arm at least we will execute the first insn of the data abort
+>> > handler before completing the step.)
 
-> > On Mon, 1 Jul 2019 at 13:04, Lucien Anti-Spam
-> > <lucienmp_antispam@yahoo.com> wrote:
-> > > Further to my initial problem I noticed that TRAP #0 also jumps to the
-> handlers +1 instruction.
-> > > Same behavior can also be seen with ARM "SWI #0".    (PC shows 0x0C vs
-> the expected 0x08)
-> >
-> > Yes, that's a known bug for arm -- we treat "single step" as
-> > "execute one instruction", whereas I think most debuggers will
-> > treat "we took an exception" as a reason to stop the single step
-> > and return control to the user, rather than executing the insn at
-> > the exception entry point as the one instruction of the step.
-> > (You can see similar odd behaviour if you try to single step a
-> > load instruction which causes a data abort, for instance -- on
-> > arm at least we will execute the first insn of the data abort
-> > handler before completing the step.)
-> > thanks
-> > -- PMM
->
+> As recommended in the previous email this is fixable with a call to handle debug
+> when were in single step -  I will submit that patch if nobody else it working on this?
 
-As recommended in the previous email this is fixable with a call to handle
-debug
-when were in single step -  I will submit that patch if nobody else it
-working on this?
+I don't think anybody else is, so go ahead.
 
-I also then found the m68k stack frame is fouled for 68010/68020 (wrong
-frame type,
-and it does not honor the special status word aka SSW).
+> Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt( CPUState *cs)" ?
 
-In real hardware the handler code should alter the stack frame chaning the
-SSW.
-RTE should then start/or-not-start the "pipeline" again from the setting in
-the SSW.
-This allows for stage B/C stage re-runs, thus a retry on the read
-instruction.
-I suspect it will keep looping, and retrying until the exception handler
-decides to turn
-off the rerun.
+You can't -- pc_next exists only at translate time, and the do_interrupt
+function is called at run time. What do_interrupt needs to do is look
+at (a) the current state of the CPU and (b) whatever has been stashed
+in the exception frame, and then update the state of the CPU accordingly.
 
-I am thinking the easiest method would be to check the re-run bits in the
-SSW and
-jump back to next_pc instead of pc inside the RTE instruction handler.
+thanks
+-- PMM
 
-Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt(
-CPUState *cs)" ?
-
-What do we think of this approach?
-
-Cheers,
-Luc
