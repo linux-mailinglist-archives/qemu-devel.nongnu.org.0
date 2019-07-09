@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC64E63C2F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:52:01 +0200 (CEST)
-Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAE063C52
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:59:37 +0200 (CEST)
+Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkw9h-0006IC-1q
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48903)
+	id 1hkwH2-00028u-FB
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8E-0005Lu-DZ
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:31 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8j-0005sR-Kg
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8D-0002Eh-4r
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56772)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8g-0002rA-Gu
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47242)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1hkw8C-0002Ci-UB
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:29 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hkw8c-0002kY-N1
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CDEF830860B4;
- Tue,  9 Jul 2019 19:43:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B6EE7317915D;
+ Tue,  9 Jul 2019 19:43:55 +0000 (UTC)
 Received: from localhost (ovpn-112-55.ams2.redhat.com [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F7D85DD6D;
- Tue,  9 Jul 2019 19:43:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E19292D3A;
+ Tue,  9 Jul 2019 19:43:47 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 23:43:25 +0400
-Message-Id: <20190709194330.837-1-marcandre.lureau@redhat.com>
+Date: Tue,  9 Jul 2019 23:43:26 +0400
+Message-Id: <20190709194330.837-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20190709194330.837-1-marcandre.lureau@redhat.com>
+References: <20190709194330.837-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 09 Jul 2019 19:43:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Tue, 09 Jul 2019 19:43:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/5] tests/docker: add podman support
+Subject: [Qemu-devel] [PATCH v2 1/5] docker.py: add podman support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,41 +64,127 @@ Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Add a --engine option to select either docker, podman or auto.
 
-podman allows to run containers in a similar fashion as docker, but
-without daemon or root privileges. Thank you podman!
+Among other advantages, podman allows to run rootless & daemonless
+containers, fortunately sharing compatible CLI with docker.
 
-There is a weird issue with getaddrinfo(), that I reported upstream
-https://github.com/containers/libpod/issues/3535. For now, it is
-worked around with extra socket_check_protocol_support() checks.
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ tests/docker/docker.py | 43 +++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-thanks
-
-v2:
-- add socket_check_protocol_support() to test-char
-- keep TAP harness happy when socket_check_protocol_support() fails
-- removed bad AI_ADDRCONFIG patch
-- rebased
-
-Marc-Andr=C3=A9 Lureau (5):
-  docker.py: add podman support
-  tests/docker: add podman support
-  tests: specify the address family when checking bind
-  test-char: skip tcp tests if ipv4 check failed
-  test: skip tests if socket_check_protocol_support() failed
-
- Makefile                       |  2 +-
- tests/Makefile.include         |  2 +-
- tests/docker/Makefile.include  | 17 +++++++++++---
- tests/docker/docker.py         | 43 ++++++++++++++++++++++++++++++----
- tests/socket-helpers.c         | 17 ++++++++++----
- tests/socket-helpers.h         | 11 ---------
- tests/test-char.c              | 19 +++++++++++----
- tests/test-io-channel-socket.c |  4 +++-
- tests/test-util-sockets.c      |  4 +++-
- 9 files changed, 88 insertions(+), 31 deletions(-)
-
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 53a8c9c801..1f59a78b10 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -20,6 +20,7 @@ import hashlib
+ import atexit
+ import uuid
+ import argparse
++import enum
+ import tempfile
+ import re
+ import signal
+@@ -38,6 +39,26 @@ FILTERED_ENV_NAMES =3D ['ftp_proxy', 'http_proxy', 'ht=
+tps_proxy']
+=20
+ DEVNULL =3D open(os.devnull, 'wb')
+=20
++class EngineEnum(enum.IntEnum):
++    AUTO =3D 1
++    DOCKER =3D 2
++    PODMAN =3D 3
++
++    def __str__(self):
++        return self.name.lower()
++
++    def __repr__(self):
++        return str(self)
++
++    @staticmethod
++    def argparse(s):
++        try:
++            return EngineEnum[s.upper()]
++        except KeyError:
++            return s
++
++
++USE_ENGINE =3D EngineEnum.AUTO
+=20
+ def _text_checksum(text):
+     """Calculate a digest string unique to the text content"""
+@@ -48,9 +69,14 @@ def _file_checksum(filename):
+     return _text_checksum(open(filename, 'rb').read())
+=20
+=20
+-def _guess_docker_command():
+-    """ Guess a working docker command or raise exception if not found""=
+"
+-    commands =3D [["docker"], ["sudo", "-n", "docker"]]
++def _guess_engine_command():
++    """ Guess a working engine command or raise exception if not found""=
+"
++    commands =3D []
++
++    if USE_ENGINE in [EngineEnum.AUTO, EngineEnum.PODMAN]:
++        commands +=3D [["podman"]]
++    if USE_ENGINE in [EngineEnum.AUTO, EngineEnum.DOCKER]:
++        commands +=3D [["docker"], ["sudo", "-n", "docker"]]
+     for cmd in commands:
+         try:
+             # docker version will return the client details in stdout
+@@ -61,7 +87,7 @@ def _guess_docker_command():
+         except OSError:
+             pass
+     commands_txt =3D "\n".join(["  " + " ".join(x) for x in commands])
+-    raise Exception("Cannot find working docker command. Tried:\n%s" %
++    raise Exception("Cannot find working engine command. Tried:\n%s" %
+                     commands_txt)
+=20
+=20
+@@ -190,7 +216,7 @@ def _dockerfile_preprocess(df):
+ class Docker(object):
+     """ Running Docker commands """
+     def __init__(self):
+-        self._command =3D _guess_docker_command()
++        self._command =3D _guess_engine_command()
+         self._instances =3D []
+         atexit.register(self._kill_instances)
+         signal.signal(signal.SIGTERM, self._kill_instances)
+@@ -502,6 +528,8 @@ class ProbeCommand(SubCommand):
+                 print("yes")
+             elif docker._command[0] =3D=3D "sudo":
+                 print("sudo")
++            elif docker._command[0] =3D=3D "podman":
++                print("podman")
+         except Exception:
+             print("no")
+=20
+@@ -597,9 +625,13 @@ class CheckCommand(SubCommand):
+=20
+=20
+ def main():
++    global USE_ENGINE
++
+     parser =3D argparse.ArgumentParser(description=3D"A Docker helper",
+                                      usage=3D"%s <subcommand> ..." %
+                                      os.path.basename(sys.argv[0]))
++    parser.add_argument("--engine", type=3DEngineEnum.argparse, choices=3D=
+list(EngineEnum),
++                        help=3D"specify which container engine to use")
+     subparsers =3D parser.add_subparsers(title=3D"subcommands", help=3DN=
+one)
+     for cls in SubCommand.__subclasses__():
+         cmd =3D cls()
+@@ -608,6 +640,7 @@ def main():
+         cmd.args(subp)
+         subp.set_defaults(cmdobj=3Dcmd)
+     args, argv =3D parser.parse_known_args()
++    USE_ENGINE =3D args.engine
+     return args.cmdobj.run(args, argv)
+=20
+=20
 --=20
 2.22.0.214.g8dca754b1e
 
