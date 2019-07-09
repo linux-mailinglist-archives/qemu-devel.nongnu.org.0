@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEAA632E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:38:00 +0200 (CEST)
-Received: from localhost ([::1]:47802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C57632E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:39:39 +0200 (CEST)
+Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkldP-00058Z-Vp
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33285)
+	id 1hklf0-0006qM-78
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hklcq-0004jY-Ru
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:37:25 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hkldT-0005UP-B0
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hklcp-0006YI-Ri
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:37:24 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45648)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hklcn-0006WU-SX
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:37:22 -0400
-Received: by mail-oi1-x244.google.com with SMTP id m206so14742136oib.12
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 01:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=en7JuXeewC1PJQ+dn18CZPtUz2HVgySyM2WeaGGQfzA=;
- b=i6638KnPqCv9KbxRUa9B5iXhjsG9cHe40m0ry2TVx1scMtwzsDEowXkzJKPw64WG5s
- Q1raZiHbu4bcKmgIE6P9amLTuPNMTvmYzb229oToISge0T2I/9KdFXIh86qUIip/gtJ2
- tqNHr3822uShQhnBujZP4MG/r8VTeWhwGhKyU03aaiuVoGRCDif+L+RxtpTnLL/eS4K9
- lLyFYYH2XysT3n/Ktv1tXmQJiqlSnwuLW060AWv3jBkqXBX2nQkn8Ob3VwoMLsxquQVt
- gv5xoy0YEicHctProoopKITBld9lK1IZIq1E3vztmuKVYGGPyAduWRgYfh5l9r8i1nZ2
- uZ+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=en7JuXeewC1PJQ+dn18CZPtUz2HVgySyM2WeaGGQfzA=;
- b=htkiA/9P9phLpDyD2OhLTOGoN/yv0jhpp1G4TtIMkGAR3rCpd6m7NRRE7WTZRrEzwX
- S0jtZf/IwPX4SnL6WFVOCeeH/VpADsLFMEWmggJ8zuqFzem1iLK7aMH92tLjdF7x4xxV
- MEuKFlxjnZVGsySW+CK6ORVyfXlK9wyhqiU8z4RP+BCLQDto0Zyc7h7T4X3XHO9Y+51C
- 30Ul5EfrsApjJpOC5VJyXTLSnfxq2/p8d/UjoEwXWRTc9MZJJTCr2URiCsof44ZhHQ5v
- aOjmxhwLcGFtz9dO2MapLDt9PvZqot/CenORiccl2INo84xni1ureh6iIoSsCLxwsxHa
- 3+nQ==
-X-Gm-Message-State: APjAAAWyocGZImBgOeZqdvu1jN4Z+duWrIfLpyw2eToCBRb8nyzOzX+K
- 3n75LASAn0C25CvsBLHmbjUIP8202PEijxdlEVX9hA==
-X-Google-Smtp-Source: APXvYqxPTenHjCQRzGctS/gh93DJMEIHCAJ5zw4LXPujZMnr1NSXdTM2uEyWJLhNkLtFHTstK5vtjYddGPflHXjRdSg=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr1065721oic.170.1562661439441; 
- Tue, 09 Jul 2019 01:37:19 -0700 (PDT)
+ (envelope-from <eric.auger@redhat.com>) id 1hkldS-0006z7-5Q
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60810)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hkldR-0006y0-Sx
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5A1493084027;
+ Tue,  9 Jul 2019 08:38:00 +0000 (UTC)
+Received: from [10.36.116.46] (ovpn-116-46.ams2.redhat.com [10.36.116.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99D055D9E5;
+ Tue,  9 Jul 2019 08:37:46 +0000 (UTC)
+To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org, mst@redhat.com,
+ pbonzini@redhat.com, alex.williamson@redhat.com, peterx@redhat.com
+References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
+ <1562324511-2910-8-git-send-email-yi.l.liu@intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <1dbeec81-8fa6-4e5c-fc62-4a999387bd12@redhat.com>
+Date: Tue, 9 Jul 2019 10:37:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <cover.1562611535.git.alistair.francis@wdc.com>
- <mhng-2211c89e-80c2-45d7-a471-ec0c30d871a4@palmer-si-x1e>
-In-Reply-To: <mhng-2211c89e-80c2-45d7-a471-ec0c30d871a4@palmer-si-x1e>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Jul 2019 09:37:08 +0100
-Message-ID: <CAFEAcA8Bf4Zt4U6p3uMsn8cwv+=7ZHxOt7y2FZzB8TYkyo8AHA@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v1 0/2] RISC-V: Add default OpenSBI ROM
+In-Reply-To: <1562324511-2910-8-git-send-email-yi.l.liu@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Tue, 09 Jul 2019 08:38:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v1 07/18] hw/pci: add
+ pci_device_bind/unbind_gpasid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,30 +62,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Jeff Cody <codyprime@gmail.com>,
- Anup Patel <anup@brainfault.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: tianyu.lan@intel.com, kevin.tian@intel.com,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ kvm@vger.kernel.org, jun.j.tian@intel.com, yi.y.sun@intel.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 09:35, Palmer Dabbelt <palmer@sifive.com> wrote:
-> I haven't looked at the code yet, but as the last one was fine it's probably
-> OK.  My only issue here is the timing: it's after the soft freeze so if I
-> understand correctly we're not supposed to take any new features into 4.1.
-> That's kind of unfortunate because it's somewhat unobtrusive and super useful.
->
-> Peter: would you be OK taking this some time later this week?  I'd want to dig
-> through it and then bang on it a bit first.  If not then I'll queue it up for
-> 4.2.
+Hi Liu,
 
-The first attempt at putting this into master got onto the list before
-freeze, so it's OK. Plus this clearly will only affect users using the
-riscv boards, so it's a limited-scope change. So I think we're better
-off putting it into 4.1 rather than not, assuming you're happy with
-the level of testing it's had.
+On 7/5/19 1:01 PM, Liu Yi L wrote:
+> This patch adds two callbacks pci_device_bind/unbind_gpasid() to
+> PCIPASIDOps. These two callbacks are used to propagate guest pasid
+> bind/unbind to host. The implementations of the callbacks would be
+> device passthru modules like vfio.
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> ---
+>  hw/pci/pci.c         | 30 ++++++++++++++++++++++++++++++
+>  include/hw/pci/pci.h |  9 +++++++++
+>  2 files changed, 39 insertions(+)
+> 
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 710f9e9..2229229 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2676,6 +2676,36 @@ int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn,
+>      return -1;
+>  }
+>  
+> +void pci_device_bind_gpasid(PCIBus *bus, int32_t devfn,
+> +                                struct gpasid_bind_data *g_bind_data)
+struct gpasid_bind_data is defined in linux headers so I think you would
+need: #ifdef __linux__
+> +{
+> +    PCIDevice *dev;
+> +
+> +    if (!bus) {
+> +        return;
+> +    }
+> +
+> +    dev = bus->devices[devfn];
+> +    if (dev && dev->pasid_ops) {
+> +        dev->pasid_ops->bind_gpasid(bus, devfn, g_bind_data);
+> +    }
+> +}
+> +
+> +void pci_device_unbind_gpasid(PCIBus *bus, int32_t devfn,
+> +                                struct gpasid_bind_data *g_bind_data)
+> +{
+> +    PCIDevice *dev;
+> +
+> +    if (!bus) {
+> +        return;
+> +    }
+> +
+> +    dev = bus->devices[devfn];
+> +    if (dev && dev->pasid_ops) {
+> +        dev->pasid_ops->unbind_gpasid(bus, devfn, g_bind_data);
+> +    }
+> +}
+> +
+>  static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+>  {
+>      Range *range = opaque;
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 16e5b8e..8d849e6 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -9,6 +9,7 @@
+>  #include "hw/isa/isa.h"
+>  
+>  #include "hw/pci/pcie.h"
+> +#include <linux/iommu.h>
+>  
+>  extern bool pci_available;
+>  
+> @@ -267,6 +268,10 @@ struct PCIPASIDOps {
+>      int (*alloc_pasid)(PCIBus *bus, int32_t devfn,
+>                           uint32_t min_pasid, uint32_t max_pasid);
+>      int (*free_pasid)(PCIBus *bus, int32_t devfn, uint32_t pasid);
+> +    void (*bind_gpasid)(PCIBus *bus, int32_t devfn,
+> +                            struct gpasid_bind_data *g_bind_data);
+> +    void (*unbind_gpasid)(PCIBus *bus, int32_t devfn,
+> +                            struct gpasid_bind_data *g_bind_data);
+>  };
+>  
+>  struct PCIDevice {
+> @@ -497,6 +502,10 @@ bool pci_device_is_ops_set(PCIBus *bus, int32_t devfn);
+>  int pci_device_request_pasid_alloc(PCIBus *bus, int32_t devfn,
+>                                     uint32_t min_pasid, uint32_t max_pasid);
+>  int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn, uint32_t pasid);
+> +void pci_device_bind_gpasid(PCIBus *bus, int32_t devfn,
+> +                            struct gpasid_bind_data *g_bind_data);
+> +void pci_device_unbind_gpasid(PCIBus *bus, int32_t devfn,
+> +                            struct gpasid_bind_data *g_bind_data);
+>  
+>  static inline void
+>  pci_set_byte(uint8_t *config, uint8_t val)
+> 
+Thanks
 
-thanks
--- PMM
+Eric
 
