@@ -2,54 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4823363A0C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:18:54 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A40163A21
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:26:21 +0200 (CEST)
+Received: from localhost ([::1]:52312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktlU-0002eT-Ci
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:18:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51611)
+	id 1hktsi-0007Wr-AV
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55928)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hktdw-0005wN-Jv
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:11:07 -0400
+ (envelope-from <maran.wilson@oracle.com>) id 1hkto6-0004tW-ER
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hktdv-0000ps-85
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:11:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59196)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
- id 1hktdY-0000GY-Cq; Tue, 09 Jul 2019 13:10:42 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7182E30C7467;
- Tue,  9 Jul 2019 17:10:12 +0000 (UTC)
-Received: from work-vm (ovpn-117-75.ams2.redhat.com [10.36.117.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2201871C7;
- Tue,  9 Jul 2019 17:10:05 +0000 (UTC)
-Date: Tue, 9 Jul 2019 18:10:02 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190709171002.GJ2725@work-vm>
-References: <20190705154639.16591-1-philmd@redhat.com>
- <20190705154639.16591-3-philmd@redhat.com>
- <20190709103022.GA2766@work-vm>
- <dd8dd585-9774-78d4-17ee-89b30c81a0c4@redhat.com>
+ (envelope-from <maran.wilson@oracle.com>) id 1hkto3-00017I-04
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:33 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:44544)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <maran.wilson@oracle.com>)
+ id 1hkto2-0000nf-BG
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:30 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x69HJV5i106130;
+ Tue, 9 Jul 2019 17:21:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=QG7Cn5ilNtKmYY+Sw+y1cHv7M7dmnZ2eB20dwustp3g=;
+ b=ljaH5H6fiMn7s3EW14oRNzJt+sQvH1CGyyuqeC2jVUtu642GMfoyP14W2zxOvKfo5uET
+ q0L8n6kWqmgxAIod5xUtvdbikueSos6F1NX98qyGAv273S4K8R9OhjnFvMzvT4Ey9YIX
+ Xb4DFJnidqItMQnxawLQW8w5eYHQmvwtFmDPxYZyKlxYklyICa1Sr3cBilvl0miCWOFK
+ L6EaxvWdrtMjKxQAO4PGu5JnYfcT3YxUNwWkmcwPfdSNcZTlMBo17sx+k76fa4Duu+fl
+ VPFeaOjBNVVXEKkkJQsa22+lX4aR0khUac4BlFrDvnFiJPUMWWCwvc9Usr4bKwNvujto qQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2tjm9qnn6e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 09 Jul 2019 17:21:19 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x69HI2lo028495;
+ Tue, 9 Jul 2019 17:21:19 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2tjjykx7by-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 09 Jul 2019 17:21:19 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x69HLHwi020202;
+ Tue, 9 Jul 2019 17:21:18 GMT
+Received: from [10.159.233.89] (/10.159.233.89)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 09 Jul 2019 10:21:17 -0700
+To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
+References: <20190705210636.3095-1-liran.alon@oracle.com>
+ <20190705210636.3095-2-liran.alon@oracle.com>
+From: Maran Wilson <maran.wilson@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <7958e451-b39a-76ae-1b57-dc92572e7b5d@oracle.com>
+Date: Tue, 9 Jul 2019 10:21:15 -0700
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <dd8dd585-9774-78d4-17ee-89b30c81a0c4@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Tue, 09 Jul 2019 17:10:12 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 2/9] hw/block/pflash_cfi01: Use the
- correct READ_ARRAY value
+In-Reply-To: <20190705210636.3095-2-liran.alon@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9313
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1907090204
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9313
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1907090204
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [PATCH 1/4] target/i386: kvm: Init nested-state
+ for VMX when vCPU expose VMX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,132 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: pbonzini@redhat.com, Joao Martins <joao.m.martins@oracle.com>,
+ ehabkost@redhat.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> Hi David,
->=20
-> On 7/9/19 12:30 PM, Dr. David Alan Gilbert wrote:
-> > * Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> >> In the "Read Array Flowchart" the command has a value of 0xFF.
-> >>
-> >> In the document [*] the "Read Array Flowchart", the READ_ARRAY
-> >> command has a value of 0xff.
-> >>
-> >> Use the correct value in the pflash model.
-> >>
-> >> There is no change of behavior in the guest, because:
-> >> - when the guest were sending 0xFF, the reset_flash label
-> >>   was setting the command value as 0x00
-> >> - 0x00 was used internally for READ_ARRAY
-> >>
-> >> To keep migration behaving correctly, we have to increase
-> >> the VMState version. When migrating from an older version,
-> >> we use the correct command value.
-> >=20
-> > The problem is that incrementing the version will break backwards
-> > compatibility; so you won't be able to migrate this back to an older
-> > QEMU version; so for example a q35/uefi with this won't be able
-> > to migrate backwards to a 4.0.0 or older qemu.
-> >=20
-> > So instead of bumping the version_id you probably need to wire
-> > the behaviour to a machine type and then on your new type
-> > wire a subsection containing a flag; the reception of that subsection
-> > tells you to use the new/correct semantics.
->=20
-> I'm starting to understand VMState subsections, but it might be overkill
-> for this change...
->=20
->   Subsections
->   -----------
->=20
->   The most common structure change is adding new data, e.g. when adding
->   a newer form of device, or adding that state that you previously
->   forgot to migrate.  This is best solved using a subsection.
->=20
-> This is not the case here, the field is already present and migrated.
->=20
-> It seems I can use a simple pre_save hook, always migrating the
-> READ_ARRAY using the incorrect value:
->=20
-> -- >8 --
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -97,12 +97,29 @@ struct PFlashCFI01 {
->      bool incorrect_read_array_command;
->  };
->=20
-> +static int pflash_pre_save(void *opaque)
-> +{
-> +    PFlashCFI01 *s =3D opaque;
-> +
-> +    /*
-> +     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
-> +     * READ_ARRAY command. To preserve migrating to these older version,
-> +     * always migrate the READ_ARRAY command as 0x00.
-> +     */
-> +    if (s->cmd =3D=3D 0xff) {
-> +        s->cmd =3D 0x00;
-> +    }
-> +
-> +    return 0;
-> +}
-
-Be careful what happens if migration fails and you continue on the
-source - is that OK - or are you going to have to flip that back somehow
-(in a post_save).
-
-Another way to do the same is to have a dummy field; tmp_cmd, and the
-tmp_cmd is the thing that's actually migrated and filled by pre_save
-(or use VMSTATE_WITH_TMP )
-
-
->  static int pflash_post_load(void *opaque, int version_id);
->=20
->  static const VMStateDescription vmstate_pflash =3D {
->      .name =3D "pflash_cfi01",
->      .version_id =3D 1,
->      .minimum_version_id =3D 1,
-> +    .pre_save =3D pflash_pre_save,
->      .post_load =3D pflash_post_load,
->      .fields =3D (VMStateField[]) {
->          VMSTATE_UINT8(wcycle, PFlashCFI01),
-> @@ -1001,5 +1018,14 @@ static int pflash_post_load(void *opaque, int
-> version_id)
->          pfl->vmstate =3D qemu_add_vm_change_state_handler(postload_updat=
-e_cb,
->                                                          pfl);
->      }
-> +
-> +    /*
-> +     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
-> +     * READ_ARRAY command.
-> +     */
-> +    if (pfl->cmd =3D=3D 0x00) {
-> +        pfl->cmd =3D 0xff;
-> +    }
-> +
->      return 0;
->  }
+On 7/5/2019 2:06 PM, Liran Alon wrote:
+> Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
 > ---
->=20
-> Being simpler and less intrusive (no new property in hw/core/machine.c),
-> is this acceptable?
+>   target/i386/kvm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index e4b4f5756a34..b57f873ec9e8 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -1714,7 +1714,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>   
+>           env->nested_state->size = max_nested_state_len;
+>   
+> -        if (IS_INTEL_CPU(env)) {
+> +        if (cpu_has_vmx(env)) {
+>               struct kvm_vmx_nested_state_hdr *vmx_hdr =
+>                   &env->nested_state->hdr.vmx;
+>   
 
-=46rom the migration point of view yes; I don't know enough about pflash
-to say if it makes sense;  for example could there ever be a 00 command
-really used and then you'd have to distinguish that somehow?
+Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
 
-> Thanks,
->=20
-> Phil.
->=20
-> [...]
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
+-Maran
 
