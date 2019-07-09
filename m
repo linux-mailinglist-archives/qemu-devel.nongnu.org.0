@@ -2,88 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A40163A21
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:26:21 +0200 (CEST)
-Received: from localhost ([::1]:52312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7597863A30
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:30:50 +0200 (CEST)
+Received: from localhost ([::1]:52352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktsi-0007Wr-AV
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55928)
+	id 1hktx3-0003CT-BO
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:30:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56655)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <maran.wilson@oracle.com>) id 1hkto6-0004tW-ER
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:35 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hktpJ-0005TJ-2p
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:22:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maran.wilson@oracle.com>) id 1hkto3-00017I-04
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:33 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:44544)
+ (envelope-from <no-reply@patchew.org>) id 1hktpH-0002Dq-2G
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:22:48 -0400
+Resent-Date: Tue, 09 Jul 2019 13:22:48 -0400
+Resent-Message-Id: <E1hktpH-0002Dq-2G@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21468)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maran.wilson@oracle.com>)
- id 1hkto2-0000nf-BG
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:21:30 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x69HJV5i106130;
- Tue, 9 Jul 2019 17:21:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=QG7Cn5ilNtKmYY+Sw+y1cHv7M7dmnZ2eB20dwustp3g=;
- b=ljaH5H6fiMn7s3EW14oRNzJt+sQvH1CGyyuqeC2jVUtu642GMfoyP14W2zxOvKfo5uET
- q0L8n6kWqmgxAIod5xUtvdbikueSos6F1NX98qyGAv273S4K8R9OhjnFvMzvT4Ey9YIX
- Xb4DFJnidqItMQnxawLQW8w5eYHQmvwtFmDPxYZyKlxYklyICa1Sr3cBilvl0miCWOFK
- L6EaxvWdrtMjKxQAO4PGu5JnYfcT3YxUNwWkmcwPfdSNcZTlMBo17sx+k76fa4Duu+fl
- VPFeaOjBNVVXEKkkJQsa22+lX4aR0khUac4BlFrDvnFiJPUMWWCwvc9Usr4bKwNvujto qQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2tjm9qnn6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Jul 2019 17:21:19 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x69HI2lo028495;
- Tue, 9 Jul 2019 17:21:19 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2tjjykx7by-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 09 Jul 2019 17:21:19 +0000
-Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x69HLHwi020202;
- Tue, 9 Jul 2019 17:21:18 GMT
-Received: from [10.159.233.89] (/10.159.233.89)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 09 Jul 2019 10:21:17 -0700
-To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
-References: <20190705210636.3095-1-liran.alon@oracle.com>
- <20190705210636.3095-2-liran.alon@oracle.com>
-From: Maran Wilson <maran.wilson@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <7958e451-b39a-76ae-1b57-dc92572e7b5d@oracle.com>
-Date: Tue, 9 Jul 2019 10:21:15 -0700
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hktp6-0001yC-48; Tue, 09 Jul 2019 13:22:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562692884; cv=none; d=zoho.com; s=zohoarc; 
+ b=on9nZFddQx02pSm86QQBC4CHTXa/G4MlgEuLe3D/Jw1ai/4QJF/648i6WJEe0+AwTGPRO89xcC62wUpw/wCt1cXJgplzWgeL0OnQylS9i2X+5e7IIBrNPWitlXguOY/4a036On3jVcS4SMcIP/qqOexcgYNoPsYi1d1IrJ6GFZ4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562692884;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=JSiVlmJEnG7VBVJWtPV6JYYiYa2HqhL6ZL6CYDRA6sE=; 
+ b=h6Mh+9X6siLHWS292xskf/RR3sJWvDa+nXgVi3Lf5GIzkftBtFGOGZQ/337HZRKioc/T/e2zCFw+9Y/tgMPFKok6E9LtFtmRpiVtZY+6Q7m6mowTkJgXOgX3IL9ESG2lZfehtiXCSbTKgxHvx4tjAxa3iq3zMAsBrlaQDzPLdOs=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562692882213140.32137335983214;
+ Tue, 9 Jul 2019 10:21:22 -0700 (PDT)
+Message-ID: <156269288106.29610.6890288216464036573@c4a48874b076>
+In-Reply-To: <20190709143912.28905-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190705210636.3095-2-liran.alon@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9313
- signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1907090204
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9313
- signatures=668688
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1907090204
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: Re: [Qemu-devel] [PATCH 1/4] target/i386: kvm: Init nested-state
- for VMX when vCPU expose VMX
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Tue, 9 Jul 2019 10:21:22 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH for-4.1] pl031: Correctly migrate state
+ when using -rtc clock=host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,34 +61,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Joao Martins <joao.m.martins@oracle.com>,
- ehabkost@redhat.com, kvm@vger.kernel.org
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, rmk@armlinux.org.uk, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/2019 2:06 PM, Liran Alon wrote:
-> Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> ---
->   target/i386/kvm.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index e4b4f5756a34..b57f873ec9e8 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1714,7 +1714,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
->   
->           env->nested_state->size = max_nested_state_len;
->   
-> -        if (IS_INTEL_CPU(env)) {
-> +        if (cpu_has_vmx(env)) {
->               struct kvm_vmx_nested_state_hdr *vmx_hdr =
->                   &env->nested_state->hdr.vmx;
->   
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwOTE0MzkxMi4yODkw
+NS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA3MDkxNDM5MTIuMjg5MDUtMS1wZXRl
+ci5tYXlkZWxsQGxpbmFyby5vcmcKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCBmb3ItNC4x
+XSBwbDAzMTogQ29ycmVjdGx5IG1pZ3JhdGUgc3RhdGUgd2hlbiB1c2luZyAtcnRjIGNsb2NrPWhv
+c3QKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
+dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
+Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKU3dp
+dGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozYzc2NTc4IHBsMDMxOiBDb3JyZWN0bHkgbWln
+cmF0ZSBzdGF0ZSB3aGVuIHVzaW5nIC1ydGMgY2xvY2s9aG9zdAoKPT09IE9VVFBVVCBCRUdJTiA9
+PT0KRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiMxNTY6
+IEZJTEU6IGh3L3RpbWVyL3BsMDMxLmM6MzAwOgorICAgIC5zdWJzZWN0aW9ucyA9IChjb25zdCBW
+TVN0YXRlRGVzY3JpcHRpb24qW10pIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDYgbGluZXMgY2hl
+Y2tlZAoKQ29tbWl0IDNjNzY1NzgzODRlMyAocGwwMzE6IENvcnJlY3RseSBtaWdyYXRlIHN0YXRl
+IHdoZW4gdXNpbmcgLXJ0YyBjbG9jaz1ob3N0KSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9
+PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcw
+OTE0MzkxMi4yODkwNS0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
-
-Thanks,
--Maran
 
