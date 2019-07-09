@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9DB6326B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:52:58 +0200 (CEST)
-Received: from localhost ([::1]:47578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621663275
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:54:41 +0200 (CEST)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkkvp-00072c-CB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
+	id 1hkkxU-0001EB-By
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hkktx-0005je-6b
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:02 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hkktx-0005jg-PK
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hkktw-0000zZ-4u
+ (envelope-from <richard.henderson@linaro.org>) id 1hkktw-0000ze-5H
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:01 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:37111)
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:34030)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hkktv-0000sv-TV
+ id 1hkktv-0000wr-Ue
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:00 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id b3so6344615plr.4
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 00:50:54 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id b13so4279538pfo.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 00:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=t5El953k6NH1n+xV8lDwymmaxDXjTJBkzNI+f57sIwE=;
- b=DCZtEeXrk5Bhd+8grwE5WkniMgAUoyAEiYXii5okPmBf4WOk/qPLhdZCtpS+M6Y/nx
- 2C6synfxh3aFFNcz3Ih9l2iioyNrTxXnz84KxRytwA5fwDVLq/IesebObeDsMZtfo7OH
- 8EXsvjPf65tvrBSvtJix73h6vsTPzERKe0LNcKPUaZHJfECJ413zxonZqlaK2lQbB+hy
- qE7RdlUVf9rYeH5RXMpSMXEjFzRJcfwnVCc+Ufv8DdEtj2SAOeW53tQ+T7ZwoqMbEai7
- zxfGDWUPI4KN8B67oqFZZLqGynNXrkKzOgns1P6Ri3YsH13VBRUtW1+ntnkTrFsLc5ur
- j1fQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=PqJ1ISuGV2u+IdiY8ngyBhS17daHeZo+xRM6Jaz465M=;
+ b=R2Xf7bB9WfosM0jErAXQugyS5r4ryza934b8npGVReYjwEUT7ULGB6tOBeETgl17dR
+ HwxmfSHSawfR3T9RuvpwOeR4VTTgj3ulT7Opoq0/TRAgPapKRbaneT5N0Xfpv5JVmrJi
+ MxwFjP1lWoL2B54rlwWIkTLSYfQj9ReJdFq4ls7OnIB8CoVdB3yWYkTJSDreyazQKl6v
+ Adn7x93E9BWhjgc1cx4cEVV2uZtG4jPABkyOqw2wPuRy0lccD6Vdhjx765tpBWAtJ+Dv
+ LckpdR4f9BjJFwe2XYn1d9GKAbFH66tKtChV1PpgAj50WSFplqKKG53hSaL2RXIwkb+n
+ OJcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=t5El953k6NH1n+xV8lDwymmaxDXjTJBkzNI+f57sIwE=;
- b=q0VAuNbQl18+fffQYecYcTHpmfrTCu0KtoL67N+2rKyylBFwqH5l8FGWoPOCXhweJq
- GJbdlpP9VWoA9sRx0SbD3CL6wl/7+/x42seiHtEMZq3qi7vReXgQcLrhj6S6S98ZATeq
- YD6NzdvKHbnPG5PhixiVCPd/M9hNEbRA17q2NqTXxdk1sMklcYtYnwSCpf0/WUIb312l
- NgDfGUSqG2s0rFAXOr8y9GFzZld1KZnbQbhMGc4RqLJsbHf5aXUtoa5LYGFfiSBBw9C8
- Dn1ToBpLgmG2TgtirwYtOUrbJwhtSvp3sdOKIZoORqbJFz60ki15R3LDpm/QKgH1dUVQ
- ZfIw==
-X-Gm-Message-State: APjAAAUpKSZqJ6vW9FcyWX2Bzgu+Q9f1UR2V85e5sTajLWK3LZ9eJqIE
- NQRTWgnIy4DDepeuNFNesUOaYOhE3aRVLg==
-X-Google-Smtp-Source: APXvYqzhPW8aF08AuDjbE+vQ1F7Ui759j7Di+2i2BxK4u/ZS6531epX9lf28MdLYTia/l/IUvebk7g==
-X-Received: by 2002:a17:902:1e9:: with SMTP id
- b96mr30571700plb.277.1562658653175; 
- Tue, 09 Jul 2019 00:50:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=PqJ1ISuGV2u+IdiY8ngyBhS17daHeZo+xRM6Jaz465M=;
+ b=rez0O7vgMIq/FuyFXbegIZbrkBGW2QtRHFZKmabDgf3dTZMAqTps1zSp0hcFGk0Xlb
+ Mbo+S+R3uQ0BWdWBVqtfgBMmXgO4wkNeikHCuEYFgpcOuJlwgoOWjtoIr1zBhK78PWyo
+ ggyV2L9beuawEHIXvZokW8aBiQH9j5drhuopACah14FnwLAfWlJgBSf730GykNfOwFTW
+ /9cCOijXhi6ZpW5eIkbxJ87OyMzl7ua2I35fADdmSMvSOnAcAjHgZRxYr5K2XyszWSGQ
+ k6Sz8mIAB3LIVRthpRhQ5UCRryTjEDl7vzfgBcrwU4JTHNNYw45RJF7Kl0SQWQC+6Emv
+ hvSw==
+X-Gm-Message-State: APjAAAXzqKAhXYz4n5N+8/YSGIDgRyRzOHg8qVTN9Y2sW99mPageikWe
+ AdXhdq+QSJlwyDosFr0wT8C8aOFGiUJuCQ==
+X-Google-Smtp-Source: APXvYqzbCKG4j+0d8cYHHRah6Gwn4NDsm5AEXpAWvUJ/8Z0mJ4lOK6bf9cMIZKLSTgDr5DtXM5gsmQ==
+X-Received: by 2002:a63:6eca:: with SMTP id j193mr28399881pgc.74.1562658656595; 
+ Tue, 09 Jul 2019 00:50:56 -0700 (PDT)
 Received: from localhost.localdomain ([172.56.12.212])
- by smtp.gmail.com with ESMTPSA id y22sm28237375pfo.39.2019.07.09.00.50.50
+ by smtp.gmail.com with ESMTPSA id y22sm28237375pfo.39.2019.07.09.00.50.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 00:50:52 -0700 (PDT)
+ Tue, 09 Jul 2019 00:50:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 09:50:37 +0200
-Message-Id: <20190709075042.13941-1-richard.henderson@linaro.org>
+Date: Tue,  9 Jul 2019 09:50:38 +0200
+Message-Id: <20190709075042.13941-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190709075042.13941-1-richard.henderson@linaro.org>
+References: <20190709075042.13941-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62c
-Subject: [Qemu-devel] [PULL v2 for-4.1 0/2] tcg patch queue
+X-Received-From: 2607:f8b0:4864:20::42d
+Subject: [Qemu-devel] [PULL 1/3] tcg: Fix mmap lock assert on translation
+ failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,37 +79,104 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For v2, drop the PAGE_EXEC patch that appeared to cause
-problems during Peter's testing.
+Check page flags before letting an invalid pc cause a SIGSEGV.
 
+Prepare for eventially validating PROT_EXEC.  The current wrinkle being
+that we have a problem with our implementation of signals.  We should
+be using a vdso like the kernel, but we instead put the trampoline on
+the stack.  In the meantime, let PROT_READ match PROT_EXEC.
 
-r~
+Fixes: https://bugs.launchpad.net/qemu/+bug/1832353
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/cpu-all.h                    |  1 +
+ include/exec/cpu_ldst_useronly_template.h |  8 +++++--
+ accel/tcg/translate-all.c                 | 29 +++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 2 deletions(-)
 
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 536ea58f81..58b8915617 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -259,6 +259,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
+ int page_get_flags(target_ulong address);
+ void page_set_flags(target_ulong start, target_ulong end, int flags);
+ int page_check_range(target_ulong start, target_ulong len, int flags);
++void validate_exec_access(CPUArchState *env, target_ulong s, target_ulong l);
+ #endif
+ 
+ CPUArchState *cpu_copy(CPUArchState *env);
+diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
+index bc45e2b8d4..f095415149 100644
+--- a/include/exec/cpu_ldst_useronly_template.h
++++ b/include/exec/cpu_ldst_useronly_template.h
+@@ -64,7 +64,9 @@
+ static inline RES_TYPE
+ glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+ {
+-#if !defined(CODE_ACCESS)
++#ifdef CODE_ACCESS
++    validate_exec_access(env, ptr, DATA_SIZE);
++#else
+     trace_guest_mem_before_exec(
+         env_cpu(env), ptr,
+         trace_mem_build_info(SHIFT, false, MO_TE, false));
+@@ -88,7 +90,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+ static inline int
+ glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+ {
+-#if !defined(CODE_ACCESS)
++#ifdef CODE_ACCESS
++    validate_exec_access(env, ptr, DATA_SIZE);
++#else
+     trace_guest_mem_before_exec(
+         env_cpu(env), ptr,
+         trace_mem_build_info(SHIFT, true, MO_TE, false));
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5d1e08b169..1d4a8a260f 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2600,10 +2600,39 @@ int page_check_range(target_ulong start, target_ulong len, int flags)
+                 }
+             }
+         }
++        /*
++         * FIXME: We place the signal trampoline on the stack,
++         * even when the guest expects that to be in the vdso.
++         * Until we fix that, allow execute on any readable page.
++         */
++        if ((flags & PAGE_EXEC) && !(p->flags & (PAGE_EXEC | PAGE_READ))) {
++            return -1;
++        }
+     }
+     return 0;
+ }
+ 
++/*
++ * Called for each code read, longjmp out to issue SIGSEGV if the page(s)
++ * do not have execute access.
++ */
++void validate_exec_access(CPUArchState *env,
++                          target_ulong ptr, target_ulong len)
++{
++    if (page_check_range(ptr, len, PAGE_EXEC) < 0) {
++        CPUState *cs = env_cpu(env);
++        CPUClass *cc = CPU_GET_CLASS(cs);
++
++        /* Like tb_gen_code, release the memory lock before cpu_loop_exit.  */
++        assert_memory_lock();
++        mmap_unlock();
++
++        /* This is user-only.  The target must raise an exception.  */
++        cc->tlb_fill(cs, ptr, 0, MMU_INST_FETCH, MMU_USER_IDX, false, 0);
++        g_assert_not_reached();
++    }
++}
++
+ /* called from signal handler: invalidate the code and unprotect the
+  * page. Return 0 if the fault was not handled, 1 if it was handled,
+  * and 2 if it was handled but the caller must cause the TB to be
+-- 
+2.17.1
 
-The following changes since commit f34edbc760b0f689deddd175fc08732ecb46665f:
-
-  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2019-07-08-1' into staging (2019-07-08 17:40:05 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/rth7680/qemu.git tags/pull-tcg-20190709
-
-for you to fetch changes up to 11978f6f58f1d3d66429f7ff897524f693d823ce:
-
-  tcg: Fix expansion of INDEX_op_not_vec (2019-07-09 08:26:11 +0200)
-
-----------------------------------------------------------------
-Minor gvec fix for as-yet uncommitted altivec host.
-Build fix for riscv host.
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      tcg/riscv: Fix RISC-VH host build failure
-
-Richard Henderson (1):
-      tcg: Fix expansion of INDEX_op_not_vec
-
- tcg/riscv/tcg-target.inc.c | 4 ++--
- tcg/tcg-op-vec.c           | 6 ++++++
- 2 files changed, 8 insertions(+), 2 deletions(-)
 
