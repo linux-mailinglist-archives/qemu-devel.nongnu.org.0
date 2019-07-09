@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B6663276
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:54:41 +0200 (CEST)
-Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422D56329A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:07:05 +0200 (CEST)
+Received: from localhost ([::1]:47664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkkxU-0001EI-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52223)
+	id 1hkl9U-00054k-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55260)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hkku9-0005rK-Us
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:14 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hkl8S-0004ax-7V
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:06:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hkku8-0001BO-U0
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:13 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41979)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hkku8-00019N-Nv
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:51:12 -0400
-Received: by mail-pf1-x443.google.com with SMTP id m30so8873280pff.8
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 00:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ty0ceSlhLSlZJKGDv3kDThADamDPPm/37CRvid7ZnoA=;
- b=eWVcSsFq9aLtDqtSBovb1RXNVYi06MIZTx56QqIKqG9j3TY5gU/ZweOs6GXXjFukWQ
- S4ATp2+8TJg2v/yeVLaAqmvZzSsl+LUM4q8tL0YZgdOLJbSqBN6/Wug6OIHfM/X2brty
- nKVnwEp9hwJ6Cpx6HNfpTjEseWl6BAQaQxpDlrJDNuXMVYGBPU5WzSPPdOKK+UM3w4ng
- 4K3dH9yX3uRHet9lQitMSsAzaUAc4KmNkkYlSLBK69aRWO5bEG2zuPA91Ef66acY0i8w
- iyXTmAOV/4W5dK7usOsv4rIToP+9LJ5E04FyKHN6nhq3/msOFujHkX0KIE0hSU0qAxPY
- B/hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ty0ceSlhLSlZJKGDv3kDThADamDPPm/37CRvid7ZnoA=;
- b=Kp43iMVTTJzAqS+ap49HAXowaKGWneYYxLpjQGauVomO8FaPxAR5+ilrSEIofPkLnX
- G8L5ZPL0vUgiMhz7S5mbmjx3UhvKVJJJCvly3+Xmqk+5A38jgpQ15UYaD+b6VLhx7U5/
- eJuvIHjL0o0uc3UCKB91BCb6z2W+bL0/unku7+XZz1B5caQOu0uuRlwPAsh/Ddnfz1fj
- kZeINUBNRr7gXY0hnC+LohGCHcho4tyG6f1fZY2u9L4M+YbF1mJlPA0kE0q09xyx8Z4A
- 5pzvZ4IjOrkiChoOmwOmJuH9O/xaRTZs5ZSygZnlB9owrDI77LWcnyhqaapjTY+Opr3k
- HyFw==
-X-Gm-Message-State: APjAAAUe1K0OwZjE5TLxLzuGMsn5bpw1ktMjnQ2A6dfOSnI2/26au0/A
- lVwncFhx+PIe/NUViENGwEyqfwM7nqZwMQ==
-X-Google-Smtp-Source: APXvYqwpCI+t2vRHjpzst1jT1BlqSWw5YLmPcAdF1fCem5IQLoeGrtsgGX0OEDE5R65/KPusQXr29A==
-X-Received: by 2002:a17:90a:24ac:: with SMTP id
- i41mr30885394pje.124.1562658670711; 
- Tue, 09 Jul 2019 00:51:10 -0700 (PDT)
-Received: from localhost.localdomain ([172.56.12.212])
- by smtp.gmail.com with ESMTPSA id y22sm28237375pfo.39.2019.07.09.00.51.07
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 00:51:10 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 09:50:42 +0200
-Message-Id: <20190709075042.13941-6-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190709075042.13941-1-richard.henderson@linaro.org>
-References: <20190709075042.13941-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PULL 3/3] tcg: Fix expansion of INDEX_op_not_vec
+ (envelope-from <stefanha@redhat.com>) id 1hkl8Q-0004XS-8b
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:05:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42188)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hkl8P-0004H4-Q8
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:05:58 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 80E8D308A98C
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 07:58:23 +0000 (UTC)
+Received: from localhost (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E456719C68;
+ Tue,  9 Jul 2019 07:58:18 +0000 (UTC)
+Date: Tue, 9 Jul 2019 09:58:16 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190709075816.GA25663@stefanha-x1.localdomain>
+References: <20190704102837.GA24190@redhat.com>
+ <20190705080717.GD10995@stefanha-x1.localdomain>
+ <8470a203-430b-1814-b2ef-6adf3fa739a6@redhat.com>
+ <87d0iok4ai.fsf@dusky.pond.sub.org>
+ <c4997dee-932c-eb57-23b9-4b51e8856f91@redhat.com>
+ <874l3zhktx.fsf@dusky.pond.sub.org>
+ <20190708093400.GB3082@redhat.com>
+ <e396d430-1e6e-2e0b-454b-5c4208756742@redhat.com>
+ <20190708103804.GG3082@redhat.com>
+ <87r26zah4k.fsf@dusky.pond.sub.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <87r26zah4k.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 09 Jul 2019 07:58:23 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH-for-4.2] tracing: Allow to tune tracing
+ options via the environment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,48 +67,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This operation can always be emitted, even if we need to
-fall back to xor.  Adjust the assertions to match.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tcg-op-vec.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index c8fdc24f56..6714991bf4 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -90,6 +90,9 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
-         case INDEX_op_bitsel_vec:
-             /* These opcodes are mandatory and should not be listed.  */
-             g_assert_not_reached();
-+        case INDEX_op_not_vec:
-+            /* These opcodes have generic expansions using the above.  */
-+            g_assert_not_reached();
-         default:
-             break;
-         }
-@@ -438,11 +441,14 @@ static bool do_op2(unsigned vece, TCGv_vec r, TCGv_vec a, TCGOpcode opc)
- 
- void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
- {
-+    const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
-+
-     if (!TCG_TARGET_HAS_not_vec || !do_op2(vece, r, a, INDEX_op_not_vec)) {
-         TCGv_vec t = tcg_const_ones_vec_matching(r);
-         tcg_gen_xor_vec(0, r, a, t);
-         tcg_temp_free_vec(t);
-     }
-+    tcg_swap_vecop_list(hold_list);
- }
- 
- void tcg_gen_neg_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
--- 
-2.17.1
+On Tue, Jul 09, 2019 at 07:53:15AM +0200, Markus Armbruster wrote:
+> Daniel P. Berrang=E9 <berrange@redhat.com> writes:
+>=20
+> > On Mon, Jul 08, 2019 at 12:27:12PM +0200, Philippe Mathieu-Daud=E9 wrot=
+e:
+> [...]
+> >> Anyway, to stop bikeshedding this thread, can you add few lines about
+> >> why not use getenv() in the HACKING?
+> >
+> > I don't actually think the getenv thing is a security issue in any case.
+> > If there was a security problem exploitable via getenv, then the bug wo=
+uld
+> > lie in the application invoking QEMU for not ensuring the ENV contents
+> > were safe before exec'ing QEMU.
+>=20
+> Correct.
+>=20
+> >                                 Libvirt is paranoid by default and scru=
+bs
+> > QEMU's env only keeping a specific sanitized whitelist for exactly these
+> > reasons.
+>=20
+> Must have for running programs with different privileges.
+>=20
+> Corrollary: a program that does not use getenv() at all is slightly
+> harder to misuse with different privileges.  Irrelevant in practice,
+> because libraries use getenv(), starting with ld.so.
 
+I'll reiterate that I'm happy to merge this but would first like to know
+if Philippe is satisfied with adding it just to qtest?
+
+Let's just add it to qtest if that is enough.  Otherwise let's bring it
+into QEMU proper.
+
+Stefan
+
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0kSPQACgkQnKSrs4Gr
+c8j9kAf/b6CJZvpsYARf1ei8gRPqu3ZjYCTeL95i1A8sFvUO1zsZzxe49MzUuGDS
+OOmhsEAKy5gxL4dFuji39tPF3Qvw0tckxKHJ/dUBrog2JrNxAYkFRBXtalcKckHS
+vtdUIz88LovDQKAfnrA01lrFiU8tM/I9yujJe65lrOyT2mEUCXtan4UoGSBTwI/+
+eU/XUGtFi4KmqPHOUSfl9JaR6V406QbY+IhHshy2ptxWCXchDpMZkLmVhgBObNcP
+tcT33PzWMVN0oCFPG7DGWyc0XftAJ2J86J0cMy6wWvj1Q13bWkOWIExCr1ziH10b
+Ywg7GKqOctOYxYshfPC1+BPN6/L2zA==
+=qsIz
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
 
