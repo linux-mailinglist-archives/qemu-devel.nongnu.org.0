@@ -2,53 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A646389B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:28:16 +0200 (CEST)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D85B638C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 17:37:45 +0200 (CEST)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hks2R-0000bz-Gw
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
+	id 1hksBX-0001TT-89
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 11:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47226)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hkrwZ-0002rS-Po
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:22:13 -0400
+ (envelope-from <bounces@canonical.com>) id 1hks9m-00006z-IM
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hkrwV-0007km-Ql
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:22:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41928)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hkrwR-0007iM-Rq; Tue, 09 Jul 2019 11:22:04 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B4402C0733C9;
- Tue,  9 Jul 2019 15:21:59 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-166.brq.redhat.com [10.40.204.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AE26A8491B;
- Tue,  9 Jul 2019 15:21:55 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 17:21:45 +0200
-Message-Id: <20190709152145.21308-2-philmd@redhat.com>
-In-Reply-To: <20190709152145.21308-1-philmd@redhat.com>
-References: <20190709152145.21308-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hks9k-0005is-Je
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46022)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hks9g-0005gx-Tc
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:35:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hks9e-0002LA-PS
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 15:35:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BC9D32E80C7
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 15:35:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 09 Jul 2019 15:22:01 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 09 Jul 2019 15:25:46 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
+ <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
+ <06bf8be7-c97e-9a42-06c4-82f303dc1a76@physik.fu-berlin.de>
+ <3e3ac1b4-dd46-988a-9801-cd1353e81714@vivier.eu>
+ <b88a6279-8e7a-32b6-4fc1-98be496aaaf0@physik.fu-berlin.de>
+ <30e7b9fe-a99d-a83c-e4b6-7021a076332d@vivier.eu>
+ <0211fabd-65fe-f6b0-00b9-1f0969e4bc1c@physik.fu-berlin.de>
+Message-Id: <4b359373-608c-d4a4-c9ac-e2a3af840b21@vivier.eu>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: c9733dfe4db99945e7a7f550e163c1bdcee0311b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/1] Revert "hw/block/pflash_cfi02: Reduce I/O
- accesses to 16-bit"
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
+ reports absolute path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,94 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 3ae0343db69c379beb5750b4ed70794bbed51b85.
+Le 09/07/2019 =C3=A0 17:09, John Paul Adrian Glaubitz a =C3=A9crit=C2=A0:
+> On 7/9/19 4:01 PM, Laurent Vivier wrote:
+>> What is the content of:
+>>
+>> /etc/binfmt.d/qemu-m68k.conf
+>> /proc/sys/fs/binfmt_misc/qemu-m68k
+> =
 
-Stephen Checkoway noticed commit 3ae0343db69 is incorrect.
-This commit state all parallel flashes are limited to 16-bit
-accesses, however the x32 configuration exists in some models,
-such the Cypress S29CL032J, which CFI Device Geometry Definition
-announces:
+> root@nofan:~> cat /etc/binfmt.d/qemu-m68k.conf
+> :qemu-m68k:M::\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00=
+\x02\x00\x04:\xff\xff\xff\xff\xff\xff\xfe\x00\xff\xff\xff\xff\xff\xff\xff\x=
+ff\xff\xfe\xff\xff:/usr/bin/qemu-m68k-static:P
+> root@nofan:~> cat /proc/sys/fs/binfmt_misc/qemu-m68k
+> enabled
+> interpreter /usr/bin/qemu-m68k-static
+> flags: OCF
+> offset 0
+> magic 7f454c4601020100000000000000000000020004
+> mask ffffffffffffff00fffffffffffffffffffeffff
 
-  CFI ADDR     DATA
-  0x28,0x29 =3D 0x0003 (x32-only asynchronous interface)
+This is not consistent: you have 'P' in /etc/binfmt.d/qemu-m68k.conf but
+'OCF' in /proc/sys/fs/binfmt_misc/qemu-m68k.
 
-Guests should not be affected by the previous change, because
-QEMU does not announce itself as x32 capable:
+Check "systemctl status binfmt-support.service"
 
-    /* Flash device interface (8 & 16 bits) */
-    pfl->cfi_table[0x28] =3D 0x02;
-    pfl->cfi_table[0x29] =3D 0x00;
+With 'P' when you change the binary you must reload the configuration
+because the binary is loaded in memory once when the configuration is
+updated.
 
-Commit 3ae0343db69 does not restrict the bus to 16-bit accesses,
-but restrict the implementation as 16-bit access max, so a guest
-32-bit access will result in 2x 16-bit calls.
+Thanks,
+Laurent
 
-Now, we have 2 boards that register the flash device in 32-bit
-access:
+-- =
 
-- PPC: taihu_405ep
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1835839
 
-  The CFI id matches the S29AL008J that is a 1MB in x16, while
-  the code QEMU forces it to be 2MB, and checking Linux it expects
-  a 4MB flash.
+Title:
+  qemu-user: $0 incorrectly always reports absolute path
 
-- ARM: Digic4
+Status in QEMU:
+  New
 
-  While the comment says "Samsung K8P3215UQB 64M Bit (4Mx16)",
-  this flash is 32Mb (2MB). Also note the CFI id does not match
-  the comment.
+Bug description:
+  We just ran into an issue with the Perl package on Debian/m68k when
+  being built with qemu-user [1].
 
-To avoid unexpected side effect, we revert commit 3ae0343db69,
-and will clean the board code later.
+  The problem can be boiled down to qemu-user always reporting absolute
+  paths for the shell variable $0 no matter on how the command was
+  invoked.
 
-Reported-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/block/pflash_cfi02.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+  A simple reproducer is this:
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 5392290c72..83084b9d72 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -317,6 +317,8 @@ static uint64_t pflash_read(void *opaque, hwaddr offs=
-et, unsigned int width)
-     boff =3D offset & 0xFF;
-     if (pfl->width =3D=3D 2) {
-         boff =3D boff >> 1;
-+    } else if (pfl->width =3D=3D 4) {
-+        boff =3D boff >> 2;
-     }
-     switch (pfl->cmd) {
-     default:
-@@ -447,6 +449,8 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
-     boff =3D offset;
-     if (pfl->width =3D=3D 2) {
-         boff =3D boff >> 1;
-+    } else if (pfl->width =3D=3D 4) {
-+        boff =3D boff >> 2;
-     }
-     /* Only the least-significant 11 bits are used in most cases. */
-     boff &=3D 0x7FF;
-@@ -706,7 +710,6 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
- static const MemoryRegionOps pflash_cfi02_ops =3D {
-     .read =3D pflash_read,
-     .write =3D pflash_write,
--    .impl.max_access_size =3D 2,
-     .valid.min_access_size =3D 1,
-     .valid.max_access_size =3D 4,
-     .endianness =3D DEVICE_NATIVE_ENDIAN,
---=20
-2.20.1
+  On normal system (no emulation):
 
+  root@nofan:~> sh -c 'echo $0'
+  sh
+  root@nofan:~>
+
+  On qemu-user:
+
+  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
+  /bin/sh
+  (sid-m68k-sbuild)root@nofan:/#
+
+  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
 
