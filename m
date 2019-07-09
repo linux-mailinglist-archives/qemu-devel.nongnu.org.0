@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235CF63210
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:28:26 +0200 (CEST)
-Received: from localhost ([::1]:47399 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E28C63218
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:30:22 +0200 (CEST)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkkY5-000052-Bp
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:28:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43630)
+	id 1hkkZx-0003Ek-Kl
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hkkOj-0007HD-9I
+ (envelope-from <tao3.xu@intel.com>) id 1hkkOk-0007HV-Fw
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:18:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hkkOh-0007pP-Dx
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:18:44 -0400
-Received: from mga17.intel.com ([192.55.52.151]:58475)
+ (envelope-from <tao3.xu@intel.com>) id 1hkkOj-0007qi-BR
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:18:46 -0400
+Received: from mga17.intel.com ([192.55.52.151]:58478)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hkkOf-0007gU-AL
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:18:41 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hkkOi-0007hn-UG
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:18:45 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2019 00:18:29 -0700
+ 09 Jul 2019 00:18:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; d="scan'208";a="165681712"
+X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; d="scan'208";a="165681716"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
- by fmsmga008.fm.intel.com with ESMTP; 09 Jul 2019 00:18:27 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 09 Jul 2019 00:18:29 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com,
 	eblake@redhat.com,
 	ehabkost@redhat.com
-Date: Tue,  9 Jul 2019 15:15:19 +0800
-Message-Id: <20190709071520.8745-14-tao3.xu@intel.com>
+Date: Tue,  9 Jul 2019 15:15:20 +0800
+Message-Id: <20190709071520.8745-15-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190709071520.8745-1-tao3.xu@intel.com>
 References: <20190709071520.8745-1-tao3.xu@intel.com>
@@ -43,8 +43,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.151
-Subject: [Qemu-devel] [PATCH RESEND v6 13/14] QMP: Add QMP interface to
- update HMAT at runtime
+Subject: [Qemu-devel] [PATCH RESEND v6 14/14] tests/bios-tables-test: add
+ test cases for ACPI HMAT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,249 +61,84 @@ Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add QMP interface to introduce new HMAT data (including System Locality
-Latency and Bandwidth Information Structure,  Memory Side Cache
-Information Structure) at runtime. The interface can
-also replace existing HMAT data.
+ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
+Heterogeneous Memory with boot option '-numa node'.
+
+Add test cases on PC and Q35 machines with 2 numa nodes.
+Because HMAT is generated when system enable numa, the
+following tables need to be added for this test:
+  tests/acpi-test-data/pc/*.acpihmat
+  tests/acpi-test-data/pc/HMAT.*
+  tests/acpi-test-data/q35/*.acpihmat
+  tests/acpi-test-data/q35/HMAT.*
 
 Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
- hw/acpi/acpi-stub.c        |  7 ++++++
- hw/core/machine-qmp-cmds.c | 39 ++++++++++++++++++++++++++++++
- hw/core/numa.c             | 17 +++++++------
- include/sysemu/numa.h      |  4 ++--
- qapi/machine.json          | 49 ++++++++++++++++++++++++++++++++++++++
- 5 files changed, 107 insertions(+), 9 deletions(-)
+ tests/bios-tables-test.c | 43 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-diff --git a/hw/acpi/acpi-stub.c b/hw/acpi/acpi-stub.c
-index 4c9d081ed4..757570ee7f 100644
---- a/hw/acpi/acpi-stub.c
-+++ b/hw/acpi/acpi-stub.c
-@@ -22,8 +22,15 @@
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/acpi/acpi.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
- 
- void acpi_table_add(const QemuOpts *opts, Error **errp)
- {
-     error_setg(errp, QERR_UNSUPPORTED);
- }
-+
-+void hmat_update(NumaState *nstat)
-+{
-+    /* For qmp_set_hmat_lb and qmp_set_hmat_cache in numa.c can compile */
-+}
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 5bd95b8ab0..fe6ed418b1 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -17,6 +17,7 @@
- #include "sysemu/hw_accel.h"
- #include "sysemu/numa.h"
- #include "sysemu/sysemu.h"
-+#include "hw/acpi/hmat.h"
- 
- CpuInfoList *qmp_query_cpus(Error **errp)
- {
-@@ -283,6 +284,44 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
-     set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index d863233fe9..27a17921f2 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -860,6 +860,47 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
+     test_acpi_tcg_dimm_pxm(MACHINE_PC);
  }
  
-+void qmp_set_hmat_lb(NumaHmatLBOptions *node, Error **errp)
++static void test_acpi_tcg_acpi_hmat(const char *machine)
 +{
-+    MachineState *ms = MACHINE(qdev_get_machine());
++    test_data data;
 +
-+    if (ms->numa_state == NULL || ms->numa_state->num_nodes <= 0) {
-+        error_setg(errp, "NUMA is not supported");
-+        return;
-+    }
-+
-+    if (ms->numa_state->hma_enabled) {
-+        parse_numa_hmat_lb(ms, node, 1, errp);
-+        hmat_update(ms->numa_state);
-+    } else {
-+        error_setg(errp, "HMAT can't be changed at runtime when QEMU boot"
-+                   " without setting HMAT latency, bandwidth or memory cache"
-+                   " information");
-+    }
++    memset(&data, 0, sizeof(data));
++    data.machine = machine;
++    data.variant = ".acpihmat";
++    test_acpi_one(" -smp 2,sockets=2"
++                  " -m 128M,slots=2,maxmem=1G"
++                  " -object memory-backend-ram,size=64M,id=m0"
++                  " -object memory-backend-ram,size=64M,id=m1"
++                  " -numa node,nodeid=0,memdev=m0"
++                  " -numa node,nodeid=1,memdev=m1,initiator=0"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=0,socket-id=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,base-lat=10,latency=5"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,base-bw=20,bandwidth=5"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,base-lat=10,latency=10"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,base-bw=20,bandwidth=10"
++                  " -numa hmat-cache,node-id=0,size=0x20000,total=1,level=1"
++                  ",assoc=direct,policy=write-back,line=8"
++                  " -numa hmat-cache,node-id=1,size=0x20000,total=1,level=1"
++                  ",assoc=direct,policy=write-back,line=8",
++                  &data);
++    free_test_data(&data);
 +}
 +
-+void qmp_set_hmat_cache(NumaHmatCacheOptions *node, Error **errp)
++static void test_acpi_q35_tcg_acpi_hmat(void)
 +{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    if (ms->numa_state == NULL || ms->numa_state->num_nodes <= 0) {
-+        error_setg(errp, "NUMA is not supported");
-+        return;
-+    }
-+
-+    if (ms->numa_state->hma_enabled) {
-+        parse_numa_hmat_cache(ms, node, 1, errp);
-+        hmat_update(ms->numa_state);
-+    } else {
-+        error_setg(errp, "HMAT can't be changed at runtime when QEMU boot"
-+                   " without setting HMAT latency, bandwidth or memory cache"
-+                   " information");
-+    }
++    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
 +}
 +
- static int query_memdev(Object *obj, void *opaque)
++static void test_acpi_piix4_tcg_acpi_hmat(void)
++{
++    test_acpi_tcg_acpi_hmat(MACHINE_PC);
++}
++
+ static void test_acpi_virt_tcg(void)
  {
-     MemdevList **list = opaque;
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 5ed53ef05e..e8ee4edd67 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -185,7 +185,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
- }
- 
- void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
--                        Error **errp)
-+                        bool runtime_flag, Error **errp)
- {
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-     NodeInfo *numa_info = ms->numa_state->nodes;
-@@ -262,7 +262,8 @@ void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
-         if (!hmat_lb) {
-             hmat_lb = g_malloc0(sizeof(*hmat_lb));
-             ms->numa_state->hmat_lb[node->hierarchy][node->data_type] = hmat_lb;
--        } else if (hmat_lb->latency[node->initiator][node->target]) {
-+        } else if (!runtime_flag &&
-+                   hmat_lb->latency[node->initiator][node->target]) {
-             error_setg(errp, "Duplicate configuration of the latency for "
-                        "initiator=%" PRIu16 " and target=%" PRIu16 ".",
-                        node->initiator, node->target);
-@@ -283,7 +284,8 @@ void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
-         if (!hmat_lb) {
-             hmat_lb = g_malloc0(sizeof(*hmat_lb));
-             ms->numa_state->hmat_lb[node->hierarchy][node->data_type] = hmat_lb;
--        } else if (hmat_lb->bandwidth[node->initiator][node->target]) {
-+        } else if (!runtime_flag &&
-+                   hmat_lb->bandwidth[node->initiator][node->target]) {
-             error_setg(errp, "Duplicate configuration of the bandwidth for "
-                        "initiator=%" PRIu16 " and target=%" PRIu16 ".",
-                        node->initiator, node->target);
-@@ -310,7 +312,7 @@ void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
- }
- 
- void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
--                           Error **errp)
-+                           bool runtime_flag, Error **errp)
- {
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-     HMAT_Cache_Info *hmat_cache = NULL;
-@@ -335,7 +337,8 @@ void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
-                    node->level, node->total);
-         return;
+     test_data data = {
+@@ -904,6 +945,8 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
++        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
++        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
      }
--    if (ms->numa_state->hmat_cache[node->node_id][node->level]) {
-+    if (!runtime_flag &&
-+        ms->numa_state->hmat_cache[node->node_id][node->level]) {
-         error_setg(errp, "Duplicate configuration of the side cache for "
-                    "node-id=%" PRIu32 " and level=%" PRIu8 ".",
-                    node->node_id, node->level);
-@@ -414,13 +417,13 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
-                                   &err);
-         break;
-     case NUMA_OPTIONS_TYPE_HMAT_LB:
--        parse_numa_hmat_lb(ms, &object->u.hmat_lb, &err);
-+        parse_numa_hmat_lb(ms, &object->u.hmat_lb, 0, &err);
-         if (err) {
-             goto end;
-         }
-         break;
-     case NUMA_OPTIONS_TYPE_HMAT_CACHE:
--        parse_numa_hmat_cache(ms, &object->u.hmat_cache, &err);
-+        parse_numa_hmat_cache(ms, &object->u.hmat_cache, 0, &err);
-         if (err) {
-             goto end;
-         }
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index ba040b8b76..e5899f0764 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -49,9 +49,9 @@ typedef struct NumaState NumaState;
- void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp);
- void parse_numa_opts(MachineState *ms);
- void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
--                        Error **errp);
-+                        bool runtime_flag, Error **errp);
- void parse_numa_hmat_cache(MachineState *ms, NumaHmatCacheOptions *node,
--                           Error **errp);
-+                           bool runtime_flag, Error **errp);
- void numa_complete_configuration(MachineState *ms);
- void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
- extern QemuOptsList qemu_numa_opts;
-diff --git a/qapi/machine.json b/qapi/machine.json
-index b0d42cff21..3cb69d2c6e 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -606,6 +606,31 @@
-     '*latency': 'uint16',
-     '*bandwidth': 'uint16' }}
- 
-+##
-+# @set-hmat-lb:
-+#
-+# Set @NumaHmatLBOptions at runtime.
-+#
-+# Since: 4.1
-+#
-+# Example:
-+# Set the processors in node 0 access memory in node with access-latency 5
-+# nanoseconds(base latency is 10):
-+#
-+# -> { "execute": "set-hmat-lb",
-+#      "arguments": { "initiator": 0,
-+#                     "target": 1,
-+#                     "hierarchy": "memory",
-+#                     "data-type": "access-latency",
-+#                     "base-lat": 10,
-+#                     "latency": 5 } }
-+# <- { "return": {} }
-+##
-+{ 'command': 'set-hmat-lb', 'boxed': true,
-+    'data': 'NumaHmatLBOptions',
-+    'allow-preconfig': true
-+}
-+
- ##
- # @HmatCacheAssociativity:
- #
-@@ -680,6 +705,30 @@
-    'policy': 'HmatCacheWritePolicy',
-    'line': 'uint16' }}
- 
-+##
-+# @set-hmat-cache:
-+#
-+# Set @NumaHmatCacheOptions at runtime.
-+#
-+# Since: 4.1
-+#
-+# Example:
-+# Set Memory Side Cache Information in node 1:
-+#
-+# -> { "execute": "set-hmat-cache",
-+#      "arguments": { "node-id": 1,
-+#                     "size": 0x20000,
-+#                     "total": 3,
-+#                     "level": "direct",
-+#                     "policy": "write-back",
-+#                     "line": 8 } }
-+# <- { "return": {} }
-+##
-+{ 'command': 'set-hmat-cache', 'boxed': true,
-+    'data': 'NumaHmatCacheOptions',
-+    'allow-preconfig': true
-+}
-+
- ##
- # @HostMemPolicy:
- #
 -- 
 2.20.1
 
