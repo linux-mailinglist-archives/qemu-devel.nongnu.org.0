@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE150639B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:55:12 +0200 (CEST)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F5D639E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:06:09 +0200 (CEST)
+Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktOZ-0004ji-EM
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39024)
+	id 1hktZ9-0002VB-Og
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:06:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46157)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hktAr-0005PR-72
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:41:02 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hktRz-0007L0-46
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hktAq-0000sS-4s
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:41:01 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39542)
+ (envelope-from <alistair23@gmail.com>) id 1hktRu-0000Q9-1w
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:42 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38778)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hktAp-0000rY-UU
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:41:00 -0400
-Received: by mail-ot1-x341.google.com with SMTP id r21so5141278otq.6
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hktRt-0000Nr-O9; Tue, 09 Jul 2019 12:58:37 -0400
+Received: by mail-lf1-x144.google.com with SMTP id h28so9571904lfj.5;
+ Tue, 09 Jul 2019 09:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FSd5U/AhRoKw0D9xITYs6vnqrq5TrBfzrsxGk3E6fXY=;
- b=IctNM5TMIMIAnQmDhQYY9NaGZx9dD1NL5bLH5ydIWH9Y6xI+sqOWL0sKIOn/EQ0CnP
- vJasigen5fmpnmg6laCnxu9BI7vEhjKWQz/YzQJzkd/P8+pTqDc6lx1HoFSt4FH5N9du
- 5bUfcqfVPBj7I9tunK/XemQq7PsjRMWA8EixIhF1DAJRyw+zbKk+hblmGh45l1c2N4Vd
- ElNnmv0vRKTfpaF59FMQBssbWLxEYJDHAImg5/aAOapJ1ENhPWN9gTi2DLIlrC6VWyVx
- q27L9eyKm6Vk1VOSoZgf2OnQPMgjmyrgUcl/BKYfqeFT+6BEsrj3vI4ck824lmMEDini
- KpnA==
+ :cc:content-transfer-encoding;
+ bh=B+qh/ApQkXMn4HseSP48lVMnG6hVBYWQPWRivAa1eus=;
+ b=YPYCbjNy7drtBhmXn1RdwPPB1i+i0t2hQ4ZqXIvmW/YmiiewJhxwWFDNeIXSxHNndj
+ kroxzFRjMkyeTZveGOuLVaW0bO8dIjOoc9O3xuSN4NjnaMaNzLMfRXbPCo8UpziLFlGx
+ dQFu9slahJ1MfwZw+avoSYuI21dujLgQhY5GKvMzNirPVG0BUcyQTxNIp6WsMGzFrNNI
+ l6L0mXL1f6FqgOwJNbEENE4v9PPJ49KAjlNbNW5+h5NlHjtQp8eUaFddZfuJf2WNg0d8
+ mzSJSzBc9WKY9sojdj925JyT9LYlAtV3ZuAqRzZXE8FSVG2yO/KxMmhcT3lKdiRii9Ix
+ KPBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FSd5U/AhRoKw0D9xITYs6vnqrq5TrBfzrsxGk3E6fXY=;
- b=EjO9hyvMCaMby5yhleCTM566QCPbwVJ+wWl+T2ZN5XBj851weGu1btW7VzmNoX5qC8
- rSAYwDB4f1Oaty+htuQfiLYX7M5kOb6tKN+x9S0cXNZKg8yH27/VYd0vsIcwLrIvhQQ+
- zZAoRMMEJCo38NE9UJ6gGP95pIv1PDGHAGnRwZ6ZHptM+40BAm7tQKPrNAEby04kVvK7
- G/q/+DTYZoV9qJfq7P4yh43K0Ih1Owftt2863GDrs6bpNczK2lTcknNHxjTS4KjaETdt
- t+0OJ8lJOHEqK9MUetiDktCiSbgIriAZPDv5kzbhdEE5Rs0ZoVup4DTU0PsYUDKld6zE
- uVkA==
-X-Gm-Message-State: APjAAAVJ5+RNK2fHNezNDYIiudisXtToxqwT7JCKAT8GQHdRBMW8QR4U
- bVELJEaW1xpkZRcggvm1KOj13ISXcSEdn1/jwqpMCQ==
-X-Google-Smtp-Source: APXvYqyAxzmI9auaDf5KLwlsoibEefo9qkKQP9BIHgw0vEL4ikn0igD07yRBskvWFY4zfeBufOowCnxpPgc6UQ63/3M=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr19054781otk.221.1562690458835; 
- Tue, 09 Jul 2019 09:40:58 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=B+qh/ApQkXMn4HseSP48lVMnG6hVBYWQPWRivAa1eus=;
+ b=D/O2Zhuy1iebEImDOK5FRuuWGrBhQmi3cflsm+JsRU/91ka2hWKCmqWSapnEkAz3tN
+ aUZlsc4tc78H3lV+Q+uIm2+SD6KXnkcSqK0DuGGZlSTrw/vDHbypYELikNuF/yNzAWj0
+ 9zBfvRlQJEm9WA8Lv/LBDia8evjXAnY6OToLXMMOVfvFWyH2HEreaTuUyEJiWtz5LBco
+ NeZYxduDasBLHU8R2t199/tDQKUTR+4UoX3As5zIvv9fvKDNyNybjG/mVN40bDLTydP7
+ EKYBWeqpImqxpJ8dkRgOytwvrdj75eb+sxq5dgc6Vozko3lxtTmgS6uXd3pCpfvH9bxH
+ Aqmg==
+X-Gm-Message-State: APjAAAV6cmgn73IPAVSo7TeYsdvmQpMEwYeXEdLgOq3akME/O5F/WAG4
+ 00fPMZyQ/R4pBCZ4fqeUmIXiBqraubFN4+LEc9U=
+X-Google-Smtp-Source: APXvYqxD3yIk/HBNhjw7JWTBHz2fpSyknmzzdFStCRq0R0IeU6eOM4OhYAiyIqHiE0gELWRi64i47ayv7MPlAftu/mM=
+X-Received: by 2002:a19:7709:: with SMTP id s9mr11595074lfc.86.1562691516331; 
+ Tue, 09 Jul 2019 09:58:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190514011129.11330-1-richard.henderson@linaro.org>
- <20190514011129.11330-2-richard.henderson@linaro.org>
-In-Reply-To: <20190514011129.11330-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Jul 2019 17:40:48 +0100
-Message-ID: <CAFEAcA8k9+XW9uPujk3Zp3CxvYm6Qj6kVEig+KuNO2ywOK0tTA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <20190709113715.7761-1-philmd@redhat.com>
+ <20190709113715.7761-3-philmd@redhat.com>
+In-Reply-To: <20190709113715.7761-3-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 9 Jul 2019 09:55:26 -0700
+Message-ID: <CAKmqyKMxA6Dh=-=Pb3UnOdLStyVSW+HoWJK8Z4JfLXmVk=yEOA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 1/2] target/arm: Use extract2 for EXTR
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 2/3] hw/ssi/mss-spi: Avoid crash
+ when reading empty RX FIFO
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,30 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Beata Michalska <beata.michalska@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 May 2019 at 02:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, Jul 9, 2019 at 4:42 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >
-> This is, after all, how we implement extract2 in tcg/aarch64.
+> Reading the RX_DATA register when the RX_FIFO is empty triggers
+> an abort. This can be easily reproduced:
 >
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>   $ qemu-system-arm -M emcraft-sf2 -monitor stdio -S
+>   QEMU 4.0.50 monitor - type 'help' for more information
+>   (qemu) x 0x40001010
+>   Aborted (core dumped)
+>
+>   (gdb) bt
+>   #1  0x00007f035874f895 in abort () at /lib64/libc.so.6
+>   #2  0x00005628686591ff in fifo8_pop (fifo=3D0x56286a9a4c68) at util/fif=
+o8.c:66
+>   #3  0x00005628683e0b8e in fifo32_pop (fifo=3D0x56286a9a4c68) at include=
+/qemu/fifo32.h:137
+>   #4  0x00005628683e0efb in spi_read (opaque=3D0x56286a9a4850, addr=3D4, =
+size=3D4) at hw/ssi/mss-spi.c:168
+>   #5  0x0000562867f96801 in memory_region_read_accessor (mr=3D0x56286a9a4=
+b60, addr=3D16, value=3D0x7ffeecb0c5c8, size=3D4, shift=3D0, mask=3D4294967=
+295, attrs=3D...) at memory.c:439
+>   #6  0x0000562867f96cdb in access_with_adjusted_size (addr=3D16, value=
+=3D0x7ffeecb0c5c8, size=3D4, access_size_min=3D1, access_size_max=3D4, acce=
+ss_fn=3D0x562867f967c3 <memory_region_read_accessor>, mr=3D0x56286a9a4b60, =
+attrs=3D...) at memory.c:569
+>   #7  0x0000562867f99940 in memory_region_dispatch_read1 (mr=3D0x56286a9a=
+4b60, addr=3D16, pval=3D0x7ffeecb0c5c8, size=3D4, attrs=3D...) at memory.c:=
+1420
+>   #8  0x0000562867f99a08 in memory_region_dispatch_read (mr=3D0x56286a9a4=
+b60, addr=3D16, pval=3D0x7ffeecb0c5c8, size=3D4, attrs=3D...) at memory.c:1=
+447
+>   #9  0x0000562867f38721 in flatview_read_continue (fv=3D0x56286aec6360, =
+addr=3D1073745936, attrs=3D..., buf=3D0x7ffeecb0c7c0 "\340=C7=B0\354\376\17=
+7", len=3D4, addr1=3D16, l=3D4, mr=3D0x56286a9a4b60) at exec.c:3385
+>   #10 0x0000562867f38874 in flatview_read (fv=3D0x56286aec6360, addr=3D10=
+73745936, attrs=3D..., buf=3D0x7ffeecb0c7c0 "\340=C7=B0\354\376\177", len=
+=3D4) at exec.c:3423
+>   #11 0x0000562867f388ea in address_space_read_full (as=3D0x56286aa3e890,=
+ addr=3D1073745936, attrs=3D..., buf=3D0x7ffeecb0c7c0 "\340=C7=B0\354\376\1=
+77", len=3D4) at exec.c:3436
+>   #12 0x0000562867f389c5 in address_space_rw (as=3D0x56286aa3e890, addr=
+=3D1073745936, attrs=3D..., buf=3D0x7ffeecb0c7c0 "\340=C7=B0\354\376\177", =
+len=3D4, is_write=3Dfalse) at exec.c:3466
+>   #13 0x0000562867f3bdd7 in cpu_memory_rw_debug (cpu=3D0x56286aa19d00, ad=
+dr=3D1073745936, buf=3D0x7ffeecb0c7c0 "\340=C7=B0\354\376\177", len=3D4, is=
+_write=3D0) at exec.c:3976
+>   #14 0x000056286811ed51 in memory_dump (mon=3D0x56286a8c32d0, count=3D1,=
+ format=3D120, wsize=3D4, addr=3D1073745936, is_physical=3D0) at monitor/mi=
+sc.c:730
+>   #15 0x000056286811eff1 in hmp_memory_dump (mon=3D0x56286a8c32d0, qdict=
+=3D0x56286b15c400) at monitor/misc.c:785
+>   #16 0x00005628684740ee in handle_hmp_command (mon=3D0x56286a8c32d0, cmd=
+line=3D0x56286a8caeb2 "0x40001010") at monitor/hmp.c:1082
+>
+> From the datasheet "Actel SmartFusion Microcontroller Subsystem
+> User's Guide" Rev.1, Table 13-3 "SPI Register Summary", this
+> register has a reset value of 0.
+>
+> Check the FIFO is not empty before accessing it, else log an
+> error message.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  target/arm/translate-a64.c | 38 ++++++++++++++++++++------------------
->  1 file changed, 20 insertions(+), 18 deletions(-)
-
-It turns out that we have a regression in booting at least
-some Linux kernels with TCG on aarch64 hosts (the same
-config works fine on x86-64 hosts). Git bisect points to
-this commit (80ac954c369e7e61bd1ed0) as the cause, and
-reverting this commit on top of current master also fixes
-the problem.
-
-thanks
--- PMM
+>  hw/ssi/mss-spi.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/ssi/mss-spi.c b/hw/ssi/mss-spi.c
+> index 4878279482..3201a577a1 100644
+> --- a/hw/ssi/mss-spi.c
+> +++ b/hw/ssi/mss-spi.c
+> @@ -155,7 +155,13 @@ spi_read(void *opaque, hwaddr addr, unsigned int siz=
+e)
+>      case R_SPI_RX:
+>          s->regs[R_SPI_STATUS] &=3D ~S_RXFIFOFUL;
+>          s->regs[R_SPI_STATUS] &=3D ~S_RXCHOVRF;
+> -        ret =3D fifo32_pop(&s->rx_fifo);
+> +        if (fifo32_is_empty(&s->rx_fifo)) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "%s: Reading empty RX_FIFO\n",
+> +                          __func__);
+> +        } else {
+> +            ret =3D fifo32_pop(&s->rx_fifo);
+> +        }
+>          if (fifo32_is_empty(&s->rx_fifo)) {
+>              s->regs[R_SPI_STATUS] |=3D S_RXFIFOEMP;
+>          }
+> --
+> 2.20.1
+>
+>
 
