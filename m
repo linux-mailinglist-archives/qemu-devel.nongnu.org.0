@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451AA6355D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:04:19 +0200 (CEST)
-Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BE763538
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 13:56:05 +0200 (CEST)
+Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkor3-0000Aa-RF
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
+	id 1hkoj6-0005CU-Rt
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 07:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50993)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkonq-0007tf-R9
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:01:02 -0400
+ (envelope-from <armbru@redhat.com>) id 1hkoiW-0004fi-Dt
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 07:55:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkonk-0002XT-Sy
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53126)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkonk-0002TR-Lz
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:00:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkonj-00072v-8J
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 12:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 327842E80C7
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 12:00:51 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1hkoiV-0005S1-Js
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 07:55:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34212)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hkoiV-0005Rb-EF
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 07:55:27 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A56A1308622D;
+ Tue,  9 Jul 2019 11:55:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
+ [10.36.116.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AAD9867E6;
+ Tue,  9 Jul 2019 11:55:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BDCF71138648; Tue,  9 Jul 2019 13:55:22 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20190702113414.6896-1-armbru@redhat.com>
+ <20190702113414.6896-5-armbru@redhat.com>
+ <e7916e59-75a9-cfd2-a2a3-ab30787a60e6@de.ibm.com>
+Date: Tue, 09 Jul 2019 13:55:22 +0200
+In-Reply-To: <e7916e59-75a9-cfd2-a2a3-ab30787a60e6@de.ibm.com> (Christian
+ Borntraeger's message of "Fri, 5 Jul 2019 23:31:35 +0200")
+Message-ID: <87y3177785.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jul 2019 11:54:58 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz laurent-vivier
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
-Message-Id: <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 13637cca3193687fa44496437e86ef44049f999b
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Tue, 09 Jul 2019 11:55:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
- reports absolute path
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 4/4] Makefile: Reuse all's recursion
+ machinery for clean and install
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,52 +62,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tentative patch
+Christian Borntraeger <borntraeger@de.ibm.com> writes:
 
-** Patch added: "Enable binfmt-misc preserve-arg[0] flag"
-   https://bugs.launchpad.net/qemu/+bug/1835839/+attachment/5275869/+files/=
-0001-linux-user-manage-binfmt-misc-preserve-arg-0-flags.patch
+> This seems to break "make clean" and "make distclean" in the source directory if there was never
+> a configure.
+>
+> qemu]$ make clean
+>   LD      recurse-clean.mo
+> cc: fatal error: no input files
+> compilation terminated.
+> make: *** [rules.mak:118: recurse-clean.mo] Error 1
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835839
-
-Title:
-  qemu-user: $0 incorrectly always reports absolute path
-
-Status in QEMU:
-  New
-
-Bug description:
-  We just ran into an issue with the Perl package on Debian/m68k when
-  being built with qemu-user [1].
-
-  The problem can be boiled down to qemu-user always reporting absolute
-  paths for the shell variable $0 no matter on how the command was
-  invoked.
-
-  A simple reproducer is this:
-
-  On normal system (no emulation):
-
-  root@nofan:~> sh -c 'echo $0'
-  sh
-  root@nofan:~>
-
-  On qemu-user:
-
-  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
-  /bin/sh
-  (sid-m68k-sbuild)root@nofan:/#
-
-  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
+Reproduced.  I'll look into it.  Thanks!
 
