@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C409636A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:18:05 +0200 (CEST)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBDC636DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:24:13 +0200 (CEST)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkq0S-00072D-0P
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41091)
+	id 1hkq6O-0001QZ-UX
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hkpyF-0006V2-Px
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:15:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1hkq5H-0000ll-Ct
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hkpyE-0007Pp-8d
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:15:47 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:34840)
+ (envelope-from <philmd@redhat.com>) id 1hkq5G-0002l2-6B
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:23:03 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52947)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hkpyE-0007P7-16
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:15:46 -0400
-Received: by mail-ot1-x331.google.com with SMTP id j19so1390863otq.2
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 06:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kVCfbcEvKpvYwCPIDnIzNNB0SLMcepGzbOHLyy3d6xk=;
- b=PrDtSr3DriEzya2wDWEg4XKHkM9wfWDB1gZxowrjCzYmEi3B7oTytnsMxBCLUdBEYP
- GmYypfuzevjJiMw2NIEJKgN8W6n8sjPxbXrYq4lPV20HM3ZpAfkqvlnK80WAacyOJ3WV
- jUAWmphTPRiUh51WIx8kLpIav6h88t+MOWtWqqy0RBXctvmk/Z25bbRxthaofyYYJLun
- n1SAzxX+8o8flEJ42wEczAWANAp7e+kcuf3trsIlGCHp0iJfJgP0UQVTrJ/iC5jwCuUu
- zl2KHg66g8rnGk6ZEqiXQ0dz3g0PKxZ9Sdx63P9Hbe+P1zQmQc8ZvZ5L+u0++B5AS9/S
- tnYg==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hkq5F-0002jU-Ua
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:23:02 -0400
+Received: by mail-wm1-f67.google.com with SMTP id s3so3088581wms.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 06:23:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kVCfbcEvKpvYwCPIDnIzNNB0SLMcepGzbOHLyy3d6xk=;
- b=qJ8h9yjcg6CwF4GexFDvRWUC4p/wq40EpCRfy/RZNDEr2hZgQpRRMLtAedFQMltjVF
- UCL8x09CqO6ljSq4JZEE3svyArwaL998mgpaJk3QneMuzKqqQGaUBvJkKe9oJVjqBr8Y
- 5E4AIBvu9oyatqiNZNXnRcYnJCoWc2cT2XYYHhezrbdXJ1doxEsX0vxLXzxCW7sNU+Dp
- RBYgCnACqU8l2fh+UGhyhG7/Gpfv1WHXbT84IhZUdLIsUb4h+LuODWN42a61fuxpPMZW
- vKfgRqOwMwRgTJR360pGiLUNSSYgms6A8UvdH5F7DILwOvDEX6tADOV0eiz3l1e5cfV3
- UoQQ==
-X-Gm-Message-State: APjAAAW4wwqt4ELyu13ljTUazJhFTKCF3/DubfyLnnL8Hhp1dn9ymvI6
- +EgOTfW7Cv+FPon4AGnk0CqFsNdUvy4/ygfIm0BQtQ==
-X-Google-Smtp-Source: APXvYqy/Pj6ouH8cQZXymXiDqtnGG4SI7XJBPvdZil/00P9m8vTmEj5jd6Yl8f/MDte8wMD5zojwNLFCfKkPquG1r+M=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr19807130oti.91.1562678144364; 
- Tue, 09 Jul 2019 06:15:44 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NBvNtj06OlWD6xoSPaXRD9cEu19ydk0Oa3YQGmzQhbQ=;
+ b=k72IJLggjD0u0usn5q7uqJ1DHdYN/WRCMw1potrXQ2yEfLwAywRxaK26oAUmSciD6z
+ dm0Q01ssWsBFqqwRZHjJd+m76ftH3W2yjYOdlcH7KRytf22JOhnpBKRAIu/FWZSxLxAt
+ TzLoeRjxSrUzDW7oT4n6q1Sh+WCIkmcer5nFupI4F5DXRTzBkpQcsMSKuuAz4kivxGBe
+ Z8E42/qAvyERFebIlql+EVEmgCgnUeGqrGbRAY4ZC4gzfL2rsTV5RfeY+UuSkL2dzhCU
+ nUL7t4NuaQt3JFwcRAk0QkRgJFvrWezYo/EEPwjPl8EcaICdIInP3bYeA+XzhHaeKsAc
+ JpiA==
+X-Gm-Message-State: APjAAAUcqrxqQlyMshPpEb2enb/sJUZMFceYYCj+nhNir5fgoFvJHYmO
+ 4TuK6QwSzR+VC+6Ip1tebstZ6w==
+X-Google-Smtp-Source: APXvYqx4hR6r+3axoVkP4UiQkYCOiYt4VqvWF+XMMg+fgRapMJ38aj1RauUpZVMLFEC7gWQh4rkosA==
+X-Received: by 2002:a7b:cbc6:: with SMTP id n6mr20389wmi.14.1562678580875;
+ Tue, 09 Jul 2019 06:23:00 -0700 (PDT)
+Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id k63sm3929688wmb.2.2019.07.09.06.22.59
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jul 2019 06:23:00 -0700 (PDT)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20190705154639.16591-1-philmd@redhat.com>
+ <20190705154639.16591-3-philmd@redhat.com> <20190709103022.GA2766@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <dd8dd585-9774-78d4-17ee-89b30c81a0c4@redhat.com>
+Date: Tue, 9 Jul 2019 15:22:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190709122546.12373-1-cohuck@redhat.com>
-In-Reply-To: <20190709122546.12373-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Jul 2019 14:15:33 +0100
-Message-ID: <CAFEAcA-ceUK89Cj=dKodZ+DCnVr7BhMaK7ExNL_FJAhi-Ec6aQ@mail.gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::331
-Subject: Re: [Qemu-devel] [PULL for-4.1 0/4] s390x patches for -rc0
+In-Reply-To: <20190709103022.GA2766@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v3 2/9] hw/block/pflash_cfi01: Use the
+ correct READ_ARRAY value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,33 +75,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 13:25, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit 3a1acf5d47295d22ffdae0982a2fd808b802a7da:
->
->   Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-request' into staging (2019-07-08 09:46:19 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20190709
->
-> for you to fetch changes up to 92b9afe45e10edd8eaed6329366201c2165a8065:
->
->   s390x/tcg: move fallthrough annotation (2019-07-09 10:37:44 +0200)
->
-> ----------------------------------------------------------------
-> Fixes in cpu models, tcg, and vfio-ccw.
->
+Hi David,
 
+On 7/9/19 12:30 PM, Dr. David Alan Gilbert wrote:
+> * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+>> In the "Read Array Flowchart" the command has a value of 0xFF.
+>>
+>> In the document [*] the "Read Array Flowchart", the READ_ARRAY
+>> command has a value of 0xff.
+>>
+>> Use the correct value in the pflash model.
+>>
+>> There is no change of behavior in the guest, because:
+>> - when the guest were sending 0xFF, the reset_flash label
+>>   was setting the command value as 0x00
+>> - 0x00 was used internally for READ_ARRAY
+>>
+>> To keep migration behaving correctly, we have to increase
+>> the VMState version. When migrating from an older version,
+>> we use the correct command value.
+> 
+> The problem is that incrementing the version will break backwards
+> compatibility; so you won't be able to migrate this back to an older
+> QEMU version; so for example a q35/uefi with this won't be able
+> to migrate backwards to a 4.0.0 or older qemu.
+> 
+> So instead of bumping the version_id you probably need to wire
+> the behaviour to a machine type and then on your new type
+> wire a subsection containing a flag; the reception of that subsection
+> tells you to use the new/correct semantics.
 
-Applied, thanks.
+I'm starting to understand VMState subsections, but it might be overkill
+for this change...
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+  Subsections
+  -----------
 
--- PMM
+  The most common structure change is adding new data, e.g. when adding
+  a newer form of device, or adding that state that you previously
+  forgot to migrate.  This is best solved using a subsection.
+
+This is not the case here, the field is already present and migrated.
+
+It seems I can use a simple pre_save hook, always migrating the
+READ_ARRAY using the incorrect value:
+
+-- >8 --
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -97,12 +97,29 @@ struct PFlashCFI01 {
+     bool incorrect_read_array_command;
+ };
+
++static int pflash_pre_save(void *opaque)
++{
++    PFlashCFI01 *s = opaque;
++
++    /*
++     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
++     * READ_ARRAY command. To preserve migrating to these older version,
++     * always migrate the READ_ARRAY command as 0x00.
++     */
++    if (s->cmd == 0xff) {
++        s->cmd = 0x00;
++    }
++
++    return 0;
++}
++
+ static int pflash_post_load(void *opaque, int version_id);
+
+ static const VMStateDescription vmstate_pflash = {
+     .name = "pflash_cfi01",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .pre_save = pflash_pre_save,
+     .post_load = pflash_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8(wcycle, PFlashCFI01),
+@@ -1001,5 +1018,14 @@ static int pflash_post_load(void *opaque, int
+version_id)
+         pfl->vmstate = qemu_add_vm_change_state_handler(postload_update_cb,
+                                                         pfl);
+     }
++
++    /*
++     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
++     * READ_ARRAY command.
++     */
++    if (pfl->cmd == 0x00) {
++        pfl->cmd = 0xff;
++    }
++
+     return 0;
+ }
+---
+
+Being simpler and less intrusive (no new property in hw/core/machine.c),
+is this acceptable?
+
+Thanks,
+
+Phil.
+
+[...]
 
