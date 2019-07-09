@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE32263B52
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:44:06 +0200 (CEST)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3300D63B67
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:50:01 +0200 (CEST)
+Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkv5x-0008BI-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1hkvBf-0001kc-Te
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkv1N-00065a-U0
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:23 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hkv5I-0008Bx-Gg
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:43:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkv1M-0006UA-V2
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54664)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkv1E-00065k-EZ; Tue, 09 Jul 2019 14:39:12 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 63815B2DFE;
- Tue,  9 Jul 2019 18:38:56 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4A4892F90;
- Tue,  9 Jul 2019 18:38:44 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-7-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hkv5H-00011a-HS
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:43:24 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38479)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hkv5H-0000zQ-0P
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:43:23 -0400
+Received: by mail-pl1-x644.google.com with SMTP id az7so3077496plb.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 11:43:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EzIJCTIfOvUcUKRuwJ6VSmEfLIUyL5Ykcy5iPCJGFmo=;
+ b=WJ7pVVLR3yRfBlbjDd/KKJfa+9odUCya+eqDokaR9KJGoMtLNCMY1JiJEn8/fw9G8M
+ M/USJiM0ykinFvFAorZICBnrd9wh9RC4+3M8MJRWIGVRQthszKnE0KFPY8FrTjsp/SI3
+ YzgLiQcAIMnN9goNOhT7SUMwfNEsgpWo3oflpkAvp7BCVRmR5KP7ems7+y92JeSX9037
+ 2MoqnK4E9SY8wW6h9l0r0XLAA//XXctjkM36/ZiDU6cxZ7JazeQ7hQNIV18RhCt128RD
+ Fg/u4CckSo/k261DhVyoz+KzSUCwDe/rsiNiA4Vv8OSV8mAhhbG0UIejYpsRS/Shd+uX
+ Gdzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EzIJCTIfOvUcUKRuwJ6VSmEfLIUyL5Ykcy5iPCJGFmo=;
+ b=slr63SWtnU686f3CmPSdxXba2bZdHWeFgiNlX5FHzoV01tQ9aFvbrSYhfI1xSQadOs
+ YTzEUAuUpqfgRKCUcLpyIBkOCwZWQ/WyPMu608cIuvJUBbvFozVib+Q8ScV/zFk2BTHo
+ nc/EDz994UW6ELXLESnhyKcvkq7nFTr24jfm0b9gPNsWWyne4WJzq3OE0y1vUWrJkrNl
+ +0HsyZMB55TKRGCw2NcN+lPxSdJRRcmUi5hm9jB5k/eSRJDanc84ki0Rzeoyqs/wbiZt
+ skf16f2+Q/B2/zyAolEVjDFh3GrexHm9rb2oKzD7VoCP9p5s+pPx2nWe12PqBnAxqOMB
+ VQ/Q==
+X-Gm-Message-State: APjAAAWk+dQtZkPpauUxaRaJTURk+eALNYb+f9o52dB1gYBTMJcZkUIf
+ u2JeEFZx7K+Ed98PjVl2qPOv2g==
+X-Google-Smtp-Source: APXvYqx1vns8uSLKvOF2OSj5bmj9KcM+2oOaq+kTOyjMlYBP6c8yzdEFhFHaVpxpLUb+HnclEjY7gQ==
+X-Received: by 2002:a17:902:8b88:: with SMTP id
+ ay8mr32845014plb.139.1562697800637; 
+ Tue, 09 Jul 2019 11:43:20 -0700 (PDT)
+Received: from [192.168.43.94] ([172.56.12.212])
+ by smtp.gmail.com with ESMTPSA id h9sm8689793pgk.10.2019.07.09.11.43.17
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jul 2019 11:43:19 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190514011129.11330-1-richard.henderson@linaro.org>
+ <20190514011129.11330-2-richard.henderson@linaro.org>
+ <CAFEAcA8k9+XW9uPujk3Zp3CxvYm6Qj6kVEig+KuNO2ywOK0tTA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b4f03409-27aa-9d99-b44c-e9c0f44cb986@redhat.com>
-Date: Tue, 9 Jul 2019 20:38:43 +0200
+Message-ID: <11edb5b4-c72f-387d-3a5e-412a546ee902@linaro.org>
+Date: Tue, 9 Jul 2019 20:43:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190705201631.26266-7-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 09 Jul 2019 18:38:56 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 06/18] block/backup: add 'never' policy
- to bitmap sync mode
+In-Reply-To: <CAFEAcA8k9+XW9uPujk3Zp3CxvYm6Qj6kVEig+KuNO2ywOK0tTA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: Re: [Qemu-devel] [PATCH 1/2] target/arm: Use extract2 for EXTR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,75 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beata Michalska <beata.michalska@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g
-Content-Type: multipart/mixed; boundary="waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Wen Congyang <wencongyang2@huawei.com>,
- Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, eblake@redhat.com, vsementsov@virtuozzo.com,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Message-ID: <b4f03409-27aa-9d99-b44c-e9c0f44cb986@redhat.com>
-Subject: Re: [PATCH v3 06/18] block/backup: add 'never' policy to bitmap sync
- mode
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-7-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-7-jsnow@redhat.com>
+On 7/9/19 6:40 PM, Peter Maydell wrote:
+> On Tue, 14 May 2019 at 02:11, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> This is, after all, how we implement extract2 in tcg/aarch64.
+>>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  target/arm/translate-a64.c | 38 ++++++++++++++++++++------------------
+>>  1 file changed, 20 insertions(+), 18 deletions(-)
+> 
+> It turns out that we have a regression in booting at least
+> some Linux kernels with TCG on aarch64 hosts (the same
+> config works fine on x86-64 hosts). Git bisect points to
+> this commit (80ac954c369e7e61bd1ed0) as the cause...
 
---waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Bisect would finger that one, since this second commit is the only method by
+which an extract2 operation would be emitted by the aarch64 target + aarch64
+host combination.
 
-On 05.07.19 22:16, John Snow wrote:
-> This adds a "never" policy for bitmap synchronization. Regardless of if=
+(The other place that extract2 might be used are deposits, but aarch64 host has
+all of those covered with the bfi instruction.)
 
-> the job succeeds or fails, we never update the bitmap. This can be used=
-
-> to perform differential backups, or simply to avoid the job modifying a=
-
-> bitmap.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  block/backup.c       | 7 +++++--
->  qapi/block-core.json | 5 ++++-
->  2 files changed, 9 insertions(+), 3 deletions(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Fix for tcg/aarch64 coming up...
 
 
---waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR--
-
---s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3zMACgkQ9AfbAGHV
-z0CvGggAqJI7wO4+Vh5Hx9MiQUHXzmITHgBfSXDO0I9AzH7lavVjy/rliAX5SKVz
-s+TrWzAERHJxoCuGora70pRE/S7bmSF/a/yv44Zw1NZ65C9JidJS+fBvuoXXWaC0
-DQtM2IBRNaZ10HJ2uLfCUCdRQeSmzmKNh3xDatfskLo3Y/xY47Ri+LhtN0pVi9lh
-8tD0M81DcDHgFCnw0/y8Dra4ticcs88/lq7tHSfqk1BO0bCTQhSamvGNUT2zBULL
-ow11pfo/8Q6azNIKmzBqm/WS8W7qOI3vbM8Dh7dPJQ2+sZBTl7XQ89hKw8PRN/o2
-mfShFBYzi22T3Fb+yJmh9I8rbI9DLg==
-=VHAf
------END PGP SIGNATURE-----
-
---s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g--
+r~
 
