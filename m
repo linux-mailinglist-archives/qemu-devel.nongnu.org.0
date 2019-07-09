@@ -2,129 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0430963E49
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 01:15:45 +0200 (CEST)
-Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177B863E56
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 01:30:53 +0200 (CEST)
+Received: from localhost ([::1]:56798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkzKp-0004kI-QT
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 19:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36461)
+	id 1hkzZU-0000x1-9y
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 19:30:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48684)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hkzJg-0004DU-EI
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 19:14:33 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hkzVD-0007Fu-RL
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 19:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hkzJf-0004Qn-Bh
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 19:14:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59182)
+ (envelope-from <jsnow@redhat.com>) id 1hkzVB-00030A-M4
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 19:26:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33940)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hkzJT-000497-Uh; Tue, 09 Jul 2019 19:14:21 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hkzV4-0002Vk-TS; Tue, 09 Jul 2019 19:26:20 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 73D2C2F8BD6;
- Tue,  9 Jul 2019 23:14:11 +0000 (UTC)
-Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E6175F729;
- Tue,  9 Jul 2019 23:14:06 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-18-jsnow@redhat.com>
- <85602275-c722-5d4b-f18e-8b9b0bd5f8b7@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E5FE82EED0F;
+ Tue,  9 Jul 2019 23:25:56 +0000 (UTC)
+Received: from probe.bos.redhat.com (dhcp-17-215.bos.redhat.com [10.18.17.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E12725B80B;
+ Tue,  9 Jul 2019 23:25:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <cf7fcdcc-0ac7-788f-1529-b35cb0626da1@redhat.com>
-Date: Tue, 9 Jul 2019 19:14:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 19:25:32 -0400
+Message-Id: <20190709232550.10724-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <85602275-c722-5d4b-f18e-8b9b0bd5f8b7@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 09 Jul 2019 23:14:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Tue, 09 Jul 2019 23:25:57 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 17/18] iotests: add test 257 for
- bitmap-mode backups
+Subject: [Qemu-devel] [PATCH v4 00/18] bitmaps: introduce 'bitmap' sync mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,34 +53,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+ John Snow <jsnow@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series adds a new "BITMAP" sync mode that is meant to replace the
+existing "INCREMENTAL" sync mode.
 
+This mode can have its behavior modified by issuing any of three bitmap s=
+ync
+modes, passed as arguments to the job.
 
-On 7/9/19 2:49 PM, Max Reitz wrote:
-> On 05.07.19 22:16, John Snow wrote:
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  tests/qemu-iotests/257     |  409 +++++++
->>  tests/qemu-iotests/257.out | 2199 ++++++++++++++++++++++++++++++++++++
->>  tests/qemu-iotests/group   |    1 +
->>  3 files changed, 2609 insertions(+)
->>  create mode 100755 tests/qemu-iotests/257
->>  create mode 100644 tests/qemu-iotests/257.out
-> 
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> 
+The three bitmap sync modes are:
+- ON-SUCCESS: This is an alias for the old incremental mode. The bitmap i=
+s
+              conditionally synchronized based on the return code of the =
+job
+              upon completion.
+- NEVER: This is, effectively, the differential backup mode. It never cle=
+ars
+         the bitmap, as the name suggests.
+- ALWAYS: Here is the new, exciting thing. The bitmap is always synchroni=
+zed,
+          even on failure. On success, this is identical to incremental, =
+but
+          on failure it clears only the bits that were copied successfull=
+y.
+          This can be used to "resume" incremental backups from later poi=
+nts
+          in times.
 
-Thanks for all the reviews so far :)
+I wrote this series by accident on my way to implement incremental mode
+for mirror, but this happened first -- the problem is that Mirror mode
+uses its existing modes in a very particular way; and this was the best
+way to add bitmap support into the mirror job properly.
 
-Despite my grumpiness I do rather like the way this turned out.
+Summary:
+- 01-03: refactor blockdev-backup and drive-backup to share more interfac=
+e code
+- 04-05: add the new 'bitmap' sync mode with sync policy 'conditional',
+         which is functionally identical to 'incremental' sync mode.
+- 06:    add sync policy 'never' ("Differential" backups.)
+- 07-11: rework some merging code to facilite patch 12;
+- 12:    add sync policy 'always' ("Resumable" backups)
+- 13-16: test infrastructure changes to support patch 16:
+- 17:    new iotest!
+- 18:    minor policy loosening as a QOL improvement
 
---js
+Future work:
+ - Update bitmaps.rst to explain these. (WIP, it's hard, sorry!)
+ - Add these modes to Mirror. (Done*, but needs tests.)
+ - Allow the use of bitmaps and bitmap sync modes with non-BITMAP modes;
+   This will allow for resumable/re-tryable full backups.
+
+=3D=3D=3D
+V4:
+=3D=3D=3D
+
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/18:[----] [--] 'qapi/block-core: Introduce BackupCommon'
+002/18:[----] [--] 'drive-backup: create do_backup_common'
+003/18:[----] [--] 'blockdev-backup: utilize do_backup_common'
+004/18:[----] [--] 'qapi: add BitmapSyncMode enum'
+005/18:[----] [--] 'block/backup: Add mirror sync mode 'bitmap''
+006/18:[----] [--] 'block/backup: add 'never' policy to bitmap sync mode'
+007/18:[----] [--] 'hbitmap: Fix merge when b is empty, and result is not=
+ an alias of a'
+008/18:[----] [--] 'hbitmap: enable merging across granularities'
+009/18:[0004] [FC] 'block/dirty-bitmap: add bdrv_dirty_bitmap_merge_inter=
+nal'
+010/18:[----] [--] 'block/dirty-bitmap: add bdrv_dirty_bitmap_get'
+011/18:[0008] [FC] 'block/backup: upgrade copy_bitmap to BdrvDirtyBitmap'
+012/18:[----] [--] 'block/backup: add 'always' bitmap sync policy'
+013/18:[----] [--] 'iotests: add testing shim for script-style python tes=
+ts'
+014/18:[----] [--] 'iotests: teach run_job to cancel pending jobs'
+015/18:[----] [--] 'iotests: teach FilePath to produce multiple paths'
+016/18:[----] [--] 'iotests: Add virtio-scsi device helper'
+017/18:[0063] [FC] 'iotests: add test 257 for bitmap-mode backups'
+018/18:[----] [--] 'block/backup: loosen restriction on readonly bitmaps'
+
+Changes:
+009: Added assertions.
+011: Moved copy bitmap to source node.
+017: Rework get_bitmap to tolerate multiple anonymous bitmaps
+     Update test output to accommodate the same.
+
+=3D=3D=3D
+V3:
+=3D=3D=3D
+
+Changes:
+001: Made suggested doc fixes.
+     Changed 'since' to 4.2.
+002: Added bds and aio_context to backup_common
+     Removed accidental extraneous unref on target_bs
+     Removed local_err propagation
+003: Fallout from #002; hoist aio_context acquisition up into do_blockdev=
+_backup
+004: 'conditional' --> 'on-success'
+005: Rediscover the lost stanza that ensures a bitmap mode was given
+     Fallout from 2, 3, 4.
+006: Block comment fix for patchew
+     Fallout from #4
+009: Fix assert() style issue. Why'd they let a macro be lowercase like t=
+hat?
+     Probably to make specifically my life difficult.
+010: Fix style issue {
+011: Fix long lines
+     rename "bs" --> "target_bs" where appropriate
+     Free copy_bitmap from the right node
+012: Multiline comment changes for patchew
+     Fallout from #4
+015: Fix long line for patchew
+     Reinstate that second newline that Max likes
+017: Fallout from #4.
+
+=3D=3D=3D
+V2:
+=3D=3D=3D
+
+Changes:
+004: Fixed typo
+     Change @conditional docstring
+005: Moved desugaring code into blockdev.c, facilitated by patches 1-3.
+006: Change @never docstring slightly.
+007: Merge will clear the target bitmap when both components bitmaps are =
+empty,
+     and the target bitmap is not an alias of either component bitmap.
+008: Check orig_size (logical size) instead of size (actual size) to enab=
+le
+         cross-granularity merging.
+     Fix the sparse merge itself, based on the block/backup code.
+     Clear the target bitmap before cross-granularity merge.
+     Assert the size is itself equal when logical size and granularities =
+are
+         equal.
+---: Dropped bdrv_dirty_bitmap_claim.
+012: Rewrote the cleanup logic to hopefully be clearer.
+     use merge intsead of dropped reclaim.
+015: Changed docstring
+     factored out filename pattern generation.
+017: Fix mkpattern indent.
+     Use integer division!!!
+     Add parenthesis to boolean assignment
+     Change test run ordering; update output to reflect this
+     Use virtio-scsi-ccw when appropriate
+     Update test output to reflect new test running order
+018: Fallout from patches 1-3; restrictions only need loosened in one pla=
+ce
+         instead of two.
+
+Changes not made:
+- Allowing 'cancel' to skip synchronization on cancel:
+  Decided against it, opting for consistency. The user asked for a sync,
+  and it's simpler logistically to execute on that desire.
+  Use the new mode carefully, please!
+
+John Snow (18):
+  qapi/block-core: Introduce BackupCommon
+  drive-backup: create do_backup_common
+  blockdev-backup: utilize do_backup_common
+  qapi: add BitmapSyncMode enum
+  block/backup: Add mirror sync mode 'bitmap'
+  block/backup: add 'never' policy to bitmap sync mode
+  hbitmap: Fix merge when b is empty, and result is not an alias of a
+  hbitmap: enable merging across granularities
+  block/dirty-bitmap: add bdrv_dirty_bitmap_merge_internal
+  block/dirty-bitmap: add bdrv_dirty_bitmap_get
+  block/backup: upgrade copy_bitmap to BdrvDirtyBitmap
+  block/backup: add 'always' bitmap sync policy
+  iotests: add testing shim for script-style python tests
+  iotests: teach run_job to cancel pending jobs
+  iotests: teach FilePath to produce multiple paths
+  iotests: Add virtio-scsi device helper
+  iotests: add test 257 for bitmap-mode backups
+  block/backup: loosen restriction on readonly bitmaps
+
+ block/backup.c                |  135 +-
+ block/dirty-bitmap.c          |   73 +-
+ block/mirror.c                |    8 +-
+ block/replication.c           |    2 +-
+ blockdev.c                    |  208 ++-
+ include/block/block_int.h     |    7 +-
+ include/block/dirty-bitmap.h  |    4 +-
+ migration/block.c             |    5 +-
+ nbd/server.c                  |    2 +-
+ qapi/block-core.json          |  138 +-
+ tests/qemu-iotests/040        |    6 +-
+ tests/qemu-iotests/093        |    6 +-
+ tests/qemu-iotests/139        |    7 +-
+ tests/qemu-iotests/238        |    5 +-
+ tests/qemu-iotests/257        |  416 ++++++
+ tests/qemu-iotests/257.out    | 2247 +++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group      |    1 +
+ tests/qemu-iotests/iotests.py |  100 +-
+ util/hbitmap.c                |   49 +-
+ 19 files changed, 3107 insertions(+), 312 deletions(-)
+ create mode 100755 tests/qemu-iotests/257
+ create mode 100644 tests/qemu-iotests/257.out
+
+--=20
+2.21.0
+
 
