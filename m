@@ -2,86 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAEF63BDB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:24:44 +0200 (CEST)
-Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC64E63C2F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:52:01 +0200 (CEST)
+Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkvjF-0005vY-SU
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
+	id 1hkw9h-0006IC-1q
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48903)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hkvhZ-0004o4-3f
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:58 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8E-0005Lu-DZ
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hkvhS-0004Lo-Ni
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5600
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hkvhK-0004Eu-E5
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:45 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x69JI9dU123322
- for <qemu-devel@nongnu.org>; Tue, 9 Jul 2019 15:22:38 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tmxf26hqa-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 15:22:38 -0400
-Received: from localhost
- by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 9 Jul 2019 20:22:37 +0100
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
- by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 9 Jul 2019 20:22:36 +0100
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x69JMZqW49086766
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 Jul 2019 19:22:35 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 664856A051;
- Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 49C4E6A04F;
- Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.212])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8D-0002Eh-4r
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56772)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1hkw8C-0002Ci-UB
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CDEF830860B4;
+ Tue,  9 Jul 2019 19:43:42 +0000 (UTC)
+Received: from localhost (ovpn-112-55.ams2.redhat.com [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F7D85DD6D;
+ Tue,  9 Jul 2019 19:43:33 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 09 Jul 2019 14:22:30 -0500
-X-TM-AS-GCONF: 00
-x-cbid: 19070919-0016-0000-0000-000009CC294F
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011401; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01229817; UDB=6.00647716; IPR=6.01011076; 
- MB=3.00027656; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-09 19:22:37
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070919-0017-0000-0000-000043F3DB1A
-Message-Id: <156270015095.25269.9519818325716742844@sif>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-09_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907090227
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [ANNOUNCE] QEMU 4.1.0-rc0 is now available
+Date: Tue,  9 Jul 2019 23:43:25 +0400
+Message-Id: <20190709194330.837-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Tue, 09 Jul 2019 19:43:42 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/5] tests/docker: add podman support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,33 +54,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Hi,
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-first release candidate for the QEMU 4.1 release.  This release is meant
-for testing purposes and should not be used in a production environment.
+podman allows to run containers in a similar fashion as docker, but
+without daemon or root privileges. Thank you podman!
 
-  http://download.qemu-project.org/qemu-4.1.0-rc0.tar.xz
-  http://download.qemu-project.org/qemu-4.1.0-rc0.tar.xz.sig
+There is a weird issue with getaddrinfo(), that I reported upstream
+https://github.com/containers/libpod/issues/3535. For now, it is
+worked around with extra socket_check_protocol_support() checks.
 
-You can help improve the quality of the QEMU 4.1 release by testing this
-release and reporting bugs on Launchpad:
+thanks
 
-  https://bugs.launchpad.net/qemu/
+v2:
+- add socket_check_protocol_support() to test-char
+- keep TAP harness happy when socket_check_protocol_support() fails
+- removed bad AI_ADDRCONFIG patch
+- rebased
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+Marc-Andr=C3=A9 Lureau (5):
+  docker.py: add podman support
+  tests/docker: add podman support
+  tests: specify the address family when checking bind
+  test-char: skip tcp tests if ipv4 check failed
+  test: skip tests if socket_check_protocol_support() failed
 
-  http://wiki.qemu.org/Planning/4.1
+ Makefile                       |  2 +-
+ tests/Makefile.include         |  2 +-
+ tests/docker/Makefile.include  | 17 +++++++++++---
+ tests/docker/docker.py         | 43 ++++++++++++++++++++++++++++++----
+ tests/socket-helpers.c         | 17 ++++++++++----
+ tests/socket-helpers.h         | 11 ---------
+ tests/test-char.c              | 19 +++++++++++----
+ tests/test-io-channel-socket.c |  4 +++-
+ tests/test-util-sockets.c      |  4 +++-
+ 9 files changed, 88 insertions(+), 31 deletions(-)
 
-Please add entries to the ChangeLog for the 4.1 release below:
-
-  http://wiki.qemu.org/ChangeLog/4.1
-
-Thank you to everyone involved!
+--=20
+2.22.0.214.g8dca754b1e
 
 
