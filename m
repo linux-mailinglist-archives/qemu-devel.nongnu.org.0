@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6DC63B0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:36:13 +0200 (CEST)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1388A63B30
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:38:01 +0200 (CEST)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkuyJ-0002ph-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33881)
+	id 1hkv03-0004ow-Hx
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:37:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkusA-0001uF-1A
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:29:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hkuwV-0003Bs-14
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:34:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkus8-0007Yy-Vm
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:29:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56069)
+ (envelope-from <mreitz@redhat.com>) id 1hkuwM-0001rW-LG
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:34:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41390)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkurn-0007IQ-Nq; Tue, 09 Jul 2019 14:29:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hkuw6-0001iD-W5; Tue, 09 Jul 2019 14:33:56 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CA267301899D;
- Tue,  9 Jul 2019 18:29:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1E8F930BAC4D;
+ Tue,  9 Jul 2019 18:33:51 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A7C42B58C;
- Tue,  9 Jul 2019 18:28:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B49E787045;
+ Tue,  9 Jul 2019 18:33:40 +0000 (UTC)
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-3-jsnow@redhat.com>
+ <20190705201631.26266-4-jsnow@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -58,21 +58,21 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <9fd9e024-3c32-cd18-c81f-48caa7f64ddb@redhat.com>
-Date: Tue, 9 Jul 2019 20:28:50 +0200
+Message-ID: <cd4e7db3-160a-19c3-b4f2-c6ea13b953f4@redhat.com>
+Date: Tue, 9 Jul 2019 20:33:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190705201631.26266-3-jsnow@redhat.com>
+In-Reply-To: <20190705201631.26266-4-jsnow@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="yw5UXzi6SiB7QF8tyqtGSIbn2ro12ni3v"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="oat6SuMbYWEQT97ZU28wRSdHnuul4iZfc"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 09 Jul 2019 18:29:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 09 Jul 2019 18:33:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 02/18] drive-backup: create
+Subject: Re: [Qemu-devel] [PATCH v3 03/18] blockdev-backup: utilize
  do_backup_common
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,8 +95,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yw5UXzi6SiB7QF8tyqtGSIbn2ro12ni3v
-Content-Type: multipart/mixed; boundary="Y63xZlFqnLg6w7fouYkWzZNf5LhpzxFDJ";
+--oat6SuMbYWEQT97ZU28wRSdHnuul4iZfc
+Content-Type: multipart/mixed; boundary="XjjqWlz6IpjRpQfIABLV9ZdksNRa66TUl";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
@@ -106,49 +106,45 @@ Cc: Fam Zheng <fam@euphon.net>, Wen Congyang <wencongyang2@huawei.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Message-ID: <9fd9e024-3c32-cd18-c81f-48caa7f64ddb@redhat.com>
-Subject: Re: [PATCH v3 02/18] drive-backup: create do_backup_common
+Message-ID: <cd4e7db3-160a-19c3-b4f2-c6ea13b953f4@redhat.com>
+Subject: Re: [PATCH v3 03/18] blockdev-backup: utilize do_backup_common
 References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-3-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-3-jsnow@redhat.com>
+ <20190705201631.26266-4-jsnow@redhat.com>
+In-Reply-To: <20190705201631.26266-4-jsnow@redhat.com>
 
---Y63xZlFqnLg6w7fouYkWzZNf5LhpzxFDJ
+--XjjqWlz6IpjRpQfIABLV9ZdksNRa66TUl
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 05.07.19 22:16, John Snow wrote:
-> Create a common core that comprises the actual meat of what the backup =
-API
-> boundary needs to do, and then switch drive-backup to use it.
->=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  blockdev.c | 122 +++++++++++++++++++++++++++++------------------------=
+>  blockdev.c | 65 +++++-------------------------------------------------=
 
->  1 file changed, 67 insertions(+), 55 deletions(-)
+>  1 file changed, 6 insertions(+), 59 deletions(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---Y63xZlFqnLg6w7fouYkWzZNf5LhpzxFDJ--
+--XjjqWlz6IpjRpQfIABLV9ZdksNRa66TUl--
 
---yw5UXzi6SiB7QF8tyqtGSIbn2ro12ni3v
+--oat6SuMbYWEQT97ZU28wRSdHnuul4iZfc
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3OIACgkQ9AfbAGHV
-z0CEiAgAvAPl9R5rYj2mo4HK5fVGFKQufBPs5l5RdkU1Aj4FY+liOJmMCHrNHhXc
-saEO441D6Hheg7idAvS8fctEtgvbShReCANKpzj+8NLktTUaNP/ygCWZ6qBFA7Kq
-qq23ZvVYuwsA7uS63Suu3liAyYMiVn0T7w/UJ8HnvZGKNCfpXCh8pmkU0qWSIymD
-ge3mUQU7CRZPaeY9eMCGrTrPnaOzqtR2vMgXG14FhRLGA/YxPX/n08u8nbXk/uzV
-NNtbC95jYHz6lgFATa+Tf3Ea6W2EAmaOj9NoWThj5I//FG1KBWF5dLGcvQCvnQqf
-lK4HK594w6G13BWoEO3YJH7YWj06IA==
-=pb5j
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3gMACgkQ9AfbAGHV
+z0DttggAmdRUUsKQYiuHmw5J1ro9ZpqY9+WNv/9Drpyk8deE41NKCoKwHaDgY/18
+x05EUJvbO7XbZoUZEXXUJgNEL/OAx3HDRYuwfW83Lc9AzAHCUhvpvkVy0CgI8PAL
+IWBlRskl74NbUax4Iq5k5aZS9g2ikKcMFeCuvMRoyfKQ9XqFsYkmImd511l2OOIi
+6qktKCsQsA7xBhFZ4ZrBKQzlryPeueU2T73y/rrt2JF4UOEXBYYYFfafWWNDAc9I
+OdMVfj3wvHBnqJa7yy/uzXH6BDozB0/jrwYe1LjJIsuQbUF26tkU+lS8IbPX1GdS
+SfKBc/wFpvT+z1zJdnzsENmLqv67ew==
+=DSms
 -----END PGP SIGNATURE-----
 
---yw5UXzi6SiB7QF8tyqtGSIbn2ro12ni3v--
+--oat6SuMbYWEQT97ZU28wRSdHnuul4iZfc--
 
