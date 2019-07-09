@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5350563B51
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:43:25 +0200 (CEST)
-Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ADB63B55
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:45:15 +0200 (CEST)
+Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkv5I-000705-6G
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1hkv74-0000BL-SA
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkuxc-0003kJ-88
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:35:30 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hkuyK-00049s-O8
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:36:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkuxb-0002wo-0K
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:35:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41004)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkuxD-0002Fa-QL; Tue, 09 Jul 2019 14:35:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4B95F6EB80;
- Tue,  9 Jul 2019 18:34:45 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7DB19D52;
- Tue,  9 Jul 2019 18:34:36 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-5-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <277142fc-5844-c40d-ab65-d7ded2fb48a4@redhat.com>
-Date: Tue, 9 Jul 2019 20:34:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hkuyJ-0003cd-GQ
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:36:12 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53984)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
+ id 1hkuyH-0003Tq-Gq
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:36:09 -0400
+Received: by mail-wm1-x331.google.com with SMTP id x15so4077013wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 11:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UN88soTqDXWMilLS8+rHm39Nzkk1tFEA+2aP3h8swUY=;
+ b=mjFtnazPAgrPfJfz8EPfRiEsWGqT+WGGvjh0K5hNnMWuALb9PyqAE/2lWbNk2IUf/J
+ ifq0PmRqdpyzf8zHEY0lnVtUqYIBiwfgdPoK0uiTdc6DpEDkYvv5FUYtzq91U3Gx+iGc
+ uP3aVTbRbnDGceD92kzeWH2YdvUi7d/YNf9r+1nn1WW3KtcghhXiF9Fk3VzTTisb4QUu
+ 8T/Y+t8aRPB1sidzgjmXc6bgJVzZbEUGVsxu57cWNvDyh+BoZIcpHbCUKp4kBGn8FSq3
+ fekv8kmUr6oBatCxFpixioQMGtSvU28HDXjBK2kZVElyd+WJ0gyha0UeRvKzge17+D8x
+ +lmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UN88soTqDXWMilLS8+rHm39Nzkk1tFEA+2aP3h8swUY=;
+ b=sFvwrwZbzJLvTR+438R28ysZlTug4lLPi892PWmfUGgy/VAlqPIXSOc2wOuJvOXW5n
+ vhh+D6mniVZW/BKxneQ7cibHOAbuL1FTXRVmbKErJtpiZAqljv9cI+biJwFNLTZys8wc
+ BaP7rHsU1sCH+J0EFp/tx9gkx0pXy+kbZY6t+KLdyAi81uFMUvYJPPun1kcTi92fX29R
+ 5LA0wFLXAPGnw8FKjge0Yq99FvT4VXodYOr9SKPKmGNTcY8UUPozJ3YR02pbCKC9NY9X
+ vLVEuY6xGc+dNPkGL82H1dtnSKpFAyPxiBdW7atmFy8WsSK2r+9cAx7AvVgaKeYDEECW
+ OT9w==
+X-Gm-Message-State: APjAAAX+L6YZK3uihGnTPx8F4up1Iqd+AkmP70vOhj/U4UtjT0MfHkpL
+ tlIKzKK8sgE6OeoC+MHlPbyHlnaQ
+X-Google-Smtp-Source: APXvYqzTyiEmmksu1Vd/UWshFANR0I4gZ5m/sr1Rr2FkqfNc0LPDEA91zlyUqFeP6wyhvQl/cZbQGw==
+X-Received: by 2002:a1c:cf0b:: with SMTP id f11mr1087442wmg.138.1562697352958; 
+ Tue, 09 Jul 2019 11:35:52 -0700 (PDT)
+Received: from nullptr.home.dirty-ice.org
+ (2a01-036c-0113-6e3f-0000-0000-0000-0005.pool6.digikabel.hu.
+ [2a01:36c:113:6e3f::5])
+ by smtp.gmail.com with ESMTPSA id c12sm20565042wrd.21.2019.07.09.11.35.52
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jul 2019 11:35:52 -0700 (PDT)
+From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
+ <dirty.ice.hu@gmail.com>
+X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
+ <DirtY.iCE.hu@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 20:35:40 +0200
+Message-Id: <cover.1562695780.git.DirtY.iCE.hu@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190705201631.26266-5-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PeYOnkpBUDaBSKiGfODie8Hnm6Qf4R7lz"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 09 Jul 2019 18:34:45 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 04/18] qapi: add BitmapSyncMode enum
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::331
+Subject: [Qemu-devel] [PATCH 00/11] Multiple simultaneous audio backends
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,77 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PeYOnkpBUDaBSKiGfODie8Hnm6Qf4R7lz
-Content-Type: multipart/mixed; boundary="w82HYSvN5jolnhaylcOzI2ykI9Ic9gtRY";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Wen Congyang <wencongyang2@huawei.com>,
- Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, eblake@redhat.com, vsementsov@virtuozzo.com,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Message-ID: <277142fc-5844-c40d-ab65-d7ded2fb48a4@redhat.com>
-Subject: Re: [PATCH v3 04/18] qapi: add BitmapSyncMode enum
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-5-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-5-jsnow@redhat.com>
+Hello,
 
---w82HYSvN5jolnhaylcOzI2ykI9Ic9gtRY
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This is my next set of audio patches. This series makes it possible to use
+multiple audio backends in a single qemu instance, and contains a few random
+cleanup/fix patches.
 
-On 05.07.19 22:16, John Snow wrote:
-> Depending on what a user is trying to accomplish, there might be a few
-> bitmap cleanup actions that occur when an operation is finished that
-> could be useful.
->=20
-> I am proposing three:
-> - NEVER: The bitmap is never synchronized against what was copied.
-> - ALWAYS: The bitmap is always synchronized, even on failures.
-> - ON-SUCCESS: The bitmap is synchronized only on success.
->=20
-> The existing incremental backup modes use 'on-success' semantics,
-> so add just that one for right now.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qapi/block-core.json | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+Regards,
+Zoltan
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Kővágó, Zoltán (11):
+  audio: reduce glob_audio_state usage
+  audio: basic support for multi backend audio
+  audio: add audiodev properties to frontends
+  audio: audiodev= parameters no longer optional when -audiodev present
+  paaudio: do not move stream when sink/source name is specified
+  paaudio: properly disconnect streams in fini_*
+  audio: remove audio_MIN, audio_MAX
+  audio: do not run each backend in audio_run
+  paaudio: fix playback glitches
+  audio: remove read and write pcm_ops
+  audio: use size_t where makes sense
 
+ audio/audio.h                    |  36 +--
+ audio/audio_int.h                |  43 ++--
+ audio/audio_template.h           |  62 +++--
+ audio/mixeng.h                   |   9 +-
+ audio/rate_template.h            |   2 +-
+ include/hw/qdev-properties.h     |   3 +
+ include/sysemu/replay.h          |   4 +-
+ ui/vnc.h                         |   2 +
+ audio/alsaaudio.c                |  49 ++--
+ audio/audio.c                    | 339 ++++++++++++++-----------
+ audio/coreaudio.c                |  18 +-
+ audio/dsoundaudio.c              |  25 +-
+ audio/noaudio.c                  |  39 +--
+ audio/ossaudio.c                 |  75 +++---
+ audio/paaudio.c                  | 421 ++++++++++++++++++-------------
+ audio/sdlaudio.c                 |  30 +--
+ audio/spiceaudio.c               |  34 +--
+ audio/wavaudio.c                 |  18 +-
+ audio/wavcapture.c               |   6 +-
+ hw/audio/ac97.c                  |  11 +-
+ hw/audio/adlib.c                 |   5 +-
+ hw/audio/cs4231a.c               |   5 +-
+ hw/audio/es1370.c                |  13 +-
+ hw/audio/gus.c                   |   7 +-
+ hw/audio/hda-codec.c             |  17 +-
+ hw/audio/milkymist-ac97.c        |  14 +-
+ hw/audio/pcspk.c                 |   3 +-
+ hw/audio/pl041.c                 |   1 +
+ hw/audio/sb16.c                  |   3 +-
+ hw/audio/wm8750.c                |  10 +-
+ hw/core/qdev-properties-system.c |  57 +++++
+ hw/usb/dev-audio.c               |   1 +
+ monitor/misc.c                   |  12 +-
+ replay/replay-audio.c            |  16 +-
+ replay/replay.c                  |   2 +-
+ ui/vnc.c                         |  15 +-
+ hmp-commands.hx                  |  11 +-
+ qemu-options.hx                  |   5 +
+ 38 files changed, 781 insertions(+), 642 deletions(-)
 
---w82HYSvN5jolnhaylcOzI2ykI9Ic9gtRY--
+-- 
+2.22.0
 
---PeYOnkpBUDaBSKiGfODie8Hnm6Qf4R7lz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3joACgkQ9AfbAGHV
-z0AF1ggArlsWU0xeM/kbWXEQS3Y8ntwp2PJzqIt0t5iJ8gzjJwPVKTFNrqa6KrkG
-Koar219cM1SuipLyyBKPmOcS1RkQ6AcWxs3vVyxtoB+2fGSghkK5Juj6wz+3PJg9
-FRxPc3NSY1TkLS485+rFAcSRclDjC8S/DfcdVJ9dnWERyiVlGwyqzzAHbXHvviUt
-yQUYfRYXn1yB1xckWXCp3q/dOHOtO4fNtshS9Xnh3pMAMRpf9ReFzHMxz6Onco7q
-NgUA+uYACOPhOsnvRkPPfuh8qeZeCu7ns2+3zJ4mEtLHID7yA6JVi6u3x+yzFp+I
-wDLQeoQFis46iaCTBYBXuMb8+RV4Zg==
-=B72j
------END PGP SIGNATURE-----
-
---PeYOnkpBUDaBSKiGfODie8Hnm6Qf4R7lz--
 
