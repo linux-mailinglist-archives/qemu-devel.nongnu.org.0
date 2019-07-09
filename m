@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38D462F16
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 05:53:33 +0200 (CEST)
-Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA2D62F22
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:03:01 +0200 (CEST)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkhC9-0004cM-2I
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 23:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53360)
+	id 1hkhLI-0001L0-1l
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32999)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <zhexu@redhat.com>) id 1hkgez-0006yc-E1
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:19:19 -0400
+ (envelope-from <sjitindarsingh@gmail.com>) id 1hkhIj-0000X2-Jd
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:00:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhexu@redhat.com>) id 1hkgex-0005Gf-Q4
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:19:17 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39630)
+ (envelope-from <sjitindarsingh@gmail.com>) id 1hkhIh-0007Vd-Od
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:00:21 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35217)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hkgex-0005GI-HQ
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:19:15 -0400
-Received: by mail-pf1-f194.google.com with SMTP id j2so8564936pfe.6
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 20:19:15 -0700 (PDT)
+ (Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
+ id 1hkhIZ-0007JQ-MK; Tue, 09 Jul 2019 00:00:12 -0400
+Received: by mail-pl1-x643.google.com with SMTP id w24so9349530plp.2;
+ Mon, 08 Jul 2019 21:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MywKGIWHhYx6+3uyRA+KWyEmtwfHUd3+7N47je1pKRw=;
+ b=r+wNw9IzX/5HPx7TgANB2WWGHu9LI84xrTh6VX0WIlZxrCVYADDnlYElGh6/bmWV4z
+ p4s2b9JbzFXLbxMiIJTIsLPEdcmc9XcaBURXXeOBTAx77sBEy4gTFSjiIVV5zwUS3I6F
+ J+QM2l1+LFXCMpu6jvB1niM8Gfl6II5njW99HSrfN5jxAna5ZR5t6D2w2i06iGGDFJtL
+ fk5697xn5QKcPLKH+cLtkjDQNTksPLVDFxOeNfuB57RAR1+uM46bpTVo4/kqiClkdJXp
+ RsrtAIhHZxlrLbN2QZkpVwzNJOCAEJtIK9dqd2abnO8lWOZHyXTvVJbRDXyrQ8aIDLoM
+ xjdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9uUeJaiLlZUAr8WH1k6RmwXX3zjFWC96L+aS8xHJ5UU=;
- b=Pgov4LTkV3PwZfBf2xJV+3Uo13j0dYE9MZjICu6uPFjg7gHPGolNKu5esraTRVonht
- ReEya1XRjLZ7T0e4Kbw+cYRtb5RLTNtW1uPqwwc9pyoPthLzeBzmL1SkwLt0rmGmcgrB
- sCZVYfEkSUdlYt/bqna3PUt6NLMsC08t3smAKmcTguRCwl6od948/BX9GAftyPMaVBxP
- kMUdyoOem6s5ppR4Vsxcf6w9/V9f17s+Qwi0BE/DmU+PasUUeyeWd30uuy93F1e2Zfkb
- AepDXstiGYhk7hAekCVCAuM9+xsK8Ivp7/BzKc4EZSDyADC9HoB1u9yLlUDfVlh/bDgP
- IHpQ==
-X-Gm-Message-State: APjAAAUgEoW69G97xxGAZaRe4YdmouneEoCZGJhRt9jM5UoZuir9c7fW
- 45w9q2rpj86UuzIns08YNjdYUA==
-X-Google-Smtp-Source: APXvYqweMw2qgR2X/fz79vTFVtFx0V+H4u71qNaTh3WO5l6/BAwUYUrTjyT8g6W0+1z68/pGxOQzTw==
-X-Received: by 2002:a17:90a:214e:: with SMTP id
- a72mr30704625pje.0.1562642354404; 
- Mon, 08 Jul 2019 20:19:14 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id 65sm20448940pff.148.2019.07.08.20.19.09
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 08 Jul 2019 20:19:13 -0700 (PDT)
-From: Peter Xu <zhexu@redhat.com>
-X-Google-Original-From: Peter Xu <peterx@redhat.com>
-Date: Tue, 9 Jul 2019 11:19:02 +0800
-To: Liu Yi L <yi.l.liu@intel.com>
-Message-ID: <20190709031902.GD5178@xz-x1>
-References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
- <1562324511-2910-7-git-send-email-yi.l.liu@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1562324511-2910-7-git-send-email-yi.l.liu@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.194
-X-Mailman-Approved-At: Mon, 08 Jul 2019 23:51:53 -0400
-Subject: Re: [Qemu-devel] [RFC v1 06/18] intel_iommu: support virtual
- command emulation and pasid request
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MywKGIWHhYx6+3uyRA+KWyEmtwfHUd3+7N47je1pKRw=;
+ b=ZpeAHr8dM37MHBiznqiI2SVZAFssCpHtiGWhmawjxO7rXUZYNpIjikcBTeSfLyCPi1
+ GOwLgHl9LTrrFWt/TTiY9Z+nklimTDoEZAC4T74PKeaMu774Sq+g18BLgvG+G0wAfLoT
+ FmG9euJAPSY038/gSzm6xxuJI2qrlLI5cN38wVY3UfaJFSMnlJ/h5XXi0oOmJKmsZ8zh
+ jypIjdZdwL7Xb74/ocqlN23RPTW4jGxI/+seoIRjdj3eaCM9OGNUaYIvXtZ4Or6ODdAh
+ kSOPMHOLcQajVwkwPY+4gaVPnLB8dPiRmtHIPYX4feCzCTjusWYECZvzPAWoob+KSJra
+ B7Hg==
+X-Gm-Message-State: APjAAAXYA49WveIk1XFlFKU8Kmc9TKKfZ6mcs/eGKXkPVUbkVjo1KSVy
+ eYpnKW6jsm3AokcO7EXmsYRyrmdH
+X-Google-Smtp-Source: APXvYqxU0ZTa/YR0MPK8MRatLJOMHWT3Yy3drexQk985bF6toYhS+icoxcLI9YQJIIh256Aa9MIwTQ==
+X-Received: by 2002:a17:902:381:: with SMTP id
+ d1mr28861062pld.331.1562644809405; 
+ Mon, 08 Jul 2019 21:00:09 -0700 (PDT)
+Received: from surajjs2.ozlabs.ibm.com ([122.99.82.10])
+ by smtp.googlemail.com with ESMTPSA id j1sm20969536pfe.101.2019.07.08.21.00.06
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 08 Jul 2019 21:00:08 -0700 (PDT)
+Message-ID: <1562644804.2073.7.camel@gmail.com>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 09 Jul 2019 14:00:04 +1000
+In-Reply-To: <20190704045954.GV9442@umbus.fritz.box>
+References: <20190701061946.32636-1-sjitindarsingh@gmail.com>
+ <20190703061239.GK9442@umbus.fritz.box>
+ <1562211719.10832.15.camel@gmail.com>
+ <20190704045954.GV9442@umbus.fritz.box>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH v3] powerpc/spapr: Add host
+ threads parameter to ibm, get_system_parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,326 +82,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, alex.williamson@redhat.com,
- pbonzini@redhat.com, yi.y.sun@intel.com, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 05, 2019 at 07:01:39PM +0800, Liu Yi L wrote:
-> This patch adds virtual command support to Intel vIOMMU per Intel VT-d 3.1
-> spec. This patch adds two virtual commands: alloc_pasid and free_pasid.
+On Thu, 2019-07-04 at 14:59 +1000, David Gibson wrote:
+> On Thu, Jul 04, 2019 at 01:41:59PM +1000, Suraj Jitindar Singh wrote:
+> > On Wed, 2019-07-03 at 16:12 +1000, David Gibson wrote:
+> > > On Mon, Jul 01, 2019 at 04:19:46PM +1000, Suraj Jitindar Singh
+> > > wrote:
+> > > > The ibm,get_system_parameter rtas call is used by the guest to
+> > > > retrieve
+> > > > data relating to certain parameters of the system. The SPLPAR
+> > > > characteristics option (token 20) is used to determin
+> > > > characteristics of
+> > > > the environment in which the lpar will run.
+> > > > 
+> > > > It may be useful for a guest to know the number of physical
+> > > > host
+> > > > threads
+> > > > present on the underlying system where it is being run. Add the
+> > > > characteristic "HostThrs" to the SPLPAR Characteristics
+> > > > ibm,get_system_parameter rtas call to expose this information
+> > > > to a
+> > > > guest and provide an implementation which determines this
+> > > > information
+> > > > based on the number of interrupt servers present in the device
+> > > > tree.
+> > > > 
+> > > > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> > > 
+> > > Hrm, as I said on our call, I have some misgivings about this.
+> > > 
+> > > Starting with the most general: this again publishes host
+> > > information
+> > > to the guest without filtering, which has caused us problems
+> > > before
+> > > (e.g. security issues with publishing the host serial and model
+> > > information).  Now, I can't immediately see what harm a guest
+> > > could
+> > > do
+> > > with the host # threads (especially since it could in theory
+> > > deduce
+> > > it
+> > > from the PVR, I think) but it still makes me uneasy.
+> > 
+> > Correct, a guest could pretty reliably determine this information
+> > anyway based on the PVR. It can't account for a POWER8 operating in
+> > split core mode, but I don't know any harm that could be done by
+> > introducing this information.
+> > 
+> > Additionally it doesn't really tell you anything about how you're
+> > going
+> > to be scheduled (at least on POWER9) since vcpus are scheduled on a
+> > per
+> > thread, not per core basis.
 > 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-> ---
->  hw/i386/intel_iommu.c          | 139 ++++++++++++++++++++++++++++++++++++++++-
->  hw/i386/intel_iommu_internal.h |  30 +++++++++
->  hw/i386/trace-events           |   1 +
->  include/hw/i386/intel_iommu.h  |   6 +-
->  4 files changed, 174 insertions(+), 2 deletions(-)
+> Hmm.
 > 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 3160a05..3cf250d 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -932,11 +932,19 @@ static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_num)
->                  s->vtd_as_by_bus_num[bus_num] = vtd_bus;
->                  return vtd_bus;
->              }
-> +            vtd_bus = NULL;
+> > > Secondly, the "HostThrs" tag doesn't seem to be documented in
+> > > PAPR as
+> > > something that this system-parameter will include.  I don't much
+> > > like
+> > > the idea of adding ad-hoc bits of information here without some
+> > > thought going into designing and specifying it first.
+> > 
+> > This isn't documented in papr, it has been decided that this is how
+> > the
+> > information will be communicated to a guest. This is the most
+> > appropriate place to put this information and the HostThrs name is
+> > consistent with the naming of other information in this property.
+> 
+> Grr.  If someone can decide this, they can bloody well document it
+> somewhere.
+> 
+> > We have other non-papr information in qemu, for example hcall
+> > numbers,
+> > so this isn't exactly a precedent.
+> 
+> I suppose
+> 
+> > > > ---
+> > > > 
+> > > > V1 -> V2:
+> > > > - Take into account that the core may be operating in split
+> > > > core
+> > > > mode
+> > > >   meaning a single core may be split into multiple subcores.
+> > > > V2 -> V3:
+> > > > - Add curly braces for single line if statements
+> > > > ---
+> > > >  hw/ppc/spapr_rtas.c | 62
+> > > > +++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 62 insertions(+)
+> > > > 
+> > > > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> > > > index 5bc1a93271..1bab71c90c 100644
+> > > > --- a/hw/ppc/spapr_rtas.c
+> > > > +++ b/hw/ppc/spapr_rtas.c
+> > > > @@ -229,6 +229,58 @@ static inline int sysparm_st(target_ulong
+> > > > addr, target_ulong len,
+> > > >      return RTAS_OUT_SUCCESS;
+> > > >  }
+> > > >  
+> > > > +#define CPUS_PATH       "/proc/device-tree/cpus/"
+> > > > +#define
+> > > > SUBCORE_PATH    "/sys/devices/system/cpu/subcores_per_core"
+> > > > +
+> > > > +static int rtas_get_num_host_threads(void)
+> > > > +{
+> > > > +    int num_threads = -1;
+> > > > +    unsigned long len;
+> > > > +    const char *entry;
+> > > > +    char *buf;
+> > > > +    GDir *dir;
+> > > > +
+> > > > +    if (!kvm_enabled()) {
+> > > > +        return 1;
+> > > > +    }
+> > > > +
+> > > > +    /* Read interrupt servers to determine number of threads
+> > > > per
+> > > > core */
+> > > > +    dir = g_dir_open(CPUS_PATH, 0, NULL);
+> > > > +    if (!dir) {
+> > > > +        return -1;
+> > > > +    }
+> > > > +
+> > > > +    while ((entry = g_dir_read_name(dir))) {
+> > > > +        if (!strncmp(entry, "PowerPC,POWER",
+> > > > strlen("PowerPC,POWER"))) {
+> > > > +            char *path;
+> > > > +
+> > > > +            path = g_strconcat(CPUS_PATH, entry, "/ibm,ppc-
+> > > > interrupt-server#s",
+> > > > +                               NULL);
+> > > > +            if (g_file_get_contents(path, &buf, &len, NULL)) {
+> > > > +                num_threads = len / sizeof(int);
+> > > > +                g_free(buf);
+> > > > +            }
+> > > > +
+> > > > +            g_free(path);
+> > > > +            break;
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    g_dir_close(dir);
+> > > > +
+> > > > +    /* Check if split core mode in use */
+> > > > +    if (g_file_get_contents(SUBCORE_PATH, &buf, &len, NULL)) {
+> > > > +        int subcores = g_ascii_strtoll(buf, NULL, 10);
+> > > > +
+> > > > +        if (subcores) {
+> > > > +            num_threads /= subcores;
+> > > > +        }
+> > > > +        g_free(buf);
+> > > > +    }
+> > > 
+> > > Finally, all the logic above is built on the assumption of a ppc
+> > > host
+> > > - and not just that but an IBM POWER host...
+> > 
+> > RTAS services are defined as being provided by a papr platform, and
+> > the
+> > existence of the ibm,ppc-interrupt-server#s device tree property is
+> > a
+> > requirement of a papr platform. So I don't see this being an issue.
+> 
+> The *guest* is a PAPR platform, there's no guarantee the host has to
+> be a PAPR platform (in fact it usually won't be, it's just that
+> powernv has a lot of the same device tree properties).
 
-Can move to ...
->          }
+Well I think technically the host is a papr platform which supplies an
+environment to the papr guest partition. But the terminology isn't
+really important here.
 
-... here?
+> 
+> > > 
+> > > > +    return num_threads;
+> > > > +}
+> > > > +
+> > > >  static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+> > > >                                            SpaprMachineState
+> > > > *spapr,
+> > > >                                            uint32_t token,
+> > > > uint32_t
+> > > > nargs,
+> > > > @@ -250,6 +302,16 @@ static void
+> > > > rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+> > > >                                            current_machine-
+> > > > > ram_size / MiB,
+> > > > 
+> > > >                                            smp_cpus,
+> > > >                                            max_cpus);
+> > > > +        int num_host_threads = rtas_get_num_host_threads();
+> > > > +
+> > > > +        if (num_host_threads > 0) {
+> > > 
+> > > ... this sort of implements a fallback in other cases (KVM PR
+> > > with a
+> > > non-IBM host, TCG, but the boundary conditions are not really
+> > > well
+> > > defined.
+> > 
+> > This is essentially catching the error case of
+> > rtas_get_num_host_threads() returning a negative number or not
+> > finding
+> > the required properties (which as mentioned above are required).
+> > The
+> > KVM-PR case will work the same as the KVM-HV case where the host
+> > device
+> > tree will be queried.
+> 
+> Not if you're using PR on, say, an embedded ppc or an old Apple
+> machine that doesn't have the PAPR-ish properties in the host device
+> tree.
 
->      }
->      return vtd_bus;
->  }
->  
-> +static PCIBus *vtd_find_pci_bus_from_bus_num(IntelIOMMUState *s,
-> +                                             uint8_t bus_num)
-> +{
-> +    VTDBus *vtd_bus = vtd_find_as_from_bus_num(s, bus_num);
-> +    return vtd_bus ? vtd_bus->bus : NULL;
-> +}
-> +
->  /* Given the @iova, get relevant @slptep. @slpte_level will be the last level
->   * of the translation, can be used for deciding the size of large page.
->   */
-> @@ -2579,6 +2587,103 @@ static void vtd_handle_iectl_write(IntelIOMMUState *s)
->      }
->  }
->  
-> +static int vtd_request_pasid_alloc(IntelIOMMUState *s)
-> +{
-> +    PCIBus *bus;
-> +    int bus_n, devfn;
-> +
-> +    for (bus_n = 0; bus_n < PCI_BUS_MAX; bus_n++) {
-> +        bus = vtd_find_pci_bus_from_bus_num(s, bus_n);
-> +        if (!bus) {
-> +            continue;
-> +        }
-> +        for (devfn = 0; devfn < PCI_DEVFN_MAX; devfn++) {
-> +            if (pci_device_is_ops_set(bus, devfn)) {
-> +                return pci_device_request_pasid_alloc(bus, devfn,
-> +                                                      VTD_MIN_HPASID,
-> +                                                      VTD_MAX_HPASID);
+In which case we won't find the device tree property and so we don't
+have a reliable way to determine the number of host threads, so we will
+omit the property.
 
-Ah so here I see why pci_device_is_ops_set() is necessary... you
-wanted to find a device that is vfio-pci and supports PASID.  This is
-a bit awkward but indeed I don't know what's a better option to make
-it a clearer interface if we can't let IOMMU to talk directly to vfio.
+> 
+> > For TCG we just default to 1 since this
+> > information shouldn't be relevant to a TCG guest.
+> 
+> Uh.. it doesn't though, it omits it entirely.
 
-THe thing is that VFIO_IOMMU_PASID_REQUEST seems to be defined per
-VFIO container, while VT-d spec is of course defining PASID allocation
-as globally.  More context on how the pasid address space will be
-defined and considerations behind (not only for this series, but for
-the big picture of SVA work) would be greatly welcomed.
+No,
+if (!kvm_enabled()) return 1;
+above
 
-> +            }
-> +        }
-> +    }
-> +    return -1;
-> +}
-> +
-> +static int vtd_request_pasid_free(IntelIOMMUState *s, uint32_t pasid)
-> +{
-> +    PCIBus *bus;
-> +    int bus_n, devfn;
-> +
-> +    for (bus_n = 0; bus_n < PCI_BUS_MAX; bus_n++) {
-> +        bus = vtd_find_pci_bus_from_bus_num(s, bus_n);
-> +        if (!bus) {
-> +            continue;
-> +        }
-> +        for (devfn = 0; devfn < PCI_DEVFN_MAX; devfn++) {
-> +            if (pci_device_is_ops_set(bus, devfn)) {
-> +                return pci_device_request_pasid_free(bus, devfn, pasid);
-> +            }
-> +        }
-> +    }
-> +    return -1;
-> +}
-> +
-> +/* Handle write to Virtual Command Register */
-> +static void vtd_handle_vcmd_write(IntelIOMMUState *s)
-> +{
-> +    uint32_t status = vtd_get_long_raw(s, DMAR_VCRSP_REG);
-> +    uint32_t val = vtd_get_long_raw(s, DMAR_VCMD_REG);
-> +    uint32_t pasid;
-> +    int ret = -1;
-> +
-> +    trace_vtd_reg_write_vcmd(status, val);
+> 
+> Also I don't really understand how it's relevant to a KVM guest in
+> the
+> first place.
 
-Could we use s->vcrsp directly instead of using DMAR_VCRSP_REG?
+There are registers which were previously scaled based on the threads
+per core, for example the PURR, but which aren't on POWER9 when running
+in lpar per thread mode and instead count per thread. This will look
+different to a guest OS, and so for whatever reason the guest might
+want to scale these registers based on the host threading mode.
 
-> +
-> +    switch (val & VTD_VCMD_CMD_MASK) {
-> +    case VTD_VCMD_ALLOC_PASID:
-> +        if (!(s->vccap & VTD_VCCAP_PAS) ||
-> +             (s->vcrsp & 1)) {
-
-Nit: we can consider to offer some helpers for them.
-
-Also, I think we should check vcrsp&1 at the entry for all vcmds. [1]
-
-> +            break;
-> +        }
-> +        s->vcrsp = 1;
-> +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> +                         ((uint64_t) s->vcrsp));
-
-Do we really need to emulate the "In Progress" like this?  The vcpu is
-blocked here after all, and AFAICT all the rest of vcpus should not
-access these registers because obviously these registers cannot be
-accessed concurrently...
-
-I think the IP bit is useful when some new vcmd would take plenty of
-time so that we can do the long vcmds in async way.  However here it
-seems not the case?
-
-> +        ret = vtd_request_pasid_alloc(s);
-> +        if (ret < 0) {
-> +            s->vcrsp |= VTD_VCRSP_SC(VTD_VCMD_NO_AVAILABLE_PASID);
-> +        } else {
-> +            s->vcrsp |= VTD_VCRSP_RSLT(ret);
-> +        }
-> +        s->vcrsp &= (~((uint64_t)(0x1)));
-> +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> +                         ((uint64_t) s->vcrsp));
-> +        break;
-> +
-> +    case VTD_VCMD_FREE_PASID:
-> +        if (!(s->vccap & VTD_VCCAP_PAS) ||
-> +             (s->vcrsp & 1)) {
-> +            break;
-> +        }
-> +        s->vcrsp &= 1;
-> +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> +                         ((uint64_t) s->vcrsp));
-
-Same here on IP bit emulation.  IMHO we can drop these and this
-function can be greatly simplified.  Your call. :)
-
-> +        pasid = VTD_VCMD_PASID_VALUE(val);
-> +        ret = vtd_request_pasid_free(s, pasid);
-> +        if (ret < 0) {
-> +            s->vcrsp |= VTD_VCRSP_SC(VTD_VCMD_FREE_INVALID_PASID);
-> +        }
-> +        s->vcrsp &= (~((uint64_t)(0x1)));
-> +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> +                         ((uint64_t) s->vcrsp));
-> +        break;
-> +
-> +    default:
-> +        s->vcrsp |= VTD_VCRSP_SC(VTD_VCMD_UNDEFINED_CMD);
-
-(IMHO you can simply do s/|=/=/ here if you handle IP well at the
- entry of the function)
-
-> +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> +                         ((uint64_t) s->vcrsp));
-> +        printf("Virtual Command: unsupported command!!!\n");
-> +        break;
-> +    }
-> +}
-> +
->  static uint64_t vtd_mem_read(void *opaque, hwaddr addr, unsigned size)
->  {
->      IntelIOMMUState *s = opaque;
-> @@ -2620,6 +2725,15 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr addr, unsigned size)
->          val = s->iq >> 32;
->          break;
->  
-> +    case DMAR_VCRSP_REG:
-> +        val = s->vcrsp;
-> +        break;
-> +
-> +    case DMAR_VCRSP_REG_HI:
-> +        assert(size == 4);
-> +        val = s->vcrsp >> 32;
-> +        break;
-
-If you're always with vtd_set_quad_raw()s then IMHO you can drop these
-lines?  vtd_mem_read() has a default to handle all these.
-
-> +
->      default:
->          if (size == 4) {
->              val = vtd_get_long(s, addr);
-> @@ -2868,6 +2982,21 @@ static void vtd_mem_write(void *opaque, hwaddr addr,
->          vtd_set_long(s, addr, val);
->          break;
->  
-> +    case DMAR_VCMD_REG:
-> +        if (size == 4) {
-> +            vtd_set_long(s, addr, val);
-> +        } else {
-> +            vtd_set_quad(s, addr, val);
-> +        }
-> +        vtd_handle_vcmd_write(s);
-
-IMHO you should do vtd_handle_vcmd_write() first and let it return a
-value, when returning true you update the regisers using vtd_set_*()
-otherwise you should skip (e.g., when IP is set in vcmd result reg).
-
-> +        break;
-> +
-> +    case DMAR_VCMD_REG_HI:
-> +        assert(size == 4);
-> +        vtd_set_long(s, addr, val);
-> +        vtd_handle_vcmd_write(s);
-
-Same here?
-
-> +        break;
-> +
->      default:
->          if (size == 4) {
->              vtd_set_long(s, addr, val);
-> @@ -3579,7 +3708,8 @@ static void vtd_init(IntelIOMMUState *s)
->              s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
->          } else if (!strcmp(s->sm_model, "scalable")) {
->              s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_PASID
-> -                       | VTD_ECAP_FLTS;
-> +                       | VTD_ECAP_FLTS | VTD_ECAP_VCS;
-> +            s->vccap |= VTD_VCCAP_PAS;
->          } else {
->              printf("\n!!!!! Invalid sm_model config !!!!!\n"
->                  "Please config sm_model=[\"legacy\"|\"scalable\"]\n"
-> @@ -3641,6 +3771,13 @@ static void vtd_init(IntelIOMMUState *s)
->       * Interrupt remapping registers.
->       */
->      vtd_define_quad(s, DMAR_IRTA_REG, 0, 0xfffffffffffff80fULL, 0);
-> +
-> +    /*
-> +     * Virtual Command Definitions
-> +     */
-> +    vtd_define_quad(s, DMAR_VCCAP_REG, s->vccap, 0, 0);
-> +    vtd_define_quad(s, DMAR_VCMD_REG, 0, 0xffffffffffffffffULL, 0);
-> +    vtd_define_quad(s, DMAR_VCRSP_REG, 0, 0, 0);
->  }
->  
->  /* Should not reset address_spaces when reset because devices will still use
-> diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-> index adae198..f5a2f0d 100644
-> --- a/hw/i386/intel_iommu_internal.h
-> +++ b/hw/i386/intel_iommu_internal.h
-> @@ -85,6 +85,12 @@
->  #define DMAR_MTRRCAP_REG_HI     0x104
->  #define DMAR_MTRRDEF_REG        0x108 /* MTRR default type */
->  #define DMAR_MTRRDEF_REG_HI     0x10c
-> +#define DMAR_VCCAP_REG          0xE00 /* Virtual Command Capability Register */
-> +#define DMAR_VCCAP_REG_HI       0xE04
-> +#define DMAR_VCMD_REG           0xE10 /* Virtual Command Register */
-> +#define DMAR_VCMD_REG_HI        0xE14
-> +#define DMAR_VCRSP_REG          0xE20 /* Virtual Command Reponse Register */
-> +#define DMAR_VCRSP_REG_HI       0xE24
->  
->  /* IOTLB registers */
->  #define DMAR_IOTLB_REG_OFFSET   0xf0 /* Offset to the IOTLB registers */
-> @@ -192,6 +198,7 @@
->  #define VTD_ECAP_SRS                (1ULL << 31)
->  #define VTD_ECAP_PASID              (1ULL << 40)
->  #define VTD_ECAP_SMTS               (1ULL << 43)
-> +#define VTD_ECAP_VCS                (1ULL << 44)
->  #define VTD_ECAP_SLTS               (1ULL << 46)
->  #define VTD_ECAP_FLTS               (1ULL << 47)
->  
-> @@ -314,6 +321,29 @@ typedef enum VTDFaultReason {
->  
->  #define VTD_CONTEXT_CACHE_GEN_MAX       0xffffffffUL
->  
-> +/* VCCAP_REG */
-> +#define VTD_VCCAP_PAS               (1UL << 0)
-> +#define VTD_MIN_HPASID              200
-
-Comment this value a bit?
-
-> +#define VTD_MAX_HPASID              0xFFFFF
-> +
-> +/* Virtual Command Register */
-> +enum {
-> +     VTD_VCMD_NULL_CMD = 0,
-> +     VTD_VCMD_ALLOC_PASID,
-
-Shall we spell " = 1" explicitly if defined in spec?
-
-> +     VTD_VCMD_FREE_PASID,
-
-Same here.
-
-Regards,
-
--- 
-Peter Xu
+> 
+> > 
+> > > 
+> > > > +            char *hostthr_val, *old = param_val;
+> > > > +
+> > > > +            hostthr_val = g_strdup_printf(",HostThrs=%d",
+> > > > num_host_threads);
+> > > > +            param_val = g_strconcat(param_val, hostthr_val,
+> > > > NULL);
+> > > > +            g_free(hostthr_val);
+> > > > +            g_free(old);
+> > > > +        }
+> > > >          ret = sysparm_st(buffer, length, param_val,
+> > > > strlen(param_val) + 1);
+> > > >          g_free(param_val);
+> > > >          break;
+> > > 
+> > > 
+> 
+> 
 
