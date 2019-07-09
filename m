@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C0963613
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:41:43 +0200 (CEST)
-Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75216360A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:38:19 +0200 (CEST)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkpRG-0008V4-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60591)
+	id 1hkpNy-0004mI-JF
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59459)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hkpMP-0004TL-AA
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:36:42 -0400
+ (envelope-from <philmd@redhat.com>) id 1hkpIw-0002hk-IO
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hkpMN-0007EZ-74
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:36:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38770)
+ (envelope-from <philmd@redhat.com>) id 1hkpIv-0004YR-90
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38568)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hkpML-00076D-MQ; Tue, 09 Jul 2019 08:36:38 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hkpIt-0004Rv-2g; Tue, 09 Jul 2019 08:33:03 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 407EA308C389;
- Tue,  9 Jul 2019 12:26:10 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56512848DD;
- Tue,  9 Jul 2019 12:26:09 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue,  9 Jul 2019 14:25:46 +0200
-Message-Id: <20190709122546.12373-5-cohuck@redhat.com>
-In-Reply-To: <20190709122546.12373-1-cohuck@redhat.com>
-References: <20190709122546.12373-1-cohuck@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 292EDA3EAF;
+ Tue,  9 Jul 2019 12:32:54 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-166.brq.redhat.com [10.40.204.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FAE71001B37;
+ Tue,  9 Jul 2019 12:32:51 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 14:32:38 +0200
+Message-Id: <20190709123240.16298-2-philmd@redhat.com>
+In-Reply-To: <20190709123240.16298-1-philmd@redhat.com>
+References: <20190709123240.16298-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 09 Jul 2019 12:26:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Tue, 09 Jul 2019 12:32:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL for-4.1 4/4] s390x/tcg: move fallthrough
- annotation
+Subject: [Qemu-devel] [PATCH-for-4.1 v6 1/3] hw/ssi/xilinx_spips: Convert
+ lqspi_read() to read_with_attrs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,39 +56,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-stable@nongnu.org,
+ Prasad J Pandit <ppandit@redhat.com>, Lei Sun <slei.casper@gmail.com>,
+ qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-...so that the compiler properly recognizes it.
+In the next commit we will implement the write_with_attrs()
+handler. To avoid using different APIs, convert the read()
+handler first.
 
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Fixes: f180da83c039 ("s390x/tcg: Implement VECTOR LOAD LOGICAL ELEMENT AN=
-D ZERO")
-Message-Id: <20190708125433.16927-3-cohuck@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/s390x/translate_vx.inc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v4: Do not ignore lqspi_read() return value (Francisco)
+---
+ hw/ssi/xilinx_spips.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
-inc.c
-index 7b1d31cba5cf..41d5cf869f94 100644
---- a/target/s390x/translate_vx.inc.c
-+++ b/target/s390x/translate_vx.inc.c
-@@ -577,8 +577,8 @@ static DisasJumpType op_vllez(DisasContext *s, DisasO=
-ps *o)
-             enr =3D 0;
-             break;
-         }
--    default:
-         /* fallthrough */
-+    default:
-         gen_program_exception(s, PGM_SPECIFICATION);
-         return DISAS_NORETURN;
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index 8115bb6d46..b7c7275dbe 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1202,27 +1202,26 @@ static void lqspi_load_cache(void *opaque, hwaddr=
+ addr)
      }
+ }
+=20
+-static uint64_t
+-lqspi_read(void *opaque, hwaddr addr, unsigned int size)
++static MemTxResult lqspi_read(void *opaque, hwaddr addr, uint64_t *value=
+,
++                              unsigned size, MemTxAttrs attrs)
+ {
+-    XilinxQSPIPS *q =3D opaque;
+-    uint32_t ret;
++    XilinxQSPIPS *q =3D XILINX_QSPIPS(opaque);
+=20
+     if (addr >=3D q->lqspi_cached_addr &&
+             addr <=3D q->lqspi_cached_addr + LQSPI_CACHE_SIZE - 4) {
+         uint8_t *retp =3D &q->lqspi_buf[addr - q->lqspi_cached_addr];
+-        ret =3D cpu_to_le32(*(uint32_t *)retp);
+-        DB_PRINT_L(1, "addr: %08x, data: %08x\n", (unsigned)addr,
+-                   (unsigned)ret);
+-        return ret;
+-    } else {
+-        lqspi_load_cache(opaque, addr);
+-        return lqspi_read(opaque, addr, size);
++        *value =3D cpu_to_le32(*(uint32_t *)retp);
++        DB_PRINT_L(1, "addr: %08" HWADDR_PRIx ", data: %08" PRIx64 "\n",
++                   addr, *value);
++        return MEMTX_OK;
+     }
++
++    lqspi_load_cache(opaque, addr);
++    return lqspi_read(opaque, addr, value, size, attrs);
+ }
+=20
+ static const MemoryRegionOps lqspi_ops =3D {
+-    .read =3D lqspi_read,
++    .read_with_attrs =3D lqspi_read,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+     .valid =3D {
+         .min_access_size =3D 1,
 --=20
 2.20.1
 
