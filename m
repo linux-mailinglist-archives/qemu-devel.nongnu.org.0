@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D756390A
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:05:59 +0200 (CEST)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858CD6395E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:27:47 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkscv-0007ZC-Qc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1hksy2-0007w0-4E
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35118)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1hksXB-0005kF-B0
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:00:02 -0400
+ (envelope-from <xiaoyao.li@linux.intel.com>) id 1hksvu-0007J4-Je
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:25:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1hksX9-00064M-LY
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:00:01 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33745)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1hksX9-00063V-G6
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 11:59:59 -0400
-Received: by mail-ot1-f68.google.com with SMTP id q20so20481819otl.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 08:59:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=z1mIOFo8Yb9qP+Xw6RYXcy8nIe448VjUC8u9ee+We+c=;
- b=gfn1NoMDhxiikpy+rmCGiL4IwznB7LNdiYKYCYoHtKjgQZ4c3bxeZmcgtEoxXueADz
- Rhup/5ZqRqCtMj2smG3VbgkzdFDa7tfLPK/m9ZG+rWSSIako5DFJxL00AIIXr/B3qtWJ
- 1wJBjfZvJS+kfVYfExvbsP5PgwCoUxPk/1S/uUmoA9t0eVkVt4/q3zLuuz6xld7cs9xN
- m/UPlnpCp4lg6YPTL3+TQx3ufgi8WYHYFucq+jVsjtV0i8wBvmfDmrTGwuzRCaOJQCcd
- Pp26ZqckSOnaOHL/FBHh1ZFly9d6d0VmNT5JuVUOksrpnyO/uZyfGlDUuHF0fuRh1hgr
- XxZQ==
-X-Gm-Message-State: APjAAAUW7+X6Csi877DINSPQ9pFKOV0C9K4q6MtZoG/GWDBDd37XLX4x
- Tmv1yZkSfK/5lqZy69eTdsWQF/W/i8KsYQjAmsA=
-X-Google-Smtp-Source: APXvYqwKIGFzgXhLsG7x1Ibj/zqO9Ml43UWKnLOrH2GD2U0KJFvJPE3d3t4YQY0+Ry5zNqEpFNq7esdkQCqbfLmXXoM=
-X-Received: by 2002:a05:6830:210f:: with SMTP id
- i15mr2448511otc.250.1562687998070; 
- Tue, 09 Jul 2019 08:59:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190705160536.12047-1-geert+renesas@glider.be>
- <CAMpxmJXOrDLdw6ZPBHxzsDRYiLmhRNCb-s_Z=Gu=Ecg1XA5ONQ@mail.gmail.com>
- <CAMuHMdWdb0dcS8Nvk-Poz2dT7nuHjFhqpsRPZZnSKsc3VffcRA@mail.gmail.com>
- <CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com>
-In-Reply-To: <CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 9 Jul 2019 17:59:47 +0200
-Message-ID: <CAMuHMdUkF32+wOLkfd2BL4h-=0nZjPDMtVOpOcyDYzBbhWXteQ@mail.gmail.com>
-To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+ (envelope-from <xiaoyao.li@linux.intel.com>) id 1hksvt-00074r-48
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:25:34 -0400
+Received: from mga11.intel.com ([192.55.52.93]:12712)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <xiaoyao.li@linux.intel.com>)
+ id 1hksvp-0006qU-S8
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:25:32 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2019 09:25:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,470,1557212400"; d="scan'208";a="176545338"
+Received: from lxy-dell.sh.intel.com ([10.239.159.145])
+ by orsmga002.jf.intel.com with ESMTP; 09 Jul 2019 09:25:20 -0700
+Message-ID: <636bad06254a55eacc4b33c72d48c419271e3833.camel@linux.intel.com>
+From: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+To: Tao Xu <tao3.xu@intel.com>, ehabkost@redhat.com, rth@twiddle.net, 
+ pbonzini@redhat.com
+Date: Wed, 10 Jul 2019 00:20:26 +0800
+In-Reply-To: <4c09858a-1bb3-13d3-333a-07639db9a03d@intel.com>
+References: <20190709044420.14525-1-tao3.xu@intel.com>
+ <8ac04db5-0a69-c74e-dab4-14159b8d22b6@linux.intel.com>
+ <4c09858a-1bb3-13d3-333a-07639db9a03d@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.68
-Subject: Re: [Qemu-devel] [PATCH RFC] gpio: Add Virtual Aggregator GPIO
- Driver
+X-Mailer: Evolution 3.28.5 (3.28.5-2.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH] target/i386: Introduce Denverton CPU model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,88 +58,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- LKML <linux-kernel@vger.kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>, Alexander Graf <agraf@suse.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-gpio <linux-gpio@vger.kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bartosz,
+On Tue, 2019-07-09 at 22:27 +0800, Tao Xu wrote:
+> On 7/9/2019 4:39 PM, Xiaoyao Li wrote:
+> > On 7/9/2019 12:44 PM, Tao Xu wrote:
+> > > Denverton-Server is the Atom Processor of Intel Harrisonville platform.
+> > > 
+> > > For more information:
+> > > https://ark.intel.com/content/www/us/en/ark/products/\
+> > > codename/63508/denverton.html
+> > > 
+> > > Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> > > ---
+> > >   target/i386/cpu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+> > >   1 file changed, 45 insertions(+)
+> > > 
+> > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > > index 805ce95247..4efaff9918 100644
+> > > --- a/target/i386/cpu.c
+> > > +++ b/target/i386/cpu.c
+> > > @@ -2471,6 +2471,51 @@ static X86CPUDefinition builtin_x86_defs[] = {
+> > >           .xlevel = 0x80000008,
+> > >           .model_id = "Intel Xeon Processor (Icelake)",
+> > >       },
+> > > +    {
+> > > +        .name = "Denverton-Server",
+> > > +        .level = 21,
+> > > +        .vendor = CPUID_VENDOR_INTEL,
+> > > +        .family = 6,
+> > > +        .model = 95,
+> > > +        .stepping = 1,
+> > > +        .features[FEAT_1_EDX] =
+> > > +            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE | CPUID_TSC |
+> > > +            CPUID_MSR | CPUID_PAE | CPUID_MCE | CPUID_CX8 | CPUID_APIC |
+> > > +            CPUID_SEP | CPUID_MTRR | CPUID_PGE | CPUID_MCA | 
+> > > CPUID_CMOV |
+> > > +            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH | CPUID_MMX | 
+> > > CPUID_FXSR |
+> > > +            CPUID_SSE | CPUID_SSE2,
+> > > +        .features[FEAT_1_ECX] =
+> > > +            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_MONITOR |
+> > > +            CPUID_EXT_VMX | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 |
+> > > +            CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_X2APIC |
+> > > +            CPUID_EXT_MOVBE | CPUID_EXT_POPCNT | 
+> > > CPUID_EXT_TSC_DEADLINE_TIMER |
+> > > +            CPUID_EXT_AES | CPUID_EXT_XSAVE | CPUID_EXT_RDRAND,
+> > > +        .features[FEAT_8000_0001_EDX] =
+> > > +            CPUID_EXT2_SYSCALL | CPUID_EXT2_NX | CPUID_EXT2_PDPE1GB |
+> > > +            CPUID_EXT2_RDTSCP | CPUID_EXT2_LM,
+> > > +        .features[FEAT_8000_0001_ECX] =
+> > > +            CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFETCH,
+> > > +        .features[FEAT_7_0_EBX] =
+> > > +            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_SMEP | 
+> > > CPUID_7_0_EBX_ERMS |
+> > > +            CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_RDSEED | 
+> > > CPUID_7_0_EBX_SMAP |
+> > > +            CPUID_7_0_EBX_CLFLUSHOPT | CPUID_7_0_EBX_SHA_NI,
+> > > +        .features[FEAT_7_0_EDX] =
+> > > +            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_ARCH_CAPABILITIES |
+> > > +            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
+> > 
+> > The output of CPUID_7_0:EDX is 0 in my Denverton machine, of which the 
+> > stepping is 0 and microcode is 0xe.
+> > 
+> > Maybe we need to remove these 3 flag in the initial Denverton cpu model 
+> > and add these features as 2nd version alias as Denverton-Server-IBRS? (I 
+> > don't if SPEC_CTRL_SSBD and ARCH_CAPABILITIES belong to IBRS, may be we 
+> > need 3rd version for these?)
+> > 
+> 
+> I am wondering if we cover all the stepping of CPU, all existing CPU 
+> model should be add initial stepping cpu model. The same circumstance 
+> occurred before because Cascadelake CPU stepping 5 haven't AVX512_VNNI, 
+> then updated to stepping 6. Denverton has been released in Q3'2017, the 
+> customer may not use the early stepping machine.
+> 
+Focusing on spec_ctrl, my question is: Does Denverton with stepping 1 have this
+feature regardless of microcode.
 
-On Tue, Jul 9, 2019 at 4:59 PM Bartosz Golaszewski
-<bgolaszewski@baylibre.com> wrote:
-> pon., 8 lip 2019 o 12:24 Geert Uytterhoeven <geert@linux-m68k.org> napisa=
-=C5=82(a):
-> > On Mon, Jul 8, 2019 at 11:45 AM Bartosz Golaszewski
-> > <bgolaszewski@baylibre.com> wrote:
-> > > pt., 5 lip 2019 o 18:05 Geert Uytterhoeven <geert+renesas@glider.be> =
-napisa=C5=82(a):
-> > > > GPIO controllers are exported to userspace using /dev/gpiochip*
-> > > > character devices.  Access control to these devices is provided by
-> > > > standard UNIX file system permissions, on an all-or-nothing basis:
-> > > > either a GPIO controller is accessible for a user, or it is not.
-> > > > Currently no mechanism exists to control access to individual GPIOs=
-.
-> > > >
-> > > > Hence add a virtual GPIO driver to aggregate existing GPIOs (up to =
-32),
-> > > > and expose them as a new gpiochip.  This is useful for implementing
-> > > > access control, and assigning a set of GPIOs to a specific user.
-> > > > Furthermore, it would simplify and harden exporting GPIOs to a virt=
-ual
-> > > > machine, as the VM can just grab the full virtual GPIO controller, =
-and
-> > > > no longer needs to care about which GPIOs to grab and which not,
-> > > > reducing the attack surface.
-> > > >
-> > > > Virtual GPIO controllers are instantiated by writing to the "new_de=
-vice"
-> > > > attribute file in sysfs:
-> > > >
-> > > >     $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
-> > > >            "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
-> > > >             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
-> > > >
-> > > > Likewise, virtual GPIO controllers can be destroyed after use:
-> > > >
-> > > >     $ echo gpio-virt-agg.<N> \
-> > > >             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
-
-> Am I doing it right? I'm trying to create a device and am only getting th=
-is:
->
-> # echo gpiochip2 23 > new_device
-> [  707.507039] gpio-virt-agg gpio-virt-agg.0: Cannot find gpiochip gpioch=
-ip2
->
-> gpiochip2 *does* exist in the system.
-
-Please try the name of the platform device instead.
-I.e. for my koelsch (R-Car M2-W), it needs "e6052000.gpio" instead
-of "gpiochip2".
-
-Probably the driver should match on both.
-
-> I see. I'll try to review it more thoroughly once I get to play with
-> it. So far I'm stuck on creating the virtual chip.
-
-Thanks, good luck!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
