@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D759639B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:51:51 +0200 (CEST)
-Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACA1639A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:44:11 +0200 (CEST)
+Received: from localhost ([::1]:51946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktLJ-0002T1-Q0
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
+	id 1hktDu-000793-8s
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38181)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hkt7T-0003BQ-A1
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hkt7s-0003Em-8r
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:38:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hkt7Q-0006gv-CM
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:29 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:44677)
+ (envelope-from <richard.henderson@linaro.org>) id 1hkt7m-0006v4-Jc
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:53 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43769)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hkt7Q-0006fi-6F
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:28 -0400
-Received: by mail-pf1-x429.google.com with SMTP id t16so9548901pfe.11
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:37:27 -0700 (PDT)
+ id 1hkt7e-0006jG-Qs
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:44 -0400
+Received: by mail-pl1-x642.google.com with SMTP id cl9so10341858plb.10
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sH3HXM90i35Znfmo2ZGAwhUVyrLtmUH4wH93sEFL2IQ=;
- b=w1w9jfpBUL2R9wo3JtnQGTgHsunNZVJRYWCWyI0mNGTUG0OqHsGbVl854Q8IFI9GKU
- Ffb6NLTpjccUz0+1mre52bKP+Tf/V5xwYxglRR39pAH7x7Gd07+HRmm/LtfPmKBTCdoQ
- iThfxeO2e10Koi59KD/0Xau41Fye4XGJX76/+9pqia2WTBgjowGkNSW2gvEliwzq89+0
- qJa20oKZDPgCROUjtw1mZWOWqUGvMfpexdl04126IpF5m35/tdvtBiTRLOQ8AyzvX/0Z
- kIENDloEuhIMk5kJ42KVhb32PmmKSpryZkO9e5YQwYnkg/QymSAEo7AeBZxOgouW6G47
- RoMg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=wKi63WC2ID0LFZEyokn53XQcJ3+e0eDjytzjfhF4FC4=;
+ b=b02Q5tDk/hNubaV3heBz8XfZJYQkPE7gra0q5kGO3lHnG8C/qCszOoV+soTRIKxjaK
+ IQe1YpAkuxQM68dXsnco4w13PmK+sfQObYDXYjBwNc7jJ9FBDJS9LUQcxhafoUj9tQEH
+ dhUYs2FKqjWoQptIxYsSPArWQOYYlMDTD1AymatlQGy6yr4uSu4ZTKgkIr2R22JMO7G8
+ P4UtN7k/k97wd++qOx37+FpvUia1W24ySkPVdfQf8Hv61CEldS8lmlPtUbKBOnC8ALmA
+ QlKS3N+ck3uO+K5FVeXx3NtFMgoAS7NE38+d3HYhuz5nXH79HvGN18mHJNAl5aRWhnCC
+ z5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sH3HXM90i35Znfmo2ZGAwhUVyrLtmUH4wH93sEFL2IQ=;
- b=a7SUZUH/FcXPzX9u4OLCRjwIPi6ta9dsLJq1ai0L/o3QSr4XsSckYi+YG4rpcNFpvi
- TItesqfgpUTX14L/k/BxUT7g43VpEOgG8UwL8a2xTCtwSMElSM2zB4QIUS64bdUFrD+r
- poYqb0rRc1LoaTUvOScUoORvr0vX42Zkbjti4SIFSdczwm8arPfpErat46ORSpfz3HKO
- yo+IvHZEHeCivSJcGBuUlV7iQDecuk4Z2QIZfUH9pMOgMN5vCfqDjuA8doBKWV0E3djm
- krhTkgm7dF/63NI38eqY5Em9yqxgS4VeUfmjAzjSN5I/dg5Ew3pEgqyi+NuPn1oWv7oK
- ScCQ==
-X-Gm-Message-State: APjAAAXsfOZdpkmYMrpNInUByfTJDH3beXVribkrvQIhBaSuG2EmkjGT
- WbRrzvu/4WYe72zpw1zmOBJ11DppewQ=
-X-Google-Smtp-Source: APXvYqxbwEZ14n4UEMtyG43rn7pIKIqiFm8k4838eIYPjmrpNrFf03LqF52JSEf1UiCHMonDqJf4Nw==
-X-Received: by 2002:a17:90a:3247:: with SMTP id
- k65mr1053401pjb.49.1562690246238; 
- Tue, 09 Jul 2019 09:37:26 -0700 (PDT)
+ :references;
+ bh=wKi63WC2ID0LFZEyokn53XQcJ3+e0eDjytzjfhF4FC4=;
+ b=GHAZNLu5ThwqR33+chzpvGsCOhAOegmYl53EFftpWesLEdDP/1UIEf4dDM1VT+KbfI
+ hf1jqka2gdWKhpE/tvHA6v0NxtX3NCJ5B6G7PR4fP1KeKGb3WhasfahOWbmR5VpbYN2I
+ vrt+j781cSzwXxc4yqJxT3eCBJgEZW+8LSPTzLEdMZSI9wINAU1n6UnCcb0zF5o6VYJJ
+ phd/DC7AutV73a/8YyLUA0lmMdKtbJp+8b6UY8r1uoLbA85AT/EMhtHnK0fU5rWVoEZt
+ yzKq8evv0hCWqfqTHfDavDbMGVwM7oiMujTGy3z+qlOx2nH8wQAaMeUiF/Jojgi9mXZ0
+ FMfw==
+X-Gm-Message-State: APjAAAWo7rFmm4mRV/x9ZPpryJAeBMOO87TAAeu+WGikjwCjExOyYHWd
+ dNoa+HNTfGaI/6oj4pXDhmUI+7rIjvc=
+X-Google-Smtp-Source: APXvYqyXFTeEOggHPiqXg1t+PLDSyRTP8D6y4r6o2oTEoMyCOM5war1Ab6mO5tu8An3DMWHi5jCQ4Q==
+X-Received: by 2002:a17:902:2ec5:: with SMTP id
+ r63mr32915763plb.21.1562690250940; 
+ Tue, 09 Jul 2019 09:37:30 -0700 (PDT)
 Received: from localhost.localdomain ([172.56.12.212])
- by smtp.gmail.com with ESMTPSA id v8sm19225231pgs.82.2019.07.09.09.37.22
+ by smtp.gmail.com with ESMTPSA id v8sm19225231pgs.82.2019.07.09.09.37.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 09:37:25 -0700 (PDT)
+ Tue, 09 Jul 2019 09:37:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 18:36:55 +0200
-Message-Id: <20190709163656.3100-5-richard.henderson@linaro.org>
+Date: Tue,  9 Jul 2019 18:36:56 +0200
+Message-Id: <20190709163656.3100-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190709163656.3100-1-richard.henderson@linaro.org>
 References: <20190709163656.3100-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::429
-Subject: [Qemu-devel] [PATCH v2 4/5] tcg: Remove duplicate #if
- !defined(CODE_ACCESS)
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v2 5/5] tcg: Release mmap_lock on translation
+ fault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,30 +81,151 @@ Cc: lvivier@redhat.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code block is already surrounded by #ifndef CODE_ACCESS.
+Turn helper_retaddr into a multi-state flag that may now also
+indicate when we're performing a read on behalf of the translator.
+In this case, release the mmap_lock before the longjmp back to
+the main cpu loop, and thereby avoid a failing assert therein.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1832353
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst_useronly_template.h | 2 --
- 1 file changed, 2 deletions(-)
+ include/exec/cpu_ldst_useronly_template.h | 20 +++++--
+ accel/tcg/user-exec.c                     | 66 ++++++++++++++++-------
+ 2 files changed, 63 insertions(+), 23 deletions(-)
 
 diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
-index 8c7a2c6cd7..d663826ac2 100644
+index d663826ac2..2378f2958c 100644
 --- a/include/exec/cpu_ldst_useronly_template.h
 +++ b/include/exec/cpu_ldst_useronly_template.h
-@@ -118,11 +118,9 @@ static inline void
- glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr,
-                                       RES_TYPE v)
+@@ -64,12 +64,18 @@
+ static inline RES_TYPE
+ glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
  {
 -#if !defined(CODE_ACCESS)
++#ifdef CODE_ACCESS
++    RES_TYPE ret;
++    set_helper_retaddr(1);
++    ret = glue(glue(ld, USUFFIX), _p)(g2h(ptr));
++    clear_helper_retaddr();
++    return ret;
++#else
      trace_guest_mem_before_exec(
          env_cpu(env), ptr,
-         trace_mem_build_info(SHIFT, false, MO_TE, true));
+         trace_mem_build_info(SHIFT, false, MO_TE, false));
 -#endif
-     glue(glue(st, SUFFIX), _p)(g2h(ptr), v);
+     return glue(glue(ld, USUFFIX), _p)(g2h(ptr));
++#endif
  }
  
+ #ifndef CODE_ACCESS
+@@ -90,12 +96,18 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+ static inline int
+ glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+ {
+-#if !defined(CODE_ACCESS)
++#ifdef CODE_ACCESS
++    int ret;
++    set_helper_retaddr(1);
++    ret = glue(glue(lds, SUFFIX), _p)(g2h(ptr));
++    clear_helper_retaddr();
++    return ret;
++#else
+     trace_guest_mem_before_exec(
+         env_cpu(env), ptr,
+         trace_mem_build_info(SHIFT, true, MO_TE, false));
+-#endif
+     return glue(glue(lds, SUFFIX), _p)(g2h(ptr));
++#endif
+ }
+ 
+ #ifndef CODE_ACCESS
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 4384b59a4d..897d1571c4 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -64,27 +64,56 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+     CPUState *cpu = current_cpu;
+     CPUClass *cc;
+     unsigned long address = (unsigned long)info->si_addr;
+-    MMUAccessType access_type;
++    MMUAccessType access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
+ 
+-    /* We must handle PC addresses from two different sources:
+-     * a call return address and a signal frame address.
+-     *
+-     * Within cpu_restore_state_from_tb we assume the former and adjust
+-     * the address by -GETPC_ADJ so that the address is within the call
+-     * insn so that addr does not accidentally match the beginning of the
+-     * next guest insn.
+-     *
+-     * However, when the PC comes from the signal frame, it points to
+-     * the actual faulting host insn and not a call insn.  Subtracting
+-     * GETPC_ADJ in that case may accidentally match the previous guest insn.
+-     *
+-     * So for the later case, adjust forward to compensate for what
+-     * will be done later by cpu_restore_state_from_tb.
+-     */
+-    if (helper_retaddr) {
++    switch (helper_retaddr) {
++    default:
++        /*
++         * Fault during host memory operation within a helper function.
++         * The helper's host return address, saved here, gives us a
++         * pointer into the generated code that will unwind to the
++         * correct guest pc.
++         */
+         pc = helper_retaddr;
+-    } else {
++        break;
++
++    case 0:
++        /*
++         * Fault during host memory operation within generated code.
++         * (Or, a unrelated bug within qemu, but we can't tell from here).
++         *
++         * We take the host pc from the signal frame.  However, we cannot
++         * use that value directly.  Within cpu_restore_state_from_tb, we
++         * assume PC comes from GETPC(), as used by the helper functions,
++         * so we adjust the address by -GETPC_ADJ to form an address that
++         * is within the call insn, so that the address does not accidentially
++         * match the beginning of the next guest insn.  However, when the
++         * pc comes from the signal frame it points to the actual faulting
++         * host memory insn and not the return from a call insn.
++         *
++         * Therefore, adjust to compensate for what will be done later
++         * by cpu_restore_state_from_tb.
++         */
+         pc += GETPC_ADJ;
++        break;
++
++    case 1:
++        /*
++         * Fault during host read for translation, or loosely, "execution".
++         *
++         * The guest pc is already pointing to the start of the TB for which
++         * code is being generated.  If the guest translator manages the
++         * page crossings correctly, this is exactly the correct address
++         * (and if the translator doesn't handle page boundaries correctly
++         * there's little we can do about that here).  Therefore, do not
++         * trigger the unwinder.
++         *
++         * Like tb_gen_code, release the memory lock before cpu_loop_exit.
++         */
++        pc = 0;
++        access_type = MMU_INST_FETCH;
++        mmap_unlock();
++        break;
+     }
+ 
+     /* For synchronous signals we expect to be coming from the vCPU
+@@ -155,7 +184,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+     clear_helper_retaddr();
+ 
+     cc = CPU_GET_CLASS(cpu);
+-    access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
+     g_assert_not_reached();
+ }
 -- 
 2.17.1
 
