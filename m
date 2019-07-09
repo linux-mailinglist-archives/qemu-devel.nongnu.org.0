@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E966363350
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 11:12:36 +0200 (CEST)
-Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C76563353
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 11:13:29 +0200 (CEST)
+Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkmAt-00049d-KY
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 05:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41309)
+	id 1hkmBk-000564-BJ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 05:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41307)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkm9l-0003iG-7d
+ (envelope-from <bounces@canonical.com>) id 1hkm9l-0003iE-4B
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkm9k-00021U-0A
+ (envelope-from <bounces@canonical.com>) id 1hkm9k-00021Z-0Q
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:11:25 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55360)
+Received: from indium.canonical.com ([91.189.90.7]:55358)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkm9j-000212-Pn
+ id 1hkm9j-000211-QP
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 05:11:23 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkm9h-00078P-Ez
+ id 1hkm9h-0006xL-KW
  for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:11:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BE1B12E80D3
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 09:11:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 160D32E80DA
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 09:11:21 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jul 2019 09:03:59 -0000
-From: Richard Henderson <rth@twiddle.net>
+Date: Tue, 09 Jul 2019 09:04:31 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
@@ -43,15 +43,15 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
 X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <156164884976.17804.15592866928864750515.malonedeb@wampee.canonical.com>
-Message-Id: <156266304018.21151.12692090928166164849.launchpad@gac.canonical.com>
+Message-Id: <156266307169.2608.5732328652022464005.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19007";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 0140837622040a489f120f39f5bed191d9d0ae15
+X-Launchpad-Hash: 5b4aac34773fb49c2e2a6756f964421b8c4b0307
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1834496] Re: Regressions on arm target with some
@@ -70,8 +70,18 @@ Reply-To: Bug 1834496 <1834496@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+I bisected a chunk of the errors to:
+
+  commit c6fb8c0cf704c4a1a48c3e99e995ad4c58150dab (refs/bisect/bad)
+  Author: Richard Henderson <richard.henderson@linaro.org>
+  Date:   Mon Feb 25 11:42:35 2019 -0800
+
+      tcg/i386: Support INDEX_op_extract2_{i32,i64}
+
+      Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Specifically I think when tcg_gen_deposit_i32 handles the if (ofs + len
+=3D=3D 32) case.
 
 -- =
 
