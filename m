@@ -2,64 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888056379C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 16:18:34 +0200 (CEST)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAA263790
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 16:15:37 +0200 (CEST)
+Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkqwy-0004P8-5r
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 10:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55699)
+	id 1hkqu8-0002ys-9P
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 10:15:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkquN-0003Qo-Lt
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:15:52 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hkqoq-0007Mh-U5
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:10:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkquK-0003Gy-Ns
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:15:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60096)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkquG-0003CP-VN
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:15:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkquE-0001dn-OP
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 14:15:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B57A12E80C7
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 14:15:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jul 2019 14:01:32 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hkqop-0008Eu-V6
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:10:08 -0400
+Received: from mga02.intel.com ([134.134.136.20]:42708)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hkqop-0008Cb-N2
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 10:10:07 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2019 07:10:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,470,1557212400"; d="scan'208";a="167426904"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga007.fm.intel.com with ESMTP; 09 Jul 2019 07:09:58 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
- <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
- <06bf8be7-c97e-9a42-06c4-82f303dc1a76@physik.fu-berlin.de>
- <3e3ac1b4-dd46-988a-9801-cd1353e81714@vivier.eu>
- <b88a6279-8e7a-32b6-4fc1-98be496aaaf0@physik.fu-berlin.de>
-Message-Id: <30e7b9fe-a99d-a83c-e4b6-7021a076332d@vivier.eu>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 267fa23fd32ec20894196935a07fa872687dce91
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
- reports absolute path
+Date: Tue,  9 Jul 2019 22:09:21 +0800
+Message-Id: <20190709140924.13291-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
+Subject: [Qemu-devel] [PATCH 0/3] migration/savevm: move non SaveStateEntry
+ condition check out of iteration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,73 +51,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
+Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/07/2019 =C3=A0 15:07, John Paul Adrian Glaubitz a =C3=A9crit=C2=A0:
-> On 7/9/19 2:51 PM, Laurent Vivier wrote:
->> if you use systemctl, the parameter of "./scripts/qemu-binfmt-conf.sh"
->> must be "--systemd m68k" rather than "--debian".
-> =
+qemu_savevm_state_complete_precopy() iterates SaveStateEntry and does proper
+tasks for migration.
 
-> I tried that and I now get:
-> =
+For each iteration, in_postcopy and iterable_only would be checked to see
+whether it should skip. Since these two conditions are not SaveStateEntry
+specific, it is proper to move the check out of iteration.
 
-> root@nofan:/local_scratch/sid-m68k-sbuild> chroot .
-> chroot: failed to run command =E2=80=98/bin/bash=E2=80=99: No such file o=
-r directory
-> root@nofan:/local_scratch/sid-m68k-sbuild>
+These three patches prepare the code and move the condition check out of the
+iteration.
 
-What is the content of:
 
-/etc/binfmt.d/qemu-m68k.conf
-/proc/sys/fs/binfmt_misc/qemu-m68k
+Wei Yang (3):
+  migration/savevm: flush file for iterable_only case
+  migration/savevm: split qemu_savevm_state_complete_precopy() into two
+    parts
+  migration/savevm: move non SaveStateEntry condition check out of
+    iteration
 
-what is the result of "file sid-m68k-sbuild/usr/bin/qemu-m68k-static"?
+ migration/savevm.c | 68 ++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 50 insertions(+), 18 deletions(-)
 
-Bonus: if you don't want to copy qemu-m68k-static into the chroot, you
-can use "--persistent" with qemu-binfmt-conf.sh.
+-- 
+2.17.1
 
-Thanks,
-Laurent
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835839
-
-Title:
-  qemu-user: $0 incorrectly always reports absolute path
-
-Status in QEMU:
-  New
-
-Bug description:
-  We just ran into an issue with the Perl package on Debian/m68k when
-  being built with qemu-user [1].
-
-  The problem can be boiled down to qemu-user always reporting absolute
-  paths for the shell variable $0 no matter on how the command was
-  invoked.
-
-  A simple reproducer is this:
-
-  On normal system (no emulation):
-
-  root@nofan:~> sh -c 'echo $0'
-  sh
-  root@nofan:~>
-
-  On qemu-user:
-
-  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
-  /bin/sh
-  (sid-m68k-sbuild)root@nofan:/#
-
-  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
 
