@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC84B63BC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:15:47 +0200 (CEST)
-Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C0E63BA5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:04:06 +0200 (CEST)
+Received: from localhost ([::1]:52918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkvad-0008D3-37
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:15:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44577)
+	id 1hkvPC-0005h3-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkvBl-0003U0-8N
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:50:06 -0400
+ (envelope-from <armbru@redhat.com>) id 1hkvLJ-0003Th-2w
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkvBk-0006PZ-5s
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:50:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56196)
+ (envelope-from <armbru@redhat.com>) id 1hkvLH-0005pR-V9
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:5231)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkvBh-0006Hh-0Z; Tue, 09 Jul 2019 14:50:01 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hkvLB-0005jH-6C
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:50 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F0E2D30860BD;
- Tue,  9 Jul 2019 18:49:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF0469D41;
- Tue,  9 Jul 2019 18:49:52 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-18-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <85602275-c722-5d4b-f18e-8b9b0bd5f8b7@redhat.com>
-Date: Tue, 9 Jul 2019 20:49:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 8AA21A3B63
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 18:59:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
+ [10.36.116.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55E225B806;
+ Tue,  9 Jul 2019 18:59:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DAC281138648; Tue,  9 Jul 2019 20:59:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 20:59:36 +0200
+Message-Id: <20190709185936.31335-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190705201631.26266-18-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tHvmDQfqtUR6H216DvQAzD4jpnKw0rh63"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 09 Jul 2019 18:50:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Tue, 09 Jul 2019 18:59:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 17/18] iotests: add test 257 for
- bitmap-mode backups
+Subject: [Qemu-devel] [PATCH] qdev: Collect HMP handlers command handlers in
+ qdev-monitor.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,70 +56,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, Juan Quintela <quintela@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tHvmDQfqtUR6H216DvQAzD4jpnKw0rh63
-Content-Type: multipart/mixed; boundary="yVSmqfuyj932YcQnSMz0BkKlOL1dVK5h5";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Wen Congyang <wencongyang2@huawei.com>,
- Kevin Wolf <kwolf@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, eblake@redhat.com, vsementsov@virtuozzo.com,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Message-ID: <85602275-c722-5d4b-f18e-8b9b0bd5f8b7@redhat.com>
-Subject: Re: [PATCH v3 17/18] iotests: add test 257 for bitmap-mode backups
-References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-18-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-18-jsnow@redhat.com>
+Move hmp_device_add(), hmp_device_del() from monitor/hmp-cmds.c to
+qdev-monitor.c, where they are covered by MAINTAINERS section "QOM",
+just like qapi/qdev.json.  hmp_info_qtree() and hmp_info_qdm() are
+already there.
 
---yVSmqfuyj932YcQnSMz0BkKlOL1dVK5h5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+This is a follow-up to my "Move QOM, qdev, machine core and dump code"
+series, merged in commit 374f63f6810.
 
-On 05.07.19 22:16, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/257     |  409 +++++++
->  tests/qemu-iotests/257.out | 2199 ++++++++++++++++++++++++++++++++++++=
+ monitor/hmp-cmds.c | 19 -------------------
+ qdev-monitor.c     | 18 ++++++++++++++++++
+ 2 files changed, 18 insertions(+), 19 deletions(-)
 
->  tests/qemu-iotests/group   |    1 +
->  3 files changed, 2609 insertions(+)
->  create mode 100755 tests/qemu-iotests/257
->  create mode 100644 tests/qemu-iotests/257.out
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 99ceb0846b..550d363374 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -25,7 +25,6 @@
+ #include "qemu/timer.h"
+ #include "qemu/sockets.h"
+ #include "monitor/monitor-internal.h"
+-#include "monitor/qdev.h"
+ #include "qapi/error.h"
+ #include "qapi/clone-visitor.h"
+ #include "qapi/opts-visitor.h"
+@@ -35,7 +34,6 @@
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-commands-net.h"
+-#include "qapi/qapi-commands-qdev.h"
+ #include "qapi/qapi-commands-rocker.h"
+ #include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-tpm.h"
+@@ -2181,23 +2179,6 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
+     }
+ }
+=20
+-void hmp_device_add(Monitor *mon, const QDict *qdict)
+-{
+-    Error *err =3D NULL;
+-
+-    qmp_device_add((QDict *)qdict, NULL, &err);
+-    hmp_handle_error(mon, &err);
+-}
+-
+-void hmp_device_del(Monitor *mon, const QDict *qdict)
+-{
+-    const char *id =3D qdict_get_str(qdict, "id");
+-    Error *err =3D NULL;
+-
+-    qmp_device_del(id, &err);
+-    hmp_handle_error(mon, &err);
+-}
+-
+ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
+ {
+     Error *err =3D NULL;
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 58222c2211..cd6299e92b 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/qdev.h"
+ #include "hw/sysbus.h"
++#include "monitor/hmp.h"
+ #include "monitor/monitor.h"
+ #include "monitor/qdev.h"
+ #include "sysemu/arch_init.h"
+@@ -844,6 +845,23 @@ void qmp_device_del(const char *id, Error **errp)
+     }
+ }
+=20
++void hmp_device_add(Monitor *mon, const QDict *qdict)
++{
++    Error *err =3D NULL;
++
++    qmp_device_add((QDict *)qdict, NULL, &err);
++    hmp_handle_error(mon, &err);
++}
++
++void hmp_device_del(Monitor *mon, const QDict *qdict)
++{
++    const char *id =3D qdict_get_str(qdict, "id");
++    Error *err =3D NULL;
++
++    qmp_device_del(id, &err);
++    hmp_handle_error(mon, &err);
++}
++
+ BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
+ {
+     DeviceState *dev;
+--=20
+2.21.0
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---yVSmqfuyj932YcQnSMz0BkKlOL1dVK5h5--
-
---tHvmDQfqtUR6H216DvQAzD4jpnKw0rh63
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k4c8ACgkQ9AfbAGHV
-z0B86Qf+Ls/7NeJIVK+DAu0Fp+qAnvTpmAPnXFjm8GgKuQnDGUq9xSza8yjt2zcZ
-O4ya8je3X2q0tqqrFTHOfv5fQr/Q5zhwrbtjYsgZKCpFbFk6t5JQ30vZ5Vk5EsXY
-xcIbNPq6Ahvwl8al1LauXimNKJYH6PSycTEbpMHrPCbgIEL/fD+cHtDfeZ4TFtTx
-0G39Gez2kO3EfTevgsg9rLHcjk4DLp/6XsjEG/f8mw5BXX2BmSN654oarabxxaMt
-05zGXvgvKb3ihzLmJeFRNUUMXXBsQk0+JsS0tPSqSuyX4X/wMqY+G02nQPz1bhRy
-hjfkk3RNGWVZnXwqoScFERrMtX/Rtw==
-=bdsq
------END PGP SIGNATURE-----
-
---tHvmDQfqtUR6H216DvQAzD4jpnKw0rh63--
 
