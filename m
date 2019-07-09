@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF00863A06
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:16:08 +0200 (CEST)
-Received: from localhost ([::1]:52222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6D6639C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:02:28 +0200 (CEST)
+Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktip-0000yG-Nk
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47496)
+	id 1hktVc-0000Vz-15
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46285)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hktUI-0000j3-LE
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:01:08 -0400
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hktSG-0007VC-0S
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:59:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hktUG-0002ca-52
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:01:06 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:33503)
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hktSE-0000kv-R1
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:59 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41421)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hktUF-0002aW-QI; Tue, 09 Jul 2019 13:01:04 -0400
-Received: by mail-lf1-x144.google.com with SMTP id x3so7987143lfc.0;
- Tue, 09 Jul 2019 10:01:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
+ id 1hktSE-0000hm-1g
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:58:58 -0400
+Received: by mail-qk1-x742.google.com with SMTP id v22so16555139qkj.8
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xcCeVgnp40aRjw7zb105YFx2HqnVA7iLMrIEIJ2JEHI=;
- b=DioEtRvF68F3LcUzxiRXTJyjjC6lA9olZuEP43D7wP4y0nuS5AiX7+RyrmTg28SqTe
- vcBpPEurE4+WePXriitk3kQ+wFApXnsIA0h+HIqt+F/K7o4icyGMLkQa+9QEiVUCGslL
- 315WNDbxuV32YTvMnd3iNJLTS0lkIpACox6G8cbbq/e2kSycCj08O9qS5yXz0h3jgmip
- iQFo58z0T4uFWQfz2aHAToOETvgjLwTD6w0iEXOA5O0kfOTtI6CXkgJ9V3W9kJlNht61
- hzSrp3bMHZhxRsU7swNeYep5QqN1d6X112chIdpxWdU5O09EKurbuTOOWhHkNxlu+KSQ
- VdOw==
+ :cc; bh=HPQ1tvy+lFmiR442HCJw9Ev+cSVFjJw7MuU1lWnI/nY=;
+ b=Pq3CAL2YhhehKuhfKMRb/CIZbj1s5j+2Y5bYmIoQyq8ZxpozyQmq7Hhjqg2xLt5lwY
+ 6tinbflSpoHECKZfzR1G5nrbiFFnrh0/ViOXlCBJqxvHKiMxxYXP6IIAXJm/kH1kNEMp
+ E/R09tMDlCsqOL1B7fZug/7g2+CrUP+IggOlber29PXrYBwbSapLtUBE3ur7k9GkziSn
+ WGlMWHMRxBqUGlcXV8kff69KVCY5qJbAXzJzCW/Ty5aUiekcaW3kuq1mf+KYa1lvtoHq
+ 2EB1A1ICZ1HuewOogeJ/bYnf+57jq7Hdv4egnE5KK7u3SDQFBW2g6DUUHOJstu9jTWpd
+ xV9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xcCeVgnp40aRjw7zb105YFx2HqnVA7iLMrIEIJ2JEHI=;
- b=MGpi/v3bn7geEbUy3FtSbCyn/aTLriNrSHaCjFpODwDr8EDXnYhZeXzxd6Xplv29TU
- yBgBfgawGSpOKDtSEkMc7DvP2/eNUKCbGsWuKJmmg5jkAIavGaGIyVPSMa67wJSeF1mo
- W1awsZqxy4Jx1w8H4t0KrzXUKQ+7vP6GY6ubfp98CGI21fQp/GaMB9JPeLBLaBw+9aBw
- 6dx/EdQr9IyEO2sKa1aHsVCMollAq73eJ1ORqxAqVWPaXiI/r3E1GA73qTe5U1hbIUxJ
- 77zDcc6cmtuKNAA3KzodVPJBg1Vw/Y01ijv4jOJ6jYdcU1kr/kApzCm36caYFwDjF46D
- XUXg==
-X-Gm-Message-State: APjAAAXivavKK+/wjdtvtO2D0hISX+e8VmEJr8KhCqd/rjITyaY38XuZ
- VSD7/NX8jJmY5uUnOrrYoRzKLvm+WsX8FXEarzI=
-X-Google-Smtp-Source: APXvYqx+uRUrQDDzTGTGx5+6EFY95LQQCBOcvg8rzlgzsYbSHSNXQiR1o3SxSmWi35tja004IUh6qz3rD4e5xqy0qws=
-X-Received: by 2002:a19:6904:: with SMTP id e4mr1158017lfc.156.1562691661839; 
- Tue, 09 Jul 2019 10:01:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=HPQ1tvy+lFmiR442HCJw9Ev+cSVFjJw7MuU1lWnI/nY=;
+ b=P+YUjTmIccM9iTurhA0SGspAQZxSVoQOvtMHD/EqO0VycKmoTP475hstaFfzm4Rg9f
+ LbB80niNNbV3zE1fvD2nYINpLE9409WLpvPc5GWWE/bu2Wq8iktZzQvc6FPoswzL46+n
+ FMaIGWsIXdHFCbJIHNHID6cAJrrpIWODBTZCq326kq0ve1oG/kzCqXgwKOFIHByiKqLS
+ q+veA/z0RJ1xQxJktb6DPtSZNfUBRutqYLirmktvRqxOmDzkHI3pZSyCF4ImDK8q/MRN
+ hxL4jDwyxzF2AstK4EhDqv9fLJTX1ByQveVCnJXjNKjrWso/QIEtYf+NWFNpI3vEBqxh
+ KnQg==
+X-Gm-Message-State: APjAAAVDUgWWqA9dtT8/1V7m66y/wDtwAIh1N9F8eUcWhvVMkq3Fpzo3
+ LNRgKlMLsQk268HQI7onQ3wXEnEAmk/M83fXQ4U=
+X-Google-Smtp-Source: APXvYqz/GDwLrcPehHkWu2lcRJe+VpMo6oixaTM2cTp9s1nKwJV73ZbRmA1hTOfnd2CY5yZAcSEwilCXK4YHs0zzlBY=
+X-Received: by 2002:a05:620a:4:: with SMTP id
+ j4mr19561311qki.269.1562691535245; 
+ Tue, 09 Jul 2019 09:58:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190709113715.7761-1-philmd@redhat.com>
- <20190709113715.7761-4-philmd@redhat.com>
-In-Reply-To: <20190709113715.7761-4-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 9 Jul 2019 09:57:52 -0700
-Message-ID: <CAKmqyKO+7kQvWP+SrtrOnjsR+xbKUu+YYmrsr6CemRDtORzthg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
+ <2136180936.260219.1561641583358@mail.yahoo.com>
+ <1079763171.281101.1561641752988@mail.yahoo.com>
+ <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
+ <20190628002713.GA19257@localhost.localdomain>
+ <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+ <20190628155030.GA34320@localhost.localdomain>
+ <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
+ <20190629163621.GA111724@localhost.localdomain>
+ <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
+ <1399218244.1210557.1561982640362@mail.yahoo.com>
+ <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
+From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Date: Wed, 10 Jul 2019 01:58:40 +0900
+Message-ID: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH-for-4.1 3/3] hw/display/xlnx_dp: Avoid
- crash when reading empty RX FIFO
+X-Received-From: 2607:f8b0:4864:20::742
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
+ gen_exception
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,112 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 9, 2019 at 4:38 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> In the previous commit we fixed a crash when the guest read a
-> register that pop from an empty FIFO.
-> By auditing the repository, we found another similar use with
-> an easy way to reproduce:
->
->   $ qemu-system-aarch64 -M xlnx-zcu102 -monitor stdio -S
->   QEMU 4.0.50 monitor - type 'help' for more information
->   (qemu) xp/b 0xfd4a0134
->   Aborted (core dumped)
->
->   (gdb) bt
->   #0  0x00007f6936dea57f in raise () at /lib64/libc.so.6
->   #1  0x00007f6936dd4895 in abort () at /lib64/libc.so.6
->   #2  0x0000561ad32975ec in xlnx_dp_aux_pop_rx_fifo (s=3D0x7f692babee70) =
-at hw/display/xlnx_dp.c:431
->   #3  0x0000561ad3297dc0 in xlnx_dp_read (opaque=3D0x7f692babee70, offset=
-=3D77, size=3D4) at hw/display/xlnx_dp.c:667
->   #4  0x0000561ad321b896 in memory_region_read_accessor (mr=3D0x7f692babf=
-620, addr=3D308, value=3D0x7ffe05c1db88, size=3D4, shift=3D0, mask=3D429496=
-7295, attrs=3D...) at memory.c:439
->   #5  0x0000561ad321bd70 in access_with_adjusted_size (addr=3D308, value=
-=3D0x7ffe05c1db88, size=3D1, access_size_min=3D4, access_size_max=3D4, acce=
-ss_fn=3D0x561ad321b858 <memory_region_read_accessor>, mr=3D0x7f692babf620, =
-attrs=3D...) at memory.c:569
->   #6  0x0000561ad321e9d5 in memory_region_dispatch_read1 (mr=3D0x7f692bab=
-f620, addr=3D308, pval=3D0x7ffe05c1db88, size=3D1, attrs=3D...) at memory.c=
-:1420
->   #7  0x0000561ad321ea9d in memory_region_dispatch_read (mr=3D0x7f692babf=
-620, addr=3D308, pval=3D0x7ffe05c1db88, size=3D1, attrs=3D...) at memory.c:=
-1447
->   #8  0x0000561ad31bd742 in flatview_read_continue (fv=3D0x561ad69c04f0, =
-addr=3D4249485620, attrs=3D..., buf=3D0x7ffe05c1dcf0 "\020\335\301\005\376\=
-177", len=3D1, addr1=3D308, l=3D1, mr=3D0x7f692babf620) at exec.c:3385
->   #9  0x0000561ad31bd895 in flatview_read (fv=3D0x561ad69c04f0, addr=3D42=
-49485620, attrs=3D..., buf=3D0x7ffe05c1dcf0 "\020\335\301\005\376\177", len=
-=3D1) at exec.c:3423
->   #10 0x0000561ad31bd90b in address_space_read_full (as=3D0x561ad5bb3020,=
- addr=3D4249485620, attrs=3D..., buf=3D0x7ffe05c1dcf0 "\020\335\301\005\376=
-\177", len=3D1) at exec.c:3436
->   #11 0x0000561ad33b1c42 in address_space_read (len=3D1, buf=3D0x7ffe05c1=
-dcf0 "\020\335\301\005\376\177", attrs=3D..., addr=3D4249485620, as=3D0x561=
-ad5bb3020) at include/exec/memory.h:2131
->   #12 0x0000561ad33b1c42 in memory_dump (mon=3D0x561ad59c4530, count=3D1,=
- format=3D120, wsize=3D1, addr=3D4249485620, is_physical=3D1) at monitor/mi=
-sc.c:723
->   #13 0x0000561ad33b1fc1 in hmp_physical_memory_dump (mon=3D0x561ad59c453=
-0, qdict=3D0x561ad6c6fd00) at monitor/misc.c:795
->   #14 0x0000561ad37b4a9f in handle_hmp_command (mon=3D0x561ad59c4530, cmd=
-line=3D0x561ad59d0f22 "/b 0x00000000fd4a0134") at monitor/hmp.c:1082
->
-> Fix by checking the FIFO is not empty before popping from it.
->
-> The datasheet is not clear about the reset value of this register,
-> we choose to return '0'.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Mon, Jul 1, 2019 at 9:11 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  hw/display/xlnx_dp.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index cfd4c700b7..cc5b650df0 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -427,11 +427,18 @@ static uint8_t xlnx_dp_aux_pop_rx_fifo(XlnxDPState =
-*s)
->      uint8_t ret;
->
->      if (fifo8_is_empty(&s->rx_fifo)) {
-> -        DPRINTF("rx_fifo underflow..\n");
-> -        abort();
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: Reading empty RX_FIFO\n",
-> +                      __func__);
-> +        /*
-> +         * The datasheet is not clear about the reset value, it seems
-> +         * to be unspecified. We choose to return '0'.
-> +         */
-> +        ret =3D 0;
-> +    } else {
-> +        ret =3D fifo8_pop(&s->rx_fifo);
-> +        DPRINTF("pop 0x%" PRIX8 " from rx_fifo.\n", ret);
->      }
-> -    ret =3D fifo8_pop(&s->rx_fifo);
-> -    DPRINTF("pop 0x%" PRIX8 " from rx_fifo.\n", ret);
->      return ret;
->  }
->
-> --
-> 2.20.1
->
+> > On Mon, 1 Jul 2019 at 13:04, Lucien Anti-Spam
+> > <lucienmp_antispam@yahoo.com> wrote:
+> > > Further to my initial problem I noticed that TRAP #0 also jumps to the
+> handlers +1 instruction.
+> > > Same behavior can also be seen with ARM "SWI #0".    (PC shows 0x0C vs
+> the expected 0x08)
+> >
+> > Yes, that's a known bug for arm -- we treat "single step" as
+> > "execute one instruction", whereas I think most debuggers will
+> > treat "we took an exception" as a reason to stop the single step
+> > and return control to the user, rather than executing the insn at
+> > the exception entry point as the one instruction of the step.
+> > (You can see similar odd behaviour if you try to single step a
+> > load instruction which causes a data abort, for instance -- on
+> > arm at least we will execute the first insn of the data abort
+> > handler before completing the step.)
+> > thanks
+> > -- PMM
 >
 
+As recommended in the previous email this is fixable with a call to handle
+debug
+when were in single step -  I will submit that patch if nobody else it
+working on this?
+
+I also then found the m68k stack frame is fouled for 68010/68020 (wrong
+frame type,
+and it does not honor the special status word aka SSW).
+
+In real hardware the handler code should alter the stack frame chaning the
+SSW.
+RTE should then start/or-not-start the "pipeline" again from the setting in
+the SSW.
+This allows for stage B/C stage re-runs, thus a retry on the read
+instruction.
+I suspect it will keep looping, and retrying until the exception handler
+decides to turn
+off the rerun.
+
+I am thinking the easiest method would be to check the re-run bits in the
+SSW and
+jump back to next_pc instead of pc inside the RTE instruction handler.
+
+Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt(
+CPUState *cs)" ?
+
+What do we think of this approach?
+
+Cheers,
+Luc
