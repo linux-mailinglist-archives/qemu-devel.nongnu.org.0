@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBBF62C99
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 01:21:44 +0200 (CEST)
-Received: from localhost ([::1]:45586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E4562D2A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 02:51:38 +0200 (CEST)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkcx4-0005Ab-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 19:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34228)
+	id 1hkeM4-0002rh-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 20:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkcw1-0004Ue-Vv
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 19:20:38 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hkeG3-000245-FY
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 20:45:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkcw0-00042K-Ue
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 19:20:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkcw0-00041s-PK
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 19:20:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkcvz-0003SF-GX
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 23:20:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 69D262E802D
- for <qemu-devel@nongnu.org>; Mon,  8 Jul 2019 23:20:35 +0000 (UTC)
+ (envelope-from <tao3.xu@intel.com>) id 1hkeG0-0005oJ-CA
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 20:45:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:58569)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hkeFx-0005iV-Qg
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 20:45:19 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2019 17:45:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,468,1557212400"; d="scan'208";a="167269425"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.197])
+ ([10.239.196.197])
+ by fmsmga007.fm.intel.com with ESMTP; 08 Jul 2019 17:45:05 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190614155626.27932-1-tao3.xu@intel.com>
+ <20190614155626.27932-7-tao3.xu@intel.com>
+ <20190701132532.2699a98a@redhat.com>
+ <77ae1297-edb1-dcb2-b57e-e9e01b64139a@intel.com>
+ <20190708110920.40204b47@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <8f237238-2297-01fc-45c5-4d3583de977c@intel.com>
+Date: Tue, 9 Jul 2019 08:45:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jul 2019 23:11:39 -0000
-From: Alistair Francis <alistair@alistair23.me>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 shacknetisp
-X-Launchpad-Bug-Reporter: shacknetisp (shacknetisp)
-X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <156261335686.24679.15455554757536791509.malonedeb@soybean.canonical.com>
-Message-Id: <156262749963.2308.13837101469597760290.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 89d0979c32999029f8bc2375fb4a503ef2407ba6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1835827] Re: HTIF symbols no longer recognized by
- RISC-V spike board
+In-Reply-To: <20190708110920.40204b47@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.136
+Subject: Re: [Qemu-devel] [PATCH v5 6/8] hmat acpi: Build Memory Subsystem
+ Address Range Structure(s) in ACPI HMAT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,32 +62,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835827 <1835827@bugs.launchpad.net>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, I'll add it to my to do list then
+On 7/8/2019 5:09 PM, Igor Mammedov wrote:
+> On Tue, 2 Jul 2019 16:50:24 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> On 7/1/2019 7:25 PM, Igor Mammedov wrote:
+>>> On Fri, 14 Jun 2019 23:56:24 +0800
+>>> Tao Xu <tao3.xu@intel.com> wrote:
+>>>    
+>> ...
+>>>> @@ -2710,6 +2711,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>>>>                acpi_add_table(table_offsets, tables_blob);
+>>>>                build_slit(tables_blob, tables->linker, machine);
+>>>>            }
+>>>> +        acpi_add_table(table_offsets, tables_blob);
+>>>> +        build_hmat(tables_blob, tables->linker, machine);
+>>> I'm not sure if we should add it unconditionally.
+>>> Is this table used in any meaningful manner by guest when
+>>> it's incomplete (i.e. populated only with SPA records)?
+>>>    
+>> Hi Igor,
+>>
+>> In ACPI 6.2, the linux kernel use it to show the memory ranges'
+>> node-id(Proximity Domain). In ACPI 6.3, the linux kernel use it to show
+>> the numa node's closest initiator(Generic Initiator or Processor, directly
+>> attached). It is useful for a memory only numa node, because with
+>> SPA(renamed as "Memory Proximity Domain Attributes Structure" in ACPI
+>> 6.3) the user-space can know the topology of hardware heterogeneous
+>> memory. I think I should add a doc to describe the use case in QEMU.
+> Could you point out to me the specific kernel code that parses and uses HMAT?
+> 
 
--- =
+OK, it is in drivers/acpi/hmat/hmat.c
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835827
+>>
+>> Therefore, the numa CLI may be lack of a input which can indicate the
+>> Initiator of a memory only numa node. Dan suggested me to add a new
+>> parameter for that[1].
+>>
+>> Maybe like:
+>> -numa node,mem=4G,nodeid=2,initiator=0
+>>
+>> [1] https://patchwork.kernel.org/cover/10934417/
+>>
+>> Thanks
+>>
+>> Tao
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+> 
 
-Title:
-  HTIF symbols no longer recognized by RISC-V spike board
-
-Status in QEMU:
-  New
-
-Bug description:
-  Tested commit: f34edbc760b0f689deddd175fc08732ecb46665f
-
-  I belive this was introduced in
-  0ac24d56c5e7d32423ea78ac58a06b444d1df04d when the spike's
-  load_kernel() was moved to riscv_load_kernel() which no longer
-  included htif_symbol_callback().
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835827/+subscriptions
 
