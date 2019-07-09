@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7000E639F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:12:05 +0200 (CEST)
-Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4823363A0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:18:54 +0200 (CEST)
+Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkteu-000687-Lk
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50135)
+	id 1hktlU-0002eT-Ci
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51611)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hktaL-0004HX-Ux
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:23 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hktdw-0005wN-Jv
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hktaG-0006jy-K2
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:19 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37554)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hktaA-0006ci-Cr
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:07:12 -0400
-Received: by mail-oi1-x241.google.com with SMTP id t76so15951594oih.4
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 10:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cS9iqPnFf/f8ixjaudjLolIR9G/QaJ05phEjjSxvs9M=;
- b=roJZ0rhCWPA20jjDPYubNT7hfcIxK+HZmsrgY8murJZfUu/klMArrHdWX8zyd/Y15u
- v9hIO5J+xc7BoKPisrErdiyMiOutz7u3B6jEmZizyNESEn2/k/X8g6Qq1FHzn5H/+zVS
- QteMvpJzJ5nH1EbNdsAZiVD0D+stfAUQB84l+rVy6cs2G+iPb1mnfwsDBtSG/pTn5aqR
- UOP1wNSEPh8K+WAWEA3gSBmb+3q1Fbq+3Fhx/KqbkcYfcNzO1v5DdJ32p13glulgFYL8
- VI6aG88KNc5Yc0YkS9ghAR6N2L8Wd9mi6ZbfYJQ1n7S/15seO9VLlj4XXGU6jMyuZ9QF
- PS7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cS9iqPnFf/f8ixjaudjLolIR9G/QaJ05phEjjSxvs9M=;
- b=HlRgkmZwbl8uyAUE6UNP19CMfoxxLcV+5IfD9j1ikVfeEoferQFfUXVyvQjT7AgEBP
- PbrAZbMB9mQrs6PNyr4+LzLeJypsg8k2FXjmWcDB9eBwxsU2yUBGA1EZx7fjiFYcsdQ2
- 5yhfLXRkuCKpRhXxKG2K2dcPck1SqIfr9D012oQEXbdVZ6fTc0jaEfgxKC1YLi28U5Eu
- Yea02XxN3yX9yjE3ip6VvDf0b5e0d3Yp0Wv/PMwm8UaJUO+ZQx4AR+dOJSObN4o8m5ky
- vxHwkC3CqthIBvWVtQFMbO/0n4fzF+/l6IBuPivF8lEakWJttLUiytWzNujUqmwvsdyZ
- bIMA==
-X-Gm-Message-State: APjAAAUJuj8wpq1kkrBX4CYku3EkLUBlej/mRXr3PJY0lwKXM4WLdmsI
- CTP4noT3x3RKWm5Fk6Q3tmyu+YFmTA5b1NYhFHDY1w==
-X-Google-Smtp-Source: APXvYqwd2gb16UwILKcA4ca9PGsyZ8lbXyGimVLCuG5yHD05WLBCszpX4HK5gljrHje9/1nSeg9rE6QR2d2Bd8CTKGQ=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr637259oib.163.1562692023714; 
- Tue, 09 Jul 2019 10:07:03 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1hktdv-0000ps-85
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 13:11:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59196)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
+ id 1hktdY-0000GY-Cq; Tue, 09 Jul 2019 13:10:42 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7182E30C7467;
+ Tue,  9 Jul 2019 17:10:12 +0000 (UTC)
+Received: from work-vm (ovpn-117-75.ams2.redhat.com [10.36.117.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2201871C7;
+ Tue,  9 Jul 2019 17:10:05 +0000 (UTC)
+Date: Tue, 9 Jul 2019 18:10:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190709171002.GJ2725@work-vm>
+References: <20190705154639.16591-1-philmd@redhat.com>
+ <20190705154639.16591-3-philmd@redhat.com>
+ <20190709103022.GA2766@work-vm>
+ <dd8dd585-9774-78d4-17ee-89b30c81a0c4@redhat.com>
 MIME-Version: 1.0
-References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
- <2136180936.260219.1561641583358@mail.yahoo.com>
- <1079763171.281101.1561641752988@mail.yahoo.com>
- <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
- <20190628002713.GA19257@localhost.localdomain>
- <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
- <20190628155030.GA34320@localhost.localdomain>
- <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
- <20190629163621.GA111724@localhost.localdomain>
- <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
- <1399218244.1210557.1561982640362@mail.yahoo.com>
- <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
- <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
-In-Reply-To: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Jul 2019 18:06:52 +0100
-Message-ID: <CAFEAcA8smaPX-h1qit=b14z_4JRuB-qF+U7TQNTJF+iWMOneFQ@mail.gmail.com>
-To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
- gen_exception
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dd8dd585-9774-78d4-17ee-89b30c81a0c4@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 09 Jul 2019 17:10:12 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 2/9] hw/block/pflash_cfi01: Use the
+ correct READ_ARRAY value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,37 +61,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 17:58, Lucien Murray-Pitts
-<lucienmp.qemu@gmail.com> wrote:
-> On Mon, Jul 1, 2019 at 9:11 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> > Yes, that's a known bug for arm -- we treat "single step" as
->> > "execute one instruction", whereas I think most debuggers will
->> > treat "we took an exception" as a reason to stop the single step
->> > and return control to the user, rather than executing the insn at
->> > the exception entry point as the one instruction of the step.
->> > (You can see similar odd behaviour if you try to single step a
->> > load instruction which causes a data abort, for instance -- on
->> > arm at least we will execute the first insn of the data abort
->> > handler before completing the step.)
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> Hi David,
+>=20
+> On 7/9/19 12:30 PM, Dr. David Alan Gilbert wrote:
+> > * Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> >> In the "Read Array Flowchart" the command has a value of 0xFF.
+> >>
+> >> In the document [*] the "Read Array Flowchart", the READ_ARRAY
+> >> command has a value of 0xff.
+> >>
+> >> Use the correct value in the pflash model.
+> >>
+> >> There is no change of behavior in the guest, because:
+> >> - when the guest were sending 0xFF, the reset_flash label
+> >>   was setting the command value as 0x00
+> >> - 0x00 was used internally for READ_ARRAY
+> >>
+> >> To keep migration behaving correctly, we have to increase
+> >> the VMState version. When migrating from an older version,
+> >> we use the correct command value.
+> >=20
+> > The problem is that incrementing the version will break backwards
+> > compatibility; so you won't be able to migrate this back to an older
+> > QEMU version; so for example a q35/uefi with this won't be able
+> > to migrate backwards to a 4.0.0 or older qemu.
+> >=20
+> > So instead of bumping the version_id you probably need to wire
+> > the behaviour to a machine type and then on your new type
+> > wire a subsection containing a flag; the reception of that subsection
+> > tells you to use the new/correct semantics.
+>=20
+> I'm starting to understand VMState subsections, but it might be overkill
+> for this change...
+>=20
+>   Subsections
+>   -----------
+>=20
+>   The most common structure change is adding new data, e.g. when adding
+>   a newer form of device, or adding that state that you previously
+>   forgot to migrate.  This is best solved using a subsection.
+>=20
+> This is not the case here, the field is already present and migrated.
+>=20
+> It seems I can use a simple pre_save hook, always migrating the
+> READ_ARRAY using the incorrect value:
+>=20
+> -- >8 --
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -97,12 +97,29 @@ struct PFlashCFI01 {
+>      bool incorrect_read_array_command;
+>  };
+>=20
+> +static int pflash_pre_save(void *opaque)
+> +{
+> +    PFlashCFI01 *s =3D opaque;
+> +
+> +    /*
+> +     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
+> +     * READ_ARRAY command. To preserve migrating to these older version,
+> +     * always migrate the READ_ARRAY command as 0x00.
+> +     */
+> +    if (s->cmd =3D=3D 0xff) {
+> +        s->cmd =3D 0x00;
+> +    }
+> +
+> +    return 0;
+> +}
 
-> As recommended in the previous email this is fixable with a call to handle debug
-> when were in single step -  I will submit that patch if nobody else it working on this?
+Be careful what happens if migration fails and you continue on the
+source - is that OK - or are you going to have to flip that back somehow
+(in a post_save).
 
-I don't think anybody else is, so go ahead.
+Another way to do the same is to have a dummy field; tmp_cmd, and the
+tmp_cmd is the thing that's actually migrated and filled by pre_save
+(or use VMSTATE_WITH_TMP )
 
-> Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt( CPUState *cs)" ?
 
-You can't -- pc_next exists only at translate time, and the do_interrupt
-function is called at run time. What do_interrupt needs to do is look
-at (a) the current state of the CPU and (b) whatever has been stashed
-in the exception frame, and then update the state of the CPU accordingly.
+>  static int pflash_post_load(void *opaque, int version_id);
+>=20
+>  static const VMStateDescription vmstate_pflash =3D {
+>      .name =3D "pflash_cfi01",
+>      .version_id =3D 1,
+>      .minimum_version_id =3D 1,
+> +    .pre_save =3D pflash_pre_save,
+>      .post_load =3D pflash_post_load,
+>      .fields =3D (VMStateField[]) {
+>          VMSTATE_UINT8(wcycle, PFlashCFI01),
+> @@ -1001,5 +1018,14 @@ static int pflash_post_load(void *opaque, int
+> version_id)
+>          pfl->vmstate =3D qemu_add_vm_change_state_handler(postload_updat=
+e_cb,
+>                                                          pfl);
+>      }
+> +
+> +    /*
+> +     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
+> +     * READ_ARRAY command.
+> +     */
+> +    if (pfl->cmd =3D=3D 0x00) {
+> +        pfl->cmd =3D 0xff;
+> +    }
+> +
+>      return 0;
+>  }
+> ---
+>=20
+> Being simpler and less intrusive (no new property in hw/core/machine.c),
+> is this acceptable?
 
-thanks
--- PMM
+=46rom the migration point of view yes; I don't know enough about pflash
+to say if it makes sense;  for example could there ever be a 00 command
+really used and then you'd have to distinguish that somehow?
+
+> Thanks,
+>=20
+> Phil.
+>=20
+> [...]
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
