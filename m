@@ -2,104 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08C16365D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:03:20 +0200 (CEST)
-Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F286F63664
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:06:00 +0200 (CEST)
+Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkpmC-0000j9-6N
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37572)
+	id 1hkpom-0002IB-7H
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:06:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38078)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hkpjC-00089a-Bl
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:00:15 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hkplc-0000pu-DK
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:02:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hkpjB-0004Hc-AO
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:00:14 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:55213)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hkpjA-0004FO-Vs
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:00:13 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mgf8s-1iPOfW3hOu-00h3hs for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019
- 15:00:11 +0200
-To: qemu-devel@nongnu.org
-References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
- <156267456566.20622.9324953237843875366.malone@gac.canonical.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <0aca7712-b18f-6fbf-c8f0-b798070dfb5b@vivier.eu>
-Date: Tue, 9 Jul 2019 15:00:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <alex.bennee@linaro.org>) id 1hkpla-0006Ez-8u
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:02:44 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45087)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hkplZ-0006De-W1
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:02:42 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f9so20925839wre.12
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 06:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=B/84RZDLcbcEtXGWyZT4yQlAUVgZV1Ny4zxKfGVZ7yg=;
+ b=ZgYJssDc4NZlVSuCWvFlBNLB03lPZRm+fdDEMO1qm2Ucy6BMypj7pRq7QC2KFkSHkq
+ gLEDHA5ER0IOrCNNsrrRxDKuByP5tF6GTTNTdbVJR6Lf3WeC34CtWr7Vt5AL4PjX74lh
+ MfL72jVHt9cQHAUPIDn5MjPCgAzY9rmdELVUMukURv3pBI1Lfv6SR86uIjMyh0GeDYPR
+ H8D4GPB6Izk53sy4zdiAx+dY57p/o1ej92qMyWOd89kXXVRB0hwlKMvp8kGURxSyU4zl
+ NKJoc7my7PcUp6KcJTCrA1R8hQTRTuVLiiw5vYCxzlau1XKnoSD5dceWY7DFsEfIAsDM
+ jKzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=B/84RZDLcbcEtXGWyZT4yQlAUVgZV1Ny4zxKfGVZ7yg=;
+ b=YTA8rgBDXmowmxaZ4yryinx81KU+Nevr2Rkzewnl7gdf3EWCDTUnBeXadQEVUy8fR6
+ rW4/LY5+UO/DpetNI9tfBj5eMWRgIYSgT25M/Uo5fPctZESJmMcASiRbjIpoKhuMklyq
+ HlSkUDxV7OAiG4A3XibNB2dgzGtnOYAokEfPcsRCXxTLbQ/ZPa8nDDdOI98zJO1FZCKp
+ eqohoeypzarYOZTJ5DVUYTOWCvaW5Nz80m9/Idsjrl1kVlso0sEd5gzeuTUNbwlVG2p9
+ FovVFy/3vCK3VVvNBpj0S1j+geEfPX/otaJF3bRjYfH8qSj3fs/fvLnSTle0mGVlMJv8
+ PcXA==
+X-Gm-Message-State: APjAAAUVEAc9w2wVXTtISsdcuaRDv272Dwch5sFci3aV0PXzDS6YWEKx
+ ZVTVGTRZU+UEbV9FlbY0XcYQ8w==
+X-Google-Smtp-Source: APXvYqxmEwqP4f6YxDxUCjSYbicrlszRQ8QpNQ7k83PwvLSxxYPu/JwWWPW6Q9XkqbXKXKDIWEnohw==
+X-Received: by 2002:adf:c706:: with SMTP id k6mr25118702wrg.40.1562677360143; 
+ Tue, 09 Jul 2019 06:02:40 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id y1sm1990414wma.32.2019.07.09.06.02.39
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 06:02:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AB1B81FF87;
+ Tue,  9 Jul 2019 14:02:38 +0100 (BST)
+References: <20190709121900.25644-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <20190709121900.25644-1-richard.henderson@linaro.org>
+Date: Tue, 09 Jul 2019 14:02:38 +0100
+Message-ID: <87sgrfe4y9.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <156267456566.20622.9324953237843875366.malone@gac.canonical.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AnFfR38nJRZKAri/ehWKoY3LmWlxzRrOI2MjdZRdVRCIm+NSua6
- TE0eYUyP03lTcrXnbL1WNxWe9jc9Pdvsg91KzeKNAZRtm8e84gM1Er9lOe2Hmq9/BOb9oci
- IGz2E9l8HIELOKSEqQPLTNvWZ/yKtM7bG41BsZSAYocjl5rUi/1HEtLuuJTXKT/TIBcLRYe
- i511a2bfZKoRTfp6m5Dgg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MJX8y1BrBuk=:+n/F+7xXaeo5DI8sCYAr6K
- T/5oOHcjH3qghRFxvQRYxMMP/wGJRqTYZaydjOPgwIL1e80rKAgVoiAWqhuQULUEx/B/xxKS9
- dOfStsOAJ9heP91OuLm20cmQX13+gDy7lrKoAWq3E0nwPd+zDI9frwvJCJoza/+k1dyHe4hw7
- K7aqAMGGH0v5BCLVzh3YV288VNs+SCy6SoeWYc0lmfWxuJZpxIpgS16QbISStas+NtTxVLJte
- 4tCexL2XA1kb+1Br5F2Wfdr5jo4S6W9mQr8slmxqVgHcSvnLEZJnlRNDPNCZYyFULETfOcTn2
- zNaPClOlVOc5cCySORcHomA9wJQOEbRhr3CYzStGRR0FSDv+8AkMQXQptubBwKdviaAzWXo8W
- AC0oKYwAc8u0R19Wt4jDNbyCKbYfbhoWGI7uAEoTUihAZGTB2QeFacIMKbZmhaREvs0vqFbmD
- jZekzDWrv4PECLObRSXAy8nf4udm1DKHKUgt5+JnvewRpWSYcXuSGU32jDo9QAYezqj7UH9Ki
- KNFK45oi0vwZQxXBTYHN1G50jspEXH3qGkxfKLgHo5a027ddJ8mCD6h1uf8XptrhpmtcNJcH3
- pkf7ihh8DSMktU/Cy4xgSfr85MhSOD5dx2/m+HSL6OubC7VSP/4Fsj99O/uXU6oOoNholGoZF
- 0voxQpNOCYuG/lWV8hak6CSyEyh61jUTDFY3XaYXhi7nTbdgDstc9F0TaPf4DmCxZssHYrtjr
- 5G5rrjA1ynDxTsYW6W5yiPydd3CtmytDKO8jzgsEpIB07Qt2x3ACiij3uQ0=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
- reports absolute path
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH for-4.1] tcg: Fix constant folding of
+ INDEX_op_extract2_i32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,32 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: christophe.lyon@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/07/2019 à 14:16, Peter Maydell a écrit :
-> Is the proposed patch backwards compatible (ie "old QEMU binary works
-> with newer binfmt-misc registration" and "new QEMU binary works with
-> older binfmt-misc registration") ? Because binfmt-misc stuff is whole-
-> system but QEMU binaries are per-chroot, this kind of thing is awkward
-> to change if we don't have back-compat (and typically the kernel
-> semantics for these things often don't allow back-compat or any kind of
-> migration-path to the new better setup :-( )
-> 
 
-If you don't enable the preserve-arg[0] flag, old and new QEMU will work.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-If you enable the flag, only new QEMU with -0/QEMU_ARGV0 will work.
+> On a 64-bit host, discard any replications of the 32-bit
+> sign bit when performing the shift and merge.
+>
+> Fixes: https://bugs.launchpad.net/bugs/1834496
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-The best solution would be to force preserve-arg[0] with open-binary
-flag and rely on AT_FDEXEC to detect the binfmt-misc environment, but
-this breaks compatibility with existing environment and old QEMU.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Regarding the "binfmt-misc stuff is whole-system" problem, I've proposed
-months ago a kernel based solution [1] to have a configuration per
-namespace (chroot), but no one seems really interested (I think
-maintainer is afraid by potential security issues).
+> ---
+>  tcg/optimize.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/tcg/optimize.c b/tcg/optimize.c
+> index d7c71a6085..d2424de4af 100644
+> --- a/tcg/optimize.c
+> +++ b/tcg/optimize.c
+> @@ -1213,8 +1213,8 @@ void tcg_optimize(TCGContext *s)
+>                  if (opc =3D=3D INDEX_op_extract2_i64) {
+>                      tmp =3D (v1 >> op->args[3]) | (v2 << (64 - op->args[=
+3]));
+>                  } else {
+> -                    tmp =3D (v1 >> op->args[3]) | (v2 << (32 - op->args[=
+3]));
+> -                    tmp =3D (int32_t)tmp;
+> +                    tmp =3D (int32_t)(((uint32_t)v1 >> op->args[3]) |
+> +                                    ((uint32_t)v2 << (32 - op->args[3]))=
+);
+>                  }
+>                  tcg_opt_gen_movi(s, op, op->args[0], tmp);
+>                  break;
 
-[1] ns: introduce binfmt_misc namespace
-    https://patchwork.kernel.org/cover/10634807/
+
+--
+Alex Benn=C3=A9e
 
