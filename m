@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12630633F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 12:09:30 +0200 (CEST)
-Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CD3633E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 12:05:46 +0200 (CEST)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkn3w-0002vh-6b
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 06:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53541)
+	id 1hkn0L-0007Bv-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 06:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hkn0a-0008Q3-NI
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:06:03 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hkmxq-0005jT-4t
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:03:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hkn0Z-0003ok-Gj
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:06:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46572)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hkn0Z-0003ZG-6Y
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:05:59 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EFBF830860C1;
- Tue,  9 Jul 2019 09:57:19 +0000 (UTC)
-Received: from work-vm (ovpn-117-75.ams2.redhat.com [10.36.117.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EF535DA96;
- Tue,  9 Jul 2019 09:57:18 +0000 (UTC)
-Date: Tue, 9 Jul 2019 10:57:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: vandersonmr <vandersonmr2@gmail.com>
-Message-ID: <20190709095716.GC2725@work-vm>
-References: <20190702210017.4275-1-vandersonmr2@gmail.com>
- <20190702210017.4275-5-vandersonmr2@gmail.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hkmxo-0002Dh-V2
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:03:10 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55967)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hkmxo-0002BT-KZ
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 06:03:08 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a15so2401282wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 03:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RWp8PyFUvwxe4IGkdf/lfIE/HIqcrD/3ALTosh4dDng=;
+ b=bhwPvoI1jHtgCV+YAZV+5Q/OhGDa2L01n9z9kBCUNBA6Dr4kMoHctP3hZpVukfAJQ3
+ 0NbxOmbY0dSM5FhUAralPdc6fIsvX0DuHKPGfFMaGNws046v0qDaZtlubn6uIU1DFvsP
+ Z6VHBTOm60AtP9pRnSp1Uvj0w7a/Ki2eaj9cyQtNHUqGtL4AHlHrtQPIOYp5+MwaVYmh
+ PlRta3fuVcnKQZi7hTv8GBT1isbUtZR35rk+Uw74qNPszVYKcYTqmXQ/2DtKOp+9MKEr
+ UfuAwgb213l8cFbNL55RoYEAPRgHIGZ/eBIkud4x88pIa4JzST5F6dlPEfS8WkLD56EV
+ N1UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RWp8PyFUvwxe4IGkdf/lfIE/HIqcrD/3ALTosh4dDng=;
+ b=ApTH3OIDyMkRFzBVpQfS0lLGKGHpNXHYFJCckbb1MQU9a3Rh/raiix24v0X2jeT0jp
+ gPNCWyZXwdcqNve7P4tvUXt3XwGCNNUQL4mv3FW/phLtzeNGGICa7Gzr6IgRLtfQWKKr
+ m2u0KtUuuq2cr7P2PSuyfcyLeBIMRvsOnUl0kZljb2aYghYtCVj9AAvJxhPlZBjGelSN
+ ME/MCSXDYPBNckidSKlYWekMZzaeK2y0DA3jSCq9BHoPyo5QzQlkmBoWexcwEXDggDo2
+ GTaeR2YinlRnIE9FqMyzu7d4VoZgQcLp11icuxEtf5dWE7+FtXQWIG4GxSSwv12q5QVQ
+ 9bGw==
+X-Gm-Message-State: APjAAAWtI8DsTem6eUrETTiSH0Wr3H7VOh51BVJgLVWeQS3LehFbxw6g
+ 20DFMNQG9Ux1tCCKl1yjGK0hOg==
+X-Google-Smtp-Source: APXvYqxykAQ3Zb5v2M6FUWvzoT6WVKP5tjAgjFv0Q2+pLui4n5KhN/RJiXMyGn2lzZu7oEW1aBlFKg==
+X-Received: by 2002:a1c:3587:: with SMTP id c129mr22481436wma.90.1562666586096; 
+ Tue, 09 Jul 2019 03:03:06 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id o126sm2294300wmo.1.2019.07.09.03.03.05
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 03:03:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D534B1FF87;
+ Tue,  9 Jul 2019 11:03:04 +0100 (BST)
+References: <20190709092049.13771-1-richard.henderson@linaro.org>
+ <20190709092049.13771-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <20190709092049.13771-2-richard.henderson@linaro.org>
+Date: Tue, 09 Jul 2019 11:03:04 +0100
+Message-ID: <871ryzfrtz.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190702210017.4275-5-vandersonmr2@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 09 Jul 2019 09:57:20 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 5/6] monitor: adding info tb and tbs to
- monitor
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 1/5] include/qemu/atomic.h: Add
+ signal_barrier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,159 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* vandersonmr (vandersonmr2@gmail.com) wrote:
-> adding options to list tbs by some metric and
-> investigate their code.
-> 
-> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
 
-As Markus said you need a short justification that it's for debug etc
-to justify HMP only; it doesn't need to be huge, but we should have it.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> We have some potential race conditions vs our user-exec signal
+> handler that will be solved with this barrier.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  hmp-commands-info.hx | 22 ++++++++++++++
->  monitor/misc.c       | 69 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 91 insertions(+)
-> 
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index c59444c461..0b8c0de95d 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -288,6 +288,28 @@ ETEXI
->          .params     = "",
->          .help       = "show dynamic compiler info",
->          .cmd        = hmp_info_jit,
-> +    {
-> +        .name       = "tbs",
-> +        .args_type  = "number:i?,sortedby:s?",
-> +        .params     = "[number sortedby]",
-> +        .help       = "show a [number] translated blocks sorted by [sortedby]"
-> +                      "sortedby opts: hotness hg",
-
-If this is showing 'number' blocks then I think it should be called
-'count'
-
-> +        .cmd        = hmp_info_tbs,
-> +    },
-> +    {
-> +        .name       = "tb",
-> +        .args_type  = "id:i,flags:s?",
-> +        .params     = "id [log1[,...] flags]",
-> +        .help       = "show information about one translated block by id",
-> +        .cmd        = hmp_info_tb,
-
-That doesn't say what those flags are for; qemu has lots of flags for
-different things; I think you're  saying it's some log flag?
-
-> +    },
-> +    {
-> +        .name       = "coverset",
-> +        .args_type  = "number:i?",
-> +        .params     = "[number]",
-> +        .help       = "show hottest translated blocks neccesary to cover"
-> +                      "[number]% of the execution count",
-> +        .cmd        = hmp_info_coverset,
->      },
-
-That 'number' should be something like 'percent' or 'coverage'
+>  include/qemu/atomic.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+> index a6ac188188..f9cd24c899 100644
+> --- a/include/qemu/atomic.h
+> +++ b/include/qemu/atomic.h
+> @@ -88,6 +88,13 @@
+>  #define smp_read_barrier_depends()   barrier()
 >  #endif
->  
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index bf9faceb86..1fb4d75871 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -469,6 +469,75 @@ static void hmp_info_jit(Monitor *mon, const QDict *qdict)
->      dump_drift_info();
->  }
->  
-> +static void hmp_info_tbs(Monitor *mon, const QDict *qdict)
-> +{
-> +    int n;
-> +    const char *s = NULL;
-> +    if (!tcg_enabled()) {
-> +        error_report("TB information is only available with accel=tcg");
-> +        return;
-> +    }
-> +    if (!tb_ctx.tb_stats.map) {
-> +        error_report("no TB information recorded");
-> +        return;
-> +    }
+>
+> +/*
+> + * A signal barrier forces all pending local memory ops to be observed b=
+efore
+> + * a SIGSEGV is delivered to the *same* thread.  In practice this is exa=
+ctly
+> + * the same as barrier(), but since we have the correct builtin, use it.
+> + */
+> +#define signal_barrier()    __atomic_signal_fence(__ATOMIC_SEQ_CST)
 > +
-> +    n = qdict_get_try_int(qdict, "number", 10);
-> +    s = qdict_get_try_str(qdict, "sortedby");
+>  /* Sanity check that the size of an atomic operation isn't "overly large=
+".
+>   * Despite the fact that e.g. i686 has 64-bit atomic operations, we do n=
+ot
+>   * want to use them because we ought not need them, and this lets us do a
+> @@ -308,6 +315,10 @@
+>  #define smp_read_barrier_depends()   barrier()
+>  #endif
+>
+> +#ifndef signal_barrier
+> +#define signal_barrier()    barrier()
+> +#endif
+> +
+>  /* These will only be atomic if the processor does the fetch or store
+>   * in a single issue memory operation
+>   */
 
-No need to use single characters; sortedby_str  is fine for
-example.
 
-> +    int sortedby = 0;
-> +    if (s == NULL || strcmp(s, "hotness") == 0) {
-> +        sortedby = SORT_BY_HOTNESS;
-> +    } else if (strcmp(s, "hg") == 0) {
-> +        sortedby = SORT_BY_HG;
-> +    }
-
-You should error if there's another word in 's'
-
-> +    dump_tbs_info(n, sortedby, true);
-> +}
-> +
-> +static void hmp_info_tb(Monitor *mon, const QDict *qdict)
-> +{
-> +    const int id = qdict_get_int(qdict, "id");
-> +    const char *flags = qdict_get_try_str(qdict, "flags");
-> +    int mask;
-> +
-> +    if (!tcg_enabled()) {
-> +        error_report("TB information is only available with accel=tcg");
-> +        return;
-> +    }
-> +
-> +    mask = flags ? qemu_str_to_log_mask(flags) : CPU_LOG_TB_IN_ASM;
-> +
-> +    if (!mask) {
-> +        help_cmd(mon, "log");
-
-That's not obvious - I'd perfer you said something like
-     Unable to parse log flags, see 'help log'
-
-> +        return;
-> +    }
-> +
-> +    dump_tb_info(id, mask, true);
-> +}
-> +
-> +static void hmp_info_coverset(Monitor *mon, const QDict *qdict)
-> +{
-> +    int n;
-> +    if (!tcg_enabled()) {
-> +        error_report("TB information is only available with accel=tcg");
-> +        return;
-> +    }
-> +    if (!qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
-> +        error_report("TB information not being recorded");
-> +        return;
-> +    }
-> +
-> +    n = qdict_get_try_int(qdict, "number", 90);
-> +
-> +    if (n < 0 || n > 100) {
-> +        error_report("Coverset percentage should be between 0 and 100");
-> +        return;
-> +    }
-> +
-> +    dump_coverset_info(n, true);
-> +}
-> +
->  static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
->  {
->      dump_opcount_info();
-> -- 
-> 2.22.0
-> 
 --
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Alex Benn=C3=A9e
 
