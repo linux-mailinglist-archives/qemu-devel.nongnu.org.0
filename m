@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245BB63583
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:20:01 +0200 (CEST)
-Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6994635C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:27:03 +0200 (CEST)
+Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkp6G-00061Y-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
+	id 1hkpD5-0000ZG-1b
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57667)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hkp5e-0005SR-OB
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:19:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1hkpAn-0007tG-Ik
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hkp5a-0004JN-T2
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:19:20 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:47061)
+ (envelope-from <philmd@redhat.com>) id 1hkpAm-0007cA-5E
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:41 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34684)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hkp5V-0004Er-GM
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:19:15 -0400
-Received: by mail-io1-xd44.google.com with SMTP id i10so42576891iol.13
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 05:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=OK1MSHEGp42FLTG7BTsbKchHFLEmkUzYclHLe8Hq4YU=;
- b=v26oM0jvUUWY+r4nVhU9Wex7i99pdYiVryuZ4XqT1omD/ocoX0jCOI17Gu/2qvbcj7
- 22NkJmtrDQQ8bn7KOXW5Ll0per+cUxOfZEAaSarbzqLqVxgm1E2vxtkB/40uXV/wYCnL
- nRDWzEuVyZU9kzqV9DCaxsZ9kLuH7zKHaVuRgJKezdtWNe+DFtvmJnpT4laLvuEAZnKx
- lG86NdrkpOVhKCSjOzfkt581kL1QKL00wt6ZIuUc1O7AxaLNzvnYt/49WDIZVOEOEskb
- h0d5jqqK9a9nufDSp9MEBOK26gXVPNme8IuQhOoOLYJ5UWYljqBIWGU17sec7pd9RRfG
- 5DMw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hkpAl-0007be-VR
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:40 -0400
+Received: by mail-wm1-f68.google.com with SMTP id w9so2305151wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 05:24:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=OK1MSHEGp42FLTG7BTsbKchHFLEmkUzYclHLe8Hq4YU=;
- b=VgJ7KCqGfT4RmReLM9696dHLGHujSrNcLyqxPcIuesRV5x72C3mIZZ4i8m6xPwVHci
- eZry+MwtuBXMNcuODUeFz7+/4tsnmr2tBJsbNVud4LKqeu69ll7NO4YlJtmWAJTuTiwE
- VGC9saOgy8arI2xwb+unLvy+Sks0olrd0b36b/IFpa0sjAHgiVCSjVNKbFogl945jQRZ
- AIZFelM8Tdeux1CqOR89FMlVdaK3TBwAE8tF9HNxKXXCwtk2vQw07czDi/Pla9SoU3oU
- IldhibxA+XlSNyQkB0b2DLmyx6qRJw3p/t6Kyyhlk3lUwBl0EaZ9fNE2nTdturBb7pWF
- dPfA==
-X-Gm-Message-State: APjAAAU+YCpjcU8JfEoIgRXigZZUJnMgqBPVVeeJ0QKu+OExHVk0cVTQ
- YMjJSfPSY2mpp6nUDbbgsuZBfyJt11w=
-X-Google-Smtp-Source: APXvYqyllbPftZP7ADZPemXU1xRKXRDG3sibqZHpfi0nnAC9UfLVXhNjlQk74Be7McD6mk8Lv9rihw==
-X-Received: by 2002:a5e:cb43:: with SMTP id h3mr3590987iok.252.1562674749840; 
- Tue, 09 Jul 2019 05:19:09 -0700 (PDT)
-Received: from localhost.localdomain ([172.56.12.212])
- by smtp.gmail.com with ESMTPSA id s10sm13592593iod.46.2019.07.09.05.19.06
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 05:19:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 14:19:00 +0200
-Message-Id: <20190709121900.25644-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Subject: [Qemu-devel] [PATCH for-4.1] tcg: Fix constant folding of
- INDEX_op_extract2_i32
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G/LGEPRQgH4lmQSAYt2Bh01khWyAsFvJNi4XQsB/mgA=;
+ b=oFAaVFuJHnBFQHuOkcRTk0xFKQQCL49RAkN/6/bqUADqk3vHHsyYN/z7XFafxRXS+Q
+ XvjaiP2fun+pHIIrDxHvREOeSysPXYKiUBAr3D9lVt2O03UYgqOkMeko1P+IUbt2aaRj
+ 6r0MARY9At7eOe3nFo0YIxb5LKKDiHnvMbWrkBudtFLwN4sXWcrMEujOgF5K5AtNxJEJ
+ QRG/kbh6527/dHYaMuliWhWL5ghD5B+/v2txRfTYCOwLP6Nc2gDpzKLCyKjd0is9u2K5
+ U2/oL44Oib0AHzQY5FVPYikvBaKx1RTXPXkW/PCbOn/Zk1j9mGureOepZ3XJRzO7FBle
+ xe5Q==
+X-Gm-Message-State: APjAAAWcD22VOZtlqqkQ9T2m1UJpLhkvyMGhVXZstBJwD+phYXBMVCHO
+ l+5RYC/sEAsI3ZxfXFdAiNtvqg==
+X-Google-Smtp-Source: APXvYqytDza1Ef8KQmr58WOJOBOBoypt+5uIgvSLgQDPF73hcntWAutNcaO7XDZ3EaiWREyNSSqcZw==
+X-Received: by 2002:a1c:be19:: with SMTP id o25mr21394137wmf.54.1562675078582; 
+ Tue, 09 Jul 2019 05:24:38 -0700 (PDT)
+Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id r5sm2900380wmh.35.2019.07.09.05.24.37
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jul 2019 05:24:38 -0700 (PDT)
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190702113414.6896-1-armbru@redhat.com>
+ <89290c81-ea80-a84d-fced-86764cab23ff@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <c6461870-1e9a-54a4-3d9f-dfde8014251b@redhat.com>
+Date: Tue, 9 Jul 2019 14:24:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <89290c81-ea80-a84d-fced-86764cab23ff@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PULL 0/4] Build system patches for 2019-07-02
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +74,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: christophe.lyon@linaro.org, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On a 64-bit host, discard any replications of the 32-bit
-sign bit when performing the shift and merge.
+On 7/5/19 2:32 PM, Philippe Mathieu-Daudé wrote:
+> Hi Markus,
+> 
+> On 7/2/19 1:34 PM, Markus Armbruster wrote:
+>> The following changes since commit ab200dafc0e8a9925bb0ad0be478621f5f117c95:
+>>
+>>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-07-02 10:17:54 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   git://repo.or.cz/qemu/armbru.git tags/pull-build-2019-07-02
+>>
+>> for you to fetch changes up to b7f9b1b7fc9a00ab6e5f46555e87166533292576:
+>>
+>>   Makefile: Reuse all's recursion machinery for clean and install (2019-07-02 12:48:40 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Build system patches for 2019-07-02
+>>
+>> ----------------------------------------------------------------
+>> Markus Armbruster (4):
+>>       Makefile: Remove code to smooth transition to config.status
+>>       Makefile: Drop bogus cleaning of $(ALL_SUBDIRS)/qemu-options.def
+>>       Makefile: Rename targets for make recursion
+>>       Makefile: Reuse all's recursion machinery for clean and install
+> 
+> I wonder if some rule is missing, I did:
+> 
+> $ mkdir build
+> $ cd build
+> $ ../configure --python=python3 \
+>   --disable-tools \
+>   --enable-trace-backends=log \
+>   --extra-cflags=-ggdb --enable-debug \
+>   --target-list=arm-softmmu
+> $ make check-tcg
+> [...]
+>   CC      arm-softmmu/target/arm/iwmmxt_helper.o
+>   CC      arm-softmmu/target/arm/vec_helper.o
+>   CC      arm-softmmu/target/arm/neon_helper.o
+>   CC      arm-softmmu/target/arm/m_helper.o
+>   CC      arm-softmmu/target/arm/psci.o
+>   GEN     trace/generated-helpers.c
+> make[1]: *** No rule to make target '../blockdev.o', needed by
+> 'qemu-system-arm'.  Stop.
+> make[1]: *** Waiting for unfinished jobs....
+>   CC      arm-softmmu/trace/control-target.o
+> make: *** [tests/Makefile.include:1073: run-tcg-tests-arm-softmmu] Error 2
+> $ make arm-softmmu/all
+>   CC      authz/base.o
+>   CC      authz/simple.o
+>   CC      authz/list.o
+>   CC      authz/listfile.o
+>   CC      authz/pamacct.o
+>   CC      block.o
+>   CC      blockjob.o
+>   CC      job.o
+>   CC      qemu-io-cmds.o
+>   CC      replication.o
+>   CC      block/raw-format.o
+>   CC      block/vmdk.o
+>   CC      block/vpc.o
+>   CC      block/qcow.o
+>   CC      block/vdi.o
+>   CC      block/cloop.o
+>   CC      block/bochs.o
+> ^C
+> $ make check-tcg
+>   BUILD   debian9
+>   BUILD   debian-armhf-cross
+>   BUILD   TCG tests for arm-softmmu
+>   CHECK   debian9
+>   CHECK   debian-armhf-cross
+>   BUILD   arm guest-tests with docker qemu:debian-armhf-cross
+>   RUN     TCG tests for arm-softmmu
+>   CHECK   debian9
+>   CC      arm-softmmu/gdbstub-xml.o
+>   CC      arm-softmmu/target/arm/vfp_helper.o
+>   CC      arm-softmmu/target/arm/translate.o
+> make[1]: *** No rule to make target '../hw/net/e1000.o', needed by
+> 'qemu-system-arm'.  Stop.
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [tests/Makefile.include:1073: run-tcg-tests-arm-softmmu] Error 2
 
-Fixes: https://bugs.launchpad.net/bugs/1834496
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/optimize.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I forgot to tell, since I'm using a 4 cores (x2 threads) host CPU, I
+added this to my ~/.bash_aliases:
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index d7c71a6085..d2424de4af 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1213,8 +1213,8 @@ void tcg_optimize(TCGContext *s)
-                 if (opc == INDEX_op_extract2_i64) {
-                     tmp = (v1 >> op->args[3]) | (v2 << (64 - op->args[3]));
-                 } else {
--                    tmp = (v1 >> op->args[3]) | (v2 << (32 - op->args[3]));
--                    tmp = (int32_t)tmp;
-+                    tmp = (int32_t)(((uint32_t)v1 >> op->args[3]) |
-+                                    ((uint32_t)v2 << (32 - op->args[3])));
-                 }
-                 tcg_opt_gen_movi(s, op, op->args[0], tmp);
-                 break;
--- 
-2.17.1
+alias make='make -j8 -l7.5'
 
+> Any idea?
+> 
 
