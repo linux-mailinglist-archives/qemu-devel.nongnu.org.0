@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730DC6393D
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:22:57 +0200 (CEST)
-Received: from localhost ([::1]:51788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B2D63994
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 18:41:02 +0200 (CEST)
+Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkstL-00067v-Lc
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33649)
+	id 1hktAr-00048K-Hi
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 12:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37897)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hksrR-0004tH-2g
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:20:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hkt7I-000393-4u
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hksrP-0004UX-QD
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:20:56 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:43041)
+ (envelope-from <richard.henderson@linaro.org>) id 1hkt7G-0006Wz-84
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:19 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39447)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hksrP-0004PR-Ks
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:20:55 -0400
-Received: by mail-oi1-x242.google.com with SMTP id w79so15809711oif.10
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:20:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hkt7D-0006QP-I4
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:37:15 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u17so9237624pgi.6
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pQXOoDlCMk8cm6Ibha7iQG8F7Rmtie0wGpbWEC2fFIA=;
- b=dHeDxZ08ZuhoNkuT/SlAkXVxkfd/EZi4a3hHi/BQSUEi1YyJ5Uni+IwZuya8U3bt2G
- zzT31wTD4Vyu2rZAtbojf4GNKRLVu4vC4PE9KXG6K+8oP7xtXSpRwhh931nTOvoALtsP
- GKUJbwbwVm/J00U0g/72jOXtp2+cVEK5fW3LUu2WefZ7QhyViFYIrzSFT303qbjBqf3e
- hNzbycYr9Byp0zEpW6J/yiUKQcqJMzMci861kbGtfMVTU/kT+o8IPqa7xceYpq+93vSq
- fPUbvKtF63mw96tjM3e6SH/9++K6nb1jIGZVBa00ZfiIN6AiniqzrSOMDC0Fml5r7Dfg
- Asrg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JVOyp/SQtLtkdq8BjHn2mlzsOWIS2SvfgbnRIW9MzD8=;
+ b=f+RSbrIZuaswgLSXeBK5hU/c/5bgbr2AuerajJMVw+GRyWgrOOX05ai/0S8/LHZisD
+ EqUwPB5qTVJpGHvpB7dWyY85DD7P76o6wmXpsK1g9gZtvQ1OmReqhnp/SchCC5EqPHLo
+ 6XBunsMwINll0qnCPRDONQUzR1jiXNeOvzpzs/oNEMFgpwzBj02pytvAtTLLIMjmhrMa
+ Y5Xqbin+DaNGYnWjp4GETzlvk7mIgE6zjaKdtWXT9LsxFCMXj825rya+Pl2OMKzxlSbm
+ qulQqDeXsjfJmHhMVcRZM3wHfCwUkMpLqgOabnuPZ4oqk4zs+aRU8ld7YZgm8KBbpNqR
+ /UYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pQXOoDlCMk8cm6Ibha7iQG8F7Rmtie0wGpbWEC2fFIA=;
- b=cK0Y8eiH01UxG1M7nb6ujbAs/ipvewOQMGLc4D3p3FCPVQTH0HuD2gcjJ9WQSPKQY4
- SkGamnOaouh8R7/UFIJO5o+bp/iGWgS7f3ppZNWwI9xzV0ezgJa7BMv0hHGTEjH/L6jK
- Rcsf3wG6nXux1tyvyonhwCdJOT7JgdXHECp1E+zCL0rXibkBUPb2tjRlIyUqHqrdLylK
- 3kqTUWwDRD/zWhkp8D5OdmHmpsFukjcqd5pCRzAmDtRqL3STzYEc7ZdaLLtsw6DV1UjP
- jIIdZ1oPnpmDnn5BIJVL9vULMoZF1PA9pc0XC5IT9LMEWykChRHqcS+2YRhcElqLZhkx
- nktA==
-X-Gm-Message-State: APjAAAUYc0b3S5seR0bLJhOW9eijCOgvCt2R8SO25NBE4r83aClf8MK7
- g6pMc35Uj9j33RpWjFr2+YvwZSJ7cQoe+1XxBMQAFw==
-X-Google-Smtp-Source: APXvYqzVuaCdcSVtoJHNoN6rq/WQSIUv3gOv7qtfFHgGHxDIaLUNh/LDpAIYPp7L255n+XkYnSWJEfVFVXP+mgiuNLQ=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr500320oib.163.1562689251827; 
- Tue, 09 Jul 2019 09:20:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JVOyp/SQtLtkdq8BjHn2mlzsOWIS2SvfgbnRIW9MzD8=;
+ b=oCcBtzEEImgvhw9L8So1vi3mWWkTqh2BS6Hvb3aK9R90Ec4bkqGMssaRZTt/XgmaDT
+ FBgLWYLhR1UQbscJLI0N5vBVU1qKicJeItpJZNnUBywjnLx8ejTz81/tcOehSA3FMsvL
+ QEEnREa2LZqQTH5nKg7zTkFSFHMSx4ENhhiVcWsC8aq3erPc8bvZbb8Fhuwj5BAvkZDR
+ aiHIPUscLsMFylFKPaGvO6DNFefYmj32h2e9x72BaOHjHRVN8n+mutGPBqo5wTJ9pZQ/
+ WprtcbxHUcUSg8JLICnw493lqmZf4zvVo0mOmh1HHYjmIXRR7HuvEoeHgQlemkiH6wQh
+ 25JQ==
+X-Gm-Message-State: APjAAAWc1yUFoCfqS5OSBhi5NkS17slX90zSRqqC85gnN0NsCgzDocsj
+ CRe7gMXK04B2MaoCWDSdrwrZYlmj0Ps=
+X-Google-Smtp-Source: APXvYqzKwffXyji522+N677RI0Bi575GgRKjLe2y2urf1nUzWjpo0w0UGXfCSU5+J3ZAv+Eo9CRvSA==
+X-Received: by 2002:a63:fb4b:: with SMTP id w11mr31690318pgj.415.1562690227163; 
+ Tue, 09 Jul 2019 09:37:07 -0700 (PDT)
+Received: from localhost.localdomain ([172.56.12.212])
+ by smtp.gmail.com with ESMTPSA id v8sm19225231pgs.82.2019.07.09.09.37.02
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 09:37:06 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Tue,  9 Jul 2019 18:36:51 +0200
+Message-Id: <20190709163656.3100-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20190709152145.21308-1-philmd@redhat.com>
-In-Reply-To: <20190709152145.21308-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 Jul 2019 17:20:41 +0100
-Message-ID: <CAFEAcA_KCxe-JYS+ShSHyzqr+1wj9A8okGHPfVe7NCCE3nC8ZQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PULL 0/1] pflash-next patches for hard features
- freeze
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v2 0/5] tcg: Fix mmap_lock assertion failure,
+ take 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, alex.bennee@linaro.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 16:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> The following changes since commit a538626aff7c8934ec47bc6ed41cac5bd1b772=
-3c:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190709' into =
-staging (2019-07-09 11:49:26 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/pflash-next-20190709
->
-> for you to fetch changes up to 51500d37700904a0ee1ef775a585d871b36f7060:
->
->   Revert "hw/block/pflash_cfi02: Reduce I/O accesses to 16-bit" (2019-07-=
-09 17:14:39 +0200)
->
-> ----------------------------------------------------------------
-> Restore 32-bit I/O accesses on AMD flashes
-> (precautionary revert).
->
-> ----------------------------------------------------------------
->
-> Philippe Mathieu-Daud=C3=A9 (1):
->   Revert "hw/block/pflash_cfi02: Reduce I/O accesses to 16-bit"
->
->  hw/block/pflash_cfi02.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+Changes from v1:
+  * Fix whitespace error
+  * Fix cpu_lds*_code(), where cut-and-paste failed to extend the data.
+    Noticable with check-tcg with docker cross-compiler for cris-linux-user.
+
+Blurb from v1:
+
+While I could not replicate the failure Peter reported, the apparent
+root cause -- the old magic fixed page -- should affect other guests
+as well.  In particular, the old arm32 magic fixed page at 0xffff0f00,
+and the hppa magic fixed page at 0.
+
+In the arm32 and hppa cases that I just mentioned -- but notably not
+the x86_64 case that Peter reported -- there is special-case code in
+target/*/translate.c to handle those addresses without actually doing
+the read from the unmapped address.
+
+Therefore, until we fix these sort of address space representational
+errors, we cannot even rely on page_check_range() to validate the
+execute access.
+
+Instead, modify the host signal handler to intercept this at SIGSEGV.
+At this point we're sure that there is no guest special case that we
+have overlooked, because we did attempt the read for execute.
+
+Also, I noticed that we really ought to have some barriers around this
+code to make sure that the modifications to helper_retaddr are in fact
+visible to the host signal handler.
+
+Also, some minor cleanups to the set of read functions that we expose
+for use during translation.
+
+Also, a trivial duplicated condition.
 
 
-Applied, thanks.
+r~
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
 
--- PMM
+Richard Henderson (5):
+  include/qemu/atomic.h: Add signal_barrier
+  tcg: Introduce set/clear_helper_retaddr
+  tcg: Remove cpu_ld*_code_ra
+  tcg: Remove duplicate #if !defined(CODE_ACCESS)
+  tcg: Release mmap_lock on translation fault
+
+ include/exec/cpu_ldst.h                   | 20 ++++++
+ include/exec/cpu_ldst_useronly_template.h | 40 ++++++++----
+ include/qemu/atomic.h                     | 11 ++++
+ accel/tcg/user-exec.c                     | 77 ++++++++++++++++-------
+ target/arm/helper-a64.c                   |  8 +--
+ target/arm/sve_helper.c                   | 43 +++++++------
+ 6 files changed, 136 insertions(+), 63 deletions(-)
+
+-- 
+2.17.1
+
 
