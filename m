@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C57632E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:39:39 +0200 (CEST)
-Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD0D632E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:39:36 +0200 (CEST)
+Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hklf0-0006qM-78
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
+	id 1hkley-0006lf-1D
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33471)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hkldT-0005UP-B0
+ (envelope-from <eric.auger@redhat.com>) id 1hkldT-0005UG-8n
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hkldS-0006z7-5Q
+ (envelope-from <eric.auger@redhat.com>) id 1hkldS-0006zD-5b
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60810)
+Received: from mx1.redhat.com ([209.132.183.28]:53900)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hkldR-0006y0-Sx
+ id 1hkldR-0006xV-Si
  for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:38:02 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A1493084027;
- Tue,  9 Jul 2019 08:38:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B5423C05681F;
+ Tue,  9 Jul 2019 08:37:59 +0000 (UTC)
 Received: from [10.36.116.46] (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99D055D9E5;
- Tue,  9 Jul 2019 08:37:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C99819C68;
+ Tue,  9 Jul 2019 08:37:49 +0000 (UTC)
 To: Liu Yi L <yi.l.liu@intel.com>, qemu-devel@nongnu.org, mst@redhat.com,
  pbonzini@redhat.com, alex.williamson@redhat.com, peterx@redhat.com
 References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
- <1562324511-2910-8-git-send-email-yi.l.liu@intel.com>
+ <1562324511-2910-9-git-send-email-yi.l.liu@intel.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <1dbeec81-8fa6-4e5c-fc62-4a999387bd12@redhat.com>
-Date: Tue, 9 Jul 2019 10:37:45 +0200
+Message-ID: <cac2a42e-c152-e715-451f-7a19ca3e19ca@redhat.com>
+Date: Tue, 9 Jul 2019 10:37:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <1562324511-2910-8-git-send-email-yi.l.liu@intel.com>
+In-Reply-To: <1562324511-2910-9-git-send-email-yi.l.liu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 09 Jul 2019 08:38:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Tue, 09 Jul 2019 08:37:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC v1 07/18] hw/pci: add
- pci_device_bind/unbind_gpasid
+Subject: Re: [Qemu-devel] [RFC v1 08/18] vfio/pci: add vfio
+ bind/unbind_gpasid implementation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,10 +72,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi Liu,
 
 On 7/5/19 1:01 PM, Liu Yi L wrote:
-> This patch adds two callbacks pci_device_bind/unbind_gpasid() to
-> PCIPASIDOps. These two callbacks are used to propagate guest pasid
-> bind/unbind to host. The implementations of the callbacks would be
-> device passthru modules like vfio.
+> This patch adds vfio implementation PCIPASIDOps.bind_gpasid/unbind_pasid().
+> These two functions are used to propagate guest pasid bind and unbind
+> requests to host via vfio container ioctl.
 > 
 > Cc: Kevin Tian <kevin.tian@intel.com>
 > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -85,88 +84,82 @@ On 7/5/19 1:01 PM, Liu Yi L wrote:
 > Cc: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 > ---
->  hw/pci/pci.c         | 30 ++++++++++++++++++++++++++++++
->  include/hw/pci/pci.h |  9 +++++++++
->  2 files changed, 39 insertions(+)
+>  hw/vfio/pci.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 710f9e9..2229229 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -2676,6 +2676,36 @@ int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn,
->      return -1;
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index ab184ad..892b46c 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2744,9 +2744,63 @@ static int vfio_pci_device_request_pasid_free(PCIBus *bus,
+>      return ret;
 >  }
 >  
-> +void pci_device_bind_gpasid(PCIBus *bus, int32_t devfn,
-> +                                struct gpasid_bind_data *g_bind_data)
-struct gpasid_bind_data is defined in linux headers so I think you would
-need: #ifdef __linux__
+> +static void vfio_pci_device_bind_gpasid(PCIBus *bus, int32_t devfn,
+> +                                     struct gpasid_bind_data *g_bind_data)
 > +{
-> +    PCIDevice *dev;
+> +    PCIDevice *pdev = bus->devices[devfn];
+> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+> +    VFIOContainer *container = vdev->vbasedev.group->container;
+> +    struct vfio_iommu_type1_bind *bind;
+> +    struct vfio_iommu_type1_bind_guest_pasid *bind_guest_pasid;
+> +    unsigned long argsz;
 > +
-> +    if (!bus) {
-> +        return;
-> +    }
+> +    argsz = sizeof(*bind) + sizeof(*bind_guest_pasid);
+> +    bind = g_malloc0(argsz);
+> +    bind->argsz = argsz;
+> +    bind->bind_type = VFIO_IOMMU_BIND_GUEST_PASID;
+> +    bind_guest_pasid = (struct vfio_iommu_type1_bind_guest_pasid *) &bind->data;
+> +    bind_guest_pasid->bind_data = *g_bind_data;
 > +
-> +    dev = bus->devices[devfn];
-> +    if (dev && dev->pasid_ops) {
-> +        dev->pasid_ops->bind_gpasid(bus, devfn, g_bind_data);
+> +    rcu_read_lock();
+why do you need the rcu_read_lock?
+> +    if (ioctl(container->fd, VFIO_IOMMU_BIND, bind) != 0) {
+> +        error_report("vfio_pci_device_bind_gpasid:"
+> +                     " bind failed, contanier: %p", container);
+container
 > +    }
+> +    rcu_read_unlock();
+> +    g_free(bind);
 > +}
 > +
-> +void pci_device_unbind_gpasid(PCIBus *bus, int32_t devfn,
-> +                                struct gpasid_bind_data *g_bind_data)
+> +static void vfio_pci_device_unbind_gpasid(PCIBus *bus, int32_t devfn,
+> +                                     struct gpasid_bind_data *g_bind_data)
 > +{
-> +    PCIDevice *dev;
+> +    PCIDevice *pdev = bus->devices[devfn];
+> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+> +    VFIOContainer *container = vdev->vbasedev.group->container;
+> +    struct vfio_iommu_type1_bind *bind;
+> +    struct vfio_iommu_type1_bind_guest_pasid *bind_guest_pasid;
+> +    unsigned long argsz;
 > +
-> +    if (!bus) {
-> +        return;
-> +    }
+> +    argsz = sizeof(*bind) + sizeof(*bind_guest_pasid);
+> +    bind = g_malloc0(argsz);
+> +    bind->argsz = argsz;
+> +    bind->bind_type = VFIO_IOMMU_BIND_GUEST_PASID;
+> +    bind_guest_pasid = (struct vfio_iommu_type1_bind_guest_pasid *) &bind->data;
+> +    bind_guest_pasid->bind_data = *g_bind_data;
 > +
-> +    dev = bus->devices[devfn];
-> +    if (dev && dev->pasid_ops) {
-> +        dev->pasid_ops->unbind_gpasid(bus, devfn, g_bind_data);
+> +    rcu_read_lock();
+> +    if (ioctl(container->fd, VFIO_IOMMU_UNBIND, bind) != 0) {
+> +        error_report("vfio_pci_device_unbind_gpasid:"
+> +                     " unbind failed, contanier: %p", container);
+container
 > +    }
+> +    rcu_read_unlock();
+> +    g_free(bind);
 > +}
 > +
->  static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
->  {
->      Range *range = opaque;
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 16e5b8e..8d849e6 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -9,6 +9,7 @@
->  #include "hw/isa/isa.h"
->  
->  #include "hw/pci/pcie.h"
-> +#include <linux/iommu.h>
->  
->  extern bool pci_available;
->  
-> @@ -267,6 +268,10 @@ struct PCIPASIDOps {
->      int (*alloc_pasid)(PCIBus *bus, int32_t devfn,
->                           uint32_t min_pasid, uint32_t max_pasid);
->      int (*free_pasid)(PCIBus *bus, int32_t devfn, uint32_t pasid);
-> +    void (*bind_gpasid)(PCIBus *bus, int32_t devfn,
-> +                            struct gpasid_bind_data *g_bind_data);
-> +    void (*unbind_gpasid)(PCIBus *bus, int32_t devfn,
-> +                            struct gpasid_bind_data *g_bind_data);
+>  static PCIPASIDOps vfio_pci_pasid_ops = {
+>      .alloc_pasid = vfio_pci_device_request_pasid_alloc,
+>      .free_pasid = vfio_pci_device_request_pasid_free,
+> +    .bind_gpasid = vfio_pci_device_bind_gpasid,
+> +    .unbind_gpasid = vfio_pci_device_unbind_gpasid,
 >  };
 >  
->  struct PCIDevice {
-> @@ -497,6 +502,10 @@ bool pci_device_is_ops_set(PCIBus *bus, int32_t devfn);
->  int pci_device_request_pasid_alloc(PCIBus *bus, int32_t devfn,
->                                     uint32_t min_pasid, uint32_t max_pasid);
->  int pci_device_request_pasid_free(PCIBus *bus, int32_t devfn, uint32_t pasid);
-> +void pci_device_bind_gpasid(PCIBus *bus, int32_t devfn,
-> +                            struct gpasid_bind_data *g_bind_data);
-> +void pci_device_unbind_gpasid(PCIBus *bus, int32_t devfn,
-> +                            struct gpasid_bind_data *g_bind_data);
->  
->  static inline void
->  pci_set_byte(uint8_t *config, uint8_t val)
+>  static void vfio_realize(PCIDevice *pdev, Error **errp)
 > 
+
 Thanks
 
 Eric
