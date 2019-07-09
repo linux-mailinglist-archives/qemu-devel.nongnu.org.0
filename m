@@ -2,49 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C0E63BA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:04:06 +0200 (CEST)
-Received: from localhost ([::1]:52918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9428A63BDC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:25:47 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkvPC-0005h3-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
+	id 1hkvkI-0006bU-R4
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:25:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55537)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hkvLJ-0003Th-2w
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:58 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hkvQ4-0007jj-5B
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hkvLH-0005pR-V9
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:5231)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hkvLB-0005jH-6C
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:59:50 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AA21A3B63
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 18:59:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55E225B806;
- Tue,  9 Jul 2019 18:59:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DAC281138648; Tue,  9 Jul 2019 20:59:36 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 20:59:36 +0200
-Message-Id: <20190709185936.31335-1-armbru@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hkvQ1-0001Mx-LC
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:51 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:42076)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hkvPy-0001CX-2z
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:04:47 -0400
+Received: by mail-io1-xd30.google.com with SMTP id u19so45480097ior.9
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 12:04:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lf3EnFwJ5D9ZPFimQQP7oOEz9HE97ug8lc33kyMVnFU=;
+ b=cgphec37CI+8vVKtsqEnMoxxGKkeew9DzR4nK7h2XH+V5xoFMuXZadws0UHR2C59d/
+ J9QeRDTMC1Uexxworq8KXfpiDxu6zisXZzWfXoGvPR4VL0kanMKW60jHqS2gS2HimuoN
+ loEWqjg9TEyXq81oRhw2hrGr/+DGpjzlLJECLX0I1tjfPiqEkLv/W4KGbRNRzvFPfjtY
+ p9q4B34gnVGrsJfmPgH4uWR9M+4/+VR6EdjUwnV5XkGmASsFRDFE4XOcb4pIHAqpkXpF
+ 4rx547BhawyFly3bpx8Su5MX/OUut1wRnfYD3EuYh4Rog+G8iaSVPOuPoUVqgXBuUal1
+ 0SSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lf3EnFwJ5D9ZPFimQQP7oOEz9HE97ug8lc33kyMVnFU=;
+ b=QmY5adYCF+iAOIG4cyvXX1L8rkD/YL2yzK6NwkGyyDNXpFjR3zIfmm7sTvcJ8WDYfN
+ yssTcklIeaAGuAfw5jmwhIR3uzjCnMFhhPm1CcwbKi3t+VPDkPvfSJv12lfkcOyHZP/C
+ T/fFxT9FXhvVtC9g4xNPJloUDnifl8ZmuzmMG7zBYY5hXleBbghwxpyU5eD5csSuEKZ8
+ EQdMaXVAnNeWtsidBlnozocMyO1+4mT5ywDJDR844JNneFTBgRXgrCJDhcFrF2nbhGWD
+ wH3MUx/vitZo64CoOHlNdgW6R1i4CRamqBU9VEChcM9oP9hJ66qo1Y9YKdg6MIR5VDrN
+ j7AA==
+X-Gm-Message-State: APjAAAVm67QRxFJznErm/gdpELNfevMgJdM+uXBaOaYNmPtDC3SygkFx
+ zCe6Qz3loq94PUuzuKEkTswxwg==
+X-Google-Smtp-Source: APXvYqznpi1PqBwV2vLkODThvTAkdyC/dmVHF1GKzKKGFq6zJoojY1DchoIL9jxy7mp4PWiCSkCxFQ==
+X-Received: by 2002:a02:c916:: with SMTP id t22mr29447803jao.24.1562699078977; 
+ Tue, 09 Jul 2019 12:04:38 -0700 (PDT)
+Received: from [192.168.43.94] ([172.56.12.212])
+ by smtp.gmail.com with ESMTPSA id q13sm16403348ioh.36.2019.07.09.12.04.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jul 2019 12:04:38 -0700 (PDT)
+To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
+ <2136180936.260219.1561641583358@mail.yahoo.com>
+ <1079763171.281101.1561641752988@mail.yahoo.com>
+ <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
+ <20190628002713.GA19257@localhost.localdomain>
+ <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+ <20190628155030.GA34320@localhost.localdomain>
+ <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
+ <20190629163621.GA111724@localhost.localdomain>
+ <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
+ <1399218244.1210557.1561982640362@mail.yahoo.com>
+ <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
+ <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d9e5602c-bb33-1812-ebc2-b533e9dd5f25@linaro.org>
+Date: Tue, 9 Jul 2019 21:04:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 09 Jul 2019 18:59:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] qdev: Collect HMP handlers command handlers in
- qdev-monitor.c
+In-Reply-To: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d30
+Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
+ gen_exception
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,105 +96,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
+Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move hmp_device_add(), hmp_device_del() from monitor/hmp-cmds.c to
-qdev-monitor.c, where they are covered by MAINTAINERS section "QOM",
-just like qapi/qdev.json.  hmp_info_qtree() and hmp_info_qdm() are
-already there.
+On 7/9/19 6:58 PM, Lucien Murray-Pitts wrote:
+> Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt(
+> CPUState *cs)" ?
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
-This is a follow-up to my "Move QOM, qdev, machine core and dump code"
-series, merged in commit 374f63f6810.
+I did have a suggestion.  It was fairly detailed.
 
- monitor/hmp-cmds.c | 19 -------------------
- qdev-monitor.c     | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 19 deletions(-)
+https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06522.html
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 99ceb0846b..550d363374 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -25,7 +25,6 @@
- #include "qemu/timer.h"
- #include "qemu/sockets.h"
- #include "monitor/monitor-internal.h"
--#include "monitor/qdev.h"
- #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
- #include "qapi/opts-visitor.h"
-@@ -35,7 +34,6 @@
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
--#include "qapi/qapi-commands-qdev.h"
- #include "qapi/qapi-commands-rocker.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
-@@ -2181,23 +2179,6 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
-     }
- }
-=20
--void hmp_device_add(Monitor *mon, const QDict *qdict)
--{
--    Error *err =3D NULL;
--
--    qmp_device_add((QDict *)qdict, NULL, &err);
--    hmp_handle_error(mon, &err);
--}
--
--void hmp_device_del(Monitor *mon, const QDict *qdict)
--{
--    const char *id =3D qdict_get_str(qdict, "id");
--    Error *err =3D NULL;
--
--    qmp_device_del(id, &err);
--    hmp_handle_error(mon, &err);
--}
--
- void hmp_netdev_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 58222c2211..cd6299e92b 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "hw/qdev.h"
- #include "hw/sysbus.h"
-+#include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "monitor/qdev.h"
- #include "sysemu/arch_init.h"
-@@ -844,6 +845,23 @@ void qmp_device_del(const char *id, Error **errp)
-     }
- }
-=20
-+void hmp_device_add(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err =3D NULL;
-+
-+    qmp_device_add((QDict *)qdict, NULL, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
-+void hmp_device_del(Monitor *mon, const QDict *qdict)
-+{
-+    const char *id =3D qdict_get_str(qdict, "id");
-+    Error *err =3D NULL;
-+
-+    qmp_device_del(id, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
- BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
- {
-     DeviceState *dev;
---=20
-2.21.0
 
+r~
 
