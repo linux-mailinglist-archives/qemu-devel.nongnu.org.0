@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAE063C52
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:59:37 +0200 (CEST)
-Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9365B63C34
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:54:41 +0200 (CEST)
+Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkwH2-00028u-FB
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
+	id 1hkwCG-00089Z-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49855)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8j-0005sR-Kg
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:02 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw9K-0006F3-0G
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hkw8g-0002rA-Gu
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47242)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hkw9H-0003Jb-Cp
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40186)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1hkw8c-0002kY-N1
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:50:56 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hkw9G-0003BL-Up
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:51:35 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6EE7317915D;
- Tue,  9 Jul 2019 19:43:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D5DB30C01A8;
+ Tue,  9 Jul 2019 19:44:12 +0000 (UTC)
 Received: from localhost (ovpn-112-55.ams2.redhat.com [10.36.112.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E19292D3A;
- Tue,  9 Jul 2019 19:43:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C6E91001E74;
+ Tue,  9 Jul 2019 19:44:00 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 23:43:26 +0400
-Message-Id: <20190709194330.837-2-marcandre.lureau@redhat.com>
+Date: Tue,  9 Jul 2019 23:43:27 +0400
+Message-Id: <20190709194330.837-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20190709194330.837-1-marcandre.lureau@redhat.com>
 References: <20190709194330.837-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 09 Jul 2019 19:43:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 09 Jul 2019 19:44:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 1/5] docker.py: add podman support
+Subject: [Qemu-devel] [PATCH v2 2/5] tests/docker: add podman support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,133 +58,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Debarshi Ray <rishi@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a --engine option to select either docker, podman or auto.
+Allow to specify the container engine to run with ENGINE variable.
 
-Among other advantages, podman allows to run rootless & daemonless
-containers, fortunately sharing compatible CLI with docker.
+By default, ENGINE=3Dauto and will select either podman or docker.
 
+With current podman, we have to use a uidmap trick in order to be able
+to rw-share the ccache directory with the container user.
+
+With a user 1000, the default mapping is:
+1000 (host) -> 0 (container).
+
+So write access to /var/tmp/ccache ends will end with permission
+denied error.
+
+With "--uidmap 1000:0:1 --uidmap 0:1:1000", the mapping is:
+1000 (host) -> 0 (container, 1st namespace) -> 1000 (container, 2nd names=
+pace).
+
+(the rest is mumbo jumbo to avoid holes in the range of UIDs)
+
+A future podman version may have an option such as --userns-keep-uid.
+Thanks to Debarshi Ray for the help!
+
+Cc: Debarshi Ray <rishi@redhat.com>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- tests/docker/docker.py | 43 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 5 deletions(-)
+ Makefile                      |  2 +-
+ tests/docker/Makefile.include | 17 ++++++++++++++---
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 53a8c9c801..1f59a78b10 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -20,6 +20,7 @@ import hashlib
- import atexit
- import uuid
- import argparse
-+import enum
- import tempfile
- import re
- import signal
-@@ -38,6 +39,26 @@ FILTERED_ENV_NAMES =3D ['ftp_proxy', 'http_proxy', 'ht=
-tps_proxy']
+diff --git a/Makefile b/Makefile
+index c63de4e36c..2bcf9bc674 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1152,7 +1152,7 @@ endif
+ 	@echo  ''
+ 	@echo  'Test targets:'
+ 	@echo  '  check           - Run all tests (check-help for details)'
+-	@echo  '  docker          - Help about targets running tests inside Doc=
+ker containers'
++	@echo  '  docker          - Help about targets running tests inside con=
+tainers'
+ 	@echo  '  vm-help         - Help about targets running tests inside VM'
+ 	@echo  ''
+ 	@echo  'Documentation targets:'
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
+e
+index aaf5396b85..0abd2ab0c9 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -17,7 +17,9 @@ DOCKER_TESTS :=3D $(notdir $(shell \
 =20
- DEVNULL =3D open(os.devnull, 'wb')
+ DOCKER_TOOLS :=3D travis
 =20
-+class EngineEnum(enum.IntEnum):
-+    AUTO =3D 1
-+    DOCKER =3D 2
-+    PODMAN =3D 3
+-DOCKER_SCRIPT=3D$(SRC_PATH)/tests/docker/docker.py
++ENGINE :=3D auto
 +
-+    def __str__(self):
-+        return self.name.lower()
++DOCKER_SCRIPT=3D$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+=20
+ TESTS ?=3D %
+ IMAGES ?=3D %
+@@ -146,7 +148,7 @@ $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(D=
+OCKER_IMAGES) $(DOCKER_DEPR
+ )
+=20
+ docker:
+-	@echo 'Build QEMU and run tests inside Docker containers'
++	@echo 'Build QEMU and run tests inside Docker or Podman containers'
+ 	@echo
+ 	@echo 'Available targets:'
+ 	@echo
+@@ -193,6 +195,14 @@ endif
+ 	@echo '    EXECUTABLE=3D<path>    Include executable in image.'
+ 	@echo '    EXTRA_FILES=3D"<path> [... <path>]"'
+ 	@echo '                         Include extra files in image.'
++	@echo '    ENGINE=3Dauto/docker/podman'
++	@echo '                         Specify which container engine to run.'
 +
-+    def __repr__(self):
-+        return str(self)
-+
-+    @staticmethod
-+    def argparse(s):
-+        try:
-+            return EngineEnum[s.upper()]
-+        except KeyError:
-+            return s
-+
-+
-+USE_ENGINE =3D EngineEnum.AUTO
++UID=3D$(shell id -u)
++UID1=3D$(shell expr $(UID) + 1)
++ifeq ($(shell $(DOCKER_SCRIPT) probe),podman)
++PODMAN=3D1
++endif
 =20
- def _text_checksum(text):
-     """Calculate a digest string unique to the text content"""
-@@ -48,9 +69,14 @@ def _file_checksum(filename):
-     return _text_checksum(open(filename, 'rb').read())
-=20
-=20
--def _guess_docker_command():
--    """ Guess a working docker command or raise exception if not found""=
-"
--    commands =3D [["docker"], ["sudo", "-n", "docker"]]
-+def _guess_engine_command():
-+    """ Guess a working engine command or raise exception if not found""=
-"
-+    commands =3D []
-+
-+    if USE_ENGINE in [EngineEnum.AUTO, EngineEnum.PODMAN]:
-+        commands +=3D [["podman"]]
-+    if USE_ENGINE in [EngineEnum.AUTO, EngineEnum.DOCKER]:
-+        commands +=3D [["docker"], ["sudo", "-n", "docker"]]
-     for cmd in commands:
-         try:
-             # docker version will return the client details in stdout
-@@ -61,7 +87,7 @@ def _guess_docker_command():
-         except OSError:
-             pass
-     commands_txt =3D "\n".join(["  " + " ".join(x) for x in commands])
--    raise Exception("Cannot find working docker command. Tried:\n%s" %
-+    raise Exception("Cannot find working engine command. Tried:\n%s" %
-                     commands_txt)
-=20
-=20
-@@ -190,7 +216,7 @@ def _dockerfile_preprocess(df):
- class Docker(object):
-     """ Running Docker commands """
-     def __init__(self):
--        self._command =3D _guess_docker_command()
-+        self._command =3D _guess_engine_command()
-         self._instances =3D []
-         atexit.register(self._kill_instances)
-         signal.signal(signal.SIGTERM, self._kill_instances)
-@@ -502,6 +528,8 @@ class ProbeCommand(SubCommand):
-                 print("yes")
-             elif docker._command[0] =3D=3D "sudo":
-                 print("sudo")
-+            elif docker._command[0] =3D=3D "podman":
-+                print("podman")
-         except Exception:
-             print("no")
-=20
-@@ -597,9 +625,13 @@ class CheckCommand(SubCommand):
-=20
-=20
- def main():
-+    global USE_ENGINE
-+
-     parser =3D argparse.ArgumentParser(description=3D"A Docker helper",
-                                      usage=3D"%s <subcommand> ..." %
-                                      os.path.basename(sys.argv[0]))
-+    parser.add_argument("--engine", type=3DEngineEnum.argparse, choices=3D=
-list(EngineEnum),
-+                        help=3D"specify which container engine to use")
-     subparsers =3D parser.add_subparsers(title=3D"subcommands", help=3DN=
-one)
-     for cls in SubCommand.__subclasses__():
-         cmd =3D cls()
-@@ -608,6 +640,7 @@ def main():
-         cmd.args(subp)
-         subp.set_defaults(cmdobj=3Dcmd)
-     args, argv =3D parser.parse_known_args()
-+    USE_ENGINE =3D args.engine
-     return args.cmdobj.run(args, argv)
-=20
-=20
+ # This rule if for directly running against an arbitrary docker target.
+ # It is called by the expanded docker targets (e.g. make
+@@ -212,7 +222,8 @@ docker-run: docker-qemu-src
+ 			"  COPYING $(EXECUTABLE) to $(IMAGE)"))
+ 	$(call quiet-command,						\
+ 		$(DOCKER_SCRIPT) run 					\
+-			$(if $(NOUSER),,-u $(shell id -u)) 		\
++			$(if $(NOUSER),,-u $(UID)			\
++				$(if $(PODMAN),--uidmap $(UID):0:1 --uidmap 0:1:$(UID) --uidmap $(UI=
+D1):$(UID1):64536)) 		\
+ 			--security-opt seccomp=3Dunconfined		\
+ 			$(if $V,,--rm) 					\
+ 			$(if $(DEBUG),-ti,)				\
 --=20
 2.22.0.214.g8dca754b1e
 
