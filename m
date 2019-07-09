@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6F863589
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:22:33 +0200 (CEST)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3273D635EF
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:32:38 +0200 (CEST)
+Received: from localhost ([::1]:49580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkp8h-00072e-14
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56966)
+	id 1hkpIT-0002Ec-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59035)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hkp7O-0006b8-Aj
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:21:12 -0400
+ (envelope-from <bounces@canonical.com>) id 1hkpGy-0001eu-5e
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:31:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hkp7M-0005NG-87
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:21:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59004)
+ (envelope-from <bounces@canonical.com>) id 1hkpGw-0003GB-Vk
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:31:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60918)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hkp7K-0005L3-7e
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:21:07 -0400
+ id 1hkpGt-0003Au-6u
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:31:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hkp79-0001En-D8
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 12:20:55 +0000
+ id 1hkpGk-0002g3-DS
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 12:30:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6195B2E80CC
- for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 12:20:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2582E2E80D9
+ for <qemu-devel@nongnu.org>; Tue,  9 Jul 2019 12:30:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 09 Jul 2019 12:12:08 -0000
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Date: Tue, 09 Jul 2019 12:16:05 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,19 +41,18 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell
 X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
- <156267329906.2764.88840211247289671.malone@wampee.canonical.com>
-Message-Id: <06bf8be7-c97e-9a42-06c4-82f303dc1a76@physik.fu-berlin.de>
+Message-Id: <156267456566.20622.9324953237843875366.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19007";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: d231adbc072c45a5f8d5503b9edfecbf938cc834
+X-Launchpad-Hash: 470f277d8f1262f74d10c862fd8e346f38986132
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: Re: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
+Subject: [Qemu-devel] [Bug 1835839] Re: qemu-user: $0 incorrectly always
  reports absolute path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,36 +68,13 @@ Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/19 1:54 PM, Laurent Vivier wrote:
-> ** Patch added: "Enable binfmt-misc preserve-arg[0] flag"
->    https://bugs.launchpad.net/qemu/+bug/1835839/+attachment/5275869/+file=
-s/0001-linux-user-manage-binfmt-misc-preserve-arg-0-flags.patch
-
-Thanks! I just tried the patch and ran the setup script with:
-
-./scripts/qemu-binfmt-conf.sh --debian --qemu-path=3D/usr/bin --qemu-
-suffix=3D-static --preserve-arg0 yes
-
-and:
-
-root@nofan:~/qemu> systemctl restart binfmt-support.service =
-
-root@nofan:~/qemu>
-
-But still don't get the correct path:
-
-(sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
-/bin/sh
-(sid-m68k-sbuild)root@nofan:/#
-
-Do I need to do anything else?
-
--- =
-
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Is the proposed patch backwards compatible (ie "old QEMU binary works
+with newer binfmt-misc registration" and "new QEMU binary works with
+older binfmt-misc registration") ? Because binfmt-misc stuff is whole-
+system but QEMU binaries are per-chroot, this kind of thing is awkward
+to change if we don't have back-compat (and typically the kernel
+semantics for these things often don't allow back-compat or any kind of
+migration-path to the new better setup :-( )
 
 -- =
 
