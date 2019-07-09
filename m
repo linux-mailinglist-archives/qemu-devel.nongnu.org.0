@@ -2,67 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6994635C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:27:03 +0200 (CEST)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AAB63616
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 14:41:53 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkpD5-0000ZG-1b
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:27:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57667)
+	id 1hkpRR-0000Ya-2f
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 08:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59683)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hkpAn-0007tG-Ik
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:42 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hkpJS-0003Cy-UC
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hkpAm-0007cA-5E
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:41 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34684)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hkpAl-0007be-VR
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:24:40 -0400
-Received: by mail-wm1-f68.google.com with SMTP id w9so2305151wmd.1
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 05:24:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G/LGEPRQgH4lmQSAYt2Bh01khWyAsFvJNi4XQsB/mgA=;
- b=oFAaVFuJHnBFQHuOkcRTk0xFKQQCL49RAkN/6/bqUADqk3vHHsyYN/z7XFafxRXS+Q
- XvjaiP2fun+pHIIrDxHvREOeSysPXYKiUBAr3D9lVt2O03UYgqOkMeko1P+IUbt2aaRj
- 6r0MARY9At7eOe3nFo0YIxb5LKKDiHnvMbWrkBudtFLwN4sXWcrMEujOgF5K5AtNxJEJ
- QRG/kbh6527/dHYaMuliWhWL5ghD5B+/v2txRfTYCOwLP6Nc2gDpzKLCyKjd0is9u2K5
- U2/oL44Oib0AHzQY5FVPYikvBaKx1RTXPXkW/PCbOn/Zk1j9mGureOepZ3XJRzO7FBle
- xe5Q==
-X-Gm-Message-State: APjAAAWcD22VOZtlqqkQ9T2m1UJpLhkvyMGhVXZstBJwD+phYXBMVCHO
- l+5RYC/sEAsI3ZxfXFdAiNtvqg==
-X-Google-Smtp-Source: APXvYqytDza1Ef8KQmr58WOJOBOBoypt+5uIgvSLgQDPF73hcntWAutNcaO7XDZ3EaiWREyNSSqcZw==
-X-Received: by 2002:a1c:be19:: with SMTP id o25mr21394137wmf.54.1562675078582; 
- Tue, 09 Jul 2019 05:24:38 -0700 (PDT)
-Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id r5sm2900380wmh.35.2019.07.09.05.24.37
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Jul 2019 05:24:38 -0700 (PDT)
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190702113414.6896-1-armbru@redhat.com>
- <89290c81-ea80-a84d-fced-86764cab23ff@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c6461870-1e9a-54a4-3d9f-dfde8014251b@redhat.com>
-Date: Tue, 9 Jul 2019 14:24:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <cohuck@redhat.com>) id 1hkpJQ-0004u8-Fc
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 08:33:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42060)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hkpJQ-0004jO-13; Tue, 09 Jul 2019 08:33:36 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6FD17C055677;
+ Tue,  9 Jul 2019 12:25:50 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 052328681C;
+ Tue,  9 Jul 2019 12:25:49 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue,  9 Jul 2019 14:25:42 +0200
+Message-Id: <20190709122546.12373-1-cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <89290c81-ea80-a84d-fced-86764cab23ff@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 09 Jul 2019 12:25:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PULL 0/4] Build system patches for 2019-07-02
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL for-4.1 0/4] s390x patches for -rc0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,99 +53,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/19 2:32 PM, Philippe Mathieu-Daudé wrote:
-> Hi Markus,
-> 
-> On 7/2/19 1:34 PM, Markus Armbruster wrote:
->> The following changes since commit ab200dafc0e8a9925bb0ad0be478621f5f117c95:
->>
->>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-07-02 10:17:54 +0100)
->>
->> are available in the Git repository at:
->>
->>   git://repo.or.cz/qemu/armbru.git tags/pull-build-2019-07-02
->>
->> for you to fetch changes up to b7f9b1b7fc9a00ab6e5f46555e87166533292576:
->>
->>   Makefile: Reuse all's recursion machinery for clean and install (2019-07-02 12:48:40 +0200)
->>
->> ----------------------------------------------------------------
->> Build system patches for 2019-07-02
->>
->> ----------------------------------------------------------------
->> Markus Armbruster (4):
->>       Makefile: Remove code to smooth transition to config.status
->>       Makefile: Drop bogus cleaning of $(ALL_SUBDIRS)/qemu-options.def
->>       Makefile: Rename targets for make recursion
->>       Makefile: Reuse all's recursion machinery for clean and install
-> 
-> I wonder if some rule is missing, I did:
-> 
-> $ mkdir build
-> $ cd build
-> $ ../configure --python=python3 \
->   --disable-tools \
->   --enable-trace-backends=log \
->   --extra-cflags=-ggdb --enable-debug \
->   --target-list=arm-softmmu
-> $ make check-tcg
-> [...]
->   CC      arm-softmmu/target/arm/iwmmxt_helper.o
->   CC      arm-softmmu/target/arm/vec_helper.o
->   CC      arm-softmmu/target/arm/neon_helper.o
->   CC      arm-softmmu/target/arm/m_helper.o
->   CC      arm-softmmu/target/arm/psci.o
->   GEN     trace/generated-helpers.c
-> make[1]: *** No rule to make target '../blockdev.o', needed by
-> 'qemu-system-arm'.  Stop.
-> make[1]: *** Waiting for unfinished jobs....
->   CC      arm-softmmu/trace/control-target.o
-> make: *** [tests/Makefile.include:1073: run-tcg-tests-arm-softmmu] Error 2
-> $ make arm-softmmu/all
->   CC      authz/base.o
->   CC      authz/simple.o
->   CC      authz/list.o
->   CC      authz/listfile.o
->   CC      authz/pamacct.o
->   CC      block.o
->   CC      blockjob.o
->   CC      job.o
->   CC      qemu-io-cmds.o
->   CC      replication.o
->   CC      block/raw-format.o
->   CC      block/vmdk.o
->   CC      block/vpc.o
->   CC      block/qcow.o
->   CC      block/vdi.o
->   CC      block/cloop.o
->   CC      block/bochs.o
-> ^C
-> $ make check-tcg
->   BUILD   debian9
->   BUILD   debian-armhf-cross
->   BUILD   TCG tests for arm-softmmu
->   CHECK   debian9
->   CHECK   debian-armhf-cross
->   BUILD   arm guest-tests with docker qemu:debian-armhf-cross
->   RUN     TCG tests for arm-softmmu
->   CHECK   debian9
->   CC      arm-softmmu/gdbstub-xml.o
->   CC      arm-softmmu/target/arm/vfp_helper.o
->   CC      arm-softmmu/target/arm/translate.o
-> make[1]: *** No rule to make target '../hw/net/e1000.o', needed by
-> 'qemu-system-arm'.  Stop.
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [tests/Makefile.include:1073: run-tcg-tests-arm-softmmu] Error 2
+The following changes since commit 3a1acf5d47295d22ffdae0982a2fd808b802a7=
+da:
 
-I forgot to tell, since I'm using a 4 cores (x2 threads) host CPU, I
-added this to my ~/.bash_aliases:
+  Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-r=
+equest' into staging (2019-07-08 09:46:19 +0100)
 
-alias make='make -j8 -l7.5'
+are available in the Git repository at:
 
-> Any idea?
-> 
+  https://github.com/cohuck/qemu tags/s390x-20190709
+
+for you to fetch changes up to 92b9afe45e10edd8eaed6329366201c2165a8065:
+
+  s390x/tcg: move fallthrough annotation (2019-07-09 10:37:44 +0200)
+
+----------------------------------------------------------------
+Fixes in cpu models, tcg, and vfio-ccw.
+
+----------------------------------------------------------------
+
+Alex Williamson (1):
+  vfio-ccw: Test vfio_set_irq_signaling() return value
+
+Christian Borntraeger (1):
+  s390: cpumodel: fix description for the new vector facility
+
+Cornelia Huck (1):
+  s390x/tcg: move fallthrough annotation
+
+Pierre Morel (1):
+  s390x/cpumodel: Set up CPU model for AQIC interception
+
+ hw/vfio/ccw.c                       | 5 ++---
+ target/s390x/cpu_features_def.inc.h | 3 ++-
+ target/s390x/cpu_models.c           | 1 +
+ target/s390x/gen-features.c         | 1 +
+ target/s390x/translate_vx.inc.c     | 2 +-
+ 5 files changed, 7 insertions(+), 5 deletions(-)
+
+--=20
+2.20.1
+
 
