@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B80C639C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 19:01:19 +0200 (CEST)
-Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6166374A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 15:51:35 +0200 (CEST)
+Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hktUT-0008E6-7O
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 13:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
+	id 1hkqWr-0001DS-RE
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 09:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hktQD-0006NX-30
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:56:55 -0400
+ (envelope-from <armbru@redhat.com>) id 1hkqSG-0008FS-4C
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:46:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hktQB-0007IF-J7
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:56:52 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55153)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hktQB-0007H3-By
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 12:56:51 -0400
-Received: by mail-wm1-x344.google.com with SMTP id p74so3807638wme.4
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 09:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=hBsAnyXbOOpW9oosBbsfZfuuk1l+f6tu6j7CR76YJrE=;
- b=ByjD4HFwJF1UNUDoU4K5DJyJOUv8XhXcYb1A/z1+NCqL7nn4FvKUXNwgA/5noqqekN
- EVVQIkIhosIpt7SP6geQc9jJpCnOUM8Z0qYzhrvw6OwwYHhRSm6oXTO9RBzqUbZoUf6t
- WOIJWSQFJKF46b099WITlsIOr7X1ezoIjPpumj+G/F3Y+oS1B+x7mZgPbVXEshvu76K0
- 85+h5OVHwN1dOzGurVQrfBXFXEnGdoaptkkRYdhJlhSuX6Ac1DsZUfNuPxtvrTUH1Qxg
- m/6M0Sr6gczTmux99CHWNI7zF2lKr3ARSVnxvGPS+Pw1Yw4z1hlx5C59l30xeO7wFAqc
- QIKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hBsAnyXbOOpW9oosBbsfZfuuk1l+f6tu6j7CR76YJrE=;
- b=PzYdJ/CWrabTHleSmPRwObDY/XJdqJf3hZnWnbs1Q/MJ+0oGEHePtttnMGUZUozM1U
- EuxzUvT9PuB5WgskH2jjdP3814eaomwdhheN7xz2+wHBfwat2I3746MtJh2Zx2NW00SC
- jbxZoeLRtrOabPjTUYmzRQNkabW9dgaMNaTRklnEyXw3lmkTpqYPj8xYWgYV1aHKQhel
- cLhnP007g46bRBOiE4UJYPb0qEAaU4PRM5BvjOJ86MQ6dzTNJVIXluViBbazlU+C0lhL
- sceCw2QeU2YPjMY51174Wrk74t4xzkGogFSzlh/RnXQqXT6OrsjLB3ci/JzRNrdPCUPu
- CgpA==
-X-Gm-Message-State: APjAAAVvRGHIFWbvyfEcTXpSj1u+o0PJ0ZZQWK17uCR8qW4A/iqLGw4K
- OfO5c3K1blzKaHtImVCz1wQ=
-X-Google-Smtp-Source: APXvYqxE+JXgGhpDHcU5urr5C4Gs2Om1L58356wKRuxiDcIEJOZxmpYWBZzvfrNyJyQSqFkfsMNLfw==
-X-Received: by 2002:a7b:cc09:: with SMTP id f9mr838819wmh.68.1562691408852;
- Tue, 09 Jul 2019 09:56:48 -0700 (PDT)
-Received: from localhost (93-54-90-14.ip128.fastwebnet.it. [93.54.90.14])
- by smtp.gmail.com with ESMTPSA id y10sm2527482wmj.2.2019.07.09.09.56.47
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 09:56:47 -0700 (PDT)
-Date: Tue, 9 Jul 2019 15:42:56 +0200
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <20190709134256.GA3836@stefanha-x1.localdomain>
-References: <20190628124534.10679-1-damien.hedde@greensocs.com>
- <20190701083710.GA18173@stefanha-x1.localdomain>
- <94a3da17-c1c5-b9ce-8e92-4d346ed98782@redhat.com>
- <20190703092946.GC11844@stefanha-x1.localdomain>
- <601ba4fe-136d-05fb-1823-6b0f13156fe6@greensocs.com>
+ (envelope-from <armbru@redhat.com>) id 1hkqSF-0000wG-4g
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 09:46:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37406)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hkqSD-0000ja-0d; Tue, 09 Jul 2019 09:46:45 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 84CC313A98;
+ Tue,  9 Jul 2019 13:46:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
+ [10.36.116.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 856CB848CF;
+ Tue,  9 Jul 2019 13:46:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 190F61138648; Tue,  9 Jul 2019 15:46:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <20190705161144.18533-1-philmd@redhat.com>
+ <875zob8mrb.fsf@dusky.pond.sub.org>
+ <efde7707-f74f-f8ac-749a-2fca60913c00@redhat.com>
+Date: Tue, 09 Jul 2019 15:46:20 +0200
+In-Reply-To: <efde7707-f74f-f8ac-749a-2fca60913c00@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 9 Jul 2019 13:45:17
+ +0200")
+Message-ID: <877e8r7237.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qDbXVdCdHGoSgWSk"
-Content-Disposition: inline
-In-Reply-To: <601ba4fe-136d-05fb-1823-6b0f13156fe6@greensocs.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 09 Jul 2019 13:46:37 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH-for-4.1] Revert "hw/block/pflash_cfi02:
+ Reduce I/O accesses to 16-bit"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,96 +64,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, sakisp@xilinx.com, mark.burton@greensocs.com,
- qemu-devel@nongnu.org, armbru@redhat.com, edgari@xilinx.com, crosa@redhat.com,
- pbonzini@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- luc.michel@greensocs.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
---qDbXVdCdHGoSgWSk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 7/9/19 1:34 PM, Markus Armbruster wrote:
+>> Your subject matches the one git-revert creates (good), but you don't
+>
+> I was wondering whether rewrite it as "Restore 32-bit I/O accesses",
+> keeping the original subject is better?
 
-On Wed, Jul 03, 2019 at 05:47:47PM +0200, Damien Hedde wrote:
-> On 7/3/19 11:29 AM, Stefan Hajnoczi wrote:
-> > On Mon, Jul 01, 2019 at 12:16:44PM +0200, Philippe Mathieu-Daud=E9 wrot=
-e:
-> >> On 7/1/19 10:37 AM, Stefan Hajnoczi wrote:
-> >>> On Fri, Jun 28, 2019 at 02:45:29PM +0200, Damien Hedde wrote:
-> >>>> This series adds a python framework aiming to provide some ways to d=
-o fault
-> >>>> injection in a running vm. In its current state, it allows to easily=
- interact
-> >>>> with memory, change gpios and qom properties.
-> >>>>
-> >>>> The framework consists in a python script based on the qmp existing =
-module
-> >>>> which allows to interact with the vm.
-> >>>
-> >>> How does this compare to qtest?  There seems to be a lot of overlap
-> >>> between them.
-> >>>
-> >>> Why is it called "fault injection"?  The commands seem to be
-> >>> general-purpose device testing functions (like qtest and libqos), not
-> >>> functions for testing error code paths as would be expected from a fa=
-ult
-> >>> injection framework.
-> >>
-> >> I understand qtest is to test QEMU, while this framework/command is to
-> >> test how the guest react to an hardware faults.
-> >=20
-> > The commands seems to be equivalent to qtest commands, just implemented
-> > as QMP commands.
-> >=20
-> > Damien: Can you explain the use case more and show some example test
-> > cases?
->=20
-> The goal is to test and validate the software running on the vp. We want
-> to generate some fault to test if the software behave correctly. We
-> target corner cases that do not happen otherwise on the vp. Basically we
-> would like, using some scripts, to run some specific scenarios and check
-> that the expected behavior happens.
->=20
-> Regarding qtest, I was not aware that it provided such commands. I'm
-> sorry I've missed that. Just checked after reading your feedback,
-> commands seem indeed equivalent. I don't know if running the vp with
-> qtest enabled has some hidden drawbacks. But if that's not the case, we
-> can work to extend the existing qtest commands (or switch some of them
-> to QMP like Philippe proposed, I don't know what's best).
+I recommend to start with git-revert, resolve the conflicts if any, and
+append appropriate detail (rationale!) to git-revert's commit message.
+That way, people immediately see it's a revert, and of what.
 
-I'm not 100% sure that qtest is the right tool for the job.  Maybe you
-really need to add QMP commands as you have done.
-
-Could you share some test cases so reviewers have an idea of how these
-new commands are used for fault injection?
-
-qtest is special in that no guest code executes.  QEMU allocates guest
-RAM and initializes devices as usual but TCG/KVM do not execute guest
-CPU instructions.  Does your use case require guest execution?
-
-Here is a presentation on qtest if you want to get an overview:
-https://www.youtube.com/watch?v=3D4TSaMmrnHy8
-
-Stefan
-
---qDbXVdCdHGoSgWSk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0kmeAACgkQnKSrs4Gr
-c8jaiQgAh1pZcov7mh3+XJcxKCRJBzEZUg0UOYeWSTeWL24hbdYlXu0xpgwR4lJq
-O02JGVhayibxf9P0j4UZf8s8L2f8s+bvUcmLst7g83T7DiGHkKw8rt0Bqxq+4jIn
-OkYJlUtqT0H+VsphwYSm11gOPzI2K68qNvAeseDkk5wQ3K5TAZRkr58MFyvsd5fY
-bvTzMUHVYdmnTzq5opndJyrgvatUc51bwk4SvHFQlmjpUrQWZRq/7BWDSDEiUrZA
-fFIZ708XRLiP5dtHgC980n2y91GwYxuaJuH8J1nT4WVlxzV4Wc6x0iXeNyr8fIb8
-WU7v4SSYp5Lb/y7qhJT0ffg6RNwBJg==
-=l21V
------END PGP SIGNATURE-----
-
---qDbXVdCdHGoSgWSk--
+[...]
 
