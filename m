@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D005863BB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:12:33 +0200 (CEST)
-Received: from localhost ([::1]:53208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE32263B52
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 20:44:06 +0200 (CEST)
+Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkvXV-0005T9-28
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
+	id 1hkv5x-0008BI-Sc
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 14:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hkv17-0005tW-JA
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:06 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hkv1N-00065a-U0
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hkv12-00067e-Tr
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38664)
+ (envelope-from <mreitz@redhat.com>) id 1hkv1M-0006UA-V2
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 14:39:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54664)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hkv0l-0005nI-H9; Tue, 09 Jul 2019 14:38:44 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hkv1E-00065k-EZ; Tue, 09 Jul 2019 14:39:12 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7E58081131;
- Tue,  9 Jul 2019 18:38:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 63815B2DFE;
+ Tue,  9 Jul 2019 18:38:56 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E6885C30E;
- Tue,  9 Jul 2019 18:38:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4A4892F90;
+ Tue,  9 Jul 2019 18:38:44 +0000 (UTC)
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-6-jsnow@redhat.com>
+ <20190705201631.26266-7-jsnow@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f74c2feb-8ed2-d4df-9d80-70d25b7da559@redhat.com>
-Date: Tue, 9 Jul 2019 20:38:09 +0200
+Message-ID: <b4f03409-27aa-9d99-b44c-e9c0f44cb986@redhat.com>
+Date: Tue, 9 Jul 2019 20:38:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190705201631.26266-6-jsnow@redhat.com>
+In-Reply-To: <20190705201631.26266-7-jsnow@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="urp58wgbXdZH2Mpf2WVIfdFKNZ7OxB3Oa"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ boundary="s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 09 Jul 2019 18:38:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Tue, 09 Jul 2019 18:38:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 05/18] block/backup: Add mirror sync
- mode 'bitmap'
+Subject: Re: [Qemu-devel] [PATCH v3 06/18] block/backup: add 'never' policy
+ to bitmap sync mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,8 +95,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---urp58wgbXdZH2Mpf2WVIfdFKNZ7OxB3Oa
-Content-Type: multipart/mixed; boundary="p3T5wykPEMfjldJnduI5UwwxOh5lT0ak1";
+--s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g
+Content-Type: multipart/mixed; boundary="waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
@@ -106,61 +106,54 @@ Cc: Fam Zheng <fam@euphon.net>, Wen Congyang <wencongyang2@huawei.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Message-ID: <f74c2feb-8ed2-d4df-9d80-70d25b7da559@redhat.com>
-Subject: Re: [PATCH v3 05/18] block/backup: Add mirror sync mode 'bitmap'
+Message-ID: <b4f03409-27aa-9d99-b44c-e9c0f44cb986@redhat.com>
+Subject: Re: [PATCH v3 06/18] block/backup: add 'never' policy to bitmap sync
+ mode
 References: <20190705201631.26266-1-jsnow@redhat.com>
- <20190705201631.26266-6-jsnow@redhat.com>
-In-Reply-To: <20190705201631.26266-6-jsnow@redhat.com>
+ <20190705201631.26266-7-jsnow@redhat.com>
+In-Reply-To: <20190705201631.26266-7-jsnow@redhat.com>
 
---p3T5wykPEMfjldJnduI5UwwxOh5lT0ak1
+--waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 05.07.19 22:16, John Snow wrote:
-> We don't need or want a new sync mode for simple differences in
-> semantics.  Create a new mode simply named "BITMAP" that is designed to=
+> This adds a "never" policy for bitmap synchronization. Regardless of if=
 
-> make use of the new Bitmap Sync Mode field.
->=20
-> Because the only bitmap sync mode is 'on-success', this adds no new
-> functionality to the backup job (yet). The old incremental backup mode
-> is maintained as a syntactic sugar for sync=3Dbitmap, mode=3Don-success=
-=2E
->=20
-> Add all of the plumbing necessary to support this new instruction.
+> the job succeeds or fails, we never update the bitmap. This can be used=
+
+> to perform differential backups, or simply to avoid the job modifying a=
+
+> bitmap.
 >=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  block/backup.c            | 20 ++++++++++++--------
->  block/mirror.c            |  6 ++++--
->  block/replication.c       |  2 +-
->  blockdev.c                | 25 +++++++++++++++++++++++--
->  include/block/block_int.h |  4 +++-
->  qapi/block-core.json      | 21 +++++++++++++++------
->  6 files changed, 58 insertions(+), 20 deletions(-)
+>  block/backup.c       | 7 +++++--
+>  qapi/block-core.json | 5 ++++-
+>  2 files changed, 9 insertions(+), 3 deletions(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---p3T5wykPEMfjldJnduI5UwwxOh5lT0ak1--
+--waIkAcgYc6XWZAZvhcN7skXolUYj9ZcMR--
 
---urp58wgbXdZH2Mpf2WVIfdFKNZ7OxB3Oa
+--s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3xEACgkQ9AfbAGHV
-z0CFmAf9HyfMXistnZ486QHBtIvTBYagM5AmV/VPiEyNinZn9kpSeHXH6Aw1HIyq
-XAogCKsF9llYc1b12tcnSxVzZyQ3BB9VofqHp4MUTQRi4BvCzoxsqn79WaiumYGb
-rNnk+iprljNgrPaSyZBeJS46as6OkvGHa9Zn6uiQpNHoZ0O+G4WVUhD/5RaXzpGR
-MdDN6JnOTDJvdz7D6zpcjCOPDKIZe2Avzo3yGgIchezl0ymgYQLiifIwav2Yg/R5
-7p8+oehM5qYsapN3z/wCsHcgA6kmAnOGWKqbYIMziF5YaogE0wvesKLfycIlL/iZ
-Atef8vEDrtjUIGQGiEcTYNWPAwyPog==
-=j2m0
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0k3zMACgkQ9AfbAGHV
+z0CvGggAqJI7wO4+Vh5Hx9MiQUHXzmITHgBfSXDO0I9AzH7lavVjy/rliAX5SKVz
+s+TrWzAERHJxoCuGora70pRE/S7bmSF/a/yv44Zw1NZ65C9JidJS+fBvuoXXWaC0
+DQtM2IBRNaZ10HJ2uLfCUCdRQeSmzmKNh3xDatfskLo3Y/xY47Ri+LhtN0pVi9lh
+8tD0M81DcDHgFCnw0/y8Dra4ticcs88/lq7tHSfqk1BO0bCTQhSamvGNUT2zBULL
+ow11pfo/8Q6azNIKmzBqm/WS8W7qOI3vbM8Dh7dPJQ2+sZBTl7XQ89hKw8PRN/o2
+mfShFBYzi22T3Fb+yJmh9I8rbI9DLg==
+=VHAf
 -----END PGP SIGNATURE-----
 
---urp58wgbXdZH2Mpf2WVIfdFKNZ7OxB3Oa--
+--s0L53K2FTJqWS5V1rxMfuWMGPPwbLTj2g--
 
