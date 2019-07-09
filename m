@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE182640FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 08:12:57 +0200 (CEST)
-Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BAEF63BDB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 21:24:44 +0200 (CEST)
+Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl5qa-00062W-NG
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 02:12:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37366)
+	id 1hkvjF-0005vY-SU
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 15:24:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hl5pd-0005Vk-3n
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:59 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hkvhZ-0004o4-3f
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hl5pb-0007Qo-0C
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:57 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:44652)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hl5pa-0007QJ-Qb
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 02:11:54 -0400
-Received: by mail-ot1-x334.google.com with SMTP id b7so972600otl.11
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 23:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lf3EnFwJ5D9ZPFimQQP7oOEz9HE97ug8lc33kyMVnFU=;
- b=cgphec37CI+8vVKtsqEnMoxxGKkeew9DzR4nK7h2XH+V5xoFMuXZadws0UHR2C59d/
- J9QeRDTMC1Uexxworq8KXfpiDxu6zisXZzWfXoGvPR4VL0kanMKW60jHqS2gS2HimuoN
- loEWqjg9TEyXq81oRhw2hrGr/+DGpjzlLJECLX0I1tjfPiqEkLv/W4KGbRNRzvFPfjtY
- p9q4B34gnVGrsJfmPgH4uWR9M+4/+VR6EdjUwnV5XkGmASsFRDFE4XOcb4pIHAqpkXpF
- 4rx547BhawyFly3bpx8Su5MX/OUut1wRnfYD3EuYh4Rog+G8iaSVPOuPoUVqgXBuUal1
- 0SSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lf3EnFwJ5D9ZPFimQQP7oOEz9HE97ug8lc33kyMVnFU=;
- b=XFZL4+OoTHZP036OQKrRb0c1hR0AWf7nSo8ioORuiz9U5yBtqyn+y54z7FCayIhSS5
- 2QqUnojAC1+JajsNOy87AkGbmh6q/iNOCpRAKI422SZQ2LQ0zqL4EsV5KYuYX0QjGAVg
- ihZ/TPJT+10JZ6nzOceFTftLMMuix7eftY6sj6NNZtR3tpZWzaPwB12TWQdF7UpFacHA
- 2/bFbaqiSPzYXNWaC1fqlzTPnAZ40lWDPzFR1MQM7hTLUXa/K3ePonmAvpErDMD7tMls
- XSG1BGJ5iyU1YTQ/tGC1KH9cxONdJ0h9RFCzT+XZ7FFxGshyJIg9PwuJ4wzEv70Om7c3
- WARg==
-X-Gm-Message-State: APjAAAVvf7uclDOdnzchNR+uEKjrcqpJDveCinYz+0K9daJ/S9n0OAT6
- gELXwFXC5EKVUXJIvy/3zBA6mg==
-X-Google-Smtp-Source: APXvYqw/hgtpj8YGDjZMrhXFDMRmz6NenvdvLxOLteHTaZWSqzmm8h77Hy61lcWZweBNwru/9ZgdIQ==
-X-Received: by 2002:a9d:4048:: with SMTP id o8mr22557308oti.217.1562739113544; 
- Tue, 09 Jul 2019 23:11:53 -0700 (PDT)
-Received: from [192.168.43.94] ([172.56.7.82])
- by smtp.gmail.com with ESMTPSA id b23sm475374otl.75.2019.07.09.23.11.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 09 Jul 2019 23:11:53 -0700 (PDT)
-To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
- <2136180936.260219.1561641583358@mail.yahoo.com>
- <1079763171.281101.1561641752988@mail.yahoo.com>
- <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
- <20190628002713.GA19257@localhost.localdomain>
- <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
- <20190628155030.GA34320@localhost.localdomain>
- <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
- <20190629163621.GA111724@localhost.localdomain>
- <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
- <1399218244.1210557.1561982640362@mail.yahoo.com>
- <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
- <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d9e5602c-bb33-1812-ebc2-b533e9dd5f25@linaro.org>
-Date: Tue, 9 Jul 2019 21:04:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hkvhS-0004Lo-Ni
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5600
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
+ id 1hkvhK-0004Eu-E5
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 15:22:45 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x69JI9dU123322
+ for <qemu-devel@nongnu.org>; Tue, 9 Jul 2019 15:22:38 -0400
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tmxf26hqa-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 15:22:38 -0400
+Received: from localhost
+ by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
+ Tue, 9 Jul 2019 20:22:37 +0100
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+ by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 9 Jul 2019 20:22:36 +0100
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x69JMZqW49086766
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 Jul 2019 19:22:35 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 664856A051;
+ Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 49C4E6A04F;
+ Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
+Received: from localhost (unknown [9.53.179.212])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  9 Jul 2019 19:22:35 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
-Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
- gen_exception
+Content-Transfer-Encoding: quoted-printable
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+User-Agent: alot/0.7
+To: qemu-devel@nongnu.org
+Date: Tue, 09 Jul 2019 14:22:30 -0500
+X-TM-AS-GCONF: 00
+x-cbid: 19070919-0016-0000-0000-000009CC294F
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011401; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01229817; UDB=6.00647716; IPR=6.01011076; 
+ MB=3.00027656; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-09 19:22:37
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070919-0017-0000-0000-000043F3DB1A
+Message-Id: <156270015095.25269.9519818325716742844@sif>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-09_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907090227
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [ANNOUNCE] QEMU 4.1.0-rc0 is now available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,19 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/19 6:58 PM, Lucien Murray-Pitts wrote:
-> Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt(
-> CPUState *cs)" ?
+Hello,
 
-I did have a suggestion.  It was fairly detailed.
+On behalf of the QEMU Team, I'd like to announce the availability of the
+first release candidate for the QEMU 4.1 release.  This release is meant
+for testing purposes and should not be used in a production environment.
 
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06522.html
+  http://download.qemu-project.org/qemu-4.1.0-rc0.tar.xz
+  http://download.qemu-project.org/qemu-4.1.0-rc0.tar.xz.sig
 
+You can help improve the quality of the QEMU 4.1 release by testing this
+release and reporting bugs on Launchpad:
 
-r~
+  https://bugs.launchpad.net/qemu/
+
+The release plan, as well a documented known issues for release
+candidates, are available at:
+
+  http://wiki.qemu.org/Planning/4.1
+
+Please add entries to the ChangeLog for the 4.1 release below:
+
+  http://wiki.qemu.org/ChangeLog/4.1
+
+Thank you to everyone involved!
+
 
