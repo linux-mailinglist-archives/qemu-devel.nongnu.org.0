@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E962F6330C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:51:13 +0200 (CEST)
-Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C0B63313
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 10:57:05 +0200 (CEST)
+Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hklqD-0005GC-5g
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1hklvt-0008Nx-1c
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 04:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jonathan.cameron@huawei.com>) id 1hklpW-0004r4-Gi
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:50:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hkluL-0007re-Us
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jonathan.cameron@huawei.com>) id 1hklpU-0006q4-Tn
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:50:30 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2172 helo=huawei.com)
+ (envelope-from <mreitz@redhat.com>) id 1hkluK-000159-HK
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:55:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51784)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jonathan.cameron@huawei.com>)
- id 1hklpU-0006gt-7h
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 04:50:28 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id A62B711241454A0211B6;
- Tue,  9 Jul 2019 16:50:16 +0800 (CST)
-Received: from localhost (10.227.98.71) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Tue, 9 Jul 2019
- 16:50:13 +0800
-Date: Tue, 9 Jul 2019 16:50:01 +0800
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Tao Xu <tao3.xu@intel.com>
-Message-ID: <20190709165001.0000657d@huawei.com>
-In-Reply-To: <20190707142958.31316-8-tao3.xu@intel.com>
-References: <20190707142958.31316-1-tao3.xu@intel.com>
- <20190707142958.31316-8-tao3.xu@intel.com>
-Organization: Huawei R&D UK Ltd.
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hkluG-0000yA-Qa; Tue, 09 Jul 2019 04:55:25 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 99367B2DC8;
+ Tue,  9 Jul 2019 08:55:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-52.brq.redhat.com
+ [10.40.204.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AD8053B27;
+ Tue,  9 Jul 2019 08:55:12 +0000 (UTC)
+To: dillaman@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
+References: <20190705093258.47856-1-sgarzare@redhat.com>
+ <dcc9f3dc-78b4-4216-2791-b7e90f6d79ff@redhat.com>
+ <20190705104318.dngmmu3lpuvbe2nh@steredhat>
+ <CA+aFP1AgNGJMdAG_E23Q-rf2Gt1rpeKjDfrk1PLA3f4XiUkGtw@mail.gmail.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <754459cc-08c7-6cce-02c6-10f765cb9d00@redhat.com>
+Date: Tue, 9 Jul 2019 10:55:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.227.98.71]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CA+aFP1AgNGJMdAG_E23Q-rf2Gt1rpeKjDfrk1PLA3f4XiUkGtw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="KOg7Jpg4d2ZwPZS3hvtylJt0ILB9gkYWZ"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Tue, 09 Jul 2019 08:55:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.190
-Subject: Re: [Qemu-devel] [PATCH v6 07/14] hmat acpi: Build System Locality
- Latency and Bandwidth Information Structure(s)
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,295 +88,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, imammedo@redhat.com, dan.j.williams@intel.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 7 Jul 2019 22:29:51 +0800
-Tao Xu <tao3.xu@intel.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--KOg7Jpg4d2ZwPZS3hvtylJt0ILB9gkYWZ
+Content-Type: multipart/mixed; boundary="B8TiQ4nJRhnlmDZZsxa7a5rde9HdDvw9d";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: dillaman@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Josh Durgin <jdurgin@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Message-ID: <754459cc-08c7-6cce-02c6-10f765cb9d00@redhat.com>
+Subject: Re: [PATCH v3] block/rbd: implement .bdrv_get_allocated_file_size
+ callback
+References: <20190705093258.47856-1-sgarzare@redhat.com>
+ <dcc9f3dc-78b4-4216-2791-b7e90f6d79ff@redhat.com>
+ <20190705104318.dngmmu3lpuvbe2nh@steredhat>
+ <CA+aFP1AgNGJMdAG_E23Q-rf2Gt1rpeKjDfrk1PLA3f4XiUkGtw@mail.gmail.com>
+In-Reply-To: <CA+aFP1AgNGJMdAG_E23Q-rf2Gt1rpeKjDfrk1PLA3f4XiUkGtw@mail.gmail.com>
 
-> From: Liu Jingqi <jingqi.liu@intel.com>
-> 
-> This structure describes the memory access latency and bandwidth
-> information from various memory access initiator proximity domains.
-> The latency and bandwidth numbers represented in this structure
-> correspond to rated latency and bandwidth for the platform.
-> The software could use this information as hint for optimization.
-> 
-> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+--B8TiQ4nJRhnlmDZZsxa7a5rde9HdDvw9d
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I think you've missed one of the 6.3 changes.  Otherwise a few nitpicks
-but looks good to me.
+On 09.07.19 05:08, Jason Dillaman wrote:
+> On Fri, Jul 5, 2019 at 6:43 AM Stefano Garzarella <sgarzare@redhat.com>=
+ wrote:
+>>
+>> On Fri, Jul 05, 2019 at 11:58:43AM +0200, Max Reitz wrote:
+>>> On 05.07.19 11:32, Stefano Garzarella wrote:
+>>>> This patch allows 'qemu-img info' to show the 'disk size' for
+>>>> the RBD images that have the fast-diff feature enabled.
+>>>>
+>>>> If this feature is enabled, we use the rbd_diff_iterate2() API
+>>>> to calculate the allocated size for the image.
+>>>>
+>>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>>> ---
+>>>> v3:
+>>>>   - return -ENOTSUP instead of -1 when fast-diff is not available
+>>>>     [John, Jason]
+>>>> v2:
+>>>>   - calculate the actual usage only if the fast-diff feature is
+>>>>     enabled [Jason]
+>>>> ---
+>>>>  block/rbd.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++=
++++
+>>>>  1 file changed, 54 insertions(+)
+>>>
+>>> Well, the librbd documentation is non-existing as always, but while
+>>> googling, I at least found that libvirt has exactly the same code.  S=
+o I
+>>> suppose it must be quite correct, then.
+>>>
+>>
+>> While I wrote this code I took a look at libvirt implementation and al=
+so
+>> at the "rbd" tool in the ceph repository: compute_image_disk_usage() i=
+n
+>> src/tools/rbd/action/DiskUsage.cc
+>>
+>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>> index 59757b3120..b6bed683e5 100644
+>>>> --- a/block/rbd.c
+>>>> +++ b/block/rbd.c
+>>>> @@ -1084,6 +1084,59 @@ static int64_t qemu_rbd_getlength(BlockDriver=
+State *bs)
+>>>>      return info.size;
+>>>>  }
+>>>>
+>>>> +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int e=
+xists,
+>>>> +                                 void *arg)
+>>>> +{
+>>>> +    int64_t *alloc_size =3D (int64_t *) arg;
+>>>> +
+>>>> +    if (exists) {
+>>>> +        (*alloc_size) +=3D len;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *b=
+s)
+>>>> +{
+>>>> +    BDRVRBDState *s =3D bs->opaque;
+>>>> +    uint64_t flags, features;
+>>>> +    int64_t alloc_size =3D 0;
+>>>> +    int r;
+>>>> +
+>>>> +    r =3D rbd_get_flags(s->image, &flags);
+>>>> +    if (r < 0) {
+>>>> +        return r;
+>>>> +    }
+>>>> +
+>>>> +    r =3D rbd_get_features(s->image, &features);
+>>>> +    if (r < 0) {
+>>>> +        return r;
+>>>> +    }
+>>>> +
+>>>> +    /*
+>>>> +     * We use rbd_diff_iterate2() only if the RBD image have fast-d=
+iff
+>>>> +     * feature enabled. If it is disabled, rbd_diff_iterate2() coul=
+d be
+>>>> +     * very slow on a big image.
+>>>> +     */
+>>>> +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
+>>>> +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
+>>>> +        return -ENOTSUP;
+>>>> +    }
+>>>> +
+>>>> +    /*
+>>>> +     * rbd_diff_iterate2(), if the source snapshot name is NULL, in=
+vokes
+>>>> +     * the callback on all allocated regions of the image.
+>>>> +     */
+>>>> +    r =3D rbd_diff_iterate2(s->image, NULL, 0,
+>>>> +                          bs->total_sectors * BDRV_SECTOR_SIZE, 0, =
+1,
+>>>> +                          &rbd_allocated_size_cb, &alloc_size);
+>>>
+>>> But I have a question.  This is basically block_status, right?  So it=
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>>> gives us information on which areas are allocated and which are not.
+>>> The result thus gives us a lower bound on the allocation size, but is=
+ it
+>>> really exactly the allocation size?
+>>>
+>>> There are two things I=E2=80=99m concerned about:
+>>>
+>>> 1. What about metadata?
+>>
+>> Good question, I don't think it includes the size used by metadata and=
+ I
+>> don't know if there is a way to know it. I'll check better.
+>=20
+> It does not include the size of metadata, the "rbd_diff_iterate2"
+> function is literally just looking for touched data blocks within the
+> RBD image.
+>=20
+>>>
+>>> 2. If you have multiple snapshots, this will only report the overall
+>>> allocation information, right?  So say there is something like this:
+>>>
+>>> (=E2=80=9CA=E2=80=9D means an allocated MB, =E2=80=9C-=E2=80=9D is an=
+ unallocated MB)
+>>>
+>>> Snapshot 1: AAAA---
+>>> Snapshot 2: --AAAAA
+>>> Snapshot 3: -AAAA--
+>>>
+>>> I think the allocated data size is the number of As in total (13 MB).=
 
-I've focused on the patches actually dealing with the ACPI tables because
-I'm far less familiar with the opt parsing etc in qemu so don't
-feel confident expressing a view on those.
+>>> But I suppose this API will just return 7 MB, because it looks on
+>>> everything an it sees the whole image range (7 MB) to be allocated.  =
+It
+>>> doesn=E2=80=99t report in how many snapshots some region is allocated=
+=2E
+>=20
+> It should return 13 dirty data blocks (multipled by the size of the
+> data block) since when you don't provide a "from snapshot" name, it
+> will iterate from the first snapshot to the HEAD revision.
 
-Thanks,
+Have you tested that?
 
-Jonathan
+I=E2=80=98m so skeptical because the callback function interface has no w=
+ay of
+distinguishing between different layers of snapshots.
 
-> ---
-> 
-> Changes in v6:
->     - Update the describes in ACPI 6.3
->     - remove num target and target_pxm, because all numa node can be
->       target(no matter it can be reached or not, The Entry Base Unit for
->       latency 0xFFFF means the initiator and target domains are
->       unreachable from each other)
-> ---
->  hw/acpi/hmat.c          | 94 ++++++++++++++++++++++++++++++++++++++++-
->  hw/acpi/hmat.h          | 39 +++++++++++++++++
->  include/qemu/typedefs.h |  1 +
->  include/sysemu/numa.h   |  3 ++
->  include/sysemu/sysemu.h | 22 ++++++++++
->  5 files changed, 158 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-> index abf99b1adc..6dd39b0c85 100644
-> --- a/hw/acpi/hmat.c
-> +++ b/hw/acpi/hmat.c
-> @@ -67,11 +67,80 @@ static void build_hmat_mpda(GArray *table_data, uint16_t flags, int initiator,
->      build_append_int_noprefix(table_data, 0, 8);
->  }
->  
-> +/*
-> + * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-> + * Structure: Table 5-142
-> + */
-> +static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *numa_hmat_lb,
-> +                          uint32_t num_initiator, uint32_t num_target,
-> +                          uint32_t *initiator_pxm, int type)
-> +{
-> +    uint32_t s = num_initiator;
-> +    uint32_t t = num_target;
-> +    uint8_t m, n;
-> +    int i;
-> +
-> +    /* Type */
-> +    build_append_int_noprefix(table_data, 1, 2);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* Length */
-> +    build_append_int_noprefix(table_data, 32 + 4 * s + 4 * t + 2 * s * t, 4);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, numa_hmat_lb->hierarchy, 1);
+And also because we have the bdrv_block_status_above() function which
+just looks strikingly similar (with the difference that it does not
+invoke a callback but just returns the next allocated range).  If you
+pass base=3DNULL to it, it will also =E2=80=9Cinterpret that as the begin=
+ning of
+time and return all allocated regions of the image=E2=80=9D (or rather im=
+age
+chain, in our case).  But it would just return 7 MB as allocated.  (Even
+though it does in fact return layer information, i.e. where a given
+continuous chunk of data is allocated.)
 
-There might be a small argument in favour of masking this as half the bits
-are reserved.
+Sure, there is no good reason for why our interface should by chance be
+the same as librbd=E2=80=99s interface.  But without having tested it, th=
+e fact
+that the callback cannot detect which layer a chunk is allocated on just
+makes me wary.
 
-> +    /* Data Type */
-> +    build_append_int_noprefix(table_data, numa_hmat_lb->data_type, 1);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +    /* Number of Initiator Proximity Domains (s) */
-> +    build_append_int_noprefix(table_data, s, 4);
-> +    /* Number of Target Proximity Domains (t) */
-> +    build_append_int_noprefix(table_data, t, 4);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 4);
-> +
-> +    /* Entry Base Unit */
-> +    if (type <= HMAT_LB_DATA_WRITE_LATENCY) {
-
-I'd slightly prefer this as an explicit switch with all the elements laid out.
-That would make it 'obvious' that this is all the Latency cases and the
-next path is all the Bandwidth ones.
-(up to you though!)
-
-> +        build_append_int_noprefix(table_data, numa_hmat_lb->base_lat, 8);
-> +    } else {
-> +        build_append_int_noprefix(table_data, numa_hmat_lb->base_bw, 8);
-> +    }
-> +
-> +    /* Initiator Proximity Domain List */
-> +    for (i = 0; i < s; i++) {
-> +        build_append_int_noprefix(table_data, initiator_pxm[i], 4);
-> +    }
-> +
-> +    /* Target Proximity Domain List */
-> +    for (i = 0; i < t; i++) {
-> +        build_append_int_noprefix(table_data, i, 4);
-> +    }
-> +
-> +    /* Latency or Bandwidth Entries */
-> +    for (i = 0; i < s; i++) {
-> +        m = initiator_pxm[i];
-> +        for (n = 0; n < t; n++) {
-> +            uint16_t entry;
-> +
-> +            if (type <= HMAT_LB_DATA_WRITE_LATENCY) {
-As above, a switch is more code, but it's clearer.  Alternative would be
-a macro HMAT_IS_LATENCY()
-
-> +                entry = numa_hmat_lb->latency[m][n];
-> +            } else {
-> +                entry = numa_hmat_lb->bandwidth[m][n];
-> +            }
-> +
-> +            build_append_int_noprefix(table_data, entry, 2);
-> +        }
-> +    }
-> +}
-> +
->  /* Build HMAT sub table structures */
->  static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
->  {
->      uint16_t flags;
-> -    int i;
-> +    uint32_t num_initiator = 0;
-> +    uint32_t initiator_pxm[MAX_NODES];
-> +    int i, hrchy, type;
-> +    HMAT_LB_Info *numa_hmat_lb;
->  
->      for (i = 0; i < nstat->num_nodes; i++) {
->          flags = 0;
-> @@ -82,6 +151,29 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
->  
->          build_hmat_mpda(table_data, flags, nstat->nodes[i].initiator, i);
->      }
-> +
-> +    for (i = 0; i < nstat->num_nodes; i++) {
-> +        if (nstat->nodes[i].has_cpu) {
-> +            initiator_pxm[num_initiator++] = i;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-> +     * Structure: Table 5-142
-> +     */
-> +    for (hrchy = HMAT_LB_MEM_MEMORY;
-> +         hrchy <= HMAT_LB_MEM_CACHE_3RD_LEVEL; hrchy++) {
-> +        for (type = HMAT_LB_DATA_ACCESS_LATENCY;
-> +             type <= HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
-> +            numa_hmat_lb = nstat->hmat_lb[hrchy][type];
-> +
-> +            if (numa_hmat_lb) {
-> +                build_hmat_lb(table_data, numa_hmat_lb, num_initiator,
-> +                              nstat->num_nodes, initiator_pxm, type);
-> +            }
-> +        }
-> +    }
->  }
->  
->  void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat)
-> diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-> index 574cfba60a..9d5f407b8a 100644
-> --- a/hw/acpi/hmat.h
-> +++ b/hw/acpi/hmat.h
-> @@ -40,6 +40,45 @@
->   */
->  #define HMAT_PROX_INIT_VALID 0x1
->  
-> +struct HMAT_LB_Info {
-> +    /*
-> +     * Indicates total number of Proximity Domains
-> +     * that can initiate memory access requests.
-> +     */
-> +    uint32_t    num_initiator;
-> +    /*
-> +     * Indicates total number of Proximity Domains
-> +     * that can act as target.
-> +     */
-> +    uint32_t    num_target;
-> +    /*
-> +     * Indicates it's memory or
-> +     * the specified level memory side cache.
-> +     */
-> +    uint8_t     hierarchy;
-> +    /*
-> +     * Present the type of data,
-> +     * access/read/write latency or bandwidth.
-> +     */
-> +    uint8_t     data_type;
-> +    /* The base unit for latency in nanoseconds. */
-> +    uint64_t    base_lat;
-> +    /* The base unit for bandwidth in megabytes per second(MB/s). */
-> +    uint64_t    base_bw;
-> +    /*
-> +     * latency[i][j]:
-> +     * Indicates the latency based on base_lat
-> +     * from Initiator Proximity Domain i to Target Proximity Domain j.
-> +     */
-> +    uint16_t    latency[MAX_NODES][MAX_NODES];
-> +    /*
-> +     * bandwidth[i][j]:
-> +     * Indicates the bandwidth based on base_bw
-> +     * from Initiator Proximity Domain i to Target Proximity Domain j.
-> +     */
-> +    uint16_t    bandwidth[MAX_NODES][MAX_NODES];
-> +};
-> +
->  void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat);
->  
->  #endif
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index fcdaae58c4..c0257e936b 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -33,6 +33,7 @@ typedef struct FWCfgEntry FWCfgEntry;
->  typedef struct FWCfgIoState FWCfgIoState;
->  typedef struct FWCfgMemState FWCfgMemState;
->  typedef struct FWCfgState FWCfgState;
-> +typedef struct HMAT_LB_Info HMAT_LB_Info;
->  typedef struct HVFX86EmulatorState HVFX86EmulatorState;
->  typedef struct I2CBus I2CBus;
->  typedef struct I2SCodec I2SCodec;
-> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-> index 357aaeda80..0b80bc2fa2 100644
-> --- a/include/sysemu/numa.h
-> +++ b/include/sysemu/numa.h
-> @@ -32,6 +32,9 @@ struct NumaState {
->  
->      /* NUMA nodes information */
->      NodeInfo nodes[MAX_NODES];
-> +
-> +    /* NUMA modes HMAT Locality Latency and Bandwidth Information */
-> +    HMAT_LB_Info *hmat_lb[HMAT_LB_LEVELS][HMAT_LB_TYPES];
->  };
->  typedef struct NumaState NumaState;
->  
-> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-> index 61579ae71e..3f83fc0d58 100644
-> --- a/include/sysemu/sysemu.h
-> +++ b/include/sysemu/sysemu.h
-> @@ -124,6 +124,28 @@ extern int mem_prealloc;
->  #define NUMA_DISTANCE_MAX         254
->  #define NUMA_DISTANCE_UNREACHABLE 255
->  
-> +/* the value of AcpiHmatLBInfo flags */
-> +enum {
-> +    HMAT_LB_MEM_MEMORY           = 0,
-> +    HMAT_LB_MEM_CACHE_LAST_LEVEL = 1,
-
-This changed in 6.3.  There isn't a last level one now.
-
-> +    HMAT_LB_MEM_CACHE_1ST_LEVEL  = 2,
-> +    HMAT_LB_MEM_CACHE_2ND_LEVEL  = 3,
-> +    HMAT_LB_MEM_CACHE_3RD_LEVEL  = 4,
-> +};
-> +
-> +/* the value of AcpiHmatLBInfo data type */
-> +enum {
-> +    HMAT_LB_DATA_ACCESS_LATENCY   = 0,
-> +    HMAT_LB_DATA_READ_LATENCY     = 1,
-> +    HMAT_LB_DATA_WRITE_LATENCY    = 2,
-> +    HMAT_LB_DATA_ACCESS_BANDWIDTH = 3,
-> +    HMAT_LB_DATA_READ_BANDWIDTH   = 4,
-> +    HMAT_LB_DATA_WRITE_BANDWIDTH  = 5,
-> +};
-> +
-> +#define HMAT_LB_LEVELS    (HMAT_LB_MEM_CACHE_3RD_LEVEL + 1)
-> +#define HMAT_LB_TYPES     (HMAT_LB_DATA_WRITE_BANDWIDTH + 1)
-> +
->  #define MAX_OPTION_ROMS 16
->  typedef struct QEMUOptionRom {
->      const char *name;
+Max
 
 
+--B8TiQ4nJRhnlmDZZsxa7a5rde9HdDvw9d--
+
+--KOg7Jpg4d2ZwPZS3hvtylJt0ILB9gkYWZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0kVm4ACgkQ9AfbAGHV
+z0DJtQf/SzZBdMh0/kUB66Kw2UrvrtVLs7bVhJijv1Z/XRy9cG52iF3WQAjbnvex
+qQ6HrwKtD7I68sze1rl/RDXWV6OEzUPOL0JmgJA/w9/mm1k0EVr1s3OuCWLBGRbA
+l6TkVbdpwXm/CZC1PXopCN+vxjhYuIAQCAprE+eN8All28JbgULDhBH8lt8q3qQ4
+M65yfw1cj1bTngl8yd/gQuL7bJadHtlQ6DXpvuHumknOmDS/O5458j/8ipfwSts1
+4d1397uhE/aQAecxJh8MIilFqbnp9Q5vf6qtePvcOMdXrkbUPax7yunVv1D/vbjD
+9mF7Xzszk4GSRZT/GMuGbOU/uaDEhw==
+=K827
+-----END PGP SIGNATURE-----
+
+--KOg7Jpg4d2ZwPZS3hvtylJt0ILB9gkYWZ--
 
