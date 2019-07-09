@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F42362FA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:32:41 +0200 (CEST)
-Received: from localhost ([::1]:46712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B30262FC0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 06:48:34 +0200 (CEST)
+Received: from localhost ([::1]:46742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkho0-0000rD-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:32:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39231)
+	id 1hki3N-0003pw-9S
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 00:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41806)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hkhlH-0008Bn-8F
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:29:53 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hki26-0003K7-20
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:47:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hkhlF-0005hp-9K
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:29:51 -0400
-Resent-Date: Tue, 09 Jul 2019 00:29:50 -0400
-Resent-Message-Id: <E1hkhlF-0005hp-9K@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21570)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hkhlD-0005ga-Fx
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:29:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562646565; cv=none; d=zoho.com; s=zohoarc; 
- b=Hz977ZjrBpQIrSlLXm7pcBy00Q6v/xY9hyPOhXJ/H6xOgsUwL8k6QMsn6VB0tDeetlm9m++vxI8u3Kw9dITSd91Cq9TtSYpzFOsZNj8Q54cp3FOPU2KCfI+x4U22+zzLycgzWHZX8pVl8SwuitHHSz7DLXcLlSvwJlQWASRg2XM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562646565;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=CkzZd5rdPHga3AmitGb2iSb+4FIYpP1crDkJ5jxcoCM=; 
- b=iDRGSu4Pwf9tp061cJNphpdYEmPHovjuRaPo9ilRdGTDBm0SfVDLSYEsBi4jBfrvD7KjMH0rj9WUnt4HqxHp8ZG69RqgBJSRL11A2Lv7GpyJkKlQx4hql/gbsWjip80JrvQ0yMiM1wb7qSRoVfS2WAqC+IJNIilvbROSA/FhFnM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562646563499581.3627582296537;
- Mon, 8 Jul 2019 21:29:23 -0700 (PDT)
-Message-ID: <156264656088.29002.58169205026833340@c4a48874b076>
-In-Reply-To: <1562637554-22439-1-git-send-email-kwankhede@nvidia.com>
+ (envelope-from <tao3.xu@intel.com>) id 1hki24-0008Bd-UM
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:47:14 -0400
+Received: from mga14.intel.com ([192.55.52.115]:35334)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hki24-00087X-MH
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 00:47:12 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2019 21:47:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; d="scan'208";a="167313084"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
+ by fmsmga007.fm.intel.com with ESMTP; 08 Jul 2019 21:47:03 -0700
+From: Tao Xu <tao3.xu@intel.com>
+To: ehabkost@redhat.com,
+	rth@twiddle.net,
+	pbonzini@redhat.com
+Date: Tue,  9 Jul 2019 12:44:20 +0800
+Message-Id: <20190709044420.14525-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: kwankhede@nvidia.com
-Date: Mon, 8 Jul 2019 21:29:23 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v6 00/13] Add migration support for VFIO
- device
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.115
+Subject: [Qemu-devel] [PATCH] target/i386: Introduce Denverton CPU model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,42 +53,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, kwankhede@nvidia.com,
- eauger@redhat.com, yi.l.liu@intel.com, eskultet@redhat.com,
- ziye.yang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, Ken.Xue@amd.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- changpeng.liu@intel.com, cohuck@redhat.com, zhi.a.wang@intel.com,
- jonathan.davies@nutanix.com
+Cc: Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYyNjM3NTU0LTIyNDM5LTEt
-Z2l0LXNlbmQtZW1haWwta3dhbmtoZWRlQG52aWRpYS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMg
-ZmFpbGVkIHRoZSBhc2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
-bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
-IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09S
-Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2XzY0
-LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAg
-ICByZXBsaWNhdGlvbi5vCiAgQ0MgICAgICBibG9jay9yYXctZm9ybWF0Lm8KSW4gZmlsZSBpbmNs
-dWRlZCBmcm9tIGh3L3ZmaW8vdHJhY2UuYzo0OgovdG1wL3FlbXUtdGVzdC9idWlsZC9ody92Zmlv
-L3RyYWNlLmg6MzY1ODozNTogZXJyb3I6IGZvcm1hdCBzcGVjaWZpZXMgdHlwZSAndW5zaWduZWQg
-aW50JyBidXQgdGhlIGFyZ3VtZW50IGhhcyB0eXBlICd1aW50NjRfdCcgKGFrYSAndW5zaWduZWQg
-bG9uZycpIFstV2Vycm9yLC1XZm9ybWF0XQogICAgICAgICAgICAgICAgICwgbmFtZSwgcHJlY29w
-eSwgcG9zdGNvcHksIGNvbXBhdGlibGUpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXn5+fn5+fn4KL3RtcC9xZW11LXRlc3QvYnVpbGQvaHcvdmZpby90cmFjZS5oOjM3NzA6OTg6
-IGVycm9yOiBleHBlY3RlZCAnKScKICAgICAgICBxZW11X2xvZygiJWRAJXp1LiUwNnp1OnZmaW9f
-bG9hZF9zdGF0ZV9kZXZpY2VfZGF0YSAiICIgKCVzKSwgT2Zmc2V0IDB4JSJQUkl4NjQiIHNpemUg
-MHglIlBSSXg2ICJcbiIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
-Ci90bXAvcWVtdS10ZXN0L2J1aWxkL2h3L3ZmaW8vdHJhY2UuaDozNzcwOjE3OiBub3RlOiB0byBt
-YXRjaCB0aGlzICcoJwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMTU2MjYzNzU1NC0yMjQzOS0xLWdpdC1zZW5kLWVtYWlsLWt3YW5raGVkZUBu
-dmlkaWEuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Denverton-Server is the Atom Processor of Intel Harrisonville platform.
+
+For more information:
+https://ark.intel.com/content/www/us/en/ark/products/\
+codename/63508/denverton.html
+
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
+---
+ target/i386/cpu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 805ce95247..4efaff9918 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -2471,6 +2471,51 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .xlevel = 0x80000008,
+         .model_id = "Intel Xeon Processor (Icelake)",
+     },
++    {
++        .name = "Denverton-Server",
++        .level = 21,
++        .vendor = CPUID_VENDOR_INTEL,
++        .family = 6,
++        .model = 95,
++        .stepping = 1,
++        .features[FEAT_1_EDX] =
++            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE | CPUID_TSC |
++            CPUID_MSR | CPUID_PAE | CPUID_MCE | CPUID_CX8 | CPUID_APIC |
++            CPUID_SEP | CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
++            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH | CPUID_MMX | CPUID_FXSR |
++            CPUID_SSE | CPUID_SSE2,
++        .features[FEAT_1_ECX] =
++            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_MONITOR |
++            CPUID_EXT_VMX | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 |
++            CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_X2APIC |
++            CPUID_EXT_MOVBE | CPUID_EXT_POPCNT | CPUID_EXT_TSC_DEADLINE_TIMER |
++            CPUID_EXT_AES | CPUID_EXT_XSAVE | CPUID_EXT_RDRAND,
++        .features[FEAT_8000_0001_EDX] =
++            CPUID_EXT2_SYSCALL | CPUID_EXT2_NX | CPUID_EXT2_PDPE1GB |
++            CPUID_EXT2_RDTSCP | CPUID_EXT2_LM,
++        .features[FEAT_8000_0001_ECX] =
++            CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFETCH,
++        .features[FEAT_7_0_EBX] =
++            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_ERMS |
++            CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_SMAP |
++            CPUID_7_0_EBX_CLFLUSHOPT | CPUID_7_0_EBX_SHA_NI,
++        .features[FEAT_7_0_EDX] =
++            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_ARCH_CAPABILITIES |
++            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
++        /*
++         * Missing: XSAVES (not supported by some Linux versions,
++         * including v4.1 to v4.12).
++         * KVM doesn't yet expose any XSAVES state save component,
++         * and the only one defined in Skylake (processor tracing)
++         * probably will block migration anyway.
++         */
++        .features[FEAT_XSAVE] =
++            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC | CPUID_XSAVE_XGETBV1,
++        .features[FEAT_6_EAX] =
++            CPUID_6_EAX_ARAT,
++        .xlevel = 0x80000008,
++        .model_id = "Intel Atom Processor (Denverton)",
++    },
+     {
+         .name = "SnowRidge-Server",
+         .level = 27,
+-- 
+2.20.1
 
 
