@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0287C63CD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 22:46:00 +0200 (CEST)
-Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DE363CE0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 22:52:55 +0200 (CEST)
+Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkwzv-0001zX-1O
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 16:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60480)
+	id 1hkx6c-0005iQ-I6
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 16:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=086c9c2ca=dmitry.fomichev@wdc.com>)
- id 1hkwt8-0005tm-LL
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 16:38:59 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hkx31-0004FR-Kh
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 16:49:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=086c9c2ca=dmitry.fomichev@wdc.com>)
- id 1hkwt5-00014S-BH
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 16:38:58 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:50362)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=086c9c2ca=dmitry.fomichev@wdc.com>)
- id 1hkwsw-0000jE-QN; Tue, 09 Jul 2019 16:38:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1562704737; x=1594240737;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4bRnmZTuElmpehaFuMCmU2Mkur6fL6pum6lfWyF8J5Q=;
- b=aSqsNywJvon9Hp/F0CImXxQWALrWFzI0kL52PR7BiORrxHWtFiCrRieY
- 5D7kCAg5Lja7stMt3GQ0/q+KEs57pFNmTMrQtiAWMTTBd2LNihgn08ELh
- P9okANY8Lfj7EoJWx6aabyHdB2NujZbhDaJ9sWAoaHjB6OhqA2HtG3pTM
- UyUFDHehJoRpgF767x84B8SQqAtNdxISLWOWFKgh/LQvoYoB/1i5yllfa
- 8By/6h0JCRAXb7YJGsNla7gh3Q7famTgiBCwo2x6ttgcdBeWvZop4TiN9
- +NyHABcKrQxHQ2Al5yEhrteQazeeP4sHzOlaFmIzHdK2EJngGWZ5F8zXF Q==;
-IronPort-SDR: s4Gm3O/cjX0OFRNaozLwK1LqHNAg9VE4y7q8GutQjqMpilMsVJ7N8yzGWvr8vqqatosLOjxb07
- AWWt17jhbDRLU6mMlK7nGmxYsTZ6B9QEdSoP1hgs0vA3FMJ26JuV0+sccWEMtlAEJVqdKSW0s+
- Zcrq1FY+QWqM5q14jO1GN2oly2LMTyp2DrBOeoVKApZP2GKISBlshwM1g8ufJIXGH7CX8OWqcx
- 3z5aO2Zp9W+9Zsq+0I8hwmP7f3Oe8Cjp1me1mkTgDHPvAzkP5oRoCNhpIWJF7SiOlya2pYJUUG
- bds=
-X-IronPort-AV: E=Sophos;i="5.63,471,1557158400"; d="scan'208";a="212488455"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 10 Jul 2019 04:38:57 +0800
-IronPort-SDR: YnjMF3amshJBXEm7cdBbDV8BK40nA14C4ZWpIbby4ErTrB1spYm861siMDElG/3yf4An06xhBy
- eqv9+vKFB9xgey6836ILelnvQb6Xa4cmCo1FKWki5oXkmLo/yNdfKXRend/PrquwUrFVtYCUGf
- io0rkdziP5LYW73yBgGIUYihOOlMJPfDN3quau3+tlo0DCjNlEgS3rjuHytlImX5UZ0+e4RPGC
- +RAi23i0XCTrw7h+B/L0vH9q8Fs/pzB0Aqf9o+gqyR7v6geVjXuPh4uzx4kB+PbBRJs7fNxZH/
- pwM822F6aN+bPxLGlnZCD5vF
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 09 Jul 2019 13:37:33 -0700
-IronPort-SDR: LMEA0a0Q09Wv3PN7GtMAPOAKDzRUwdngM/IgoSNM9Rxii8d4dNumYVkxdW72JNti7G/xP0/s0a
- ZI9z2/JO1ioMXRkLR3XlrTJqtlzDzs8LjkDuY1wgyZyRRjzJ0L27iMQgBUFIwNppaDpczBGqhA
- EaWp5RJGcrtYzVCY4YNJPTFLP0ZlqlQGhgIXmP98aIsrcwxQAWk/4mfDjzKlSkGc4TNrDAmdm5
- 3J3uKOd7U4HFAr9kgXRCBZbwbMNLHaqUPoN4bfVcXy278rZHJIH1LKXaNpYXupE/AUOIen2cNe
- WH0=
-Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
- by uls-op-cesaip02.wdc.com with ESMTP; 09 Jul 2019 13:38:46 -0700
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: kwolf@redhat.com, mreitz@redhat.com, mst@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 16:38:06 -0400
-Message-Id: <20190709203806.17550-5-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190709203806.17550-1-dmitry.fomichev@wdc.com>
-References: <20190709203806.17550-1-dmitry.fomichev@wdc.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hkx2v-0002sg-PS
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 16:49:11 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36924)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hkx2n-0002jt-4i
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 16:48:58 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f17so142129wme.2
+ for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 13:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0fBXuyK5wDpaOTyxXaPAaiswAOct2dT4WjnyrTPSA1k=;
+ b=mNX/RKsWfncUUDLAMI/2wBb0DtxyVLMec5iT0L9FtYNRsG5pH53wE0Y1lbocN8JzSe
+ qZDBWDJTol+RkvAs/D0URHR9+f4CZQWiAgbRVQXTSy1sN8R/35o3U0NH8NTLovwafmk5
+ rP/SOoI55vKUWeDefrVL+f4RI19Cstb8x3ZNszeaBCH3S4zxttlGPOeoAF0V0aNaSEjG
+ z/j2Jm24Da3umPKxlsdOCDKMmh8YfQwwwgNgjYJG1QpkXV+xXnFuRsid+J6bw2fdDHmt
+ Zw3Q65XiaNmXacTm3Djw2HmutAPqjqlY5LU0VYpSRdn8gn57IZQrzdQimBQh0dGYbHoh
+ n9yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=0fBXuyK5wDpaOTyxXaPAaiswAOct2dT4WjnyrTPSA1k=;
+ b=qWdcoideRqvRtZdmckHMuCHXs0K1QNY2niET8zAhjPuF4t1snfS5xN2fdoowMC1+sS
+ u4yUh9p3bwkA862+oZVi/kbCPQkR6GBiEm4fIjBQhZWYys6OCDL0ETcHoJe1ohevRir8
+ wYyHb8jtwgsNgHdZe+f6gVrcsr/kE6hy6+3jSV5hJK1sm3tC3u8P/oO5YPkDP26PoLtk
+ ryyt5ey8hZpN0yFUnEbgd0bo8n3IDXZ0pfPaoSc6sgY5VC2u4/lWjewbUCCvIAYGPokx
+ FajE8/q/47b5VjTmJJWPCZQN/5DyPxUDG6K7Cl/fUkOx095+Hw5XyGelQ5ff3seHKhFz
+ VNiw==
+X-Gm-Message-State: APjAAAVPbNd0W+63xb+amX3oPoBJeSL0332tlNPb9YhFXT4Gait6RPV5
+ k3AY1Y3YE7EbyFVLYRiQYOUvPA==
+X-Google-Smtp-Source: APXvYqwKhz+6yxq0CGZkBXKX/Wx4irs+z7dpblxehZraHC+I+Ui7psdwbDUmB1mK+19ehPCziKx2+A==
+X-Received: by 2002:a1c:a00f:: with SMTP id j15mr1412574wme.167.1562705335495; 
+ Tue, 09 Jul 2019 13:48:55 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id l9sm49689wmh.36.2019.07.09.13.48.54
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 13:48:54 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7A2901FF87;
+ Tue,  9 Jul 2019 21:48:54 +0100 (BST)
+References: <20190709163656.3100-1-richard.henderson@linaro.org>
+ <20190709163656.3100-6-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <20190709163656.3100-6-richard.henderson@linaro.org>
+Date: Tue, 09 Jul 2019 21:48:54 +0100
+Message-ID: <87r26zdjd5.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 68.232.143.124
-Subject: [Qemu-devel] [PATCH 4/4] hw/scsi: Don't realize zoned block devices
- for virtio-scsi legacy drivers
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v2 5/5] tcg: Release mmap_lock on
+ translation fault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +83,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-Prevent scsi-hd and scsi-disk drivers from attaching a zoned block device
-because it will appear as a regular block device at the guest and will
-most certainly cause problems.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-The functionality to support ZBDs is not planned for scsi-hd and
-scsi-disk legacy drivers. It is supported via scsi-generic driver already
-and discussion is ongoing for scsi-block driver.
+> Turn helper_retaddr into a multi-state flag that may now also
+> indicate when we're performing a read on behalf of the translator.
+> In this case, release the mmap_lock before the longjmp back to
+> the main cpu loop, and thereby avoid a failing assert therein.
+>
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1832353
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
----
- hw/scsi/scsi-disk.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index ed7295bfd7..80682a61fb 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2401,6 +2401,11 @@ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
-      * backend will be issued in scsi_realize
-      */
-     if (s->qdev.conf.blk) {
-+        if (blk_is_zoned(s->qdev.conf.blk)) {
-+            error_setg(errp, "zoned block devices are not supported");
-+            return;
-+        }
-+
-         ctx = blk_get_aio_context(s->qdev.conf.blk);
-         aio_context_acquire(ctx);
-         blkconf_blocksizes(&s->qdev.conf);
--- 
-2.21.0
+with check-tcg this time
 
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  include/exec/cpu_ldst_useronly_template.h | 20 +++++--
+>  accel/tcg/user-exec.c                     | 66 ++++++++++++++++-------
+>  2 files changed, 63 insertions(+), 23 deletions(-)
+>
+> diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu=
+_ldst_useronly_template.h
+> index d663826ac2..2378f2958c 100644
+> --- a/include/exec/cpu_ldst_useronly_template.h
+> +++ b/include/exec/cpu_ldst_useronly_template.h
+> @@ -64,12 +64,18 @@
+>  static inline RES_TYPE
+>  glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+>  {
+> -#if !defined(CODE_ACCESS)
+> +#ifdef CODE_ACCESS
+> +    RES_TYPE ret;
+> +    set_helper_retaddr(1);
+> +    ret =3D glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+> +    clear_helper_retaddr();
+> +    return ret;
+> +#else
+>      trace_guest_mem_before_exec(
+>          env_cpu(env), ptr,
+>          trace_mem_build_info(SHIFT, false, MO_TE, false));
+> -#endif
+>      return glue(glue(ld, USUFFIX), _p)(g2h(ptr));
+> +#endif
+>  }
+>
+>  #ifndef CODE_ACCESS
+> @@ -90,12 +96,18 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPU=
+ArchState *env,
+>  static inline int
+>  glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
+>  {
+> -#if !defined(CODE_ACCESS)
+> +#ifdef CODE_ACCESS
+> +    int ret;
+> +    set_helper_retaddr(1);
+> +    ret =3D glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+> +    clear_helper_retaddr();
+> +    return ret;
+> +#else
+>      trace_guest_mem_before_exec(
+>          env_cpu(env), ptr,
+>          trace_mem_build_info(SHIFT, true, MO_TE, false));
+> -#endif
+>      return glue(glue(lds, SUFFIX), _p)(g2h(ptr));
+> +#endif
+>  }
+>
+>  #ifndef CODE_ACCESS
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index 4384b59a4d..897d1571c4 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -64,27 +64,56 @@ static inline int handle_cpu_signal(uintptr_t pc, sig=
+info_t *info,
+>      CPUState *cpu =3D current_cpu;
+>      CPUClass *cc;
+>      unsigned long address =3D (unsigned long)info->si_addr;
+> -    MMUAccessType access_type;
+> +    MMUAccessType access_type =3D is_write ? MMU_DATA_STORE : MMU_DATA_L=
+OAD;
+>
+> -    /* We must handle PC addresses from two different sources:
+> -     * a call return address and a signal frame address.
+> -     *
+> -     * Within cpu_restore_state_from_tb we assume the former and adjust
+> -     * the address by -GETPC_ADJ so that the address is within the call
+> -     * insn so that addr does not accidentally match the beginning of the
+> -     * next guest insn.
+> -     *
+> -     * However, when the PC comes from the signal frame, it points to
+> -     * the actual faulting host insn and not a call insn.  Subtracting
+> -     * GETPC_ADJ in that case may accidentally match the previous guest =
+insn.
+> -     *
+> -     * So for the later case, adjust forward to compensate for what
+> -     * will be done later by cpu_restore_state_from_tb.
+> -     */
+> -    if (helper_retaddr) {
+> +    switch (helper_retaddr) {
+> +    default:
+> +        /*
+> +         * Fault during host memory operation within a helper function.
+> +         * The helper's host return address, saved here, gives us a
+> +         * pointer into the generated code that will unwind to the
+> +         * correct guest pc.
+> +         */
+>          pc =3D helper_retaddr;
+> -    } else {
+> +        break;
+> +
+> +    case 0:
+> +        /*
+> +         * Fault during host memory operation within generated code.
+> +         * (Or, a unrelated bug within qemu, but we can't tell from here=
+).
+> +         *
+> +         * We take the host pc from the signal frame.  However, we cannot
+> +         * use that value directly.  Within cpu_restore_state_from_tb, we
+> +         * assume PC comes from GETPC(), as used by the helper functions,
+> +         * so we adjust the address by -GETPC_ADJ to form an address that
+> +         * is within the call insn, so that the address does not acciden=
+tially
+> +         * match the beginning of the next guest insn.  However, when the
+> +         * pc comes from the signal frame it points to the actual faulti=
+ng
+> +         * host memory insn and not the return from a call insn.
+> +         *
+> +         * Therefore, adjust to compensate for what will be done later
+> +         * by cpu_restore_state_from_tb.
+> +         */
+>          pc +=3D GETPC_ADJ;
+> +        break;
+> +
+> +    case 1:
+> +        /*
+> +         * Fault during host read for translation, or loosely, "executio=
+n".
+> +         *
+> +         * The guest pc is already pointing to the start of the TB for w=
+hich
+> +         * code is being generated.  If the guest translator manages the
+> +         * page crossings correctly, this is exactly the correct address
+> +         * (and if the translator doesn't handle page boundaries correct=
+ly
+> +         * there's little we can do about that here).  Therefore, do not
+> +         * trigger the unwinder.
+> +         *
+> +         * Like tb_gen_code, release the memory lock before cpu_loop_exi=
+t.
+> +         */
+> +        pc =3D 0;
+> +        access_type =3D MMU_INST_FETCH;
+> +        mmap_unlock();
+> +        break;
+>      }
+>
+>      /* For synchronous signals we expect to be coming from the vCPU
+> @@ -155,7 +184,6 @@ static inline int handle_cpu_signal(uintptr_t pc, sig=
+info_t *info,
+>      clear_helper_retaddr();
+>
+>      cc =3D CPU_GET_CLASS(cpu);
+> -    access_type =3D is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
+>      cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
+>      g_assert_not_reached();
+>  }
+
+
+--
+Alex Benn=C3=A9e
 
