@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9BF6323E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:36:14 +0200 (CEST)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA5463249
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 09:43:43 +0200 (CEST)
+Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkkfd-00061w-Al
-	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46804)
+	id 1hkkms-0003Wx-Ls
+	for lists+qemu-devel@lfdr.de; Tue, 09 Jul 2019 03:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <th.huth@gmail.com>) id 1hkkcV-0004IU-Es
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:33:01 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hkkm0-00035N-U9
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:42:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1hkkcU-0001QH-Ei
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:32:59 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35502)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1hkkcU-0001Pk-7X
- for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:32:58 -0400
-Received: by mail-wm1-f65.google.com with SMTP id l2so2052809wmg.0
- for <qemu-devel@nongnu.org>; Tue, 09 Jul 2019 00:32:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MF042dK8SfNyK8ValhxsRumjMl4PNY5rE7vj3hfXNus=;
- b=ArzWq0VWJBDmWG7eE5hs6VVCMIpzwIdfZx8Wjl+PrHqKXZMwwzneYfye9RykYWQsAW
- LndSuvLtyEpRN23skNCj9P3ac37QXh1JUNGCkrFUKF/BM68on6VsgyO24Rp1rK/DSJ1V
- HA0ZHcu/mY9emAw0WRE8zbYq25xY8jsR3SY5QMCyMNtLccXg6lwjndl2C/4hnBNhIH66
- IA+mQ+S8bZ2bK5eiSDSC+z84+XrsyR+fDWs2Z9oClhTJH9liAAlFQ1UW/c5LpC6rzgk2
- qbbTSkILykJmFtQ6ednS4f83XNWsLEuKffwTuDmEkYkKSMdIPwEaK2WFFMhWn+Sdrv7Z
- VzKQ==
-X-Gm-Message-State: APjAAAXocdOLQXlVs2NySM3LVnctaLoGzHowiAD2pmfGTSwctSTyNp6D
- +eiKl3TDCl2ln4oKrHmoqLNbOX0AX2U=
-X-Google-Smtp-Source: APXvYqxX32uASOp0r9/SvUAmd+Xr3MR5+1C5IdEGI567O14dmuUJoxn6rYRXwvij7Tz8vYcGBo7KRA==
-X-Received: by 2002:a1c:618a:: with SMTP id v132mr20502157wmb.17.1562657577141; 
- Tue, 09 Jul 2019 00:32:57 -0700 (PDT)
-Received: from thl530.multi.box (pD95752BD.dip0.t-ipconnect.de.
- [217.87.82.189])
- by smtp.gmail.com with ESMTPSA id l2sm1529208wmj.4.2019.07.09.00.32.56
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 00:32:56 -0700 (PDT)
-From: Thomas Huth <huth@tuxfamily.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  9 Jul 2019 09:32:22 +0200
-Message-Id: <20190709073222.26370-7-huth@tuxfamily.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190709073222.26370-1-huth@tuxfamily.org>
-References: <20190709073222.26370-1-huth@tuxfamily.org>
+ (envelope-from <no-reply@patchew.org>) id 1hkklz-0001Ph-Hg
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:42:48 -0400
+Resent-Date: Tue, 09 Jul 2019 03:42:48 -0400
+Resent-Message-Id: <E1hkklz-0001Ph-Hg@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21530)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hkklz-0001OE-8X
+ for qemu-devel@nongnu.org; Tue, 09 Jul 2019 03:42:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562658072; cv=none; d=zoho.com; s=zohoarc; 
+ b=c41WoCXdJaNmWWdp/lLU2Vsced15lCRyosLFiKiVV2OJrwMFT3DLLWFBxR1LNyXc/1qpNaHFbtCma4S5qDUW0udOpmozkD0S+/s53TvFSYQvC1SQCULTnx4hgiKCBbw99ldDmYwTNsszmEfvfrKBg7R19s8WXA8tn6RhI+7Zh6w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562658072;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=wP+AxN8cqJKjvus2zcaHemnFuQurrh3NuXh+vfPTzJ0=; 
+ b=MvoeHkLWFAae6Bl+WWOpglrtcUYZzGIPXbpQ28SWdcK5EqwNbMtESeEKECqa/9+WvxhXpnxGTaxnf2i0jBkuoM2/qmQOt7aWebFSZ95PS4E9s7EjJDC6Wu9QR7DbbGwNPzhJP9AIqvZhV0EVBWYdBUucU99e4H4x8NnQPMsJ9Ak=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562658070020897.7206511902992;
+ Tue, 9 Jul 2019 00:41:10 -0700 (PDT)
+Message-ID: <156265806842.29610.4304130026402148292@c4a48874b076>
+In-Reply-To: <20190709071520.8745-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: tao3.xu@intel.com
+Date: Tue, 9 Jul 2019 00:41:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: [Qemu-devel] [PATCH v4 6/6] m68k: Add an entry for the NeXTcube
- machine to the MAINTAINERS file
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH RESEND v6 00/14] Build ACPI Heterogeneous
+ Memory Attribute Table (HMAT)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,43 +62,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, tao3.xu@intel.com,
+ fan.du@intel.com, qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ imammedo@redhat.com, dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't have much clue about the NeXT hardware, but at least I know now
-the source files a little bit, so I volunteer to pick up patches and send
-PULL requests for them until someone else with more knowledge steps up
-to do this job instead.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Thomas Huth <huth@tuxfamily.org>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc9636b43a..01c0f9dec2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -910,6 +910,13 @@ F: hw/char/mcf_uart.c
- F: hw/net/mcf_fec.c
- F: include/hw/m68k/mcf*.h
- 
-+NeXTcube
-+M: Thomas Huth <huth@tuxfamily.org>
-+S: Odd Fixes
-+F: hw/m68k/next-*.c
-+F: hw/display/next-fb.c
-+F: include/hw/m68k/next-cube.h
-+
- MicroBlaze Machines
- -------------------
- petalogix_s3adsp1800
--- 
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwOTA3MTUyMC44NzQ1
+LTEtdGFvMy54dUBpbnRlbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxkIHRl
+c3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQgd2lsbCBiZSBp
+bnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRpbmcgdG8gYSBj
+b21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJhc2UiCiMgYnJh
+bmNoCnNldCAtZQoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQ
+QUNLQUdFUyA9PT0iCnJwbSAtcWEKCmVjaG8KZWNobyAiPT09IFVOQU1FID09PSIKdW5hbWUgLWEK
+CkNDPSRIT01FL2Jpbi9jYwpJTlNUQUxMPSRQV0QvaW5zdGFsbApCVUlMRD0kUFdEL2J1aWxkCm1r
+ZGlyIC1wICRCVUlMRCAkSU5TVEFMTApTUkM9JFBXRApjZCAkQlVJTEQKJFNSQy9jb25maWd1cmUg
+LS1jYz0kQ0MgLS1wcmVmaXg9JElOU1RBTEwKbWFrZSAtajQKIyBYWFg6IHdlIG5lZWQgcmVsaWFi
+bGUgY2xlYW4gdXAKIyBtYWtlIGNoZWNrIC1qNCBWPTEKbWFrZSBpbnN0YWxsCj09PSBURVNUIFND
+UklQVCBFTkQgPT09CgogIEdFTiAgICAgdXRpbC90cmFjZS5jCiAgR0VOICAgICBjb25maWctYWxs
+LWRldmljZXMubWFrCkNsb25pbmcgaW50byAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWVo
+a3F6am03L3NyYy9kdGMnLi4uCmVycm9yOiBSUEMgZmFpbGVkOyBjdXJsIDE4IHRyYW5zZmVyIGNs
+b3NlZCB3aXRoIG91dHN0YW5kaW5nIHJlYWQgZGF0YSByZW1haW5pbmcKZmF0YWw6IHRoZSByZW1v
+dGUgZW5kIGh1bmcgdXAgdW5leHBlY3RlZGx5CmZhdGFsOiBwcm90b2NvbCBlcnJvcjogYmFkIHBh
+Y2sgaGVhZGVyCmZhdGFsOiBjbG9uZSBvZiAnaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2R0Yy5n
+aXQnIGludG8gc3VibW9kdWxlIHBhdGggJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1laGtx
+emptNy9zcmMvZHRjJyBmYWlsZWQKRmFpbGVkIHRvIGNsb25lICdkdGMnLiBSZXRyeSBzY2hlZHVs
+ZWQKQ2xvbmluZyBpbnRvICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZWhrcXpqbTcvc3Jj
+L3NsaXJwJy4uLgotLS0KQ2xvbmluZyBpbnRvICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAt
+ZWhrcXpqbTcvc3JjL3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJy4uLgpDbG9uaW5nIGlu
+dG8gJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1laGtxemptNy9zcmMvdWkva2V5Y29kZW1h
+cGRiJy4uLgpDbG9uaW5nIGludG8gJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1laGtxempt
+Ny9zcmMvZHRjJy4uLgplcnJvcjogUlBDIGZhaWxlZDsgY3VybCAxOCB0cmFuc2ZlciBjbG9zZWQg
+d2l0aCBvdXRzdGFuZGluZyByZWFkIGRhdGEgcmVtYWluaW5nCmZhdGFsOiB0aGUgcmVtb3RlIGVu
+ZCBodW5nIHVwIHVuZXhwZWN0ZWRseQpmYXRhbDogcHJvdG9jb2wgZXJyb3I6IGJhZCBwYWNrIGhl
+YWRlcgpmYXRhbDogY2xvbmUgb2YgJ2h0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9kdGMuZ2l0JyBp
+bnRvIHN1Ym1vZHVsZSBwYXRoICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZWhrcXpqbTcv
+c3JjL2R0YycgZmFpbGVkCkZhaWxlZCB0byBjbG9uZSAnZHRjJyBhIHNlY29uZCB0aW1lLCBhYm9y
+dGluZwouL3NjcmlwdHMvZ2l0LXN1Ym1vZHVsZS5zaDogZmFpbGVkIHRvIHVwZGF0ZSBtb2R1bGVz
+CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
+MDE5MDcwOTA3MTUyMC44NzQ1LTEtdGFvMy54dUBpbnRlbC5jb20vdGVzdGluZy5zMzkweC8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
