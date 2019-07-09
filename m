@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343EF62F18
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 05:54:54 +0200 (CEST)
-Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CBE62E7E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 Jul 2019 05:10:43 +0200 (CEST)
+Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hkhDR-00071R-Ec
-	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 23:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43127)
+	id 1hkgWg-0005dy-8t
+	for lists+qemu-devel@lfdr.de; Mon, 08 Jul 2019 23:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <zhexu@redhat.com>) id 1hkfnH-00025B-0m
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:23:49 -0400
+ (envelope-from <jdillama@redhat.com>) id 1hkgVK-00058J-2y
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:09:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhexu@redhat.com>) id 1hkfnF-0007bm-Rh
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:23:46 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:46201)
+ (envelope-from <jdillama@redhat.com>) id 1hkgVF-00079g-JH
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:09:16 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44444)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hkfnF-0007bP-L0
- for qemu-devel@nongnu.org; Mon, 08 Jul 2019 22:23:45 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c2so7668943plz.13
- for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 19:23:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1hkgVC-00071x-1A
+ for qemu-devel@nongnu.org; Mon, 08 Jul 2019 23:09:11 -0400
+Received: by mail-ed1-f65.google.com with SMTP id k8so16282910edr.11
+ for <qemu-devel@nongnu.org>; Mon, 08 Jul 2019 20:09:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=FftJaRbYWHNa3kHaHykrZd5QPuju+ZHzp0iECf6zExs=;
- b=oCfQTvYUkc3vpyK5mEj5t5Ncx9JsPSMcdiJBUOHhIwuRTSx8YAUQy5QcsZLow2NM+H
- r1nKJhqcx4F/qbEQXqTzboBBlDJFedVPUwqJqaD1nq3LpIdKMDJAAPKmy0UnR9WqoRPB
- yxCUK86PugsHBZAk24SKV2+IEnW8xW+eIwOK8YV4u39ngMEvlUNY4et98ETAJISTtlQQ
- K7y2qcdl/alPmZOkJSFECd0HsUJb1mztUqjCqzF9s/bOERobdPFe1eBB0LQ3qbemObSz
- VYN3gh656Jkx8lpqAl/S6Z0Cvj5eaUBVp5OM1gqxeDu1i4LtQwU9BWQ9OnZUW88saxKv
- VrQQ==
-X-Gm-Message-State: APjAAAWZ9KOaxLgY9g73sMceDvqjLS4s+O2uwBFws0LUmYJ29h+/nxuE
- GcHGRPUj6z4+tVCW5OHew0o3FA==
-X-Google-Smtp-Source: APXvYqwzmKpI5EesOO0vk+59pI/520HJ89u6q7GGPvTwITw0dJNDabjnRhXuYY8/ZwR5FdtuFXypUQ==
-X-Received: by 2002:a17:902:b944:: with SMTP id
- h4mr28322101pls.179.1562639024360; 
- Mon, 08 Jul 2019 19:23:44 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id 30sm881340pjk.17.2019.07.08.19.23.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 08 Jul 2019 19:23:43 -0700 (PDT)
-From: Peter Xu <zhexu@redhat.com>
-X-Google-Original-From: Peter Xu <peterx@redhat.com>
-Date: Tue, 9 Jul 2019 10:23:32 +0800
-To: Liu Yi L <yi.l.liu@intel.com>
-Message-ID: <20190709022332.GC5178@xz-x1>
-References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
- <1562324511-2910-6-git-send-email-yi.l.liu@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc:content-transfer-encoding;
+ bh=bscJhhfWM7bBPgunbuc02TusfvSCtAO1YzH3WxQyjL8=;
+ b=dhOo6FdeNH2Vgs9CiQcxCfZf+LmUytVqnK7W2/yHYSOx342d8RsXWonDjtweATbxOo
+ pgCZ3DuPSsqRsuv58Cvz9vYhwqAsauhS5o7mhrwr/f2oYJjdPxKfnHm+C9R1ExoNCsZT
+ uYhKXVG/545XajKQdFqsDDrkkOoeKpwoDY866Yk1U55mJcQfdHeG1s6RzpUnbI40OXaK
+ EdD5jCF8YcpNwOk5Z45QR/B6vWntMf4P9ZfN5IvK7coCFShJEOqsI8/296rRd87r0iYG
+ MWQ12/kI7dPtfUsBuqYxFiGjhH/T1JOgPk7f6Xp0AM4Hz7Axe90gOT0ZMFpK7cGGK3R9
+ Rc1A==
+X-Gm-Message-State: APjAAAXpBMJNRFRTa1SU0NhsiGa6q5jqIaxY7/R5GcDlUbEdWtWUACvJ
+ KgclyULbCtas0MQj+IdG0+geVUsrYeiQcn4VJmT+sw==
+X-Google-Smtp-Source: APXvYqwiSMJuQBXMhRp3VKqbBHFu4Kuc4nrZEAxnqUfayrxbg27v/gTmrDkXQEsBJV+giRss2WVbWBVNUbBIjgDgho8=
+X-Received: by 2002:aa7:c753:: with SMTP id c19mr17031830eds.81.1562641744412; 
+ Mon, 08 Jul 2019 20:09:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1562324511-2910-6-git-send-email-yi.l.liu@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190705093258.47856-1-sgarzare@redhat.com>
+ <dcc9f3dc-78b4-4216-2791-b7e90f6d79ff@redhat.com>
+ <20190705104318.dngmmu3lpuvbe2nh@steredhat>
+In-Reply-To: <20190705104318.dngmmu3lpuvbe2nh@steredhat>
+From: Jason Dillaman <jdillama@redhat.com>
+Date: Mon, 8 Jul 2019 23:08:53 -0400
+Message-ID: <CA+aFP1AgNGJMdAG_E23Q-rf2Gt1rpeKjDfrk1PLA3f4XiUkGtw@mail.gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.195
-X-Mailman-Approved-At: Mon, 08 Jul 2019 23:51:52 -0400
-Subject: Re: [Qemu-devel] [RFC v1 05/18] vfio/pci: add pasid alloc/free
- implementation
+X-Received-From: 209.85.208.65
+Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,124 +65,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tianyu.lan@intel.com, kevin.tian@intel.com,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, alex.williamson@redhat.com,
- pbonzini@redhat.com, yi.y.sun@intel.com, david@gibson.dropbear.id.au
+Reply-To: dillaman@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 05, 2019 at 07:01:38PM +0800, Liu Yi L wrote:
-> This patch adds vfio implementation PCIPASIDOps.alloc_pasid/free_pasid().
-> These two functions are used to propagate guest pasid allocation and
-> free requests to host via vfio container ioctl.
-> 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-> ---
->  hw/vfio/pci.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index ce3fe96..ab184ad 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2690,6 +2690,65 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
->      vdev->req_enabled = false;
->  }
->  
-> +static int vfio_pci_device_request_pasid_alloc(PCIBus *bus,
-> +                                               int32_t devfn,
-> +                                               uint32_t min_pasid,
-> +                                               uint32_t max_pasid)
-> +{
-> +    PCIDevice *pdev = bus->devices[devfn];
-> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
-> +    VFIOContainer *container = vdev->vbasedev.group->container;
-> +    struct vfio_iommu_type1_pasid_request req;
-> +    unsigned long argsz;
-> +    int pasid;
-> +
-> +    argsz = sizeof(req);
-> +    req.argsz = argsz;
-> +    req.flag = VFIO_IOMMU_PASID_ALLOC;
-> +    req.min_pasid = min_pasid;
-> +    req.max_pasid = max_pasid;
-> +
-> +    rcu_read_lock();
+On Fri, Jul 5, 2019 at 6:43 AM Stefano Garzarella <sgarzare@redhat.com> wro=
+te:
+>
+> On Fri, Jul 05, 2019 at 11:58:43AM +0200, Max Reitz wrote:
+> > On 05.07.19 11:32, Stefano Garzarella wrote:
+> > > This patch allows 'qemu-img info' to show the 'disk size' for
+> > > the RBD images that have the fast-diff feature enabled.
+> > >
+> > > If this feature is enabled, we use the rbd_diff_iterate2() API
+> > > to calculate the allocated size for the image.
+> > >
+> > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > > ---
+> > > v3:
+> > >   - return -ENOTSUP instead of -1 when fast-diff is not available
+> > >     [John, Jason]
+> > > v2:
+> > >   - calculate the actual usage only if the fast-diff feature is
+> > >     enabled [Jason]
+> > > ---
+> > >  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 54 insertions(+)
+> >
+> > Well, the librbd documentation is non-existing as always, but while
+> > googling, I at least found that libvirt has exactly the same code.  So =
+I
+> > suppose it must be quite correct, then.
+> >
+>
+> While I wrote this code I took a look at libvirt implementation and also
+> at the "rbd" tool in the ceph repository: compute_image_disk_usage() in
+> src/tools/rbd/action/DiskUsage.cc
+>
+> > > diff --git a/block/rbd.c b/block/rbd.c
+> > > index 59757b3120..b6bed683e5 100644
+> > > --- a/block/rbd.c
+> > > +++ b/block/rbd.c
+> > > @@ -1084,6 +1084,59 @@ static int64_t qemu_rbd_getlength(BlockDriverS=
+tate *bs)
+> > >      return info.size;
+> > >  }
+> > >
+> > > +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int ex=
+ists,
+> > > +                                 void *arg)
+> > > +{
+> > > +    int64_t *alloc_size =3D (int64_t *) arg;
+> > > +
+> > > +    if (exists) {
+> > > +        (*alloc_size) +=3D len;
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs=
+)
+> > > +{
+> > > +    BDRVRBDState *s =3D bs->opaque;
+> > > +    uint64_t flags, features;
+> > > +    int64_t alloc_size =3D 0;
+> > > +    int r;
+> > > +
+> > > +    r =3D rbd_get_flags(s->image, &flags);
+> > > +    if (r < 0) {
+> > > +        return r;
+> > > +    }
+> > > +
+> > > +    r =3D rbd_get_features(s->image, &features);
+> > > +    if (r < 0) {
+> > > +        return r;
+> > > +    }
+> > > +
+> > > +    /*
+> > > +     * We use rbd_diff_iterate2() only if the RBD image have fast-di=
+ff
+> > > +     * feature enabled. If it is disabled, rbd_diff_iterate2() could=
+ be
+> > > +     * very slow on a big image.
+> > > +     */
+> > > +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
+> > > +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
+> > > +        return -ENOTSUP;
+> > > +    }
+> > > +
+> > > +    /*
+> > > +     * rbd_diff_iterate2(), if the source snapshot name is NULL, inv=
+okes
+> > > +     * the callback on all allocated regions of the image.
+> > > +     */
+> > > +    r =3D rbd_diff_iterate2(s->image, NULL, 0,
+> > > +                          bs->total_sectors * BDRV_SECTOR_SIZE, 0, 1=
+,
+> > > +                          &rbd_allocated_size_cb, &alloc_size);
+> >
+> > But I have a question.  This is basically block_status, right?  So it
+> > gives us information on which areas are allocated and which are not.
+> > The result thus gives us a lower bound on the allocation size, but is i=
+t
+> > really exactly the allocation size?
+> >
+> > There are two things I=E2=80=99m concerned about:
+> >
+> > 1. What about metadata?
+>
+> Good question, I don't think it includes the size used by metadata and I
+> don't know if there is a way to know it. I'll check better.
 
-Could I ask what's this RCU lock protecting?
+It does not include the size of metadata, the "rbd_diff_iterate2"
+function is literally just looking for touched data blocks within the
+RBD image.
 
-> +    pasid = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-> +    if (pasid < 0) {
-> +        error_report("vfio_pci_device_request_pasid_alloc:"
-> +                     " request failed, contanier: %p", container);
+> >
+> > 2. If you have multiple snapshots, this will only report the overall
+> > allocation information, right?  So say there is something like this:
+> >
+> > (=E2=80=9CA=E2=80=9D means an allocated MB, =E2=80=9C-=E2=80=9D is an u=
+nallocated MB)
+> >
+> > Snapshot 1: AAAA---
+> > Snapshot 2: --AAAAA
+> > Snapshot 3: -AAAA--
+> >
+> > I think the allocated data size is the number of As in total (13 MB).
+> > But I suppose this API will just return 7 MB, because it looks on
+> > everything an it sees the whole image range (7 MB) to be allocated.  It
+> > doesn=E2=80=99t report in how many snapshots some region is allocated.
 
-Can use __func__, also since we're going to dump the error after all,
-we can also include the errno (pasid) here which seems to be more
-helpful than the container pointer at least to me. :)
+It should return 13 dirty data blocks (multipled by the size of the
+data block) since when you don't provide a "from snapshot" name, it
+will iterate from the first snapshot to the HEAD revision.
 
-> +    }
-> +    rcu_read_unlock();
-> +    return pasid;
-> +}
-> +
-> +static int vfio_pci_device_request_pasid_free(PCIBus *bus,
-> +                                              int32_t devfn,
-> +                                              uint32_t pasid)
-> +{
-> +    PCIDevice *pdev = bus->devices[devfn];
-> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
-> +    VFIOContainer *container = vdev->vbasedev.group->container;
-> +    struct vfio_iommu_type1_pasid_request req;
-> +    unsigned long argsz;
-> +    int ret = 0;
-> +
-> +    argsz = sizeof(req);
-> +    req.argsz = argsz;
-> +    req.flag = VFIO_IOMMU_PASID_FREE;
-> +    req.pasid = pasid;
-> +
-> +    rcu_read_lock();
-> +    ret = ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-> +    if (ret != 0) {
-> +        error_report("vfio_pci_device_request_pasid_free:"
-> +                     " request failed, contanier: %p", container);
-> +    }
-> +    rcu_read_unlock();
-> +    return ret;
-> +}
-> +
-> +static PCIPASIDOps vfio_pci_pasid_ops = {
-> +    .alloc_pasid = vfio_pci_device_request_pasid_alloc,
-> +    .free_pasid = vfio_pci_device_request_pasid_free,
-> +};
-> +
->  static void vfio_realize(PCIDevice *pdev, Error **errp)
->  {
->      VFIOPCIDevice *vdev = PCI_VFIO(pdev);
-> @@ -2991,6 +3050,8 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->      vfio_register_req_notifier(vdev);
->      vfio_setup_resetfn_quirk(vdev);
->  
-> +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
-> +
->      return;
->  
->  out_teardown:
-> -- 
-> 2.7.4
-> 
+> Looking at the documentation of rbd_diff_iterate2() [1] they says:
+>
+>  *                        If the source snapshot name is NULL, we
+>  * interpret that as the beginning of time and return all allocated
+>  * regions of the image.
+>
+> But I don't know the answer of your question (maybe Jason can help
+> here).
+> I should check better the implementation to understand if I can cycle
+> on all snapshot to get the exact allocated data size.
+>
+> https://github.com/ceph/ceph/blob/master/src/include/rbd/librbd.h#L925
+>
+> I'll back when I have more details on the rbd implementation to better
+> answer your questions.
+>
+> Thanks,
+> Stefano
 
-Regards,
 
--- 
-Peter Xu
+
+--=20
+Jason
 
