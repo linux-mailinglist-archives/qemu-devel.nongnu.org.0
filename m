@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEAC64D7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:24:37 +0200 (CEST)
-Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2033B64D7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:26:55 +0200 (CEST)
+Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlJ8l-0002sS-Tv
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57046)
+	id 1hlJB0-0005k7-BX
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57050)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7H-0001UI-JQ
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7H-0001UJ-UN
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7G-0002FY-DN
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7G-0002H2-Tu
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:03 -0400
 Received: from mail-eopbgr710059.outbound.protection.outlook.com
  ([40.107.71.59]:24298 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1hlJ7G-0002Ap-2b
+ id 1hlJ7G-0002Ap-MZ
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/HYqE1PCJLcOxRWS0i6CAUS74pHoE7gwQc8fgLK9XvE=;
- b=qE6rF72nH0RWASnigtsL+kwYnqrkjnyRbc+8wq7M0baT8BqS93Hk62yuCwKsaCQRLlrkBFwUn6FXjw45vi6jhCLudmg0lwm6siPUrBLlGIodVIfos0SHPmbKNKWJAXQpI9RFvZn+oL0lcJnJUSnWAe5qAAheShZazBKzKRIRDU4=
+ bh=z4FQhedDI2J/9O6at+OtRsW2z1M94UnOeJHXHRF+rtw=;
+ b=Dun06QnXwX/c9zRaAQii9qNCLsV0kE3r7dfcq/n7qyXi9viQzpxNyJ6grx+Vugc7iDx8XwBbDBy9wqlYakDaPOggPXok3s1yQWcl/LFXOMzpmXdd6C56dF5MJzPGJBa5Ja1jX0YW8HNZ38GgBGlF5hB4EHA0JChop75ynNJH9hY=
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
  DM6PR12MB2618.namprd12.prod.outlook.com (20.176.116.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -37,10 +37,13 @@ Received: from DM6PR12MB2682.namprd12.prod.outlook.com
  20:22:59 +0000
 From: "Singh, Brijesh" <brijesh.singh@amd.com>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 00/13] Add SEV guest live migration support
-Thread-Index: AQHVN11DVr1yNvx2/kyGjSnRTUfVFw==
-Date: Wed, 10 Jul 2019 20:22:58 +0000
-Message-ID: <20190710202219.25939-1-brijesh.singh@amd.com>
+Thread-Topic: [PATCH v2 01/13] linux-headers: update kernel header to include
+ SEV migration commands
+Thread-Index: AQHVN11EMkFIntZma0SStKtaLoP2zw==
+Date: Wed, 10 Jul 2019 20:22:59 +0000
+Message-ID: <20190710202219.25939-2-brijesh.singh@amd.com>
+References: <20190710202219.25939-1-brijesh.singh@amd.com>
+In-Reply-To: <20190710202219.25939-1-brijesh.singh@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -54,31 +57,30 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.77.1]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 56075fd3-b01d-495b-61c9-08d70574665a
+x-ms-office365-filtering-correlation-id: c2e25255-81a9-47e9-2858-08d7057466a8
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
  SRVR:DM6PR12MB2618; 
 x-ms-traffictypediagnostic: DM6PR12MB2618:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <DM6PR12MB26188429DDE0195B47758AF1E5F00@DM6PR12MB2618.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-microsoft-antispam-prvs: <DM6PR12MB2618F15A63A4C4C107FFBBDAE5F00@DM6PR12MB2618.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:21;
 x-forefront-prvs: 0094E3478A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(346002)(136003)(39860400002)(376002)(396003)(189003)(199004)(5640700003)(14444005)(8676002)(99286004)(66066001)(53936002)(2351001)(6306002)(6116002)(3846002)(6436002)(6486002)(305945005)(7736002)(52116002)(6916009)(6512007)(81166006)(5660300002)(8936002)(66946007)(66476007)(81156014)(386003)(6506007)(2501003)(2906002)(486006)(476003)(50226002)(68736007)(2616005)(86362001)(478600001)(25786009)(316002)(966005)(54906003)(66446008)(64756008)(256004)(71200400001)(71190400001)(66556008)(14454004)(102836004)(1076003)(26005)(36756003)(4326008)(186003)(6606295002);
+ SFS:(10009020)(4636009)(366004)(346002)(136003)(39860400002)(376002)(396003)(189003)(199004)(5640700003)(14444005)(8676002)(99286004)(66066001)(53936002)(2351001)(6116002)(3846002)(6436002)(6486002)(305945005)(7736002)(76176011)(52116002)(6916009)(6512007)(81166006)(5660300002)(8936002)(66946007)(66476007)(81156014)(386003)(6506007)(2501003)(2906002)(486006)(476003)(50226002)(68736007)(2616005)(446003)(86362001)(478600001)(25786009)(316002)(11346002)(54906003)(66446008)(64756008)(256004)(71200400001)(71190400001)(66556008)(14454004)(102836004)(1076003)(26005)(36756003)(4326008)(186003);
  DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB2618;
  H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: cJGOrxlCtyKYX+XZ5/hQp9pebiWpyhMtyCynBBKfDWkNZqEYkz7nv7Y/xUMVk+Hivab7tL+xuhg3iU+NoePrvssSxR/9sU+lpd8YbQ1hXjhGcDoYDpu28teDmV/mZYpTcg9x1uc215ZftoIIR/NwVLiBnkGbowTYhS1ZM6bIUfmEEIIr/12m9rQGDZVzKCSoWiL/d8OU/4ue4ROauRqjxv9k7FSLtBpAHsZCouCXcL0DyOkK48zOpLJFTJONXly7rz76+qN7lqAikpKElGH67K/WYcmcu7IpbBNv99nnCvWvZ+/Vd0uR7N6VxZ9WL36+mFCqUpOep19PTwP2rO4hg0KCSD5KawmlsMv/f1lexJTgRtgxHRIOQPkpHxNt2L0tJisYhqKUtntC2tiuQuaXlCI0lfJLriVYbOI95bs4vnQ=
+x-microsoft-antispam-message-info: ro+x98rfVNk6WONi6kGQTY2KglXpbNfhhvB+WX+cS2sOe5U+zpBX2dIFQjtStYV3B54UGq1a8un7jqq4X4LclZCLZE+ZvJNZHkspFZzMkQiVL17qc/iMxavKPrfPXosKVfEYDHgAClKOTyoFM9YujK7tCeYgjJbNdBRJ1WYtAhulb3kAE0audJr10pHuiRNE54dROMoHrh/9pngk8gH9FKWATNOlp7arvR3VHUCDzbvy3gw1ivG7hEQTGOe8oVDGBX4PtUsX91VqUXhsVKSHrVi1194xiOxKNN1Y+nQfgVgT9jwWlI6tU1F5iTZGkrhRIKS8iYGuMnvjsxlS5NQ0j5laTcC9aowiiLoCkefTtxpBM1wc9xtwH3nKP/r4pxHxnsKXVsYpra/uuJSIpMJWLu2pZn967vZXDRe1rA+ejjk=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56075fd3-b01d-495b-61c9-08d70574665a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:22:58.9038 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2e25255-81a9-47e9-2858-08d7057466a8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:22:59.4405 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -86,7 +88,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2618
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.71.59
-Subject: [Qemu-devel] [PATCH v2 00/13] Add SEV guest live migration support
+Subject: [Qemu-devel] [PATCH v2 01/13] linux-headers: update kernel header
+ to include SEV migration commands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,63 +108,91 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AMD SEV encrypts the memory of VMs and because this encryption is done usin=
-g
-an address tweak, the hypervisor will not be able to simply copy ciphertext
-between machines to migrate a VM. Instead the AMD SEV Key Management API
-provides a set of functions which the hypervisor can use to package a
-guest encrypted pages for migration, while maintaining the confidentiality
-provided by AMD SEV.
+Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+---
+ linux-headers/linux/kvm.h | 53 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-The patch series add the support required in Qemu to perform the SEV
-guest live migration. Before initiating the live migration a user
-should use newly added 'migrate-set-sev-info' command to pass the
-target machines certificate chain. See the docs/amd-memory-encryption.txt
-for further details.
-
-The patch series depends on kernel patches available here:
-https://marc.info/?l=3Dkvm&m=3D156278967226011&w=3D2
-
-The complete tree with patch is available at:
-https://github.com/codomania/qemu/tree/sev-migration-v2
-
-Changes since v1:
- - use the dirty log sync APIs to also sync the page encryption bitmap
-   when SEV is active.
-
-Brijesh Singh (13):
-  linux-headers: update kernel header to include SEV migration commands
-  kvm: introduce high-level API to support encrypted page migration
-  migration/ram: add support to send encrypted pages
-  kvm: add support to sync the page encryption state bitmap
-  doc: update AMD SEV API spec web link
-  doc: update AMD SEV to include Live migration flow
-  target/i386: sev: do not create launch context for an incoming guest
-  misc.json: add migrate-set-sev-info command
-  target/i386: sev: add support to encrypt the outgoing page
-  target/i386: sev: add support to load incoming encrypted page
-  kvm: introduce high-level API to migrate the page encryption bitmap
-  migration: add support to migrate page encryption bitmap
-  target/i386: sev: remove migration blocker
-
- accel/kvm/kvm-all.c            | 108 ++++++++
- accel/kvm/sev-stub.c           |  22 ++
- accel/stubs/kvm-stub.c         |  22 ++
- docs/amd-memory-encryption.txt |  44 +++-
- include/exec/ram_addr.h        | 161 +++++++++++-
- include/exec/ramlist.h         |   3 +-
- include/sysemu/kvm.h           |  25 ++
- include/sysemu/sev.h           |   6 +
- linux-headers/linux/kvm.h      |  53 ++++
- migration/ram.c                |  91 ++++++-
- qapi/misc-target.json          |  18 ++
- target/i386/monitor.c          |  10 +
- target/i386/sev-stub.c         |   5 +
- target/i386/sev.c              | 455 +++++++++++++++++++++++++++++++--
- target/i386/sev_i386.h         |  11 +-
- target/i386/trace-events       |   8 +
- 16 files changed, 1016 insertions(+), 26 deletions(-)
-
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index c8423e760c..2b0a2a97b8 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -492,6 +492,16 @@ struct kvm_dirty_log {
+ 	};
+ };
+=20
++/* for KVM_GET_PAGE_ENC_BITMAP */
++struct kvm_page_enc_bitmap {
++        __u64 start_gfn;
++        __u64 num_pages;
++	union {
++		void *enc_bitmap; /* one bit per page */
++		__u64 padding2;
++	};
++};
++
+ /* for KVM_CLEAR_DIRTY_LOG */
+ struct kvm_clear_dirty_log {
+ 	__u32 slot;
+@@ -1451,6 +1461,9 @@ struct kvm_enc_region {
+ /* Available with KVM_CAP_ARM_SVE */
+ #define KVM_ARM_VCPU_FINALIZE	  _IOW(KVMIO,  0xc2, int)
+=20
++#define KVM_GET_PAGE_ENC_BITMAP  	 _IOW(KVMIO, 0xc2, struct kvm_page_enc_b=
+itmap)
++#define KVM_SET_PAGE_ENC_BITMAP  	 _IOW(KVMIO, 0xc3, struct kvm_page_enc_b=
+itmap)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
+@@ -1531,6 +1544,46 @@ struct kvm_sev_dbg {
+ 	__u32 len;
+ };
+=20
++struct kvm_sev_send_start {
++	__u32 policy;
++	__u64 pdh_cert_uaddr;
++	__u32 pdh_cert_len;
++	__u64 plat_cert_uaddr;
++	__u32 plat_cert_len;
++	__u64 amd_cert_uaddr;
++	__u32 amd_cert_len;
++	__u64 session_uaddr;
++	__u32 session_len;
++};
++
++struct kvm_sev_send_update_data {
++	__u64 hdr_uaddr;
++	__u32 hdr_len;
++	__u64 guest_uaddr;
++	__u32 guest_len;
++	__u64 trans_uaddr;
++	__u32 trans_len;
++};
++
++struct kvm_sev_receive_start {
++	__u32 handle;
++	__u32 policy;
++	__u64 pdh_uaddr;
++	__u32 pdh_len;
++	__u64 session_uaddr;
++	__u32 session_len;
++};
++
++struct kvm_sev_receive_update_data {
++	__u64 hdr_uaddr;
++	__u32 hdr_len;
++	__u64 guest_uaddr;
++	__u32 guest_len;
++	__u64 trans_uaddr;
++	__u32 trans_len;
++};
++
++
+ #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
+ #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
+ #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
 --=20
 2.17.1
 
