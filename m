@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62E9649E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 17:42:00 +0200 (CEST)
-Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1695649E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 17:42:36 +0200 (CEST)
+Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlEjH-00078c-22
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 11:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44433)
+	id 1hlEjs-00083J-7U
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 11:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hlEhf-0006gK-SX
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:40:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1hlEib-00075z-66
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hlEhf-0004ky-0j
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:40:19 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44131)
+ (envelope-from <philmd@redhat.com>) id 1hlEiZ-0005um-5v
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:17 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:36391)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hlEhe-0004hp-PJ
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:40:18 -0400
-Received: by mail-ot1-x343.google.com with SMTP id b7so2554856otl.11
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 08:40:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mf8gqTbBctUe969CFeVPYQdQXvCiwYF1mLCjQz6cWWU=;
- b=BzOr0ufO5wQkhWV6Zyk+IRMMhbQVD3b/xg9fQDe3JHFn9dhxxIPoB8Adg/VyYCcyqu
- mfVPEDRjMTYLrdAm6CpTn6Zy8t3fDVvoiuTo9wtiX9Ijd+aKTWSg7Nnqu5/Lw4DXPFz7
- Q8wORNMajN4LIuTTcdeOXvuo/3h4Bb1sTX/uF1+oQboEU8PxSrwV6jZXFPfupRbHRf9o
- qknFwhjFM6W4CVjxwgRb9zkFjjOHt0R8LPaun1IvJdfFijOBEDgJnXwZlusiRwpI97Gt
- 225WJYpWXp0yxRcKLhbs6Bw1uyv7Wq1PKYRRijMReDcXQPSzCJoYcYbA/fVFOz+f7cec
- Hp0Q==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlEiX-0005tM-8M
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:13 -0400
+Received: by mail-wr1-f50.google.com with SMTP id n4so2998518wrs.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 08:41:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mf8gqTbBctUe969CFeVPYQdQXvCiwYF1mLCjQz6cWWU=;
- b=mypMGcI1k5i12DOSxCMD22caaycasevbLhq9Ipkg3048QiG/Z5lKvXDu53c688W7ay
- wiYZHK44uwTl/DR0Q1XfNVyfIzZ2Aw9J62sJ0K8ZfAKkliklfASXzZHQ/fvxeGCpF8ZL
- 5tpIrXA7lAPYylAxtJ6Te3WiEJubQwHkaQVZwTADLmDkgeVsVgUG6HrkKPel1LXZ/Eir
- J/Uxj0ca4atsIacBqcwWiYO5QAjTriKqbhruEC/lqopgjysOM463NXQAVvMTH3HcbmrB
- GSqfv0U+vgj1qdr7FHBl9krIpU72Z4fjdMKcbe5TG+GrFXLb2lOTpkaT+WhP/JPnjiQK
- GG/w==
-X-Gm-Message-State: APjAAAVqGa7ATNWrefJSaghfqgl0n1oluYt1O/i2LwCMpXSIF5ZaXVRV
- P1UNmvq2Nvm1ARgaQdJiE9ZbRxwFjfrobYFjEGpYXw==
-X-Google-Smtp-Source: APXvYqw9Xyvn01o7XPm1K3rgrQR4ec2YjqWSjw3oz5Kx6BFtIufCDYbE0Y6sqHTBtE3BvB95QcoAXOi3W65mnkmrCMI=
-X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr25115857otn.135.1562773216748; 
- Wed, 10 Jul 2019 08:40:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZqJtaq4MsF6xGIt7c7isyPRuOSya3UoPfm+iGAPvqWY=;
+ b=RnoxSw4hV2jtajCyngVGgXT+C2psx/Lf3mcokWlbuNjXr9CJ5MwASg3k+60XU2g256
+ EIIlqJrTgFXEzIz3GyGcWFcK0fm/Fz3YHT97zzfNFRAJ9jKMIdjPndReyC5HB11OAsFz
+ Fqubx7mB+n4ZVp8lwV8wPCk7YOuLvzs4yCUf5yPbjpWVPyd2mjaXkwdBLqvM1kNXjI3H
+ dUrnOVBDWCMStrasrChVRxytEY1ePxxf6/PKr6+8JaLvsGyrbMnZ3JZY7SJOFmW3opVb
+ Do/Bwo5xTuxzbmBNYKU315NOO2g2GWRGY+RxZ6dxkCYfF8bdcjtXqQOk5wbE4NSWvxlw
+ Ga1Q==
+X-Gm-Message-State: APjAAAXZX9h0+qu4zbhelzu/ijfuJuuWzJ5KpFkW+zStdSdwcmeU1zT9
+ 7/JuS1iRYCJIWyya/k2A5zOuoA==
+X-Google-Smtp-Source: APXvYqwkuwg2cSReIswXneeRD487T9Z9ZyCCfNV8kZo3fwebzhDKWjtQnI0wVfVMbfFV3BX2JCOwbw==
+X-Received: by 2002:a5d:4a02:: with SMTP id m2mr17511668wrq.78.1562773271186; 
+ Wed, 10 Jul 2019 08:41:11 -0700 (PDT)
+Received: from [192.168.1.103] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id j10sm2674691wrw.96.2019.07.10.08.41.10
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 10 Jul 2019 08:41:10 -0700 (PDT)
+To: ddm <hope2hope@163.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <c49fcb4.af77.16bdae2795a.Coremail.hope2hope@163.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <adefe3b6-f8ff-5010-58e5-45a4445a648f@redhat.com>
+Date: Wed, 10 Jul 2019 17:41:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190709184823.4135-1-richard.henderson@linaro.org>
- <CAL1e-=i7Paug3G4xFCVRpH=NadNti1oG9y8n7geUJeGDoizc4w@mail.gmail.com>
-In-Reply-To: <CAL1e-=i7Paug3G4xFCVRpH=NadNti1oG9y8n7geUJeGDoizc4w@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 Jul 2019 16:40:05 +0100
-Message-ID: <CAFEAcA-wJ9hTvk90wikTFU669Qh4sfZyDZvjZaHo=P-eF_v26w@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH] tcg/aarch64: Fix output of extract2 opcodes
+In-Reply-To: <c49fcb4.af77.16bdae2795a.Coremail.hope2hope@163.com>
+Content-Type: text/plain; charset=gbk
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.50
+Subject: Re: [Qemu-devel] Can not relocate APIC registers address from
+ 0xFEE00000 to self-defined physical addr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,25 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Beata Michalska <beata.michalska@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 10 Jul 2019 at 10:22, Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
-> The commit message looks more like a list of some random items
-> than logical explanation of the code change. Improve it.
+Cc'ing x86 ppl
 
-Can you be less combative in your review comments, please?
-Providing constructive and specific suggestions for the
-improvements you'd like to see is more likely to help
-us produce better software than abrupt orders to "improve it".
-
-This is about the third or fourth time you've done this
-with RTH's patches and I think it is not really warranted.
-
-thanks
--- PMM
+On 7/10/19 9:56 AM, ddm wrote:
+> hi guys, 
+> 
+> 
+> I wrote a Small OS (based on linux0.11) support SMP, and it can run well on bochs, 
+> Now i want to migrate it to Qemu, i found that when i use wrmsr command to relocate the APIC regsiters addr to a new physical address, 
+> it can not work, i can not initial APIC timer to trigger timer interrupt by the new physical addr just i relocate, but when use rdmsr to get APIC base addr has been changed to the new physical address, it's strange. 
+> In SMP env, if can not relocate APIC registers addr for each processor with  different addr, it will result in conflict. 
+> So, i want to know qemu4.0 whether support remaping APIC base address by wrmsr command?
+> if support, please tell me how to remap APIC base addr for each processor.
+> 
+> 
+> Thank you!
+> 
 
