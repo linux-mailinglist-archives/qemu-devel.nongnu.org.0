@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230E064552
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:44:16 +0200 (CEST)
-Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077FD6456F
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:53:42 +0200 (CEST)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlA59-0003iJ-Cb
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49016)
+	id 1hlAEG-0005nX-QJ
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hlA43-0002kL-L4
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:43:09 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hlADV-0005Oa-Rc
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:52:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hlA3r-0003hP-3d
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:43:00 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38467)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hlADU-0003hj-Jj
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:52:53 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35324)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hlA3q-0003g7-SS
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:42:55 -0400
-Received: by mail-wr1-x441.google.com with SMTP id g17so1907054wrr.5
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 03:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=sCLrU4HA9cFcMbhCjFqoPBGhIojQl55A+scyrMpFmNE=;
- b=egvSQ/TjcJG4VJ+baqQ1N/i0X9q3euU3CdUXd+msp/C9lGC9iOCdz/MrTFSjOSpjdi
- Wt2NMQey8i7AIanp+OuASuRayF8jTJvVmcLib2oRU4GYCaRZn3jIDFfXb9oxU6D92I6M
- t6oy0TRhyH/nnZHRaucjdFD7B0K7eL1gTqgpHktzsRAbUmo/TncSLit+B918mXNoWzqH
- 1im7dM5qnzmIdhUuARPGaBWaxaenI/Y3SbhPY6WW5SWoVtBtPj3tl8vPB+mcGSpKvQ5M
- bxW8eOeKzQNsqw055yDBsezi3iqwf4jy1RrfCVFxesT95587SwTIWX/zrVFN72G3lMeN
- qJTg==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hlADU-0003gr-DL
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:52:52 -0400
+Received: by mail-ot1-x342.google.com with SMTP id j19so1694944otq.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 03:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=oL7fwkVG9dMtFccr9PHU010AP5m2U/+BdyJ2rb7s4sY=;
+ b=PR369/G2Y90ie2sYEJQI6kHZW3krff5MeF8HRxZ7z1CSVHD9ww3RTIevu/eGByWzoz
+ 41T0MhGUbtT51ng4Wkgy/p1gfZ2PXZ2KVYnji+uIJpt0dYKjovBI4bLIEdHKHsxjLOmQ
+ RiorjVNXBGYpww6zeDUK4HpaqqGMC7vGXpByrhHhYcHbZVlyrh0EiaFruDpUnp4r6rDL
+ gqTTxQ2a/CuQ+BMfbAQmcprTinvf5xMOWNjFlO9DZeqUvDqQXOwEb2BGDW0uuH5frRzP
+ oq81yMz2/+PSCqH00vVBOwRMdPjoyLs/8jbpOj1WCVaMI4svlxi3for6l5Co/jGhMFFG
+ gptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=sCLrU4HA9cFcMbhCjFqoPBGhIojQl55A+scyrMpFmNE=;
- b=ZxwAgY+gsek2wPe88omA0agQuymk1pKfeTeuC52Khqmqnv8yPED7/dLO0hwsafYi/g
- dMNLS6cQuki9prwnBbFGfXkKEcDHyA8JaLf9fxYlUDdg7uC951/ID4jA478xUthlwRF/
- vWpGfgq769PDUhp6IDAGc3l0Dg1ufyQhWTHgJeBg9pQCr6anAgQN/Uqk0Cyqp8HbInHI
- r93eucqKYp1IsfCKe7ELkIfj8+XfF80EIEVORnCkUsBW24iMh0/gTcfxG8PZ7nhr3zVQ
- VPDqObuDIZuZVTtjPWoc6QuhU5h93FuRabqWwhLIUdw6wsjKP1OalurZGWaDEY/KW9Q+
- 5Ong==
-X-Gm-Message-State: APjAAAWqw8tn9HFnMiMuOPDBFM69JCfwr3vJwtVags5MRPIPDV5mb9Bz
- wGwQeXfcOOYwvh8Ez2a6SbYfBARxZAU=
-X-Google-Smtp-Source: APXvYqyvmipb5zDEHM7rLe/E5CjMYdxQdVa1rS8D1A+p1z60WooDDgpgcaXp8Zi6aiXz+rB20oFaXw==
-X-Received: by 2002:adf:fd03:: with SMTP id e3mr30588755wrr.338.1562755373066; 
- Wed, 10 Jul 2019 03:42:53 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j26sm3158172wrb.88.2019.07.10.03.42.52
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 10 Jul 2019 03:42:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D1271FF87;
- Wed, 10 Jul 2019 11:42:52 +0100 (BST)
-References: <20190709184823.4135-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190709184823.4135-1-richard.henderson@linaro.org>
-Date: Wed, 10 Jul 2019 11:42:51 +0100
-Message-ID: <87muhmdvbo.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=oL7fwkVG9dMtFccr9PHU010AP5m2U/+BdyJ2rb7s4sY=;
+ b=HyUcjJQhrwXF7wDBbgSDRvZC0KttcrU9fmJ/+6IntF4TZm6sFw6d0rgJUP8vcxAIuI
+ BFCACfcd+m4h1tgs+F5k7Uk4WNSCzw3HElLVa8LK9DwV9pJlfzFlmfQYUgMefpVF3pL/
+ ryjEfDL8Q/WlLgG9VlUdu0geh0Xe7wdhVtEsDEpDc94lHf8W+5PQLqGSPkKmM//+fi8L
+ oS/IqmNJTi2N/fqwihH6PL1sm/6iHFaoy5eTNJM8kG7I7proByE5ekLBnhZ+LQVnzKj2
+ mIJeMXX+LsUVAwIZk/0oyhDOYFw5p1qYzTEuCvxPepjxKEB2WocOCilLUXcHYIAKV/ZS
+ m+vw==
+X-Gm-Message-State: APjAAAVdpotBnRygKmuV3NRrqVHo0x8bwFFy5J2k1AewwxFI2TXE8bI+
+ Cscgm/oNMgGDUztZOn1ClON49o4R9XlnMYWPIMU=
+X-Google-Smtp-Source: APXvYqyreR9ypGlrj3m9ttPPqUTUL8917HOBaj1qZ8KiiinSqDMdqyPKLbekbtXI6iFPx+UDWEov9DlA+nH5CEcjdBU=
+X-Received: by 2002:a9d:5cc1:: with SMTP id r1mr23983873oti.341.1562755971498; 
+ Wed, 10 Jul 2019 03:52:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Wed, 10 Jul 2019 03:52:50
+ -0700 (PDT)
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Wed, 10 Jul 2019 03:52:50
+ -0700 (PDT)
+In-Reply-To: <97e10fdb-8271-c2e1-7094-1246064d0bb8@linaro.org>
+References: <20190629130017.2973-1-richard.henderson@linaro.org>
+ <20190629130017.2973-16-richard.henderson@linaro.org>
+ <CAL1e-=ghMjUtEyqKX+s15RcyQp6uQO_hJ_u4RTSJ5ZyPvFnymw@mail.gmail.com>
+ <b376dc86-6879-2a72-3261-7fdf06172456@linaro.org>
+ <CAL1e-=hS_nQQYY39j-mx1QBFw+Xe3V5NgFW7ifrkMZRxFbB=OA@mail.gmail.com>
+ <38326483-d804-02c6-42bc-9633fc4d5028@linaro.org>
+ <CAL1e-=gWBkA+tWZJ9E7JNk1X_gwnhKbRfT_CtNr+o5uy+e-oDw@mail.gmail.com>
+ <97e10fdb-8271-c2e1-7094-1246064d0bb8@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 10 Jul 2019 12:52:50 +0200
+Message-ID: <CAL1e-=i8YrSRGjw+XzDgop8CUCERy_MKUQ3L2_iX4HEn2CBokg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH] tcg/aarch64: Fix output of extract2 opcodes
+X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 15/16] tcg/ppc: Update vector support to
+ v2.07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> The aarch64 argument ordering for the operands is big-endian,
-> whereas the tcg argument ordering is little-endian.  Use REG0
-> so that we honor the rZ constraints.
+On Jul 2, 2019 4:26 PM, "Richard Henderson" <richard.henderson@linaro.org>
+wrote:
 >
-> Fixes: 464c2969d5d
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-I ran a bunch of AArch64 EXTR testcases on AArch64 and hit the code at
-least 4600 times ;-)
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  tcg/aarch64/tcg-target.inc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 7/1/19 1:41 PM, Aleksandar Markovic wrote:
+> > If we go back to my example, it appears to me that doubleword
+> > integer max/min Altivec instruction do not depend on VSX in any
+> > way, or, at least, I did not find anything in Altivec docs that
+> > mentions it (I could be wrong).
 >
-> diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-> index b0f8106642..0713448bf5 100644
-> --- a/tcg/aarch64/tcg-target.inc.c
-> +++ b/tcg/aarch64/tcg-target.inc.c
-> @@ -2226,7 +2226,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+> You are correct, for the case of min/max -- and indeed all of the other
+> arithmetic added in this patch -- we do not need VSX.
 >
->      case INDEX_op_extract2_i64:
->      case INDEX_op_extract2_i32:
-> -        tcg_out_extr(s, ext, a0, a1, a2, args[3]);
-> +        tcg_out_extr(s, ext, a0, REG0(2), REG0(1), args[3]);
->          break;
+> However, the load/store instructions added by this patch do require VSX.
 >
->      case INDEX_op_add2_i32:
+> AFAIK, there is exactly one v2.07 core design, the power8.
+> It has both Altivec and VSX, so it's really only a technicality
+> to check both v2.07 + Altivec + VSX, but I do anyway.  It does
+> not seem worthwhile to decompose these checks further.
+>
 
+What did you achieve with such assimption? I see this:
 
---
-Alex Benn=C3=A9e
+- you have one flag less in your code, saving some 7-8 lines of source
+(this includes flag initialization)
 
+- you made QEMU executable around 20 bytes shorter
+
+- you shortened QEMU initialization by almost 10 ns
+
+(feel free to add something if I missed it)
+
+However, here is the price: you made the code not only dependant on ISA
+documentation, but also on market forces (whether some CPU configurations
+are physically produced or not). Secondly, analysis of the code is
+significantly more difficult.
+
+Those are huge steps backward.
+
+You should stick to the documentation only, and refactor the patch in that
+light.
+
+Regards,
+Aleksandar
+
+>
+> r~
