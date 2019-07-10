@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC8064AB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:25:28 +0200 (CEST)
-Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B942D64A9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:18:49 +0200 (CEST)
+Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFPK-0006VD-2x
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55311)
+	id 1hlFIu-000815-AD
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55334)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEr-00067C-IW
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:39 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEt-00067G-SR
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEo-0007Qb-Fo
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:36 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35110)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEp-0007Rm-UN
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:37 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54127)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hlFEo-0007Oe-8h
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:34 -0400
-Received: by mail-wm1-x341.google.com with SMTP id l2so2894378wmg.0
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:32 -0700 (PDT)
+ id 1hlFEo-0007Pt-PD
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:35 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id x15so2902455wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UJ4snQpyLIajOpVuepAKxpe0AF5m5e4v2GGBflH9o3k=;
- b=E6ye2E6Ar5gTiTv87VxWno2Rs3+6gvOD32Yxj0C2S7a+yXlMCqI8V9laOP7RQlB2LU
- /ohJuAAuIhx8TsLbVCR67vpVnksseVbfkDnoZLymwLP96DY1FNqdIhsyEaBEvACO9edW
- dq9BfUMVqazmjgP5+17X/2TPva3tYZvFbpp6QJwfp3IpMJtYyP0jstF0a34ePGDawwed
- eN8JH8e3yygVmVjUrTvs26Hpt2awRf2XVASAgZVzL9UvFSO4r8KLwgIe4VXgEIsecfv2
- DSXLE+J/tzCFJLfjNkl83GxshK25Kuk4h4SD/D6L99Z4IGl8mDgFfg0/HzVgNnGTpltP
- NkDA==
+ bh=YGykOkEMYXRBis9yBQtAq0dGo3SPwqnrceEfw3LjUE8=;
+ b=Om8+VeSruTtqZxFKcQ9y0EMrGVA9MJwYDhp5kJMrrBtM1694YUA3sMqUGNVwfnqpqB
+ s/WT7xTcVsV+DhZXh8dc7rxnmV4BS4Pdd+zoeYgfVBRZWRJSCPJ0E569uPHaexXV2KcS
+ tFtQweZNsqaB7VZoTK6RSTPayGTJTjCzxPIpy3ql9TDZxAmF9JsP0C9A8q0thpIKl2pW
+ FNhU3t1El/LTYCwz6nGm82xMIQBgHL211pobYD/kyIGLPlunNN349OnCQSy1Elepx5vf
+ mcJxZtxy7u+CyDRtGwP1YwFuZ2pcgT5Um5KXZfcy6kMormgKgk0DlV4ocQ+aLq1zKU/v
+ fdsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=UJ4snQpyLIajOpVuepAKxpe0AF5m5e4v2GGBflH9o3k=;
- b=bVV3nyN/o+WB4o6SllOgHlX616aQ+JYZqQ71CM0SdvfVLtN0wSdGrDDdWcwNSkTtj5
- nmLvIOCeRAnOtzYN3XMpx6yT3rZLDix0vGdat9Q2K+QGsnd6P4UUD5ufaT5jh9UT/Pun
- ZbnjTGJ8xVedBIXFwNIXXOieiSDZMAe6KGaIwzMHYBN4ukE6+pMu9pUZTuPCGkuCGkZW
- CSC+oKKp3cmKnbfYkO7eDjPUE834Rg4WXsP4phwfbuLCUM/GBTip2B9YTLcV9Dsb28mx
- zVRbs/cQFzzx6wAXJntXhQuMlsGfmCX4n52e8fF/gbdQ72VI+TMp1pG+a67om76hrQlU
- usxA==
-X-Gm-Message-State: APjAAAXB0bjebqI+DHPKRuK8w+dvN+eUWd1j6VgFRpQV3JqVT1XNEVG2
- MfCdAJPTodBcy51WnoF69v/Dj/dJxlQ=
-X-Google-Smtp-Source: APXvYqx3qapk+wOirxHT0V3YiEno928Dahkc9Zh8nxmDqSeK/tYT2mFnh8uj0ukMl3Qc/RiHfbneRQ==
-X-Received: by 2002:a1c:c542:: with SMTP id v63mr5881155wmf.97.1562775271522; 
- Wed, 10 Jul 2019 09:14:31 -0700 (PDT)
+ bh=YGykOkEMYXRBis9yBQtAq0dGo3SPwqnrceEfw3LjUE8=;
+ b=Gg1gs1iQsAYYo9WA4P+1B3KX0ZabWVMrlq+uf97jCZJONhGw8mkO9gcRoG5PzomV1y
+ C7OSL2kV08fJLk6cYQZ/fL6FotRIZIfp2Wzx1yCUzYkpDKggayegsp1ECezC3k/iYfoG
+ 2kuvYEVvk+qe6jIYe6RkGtyCkBGVs1s+V5UHm4e0lSjQO2f7hFVUDXl2Njm9n8pRSyA0
+ F7srsyHsJe7n4sKb9IU+5ddOr2H76pZ+jxxKueOBtINO6uRxfBopebxHocIWMPbSbDdW
+ 4ubZOC2kb93/lzBYlxMNVTZPiaJeDVmX/TH1gsObbD04e/+5wCpEYnHD55L8JZRMkpXZ
+ IMcQ==
+X-Gm-Message-State: APjAAAWi4lhGCYePfauCXNLzGQv4NfF2kGRa1wZn255bsGRLvDcyoMsb
+ iXKUW3Xgl1wDe+pdhs4sAdGrQoLn7ac=
+X-Google-Smtp-Source: APXvYqzEwnf4/iuECcjc6dXTSaUTwTvIFdm0jmZoWozuugY10RUk8bv0l6ndHp0AoujxaWsIDS/WcQ==
+X-Received: by 2002:a1c:a8d7:: with SMTP id r206mr6139390wme.47.1562775272893; 
+ Wed, 10 Jul 2019 09:14:32 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.30
+ by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 09:14:30 -0700 (PDT)
+ Wed, 10 Jul 2019 09:14:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 10 Jul 2019 18:14:20 +0200
-Message-Id: <1562775267-1222-2-git-send-email-pbonzini@redhat.com>
+Date: Wed, 10 Jul 2019 18:14:21 +0200
+Message-Id: <1562775267-1222-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
 References: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH 1/8] configure: do not include $(...) variables
- in config-host.mak
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PATCH 2/8] configure: set $PYTHON to a full path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,104 +79,26 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This ensures that Meson will be able to reuse the results of
-the tests that are performed in the configure script.
+This will make it possible to replace it in a shebang line.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 5c79145..b0b8bdd 100755
+index b0b8bdd..49cb3f3 100755
 --- a/configure
 +++ b/configure
-@@ -597,7 +597,7 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
- QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
--QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
-+QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
- if test "$debug_info" = "yes"; then
-     CFLAGS="-g $CFLAGS"
-     LDFLAGS="-g $LDFLAGS"
-@@ -896,7 +896,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   kvm="yes"
--  QEMU_INCLUDES="-I\$(SRC_PATH)/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-I${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
-   supported_os="yes"
-   libudev="yes"
- ;;
-@@ -4081,8 +4081,8 @@ EOF
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
-               symlink "$source_path/dtc/scripts" "dtc/scripts"
-           fi
--          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
--          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
-+          fdt_cflags="-I${source_path}/dtc/libfdt"
-+          fdt_ldflags="-L$PWD/dtc/libfdt"
-           fdt_libs="$fdt_libs"
-       elif test "$fdt" = "yes" ; then
-           # Not a git build & no libfdt found, prompt for system install
-@@ -5031,13 +5031,13 @@ case "$capstone" in
-       git_submodules="${git_submodules} capstone"
+@@ -918,7 +918,7 @@ for binary in "${PYTHON-python3}" python python2
+ do
+     if has "$binary"
+     then
+-        python="$binary"
++        python=$(command -v "$binary")
+         break
      fi
-     mkdir -p capstone
--    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
-+    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
-     if test "$mingw32" = "yes"; then
-       LIBCAPSTONE=capstone.lib
-     else
-       LIBCAPSTONE=libcapstone.a
-     fi
--    LIBS="-L\$(BUILD_DIR)/capstone -lcapstone $LIBS"
-+    LIBS="-L$PWD/capstone -lcapstone $LIBS"
-     ;;
- 
-   system)
-@@ -5942,8 +5942,8 @@ case "$slirp" in
-       git_submodules="${git_submodules} slirp"
-     fi
-     mkdir -p slirp
--    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
--    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
-+    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
-+    slirp_libs="-L$PWD/slirp -lslirp"
-     ;;
- 
-   system)
-@@ -7288,21 +7288,21 @@ if test "$sheepdog" = "yes" ; then
- fi
- 
- if test "$tcg_interpreter" = "yes"; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
- elif test "$ARCH" = "s390x" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
- elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
- elif test "$ARCH" = "ppc64" ; then
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
- elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
--  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
- else
--  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
-+  QEMU_INCLUDES="-iquote ${source_path}/tcg/\$(ARCH) $QEMU_INCLUDES"
- fi
--QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg $QEMU_INCLUDES"
-+QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
- 
- echo "TOOLS=$tools" >> $config_host_mak
- echo "ROMS=$roms" >> $config_host_mak
+ done
 -- 
 1.8.3.1
 
