@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA65A64538
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:35:46 +0200 (CEST)
-Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629B66454C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:43:54 +0200 (CEST)
+Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl9wv-00009q-Rj
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
+	id 1hlA4n-0002mN-3q
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48347)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hl9vd-00082r-P2
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:34:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hlA2Q-0001dP-G8
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:41:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hl9vc-0000ex-Fx
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:34:25 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:46799)
+ (envelope-from <philmd@redhat.com>) id 1hlA2P-0001mG-1n
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:41:26 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40151)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hl9vc-0000cs-5x
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:34:24 -0400
-Received: by mail-qk1-x741.google.com with SMTP id r4so1406310qkm.13
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 03:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TA8KfUWPpwMfIHjv+1wev+PVDZCNC1XIvpAX53YemRE=;
- b=JgFIiROABoi6cOgZqiH0H6hNqyFasJ+BsgwBuoUjMrjbe+ehSUShOKhg6Dst6YWVjh
- WJWZsxUoSFR7LscisN1Xh/fs5NuKw6iNf8ZTXaCBfCr9hztOFXcHoAibpSJgxAn2sbmS
- tFxhiydfHwKM27Bnaz3RD4PAufE0gVdE1aMTi8u+mGlSWMaNnGhMo4dWvaP+5yu1Hjmq
- r90C00ueWW+oJngojRKPc/bMKSV1A1CokcuhyWmLYXxY4RFoz03r+RZYyHWP/s9gg4oY
- FS74J6prYb023AYN7t1sD/ps8+YBvmE+/yCxpgl7f0O7YTVter7fR8cZSWZ2lGs6g5LF
- YDBA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlA2O-0001kk-3X
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:41:24 -0400
+Received: by mail-wr1-f66.google.com with SMTP id r1so1892855wrl.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 03:41:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TA8KfUWPpwMfIHjv+1wev+PVDZCNC1XIvpAX53YemRE=;
- b=TBG6Y3Tt1NUy4S0TsGs5ZaxKu2Uh0BKQQQsN71UwXU0KQWpFmp0h2oAz4FhEwDFmA/
- UczQZuji5Is5lShPS1iASMBXWI/ormHrrtpU7NsXIAMx6J2BZlsizu9rE5W4FFr1YusX
- Kg0l0c5yrScS788ZsmfQKc1atyNxknqPs7/t6VOIVoy4rIL1U3f+ojlBKSTxvmLSsy6Y
- UT8QUuXuy6oZCpZSDHRmCUuIKzGI6zmiyJ1vztycK3LPT6lrFe6JGpBPg1edZ3+BEsuK
- IUjrecAokv5OE0oDTYT6oe/J0hiZ+jh2TlJbxWfyTQaRUKuLKIe1LWLeeaSX/peyhd/4
- IzoA==
-X-Gm-Message-State: APjAAAUr+UVTH9mvG0zLM2BTYhqt24LtPISG7rKALzXWaqNdkIMaJ4sW
- rLwhXUvlK2WhV+d4xHDlX+8haen3THgm7pG4/mE=
-X-Google-Smtp-Source: APXvYqxQ2wiQEk0r0p00X85PgwWuKZf0+gZSXUQxO1sk5jGkV8QJtDet+xBkM6lUpA3Pbv7WBrDrRUr1Mbz+aEc6SVo=
-X-Received: by 2002:a37:a854:: with SMTP id r81mr21993345qke.378.1562754862263; 
- Wed, 10 Jul 2019 03:34:22 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bikpCkm7t8bGzapIgCxmtWgANhQEbQ0YH3XGd5eUdek=;
+ b=tSa9fU19DVZCB9MBC35N8pwvPBhEwDjToAsXNNzNgfrDSXHPKz9JGQZdUw/fn85QxS
+ kLKDv8NcpZDDlOtXQTIptcfkrE05yZZnkrLhYk0girlJw4C/m95I2QiyRJUnoJGSQIVY
+ XGoq6iCVXoZAGB+HYIdyautR+wWKDbWVXPRz7q46dro7wabavyiitbBaEY3D+da7h1vW
+ mw92C8gnd0YdINUkfdGJQE+hMwwZcTQkDOhGipeS9/PLd8M04EpyclvpcbClpe+Dcl5s
+ /1wBoK2VpBPVhZsrt/i41NQaKDlokopi4BvJnN/TiJIIu8AD2z9gVA16cig3avT4yR4v
+ oHRg==
+X-Gm-Message-State: APjAAAXzv9KfaPyLaIHPxOgOLHvH6K+ukQm+jm7PC1TcLtZfg60RSFjy
+ xSfOs+iwWCkIA3X1qKZB4gdEiA==
+X-Google-Smtp-Source: APXvYqyJdSFRu81RB9HMQUu54MV0VqESbKlUFPLMJjIwGb4aDSSnggDJ3uJcjLKdgGPWECHjG7e57w==
+X-Received: by 2002:adf:eb86:: with SMTP id t6mr2360129wrn.96.1562755282632;
+ Wed, 10 Jul 2019 03:41:22 -0700 (PDT)
+Received: from [10.32.224.100] (red-hat-inc.vlan560.asr1.mad1.gblx.net.
+ [159.63.51.90])
+ by smtp.gmail.com with ESMTPSA id b15sm2305028wrt.77.2019.07.10.03.41.21
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 10 Jul 2019 03:41:22 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190705160421.19015-1-alex.bennee@linaro.org>
+ <20190705160421.19015-3-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <af417ca3-248a-d1a8-51c4-46676b6d9d4a@redhat.com>
+Date: Wed, 10 Jul 2019 12:41:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190709213651.77315-1-mrolnik@gmail.com>
- <20190709213651.77315-7-mrolnik@gmail.com>
- <bf1181ea-0ad3-c6fa-c580-1175daa373ce@redhat.com>
-In-Reply-To: <bf1181ea-0ad3-c6fa-c580-1175daa373ce@redhat.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Wed, 10 Jul 2019 13:33:43 +0300
-Message-ID: <CAK4993igbJbbBfH-1zGu_uThHqujm3Caev=+z5t_y34HrUfC0Q@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v25 6/7] target/avr: Add example board
- configuration
+In-Reply-To: <20190705160421.19015-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v1 2/5] tests/tcg: fix up
+ test-i386-fprem.ref generation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Jan Bobek <jan.bobek@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe.
+On 7/5/19 6:04 PM, Alex Bennée wrote:
+> We never shipped the reference data in the source tree because it was
+> quite big (64M). As a result the only option is to generate it
 
-My intension was to implement CPU only. I was not interested in modelling
-boards, I hoped other people would do it. that's why I stopped two years
-ago and did not proceed as there was no interest.
-however, it seems there is an interest as Sarah added some peripheral and
-fixed some bugs.
-I am still not interested in modelling boards, nonetheless, I will support
-/ maintain the CPU and whatever other people will add.
+Can we fetch it (with hash verification) or store it compressed?
 
-Regards,
-Michael
+$ du -ch pc-bios/edk2-*bz2
+1.2M    pc-bios/edk2-aarch64-code.fd.bz2
+1.2M    pc-bios/edk2-arm-code.fd.bz2
+4.0K    pc-bios/edk2-arm-vars.fd.bz2
+1.7M    pc-bios/edk2-i386-code.fd.bz2
+1.9M    pc-bios/edk2-i386-secure-code.fd.bz2
+4.0K    pc-bios/edk2-i386-vars.fd.bz2
+1.7M    pc-bios/edk2-x86_64-code.fd.bz2
+1.9M    pc-bios/edk2-x86_64-secure-code.fd.bz2
+9.3M    total
 
-On Wed, Jul 10, 2019 at 1:10 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
+> locally. Although we have a rule to generate the reference file we
+> missed the dependency and location changes, probably because it is
+> only run for SLOW test runs.
+> 
+> The test still fails with mostly incorrect flags and different than
+> expected NaNs. I'll leave that for the x86 experts to look at.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Jan Bobek <jan.bobek@gmail.com>
+> ---
+>  tests/tcg/i386/Makefile.target | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+> index b4033ba3d1..d0eb7023e5 100644
+> --- a/tests/tcg/i386/Makefile.target
+> +++ b/tests/tcg/i386/Makefile.target
+> @@ -35,9 +35,9 @@ test-i386-fprem.ref: test-i386-fprem
+>  	$(call quiet-command, ./$< > $@,"GENREF","generating $@")
+>  
+>  run-test-i386-fprem: TIMEOUT=60
+> -run-test-i386-fprem: test-i386-fprem
+> +run-test-i386-fprem: test-i386-fprem test-i386-fprem.ref
+>  	$(call run-test,test-i386-fprem, $(QEMU) $<,"$< on $(TARGET_NAME)")
+> -	$(call diff-out,test-i386-fprem, $(I386_SRC)/$<.ref)
+> +	$(call diff-out,test-i386-fprem, test-i386-fprem.ref)
+>  else
+>  run-test-i386-fprem: test-i386-fprem
+>  	$(call skip-test, $<, "SLOW")
+> 
 
-> On 7/9/19 11:36 PM, Michael Rolnik wrote:
-> > From: Sarah Harris <S.E.Harris@kent.ac.uk>
-> >
-> > A simple board setup that configures an AVR CPU to run a given firmware
-> image.
-> > This is all that's useful to implement without peripheral emulation as
-> AVR CPUs include a lot of on-board peripherals.
->
-> Why not model a tiny existing board?
->
-> You can mark various pieces of hardware as 'unimplemented'.
->
-> >
-> > Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> > ---
-> >  hw/Kconfig           |   1 +
-> >  hw/avr/Kconfig       |   4 +
-> >  hw/avr/Makefile.objs |   1 +
-> >  hw/avr/sample.c      | 217 +++++++++++++++++++++++++++++++++++++++++++
-> [...]
->
-
-
---=20
-Best Regards,
-Michael Rolnik
