@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AE264D1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:02:03 +0200 (CEST)
-Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8328F64D1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:01:20 +0200 (CEST)
+Received: from localhost ([::1]:36638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlImw-0000G4-E1
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50166)
+	id 1hlImF-00078v-La
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50253)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlIja-0002pV-AG
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:36 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1hlIjj-0003Fr-L6
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlIjY-0002Ws-6n
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:34 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43210)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1hlIjg-0002gT-Gl
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:43 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40606)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1hlIjX-0002WH-V6
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:32 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p13so3727255wru.10
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 12:58:31 -0700 (PDT)
+ id 1hlIjg-0002ep-66
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:58:40 -0400
+Received: by mail-wr1-x441.google.com with SMTP id r1so3735090wrl.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 12:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=OnYAvrTpS2BRRGWc1xmVZdXr5Nei3fk/A5VT1VHtjds=;
- b=OI0ZORCtDBoFjVD0ewi3YRgewXy/w6YulZqHL2qhja5zzyHwkbOQtiLZ+2nSq0P1LC
- pgPTnHWsO9PiIT/c88rVi2htUuBc7DveHN5nQc56ydZleI+lslt5YmxVUfbfzsmVBTLd
- OaGA+GpTj3mKiOi1GNxYUFQ0MhWRGZLkEfwD9Kcpal1Zh1Dn5jNoskIHxHDp9qPjp23e
- QNugAUxhAIpdBFAAtNA612EtplevscpG8FvCD7J7+5bAQb98Gp+mbH5dgo1Lhs3IC4xg
- Xwo1p6ZBYqHw7ZI6UR877pwE7LLPQ9ZS+0+FlaylCh5wPugHWaCJNGv4NAI4cY9p3tcS
- sb3Q==
+ bh=sDOcTQYR0OyQTJGzu+18Z6yQomK9WC2kMLHOXO4d+As=;
+ b=iCpkeAwWOqdzRx2i1RX2Hhd5gJh48VJNZAMC9SVmvAbQq/wioKpWhU/NubzYavbPxe
+ CTSuov/2/gQl5VM07qEjm91mEc4zop7BLP0eyZXZdHVl3few+bnJ2Ls3Dw2tjopvVaiy
+ Tyu/ULArJajO/BU/GCEb4fCIBSGAqc5VodlD9K9vLsf8RhKMcH+L6QRPewK/LYRIvJLq
+ u6J4LDx6vfza0atFCAbxySxCrnkQ7QY0Asy+qysLDL9gEcR9Uo4Nru0TxnqqHAUEqsVT
+ SKQDcME06yfTFZy4uKlz297urJtpHo66Mz3me1QWbpoH4calTBUs3ykRdz8OENTC6G6h
+ Dhtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=OnYAvrTpS2BRRGWc1xmVZdXr5Nei3fk/A5VT1VHtjds=;
- b=FLRpGfzzilMMK2Du6aGkIIv2PB3FjwKQJYHTjGD+5MzCqtGC9d4x+523J0LujWRAX0
- gUTjSjaW9a5eiVLlOO/01uee5YMOyiQ3T8uyxkfNm0/MSnops2BHkhYF8Sq+99LBXVrQ
- WGpa87j6d3HkCf0pagofMOluux5CVZ3ZQA3LXUY5fMMIiN0YZj9DJ9JztwFgwToC6OBm
- KpF3UU/fD3ogBnjs/ayHV62wkoqTt857Y4qC2rNb0dODI1ePRybGEDNQq1xpmDyx4OAM
- aMuTC54J1Yd4M8ZRxQgFNFyC/4iiJu/VCqAuA12HLjpYG0e1Wz8XcAGWMLnDvvbzI//J
- sf9A==
-X-Gm-Message-State: APjAAAUfMvBAjTUmT1upsoXzXQvlFFKxaBvAWk2U0YdWZoeKkRD273D0
- MvPihlI+60WLHrGKXkXe05ut6R4/f09oTuWlO6A=
-X-Google-Smtp-Source: APXvYqwiJCCLHswBWx8XP3dKkj1Hg0NOrh4JAMr+gHs9+UPYws/f5Fa3OVJyKr205UC0/2pWpMvMb8eVl8RoQ1cjAeU=
-X-Received: by 2002:adf:ea8b:: with SMTP id s11mr32294136wrm.100.1562788710956; 
- Wed, 10 Jul 2019 12:58:30 -0700 (PDT)
+ bh=sDOcTQYR0OyQTJGzu+18Z6yQomK9WC2kMLHOXO4d+As=;
+ b=NmsXVZWQNYVhj4QU6Ezq3PpjAGVaoClTYCGVokVVABPZ5/Q41xIadcGt/Ro704toXR
+ 5PghuFleKh71jYXy+eY/CFYuXZlEV3qzUxmvlBYjz1GMf+mDnSZwugVrFsKupyoYNg3q
+ UAQ5cbYLQSArzR8vEXXafss+ZCHVGORuX2n+lcurXPErj2z1KHL4vblYexqz8XcZN4HB
+ ebelFIEU+AQePlYExAlXTBBx8/VOGHHwHV11oJqv/P1IfeDXXF8l1Q4hywpoqXMY125D
+ MqtiGulPRdw+M2sGFVIDg3DFdKFCCq+HPx54FTn0bnZX/91dGoLfk2xL2teJBEyW+yjD
+ 76xQ==
+X-Gm-Message-State: APjAAAV/piomjCCJNI9+jxsAnE2hUmCnHaLMLGzsjkNBJs+usSw9fuSk
+ 7ODGSq7GvuWAquQHFADJh8kRxId0EDfiZG9nuWphJhww
+X-Google-Smtp-Source: APXvYqzo/arERqdRSelXfhVd3fgO8lV1Qc/yzlLdbRYV5vMNOPpAiWMIv9Sh6VuAmjVGnskGj3AaZvpcZ1xtX9pVrLs=
+X-Received: by 2002:a5d:6650:: with SMTP id f16mr884330wrw.89.1562788718759;
+ Wed, 10 Jul 2019 12:58:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1562695780.git.DirtY.iCE.hu@gmail.com>
- <597ee579c3d14ff6f0892ee9e1905cdb0e0990ad.1562695780.git.DirtY.iCE.hu@gmail.com>
-In-Reply-To: <597ee579c3d14ff6f0892ee9e1905cdb0e0990ad.1562695780.git.DirtY.iCE.hu@gmail.com>
+ <d1b11399ed3d3cef0b110d5d4f7cfb5d6f65a89e.1562695780.git.DirtY.iCE.hu@gmail.com>
+In-Reply-To: <d1b11399ed3d3cef0b110d5d4f7cfb5d6f65a89e.1562695780.git.DirtY.iCE.hu@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 10 Jul 2019 23:58:18 +0400
-Message-ID: <CAJ+F1CLbHktECo+86kXBe8jMsCLX0N50C_48i5Xp3NzbsDNaQg@mail.gmail.com>
+Date: Wed, 10 Jul 2019 23:58:26 +0400
+Message-ID: <CAJ+F1CKp9mH7YwvUiQYeNdibafd5gFLLj2HWa9uNJ7S0pxM-uQ@mail.gmail.com>
 To: =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 02/11] audio: basic support for multi
- backend audio
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 07/11] audio: remove audio_MIN, audio_MAX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,500 +74,802 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Michael Walle <michael@walle.cc>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 9, 2019 at 11:02 PM K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.i=
+On Tue, Jul 9, 2019 at 11:08 PM K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.i=
 ce.hu@gmail.com> wrote:
 >
-> Audio functions no longer access glob_audio_state, instead they get an
-> AudioState as a parameter.  This is required in order to support
-> multiple backends.
->
-> glob_audio_state is also gone, and replaced with a tailq so we can store
-> more than one states.
+> There's already a MIN and MAX macro in include/qemu/osdep.h, use them
+> instead.
 >
 > Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
 >
 
 
-I guess you could have made the vnc and wavcapture audiodev argument a
-seperate commit. Or mention it in commit message.
-
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-
-
 > ---
->  audio/audio.h          |  12 +++--
->  audio/audio_int.h      |   2 +
->  audio/audio_template.h |   2 +-
->  ui/vnc.h               |   2 +
->  audio/audio.c          | 102 +++++++++++++++++++++++++++++++----------
->  audio/wavcapture.c     |   6 +--
->  monitor/misc.c         |  12 ++++-
->  ui/vnc.c               |  15 +++++-
->  hmp-commands.hx        |  11 +++--
->  qemu-options.hx        |   5 ++
->  10 files changed, 131 insertions(+), 38 deletions(-)
+>  audio/audio.h             | 17 -----------------
+>  audio/alsaaudio.c         |  6 +++---
+>  audio/audio.c             | 20 ++++++++++----------
+>  audio/coreaudio.c         |  2 +-
+>  audio/dsoundaudio.c       |  2 +-
+>  audio/noaudio.c           | 10 +++++-----
+>  audio/ossaudio.c          |  6 +++---
+>  audio/paaudio.c           | 12 ++++++------
+>  audio/sdlaudio.c          |  6 +++---
+>  audio/spiceaudio.c        | 10 +++++-----
+>  audio/wavaudio.c          |  4 ++--
+>  hw/audio/ac97.c           | 10 +++++-----
+>  hw/audio/adlib.c          |  4 ++--
+>  hw/audio/cs4231a.c        |  4 ++--
+>  hw/audio/es1370.c         |  6 +++---
+>  hw/audio/gus.c            |  6 +++---
+>  hw/audio/hda-codec.c      | 16 ++++++++--------
+>  hw/audio/milkymist-ac97.c |  8 ++++----
+>  hw/audio/pcspk.c          |  2 +-
+>  hw/audio/sb16.c           |  2 +-
+>  hw/audio/wm8750.c         |  4 ++--
+>  21 files changed, 70 insertions(+), 87 deletions(-)
 >
 > diff --git a/audio/audio.h b/audio/audio.h
-> index 64b0f761bc..ad2457f4de 100644
+> index c0722a5cda..4a95758516 100644
 > --- a/audio/audio.h
 > +++ b/audio/audio.h
-> @@ -78,8 +78,10 @@ typedef struct SWVoiceOut SWVoiceOut;
->  typedef struct CaptureVoiceOut CaptureVoiceOut;
->  typedef struct SWVoiceIn SWVoiceIn;
+> @@ -146,23 +146,6 @@ static inline void *advance (void *p, int incr)
+>      return (d + incr);
+>  }
 >
-> +typedef struct AudioState AudioState;
->  typedef struct QEMUSoundCard {
->      char *name;
-> +    AudioState *state;
->      QLIST_ENTRY (QEMUSoundCard) entries;
->  } QEMUSoundCard;
->
-> @@ -92,7 +94,8 @@ void AUD_log (const char *cap, const char *fmt, ...) GC=
-C_FMT_ATTR(2, 3);
->
->  void AUD_register_card (const char *name, QEMUSoundCard *card);
->  void AUD_remove_card (QEMUSoundCard *card);
-> -CaptureVoiceOut *AUD_add_capture (
-> +CaptureVoiceOut *AUD_add_capture(
-> +    AudioState *s,
->      struct audsettings *as,
->      struct audio_capture_ops *ops,
->      void *opaque
-> @@ -160,8 +163,8 @@ static inline void *advance (void *p, int incr)
->  #define audio_MAX(a, b) ((a)<(b)?(b):(a))
->  #endif
->
-> -int wav_start_capture (CaptureState *s, const char *path, int freq,
-> -                       int bits, int nchannels);
-> +int wav_start_capture(AudioState *state, CaptureState *s, const char *pa=
+> -#ifdef __GNUC__
+> -#define audio_MIN(a, b) ( __extension__ ({      \
+> -    __typeof (a) ta =3D a;                        \
+> -    __typeof (b) tb =3D b;                        \
+> -    ((ta)>(tb)?(tb):(ta));                      \
+> -}))
+> -
+> -#define audio_MAX(a, b) ( __extension__ ({      \
+> -    __typeof (a) ta =3D a;                        \
+> -    __typeof (b) tb =3D b;                        \
+> -    ((ta)<(tb)?(tb):(ta));                      \
+> -}))
+> -#else
+> -#define audio_MIN(a, b) ((a)>(b)?(b):(a))
+> -#define audio_MAX(a, b) ((a)<(b)?(b):(a))
+> -#endif
+> -
+>  int wav_start_capture(AudioState *state, CaptureState *s, const char *pa=
 th,
-> +                      int freq, int bits, int nchannels);
+>                        int freq, int bits, int nchannels);
 >
->  bool audio_is_cleaning_up(void);
->  void audio_cleanup(void);
-> @@ -175,4 +178,7 @@ void audio_parse_option(const char *opt);
->  void audio_init_audiodevs(void);
->  void audio_legacy_help(void);
+> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+> index 3745c823ad..6b9e0f06af 100644
+> --- a/audio/alsaaudio.c
+> +++ b/audio/alsaaudio.c
+> @@ -634,7 +634,7 @@ static void alsa_write_pending (ALSAVoiceOut *alsa)
 >
-> +AudioState *audio_state_by_name(const char *name);
-> +const char *audio_get_id(QEMUSoundCard *card);
-> +
->  #endif /* QEMU_AUDIO_H */
-> diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 8164696b2c..9f01f6ad00 100644
-> --- a/audio/audio_int.h
-> +++ b/audio/audio_int.h
-> @@ -196,6 +196,8 @@ typedef struct AudioState {
+>      while (alsa->pending) {
+>          int left_till_end_samples =3D hw->samples - alsa->wpos;
+> -        int len =3D audio_MIN (alsa->pending, left_till_end_samples);
+> +        int len =3D MIN (alsa->pending, left_till_end_samples);
+>          char *src =3D advance (alsa->pcm_buf, alsa->wpos << hw->info.shi=
+ft);
 >
->      bool timer_running;
->      uint64_t timer_last;
-> +
-> +    QTAILQ_ENTRY(AudioState) list;
->  } AudioState;
+>          while (len) {
+> @@ -697,7 +697,7 @@ static int alsa_run_out (HWVoiceOut *hw, int live)
+>          return 0;
+>      }
 >
->  extern const struct mixeng_volume nominal_volume;
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index c721fed75d..54f07338e7 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -428,7 +428,7 @@ SW *glue (AUD_open_, TYPE) (
->      struct audsettings *as
->      )
->  {
-> -    AudioState *s =3D &glob_audio_state;
-> +    AudioState *s =3D card->state;
->      AudiodevPerDirectionOptions *pdo =3D glue(audio_get_pdo_, TYPE)(s->d=
-ev);
+> -    decr =3D audio_MIN (live, avail);
+> +    decr =3D MIN (live, avail);
+>      decr =3D audio_pcm_hw_clip_out (hw, alsa->pcm_buf, decr, alsa->pendi=
+ng);
+>      alsa->pending +=3D decr;
+>      alsa_write_pending (alsa);
+> @@ -915,7 +915,7 @@ static int alsa_run_in (HWVoiceIn *hw)
+>          }
+>      }
 >
->      if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index 2f84db3142..6f54653455 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -183,6 +183,8 @@ struct VncDisplay
->  #ifdef CONFIG_VNC_SASL
->      VncDisplaySASL sasl;
->  #endif
-> +
-> +    AudioState *audio_state;
->  };
->
->  typedef struct VncTight {
+> -    decr =3D audio_MIN (dead, avail);
+> +    decr =3D MIN (dead, avail);
+>      if (!decr) {
+>          return 0;
+>      }
 > diff --git a/audio/audio.c b/audio/audio.c
-> index 8d2f580788..e9dd7c8b32 100644
+> index 82dd0e3e13..6bf30ac9b3 100644
 > --- a/audio/audio.c
 > +++ b/audio/audio.c
-> @@ -87,7 +87,8 @@ audio_driver *audio_driver_lookup(const char *name)
->      return NULL;
->  }
+> @@ -533,7 +533,7 @@ static int audio_pcm_hw_find_min_in (HWVoiceIn *hw)
 >
-> -static AudioState glob_audio_state;
-> +static QTAILQ_HEAD(AudioStateHead, AudioState) audio_states =3D
-> +    QTAILQ_HEAD_INITIALIZER(audio_states);
->
->  const struct mixeng_volume nominal_volume =3D {
->      .mute =3D 0,
-> @@ -1236,11 +1237,14 @@ static void audio_run_capture (AudioState *s)
->
->  void audio_run (const char *msg)
->  {
-> -    AudioState *s =3D &glob_audio_state;
-> +    AudioState *s;
-> +
-> +    QTAILQ_FOREACH(s, &audio_states, list) {
-> +        audio_run_out(s);
-> +        audio_run_in(s);
-> +        audio_run_capture(s);
-> +    }
->
-> -    audio_run_out (s);
-> -    audio_run_in (s);
-> -    audio_run_capture (s);
->  #ifdef DEBUG_POLL
->      {
->          static double prevtime;
-> @@ -1304,13 +1308,11 @@ bool audio_is_cleaning_up(void)
->      return is_cleaning_up;
->  }
->
-> -void audio_cleanup(void)
-> +static void free_audio_state(AudioState *s)
->  {
-> -    AudioState *s =3D &glob_audio_state;
->      HWVoiceOut *hwo, *hwon;
->      HWVoiceIn *hwi, *hwin;
->
-> -    is_cleaning_up =3D true;
->      QLIST_FOREACH_SAFE(hwo, &s->hw_head_out, entries, hwon) {
->          SWVoiceCap *sc;
->
-> @@ -1347,6 +1349,17 @@ void audio_cleanup(void)
->          qapi_free_Audiodev(s->dev);
->          s->dev =3D NULL;
+>      for (sw =3D hw->sw_head.lh_first; sw; sw =3D sw->entries.le_next) {
+>          if (sw->active) {
+> -            m =3D audio_MIN (m, sw->total_hw_samples_acquired);
+> +            m =3D MIN (m, sw->total_hw_samples_acquired);
+>          }
 >      }
-> +    g_free(s);
-> +}
-> +
-> +void audio_cleanup(void)
-> +{
-> +    is_cleaning_up =3D true;
-> +    while (!QTAILQ_EMPTY(&audio_states)) {
-> +        AudioState *s =3D QTAILQ_FIRST(&audio_states);
-> +        QTAILQ_REMOVE(&audio_states, s, list);
-> +        free_audio_state(s);
-> +    }
->  }
->
->  static const VMStateDescription vmstate_audio =3D {
-> @@ -1373,28 +1386,33 @@ static AudiodevListEntry *audiodev_find(
->      return NULL;
->  }
->
-> -static int audio_init(Audiodev *dev)
-> +/*
-> + * if we have dev, this function was called because of an -audiodev argu=
-ment =3D>
-> + *   initialize a new state with it
-> + * if dev =3D=3D NULL =3D> legacy implicit initialization, return the al=
-ready created
-> + *   state or create a new one
-> + */
-> +static AudioState *audio_init(Audiodev *dev)
+>      return m;
+> @@ -553,14 +553,14 @@ int audio_pcm_hw_clip_out (HWVoiceOut *hw, void *pc=
+m_buf,
+>                             int live, int pending)
 >  {
-> +    static bool atexit_registered;
->      size_t i;
->      int done =3D 0;
->      const char *drvname =3D NULL;
->      VMChangeStateEntry *e;
-> -    AudioState *s =3D &glob_audio_state;
-> +    AudioState *s;
->      struct audio_driver *driver;
->      /* silence gcc warning about uninitialized variable */
->      AudiodevListHead head =3D QSIMPLEQ_HEAD_INITIALIZER(head);
+>      int left =3D hw->samples - pending;
+> -    int len =3D audio_MIN (left, live);
+> +    int len =3D MIN (left, live);
+>      int clipped =3D 0;
 >
-> -    if (s->drv) {
-> -        if (dev) {
-> -            dolog("Cannot create more than one audio backend, sorry\n");
-> -            qapi_free_Audiodev(dev);
-> -        }
-> -        return -1;
-> -    }
-> -
->      if (dev) {
->          /* -audiodev option */
->          drvname =3D AudiodevDriver_str(dev->driver);
-> +    } else if (!QTAILQ_EMPTY(&audio_states)) {
-> +        /*
-> +         * todo: check for -audiodev once we have normal audiodev select=
-ion
-> +         * support
-> +         */
-> +        return QTAILQ_FIRST(&audio_states);
->      } else {
->          /* legacy implicit initialization */
->          head =3D audio_handle_legacy_opts();
-> @@ -1408,12 +1426,18 @@ static int audio_init(Audiodev *dev)
->          dev =3D QSIMPLEQ_FIRST(&head)->dev;
->          audio_validate_opts(dev, &error_abort);
+>      while (len) {
+>          struct st_sample *src =3D hw->mix_buf + hw->rpos;
+>          uint8_t *dst =3D advance (pcm_buf, hw->rpos << hw->info.shift);
+>          int samples_till_end_of_buf =3D hw->samples - hw->rpos;
+> -        int samples_to_clip =3D audio_MIN (len, samples_till_end_of_buf)=
+;
+> +        int samples_to_clip =3D MIN (len, samples_till_end_of_buf);
+>
+>          hw->clip (dst, src, samples_to_clip);
+>
+> @@ -614,7 +614,7 @@ int audio_pcm_sw_read (SWVoiceIn *sw, void *buf, int =
+size)
 >      }
-> +
-> +    s =3D g_malloc0(sizeof(AudioState));
->      s->dev =3D dev;
 >
->      QLIST_INIT (&s->hw_head_out);
->      QLIST_INIT (&s->hw_head_in);
->      QLIST_INIT (&s->cap_head);
-> -    atexit(audio_cleanup);
-> +    if (!atexit_registered) {
-> +        atexit(audio_cleanup);
-> +        atexit_registered =3D true;
-> +    }
-> +    QTAILQ_INSERT_TAIL(&audio_states, s, list);
+>      swlim =3D (live * sw->ratio) >> 32;
+> -    swlim =3D audio_MIN (swlim, samples);
+> +    swlim =3D MIN (swlim, samples);
 >
->      s->ts =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, audio_timer, s);
+>      while (swlim) {
+>          src =3D hw->conv_buf + rpos;
+> @@ -662,7 +662,7 @@ static int audio_pcm_hw_find_min_out (HWVoiceOut *hw,=
+ int *nb_livep)
 >
-> @@ -1478,7 +1502,7 @@ static int audio_init(Audiodev *dev)
+>      for (sw =3D hw->sw_head.lh_first; sw; sw =3D sw->entries.le_next) {
+>          if (sw->active || !sw->empty) {
+> -            m =3D audio_MIN (m, sw->total_hw_samples_mixed);
+> +            m =3D MIN (m, sw->total_hw_samples_mixed);
+>              nb_live +=3D 1;
+>          }
+>      }
+> @@ -725,7 +725,7 @@ int audio_pcm_sw_write (SWVoiceOut *sw, void *buf, in=
+t size)
 >
->      QLIST_INIT (&s->card_head);
->      vmstate_register (NULL, 0, &vmstate_audio, s);
-> -    return 0;
-> +    return s;
+>      dead =3D hwsamples - live;
+>      swlim =3D ((int64_t) dead << 32) / sw->ratio;
+> -    swlim =3D audio_MIN (swlim, samples);
+> +    swlim =3D MIN (swlim, samples);
+>      if (swlim) {
+>          sw->conv (sw->buf, buf, swlim);
+>
+> @@ -737,7 +737,7 @@ int audio_pcm_sw_write (SWVoiceOut *sw, void *buf, in=
+t size)
+>      while (swlim) {
+>          dead =3D hwsamples - live;
+>          left =3D hwsamples - wpos;
+> -        blck =3D audio_MIN (dead, left);
+> +        blck =3D MIN (dead, left);
+>          if (!blck) {
+>              break;
+>          }
+> @@ -1029,7 +1029,7 @@ static void audio_capture_mix_and_clear (HWVoiceOut=
+ *hw, int rpos, int samples)
+>              n =3D samples;
+>              while (n) {
+>                  int till_end_of_hw =3D hw->samples - rpos2;
+> -                int to_write =3D audio_MIN (till_end_of_hw, n);
+> +                int to_write =3D MIN (till_end_of_hw, n);
+>                  int bytes =3D to_write << hw->info.shift;
+>                  int written;
+>
+> @@ -1047,7 +1047,7 @@ static void audio_capture_mix_and_clear (HWVoiceOut=
+ *hw, int rpos, int samples)
+>          }
+>      }
+>
+> -    n =3D audio_MIN (samples, hw->samples - rpos);
+> +    n =3D MIN (samples, hw->samples - rpos);
+>      mixeng_clear (hw->mix_buf + rpos, n);
+>      mixeng_clear (hw->mix_buf, samples - n);
 >  }
+> @@ -1203,7 +1203,7 @@ static void audio_run_capture (AudioState *s)
+>          rpos =3D hw->rpos;
+>          while (live) {
+>              int left =3D hw->samples - rpos;
+> -            int to_capture =3D audio_MIN (live, left);
+> +            int to_capture =3D MIN (live, left);
+>              struct st_sample *src;
+>              struct capture_callback *cb;
 >
->  void audio_free_audiodev_list(AudiodevListHead *head)
-> @@ -1493,10 +1517,13 @@ void audio_free_audiodev_list(AudiodevListHead *h=
-ead)
+> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> index 4bec6c8c5c..f0ab4014a8 100644
+> --- a/audio/coreaudio.c
+> +++ b/audio/coreaudio.c
+> @@ -413,7 +413,7 @@ static int coreaudio_run_out (HWVoiceOut *hw, int liv=
+e)
+>                  core->live);
+>      }
 >
->  void AUD_register_card (const char *name, QEMUSoundCard *card)
->  {
-> -    audio_init(NULL);
-> +    if (!card->state) {
-> +        card->state =3D audio_init(NULL);
-> +    }
-> +
->      card->name =3D g_strdup (name);
->      memset (&card->entries, 0, sizeof (card->entries));
-> -    QLIST_INSERT_HEAD (&glob_audio_state.card_head, card, entries);
-> +    QLIST_INSERT_HEAD (&card->state->card_head, card, entries);
+> -    decr =3D audio_MIN (core->decr, live);
+> +    decr =3D MIN (core->decr, live);
+>      core->decr -=3D decr;
+>
+>      core->live =3D live - decr;
+> diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
+> index 5da4c864c3..07260f881e 100644
+> --- a/audio/dsoundaudio.c
+> +++ b/audio/dsoundaudio.c
+> @@ -707,7 +707,7 @@ static int dsound_run_in (HWVoiceIn *hw)
+>      if (!len) {
+>          return 0;
+>      }
+> -    len =3D audio_MIN (len, dead);
+> +    len =3D MIN (len, dead);
+>
+>      err =3D dsound_lock_in (
+>          dscb,
+> diff --git a/audio/noaudio.c b/audio/noaudio.c
+> index 9b195dc52c..14a0e4ab29 100644
+> --- a/audio/noaudio.c
+> +++ b/audio/noaudio.c
+> @@ -52,11 +52,11 @@ static int no_run_out (HWVoiceOut *hw, int live)
+>      now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>      ticks =3D now - no->old_ticks;
+>      bytes =3D muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER=
+_SECOND);
+> -    bytes =3D audio_MIN(bytes, INT_MAX);
+> +    bytes =3D MIN(bytes, INT_MAX);
+>      samples =3D bytes >> hw->info.shift;
+>
+>      no->old_ticks =3D now;
+> -    decr =3D audio_MIN (live, samples);
+> +    decr =3D MIN (live, samples);
+>      hw->rpos =3D (hw->rpos + decr) % hw->samples;
+>      return decr;
 >  }
+> @@ -111,9 +111,9 @@ static int no_run_in (HWVoiceIn *hw)
+>              muldiv64(ticks, hw->info.bytes_per_second, NANOSECONDS_PER_S=
+ECOND);
 >
->  void AUD_remove_card (QEMUSoundCard *card)
-> @@ -1506,16 +1533,21 @@ void AUD_remove_card (QEMUSoundCard *card)
+>          no->old_ticks =3D now;
+> -        bytes =3D audio_MIN (bytes, INT_MAX);
+> +        bytes =3D MIN (bytes, INT_MAX);
+>          samples =3D bytes >> hw->info.shift;
+> -        samples =3D audio_MIN (samples, dead);
+> +        samples =3D MIN (samples, dead);
+>      }
+>      return samples;
 >  }
+> @@ -124,7 +124,7 @@ static int no_read (SWVoiceIn *sw, void *buf, int siz=
+e)
+>       * useless resampling/mixing */
+>      int samples =3D size >> sw->info.shift;
+>      int total =3D sw->hw->total_samples_captured - sw->total_hw_samples_=
+acquired;
+> -    int to_clear =3D audio_MIN (samples, total);
+> +    int to_clear =3D MIN (samples, total);
+>      sw->total_hw_samples_acquired +=3D total;
+>      audio_pcm_info_clear_buf (&sw->info, buf, to_clear);
+>      return to_clear << sw->info.shift;
+> diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+> index c0af065b6f..29139ef1f5 100644
+> --- a/audio/ossaudio.c
+> +++ b/audio/ossaudio.c
+> @@ -388,7 +388,7 @@ static void oss_write_pending (OSSVoiceOut *oss)
+>          int samples_written;
+>          ssize_t bytes_written;
+>          int samples_till_end =3D hw->samples - oss->wpos;
+> -        int samples_to_write =3D audio_MIN (oss->pending, samples_till_e=
+nd);
+> +        int samples_to_write =3D MIN (oss->pending, samples_till_end);
+>          int bytes_to_write =3D samples_to_write << hw->info.shift;
+>          void *pcm =3D advance (oss->pcm_buf, oss->wpos << hw->info.shift=
+);
 >
+> @@ -437,7 +437,7 @@ static int oss_run_out (HWVoiceOut *hw, int live)
 >
-> -CaptureVoiceOut *AUD_add_capture (
-> +CaptureVoiceOut *AUD_add_capture(
-> +    AudioState *s,
->      struct audsettings *as,
->      struct audio_capture_ops *ops,
->      void *cb_opaque
->      )
->  {
-> -    AudioState *s =3D &glob_audio_state;
->      CaptureVoiceOut *cap;
->      struct capture_callback *cb;
+>          pos =3D hw->rpos << hw->info.shift;
+>          bytes =3D audio_ring_dist (cntinfo.ptr, pos, bufsize);
+> -        decr =3D audio_MIN (bytes >> hw->info.shift, live);
+> +        decr =3D MIN (bytes >> hw->info.shift, live);
+>      }
+>      else {
+>          err =3D ioctl (oss->fd, SNDCTL_DSP_GETOSPACE, &abinfo);
+> @@ -456,7 +456,7 @@ static int oss_run_out (HWVoiceOut *hw, int live)
+>              return 0;
+>          }
 >
-> +    if (!s) {
-> +        /* todo: remove when we have normal audiodev selection support *=
+> -        decr =3D audio_MIN (abinfo.bytes >> hw->info.shift, live);
+> +        decr =3D MIN (abinfo.bytes >> hw->info.shift, live);
+>          if (!decr) {
+>              return 0;
+>          }
+> diff --git a/audio/paaudio.c b/audio/paaudio.c
+> index 490bcd770e..9d46f11b0a 100644
+> --- a/audio/paaudio.c
+> +++ b/audio/paaudio.c
+> @@ -235,7 +235,7 @@ static void *qpa_thread_out (void *arg)
+>              }
+>          }
+>
+> -        decr =3D to_mix =3D audio_MIN(pa->live, pa->samples >> 5);
+> +        decr =3D to_mix =3D MIN(pa->live, pa->samples >> 5);
+>          rpos =3D pa->rpos;
+>
+>          if (audio_pt_unlock(&pa->pt, __func__)) {
+> @@ -244,7 +244,7 @@ static void *qpa_thread_out (void *arg)
+>
+>          while (to_mix) {
+>              int error;
+> -            int chunk =3D audio_MIN (to_mix, hw->samples - rpos);
+> +            int chunk =3D MIN (to_mix, hw->samples - rpos);
+>              struct st_sample *src =3D hw->mix_buf + rpos;
+>
+>              hw->clip (pa->pcm_buf, src, chunk);
+> @@ -282,7 +282,7 @@ static int qpa_run_out (HWVoiceOut *hw, int live)
+>          return 0;
+>      }
+>
+> -    decr =3D audio_MIN (live, pa->decr);
+> +    decr =3D MIN (live, pa->decr);
+>      pa->decr -=3D decr;
+>      pa->live =3D live - decr;
+>      hw->rpos =3D pa->rpos;
+> @@ -327,7 +327,7 @@ static void *qpa_thread_in (void *arg)
+>              }
+>          }
+>
+> -        incr =3D to_grab =3D audio_MIN(pa->dead, pa->samples >> 5);
+> +        incr =3D to_grab =3D MIN(pa->dead, pa->samples >> 5);
+>          wpos =3D pa->wpos;
+>
+>          if (audio_pt_unlock(&pa->pt, __func__)) {
+> @@ -336,7 +336,7 @@ static void *qpa_thread_in (void *arg)
+>
+>          while (to_grab) {
+>              int error;
+> -            int chunk =3D audio_MIN (to_grab, hw->samples - wpos);
+> +            int chunk =3D MIN (to_grab, hw->samples - wpos);
+>              void *buf =3D advance (pa->pcm_buf, wpos);
+>
+>              if (qpa_simple_read (pa, buf,
+> @@ -375,7 +375,7 @@ static int qpa_run_in (HWVoiceIn *hw)
+>
+>      live =3D audio_pcm_hw_get_live_in (hw);
+>      dead =3D hw->samples - live;
+> -    incr =3D audio_MIN (dead, pa->incr);
+> +    incr =3D MIN (dead, pa->incr);
+>      pa->incr -=3D incr;
+>      pa->dead =3D dead - incr;
+>      hw->wpos =3D pa->wpos;
+> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+> index e7179ff1d4..42f7614124 100644
+> --- a/audio/sdlaudio.c
+> +++ b/audio/sdlaudio.c
+> @@ -193,10 +193,10 @@ static void sdl_callback (void *opaque, Uint8 *buf,=
+ int len)
+>
+>      /* dolog ("in callback samples=3D%d live=3D%d\n", samples, sdl->live=
+); */
+>
+> -    to_mix =3D audio_MIN(samples, sdl->live);
+> +    to_mix =3D MIN(samples, sdl->live);
+>      decr =3D to_mix;
+>      while (to_mix) {
+> -        int chunk =3D audio_MIN(to_mix, hw->samples - hw->rpos);
+> +        int chunk =3D MIN(to_mix, hw->samples - hw->rpos);
+>          struct st_sample *src =3D hw->mix_buf + hw->rpos;
+>
+>          /* dolog ("in callback to_mix %d, chunk %d\n", to_mix, chunk); *=
 /
-> +        s =3D audio_init(NULL);
-> +    }
-> +
->      if (audio_validate_settings (as)) {
->          dolog ("Invalid settings were passed when trying to add capture\=
-n");
->          audio_print_settings (as);
-> @@ -1805,3 +1837,25 @@ int audio_buffer_bytes(AudiodevPerDirectionOptions=
- *pdo,
->      return audio_buffer_samples(pdo, as, def_usecs) *
->          audioformat_bytes_per_sample(as->fmt);
->  }
-> +
-> +AudioState *audio_state_by_name(const char *name)
-> +{
-> +    AudioState *s;
-> +    QTAILQ_FOREACH(s, &audio_states, list) {
-> +        assert(s->dev);
-> +        if (strcmp(name, s->dev->id) =3D=3D 0) {
-> +            return s;
-> +        }
-> +    }
-> +    return NULL;
-> +}
-> +
-> +const char *audio_get_id(QEMUSoundCard *card)
-> +{
-> +    if (card->state) {
-> +        assert(card->state->dev);
-> +        return card->state->dev->id;
-> +    } else {
-> +        return "";
-> +    }
-> +}
-> diff --git a/audio/wavcapture.c b/audio/wavcapture.c
-> index 74320dfecc..81c5c19032 100644
-> --- a/audio/wavcapture.c
-> +++ b/audio/wavcapture.c
-> @@ -105,8 +105,8 @@ static struct capture_ops wav_capture_ops =3D {
->      .info =3D wav_capture_info
->  };
->
-> -int wav_start_capture (CaptureState *s, const char *path, int freq,
-> -                       int bits, int nchannels)
-> +int wav_start_capture(AudioState *state, CaptureState *s, const char *pa=
-th,
-> +                      int freq, int bits, int nchannels)
->  {
->      WAVState *wav;
->      uint8_t hdr[] =3D {
-> @@ -171,7 +171,7 @@ int wav_start_capture (CaptureState *s, const char *p=
-ath, int freq,
->          goto error_free;
+> @@ -236,7 +236,7 @@ static int sdl_run_out (HWVoiceOut *hw, int live)
+>                  sdl->live);
 >      }
 >
-> -    cap =3D AUD_add_capture (&as, &ops, wav);
-> +    cap =3D AUD_add_capture(state, &as, &ops, wav);
->      if (!cap) {
->          error_report("Failed to add audio capture");
->          goto error_free;
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 00338c002a..f97810d370 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -1148,7 +1148,17 @@ static void hmp_wavcapture(Monitor *mon, const QDi=
-ct *qdict)
->      int bits =3D qdict_get_try_int(qdict, "bits", -1);
->      int has_channels =3D qdict_haskey(qdict, "nchannels");
->      int nchannels =3D qdict_get_try_int(qdict, "nchannels", -1);
-> +    const char *audiodev =3D qdict_get_try_str(qdict, "audiodev");
->      CaptureState *s;
-> +    AudioState *as =3D NULL;
-> +
-> +    if (audiodev) {
-> +        as =3D audio_state_by_name(audiodev);
-> +        if (!as) {
-> +            monitor_printf(mon, "Invalid audiodev specified\n");
-> +            return;
-> +        }
-> +    }
+> -    decr =3D audio_MIN (sdl->decr, live);
+> +    decr =3D MIN (sdl->decr, live);
+>      sdl->decr -=3D decr;
 >
->      s =3D g_malloc0 (sizeof (*s));
+>      sdl->live =3D live;
+> diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
+> index 0ead5ae43a..6f4a0558f8 100644
+> --- a/audio/spiceaudio.c
+> +++ b/audio/spiceaudio.c
+> @@ -164,20 +164,20 @@ static int line_out_run (HWVoiceOut *hw, int live)
+>      }
 >
-> @@ -1156,7 +1166,7 @@ static void hmp_wavcapture(Monitor *mon, const QDic=
-t *qdict)
->      bits =3D has_bits ? bits : 16;
->      nchannels =3D has_channels ? nchannels : 2;
+>      decr =3D rate_get_samples (&hw->info, &out->rate);
+> -    decr =3D audio_MIN (live, decr);
+> +    decr =3D MIN (live, decr);
 >
-> -    if (wav_start_capture (s, path, freq, bits, nchannels)) {
-> +    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
->          monitor_printf(mon, "Failed to add wave capture\n");
->          g_free (s);
+>      samples =3D decr;
+>      rpos =3D hw->rpos;
+>      while (samples) {
+>          int left_till_end_samples =3D hw->samples - rpos;
+> -        int len =3D audio_MIN (samples, left_till_end_samples);
+> +        int len =3D MIN (samples, left_till_end_samples);
+>
+>          if (!out->frame) {
+>              spice_server_playback_get_buffer (&out->sin, &out->frame, &o=
+ut->fsize);
+>              out->fpos =3D out->frame;
+>          }
+>          if (out->frame) {
+> -            len =3D audio_MIN (len, out->fsize);
+> +            len =3D MIN (len, out->fsize);
+>              hw->clip (out->fpos, hw->mix_buf + rpos, len);
+>              out->fsize -=3D len;
+>              out->fpos  +=3D len;
+> @@ -295,7 +295,7 @@ static int line_in_run (HWVoiceIn *hw)
+>      }
+>
+>      delta_samp =3D rate_get_samples (&hw->info, &in->rate);
+> -    num_samples =3D audio_MIN (num_samples, delta_samp);
+> +    num_samples =3D MIN (num_samples, delta_samp);
+>
+>      ready =3D spice_server_record_get_samples (&in->sin, in->samples, nu=
+m_samples);
+>      samples =3D in->samples;
+> @@ -305,7 +305,7 @@ static int line_in_run (HWVoiceIn *hw)
+>          ready =3D LINE_IN_SAMPLES;
+>      }
+>
+> -    num_samples =3D audio_MIN (ready, num_samples);
+> +    num_samples =3D MIN (ready, num_samples);
+>
+>      if (hw->wpos + num_samples > hw->samples) {
+>          len[0] =3D hw->samples - hw->wpos;
+> diff --git a/audio/wavaudio.c b/audio/wavaudio.c
+> index 803b6cb1f3..bbf3f3b346 100644
+> --- a/audio/wavaudio.c
+> +++ b/audio/wavaudio.c
+> @@ -59,12 +59,12 @@ static int wav_run_out (HWVoiceOut *hw, int live)
+>      }
+>
+>      wav->old_ticks =3D now;
+> -    decr =3D audio_MIN (live, samples);
+> +    decr =3D MIN (live, samples);
+>      samples =3D decr;
+>      rpos =3D hw->rpos;
+>      while (samples) {
+>          int left_till_end_samples =3D hw->samples - rpos;
+> -        int convert_samples =3D audio_MIN (samples, left_till_end_sample=
+s);
+> +        int convert_samples =3D MIN (samples, left_till_end_samples);
+>
+>          src =3D hw->mix_buf + rpos;
+>          dst =3D advance (wav->pcm_buf, rpos << hw->info.shift);
+> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+> index 0d8e524233..060bafdac3 100644
+> --- a/hw/audio/ac97.c
+> +++ b/hw/audio/ac97.c
+> @@ -964,7 +964,7 @@ static int write_audio (AC97LinkState *s, AC97BusMast=
+erRegs *r,
+>      uint32_t temp =3D r->picb << 1;
+>      uint32_t written =3D 0;
+>      int to_copy =3D 0;
+> -    temp =3D audio_MIN (temp, max);
+> +    temp =3D MIN (temp, max);
+>
+>      if (!temp) {
+>          *stop =3D 1;
+> @@ -973,7 +973,7 @@ static int write_audio (AC97LinkState *s, AC97BusMast=
+erRegs *r,
+>
+>      while (temp) {
+>          int copied;
+> -        to_copy =3D audio_MIN (temp, sizeof (tmpbuf));
+> +        to_copy =3D MIN (temp, sizeof (tmpbuf));
+>          pci_dma_read (&s->dev, addr, tmpbuf, to_copy);
+>          copied =3D AUD_write (s->voice_po, tmpbuf, to_copy);
+>          dolog ("write_audio max=3D%x to_copy=3D%x copied=3D%x\n",
+> @@ -1019,7 +1019,7 @@ static void write_bup (AC97LinkState *s, int elapse=
+d)
+>      }
+>
+>      while (elapsed) {
+> -        int temp =3D audio_MIN (elapsed, sizeof (s->silence));
+> +        int temp =3D MIN (elapsed, sizeof (s->silence));
+>          while (temp) {
+>              int copied =3D AUD_write (s->voice_po, s->silence, temp);
+>              if (!copied)
+> @@ -1040,7 +1040,7 @@ static int read_audio (AC97LinkState *s, AC97BusMas=
+terRegs *r,
+>      int to_copy =3D 0;
+>      SWVoiceIn *voice =3D (r - s->bm_regs) =3D=3D MC_INDEX ? s->voice_mc =
+: s->voice_pi;
+>
+> -    temp =3D audio_MIN (temp, max);
+> +    temp =3D MIN (temp, max);
+>
+>      if (!temp) {
+>          *stop =3D 1;
+> @@ -1049,7 +1049,7 @@ static int read_audio (AC97LinkState *s, AC97BusMas=
+terRegs *r,
+>
+>      while (temp) {
+>          int acquired;
+> -        to_copy =3D audio_MIN (temp, sizeof (tmpbuf));
+> +        to_copy =3D MIN (temp, sizeof (tmpbuf));
+>          acquired =3D AUD_read (voice, tmpbuf, to_copy);
+>          if (!acquired) {
+>              *stop =3D 1;
+> diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
+> index df2e781788..1b32c4ff7f 100644
+> --- a/hw/audio/adlib.c
+> +++ b/hw/audio/adlib.c
+> @@ -195,7 +195,7 @@ static void adlib_callback (void *opaque, int free)
 >          return;
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 38f92bfca3..24f9be5b5d 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -1222,7 +1222,7 @@ static void audio_add(VncState *vs)
->      ops.destroy =3D audio_capture_destroy;
->      ops.capture =3D audio_capture;
->
-> -    vs->audio_cap =3D AUD_add_capture(&vs->as, &ops, vs);
-> +    vs->audio_cap =3D AUD_add_capture(vs->vd->audio_state, &vs->as, &ops=
-, vs);
->      if (!vs->audio_cap) {
->          error_report("Failed to add audio capture");
 >      }
-> @@ -3369,6 +3369,9 @@ static QemuOptsList qemu_vnc_opts =3D {
->          },{
->              .name =3D "non-adaptive",
->              .type =3D QEMU_OPT_BOOL,
-> +        },{
-> +            .name =3D "audiodev",
-> +            .type =3D QEMU_OPT_STRING,
->          },
->          { /* end of list */ }
->      },
-> @@ -3806,6 +3809,7 @@ void vnc_display_open(const char *id, Error **errp)
->      const char *saslauthz;
->      int lock_key_sync =3D 1;
->      int key_delay_ms;
-> +    const char *audiodev;
 >
->      if (!vd) {
->          error_setg(errp, "VNC display not active");
-> @@ -3991,6 +3995,15 @@ void vnc_display_open(const char *id, Error **errp=
-)
+> -    to_play =3D audio_MIN (s->left, samples);
+> +    to_play =3D MIN (s->left, samples);
+>      while (to_play) {
+>          written =3D write_audio (s, to_play);
+>
+> @@ -210,7 +210,7 @@ static void adlib_callback (void *opaque, int free)
+>          }
 >      }
->      vd->ledstate =3D 0;
 >
-> +    audiodev =3D qemu_opt_get(opts, "audiodev");
-> +    if (audiodev) {
-> +        vd->audio_state =3D audio_state_by_name(audiodev);
-> +        if (!vd->audio_state) {
-> +            error_setg(errp, "Audiodev '%s' not found", audiodev);
-> +            goto fail;
-> +        }
-> +    }
+> -    samples =3D audio_MIN (samples, s->samples - s->pos);
+> +    samples =3D MIN (samples, s->samples - s->pos);
+>      if (!samples) {
+>          return;
+>      }
+> diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
+> index e3ea830b47..ca3af8a987 100644
+> --- a/hw/audio/cs4231a.c
+> +++ b/hw/audio/cs4231a.c
+> @@ -535,7 +535,7 @@ static int cs_write_audio (CSState *s, int nchan, int=
+ dma_pos,
+>          int copied;
+>          size_t to_copy;
+>
+> -        to_copy =3D audio_MIN (temp, left);
+> +        to_copy =3D MIN (temp, left);
+>          if (to_copy > sizeof (tmpbuf)) {
+>              to_copy =3D sizeof (tmpbuf);
+>          }
+> @@ -578,7 +578,7 @@ static int cs_dma_read (void *opaque, int nchan, int =
+dma_pos, int dma_len)
+>          till =3D (s->dregs[Playback_Lower_Base_Count]
+>              | (s->dregs[Playback_Upper_Base_Count] << 8)) << s->shift;
+>          till -=3D s->transferred;
+> -        copy =3D audio_MIN (till, copy);
+> +        copy =3D MIN (till, copy);
+>      }
+>
+>      if ((copy <=3D 0) || (dma_len <=3D 0)) {
+> diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
+> index 7589671d20..50b144ded0 100644
+> --- a/hw/audio/es1370.c
+> +++ b/hw/audio/es1370.c
+> @@ -645,7 +645,7 @@ static void es1370_transfer_audio (ES1370State *s, st=
+ruct chan *d, int loop_sel,
+>      int size =3D d->frame_cnt & 0xffff;
+>      int left =3D ((size - cnt + 1) << 2) + d->leftover;
+>      int transferred =3D 0;
+> -    int temp =3D audio_MIN (max, audio_MIN (left, csc_bytes));
+> +    int temp =3D MIN (max, MIN (left, csc_bytes));
+>      int index =3D d - &s->chan[0];
+>
+>      addr +=3D (cnt << 2) + d->leftover;
+> @@ -654,7 +654,7 @@ static void es1370_transfer_audio (ES1370State *s, st=
+ruct chan *d, int loop_sel,
+>          while (temp) {
+>              int acquired, to_copy;
+>
+> -            to_copy =3D audio_MIN ((size_t) temp, sizeof (tmpbuf));
+> +            to_copy =3D MIN ((size_t) temp, sizeof (tmpbuf));
+>              acquired =3D AUD_read (s->adc_voice, tmpbuf, to_copy);
+>              if (!acquired)
+>                  break;
+> @@ -672,7 +672,7 @@ static void es1370_transfer_audio (ES1370State *s, st=
+ruct chan *d, int loop_sel,
+>          while (temp) {
+>              int copied, to_copy;
+>
+> -            to_copy =3D audio_MIN ((size_t) temp, sizeof (tmpbuf));
+> +            to_copy =3D MIN ((size_t) temp, sizeof (tmpbuf));
+>              pci_dma_read (&s->dev, addr, tmpbuf, to_copy);
+>              copied =3D AUD_write (voice, tmpbuf, to_copy);
+>              if (!copied)
+> diff --git a/hw/audio/gus.c b/hw/audio/gus.c
+> index 566864bc9e..325efd8df7 100644
+> --- a/hw/audio/gus.c
+> +++ b/hw/audio/gus.c
+> @@ -117,7 +117,7 @@ static void GUS_callback (void *opaque, int free)
+>      GUSState *s =3D opaque;
+>
+>      samples =3D free >> s->shift;
+> -    to_play =3D audio_MIN (samples, s->left);
+> +    to_play =3D MIN (samples, s->left);
+>
+>      while (to_play) {
+>          int written =3D write_audio (s, to_play);
+> @@ -132,7 +132,7 @@ static void GUS_callback (void *opaque, int free)
+>          net +=3D written;
+>      }
+>
+> -    samples =3D audio_MIN (samples, s->samples);
+> +    samples =3D MIN (samples, s->samples);
+>      if (samples) {
+>          gus_mixvoices (&s->emu, s->freq, samples, s->mixbuf);
+>
+> @@ -192,7 +192,7 @@ static int GUS_read_DMA (void *opaque, int nchan, int=
+ dma_pos, int dma_len)
+>      ldebug ("read DMA %#x %d\n", dma_pos, dma_len);
+>      mode =3D k->has_autoinitialization(s->isa_dma, s->emu.gusdma);
+>      while (left) {
+> -        int to_copy =3D audio_MIN ((size_t) left, sizeof (tmpbuf));
+> +        int to_copy =3D MIN ((size_t) left, sizeof (tmpbuf));
+>          int copied;
+>
+>          ldebug ("left=3D%d to_copy=3D%d pos=3D%d\n", left, to_copy, pos)=
+;
+> diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
+> index 967a10f189..c8f513d3ff 100644
+> --- a/hw/audio/hda-codec.c
+> +++ b/hw/audio/hda-codec.c
+> @@ -234,10 +234,10 @@ static void hda_audio_input_timer(void *opaque)
+>          goto out_timer;
+>      }
+>
+> -    int64_t to_transfer =3D audio_MIN(wpos - rpos, wanted_rpos - rpos);
+> +    int64_t to_transfer =3D MIN(wpos - rpos, wanted_rpos - rpos);
+>      while (to_transfer) {
+>          uint32_t start =3D (rpos & B_MASK);
+> -        uint32_t chunk =3D audio_MIN(B_SIZE - start, to_transfer);
+> +        uint32_t chunk =3D MIN(B_SIZE - start, to_transfer);
+>          int rc =3D hda_codec_xfer(
+>                  &st->state->hda, st->stream, false, st->buf + start, chu=
+nk);
+>          if (!rc) {
+> @@ -262,13 +262,13 @@ static void hda_audio_input_cb(void *opaque, int av=
+ail)
+>      int64_t wpos =3D st->wpos;
+>      int64_t rpos =3D st->rpos;
+>
+> -    int64_t to_transfer =3D audio_MIN(B_SIZE - (wpos - rpos), avail);
+> +    int64_t to_transfer =3D MIN(B_SIZE - (wpos - rpos), avail);
+>
+>      hda_timer_sync_adjust(st, -((wpos - rpos) + to_transfer - (B_SIZE >>=
+ 1)));
+>
+>      while (to_transfer) {
+>          uint32_t start =3D (uint32_t) (wpos & B_MASK);
+> -        uint32_t chunk =3D (uint32_t) audio_MIN(B_SIZE - start, to_trans=
+fer);
+> +        uint32_t chunk =3D (uint32_t) MIN(B_SIZE - start, to_transfer);
+>          uint32_t read =3D AUD_read(st->voice.in, st->buf + start, chunk)=
+;
+>          wpos +=3D read;
+>          to_transfer -=3D read;
+> @@ -298,10 +298,10 @@ static void hda_audio_output_timer(void *opaque)
+>          goto out_timer;
+>      }
+>
+> -    int64_t to_transfer =3D audio_MIN(B_SIZE - (wpos - rpos), wanted_wpo=
+s - wpos);
+> +    int64_t to_transfer =3D MIN(B_SIZE - (wpos - rpos), wanted_wpos - wp=
+os);
+>      while (to_transfer) {
+>          uint32_t start =3D (wpos & B_MASK);
+> -        uint32_t chunk =3D audio_MIN(B_SIZE - start, to_transfer);
+> +        uint32_t chunk =3D MIN(B_SIZE - start, to_transfer);
+>          int rc =3D hda_codec_xfer(
+>                  &st->state->hda, st->stream, true, st->buf + start, chun=
+k);
+>          if (!rc) {
+> @@ -326,7 +326,7 @@ static void hda_audio_output_cb(void *opaque, int ava=
+il)
+>      int64_t wpos =3D st->wpos;
+>      int64_t rpos =3D st->rpos;
+>
+> -    int64_t to_transfer =3D audio_MIN(wpos - rpos, avail);
+> +    int64_t to_transfer =3D MIN(wpos - rpos, avail);
+>
+>      if (wpos - rpos =3D=3D B_SIZE) {
+>          /* drop buffer, reset timer adjust */
+> @@ -341,7 +341,7 @@ static void hda_audio_output_cb(void *opaque, int ava=
+il)
+>
+>      while (to_transfer) {
+>          uint32_t start =3D (uint32_t) (rpos & B_MASK);
+> -        uint32_t chunk =3D (uint32_t) audio_MIN(B_SIZE - start, to_trans=
+fer);
+> +        uint32_t chunk =3D (uint32_t) MIN(B_SIZE - start, to_transfer);
+>          uint32_t written =3D AUD_write(st->voice.out, st->buf + start, c=
+hunk);
+>          rpos +=3D written;
+>          to_transfer -=3D written;
+> diff --git a/hw/audio/milkymist-ac97.c b/hw/audio/milkymist-ac97.c
+> index 4835229326..929b856587 100644
+> --- a/hw/audio/milkymist-ac97.c
+> +++ b/hw/audio/milkymist-ac97.c
+> @@ -184,7 +184,7 @@ static void ac97_in_cb(void *opaque, int avail_b)
+>      MilkymistAC97State *s =3D opaque;
+>      uint8_t buf[4096];
+>      uint32_t remaining =3D s->regs[R_U_REMAINING];
+> -    int temp =3D audio_MIN(remaining, avail_b);
+> +    int temp =3D MIN(remaining, avail_b);
+>      uint32_t addr =3D s->regs[R_U_ADDR];
+>      int transferred =3D 0;
+>
+> @@ -198,7 +198,7 @@ static void ac97_in_cb(void *opaque, int avail_b)
+>      while (temp) {
+>          int acquired, to_copy;
+>
+> -        to_copy =3D audio_MIN(temp, sizeof(buf));
+> +        to_copy =3D MIN(temp, sizeof(buf));
+>          acquired =3D AUD_read(s->voice_in, buf, to_copy);
+>          if (!acquired) {
+>              break;
+> @@ -227,7 +227,7 @@ static void ac97_out_cb(void *opaque, int free_b)
+>      MilkymistAC97State *s =3D opaque;
+>      uint8_t buf[4096];
+>      uint32_t remaining =3D s->regs[R_D_REMAINING];
+> -    int temp =3D audio_MIN(remaining, free_b);
+> +    int temp =3D MIN(remaining, free_b);
+>      uint32_t addr =3D s->regs[R_D_ADDR];
+>      int transferred =3D 0;
+>
+> @@ -241,7 +241,7 @@ static void ac97_out_cb(void *opaque, int free_b)
+>      while (temp) {
+>          int copied, to_copy;
+>
+> -        to_copy =3D audio_MIN(temp, sizeof(buf));
+> +        to_copy =3D MIN(temp, sizeof(buf));
+>          cpu_physical_memory_read(addr, buf, to_copy);
+>          copied =3D AUD_write(s->voice_out, buf, to_copy);
+>          if (!copied) {
+> diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+> index 01127304c2..6bb1455c1b 100644
+> --- a/hw/audio/pcspk.c
+> +++ b/hw/audio/pcspk.c
+> @@ -103,7 +103,7 @@ static void pcspk_callback(void *opaque, int free)
+>      }
+>
+>      while (free > 0) {
+> -        n =3D audio_MIN(s->samples - s->play_pos, (unsigned int)free);
+> +        n =3D MIN(s->samples - s->play_pos, (unsigned int)free);
+>          n =3D AUD_write(s->voice, &s->sample_buf[s->play_pos], n);
+>          if (!n)
+>              break;
+> diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
+> index 6b604979cf..5182eba8eb 100644
+> --- a/hw/audio/sb16.c
+> +++ b/hw/audio/sb16.c
+> @@ -1168,7 +1168,7 @@ static int write_audio (SB16State *s, int nchan, in=
+t dma_pos,
+>          int copied;
+>          size_t to_copy;
+>
+> -        to_copy =3D audio_MIN (temp, left);
+> +        to_copy =3D MIN (temp, left);
+>          if (to_copy > sizeof (tmpbuf)) {
+>              to_copy =3D sizeof (tmpbuf);
+>          }
+> diff --git a/hw/audio/wm8750.c b/hw/audio/wm8750.c
+> index dfb4156ff4..ab04bfa2c3 100644
+> --- a/hw/audio/wm8750.c
+> +++ b/hw/audio/wm8750.c
+> @@ -69,7 +69,7 @@ static inline void wm8750_in_load(WM8750State *s)
+>  {
+>      if (s->idx_in + s->req_in <=3D sizeof(s->data_in))
+>          return;
+> -    s->idx_in =3D audio_MAX(0, (int) sizeof(s->data_in) - s->req_in);
+> +    s->idx_in =3D MAX(0, (int) sizeof(s->data_in) - s->req_in);
+>      AUD_read(*s->in[0], s->data_in + s->idx_in,
+>               sizeof(s->data_in) - s->idx_in);
+>  }
+> @@ -100,7 +100,7 @@ static void wm8750_audio_out_cb(void *opaque, int fre=
+e_b)
+>          wm8750_out_flush(s);
+>      } else
+>          s->req_out =3D free_b - s->idx_out;
+> -
 > +
->      device_id =3D qemu_opt_get(opts, "display");
->      if (device_id) {
->          int head =3D qemu_opt_get_number(opts, "head", 0);
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index bfa5681dd2..23196da3fe 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -819,16 +819,17 @@ ETEXI
->
->      {
->          .name       =3D "wavcapture",
-> -        .args_type  =3D "path:F,freq:i?,bits:i?,nchannels:i?",
-> -        .params     =3D "path [frequency [bits [channels]]]",
-> +        .args_type  =3D "path:F,freq:i?,bits:i?,nchannels:i?,audiodev:s?=
-",
-> +        .params     =3D "path [frequency [bits [channels [audiodev]]]]",
->          .help       =3D "capture audio to a wave file (default frequency=
-=3D44100 bits=3D16 channels=3D2)",
->          .cmd        =3D hmp_wavcapture,
->      },
->  STEXI
-> -@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{chann=
-els}]]]
-> +@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{chann=
-els} [@var{audiodev}]]]]
->  @findex wavcapture
-> -Capture audio into @var{filename}. Using sample rate @var{frequency}
-> -bits per sample @var{bits} and number of channels @var{channels}.
-> +Capture audio into @var{filename} from @var{audiodev}. Using sample rate
-> +@var{frequency} bits per sample @var{bits} and number of channels
-> +@var{channels}.
->
->  Defaults:
->  @itemize @minus
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 9621e934c0..0111055aa4 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1978,6 +1978,11 @@ can help the device and guest to keep up and not l=
-ose events in case
->  events are arriving in bulk.  Possible causes for the latter are flaky
->  network connections, or scripts for automated testing.
->
-> +@item audiodev=3D@var{audiodev}
-> +
-> +Use the specified @var{audiodev} when the VNC client requests audio
-> +transmission.
-> +
->  @end table
->  ETEXI
+>      s->data_req(s->opaque, s->req_out >> 2, s->req_in >> 2);
+>  }
 >
 > --
 > 2.22.0
