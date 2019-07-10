@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A839564351
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:07:02 +0200 (CEST)
-Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C2864373
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:17:52 +0200 (CEST)
+Received: from localhost ([::1]:58978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl7cz-0008CY-T6
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
+	id 1hl7nT-0004BI-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50963)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kernellwp@gmail.com>) id 1hl7Zi-0006po-ST
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:03:39 -0400
+ (envelope-from <berrange@redhat.com>) id 1hl7ke-0003lO-3n
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:14:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kernellwp@gmail.com>) id 1hl7Zf-000056-UR
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:03:37 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35271)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <kernellwp@gmail.com>) id 1hl7Zc-0007fO-Ay
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:03:33 -0400
-Received: by mail-pl1-x643.google.com with SMTP id w24so824903plp.2
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 01:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H5kKSEsUPQOooKEsuhd2GFcYVA9WoMZPCMVChQ4/8BY=;
- b=YsbA8+7dFdry0hQP7HH+odUFoj404DNdnptRG/rCqLgybyI4CtVtiTge2bNPgVyuq4
- 5ivBeLPvO+SaRGqGtprr5+kXRBm2/ukZipkLt/Ja1Dg5beX0cyjgeCbz4Piaswcy8Jhb
- M47Mf/QGHjG4mRJo0FblMeQFp2a7wIEzbKt1bqr28vOsrWXDKOOLEpABtoZ/Fagb4ilH
- FOvSeOldWDme1ntKVKCsh91FWtUDsTpHi7YXUQF38yaz3FBy5wE4PljOiDkY2h/5deZH
- IRtOE9Kbmrwt2scqEGm0vrp2AmCL8Z1A/dvKvVO8LPVMIYCNgiG1JasvGBp4K6ImBQc/
- 3wSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H5kKSEsUPQOooKEsuhd2GFcYVA9WoMZPCMVChQ4/8BY=;
- b=fkrzHoEv9VJKC3qucOvpFhya3sURQXjcKxjLc22G7IbylXW6TfWZ2JjLnzNhGorDGr
- +LkKXFjt+6BrpFji7PcDQv03xACPKkan/XOzZYnUkiUCOy5gwhwqRhTgfHz6vhMCLVNy
- ibXEY8pGVNL0nFYes8Z5v+MCtmjE4m30ifJ4c47QHiIxfmDQIqkJrmnpFRkJT0qMSx24
- RdLYrJg9SHdA3X4PpPKZE+KEnW2s7jLgn2d3a36jaZ0L/1r4heSTDaMcv6zS5N1rblZu
- RlK7EDEGxxsw39f9tLsRSE2rwPlIclC/MHOcKC6kMFEAla9NOyHohmSa6t2mhlWeerd1
- NSZw==
-X-Gm-Message-State: APjAAAWGvmptubPWdxsQpWDMYEEQFBaqHQlqhJqwSmXwuS6saI3OsLJt
- xIhPp/0foXR8ra1/WvP0I18idmScN+M=
-X-Google-Smtp-Source: APXvYqyTovXtpx7Ig98M4UFVhZRe6M4Ue5fe4n/V0XhH99l5Hx/ZcHGSFCGYVz/gBYUHg6CUD26Dbw==
-X-Received: by 2002:a17:902:6ac6:: with SMTP id
- i6mr37638348plt.233.1562745776133; 
- Wed, 10 Jul 2019 01:02:56 -0700 (PDT)
-Received: from localhost.localdomain ([203.205.141.123])
- by smtp.googlemail.com with ESMTPSA id g9sm1058551pgs.78.2019.07.10.01.02.54
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 10 Jul 2019 01:02:55 -0700 (PDT)
-From: Wanpeng Li <kernellwp@gmail.com>
-X-Google-Original-From: Wanpeng Li <wanpengli@tencent.com>
-To: qemu-devel@nongnu.org,
-	kvm@vger.kernel.org
-Date: Wed, 10 Jul 2019 16:02:51 +0800
-Message-Id: <1562745771-8414-1-git-send-email-wanpengli@tencent.com>
-X-Mailer: git-send-email 2.7.4
+ (envelope-from <berrange@redhat.com>) id 1hl7kc-0005Qp-QF
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:14:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33118)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hl7kc-0005OU-Jn
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:14:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C0F5C7FDCC
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 08:05:55 +0000 (UTC)
+Received: from redhat.com (ovpn-112-53.ams2.redhat.com [10.36.112.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 194311001B2C;
+ Wed, 10 Jul 2019 08:05:50 +0000 (UTC)
+Date: Wed, 10 Jul 2019 09:05:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190710080547.GA30831@redhat.com>
+References: <20190708072437.3339-1-marcandre.lureau@redhat.com>
+ <20190708072437.3339-4-marcandre.lureau@redhat.com>
+ <d6d9d0fe-d2ca-3130-dba0-b602c533c536@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH RESEND v2] target-i386: adds PV_SCHED_YIELD
- CPUID feature bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d6d9d0fe-d2ca-3130-dba0-b602c533c536@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Wed, 10 Jul 2019 08:05:55 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/3] Add dbus-vmstate object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,41 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wanpeng Li <wanpengli@tencent.com>
+On Wed, Jul 10, 2019 at 08:14:03AM +0200, Paolo Bonzini wrote:
+> On 08/07/19 09:24, Marc-Andr=C3=A9 Lureau wrote:
+> > +
+> > +    dstaddr =3D g_strsplit(g_test_dbus_get_bus_address(dstbus), ",",=
+ 2);
+> > +    dst_qemu_args =3D
+> > +        g_strdup_printf("-object dbus-vmstate,id=3Ddv,addr=3D%s -inc=
+oming %s",
+> > +                        dstaddr[0], uri);
+> > +
+>=20
+> Stupid question: what does the address look like, and what prevents use=
+r
+> A from using this to "steal" data from user B's virtual machine?
 
-Adds PV_SCHED_YIELD CPUID feature bit.
+This series is based on the idea of spawning a new instance of dbus-daemo=
+n
+for every VM that is run.
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Radim Krčmář <rkrcmar@redhat.com>
-Signed-off-by: Wanpeng Li <wanpengli@tencent.com>
----
-Note: kvm part is merged
-v1 -> v2:
- * use bit 13 instead of bit 12 since bit 12 has user now
-
- target/i386/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5f07d68..f4c4b6b 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -902,7 +902,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "kvmclock", "kvm-nopiodelay", "kvm-mmu", "kvmclock",
-             "kvm-asyncpf", "kvm-steal-time", "kvm-pv-eoi", "kvm-pv-unhalt",
-             NULL, "kvm-pv-tlb-flush", NULL, "kvm-pv-ipi",
--            NULL, NULL, NULL, NULL,
-+            NULL, "kvm-pv-sched-yield", NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             "kvmclock-stable-bit", NULL, NULL, NULL,
--- 
-2.7.4
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
