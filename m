@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65D96452B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:28:01 +0200 (CEST)
-Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391156452E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 12:29:51 +0200 (CEST)
+Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl9pQ-0001x2-L0
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41200)
+	id 1hl9rC-0004iG-Dn
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 06:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41743)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hl9mS-0000uT-8S
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:24:59 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hl9nl-0001JJ-0b
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:26:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hl9mQ-0007QA-Cf
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:24:56 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:60068)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1hl9mP-0007MM-D6
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:24:54 -0400
-Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
- [IPv6:2a02:6b8:0:1a2d::301])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 375DD2E14BF;
- Wed, 10 Jul 2019 13:24:42 +0300 (MSK)
-Received: from localhost (localhost [::1])
- by mxbackcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- 6ta6vEdiYk-Ofi4QCkN; Wed, 10 Jul 2019 13:24:42 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1562754282; bh=3zY26uYfqU7/mErlLlEHloCw5Q5TIXc0AncgaJjEnzI=;
- h=Cc:Subject:Date:References:To:From:Message-Id;
- b=VspC16UGw/V97jfJMlQycugw1GtWbP6nWDNvkF1zPfyVr7VKzrV2rLntBfzOp11Lh
- OC0aZdbXe7m5Y73drvJN2Ro9NDEYbkfNvYrY5793BxqSGLjO5aGef0Fbe3SD3SB2GC
- S53kE3E0y01F1gPqzr0a01mQrfLkE+ldzWk54WyQ=
-Authentication-Results: mxbackcorp1o.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000071945
-X-Yandex-Avir: 1
-Received: from mxbackcorp1j.mail.yandex.net (localhost [::1])
- by mxbackcorp1j.mail.yandex.net with LMTP id 2vpzUjb29T-HNTkFYWV
- for <yury-kotov@yandex-team.ru>; Wed, 10 Jul 2019 13:24:31 +0300
-Received: by myt4-a988562a11ab.qloud-c.yandex.net with HTTP;
- Wed, 10 Jul 2019 13:24:30 +0300
-From: Yury Kotov <yury-kotov@yandex-team.ru>
-To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-References: <20190710092338.23559-1-yury-kotov@yandex-team.ru>
- <20190710095657.GB2682@work-vm>
+ (envelope-from <alex.bennee@linaro.org>) id 1hl9nj-0000ml-TN
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:26:16 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35480)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hl9nj-0000NK-Lc
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 06:26:15 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id l2so1697638wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 03:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VIiWMVUAN41AdYBMVkPhNKSqMtaRTBycfFBcDt7jK8Y=;
+ b=Rl6xISC/sc3IYfBpTwOhgi8qx4IvIS28pcGNKvL41AEeHtQWhsG31UvHPMxysvc4dW
+ eHY+hlAYExLrIGZy5TvKWILJSvljur7YIWO3TnEMEVeQwOSjvncDEbYOIZxmqbQpxqnJ
+ OViM6M+ZCWEwG0t8/jOL89ho7og8WXgA/jLC0pmJeDmpL+OBp7dHD3xo4CmTBCBvV3PS
+ 8ajI9aluSUlHnHGpH4n1ofvJj+oKWyA0SUF1VraN3RYYOFMOTeRUV8DvU4Jk2LEoUIse
+ 7+29CBtYCOj1XaPo1gJimzxLBpWKddPB8G0qmw+7yqdz8cL3ucJthPU9QZNfZnSLzhCR
+ K6hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VIiWMVUAN41AdYBMVkPhNKSqMtaRTBycfFBcDt7jK8Y=;
+ b=BxwCqT8ZwUW9oYi8kdL+zxgPPJAhlz6G22oM4HCvZD+nPs5FJ2BTPzrN99WahlD/7d
+ WJCNOEPibLkHDF3+nzhfkhqRoHNyZi9GCmjAtYKQnzkXcIfTWkeRy+qr6DQoWLk7Q8oe
+ OrI0b3habeqmB7PQBv1gNxAAUgwX+f82ACU8KxdQE1l3+ED7nKJ49fPRxx8uCNOvdgm7
+ ns3bIy0vwxfCchZ4zlLTVThLdrchYL1w5Jy11FZqEjkHx1S5V8gFqUk06IrtsHm2fBrg
+ xFhXtIFeizz55Ic/Ssx4WXfyDpBsHGkHE/cxC/mXmZQDP8vXQgUnvn++LQnmtRIWM3aw
+ QOyg==
+X-Gm-Message-State: APjAAAXSmety2YvnHKJJtIQkJJ2zNe86hXR9SHnJWThHeRUgam/DI0wo
+ 492lbwgCHk0LwwPCVQND5ynZ4kxbJ4E=
+X-Google-Smtp-Source: APXvYqz74cApzN7uZfwWU3bcMN8LFWPQnxr9ASp5wI21P93VBqHk1PEKHXEX9ERTt0sTFZl4CN5RBw==
+X-Received: by 2002:a05:600c:2182:: with SMTP id
+ e2mr4720103wme.104.1562754358961; 
+ Wed, 10 Jul 2019 03:25:58 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id x20sm3307800wrg.10.2019.07.10.03.25.58
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 10 Jul 2019 03:25:58 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B74911FF87;
+ Wed, 10 Jul 2019 11:25:57 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Wed, 10 Jul 2019 11:25:53 +0100
+Message-Id: <20190710102557.3107-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Wed, 10 Jul 2019 13:24:40 +0300
-Message-Id: <287391562754270@myt4-a988562a11ab.qloud-c.yandex.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a02:6b8:0:1a2d::193
-Subject: Re: [Qemu-devel] [RFC PATCH 0/2] High downtime with 95+ throttle pct
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PULL for 4.1 0/4] testing and gdbstub fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,82 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- "open list:Overall" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-10.07.2019, 12:57, "Dr. David Alan Gilbert" <dgilbert@redhat.com>:
-> * Yury Kotov (yury-kotov@yandex-team.ru) wrote:
->> =C2=A0Hi,
->>
->> =C2=A0I wrote a test for migration auto converge and found out a stran=
-ge thing:
->> =C2=A01. Enable auto converge
->> =C2=A02. Set max-bandwidth 1Gb/s
->> =C2=A03. Set downtime-limit 1ms
->> =C2=A04. Run standard test (just writes a byte per page)
->> =C2=A05. Wait for converge
->> =C2=A06. It's converged with 99% throttle percentage
->> =C2=A07. The result downtime was about 300-600ms <<<<
->>
->> =C2=A0It's much higher than expected 1ms. I figured out that cpu_throt=
-tle_thread()
->> =C2=A0function sleeps for 100ms+ for high throttle percentage (>=3D95%=
-) in VCPU thread.
->> =C2=A0And it sleeps even after a cpu kick.
->>
->> =C2=A0I tried to fix it by using timedwait for ms part of sleep.
->> =C2=A0E.g timedwait(halt_cond, 1ms) + usleep(500).
->>
->> =C2=A0But I'm not sure about using timedwait function here with qemu_g=
-lobal_mutex.
->> =C2=A0The original function uses qemu_mutex_unlock_iothread + qemu_mut=
-ex_lock_iothread
->> =C2=A0It differs from locking/unlocking (inside timedwait) qemu_global=
-_mutex
->> =C2=A0because of using qemu_bql_mutex_lock_func function which could b=
-e anything.
->> =C2=A0This is why the series is RFC.
->>
->> =C2=A0What do you think?
->
-> Would qemu_sem_timedwait work for your use? I use it in
-> migration_thread for the bandwidth limiting and allowing that to be
-> woken up.
+The following changes since commit 6df2cdf44a82426f7a59dcb03f0dd2181ed7fdfa:
 
-It's a good idea and it should work. But it's more complicated than reusi=
-ng
-halt_cond. I see that it's ok to use qemu_cond_wait in cpus.c so I hope i=
-t's
-ok to use qemu_cond_timedwait too. But if it isn't then using qemu_sem_ti=
-medwait
-is a good fallback I think.
+  Update version for v4.1.0-rc0 release (2019-07-09 17:21:53 +0100)
 
-Regards,
-Yury
+are available in the Git repository at:
 
->
-> Dave
->
->> =C2=A0Thanks!
->>
->> =C2=A0Yury Kotov (2):
->> =C2=A0=C2=A0=C2=A0qemu-thread: Add qemu_cond_timedwait
->> =C2=A0=C2=A0=C2=A0cpus: Fix throttling during vm_stop
->>
->> =C2=A0=C2=A0cpus.c | 27 +++++++++++++++++++--------
->> =C2=A0=C2=A0include/qemu/thread.h | 12 ++++++++++++
->> =C2=A0=C2=A0util/qemu-thread-posix.c | 40 ++++++++++++++++++++++++++++=
-------------
->> =C2=A0=C2=A0util/qemu-thread-win32.c | 16 ++++++++++++++++
->> =C2=A0=C2=A04 files changed, 75 insertions(+), 20 deletions(-)
->>
->> =C2=A0--
->> =C2=A02.22.0
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-gdbstub-100719-1
+
+for you to fetch changes up to 94b2a62bb65b80760bcc59737bec908c9175abf4:
+
+  gdbstub: revert to previous set_reg behaviour (2019-07-10 10:54:46 +0100)
+
+----------------------------------------------------------------
+Testing and gdbstub fixes:
+
+  - fix diff-out pass in check-tcg
+  - ensure generation of fprem reference
+  - fix gdb set_reg fallback
+
+----------------------------------------------------------------
+Alex Bennée (4):
+      tests/tcg: fix up test-i386-fprem.ref generation
+      tests/tcg: fix diff-out pass to properly report failure
+      gdbstub: add some notes to the header comment
+      gdbstub: revert to previous set_reg behaviour
+
+ gdbstub.c                      | 24 ++++++++++++++++++------
+ tests/tcg/Makefile             |  6 +++++-
+ tests/tcg/i386/Makefile.target |  4 ++--
+ 3 files changed, 25 insertions(+), 9 deletions(-)
+
+-- 
+2.20.1
 
 
