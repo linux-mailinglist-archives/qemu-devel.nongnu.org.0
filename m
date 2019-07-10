@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BC964AD0
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:37:57 +0200 (CEST)
-Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F64064AF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:50:44 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFbQ-0006Zr-SA
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34129)
+	id 1hlFnm-0001ZZ-88
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38252)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlFaE-0005fe-6k
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:36:43 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlFmC-0000vx-Ns
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:49:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlFaC-0000FH-GX
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:36:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56582)
+ (envelope-from <mreitz@redhat.com>) id 1hlFmB-0001B6-PR
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:49:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlFa6-00009m-0G; Wed, 10 Jul 2019 12:36:35 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hlFm5-0000p8-HT; Wed, 10 Jul 2019 12:48:59 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 57FA185360;
- Wed, 10 Jul 2019 16:36:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB5065AFF8;
+ Wed, 10 Jul 2019 16:48:53 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 708A298BA;
- Wed, 10 Jul 2019 16:36:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAE9A60141;
+ Wed, 10 Jul 2019 16:48:48 +0000 (UTC)
 To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 References: <20190710010556.32365-1-jsnow@redhat.com>
- <20190710010556.32365-7-jsnow@redhat.com>
+ <20190710010556.32365-8-jsnow@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <24cb63cb-e19c-c4cb-fb08-c8f1d086cabf@redhat.com>
-Date: Wed, 10 Jul 2019 18:36:27 +0200
+Message-ID: <01ddc5da-c4e1-864e-ee0d-e39036d6d4dd@redhat.com>
+Date: Wed, 10 Jul 2019 18:48:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190710010556.32365-7-jsnow@redhat.com>
+In-Reply-To: <20190710010556.32365-8-jsnow@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="fwIBVTZ4mVvTIT9fjlvROH6ix3IVuJrQD"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ boundary="2GUMKSUQX5fvNxRjcXoWBfVbqZNzx2GVq"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 10 Jul 2019 16:36:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Wed, 10 Jul 2019 16:48:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 6/8] block/backup: issue progress updates
- for skipped regions
+Subject: Re: [Qemu-devel] [PATCH 7/8] block/backup: support bitmap sync
+ modes for non-bitmap backups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,86 +90,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fwIBVTZ4mVvTIT9fjlvROH6ix3IVuJrQD
-Content-Type: multipart/mixed; boundary="sMDZ1zUrbNaI5dcCzkQJmBN4YGOmbXgkn";
+--2GUMKSUQX5fvNxRjcXoWBfVbqZNzx2GVq
+Content-Type: multipart/mixed; boundary="D2vPYTo1A7DbfKRepr2imBcM57KF6TWx5";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Message-ID: <24cb63cb-e19c-c4cb-fb08-c8f1d086cabf@redhat.com>
-Subject: Re: [PATCH 6/8] block/backup: issue progress updates for skipped
- regions
+Message-ID: <01ddc5da-c4e1-864e-ee0d-e39036d6d4dd@redhat.com>
+Subject: Re: [PATCH 7/8] block/backup: support bitmap sync modes for
+ non-bitmap backups
 References: <20190710010556.32365-1-jsnow@redhat.com>
- <20190710010556.32365-7-jsnow@redhat.com>
-In-Reply-To: <20190710010556.32365-7-jsnow@redhat.com>
+ <20190710010556.32365-8-jsnow@redhat.com>
+In-Reply-To: <20190710010556.32365-8-jsnow@redhat.com>
 
---sMDZ1zUrbNaI5dcCzkQJmBN4YGOmbXgkn
+--D2vPYTo1A7DbfKRepr2imBcM57KF6TWx5
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 10.07.19 03:05, John Snow wrote:
-> The way bitmap backups work is by starting at 75% if it needs
-> to copy just 25% of the disk.
-
-Although there is this comment:
-
-> /* TODO job_progress_set_remaining() would make more sense */
-
-So...
-
-> The way sync=3Dtop currently works, however, is to start at 0% and then=
-
-> never update the progress if it doesn't copy a region. If it needs to
-> copy 25% of the disk, we'll finish at 25%.
+> Accept bitmaps and sync policies for the other backup modes.
+> This allows us to do things like create a bitmap synced to a full backu=
+p
+> without a transaction, or start a resumable backup process.
 >=20
-> Update the progress when we skip regions.
-
-Wouldn=E2=80=99t it be more correct to decrease the job length?
-
-Max
-
+> Some combinations don't make sense, though:
+>=20
+> - NEVER policy combined with any non-BITMAP mode doesn't do anything,
+>   because the bitmap isn't used for input or output.
+>   It's harmless, but is almost certainly never what the user wanted.
+>=20
+> - sync=3DNONE is more questionable. It can't use on-success because thi=
+s
+>   job never completes with success anyway, and the resulting artifact
+>   of 'always' is suspect: because we start with a full bitmap and only
+>   copy out segments that get written to, the final output bitmap will
+>   always be ... a fully set bitmap.
+>=20
+>   Maybe there's contexts in which bitmaps make sense for sync=3Dnone,
+>   but not without more severe changes to the current job, and omitting
+>   it here doesn't prevent us from adding it later.
+>=20
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  block/backup.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/block/backup.c b/block/backup.c
-> index a64b768e24..38c4a688c6 100644
-> --- a/block/backup.c
-> +++ b/block/backup.c
-> @@ -417,6 +417,7 @@ static int coroutine_fn backup_loop(BackupBlockJob =
-*job)
->          if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_TOP &&
->              bdrv_is_unallocated_range(bs, offset, job->cluster_size))
->          {
-> +            job_progress_update(&job->common.job, job->cluster_size);
->              bdrv_reset_dirty_bitmap(job->copy_bitmap, offset,
->                                      job->cluster_size);
->              continue;
->=20
+>  block/backup.c       |  8 +-------
+>  blockdev.c           | 22 ++++++++++++++++++++++
+>  qapi/block-core.json |  6 ++++--
+>  3 files changed, 27 insertions(+), 9 deletions(-)
+
+[...]
+
+> diff --git a/blockdev.c b/blockdev.c
+> index f0b7da53b0..bc152f8e0d 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+
+[...]
+
+> +    if (!backup->has_bitmap && backup->has_bitmap_mode) {
+> +        error_setg(errp, "Cannot specify Bitmap sync mode without a bi=
+tmap");
+
+Any reason for capitalizing the first =E2=80=9CBitmap=E2=80=9D?
+
+With a reason or it fixed:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
+--D2vPYTo1A7DbfKRepr2imBcM57KF6TWx5--
 
---sMDZ1zUrbNaI5dcCzkQJmBN4YGOmbXgkn--
-
---fwIBVTZ4mVvTIT9fjlvROH6ix3IVuJrQD
+--2GUMKSUQX5fvNxRjcXoWBfVbqZNzx2GVq
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0mFAsACgkQ9AfbAGHV
-z0DRUAgAkWktJffJn8ooHTVAwhu+5CKCe+QrRWxIAK4KO/u6AsovQG1+82Crr40d
-k4dQn95n7g3RLr81YZErr1iAayid9C+E6oIRDzzcWHdX1S1fk8uS4XOw70H0zdzE
-rJiPjcb8Ugak1fbq0r+5lAeA8eOYpObfXD8jO7XnWyIrj8h1V6EAVzoLyQX7FyiJ
-k+wYxFsq9WSD/qjLX1Q2jMavZnd0fQ9hUjL/l2nLpBnQQMF2afAze82KkuNjgwUO
-e4PPPrbrU/TywpfZBlndadHoyfB9Ovj7656uHwL/r4dtkFsZXytNCeI+15e/m1sx
-EP8EDPqMmE/xoAEi5VV+cr4bLI8F+w==
-=+wpm
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0mFu8ACgkQ9AfbAGHV
+z0ARFggAugsRshaHH0+29U0HjaEqG7IkrP6dTuEkHjD/KSd+ARKV7FeJgfBI9uIz
+i6qY54abkMtp+QDhKstR2uyu3aO1EV4vaA15fvJStEQDie9b78wFIbJZcPWTyZJr
+c8UJfe3vQTqmxP+aBSQ/JZUyykKAbmQqic6rmRU7le7RpNp4MVOYCwsDBieIHn3J
+Rgwr4AueW7sPOueUuQAmUMKFtBqTUvdFJrojlLRBcIFqYBHTBnUR4ISDbRmFEoxv
+4CM5yvaNWNLn5J4OisOi+R59dL/9MgG7oam3DHVz+FeDYGaQS12ykZQZ/fyu7gau
+4nJ5d9IngVzsCNPo2VgyZ+o+kQv+PA==
+=kECK
 -----END PGP SIGNATURE-----
 
---fwIBVTZ4mVvTIT9fjlvROH6ix3IVuJrQD--
+--2GUMKSUQX5fvNxRjcXoWBfVbqZNzx2GVq--
 
