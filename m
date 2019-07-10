@@ -2,53 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCDB63FE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 06:18:17 +0200 (CEST)
-Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1799F64071
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 07:11:17 +0200 (CEST)
+Received: from localhost ([::1]:57974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl43b-0003hG-J5
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 00:18:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57409)
+	id 1hl4su-0003eP-6d
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 01:11:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44276)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hl418-0002zX-6V
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:15:43 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hl4qk-0002QN-C4
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 01:09:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hl417-00061F-8r
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:15:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51716)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hl4qi-0000Ie-CR
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 01:09:02 -0400
+Received: from mga01.intel.com ([192.55.52.88]:49797)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hl413-0005uG-Go; Wed, 10 Jul 2019 00:15:37 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8CE9D8535C;
- Wed, 10 Jul 2019 04:15:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCE425FCA7;
- Wed, 10 Jul 2019 04:15:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4A6301138648; Wed, 10 Jul 2019 06:15:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-References: <20190709232550.10724-1-jsnow@redhat.com>
- <20190709232550.10724-5-jsnow@redhat.com>
-Date: Wed, 10 Jul 2019 06:15:30 +0200
-In-Reply-To: <20190709232550.10724-5-jsnow@redhat.com> (John Snow's message of
- "Tue, 9 Jul 2019 19:25:36 -0400")
-Message-ID: <875zoay17h.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 10 Jul 2019 04:15:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 04/18] qapi: add BitmapSyncMode enum
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hl4qg-0008TQ-TI
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 01:09:00 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2019 22:08:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,473,1557212400"; d="scan'208";a="189050121"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga004.fm.intel.com with ESMTP; 09 Jul 2019 22:08:54 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 10 Jul 2019 13:08:12 +0800
+Message-Id: <20190710050814.31344-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
+Subject: [Qemu-devel] [PATCH 0/2] migration/postcopy: cleanup function
+ postcopy_chunk_hostpages_pass
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,61 +51,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Here are two trivial function cleanup.
 
-> Depending on what a user is trying to accomplish, there might be a few
-> bitmap cleanup actions that occur when an operation is finished that
-> could be useful.
->
-> I am proposing three:
-> - NEVER: The bitmap is never synchronized against what was copied.
-> - ALWAYS: The bitmap is always synchronized, even on failures.
-> - ON-SUCCESS: The bitmap is synchronized only on success.
->
-> The existing incremental backup modes use 'on-success' semantics,
-> so add just that one for right now.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> ---
->  qapi/block-core.json | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 0af3866015..0c853d00bd 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -1134,6 +1134,20 @@
->  { 'enum': 'MirrorSyncMode',
->    'data': ['top', 'full', 'none', 'incremental'] }
->  
-> +##
-> +# @BitmapSyncMode:
-> +#
-> +# An enumeration of possible behaviors for the synchronization of a bitmap
-> +# when used for data copy operations.
-> +#
-> +# @on-success: The bitmap is only synced when the operation is successful.
-> +#              This is the behavior always used for 'INCREMENTAL' backups.
-> +#
-> +# Since: 4.2
-> +##
-> +{ 'enum': 'BitmapSyncMode',
-> +  'data': ['on-success'] }
-> +
->  ##
->  # @MirrorCopyMode:
->  #
+BTW, I didn't test them since TPS == HPS. How could I setup a guest with
+TPS != HPS?
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Wei Yang (2):
+  migration/postcopy: reduce one operation to calculate fixup_start_addr
+  migration/postcopy: do_fixup is true when host_offset is non-zero
+
+ migration/ram.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
 
