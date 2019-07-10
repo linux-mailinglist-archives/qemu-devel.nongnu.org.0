@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BDD64D1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:01:29 +0200 (CEST)
-Received: from localhost ([::1]:36640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BEA64D64
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:17:17 +0200 (CEST)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlImO-0007UT-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50750)
+	id 1hlJ1f-0005wg-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54430)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlIkl-0005L2-42
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:59:48 -0400
+ (envelope-from <skrtbhtngr@gmail.com>) id 1hlIzY-00051j-Se
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:15:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlIkj-0004cp-3J
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:59:47 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53327)
+ (envelope-from <skrtbhtngr@gmail.com>) id 1hlIzV-00008M-VW
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:15:04 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55576)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1hlIki-0004ZP-PJ
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 15:59:44 -0400
-Received: by mail-wm1-x342.google.com with SMTP id x15so3492007wmj.3
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 12:59:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <skrtbhtngr@gmail.com>)
+ id 1hlIzP-0008Nk-83
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:14:58 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a15so3513813wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 13:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3mB+5JT4LuXjaLrTn/Kro9YU52qznKTSxpO6cRl60Q0=;
- b=DcY9DVFIXrbbKnDpU0PTyzDjrjTk8SzTTYJjkvLBxmiCFt52qcq2tHe8zF9xNEIi08
- YSEiruVEsy/cvxHkygXDJfstbwTO8oAzAPwk6tTjFanhVl/1a9gwLy8yvJDeTzhNQNAR
- wNpl0AimI0uYrPsP3lfZv1BWf4r4PKa4aMIU1q8+yMU1u/xi2u8e0Zlq2V4BHi7xi4cH
- JAqB8hKLEELSktWqbnHbPvXTk2WRcDf82hUyyO4FNd9JCaDl8jXCwjmesbKoX7KvL2wk
- GdsVMeEiRyoIqTRLAG73R3R1iyxfV5QcEQYfrHxSpetswg1ZxU4s5AxK6PcLxhUfmO1a
- dC4A==
+ :cc; bh=R5REUIuvmrAf05yv9w23eMYuDHdrYi2w7YQy3pJhKh0=;
+ b=tSYR0bxWh03JUjDL3qGzAtkeP2A1ACf7p/RXSks5Q3iSHb2QttQamDZ20xNbS00mHr
+ dx+16WwNIOBW6klTpOQqLd2A3yAVHL1mZJCYyFrLY2qWKseSZVnOya2Vh5cAs0mdCuoI
+ pL4kqEpHxdDPiZMhIdZFO7lsDGLrE8dhAtNqxDluSUsI6hMb68rj8MmTWLYYPRbBDjQ9
+ 7U4hbrkt7Q1ryxTAZvc87tS4kDX5GXAI23xy03wELovIEQVfaYtvmXuchm5YGmbuBBk3
+ aWXLOtWmHsR7dTftUa1at70mRcX9n37nM3MxcgZFRKVhDt7xHhHxXBTDIKcXmr6cz820
+ Wayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3mB+5JT4LuXjaLrTn/Kro9YU52qznKTSxpO6cRl60Q0=;
- b=l8ts/D0FCeXKsO0iO5dqKN71kEvrg2pfKhaOeylC0Ih0f7gNzo2h7UHXVaeMx/72a4
- Z6CKtzvUGHF/jFsDuHzeYTSPj2AKjD1K4W+4WYmhxybFb4NBu3safE9npdo2Ux0Wehxt
- EM1oF4rzVxtNqROpTSTKJfdGvEMR4O/64egeTeLa9mUKi7oZzF+w6HvEeOqMEuvg5kcO
- hv4XAb+OxOjGVmFNqqvh9MTQN93Gy1zacss63tyE/+7mH6W46pu5NoOkKZWE3dcKiFXJ
- UeNOSN/xtF382t5c/1Rd7zcpNxDu71ntrgaAiptWmincJquFsebXDs4zXEkGTz2ANxOD
- wslg==
-X-Gm-Message-State: APjAAAXuj4hI1aPErNsbHV/A/e6xs55m4xj3KaDm3tbCYnOABlDFt9r1
- HGI2y/garqnXU9sFxN3wb5t0lxcaFzvVF7rebKSzH/d8
-X-Google-Smtp-Source: APXvYqxMlr/pKs7MFnLxt90w++9Ysj5Y1Z4zYN6kQD3mn2zKxDTlHaBgKkTu1GkfKYFy/jfQlEEgSF122aeo4/BfUDQ=
-X-Received: by 2002:a05:600c:28d:: with SMTP id 13mr6702620wmk.5.1562788783128; 
- Wed, 10 Jul 2019 12:59:43 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=R5REUIuvmrAf05yv9w23eMYuDHdrYi2w7YQy3pJhKh0=;
+ b=pCU9yHK8ABPPvzcAVYd6Ii60qXLFxIf0U9teUaP/JdrDCcGwjCCKKp6SxFUHhcHERt
+ n1U8DxcSHVeIq2faHtW9HuKy9vQLlv/eFD6kl6hIioWKsyEoOESAmIAbiiNmwZHL5CWT
+ JfMYye+teGGV46N5eC+WNwnI01PXDvm4T+L1lwJtG/GUreBOCG+/VByjQrIraLolxcRu
+ owwv93iV5JIAPeLSTGeMXtpV7BrcHHw8luWBIX+7hiD9JiPCBm037HaocXNxfamaQArs
+ huyAaeFVahZpy9Klt0cjPVyaQom6pspm1qcF8rUKH9mCbE6ZX1pC32cBKJ2hx4UaB/dI
+ 9g6Q==
+X-Gm-Message-State: APjAAAW9P4bAqwR658JdzYQwryJKljVjEKkjrBBza5o4YxYzTanEqgvS
+ 206YLjRCsnFZbPIfiCGxsLnOMn/f+rXn0AJfVx4=
+X-Google-Smtp-Source: APXvYqymvud4iJD6A1NoeBoQxQ9B9trrR+kHBQiscyifck72wPCA0dM1Tvy74QoP04BEfWgZYYjZebTU+tG6MjzGcs4=
+X-Received: by 2002:a1c:1d4f:: with SMTP id d76mr7025835wmd.127.1562789690507; 
+ Wed, 10 Jul 2019 13:14:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1562695780.git.DirtY.iCE.hu@gmail.com>
- <3844fbf5012201fa9509d07cff315b4f0b42ddca.1562695780.git.DirtY.iCE.hu@gmail.com>
-In-Reply-To: <3844fbf5012201fa9509d07cff315b4f0b42ddca.1562695780.git.DirtY.iCE.hu@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 10 Jul 2019 23:59:31 +0400
-Message-ID: <CAJ+F1CJ5F=FavCHG0A3heBq4SdHi5iqhQEPDczmiteT2U_OUpg@mail.gmail.com>
-To: =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
+References: <20190706040940.7884-1-skrtbhtngr@gmail.com>
+ <20190706040940.7884-3-skrtbhtngr@gmail.com>
+ <20190708051338.GA5441@lap1>
+In-Reply-To: <20190708051338.GA5441@lap1>
+From: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+Date: Thu, 11 Jul 2019 01:44:36 +0530
+Message-ID: <CAMzgYoOaARVJ1C0a2i5iGpULZk7xqmQq5XdRj7EEzWtG-AMdKA@mail.gmail.com>
+To: Yuval Shaia <yuval.shaia@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH 01/11] audio: reduce glob_audio_state usage
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC v2 2/2] hw/pvrdma: add live migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,460 +73,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 9, 2019 at 10:57 PM K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.i=
-ce.hu@gmail.com> wrote:
+On Mon, 8 Jul 2019 at 10:43, Yuval Shaia <yuval.shaia@oracle.com> wrote:
 >
-> Remove glob_audio_state from functions, where possible without breaking
-> the API.  This means that most static functions in audio.c now take an
-> AudioState pointer instead of implicitly using glob_audio_state.  Also
-> included a pointer in SWVoice*, HWVoice* structs, so that functions
-> dealing them can know the audio state without having to pass it around
-> separately.
+> On Sat, Jul 06, 2019 at 09:39:40AM +0530, Sukrit Bhatnagar wrote:
+> > Use VMStateDescription for migrating device state. Currently,
 >
-> This is required in order to support multiple simultaneous audio
-> backends (added in a later commit).
->
-> Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
->
+> What do you mean by 'Currently'?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+I meant that 'vmstate_pvrdma' will contain more fields later. This is
+how it looks till now.
 
+> > 'vmstate_pvrdma' describes the PCI and MSIX state for pvrdma and
+> > 'vmstate_pvrdma_dsr_dma' describes a temporary state containing
+> > some values obtained only after mapping to dsr in the source.
+> > Since the dsr will not be available on dest until we map to the
+> > dma address we had on source, these values cannot be migrated
+> > directly.
+> >
+> > Add PVRDMAMigTmp to store this temporary state which consists of
+> > dma addresses and ring page information. The 'parent' member is
+> > used to refer to the device state (PVRDMADev) so that parent PCI
+> > device object is accessible, which is needed to remap to DSR.
+> >
+> > pvrdma_dsr_dma_pre_save() saves the dsr state into this temporary
+> > representation and pvrdma_dsr_dma_post_load() loads it back.
+> > This load function also remaps to the dsr and and calls
+> > load_dsr() for further map and ring init operations.
+> >
+> > Please note that this call to load_dsr() can be removed from the
+> > migration flow and included in pvrdma_regs_write() to perform a
+> > lazy load.
+>
+> The lazy load was suggested to overcome a potential problem with mapping to
+> addresses while still in migration process. With that been solved i would
+> suggest to drop the idea of lazy load.
+>
+> > As of now, migration will fail if there in an error in load_dsr().
+> > Also, there might be a considerable amount of pages in the rings,
+> > which will have dma map operations when the init functions are
+> > called.
+> > If this takes noticeable time, it might be better to have lazy
+> > load instead.
+>
+> Yeah, make sense but i hope we will not get to this.
+>
+> >
+> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > Cc: Yuval Shaia <yuval.shaia@oracle.com>
+> > Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+> > ---
+> >  hw/rdma/vmw/pvrdma_main.c | 87 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 87 insertions(+)
+> >
+> > diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> > index 6c90db96f9..4a10bd2fc7 100644
+> > --- a/hw/rdma/vmw/pvrdma_main.c
+> > +++ b/hw/rdma/vmw/pvrdma_main.c
+> > @@ -28,6 +28,7 @@
+> >  #include "sysemu/sysemu.h"
+> >  #include "monitor/monitor.h"
+> >  #include "hw/rdma/rdma.h"
+> > +#include "migration/register.h"
+> >
+> >  #include "../rdma_rm.h"
+> >  #include "../rdma_backend.h"
+> > @@ -593,6 +594,91 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+> >      pvrdma_fini(pci_dev);
+> >  }
+> >
+> > +struct PVRDMAMigTmp {
+> > +    PVRDMADev *parent;
+> > +    uint64_t dma;
+> > +    uint64_t cmd_slot_dma;
+> > +    uint64_t resp_slot_dma;
+> > +    uint32_t cq_ring_pages_num_pages;
+> > +    uint64_t cq_ring_pages_pdir_dma;
+> > +    uint32_t async_ring_pages_num_pages;
+> > +    uint64_t async_ring_pages_pdir_dma;
+> > +};
+> > +
+> > +static int pvrdma_dsr_dma_pre_save(void *opaque)
+> > +{
+> > +    struct PVRDMAMigTmp *tmp = opaque;
+>
+> For me tmp sounds like a very bad name, if it is the convention then i can
+> live with that, anyways suggesting something like mig_tmp_info or something
+> like that.
 
-> ---
->  audio/audio_int.h      |  8 ++++++
->  audio/audio_template.h | 46 ++++++++++++++++----------------
->  audio/audio.c          | 59 +++++++++++++++++++-----------------------
->  3 files changed, 57 insertions(+), 56 deletions(-)
+It doesn't seem like a convention, but this is how it is named
+in other places in the source. But sure, I'll change it to a more
+meaningful name, if it is needed.
+
+> > +    DSRInfo *dsr_info = &tmp->parent->dsr_info;
 >
-> diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 3f14842709..8164696b2c 100644
-> --- a/audio/audio_int.h
-> +++ b/audio/audio_int.h
-> @@ -49,9 +49,11 @@ struct audio_pcm_info {
->      int swap_endianness;
->  };
->
-> +typedef struct AudioState AudioState;
->  typedef struct SWVoiceCap SWVoiceCap;
->
->  typedef struct HWVoiceOut {
-> +    AudioState *s;
->      int enabled;
->      int poll_mode;
->      int pending_disable;
-> @@ -73,6 +75,7 @@ typedef struct HWVoiceOut {
->  } HWVoiceOut;
->
->  typedef struct HWVoiceIn {
-> +    AudioState *s;
->      int enabled;
->      int poll_mode;
->      struct audio_pcm_info info;
-> @@ -94,6 +97,7 @@ typedef struct HWVoiceIn {
->
->  struct SWVoiceOut {
->      QEMUSoundCard *card;
-> +    AudioState *s;
->      struct audio_pcm_info info;
->      t_sample *conv;
->      int64_t ratio;
-> @@ -111,6 +115,7 @@ struct SWVoiceOut {
->
->  struct SWVoiceIn {
->      QEMUSoundCard *card;
-> +    AudioState *s;
->      int active;
->      struct audio_pcm_info info;
->      int64_t ratio;
-> @@ -188,6 +193,9 @@ typedef struct AudioState {
->      int nb_hw_voices_in;
->      int vm_running;
->      int64_t period_ticks;
-> +
-> +    bool timer_running;
-> +    uint64_t timer_last;
->  } AudioState;
->
->  extern const struct mixeng_volume nominal_volume;
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index 1232bb54db..c721fed75d 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -36,9 +36,9 @@
->  #define HWBUF hw->conv_buf
->  #endif
->
-> -static void glue (audio_init_nb_voices_, TYPE) (struct audio_driver *drv=
-)
-> +static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
-> +                                              struct audio_driver *drv)
->  {
-> -    AudioState *s =3D &glob_audio_state;
->      int max_voices =3D glue (drv->max_voices_, TYPE);
->      int voice_size =3D glue (drv->voice_size_, TYPE);
->
-> @@ -183,8 +183,8 @@ static void glue (audio_pcm_hw_del_sw_, TYPE) (SW *sw=
-)
->
->  static void glue (audio_pcm_hw_gc_, TYPE) (HW **hwp)
->  {
-> -    AudioState *s =3D &glob_audio_state;
->      HW *hw =3D *hwp;
-> +    AudioState *s =3D hw->s;
->
->      if (!hw->sw_head.lh_first) {
->  #ifdef DAC
-> @@ -199,15 +199,14 @@ static void glue (audio_pcm_hw_gc_, TYPE) (HW **hwp=
-)
->      }
->  }
->
-> -static HW *glue (audio_pcm_hw_find_any_, TYPE) (HW *hw)
-> +static HW *glue(audio_pcm_hw_find_any_, TYPE)(AudioState *s, HW *hw)
->  {
-> -    AudioState *s =3D &glob_audio_state;
->      return hw ? hw->entries.le_next : glue (s->hw_head_, TYPE).lh_first;
->  }
->
-> -static HW *glue (audio_pcm_hw_find_any_enabled_, TYPE) (HW *hw)
-> +static HW *glue(audio_pcm_hw_find_any_enabled_, TYPE)(AudioState *s, HW =
-*hw)
->  {
-> -    while ((hw =3D glue (audio_pcm_hw_find_any_, TYPE) (hw))) {
-> +    while ((hw =3D glue(audio_pcm_hw_find_any_, TYPE)(s, hw))) {
->          if (hw->enabled) {
->              return hw;
->          }
-> @@ -215,12 +214,10 @@ static HW *glue (audio_pcm_hw_find_any_enabled_, TY=
-PE) (HW *hw)
->      return NULL;
->  }
->
-> -static HW *glue (audio_pcm_hw_find_specific_, TYPE) (
-> -    HW *hw,
-> -    struct audsettings *as
-> -    )
-> +static HW *glue(audio_pcm_hw_find_specific_, TYPE)(AudioState *s, HW *hw=
-,
-> +                                                   struct audsettings *a=
-s)
->  {
-> -    while ((hw =3D glue (audio_pcm_hw_find_any_, TYPE) (hw))) {
-> +    while ((hw =3D glue(audio_pcm_hw_find_any_, TYPE)(s, hw))) {
->          if (audio_pcm_info_eq (&hw->info, as)) {
->              return hw;
->          }
-> @@ -228,10 +225,10 @@ static HW *glue (audio_pcm_hw_find_specific_, TYPE)=
- (
->      return NULL;
->  }
->
-> -static HW *glue (audio_pcm_hw_add_new_, TYPE) (struct audsettings *as)
-> +static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-> +                                             struct audsettings *as)
->  {
->      HW *hw;
-> -    AudioState *s =3D &glob_audio_state;
->      struct audio_driver *drv =3D s->drv;
->
->      if (!glue (s->nb_hw_voices_, TYPE)) {
-> @@ -255,6 +252,7 @@ static HW *glue (audio_pcm_hw_add_new_, TYPE) (struct=
- audsettings *as)
->          return NULL;
->      }
->
-> +    hw->s =3D s;
->      hw->pcm_ops =3D drv->pcm_ops;
->      hw->ctl_caps =3D drv->ctl_caps;
->
-> @@ -328,33 +326,33 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, T=
-YPE)(Audiodev *dev)
->      abort();
->  }
->
-> -static HW *glue (audio_pcm_hw_add_, TYPE) (struct audsettings *as)
-> +static HW *glue(audio_pcm_hw_add_, TYPE)(AudioState *s, struct audsettin=
-gs *as)
->  {
->      HW *hw;
-> -    AudioState *s =3D &glob_audio_state;
->      AudiodevPerDirectionOptions *pdo =3D glue(audio_get_pdo_, TYPE)(s->d=
-ev);
->
->      if (pdo->fixed_settings) {
-> -        hw =3D glue (audio_pcm_hw_add_new_, TYPE) (as);
-> +        hw =3D glue(audio_pcm_hw_add_new_, TYPE)(s, as);
->          if (hw) {
->              return hw;
->          }
->      }
->
-> -    hw =3D glue (audio_pcm_hw_find_specific_, TYPE) (NULL, as);
-> +    hw =3D glue(audio_pcm_hw_find_specific_, TYPE)(s, NULL, as);
->      if (hw) {
->          return hw;
->      }
->
-> -    hw =3D glue (audio_pcm_hw_add_new_, TYPE) (as);
-> +    hw =3D glue(audio_pcm_hw_add_new_, TYPE)(s, as);
->      if (hw) {
->          return hw;
->      }
->
-> -    return glue (audio_pcm_hw_find_any_, TYPE) (NULL);
-> +    return glue(audio_pcm_hw_find_any_, TYPE)(s, NULL);
->  }
->
-> -static SW *glue (audio_pcm_create_voice_pair_, TYPE) (
-> +static SW *glue(audio_pcm_create_voice_pair_, TYPE)(
-> +    AudioState *s,
->      const char *sw_name,
->      struct audsettings *as
->      )
-> @@ -362,7 +360,6 @@ static SW *glue (audio_pcm_create_voice_pair_, TYPE) =
-(
->      SW *sw;
->      HW *hw;
->      struct audsettings hw_as;
-> -    AudioState *s =3D &glob_audio_state;
->      AudiodevPerDirectionOptions *pdo =3D glue(audio_get_pdo_, TYPE)(s->d=
-ev);
->
->      if (pdo->fixed_settings) {
-> @@ -378,8 +375,9 @@ static SW *glue (audio_pcm_create_voice_pair_, TYPE) =
-(
->                 sw_name ? sw_name : "unknown", sizeof (*sw));
->          goto err1;
->      }
-> +    sw->s =3D s;
->
-> -    hw =3D glue (audio_pcm_hw_add_, TYPE) (&hw_as);
-> +    hw =3D glue(audio_pcm_hw_add_, TYPE)(s, &hw_as);
->      if (!hw) {
->          goto err2;
->      }
-> @@ -476,7 +474,7 @@ SW *glue (AUD_open_, TYPE) (
->          }
->      }
->      else {
-> -        sw =3D glue (audio_pcm_create_voice_pair_, TYPE) (name, as);
-> +        sw =3D glue(audio_pcm_create_voice_pair_, TYPE)(s, name, as);
->          if (!sw) {
->              dolog ("Failed to create voice `%s'\n", name);
->              return NULL;
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 05adf7ffeb..8d2f580788 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -399,12 +399,10 @@ static void noop_conv (struct st_sample *dst, const=
- void *src, int samples)
->      (void) samples;
->  }
->
-> -static CaptureVoiceOut *audio_pcm_capture_find_specific (
-> -    struct audsettings *as
-> -    )
-> +static CaptureVoiceOut *audio_pcm_capture_find_specific(AudioState *s,
-> +                                                        struct audsettin=
-gs *as)
->  {
->      CaptureVoiceOut *cap;
-> -    AudioState *s =3D &glob_audio_state;
->
->      for (cap =3D s->cap_head.lh_first; cap; cap =3D cap->entries.le_next=
-) {
->          if (audio_pcm_info_eq (&cap->hw.info, as)) {
-> @@ -481,7 +479,7 @@ static void audio_detach_capture (HWVoiceOut *hw)
->
->  static int audio_attach_capture (HWVoiceOut *hw)
->  {
-> -    AudioState *s =3D &glob_audio_state;
-> +    AudioState *s =3D hw->s;
->      CaptureVoiceOut *cap;
->
->      audio_detach_capture (hw);
-> @@ -789,19 +787,15 @@ static void audio_pcm_print_info (const char *cap, =
-struct audio_pcm_info *info)
->  /*
->   * Timer
->   */
-> -
-> -static bool audio_timer_running;
-> -static uint64_t audio_timer_last;
-> -
-> -static int audio_is_timer_needed (void)
-> +static int audio_is_timer_needed(AudioState *s)
->  {
->      HWVoiceIn *hwi =3D NULL;
->      HWVoiceOut *hwo =3D NULL;
->
-> -    while ((hwo =3D audio_pcm_hw_find_any_enabled_out (hwo))) {
-> +    while ((hwo =3D audio_pcm_hw_find_any_enabled_out(s, hwo))) {
->          if (!hwo->poll_mode) return 1;
->      }
-> -    while ((hwi =3D audio_pcm_hw_find_any_enabled_in (hwi))) {
-> +    while ((hwi =3D audio_pcm_hw_find_any_enabled_in(s, hwi))) {
->          if (!hwi->poll_mode) return 1;
->      }
->      return 0;
-> @@ -809,18 +803,18 @@ static int audio_is_timer_needed (void)
->
->  static void audio_reset_timer (AudioState *s)
->  {
-> -    if (audio_is_timer_needed ()) {
-> +    if (audio_is_timer_needed(s)) {
->          timer_mod_anticipate_ns(s->ts,
->              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + s->period_ticks);
-> -        if (!audio_timer_running) {
-> -            audio_timer_running =3D true;
-> -            audio_timer_last =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        if (!s->timer_running) {
-> +            s->timer_running =3D true;
-> +            s->timer_last =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->              trace_audio_timer_start(s->period_ticks / SCALE_MS);
->          }
->      } else {
->          timer_del(s->ts);
-> -        if (audio_timer_running) {
-> -            audio_timer_running =3D false;
-> +        if (s->timer_running) {
-> +            s->timer_running =3D false;
->              trace_audio_timer_stop();
->          }
->      }
-> @@ -832,11 +826,11 @@ static void audio_timer (void *opaque)
->      AudioState *s =3D opaque;
->
->      now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> -    diff =3D now - audio_timer_last;
-> +    diff =3D now - s->timer_last;
->      if (diff > s->period_ticks * 3 / 2) {
->          trace_audio_timer_delayed(diff / SCALE_MS);
->      }
-> -    audio_timer_last =3D now;
-> +    s->timer_last =3D now;
->
->      audio_run("timer");
->      audio_reset_timer(s);
-> @@ -890,7 +884,7 @@ void AUD_set_active_out (SWVoiceOut *sw, int on)
->
->      hw =3D sw->hw;
->      if (sw->active !=3D on) {
-> -        AudioState *s =3D &glob_audio_state;
-> +        AudioState *s =3D sw->s;
->          SWVoiceOut *temp_sw;
->          SWVoiceCap *sc;
->
-> @@ -937,7 +931,7 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
->
->      hw =3D sw->hw;
->      if (sw->active !=3D on) {
-> -        AudioState *s =3D &glob_audio_state;
-> +        AudioState *s =3D sw->s;
->          SWVoiceIn *temp_sw;
->
->          if (on) {
-> @@ -1060,7 +1054,7 @@ static void audio_run_out (AudioState *s)
->      HWVoiceOut *hw =3D NULL;
->      SWVoiceOut *sw;
->
-> -    while ((hw =3D audio_pcm_hw_find_any_enabled_out (hw))) {
-> +    while ((hw =3D audio_pcm_hw_find_any_enabled_out(s, hw))) {
->          int played;
->          int live, free, nb_live, cleanup_required, prev_rpos;
->
-> @@ -1165,7 +1159,7 @@ static void audio_run_in (AudioState *s)
->  {
->      HWVoiceIn *hw =3D NULL;
->
-> -    while ((hw =3D audio_pcm_hw_find_any_enabled_in (hw))) {
-> +    while ((hw =3D audio_pcm_hw_find_any_enabled_in(s, hw))) {
->          SWVoiceIn *sw;
->          int captured =3D 0, min;
->
-> @@ -1271,8 +1265,8 @@ static int audio_driver_init(AudioState *s, struct =
-audio_driver *drv,
->      s->drv_opaque =3D drv->init(dev);
->
->      if (s->drv_opaque) {
-> -        audio_init_nb_voices_out (drv);
-> -        audio_init_nb_voices_in (drv);
-> +        audio_init_nb_voices_out(s, drv);
-> +        audio_init_nb_voices_in(s, drv);
->          s->drv =3D drv;
->          return 0;
->      }
-> @@ -1293,11 +1287,11 @@ static void audio_vm_change_state_handler (void *=
-opaque, int running,
->      int op =3D running ? VOICE_ENABLE : VOICE_DISABLE;
->
->      s->vm_running =3D running;
-> -    while ((hwo =3D audio_pcm_hw_find_any_enabled_out (hwo))) {
-> +    while ((hwo =3D audio_pcm_hw_find_any_enabled_out(s, hwo))) {
->          hwo->pcm_ops->ctl_out(hwo, op);
->      }
->
-> -    while ((hwi =3D audio_pcm_hw_find_any_enabled_in (hwi))) {
-> +    while ((hwi =3D audio_pcm_hw_find_any_enabled_in(s, hwi))) {
->          hwi->pcm_ops->ctl_in(hwi, op);
->      }
->      audio_reset_timer (s);
-> @@ -1317,7 +1311,7 @@ void audio_cleanup(void)
->      HWVoiceIn *hwi, *hwin;
->
->      is_cleaning_up =3D true;
-> -    QLIST_FOREACH_SAFE(hwo, &glob_audio_state.hw_head_out, entries, hwon=
-) {
-> +    QLIST_FOREACH_SAFE(hwo, &s->hw_head_out, entries, hwon) {
->          SWVoiceCap *sc;
->
->          if (hwo->enabled) {
-> @@ -1336,7 +1330,7 @@ void audio_cleanup(void)
->          QLIST_REMOVE(hwo, entries);
->      }
->
-> -    QLIST_FOREACH_SAFE(hwi, &glob_audio_state.hw_head_in, entries, hwin)=
- {
-> +    QLIST_FOREACH_SAFE(hwi, &s->hw_head_in, entries, hwin) {
->          if (hwi->enabled) {
->              hwi->pcm_ops->ctl_in (hwi, VOICE_DISABLE);
->          }
-> @@ -1532,7 +1526,7 @@ CaptureVoiceOut *AUD_add_capture (
->      cb->ops =3D *ops;
->      cb->opaque =3D cb_opaque;
->
-> -    cap =3D audio_pcm_capture_find_specific (as);
-> +    cap =3D audio_pcm_capture_find_specific(s, as);
->      if (cap) {
->          QLIST_INSERT_HEAD (&cap->cb_head, cb, entries);
->          return cap;
-> @@ -1544,6 +1538,7 @@ CaptureVoiceOut *AUD_add_capture (
->          cap =3D g_malloc0(sizeof(*cap));
->
->          hw =3D &cap->hw;
-> +        hw->s =3D s;
->          QLIST_INIT (&hw->sw_head);
->          QLIST_INIT (&cap->cb_head);
->
-> @@ -1564,7 +1559,7 @@ CaptureVoiceOut *AUD_add_capture (
->          QLIST_INSERT_HEAD (&s->cap_head, cap, entries);
->          QLIST_INSERT_HEAD (&cap->cb_head, cb, entries);
->
-> -        QLIST_FOREACH(hw, &glob_audio_state.hw_head_out, entries) {
-> +        QLIST_FOREACH(hw, &s->hw_head_out, entries) {
->              audio_attach_capture (hw);
->          }
->          return cap;
-> --
-> 2.22.0
->
->
+> Can you shad some light on how the parent field is initialized with the
+> pointer to the device object?
+
+TL;DR
+The trick is on line 567 in migration/vmstate-types.c in the
+function 'put_tmp'.
 
 
---
-Marc-Andr=C3=A9 Lureau
+Each VMStateDescription has one or more VMStateField values
+which are used to define members of the device state for migration.
+
+VMSTATE_WITH_TMP is a macro which defines a VMStateField for
+those types of device state which need an intermediate representation
+and cannot be migrated directly. In our case, this might apply to the
+dma addresses and pdir information stored within dsr.
+
+Each VMStateField has a corresponding VMStateInfo, which basically
+is an interface declaring two functions, get and put. These functions are
+used to describe how this certain type of VMStateField has to be
+saved/loaded during migration.
+
+VMSTATE_WITH_TMP has its VMStateInfo set to 'vmstate_info_tmp',
+which assigns the functions 'put_tmp' and 'get_tmp' for save/load logic.
+
+Lets consider state save during migration.
+All the state saving work is done inside 'vmstate_save_state_v'.
+It takes a VMStateDescription as 2nd argument and an opaque type
+as 3rd argument.
+
+When 'vmstate_save_state_v' is first called during migration, the
+VMStateDescription argument is set to 'vmstate_pvrdma', and
+opaque is set to our instance of PVRDMADev.
+
+This function iteratively saves the VMStateFields; PCI then MSIX
+then the WITH_TMP.
+When it reaches WITH_TMP, it falls through the if-else conditions,
+and finally reaches field->info->put. [migration/vmstate.c:386]
+This put function is set to 'put_tmp' mentioned above.
+
+Now, the 'put_tmp' function is called, with 'pv' parameter set to the
+'parent' field of PVRDMAMigTmp, and 'field' set to our WITH_TMP.
+This is because 'parent' is the first member of PVRDMAMigTmp,
+and both first_elem and curr_elem (inside 'vmstate_save_state_v')
+will point to it when the while loop reaches WITH_TMP field.
+
+'put_tmp' will set the first element of 'tmp' to 'pv' and call
+'vmstate_save_state*' with opaque parameter set to this 'tmp', and
+the VMStateDescription set to 'vmstate_pvrdma_dsr_dma'.
+
+> > +    struct pvrdma_device_shared_region *dsr = dsr_info->dsr;
+> > +
+> > +    tmp->dma = dsr_info->dma;
+> > +    tmp->cmd_slot_dma = dsr->cmd_slot_dma;
+> > +    tmp->resp_slot_dma = dsr->resp_slot_dma;
+> > +    tmp->cq_ring_pages_num_pages = dsr->cq_ring_pages.num_pages;
+> > +    tmp->cq_ring_pages_pdir_dma = dsr->cq_ring_pages.pdir_dma;
+> > +    tmp->async_ring_pages_num_pages = dsr->async_ring_pages.num_pages;
+> > +    tmp->async_ring_pages_pdir_dma = dsr->async_ring_pages.pdir_dma;
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static int pvrdma_dsr_dma_post_load(void *opaque, int version_id)
+> > +{
+> > +    struct PVRDMAMigTmp *tmp = opaque;
+> > +    PVRDMADev *dev = tmp->parent;
+> > +    PCIDevice *pci_dev = PCI_DEVICE(dev);
+> > +    DSRInfo *dsr_info = &dev->dsr_info;
+> > +    struct pvrdma_device_shared_region *dsr;
+> > +
+> > +    dsr_info->dma = tmp->dma;
+> > +    dsr_info->dsr = rdma_pci_dma_map(pci_dev, dsr_info->dma,
+> > +                                sizeof(struct pvrdma_device_shared_region));
+> > +    if (!dsr_info->dsr) {
+> > +        rdma_error_report("Failed to map to DSR");
+> > +        return -ENOMEM;
+>
+> Will this cause the VM on source host to continue functioning besides
+> failing the migration?
+
+No, the VM on the source halts.
+
+> > +    }
+> > +
+> > +    dsr = dsr_info->dsr;
+> > +    dsr->cmd_slot_dma = tmp->cmd_slot_dma;
+> > +    dsr->resp_slot_dma = tmp->resp_slot_dma;
+> > +    dsr->cq_ring_pages.num_pages = tmp->cq_ring_pages_num_pages;
+> > +    dsr->cq_ring_pages.pdir_dma = tmp->cq_ring_pages_pdir_dma;
+> > +    dsr->async_ring_pages.num_pages = tmp->async_ring_pages_num_pages;
+> > +    dsr->async_ring_pages.pdir_dma = tmp->async_ring_pages_pdir_dma;
+>
+> I expect the above 6 fields to be already populated with the correct values
+> as we just map to driver's DSR that should be migrated as part of memory
+> copy of source to dest host.
+> Can you verify it and if my assumptions are correct to remove these
+> assignments (and the corresponding from pre_save)?
+
+Yes, you are right. We do not need these 6 fields. In fact, we don't need
+vmstate_pvrdma_dsr_dma and PVRDMAMigTmp as of now; we just need the
+save/load logic in vmstate_pvrdma.
+
+I had added these fields based on the BounceBuffer issue we had earlier.
+
+> > +
+> > +    return load_dsr(dev);
+> > +}
+> > +
+> > +static const VMStateDescription vmstate_pvrdma_dsr_dma = {
+> > +    .name = "pvrdma-dsr-dma",
+> > +    .pre_save = pvrdma_dsr_dma_pre_save,
+> > +    .post_load = pvrdma_dsr_dma_post_load,
+>
+> I'm looking for a hook that is triggered just before leaving the source
+> host so we can do some needed cleanups such as unmapping the DSR, removing
+> IP addresses from the host etc.
+
+There is a 'post_save' function available which is called on the src when
+the fields are saved into the migration stream. We can try that.
+
+> > +    .fields = (VMStateField[]) {
+> > +            VMSTATE_UINT64(dma, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT64(cmd_slot_dma, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT64(resp_slot_dma, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT32(async_ring_pages_num_pages, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT64(async_ring_pages_pdir_dma, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT32(cq_ring_pages_num_pages, struct PVRDMAMigTmp),
+> > +            VMSTATE_UINT64(cq_ring_pages_pdir_dma, struct PVRDMAMigTmp),
+> > +            VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> > +static const VMStateDescription vmstate_pvrdma = {
+> > +    .name = "pvrdma",
+>
+> Suggesting to use the already defined constant PVRDMA_HW_NAME.
+
+Noted.
+
+> > +    .version_id = 1,
+> > +    .minimum_version_id = 1,
+>
+> Hmmm...interesting, what's the use of these fields?
+
+These are used to indicate any major changes to the device state
+for migration such that if versions do not match at all, migration
+will fail for the device.
+Removing these also does not make any difference in the behaviour
+of our migration, since we are implementing it from scratch currently.
+I had added these because it seemed like convention.
+
+> > +    .fields = (VMStateField[]) {
+> > +            VMSTATE_PCI_DEVICE(parent_obj, PVRDMADev),
+> > +            VMSTATE_MSIX(parent_obj, PVRDMADev),
+> > +            VMSTATE_WITH_TMP(PVRDMADev,
+> > +                             struct PVRDMAMigTmp,
+> > +                             vmstate_pvrdma_dsr_dma),
+> > +            VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> >  static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+> >  {
+> >      int rc = 0;
+> > @@ -688,6 +774,7 @@ static void pvrdma_class_init(ObjectClass *klass, void *data)
+> >
+> >      dc->desc = "RDMA Device";
+> >      dc->props = pvrdma_dev_properties;
+> > +    dc->vmsd = &vmstate_pvrdma;
+> >      set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
+>
+> Besides the above comments looks like a great job, thanks!
+>
+> >
+> >      ir->print_statistics = pvrdma_print_statistics;
+> > --
+> > 2.21.0
+> >
+> >
 
