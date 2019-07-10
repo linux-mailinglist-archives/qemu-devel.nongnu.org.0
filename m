@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD9364B3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:10:07 +0200 (CEST)
-Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D9F64B59
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:18:32 +0200 (CEST)
+Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlG6Y-0006pP-MA
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43791)
+	id 1hlGEg-0001lt-GS
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46491)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hlG56-00062J-IR
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:08:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1hlGCC-0000qU-9A
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:15:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hlG54-0005hh-Hu
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:08:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44606)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hlG4x-0005bU-7P; Wed, 10 Jul 2019 13:08:28 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 310885AFF8;
- Wed, 10 Jul 2019 17:08:26 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55315196FE;
- Wed, 10 Jul 2019 17:08:21 +0000 (UTC)
-Message-ID: <a6857e0264da525868063c47d9bbe6e23acccd48.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, Michal
- Privoznik <mprivozn@redhat.com>, qemu-block@nongnu.org
-Date: Wed, 10 Jul 2019 20:08:20 +0300
-In-Reply-To: <3b4ea43e-9223-7d72-d708-958ae18a7abd@redhat.com>
-References: <927aae40b617ba7d4b6c7ffe74e6d7a2595f8e86.1562770546.git.mprivozn@redhat.com>
- <3b4ea43e-9223-7d72-d708-958ae18a7abd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 10 Jul 2019 17:08:26 +0000 (UTC)
+ (envelope-from <bounces@canonical.com>) id 1hlGCB-00078a-16
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:15:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50470)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hlGC9-0006w0-0i
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:15:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hlGBs-00025B-JQ
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 17:15:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 91EDF2E80C7
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 17:15:36 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Jul 2019 17:08:54 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
+Message-Id: <156277853423.23666.1532138793780603776.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 69f354f0d6940b12fff65aeb62890364f229eb9c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: Set number of queues
- later in nvme_init()
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836078] Re: Regressions on arm-linux-gnueabihf
+ target with some GCC tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,95 +66,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-07-10 at 17:34 +0200, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 7/10/19 4:57 PM, Michal Privoznik wrote:
-> > When creating the admin queue in nvme_init() the variable that
-> > holds the number of queues created is modified before actual
-> > queue creation. This is a problem because if creating the queue
-> > fails then the variable is left in inconsistent state. This was
-> > actually observed when I tried to hotplug a nvme disk. The
-> > control got to nvme_file_open() which called nvme_init() which
-> > failed and thus nvme_close() was called which in turn called
-> > nvme_free_queue_pair() with queue being NULL. This lead to an
-> > instant crash:
-> >=20
-> >   #0  0x000055d9507ec211 in nvme_free_queue_pair (bs=3D0x55d952ddb880=
-, q=3D0x0) at block/nvme.c:164
-> >   #1  0x000055d9507ee180 in nvme_close (bs=3D0x55d952ddb880) at block=
-/nvme.c:729
-> >   #2  0x000055d9507ee3d5 in nvme_file_open (bs=3D0x55d952ddb880, opti=
-ons=3D0x55d952bb1410, flags=3D147456, errp=3D0x7ffd8e19e200) at block/nvm=
-e.c:781
-> >   #3  0x000055d9507629f3 in bdrv_open_driver (bs=3D0x55d952ddb880, dr=
-v=3D0x55d95109c1e0 <bdrv_nvme>, node_name=3D0x0, options=3D0x55d952bb1410=
-, open_flags=3D147456, errp=3D0x7ffd8e19e310) at block.c:1291
-> >   #4  0x000055d9507633d6 in bdrv_open_common (bs=3D0x55d952ddb880, fi=
-le=3D0x0, options=3D0x55d952bb1410, errp=3D0x7ffd8e19e310) at block.c:155=
-1
-> >   #5  0x000055d950766881 in bdrv_open_inherit (filename=3D0x0, refere=
-nce=3D0x0, options=3D0x55d952bb1410, flags=3D32768, parent=3D0x55d9538ce4=
-20, child_role=3D0x55d950eaade0 <child_file>, errp=3D0x7ffd8e19e510)
-> > at block.c:3063
-> >   #6  0x000055d950765ae4 in bdrv_open_child_bs (filename=3D0x0, optio=
-ns=3D0x55d9541cdff0, bdref_key=3D0x55d950af33aa "file", parent=3D0x55d953=
-8ce420, child_role=3D0x55d950eaade0 <child_file>,
-> > allow_none=3Dtrue, errp=3D0x7ffd8e19e510) at block.c:2712
-> >   #7  0x000055d950766633 in bdrv_open_inherit (filename=3D0x0, refere=
-nce=3D0x0, options=3D0x55d9541cdff0, flags=3D0, parent=3D0x0, child_role=3D=
-0x0, errp=3D0x7ffd8e19e908) at block.c:3011
-> >   #8  0x000055d950766dba in bdrv_open (filename=3D0x0, reference=3D0x=
-0, options=3D0x55d953d00390, flags=3D0, errp=3D0x7ffd8e19e908) at block.c=
-:3156
-> >   #9  0x000055d9507cb635 in blk_new_open (filename=3D0x0, reference=3D=
-0x0, options=3D0x55d953d00390, flags=3D0, errp=3D0x7ffd8e19e908) at block=
-/block-backend.c:389
-> >   #10 0x000055d950465ec5 in blockdev_init (file=3D0x0, bs_opts=3D0x55=
-d953d00390, errp=3D0x7ffd8e19e908) at blockdev.c:602
-> >=20
->=20
-> Fixes: bdd6a90a9e5
->=20
-> > Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> > ---
-> >  block/nvme.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/block/nvme.c b/block/nvme.c
-> > index 73ed5fa75f..9896b7f7c6 100644
-> > --- a/block/nvme.c
-> > +++ b/block/nvme.c
-> > @@ -613,12 +613,12 @@ static int nvme_init(BlockDriverState *bs, cons=
-t char *device, int namespace,
-> > =20
-> >      /* Set up admin queue. */
-> >      s->queues =3D g_new(NVMeQueuePair *, 1);
-> > -    s->nr_queues =3D 1;
-> >      s->queues[0] =3D nvme_create_queue_pair(bs, 0, NVME_QUEUE_SIZE, =
-errp);
-> >      if (!s->queues[0]) {
-> >          ret =3D -EINVAL;
-> >          goto out;
-> >      }
-> > +    s->nr_queues =3D 1;
-> >      QEMU_BUILD_BUG_ON(NVME_QUEUE_SIZE & 0xF000);
-> >      s->regs->aqa =3D cpu_to_le32((NVME_QUEUE_SIZE << 16) | NVME_QUEU=
-E_SIZE);
-> >      s->regs->asq =3D cpu_to_le64(s->queues[0]->sq.iova);
-> >=20
->=20
->=20
+The IEEE6 test comes down to:
 
+commit a15945d98d3a3390c3da344d1b47218e91e49d8b
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Tue Feb 5 16:52:42 2019 +0000
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Best regards,
-	Maxim Levitsky
+    target/arm: Make FPSCR/FPCR trapped-exception bits RAZ/WI
 
+    The {IOE, DZE, OFE, UFE, IXE, IDE} bits in the FPSCR/FPCR are for
+    enabling trapped IEEE floating point exceptions (where IEEE exception
+    conditions cause a CPU exception rather than updating the FPSR status
+    bits). QEMU doesn't implement this (and nor does the hardware we're
+    modelling), but for implementations which don't implement trapped
+    exception handling these control bits are supposed to be RAZ/WI.
+    This allows guest code to test for whether the feature is present
+    by trying to write to the bit and checking whether it sticks.
+
+    QEMU is incorrectly making these bits read as written. Make them
+    RAZ/WI as the architecture requires.
+
+    In particular this was causing problems for the NetBSD automatic
+    test suite.
+
+    Reported-by: Martin Husemann <martin@netbsd.org>
+    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+    Message-id: 20190131130700.28392-1-peter.maydell@linaro.org
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836078
+
+Title:
+  Regressions on arm-linux-gnueabihf target with some GCC tests
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  After trying qemu master:
+  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
+  Merge: 68d7ff0 14f5d87
+  Author: Peter Maydell <email address hidden>
+  Date: Fri Jun 21 15:40:50 2019 +0100
+
+  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
+  I've noticed several regressions compared to qemu-3.1 when running the GC=
+C testsuite.
+  I'm attaching a tarball containing several GCC tests (binaries), needed s=
+hared libs, and a short script to run all the tests.
+
+  All tests used to pass w/o error, but with a recent qemu, all of them
+  make qemu crash.
+
+  This was noticed with GCC master configured with
+  --target arm-none-linux-gnueabihf
+  --with-cpu cortex-a57
+  --with-fpu crypto-neon-fp-armv8
+
+  Thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
 
