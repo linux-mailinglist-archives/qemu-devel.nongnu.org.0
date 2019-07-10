@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3E264391
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:28:57 +0200 (CEST)
-Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929F9643AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:40:14 +0200 (CEST)
+Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl7yC-0007pU-EA
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55579)
+	id 1hl896-0002ue-Up
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hl7x3-0007A0-LC
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hl87u-0002NE-H4
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:38:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hl7x1-000222-QV
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:45 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43171)
+ (envelope-from <alex.bennee@linaro.org>) id 1hl87t-0003jX-MC
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:38:58 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hl7x1-0001yZ-G0
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:43 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p13so1419616wru.10
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 01:27:42 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hl87t-0003hB-Fd
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:38:57 -0400
+Received: by mail-wm1-x342.google.com with SMTP id h19so4101658wme.0
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 01:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=0qgvnQJsm4ZzzK9Mc63vPLRegdkd+F+aGSI1jgLMHM4=;
+ b=NsWG/clMwdEDY54JVTHe/gw2hFOsjoxT33YAjEpiZGyYYrYVt+/WOnXbCDp/N76k9Q
+ pfobEdr0ZAggLrejDIxAtgnw89jt6DlZzX0W/ia+nER0xBdGeUK/tGgNk6G7i5jRB3st
+ jZg24xD1GwtMsqPOo/T4JvCva6QG6xbbzfN/IS0t2JXFzd+ifnsBgp0FFRyMjX6NXYhN
+ TMtqEslmP2frXhuFJ24K/TZ0yCakAggnVDtRftIL17Tnzr2VozEjT0uTvcTEWV5uIMFB
+ mpQgFhnKs1F1IvAyLWu2hyp88gCi46FIIWR/9QJvVYXpKFLnAcI5mlfUI0YHTVBXRhPP
+ gmSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5SSNbmovsrwDVC2d0KAr9xCw5iZseUjXmFO4F2JkajU=;
- b=MAuzLGsjzAiWs9fK2Ty5pg1F5aufG4gDJjDRb3zsZYr1nSeTZubT/muH8m1o1tMLDP
- wClD03vRWW1BdLEGiKtO8n9lGsv2i/nQUUMhWYytgb/FYPa86zvj8eBJxtDK3BUNFJrG
- 6bsoWrSeMOZUj1iAA/qP0wFyF8+6+KCTvCG0eBFU/TATqIwLaB2HqzLtlNy5a+SD4XTs
- +KLGrUj9WjWqayXN7ohBLZCwBkIZg830M6q/4T0nsSY03hpon3twRinSmF7mAizZUOmi
- 7r5r/7DN59OObyLRx5VD0i3xosOMdgwgBVmDejnXkeYYaYYr7yN6s995LyqNBrt0HV6E
- CN1w==
-X-Gm-Message-State: APjAAAVmTcJs+Nqa9kTz1bhNmdvSj8OipYi5Kr8nBTGTnCa2LwnpY3so
- gsPp5uW98AVtCsFc/FyMY/PXuw==
-X-Google-Smtp-Source: APXvYqzLjvhiKMnLdlcGwXHvYK8nxJlf53rJxbNc0I1Mhdeoxqasay+a8pLlGDQL82IiBVylvLfcEw==
-X-Received: by 2002:adf:fc52:: with SMTP id e18mr28635678wrs.14.1562747261118; 
- Wed, 10 Jul 2019 01:27:41 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id m7sm1214497wrx.65.2019.07.10.01.27.40
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 01:27:40 -0700 (PDT)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190709194330.837-1-marcandre.lureau@redhat.com>
- <20190709194330.837-3-marcandre.lureau@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b6823a5f-658e-19c9-6bb4-559a12517a66@redhat.com>
-Date: Wed, 10 Jul 2019 10:27:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=0qgvnQJsm4ZzzK9Mc63vPLRegdkd+F+aGSI1jgLMHM4=;
+ b=HHER4o9tdOo6BwqvzD8xwMOSXoEJvHpJu0zqLpwOKQ2KZ1DK6ijc0YG30ZIPnQpqtM
+ j0IrXxwCq+D5VFrPfvYHDwKdrWRhTfbUzmFmed49pl4g8btRVwPtOXN+sDjmPxjfd/wk
+ XOkV4P8NBChNQbMIDME1E3eYcDqn5xSlHkeAsrs+zD7Ydmq4S2GNxvpVypTRVrcYCM//
+ CkuIt/pxHvcljGw+aw41vmwH1ywMQEUIagKff1ad4zJzp07477gofX7bZHY2Af3a62Z1
+ koCacuOytBeWBtlbYeoqCAx1hSpz9xRngBaabyoKBfekar+gbpQi851tRYFjPEOdtsc5
+ OiYg==
+X-Gm-Message-State: APjAAAWhdGKI/zZMwh/pLWaEXgICwzIL24WZVucQX1lX2VKNrPZ7I99g
+ exQ23WwEfJjR312PeHDI/O2Abw==
+X-Google-Smtp-Source: APXvYqweJZ8S06NxlAptElxYmjhUqVPm0hTWJhf3jrsnjwnm1nuFCScleLKfnWoMuGdI27L2rnGtzg==
+X-Received: by 2002:a1c:dc46:: with SMTP id t67mr3715367wmg.159.1562747935698; 
+ Wed, 10 Jul 2019 01:38:55 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id p4sm1494168wrs.35.2019.07.10.01.38.55
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 10 Jul 2019 01:38:55 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B2DC31FF87;
+ Wed, 10 Jul 2019 09:38:54 +0100 (BST)
+References: <20190705160421.19015-1-alex.bennee@linaro.org>
+ <20190705160421.19015-4-alex.bennee@linaro.org>
+ <b42c405b-1b20-28b4-07c0-24df9a183e16@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <b42c405b-1b20-28b4-07c0-24df9a183e16@linaro.org>
+Date: Wed, 10 Jul 2019 09:38:54 +0100
+Message-ID: <87pnmie129.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <20190709194330.837-3-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v2 2/5] tests/docker: add podman support
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v1 3/5] tests/tcg: fix diff-out pass to
+ properly report failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,24 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Debarshi Ray <rishi@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu?= =?utf-8?Q?-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/07/19 21:43, Marc-André Lureau wrote:
-> With current podman, we have to use a uidmap trick in order to be able
-> to rw-share the ccache directory with the container user.
-> 
-> With a user 1000, the default mapping is:
-> 1000 (host) -> 0 (container).
 
-Why not do this in docker.py (either as part of patch 1 or separately)?
- Also, can you document in a comment why this is not needed with docker?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Thanks,
+> On 7/5/19 6:04 PM, Alex Benn=C3=A9e wrote:
+>> +diff-out =3D $(call quiet-command, diff -q $1.out $2 || \
+>> +				 (diff -u $1.out $2 | head -n 10 && false), \
+>
+> What about (set -o pipefail; diff ... | head) ?
+> I think we already rely on bash, right?
 
-Paolo
+I don't think so - we assume POSIX shell for configure and AFAICT we
+don't do anything special in the make system to set the shell type to
+bash.
+
+--
+Alex Benn=C3=A9e
 
