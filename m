@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D66B64D9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:33:52 +0200 (CEST)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B2264D90
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:29:39 +0200 (CEST)
+Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlJHj-0005NH-B0
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1hlJDe-0000EY-AS
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7U-0001e1-27
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:17 -0400
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7Z-0001gf-PG
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7S-0002Zr-07
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:15 -0400
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7Y-0002hM-3Z
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:21 -0400
 Received: from mail-eopbgr790080.outbound.protection.outlook.com
  ([40.107.79.80]:1472 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1hlJ7Q-0002MZ-Fs
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:13 -0400
+ id 1hlJ7W-0002MZ-5Q
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+q2hxSWpVoaLTRFkzr1vcjcXO2ngxQ2qbpLwULgbziU=;
- b=gQ+Am1nlas6JAnKsyWXz6Hv9I14tjusa+yqSIMbYNTyyQgI0iiHBi24mrwoj6euaZMXCyvkBaajKCtMzMZxYAuHxFwg6bRWWOydGnuuY/o9EJ7X9VAcY+VUALssXYnZ/9+SfLx/lFzOw2TN/auaNi8EPiwG7Mml/fdmQtMPIcjo=
+ bh=a9gVZ6RztduKXnvjS5igCjoaS50ZrP1TTzubVxiPikA=;
+ b=oS6EWmBhQDn5xw+8lXl/vHtkkm5Gz3Ej4xaTBwtFQ4YynG6DoUCIDh0hwvM9paFyvgKAZ3f5t3HubIaEdGDC/UtWJctWyp9TIbjAJInSwU/L+zBgDIhNaTd3iY3Ljk6BbnzanzL1SpMX9PIlHWMjIWCkl1mdbPFFZs6oBVX6JzI=
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
  DM6PR12MB3820.namprd12.prod.outlook.com (10.255.173.85) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.18; Wed, 10 Jul 2019 20:23:09 +0000
+ 15.20.2052.18; Wed, 10 Jul 2019 20:23:11 +0000
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::bc1a:a30d:9da2:1cdd]) by DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::bc1a:a30d:9da2:1cdd%6]) with mapi id 15.20.2073.008; Wed, 10 Jul 2019
- 20:23:09 +0000
+ 20:23:11 +0000
 From: "Singh, Brijesh" <brijesh.singh@amd.com>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 11/13] kvm: introduce high-level API to migrate the
- page encryption bitmap
-Thread-Index: AQHVN11Jxe+loFjtdk2DhA2ugTPBnA==
-Date: Wed, 10 Jul 2019 20:23:08 +0000
-Message-ID: <20190710202219.25939-12-brijesh.singh@amd.com>
+Thread-Topic: [PATCH v2 13/13] target/i386: sev: remove migration blocker
+Thread-Index: AQHVN11KSpt0eCtFYEaoi78d5RGioQ==
+Date: Wed, 10 Jul 2019 20:23:09 +0000
+Message-ID: <20190710202219.25939-14-brijesh.singh@amd.com>
 References: <20190710202219.25939-1-brijesh.singh@amd.com>
 In-Reply-To: <20190710202219.25939-1-brijesh.singh@amd.com>
 Accept-Language: en-US
@@ -57,30 +56,30 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.77.1]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 552597ba-3914-4d1f-0aba-08d705746c06
+x-ms-office365-filtering-correlation-id: 59c5c7b3-bee3-4afe-ff8d-08d705746ca7
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
  SRVR:DM6PR12MB3820; 
 x-ms-traffictypediagnostic: DM6PR12MB3820:
-x-microsoft-antispam-prvs: <DM6PR12MB382094DBEDBD78A1CEF4EB3EE5F00@DM6PR12MB3820.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:854;
+x-microsoft-antispam-prvs: <DM6PR12MB382072A24A4917BD34CA52CDE5F00@DM6PR12MB3820.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:124;
 x-forefront-prvs: 0094E3478A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(189003)(199004)(256004)(8936002)(2616005)(1076003)(316002)(476003)(81166006)(478600001)(54906003)(81156014)(2351001)(8676002)(486006)(25786009)(6436002)(6486002)(4326008)(66476007)(66946007)(446003)(53936002)(50226002)(71190400001)(66446008)(68736007)(6506007)(14454004)(386003)(5660300002)(36756003)(66066001)(186003)(6512007)(99286004)(305945005)(102836004)(26005)(2501003)(11346002)(64756008)(52116002)(5640700003)(66556008)(76176011)(86362001)(6116002)(6916009)(3846002)(7736002)(71200400001)(2906002);
+ SFS:(10009020)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(189003)(199004)(256004)(8936002)(2616005)(1076003)(316002)(476003)(81166006)(478600001)(54906003)(81156014)(2351001)(8676002)(486006)(25786009)(6436002)(6486002)(4326008)(66476007)(66946007)(4744005)(446003)(53936002)(50226002)(71190400001)(66446008)(68736007)(6506007)(14454004)(386003)(5660300002)(36756003)(66066001)(186003)(6512007)(99286004)(305945005)(102836004)(26005)(2501003)(11346002)(64756008)(52116002)(5640700003)(66556008)(76176011)(86362001)(6116002)(6916009)(3846002)(7736002)(71200400001)(2906002);
  DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3820;
  H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 2NCqnSq8pjrIQ9bdnpJCbi8pBIn0rwfKI4THljc7KsFOdPImMGGycUTshOsOGv57+H1x/ciVOhNcS/EcPUgIumMFS/7RazPsyrVL+Pe8a7CXnjlwoS0ti/gYFtBy1YcjjkYzFV8wKwQ2cZFuxMMwfDDDrkoydlBDgiD2aS3lLqr08WHbYd1my87JRy8atEnwqIGemF8wMks0c4TkFxFpP6aotnSlMzX0EuYkhJSoAwuH0A119SZSck7MrXAZmx74Ko884rAZuKfGSzqcEGDs/RD9apPiYgVPbPsCq7y+teokX2KlMudFqnPaG5OdR1+6JbOpvwejBjfMlaxcNzz3VQ3aHqU1NEJDqQI6LJtupaYrl9ygFTQTpP+i3DGhbAbJ5+ICaUFp5UXbsJWHsuxft33+y9qL3dLsO/hFiLBdLxI=
+x-microsoft-antispam-message-info: eIpOvBVansTOdzrRV+Gvybajc8l11qaDTULCX1dKrHWdrxLJO6UU4uMVdfrFBFEiTdXZAq7XhnmnLvoDuL7ilDxFTbfU+mZrDUMnSgSefPpQiBF5fA435pJgTtONmVBJzGSMgEootirMVdj4V4JNMQoJnVlNhiSRVo5dyK6DQKiuwMKputTIVCPdD31Kve10ds/SdAEQAvi/LHy8mUcbyL5sHc0Oe4Hyda3Khitvz4Y7kdz/hsEltpKbUXJC2bk36bsyi9+9OF8NW00RZBFy9ruBGZ3LjvYw/IX89hWgmRHDmH8VACDmA5+mXFcN7kpbfi51qRcdhTKUI5ZS0VJjVC0p2pAlww0Tfjd4y2ZiYPFqwyegyy/P5kAX3gClFeZf544pJithYPiM5Lissi6NVeIwVdm7fTbI/oRiN6WOpoU=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 552597ba-3914-4d1f-0aba-08d705746c06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:23:08.4014 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59c5c7b3-bee3-4afe-ff8d-08d705746ca7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:23:09.5238 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -88,8 +87,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3820
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.79.80
-Subject: [Qemu-devel] [PATCH v2 11/13] kvm: introduce high-level API to
- migrate the page encryption bitmap
+Subject: [Qemu-devel] [PATCH v2 13/13] target/i386: sev: remove migration
+ blocker
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,163 +107,49 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Encrypted VMs have concept of private and shared memory. The private
-memory is encrypted with the guest-specific key, while shared memory
-may be encrypted with hyperivosr key. The guest OS uses a hypercall
-to notify the page encryption state to the hypervisor. The hypervisor
-maintain a bitmap of page encryption state. This bitmap should be
-migrated to ensure that target machine can function correctly.
-
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- accel/kvm/kvm-all.c    | 37 +++++++++++++++++++++++++++++++++++++
- accel/kvm/sev-stub.c   | 11 +++++++++++
- accel/stubs/kvm-stub.c | 10 ++++++++++
- include/sysemu/kvm.h   | 13 +++++++++++++
- include/sysemu/sev.h   |  3 +++
- 5 files changed, 74 insertions(+)
+ target/i386/sev.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 7f94dba6f9..442b1af36e 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -114,6 +114,9 @@ struct KVMState
-             uint8_t *ptr, uint32_t sz, uint64_t *bytes_sent);
-     int (*memcrypt_load_incoming_page)(void *ehandle, QEMUFile *f,
-             uint8_t *ptr);
-+    int (*memcrypt_load_incoming_page_enc_bitmap)(void *ehandle, QEMUFile =
-*f);
-+    int (*memcrypt_save_outgoing_page_enc_bitmap)(void *ehandle, QEMUFile =
-*f,
-+            uint64_t start, uint64_t length);
- };
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 93c6a90806..48336515a2 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -34,7 +34,6 @@
+ #define DEFAULT_SEV_DEVICE      "/dev/sev"
 =20
- KVMState *kvm_state;
-@@ -192,6 +195,40 @@ int kvm_memcrypt_load_incoming_page(QEMUFile *f, uint8=
-_t *ptr)
-     return 1;
- }
+ static SEVState *sev_state;
+-static Error *sev_mig_blocker;
 =20
-+int kvm_memcrypt_load_incoming_page_enc_bitmap(QEMUFile *f)
-+{
-+    if (kvm_state->memcrypt_handle &&
-+        kvm_state->memcrypt_load_incoming_page_enc_bitmap) {
-+        return kvm_state->memcrypt_load_incoming_page_enc_bitmap(
-+                kvm_state->memcrypt_handle, f);
-+    }
-+
-+    return 1;
-+}
-+
-+int kvm_memcrypt_save_outgoing_page_enc_bitmap(QEMUFile *f)
-+{
-+    KVMMemoryListener *kml =3D &kvm_state->memory_listener;
-+    KVMState *s =3D kvm_state;
-+    int ret =3D 1, i;
-+
-+    if (s->memcrypt_handle &&
-+        s->memcrypt_save_outgoing_page_enc_bitmap) {
-+
-+        /* iterate through all the registered slots and send the bitmap */
-+        for (i =3D 0; i < s->nr_slots; i++) {
-+            KVMSlot *mem =3D &kml->slots[i];
-+            ret =3D s->memcrypt_save_outgoing_page_enc_bitmap(s->memcrypt_=
-handle,
-+                        f, mem->start_addr, mem->memory_size);
-+            if (ret) {
-+                return 1;
-+            }
-+        }
-+    }
-+
-+    return ret;
-+}
-+
- static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
+ static const char *const sev_fw_errlist[] =3D {
+     "",
+@@ -686,7 +685,6 @@ static void
+ sev_launch_finish(SEVState *s)
  {
-     KVMState *s =3D kvm_state;
-diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
-index c12a8e005e..7acd7211e6 100644
---- a/accel/kvm/sev-stub.c
-+++ b/accel/kvm/sev-stub.c
-@@ -35,3 +35,14 @@ int sev_load_incoming_page(void *handle, QEMUFile *f, ui=
-nt8_t *ptr)
- {
-     return 1;
- }
-+
-+int sev_load_incoming_page_enc_bitmap(void *handle, QEMUFile *f)
-+{
-+    return 1;
-+}
-+
-+int sev_save_outgoing_page_enc_bitmap(void *handle, QEMUFile *f,
-+                                      uint64_t start, uint64_t length)
-+{
-+    return 1;
-+}
-diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-index e14b879531..ae607787e7 100644
---- a/accel/stubs/kvm-stub.c
-+++ b/accel/stubs/kvm-stub.c
-@@ -125,6 +125,16 @@ int kvm_memcrypt_load_incoming_page(QEMUFile *f, uint8=
-_t *ptr)
-     return 1;
+     int ret, error;
+-    Error *local_err =3D NULL;
+=20
+     trace_kvm_sev_launch_finish();
+     ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_LAUNCH_FINISH, 0, &error)=
+;
+@@ -697,16 +695,6 @@ sev_launch_finish(SEVState *s)
+     }
+=20
+     sev_set_guest_state(SEV_STATE_RUNNING);
+-
+-    /* add migration blocker */
+-    error_setg(&sev_mig_blocker,
+-               "SEV: Migration is not implemented");
+-    ret =3D migrate_add_blocker(sev_mig_blocker, &local_err);
+-    if (local_err) {
+-        error_report_err(local_err);
+-        error_free(sev_mig_blocker);
+-        exit(1);
+-    }
  }
 =20
-+int kvm_memcrypt_load_incoming_page_enc_bitmap(QEMUFile *f)
-+{
-+    return 1;
-+}
-+
-+int kvm_memcrypt_save_outgoing_page_enc_bitmap(QEMUFile *f)
-+{
-+    return 1;
-+}
-+
-=20
- #ifndef CONFIG_USER_ONLY
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index bb6bcc143c..8aa06b4462 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -260,6 +260,19 @@ int kvm_memcrypt_save_outgoing_page(QEMUFile *f, uint8=
-_t *ptr, uint32_t size,
-  */
- int kvm_memcrypt_load_incoming_page(QEMUFile *f, uint8_t *ptr);
-=20
-+/**
-+ * kvm_memcrypt_load_incoming_page_enc_bitmap: read the page encryption bi=
-tmap
-+ * from the socket and pass it to the hypervisor.
-+ */
-+int kvm_memcrypt_load_incoming_page_enc_bitmap(QEMUFile *f);
-+
-+/**
-+ * kvm_memcrypt_save_outgoing_page_enc_bitmap: write the page encryption b=
-itmap
-+ * on socket.
-+ */
-+int kvm_memcrypt_save_outgoing_page_enc_bitmap(QEMUFile *f);
-+
-+
- #ifdef NEED_CPU_H
- #include "cpu.h"
-=20
-diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
-index 752a71b1c0..e08886ca33 100644
---- a/include/sysemu/sev.h
-+++ b/include/sysemu/sev.h
-@@ -21,4 +21,7 @@ int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t=
- len);
- int sev_save_outgoing_page(void *handle, QEMUFile *f, uint8_t *ptr,
-                            uint32_t size, uint64_t *bytes_sent);
- int sev_load_incoming_page(void *handle, QEMUFile *f, uint8_t *ptr);
-+int sev_load_incoming_page_enc_bitmap(void *handle, QEMUFile *f);
-+int sev_save_outgoing_page_enc_bitmap(void *handle, QEMUFile *f,
-+                                      uint64_t start, uint64_t length);
- #endif
+ static int
 --=20
 2.17.1
 
