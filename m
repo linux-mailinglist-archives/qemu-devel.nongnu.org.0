@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF10A64B84
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:36:52 +0200 (CEST)
-Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6166164B73
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:26:24 +0200 (CEST)
+Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlGWR-0002no-Nw
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
+	id 1hlGMJ-0007Rc-J5
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hlGQU-00010F-DQ
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:30:43 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hlGKv-0006S1-16
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:24:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hlGQT-0007Gd-7R
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:30:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55018)
+ (envelope-from <alex.bennee@linaro.org>) id 1hlGKs-0000UP-Vr
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:24:56 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hlGQT-0007Fu-1o
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:30:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hlGQS-0004bX-9I
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 17:30:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 430FC2E80CB
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 17:30:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 10 Jul 2019 17:24:37 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hlGKr-0000JL-20
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:24:53 -0400
+Received: by mail-wr1-x443.google.com with SMTP id 31so3347707wrm.1
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 10:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pI51qUuYMNuCIGtjJGv9IDjxGvT0HEL9i8PHYLxPiPU=;
+ b=mc0SrmA3CEPOAaWd8WW67OhLQ6gjJobJb+3Clu0NRovNPu53Qo8OnsCSHZ1tHQjwke
+ 4LM4zlh9geQj2uJm3Bey74L/UJMDFKK/7HxXOshHZ0AlQ3xNa2jBmTeU+VnvPfrtelb+
+ BzWi5LbBWk8J7Vs7d//TZtpV0SFewsSEtu8Jta0gZf8qXyP8oklTGpMdnlEwMD950a/g
+ SIoFwntUYrVv0mG95nStjlkxEM62OiY29hNw/wSqr3rUXo1BYoHs11MXY+k/nwGfmkQQ
+ V3wod8z+ud7V/2uNnEqyjClnh5pWJ3lBQh2t+kjUz9RiWnRV4R8ZLA+yVxlGTEN8RiIW
+ DrLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pI51qUuYMNuCIGtjJGv9IDjxGvT0HEL9i8PHYLxPiPU=;
+ b=WHIeyvtIVRqtc2aFwgGXjbCxxa7Bv3aFCoRshdw7HcGbH39nJHDBT8V8UDeXIblzCm
+ 2nBPvv1BhAn6z7qSetK4iQ2XQhbPYLFUqLvDzcW74RJMHnSgCor4yV2/dmrp5uQ1kt38
+ ofSt0UlMy0QckHrk+OodMVWqBMOMTc1b4HZMWzgUYEPEDmiwdKstDBEh2LCAWK/eViie
+ 9erZ7J09VSPc1jmQoX3RTkbJrT1jZu2foXcDxmpJUhW9oXwPhN2M2TQnYOQQlkgtgN4G
+ /acxhyjMEoc8Wi0HmvURN5oKS/RGY4Nv3ifAqhhtY96EN4zgA/zYVwDT5a0Gp0V686Qr
+ Bxog==
+X-Gm-Message-State: APjAAAU6onPl//Ez7FfztjbuPCUG6srNs8iy3X2dpL6/y1FUFV0KVeit
+ 4hhBXVBIkQzWzvvRF9zEoQ2nLA==
+X-Google-Smtp-Source: APXvYqy0LrvpP53773Fiuohz3glMa5n5jsbD6kk+/Ln9UyAYXcdaF9uKGV8PtAeBz1eAsuvMApv1mQ==
+X-Received: by 2002:a5d:4642:: with SMTP id j2mr30492556wrs.211.1562779487471; 
+ Wed, 10 Jul 2019 10:24:47 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id x18sm3047130wmi.12.2019.07.10.10.24.46
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 10 Jul 2019 10:24:46 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 810B31FF87;
+ Wed, 10 Jul 2019 18:24:46 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
+Date: Wed, 10 Jul 2019 18:24:37 +0100
 Message-Id: <20190710172437.628-1-alex.bennee@linaro.org>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 854f0f6f70d91f5f03d6144746cfe0b5d199e219
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836078] [PATCH for 4.1] target/arm: report
- ARMv8.2 FP16 for ARM -cpu max
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH for 4.1] target/arm: report ARMv8.2 FP16 for
+ ARM -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,7 +80,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ 1836078@bugs.launchpad.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -76,7 +92,7 @@ the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
 suite. Fix this by setting the appropriate FP16 bits in mvfr1.FPHP.
 
 Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
  target/arm/cpu.c | 4 ++++
  1 file changed, 4 insertions(+)
@@ -86,58 +102,17 @@ index e75a64a25a..0a0a202fe3 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
 @@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
-             t =3D FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-             cpu->isar.id_isar6 =3D t;
- =
-
-+            t =3D cpu->isar.mvfr1;
-+            t =3D FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.2 FP16 */
-+            cpu->isar.mvfr1 =3D t;
+             t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+             cpu->isar.id_isar6 = t;
+ 
++            t = cpu->isar.mvfr1;
++            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.2 FP16 */
++            cpu->isar.mvfr1 = t;
 +
-             t =3D cpu->isar.mvfr2;
-             t =3D FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-             t =3D FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--- =
-
+             t = cpu->isar.mvfr2;
+             t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
+             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+-- 
 2.20.1
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836078
-
-Title:
-  Regressions on arm-linux-gnueabihf target with some GCC tests
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Hi,
-
-  After trying qemu master:
-  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
-  Merge: 68d7ff0 14f5d87
-  Author: Peter Maydell <email address hidden>
-  Date: Fri Jun 21 15:40:50 2019 +0100
-
-  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
-  I've noticed several regressions compared to qemu-3.1 when running the GC=
-C testsuite.
-  I'm attaching a tarball containing several GCC tests (binaries), needed s=
-hared libs, and a short script to run all the tests.
-
-  All tests used to pass w/o error, but with a recent qemu, all of them
-  make qemu crash.
-
-  This was noticed with GCC master configured with
-  --target arm-none-linux-gnueabihf
-  --with-cpu cortex-a57
-  --with-fpu crypto-neon-fp-armv8
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
 
