@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66CF64AAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:22:56 +0200 (CEST)
-Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DFF64A9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:18:51 +0200 (CEST)
+Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFMu-0003QY-1u
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:22:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54087)
+	id 1hlFIw-00084K-JC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlFBY-0003XA-8a
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:11:13 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEt-00067H-SU
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlFBX-0004B3-6l
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:11:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:65510)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlFBU-00044k-M8; Wed, 10 Jul 2019 12:11:08 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E4A93082E09;
- Wed, 10 Jul 2019 16:11:07 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B50760BFC;
- Wed, 10 Jul 2019 16:11:03 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190710010556.32365-1-jsnow@redhat.com>
- <20190710010556.32365-5-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0f0c6f6e-501a-d747-13ff-edc45ccc231d@redhat.com>
-Date: Wed, 10 Jul 2019 18:11:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190710010556.32365-5-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="18aNSlpuna02idV0GLqeh4DcofqkiP8zZ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 10 Jul 2019 16:11:07 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 4/8] block/backup: hoist bitmap check into
- QMP interface
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEo-0007Qh-H9
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:37 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40430)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1hlFEo-0007Ny-9A
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:34 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r1so3087414wrl.7
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=RnLzTrJA1Mc+QEzQAXuyz6OUoUiesbXhUCgxZxgeYVI=;
+ b=KVjCcXOmxGhWjF7T1zNqWztRRF5H/HqRGJADSCimKHZlDzLHVsFO7LaChF/roWl2Kb
+ oDNpCbg4OobMMQr0UYj2eOds1xNUcr3ogzXiw7gG9lcIeTFG7B72W0L5y/sqmY/yuG5S
+ PY6HiyeumV0HMUQow2C0uz6vezOzRqB9nq5LXxCfmgvCaO4qBlA7OUeCkSCSoLo4HvgH
+ pa9thmHVBQa2jm4co2oyhFMTbn5p8Aku3u8KVFPZJzm2G2P/wyAPpKzh06M7JMT8NYYu
+ HUHPiUJBxpV6D4yRiN8CbTfDBkzKVyPRApL7DUSJoz/YHbkYpOaYB9uaBCFAcXum69Sk
+ SKgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=RnLzTrJA1Mc+QEzQAXuyz6OUoUiesbXhUCgxZxgeYVI=;
+ b=lJRTYcZh2R8BikjZZ2C0OKEvb96ua+XJLijCO1EbocBu4B/eYOUZsULzcteH76wzQn
+ t6lLHfHqx539nUMMySXjmrXtSn0ELENDp1aHIGMdkXEtnz8AAI8f1c2iXwVJ8ohotb/c
+ NjCDq6cInmvuirK4RPNFDaWDNukfStNhiatG4xLHBqqDZtlfiPth9Gge1jh1Sd6fS1fX
+ IpGgFYty3wOLdsDNvyEgYy43RN8AFFAfe+Hgv+HWtbQ6xAhCZuXQaR0txHV42FJ49Whz
+ IfGgg1yaS6qFJmBS/g6xRsb04ICtiEA6qULer2vVvp1bx6Llgdu1UvzWVqsY6xnlP19j
+ ymFw==
+X-Gm-Message-State: APjAAAWWQ+gx5SOg99vu/m+qUbhEmmADyyOmZoSLvu5wpe9WG6hgxe95
+ OycHFcbrMYOJtssfJDr9SCXFNIZD8Zc=
+X-Google-Smtp-Source: APXvYqy1ken9rUoCFuX8uzl94SjvkPWsT+/oXNRzk6RoaWjzrZZ89xtxrwt8xSZ7uE8oP/yleP9ahA==
+X-Received: by 2002:adf:f84f:: with SMTP id d15mr31821452wrq.53.1562775270503; 
+ Wed, 10 Jul 2019 09:14:30 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 10 Jul 2019 09:14:28 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 10 Jul 2019 18:14:19 +0200
+Message-Id: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [RFC PATCH v2 0/8] Proof of concept for Meson
+ integration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,80 +72,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---18aNSlpuna02idV0GLqeh4DcofqkiP8zZ
-Content-Type: multipart/mixed; boundary="azElZnUYUstFG6vT81TcL30hsnCV4MzOb";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>
-Message-ID: <0f0c6f6e-501a-d747-13ff-edc45ccc231d@redhat.com>
-Subject: Re: [PATCH 4/8] block/backup: hoist bitmap check into QMP interface
-References: <20190710010556.32365-1-jsnow@redhat.com>
- <20190710010556.32365-5-jsnow@redhat.com>
-In-Reply-To: <20190710010556.32365-5-jsnow@redhat.com>
+The main change from v1 is that libqemuutil.a, and with it the tracetool
+and QAPI generated code, is now generated with meson.  This shows how
+to do some "computations" in meson.build using its array and dictionary
+data structures.  It is also a basic usage of the sourceset module for
+conditional compilation.
 
---azElZnUYUstFG6vT81TcL30hsnCV4MzOb
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Overall the look of the meson.build code is quite good, but I must
+mention the two snags I encountered:
 
-On 10.07.19 03:05, John Snow wrote:
-> This is nicer to do in the unified QMP interface that we have now,
-> because it lets us use the right terminology back at the user.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  block/backup.c | 13 ++++---------
->  blockdev.c     | 10 ++++++++++
->  2 files changed, 14 insertions(+), 9 deletions(-)
->=20
-> diff --git a/block/backup.c b/block/backup.c
-> index e2729cf6fa..a64b768e24 100644
-> --- a/block/backup.c
-> +++ b/block/backup.c
-> @@ -566,6 +566,10 @@ BlockJob *backup_job_create(const char *job_id, Bl=
-ockDriverState *bs,
->      assert(bs);
->      assert(target);
-> =20
-> +    /* QMP interface protects us from these cases */
-> +    assert(sync_mode !=3D MIRROR_SYNC_MODE_INCREMENTAL);
-> +    assert(sync_bitmap || sync_mode !=3D MIRROR_SYNC_MODE_BITMAP);
+- one is just aboud debuggability.  Quoting rules on Windows are crazy
+  so you really do not want to go through quoting there; with Make the
+  choice is basically to not support spaces in filenames, Ninja instead
+  chose to only do shell expansion on POSIX systems.  For the sake of
+  cross-platformness, Meson uses an external script to do "x > y" on both
+  POSIX and Windows, and that currently is not very debuggable when you
+  use "make V=1".  I know how to fix this and, even though the first
+  attempt was rejected at https://github.com/mesonbuild/meson/pull/5573,
+  but I have other arrows in my quiver.  Worst case we could pass the
+  output file to tracetool as a command line argument, but I'd rather
+  not do that as it is not a QEMU-specific issue and my philosophy so
+  far has been to improve Meson whenever possible---at least this endeavour
+  would provide benefit to the community even if QEMU rejects it.
 
-Implication would be a nice operator sometimes.
+- the second is more fundamental: with Make we're enjoying much freedom in
+  choosing the include path, in particular the tracing headers are using
+  $(build_root)/$(<D).  Meson does not like that for reasons I have not
+  completely understood.  For now my solution is to generate headers like
+  "trace/trace-audio.h" and have sixty one-line forwarding headers in the
+  source tree; for example "audio/trace.h" includes "trace/trace-audio.h".
+  I'm not sure if it's possible to instead add a one-line "generate
+  trace headers" directive to each subdirectory's meson.build file.
+  I suspect that it _is_ possible but you'd still have to change the
+  #include directives to include the subdirectory name (and then I prefer
+  the forwarding headers).
 
-("assert(sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP -> sync_bitmap)")
+The forwarding headers mechanism would of course be possible with the
+current Makefiles too, of course.
 
-(Can you do that in C++?  No, you can=E2=80=99t overload bool=E2=80=99s o=
-perators, right?)
+Other notes:
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+1) this is only very lightly tested (./configure && make basically)
 
+2) I have not yet converted qemu-ga, which would be next, but I can
+already say that the conversion probably will *not* remove the code
+duplication we have between Makefile's rules for qemu-ga's QAPI files,
+and qapi/Makefile.objs's rules for QEMU's QAPI files.
 
---azElZnUYUstFG6vT81TcL30hsnCV4MzOb--
+3) there are two main changes outside patch 4: scripts/ninjatool is now
+built from meson.build, which removes duplicate code between Makefile and
+configure; and  "type -p" is replaced throughout with the more correct
+"command -v".
 
---18aNSlpuna02idV0GLqeh4DcofqkiP8zZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Paolo Bonzini (8):
+  configure: do not include $(...) variables in config-host.mak
+  configure: set $PYTHON to a full path
+  configure: integrate Meson in the build system
+  convert libqemuutil to meson
+  libvhost-user: convert to Meson
+  vhost-user-blk: convert to Meson
+  vhost-user-scsi: convert to Meson
+  rdmacm-mux: convert to Meson
 
------BEGIN PGP SIGNATURE-----
+ .gitignore                            |  13 +-
+ Makefile                              | 191 ++-----
+ Makefile.objs                         |  94 +---
+ audio/trace.h                         |   1 +
+ chardev/trace.h                       |   1 +
+ configure                             |  63 ++-
+ contrib/libvhost-user/Makefile.objs   |   1 -
+ contrib/libvhost-user/meson.build     |   2 +
+ contrib/rdmacm-mux/Makefile.objs      |   3 -
+ contrib/rdmacm-mux/meson.build        |   6 +
+ contrib/vhost-user-blk/Makefile.objs  |   1 -
+ contrib/vhost-user-blk/meson.build    |   3 +
+ contrib/vhost-user-scsi/Makefile.objs |   1 -
+ contrib/vhost-user-scsi/meson.build   |   3 +
+ crypto/Makefile.objs                  |   3 +-
+ hw/9pfs/trace.h                       |   1 +
+ hw/acpi/trace.h                       |   1 +
+ hw/alpha/trace.h                      |   1 +
+ hw/arm/trace.h                        |   1 +
+ hw/audio/trace.h                      |   1 +
+ hw/block/dataplane/trace.h            |   1 +
+ hw/block/trace.h                      |   1 +
+ hw/char/trace.h                       |   1 +
+ hw/display/trace.h                    |   1 +
+ hw/dma/trace.h                        |   1 +
+ hw/gpio/trace.h                       |   1 +
+ hw/hppa/trace.h                       |   1 +
+ hw/i2c/trace.h                        |   1 +
+ hw/i386/trace.h                       |   1 +
+ hw/i386/xen/trace.h                   |   1 +
+ hw/ide/trace.h                        |   1 +
+ hw/input/trace.h                      |   1 +
+ hw/intc/trace.h                       |   1 +
+ hw/isa/trace.h                        |   1 +
+ hw/mem/trace.h                        |   1 +
+ hw/misc/macio/trace.h                 |   1 +
+ hw/misc/trace.h                       |   1 +
+ hw/net/trace.h                        |   1 +
+ hw/nvram/trace.h                      |   1 +
+ hw/pci-host/trace.h                   |   1 +
+ hw/pci/trace.h                        |   1 +
+ hw/ppc/trace.h                        |   1 +
+ hw/rdma/trace.h                       |   1 +
+ hw/rdma/vmw/trace.h                   |   1 +
+ hw/riscv/trace.h                      |   1 +
+ hw/s390x/trace.h                      |   1 +
+ hw/scsi/trace.h                       |   1 +
+ hw/sd/trace.h                         |   1 +
+ hw/sparc/trace.h                      |   1 +
+ hw/sparc64/trace.h                    |   1 +
+ hw/timer/trace.h                      |   1 +
+ hw/tpm/trace.h                        |   1 +
+ hw/usb/trace.h                        |   1 +
+ hw/vfio/trace.h                       |   1 +
+ hw/virtio/trace.h                     |   1 +
+ hw/watchdog/trace.h                   |   1 +
+ hw/xen/trace.h                        |   1 +
+ meson.build                           | 154 ++++++
+ migration/trace.h                     |   1 +
+ net/trace.h                           |   1 +
+ qapi/Makefile.objs                    |  20 -
+ qapi/meson.build                      |  54 ++
+ qapi/trace.h                          |   1 +
+ qobject/Makefile.objs                 |   3 -
+ qobject/meson.build                   |   3 +
+ qom/trace.h                           |   1 +
+ scripts/ninjatool.py                  | 988 ++++++++++++++++++++++++++++++++++
+ scripts/qapi-gen.py                   |   2 +-
+ scripts/tracetool.py                  |   2 +-
+ scripts/tracetool/backend/ust.py      |   6 +-
+ scripts/tracetool/format/c.py         |   5 +-
+ stubs/Makefile.objs                   |  43 --
+ stubs/meson.build                     |  45 ++
+ target/arm/trace.h                    |   1 +
+ target/hppa/trace.h                   |   1 +
+ target/i386/trace.h                   |   1 +
+ target/mips/trace.h                   |   1 +
+ target/ppc/trace.h                    |   1 +
+ target/riscv/trace.h                  |   1 +
+ target/s390x/trace.h                  |   1 +
+ target/sparc/trace.h                  |   1 +
+ trace/Makefile.objs                   |  51 --
+ trace/meson.build                     |  75 +++
+ ui/trace.h                            |   1 +
+ util/Makefile.objs                    |  59 --
+ util/meson.build                      |  57 ++
+ util/trace.h                          |   1 +
+ 87 files changed, 1536 insertions(+), 473 deletions(-)
+ create mode 100644 audio/trace.h
+ create mode 100644 chardev/trace.h
+ delete mode 100644 contrib/libvhost-user/Makefile.objs
+ create mode 100644 contrib/libvhost-user/meson.build
+ delete mode 100644 contrib/rdmacm-mux/Makefile.objs
+ create mode 100644 contrib/rdmacm-mux/meson.build
+ delete mode 100644 contrib/vhost-user-blk/Makefile.objs
+ create mode 100644 contrib/vhost-user-blk/meson.build
+ delete mode 100644 contrib/vhost-user-scsi/Makefile.objs
+ create mode 100644 contrib/vhost-user-scsi/meson.build
+ create mode 100644 hw/9pfs/trace.h
+ create mode 100644 hw/acpi/trace.h
+ create mode 100644 hw/alpha/trace.h
+ create mode 100644 hw/arm/trace.h
+ create mode 100644 hw/audio/trace.h
+ create mode 100644 hw/block/dataplane/trace.h
+ create mode 100644 hw/block/trace.h
+ create mode 100644 hw/char/trace.h
+ create mode 100644 hw/display/trace.h
+ create mode 100644 hw/dma/trace.h
+ create mode 100644 hw/gpio/trace.h
+ create mode 100644 hw/hppa/trace.h
+ create mode 100644 hw/i2c/trace.h
+ create mode 100644 hw/i386/trace.h
+ create mode 100644 hw/i386/xen/trace.h
+ create mode 100644 hw/ide/trace.h
+ create mode 100644 hw/input/trace.h
+ create mode 100644 hw/intc/trace.h
+ create mode 100644 hw/isa/trace.h
+ create mode 100644 hw/mem/trace.h
+ create mode 100644 hw/misc/macio/trace.h
+ create mode 100644 hw/misc/trace.h
+ create mode 100644 hw/net/trace.h
+ create mode 100644 hw/nvram/trace.h
+ create mode 100644 hw/pci-host/trace.h
+ create mode 100644 hw/pci/trace.h
+ create mode 100644 hw/ppc/trace.h
+ create mode 100644 hw/rdma/trace.h
+ create mode 100644 hw/rdma/vmw/trace.h
+ create mode 100644 hw/riscv/trace.h
+ create mode 100644 hw/s390x/trace.h
+ create mode 100644 hw/scsi/trace.h
+ create mode 100644 hw/sd/trace.h
+ create mode 100644 hw/sparc/trace.h
+ create mode 100644 hw/sparc64/trace.h
+ create mode 100644 hw/timer/trace.h
+ create mode 100644 hw/tpm/trace.h
+ create mode 100644 hw/usb/trace.h
+ create mode 100644 hw/vfio/trace.h
+ create mode 100644 hw/virtio/trace.h
+ create mode 100644 hw/watchdog/trace.h
+ create mode 100644 hw/xen/trace.h
+ create mode 100644 meson.build
+ create mode 100644 migration/trace.h
+ create mode 100644 net/trace.h
+ create mode 100644 qapi/meson.build
+ create mode 100644 qapi/trace.h
+ delete mode 100644 qobject/Makefile.objs
+ create mode 100644 qobject/meson.build
+ create mode 100644 qom/trace.h
+ create mode 100755 scripts/ninjatool.py
+ delete mode 100644 stubs/Makefile.objs
+ create mode 100644 stubs/meson.build
+ create mode 100644 target/arm/trace.h
+ create mode 100644 target/hppa/trace.h
+ create mode 100644 target/i386/trace.h
+ create mode 100644 target/mips/trace.h
+ create mode 100644 target/ppc/trace.h
+ create mode 100644 target/riscv/trace.h
+ create mode 100644 target/s390x/trace.h
+ create mode 100644 target/sparc/trace.h
+ create mode 100644 trace/meson.build
+ create mode 100644 ui/trace.h
+ delete mode 100644 util/Makefile.objs
+ create mode 100644 util/meson.build
+ create mode 100644 util/trace.h
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0mDhUACgkQ9AfbAGHV
-z0CFegf+MW8PSW6+opd3d4pcX+otViUCY3Frz40mMtfPu2yq7lMfwSU2DA5wKt9Z
-g8nXhcc0CqUOCx0VQlJgDOnh+jma5xddsRUXaIL/Tvhkthm34w4uIoR3/4xJydNx
-IitQHf8E/qUngT30nUlvaH1pMQRpiHjkRqss6ACBa0iBf7CbQ60+i1qgxB2rlLcY
-vQ4pU+kzfHF1sFqLI52zu27O8KtIINGuhYko9GMPMbx4AmMov9nvFb1XG6/q0+tQ
-eQo2U518qW4gVxMItoo+aRPBtQ9qo2TRiGLrPaOu2zarnjGz0ziuyMtkQyKbVru9
-kcUwy55vTItJgaJLf5xYAxkzhS6AIw==
-=bUJY
------END PGP SIGNATURE-----
+-- 
+1.8.3.1
 
---18aNSlpuna02idV0GLqeh4DcofqkiP8zZ--
 
