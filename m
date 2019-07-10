@@ -2,93 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B2264D90
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:29:39 +0200 (CEST)
-Received: from localhost ([::1]:36854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3074E64DA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:36:18 +0200 (CEST)
+Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlJDe-0000EY-AS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
+	id 1hlJK5-00081O-E6
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:36:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57633)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7Z-0001gf-PG
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:23 -0400
+ (envelope-from <crosa@redhat.com>) id 1hlJ81-0002Aa-Of
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7Y-0002hM-3Z
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:21 -0400
-Received: from mail-eopbgr790080.outbound.protection.outlook.com
- ([40.107.79.80]:1472 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1hlJ7W-0002MZ-5Q
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a9gVZ6RztduKXnvjS5igCjoaS50ZrP1TTzubVxiPikA=;
- b=oS6EWmBhQDn5xw+8lXl/vHtkkm5Gz3Ej4xaTBwtFQ4YynG6DoUCIDh0hwvM9paFyvgKAZ3f5t3HubIaEdGDC/UtWJctWyp9TIbjAJInSwU/L+zBgDIhNaTd3iY3Ljk6BbnzanzL1SpMX9PIlHWMjIWCkl1mdbPFFZs6oBVX6JzI=
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
- DM6PR12MB3820.namprd12.prod.outlook.com (10.255.173.85) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.18; Wed, 10 Jul 2019 20:23:11 +0000
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com
- ([fe80::bc1a:a30d:9da2:1cdd]) by DM6PR12MB2682.namprd12.prod.outlook.com
- ([fe80::bc1a:a30d:9da2:1cdd%6]) with mapi id 15.20.2073.008; Wed, 10 Jul 2019
- 20:23:11 +0000
-From: "Singh, Brijesh" <brijesh.singh@amd.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 13/13] target/i386: sev: remove migration blocker
-Thread-Index: AQHVN11KSpt0eCtFYEaoi78d5RGioQ==
-Date: Wed, 10 Jul 2019 20:23:09 +0000
-Message-ID: <20190710202219.25939-14-brijesh.singh@amd.com>
-References: <20190710202219.25939-1-brijesh.singh@amd.com>
-In-Reply-To: <20190710202219.25939-1-brijesh.singh@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: DM3PR11CA0020.namprd11.prod.outlook.com
- (2603:10b6:0:54::30) To DM6PR12MB2682.namprd12.prod.outlook.com
- (2603:10b6:5:4a::31)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=brijesh.singh@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.77.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 59c5c7b3-bee3-4afe-ff8d-08d705746ca7
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM6PR12MB3820; 
-x-ms-traffictypediagnostic: DM6PR12MB3820:
-x-microsoft-antispam-prvs: <DM6PR12MB382072A24A4917BD34CA52CDE5F00@DM6PR12MB3820.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:124;
-x-forefront-prvs: 0094E3478A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(189003)(199004)(256004)(8936002)(2616005)(1076003)(316002)(476003)(81166006)(478600001)(54906003)(81156014)(2351001)(8676002)(486006)(25786009)(6436002)(6486002)(4326008)(66476007)(66946007)(4744005)(446003)(53936002)(50226002)(71190400001)(66446008)(68736007)(6506007)(14454004)(386003)(5660300002)(36756003)(66066001)(186003)(6512007)(99286004)(305945005)(102836004)(26005)(2501003)(11346002)(64756008)(52116002)(5640700003)(66556008)(76176011)(86362001)(6116002)(6916009)(3846002)(7736002)(71200400001)(2906002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3820;
- H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: eIpOvBVansTOdzrRV+Gvybajc8l11qaDTULCX1dKrHWdrxLJO6UU4uMVdfrFBFEiTdXZAq7XhnmnLvoDuL7ilDxFTbfU+mZrDUMnSgSefPpQiBF5fA435pJgTtONmVBJzGSMgEootirMVdj4V4JNMQoJnVlNhiSRVo5dyK6DQKiuwMKputTIVCPdD31Kve10ds/SdAEQAvi/LHy8mUcbyL5sHc0Oe4Hyda3Khitvz4Y7kdz/hsEltpKbUXJC2bk36bsyi9+9OF8NW00RZBFy9ruBGZ3LjvYw/IX89hWgmRHDmH8VACDmA5+mXFcN7kpbfi51qRcdhTKUI5ZS0VJjVC0p2pAlww0Tfjd4y2ZiYPFqwyegyy/P5kAX3gClFeZf544pJithYPiM5Lissi6NVeIwVdm7fTbI/oRiN6WOpoU=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <crosa@redhat.com>) id 1hlJ80-0003Tb-87
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58790)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hlJ7z-0003Lv-Tb
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:48 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16260C04AC70;
+ Wed, 10 Jul 2019 20:23:44 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-125-95.rdu2.redhat.com
+ [10.10.125.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00E3E60A97;
+ Wed, 10 Jul 2019 20:23:42 +0000 (UTC)
+Date: Wed, 10 Jul 2019 16:23:41 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+Message-ID: <20190710202316.GA27117@localhost.localdomain>
+References: <1562781026-27570-1-git-send-email-chihmin.chao@sifive.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59c5c7b3-bee3-4afe-ff8d-08d705746ca7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:23:09.5238 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3820
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.79.80
-Subject: [Qemu-devel] [PATCH v2 13/13] target/i386: sev: remove migration
- blocker
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1562781026-27570-1-git-send-email-chihmin.chao@sifive.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Wed, 10 Jul 2019 20:23:44 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] tests/boot_linux_console: add a test for
+ riscv64 + virt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,57 +58,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
- Thomas" <Thomas.Lendacky@amd.com>, "Singh, Brijesh" <brijesh.singh@amd.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+On Wed, Jul 10, 2019 at 10:50:23AM -0700, Chih-Min Chao wrote:
+> Similar to the mips + malta test, it boots a Linux kernel on a virt
+> board and verify the serial is working.  Also, it relies on the serial
+> device set by the machine itself.
+> 
+> If riscv64 is a target being built, "make check-acceptance" will
+> automatically include this test by the use of the "arch:riscv64" tags.
+> 
+> Alternatively, this test can be run using:
+> 
+>   $ avocado run -t arch:riscv64 tests/acceptance
+> 
+> Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+> ---
+>  tests/acceptance/boot_linux_console.py | 40 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+> 
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index 3215950..bbc6b06 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -354,3 +354,43 @@ class BootLinuxConsole(Test):
+>          self.vm.launch()
+>          console_pattern = 'Kernel command line: %s' % kernel_command_line
+>          self.wait_for_console_pattern(console_pattern)
+> +
+> +    def test_riscv64_virt(self):
+> +        """
+> +        :avocado: tags=arch:riscv64
+> +        :avocado: tags=machine:virt
+> +        """
+> +
+> +        kernel_url = ('https://github.com/chihminchao/test-binary/raw/'
+> +                      '0b7787305d9e40815c05a805266cc74ff356239e/qemu/riscv64/'
+> +                      'bbl_w_kernel.gz')
+> +        kernel_hash = 'c7f6cc7967975ad42dc61ee0535db01c9cbd0968'
+> +        kernel_path_gz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +        kernel_path = self.workdir + "bbl_w_kernel"
+> +
+> +        with gzip.open(kernel_path_gz, 'rb') as f_in:
+> +            with open(kernel_path, 'wb') as f_out:
+> +                shutil.copyfileobj(f_in, f_out)
+
+There are currently two patterns for extracting a gzipped file
+in this test.  So, this is not a must, but maybe you'd prefer:
+
 ---
- target/i386/sev.c | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 93c6a90806..48336515a2 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -34,7 +34,6 @@
- #define DEFAULT_SEV_DEVICE      "/dev/sev"
-=20
- static SEVState *sev_state;
--static Error *sev_mig_blocker;
-=20
- static const char *const sev_fw_errlist[] =3D {
-     "",
-@@ -686,7 +685,6 @@ static void
- sev_launch_finish(SEVState *s)
- {
-     int ret, error;
--    Error *local_err =3D NULL;
-=20
-     trace_kvm_sev_launch_finish();
-     ret =3D sev_ioctl(sev_state->sev_fd, KVM_SEV_LAUNCH_FINISH, 0, &error)=
-;
-@@ -697,16 +695,6 @@ sev_launch_finish(SEVState *s)
-     }
-=20
-     sev_set_guest_state(SEV_STATE_RUNNING);
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index bbc6b0683f..9f819e20e1 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -365,12 +365,8 @@ class BootLinuxConsole(Test):
+                       '0b7787305d9e40815c05a805266cc74ff356239e/qemu/riscv64/'
+                       'bbl_w_kernel.gz')
+         kernel_hash = 'c7f6cc7967975ad42dc61ee0535db01c9cbd0968'
+-        kernel_path_gz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+-        kernel_path = self.workdir + "bbl_w_kernel"
 -
--    /* add migration blocker */
--    error_setg(&sev_mig_blocker,
--               "SEV: Migration is not implemented");
--    ret =3D migrate_add_blocker(sev_mig_blocker, &local_err);
--    if (local_err) {
--        error_report_err(local_err);
--        error_free(sev_mig_blocker);
--        exit(1);
--    }
- }
-=20
- static int
---=20
-2.17.1
+-        with gzip.open(kernel_path_gz, 'rb') as f_in:
+-            with open(kernel_path, 'wb') as f_out:
+-                shutil.copyfileobj(f_in, f_out)
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        uncompressed_kernel = archive.uncompress(kernel_path, self.workdir)
+ 
+         initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
+                       '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
+@@ -382,7 +378,7 @@ class BootLinuxConsole(Test):
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
+                                + 'console=ttyS0 noreboot')
+-        self.vm.add_args('-kernel', kernel_path,
++        self.vm.add_args('-kernel', uncompressed_kernel,
+                          '-initrd', initrd_path,
+                          '-append', kernel_command_line)
+         self.vm.launch()
+---
 
+> +
+> +        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
+> +                      '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
+> +                      'riscv64/rootfs.cpio.gz')
+> +        initrd_hash = 'f4867d263754961b6f626cdcdc0cb334c47e3b49'
+> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+> +
+> +        self.vm.set_machine('virt')
+> +        self.vm.set_console()
+> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
+> +                               + 'console=ttyS0 noreboot')
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('Boot successful.')
+> +
+> +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
+> +                                               'isa')
+> +        self.exec_command_and_wait_for_pattern('uname -a',
+> +                                               'sifive')
+> +        self.exec_command_and_wait_for_pattern('reboot',
+> +                                               'reboot: Restarting system')
+> -- 
+> 2.7.4
+> 
+> 
+
+It'd be nice to also add riscv64 to the target list in .travis.yaml
+"acceptance tests" job.
+
+Regards and many thanks for this contribution!
+- Cleber.
 
