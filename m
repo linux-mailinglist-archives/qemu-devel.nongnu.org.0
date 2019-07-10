@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE83964A4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 17:59:35 +0200 (CEST)
-Received: from localhost ([::1]:34906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DF464A8A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:12:12 +0200 (CEST)
+Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlF0I-00055t-Je
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 11:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
+	id 1hlFCV-0004Jo-D9
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hlEzh-0004hQ-B7
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:58:58 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlF5t-0008AJ-0A
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:05:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hlEzg-0002U7-Df
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:58:57 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]:34810)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hlEzg-0002TN-7m
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:58:56 -0400
-Received: by mail-wm1-f47.google.com with SMTP id w9so4968487wmd.1
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 08:58:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4ckaWfPPYiX5j6aYHHbxSqNy/lUN8f42G0qiIlfZYP8=;
- b=reM9hpureKf+m0RgNvYJiiBoKh9KWFMV2Kq2eN5RSINZjqP2WbB2w1xjAJIm3PKj1R
- 6Tut8kda7vs2Txd8s9iutKW1HtENL0UqgNjCIgwdx9ol7+/d2wNWWHLaB575syy0hvfq
- 2B8W51rqM44fysMaRqRks/w7pP0ajNEXtt6fxC1hDKaNutDTTyIB8UWk8MDG8+IQ1LYi
- 1BBxRhJOTvrUTrjMoWEGjGAX7zIDX1Tipqtgfowl2QgnyzsF4WuFBMQamrMNEAw+D+39
- y2bnL1jx+F/ybhHe3OKErAOIMVvsb0SlDV++wn96k6Y1H1j+roPD04MjGx1FuPpRZbFa
- WmXQ==
-X-Gm-Message-State: APjAAAW2kU0vZGmxBX0vDquI25RkhcSIfBoKSFCwMzTm1moAMew14yFN
- 6RDAicmqW6VwvKdl1syuw+KpSw==
-X-Google-Smtp-Source: APXvYqxLHjOUmADeRJ31a2R9j+BlYKwjPwvyQfN+QTi2GjqkqkoPiKhZl15lklYf7fYDC17OS4otwQ==
-X-Received: by 2002:a1c:c706:: with SMTP id x6mr5914440wmf.162.1562774334961; 
- Wed, 10 Jul 2019 08:58:54 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d066:6881:ec69:75ab?
- ([2001:b07:6468:f312:d066:6881:ec69:75ab])
- by smtp.gmail.com with ESMTPSA id s63sm2397593wme.17.2019.07.10.08.58.54
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 08:58:54 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- ddm <hope2hope@163.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <c49fcb4.af77.16bdae2795a.Coremail.hope2hope@163.com>
- <adefe3b6-f8ff-5010-58e5-45a4445a648f@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c7076dee-b401-9595-028e-fc0349e74a7f@redhat.com>
-Date: Wed, 10 Jul 2019 17:58:53 +0200
+ (envelope-from <mreitz@redhat.com>) id 1hlF5r-0002Ie-1N
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:05:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36706)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hlF5l-00020e-1j; Wed, 10 Jul 2019 12:05:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E3B1B4F63E;
+ Wed, 10 Jul 2019 16:05:10 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D1A65D9CA;
+ Wed, 10 Jul 2019 16:05:00 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190710010556.32365-1-jsnow@redhat.com>
+ <20190710010556.32365-4-jsnow@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <b8e70883-2e64-aa6a-6a70-dd0aedd63f17@redhat.com>
+Date: Wed, 10 Jul 2019 18:04:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <adefe3b6-f8ff-5010-58e5-45a4445a648f@redhat.com>
-Content-Type: text/plain; charset=gbk
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190710010556.32365-4-jsnow@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HJpHbyjV4AVr8neC85hZQ4PNEwpWQYhdm"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Wed, 10 Jul 2019 16:05:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.47
-Subject: Re: [Qemu-devel] Can not relocate APIC registers address from
- 0xFEE00000 to self-defined physical addr
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/8] iotests/257: Refactor backup helpers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,26 +84,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/19 17:41, Philippe Mathieu-Daud¨¦ wrote:
-> 
-> I wrote a Small OS (based on linux0.11) support SMP, and it can run
-> well on bochs, Now i want to migrate it to Qemu, i found that when i
-> use wrmsr command to relocate the APIC regsiters addr to a new
-> physical address, it can not work, i can not initial APIC timer to
-> trigger timer interrupt by the new physical addr just i relocate, but
-> when use rdmsr to get APIC base addr has been changed to the new
-> physical address, it's strange. In SMP env, if can not relocate APIC
-> registers addr for each processor with  different addr, it will
-> result in conflict. So, i want to know qemu4.0 whether support
-> remaping APIC base address by wrmsr command? if support, please tell
-> me how to remap APIC base addr for each processor.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HJpHbyjV4AVr8neC85hZQ4PNEwpWQYhdm
+Content-Type: multipart/mixed; boundary="Rrzv7yJMc7smWQqaeWAkVFanE0aN7FW9E";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Message-ID: <b8e70883-2e64-aa6a-6a70-dd0aedd63f17@redhat.com>
+Subject: Re: [PATCH 3/8] iotests/257: Refactor backup helpers
+References: <20190710010556.32365-1-jsnow@redhat.com>
+ <20190710010556.32365-4-jsnow@redhat.com>
+In-Reply-To: <20190710010556.32365-4-jsnow@redhat.com>
 
-Yes, this is not supported by QEMU.  However, you don't need to change
-the base address, because each processor will only write to its own APIC
-even if all of them use the same base address.
+--Rrzv7yJMc7smWQqaeWAkVFanE0aN7FW9E
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On 10.07.19 03:05, John Snow wrote:
+> This test needs support for non-bitmap backups and missing or
+> unspecified bitmap sync modes, so rewrite the helpers to be a little
+> more generic.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/257     |  46 +++++----
+>  tests/qemu-iotests/257.out | 192 ++++++++++++++++++-------------------=
+
+>  2 files changed, 124 insertions(+), 114 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+> index 2ff4aa8695..2eb4f26c28 100755
+> --- a/tests/qemu-iotests/257
+> +++ b/tests/qemu-iotests/257
+
+[...]
+
+> -def bitmap_backup(drive, n, filepath, bitmap, bitmap_mode):
+> -    log("--- Bitmap Backup #{:d} ---\n".format(n))
+> -    target_id =3D "bitmap_target_{:d}".format(n)
+> -    job_id =3D "bitmap_backup_{:d}".format(n)
+> +def backup(drive, n, filepath, bitmap, bitmap_mode, sync=3D'bitmap'):
+> +    log("--- Test Backup #{:d} ---\n".format(n))
+> +    target_id =3D "backup_target_{:d}".format(n)
+> +    job_id =3D "backup_{:d}".format(n)
+>      target_drive =3D Drive(filepath, vm=3Ddrive.vm)
+> =20
+>      target_drive.create_target(target_id, drive.fmt, drive.size)
+> -    drive.vm.qmp_log("blockdev-backup", job_id=3Djob_id, device=3Ddriv=
+e.name,
+> -                     target=3Dtarget_id, sync=3D"bitmap",
+> -                     bitmap_mode=3Dbitmap_mode,
+> -                     bitmap=3Dbitmap,
+> -                     auto_finalize=3DFalse)
+> +
+> +    kwargs =3D {
+> +        'job_id': job_id,
+> +        'auto_finalize': False,
+> +        'bitmap': bitmap,
+> +        'bitmap_mode': bitmap_mode,
+> +    }
+> +    kwargs =3D {key: val for key, val in kwargs.items() if val is not =
+None}
+
+I suppose this is to remove items that are None?
+
+Very cute, but why not just
+
+  kwargs =3D {
+    'job_id': job_id,
+    'auto_finalize': False,
+  }
+  if bitmap is not None:
+    kwargs['bitmap'] =3D bitmap
+    kwargs['bitmap_mode'] =3D bitmap_mode
+
+Exactly the same number of lines, but immediately makes it clear what=E2=80=
+=99s
+going on.  Not as cute, I admit.
+
+(Yes, I am indeed actively trying to train you not to write cute code.)
+
+The rest looks good to me:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--Rrzv7yJMc7smWQqaeWAkVFanE0aN7FW9E--
+
+--HJpHbyjV4AVr8neC85hZQ4PNEwpWQYhdm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0mDKsACgkQ9AfbAGHV
+z0DPOQf+I58wkw7vqmLM9skLKM1IvFzKxgZqBtBYd1+4vjrsR/YmuY3K8Zl4KSIG
+bmkYMYX67+9es9g0VkO8zlHLMmBguqh22faxLbUn4age585H/r6XJvsRY2HlXUhf
+AdpKVJAEG1evLKZzz9HdykhEhvw5kNWQnFByh1O6XB8FyZdY+7MV2K34GiuXRkvM
+5BaxXLyv8LpH7D1+01WUUYOSyWZ1RuBy4XWQm9ZZ/MN0MhKM/7vpijkzua/tu4oQ
+bS60jtPE5nT6opscIPYe1pm8lOx9asCmvhrw6VoYBMGdVLDJbOefgw1Mye7qLFv9
+aaO4ds3/WoEalaRaD3IPw5t/tKXOrg==
+=mrDP
+-----END PGP SIGNATURE-----
+
+--HJpHbyjV4AVr8neC85hZQ4PNEwpWQYhdm--
 
