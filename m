@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1807C64378
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:21:49 +0200 (CEST)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BF364392
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 10:29:14 +0200 (CEST)
+Received: from localhost ([::1]:59052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl7rH-0005ri-TM
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52879)
+	id 1hl7yT-00088z-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 04:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55645)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hl7qO-0005PJ-W0
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:20:54 -0400
+ (envelope-from <longpeng2@huawei.com>) id 1hl7xC-0007Fw-Lv
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hl7qN-0002sP-5g
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:20:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46354)
+ (envelope-from <longpeng2@huawei.com>) id 1hl7xB-0002At-E5
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:54 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:36942 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hl7qM-0002pe-SE; Wed, 10 Jul 2019 04:20:51 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9A988300602A;
- Wed, 10 Jul 2019 08:20:47 +0000 (UTC)
-Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D16321001B02;
- Wed, 10 Jul 2019 08:20:43 +0000 (UTC)
-Date: Wed, 10 Jul 2019 10:20:41 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Collin Walling <walling@linux.ibm.com>
-Message-ID: <20190710102041.6be31940.cohuck@redhat.com>
-In-Reply-To: <0dd71cfe-a9e9-7ac3-523e-065f05479a57@linux.ibm.com>
-References: <20190708125433.16927-1-cohuck@redhat.com>
- <20190708125433.16927-2-cohuck@redhat.com>
- <58b28817-58e5-1cba-6f71-a35093be5cb6@de.ibm.com>
- <0dd71cfe-a9e9-7ac3-523e-065f05479a57@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <longpeng2@huawei.com>)
+ id 1hl7xA-00024L-Uz
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 04:27:53 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D4A265F07DABF74F23E3;
+ Wed, 10 Jul 2019 16:27:43 +0800 (CST)
+Received: from [127.0.0.1] (10.177.246.209) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0;
+ Wed, 10 Jul 2019 16:27:35 +0800
+To: Jason Wang <jasowang@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
+References: <785B5B0623C08241B2D0E6E7D8FA6B181E0A8FFF@DGGEMM506-MBX.china.huawei.com>
+ <20190708094750.GE2746@work-vm>
+ <fb1d9412-d017-3a74-012b-2bcd88271160@redhat.com>
+ <83ba270d-5302-3ffe-2663-8adc36e9f079@huawei.com>
+ <2c37ed34-7cd9-8962-c4bd-d55b91336bd5@redhat.com>
+From: "Longpeng (Mike)" <longpeng2@huawei.com>
+Message-ID: <5621ea8b-00b5-8fd7-c34b-61e21928d9f8@huawei.com>
+Date: Wed, 10 Jul 2019 16:27:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Wed, 10 Jul 2019 08:20:48 +0000 (UTC)
+In-Reply-To: <2c37ed34-7cd9-8962-c4bd-d55b91336bd5@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+X-Originating-IP: [10.177.246.209]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH for-4.1 1/2] s390x/pci: add
- some fallthrough annotations
+X-Received-From: 45.249.212.32
+Subject: Re: [Qemu-devel] [BUG] VM abort after migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,88 +59,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "v.maffione@gmail.com" <v.maffione@gmail.com>,
+ "quintela@redhat.com" <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 18:55:34 -0400
-Collin Walling <walling@linux.ibm.com> wrote:
+=E5=9C=A8 2019/7/10 11:57, Jason Wang =E5=86=99=E9=81=93:
+>=20
+> On 2019/7/10 =E4=B8=8A=E5=8D=8811:36, Longpeng (Mike) wrote:
+>> =E5=9C=A8 2019/7/10 11:25, Jason Wang =E5=86=99=E9=81=93:
+>>> On 2019/7/8 =E4=B8=8B=E5=8D=885:47, Dr. David Alan Gilbert wrote:
+>>>> * longpeng (longpeng2@huawei.com) wrote:
+>>>>> Hi guys,
+>>>>>
+>>>>> We found a qemu core in our testing environment, the assertion
+>>>>> 'assert(bus->irq_count[i] =3D=3D 0)' in pcibus_reset() was triggere=
+d and
+>>>>> the bus->irq_count[i] is '-1'.
+>>>>>
+>>>>> Through analysis, it was happened after VM migration and we think
+>>>>> it was caused by the following sequence:
+>>>>>
+>>>>> *Migration Source*
+>>>>> 1. save bus pci.0 state, including irq_count[x] ( =3D0 , old )
+>>>>> 2. save E1000:
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 e1000_pre_save
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e1000_mit_timer
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_interrupt_cause
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_set_irq --> update p=
+ci_dev->irq_state to 1 and
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 update bus->irq_count[x] to=
+ 1 ( new )
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the irq_state sent to dest.
+>>>>>
+>>>>> *Migration Dest*
+>>>>> 1. Receive the irq_count[x] of pci.0 is 0 , but the irq_state of e1=
+000 is 1.
+>>>>> 2. If the e1000 need change irqline , it would call to pci_irq_hand=
+ler(),
+>>>>> =C2=A0=C2=A0=C2=A0 the irq_state maybe change to 0 and bus->irq_cou=
+nt[x] will become
+>>>>> =C2=A0=C2=A0=C2=A0 -1 in this situation.
+>>>>> 3. do VM reboot then the assertion will be triggered.
+>>>>>
+>>>>> We also found some guys faced the similar problem:
+>>>>> [1] https://lists.gnu.org/archive/html/qemu-devel/2016-11/msg02525.=
+html
+>>>>> [2] https://bugs.launchpad.net/qemu/+bug/1702621
+>>>>>
+>>>>> Is there some patches to fix this problem ?
+>>>> I don't remember any.
+>>>>
+>>>>> Can we save pcibus state after all the pci devs are saved ?
+>>>> Does this problem only happen with e1000? I think so.
+>>>> If it's only e1000 I think we should fix it - I think once the VM is
+>>>> stopped for doing the device migration it shouldn't be raising
+>>>> interrupts.
+>>>
+>>> I wonder maybe we can simply fix this by no setting ICS on pre_save()=
+ but
+>>> scheduling mit timer unconditionally in post_load().
+>>>
+>> I also think this is a bug of e1000 because we find more cores with th=
+e same
+>> frame thease days.
+>>
+>> I'm not familiar with e1000 so hope someone could fix it, thanks. :)
+>>
+>=20
+> Draft a path in attachment, please test.
+>=20
+Thanks. We'll test it for a few weeks and then give you the feedback. :)
 
-> On 7/8/19 9:23 AM, Christian Borntraeger wrote:
-> > 
-> > 
-> > On 08.07.19 14:54, Cornelia Huck wrote:  
-> >> According to the comment, the bits are supposed to accumulate.
-> >>
-> >> Reported-by: Stefan Weil <sw@weilnetz.de>
-> >> Fixes: 5d1abf234462 ("s390x/pci: enforce zPCI state checking")
-> >> Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
-> > 
-> > This patch does not change behaviour, so it is certainly not wrong.
-> > 
-> > So lets have a look at if the bug report was actually a real bug or
-> > just a missing annotation.
-> >   
-> >> ---
-> >>   hw/s390x/s390-pci-inst.c | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> >> index 61f30b8e55d2..00235148bed7 100644
-> >> --- a/hw/s390x/s390-pci-inst.c
-> >> +++ b/hw/s390x/s390-pci-inst.c
-> >> @@ -1209,8 +1209,10 @@ int stpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
-> >>        * FH Enabled bit is set to one in states of ENABLED, BLOCKED or ERROR. */
-> >>       case ZPCI_FS_ERROR:
-> >>           fib.fc |= 0x20;
-> >> +        /* fallthrough */  
-> > 
-> > This is correct, in case of an error we are also blocked.
-> >   
-> 
-> Agreed. This is definitely correct based on our architecture.
-> 
-> >>       case ZPCI_FS_BLOCKED:
-> >>           fib.fc |= 0x40;
-> >> +        /* fallthrough */  
-> > 
-> > I think this is also correct, but  it would be good if Collin could verify.
-> >   
-> 
-> I failed to find anything to support setting the function control
-> enabled bit when the function state is in error / blocked. I'm
-> assuming this might be some QEMU hack to get things working? I'll have
-> to dive further to understand why this was done this way, as it doesn't
-> align with how the s390x architecture is documented. It's confusing.
+> Thanks
+>=20
+>=20
+>>> Thanks
+>>>
+>>>
+>>>> Dave
+>>>>
+>>>>> Thanks,
+>>>>> Longpeng(Mike)
+>>>> --=C2=A0
+>>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>>> .
+>>>
 
-Might this also be a real issue? Not matching the architecture is not a
-good sign...
 
-> 
-> Functionally, this doesn't change anything... so I'll at least give it
-> an ACK for now and investigate this further.
+--=20
+Regards,
+Longpeng(Mike)
 
-I prefer to hold off on this patch for now, unless we're really sure
-that the code does not have a problem here. Actually documenting
-something that might be wrong does not sound like the right thing to
-do :/
-
-> 
-> >>       case ZPCI_FS_ENABLED:
-> >>           fib.fc |= 0x80;
-> >>           if (pbdev->iommu->enabled) {
-> >>  
-> > 
-> >   
-> 
-> Acked-by: Collin Walling <walling@linux.ibm.com>
-> 
-> Side note: is there somewhere that I could access this bug report? :)
-
-It's the build log with the extra warnings in
-https://qemu.weilnetz.de/results/build-20190708.txt (referenced in
-<591d71a5-5b10-ab22-4751-01da8613d84c@weilnetz.de> on qemu-devel).
 
