@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DFF64A9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:18:51 +0200 (CEST)
-Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC8064AB8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:25:28 +0200 (CEST)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFIw-00084K-JC
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
+	id 1hlFPK-0006VD-2x
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55311)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEt-00067H-SU
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:42 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEr-00067C-IW
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEo-0007Qh-H9
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40430)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEo-0007Qb-Fo
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:36 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35110)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hlFEo-0007Ny-9A
+ id 1hlFEo-0007Oe-8h
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:34 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r1so3087414wrl.7
+Received: by mail-wm1-x341.google.com with SMTP id l2so2894378wmg.0
  for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=RnLzTrJA1Mc+QEzQAXuyz6OUoUiesbXhUCgxZxgeYVI=;
- b=KVjCcXOmxGhWjF7T1zNqWztRRF5H/HqRGJADSCimKHZlDzLHVsFO7LaChF/roWl2Kb
- oDNpCbg4OobMMQr0UYj2eOds1xNUcr3ogzXiw7gG9lcIeTFG7B72W0L5y/sqmY/yuG5S
- PY6HiyeumV0HMUQow2C0uz6vezOzRqB9nq5LXxCfmgvCaO4qBlA7OUeCkSCSoLo4HvgH
- pa9thmHVBQa2jm4co2oyhFMTbn5p8Aku3u8KVFPZJzm2G2P/wyAPpKzh06M7JMT8NYYu
- HUHPiUJBxpV6D4yRiN8CbTfDBkzKVyPRApL7DUSJoz/YHbkYpOaYB9uaBCFAcXum69Sk
- SKgA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=UJ4snQpyLIajOpVuepAKxpe0AF5m5e4v2GGBflH9o3k=;
+ b=E6ye2E6Ar5gTiTv87VxWno2Rs3+6gvOD32Yxj0C2S7a+yXlMCqI8V9laOP7RQlB2LU
+ /ohJuAAuIhx8TsLbVCR67vpVnksseVbfkDnoZLymwLP96DY1FNqdIhsyEaBEvACO9edW
+ dq9BfUMVqazmjgP5+17X/2TPva3tYZvFbpp6QJwfp3IpMJtYyP0jstF0a34ePGDawwed
+ eN8JH8e3yygVmVjUrTvs26Hpt2awRf2XVASAgZVzL9UvFSO4r8KLwgIe4VXgEIsecfv2
+ DSXLE+J/tzCFJLfjNkl83GxshK25Kuk4h4SD/D6L99Z4IGl8mDgFfg0/HzVgNnGTpltP
+ NkDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=RnLzTrJA1Mc+QEzQAXuyz6OUoUiesbXhUCgxZxgeYVI=;
- b=lJRTYcZh2R8BikjZZ2C0OKEvb96ua+XJLijCO1EbocBu4B/eYOUZsULzcteH76wzQn
- t6lLHfHqx539nUMMySXjmrXtSn0ELENDp1aHIGMdkXEtnz8AAI8f1c2iXwVJ8ohotb/c
- NjCDq6cInmvuirK4RPNFDaWDNukfStNhiatG4xLHBqqDZtlfiPth9Gge1jh1Sd6fS1fX
- IpGgFYty3wOLdsDNvyEgYy43RN8AFFAfe+Hgv+HWtbQ6xAhCZuXQaR0txHV42FJ49Whz
- IfGgg1yaS6qFJmBS/g6xRsb04ICtiEA6qULer2vVvp1bx6Llgdu1UvzWVqsY6xnlP19j
- ymFw==
-X-Gm-Message-State: APjAAAWWQ+gx5SOg99vu/m+qUbhEmmADyyOmZoSLvu5wpe9WG6hgxe95
- OycHFcbrMYOJtssfJDr9SCXFNIZD8Zc=
-X-Google-Smtp-Source: APXvYqy1ken9rUoCFuX8uzl94SjvkPWsT+/oXNRzk6RoaWjzrZZ89xtxrwt8xSZ7uE8oP/yleP9ahA==
-X-Received: by 2002:adf:f84f:: with SMTP id d15mr31821452wrq.53.1562775270503; 
- Wed, 10 Jul 2019 09:14:30 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=UJ4snQpyLIajOpVuepAKxpe0AF5m5e4v2GGBflH9o3k=;
+ b=bVV3nyN/o+WB4o6SllOgHlX616aQ+JYZqQ71CM0SdvfVLtN0wSdGrDDdWcwNSkTtj5
+ nmLvIOCeRAnOtzYN3XMpx6yT3rZLDix0vGdat9Q2K+QGsnd6P4UUD5ufaT5jh9UT/Pun
+ ZbnjTGJ8xVedBIXFwNIXXOieiSDZMAe6KGaIwzMHYBN4ukE6+pMu9pUZTuPCGkuCGkZW
+ CSC+oKKp3cmKnbfYkO7eDjPUE834Rg4WXsP4phwfbuLCUM/GBTip2B9YTLcV9Dsb28mx
+ zVRbs/cQFzzx6wAXJntXhQuMlsGfmCX4n52e8fF/gbdQ72VI+TMp1pG+a67om76hrQlU
+ usxA==
+X-Gm-Message-State: APjAAAXB0bjebqI+DHPKRuK8w+dvN+eUWd1j6VgFRpQV3JqVT1XNEVG2
+ MfCdAJPTodBcy51WnoF69v/Dj/dJxlQ=
+X-Google-Smtp-Source: APXvYqx3qapk+wOirxHT0V3YiEno928Dahkc9Zh8nxmDqSeK/tYT2mFnh8uj0ukMl3Qc/RiHfbneRQ==
+X-Received: by 2002:a1c:c542:: with SMTP id v63mr5881155wmf.97.1562775271522; 
+ Wed, 10 Jul 2019 09:14:31 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.28
+ by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.30
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 09:14:28 -0700 (PDT)
+ Wed, 10 Jul 2019 09:14:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 10 Jul 2019 18:14:19 +0200
-Message-Id: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
+Date: Wed, 10 Jul 2019 18:14:20 +0200
+Message-Id: <1562775267-1222-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
+References: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [RFC PATCH v2 0/8] Proof of concept for Meson
- integration
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH 1/8] configure: do not include $(...) variables
+ in config-host.mak
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,234 +80,106 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main change from v1 is that libqemuutil.a, and with it the tracetool
-and QAPI generated code, is now generated with meson.  This shows how
-to do some "computations" in meson.build using its array and dictionary
-data structures.  It is also a basic usage of the sourceset module for
-conditional compilation.
+This ensures that Meson will be able to reuse the results of
+the tests that are performed in the configure script.
 
-Overall the look of the meson.build code is quite good, but I must
-mention the two snags I encountered:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-- one is just aboud debuggability.  Quoting rules on Windows are crazy
-  so you really do not want to go through quoting there; with Make the
-  choice is basically to not support spaces in filenames, Ninja instead
-  chose to only do shell expansion on POSIX systems.  For the sake of
-  cross-platformness, Meson uses an external script to do "x > y" on both
-  POSIX and Windows, and that currently is not very debuggable when you
-  use "make V=1".  I know how to fix this and, even though the first
-  attempt was rejected at https://github.com/mesonbuild/meson/pull/5573,
-  but I have other arrows in my quiver.  Worst case we could pass the
-  output file to tracetool as a command line argument, but I'd rather
-  not do that as it is not a QEMU-specific issue and my philosophy so
-  far has been to improve Meson whenever possible---at least this endeavour
-  would provide benefit to the community even if QEMU rejects it.
-
-- the second is more fundamental: with Make we're enjoying much freedom in
-  choosing the include path, in particular the tracing headers are using
-  $(build_root)/$(<D).  Meson does not like that for reasons I have not
-  completely understood.  For now my solution is to generate headers like
-  "trace/trace-audio.h" and have sixty one-line forwarding headers in the
-  source tree; for example "audio/trace.h" includes "trace/trace-audio.h".
-  I'm not sure if it's possible to instead add a one-line "generate
-  trace headers" directive to each subdirectory's meson.build file.
-  I suspect that it _is_ possible but you'd still have to change the
-  #include directives to include the subdirectory name (and then I prefer
-  the forwarding headers).
-
-The forwarding headers mechanism would of course be possible with the
-current Makefiles too, of course.
-
-Other notes:
-
-1) this is only very lightly tested (./configure && make basically)
-
-2) I have not yet converted qemu-ga, which would be next, but I can
-already say that the conversion probably will *not* remove the code
-duplication we have between Makefile's rules for qemu-ga's QAPI files,
-and qapi/Makefile.objs's rules for QEMU's QAPI files.
-
-3) there are two main changes outside patch 4: scripts/ninjatool is now
-built from meson.build, which removes duplicate code between Makefile and
-configure; and  "type -p" is replaced throughout with the more correct
-"command -v".
-
-Paolo Bonzini (8):
-  configure: do not include $(...) variables in config-host.mak
-  configure: set $PYTHON to a full path
-  configure: integrate Meson in the build system
-  convert libqemuutil to meson
-  libvhost-user: convert to Meson
-  vhost-user-blk: convert to Meson
-  vhost-user-scsi: convert to Meson
-  rdmacm-mux: convert to Meson
-
- .gitignore                            |  13 +-
- Makefile                              | 191 ++-----
- Makefile.objs                         |  94 +---
- audio/trace.h                         |   1 +
- chardev/trace.h                       |   1 +
- configure                             |  63 ++-
- contrib/libvhost-user/Makefile.objs   |   1 -
- contrib/libvhost-user/meson.build     |   2 +
- contrib/rdmacm-mux/Makefile.objs      |   3 -
- contrib/rdmacm-mux/meson.build        |   6 +
- contrib/vhost-user-blk/Makefile.objs  |   1 -
- contrib/vhost-user-blk/meson.build    |   3 +
- contrib/vhost-user-scsi/Makefile.objs |   1 -
- contrib/vhost-user-scsi/meson.build   |   3 +
- crypto/Makefile.objs                  |   3 +-
- hw/9pfs/trace.h                       |   1 +
- hw/acpi/trace.h                       |   1 +
- hw/alpha/trace.h                      |   1 +
- hw/arm/trace.h                        |   1 +
- hw/audio/trace.h                      |   1 +
- hw/block/dataplane/trace.h            |   1 +
- hw/block/trace.h                      |   1 +
- hw/char/trace.h                       |   1 +
- hw/display/trace.h                    |   1 +
- hw/dma/trace.h                        |   1 +
- hw/gpio/trace.h                       |   1 +
- hw/hppa/trace.h                       |   1 +
- hw/i2c/trace.h                        |   1 +
- hw/i386/trace.h                       |   1 +
- hw/i386/xen/trace.h                   |   1 +
- hw/ide/trace.h                        |   1 +
- hw/input/trace.h                      |   1 +
- hw/intc/trace.h                       |   1 +
- hw/isa/trace.h                        |   1 +
- hw/mem/trace.h                        |   1 +
- hw/misc/macio/trace.h                 |   1 +
- hw/misc/trace.h                       |   1 +
- hw/net/trace.h                        |   1 +
- hw/nvram/trace.h                      |   1 +
- hw/pci-host/trace.h                   |   1 +
- hw/pci/trace.h                        |   1 +
- hw/ppc/trace.h                        |   1 +
- hw/rdma/trace.h                       |   1 +
- hw/rdma/vmw/trace.h                   |   1 +
- hw/riscv/trace.h                      |   1 +
- hw/s390x/trace.h                      |   1 +
- hw/scsi/trace.h                       |   1 +
- hw/sd/trace.h                         |   1 +
- hw/sparc/trace.h                      |   1 +
- hw/sparc64/trace.h                    |   1 +
- hw/timer/trace.h                      |   1 +
- hw/tpm/trace.h                        |   1 +
- hw/usb/trace.h                        |   1 +
- hw/vfio/trace.h                       |   1 +
- hw/virtio/trace.h                     |   1 +
- hw/watchdog/trace.h                   |   1 +
- hw/xen/trace.h                        |   1 +
- meson.build                           | 154 ++++++
- migration/trace.h                     |   1 +
- net/trace.h                           |   1 +
- qapi/Makefile.objs                    |  20 -
- qapi/meson.build                      |  54 ++
- qapi/trace.h                          |   1 +
- qobject/Makefile.objs                 |   3 -
- qobject/meson.build                   |   3 +
- qom/trace.h                           |   1 +
- scripts/ninjatool.py                  | 988 ++++++++++++++++++++++++++++++++++
- scripts/qapi-gen.py                   |   2 +-
- scripts/tracetool.py                  |   2 +-
- scripts/tracetool/backend/ust.py      |   6 +-
- scripts/tracetool/format/c.py         |   5 +-
- stubs/Makefile.objs                   |  43 --
- stubs/meson.build                     |  45 ++
- target/arm/trace.h                    |   1 +
- target/hppa/trace.h                   |   1 +
- target/i386/trace.h                   |   1 +
- target/mips/trace.h                   |   1 +
- target/ppc/trace.h                    |   1 +
- target/riscv/trace.h                  |   1 +
- target/s390x/trace.h                  |   1 +
- target/sparc/trace.h                  |   1 +
- trace/Makefile.objs                   |  51 --
- trace/meson.build                     |  75 +++
- ui/trace.h                            |   1 +
- util/Makefile.objs                    |  59 --
- util/meson.build                      |  57 ++
- util/trace.h                          |   1 +
- 87 files changed, 1536 insertions(+), 473 deletions(-)
- create mode 100644 audio/trace.h
- create mode 100644 chardev/trace.h
- delete mode 100644 contrib/libvhost-user/Makefile.objs
- create mode 100644 contrib/libvhost-user/meson.build
- delete mode 100644 contrib/rdmacm-mux/Makefile.objs
- create mode 100644 contrib/rdmacm-mux/meson.build
- delete mode 100644 contrib/vhost-user-blk/Makefile.objs
- create mode 100644 contrib/vhost-user-blk/meson.build
- delete mode 100644 contrib/vhost-user-scsi/Makefile.objs
- create mode 100644 contrib/vhost-user-scsi/meson.build
- create mode 100644 hw/9pfs/trace.h
- create mode 100644 hw/acpi/trace.h
- create mode 100644 hw/alpha/trace.h
- create mode 100644 hw/arm/trace.h
- create mode 100644 hw/audio/trace.h
- create mode 100644 hw/block/dataplane/trace.h
- create mode 100644 hw/block/trace.h
- create mode 100644 hw/char/trace.h
- create mode 100644 hw/display/trace.h
- create mode 100644 hw/dma/trace.h
- create mode 100644 hw/gpio/trace.h
- create mode 100644 hw/hppa/trace.h
- create mode 100644 hw/i2c/trace.h
- create mode 100644 hw/i386/trace.h
- create mode 100644 hw/i386/xen/trace.h
- create mode 100644 hw/ide/trace.h
- create mode 100644 hw/input/trace.h
- create mode 100644 hw/intc/trace.h
- create mode 100644 hw/isa/trace.h
- create mode 100644 hw/mem/trace.h
- create mode 100644 hw/misc/macio/trace.h
- create mode 100644 hw/misc/trace.h
- create mode 100644 hw/net/trace.h
- create mode 100644 hw/nvram/trace.h
- create mode 100644 hw/pci-host/trace.h
- create mode 100644 hw/pci/trace.h
- create mode 100644 hw/ppc/trace.h
- create mode 100644 hw/rdma/trace.h
- create mode 100644 hw/rdma/vmw/trace.h
- create mode 100644 hw/riscv/trace.h
- create mode 100644 hw/s390x/trace.h
- create mode 100644 hw/scsi/trace.h
- create mode 100644 hw/sd/trace.h
- create mode 100644 hw/sparc/trace.h
- create mode 100644 hw/sparc64/trace.h
- create mode 100644 hw/timer/trace.h
- create mode 100644 hw/tpm/trace.h
- create mode 100644 hw/usb/trace.h
- create mode 100644 hw/vfio/trace.h
- create mode 100644 hw/virtio/trace.h
- create mode 100644 hw/watchdog/trace.h
- create mode 100644 hw/xen/trace.h
- create mode 100644 meson.build
- create mode 100644 migration/trace.h
- create mode 100644 net/trace.h
- create mode 100644 qapi/meson.build
- create mode 100644 qapi/trace.h
- delete mode 100644 qobject/Makefile.objs
- create mode 100644 qobject/meson.build
- create mode 100644 qom/trace.h
- create mode 100755 scripts/ninjatool.py
- delete mode 100644 stubs/Makefile.objs
- create mode 100644 stubs/meson.build
- create mode 100644 target/arm/trace.h
- create mode 100644 target/hppa/trace.h
- create mode 100644 target/i386/trace.h
- create mode 100644 target/mips/trace.h
- create mode 100644 target/ppc/trace.h
- create mode 100644 target/riscv/trace.h
- create mode 100644 target/s390x/trace.h
- create mode 100644 target/sparc/trace.h
- create mode 100644 trace/meson.build
- create mode 100644 ui/trace.h
- delete mode 100644 util/Makefile.objs
- create mode 100644 util/meson.build
- create mode 100644 util/trace.h
-
+diff --git a/configure b/configure
+index 5c79145..b0b8bdd 100755
+--- a/configure
++++ b/configure
+@@ -597,7 +597,7 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+-QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
++QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
+ if test "$debug_info" = "yes"; then
+     CFLAGS="-g $CFLAGS"
+     LDFLAGS="-g $LDFLAGS"
+@@ -896,7 +896,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
+   supported_os="yes"
+   libudev="yes"
+ ;;
+@@ -4081,8 +4081,8 @@ EOF
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+               symlink "$source_path/dtc/scripts" "dtc/scripts"
+           fi
+-          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+-          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
++          fdt_cflags="-I${source_path}/dtc/libfdt"
++          fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5031,13 +5031,13 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    LIBS="-L\$(BUILD_DIR)/capstone -lcapstone $LIBS"
++    LIBS="-L$PWD/capstone -lcapstone $LIBS"
+     ;;
+ 
+   system)
+@@ -5942,8 +5942,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+-    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
++    slirp_libs="-L$PWD/slirp -lslirp"
+     ;;
+ 
+   system)
+@@ -7288,21 +7288,21 @@ if test "$sheepdog" = "yes" ; then
+ fi
+ 
+ if test "$tcg_interpreter" = "yes"; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
+ elif test "$ARCH" = "s390x" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
+ elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
+ elif test "$ARCH" = "ppc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
+ elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
+ else
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/\$(ARCH) $QEMU_INCLUDES"
+ fi
+-QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg $QEMU_INCLUDES"
++QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
+ 
+ echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
 -- 
 1.8.3.1
+
 
 
