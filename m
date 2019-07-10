@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEF7646FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 15:29:26 +0200 (CEST)
-Received: from localhost ([::1]:32890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D69264720
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 15:39:00 +0200 (CEST)
+Received: from localhost ([::1]:32980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlCez-0007nu-It
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 09:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
+	id 1hlCoF-0004wO-59
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 09:38:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <christophe.lyon@linaro.org>) id 1hlCcv-0007I8-BY
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:27:18 -0400
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hlClg-0003ya-TZ
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:36:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <christophe.lyon@linaro.org>) id 1hlCct-0002TN-Un
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:27:17 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:44656)
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hlClW-0004Fn-JP
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:36:14 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:46677)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <christophe.lyon@linaro.org>)
- id 1hlCct-0002RW-L9
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:27:15 -0400
-Received: by mail-lf1-x142.google.com with SMTP id r15so1574946lfm.11
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 06:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
+ id 1hlClP-00049p-7A
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 09:36:03 -0400
+Received: by mail-qt1-x835.google.com with SMTP id h21so2361375qtn.13
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 06:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EgCBmtVyKSOLbMLxU1gRJDabje58eRMdzIG7CsC18xc=;
- b=j2iWWJwVouix8mgsHL9bj1fQZcF+yiSUuo86uraV6ZIJEEPN1Fs4Bl9G4n7v6AFtEY
- uaqV4SyfSrkE/rHCESgukvOhrCNsVOZkdklappMfzqmXBNeszB19mbRLZpKpsmKnzVFk
- GWXLWGY6pRo6XMplIwANoCsGj/ss+mBqPy+9NUijV8xzJvveT55emFkXS6uxy9Izeiyn
- kUYs257khziW59QHOfOlTA36vTEDT4y2sjbDUXZopqpBx9KHqxO8YU1rCXK1MrpDbVfn
- QgfCrwGsqEmLA8kUNj9H+6d9iDWrBGSgsqmr8CKsBfniEiSnQb6zlRIPSYXd2ix4nREO
- Wd0g==
+ :cc; bh=iUI2fj75GdJHT1G2kfr8d5nR6QcA8HCMuKyEQSpXsBg=;
+ b=vQBazE6M/Vrcr1Hl4TF1etj8FolHSDGbALqAKi3eFMtv4QEJhPK9NEfEbvZnNXmqRs
+ BD+xfa27LLAbtiSEm7L/OD/wOJqppERtT67Kj0WPzzeEB8IdVhFGZy2JdV7GX95IDI7j
+ ZTBhPW0quZHYZLbWa4NMtYb6LHb080MVS/hijS0zXiVQ1CiqI3bjVJ1UHf5K6h4Yjf+h
+ Kt5jjRMUxTJ34Cf8kiwpJevLkerChGWIro6XbuqzZVGc4MrtpHh63LHWT2P2cn1SIlXj
+ WSaXW4w3ZtVGvjmgBaI5cm7uGdJsNQf+KUiFGfrdmCLdCtDDc0V6XXDB4eTprSLpTPx2
+ RVOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EgCBmtVyKSOLbMLxU1gRJDabje58eRMdzIG7CsC18xc=;
- b=XGE9m9DBscGj1IxiTk20/MoE2pqez4s9K0mZxNWLnjZNwCynRoq8+FrraSVGRpd9RU
- jItp1vU8PSK7GkC6xiSNmjwvhjy+09HGaL9S/iuIr4l+lMbxyImBkuDQRtcGp/KEo0H3
- CNNWCvj+sdhRS29nxsyiNjDiYKWedBoS7eoLaX2aJvR1UwTetd7PUkoZRArUJfLwIN2s
- DeSbJ3T58+1pbfkSEzSoQlMcvjaHrdeNhl9Y1ZFJlFlass2dSGkqEc6HeZAdI5DaSIUh
- zvBqvKvRYux0fL2M59B0bHVo/Mm2tgnHAOY+LSk8qK30bZsBBkZyHY/wviHBikGMxPTJ
- GDxw==
-X-Gm-Message-State: APjAAAU0s6YvkH6UA6TaqRX9qOJXA/pBh/k0Iibqpy+iC7tp7mfxQ1fA
- r45eX/aOdclslukyoksFfo0frXlAo042UmbwzYOuPA==
-X-Google-Smtp-Source: APXvYqweducevTg03okCnDalulbqzIP2Yt7nKX+Ekn3sUaflWtCUO+xPCiVh/BvMr5Ox8EzT9MoLQB2jMhdKG6fgjKU=
-X-Received: by 2002:ac2:5c1d:: with SMTP id r29mr13907617lfp.72.1562765233580; 
- Wed, 10 Jul 2019 06:27:13 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=iUI2fj75GdJHT1G2kfr8d5nR6QcA8HCMuKyEQSpXsBg=;
+ b=VKJ1+s5VCMsBDh3Lazl2oBT2Hvq/bk5wLPChsabRE4N5p/cvHSHKLUPU5bz4WonYR+
+ 9oqw7YuGA+37QhLZhvTu/7VCkO8jelHc5kEXL+DGvZSKXZ5mxdwDlnWHQvgmJnoy9Np0
+ cfc/OwkDOJQJ5K7jImIJdMdl8kQe7k1KfFuvHCRYBkeVEDBYWURbE9MJFWkj2Y01LQ4J
+ Ga99WOFNTu75ccZbUwS9ePvws0ai2PoUXGlEZ+q+h5YT2rH7IDQ/W/jSX6nLH5k5gS+v
+ MfWvw96D44qrFqbkX0A/D0VbkR/W9N0JMrJBBWh5Ec0UYW4bb3gbPeHqGgzeBDqec3w1
+ Cxuw==
+X-Gm-Message-State: APjAAAUTwIVB1tnsweA929etr3RgzpidlkDDFXJtgrgUylUkSnH3OP+z
+ SAJhyxHOWsSalMcj9Ke7lBs/RtD6sst3Df+4kkM=
+X-Google-Smtp-Source: APXvYqyHK1a8R3Ho7VtgUa8KWUEDV/TPUndyCA/8TtlEDNSrgEcYe4I3jtT5pbyYdzaKiKLozpridMFZqtjtxgUJM6w=
+X-Received: by 2002:a0c:d1e2:: with SMTP id k31mr25095340qvh.173.1562765762558; 
+ Wed, 10 Jul 2019 06:36:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190709121900.25644-1-richard.henderson@linaro.org>
- <87sgrfe4y9.fsf@zen.linaroharston>
-In-Reply-To: <87sgrfe4y9.fsf@zen.linaroharston>
-From: Christophe Lyon <christophe.lyon@linaro.org>
-Date: Wed, 10 Jul 2019 15:27:02 +0200
-Message-ID: <CAKdteOZ2aVuRGO92kFKfkXub6f0aydc-W6=uDq3Jtz2gDVi58A@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
+ <2136180936.260219.1561641583358@mail.yahoo.com>
+ <1079763171.281101.1561641752988@mail.yahoo.com>
+ <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
+ <20190628002713.GA19257@localhost.localdomain>
+ <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+ <20190628155030.GA34320@localhost.localdomain>
+ <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
+ <20190629163621.GA111724@localhost.localdomain>
+ <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
+ <1399218244.1210557.1561982640362@mail.yahoo.com>
+ <CAFEAcA-0vGg_1nfkbq+o6JwoDsRyP=6mnv6ADi-atV0ROX269Q@mail.gmail.com>
+ <CALvKS=GvAkNr3OKZzjGoTGG_Eys76zjcjodiN4hKXjFM5B0a4A@mail.gmail.com>
+ <d9e5602c-bb33-1812-ebc2-b533e9dd5f25@linaro.org>
+In-Reply-To: <d9e5602c-bb33-1812-ebc2-b533e9dd5f25@linaro.org>
+From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Date: Wed, 10 Jul 2019 22:35:51 +0900
+Message-ID: <CALvKS=ED7t8F=ennNRHpY4K9ZGi2y5KPOSmj3p6DLru5i1JmPQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
-Subject: Re: [Qemu-devel] [PATCH for-4.1] tcg: Fix constant folding of
- INDEX_op_extract2_i32
+X-Received-From: 2607:f8b0:4864:20::835
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
+ gen_exception
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,69 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Lucien Anti-Spam <lucienmp_antispam@yahoo.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 15:02, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+Hi Richard,
+
+I am so sorry, I was too naive when you suggested this and I misunderstood
+the meaning of what you were telling me.
+
+After spending most nights digging through the RTE/Exception process for
+the M68000 I now actually get what you
+were trying to tell me and its simply genius  - I hope it serves others
+well too when they need to do something similar.
+
+I still dont have all the tools in my chest to understand what I have, but
+I will keep digging.
+
+Many thanks,
+Luc
+
+
+On Wed, Jul 10, 2019 at 4:04 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 7/9/19 6:58 PM, Lucien Murray-Pitts wrote:
+> > Any suggestions on how to obtain pc_next from the "m68k_cpu_do_interrupt(
+> > CPUState *cs)" ?
+>
+> I did have a suggestion.  It was fairly detailed.
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06522.html
 >
 >
-> Richard Henderson <richard.henderson@linaro.org> writes:
+> r~
 >
-> > On a 64-bit host, discard any replications of the 32-bit
-> > sign bit when performing the shift and merge.
-> >
-> > Fixes: https://bugs.launchpad.net/bugs/1834496
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-
-Tested-by: Christophe Lyon <christophe.lyon@linaro.org>
-
-Hi,
-
-I ran GCC validations with your fix, it does fix the problems I
-reported with the arm-none-linux-gnueabi target.
-
-Unfortunately, we are unlucky because there are still regressions
-compared to qemu-3.1 when using the arm-none-linux-gnueabihf target,
-as well as arm-eabi and aarch64-elf.
-I hoped all had the same root cause..... I'll report the remaining
-ones in a new launchpad bug.
-
-Thanks
-
-Christophe
-
-
-> > ---
-> >  tcg/optimize.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tcg/optimize.c b/tcg/optimize.c
-> > index d7c71a6085..d2424de4af 100644
-> > --- a/tcg/optimize.c
-> > +++ b/tcg/optimize.c
-> > @@ -1213,8 +1213,8 @@ void tcg_optimize(TCGContext *s)
-> >                  if (opc =3D=3D INDEX_op_extract2_i64) {
-> >                      tmp =3D (v1 >> op->args[3]) | (v2 << (64 - op->arg=
-s[3]));
-> >                  } else {
-> > -                    tmp =3D (v1 >> op->args[3]) | (v2 << (32 - op->arg=
-s[3]));
-> > -                    tmp =3D (int32_t)tmp;
-> > +                    tmp =3D (int32_t)(((uint32_t)v1 >> op->args[3]) |
-> > +                                    ((uint32_t)v2 << (32 - op->args[3]=
-)));
-> >                  }
-> >                  tcg_opt_gen_movi(s, op, op->args[0], tmp);
-> >                  break;
->
->
-> --
-> Alex Benn=C3=A9e
-
