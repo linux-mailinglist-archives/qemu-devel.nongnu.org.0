@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1695649E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 17:42:36 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E385C64A1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 17:52:26 +0200 (CEST)
+Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlEjs-00083J-7U
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 11:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
+	id 1hlEtO-00032K-5W
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 11:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47952)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hlEib-00075z-66
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1hlErg-0002By-9h
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:50:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hlEiZ-0005um-5v
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:17 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:36391)
+ (envelope-from <bounces@canonical.com>) id 1hlEre-0000Kl-Mj
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53290)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlEiX-0005tM-8M
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:41:13 -0400
-Received: by mail-wr1-f50.google.com with SMTP id n4so2998518wrs.3
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 08:41:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZqJtaq4MsF6xGIt7c7isyPRuOSya3UoPfm+iGAPvqWY=;
- b=RnoxSw4hV2jtajCyngVGgXT+C2psx/Lf3mcokWlbuNjXr9CJ5MwASg3k+60XU2g256
- EIIlqJrTgFXEzIz3GyGcWFcK0fm/Fz3YHT97zzfNFRAJ9jKMIdjPndReyC5HB11OAsFz
- Fqubx7mB+n4ZVp8lwV8wPCk7YOuLvzs4yCUf5yPbjpWVPyd2mjaXkwdBLqvM1kNXjI3H
- dUrnOVBDWCMStrasrChVRxytEY1ePxxf6/PKr6+8JaLvsGyrbMnZ3JZY7SJOFmW3opVb
- Do/Bwo5xTuxzbmBNYKU315NOO2g2GWRGY+RxZ6dxkCYfF8bdcjtXqQOk5wbE4NSWvxlw
- Ga1Q==
-X-Gm-Message-State: APjAAAXZX9h0+qu4zbhelzu/ijfuJuuWzJ5KpFkW+zStdSdwcmeU1zT9
- 7/JuS1iRYCJIWyya/k2A5zOuoA==
-X-Google-Smtp-Source: APXvYqwkuwg2cSReIswXneeRD487T9Z9ZyCCfNV8kZo3fwebzhDKWjtQnI0wVfVMbfFV3BX2JCOwbw==
-X-Received: by 2002:a5d:4a02:: with SMTP id m2mr17511668wrq.78.1562773271186; 
- Wed, 10 Jul 2019 08:41:11 -0700 (PDT)
-Received: from [192.168.1.103] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id j10sm2674691wrw.96.2019.07.10.08.41.10
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 08:41:10 -0700 (PDT)
-To: ddm <hope2hope@163.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <c49fcb4.af77.16bdae2795a.Coremail.hope2hope@163.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <adefe3b6-f8ff-5010-58e5-45a4445a648f@redhat.com>
-Date: Wed, 10 Jul 2019 17:41:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hlEre-0000JR-Gj
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 11:50:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hlErd-000876-Dz
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 15:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 687592E80C9
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 15:50:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <c49fcb4.af77.16bdae2795a.Coremail.hope2hope@163.com>
-Content-Type: text/plain; charset=gbk
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 10 Jul 2019 15:42:29 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
+Message-Id: <156277334943.24465.64297767155984738.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: bd67a9784aeacd97a8c0b5fbbd52d5599ef125c8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.50
-Subject: Re: [Qemu-devel] Can not relocate APIC registers address from
- 0xFEE00000 to self-defined physical addr
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836078] Re: Regressions on arm-linux-gnueabihf
+ target with some GCC tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,23 +66,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing x86 ppl
+I bisected the failure for all but the IEEE6 test to:
 
-On 7/10/19 9:56 AM, ddm wrote:
-> hi guys, 
-> 
-> 
-> I wrote a Small OS (based on linux0.11) support SMP, and it can run well on bochs, 
-> Now i want to migrate it to Qemu, i found that when i use wrmsr command to relocate the APIC regsiters addr to a new physical address, 
-> it can not work, i can not initial APIC timer to trigger timer interrupt by the new physical addr just i relocate, but when use rdmsr to get APIC base addr has been changed to the new physical address, it's strange. 
-> In SMP env, if can not relocate APIC registers addr for each processor with  different addr, it will result in conflict. 
-> So, i want to know qemu4.0 whether support remaping APIC base address by wrmsr command?
-> if support, please tell me how to remap APIC base addr for each processor.
-> 
-> 
-> Thank you!
-> 
+commit 602f6e42cfbfe9278be34e9b91d2ceb695837e02
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Thu Feb 28 10:55:16 2019 +0000
+
+    target/arm: Use MVFR1 feature bits to gate A32/T32 FP16 instructions
+
+    Instead of gating the A32/T32 FP16 conversion instructions on
+    the ARM_FEATURE_VFP_FP16 flag, switch to our new approach of
+    looking at ID register bits. In this case MVFR1 fields FPHP
+    and SIMDHP indicate the presence of these insns.
+
+    This change doesn't alter behaviour for any of our CPUs.
+
+    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+    Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+    Message-id: 20190222170936.13268-2-peter.maydell@linaro.org
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836078
+
+Title:
+  Regressions on arm-linux-gnueabihf target with some GCC tests
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  After trying qemu master:
+  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
+  Merge: 68d7ff0 14f5d87
+  Author: Peter Maydell <email address hidden>
+  Date: Fri Jun 21 15:40:50 2019 +0100
+
+  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
+  I've noticed several regressions compared to qemu-3.1 when running the GC=
+C testsuite.
+  I'm attaching a tarball containing several GCC tests (binaries), needed s=
+hared libs, and a short script to run all the tests.
+
+  All tests used to pass w/o error, but with a recent qemu, all of them
+  make qemu crash.
+
+  This was noticed with GCC master configured with
+  --target arm-none-linux-gnueabihf
+  --with-cpu cortex-a57
+  --with-fpu crypto-neon-fp-armv8
+
+  Thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
 
