@@ -2,66 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A58C64B7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:30:07 +0200 (CEST)
-Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BC364B98
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 19:43:55 +0200 (CEST)
+Received: from localhost ([::1]:35768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlGPp-0000H8-4c
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
+	id 1hlGdG-0007Ji-5x
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 13:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hlGOy-0008FV-1g
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:29:08 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hlGUH-0002iJ-Lu
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:34:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hlGOx-0005j7-3a
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:29:07 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46557)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hlGOw-0005iC-QQ
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:29:07 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 65so2238558oid.13
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 10:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ypo7HfA1OgTvylL1jdf5uvRU5n9R044hbhukBZzj81U=;
- b=bRaMg3/PUyooHE6c+Hs5des3aS85E0TYlFClhBJmDKg/LtL3Qyl6SOGtvEpsROs2be
- IREWLptq3k9e/WVlQ9pghh1MK+g9ETO4X9Y+e8zvB1jFeQl8mwY8j1idsIJgg4I0KU57
- lCzIxXBkhy4+6Gfrea2RFfgiFxr9mu2o5ZAT4odz236UUQ/gEUYPsx7LY5PNp3XKa+4D
- JHAL7ZXJuiy4tHxeoYsN3vPCzbaYGLvRLOlnkwrWaPj2rjfRUcNklTsbkiAzYJqoS4BE
- sQM54p7fnwkpzOP7ZIkniwKowvUAjxFbazOEHp3ToUy4xkf+tW7ULW1tXCx5Tvg3vmTp
- 6D7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ypo7HfA1OgTvylL1jdf5uvRU5n9R044hbhukBZzj81U=;
- b=haxONh9QibVvQhB1oSE6hsaXI0cwbFsNAaoJwK8uKtvh4VlIGGPCqt9KGxW+hQXELZ
- jqVe4EFef4KYdh1rvLQok+QTr9F9sRSyn115d701Rnr/1gnvkb4sWgRgtdSjx5NmfT0a
- tFyveEZk0bbQ1O+xIBnIqqP5Zh0pCSf0rn+a+nwtDffw+0/pX4TCkc2nuzulUAfgty1P
- GL4mvtpc57yO8h7HXUoKSY8vurnkHkGNzKFojswDhJtikl3IH7V485Vj5yjHmbYVXzdn
- d3/RaRVg9PPEoLqI/rYBCL3FlJXA8YtvoaqbSbXPw9oHR9IFbSaq+rfPNAD180ColCir
- PZVg==
-X-Gm-Message-State: APjAAAVGgfL94vjvehwHlBqo3fU/hhjZ0ksagmFofXhwFkcECgAlcewU
- njoq0LxIk55HHKHKSwRip+7rjJxLSxlj6gA50EM=
-X-Google-Smtp-Source: APXvYqzVAw4IdJdvJvM+5vcdWH1NP63EGowkWJY74gfhscd2RsOIIaS29xFsAmyH73oaU1+P7j3V/wjvS5EQ2e086nY=
-X-Received: by 2002:aca:4588:: with SMTP id s130mr3870201oia.79.1562779745742; 
- Wed, 10 Jul 2019 10:29:05 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1hlGUF-0003j3-7O
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 13:34:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50206)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1hlGU9-0003KS-1x; Wed, 10 Jul 2019 13:34:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7F73430C34C3;
+ Wed, 10 Jul 2019 17:34:23 +0000 (UTC)
+Received: from [10.18.17.130] (dhcp-17-130.bos.redhat.com [10.18.17.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDF2C60BFC;
+ Wed, 10 Jul 2019 17:34:22 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190710010556.32365-1-jsnow@redhat.com>
+ <20190710010556.32365-2-jsnow@redhat.com>
+ <71300a46-3bbd-7c6a-dd25-baf17364e07e@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <a2db1182-1dea-b657-5124-32a40eaedeca@redhat.com>
+Date: Wed, 10 Jul 2019 13:34:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20190709184823.4135-1-richard.henderson@linaro.org>
- <CAL1e-=i7Paug3G4xFCVRpH=NadNti1oG9y8n7geUJeGDoizc4w@mail.gmail.com>
- <CAFEAcA-wJ9hTvk90wikTFU669Qh4sfZyDZvjZaHo=P-eF_v26w@mail.gmail.com>
-In-Reply-To: <CAFEAcA-wJ9hTvk90wikTFU669Qh4sfZyDZvjZaHo=P-eF_v26w@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 10 Jul 2019 19:28:54 +0200
-Message-ID: <CAL1e-=jX+LbEzvQLqi5qn3DbbC9icp9YA92N6-9RVd3ppV+0-Q@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH] tcg/aarch64: Fix output of extract2 opcodes
+In-Reply-To: <71300a46-3bbd-7c6a-dd25-baf17364e07e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Wed, 10 Jul 2019 17:34:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/8] iotests/257: add Pattern class
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,15 +135,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Beata Michalska <beata.michalska@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Can you be less combative in your review comments, please?
 
-Sure, I will.
 
-Thanks, Aleksandar
+On 7/10/19 12:26 PM, Max Reitz wrote:
+> On 10.07.19 03:05, John Snow wrote:
+>> Just kidding, this is easier to manage with a full class instead of a
+>> namedtuple.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  tests/qemu-iotests/257 | 58 +++++++++++++++++++++++------------------=
+-
+>>  1 file changed, 32 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
+>> index 75a651c7c3..f576a35a5c 100755
+>> --- a/tests/qemu-iotests/257
+>> +++ b/tests/qemu-iotests/257
+>> @@ -19,7 +19,6 @@
+>>  #
+>>  # owner=3Djsnow@redhat.com
+>> =20
+>> -from collections import namedtuple
+>>  import math
+>>  import os
+>> =20
+>> @@ -29,10 +28,18 @@ from iotests import log, qemu_img
+>>  SIZE =3D 64 * 1024 * 1024
+>>  GRANULARITY =3D 64 * 1024
+>> =20
+>> -Pattern =3D namedtuple('Pattern', ['byte', 'offset', 'size'])
+>> -def mkpattern(byte, offset, size=3DGRANULARITY):
+>> -    """Constructor for Pattern() with default size"""
+>> -    return Pattern(byte, offset, size)
+>> +
+>> +class Pattern:
+>> +    def __init__(self, byte, offset, size=3DGRANULARITY):
+>> +        self.byte =3D byte
+>> +        self.offset =3D offset
+>> +        self.size =3D size
+>> +
+>> +    def bits(self, granularity):
+>> +        lower =3D math.floor(self.offset / granularity)
+>> +        upper =3D math.floor((self.offset + self.size - 1) / granular=
+ity)
+>> +        return set(range(lower, upper + 1))
+>=20
+> By the way, this doesn=E2=80=99t work with Python2 (pre-existing in you=
+r other
+> series).  It complains that these are floats.
+>=20
+> Now I don=E2=80=99t know whether you care but there is the fact that th=
+e
+> expressions would be shorter if they were of the form x // y instead of
+> math.floor(x / y).
+>=20
+> Max
+>=20
+
+Ah, crud; OK -- I'll play nice with python2 for a while longer. Thanks
+for pointing this out.
 
