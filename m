@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A374664455
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 11:25:33 +0200 (CEST)
-Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BC864459
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 11:26:53 +0200 (CEST)
+Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl8qy-0000j8-TB
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 05:25:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47446)
+	id 1hl8sG-0002Ft-IA
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 05:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hl8pe-0008B4-G8
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1hl8pe-0008Ak-8c
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 05:24:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hl8pc-0007tK-Ti
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1hl8pc-0007sg-Ls
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 05:24:10 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:37888)
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:54452)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1hl8pb-0007l4-TE
+ id 1hl8pb-0007l9-St
  for qemu-devel@nongnu.org; Wed, 10 Jul 2019 05:24:08 -0400
 Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
  [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id CA4042E0466;
- Wed, 10 Jul 2019 12:24:02 +0300 (MSK)
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6A6922E0A7B;
+ Wed, 10 Jul 2019 12:24:03 +0300 (MSK)
 Received: from smtpcorp1p.mail.yandex.net (smtpcorp1p.mail.yandex.net
  [2a02:6b8:0:1472:2741:0:8b6:10])
  by mxbackcorp1g.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- t9gaglKD8z-O1tmQUTT; Wed, 10 Jul 2019 12:24:02 +0300
+ X8sHBziPgT-O2t030o3; Wed, 10 Jul 2019 12:24:03 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1562750642; bh=h4G/QjfAJsFRsNw+o0CNfQMAlC3NaMMgRZUhG6VtW5Q=;
+ t=1562750643; bh=iNLAWaDyxeZFg8sfSzat7F4C9cqCNn/ipANDNCAdqNw=;
  h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=S1g9Yt94sJA9NVsnabY4OoRif89MqtKvc9fbLn5T5f2gXQwfyew9j6qlr+qTXfBWl
- yyGP8mczasIAJwN3cXM47CrAcQHnbnh1NjOMJrLikoO/AfoSLATkg/7sTusYmNfHuX
- VitFdfSAO7Lg0dtP2c0Unwxl5ksrlaRYYAHNQ078=
+ b=i2Xdgw/tTAx2HWOUSXLtnWVLvbl4/YDJSkB6cHeYvxA3cXMEMnV88AohiruJSbweR
+ 9LhzNLCbAHRH2UhRafw9IX1I/SxFD91yK0LLq4IW02ZFgj2CnLAQAirqV4jz+1pe2l
+ l+sd0xaRv/D4xttWvLHqCS+1PmqJaXLhoUXDOJdM=
 Authentication-Results: mxbackcorp1g.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
  [2a02:6b8:0:40c:649c:ccd6:daab:d003])
  by smtpcorp1p.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
- c6HGiW8rtf-O1waakWw; Wed, 10 Jul 2019 12:24:01 +0300
+ c6HGiW8rtf-O2waPrXp; Wed, 10 Jul 2019 12:24:02 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Yury Kotov <yury-kotov@yandex-team.ru>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Stefan Weil <sw@weilnetz.de>, Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Wed, 10 Jul 2019 12:23:37 +0300
-Message-Id: <20190710092338.23559-2-yury-kotov@yandex-team.ru>
+Date: Wed, 10 Jul 2019 12:23:38 +0300
+Message-Id: <20190710092338.23559-3-yury-kotov@yandex-team.ru>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190710092338.23559-1-yury-kotov@yandex-team.ru>
 References: <20190710092338.23559-1-yury-kotov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
-Subject: [Qemu-devel] [RFC PATCH 1/2] qemu-thread: Add qemu_cond_timedwait
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 77.88.29.217
+Subject: [Qemu-devel] [RFC PATCH 2/2] cpus: Fix throttling during vm_stop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -75,132 +74,81 @@ Cc: "open list:Overall" <qemu-devel@nongnu.org>, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Throttling thread sleeps in VCPU thread. For high throttle percentage
+this sleep is more than 10ms. E.g. for 60% - 15ms, for 99% - 990ms.
+vm_stop() kicks all VCPUs and waits for them. It's called at the end of
+migration and because of the long sleep the migration downtime might be
+more than 100ms even for downtime-limit 1ms.
+Use qemu_cond_timedwait for high percentage to wake up during vm_stop.
+
 Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 ---
- include/qemu/thread.h    | 12 ++++++++++++
- util/qemu-thread-posix.c | 40 ++++++++++++++++++++++++++++------------
- util/qemu-thread-win32.c | 16 ++++++++++++++++
- 3 files changed, 56 insertions(+), 12 deletions(-)
+ cpus.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 55d83a907c..80898c5db4 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -140,6 +140,18 @@ static inline void (qemu_cond_wait)(QemuCond *cond, =
-QemuMutex *mutex)
-     qemu_cond_wait(cond, mutex);
- }
+diff --git a/cpus.c b/cpus.c
+index ffc57119ca..3c069cdc33 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -74,6 +74,8 @@
 =20
-+void qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
-+                              const char *file, const int line);
-+
-+#define qemu_cond_timedwait(cond, mutex, ms) \
-+        qemu_cond_timedwait_impl(cond, mutex, ms, __FILE__, __LINE__)
-+
-+static inline void (qemu_cond_timedwait)(QemuCond *cond, QemuMutex *mute=
-x,
-+                                         int ms)
-+{
-+    qemu_cond_timedwait(cond, mutex, ms);
-+}
-+
- void qemu_sem_init(QemuSemaphore *sem, int init);
- void qemu_sem_post(QemuSemaphore *sem);
- void qemu_sem_wait(QemuSemaphore *sem);
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 1bf5e65dea..eed777d9ec 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -36,6 +36,18 @@ static void error_exit(int err, const char *msg)
-     abort();
- }
+ #endif /* CONFIG_LINUX */
 =20
-+static void compute_abs_deadline(struct timespec *ts, int ms)
-+{
-+    struct timeval tv;
-+    gettimeofday(&tv, NULL);
-+    ts->tv_nsec =3D tv.tv_usec * 1000 + (ms % 1000) * 1000000;
-+    ts->tv_sec =3D tv.tv_sec + ms / 1000;
-+    if (ts->tv_nsec >=3D 1000000000) {
-+        ts->tv_sec++;
-+        ts->tv_nsec -=3D 1000000000;
-+    }
-+}
++static QemuMutex qemu_global_mutex;
 +
- void qemu_mutex_init(QemuMutex *mutex)
+ int64_t max_delay;
+ int64_t max_advance;
+=20
+@@ -776,7 +778,7 @@ static void cpu_throttle_thread(CPUState *cpu, run_on=
+_cpu_data opaque)
  {
-     int err;
-@@ -164,6 +176,22 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *=
-mutex, const char *file, con
-         error_exit(err, __func__);
- }
+     double pct;
+     double throttle_ratio;
+-    long sleeptime_ns;
++    int64_t sleeptime_ns;
 =20
-+void qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
-+                              const char *file, const int line)
-+{
-+    int err;
-+    struct timespec ts;
-+
-+    assert(cond->initialized);
-+    trace_qemu_mutex_unlock(mutex, file, line);
-+    compute_abs_deadline(&ts, ms);
-+    err =3D pthread_cond_timedwait(&cond->cond, &mutex->lock, &ts);
-+    trace_qemu_mutex_locked(mutex, file, line);
-+    if (err && err !=3D ETIMEDOUT) {
-+        error_exit(err, __func__);
-+    }
-+}
-+
- void qemu_sem_init(QemuSemaphore *sem, int init)
- {
-     int rc;
-@@ -238,18 +266,6 @@ void qemu_sem_post(QemuSemaphore *sem)
- #endif
- }
+     if (!cpu_throttle_get_percentage()) {
+         return;
+@@ -784,11 +786,22 @@ static void cpu_throttle_thread(CPUState *cpu, run_=
+on_cpu_data opaque)
 =20
--static void compute_abs_deadline(struct timespec *ts, int ms)
--{
--    struct timeval tv;
--    gettimeofday(&tv, NULL);
--    ts->tv_nsec =3D tv.tv_usec * 1000 + (ms % 1000) * 1000000;
--    ts->tv_sec =3D tv.tv_sec + ms / 1000;
--    if (ts->tv_nsec >=3D 1000000000) {
--        ts->tv_sec++;
--        ts->tv_nsec -=3D 1000000000;
--    }
--}
+     pct =3D (double)cpu_throttle_get_percentage()/100;
+     throttle_ratio =3D pct / (1 - pct);
+-    sleeptime_ns =3D (long)(throttle_ratio * CPU_THROTTLE_TIMESLICE_NS);
 -
- int qemu_sem_timedwait(QemuSemaphore *sem, int ms)
- {
-     int rc;
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index 572f88535d..5faa01cb61 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -145,6 +145,22 @@ void qemu_cond_wait_impl(QemuCond *cond, QemuMutex *=
-mutex, const char *file, con
-     qemu_mutex_post_lock(mutex, file, line);
+-    qemu_mutex_unlock_iothread();
+-    g_usleep(sleeptime_ns / 1000); /* Convert ns to us for usleep call *=
+/
+-    qemu_mutex_lock_iothread();
++    /* Add 1ns to fix double's rounding error (like 0.9999999...) */
++    sleeptime_ns =3D (int64_t)(throttle_ratio * CPU_THROTTLE_TIMESLICE_N=
+S + 1);
++
++    while (sleeptime_ns >=3D SCALE_MS && !cpu->stop) {
++        int64_t start, end;
++        start =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
++        qemu_cond_timedwait(cpu->halt_cond, &qemu_global_mutex,
++                            sleeptime_ns / SCALE_MS);
++        end =3D qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
++        sleeptime_ns -=3D end - start;
++    }
++    if (sleeptime_ns >=3D SCALE_US && !cpu->stop) {
++        qemu_mutex_unlock_iothread();
++        g_usleep(sleeptime_ns / SCALE_US);
++        qemu_mutex_lock_iothread();
++    }
+     atomic_set(&cpu->throttle_thread_scheduled, 0);
  }
 =20
-+void qemu_cond_timedwait_impl(QemuCond *cond, QemuMutex *mutex, int ms,
-+                              const char *file, const int line)
-+{
-+    int rc =3D 0;
-+
-+    assert(cond->initialized);
-+    trace_qemu_mutex_unlock(mutex, file, line);
-+    if (!SleepConditionVariableSRW(&cond->var, &mutex->lock, ms, 0)) {
-+        rc =3D GetLastError();
-+    }
-+    trace_qemu_mutex_locked(mutex, file, line);
-+    if (rc && rc !=3D ERROR_TIMEOUT) {
-+        error_exit(rc, __func__);
-+    }
-+}
-+
- void qemu_sem_init(QemuSemaphore *sem, int init)
- {
-     /* Manual reset.  */
+@@ -1166,8 +1179,6 @@ static void qemu_init_sigbus(void)
+ }
+ #endif /* !CONFIG_LINUX */
+=20
+-static QemuMutex qemu_global_mutex;
+-
+ static QemuThread io_thread;
+=20
+ /* cpu creation */
 --=20
 2.22.0
 
