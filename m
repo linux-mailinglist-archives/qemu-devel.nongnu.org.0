@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4439E63FD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 06:13:22 +0200 (CEST)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCDB63FE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 06:18:17 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hl3yr-00026I-7U
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 00:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56112)
+	id 1hl43b-0003hG-J5
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 00:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57409)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hl3xO-0001ZZ-Pb
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:11:51 -0400
+ (envelope-from <armbru@redhat.com>) id 1hl418-0002zX-6V
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:15:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hl3xM-0001yH-S9
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:11:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50774)
+ (envelope-from <armbru@redhat.com>) id 1hl417-00061F-8r
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 00:15:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51716)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hl3xH-0001rC-3n; Wed, 10 Jul 2019 00:11:44 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hl413-0005uG-Go; Wed, 10 Jul 2019 00:15:37 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 12C7C308210D;
- Wed, 10 Jul 2019 04:11:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8CE9D8535C;
+ Wed, 10 Jul 2019 04:15:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
  [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9A0B60852;
- Wed, 10 Jul 2019 04:11:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCE425FCA7;
+ Wed, 10 Jul 2019 04:15:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3648E1138648; Wed, 10 Jul 2019 06:11:32 +0200 (CEST)
+ id 4A6301138648; Wed, 10 Jul 2019 06:15:30 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
 References: <20190709232550.10724-1-jsnow@redhat.com>
- <20190709232550.10724-2-jsnow@redhat.com>
- <fdd0230c-2524-7a15-d356-c37f2944cf6b@redhat.com>
-Date: Wed, 10 Jul 2019 06:11:32 +0200
-In-Reply-To: <fdd0230c-2524-7a15-d356-c37f2944cf6b@redhat.com> (John Snow's
- message of "Tue, 9 Jul 2019 21:36:19 -0400")
-Message-ID: <87a7dmy1e3.fsf@dusky.pond.sub.org>
+ <20190709232550.10724-5-jsnow@redhat.com>
+Date: Wed, 10 Jul 2019 06:15:30 +0200
+In-Reply-To: <20190709232550.10724-5-jsnow@redhat.com> (John Snow's message of
+ "Tue, 9 Jul 2019 19:25:36 -0400")
+Message-ID: <875zoay17h.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 10 Jul 2019 04:11:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Wed, 10 Jul 2019 04:15:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 01/18] qapi/block-core: Introduce
- BackupCommon
+Subject: Re: [Qemu-devel] [PATCH v4 04/18] qapi: add BitmapSyncMode enum
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,28 +65,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Juan Quintela <quintela@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> On 7/9/19 7:25 PM, John Snow wrote:
->> drive-backup and blockdev-backup have an awful lot of things in common
->> that are the same. Let's fix that.
->> 
->> I don't deduplicate 'target', because the semantics actually did change
->> between each structure. Leave that one alone so it can be documented
->> separately.
+> Depending on what a user is trying to accomplish, there might be a few
+> bitmap cleanup actions that occur when an operation is finished that
+> could be useful.
 >
-> Sorry Markus, I forgot to adjust this. Pretend I wrote:
+> I am proposing three:
+> - NEVER: The bitmap is never synchronized against what was copied.
+> - ALWAYS: The bitmap is always synchronized, even on failures.
+> - ON-SUCCESS: The bitmap is synchronized only on success.
 >
-> Where documentation was not identical, use the most up-to-date version.
-> For "speed", use Blockdev-Backup's version. For "sync", use
-> Drive-Backup's version.
+> The existing incremental backup modes use 'on-success' semantics,
+> so add just that one for right now.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  qapi/block-core.json | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0af3866015..0c853d00bd 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -1134,6 +1134,20 @@
+>  { 'enum': 'MirrorSyncMode',
+>    'data': ['top', 'full', 'none', 'incremental'] }
+>  
+> +##
+> +# @BitmapSyncMode:
+> +#
+> +# An enumeration of possible behaviors for the synchronization of a bitmap
+> +# when used for data copy operations.
+> +#
+> +# @on-success: The bitmap is only synced when the operation is successful.
+> +#              This is the behavior always used for 'INCREMENTAL' backups.
+> +#
+> +# Since: 4.2
+> +##
+> +{ 'enum': 'BitmapSyncMode',
+> +  'data': ['on-success'] }
+> +
+>  ##
+>  # @MirrorCopyMode:
+>  #
 
-With that:
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-[...]
 
