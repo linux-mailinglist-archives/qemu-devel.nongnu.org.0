@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA70164AC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:35:40 +0200 (CEST)
-Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7620264AD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:38:37 +0200 (CEST)
+Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFZE-0004Ve-6a
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33679)
+	id 1hlFc4-0007X1-NC
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34063)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hlFY9-00041a-Ks
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:34:34 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hlFa4-0005bt-Sl
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hlFY8-0006zc-NE
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:34:33 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43231)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hlFY8-0006yp-Go
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:34:32 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p13so3147738wru.10
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:34:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s4liC5WiSixEVRe8xXGDYE8exLBkH6qy6qi4hf+f+lo=;
- b=fFJxq9DzuHgLEmjstnlo/GHJZWi4gM4P7PwRUgqiFg+UO3iFaiKxl2sZPN4jEHA8rZ
- bnxNFXkX6Qd1H5O/06LVtk2q+RLogHN1A8wICzw1068SsgIlaFjS4LnuBEf32eLm5Pas
- 0c915ceNAO8sUYU5nZL4e6UvTB/wXAyzDZ7S8L70CfUqEvcvyBGliPwu3a+YlY8bl6xM
- kof54QYsVzqhNINL6QNukhljefN5wEmH1DG9331X6HiyLfHs3x+8ydcjZuBGcXGkr8qX
- uDQluqXjIsIrOsvnS1QooO9SYm/DvYpMiPDyr9lJiqDWFEPMBd7qJ9upSgO9kzWSDFHm
- Pc4Q==
-X-Gm-Message-State: APjAAAVJBdZ8ChtwGf3Sm5gyVzOb57sVB6+tPRwa0jpeRN9a8xHXPHYz
- dR125WkqX2IetTpVc5KY47fLfg==
-X-Google-Smtp-Source: APXvYqzgr6AZhg4mQjdIAd6CiteVQ1yHMOlhGcqvQgHCT56i2pOXPqt2dPx0RaLFWH2PW4X0ngzwkg==
-X-Received: by 2002:adf:e343:: with SMTP id n3mr32488332wrj.103.1562776471141; 
- Wed, 10 Jul 2019 09:34:31 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:d066:6881:ec69:75ab?
- ([2001:b07:6468:f312:d066:6881:ec69:75ab])
- by smtp.gmail.com with ESMTPSA id x6sm3292081wrt.63.2019.07.10.09.34.30
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 09:34:30 -0700 (PDT)
-To: Jan Kiszka <jan.kiszka@siemens.com>, qemu-devel@nongnu.org
-References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
- <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
- <e253d736-8cf5-0c5c-5766-ee71ad808cfd@siemens.com>
- <7431700b-0bfd-32e6-e9f2-64608f8ba6b9@redhat.com>
- <753cb413-9e8f-581b-8d9e-635dfd30627d@siemens.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <479bbda0-17a5-b915-e70b-c2bc23c9ac75@redhat.com>
-Date: Wed, 10 Jul 2019 18:34:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <dgilbert@redhat.com>) id 1hlFa1-00007m-Vf
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:36:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45142)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hlFZy-0008NX-0l
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:36:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BC3A4307D983;
+ Wed, 10 Jul 2019 16:36:13 +0000 (UTC)
+Received: from work-vm (ovpn-117-216.ams2.redhat.com [10.36.117.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B916F5D9CA;
+ Wed, 10 Jul 2019 16:36:12 +0000 (UTC)
+Date: Wed, 10 Jul 2019 17:36:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190710163610.GG2682@work-vm>
+References: <20190610105906.28524-1-dplotnikov@virtuozzo.com>
+ <87lfxfy67u.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <753cb413-9e8f-581b-8d9e-635dfd30627d@siemens.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87lfxfy67u.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 10 Jul 2019 16:36:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PULL 22/25] target/i386: kvm: Add nested
- migration blocker only when kernel lacks required capabilities
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] monitor: increase amount of data for
+ monitor to read
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,29 +58,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org,
+ den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/07/19 18:08, Jan Kiszka wrote:
-> On 10.07.19 16:40, Paolo Bonzini wrote:
->> On 08/07/19 20:31, Jan Kiszka wrote:
->>>> -    if (cpu_has_nested_virt(env) && !env->nested_state) {
->>>> +    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
->>>>          error_report("Guest enabled nested virtualization but kernel "
->>>>                  "does not support saving of nested state");
->>>>          return -EINVAL;
->>>>
->>> Starting with this commit latest (bisection issue...), running Jailhouse in a
->>> guest first stalls L1 (looks like we lose interrupts), and if I try to reset
->>> that VM, I lose my host as well:
->>
->> If 5.2 is still broken, can you gather a dump of KVM_SET_NESTED_STATE's
->> payload?
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Did this fall through the cracks?
 > 
-> savevm or is there a dump function in QEMU or the kernel?
+> Denis Plotnikov <dplotnikov@virtuozzo.com> writes:
+> 
+> > Right now QMP and HMP monitors read 1 byte at a time from the socket, which
+> > is very inefficient. With 100+ VMs on the host this easily reasults in
+> > a lot of unnecessary system calls and CPU usage in the system.
+> 
+> Yes, reading one byte at a time is awful.  But QMP is control plane; I
+> didn't expect it to impact system performance.  How are you using QMP?
+> Just curious, not actually opposed to improving QMP efficiency.
+> 
+> > This patch changes the amount of data to read to 4096 bytes, which matches
+> > buffer size on the channel level. Fortunately, monitor protocol is
+> > synchronous right now thus we should not face side effects in reality.
+> >
+> > Signed-off-by: Denis V. Lunev <den@openvz.org>
+> > Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> > ---
+> >  include/monitor/monitor.h | 2 +-
+> >  monitor.c                 | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> > index c1b40a9cac..afa1ed34a4 100644
+> > --- a/include/monitor/monitor.h
+> > +++ b/include/monitor/monitor.h
+> > @@ -14,7 +14,7 @@ extern __thread Monitor *cur_mon;
+> >  #define MONITOR_USE_CONTROL   0x04
+> >  #define MONITOR_USE_PRETTY    0x08
+> >  
+> > -#define QMP_REQ_QUEUE_LEN_MAX 8
+> > +#define QMP_REQ_QUEUE_LEN_MAX 4096
+> 
+> This looks suspicious.  It's a request count, not a byte count.  Can you
+> explain what led you to change it this way?
+> 
+> >  
+> >  bool monitor_cur_is_qmp(void);
+> >  
+> > diff --git a/monitor.c b/monitor.c
+> > index 4807bbe811..a08e020b61 100644
+> > --- a/monitor.c
+> > +++ b/monitor.c
+> > @@ -4097,7 +4097,7 @@ static int monitor_can_read(void *opaque)
+> >  {
+> >      Monitor *mon = opaque;
+> >  
+> > -    return !atomic_mb_read(&mon->suspend_cnt);
+> > +    return !atomic_mb_read(&mon->suspend_cnt) ? 4096 : 0;
+> >  }
+> >  
+> >  /*
+> 
+> The ramifications are not obvious to me.  I think I need to (re-)examine
+> how QMP reads input, with special consideration to its OOB feature.
 
-There is qemu_hexdump.
+Yeh that was the bit that worried me; I also wondered what happens with
+monitor_suspend and things like fd passing; enough to make it
+non-obvious to me.
 
-Paolo
+Dave
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
