@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAF964D7B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:24:40 +0200 (CEST)
-Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF0B64D8E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 22:29:34 +0200 (CEST)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlJ8p-000323-NS
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
+	id 1hlJDZ-0008Vo-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 16:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7L-0001VQ-4x
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:08 -0400
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7N-0001Zz-M6
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1hlJ7K-0002Lv-1u
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:07 -0400
-Received: from mail-eopbgr710085.outbound.protection.outlook.com
- ([40.107.71.85]:55454 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
+ (envelope-from <brijesh.singh@amd.com>) id 1hlJ7M-0002QK-7t
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:09 -0400
+Received: from mail-eopbgr790080.outbound.protection.outlook.com
+ ([40.107.79.80]:1472 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1hlJ7J-0002KJ-Oq
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:05 -0400
+ id 1hlJ7M-0002MZ-0d
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 16:23:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u7f0U8yyQZeeDC6NdaZzAq3WQnoSQ3/6zyYS1SxqRdQ=;
- b=cXzPnJBXwIDv8mQi6s2FAxZrSKkjkpX77x9TsTcFAIbX0VXN3x9zWeHOQU7ON0t0XUZRNVGqSFKbJ3Crjt3M0e49zvF7vD0kwe3ASoYmGJbUz1GyZ+BqOL2wvIygCwHGnArVtooplfU+AYMknngLdlE0L3MtjsG8TU1X/2tkApc=
+ bh=FeTDeSXk5UJ0lTYp0jJ/ZxI2hlobY20/tTfLvw3jj2g=;
+ b=MJ8JvvPpo3T1MoPSDtRf0O8rcikd+dBvpR+LExjnbw713G+UC9iYgosTNDYihCbbvRDrYZighZRQXYuF4VUrRRZmwAEfNCtxOndKQjSosXszJSuJ0ADyPPvaqBkKt/W+ldFJ7Lqd2Q1zlYexc9ke6Yb74E13azC0a8SL0N+vHOc=
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
- DM6PR12MB2618.namprd12.prod.outlook.com (20.176.116.15) with Microsoft SMTP
+ DM6PR12MB3820.namprd12.prod.outlook.com (10.255.173.85) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.19; Wed, 10 Jul 2019 20:23:00 +0000
+ 15.20.2052.18; Wed, 10 Jul 2019 20:23:06 +0000
 Received: from DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::bc1a:a30d:9da2:1cdd]) by DM6PR12MB2682.namprd12.prod.outlook.com
  ([fe80::bc1a:a30d:9da2:1cdd%6]) with mapi id 15.20.2073.008; Wed, 10 Jul 2019
- 20:23:00 +0000
+ 20:23:06 +0000
 From: "Singh, Brijesh" <brijesh.singh@amd.com>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 03/13] migration/ram: add support to send encrypted
- pages
-Thread-Index: AQHVN11E5yX2Qel2IUGBE0XocGCcPw==
-Date: Wed, 10 Jul 2019 20:23:00 +0000
-Message-ID: <20190710202219.25939-4-brijesh.singh@amd.com>
+Thread-Topic: [PATCH v2 05/13] doc: update AMD SEV API spec web link
+Thread-Index: AQHVN11FsCWhkaVSwkOeWx6da1F3Ew==
+Date: Wed, 10 Jul 2019 20:23:01 +0000
+Message-ID: <20190710202219.25939-6-brijesh.singh@amd.com>
 References: <20190710202219.25939-1-brijesh.singh@amd.com>
 In-Reply-To: <20190710202219.25939-1-brijesh.singh@amd.com>
 Accept-Language: en-US
@@ -57,39 +56,39 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
 x-originating-ip: [165.204.77.1]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 318875e0-9f7c-4ed2-910b-08d70574675c
+x-ms-office365-filtering-correlation-id: 2f300fef-1bc3-47dd-35f6-08d705746819
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM6PR12MB2618; 
-x-ms-traffictypediagnostic: DM6PR12MB2618:
-x-microsoft-antispam-prvs: <DM6PR12MB26187B2819C1FEFEDE91D42BE5F00@DM6PR12MB2618.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+ SRVR:DM6PR12MB3820; 
+x-ms-traffictypediagnostic: DM6PR12MB3820:
+x-ms-exchange-purlcount: 4
+x-microsoft-antispam-prvs: <DM6PR12MB382013FDDC36804407E69527E5F00@DM6PR12MB3820.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:296;
 x-forefront-prvs: 0094E3478A
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(346002)(136003)(39860400002)(376002)(396003)(189003)(199004)(43544003)(5640700003)(14444005)(8676002)(99286004)(66066001)(53936002)(2351001)(6116002)(3846002)(6436002)(6486002)(305945005)(7736002)(76176011)(52116002)(6916009)(6512007)(81166006)(5660300002)(8936002)(66946007)(66476007)(81156014)(386003)(6506007)(2501003)(2906002)(486006)(476003)(50226002)(68736007)(2616005)(446003)(86362001)(478600001)(25786009)(316002)(11346002)(54906003)(66446008)(64756008)(256004)(71200400001)(71190400001)(66556008)(14454004)(102836004)(1076003)(26005)(36756003)(4326008)(186003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB2618;
+ SFS:(10009020)(979002)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(189003)(199004)(256004)(8936002)(2616005)(966005)(1076003)(316002)(14444005)(476003)(81166006)(478600001)(54906003)(81156014)(2351001)(8676002)(486006)(25786009)(6436002)(6486002)(6666004)(4326008)(66476007)(66946007)(4744005)(446003)(53936002)(50226002)(71190400001)(66446008)(68736007)(6506007)(14454004)(386003)(5660300002)(36756003)(66066001)(186003)(6512007)(99286004)(305945005)(102836004)(26005)(2501003)(11346002)(64756008)(6306002)(52116002)(5640700003)(66556008)(76176011)(86362001)(6116002)(6916009)(3846002)(7736002)(71200400001)(2906002)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3820;
  H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: d4IoCi04P8duoXK700VPH2o/b2pvep07HL72gWSkMjpxQxEkqJzOX4QniWsOJtlembvKvGxP5rynzgXFIR2me7gVkILtv0mPqlIvmdCdnvx6SO4V0UJc0xJ0J7AaU7DjnwKRjRVS+r5fgZnn2vpRlVH9bd/wrQz0tetxnKrwrVffV8uVjiybwiQMvyfPY8yB2rtmXZ4wEtSu9kszpj6i19IpXh/fKXMkOBaj+ZePWJkIpxH6TesQE30PuKsY+sGHEL959sQCEEshjiYTd7vHG+fUBZXl5PJfrNm0eoJAARmNLuhzdnKg+QKjHtWig97mI451anP2zRWYi820bjZkfg52V8uu4FbaTNMcXZlFPBiVW0qFgSzgrKFMSZIpKQHrZS49YBWJgrYIfIHn0BAiQi2bepAlgEqbxUZmVG1eKWk=
+x-microsoft-antispam-message-info: OOheKRd5kGkJgmkZIIFz0sKs5cm3o+IfFWJWCwUQDmneTwkmg9XWIpxfKd5V2snWjw+QrDoVUxisfTSoG+GPblAvCyzq8TDXB75SjBl5+QDrVNh2VSiO5vnNz9/cgmusWG6hZALkfLfzp+1LFGi65VGWdzR+bFQVYRois8fZUNptdRcLcyQUZL9Eua8mmR+9VDIpsjwbhFf3xeKy7y1HSkkoyhkyHVhGWvrs7D6CMS4LCBA0ZaOLmuFe8XYLYEn4TjtJLhOPqRjoO+GYJ0bnmyj4sCl6g6z9HRG/+znoReiCQ9PFJxwU0ylXN4+26wLGqBm9hFuZdBlRjBw9IqaFWJKeMc6lajmd+NZ6Gbg6bbiFthSW6cRwvchwaYLzlYMbishcYZeHPNQkWH7xjpadbUOtX2mX0LyvrLJnW5LiMoU=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 318875e0-9f7c-4ed2-910b-08d70574675c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:23:00.6528 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f300fef-1bc3-47dd-35f6-08d705746819
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 20:23:01.9680 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2618
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3820
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.71.85
-Subject: [Qemu-devel] [PATCH v2 03/13] migration/ram: add support to send
- encrypted pages
+X-Received-From: 40.107.79.80
+Subject: [Qemu-devel] [PATCH v2 05/13] doc: update AMD SEV API spec web link
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,133 +107,27 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When memory encryption is enabled, the guest memory will be encrypted with
-the guest specific key. The patch introduces RAM_SAVE_FLAG_ENCRYPTED_PAGE
-flag to distinguish the encrypted data from plaintext. Encrypted pages
-may need special handling. The kvm_memcrypt_save_outgoing_page() is used
-by the sender to write the encrypted pages onto the socket, similarly the
-kvm_memcrypt_load_incoming_page() is used by the target to read the
-encrypted pages from the socket and load into the guest memory.
-
 Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- migration/ram.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
+ docs/amd-memory-encryption.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 908517fc2b..3c8977d508 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -57,6 +57,7 @@
- #include "qemu/uuid.h"
- #include "savevm.h"
- #include "qemu/iov.h"
-+#include "sysemu/kvm.h"
+diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.tx=
+t
+index 43bf3ee6a5..abb9a976f5 100644
+--- a/docs/amd-memory-encryption.txt
++++ b/docs/amd-memory-encryption.txt
+@@ -98,7 +98,7 @@ AMD Memory Encryption whitepaper:
+ http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_=
+Encryption_Whitepaper_v7-Public.pdf
 =20
- /***********************************************************/
- /* ram save/restore */
-@@ -76,6 +77,7 @@
- #define RAM_SAVE_FLAG_XBZRLE   0x40
- /* 0x80 is reserved in migration.h start with 0x100 next */
- #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-+#define RAM_SAVE_FLAG_ENCRYPTED_PAGE   0x200
+ Secure Encrypted Virtualization Key Management:
+-[1] http://support.amd.com/TechDocs/55766_SEV-KM API_Specification.pdf
++[1] https://developer.amd.com/sev/ (Secure Encrypted Virtualization API)
 =20
- static inline bool is_zero_range(uint8_t *p, uint64_t size)
- {
-@@ -460,6 +462,9 @@ static QemuCond decomp_done_cond;
- static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *=
-block,
-                                  ram_addr_t offset, uint8_t *source_buf);
-=20
-+static int ram_save_encrypted_page(RAMState *rs, PageSearchStatus *pss,
-+                                   bool last_stage);
-+
- static void *do_data_compress(void *opaque)
- {
-     CompressParam *param =3D opaque;
-@@ -2006,6 +2011,36 @@ static int ram_save_multifd_page(RAMState *rs, RAMBl=
-ock *block,
-     return 1;
- }
-=20
-+/**
-+ * ram_save_encrypted_page - send the given encrypted page to the stream
-+ */
-+static int ram_save_encrypted_page(RAMState *rs, PageSearchStatus *pss,
-+                                   bool last_stage)
-+{
-+    int ret;
-+    uint8_t *p;
-+    RAMBlock *block =3D pss->block;
-+    ram_addr_t offset =3D pss->page << TARGET_PAGE_BITS;
-+    uint64_t bytes_xmit;
-+
-+    p =3D block->host + offset;
-+
-+    ram_counters.transferred +=3D
-+        save_page_header(rs, rs->f, block,
-+                    offset | RAM_SAVE_FLAG_ENCRYPTED_PAGE);
-+
-+    ret =3D kvm_memcrypt_save_outgoing_page(rs->f, p,
-+                        TARGET_PAGE_SIZE, &bytes_xmit);
-+    if (ret) {
-+        return -1;
-+    }
-+
-+    ram_counters.transferred +=3D bytes_xmit;
-+    ram_counters.normal++;
-+
-+    return 1;
-+}
-+
- static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *=
-block,
-                                  ram_addr_t offset, uint8_t *source_buf)
- {
-@@ -2450,6 +2485,16 @@ static int ram_save_target_page(RAMState *rs, PageSe=
-archStatus *pss,
-         return res;
-     }
-=20
-+    /*
-+     * If memory encryption is enabled then use memory encryption APIs
-+     * to write the outgoing buffer to the wire. The encryption APIs
-+     * will take care of accessing the guest memory and re-encrypt it
-+     * for the transport purposes.
-+     */
-+     if (kvm_memcrypt_enabled()) {
-+        return ram_save_encrypted_page(rs, pss, last_stage);
-+     }
-+
-     if (save_compress_page(rs, block, offset)) {
-         return 1;
-     }
-@@ -4271,7 +4316,8 @@ static int ram_load(QEMUFile *f, void *opaque, int ve=
-rsion_id)
-         }
-=20
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
--                     RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) =
-{
-+                     RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE |
-+                     RAM_SAVE_FLAG_ENCRYPTED_PAGE)) {
-             RAMBlock *block =3D ram_block_from_stream(f, flags);
-=20
-             /*
-@@ -4391,6 +4437,12 @@ static int ram_load(QEMUFile *f, void *opaque, int v=
-ersion_id)
-                 break;
-             }
-             break;
-+        case RAM_SAVE_FLAG_ENCRYPTED_PAGE:
-+            if (kvm_memcrypt_load_incoming_page(f, host)) {
-+                    error_report("Failed to encrypted incoming data");
-+                    ret =3D -EINVAL;
-+            }
-+            break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             multifd_recv_sync_main();
+ KVM Forum slides:
+ http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualiz=
+atoin_Memory_Encryption_Technology.pdf
 --=20
 2.17.1
 
