@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DDD64ABA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:27:15 +0200 (CEST)
-Received: from localhost ([::1]:35304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5172764AB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 Jul 2019 18:25:06 +0200 (CEST)
+Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlFR4-0008LW-Aa
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55397)
+	id 1hlFOz-0005yl-Ha
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 12:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEz-00067v-NG
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:51 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFFB-00069m-Ao
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:15:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEt-0007Vj-SP
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:43 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35900)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlFEy-0007be-44
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:51 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52808)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hlFEq-0007RV-BK
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n4so3115583wrs.3
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:36 -0700 (PDT)
+ id 1hlFEv-0007SQ-3M
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 12:14:42 -0400
+Received: by mail-wm1-x343.google.com with SMTP id s3so2906552wms.2
+ for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 09:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=x4rRhYjREcr+YSPm4mYpFmjXbWbQ8j4+OdfsbSKEHKQ=;
- b=oJfimRZ2lWzBzWMuDJ16ooYUP3BsXJDaJ6bDh2MhI3rMEJUDYFP/X8yRsFTUYHFWI8
- /VxhY00acOq/t1GgSd0bHLL26Yngz9m5haACdV+HnadBY+pJgaTEWQoMDP42cewhc0S+
- k/JhG0sjYOJWA6Uav0gvj2w1NMaAn/0QU/JUxKG1RhTDg/+MAg0uJp60+hcP5F+dZ9x7
- c6MTbVlIyi4u9lnhGP1D5jOIIONxPPMUaP016y8RqigCeRW7CeiK2kkCETylIZG0z7Ls
- hTy0t4NzfNKjQmQaeklCbzALxynJ0+4NtoqQgxgI2z854UBccqBUzoBKausKqF8KaVnm
- jFCg==
+ bh=XBXetcnl+3lGp1Ju/vKIl3WrhNFDmrPMF1HfHg0o8HE=;
+ b=IkGHA/9HP6BEp9aH4Y8PDBOrNS7AM27aLIT4/abDr1QqQvsbgO6Rcc27JDTHBNMsOe
+ y7S5hUZH9jHt+sCJwYzD8niD3eqFWPMGEOMlJuV/L3jgJ/Qh6jYQjnPQTZcJPYRJWPKv
+ wibbaiUbmL/cmcn6SKxzMdaa+cOwGYjqzrB93FxvLZRkfM5ZpLdHa66yRbet4loS9EMu
+ n32wo7w1JfX6xqL2Of7dwPNTe7dj0XBjcL+BQ0S9A4Wn2OSq8aCjfXv3yckCPrT2psXd
+ uOTZvCKEXjUdlQ5JzJ9wK8VoAzMRA3PYp0iqCMmJi4badaZMQ0BPyKENPtkAV2zrUQ8f
+ iKhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=x4rRhYjREcr+YSPm4mYpFmjXbWbQ8j4+OdfsbSKEHKQ=;
- b=LTdjYqsHkTnZsGMZKNm9sMBkfGThjhsPWMMptIqsGl6Ji5akgKEp3X/an3rFBTbp6L
- 6d4Iz8PoYrpQBzygZZfBa+T++IiBMNYhvO2Mchcy4DOqYsuNeaV4lI68OgFaAMBB1/Z9
- xVnQJknekZrHCxqbVFa/+ETnDmbDCoZbO0css3VebUNz/kl8Jvv4afDxy5NV3SbLIM/4
- xEjLdHYimqo352v1r3g1GqL/za9dV+EuJMbqPEfy+KoKaU+OAK8JJ2KWs7To1SH+28RW
- OY27ySvLNIGaINqFdXrwvFPkp9raQR4oCmKcZNMEqU2h4rbAnQgt+YYPYuRk6flTv2F6
- 0xVw==
-X-Gm-Message-State: APjAAAUjOc2YWdCyZ3idMcH5ZunyZyJUEiIblq9q31i5CNIw/kvYbq3e
- LgaacVPN/uPb5perWrgyXXqAPQHlXpI=
-X-Google-Smtp-Source: APXvYqxubLg5x1RZFQztX10CxAwmE7y6A9d5wZABPwnDsx4eUxEUz21IJebs4OUflMNFYq5kTUOAcg==
-X-Received: by 2002:a5d:6a84:: with SMTP id s4mr421123wru.125.1562775274253;
- Wed, 10 Jul 2019 09:14:34 -0700 (PDT)
+ bh=XBXetcnl+3lGp1Ju/vKIl3WrhNFDmrPMF1HfHg0o8HE=;
+ b=LPy5/cA/uYH+vp2BEPhsMk7Tl8L4h9OrQ4v6bRxaoTrF+XDuYKDYcawxdqpiAioWll
+ i/krh50Vy6zHagcQmnsVlhmvPBo3TvkRxeoReXc3F11Go2dlseuqcg5yF0E/Bxd8IHug
+ CnMi4ldE47B6cdplyUZuwYFvtQbI+h0fVz/AH8cO1RAeGB985tOJWgUcm4EjyguQciJ6
+ HVqwMBoTSQjjr6keItVzLmeNVMOx/qO2dg4GTTqPot/GwaIWlgUig5iAUSY+siBQ7+8l
+ TtHSJz8CgasNFE53xxCOLWozDfi79KWSm0jAK2TG/DOeNexvyE2Uyy2CotMIfryNigvN
+ se8A==
+X-Gm-Message-State: APjAAAUBtAWHxo4eSHu56L67CUInDqlXddxPMwNcdSTA5Stu1f/tZwNV
+ AA1OMpIoN8mefufF8Wi51o5WzxkmnwY=
+X-Google-Smtp-Source: APXvYqwsqFKrwZ5oM8X5aJmP2xFcfIrJr9Bs7g4yYwPXtru+8ZdCRjDYeNUYH5xROHjk2cottPrh2g==
+X-Received: by 2002:a1c:9c4d:: with SMTP id f74mr5954441wme.156.1562775275172; 
+ Wed, 10 Jul 2019 09:14:35 -0700 (PDT)
 Received: from 640k.localdomain ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.32
+ by smtp.gmail.com with ESMTPSA id w14sm2573747wrk.44.2019.07.10.09.14.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 10 Jul 2019 09:14:33 -0700 (PDT)
+ Wed, 10 Jul 2019 09:14:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 10 Jul 2019 18:14:22 +0200
-Message-Id: <1562775267-1222-4-git-send-email-pbonzini@redhat.com>
+Date: Wed, 10 Jul 2019 18:14:23 +0200
+Message-Id: <1562775267-1222-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
 References: <1562775267-1222-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH 3/8] configure: integrate Meson in the build
- system
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH 4/8] convert libqemuutil to meson
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,1125 +79,1664 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Meson build system is integrated in the existing configure/make steps
-by invoking Meson from the configure script and converting Meson's build.ninja
-rules to an included Makefile.
+This shows how to do some "computations" in meson.build using its array
+and dictionary data structures, and also a basic usage of the sourceset
+module for conditional compilation.
+
+Overall the look of the meson.build code is quite good, however Meson
+doesn't enjoy the same flexibility we have with Make in choosing
+the include path.  In particular the tracing headers are using
+$(build_root)/$(<D); for now my solution is to generate headers like
+"trace/trace-audio.h" and have sixty one-line forwarding headers in the
+source tree; for example "audio/trace.h" includes "trace/trace-audio.h".
+I'm not sure if it's possible to instead add a one-line "generate
+trace headers" directive to each subdirectory's meson.build file.
+I suspect that it _is_ possible but you'd still have to change the
+include directives to include the subdirectory name (and then I prefer
+the forwarding headers).
+
+The overall lines delta would be negative if it weren't for the forwarding
+headers.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile             |   8 +
- configure            |  27 ++
- meson.build          |  13 +
- scripts/ninjatool.py | 988 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 1036 insertions(+)
- create mode 100644 meson.build
- create mode 100755 scripts/ninjatool.py
+ .gitignore                       |   8 +-
+ Makefile                         | 172 ++++++---------------------------------
+ Makefile.objs                    |  88 +-------------------
+ audio/trace.h                    |   1 +
+ chardev/trace.h                  |   1 +
+ crypto/Makefile.objs             |   3 +-
+ hw/9pfs/trace.h                  |   1 +
+ hw/acpi/trace.h                  |   1 +
+ hw/alpha/trace.h                 |   1 +
+ hw/arm/trace.h                   |   1 +
+ hw/audio/trace.h                 |   1 +
+ hw/block/dataplane/trace.h       |   1 +
+ hw/block/trace.h                 |   1 +
+ hw/char/trace.h                  |   1 +
+ hw/display/trace.h               |   1 +
+ hw/dma/trace.h                   |   1 +
+ hw/gpio/trace.h                  |   1 +
+ hw/hppa/trace.h                  |   1 +
+ hw/i2c/trace.h                   |   1 +
+ hw/i386/trace.h                  |   1 +
+ hw/i386/xen/trace.h              |   1 +
+ hw/ide/trace.h                   |   1 +
+ hw/input/trace.h                 |   1 +
+ hw/intc/trace.h                  |   1 +
+ hw/isa/trace.h                   |   1 +
+ hw/mem/trace.h                   |   1 +
+ hw/misc/macio/trace.h            |   1 +
+ hw/misc/trace.h                  |   1 +
+ hw/net/trace.h                   |   1 +
+ hw/nvram/trace.h                 |   1 +
+ hw/pci-host/trace.h              |   1 +
+ hw/pci/trace.h                   |   1 +
+ hw/ppc/trace.h                   |   1 +
+ hw/rdma/trace.h                  |   1 +
+ hw/rdma/vmw/trace.h              |   1 +
+ hw/riscv/trace.h                 |   1 +
+ hw/s390x/trace.h                 |   1 +
+ hw/scsi/trace.h                  |   1 +
+ hw/sd/trace.h                    |   1 +
+ hw/sparc/trace.h                 |   1 +
+ hw/sparc64/trace.h               |   1 +
+ hw/timer/trace.h                 |   1 +
+ hw/tpm/trace.h                   |   1 +
+ hw/usb/trace.h                   |   1 +
+ hw/vfio/trace.h                  |   1 +
+ hw/virtio/trace.h                |   1 +
+ hw/watchdog/trace.h              |   1 +
+ hw/xen/trace.h                   |   1 +
+ meson.build                      | 129 +++++++++++++++++++++++++++++
+ migration/trace.h                |   1 +
+ net/trace.h                      |   1 +
+ qapi/Makefile.objs               |  20 -----
+ qapi/meson.build                 |  54 ++++++++++++
+ qapi/trace.h                     |   1 +
+ qobject/Makefile.objs            |   3 -
+ qobject/meson.build              |   3 +
+ qom/trace.h                      |   1 +
+ scripts/qapi-gen.py              |   2 +-
+ scripts/tracetool.py             |   2 +-
+ scripts/tracetool/backend/ust.py |   6 +-
+ scripts/tracetool/format/c.py    |   5 +-
+ stubs/Makefile.objs              |  43 ----------
+ stubs/meson.build                |  45 ++++++++++
+ target/arm/trace.h               |   1 +
+ target/hppa/trace.h              |   1 +
+ target/i386/trace.h              |   1 +
+ target/mips/trace.h              |   1 +
+ target/ppc/trace.h               |   1 +
+ target/riscv/trace.h             |   1 +
+ target/s390x/trace.h             |   1 +
+ target/sparc/trace.h             |   1 +
+ trace/Makefile.objs              |  51 ------------
+ trace/meson.build                |  75 +++++++++++++++++
+ ui/trace.h                       |   1 +
+ util/Makefile.objs               |  59 --------------
+ util/meson.build                 |  57 +++++++++++++
+ util/trace.h                     |   1 +
+ 77 files changed, 455 insertions(+), 428 deletions(-)
+ create mode 100644 audio/trace.h
+ create mode 100644 chardev/trace.h
+ create mode 100644 hw/9pfs/trace.h
+ create mode 100644 hw/acpi/trace.h
+ create mode 100644 hw/alpha/trace.h
+ create mode 100644 hw/arm/trace.h
+ create mode 100644 hw/audio/trace.h
+ create mode 100644 hw/block/dataplane/trace.h
+ create mode 100644 hw/block/trace.h
+ create mode 100644 hw/char/trace.h
+ create mode 100644 hw/display/trace.h
+ create mode 100644 hw/dma/trace.h
+ create mode 100644 hw/gpio/trace.h
+ create mode 100644 hw/hppa/trace.h
+ create mode 100644 hw/i2c/trace.h
+ create mode 100644 hw/i386/trace.h
+ create mode 100644 hw/i386/xen/trace.h
+ create mode 100644 hw/ide/trace.h
+ create mode 100644 hw/input/trace.h
+ create mode 100644 hw/intc/trace.h
+ create mode 100644 hw/isa/trace.h
+ create mode 100644 hw/mem/trace.h
+ create mode 100644 hw/misc/macio/trace.h
+ create mode 100644 hw/misc/trace.h
+ create mode 100644 hw/net/trace.h
+ create mode 100644 hw/nvram/trace.h
+ create mode 100644 hw/pci-host/trace.h
+ create mode 100644 hw/pci/trace.h
+ create mode 100644 hw/ppc/trace.h
+ create mode 100644 hw/rdma/trace.h
+ create mode 100644 hw/rdma/vmw/trace.h
+ create mode 100644 hw/riscv/trace.h
+ create mode 100644 hw/s390x/trace.h
+ create mode 100644 hw/scsi/trace.h
+ create mode 100644 hw/sd/trace.h
+ create mode 100644 hw/sparc/trace.h
+ create mode 100644 hw/sparc64/trace.h
+ create mode 100644 hw/timer/trace.h
+ create mode 100644 hw/tpm/trace.h
+ create mode 100644 hw/usb/trace.h
+ create mode 100644 hw/vfio/trace.h
+ create mode 100644 hw/virtio/trace.h
+ create mode 100644 hw/watchdog/trace.h
+ create mode 100644 hw/xen/trace.h
+ create mode 100644 migration/trace.h
+ create mode 100644 net/trace.h
+ create mode 100644 qapi/meson.build
+ create mode 100644 qapi/trace.h
+ delete mode 100644 qobject/Makefile.objs
+ create mode 100644 qobject/meson.build
+ create mode 100644 qom/trace.h
+ delete mode 100644 stubs/Makefile.objs
+ create mode 100644 stubs/meson.build
+ create mode 100644 target/arm/trace.h
+ create mode 100644 target/hppa/trace.h
+ create mode 100644 target/i386/trace.h
+ create mode 100644 target/mips/trace.h
+ create mode 100644 target/ppc/trace.h
+ create mode 100644 target/riscv/trace.h
+ create mode 100644 target/s390x/trace.h
+ create mode 100644 target/sparc/trace.h
+ create mode 100644 trace/meson.build
+ create mode 100644 ui/trace.h
+ delete mode 100644 util/Makefile.objs
+ create mode 100644 util/meson.build
+ create mode 100644 util/trace.h
 
+diff --git a/.gitignore b/.gitignore
+index fd6e6c3..026dded 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -141,16 +141,10 @@ docker-src.*
+ *~
+ *.ast_raw
+ *.depend_raw
+-trace.h
++/trace/trace-*.h
+ trace.c
+-trace-ust.h
+-trace-ust.h
+ trace-dtrace.h
+ trace-dtrace.dtrace
+-trace-root.h
+-trace-root.c
+-trace-ust-root.h
+-trace-ust-root.h
+ trace-ust-all.h
+ trace-ust-all.c
+ trace-dtrace-root.h
 diff --git a/Makefile b/Makefile
-index cfb18f1..7636cec 100644
+index 7636cec..ddc7d27 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -48,6 +48,14 @@ git-submodule-update:
+@@ -115,24 +115,6 @@ FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSIO
+ 
+ generated-files-y = qemu-version.h config-host.h qemu-options.def
+ 
+-GENERATED_QAPI_FILES = qapi/qapi-builtin-types.h qapi/qapi-builtin-types.c
+-GENERATED_QAPI_FILES += qapi/qapi-types.h qapi/qapi-types.c
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-types-%.h)
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-types-%.c)
+-GENERATED_QAPI_FILES += qapi/qapi-builtin-visit.h qapi/qapi-builtin-visit.c
+-GENERATED_QAPI_FILES += qapi/qapi-visit.h qapi/qapi-visit.c
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-visit-%.h)
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-visit-%.c)
+-GENERATED_QAPI_FILES += qapi/qapi-commands.h qapi/qapi-commands.c
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-commands-%.h)
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-commands-%.c)
+-GENERATED_QAPI_FILES += qapi/qapi-emit-events.h qapi/qapi-emit-events.c
+-GENERATED_QAPI_FILES += qapi/qapi-events.h qapi/qapi-events.c
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-events-%.h)
+-GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-events-%.c)
+-GENERATED_QAPI_FILES += qapi/qapi-introspect.c qapi/qapi-introspect.h
+-GENERATED_QAPI_FILES += qapi/qapi-doc.texi
+-
+ generated-files-y += $(GENERATED_QAPI_FILES)
+ 
+ generated-files-y += trace/generated-tcg-tracers.h
+@@ -141,132 +123,50 @@ generated-files-y += trace/generated-helpers-wrappers.h
+ generated-files-y += trace/generated-helpers.h
+ generated-files-y += trace/generated-helpers.c
+ 
+-generated-files-$(CONFIG_TRACE_UST) += trace-ust-all.h
+-generated-files-$(CONFIG_TRACE_UST) += trace-ust-all.c
+-
+ generated-files-y += module_block.h
+ 
+-TRACE_HEADERS = trace-root.h $(trace-events-subdirs:%=%/trace.h)
+-TRACE_SOURCES = trace-root.c $(trace-events-subdirs:%=%/trace.c)
+-TRACE_DTRACE =
+-ifdef CONFIG_TRACE_DTRACE
+-TRACE_HEADERS += trace-dtrace-root.h $(trace-events-subdirs:%=%/trace-dtrace.h)
+-TRACE_DTRACE += trace-dtrace-root.dtrace $(trace-events-subdirs:%=%/trace-dtrace.dtrace)
+-endif
+-ifdef CONFIG_TRACE_UST
+-TRACE_HEADERS += trace-ust-root.h $(trace-events-subdirs:%=%/trace-ust.h)
+-endif
+-
+-generated-files-y += $(TRACE_HEADERS)
+-generated-files-y += $(TRACE_SOURCES)
+-generated-files-y += $(BUILD_DIR)/trace-events-all
+ generated-files-y += .git-submodule-status
+ 
+-trace-group-name = $(shell dirname $1 | sed -e 's/[^a-zA-Z0-9]/_/g')
+-
+ tracetool-y = $(SRC_PATH)/scripts/tracetool.py
+ tracetool-y += $(shell find $(SRC_PATH)/scripts/tracetool -name "*.py")
+ 
+-%/trace.h: %/trace.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-%/trace.h-timestamp: $(SRC_PATH)/%/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=$(call trace-group-name,$@) \
+-		--format=h \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
+-
+-%/trace.c: %/trace.c-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-%/trace.c-timestamp: $(SRC_PATH)/%/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=$(call trace-group-name,$@) \
+-		--format=c \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
+-
+-%/trace-ust.h: %/trace-ust.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-%/trace-ust.h-timestamp: $(SRC_PATH)/%/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=$(call trace-group-name,$@) \
+-		--format=ust-events-h \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
+-
+-%/trace-dtrace.dtrace: %/trace-dtrace.dtrace-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-%/trace-dtrace.dtrace-timestamp: $(SRC_PATH)/%/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=$(call trace-group-name,$@) \
+-		--format=d \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
+-
+-%/trace-dtrace.h: %/trace-dtrace.dtrace $(tracetool-y)
+-	$(call quiet-command,dtrace -o $@ -h -s $<, "GEN","$@")
+-
+-%/trace-dtrace.o: %/trace-dtrace.dtrace $(tracetool-y)
+-
+-
+-trace-root.h: trace-root.h-timestamp
++trace/generated-helpers-wrappers.h: trace/generated-helpers-wrappers.h-timestamp
+ 	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-root.h-timestamp: $(SRC_PATH)/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
++trace/generated-helpers-wrappers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+ 	$(call quiet-command,$(TRACETOOL) \
+ 		--group=root \
+-		--format=h \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
++		--format=tcg-helper-wrapper-h \
++		--backend=$(TRACE_BACKENDS) \
++		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+ 
+-trace-root.c: trace-root.c-timestamp
++trace/generated-helpers.h: trace/generated-helpers.h-timestamp
+ 	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-root.c-timestamp: $(SRC_PATH)/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
++trace/generated-helpers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+ 	$(call quiet-command,$(TRACETOOL) \
+ 		--group=root \
+-		--format=c \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
++		--format=tcg-helper-h \
++		--backend=$(TRACE_BACKENDS) \
++		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+ 
+-trace-ust-root.h: trace-ust-root.h-timestamp
++trace/generated-helpers.c: trace/generated-helpers.c-timestamp
+ 	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-ust-root.h-timestamp: $(SRC_PATH)/trace-events $(tracetool-y) $(BUILD_DIR)/config-host.mak
++trace/generated-helpers.c-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+ 	$(call quiet-command,$(TRACETOOL) \
+ 		--group=root \
+-		--format=ust-events-h \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
++		--format=tcg-helper-c \
++		--backend=$(TRACE_BACKENDS) \
++		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+ 
+-trace-ust-all.h: trace-ust-all.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-ust-all.h-timestamp: $(trace-events-files) $(tracetool-y) $(BUILD_DIR)/config-host.mak
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=all \
+-		--format=ust-events-h \
+-		--backends=$(TRACE_BACKENDS) \
+-		$(trace-events-files) > $@,"GEN","$(@:%-timestamp=%)")
+-
+-trace-ust-all.c: trace-ust-all.c-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-ust-all.c-timestamp: $(trace-events-files) $(tracetool-y) $(BUILD_DIR)/config-host.mak
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=all \
+-		--format=ust-events-c \
+-		--backends=$(TRACE_BACKENDS) \
+-		$(trace-events-files) > $@,"GEN","$(@:%-timestamp=%)")
++trace/generated-helpers.o: trace/generated-helpers.c
+ 
+-trace-dtrace-root.dtrace: trace-dtrace-root.dtrace-timestamp
++trace/generated-tcg-tracers.h: trace/generated-tcg-tracers.h-timestamp
+ 	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-trace-dtrace-root.dtrace-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
++trace/generated-tcg-tracers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+ 	$(call quiet-command,$(TRACETOOL) \
+ 		--group=root \
+-		--format=d \
+-		--backends=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(@:%-timestamp=%)")
+-
+-trace-dtrace-root.h: trace-dtrace-root.dtrace
+-	$(call quiet-command,dtrace -o $@ -h -s $<, "GEN","$@")
+-
+-trace-dtrace-root.o: trace-dtrace-root.dtrace
++		--format=tcg-h \
++		--backend=$(TRACE_BACKENDS) \
++		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+ 
+ KEYCODEMAP_GEN = $(SRC_PATH)/ui/keycodemapdb/tools/keymap-gen
+ KEYCODEMAP_CSV = $(SRC_PATH)/ui/keycodemapdb/data/keymaps.csv
+@@ -416,10 +316,8 @@ include $(SRC_PATH)/Makefile.objs
+ endif
+ 
+ dummy := $(call unnest-vars,, \
+-                stub-obj-y \
+                 authz-obj-y \
+                 chardev-obj-y \
+-                util-obj-y \
+                 qga-obj-y \
+                 elf2dmp-obj-y \
+                 ivshmem-client-obj-y \
+@@ -442,8 +340,7 @@ dummy := $(call unnest-vars,, \
+                 ui-obj-y \
+                 ui-obj-m \
+                 audio-obj-y \
+-                audio-obj-m \
+-                trace-obj-y)
++                audio-obj-m)
+ 
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+@@ -527,8 +424,7 @@ Makefile: $(version-obj-y)
+ ######################################################################
+ # Build libraries
+ 
+-libqemuutil.a: $(util-obj-y) $(trace-obj-y) $(stub-obj-y)
+-libvhost-user.a: $(libvhost-user-obj-y) $(util-obj-y) $(stub-obj-y)
++libvhost-user.a: $(libvhost-user-obj-y)
+ 
+ ######################################################################
+ 
+@@ -583,16 +479,6 @@ qga/qapi-generated/qapi-gen-timestamp: $(SRC_PATH)/qga/qapi-schema.json $(qapi-p
+ 		"GEN","$(@:%-timestamp=%)")
+ 	@>$@
+ 
+-qapi-modules = $(SRC_PATH)/qapi/qapi-schema.json \
+-               $(QAPI_MODULES:%=$(SRC_PATH)/qapi/%.json)
+-
+-$(GENERATED_QAPI_FILES): qapi-gen-timestamp ;
+-qapi-gen-timestamp: $(qapi-modules) $(qapi-py)
+-	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
+-		-o "qapi" -b $<, \
+-		"GEN","$(@:%-timestamp=%)")
+-	@>$@
+-
+ QGALIB_GEN=$(addprefix qga/qapi-generated/, qga-qapi-types.h qga-qapi-visit.h qga-qapi-commands.h)
+ $(qga-obj-y): $(QGALIB_GEN)
+ 
+@@ -631,21 +517,21 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
+ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ endif
+-vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a
++vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+-vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
++vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ rdmacm-mux$(EXESUF): LIBS += "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+-vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a libqemustub.a
++vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ ifdef CONFIG_VHOST_USER_INPUT
+ ifdef CONFIG_LINUX
+-vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a libqemuutil.a
++vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ # build by default, do not install
+@@ -1117,10 +1003,6 @@ Makefile: $(generated-files-y)
  endif
  endif
  
-+export NINJA=./ninjatool
-+Makefile.ninja: build.ninja ninjatool
-+	./ninjatool -t ninja2make --omit dist uninstall < $< > $@
-+-include Makefile.ninja
-+
-+ninjatool: $(SRC_PATH)/scripts/ninjatool.py
-+	$(MESON) setup --reconfigure . $(SRC_PATH)
-+
- .git-submodule-status: git-submodule-update config-host.mak
+-.SECONDARY: $(TRACE_HEADERS) $(TRACE_HEADERS:%=%-timestamp) \
+-	$(TRACE_SOURCES) $(TRACE_SOURCES:%=%-timestamp) \
+-	$(TRACE_DTRACE) $(TRACE_DTRACE:%=%-timestamp)
+-
+ # Include automatically generated dependency files
+ # Dependencies in Makefile.objs files come from our recursive subdir rules
+ -include $(wildcard *.d tests/*.d)
+diff --git a/Makefile.objs b/Makefile.objs
+index 658cfc9..29ffaa3 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -1,8 +1,5 @@
+ #######################################################################
+-# Common libraries for tools and emulators
+-stub-obj-y = stubs/ util/ crypto/
+-util-obj-y = util/ qobject/ qapi/
+-
++# chardev-obj-y is code used by both qemu system emulation and some tests
+ chardev-obj-y = chardev/
  
- # Check that we're not trying to do an out-of-tree build from
-diff --git a/configure b/configure
-index 49cb3f3..dfd603c 100755
---- a/configure
-+++ b/configure
-@@ -493,6 +493,7 @@ docker="no"
- debug_mutex="no"
- libpmem=""
- default_devices="yes"
-+meson=meson
+ #######################################################################
+@@ -127,86 +124,3 @@ vhost-user-input-obj-y = contrib/vhost-user-input/
+ vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
  
- # cross compilers defaults, can be overridden with --cross-cc-ARCH
- cross_cc_aarch64="aarch64-linux-gnu-gcc"
-@@ -983,6 +984,8 @@ for opt do
-   ;;
-   --python=*) python="$optarg"
-   ;;
-+  --meson=*) meson="$optarg"
-+  ;;
-   --gcov=*) gcov_tool="$optarg"
-   ;;
-   --smbd=*) smbd="$optarg"
-@@ -1685,6 +1688,7 @@ Advanced options (experts only):
-   --make=MAKE              use specified make [$make]
-   --install=INSTALL        use specified install [$install]
-   --python=PYTHON          use specified python [$python]
-+  --meson=MESON            use specified meson [$meson]
-   --smbd=SMBD              use specified smbd [$smbd]
-   --with-git=GIT           use specified git [$git]
-   --static                 enable static build [$static]
-@@ -1850,6 +1854,12 @@ then
-     error_exit "Python not found. Use --python=/path/to/python"
- fi
- 
-+if ! has "$meson"
-+then
-+    error_exit "Meson not found. Use --meson=/path/to/meson"
-+fi
-+meson=$(command -v $meson)
-+
- # Note that if the Python conditional here evaluates True we will exit
- # with status 1 which is a shell 'false' value.
- if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
-@@ -7314,6 +7324,7 @@ echo "INSTALL_PROG=$install -c -m 0755" >> $config_host_mak
- echo "INSTALL_LIB=$install -c -m 0644" >> $config_host_mak
- echo "PYTHON=$python" >> $config_host_mak
- echo "PYTHON_VERSION=$python_version" >> $config_host_mak
-+echo "MESON=$meson" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
- if $iasl -h > /dev/null 2>&1; then
-   echo "IASL=$iasl" >> $config_host_mak
-@@ -7964,6 +7975,22 @@ echo "# Automatically generated by configure - do not modify" > "$iotests_common
- echo >> "$iotests_common_env"
- echo "export PYTHON='$python'" >> "$iotests_common_env"
- 
-+rm -rf meson-private meson-info meson-logs
-+NINJA=$PWD/ninjatool $python $meson setup \
-+	--prefix "$prefix" \
-+	--libdir "$libdir" \
-+	--libexecdir "$libexecdir" \
-+	--bindir "$bindir" \
-+	--includedir "$includedir" \
-+	--datadir "$datadir" \
-+	--mandir "$mandir" \
-+	--sysconfdir "$sysconfdir" \
-+	--localstatedir "$local_statedir" \
-+	$(test "$strip_opt" = yes && echo --strip) \
-+	--buildtype $(if test "$debug" = yes; then echo debug; else echo release; fi) \
-+	"$PWD" "$source_path"
-+
-+
- # Save the configure command line for later reuse.
- cat <<EOD >config.status
- #!/bin/sh
-diff --git a/meson.build b/meson.build
+ ######################################################################
+-trace-events-subdirs =
+-trace-events-subdirs += accel/kvm
+-trace-events-subdirs += accel/tcg
+-trace-events-subdirs += crypto
+-trace-events-subdirs += monitor
+-ifeq ($(CONFIG_USER_ONLY),y)
+-trace-events-subdirs += linux-user
+-endif
+-ifeq ($(CONFIG_BLOCK),y)
+-trace-events-subdirs += authz
+-trace-events-subdirs += block
+-trace-events-subdirs += io
+-trace-events-subdirs += nbd
+-trace-events-subdirs += scsi
+-endif
+-ifeq ($(CONFIG_SOFTMMU),y)
+-trace-events-subdirs += chardev
+-trace-events-subdirs += audio
+-trace-events-subdirs += hw/9pfs
+-trace-events-subdirs += hw/acpi
+-trace-events-subdirs += hw/alpha
+-trace-events-subdirs += hw/arm
+-trace-events-subdirs += hw/audio
+-trace-events-subdirs += hw/block
+-trace-events-subdirs += hw/block/dataplane
+-trace-events-subdirs += hw/char
+-trace-events-subdirs += hw/dma
+-trace-events-subdirs += hw/hppa
+-trace-events-subdirs += hw/i2c
+-trace-events-subdirs += hw/i386
+-trace-events-subdirs += hw/i386/xen
+-trace-events-subdirs += hw/ide
+-trace-events-subdirs += hw/input
+-trace-events-subdirs += hw/intc
+-trace-events-subdirs += hw/isa
+-trace-events-subdirs += hw/mem
+-trace-events-subdirs += hw/misc
+-trace-events-subdirs += hw/misc/macio
+-trace-events-subdirs += hw/net
+-trace-events-subdirs += hw/nvram
+-trace-events-subdirs += hw/pci
+-trace-events-subdirs += hw/pci-host
+-trace-events-subdirs += hw/ppc
+-trace-events-subdirs += hw/rdma
+-trace-events-subdirs += hw/rdma/vmw
+-trace-events-subdirs += hw/s390x
+-trace-events-subdirs += hw/scsi
+-trace-events-subdirs += hw/sd
+-trace-events-subdirs += hw/sparc
+-trace-events-subdirs += hw/sparc64
+-trace-events-subdirs += hw/timer
+-trace-events-subdirs += hw/tpm
+-trace-events-subdirs += hw/usb
+-trace-events-subdirs += hw/vfio
+-trace-events-subdirs += hw/virtio
+-trace-events-subdirs += hw/watchdog
+-trace-events-subdirs += hw/xen
+-trace-events-subdirs += hw/gpio
+-trace-events-subdirs += hw/riscv
+-trace-events-subdirs += migration
+-trace-events-subdirs += net
+-trace-events-subdirs += ui
+-endif
+-trace-events-subdirs += hw/display
+-trace-events-subdirs += qapi
+-trace-events-subdirs += qom
+-trace-events-subdirs += target/arm
+-trace-events-subdirs += target/hppa
+-trace-events-subdirs += target/i386
+-trace-events-subdirs += target/mips
+-trace-events-subdirs += target/ppc
+-trace-events-subdirs += target/riscv
+-trace-events-subdirs += target/s390x
+-trace-events-subdirs += target/sparc
+-trace-events-subdirs += util
+-
+-trace-events-files = $(SRC_PATH)/trace-events $(trace-events-subdirs:%=$(SRC_PATH)/%/trace-events)
+-
+-trace-obj-y = trace-root.o
+-trace-obj-y += $(trace-events-subdirs:%=%/trace.o)
+-trace-obj-$(CONFIG_TRACE_UST) += trace-ust-all.o
+-trace-obj-$(CONFIG_TRACE_DTRACE) += trace-dtrace-root.o
+-trace-obj-$(CONFIG_TRACE_DTRACE) += $(trace-events-subdirs:%=%/trace-dtrace.o)
+diff --git a/audio/trace.h b/audio/trace.h
 new file mode 100644
-index 0000000..7615817
+index 0000000..f6a23d0
 --- /dev/null
++++ b/audio/trace.h
+@@ -0,0 +1 @@
++#include "trace-audio.h"
+diff --git a/chardev/trace.h b/chardev/trace.h
+new file mode 100644
+index 0000000..a23cbd9
+--- /dev/null
++++ b/chardev/trace.h
+@@ -0,0 +1 @@
++#include "trace-chardev.h"
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+index 7fe2fa9..3481529 100644
+--- a/crypto/Makefile.objs
++++ b/crypto/Makefile.objs
+@@ -26,6 +26,7 @@ crypto-obj-y += $(crypto-rng-obj-y)
+ crypto-obj-y += pbkdf.o
+ crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
+ crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
++crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += pbkdf-stub.o
+ crypto-obj-y += ivgen.o
+ crypto-obj-y += ivgen-essiv.o
+ crypto-obj-y += ivgen-plain.o
+@@ -38,5 +39,3 @@ crypto-obj-y += block-luks.o
+ 
+ # Let the userspace emulators avoid linking stuff they won't use.
+ crypto-user-obj-y = aes.o $(crypto-rng-obj-y) init.o
+-
+-stub-obj-y += pbkdf-stub.o
+diff --git a/hw/9pfs/trace.h b/hw/9pfs/trace.h
+new file mode 100644
+index 0000000..7a52216
+--- /dev/null
++++ b/hw/9pfs/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_9pfs.h"
+diff --git a/hw/acpi/trace.h b/hw/acpi/trace.h
+new file mode 100644
+index 0000000..9010bfb
+--- /dev/null
++++ b/hw/acpi/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_acpi.h"
+diff --git a/hw/alpha/trace.h b/hw/alpha/trace.h
+new file mode 100644
+index 0000000..538e214
+--- /dev/null
++++ b/hw/alpha/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_alpha.h"
+diff --git a/hw/arm/trace.h b/hw/arm/trace.h
+new file mode 100644
+index 0000000..9430035
+--- /dev/null
++++ b/hw/arm/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_arm.h"
+diff --git a/hw/audio/trace.h b/hw/audio/trace.h
+new file mode 100644
+index 0000000..f505dc8
+--- /dev/null
++++ b/hw/audio/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_audio.h"
+diff --git a/hw/block/dataplane/trace.h b/hw/block/dataplane/trace.h
+new file mode 100644
+index 0000000..eb93e4c
+--- /dev/null
++++ b/hw/block/dataplane/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_block_dataplane.h"
+diff --git a/hw/block/trace.h b/hw/block/trace.h
+new file mode 100644
+index 0000000..c968c14
+--- /dev/null
++++ b/hw/block/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_block.h"
+diff --git a/hw/char/trace.h b/hw/char/trace.h
+new file mode 100644
+index 0000000..253410d
+--- /dev/null
++++ b/hw/char/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_char.h"
+diff --git a/hw/display/trace.h b/hw/display/trace.h
+new file mode 100644
+index 0000000..c9f362f
+--- /dev/null
++++ b/hw/display/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_display.h"
+diff --git a/hw/dma/trace.h b/hw/dma/trace.h
+new file mode 100644
+index 0000000..b370b8d
+--- /dev/null
++++ b/hw/dma/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_dma.h"
+diff --git a/hw/gpio/trace.h b/hw/gpio/trace.h
+new file mode 100644
+index 0000000..8af38f3
+--- /dev/null
++++ b/hw/gpio/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_gpio.h"
+diff --git a/hw/hppa/trace.h b/hw/hppa/trace.h
+new file mode 100644
+index 0000000..120e4c1
+--- /dev/null
++++ b/hw/hppa/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_hppa.h"
+diff --git a/hw/i2c/trace.h b/hw/i2c/trace.h
+new file mode 100644
+index 0000000..98f2575
+--- /dev/null
++++ b/hw/i2c/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_i2c.h"
+diff --git a/hw/i386/trace.h b/hw/i386/trace.h
+new file mode 100644
+index 0000000..0b907d5
+--- /dev/null
++++ b/hw/i386/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_i386.h"
+diff --git a/hw/i386/xen/trace.h b/hw/i386/xen/trace.h
+new file mode 100644
+index 0000000..036826b
+--- /dev/null
++++ b/hw/i386/xen/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_i386_xen.h"
+diff --git a/hw/ide/trace.h b/hw/ide/trace.h
+new file mode 100644
+index 0000000..b005fdd
+--- /dev/null
++++ b/hw/ide/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_ide.h"
+diff --git a/hw/input/trace.h b/hw/input/trace.h
+new file mode 100644
+index 0000000..55c5fa9
+--- /dev/null
++++ b/hw/input/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_input.h"
+diff --git a/hw/intc/trace.h b/hw/intc/trace.h
+new file mode 100644
+index 0000000..440cca5
+--- /dev/null
++++ b/hw/intc/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_intc.h"
+diff --git a/hw/isa/trace.h b/hw/isa/trace.h
+new file mode 100644
+index 0000000..b92d71b
+--- /dev/null
++++ b/hw/isa/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_isa.h"
+diff --git a/hw/mem/trace.h b/hw/mem/trace.h
+new file mode 100644
+index 0000000..4458c51
+--- /dev/null
++++ b/hw/mem/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_mem.h"
+diff --git a/hw/misc/macio/trace.h b/hw/misc/macio/trace.h
+new file mode 100644
+index 0000000..d314b8d
+--- /dev/null
++++ b/hw/misc/macio/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_misc_macio.h"
+diff --git a/hw/misc/trace.h b/hw/misc/trace.h
+new file mode 100644
+index 0000000..9fdef8f
+--- /dev/null
++++ b/hw/misc/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_misc.h"
+diff --git a/hw/net/trace.h b/hw/net/trace.h
+new file mode 100644
+index 0000000..44d4a59
+--- /dev/null
++++ b/hw/net/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_net.h"
+diff --git a/hw/nvram/trace.h b/hw/nvram/trace.h
+new file mode 100644
+index 0000000..b2e7d101
+--- /dev/null
++++ b/hw/nvram/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_nvram.h"
+diff --git a/hw/pci-host/trace.h b/hw/pci-host/trace.h
+new file mode 100644
+index 0000000..6c65988
+--- /dev/null
++++ b/hw/pci-host/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_pci_host.h"
+diff --git a/hw/pci/trace.h b/hw/pci/trace.h
+new file mode 100644
+index 0000000..6b95442
+--- /dev/null
++++ b/hw/pci/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_pci.h"
+diff --git a/hw/ppc/trace.h b/hw/ppc/trace.h
+new file mode 100644
+index 0000000..f497373
+--- /dev/null
++++ b/hw/ppc/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_ppc.h"
+diff --git a/hw/rdma/trace.h b/hw/rdma/trace.h
+new file mode 100644
+index 0000000..d64d31e
+--- /dev/null
++++ b/hw/rdma/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_rdma.h"
+diff --git a/hw/rdma/vmw/trace.h b/hw/rdma/vmw/trace.h
+new file mode 100644
+index 0000000..cb46ab2
+--- /dev/null
++++ b/hw/rdma/vmw/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_rdma_vmw.h"
+diff --git a/hw/riscv/trace.h b/hw/riscv/trace.h
+new file mode 100644
+index 0000000..5536b81
+--- /dev/null
++++ b/hw/riscv/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_riscv.h"
+diff --git a/hw/s390x/trace.h b/hw/s390x/trace.h
+new file mode 100644
+index 0000000..14857bb5c
+--- /dev/null
++++ b/hw/s390x/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_s390x.h"
+diff --git a/hw/scsi/trace.h b/hw/scsi/trace.h
+new file mode 100644
+index 0000000..9cb69af
+--- /dev/null
++++ b/hw/scsi/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_scsi.h"
+diff --git a/hw/sd/trace.h b/hw/sd/trace.h
+new file mode 100644
+index 0000000..181323c
+--- /dev/null
++++ b/hw/sd/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_sd.h"
+diff --git a/hw/sparc/trace.h b/hw/sparc/trace.h
+new file mode 100644
+index 0000000..653a376
+--- /dev/null
++++ b/hw/sparc/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_sparc.h"
+diff --git a/hw/sparc64/trace.h b/hw/sparc64/trace.h
+new file mode 100644
+index 0000000..a32d812
+--- /dev/null
++++ b/hw/sparc64/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_sparc64.h"
+diff --git a/hw/timer/trace.h b/hw/timer/trace.h
+new file mode 100644
+index 0000000..8daed0f
+--- /dev/null
++++ b/hw/timer/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_timer.h"
+diff --git a/hw/tpm/trace.h b/hw/tpm/trace.h
+new file mode 100644
+index 0000000..0156b5c
+--- /dev/null
++++ b/hw/tpm/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_tpm.h"
+diff --git a/hw/usb/trace.h b/hw/usb/trace.h
+new file mode 100644
+index 0000000..083bbd4
+--- /dev/null
++++ b/hw/usb/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_usb.h"
+diff --git a/hw/vfio/trace.h b/hw/vfio/trace.h
+new file mode 100644
+index 0000000..4b47e88
+--- /dev/null
++++ b/hw/vfio/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_vfio.h"
+diff --git a/hw/virtio/trace.h b/hw/virtio/trace.h
+new file mode 100644
+index 0000000..1143dc8
+--- /dev/null
++++ b/hw/virtio/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_virtio.h"
+diff --git a/hw/watchdog/trace.h b/hw/watchdog/trace.h
+new file mode 100644
+index 0000000..6ec3ac2
+--- /dev/null
++++ b/hw/watchdog/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_watchdog.h"
+diff --git a/hw/xen/trace.h b/hw/xen/trace.h
+new file mode 100644
+index 0000000..9000076
+--- /dev/null
++++ b/hw/xen/trace.h
+@@ -0,0 +1 @@
++#include "trace-hw_xen.h"
+diff --git a/meson.build b/meson.build
+index 7615817..c625547 100644
+--- a/meson.build
 +++ b/meson.build
-@@ -0,0 +1,13 @@
-+project('qemu', 'c', meson_version: '>=0.50.999')
+@@ -1,6 +1,7 @@
+ project('qemu', 'c', meson_version: '>=0.50.999')
+ 
+ kconfig = import('unstable-kconfig')
++ss = import('sourceset')
+ config_host = kconfig.load(meson.current_build_dir() / 'config-host.mak')
+ 
+ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+@@ -11,3 +12,131 @@ add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+ configure_file(input: files('scripts/ninjatool.py'),
+                output: 'ninjatool',
+                configuration: config_host)
 +
-+kconfig = import('unstable-kconfig')
-+config_host = kconfig.load(meson.current_build_dir() / 'config-host.mak')
++slirp = declare_dependency(compile_args: config_host['SLIRP_CFLAGS'].split(),
++                           link_args: config_host['SLIRP_LIBS'].split())
 +
-+add_project_arguments(config_host['QEMU_CFLAGS'].split(),
-+                      language: 'c')
-+add_project_arguments(config_host['QEMU_INCLUDES'].split(),
-+                      language: 'c')
++target_dirs = config_host['TARGET_DIRS'].split()
++have_user = false
++have_system = false
++foreach target : target_dirs
++  have_user = have_user or target.endswith('-user')
++  have_system = have_system or target.endswith('-softmmu')
++endforeach
++have_block = have_system or config_host['TOOLS'] != ''
 +
-+configure_file(input: files('scripts/ninjatool.py'),
-+               output: 'ninjatool',
-+               configuration: config_host)
-diff --git a/scripts/ninjatool.py b/scripts/ninjatool.py
-new file mode 100755
-index 0000000..7ef7415
++# Generators
++
++qapi_gen = find_program('scripts/qapi-gen.py')
++qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/events.py',
++                     meson.source_root() / 'scripts/qapi/introspect.py',
++                     meson.source_root() / 'scripts/qapi/types.py',
++                     meson.source_root() / 'scripts/qapi/visit.py',
++                     meson.source_root() / 'scripts/qapi/common.py',
++                     meson.source_root() / 'scripts/qapi/doc.py',
++                     meson.source_root() / 'scripts/qapi-gen.py' ]
++
++# Collect sourcesets.
++
++util_obj = ss.source_set()
++stub_obj = ss.source_set()
++trace_obj = ss.source_set()
++
++# TODO: add each directory to the subdirs from its own meson.build, once
++# we have those
++trace_events_subdirs = [
++  'accel/kvm',
++  'accel/tcg',
++  'crypto',
++  'monitor',
++]
++if have_user
++  trace_events_subdirs += [ 'linux-user' ]
++endif
++if have_block
++  trace_events_subdirs += [
++    'authz',
++    'block',
++    'io',
++    'nbd',
++    'scsi',
++  ]
++endif
++if have_system
++  trace_events_subdirs += [
++    'chardev',
++    'audio',
++    'hw/9pfs',
++    'hw/acpi',
++    'hw/alpha',
++    'hw/arm',
++    'hw/audio',
++    'hw/block',
++    'hw/block/dataplane',
++    'hw/char',
++    'hw/dma',
++    'hw/hppa',
++    'hw/i2c',
++    'hw/i386',
++    'hw/i386/xen',
++    'hw/ide',
++    'hw/input',
++    'hw/intc',
++    'hw/isa',
++    'hw/mem',
++    'hw/misc',
++    'hw/misc/macio',
++    'hw/net',
++    'hw/nvram',
++    'hw/pci',
++    'hw/pci-host',
++    'hw/ppc',
++    'hw/rdma',
++    'hw/rdma/vmw',
++    'hw/s390x',
++    'hw/scsi',
++    'hw/sd',
++    'hw/sparc',
++    'hw/sparc64',
++    'hw/timer',
++    'hw/tpm',
++    'hw/usb',
++    'hw/vfio',
++    'hw/virtio',
++    'hw/watchdog',
++    'hw/xen',
++    'hw/gpio',
++    'hw/riscv',
++    'migration',
++    'net',
++    'ui',
++  ]
++endif
++trace_events_subdirs += [
++  'hw/display',
++  'qapi',
++  'qom',
++  'target/arm',
++  'target/hppa',
++  'target/i386',
++  'target/mips',
++  'target/ppc',
++  'target/riscv',
++  'target/s390x',
++  'target/sparc',
++  'util',
++]
++
++subdir('qapi')
++subdir('qobject')
++subdir('stubs')
++subdir('trace')
++subdir('util')
++
++# Build targets from sourcesets
++
++util_obj.add_all(stub_obj, trace_obj)
++util_obj = util_obj.apply(config_host, strict: false)
++libqemuutil = static_library('qemuutil',
++                             sources: util_obj.sources(),
++                             dependencies: util_obj.dependencies())
+diff --git a/migration/trace.h b/migration/trace.h
+new file mode 100644
+index 0000000..ecd1cfb
 --- /dev/null
-+++ b/scripts/ninjatool.py
-@@ -0,0 +1,988 @@
-+#! /bin/sh
-+
-+# Python module for parsing and processing .ninja files.
-+#
-+# Author: Paolo Bonzini
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+
-+
-+# We don't want to put "#! @PYTHON@" as the shebang and
-+# make the file executable, so instead we make this a
-+# Python/shell polyglot.  The first line below starts a
-+# multiline string literal for Python, while it is just
-+# ":" for bash.  The closing of the multiline string literal
-+# is never parsed by bash since it exits before.
-+
-+'''':
-+case "$0" in
-+  /*) me=$0 ;;
-+  *) me=$(command -v "$0") ;;
-+esac
-+python="@PYTHON@"
-+case $python in
-+  @*) python=python3 ;;
-+esac
-+exec $python "$me" "$@"
-+exit 1
-+'''
-+
-+
-+from collections import namedtuple, defaultdict
-+import sys
-+import os
-+import re
-+import json
-+import argparse
-+
-+
-+class InvalidArgumentError(Exception):
-+    pass
-+
-+
-+# ---- lexer and parser ----
-+
-+BUILD = 1
-+POOL = 2
-+RULE = 3
-+DEFAULT = 4
-+EQUALS = 5
-+COLON = 6
-+PIPE = 7
-+PIPE2 = 8
-+IDENT = 9
-+INCLUDE = 10
-+INDENT = 11
-+EOL = 12
-+
-+
-+class LexerError(Exception):
-+    pass
-+
-+
-+class ParseError(Exception):
-+    pass
-+
-+
-+class NinjaParserEvents(object):
-+    def __init__(self, parser):
-+        self.parser = parser
-+
-+    def literal_token(self, word, in_path=False):
-+        word = word.replace('$', '$$')
-+        if in_path:
-+            word = word.replace(' ', '$ ').replace(':', '$:')
-+        return word
-+
-+    def variable_expansion_token(self, varname):
-+        return '${%s}' % varname
-+
-+    def tokens_to_arg(self, tokens):
-+        return ''.join(tokens or [])
-+
-+    def variable(self, name, arg):
-+        pass
-+
-+    def begin_file(self):
-+        pass
-+
-+    def end_file(self):
-+        pass
-+
-+    def end_scope(self):
-+        pass
-+
-+    def begin_pool(self, name):
-+        pass
-+
-+    def begin_rule(self, name):
-+        pass
-+
-+    def begin_build(self, out, iout, rule, in_, iin, orderdep):
-+        pass
-+
-+    def default(self, targets):
-+        pass
-+
-+
-+class NinjaParser(object):
-+    PATH_RE = r"[^$\s:|]+|\$[$ :]|\$[a-zA-Z0-9_-]+|\$\{[a-zA-Z0-9_.-]+\}"
-+    STRING_RE = r"(" + PATH_RE + r"|[\s:|])(?:\r?\n)?"
-+    TOPLEVEL_RE = r"([=:#]|\|\|?|^ +|(?:" + PATH_RE + r")+)\s*"
-+    IDENT_RE = r"[a-zA-Z0-9_.-]+$"
-+
-+    InputFile = namedtuple('InputFile', 'filename iter lineno')
-+
-+    def __init__(self, filename, input):
-+        self.stack = []
-+        self.lineno = None
-+        self.match_keyword = True
-+        self.push(filename, input)
-+
-+    def __iter__(self):
-+        return self
-+
-+    def __next__(self):
-+        while len(self.stack):
-+            try:
-+                return next(self.stack[-1].iter)
-+            except StopIteration:
-+                self.pop()
-+        raise StopIteration
-+
-+    def push(self, filename, input):
-+        entered = self.InputFile(filename=filename or 'stdin',
-+                                 iter=self._tokens(input),
-+                                 lineno=self.lineno)
-+        self.stack.append(entered)
-+        self.lineno = 0
-+        if filename is not None:
-+            os.chdir(os.path.dirname(filename) or '.')
-+
-+    def pop(self):
-+        left = self.stack.pop()
-+        self.lineno = left.lineno
-+        if len(self.stack):
-+            os.chdir(os.path.dirname(self.stack[-1].filename) or '.')
-+
-+    def next_line(self, input):
-+        line = next(input).rstrip()
-+        self.lineno += 1
-+        while len(line) and line[-1] == '$':
-+            line = line[0:-1] + next(input).strip()
-+            self.lineno += 1
-+        return line
-+
-+    def print_token(self, tok):
-+        if tok == EOL:
-+            return "end of line"
-+        if tok == BUILD:
-+            return '"build"'
-+        if tok == POOL:
-+            return '"pool"'
-+        if tok == RULE:
-+            return '"rule"'
-+        if tok == DEFAULT:
-+            return '"default"'
-+        if tok == EQUALS:
-+            return '"="'
-+        if tok == COLON:
-+            return '":"'
-+        if tok == PIPE:
-+            return '"|"'
-+        if tok == PIPE2:
-+            return '"||"'
-+        if tok == INCLUDE:
-+            return '"include"'
-+        if tok == IDENT:
-+            return 'identifier'
-+        return '"%s"' % tok
-+
-+    def error(self, msg):
-+        raise LexerError("%s:%d: %s" % (self.stack[-1].filename, self.lineno, msg))
-+
-+    def parse_error(self, msg):
-+        raise ParseError("%s:%d: %s" % (self.stack[-1].filename, self.lineno, msg))
-+
-+    def expected(self, expected, tok):
-+        msg = "found %s, expected " % (self.print_token(tok), )
-+        for i, exp_tok in enumerate(expected):
-+            if i > 0:
-+                msg = msg + (' or ' if i == len(expected) - 1 else ', ')
-+            msg = msg + self.print_token(exp_tok)
-+        self.parse_error(msg)
-+
-+    def find_tokens(self, regex, line):
-+        # group 1 is used to distinguish expected input from bad characters
-+        # group 2, which is really group 1 in regex, is returned
-+        for m in re.finditer("(" + regex + ")|.", line):
-+            if not m.group(1):
-+                self.error("unexpected '%s'" % (m.group(0), ))
-+            if m.group(2):
-+                yield m.span(), m.group(2)
-+
-+    def _variable_tokens(self, value):
-+        for span, match in self.find_tokens(self.STRING_RE, value):
-+            yield match
-+
-+    def _tokens(self, input):
-+        while True:
-+            try:
-+                line = self.next_line(input)
-+            except StopIteration:
-+                return
-+            for span, match in self.find_tokens(self.TOPLEVEL_RE, line):
-+                if match == ':':
-+                    yield COLON
-+                    continue
-+                if match == '|':
-+                    yield PIPE
-+                    continue
-+                if match == '||':
-+                    yield PIPE2
-+                    continue
-+                if match[0] == ' ':
-+                    yield INDENT
-+                    continue
-+                if match[0] == '=':
-+                    value = line[span[0] + 1:].lstrip()
-+                    yield EQUALS
-+                    yield from self._variable_tokens(value)
-+                    break
-+                if match[0] == '#':
-+                    break
-+
-+                # identifier
-+                if self.match_keyword:
-+                    if match == 'build':
-+                        yield BUILD
-+                        continue
-+                    if match == 'pool':
-+                        yield POOL
-+                        continue
-+                    if match == 'rule':
-+                        yield RULE
-+                        continue
-+                    if match == 'default':
-+                        yield DEFAULT
-+                        continue
-+                    if match == 'include':
-+                        filename = line[span[0] + 8:].strip()
-+                        self.push(filename, open(filename, 'r'))
-+                        break
-+                    if match == 'subninja':
-+                        self.error('subninja is not supported')
-+                yield match
-+            yield EOL
-+
-+    def read_ident(self):
-+        """Read an identifier, where the only allowed characters are
-+           letter, numbers, dash, period and underscore."""
-+        self.match_keyword = False
-+        token = self.__next__()
-+        self.match_keyword = True
-+        if isinstance(token, str) and not re.match(self.IDENT_RE, token):
-+            self.parse_error('variable expansion not allowed')
-+        return token
-+
-+    def read_path(self):
-+        """Read a space-delimited path or a non-alphanumeric token, and
-+           return a generator that produces either the token alone, or
-+           the components of the path (identifiers and variable expansions)."""
-+        self.match_keyword = False
-+        token = self.__next__()
-+        self.match_keyword = True
-+        if isinstance(token, str):
-+            yield from self._variable_tokens(token)
-+        else:
-+            yield token
-+
-+    def parse(self, events):
-+        global_var = True
-+
-+        def advance():
-+            try:
-+                return next(self)
-+            except StopIteration:
-+                return None
-+
-+        def look_for(*expected):
-+            tok = advance()
-+            if tok in expected:
-+                return tok
-+            self.expected(expected, tok)
-+
-+        def look_for_ident(*expected):
-+            try:
-+                tok = self.read_ident()
-+            except StopIteration:
-+                tok = None
-+            if isinstance(tok, str) or tok in expected:
-+                return tok
-+            self.expected(expected + (IDENT,), tok)
-+
-+        def parse_assignment_rhs(gen, expected, in_path):
-+            value = []
-+            for tok in gen:
-+                if not isinstance(tok, str):
-+                    if tok in expected:
-+                        break
-+                    self.expected(expected + (IDENT,), tok)
-+                if tok[0] != '$':
-+                    value.append(events.literal_token(tok, in_path))
-+                elif tok == '$ ' or tok == '$$' or tok == '$:':
-+                    value.append(events.literal_token(tok[1], in_path))
-+                else:
-+                    var = tok[2:-1] if tok[1] == '{' else tok[1:]
-+                    value.append(events.variable_expansion_token(var))
-+            else:
-+                # gen must have raised StopIteration, return None
-+                # for consistency with advance()
-+                tok = None
-+            value = value if len(value) else None
-+            return value, tok
-+
-+        def look_for_path(*expected):
-+            # paths in build rules are parsed one space-separated token
-+            # at a time and expanded
-+            gen = self.read_path()
-+            value, tok = parse_assignment_rhs(gen, expected, True)
-+            return value, tok
-+
-+        def parse_assignment(tok):
-+            assert isinstance(tok, str)
-+            look_for(EQUALS)
-+            name = tok
-+            value, tok = parse_assignment_rhs(self, (EOL,), False)
-+            assert tok == EOL
-+            events.variable(name, events.tokens_to_arg(value))
-+
-+        def parse_build():
-+            # parse outputs
-+            out = []
-+            iout = []
-+            while True:
-+                value, tok = look_for_path(COLON, PIPE)
-+                if value is None:
-+                    break
-+                out.append(events.tokens_to_arg(value))
-+            if tok == PIPE:
-+                while True:
-+                    value, tok = look_for_path(COLON)
-+                    if value is None:
-+                        break
-+                    iout.append(events.tokens_to_arg(value))
-+
-+            # parse rule
-+            assert tok == COLON
-+            rule = look_for_ident()
-+
-+            # parse inputs and dependencies
-+            in_ = []
-+            iin = []
-+            orderdep = []
-+            while True:
-+                value, tok = look_for_path(PIPE, PIPE2, EOL)
-+                if value is None:
-+                    break
-+                in_.append(events.tokens_to_arg(value))
-+            if tok == PIPE:
-+                while True:
-+                    value, tok = look_for_path(PIPE2, EOL)
-+                    if value is None:
-+                        break
-+                    iin.append(events.tokens_to_arg(value))
-+            if tok == PIPE2:
-+                while True:
-+                    value, tok = look_for_path(EOL)
-+                    if value is None:
-+                        break
-+                    orderdep.append(events.tokens_to_arg(value))
-+            assert tok == EOL
-+            events.begin_build(out, iout, rule, in_, iin, orderdep)
-+            nonlocal global_var
-+            global_var = False
-+
-+        def parse_pool():
-+            # pool declarations are ignored.  Just gobble all the variables
-+            ident = look_for_ident()
-+            look_for(EOL)
-+            events.begin_pool(ident)
-+            nonlocal global_var
-+            global_var = False
-+
-+        def parse_rule():
-+            ident = look_for_ident()
-+            look_for(EOL)
-+            events.begin_rule(ident)
-+            nonlocal global_var
-+            global_var = False
-+
-+        def parse_default():
-+            idents = []
-+            while True:
-+                ident = look_for_ident(EOL)
-+                if ident == EOL:
-+                    break
-+                idents.append(ident)
-+            events.default(idents)
-+
-+        def parse_declaration(tok):
-+            if tok == EOL:
-+                return
-+
-+            nonlocal global_var
-+            if tok == INDENT:
-+                if global_var:
-+                    self.parse_error('indented line outside rule or edge')
-+                tok = look_for_ident(EOL)
-+                if tok == EOL:
-+                    return
-+                parse_assignment(tok)
-+                return
-+
-+            if not global_var:
-+                events.end_scope()
-+                global_var = True
-+            if not tok:
-+                return
-+            if tok == POOL:
-+                parse_pool()
-+            elif tok == BUILD:
-+                parse_build()
-+            elif tok == RULE:
-+                parse_rule()
-+            elif tok == DEFAULT:
-+                parse_default()
-+            elif isinstance(tok, str):
-+                parse_assignment(tok)
-+            else:
-+                self.expected((POOL, BUILD, RULE, INCLUDE, DEFAULT, IDENT), tok)
-+
-+        events.begin_file()
-+        while True:
-+            tok = advance()
-+            parse_declaration(tok)
-+            if not tok:
-+                break
-+        events.end_file()
-+
-+
-+# ---- variable handling ----
-+
-+def expand(x, rule_vars=None, build_vars=None, global_vars=None):
-+    if x is None:
-+        return None
-+    changed = True
-+    while changed:
-+        changed = False
-+        matches = list(re.finditer(r'\$\$|\$\{([^}]*)\}', x))
-+        if not matches:
-+            break
-+
-+        # Reverse the match so that expanding later matches does not
-+        # invalidate m.span() for earlier ones.  Do not reduce $$ to $
-+        # until all variables are dealt with.
-+        matches.reverse()
-+        for m in matches:
-+            if not m.group(1):
-+                continue
-+            changed = True
-+            name = m.group(1)
-+            if build_vars and name in build_vars:
-+                value = build_vars[name]
-+            elif rule_vars and name in rule_vars:
-+                value = rule_vars[name]
-+            elif name in global_vars:
-+                value = global_vars[name]
-+            else:
-+                value = ''
-+            start, end = m.span()
-+            x = x[:start] + value + x[end:]
-+    return x.replace('$$', '$')
-+
-+
-+class Scope(object):
-+    def __init__(self, events):
-+        self.events = events
-+
-+    def on_left_scope(self):
-+        pass
-+
-+    def on_variable(self, key, value):
-+        pass
-+
-+
-+class BuildScope(Scope):
-+    def __init__(self, events, out, iout, rule, in_, iin, orderdep, rule_vars):
-+        super().__init__(events)
-+        self.rule = rule
-+        self.out = [events.expand_and_normalize(x) for x in out]
-+        self.in_ = [events.expand_and_normalize(x) for x in in_]
-+        self.iin = [events.expand_and_normalize(x) for x in iin]
-+        self.orderdep = [events.expand_and_normalize(x) for x in orderdep]
-+        self.iout = [events.expand_and_normalize(x) for x in iout]
-+        self.rule_vars = rule_vars
-+        self.build_vars = dict()
-+        self._define_variable('out', ' '.join(self.out))
-+        self._define_variable('in', ' '.join(self.in_))
-+
-+    def expand(self, x):
-+        return self.events.expand(x, self.rule_vars, self.build_vars)
-+
-+    def on_left_scope(self):
-+        self.events.variable('out', self.build_vars['out'])
-+        self.events.variable('in', self.build_vars['in'])
-+        self.events.end_build(self, self.out, self.iout, self.rule, self.in_,
-+                              self.iin, self.orderdep)
-+
-+    def _define_variable(self, key, value):
-+        # The value has been expanded already, quote it for further
-+        # expansion from rule variables
-+        value = value.replace('$', '$$')
-+        self.build_vars[key] = value
-+
-+    def on_variable(self, key, value):
-+        # in and out are at the top of the lookup order and cannot
-+        # be overridden.  Also, unlike what the manual says, build
-+        # variables only lookup global variables.  They never lookup
-+        # rule variables, earlier build variables, or in/out.
-+        if key not in ('in', 'out'):
-+            self._define_variable(key, self.events.expand(value))
-+
-+
-+class RuleScope(Scope):
-+    def __init__(self, events, name, vars_dict):
-+        super().__init__(events)
-+        self.name = name
-+        self.vars_dict = vars_dict
-+        self.generator = False
-+
-+    def on_left_scope(self):
-+        self.events.end_rule(self, self.name)
-+
-+    def on_variable(self, key, value):
-+        self.vars_dict[key] = value
-+        if key == 'generator':
-+            self.generator = True
-+
-+
-+class NinjaParserEventsWithVars(NinjaParserEvents):
-+    def __init__(self, parser):
-+        super().__init__(parser)
-+        self.rule_vars = defaultdict(lambda: dict())
-+        self.global_vars = dict()
-+        self.scope = None
-+
-+    def variable(self, name, value):
-+        if self.scope:
-+            self.scope.on_variable(name, value)
-+        else:
-+            self.global_vars[name] = self.expand(value)
-+
-+    def begin_build(self, out, iout, rule, in_, iin, orderdep):
-+        if rule != 'phony' and rule not in self.rule_vars:
-+            self.parser.parse_error("undefined rule '%s'" % rule)
-+
-+        self.scope = BuildScope(self, out, iout, rule, in_, iin, orderdep, self.rule_vars[rule])
-+
-+    def begin_pool(self, name):
-+        # pool declarations are ignored.  Just gobble all the variables
-+        self.scope = Scope(self)
-+
-+    def begin_rule(self, name):
-+        if name in self.rule_vars:
-+            self.parser.parse_error("duplicate rule '%s'" % name)
-+        self.scope = RuleScope(self, name, self.rule_vars[name])
-+
-+    def end_scope(self):
-+        self.scope.on_left_scope()
-+        self.scope = None
-+
-+    # utility functions:
-+
-+    def expand(self, x, rule_vars=None, build_vars=None):
-+        return expand(x, rule_vars, build_vars, self.global_vars)
-+
-+    def expand_and_normalize(self, x):
-+        return os.path.normpath(self.expand(x))
-+
-+    # extra events not present in the superclass:
-+
-+    def end_build(self, scope, out, iout, rule, in_, iin, orderdep):
-+        pass
-+
-+    def end_rule(self, scope, name):
-+        pass
-+
-+
-+# ---- test client that just prints back whatever it parsed  ----
-+
-+class Writer(NinjaParserEvents):
-+    ARGS = argparse.ArgumentParser(description='Rewrite input build.ninja to stdout.')
-+
-+    def __init__(self, output, parser, args):
-+        super().__init__(parser)
-+        self.output = output
-+        self.indent = ''
-+        self.had_vars = False
-+
-+    def print(self, *args, **kwargs):
-+        if len(args):
-+            self.output.write(self.indent)
-+        print(*args, **kwargs, file=self.output)
-+
-+    def variable(self, name, value):
-+        self.print('%s = %s' % (name, value))
-+        self.had_vars = True
-+
-+    def begin_scope(self):
-+        self.indent = '  '
-+        self.had_vars = False
-+
-+    def end_scope(self):
-+        if self.had_vars:
-+            self.print()
-+        self.indent = ''
-+        self.had_vars = False
-+
-+    def begin_pool(self, name):
-+        self.print('pool %s' % name)
-+        self.begin_scope()
-+
-+    def begin_rule(self, name):
-+        self.print('rule %s' % name)
-+        self.begin_scope()
-+
-+    def begin_build(self, outputs, implicit_outputs, rule, inputs, implicit, order_only):
-+        all_outputs = list(outputs)
-+        all_inputs = list(inputs)
-+
-+        if implicit:
-+            all_inputs.append('|')
-+            all_inputs.extend(implicit)
-+        if order_only:
-+            all_inputs.append('||')
-+            all_inputs.extend(order_only)
-+        if implicit_outputs:
-+            all_outputs.append('|')
-+            all_outputs.extend(implicit_outputs)
-+
-+        self.print('build %s: %s' % (' '.join(all_outputs),
-+                                     ' '.join([rule] + all_inputs)))
-+        self.begin_scope()
-+
-+    def default(self, targets):
-+        self.print('default %s' % ' '.join(targets))
-+
-+
-+# ---- emit compile_commands.json ----
-+
-+class Compdb(NinjaParserEventsWithVars):
-+    ARGS = argparse.ArgumentParser(description='Emit compile_commands.json.')
-+    ARGS.add_argument('rules', nargs='*',
-+                      help='The ninja rules to emit compilation commands for.')
-+
-+    def __init__(self, output, parser, args):
-+        super().__init__(parser)
-+        self.output = output
-+        self.rules = args.rules
-+        self.sep = ''
-+
-+    def begin_file(self):
-+        self.output.write('[')
-+        self.directory = os.getcwd()
-+
-+    def print_entry(self, **entry):
-+        entry['directory'] = self.directory
-+        self.output.write(self.sep + json.dumps(entry))
-+        self.sep = ',\n'
-+
-+    def begin_build(self, out, iout, rule, in_, iin, orderdep):
-+        if in_ and rule in self.rules:
-+            super().begin_build(out, iout, rule, in_, iin, orderdep)
-+        else:
-+            self.scope = Scope(self)
-+
-+    def end_build(self, scope, out, iout, rule, in_, iin, orderdep):
-+        self.print_entry(command=scope.expand('${command}'), file=in_[0])
-+
-+    def end_file(self):
-+        self.output.write(']\n')
-+
-+
-+# ---- clean output files ----
-+
-+class Clean(NinjaParserEventsWithVars):
-+    ARGS = argparse.ArgumentParser(description='Remove output build files.')
-+    ARGS.add_argument('-g', dest='generator', action='store_true',
-+                      help='clean generated files too')
-+
-+    def __init__(self, output, parser, args):
-+        super().__init__(parser)
-+        self.dry_run = args.dry_run
-+        self.verbose = args.verbose or args.dry_run
-+        self.generator = args.generator
-+
-+    def begin_file(self):
-+        print('Cleaning... ', end=(None if self.verbose else ''), flush=True)
-+        self.cnt = 0
-+
-+    def end_file(self):
-+        print('%d files' % self.cnt)
-+
-+    def do_clean(self, *files):
-+        for f in files:
-+            if self.dry_run:
-+                if os.path.exists(f):
-+                    self.cnt += 1
-+                    print('Would remove ' + f)
-+                    continue
-+            else:
-+                try:
-+                    os.unlink(f)
-+                    self.cnt += 1
-+                    if self.verbose:
-+                        print('Removed ' + f)
-+                except FileNotFoundError:
-+                    pass
-+
-+    def end_build(self, scope, out, iout, rule, in_, iin, orderdep):
-+        if not self.generator and scope.expand('${generator}'):
-+            return
-+        if rule == 'phony':
-+            return
-+        self.do_clean(*out, *iout)
-+        depfile = scope.expand('${depfile}')
-+        if depfile:
-+            self.do_clean(depfile)
-+
-+
-+# ---- convert build.ninja to makefile ----
-+
-+class Ninja2Make(NinjaParserEventsWithVars):
-+    ARGS = argparse.ArgumentParser(description='Convert build.ninja to a Makefile.')
-+    ARGS.add_argument('--clean', dest='emit_clean', action='store_true',
-+                      help='Emit clean/distclean rules.')
-+    ARGS.add_argument('--doublecolon', action='store_true',
-+                      help='Emit double-colon rules for phony targets.')
-+    ARGS.add_argument('--omit', metavar='TARGET', nargs='+',
-+                      help='Targets to omit.')
-+
-+    def __init__(self, output, parser, args):
-+        super().__init__(parser)
-+        self.output = output
-+
-+        self.emit_clean = args.emit_clean
-+        self.doublecolon = args.doublecolon
-+        self.omit = set(args.omit)
-+
-+        if self.emit_clean:
-+            self.omit.update(['clean', 'distclean'])
-+
-+        # Lists of targets are kept in memory and emitted only at the
-+        # end because appending is really inefficient in GNU make.
-+        # We only do it when it's O(#rules) or O(#variables), but
-+        # never when it could be O(#targets).
-+        self.depfiles = list()
-+        self.build_vars = defaultdict(lambda: dict())
-+        self.rule_targets = defaultdict(lambda: list())
-+        self.all_outs = set()
-+        self.all_ins = set()
-+        self.all_phony = set()
-+        self.seen_default = False
-+
-+    def print(self, *args, **kwargs):
-+        print(*args, **kwargs, file=self.output)
-+
-+    def literal_token(self, word, in_path=False):
-+        if in_path and ' ' in word:
-+            self.parser.parse_error('Make does not support spaces in filenames')
-+        return word.replace('$', '$$')
-+
-+    def print_phony(self, outs, ins):
-+        targets = ' '.join(outs).replace('$', '$$')
-+        deps = ' '.join(ins).replace('$', '$$')
-+        deps = deps.strip()
-+        if self.doublecolon:
-+            self.print(targets + '::' + (' ' if deps else '') + deps + ';@:')
-+        else:
-+            self.print(targets + ':' + (' ' if deps else '') + deps)
-+        self.all_phony.update(outs)
-+
-+    def begin_file(self):
-+        self.print(r'# This is an automatically generated file, and it shows.')
-+        self.print(r'ninja-default:')
-+        self.print(r'.PHONY: ninja-default')
-+        if self.emit_clean:
-+            self.print(r'ninja-clean:: ninja-clean-start; $(if $V,,@)rm -f ${ninja-depfiles}')
-+            self.print(r'ninja-clean-start:; $(if $V,,@echo Cleaning...)')
-+            self.print(r'ninja-distclean:: clean')
-+            self.print(r'.PHONY: ninja-clean ninja-clean-start ninja-distclean')
-+            self.print_phony(['clean'], ['ninja-clean'])
-+            self.print_phony(['distclean'], ['ninja-distclean'])
-+        self.print(r'vpath')
-+        self.print(r'NULL :=')
-+        self.print(r'SPACE := ${NULL} #')
-+        self.print(r'MAKEFLAGS += -rR')
-+        self.print(r'define NEWLINE')
-+        self.print(r'')
-+        self.print(r'endef')
-+        self.print(r'.var.in_newline = $(subst $(SPACE),$(NEWLINE),${.var.in})')
-+        self.print(r"ninja-command = $(if $V,,@printf '%s\n' '$(subst ','\'',${.var.description})' && )${.var.command}")
-+
-+    def mangle_vars_for_make(self, x):
-+        matches = list(re.finditer(r'\$\$|\$\{([^}]*)\}', x))
-+
-+        # Reverse the match so that expanding later matches does not
-+        # invalidate m.span() for earlier ones.
-+        matches.reverse()
-+        for m in matches:
-+            if not m.group(1):
-+                continue
-+            value = '${.var.' + m.group(1) + '}'
-+            start, end = m.span()
-+            x = x[:start] + value + x[end:]
-+        return x
-+
-+    def end_file(self):
-+        def natural_sort_key(s, _nsre=re.compile('([0-9]+)')):
-+            return [int(text) if text.isdigit() else text.lower()
-+                    for text in _nsre.split(s)]
-+
-+        self.print()
-+        self.print('ninja-outputdirs :=')
-+        for rule in self.rule_vars:
-+            if rule == 'phony':
-+                continue
-+            self.print('ninja-targets-%s := %s' % (rule, ' '.join(self.rule_targets[rule])))
-+            for name, value in self.rule_vars[rule].items():
-+                self.print('$(ninja-targets-%s): .var.%s = %s' % (rule, name, self.mangle_vars_for_make(value)))
-+            self.print('ninja-outputdirs += $(sort $(dir ${ninja-targets-%s}))' % rule)
-+            self.print()
-+        self.print('dummy := $(shell mkdir -p . $(sort $(ninja-outputdirs)))')
-+        self.print('ninja-depfiles :=' + ' '.join(self.depfiles))
-+        self.print('-include ${ninja-depfiles}')
-+        self.print()
-+        for targets in self.build_vars:
-+            for name, value in self.build_vars[targets].items():
-+                self.print('%s: .var.%s := %s' % (targets, name, value))
-+            self.print()
-+        if not self.seen_default:
-+            default_targets = sorted(self.all_outs - self.all_ins, key=natural_sort_key)
-+            self.print('ninja-default: ' + ' '.join(default_targets))
-+
-+        # This is a hack...  Meson declares input meson.build files as
-+        # phony, because Ninja does not have an equivalent of Make's
-+        # "path/to/file:" declaration that ignores "path/to/file" even
-+        # if it is absent.  However, Makefile.ninja wants to depend on
-+        # build.ninja, which in turn depends on these phony targets which
-+        # would cause Makefile.ninja to be rebuilt in a loop.
-+        phony_targets = sorted(self.all_phony - self.all_ins, key=natural_sort_key)
-+        self.print('.PHONY: ' + ' '.join(phony_targets))
-+
-+    def variable(self, name, value):
-+        super().variable(name, value)
-+        if self.scope is None:
-+            self.global_vars[name] = self.expand(value)
-+            self.print('.var.%s := %s' % (name, self.global_vars[name]))
-+        elif isinstance(self.scope, BuildScope):
-+            # These have to be printed last, because they override rule variables
-+            # but we cannot print rule variables until we know the list of targets
-+            # for each rule.
-+            self.build_vars[self.current_targets][name] = self.scope.build_vars[name]
-+
-+    def begin_build(self, out, iout, rule, in_, iin, orderdep):
-+        if any(x in self.omit for x in out):
-+            self.scope = Scope(self)
-+            return
-+
-+        super().begin_build(out, iout, rule, in_, iin, orderdep)
-+        self.rule_targets[rule] += self.scope.out
-+        self.rule_targets[rule] += self.scope.iout
-+
-+        self.all_outs.update(self.scope.iout)
-+        self.all_outs.update(self.scope.out)
-+        self.all_ins.update(self.scope.in_)
-+        self.all_ins.update(self.scope.iin)
-+
-+        if rule == 'phony':
-+            # Phony rules treat order-only dependencies as normal deps
-+            self.print_phony(self.scope.out + self.scope.iout,
-+                             self.scope.in_ + self.scope.iin + self.scope.orderdep)
-+            self.scope = Scope(self)
-+            return
-+
-+        targets = ' '.join(self.scope.out + self.scope.iout).replace('$', '$$')
-+        inputs = ' '.join(self.scope.in_ + self.scope.iin).replace('$', '$$')
-+        orderonly = ' '.join(self.scope.orderdep).replace('$', '$$')
-+        self.print('%s: %s | %s; ${ninja-command}' % (targets, inputs, orderonly))
-+        self.current_targets = targets
-+
-+    def end_build(self, scope, out, iout, rule, in_, iin, orderdep):
-+        depfile = scope.expand('${depfile}')
-+        if depfile:
-+            self.depfiles.append(depfile)
-+        self.current_targets = None
-+
-+    def end_rule(self, scope, name):
-+        if self.emit_clean:
-+            self.print('ninja-%s:: ; $(if $V,,@)rm -f ${ninja-targets-%s}' % (
-+                'distclean' if scope.generator else 'clean',
-+                name))
-+
-+    def default(self, targets):
-+        self.print("ninja-default: " + ' '.join(targets))
-+        self.seen_default = True
-+
-+
-+# ---- command line parsing ----
-+
-+# we cannot use subparsers because tools are chosen through the "-t"
-+# option.
-+
-+class ToolAction(argparse.Action):
-+    def __init__(self, option_strings, dest, choices, metavar='TOOL', nargs=None, **kwargs):
-+        if nargs is not None:
-+            raise ValueError("nargs not allowed")
-+        super().__init__(option_strings, dest, required=True, choices=choices,
-+                         metavar=metavar, **kwargs)
-+
-+    def __call__(self, parser, namespace, value, option_string):
-+        tool = self.choices[value]
-+        setattr(namespace, self.dest, tool)
-+        tool.ARGS.prog = '%s %s %s' % (parser.prog, option_string, value)
-+
-+
-+class ToolHelpAction(argparse.Action):
-+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
-+        if nargs is not None:
-+            raise ValueError("nargs not allowed")
-+        super().__init__(option_strings, dest, nargs=0, **kwargs)
-+
-+    def __call__(self, parser, namespace, values, option_string=None):
-+        if namespace.tool:
-+            namespace.tool.ARGS.print_help()
-+        else:
-+            parser.print_help()
-+        parser.exit()
-+
-+
-+tools = {
-+    'test': Writer,
-+    'ninja2make': Ninja2Make,
-+    'compdb': Compdb,
-+    'clean': Clean,
-+}
-+
-+parser = argparse.ArgumentParser(description='Process and transform build.ninja files.',
-+                                 add_help=False)
-+parser.add_argument('-C', metavar='DIR', dest='dir', default='.',
-+                    help='change to DIR before doing anything else')
-+parser.add_argument('-f', metavar='FILE', dest='file', default='build.ninja',
-+                    help='specify input build file [default=build.ninja]')
-+parser.add_argument('-n', dest='dry_run', action='store_true',
-+                    help='do not actually do anything')
-+parser.add_argument('-v', dest='verbose', action='store_true',
-+                    help='be more verbose')
-+
-+parser.add_argument('-t', dest='tool', choices=tools, action=ToolAction,
-+                    help='choose the tool to run')
-+parser.add_argument('-h', '--help', action=ToolHelpAction,
-+                    help='show this help message and exit')
-+
-+if len(sys.argv) >= 2 and sys.argv[1] == '--version':
-+    print('1.8')
-+    sys.exit(0)
-+
-+args, tool_args = parser.parse_known_args()
-+args.tool.ARGS.parse_args(tool_args, args)
-+
-+os.chdir(args.dir)
-+with open(args.file, 'r') as f:
-+    parser = NinjaParser(args.file, f)
-+    try:
-+        events = args.tool(sys.stdout, parser, args)
-+    except InvalidArgumentError as e:
-+        parser.error(str(e))
-+    parser.parse(events)
++++ b/migration/trace.h
+@@ -0,0 +1 @@
++#include "trace-migration.h"
+diff --git a/net/trace.h b/net/trace.h
+new file mode 100644
+index 0000000..692ff35
+--- /dev/null
++++ b/net/trace.h
+@@ -0,0 +1 @@
++#include "trace-net.h"
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 729e518..e4e49c5 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -1,24 +1,4 @@
+-util-obj-y = qapi-visit-core.o qapi-dealloc-visitor.o qobject-input-visitor.o
+-util-obj-y += qobject-output-visitor.o qmp-registry.o qmp-dispatch.o
+-util-obj-y += string-input-visitor.o string-output-visitor.o
+-util-obj-y += opts-visitor.o qapi-clone-visitor.o
+-util-obj-y += qmp-event.o
+-util-obj-y += qapi-util.o
+-
+-QAPI_COMMON_MODULES = audio authz block-core block char common crypto
+-QAPI_COMMON_MODULES += introspect job migration misc net rdma rocker
+-QAPI_COMMON_MODULES += run-state sockets tpm trace transaction ui
+ QAPI_TARGET_MODULES = target
+-QAPI_MODULES = $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+-
+-util-obj-y += qapi-builtin-types.o
+-util-obj-y += $(QAPI_COMMON_MODULES:%=qapi-types-%.o)
+-util-obj-y += qapi-builtin-visit.o
+-util-obj-y += $(QAPI_COMMON_MODULES:%=qapi-visit-%.o)
+-util-obj-y += qapi-emit-events.o
+-util-obj-y += $(QAPI_COMMON_MODULES:%=qapi-events-%.o)
+-
+-common-obj-y = $(QAPI_COMMON_MODULES:%=qapi-commands-%.o)
+ 
+ obj-y = qapi-introspect.o
+ obj-y += $(QAPI_TARGET_MODULES:%=qapi-types-%.o)
+diff --git a/qapi/meson.build b/qapi/meson.build
+new file mode 100644
+index 0000000..78b63c8
+--- /dev/null
++++ b/qapi/meson.build
+@@ -0,0 +1,54 @@
++util_obj.add(files('qapi-visit-core.c', 'qapi-dealloc-visitor.c',
++  'qobject-input-visitor.c', 'qobject-output-visitor.c',
++  'qmp-registry.c', 'qmp-dispatch.c',
++  'string-input-visitor.c', 'string-output-visitor.c',
++  'opts-visitor.c', 'qapi-clone-visitor.c',
++  'qmp-event.c', 'qapi-util.c'))
++
++qapi_common_modules = [ 'audio', 'authz', 'block-core', 'block', 'char', 'common',
++  'crypto', 'introspect', 'job', 'migration', 'misc', 'net', 'rdma', 'rocker',
++  'run-state', 'sockets', 'tpm', 'trace', 'transaction', 'ui' ]
++
++qapi_target_modules = [ 'target' ]
++
++qapi_util_outputs = [
++  'qapi-builtin-types.c', 'qapi-builtin-visit.c',
++  'qapi-emit-events.c'
++]
++qapi_all_outputs = qapi_util_outputs
++qapi_inputs = []
++foreach module : qapi_common_modules + qapi_target_modules
++  qapi_module_outputs = [
++    'qapi-types-@0@.c'.format(module),
++    'qapi-types-@0@.h'.format(module),
++    'qapi-visit-@0@.c'.format(module),
++    'qapi-visit-@0@.h'.format(module),
++    'qapi-commands-@0@.c'.format(module),
++    'qapi-commands-@0@.h'.format(module),
++    'qapi-events-@0@.c'.format(module),
++    'qapi-events-@0@.h'.format(module),
++  ]
++  qapi_inputs += [ files(module + '.json') ]
++  qapi_all_outputs += qapi_module_outputs
++  if qapi_common_modules.contains(module)
++    qapi_util_outputs += qapi_module_outputs
++  endif
++endforeach
++
++qapi_all_outputs += [
++  'qapi-introspect.c', 'qapi-introspect.h',
++  'qapi-doc.texi'
++]
++
++qapi_files = custom_target('QAPI files',
++  output: qapi_all_outputs,
++  input: [ files('qapi-schema.json') ],
++  command: [ qapi_gen, '-o', 'qapi', '-b', '@INPUT0@' ],
++  depend_files: [ qapi_inputs, qapi_gen_depends ])
++
++# qapi_util_outputs must be at the beginning of qapi_all_outputs.
++i = 0
++foreach output : qapi_util_outputs
++  util_obj.add(qapi_files[i])
++  i = i + 1
++endforeach
+diff --git a/qapi/trace.h b/qapi/trace.h
+new file mode 100644
+index 0000000..24fdeae
+--- /dev/null
++++ b/qapi/trace.h
+@@ -0,0 +1 @@
++#include "trace-qapi.h"
+diff --git a/qobject/Makefile.objs b/qobject/Makefile.objs
+deleted file mode 100644
+index 7b12c9c..0000000
+--- a/qobject/Makefile.objs
++++ /dev/null
+@@ -1,3 +0,0 @@
+-util-obj-y = qnull.o qnum.o qstring.o qdict.o qlist.o qbool.o qlit.o
+-util-obj-y += qjson.o qobject.o json-lexer.o json-streamer.o json-parser.o
+-util-obj-y += block-qdict.o
+diff --git a/qobject/meson.build b/qobject/meson.build
+new file mode 100644
+index 0000000..71aab08
+--- /dev/null
++++ b/qobject/meson.build
+@@ -0,0 +1,3 @@
++util_obj.add(files('qnull.c', 'qnum.c', 'qstring.c', 'qdict.c', 'qlist.c', 'qbool.c',
++  'qlit.c', 'qjson.c', 'qobject.c', 'json-lexer.c', 'json-streamer.c', 'json-parser.c',
++  'block-qdict.c'))
+diff --git a/qom/trace.h b/qom/trace.h
+new file mode 100644
+index 0000000..bcb532e
+--- /dev/null
++++ b/qom/trace.h
+@@ -0,0 +1 @@
++#include "trace-qom.h"
+diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+index 3d98ca2..c15daac 100755
+--- a/scripts/qapi-gen.py
++++ b/scripts/qapi-gen.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # QAPI generator
+ #
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+diff --git a/scripts/tracetool.py b/scripts/tracetool.py
+index 3beaa66..264cc9e 100755
+--- a/scripts/tracetool.py
++++ b/scripts/tracetool.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ 
+ """
+diff --git a/scripts/tracetool/backend/ust.py b/scripts/tracetool/backend/ust.py
+index 280cb7c..31d67e1 100644
+--- a/scripts/tracetool/backend/ust.py
++++ b/scripts/tracetool/backend/ust.py
+@@ -20,11 +20,7 @@ PUBLIC = True
+ 
+ 
+ def generate_h_begin(events, group):
+-    if group == "root":
+-        header = "trace-ust-root.h"
+-    else:
+-        header = "trace-ust.h"
+-
++    header = "trace-ust-' + group + '.h"
+     out('#include <lttng/tracepoint.h>',
+         '#include "%s"' % header,
+         '',
+diff --git a/scripts/tracetool/format/c.py b/scripts/tracetool/format/c.py
+index 833c05a..2c45028 100644
+--- a/scripts/tracetool/format/c.py
++++ b/scripts/tracetool/format/c.py
+@@ -20,10 +20,7 @@ def generate(events, backend, group):
+     active_events = [e for e in events
+                      if "disable" not in e.properties]
+ 
+-    if group == "root":
+-        header = "trace-root.h"
+-    else:
+-        header = "trace.h"
++    header = "trace-" + group + ".h"
+ 
+     out('/* This file is autogenerated by tracetool, do not edit. */',
+         '',
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+deleted file mode 100644
+index 9c7393b..0000000
+--- a/stubs/Makefile.objs
++++ /dev/null
+@@ -1,43 +0,0 @@
+-stub-obj-y += bdrv-next-monitor-owned.o
+-stub-obj-y += blk-commit-all.o
+-stub-obj-y += blockdev-close-all-bdrv-states.o
+-stub-obj-y += clock-warp.o
+-stub-obj-y += cpu-get-clock.o
+-stub-obj-y += cpu-get-icount.o
+-stub-obj-y += dump.o
+-stub-obj-y += error-printf.o
+-stub-obj-y += fdset.o
+-stub-obj-y += gdbstub.o
+-stub-obj-y += get-vm-name.o
+-stub-obj-y += iothread.o
+-stub-obj-y += iothread-lock.o
+-stub-obj-y += is-daemonized.o
+-stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
+-stub-obj-y += machine-init-done.o
+-stub-obj-y += migr-blocker.o
+-stub-obj-y += change-state-handler.o
+-stub-obj-y += monitor.o
+-stub-obj-y += notify-event.o
+-stub-obj-y += qtest.o
+-stub-obj-y += replay.o
+-stub-obj-y += runstate-check.o
+-stub-obj-y += set-fd-handler.o
+-stub-obj-y += sysbus.o
+-stub-obj-y += tpm.o
+-stub-obj-y += trace-control.o
+-stub-obj-y += uuid.o
+-stub-obj-y += vm-stop.o
+-stub-obj-y += vmstate.o
+-stub-obj-y += fd-register.o
+-stub-obj-y += qmp_memory_device.o
+-stub-obj-y += target-monitor-defs.o
+-stub-obj-y += target-get-monitor-def.o
+-stub-obj-y += pc_madt_cpu_entry.o
+-stub-obj-y += vmgenid.o
+-stub-obj-y += xen-common.o
+-stub-obj-y += xen-hvm.o
+-stub-obj-y += pci-host-piix.o
+-stub-obj-y += ram-block.o
+-stub-obj-y += ramfb.o
+-stub-obj-y += fw_cfg.o
+-stub-obj-$(CONFIG_SOFTMMU) += semihost.o
+diff --git a/stubs/meson.build b/stubs/meson.build
+new file mode 100644
+index 0000000..655ef86
+--- /dev/null
++++ b/stubs/meson.build
+@@ -0,0 +1,45 @@
++stub_obj.add(files('bdrv-next-monitor-owned.c'))
++stub_obj.add(files('blk-commit-all.c'))
++stub_obj.add(files('blockdev-close-all-bdrv-states.c'))
++stub_obj.add(files('clock-warp.c'))
++stub_obj.add(files('cpu-get-clock.c'))
++stub_obj.add(files('cpu-get-icount.c'))
++stub_obj.add(files('dump.c'))
++stub_obj.add(files('error-printf.c'))
++stub_obj.add(files('fdset.c'))
++stub_obj.add(files('gdbstub.c'))
++stub_obj.add(files('get-vm-name.c'))
++stub_obj.add(files('iothread.c'))
++stub_obj.add(files('iothread-lock.c'))
++stub_obj.add(files('is-daemonized.c'))
++stub_obj.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
++stub_obj.add(files('machine-init-done.c'))
++stub_obj.add(files('migr-blocker.c'))
++stub_obj.add(files('change-state-handler.c'))
++stub_obj.add(files('monitor.c'))
++stub_obj.add(files('notify-event.c'))
++stub_obj.add(files('qtest.c'))
++stub_obj.add(files('replay.c'))
++stub_obj.add(files('runstate-check.c'))
++stub_obj.add(files('set-fd-handler.c'))
++stub_obj.add(files('sysbus.c'))
++stub_obj.add(files('tpm.c'))
++stub_obj.add(files('trace-control.c'))
++stub_obj.add(files('uuid.c'))
++stub_obj.add(files('vm-stop.c'))
++stub_obj.add(files('vmstate.c'))
++stub_obj.add(files('fd-register.c'))
++stub_obj.add(files('qmp_memory_device.c'))
++stub_obj.add(files('target-monitor-defs.c'))
++stub_obj.add(files('target-get-monitor-def.c'))
++stub_obj.add(files('pc_madt_cpu_entry.c'))
++stub_obj.add(files('vmgenid.c'))
++stub_obj.add(files('xen-common.c'))
++stub_obj.add(files('xen-hvm.c'))
++stub_obj.add(files('pci-host-piix.c'))
++stub_obj.add(files('ram-block.c'))
++stub_obj.add(files('ramfb.c'))
++stub_obj.add(files('fw_cfg.c'))
++if have_system
++  stub_obj.add(files('semihost.c'))
++endif
+diff --git a/target/arm/trace.h b/target/arm/trace.h
+new file mode 100644
+index 0000000..a8024c6
+--- /dev/null
++++ b/target/arm/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_arm.h"
+diff --git a/target/hppa/trace.h b/target/hppa/trace.h
+new file mode 100644
+index 0000000..43bf7c3
+--- /dev/null
++++ b/target/hppa/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_hppa.h"
+diff --git a/target/i386/trace.h b/target/i386/trace.h
+new file mode 100644
+index 0000000..27f23d5
+--- /dev/null
++++ b/target/i386/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_i386.h"
+diff --git a/target/mips/trace.h b/target/mips/trace.h
+new file mode 100644
+index 0000000..e467678
+--- /dev/null
++++ b/target/mips/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_mips.h"
+diff --git a/target/ppc/trace.h b/target/ppc/trace.h
+new file mode 100644
+index 0000000..035d92a
+--- /dev/null
++++ b/target/ppc/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_ppc.h"
+diff --git a/target/riscv/trace.h b/target/riscv/trace.h
+new file mode 100644
+index 0000000..1182c58
+--- /dev/null
++++ b/target/riscv/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_riscv.h"
+diff --git a/target/s390x/trace.h b/target/s390x/trace.h
+new file mode 100644
+index 0000000..84485e1
+--- /dev/null
++++ b/target/s390x/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_s390x.h"
+diff --git a/target/sparc/trace.h b/target/sparc/trace.h
+new file mode 100644
+index 0000000..9a932c8
+--- /dev/null
++++ b/target/sparc/trace.h
+@@ -0,0 +1 @@
++#include "trace-target_sparc.h"
+diff --git a/trace/Makefile.objs b/trace/Makefile.objs
+index c544509..a429474 100644
+--- a/trace/Makefile.objs
++++ b/trace/Makefile.objs
+@@ -1,59 +1,8 @@
+ # -*- mode: makefile -*-
+ 
+-$(BUILD_DIR)/trace-events-all: $(trace-events-files)
+-	$(call quiet-command,cat $^ > $@)
+-
+ 
+ ##################################################
+ # Translation level
+ 
+-$(obj)/generated-helpers-wrappers.h: $(obj)/generated-helpers-wrappers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(obj)/generated-helpers-wrappers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-wrapper-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-$(obj)/generated-helpers.h: $(obj)/generated-helpers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(obj)/generated-helpers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-$(obj)/generated-helpers.c: $(obj)/generated-helpers.c-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(obj)/generated-helpers.c-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-helper-c \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-$(obj)/generated-helpers.o: $(obj)/generated-helpers.c
+-
+ obj-y += generated-helpers.o
+-
+-
+-$(obj)/generated-tcg-tracers.h: $(obj)/generated-tcg-tracers.h-timestamp
+-	@cmp $< $@ >/dev/null 2>&1 || cp $< $@
+-$(obj)/generated-tcg-tracers.h-timestamp: $(SRC_PATH)/trace-events $(BUILD_DIR)/config-host.mak $(tracetool-y)
+-	$(call quiet-command,$(TRACETOOL) \
+-		--group=root \
+-		--format=tcg-h \
+-		--backend=$(TRACE_BACKENDS) \
+-		$< > $@,"GEN","$(patsubst %-timestamp,%,$@)")
+-
+-
+-######################################################################
+-# Backend code
+-
+-util-obj-$(CONFIG_TRACE_SIMPLE) += simple.o
+-util-obj-$(CONFIG_TRACE_FTRACE) += ftrace.o
+-util-obj-y += control.o
+ obj-y += control-target.o
+-util-obj-y += qmp.o
+diff --git a/trace/meson.build b/trace/meson.build
+new file mode 100644
+index 0000000..31831d4
+--- /dev/null
++++ b/trace/meson.build
+@@ -0,0 +1,75 @@
++# common options
++tracetool = [
++  find_program('scripts/tracetool.py'),
++   '--backend=' + config_host['TRACE_BACKENDS']
++]
++
++trace_events_files = []
++foreach dir : [ '.' ] + trace_events_subdirs
++  trace_events_file = meson.source_root() / dir / 'trace-events'
++  trace_events_files += [ trace_events_file ]
++  group_name = dir == '.' ? 'root' : dir.underscorify()
++  group = '--group=' + group_name
++  fmt = '@0@-' + group_name + '.@1@'
++
++  trace_h = custom_target(fmt.format('trace', 'h'),
++                          output: fmt.format('trace', 'h'),
++                          input: trace_events_file,
++                          command: [ tracetool, group, '--format=h', '@INPUT@' ],
++                          capture: true)
++  trace_c = custom_target(fmt.format('trace', 'c'),
++                          output: fmt.format('trace', 'c'),
++                          input: trace_events_file,
++                          command: [ tracetool, group, '--format=c', '@INPUT@' ],
++                          capture: true)
++  if config_host.has_key('CONFIG_TRACE_UST')
++    trace_ust_h = custom_target(fmt.format('trace-ust', 'h'),
++                                output: fmt.format('trace-ust', 'h'),
++                                input: trace_events_file,
++                                command: [ tracetool, group, '--format=ust-events-h', '@INPUT@' ],
++                                capture: true)
++  endif
++  trace_obj.add(trace_h, trace_c)
++  if config_host.has_key('CONFIG_TRACE_DTRACE')
++    trace_dtrace = custom_target(fmt.format('trace-dtrace', 'dtrace'),
++                                 output: fmt.format('trace-dtrace', 'dtrace'),
++                                 input: trace_events_file,
++                                 command: [ tracetool, group, '--format=d', '@INPUT@' ],
++                                 capture: true)
++    trace_dtrace_h = custom_target(fmt.format('trace-dtrace', 'h'),
++                                   output: fmt.format('trace-dtrace', 'h'),
++                                   input: trace_dtrace,
++                                   command: [ 'dtrace', '-o', '@OUTPUT@', '-h', '-s', '@INPUT@' ])
++    trace_dtrace_o = custom_target(fmt.format('trace-dtrace', 'o'),
++                                   output: fmt.format('trace-dtrace', 'o'),
++                                   input: trace_dtrace,
++                                   command: [ 'dtrace', '-o', '@OUTPUT@', '-G', '-s', '@INPUT@' ])
++
++    trace_obj.add(trace_dtrace_h, trace_dtrace_o)
++  endif
++endforeach
++
++custom_target('trace-events-all',
++              output: 'trace-events-all',
++              input: trace_events_files,
++              command: [ 'cat', '@INPUT@' ],
++              capture: true)
++
++if config_host.has_key('CONFIG_TRACE_UST')
++  trace_ust_all_h = custom_target(fmt.format('trace-ust', 'h'),
++                                  output: fmt.format('trace-ust', 'h'),
++                                  input: trace_events_files,
++                                  command: [ tracetool, '--group=all', '--format=ust-events-h', '@INPUT@' ],
++                                  capture: true)
++  trace_ust_all_c = custom_target(fmt.format('trace-ust', 'c'),
++                                  output: fmt.format('trace-ust', 'c'),
++                                  input: trace_events_files,
++                                  command: [ tracetool, '--group=all', '--format=ust-events-c', '@INPUT@' ],
++                                  capture: true)
++  trace_obj.add(trace_ust_all_h, trace_ust_all_c)
++endif
++
++trace_obj.add(when: 'CONFIG_TRACE_SIMPLE', if_true: files('simple.c'))
++trace_obj.add(when: 'CONFIG_TRACE_FTRACE', if_true: files('ftrace.c'))
++trace_obj.add(files('control.c'))
++trace_obj.add(files('qmp.c'))
+diff --git a/ui/trace.h b/ui/trace.h
+new file mode 100644
+index 0000000..7c1cb62
+--- /dev/null
++++ b/ui/trace.h
+@@ -0,0 +1 @@
++#include "trace-ui.h"
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+deleted file mode 100644
+index 3817820..0000000
+--- a/util/Makefile.objs
++++ /dev/null
+@@ -1,59 +0,0 @@
+-util-obj-y = osdep.o cutils.o unicode.o qemu-timer-common.o
+-util-obj-y += bufferiszero.o
+-util-obj-y += lockcnt.o
+-util-obj-y += aiocb.o async.o aio-wait.o thread-pool.o qemu-timer.o
+-util-obj-y += main-loop.o iohandler.o
+-main-loop.o-cflags := $(SLIRP_CFLAGS)
+-util-obj-$(call lnot,$(CONFIG_ATOMIC64)) += atomic64.o
+-util-obj-$(CONFIG_POSIX) += aio-posix.o
+-util-obj-$(CONFIG_POSIX) += compatfd.o
+-util-obj-$(CONFIG_POSIX) += event_notifier-posix.o
+-util-obj-$(CONFIG_POSIX) += mmap-alloc.o
+-util-obj-$(CONFIG_POSIX) += oslib-posix.o
+-util-obj-$(CONFIG_POSIX) += qemu-openpty.o
+-util-obj-$(CONFIG_POSIX) += qemu-thread-posix.o
+-util-obj-$(CONFIG_POSIX) += memfd.o
+-util-obj-$(CONFIG_WIN32) += aio-win32.o
+-util-obj-$(CONFIG_WIN32) += event_notifier-win32.o
+-util-obj-$(CONFIG_WIN32) += oslib-win32.o
+-util-obj-$(CONFIG_WIN32) += qemu-thread-win32.o
+-util-obj-y += envlist.o path.o module.o
+-util-obj-y += host-utils.o
+-util-obj-y += bitmap.o bitops.o hbitmap.o
+-util-obj-y += fifo8.o
+-util-obj-y += cacheinfo.o
+-util-obj-y += error.o qemu-error.o
+-util-obj-y += qemu-print.o
+-util-obj-y += id.o
+-util-obj-y += iov.o qemu-config.o qemu-sockets.o uri.o notify.o
+-util-obj-y += qemu-option.o qemu-progress.o
+-util-obj-y += keyval.o
+-util-obj-y += hexdump.o
+-util-obj-y += crc32c.o
+-util-obj-y += uuid.o
+-util-obj-y += throttle.o
+-util-obj-y += getauxval.o
+-util-obj-y += readline.o
+-util-obj-y += rcu.o
+-util-obj-$(CONFIG_MEMBARRIER) += sys_membarrier.o
+-util-obj-y += qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
+-util-obj-y += qemu-coroutine-sleep.o
+-util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
+-util-obj-y += buffer.o
+-util-obj-y += timed-average.o
+-util-obj-y += base64.o
+-util-obj-y += log.o
+-util-obj-y += pagesize.o
+-util-obj-y += qdist.o
+-util-obj-y += qht.o
+-util-obj-y += qsp.o
+-util-obj-y += range.o
+-util-obj-y += stats64.o
+-util-obj-y += systemd.o
+-util-obj-y += iova-tree.o
+-util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
+-util-obj-$(CONFIG_LINUX) += vfio-helpers.o
+-util-obj-$(CONFIG_POSIX) += drm.o
+-util-obj-y += guest-random.o
+-
+-stub-obj-y += filemonitor-stub.o
+diff --git a/util/meson.build b/util/meson.build
+new file mode 100644
+index 0000000..efb1fbc
+--- /dev/null
++++ b/util/meson.build
+@@ -0,0 +1,57 @@
++util_obj.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
++util_obj.add(files('bufferiszero.c'))
++util_obj.add(files('lockcnt.c'))
++util_obj.add(files('aiocb.c', 'async.c', 'aio-wait.c', 'thread-pool.c', 'qemu-timer.c'))
++util_obj.add(files('main-loop.c', 'iohandler.c'), slirp)
++util_obj.add(when: 'CONFIG_ATOMIC64', if_false: files('atomic64.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('compatfd.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('event_notifier-posix.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('mmap-alloc.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('qemu-openpty.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
++util_obj.add(when: 'CONFIG_WIN32', if_true: files('aio-win32.c'))
++util_obj.add(when: 'CONFIG_WIN32', if_true: files('event_notifier-win32.c'))
++util_obj.add(when: 'CONFIG_WIN32', if_true: files('oslib-win32.c'))
++util_obj.add(when: 'CONFIG_WIN32', if_true: files('qemu-thread-win32.c'))
++util_obj.add(files('envlist.c', 'path.c', 'module.c'))
++util_obj.add(files('host-utils.c'))
++util_obj.add(files('bitmap.c', 'bitops.c', 'hbitmap.c'))
++util_obj.add(files('fifo8.c'))
++util_obj.add(files('cacheinfo.c'))
++util_obj.add(files('error.c', 'qemu-error.c'))
++util_obj.add(files('qemu-print.c'))
++util_obj.add(files('id.c'))
++util_obj.add(files('iov.c', 'qemu-config.c', 'qemu-sockets.c', 'uri.c', 'notify.c'))
++util_obj.add(files('qemu-option.c', 'qemu-progress.c'))
++util_obj.add(files('keyval.c'))
++util_obj.add(files('hexdump.c'))
++util_obj.add(files('crc32c.c'))
++util_obj.add(files('uuid.c'))
++util_obj.add(files('throttle.c'))
++util_obj.add(files('getauxval.c'))
++util_obj.add(files('readline.c'))
++util_obj.add(files('rcu.c'))
++util_obj.add(when: 'CONFIG_MEMBARRIER', if_true: files('sys_membarrier.c'))
++util_obj.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
++util_obj.add(files('qemu-coroutine-sleep.c'))
++util_obj.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
++util_obj.add(files('buffer.c'))
++util_obj.add(files('timed-average.c'))
++util_obj.add(files('base64.c'))
++util_obj.add(files('log.c'))
++util_obj.add(files('pagesize.c'))
++util_obj.add(files('qdist.c'))
++util_obj.add(files('qht.c'))
++util_obj.add(files('qsp.c'))
++util_obj.add(files('range.c'))
++util_obj.add(files('stats64.c'))
++util_obj.add(files('systemd.c'))
++util_obj.add(files('iova-tree.c'))
++util_obj.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
++                                      if_false: files('filemonitor-stub.c'))
++util_obj.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
++util_obj.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
++util_obj.add(files('guest-random.c'))
+diff --git a/util/trace.h b/util/trace.h
+new file mode 100644
+index 0000000..2507adc
+--- /dev/null
++++ b/util/trace.h
+@@ -0,0 +1 @@
++#include "trace-util.h"
 -- 
 1.8.3.1
 
