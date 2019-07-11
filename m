@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E803651D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 08:23:55 +0200 (CEST)
-Received: from localhost ([::1]:38896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE459651D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 08:22:49 +0200 (CEST)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlSUk-0004EY-DU
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 02:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41456)
+	id 1hlSTh-0002RS-5p
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 02:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41477)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hlSQT-0005md-OC
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:19:31 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hlSQb-0005qv-Bw
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:19:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hlSQR-0000QW-T5
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:19:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33956)
+ (envelope-from <eric.auger@redhat.com>) id 1hlSQT-0000Sg-OZ
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:19:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54242)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hlSQK-0000HC-Bj; Thu, 11 Jul 2019 02:19:20 -0400
+ id 1hlSQP-0000NZ-S8; Thu, 11 Jul 2019 02:19:25 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A8AF975726;
- Thu, 11 Jul 2019 06:19:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4F2F1308A98C;
+ Thu, 11 Jul 2019 06:19:24 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78FCD60A97;
- Thu, 11 Jul 2019 06:19:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E68D60600;
+ Thu, 11 Jul 2019 06:19:19 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com,
  pbonzini@redhat.com, alex.williamson@redhat.com
-Date: Thu, 11 Jul 2019 08:18:55 +0200
-Message-Id: <20190711061857.13086-4-eric.auger@redhat.com>
+Date: Thu, 11 Jul 2019 08:18:56 +0200
+Message-Id: <20190711061857.13086-5-eric.auger@redhat.com>
 In-Reply-To: <20190711061857.13086-1-eric.auger@redhat.com>
 References: <20190711061857.13086-1-eric.auger@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 11 Jul 2019 06:19:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 11 Jul 2019 06:19:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.2 v3 3/5] hw/vfio/common: Assert in case
- of nested mode
+Subject: [Qemu-devel] [PATCH-for-4.2 v3 4/5] hw/arm/smmuv3: Log a guest
+ error when decoding an invalid STE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,50 +61,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of today, VFIO only works along with vIOMMU supporting
-caching mode. The SMMUv3 does not support this mode and
-requires HW nested paging to work properly with VFIO.
-
-So any attempt to run a VFIO device protected by such IOMMU
-would prevent the assigned device from working and at the
-moment the guest does not even boot as the default
-memory_region_iommu_replay() implementation attempts to
-translate the whole address space and completely stalls
-the execution.
-
-So let's assert if we recognize nested mode case.
+Log a guest error when encountering an invalid STE.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/vfio/common.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/arm/smmuv3.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index a859298fda..d622191fe6 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -604,9 +604,17 @@ static void vfio_listener_region_add(MemoryListener =
-*listener,
-     if (memory_region_is_iommu(section->mr)) {
-         VFIOGuestIOMMU *giommu;
-         IOMMUMemoryRegion *iommu_mr =3D IOMMU_MEMORY_REGION(section->mr)=
-;
-+        bool nested;
-         int iommu_idx;
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 384c02cb91..2e270a0f07 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -320,6 +320,7 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *c=
+fg,
+     uint32_t config;
 =20
-         trace_vfio_listener_region_add_iommu(iova, end);
-+
-+        if (!memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NEST=
-ED,
-+                                          (void *)&nested) && nested) {
-+            error_report("VFIO/vIOMMU integration based on HW nested pag=
-ing "
-+                         "is not yet supported");
-+            abort();
-+        }
-         /*
-          * FIXME: For VFIO iommu types which have KVM acceleration to
-          * avoid bouncing all map/unmaps through qemu this way, this
+     if (!STE_VALID(ste)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "invalid STE\n");
+         goto bad_ste;
+     }
+=20
 --=20
 2.20.1
 
