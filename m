@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F1265B19
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 17:58:16 +0200 (CEST)
-Received: from localhost ([::1]:43036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B6565B18
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 17:58:11 +0200 (CEST)
+Received: from localhost ([::1]:43032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlbSZ-0006aj-Fp
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 11:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33319)
+	id 1hlbST-0005wX-N8
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 11:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33389)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hlbRn-0003ut-0W
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 11:57:28 -0400
+ (envelope-from <philmd@redhat.com>) id 1hlbRs-0004Jg-PX
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 11:57:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hlbRk-0006R8-1L
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 11:57:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35810)
+ (envelope-from <philmd@redhat.com>) id 1hlbRq-0006YX-4u
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 11:57:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45528)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hlbRe-0006LI-19; Thu, 11 Jul 2019 11:57:18 -0400
+ id 1hlbRk-0006Pf-2s; Thu, 11 Jul 2019 11:57:25 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 44F5683F44;
- Thu, 11 Jul 2019 15:57:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 370DC2CD801;
+ Thu, 11 Jul 2019 15:57:22 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-150.brq.redhat.com [10.40.204.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E01F5D9DC;
- Thu, 11 Jul 2019 15:57:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAE815D9CC;
+ Thu, 11 Jul 2019 15:57:16 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 17:56:59 +0200
-Message-Id: <20190711155703.15627-2-philmd@redhat.com>
+Date: Thu, 11 Jul 2019 17:57:00 +0200
+Message-Id: <20190711155703.15627-3-philmd@redhat.com>
 In-Reply-To: <20190711155703.15627-1-philmd@redhat.com>
 References: <20190711155703.15627-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 11 Jul 2019 15:57:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 11 Jul 2019 15:57:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v4 1/5] hw/block/pflash_cfi01: Removed
- an unused timer
+Subject: [Qemu-devel] [PATCH-for-4.1 v4 2/5] hw/block/pflash_cfi01: Use the
+ correct READ_ARRAY value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,78 +59,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Wei Yang <richardw.yang@linux.intel.com>, Laszlo Ersek <lersek@redhat.com>
+ Laszlo Ersek <lersek@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'CFI02' NOR flash was introduced in commit 29133e9a0fff, with
-timing modelled. One year later, the CFI01 model was introduced
-(commit 05ee37ebf630) based on the CFI02 model. As noted in the
-header, "It does not support timings". 12 years later, we never
-had to model the device timings. Time to remove the unused timer,
-we can still add it back if required.
+In the "Read Array Flowchart" the command has a value of 0xFF.
 
-Suggested-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+In the document [*] the "Read Array Flowchart", the READ_ARRAY
+command has a value of 0xff.
+
+Use the correct value in the pflash model.
+
+There is no change of behavior in the guest, because:
+- when the guest were sending 0xFF, the reset_flash label
+  was setting the command value as 0x00
+- 0x00 was used internally for READ_ARRAY
+
+To keep migration with older versions behaving correctly, we
+decide to always migrate the READ_ARRAY as 0x00.
+
+[*] "Common Flash Interface (CFI) and Command Sets"
+    (Intel Application Note 646)
+    Appendix B "Basic Command Set"
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Fixed commit description (Laszlo)
+v3: Handle migrating the 'cmd' field.
+v4: Handle migrating to older QEMU (Dave)
+
+Since Laszlo stated he did not test migration [*], I'm keeping his
+test tag, because the change with v2 has no impact in the tests
+he ran.
+
+Likewise I'm keeping John and Alistair tags, but I'd like an extra
+review for the migration change, thanks!
+
+[*] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00679.html
 ---
- hw/block/pflash_cfi01.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ hw/block/pflash_cfi01.c | 57 ++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 48 insertions(+), 9 deletions(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index db4a246b22..9e34fd4e82 100644
+index 9e34fd4e82..85bb2132c0 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -42,7 +42,6 @@
- #include "hw/block/flash.h"
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
--#include "qemu/timer.h"
- #include "qemu/bitops.h"
- #include "qemu/error-report.h"
- #include "qemu/host-utils.h"
-@@ -90,7 +89,6 @@ struct PFlashCFI01 {
-     uint8_t cfi_table[0x52];
-     uint64_t counter;
-     unsigned int writeblock_size;
--    QEMUTimer *timer;
-     MemoryRegion mem;
-     char *name;
-     void *storage;
-@@ -114,18 +112,6 @@ static const VMStateDescription vmstate_pflash =3D {
-     }
+@@ -96,6 +96,37 @@ struct PFlashCFI01 {
+     bool old_multiple_chip_handling;
  };
 =20
--static void pflash_timer (void *opaque)
--{
--    PFlashCFI01 *pfl =3D opaque;
--
--    trace_pflash_timer_expired(pfl->cmd);
--    /* Reset flash */
--    pfl->status ^=3D 0x80;
--    memory_region_rom_device_set_romd(&pfl->mem, true);
--    pfl->wcycle =3D 0;
++static int pflash_pre_save(void *opaque)
++{
++    PFlashCFI01 *s =3D opaque;
++
++    /*
++     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
++     * READ_ARRAY command. To preserve migrating to these older version,
++     * always migrate the READ_ARRAY command as 0x00.
++     */
++    if (s->cmd =3D=3D 0xff) {
++        s->cmd =3D 0x00;
++    }
++
++    return 0;
++}
++
++static int pflash_post_save(void *opaque)
++{
++    PFlashCFI01 *s =3D opaque;
++
++    /*
++     * If migration failed, the guest will continue to run.
++     * Restore the correct READ_ARRAY value.
++     */
++    if (s->cmd =3D=3D 0x00) {
++        s->cmd =3D 0xff;
++    }
++
++    return 0;
++}
++
+ static int pflash_post_load(void *opaque, int version_id);
+=20
+ static const VMStateDescription vmstate_pflash =3D {
+@@ -103,6 +134,8 @@ static const VMStateDescription vmstate_pflash =3D {
+     .version_id =3D 1,
+     .minimum_version_id =3D 1,
+     .post_load =3D pflash_post_load,
++    .pre_save =3D pflash_pre_save,
++    .post_save =3D pflash_post_save,
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINT8(wcycle, PFlashCFI01),
+         VMSTATE_UINT8(cmd, PFlashCFI01),
+@@ -277,10 +310,9 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr=
+ offset,
+         /* This should never happen : reset state & treat it as a read *=
+/
+         DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+         pfl->wcycle =3D 0;
+-        pfl->cmd =3D 0;
++        pfl->cmd =3D 0xff;
+         /* fall through to read code */
+-    case 0x00:
+-        /* Flash area read */
++    case 0xff: /* Read Array */
+         ret =3D pflash_data_read(pfl, offset, width, be);
+         break;
+     case 0x10: /* Single byte program */
+@@ -448,8 +480,6 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+     case 0:
+         /* read mode */
+         switch (cmd) {
+-        case 0x00: /* ??? */
+-            goto reset_flash;
+         case 0x10: /* Single Byte Program */
+         case 0x40: /* Single Byte Program */
+             DPRINTF("%s: Single Byte Program\n", __func__);
+@@ -526,7 +556,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+             if (cmd =3D=3D 0xd0) { /* confirm */
+                 pfl->wcycle =3D 0;
+                 pfl->status |=3D 0x80;
+-            } else if (cmd =3D=3D 0xff) { /* read array mode */
++            } else if (cmd =3D=3D 0xff) { /* Read Array */
+                 goto reset_flash;
+             } else
+                 goto error_flash;
+@@ -553,7 +583,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+             } else if (cmd =3D=3D 0x01) {
+                 pfl->wcycle =3D 0;
+                 pfl->status |=3D 0x80;
+-            } else if (cmd =3D=3D 0xff) {
++            } else if (cmd =3D=3D 0xff) { /* read array mode */
+                 goto reset_flash;
+             } else {
+                 DPRINTF("%s: Unknown (un)locking command\n", __func__);
+@@ -645,7 +675,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+     trace_pflash_reset();
+     memory_region_rom_device_set_romd(&pfl->mem, true);
+     pfl->wcycle =3D 0;
 -    pfl->cmd =3D 0;
--}
--
- /* Perform a CFI query based on the bank width of the flash.
-  * If this code is called we know we have a device_width set for
-  * this flash.
-@@ -774,7 +760,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
++    pfl->cmd =3D 0xff;
+ }
+=20
+=20
+@@ -761,7 +791,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
 ror **errp)
-         pfl->max_device_width =3D pfl->device_width;
      }
 =20
--    pfl->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
      pfl->wcycle =3D 0;
-     pfl->cmd =3D 0;
+-    pfl->cmd =3D 0;
++    pfl->cmd =3D 0xff;
      pfl->status =3D 0;
+     /* Hardcoded CFI table */
+     /* Standard "QRY" string */
+@@ -1001,5 +1031,14 @@ static int pflash_post_load(void *opaque, int vers=
+ion_id)
+         pfl->vmstate =3D qemu_add_vm_change_state_handler(postload_updat=
+e_cb,
+                                                         pfl);
+     }
++
++    /*
++     * Previous to QEMU v4.1 an incorrect value of 0x00 was used for the
++     * READ_ARRAY command.
++     */
++    if (pfl->cmd =3D=3D 0x00) {
++        pfl->cmd =3D 0xff;
++    }
++
+     return 0;
+ }
 --=20
 2.20.1
 
