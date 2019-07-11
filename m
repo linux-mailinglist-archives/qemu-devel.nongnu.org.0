@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4FD6604A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 21:58:43 +0200 (CEST)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CD86604F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 21:59:28 +0200 (CEST)
+Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlfDF-0004W9-6Q
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 15:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51307)
+	id 1hlfDz-0006iy-1U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 15:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51449)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlfCt-0003kK-G7
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlfDP-0005Zp-CB
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlfCr-0000lm-4U
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:23784)
+ (envelope-from <mreitz@redhat.com>) id 1hlfDC-00010B-Uv
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:17218)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hlfCp-0000jn-Nn
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:16 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hlfCt-0000mk-EJ; Thu, 11 Jul 2019 15:58:19 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AF3358762B;
- Thu, 11 Jul 2019 19:58:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3C5E3308213A;
+ Thu, 11 Jul 2019 19:58:18 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF2405DA65;
- Thu, 11 Jul 2019 19:58:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 928F360BE2;
+ Thu, 11 Jul 2019 19:58:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 11 Jul 2019 21:58:00 +0200
-Message-Id: <20190711195804.30703-2-mreitz@redhat.com>
+Date: Thu, 11 Jul 2019 21:58:01 +0200
+Message-Id: <20190711195804.30703-3-mreitz@redhat.com>
 In-Reply-To: <20190711195804.30703-1-mreitz@redhat.com>
 References: <20190711195804.30703-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 11 Jul 2019 19:58:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 11 Jul 2019 19:58:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC 1/5] block/nbd: Fix hang in .bdrv_close()
+Subject: [Qemu-devel] [RFC 2/5] block: Generic truncation fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,43 +59,129 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When nbd_close() is called from a coroutine, the connection_co never
-gets to run, and thus nbd_teardown_connection() hangs.
+If a protocol driver does not support truncation, we call fall back to
+effectively not doing anything if the new size is less than the actual
+file size.  This is what we have been doing for some host device drivers
+already.
 
-This is because aio_co_enter() only puts the connection_co into the main
-coroutine's wake-up queue, so this main coroutine needs to yield and
-reschedule itself to let the connection_co run.
+The only caveat is that we have to zero out everything in the first
+sector that lies beyond the new "EOF" so we do not get any surprises
+with format probing.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/nbd.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ block/io.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 65 insertions(+), 4 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 81edabbf35..b83b6cd43e 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -135,7 +135,17 @@ static void nbd_teardown_connection(BlockDriverState=
+diff --git a/block/io.c b/block/io.c
+index 24a18759fd..382728fa9a 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3064,6 +3064,57 @@ static void bdrv_parent_cb_resize(BlockDriverState=
  *bs)
-     qio_channel_shutdown(s->ioc,
-                          QIO_CHANNEL_SHUTDOWN_BOTH,
-                          NULL);
--    BDRV_POLL_WHILE(bs, s->connection_co);
-+
-+    if (qemu_in_coroutine()) {
-+        /* Let our caller poll and just yield until connection_co is don=
-e */
-+        while (s->connection_co) {
-+            aio_co_schedule(qemu_get_current_aio_context(),
-+                            qemu_coroutine_self());
-+            qemu_coroutine_yield();
-+        }
-+    } else {
-+        BDRV_POLL_WHILE(bs, s->connection_co);
-+    }
+     }
+ }
 =20
-     nbd_client_detach_aio_context(bs);
-     object_unref(OBJECT(s->sioc));
++static int coroutine_fn bdrv_co_truncate_fallback(BdrvChild *child,
++                                                  int64_t offset,
++                                                  PreallocMode prealloc,
++                                                  Error **errp)
++{
++    BlockDriverState *bs =3D child->bs;
++    int64_t cur_size =3D bdrv_getlength(bs);
++
++    if (cur_size < 0) {
++        error_setg_errno(errp, -cur_size,
++                         "Failed to inquire current file size");
++        return cur_size;
++    }
++
++    if (prealloc !=3D PREALLOC_MODE_OFF) {
++        error_setg(errp, "Unsupported preallocation mode: %s",
++                   PreallocMode_str(prealloc));
++        return -ENOTSUP;
++    }
++
++    if (offset > cur_size) {
++        error_setg(errp, "Cannot grow this %s node", bs->drv->format_nam=
+e);
++        return -ENOTSUP;
++    }
++
++    /*
++     * Overwrite first "post-EOF" parts of the first sector with
++     * zeroes so raw images will not be misprobed
++     */
++    if (offset < BDRV_SECTOR_SIZE && offset < cur_size) {
++        int64_t fill_len =3D MIN(BDRV_SECTOR_SIZE - offset, cur_size - o=
+ffset);
++        int ret;
++
++        if (!(child->perm & BLK_PERM_WRITE)) {
++            error_setg(errp, "Cannot write to this node to clear the fil=
+e past "
++                       "the truncated EOF");
++            return -EPERM;
++        }
++
++        ret =3D bdrv_co_pwrite_zeroes(child, offset, fill_len, 0);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret,
++                             "Failed to clear file past the truncated EO=
+F");
++            return ret;
++        }
++    }
++
++    return 0;
++}
++
++
+ /**
+  * Truncate file to 'offset' bytes (needed only for file protocols)
+  */
+@@ -3074,6 +3125,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child,=
+ int64_t offset,
+     BlockDriver *drv =3D bs->drv;
+     BdrvTrackedRequest req;
+     int64_t old_size, new_bytes;
++    Error *local_err =3D NULL;
+     int ret;
+=20
+=20
+@@ -3127,15 +3179,24 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *chil=
+d, int64_t offset,
+             ret =3D bdrv_co_truncate(bs->file, offset, prealloc, errp);
+             goto out;
+         }
+-        error_setg(errp, "Image format driver does not support resize");
++        error_setg(&local_err, "Image format driver does not support res=
+ize");
+         ret =3D -ENOTSUP;
+-        goto out;
++    } else {
++        ret =3D drv->bdrv_co_truncate(bs, offset, prealloc, &local_err);
+     }
+=20
+-    ret =3D drv->bdrv_co_truncate(bs, offset, prealloc, errp);
+-    if (ret < 0) {
++    if (ret =3D=3D -ENOTSUP && drv->bdrv_file_open) {
++        error_free(local_err);
++
++        ret =3D bdrv_co_truncate_fallback(child, offset, prealloc, errp)=
+;
++        if (ret < 0) {
++            goto out;
++        }
++    } else if (ret < 0) {
++        error_propagate(errp, local_err);
+         goto out;
+     }
++
+     ret =3D refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
+     if (ret < 0) {
+         error_setg_errno(errp, -ret, "Could not refresh total sector cou=
+nt");
 --=20
 2.21.0
 
