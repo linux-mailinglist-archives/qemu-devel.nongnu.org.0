@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928B9654DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 13:01:29 +0200 (CEST)
-Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F38654CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:57:36 +0200 (CEST)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlWpM-00033I-PL
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 07:01:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46076)
+	id 1hlWlb-0006Nb-H0
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47626)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hlWfq-0005mi-N7
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:51:41 -0400
+ (envelope-from <quintela@redhat.com>) id 1hlWiQ-0001v3-Vj
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:54:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hlWfe-0004xo-Pp
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:51:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57052)
+ (envelope-from <quintela@redhat.com>) id 1hlWiP-0006sT-1d
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:54:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlWfd-0004wc-Pd
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:51:26 -0400
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlWiN-0006rE-TY
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:54:16 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5447B308FFB1;
- Thu, 11 Jul 2019 10:44:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C3C0BC04BE32;
+ Thu, 11 Jul 2019 10:44:51 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.36.118.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5957160600;
- Thu, 11 Jul 2019 10:44:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A84DA60605;
+ Thu, 11 Jul 2019 10:44:49 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 12:44:04 +0200
-Message-Id: <20190711104412.31233-12-quintela@redhat.com>
+Date: Thu, 11 Jul 2019 12:44:05 +0200
+Message-Id: <20190711104412.31233-13-quintela@redhat.com>
 In-Reply-To: <20190711104412.31233-1-quintela@redhat.com>
 References: <20190711104412.31233-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 11 Jul 2019 10:44:49 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Thu, 11 Jul 2019 10:44:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/19] bitmap: Add
- bitmap_copy_with_{src|dst}_offset()
+Subject: [Qemu-devel] [PULL 12/19] memory: Pass mr into
+ snapshot_and_clear_dirty
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,259 +64,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-These helpers copy the source bitmap to destination bitmap with a
-shift either on the src or dst bitmap.
-
-Meanwhile, we never have bitmap tests but we should.
-
-This patch also introduces the initial test cases for utils/bitmap.c
-but it only tests the newly introduced functions.
+Also we change the 2nd parameter of it to be the relative offset
+within the memory region. This is to be used in follow up patches.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20190603065056.25211-5-peterx@redhat.com>
+Message-Id: <20190603065056.25211-6-peterx@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/qemu/bitmap.h  |  9 +++++
- tests/Makefile.include |  2 +
- tests/test-bitmap.c    | 72 +++++++++++++++++++++++++++++++++++
- util/bitmap.c          | 85 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 168 insertions(+)
- create mode 100644 tests/test-bitmap.c
+ exec.c                  | 3 ++-
+ include/exec/ram_addr.h | 2 +-
+ memory.c                | 3 +--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/bitmap.h b/include/qemu/bitmap.h
-index 5c313346b9..82a1d2f41f 100644
---- a/include/qemu/bitmap.h
-+++ b/include/qemu/bitmap.h
-@@ -41,6 +41,10 @@
-  * bitmap_find_next_zero_area(buf, len, pos, n, mask)	Find bit free area
-  * bitmap_to_le(dst, src, nbits)      Convert bitmap to little endian
-  * bitmap_from_le(dst, src, nbits)    Convert bitmap from little endian
-+ * bitmap_copy_with_src_offset(dst, src, offset, nbits)
-+ *                                    *dst =3D *src (with an offset into=
- src)
-+ * bitmap_copy_with_dst_offset(dst, src, offset, nbits)
-+ *                                    *dst =3D *src (with an offset into=
- dst)
-  */
-=20
- /*
-@@ -271,4 +275,9 @@ void bitmap_to_le(unsigned long *dst, const unsigned =
-long *src,
- void bitmap_from_le(unsigned long *dst, const unsigned long *src,
-                     long nbits);
-=20
-+void bitmap_copy_with_src_offset(unsigned long *dst, const unsigned long=
- *src,
-+                                 unsigned long offset, unsigned long nbi=
-ts);
-+void bitmap_copy_with_dst_offset(unsigned long *dst, const unsigned long=
- *src,
-+                                 unsigned long shift, unsigned long nbit=
-s);
-+
- #endif /* BITMAP_H */
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index a983dd32da..fd7fdb8658 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -65,6 +65,7 @@ check-unit-y +=3D tests/test-opts-visitor$(EXESUF)
- check-unit-$(CONFIG_BLOCK) +=3D tests/test-coroutine$(EXESUF)
- check-unit-y +=3D tests/test-visitor-serialization$(EXESUF)
- check-unit-y +=3D tests/test-iov$(EXESUF)
-+check-unit-y +=3D tests/test-bitmap$(EXESUF)
- check-unit-$(CONFIG_BLOCK) +=3D tests/test-aio$(EXESUF)
- check-unit-$(CONFIG_BLOCK) +=3D tests/test-aio-multithread$(EXESUF)
- check-unit-$(CONFIG_BLOCK) +=3D tests/test-throttle$(EXESUF)
-@@ -538,6 +539,7 @@ tests/test-image-locking$(EXESUF): tests/test-image-l=
-ocking.o $(test-block-obj-y
- tests/test-thread-pool$(EXESUF): tests/test-thread-pool.o $(test-block-o=
-bj-y)
- tests/test-iov$(EXESUF): tests/test-iov.o $(test-util-obj-y)
- tests/test-hbitmap$(EXESUF): tests/test-hbitmap.o $(test-util-obj-y) $(t=
-est-crypto-obj-y)
-+tests/test-bitmap$(EXESUF): tests/test-bitmap.o $(test-util-obj-y)
- tests/test-x86-cpuid$(EXESUF): tests/test-x86-cpuid.o
- tests/test-xbzrle$(EXESUF): tests/test-xbzrle.o migration/xbzrle.o migra=
-tion/page_cache.o $(test-util-obj-y)
- tests/test-cutils$(EXESUF): tests/test-cutils.o util/cutils.o $(test-uti=
-l-obj-y)
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-new file mode 100644
-index 0000000000..43f7ba26c5
---- /dev/null
-+++ b/tests/test-bitmap.c
-@@ -0,0 +1,72 @@
-+/*
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * Bitmap.c unit-tests.
-+ *
-+ * Copyright (C) 2019, Red Hat, Inc.
-+ *
-+ * Author: Peter Xu <peterx@redhat.com>
-+ */
-+
-+#include <stdlib.h>
-+#include "qemu/osdep.h"
-+#include "qemu/bitmap.h"
-+
-+#define BMAP_SIZE  1024
-+
-+static void check_bitmap_copy_with_offset(void)
-+{
-+    unsigned long *bmap1, *bmap2, *bmap3, total;
-+
-+    bmap1 =3D bitmap_new(BMAP_SIZE);
-+    bmap2 =3D bitmap_new(BMAP_SIZE);
-+    bmap3 =3D bitmap_new(BMAP_SIZE);
-+
-+    bmap1[0] =3D random();
-+    bmap1[1] =3D random();
-+    bmap1[2] =3D random();
-+    bmap1[3] =3D random();
-+    total =3D BITS_PER_LONG * 4;
-+
-+    /* Shift 115 bits into bmap2 */
-+    bitmap_copy_with_dst_offset(bmap2, bmap1, 115, total);
-+    /* Shift another 85 bits into bmap3 */
-+    bitmap_copy_with_dst_offset(bmap3, bmap2, 85, total + 115);
-+    /* Shift back 200 bits back */
-+    bitmap_copy_with_src_offset(bmap2, bmap3, 200, total);
-+
-+    g_assert_cmpmem(bmap1, total / sizeof(unsigned long),
-+                    bmap2, total / sizeof(unsigned long));
-+
-+    bitmap_clear(bmap1, 0, BMAP_SIZE);
-+    /* Set bits in bmap1 are 100-245 */
-+    bitmap_set(bmap1, 100, 145);
-+
-+    /* Set bits in bmap2 are 60-205 */
-+    bitmap_copy_with_src_offset(bmap2, bmap1, 40, 250);
-+    g_assert_cmpint(find_first_bit(bmap2, 60), =3D=3D, 60);
-+    g_assert_cmpint(find_next_zero_bit(bmap2, 205, 60), =3D=3D, 205);
-+    g_assert(test_bit(205, bmap2) =3D=3D 0);
-+
-+    /* Set bits in bmap3 are 135-280 */
-+    bitmap_copy_with_dst_offset(bmap3, bmap1, 35, 250);
-+    g_assert_cmpint(find_first_bit(bmap3, 135), =3D=3D, 135);
-+    g_assert_cmpint(find_next_zero_bit(bmap3, 280, 135), =3D=3D, 280);
-+    g_assert(test_bit(280, bmap3) =3D=3D 0);
-+
-+    g_free(bmap1);
-+    g_free(bmap2);
-+    g_free(bmap3);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    g_test_add_func("/bitmap/bitmap_copy_with_offset",
-+                    check_bitmap_copy_with_offset);
-+
-+    g_test_run();
-+
-+    return 0;
-+}
-diff --git a/util/bitmap.c b/util/bitmap.c
-index cb618c65a5..1753ff7f5b 100644
---- a/util/bitmap.c
-+++ b/util/bitmap.c
-@@ -402,3 +402,88 @@ void bitmap_to_le(unsigned long *dst, const unsigned=
- long *src,
- {
-     bitmap_to_from_le(dst, src, nbits);
+diff --git a/exec.c b/exec.c
+index 50ea9c5aaa..3a00698cc0 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1390,9 +1390,10 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_=
+addr_t start,
  }
-+
-+/*
-+ * Copy "src" bitmap with a positive offset and put it into the "dst"
-+ * bitmap.  The caller needs to make sure the bitmap size of "src"
-+ * is bigger than (shift + nbits).
-+ */
-+void bitmap_copy_with_src_offset(unsigned long *dst, const unsigned long=
- *src,
-+                                 unsigned long shift, unsigned long nbit=
-s)
-+{
-+    unsigned long left_mask, right_mask, last_mask;
-+
-+    /* Proper shift src pointer to the first word to copy from */
-+    src +=3D BIT_WORD(shift);
-+    shift %=3D BITS_PER_LONG;
-+
-+    if (!shift) {
-+        /* Fast path */
-+        bitmap_copy(dst, src, nbits);
-+        return;
-+    }
-+
-+    right_mask =3D (1ul << shift) - 1;
-+    left_mask =3D ~right_mask;
-+
-+    while (nbits >=3D BITS_PER_LONG) {
-+        *dst =3D (*src & left_mask) >> shift;
-+        *dst |=3D (src[1] & right_mask) << (BITS_PER_LONG - shift);
-+        dst++;
-+        src++;
-+        nbits -=3D BITS_PER_LONG;
-+    }
-+
-+    if (nbits > BITS_PER_LONG - shift) {
-+        *dst =3D (*src & left_mask) >> shift;
-+        nbits -=3D BITS_PER_LONG - shift;
-+        last_mask =3D (1ul << nbits) - 1;
-+        *dst |=3D (src[1] & last_mask) << (BITS_PER_LONG - shift);
-+    } else if (nbits) {
-+        last_mask =3D (1ul << nbits) - 1;
-+        *dst =3D (*src >> shift) & last_mask;
-+    }
-+}
-+
-+/*
-+ * Copy "src" bitmap into the "dst" bitmap with an offset in the
-+ * "dst".  The caller needs to make sure the bitmap size of "dst" is
-+ * bigger than (shift + nbits).
-+ */
-+void bitmap_copy_with_dst_offset(unsigned long *dst, const unsigned long=
- *src,
-+                                 unsigned long shift, unsigned long nbit=
-s)
-+{
-+    unsigned long left_mask, right_mask, last_mask;
-+
-+    /* Proper shift dst pointer to the first word to copy from */
-+    dst +=3D BIT_WORD(shift);
-+    shift %=3D BITS_PER_LONG;
-+
-+    if (!shift) {
-+        /* Fast path */
-+        bitmap_copy(dst, src, nbits);
-+        return;
-+    }
-+
-+    right_mask =3D (1ul << (BITS_PER_LONG - shift)) - 1;
-+    left_mask =3D ~right_mask;
-+
-+    *dst &=3D (1ul << shift) - 1;
-+    while (nbits >=3D BITS_PER_LONG) {
-+        *dst |=3D (*src & right_mask) << shift;
-+        dst[1] =3D (*src & left_mask) >> (BITS_PER_LONG - shift);
-+        dst++;
-+        src++;
-+        nbits -=3D BITS_PER_LONG;
-+    }
-+
-+    if (nbits > BITS_PER_LONG - shift) {
-+        *dst |=3D (*src & right_mask) << shift;
-+        nbits -=3D BITS_PER_LONG - shift;
-+        last_mask =3D ((1ul << nbits) - 1) << (BITS_PER_LONG - shift);
-+        dst[1] =3D (*src & last_mask) >> (BITS_PER_LONG - shift);
-+    } else if (nbits) {
-+        last_mask =3D (1ul << nbits) - 1;
-+        *dst |=3D (*src & last_mask) << shift;
-+    }
-+}
+=20
+ DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+-     (ram_addr_t start, ram_addr_t length, unsigned client)
++    (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client)
+ {
+     DirtyMemoryBlocks *blocks;
++    ram_addr_t start =3D memory_region_get_ram_addr(mr) + offset;
+     unsigned long align =3D 1UL << (TARGET_PAGE_BITS + BITS_PER_LEVEL);
+     ram_addr_t first =3D QEMU_ALIGN_DOWN(start, align);
+     ram_addr_t last  =3D QEMU_ALIGN_UP(start + length, align);
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 0a532c3963..1843b6f2d3 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -404,7 +404,7 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_add=
+r_t start,
+                                               unsigned client);
+=20
+ DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+-    (ram_addr_t start, ram_addr_t length, unsigned client);
++    (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client);
+=20
+ bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
+                                             ram_addr_t start,
+diff --git a/memory.c b/memory.c
+index 93486a71d7..71fcaf2d00 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2071,8 +2071,7 @@ DirtyBitmapSnapshot *memory_region_snapshot_and_cle=
+ar_dirty(MemoryRegion *mr,
+ {
+     assert(mr->ram_block);
+     memory_region_sync_dirty_bitmap(mr);
+-    return cpu_physical_memory_snapshot_and_clear_dirty(
+-                memory_region_get_ram_addr(mr) + addr, size, client);
++    return cpu_physical_memory_snapshot_and_clear_dirty(mr, addr, size, =
+client);
+ }
+=20
+ bool memory_region_snapshot_get_dirty(MemoryRegion *mr, DirtyBitmapSnaps=
+hot *snap,
 --=20
 2.21.0
 
