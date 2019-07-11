@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953D864FCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 03:13:57 +0200 (CEST)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA16A65041
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 04:44:07 +0200 (CEST)
+Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlNem-0005ya-FF
-	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 21:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
+	id 1hlP42-0008GU-EG
+	for lists+qemu-devel@lfdr.de; Wed, 10 Jul 2019 22:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <zhexu@redhat.com>) id 1hlNeC-0005XG-Mj
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 21:13:21 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hlP2m-00073E-RQ
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 22:42:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhexu@redhat.com>) id 1hlNeB-00026k-IW
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 21:13:20 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38575)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hlNeB-00026P-CK
- for qemu-devel@nongnu.org; Wed, 10 Jul 2019 21:13:19 -0400
-Received: by mail-pg1-f196.google.com with SMTP id z75so2065677pgz.5
- for <qemu-devel@nongnu.org>; Wed, 10 Jul 2019 18:13:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RVtvtLW+hA55JDckJ1iLViBZ1ankqgmMr3VovL92Bc4=;
- b=NOyyqnnc8dWgY9RiuvBE2KPWckhtWU0If02XncLMDh/t5b4TXGM7bUG+VQFpxsXyhQ
- tW3LolUKEOTZvWpvOF7oJJFjCMQIFCTZFusK/W2cyw43Wfjq1G6Juwwcv7N4ZPxGFc99
- JN2qM4L7OCIpoLcwryEttLYObr5zC3bjU0ndaEv1TisnJcH9QIKSy1P/jHl/wGc8qXql
- iYFH5YrrFIpBkBcwMvNAra4tij5j/VhlgMncPQEIbKdbCQm9QuhmpAlIMp/nmE59bhtK
- W1v5JgsFe8WviZoDEklEmeFTovACd5OWcdYB0P244IyILAe5VdPZAg6ETbn1y0iDnUW5
- nXLA==
-X-Gm-Message-State: APjAAAVfGkAmA08PPLsAUfjuNSSOzGQ9qERdio0uqpJDbL9+MCc8ORjg
- mXcGS5aSIw2IgnzanOEfesh5Vw==
-X-Google-Smtp-Source: APXvYqxMrVVklNqbVKOTAv5bfnU/VrZIKRnGvwuMCvMVJRLDiPbKxiptG5r1+GRR16h0APaabi9Mew==
-X-Received: by 2002:a63:ad07:: with SMTP id g7mr1203863pgf.405.1562807598198; 
- Wed, 10 Jul 2019 18:13:18 -0700 (PDT)
-Received: from xz-x1 ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id f14sm3326411pfn.53.2019.07.10.18.13.12
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 10 Jul 2019 18:13:16 -0700 (PDT)
-From: Peter Xu <zhexu@redhat.com>
-X-Google-Original-From: Peter Xu <peterx@redhat.com>
-Date: Thu, 11 Jul 2019 09:13:05 +0800
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Message-ID: <20190711011305.GJ5178@xz-x1>
-References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
- <1562324511-2910-7-git-send-email-yi.l.liu@intel.com>
- <20190709031902.GD5178@xz-x1>
- <A2975661238FB949B60364EF0F2C257439F2A65F@SHSMSX104.ccr.corp.intel.com>
+ (envelope-from <dgibson@ozlabs.org>) id 1hlP2l-00072S-G9
+ for qemu-devel@nongnu.org; Wed, 10 Jul 2019 22:42:48 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:54605)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hlP2k-0006vc-Qc; Wed, 10 Jul 2019 22:42:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45kgMB6yzZz9sDB; Thu, 11 Jul 2019 12:42:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1562812950;
+ bh=kl8ZqDbR9IlqcI2QHKFph5/r2WVrlt+coNQN/V0molI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LqkX6E9kpOAAjyXDluabJTbJH3miJWHwVjYSKVKX55ssTk76BTmF0y+s6k9gaNwES
+ L4h4O/cbSZ5lIenjTqZXy7jvE3+Q1/RKfo+5EnvohuVKFdKnsQ01+lD92qvm4I2Yx2
+ ENotYMp2032+yVJ/lXSjF5MHK581nK7SuZhVc01I=
+Date: Thu, 11 Jul 2019 11:26:13 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190711012613.GA13271@umbus.fritz.box>
+References: <20190529065017.15149-1-david@gibson.dropbear.id.au>
+ <20190529065017.15149-42-david@gibson.dropbear.id.au>
+ <a5139cdc-7175-1747-f18f-e5fcf6926d44@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
 Content-Disposition: inline
-In-Reply-To: <A2975661238FB949B60364EF0F2C257439F2A65F@SHSMSX104.ccr.corp.intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.215.196
-Subject: Re: [Qemu-devel] [RFC v1 06/18] intel_iommu: support virtual
- command emulation and pasid request
+In-Reply-To: <a5139cdc-7175-1747-f18f-e5fcf6926d44@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PULL 41/44] spapr: change default
+ interrupt mode to 'dual'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,82 +58,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <zhexu@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 10, 2019 at 11:51:17AM +0000, Liu, Yi L wrote:
 
-[...]
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > +        s->vcrsp = 1;
-> > > +        vtd_set_quad_raw(s, DMAR_VCRSP_REG,
-> > > +                         ((uint64_t) s->vcrsp));
-> > 
-> > Do we really need to emulate the "In Progress" like this?  The vcpu is
-> > blocked here after all, and AFAICT all the rest of vcpus should not
-> > access these registers because obviously these registers cannot be
-> > accessed concurrently...
-> 
-> Other vcpus should poll the IP bit before submitting vcmds. As IP bit
-> is set, other vcpus will not access these bits. but if not, they may submit
-> new vcmds, while we only have 1 response register, that is not we
-> support. That's why we need to set IP bit.
+On Wed, Jul 10, 2019 at 06:26:09PM +0200, Laurent Vivier wrote:
+> On 29/05/2019 08:50, David Gibson wrote:
+> > From: C=E9dric Le Goater <clg@kaod.org>
+> >=20
+> > Now that XIVE support is complete (QEMU emulated and KVM devices),
+> > change the pseries machine to advertise both interrupt modes: XICS
+> > (P7/P8) and XIVE (P9).
+> >=20
+> > The machine default interrupt modes depends on the version. Current
+> > settings are:
+> >=20
+> >     pseries   default interrupt mode
+> >=20
+> >     4.1       dual
+> >     4.0       xics
+> >     3.1       xics
+> >     3.0       legacy xics (different IRQ number space layout)
+> >=20
+> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > Message-Id: <20190522074016.10521-3-clg@kaod.org>
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 39e698e9b0..4fd16b43f0 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -4352,7 +4352,7 @@ static void spapr_machine_class_init(ObjectClass =
+*oc, void *data)
+> >      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_=
+ON;
+> >      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
+> >      spapr_caps_add_properties(smc, &error_abort);
+> > -    smc->irq =3D &spapr_irq_xics;
+> > +    smc->irq =3D &spapr_irq_dual;
+> >      smc->dr_phb_enabled =3D true;
+> >  }
+> > =20
+> > @@ -4430,6 +4430,7 @@ static void spapr_machine_4_0_class_options(Machi=
+neClass *mc)
+> >      spapr_machine_4_1_class_options(mc);
+> >      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_le=
+n);
+> >      smc->phb_placement =3D phb_placement_4_0;
+> > +    smc->irq =3D &spapr_irq_xics;
+> >  }
+> > =20
+> >  DEFINE_SPAPR_MACHINE(4_0, "4.0", false);
+> >=20
+>=20
+> This patch breaks the '-no-reboot' parameter (I think the "dual" mode
+> breaks the -no-reboot parameter)
+>=20
+> After grub loads the kernel and starts it, the kernel aborts:
+>=20
+> OF stdout device is: /vdevice/vty@71000000
+> Preparing to boot Linux version 4.18.0-112.el8.ppc64le
+> (mockbuild@ppc-061.build.eng.bos.redhat.com) (gcc version 8.3.1 20190507
+> (Red Hat 8.3.1-4) (GCC)) #1 SMP Fri Jul 5 11:21:28 UTC 2019
+> Detected machine type: 0000000000000101
+> command line: BOOT_IMAGE=3D/vmlinuz-4.18.0-112.el8.ppc64le
+> root=3D/dev/mapper/rhel_ibm--p8--kvm--03--guest--02-root ro
+> crashkernel=3Dauto rd.lvm.lv=3Drhel_ibm-p8-kvm-03-guest-02/root
+> rd.lvm.lv=3Drhel_ibm-p8-kvm-03-guest-02/swap
+> Max number of cores passed to firmware: 256 (NR_CPUS =3D 2048)
+> Calling ibm,client-architecture-support...[lvivier@localhost ~]$
+>=20
+> I bisected to this patch, and then after I understood the problem is
+> with the -no-reboot parameter as the machine is reset by the CAS
+> negotiation... and the -no-reboot prevents this reset.
+>=20
+> I don't know if it's a real problem or not.
 
-I still don't think another CPU can use this register even if it
-polled with IP==0...  The reason is simply as you described - we only
-have one pair of VCMD/VRSPD registers so IMHO the guest IOMMU driver
-must have a lock (probably a mutex) to guarantee sequential access of
-these registers otherwise race can happen.
+Ah, bother.  I didn't think of the interaction between the CAS reboot
+and -no-reboot.  I guess that's more reason to work out a way to do
+the xics/xive switch without a full reset.  People were already not
+thrilled with the extra reboots here.
 
-> 
-> > 
-> > I think the IP bit is useful when some new vcmd would take plenty of
-> > time so that we can do the long vcmds in async way.  However here it
-> > seems not the case?
-> 
-> no, so far, it is synchronize way. As mentioned above, IP bit is to ensure
-> only one vcmd is handled for a time. Other vcpus won't be able to submit
-> vcmds before IP is cleared.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-[...]
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > > @@ -192,6 +198,7 @@
-> > >  #define VTD_ECAP_SRS                (1ULL << 31)
-> > >  #define VTD_ECAP_PASID              (1ULL << 40)
-> > >  #define VTD_ECAP_SMTS               (1ULL << 43)
-> > > +#define VTD_ECAP_VCS                (1ULL << 44)
-> > >  #define VTD_ECAP_SLTS               (1ULL << 46)
-> > >  #define VTD_ECAP_FLTS               (1ULL << 47)
-> > >
-> > > @@ -314,6 +321,29 @@ typedef enum VTDFaultReason {
-> > >
-> > >  #define VTD_CONTEXT_CACHE_GEN_MAX       0xffffffffUL
-> > >
-> > > +/* VCCAP_REG */
-> > > +#define VTD_VCCAP_PAS               (1UL << 0)
-> > > +#define VTD_MIN_HPASID              200
-> > 
-> > Comment this value a bit?
-> 
-> The basic idea is to let hypervisor to set a range for available PASIDs for
-> VMs. One of the reasons is PASID #0 is reserved by RID_PASID usage.
-> We have no idea how many reserved PASIDs in future, so here just a
-> evaluated value. Honestly, set it as "1" is enough at current stage.
+-----BEGIN PGP SIGNATURE-----
 
-That'll be a very nice initial comment for that (I mean, put it into
-the patch, of course :).
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0mkDIACgkQbDjKyiDZ
+s5LE4hAAvTMN71ModHwp1HOwrAwO8uoPrFHJDv7wRyqCiIwgRhLcC2Yospxdl+84
+fLV6Jv0num/V8Us09xTmaUzkkKUi2crFd/zOj66GknCeDCKbRL0UqaSRjmWCn4Kr
+jOufe/2P+pS4wRGW3kqG2VPRyrAo0HFhmeIybD2T7a20l8uSmaUts4bHup0AYN+m
+k0j96/ORjvQz1ELmof3fxKorzzLsaJX0goqUPLgjc8NQPZtx4IA5vp3ssBidLa6P
+QAokQ+8qvmz4RZTP+CuL6DBy+YVAp95ykAWNQ6jdA8tYdxEVVo9m7xfPW5CM4k7k
+YOOhrMgBxPzl277lzGEAvQK7RocEzRidqmwNjMWl9czfYArWTc7D5DSa0yX6Az8B
+pSfmNBjrTbFF/mdjRLhuUD1vf+pexFZibbY/J0ODqGkuu1fRAKVZiN203eEf71jl
+N4dfKCyST22LMh3ZaoVy7Y8ZxltmZ8uEJfyqPAUjIh2fPrhfW9ymhe7FzRDBHmWl
+wmJP3VXo3DMQ+RESvwBy2DBZqGk/nkSmWuLqF7vARJ4coX+7Pip1DwWMvEiBgccg
+XXvr+DLxOCUFuLJpSh2NO3M6uT2KK2M0+EXJmOP+/DSrdcxexmLTTfXMtJflxYON
+eddeZHYvpfqK31S2ppWoMPHquSxAgIhCD579saZIVJBrEOnPnlI=
+=L4cO
+-----END PGP SIGNATURE-----
 
-Regards,
-
--- 
-Peter Xu
+--WIyZ46R2i8wDzkSu--
 
