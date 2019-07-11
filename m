@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C91C661D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 00:36:49 +0200 (CEST)
-Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9425661C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 00:34:17 +0200 (CEST)
+Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlhgG-0006Ft-F5
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 18:36:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
+	id 1hlhdo-0002tT-FV
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 18:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hlhdR-0002PZ-Vl
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:56 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hlhdA-00016p-EL
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hlhdO-0004AK-F6
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:53 -0400
-Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:43673)
+ (envelope-from <jan.bobek@gmail.com>) id 1hlhd5-0003u5-Vk
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:36 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:44542)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hlhdO-0003mL-7F
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:50 -0400
-Received: by mail-yw1-xc42.google.com with SMTP id n205so4460208ywb.10
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 15:33:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hlhcz-0003mM-Ss
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:26 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id a14so3192578ybm.11
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 15:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EDJRtTrInuk8SJPYMuGBry4P1q8G45deh+mvJtrhqc0=;
- b=n2T7y93U3DEqi+fYgNu/dKvaDcAlxNJGkcxZwUi+7RwHAmEQA+zWUzf6Rl9t0o6nqn
- E6RgzpYLPaZtJLjph/ZYgeY9h7dGmERVFupb9xhWvWQiEQ9BEJaWmimBHg/mVJ2qwZNd
- wEKVNSvKl0F76uSEfAj9LYtaQwAjkrZLEdDSv0O8pwcwPvTaSuo124GOg7+bRaVhhpPp
- cXZZB1mn9MCa+FAU9q0Fo5VniovZbw+NJ7OuKH6+/QmO8dWHg3o6o+NMhhBE0PzV2gNR
- heWbvLcUIg5tFQzQpXmCmkLXn0kHERQ1kH9SbP+43ix26x9jPGu7RX5NpOYmGWnc2Pnj
- 0hoA==
+ bh=qEdVyJ5GUS6Z8ePstAHmdSOkyMUonubPZrVG688CeCA=;
+ b=IVTuDoVP0urovXejbCEaiuk+bbPi1fOvhF8PhfmnrSPdNoD709vavYhA/2dPCmlPlo
+ 1PlSWf1uyWX35R3nYfZFHugJRdEPHLjltEvvjup8egMl4pPkmKgc2XjErccALytZoC51
+ 0HSH/QoD90OuHzbsP3K3xnJuH4vpBinFX7saPUwYUFx6ZbJXrptLJFppf2LPKwwjniva
+ LEHFw1G6I2ePqU+sdR83pvrGdTS6GV+ElJnchpIFlDEgYmQpSPfcbCl5iFqtTsGW3FgU
+ v/6YUVYopI1wDZ3+iHzgUgsW1JN/9EvqAA8USgfG35W0grzWF4kAUSTsvMRkvd+cs+lS
+ zV8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EDJRtTrInuk8SJPYMuGBry4P1q8G45deh+mvJtrhqc0=;
- b=W+D0eVxt6I2Eff0uGT13rdxS7mb8odWwBnlXDD0Z9vsLwdVxHN2TMWGXGGUECZ0xQE
- +/2TK7f9G2lnqakQzI6PP8o0WZ3bUHPcgABMR0zBC0pILchV7SfNO7gV7r/agitwxVb6
- lVBs34e8RMWNIoCxixdajPbpP/3pJ7L3RPdhFbwzDf5hQcZ3IWZGjb+ORzPk4Gz2zkRk
- B6y1E/zIyKbk0806J1oqgJdMgXkOUXkaEJHxh4LX9/c/PwUWIa3T+lpXm3ldd3sWZ87m
- IWeFkrGAB18O3pspgInj3xSqoy60SbDcquhmuqHOKt/A5cw4fPKTJq8Cr5w7W494RQmj
- bPgQ==
-X-Gm-Message-State: APjAAAUE0a4rZGcZlkuOI+XYPfjRf94PUXKFieimTa5N9d9fRO4klY+r
- BKFQ3JJERXS5VlSzyUpMnQLUTeI8
-X-Google-Smtp-Source: APXvYqx0X8aw8T/S5Z9z3clvG222mBE3tRgon9pbFEv7Vh5mW12IOEY1dgc60LYr6DRCtQ1g5jU73Q==
-X-Received: by 2002:a81:a50e:: with SMTP id u14mr3716759ywg.124.1562884402550; 
+ bh=qEdVyJ5GUS6Z8ePstAHmdSOkyMUonubPZrVG688CeCA=;
+ b=XqW6/LGWKjas/CWHZIRW6fJki78Lp8J4MKDa3zAQWCB23j0gQkuGdmt4GPbwwYL+56
+ tj3CJQp4xZ2OMSaJ1wbeiuIxGFpY21zuddHFhEJzrCNZ7I1W3sZ/YC/DmnoM6O9TitCo
+ Pb+VKHDKe62Xggkwxw3Hb5J2E9Nkt9TmCb8Lx6D/g0MDG9AutQ5quk6JgAAyI3am3VHY
+ 9Wap0zYXjSZxldyy6nbpXCDr4+aiHrej20djgYucC2XeGpfHY0MzNoAOvxAeUCOgIJ59
+ CwGniezKhRF15UPnISPxCR4bKXKXBLtC27vXsn1iUW7RP0k4E5H2YRL9v9iIhgk1gSBu
+ ke3A==
+X-Gm-Message-State: APjAAAW703B7u+iREnT+CAhBuEzMXlivFB0j32sp4cD5NLo7FnZErWV/
+ Bm5d4iyzFLl5NXfmtzWbHrs6Rgwm
+X-Google-Smtp-Source: APXvYqyTNndXsQsrEAizMlYlYSRuE/OFi893KNV762ybqjnZu/H3fE6dMCXDvLbpv9NRlWNyZ2YBAw==
+X-Received: by 2002:a05:6902:508:: with SMTP id
+ x8mr4380692ybs.406.1562884402993; 
  Thu, 11 Jul 2019 15:33:22 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
@@ -55,8 +56,8 @@ Received: from dionysus.attlocal.net
  Thu, 11 Jul 2019 15:33:22 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 18:32:57 -0400
-Message-Id: <20190711223300.6061-16-jan.bobek@gmail.com>
+Date: Thu, 11 Jul 2019 18:32:58 -0400
+Message-Id: <20190711223300.6061-17-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190711223300.6061-1-jan.bobek@gmail.com>
 References: <20190711223300.6061-1-jan.bobek@gmail.com>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c42
-Subject: [Qemu-devel] [RISU PATCH v3 15/18] x86.risu: add SSE4.1 and SSE4.2
+X-Received-From: 2607:f8b0:4864:20::b41
+Subject: [Qemu-devel] [RISU PATCH v3 16/18] x86.risu: add AES and PCLMULQDQ
  instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,399 +85,69 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add SSE4.1 and SSE4.2 instructions to the x86 configuration file.
+Add AES-NI and PCLMULQDQ instructions to the x86 configuration file.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- x86.risu | 270 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 270 insertions(+)
+ x86.risu | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/x86.risu b/x86.risu
-index 6f89a80..bc6636e 100644
+index bc6636e..177979a 100644
 --- a/x86.risu
 +++ b/x86.risu
-@@ -486,6 +486,11 @@ PMULLW SSE2 00001111 11010101 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 40 /r: PMULLD xmm1, xmm2/m128
-+PMULLD SSE4_1 00001111 00111000 01000000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F E5 /r: PMULHW mm, mm/m64
- PMULHW MMX 00001111 11100101 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -506,6 +511,11 @@ PMULHUW SSE2 00001111 11100100 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 28 /r: PMULDQ xmm1, xmm2/m128
-+PMULDQ SSE4_1 00001111 00111000 00101000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F F4 /r: PMULUDQ mm1, mm2/m64
- PMULUDQ_mm SSE2 00001111 11110100 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -636,6 +646,21 @@ PMINUB SSE2 00001111 11011010 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 3A /r: PMINUW xmm1, xmm2/m128
-+PMINUW SSE4_1 00001111 00111000 00111010 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 38 3B /r: PMINUD xmm1, xmm2/m128
-+PMINUD SSE4_1 00001111 00111000 00111011 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 38 38 /r: PMINSB xmm1, xmm2/m128
-+PMINSB SSE4_1 00001111 00111000 00111000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F EA /r: PMINSW mm1, mm2/m64
- PMINSW SSE 00001111 11101010 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -646,6 +671,11 @@ PMINSW SSE2 00001111 11101010 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 39 /r: PMINSD xmm1, xmm2/m128
-+PMINSD SSE4_1 00001111 00111000 00111001 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F 5D /r: MINPS xmm1, xmm2/m128
- MINPS SSE 00001111 01011101 \
-   !constraints { modrm($_); 1 } \
-@@ -666,6 +696,11 @@ MINSD SSE2 00001111 01011101 \
-   !constraints { repne($_); modrm($_); 1 } \
+@@ -886,6 +886,51 @@ ROUNDSD SSE4_1 00001111 00111010 00001011 \
+   !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
    !memory { load(size => 8); }
  
-+# 66 0F 38 41 /r: PHMINPOSUW xmm1, xmm2/m128
-+PHMINPOSUW SSE4_1 00001111 00111000 01000001 \
++#
++# AES Instructions
++# ----------------
++#
++
++# 66 0F 38 DE /r: AESDEC xmm1, xmm2/m128
++AESDEC AES 00001111 00111000 11011110 \
 +  !constraints { data16($_); modrm($_); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
- # NP 0F DE /r: PMAXUB mm1, mm2/m64
- PMAXUB SSE 00001111 11011110 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -676,6 +711,21 @@ PMAXUB SSE2 00001111 11011110 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 3E /r: PMAXUW xmm1, xmm2/m128
-+PMAXUW SSE4_1 00001111 00111000 00111110 \
++# 66 0F 38 DF /r: AESDECLAST xmm1, xmm2/m128
++AESDECLAST AES 00001111 00111000 11011111 \
 +  !constraints { data16($_); modrm($_); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
-+# 66 0F 38 3F /r: PMAXUD xmm1, xmm2/m128
-+PMAXUD SSE4_1 00001111 00111000 00111111 \
++# 66 0F 38 DC /r: AESENC xmm1, xmm2/m128
++AESENC AES 00001111 00111000 11011100 \
 +  !constraints { data16($_); modrm($_); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
-+# 66 0F 38 3C /r: PMAXSB xmm1, xmm2/m128
-+PMAXSB SSE4_1 00001111 00111000 00111100 \
++# 66 0F 38 DD /r: AESENCLAST xmm1, xmm2/m128
++AESENCLAST AES 00001111 00111000 11011101 \
 +  !constraints { data16($_); modrm($_); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
- # NP 0F EE /r: PMAXSW mm1, mm2/m64
- PMAXSW SSE 00001111 11101110 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -686,6 +736,11 @@ PMAXSW SSE2 00001111 11101110 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 3D /r: PMAXSD xmm1, xmm2/m128
-+PMAXSD SSE4_1 00001111 00111000 00111101 \
++# 66 0F 38 DB /r: AESIMC xmm1, xmm2/m128
++AESIMC AES 00001111 00111000 11011011 \
 +  !constraints { data16($_); modrm($_); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
- # NP 0F 5F /r: MAXPS xmm1, xmm2/m128
- MAXPS SSE 00001111 01011111 \
-   !constraints { modrm($_); 1 } \
-@@ -736,6 +791,11 @@ PSADBW SSE2 00001111 11110110 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 3A 42 /r ib: MPSADBW xmm1, xmm2/m128, imm8
-+MPSADBW SSE4_1 00001111 00111010 01000010 \
++# 66 0F 3A DF /r ib: AESKEYGENASSIST xmm1, xmm2/m128, imm8
++AESKEYGENASSIST AES 00001111 00111010 11011111 \
 +  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
 +  !memory { load(size => 16, align => 16); }
 +
- # NP 0F 38 1C /r: PABSB mm1, mm2/m64
- PABSB_mm SSSE3 00001111 00111000 00011100 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -796,6 +856,36 @@ PSIGND SSSE3 00001111 00111000 00001010 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 3A 40 /r ib: DPPS xmm1, xmm2/m128, imm8
-+DPPS SSE4_1 00001111 00111010 01000000 \
++#
++# PCLMULQDQ Instructions
++# ----------------------
++#
++
++# 66 0F 3A 44 /r ib: PCLMULQDQ xmm1, xmm2/m128, imm8
++PCLMULQDQ PCLMULQDQ 00001111 00111010 01000100 \
 +  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
 +  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 41 /r ib: DPPD xmm1, xmm2/m128, imm8
-+DPPD SSE4_1 00001111 00111010 01000001 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 08 /r ib: ROUNDPS xmm1, xmm2/m128, imm8
-+ROUNDPS SSE4_1 00001111 00111010 00001000 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 09 /r ib: ROUNDPD xmm1, xmm2/m128, imm8
-+ROUNDPD SSE4_1 00001111 00111010 00001001 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 0A /r ib: ROUNDSS xmm1, xmm2/m32, imm8
-+ROUNDSS SSE4_1 00001111 00111010 00001010 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0F 3A 0B /r ib: ROUNDSD xmm1, xmm2/m64, imm8
-+ROUNDSD SSE4_1 00001111 00111010 00001011 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 8); }
 +
  #
  # Comparison Instructions
  # -----------------------
-@@ -831,6 +921,11 @@ PCMPEQD SSE2 00001111 01110110 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 29 /r: PCMPEQQ xmm1, xmm2/m128
-+PCMPEQQ SSE4_1 00001111 00111000 00101001 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F 64 /r: PCMPGTB mm,mm/m64
- PCMPGTB MMX 00001111 01100100 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -861,6 +956,36 @@ PCMPGTD SSE2 00001111 01100110 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 37 /r: PCMPGTQ xmm1,xmm2/m128
-+PCMPGTQ SSE4_2 00001111 00111000 00110111 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 60 /r imm8: PCMPESTRM xmm1, xmm2/m128, imm8
-+PCMPESTRM SSE4_2 00001111 00111010 01100000 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16); }
-+
-+# 66 0F 3A 61 /r imm8: PCMPESTRI xmm1, xmm2/m128, imm8
-+PCMPESTRI SSE4_2 00001111 00111010 01100001 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, rollback => (defined $_->{modrm}{base} && $_->{modrm}{base} != REG_RCX)); }
-+
-+# 66 0F 3A 62 /r imm8: PCMPISTRM xmm1, xmm2/m128, imm8
-+PCMPISTRM SSE4_2 00001111 00111010 01100010 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16); }
-+
-+# 66 0F 3A 63 /r imm8: PCMPISTRI xmm1, xmm2/m128, imm8
-+PCMPISTRI SSE4_2 00001111 00111010 01100011 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, rollback => (defined $_->{modrm}{base} && $_->{modrm}{base} != REG_RCX)); }
-+
-+# 66 0F 38 17 /r: PTEST xmm1, xmm2/m128
-+PTEST SSE4_1 00001111 00111000 00010111 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F C2 /r ib: CMPPS xmm1, xmm2/m128, imm8
- CMPPS SSE 00001111 11000010 \
-   !constraints { modrm($_); imm($_, width => 8); 1 } \
-@@ -1188,6 +1313,11 @@ PACKUSWB SSE2 00001111 01100111 \
-   !constraints { data16($_); modrm($_); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 38 2B /r: PACKUSDW xmm1, xmm2/m128
-+PACKUSDW SSE4_1 00001111 00111000 00101011 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
- # NP 0F 68 /r: PUNPCKHBW mm, mm/m64
- PUNPCKHBW MMX 00001111 01101000 \
-   !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -1318,6 +1448,46 @@ SHUFPD SSE2 00001111 11000110 \
-   !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-   !memory { load(size => 16, align => 16); }
- 
-+# 66 0F 3A 0C /r ib: BLENDPS xmm1, xmm2/m128, imm8
-+BLENDPS SSE4_1 00001111 00111010 00001100 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 0D /r ib: BLENDPD xmm1, xmm2/m128, imm8
-+BLENDPD SSE4_1 00001111 00111010 00001101 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 38 14 /r: BLENDVPS xmm1, xmm2/m128, <XMM0>
-+BLENDVPS SSE4_1 00001111 00111000 00010100 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 38 15 /r: BLENDVPD xmm1, xmm2/m128 , <XMM0>
-+BLENDVPD SSE4_1 00001111 00111000 00010101 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 38 10 /r: PBLENDVB xmm1, xmm2/m128, <XMM0>
-+PBLENDVB SSE4_1 00001111 00111000 00010000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 0E /r ib: PBLENDW xmm1, xmm2/m128, imm8
-+PBLENDW SSE4_1 00001111 00111010 00001110 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 16, align => 16); }
-+
-+# 66 0F 3A 21 /r ib: INSERTPS xmm1, xmm2/m32, imm8
-+INSERTPS SSE4_1 00001111 00111010 00100001 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0F 3A 20 /r ib: PINSRB xmm1,r32/m8,imm8
-+PINSRB SSE4_1 00001111 00111010 00100000 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { load(size => 1); }
-+
- # NP 0F C4 /r ib: PINSRW mm, r32/m16, imm8
- PINSRW SSE 00001111 11000100 \
-   !constraints { modrm($_); imm($_, width => 8); $_->{modrm}{reg} &= 0b111; !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-@@ -1328,6 +1498,41 @@ PINSRW SSE2 00001111 11000100 \
-   !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-   !memory { load(size => 2); }
- 
-+# 66 0F 3A 22 /r ib: PINSRD xmm1,r/m32,imm8
-+PINSRD SSE4_1 00001111 00111010 00100010 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { load(size => 4); }
-+
-+# 66 REX.W 0F 3A 22 /r ib: PINSRQ xmm1,r/m64,imm8
-+PINSRQ SSE4_1 00001111 00111010 00100010 \
-+  !constraints { data16($_); rex($_, w => 1); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { load(size => 8); }
-+
-+# 66 0F 3A 17 /r ib: EXTRACTPS reg/m32, xmm1, imm8
-+EXTRACTPS SSE4_1 00001111 00111010 00010111 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { store(size => 4); }
-+
-+# 66 0F 3A 14 /r ib: PEXTRB reg/m8,xmm2,imm8
-+PEXTRB SSE4_1 00001111 00111010 00010100 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { store(size => 1); }
-+
-+# 66 0F 3A 15 /r ib: PEXTRW reg/m16, xmm, imm8
-+PEXTRW SSE4_1 00001111 00111010 00010101 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { store(size => 2); }
-+
-+# 66 0F 3A 16 /r ib: PEXTRD r/m32,xmm2,imm8
-+PEXTRD SSE4_1 00001111 00111010 00010110 \
-+  !constraints { data16($_); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { store(size => 4); }
-+
-+# 66 REX.W 0F 3A 16 /r ib: PEXTRQ r/m64,xmm2,imm8
-+PEXTRQ SSE4_1 00001111 00111010 00010110 \
-+  !constraints { data16($_); rex($_, w => 1); modrm($_); imm($_, width => 8); !(defined $_->{modrm}{reg2} && $_->{modrm}{reg2} == REG_RSP) } \
-+  !memory { store(size => 8); }
-+
- # NP 0F C5 /r ib: PEXTRW reg, mm, imm8
- PEXTRW_reg SSE 00001111 11000101 \
-   !constraints { modrm($_); imm($_, width => 8); $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; $_->{modrm}{reg} != REG_RSP && defined $_->{modrm}{reg2} }
-@@ -1341,6 +1546,66 @@ PEXTRW_reg SSE2 00001111 11000101 \
- # -----------------------
- #
- 
-+# 66 0f 38 20 /r: PMOVSXBW xmm1, xmm2/m64
-+PMOVSXBW SSE4_1 00001111 00111000 00100000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
-+# 66 0f 38 21 /r: PMOVSXBD xmm1, xmm2/m32
-+PMOVSXBD SSE4_1 00001111 00111000 00100001 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0f 38 22 /r: PMOVSXBQ xmm1, xmm2/m16
-+PMOVSXBQ SSE4_1 00001111 00111000 00100010 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 2); }
-+
-+# 66 0f 38 23 /r: PMOVSXWD xmm1, xmm2/m64
-+PMOVSXWD SSE4_1 00001111 00111000 00100011 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
-+# 66 0f 38 24 /r: PMOVSXWQ xmm1, xmm2/m32
-+PMOVSXWQ SSE4_1 00001111 00111000 00100100 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0f 38 25 /r: PMOVSXDQ xmm1, xmm2/m64
-+PMOVSXDQ SSE4_1 00001111 00111000 00100101 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
-+# 66 0f 38 30 /r: PMOVZXBW xmm1, xmm2/m64
-+PMOVZXBW SSE4_1 00001111 00111000 00110000 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
-+# 66 0f 38 31 /r: PMOVZXBD xmm1, xmm2/m32
-+PMOVZXBD SSE4_1 00001111 00111000 00110001 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0f 38 32 /r: PMOVZXBQ xmm1, xmm2/m16
-+PMOVZXBQ SSE4_1 00001111 00111000 00110010 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 2); }
-+
-+# 66 0f 38 33 /r: PMOVZXWD xmm1, xmm2/m64
-+PMOVZXWD SSE4_1 00001111 00111000 00110011 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
-+# 66 0f 38 34 /r: PMOVZXWQ xmm1, xmm2/m32
-+PMOVZXWQ SSE4_1 00001111 00111000 00110100 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 4); }
-+
-+# 66 0f 38 35 /r: PMOVZXDQ xmm1, xmm2/m64
-+PMOVZXDQ SSE4_1 00001111 00111000 00110101 \
-+  !constraints { data16($_); modrm($_); 1 } \
-+  !memory { load(size => 8); }
-+
- # NP 0F 2A /r: CVTPI2PS xmm, mm/m64
- CVTPI2PS SSE 00001111 00101010 \
-   !constraints { modrm($_); $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; 1 } \
-@@ -1526,6 +1791,11 @@ MOVNTDQ SSE2 00001111 11100111 \
-   !constraints { data16($_); modrm($_); !defined $_->{modrm}{reg2} } \
-   !memory { store(size => 16, align => 16); }
- 
-+# 66 0F 38 2A /r: MOVNTDQA xmm1, m128
-+MOVNTDQA SSE4_1 00001111 00111000 00101010 \
-+  !constraints { data16($_); modrm($_); !defined $_->{modrm}{reg2} } \
-+  !memory { load(size => 16, align => 16); }
-+
- # 0F 18 /1: PREFETCHT0 m8
- PREFETCHT0 SSE 00001111 00011000 \
-   !constraints { modrm($_, reg => 1); !defined $_->{modrm}{reg2} } \
 -- 
 2.20.1
 
