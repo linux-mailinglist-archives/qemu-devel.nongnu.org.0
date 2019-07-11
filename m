@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B89765ED6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:42:22 +0200 (CEST)
-Received: from localhost ([::1]:44194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7D465ED4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:42:18 +0200 (CEST)
+Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hld5I-0008JF-PY
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38437)
+	id 1hld5F-0007xf-AA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38517)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hld4R-0005XQ-Q1
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:28 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hld4V-0005oT-JF
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hld4P-0004y5-9p
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38106)
+ (envelope-from <eric.auger@redhat.com>) id 1hld4T-00052Y-8i
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35942)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hld4L-0004lI-5p; Thu, 11 Jul 2019 13:41:21 -0400
+ id 1hld4L-0004q1-5m; Thu, 11 Jul 2019 13:41:21 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AD94930832E1;
- Thu, 11 Jul 2019 17:41:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id ABEB7308AA11;
+ Thu, 11 Jul 2019 17:41:14 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA39B60A97;
- Thu, 11 Jul 2019 17:41:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D6F660A97;
+ Thu, 11 Jul 2019 17:41:07 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:39:16 +0200
-Message-Id: <20190711173933.31203-13-eric.auger@redhat.com>
+Date: Thu, 11 Jul 2019 19:39:17 +0200
+Message-Id: <20190711173933.31203-14-eric.auger@redhat.com>
 In-Reply-To: <20190711173933.31203-1-eric.auger@redhat.com>
 References: <20190711173933.31203-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 11 Jul 2019 17:41:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 11 Jul 2019 17:41:14 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v5 12/29] iommu: Introduce generic header
+Subject: [Qemu-devel] [RFC v5 13/29] pci: introduce PCIPASIDOps to PCIDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,47 +61,145 @@ Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This header is meant to exposes data types used by
-several IOMMU devices such as struct for SVA and
-nested stage configuration.
+From: Liu Yi L <yi.l.liu@intel.com>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+This patch introduces PCIPASIDOps for IOMMU related operations.
+
+https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00078.html
+https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00940.html
+
+So far, to setup virt-SVA for assigned SVA capable device, needs to
+configure host translation structures for specific pasid. (e.g. bind
+guest page table to host and enable nested translation in host).
+Besides, vIOMMU emulator needs to forward guest's cache invalidation
+to host since host nested translation is enabled. e.g. on VT-d, guest
+owns 1st level translation table, thus cache invalidation for 1st
+level should be propagated to host.
+
+This patch adds two functions: alloc_pasid and free_pasid to support
+guest pasid allocation and free. The implementations of the callbacks
+would be device passthru modules. Like vfio.
+
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 ---
- include/hw/iommu/iommu.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 include/hw/iommu/iommu.h
+ hw/pci/pci.c             | 34 ++++++++++++++++++++++++++++++++++
+ include/hw/iommu/iommu.h |  3 +++
+ include/hw/pci/pci.h     | 11 +++++++++++
+ 3 files changed, 48 insertions(+)
 
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 8076a80ab3..43c0cef2f6 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2626,6 +2626,40 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn,=
+ void *opaque)
+     bus->iommu_opaque =3D opaque;
+ }
+=20
++void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
++{
++    assert(ops && !dev->pasid_ops);
++    dev->pasid_ops =3D ops;
++}
++
++bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn)
++{
++    PCIDevice *dev;
++
++    if (!bus) {
++        return false;
++    }
++
++    dev =3D bus->devices[devfn];
++    return !!(dev && dev->pasid_ops);
++}
++
++int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn,
++                               IOMMUConfig *config)
++{
++    PCIDevice *dev;
++
++    if (!bus) {
++        return -EINVAL;
++    }
++
++    dev =3D bus->devices[devfn];
++    if (dev && dev->pasid_ops && dev->pasid_ops->set_pasid_table) {
++        return dev->pasid_ops->set_pasid_table(bus, devfn, config);
++    }
++    return -ENOENT;
++}
++
+ static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ {
+     Range *range =3D opaque;
 diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
-new file mode 100644
-index 0000000000..9e60ece160
---- /dev/null
+index 9e60ece160..12092bda7b 100644
+--- a/include/hw/iommu/iommu.h
 +++ b/include/hw/iommu/iommu.h
-@@ -0,0 +1,25 @@
-+/*
-+ * common header for iommu devices
-+ *
-+ * Copyright Red Hat, Inc. 2019
-+ *
-+ * Authors:
-+ *  Eric Auger <eric.auger@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_HW_IOMMU_IOMMU_H
-+#define QEMU_HW_IOMMU_IOMMU_H
-+
-+typedef struct IOMMUConfig {
-+    union {
+@@ -12,6 +12,9 @@
+=20
+ #ifndef QEMU_HW_IOMMU_IOMMU_H
+ #define QEMU_HW_IOMMU_IOMMU_H
 +#ifdef __linux__
-+        struct iommu_pasid_table_config pasid_cfg;
++#include <linux/iommu.h>
 +#endif
-+          };
-+} IOMMUConfig;
+=20
+ typedef struct IOMMUConfig {
+     union {
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index aaf1b9f70d..84be2847a5 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -9,6 +9,7 @@
+ #include "hw/isa/isa.h"
+=20
+ #include "hw/pci/pcie.h"
++#include "hw/iommu/iommu.h"
+=20
+ extern bool pci_available;
+=20
+@@ -263,6 +264,11 @@ struct PCIReqIDCache {
+ };
+ typedef struct PCIReqIDCache PCIReqIDCache;
+=20
++typedef struct PCIPASIDOps PCIPASIDOps;
++struct PCIPASIDOps {
++    int (*set_pasid_table)(PCIBus *bus, int32_t devfn, IOMMUConfig *conf=
+ig);
++};
 +
+ struct PCIDevice {
+     DeviceState qdev;
+=20
+@@ -352,6 +358,7 @@ struct PCIDevice {
+     MSIVectorUseNotifier msix_vector_use_notifier;
+     MSIVectorReleaseNotifier msix_vector_release_notifier;
+     MSIVectorPollNotifier msix_vector_poll_notifier;
++    PCIPASIDOps *pasid_ops;
+ };
+=20
+ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+@@ -485,6 +492,10 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void=
+ *, int);
+ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
+ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
+=20
++void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops);
++bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn);
++int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn, IOMMUConfig *=
+config);
 +
-+#endif /* QEMU_HW_IOMMU_IOMMU_H */
+ static inline void
+ pci_set_byte(uint8_t *config, uint8_t val)
+ {
 --=20
 2.20.1
 
