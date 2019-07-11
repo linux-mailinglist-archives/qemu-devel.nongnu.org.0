@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750AB6604E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 21:59:22 +0200 (CEST)
-Received: from localhost ([::1]:44981 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E303766050
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 21:59:32 +0200 (CEST)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlfDt-0006UT-Dh
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 15:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51458)
+	id 1hlfE3-0007J9-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 15:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlfDP-0005Zq-F4
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:52 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlfDW-0005sd-MF
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlfDO-00015w-8m
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41366)
+ (envelope-from <mreitz@redhat.com>) id 1hlfDU-0001JV-Nc
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 15:58:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57714)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlfCw-0000pD-HJ; Thu, 11 Jul 2019 15:58:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hlfDQ-0000rh-Dx; Thu, 11 Jul 2019 15:58:52 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8D9FE308FFB1;
- Thu, 11 Jul 2019 19:58:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6DB32308213A;
+ Thu, 11 Jul 2019 19:58:24 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.198])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 200CE600D1;
- Thu, 11 Jul 2019 19:58:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D77B60BE2;
+ Thu, 11 Jul 2019 19:58:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu, 11 Jul 2019 21:58:02 +0200
-Message-Id: <20190711195804.30703-4-mreitz@redhat.com>
+Date: Thu, 11 Jul 2019 21:58:03 +0200
+Message-Id: <20190711195804.30703-5-mreitz@redhat.com>
 In-Reply-To: <20190711195804.30703-1-mreitz@redhat.com>
 References: <20190711195804.30703-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 11 Jul 2019 19:58:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 11 Jul 2019 19:58:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC 3/5] block: Fall back to fallback truncate
- function
+Subject: [Qemu-devel] [RFC 4/5] block: Generic file creation fallback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,84 +59,133 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-file-posix does not need to basically duplicate our fallback truncate
-implementation; and sheepdog can fall back to it for "shrinking" files.
+If a protocol driver does not support image creation, we can see whether
+maybe the file exists already.  If so, just truncating it will be
+sufficient.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 21 +--------------------
- block/sheepdog.c   |  2 +-
- 2 files changed, 2 insertions(+), 21 deletions(-)
+ block.c | 77 ++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 65 insertions(+), 12 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index ab05b51a66..bcddfc7fbe 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2031,23 +2031,7 @@ static int coroutine_fn raw_co_truncate(BlockDrive=
-rState *bs, int64_t offset,
-         return raw_regular_truncate(bs, s->fd, offset, prealloc, errp);
-     }
-=20
--    if (prealloc !=3D PREALLOC_MODE_OFF) {
--        error_setg(errp, "Preallocation mode '%s' unsupported for this "
--                   "non-regular file", PreallocMode_str(prealloc));
--        return -ENOTSUP;
--    }
--
--    if (S_ISCHR(st.st_mode) || S_ISBLK(st.st_mode)) {
--        if (offset > raw_getlength(bs)) {
--            error_setg(errp, "Cannot grow device files");
--            return -EINVAL;
--        }
--    } else {
--        error_setg(errp, "Resizing this file is not supported");
--        return -ENOTSUP;
--    }
--
--    return 0;
-+    return -ENOTSUP;
+diff --git a/block.c b/block.c
+index c139540f2b..8fb8e4dfda 100644
+--- a/block.c
++++ b/block.c
+@@ -531,20 +531,57 @@ out:
+     return ret;
  }
 =20
- #ifdef __OpenBSD__
-@@ -3413,7 +3397,6 @@ static BlockDriver bdrv_host_device =3D {
-     .bdrv_io_unplug =3D raw_aio_unplug,
-     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++static int bdrv_create_file_fallback(const char *filename, BlockDriver *=
+drv,
++                                     QemuOpts *opts, Error **errp)
+ {
+-    BlockDriver *drv;
++    BlockBackend *blk;
++    QDict *options =3D qdict_new();
++    int64_t size =3D 0;
++    char *buf =3D NULL;
++    PreallocMode prealloc;
+     Error *local_err =3D NULL;
+     int ret;
 =20
--    .bdrv_co_truncate       =3D raw_co_truncate,
-     .bdrv_getlength	=3D raw_getlength,
-     .bdrv_get_info =3D raw_get_info,
-     .bdrv_get_allocated_file_size
-@@ -3537,7 +3520,6 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_io_unplug =3D raw_aio_unplug,
-     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
++    size =3D qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
++    buf =3D qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
++    prealloc =3D qapi_enum_parse(&PreallocMode_lookup, buf,
++                               PREALLOC_MODE_OFF, &local_err);
++    g_free(buf);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return -EINVAL;
++    }
++
++    qdict_put_str(options, "driver", drv->format_name);
++
++    blk =3D blk_new_open(filename, NULL, options,
++                       BDRV_O_RDWR | BDRV_O_RESIZE, errp);
++    if (!blk) {
++        error_prepend(errp, "Protocol driver '%s' does not support "
++                      "image creation, and opening the image failed: ",
++                      drv->format_name);
++        return -EINVAL;
++    }
++
++    ret =3D blk_truncate(blk, size, prealloc, errp);
++    blk_unref(blk);
++    return ret;
++}
++
++int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++{
++    BlockDriver *drv;
++
+     drv =3D bdrv_find_protocol(filename, true, errp);
+     if (drv =3D=3D NULL) {
+         return -ENOENT;
+     }
 =20
--    .bdrv_co_truncate    =3D raw_co_truncate,
-     .bdrv_getlength      =3D raw_getlength,
-     .has_variable_length =3D true,
-     .bdrv_get_allocated_file_size
-@@ -3669,7 +3651,6 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_io_unplug =3D raw_aio_unplug,
-     .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
+-    ret =3D bdrv_create(drv, filename, opts, &local_err);
+-    error_propagate(errp, local_err);
+-    return ret;
++    if (drv->bdrv_co_create_opts) {
++        return bdrv_create(drv, filename, opts, errp);
++    } else {
++        return bdrv_create_file_fallback(filename, drv, opts, errp);
++    }
+ }
 =20
--    .bdrv_co_truncate    =3D raw_co_truncate,
-     .bdrv_getlength      =3D raw_getlength,
-     .has_variable_length =3D true,
-     .bdrv_get_allocated_file_size
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 6f402e5d4d..4af4961cb7 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -2301,7 +2301,7 @@ static int coroutine_fn sd_co_truncate(BlockDriverS=
-tate *bs, int64_t offset,
-     max_vdi_size =3D (UINT64_C(1) << s->inode.block_size_shift) * MAX_DA=
-TA_OBJS;
-     if (offset < old_size) {
-         error_setg(errp, "shrinking is not supported");
--        return -EINVAL;
-+        return -ENOTSUP;
-     } else if (offset > max_vdi_size) {
-         error_setg(errp, "too big image size");
-         return -EINVAL;
+ /**
+@@ -1420,6 +1457,24 @@ QemuOptsList bdrv_runtime_opts =3D {
+     },
+ };
+=20
++static QemuOptsList fallback_create_opts =3D {
++    .name =3D "fallback-create-opts",
++    .head =3D QTAILQ_HEAD_INITIALIZER(fallback_create_opts.head),
++    .desc =3D {
++        {
++            .name =3D BLOCK_OPT_SIZE,
++            .type =3D QEMU_OPT_SIZE,
++            .help =3D "Virtual disk size"
++        },
++        {
++            .name =3D BLOCK_OPT_PREALLOC,
++            .type =3D QEMU_OPT_STRING,
++            .help =3D "Preallocation mode (allowed values: off)"
++        },
++        { /* end of list */ }
++    }
++};
++
+ /*
+  * Common part for opening disk images and files
+  *
+@@ -5681,14 +5736,12 @@ void bdrv_img_create(const char *filename, const =
+char *fmt,
+         return;
+     }
+=20
+-    if (!proto_drv->create_opts) {
+-        error_setg(errp, "Protocol driver '%s' does not support image cr=
+eation",
+-                   proto_drv->format_name);
+-        return;
+-    }
+-
+     create_opts =3D qemu_opts_append(create_opts, drv->create_opts);
+-    create_opts =3D qemu_opts_append(create_opts, proto_drv->create_opts=
+);
++    if (proto_drv->create_opts) {
++        create_opts =3D qemu_opts_append(create_opts, proto_drv->create_=
+opts);
++    } else {
++        create_opts =3D qemu_opts_append(create_opts, &fallback_create_o=
+pts);
++    }
+=20
+     /* Create parameter list with default values */
+     opts =3D qemu_opts_create(create_opts, NULL, 0, &error_abort);
 --=20
 2.21.0
 
