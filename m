@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90BE65945
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:45:38 +0200 (CEST)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C0D6594C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:47:18 +0200 (CEST)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlaKH-0006ZX-KS
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:45:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38911)
+	id 1hlaLt-0008Gh-H8
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hlaIk-0005iP-9Z
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:44:03 -0400
+ (envelope-from <armbru@redhat.com>) id 1hlaK6-0006xH-Fi
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:45:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hlaIj-000471-7D
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:44:02 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46363)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hlaIi-000460-UO
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:44:01 -0400
-Received: by mail-ot1-x344.google.com with SMTP id z23so6069240ote.13
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 07:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=juWF7t80AMiUy6W/39UirWfnLso33OL7l6jDlGM6Yow=;
- b=LuiMmOhqnpI9XVRm72HVh+6hcQhkkX5lIqkfffDeBpuHJeglqdRI4F7SBDDGaqvX9C
- OPPIEHViGUwKIVQ+VY9fdwJvDwKV08gYCljHjE8m/Wr7DvvKwRcl1CkYDUrjBmpXskPW
- 4k4PDvBmhjCvX6XU/bupLM4Qg9YqgDn2+Ci+J6zxmZzoEJSX0VH4ywHYIOFaXxc1ZJd4
- MANakSkCidvUY+QtQ4PZ7v9ihwUkCp/sAh36urwlbvMS6TO74Y3L8jVjyCLPSjU2BrDz
- oT4si2VCFSjMa6roLdFd/zlqJTr1J2axG+CSFusco3hHerKBnL0fv/r/p6EZI6OI2Axj
- 521g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=juWF7t80AMiUy6W/39UirWfnLso33OL7l6jDlGM6Yow=;
- b=mUyZ6qbklC2WcnscFs/WHfyb1arS2SYjGJiGr5FCyA1ofgZXSDShL7IWL7N2J+PnNC
- 9uXXpA4YOXLD1AGSMC3zNuUTHo3cCVll7AKD3NnquRJ7wbDqifSm5hcV+LElu8QrRXSV
- BXvXu6yKN7kKD2tPqT/KPWMa2oDTGivPcmFv17+eaRKpK0JNGlLtGViTok/TMh/UHPsU
- 6c6JuVqrdDoPW64GPwAYHbTrOYamDVoU+xz9jvSmMF8p7A0HeBsl4WB4lfgW0lZkBsuD
- SleuXHPfNGQ56EulhX/4npMzOm+I3Mjnyv80IEZyaPE3UlkWtAzeS17UN6J62/g6286w
- 4zGg==
-X-Gm-Message-State: APjAAAU4G3P5qfMOtWEuhzNXw3mIg6lXpXnn6r6wGyGiEOJudSkjONjR
- uo1WfYswEop9rBVvkSpPWZIjqRB7fzQGJf2ZDQSGQw==
-X-Google-Smtp-Source: APXvYqwmF1UnHM1ZF0FtaNoZyFKo8OPH0s+nKphsKNwRx+Ye2jwbp/AZSWa0HaYGhoMp3flH+bmD+E/oJbdgZyE0j8c=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr3902765otk.232.1562856239945; 
- Thu, 11 Jul 2019 07:43:59 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1hlaK4-0006UO-Me
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:45:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48636)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hlaK4-0006S5-GY
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:45:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EB5B930917AF;
+ Thu, 11 Jul 2019 14:45:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
+ [10.36.116.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE9B261476;
+ Thu, 11 Jul 2019 14:45:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0B93D1138648; Thu, 11 Jul 2019 16:45:21 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <3c8b83fe-120b-40e6-84d5-5a3b88e46ee3@ilande.co.uk>
+ <CAFEAcA9KjJUE7R0OYfM9AT=Ydu8eXBYJR=sGoGog25xrpRMZig@mail.gmail.com>
+ <914f608a-5128-87a5-1c08-e20db88ad216@ilande.co.uk>
+ <CAFEAcA9=KKtbR624rV77cu41zUTyu2N8-+1Gjmg-rQwdS1htuw@mail.gmail.com>
+ <20190708094107.GD3082@redhat.com>
+ <28ca7c60-5795-31ff-1d71-1fac477ad996@redhat.com>
+ <20190708101919.GF3082@redhat.com>
+ <267315a5-9969-9bfb-b4f6-57c61890fae4@ilande.co.uk>
+Date: Thu, 11 Jul 2019 16:45:21 +0200
+In-Reply-To: <267315a5-9969-9bfb-b4f6-57c61890fae4@ilande.co.uk> (Mark
+ Cave-Ayland's message of "Mon, 8 Jul 2019 18:03:17 +0100")
+Message-ID: <87lfx4wry6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20190709123240.16298-1-philmd@redhat.com>
-In-Reply-To: <20190709123240.16298-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jul 2019 15:43:49 +0100
-Message-ID: <CAFEAcA8h-ghRdj+K9x-6559Djfpth1-s9aPargLkQjTDA5HsLA@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] 
-	=?utf-8?q?=5BPATCH-for-4=2E1_v6_0/3=5D_hw/ssi/xilin?=
-	=?utf-8?q?x=5Fspips=3A_Avoid_NULL_dereference_and_out-of-bound_acc?=
-	=?utf-8?b?ZXNz4oCL?=
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Thu, 11 Jul 2019 14:45:23 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Parallel make build fails on fast machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,34 +66,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Iglesias <frasse.iglesias@gmail.com>,
- qemu-stable <qemu-stable@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, Prasad J Pandit <ppandit@redhat.com>,
- Lei Sun <slei.casper@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 9 Jul 2019 at 13:32, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+
+> Something also looks a bit odd with distclean here on a fresh checkout:
 >
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01238.html
-> v2: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01586.html
-> v3: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01657.html
-> v4: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01777.html
-> v5: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01959.html
-> v6:
-> - fixed datasheet reference, added Francisco tags
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/ssi/xilinx_spips: Convert lqspi_read() to read_with_attrs
->   hw/ssi/xilinx_spips: Avoid AXI writes to the LQSPI linear memory
->   hw/ssi/xilinx_spips: Avoid out-of-bound access to lqspi_buf[]
+> build@ezio:~/src/qemu/git/tmp/qemu$ make distclean
+>   LD      recurse-clean.mo
+> cc: fatal error: no input files
+> compilation terminated.
+> rules.mak:118: recipe for target 'recurse-clean.mo' failed
+> make: *** [recurse-clean.mo] Error 1
 
-
-
-Applied to target-arm.next, thanks.
-
--- PMM
+This one should be fixed in master (commit 8d358a5ea08).  If it's still
+broken for you, let me know.
 
