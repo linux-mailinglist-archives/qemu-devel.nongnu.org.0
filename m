@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6880A65F58
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:09:20 +0200 (CEST)
-Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B791F65F4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:06:51 +0200 (CEST)
+Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hld7h-0003Ag-OQ
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39225)
+	id 1hldT0-0002zR-RF
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 14:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46721)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hld5c-0002Th-ID
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:42:41 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hldSo-0002ZV-5N
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:06:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hld5Z-0006Is-UN
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:42:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36328)
+ (envelope-from <dgilbert@redhat.com>) id 1hldSm-0006IF-Vs
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:06:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hld5X-0006Cg-Ez; Thu, 11 Jul 2019 13:42:35 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hldSm-0006HC-QM
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:06:36 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 05F19308A98D;
- Thu, 11 Jul 2019 17:42:33 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 113B960600;
- Thu, 11 Jul 2019 17:42:29 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:39:29 +0200
-Message-Id: <20190711173933.31203-26-eric.auger@redhat.com>
-In-Reply-To: <20190711173933.31203-1-eric.auger@redhat.com>
-References: <20190711173933.31203-1-eric.auger@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id D300230842AF;
+ Thu, 11 Jul 2019 18:06:35 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44D5860606;
+ Thu, 11 Jul 2019 18:06:33 +0000 (UTC)
+Date: Thu, 11 Jul 2019 19:06:31 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Singh, Brijesh" <brijesh.singh@amd.com>
+Message-ID: <20190711180631.GT3971@work-vm>
+References: <20190710202219.25939-1-brijesh.singh@amd.com>
+ <20190710202219.25939-6-brijesh.singh@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190710202219.25939-6-brijesh.singh@amd.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 11 Jul 2019 17:42:33 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.40]); Thu, 11 Jul 2019 18:06:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v5 25/29] hw/arm/smmuv3: Fill the IOTLBEntry
- arch_id on NH_VA invalidation
+Subject: Re: [Qemu-devel] [PATCH v2 05/13] doc: update AMD SEV API spec web
+ link
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,35 +58,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
- jean-philippe.brucker@arm.com, zhangfei.gao@foxmail.com, peterx@redhat.com,
- alex.williamson@redhat.com, vincent.stehle@arm.com
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
+ Thomas" <Thomas.Lendacky@amd.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the guest invalidates one S1 entry, it passes the asid.
-When propagating this invalidation downto the host, the asid
-information also must be passed. So let's fill the arch_id field
-introduced for that purpose.
+* Singh, Brijesh (brijesh.singh@amd.com) wrote:
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  docs/amd-memory-encryption.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index 43bf3ee6a5..abb9a976f5 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -98,7 +98,7 @@ AMD Memory Encryption whitepaper:
+>  http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+>  
+>  Secure Encrypted Virtualization Key Management:
+> -[1] http://support.amd.com/TechDocs/55766_SEV-KM API_Specification.pdf
+> +[1] https://developer.amd.com/sev/ (Secure Encrypted Virtualization API)
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/arm/smmuv3.c | 1 +
- 1 file changed, 1 insertion(+)
+No; that reference [1] is used a few lines hire up for:
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index f7497de9e4..8c88923f73 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -824,6 +824,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
-     entry.iova =3D iova;
-     entry.addr_mask =3D (1 << tt->granule_sz) - 1;
-     entry.perm =3D IOMMU_NONE;
-+    entry.arch_id =3D asid;
-=20
-     memory_region_notify_one(n, &entry);
- }
---=20
-2.20.1
+See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+complete flow chart.
 
+
+so that needs fixing up to actually point to that flowchart or
+equivalent.
+
+That site is useful to include, but I guess it also needs a pointer
+to the Volume2 section 15.34 or the like.
+
+Dave
+
+
+>  KVM Forum slides:
+>  http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
