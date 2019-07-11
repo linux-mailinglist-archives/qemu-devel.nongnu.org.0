@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4006578A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:03:24 +0200 (CEST)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886C16578C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:03:31 +0200 (CEST)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlYjL-0003J5-7a
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33838)
+	id 1hlYjS-0003YW-O3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33837)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hlYhR-0001he-UP
+ (envelope-from <alex.bennee@linaro.org>) id 1hlYhR-0001hd-UN
  for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hlYhP-0007cN-Lu
+ (envelope-from <alex.bennee@linaro.org>) id 1hlYhP-0007cA-Eu
  for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40736)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1hlYhL-0007Yb-PF; Thu, 11 Jul 2019 09:01:19 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 531BA4E908;
- Thu, 11 Jul 2019 13:01:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5951760143;
- Thu, 11 Jul 2019 13:01:17 +0000 (UTC)
-Date: Thu, 11 Jul 2019 14:01:15 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190711130115.GJ11930@redhat.com>
-References: <20190710170349.1548-1-mlevitsk@redhat.com>
- <84232589-627a-8151-a3d5-84c053d9a257@redhat.com>
- <20190711092031.GB11930@redhat.com>
- <4af9b328-f74b-50db-f130-3ce551239e14@redhat.com>
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37623)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hlYhP-0007ap-5Y
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:23 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f17so5615499wme.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 06:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4tUPvhpmf4RjVrYJnAkw+1Jqpr5UUWhZW+cTOdAPB1g=;
+ b=Aw0PtbwCDMc7jQ0OQqwVdBOC88gUehRfqVDD60CXIetxHSkAFYdXjCkS/MR4zIM4l5
+ 0uWl5DHNCH8IftRLkP0wQuLZWEs4QNsYoiT9tgDRvn0dK0dbS10eDnsTXzKcHH07n+3f
+ r6u7NfTlCUZOQTai+gI68zAgjMfosIi5J4loxGVy5S6I9h4uVlR6vf3cxINWx8Xq3cM3
+ PiPUc4h7r1Dlzs9oVluBe5hxcqweoejOKesfQFIDQNyr+KKqLOt4fm+ZibKiWzkdbTbC
+ qUhVy/MK8US9PLZK5t/7WfZVVHyLm4wxjuURAJbD7P9sLvvczf1pKYJ0m3e2eCV9NyVq
+ I2wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4tUPvhpmf4RjVrYJnAkw+1Jqpr5UUWhZW+cTOdAPB1g=;
+ b=pFWkzmAWXTDADoKZZKB/7wkfzCsQvia5Q3zSKp8Pg8Fim4gpPhNnEowLaq5S77L77W
+ HyimX/gX+6LVWCvpJJ2fzIVXzSUqx5OAOAFEcHrnFYKk5ErP8XHJ05yZGDVHjgjGHGwG
+ O+Aa/D6bhlEbZdDjIDX9cEAPcpVYvZup3RUicowZIQQnHRMjItkStbigRKOTCSZO4kzp
+ 3uihqI4g/npRliKkyWGNnqytrT8w6Z+4dyafGNcg03b5BVtAeCmmJrsCVzofLyg4EdCM
+ I8X2bJjPFld401lLq8cBIjVKWYgE27aalneNMPi+uK/spo1uFfvvo0Uw1Uym9ouH3jg+
+ gz0g==
+X-Gm-Message-State: APjAAAUt+xnfUpFYVkKg7pK7t1LNqEQ0TxjPiHxnulQMmPKIgJ4N6fgS
+ 7g+aDhti/NwjYIpjrk+Pk2ZkFQ==
+X-Google-Smtp-Source: APXvYqwAHrEJsIPgCfurYZ8pA9JkAEqGM40hUgrBZhq4AChnyYSTXABQhZ8qxYjMd5YyGyvaJ6y2Pw==
+X-Received: by 2002:a7b:c84c:: with SMTP id c12mr4216634wml.70.1562850081707; 
+ Thu, 11 Jul 2019 06:01:21 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id v124sm5754810wmf.23.2019.07.11.06.01.21
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 11 Jul 2019 06:01:21 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C6A5B1FF87;
+ Thu, 11 Jul 2019 14:01:20 +0100 (BST)
+References: <20190711121231.3601-1-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-reply-to: <20190711121231.3601-1-peter.maydell@linaro.org>
+Date: Thu, 11 Jul 2019 14:01:20 +0100
+Message-ID: <87d0igendr.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4af9b328-f74b-50db-f130-3ce551239e14@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 11 Jul 2019 13:01:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] LUKS: support preallocation in qemu-img
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Set VFP-related MVFR0
+ fields for arm926 and arm1026
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,120 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Christophe Lyon <christophe.lyon@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 11, 2019 at 02:23:55PM +0200, Max Reitz wrote:
-> On 11.07.19 11:20, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Jul 10, 2019 at 11:24:46PM +0200, Max Reitz wrote:
-> >> On 10.07.19 19:03, Maxim Levitsky wrote:
-> >>> preallocation=3Doff and preallocation=3Dmetadata
-> >>> both allocate luks header only, and preallocation=3Dfalloc/full
-> >>> is passed to underlying file, with the given image size.
-> >>>
-> >>> Note that the actual preallocated size is a bit smaller due
-> >>> to luks header.
-> >>
-> >> Couldn=E2=80=99t you just preallocate it after creating the crypto h=
-eader so
-> >> qcrypto_block_get_payload_offset(crypto->block) + size is the actual
-> >> file size?
-> >=20
-> > Yeah that would be preferrable. If that's really not possible, we
-> > could likely provide some API to query the expected hreader size for
-> > a given set of creation options.=20
-> >=20
-> >>
-> >>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534951
-> >>>
-> >>> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> >>> ---
-> >>>  block/crypto.c | 28 ++++++++++++++++++++++++++--
-> >>>  1 file changed, 26 insertions(+), 2 deletions(-)
-> >>
-> >> Hm.  I would expect a preallocated image to read 0.  But if you just
-> >> pass this through to the protocol layer, it won=E2=80=99t read 0.
-> >=20
-> > Yes, it will be zeros at the physical layer, but unintelligble
-> > garbage from POV of the virtual disk.
-> >=20
-> > I don't think this is really a problem though - this is what you
-> > get already if you create a LUKS volume on top of a block device
-> > today.
->=20
-> Which is why we have BlockDriver.bdrv_has_zero_init(), which the LUKS
-> driver does not implement, hence it being treated as false.
->=20
-> But if you are preallocating, you have a choice of what you write, and
-> why not make that zeroes?
->=20
-> > AFAIK, we've not documented that preallocation guarantees future
-> > reads will return zeros. Preallocation simply ensures that all
-> > required space is allocated upfront. We do mention that it might
-> > be achieved by writing zeros to the underlying storage but never
-> > said you'll get zeros back.
->=20
-> But we have, as I wrote in my second reply.  PreallocMode's
-> documentation says that at least =E2=80=9Cfull=E2=80=9D is writing zero=
-es, and to say
-> those zeroes can be anywhere in the stack is cheating, from my POV.
 
-I guess it depends on your interpretation of the docs. In qemu-img
-man page it says
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-  "falloc" mode preallocates space for image by calling posix_fallocate()=
-.
-  "full" mode preallocates space for image by writing zeros to underlying
-  storage.
+> The ARMv5 architecture didn't specify detailed per-feature ID
+> registers. Now that we're using the MVFR0 register fields to
+> gate the existence of VFP instructions, we need to set up
+> the correct values in the cpu->isar structure so that we still
+> provide an FPU to the guest.
+>
+> This fixes a regression in the arm926 and arm1026 CPUs, which
+> are the only ones that both have VFP and are ARMv5 or earlier.
+> This regression was introduced by the VFP refactoring, and more
+> specifically by commits 1120827fa182f0e76 and 266bd25c485597c,
+> which accidentally disabled VFP short-vector support and
+> double-precision support on these CPUs.
+>
+> Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes: 1120827fa182f0e
+> Fixes: 266bd25c485597c
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1836192
+> ---
+> I've followed the existing approach we used for ISAR1 here
+> of just filling in the fields we care about, rather than trying
+> to set the entire register value.
 
-To me both those sentances are talking about the lowest level in the
-stack, closest to the physical storage medium, though I can understand
-if people have other interpretations.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> > IOW I think its at most a docs problem to more clearly explain
-> > that preallocation !=3D guaranteed zeros for reads.
-> >=20
-> >> (In fact, I don=E2=80=99t even quite see the point of having LUKS as=
- an own
-> >> format still.  It was useful when qcow2 didn=E2=80=99t have LUKS sup=
-port, but
-> >> now it does, so...  I suppose everyone using the LUKS format should
-> >> actually be using qcow2 with LUKS?)
-> >=20
-> > Certainly not. LUKS on raw is going to be very common, not least beca=
-use
-> > that's directly compatible with what Linux kernel supports. If you do=
-n't
-> > want the features of qcow2 like snapshots, it just adds overhead and =
-mgmt
-> > complexity for no gain, especially if dealing with block device backe=
-d
-> > storage (iSCSI, RBD).
-> >=20
-> > OpenStack will use cryptsetup when initializing its block storage wit=
-h
-> > LUKS, then tell QEMU to run with the raw + LUKS driver.
->=20
-> I see the compatibility with the Linux kernel, yes (as I wrote in my
-> second reply), but I=E2=80=99m not sure whether =E2=80=9Coverhead=E2=80=
-=9D really is that big of
-> a point when using encryption.
+Do you think we have caught them all now? If we end up removing the
+other ARM_FEATURE_foo flags in favour of isar tests we shall have to be
+careful not to re-introduce these sort of bugs.
 
-Overhead is not purely about CPU burn. There's non-negligible memory
-overhead for qcow2s data tables that doesn't exist at all with raw.
-The mgmt complexity & interoperability is the real killer feature
-benefit of raw + LUKS vs qcow + LUKS though.
+>
+>  target/arm/cpu.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index e75a64a25a4..446dd5163dc 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1666,6 +1666,12 @@ static void arm926_initfn(Object *obj)
+>       * set the field to indicate Jazelle support within QEMU.
+>       */
+>      cpu->isar.id_isar1 =3D FIELD_DP32(cpu->isar.id_isar1, ID_ISAR1, JAZE=
+LLE, 1);
+> +    /*
+> +     * Similarly, we need to set MVFR0 fields to enable double precision
+> +     * and short vector support even though ARMv5 doesn't have this regi=
+ster.
+> +     */
+> +    cpu->isar.mvfr0 =3D FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+> +    cpu->isar.mvfr0 =3D FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
+>  }
+>
+>  static void arm946_initfn(Object *obj)
+> @@ -1713,6 +1719,12 @@ static void arm1026_initfn(Object *obj)
+>          };
+>          define_one_arm_cp_reg(cpu, &ifar);
+>      }
+> +    /*
+> +     * Similarly, we need to set MVFR0 fields to enable double precision
+> +     * and short vector support even though ARMv5 doesn't have this regi=
+ster.
+> +     */
+> +    cpu->isar.mvfr0 =3D FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
+> +    cpu->isar.mvfr0 =3D FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
+>  }
+>
+>  static void arm1136_r2_initfn(Object *obj)
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+
+--
+Alex Benn=C3=A9e
 
