@@ -2,54 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDB5651A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 07:48:42 +0200 (CEST)
-Received: from localhost ([::1]:38716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C8F651A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 07:52:08 +0200 (CEST)
+Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlRwf-0006Tp-TH
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 01:48:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59263)
+	id 1hlRzz-0007gQ-0g
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 01:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60248)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hlRvu-00065G-Bo
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:47:55 -0400
+ (envelope-from <sbhat@linux.ibm.com>) id 1hlRzK-000792-US
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:51:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hlRvs-0002MZ-OX
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:47:54 -0400
-Resent-Date: Thu, 11 Jul 2019 01:47:54 -0400
-Resent-Message-Id: <E1hlRvs-0002MZ-OX@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21465)
+ (envelope-from <sbhat@linux.ibm.com>) id 1hlRzJ-00059t-Vv
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:51:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62250
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hlRvs-0002KM-Gg
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:47:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562824060; cv=none; d=zoho.com; s=zohoarc; 
- b=j4JtNZfzf1DHKAmZWCOVZfgbUIYJWrCnVioIERQjL/8aVQHFX7pIGlFszTgp3UsGXHkFNvobJdBuZZd8CLSlpggOyD/Ia4KYR5iLdTY541DO7RN2E4YcbzJUnEAy6WA5zpmykk18e4ARw8wk2xldtdDTdvYGrS33qLxgnQDPcTs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562824060;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=h2mGVPWYmTpdswRnmZuUpfdQ+jvJEggku4uz6bFVZ+E=; 
- b=jzaPZ6Vv+/3rEHlBwLOgRAMIBxm92WCCFfNX1arQvvycmmvEpjkkQ66AO3VXCxN1s521torEqTL3yxSVz5AJP7ZHiVwIKHsZU1KXwwLtm4n2SATn3FqVFggXwIYIK6bx/zk3X62xskokiCrUWWz5fhhaWCZkq48lB8WroNqlbrY=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562824057299710.710652829257;
- Wed, 10 Jul 2019 22:47:37 -0700 (PDT)
-Message-ID: <156282405613.9994.8085193428899314874@c4a48874b076>
-In-Reply-To: <1562823509-13072-1-git-send-email-jing2.liu@linux.intel.com>
+ (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1hlRzJ-00059E-RT
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 01:51:25 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6B5l766023254
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 01:51:24 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tny7v86q5-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 01:51:23 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <sbhat@linux.ibm.com>;
+ Thu, 11 Jul 2019 06:51:22 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 11 Jul 2019 06:51:19 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6B5pItc51642586
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 Jul 2019 05:51:18 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66DBEA405B;
+ Thu, 11 Jul 2019 05:51:18 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 332C4A405F;
+ Thu, 11 Jul 2019 05:51:17 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.124.35.17])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 11 Jul 2019 05:51:17 +0000 (GMT)
+To: Fabiano Rosas <farosas@linux.ibm.com>, imammedo@redhat.com,
+ david@gibson.dropbear.id.au, xiaoguangrong.eric@gmail.com, mst@redhat.com
+References: <155773946961.49142.5208084426066783536.stgit@lep8c.aus.stglabs.ibm.com>
+ <155773968985.49142.1164691973469833295.stgit@lep8c.aus.stglabs.ibm.com>
+ <875zq25plp.fsf@linux.ibm.com>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Date: Thu, 11 Jul 2019 11:21:16 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jing2.liu@linux.intel.com
-Date: Wed, 10 Jul 2019 22:47:37 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v1] x86: Intel AVX512_BF16 feature enabling
+In-Reply-To: <875zq25plp.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19071105-4275-0000-0000-0000034BD79A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071105-4276-0000-0000-0000385BDD5A
+Message-Id: <07b3c842-e313-aec9-8558-1944c39b1072@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-11_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907110068
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [RFC v2 PATCH 3/3] spapr: Add Hcalls to support
+ PAPR NVDIMM device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,35 +96,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, jing2.liu@linux.intel.com, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYyODIzNTA5LTEzMDcyLTEt
-Z2l0LXNlbmQtZW1haWwtamluZzIubGl1QGxpbnV4LmludGVsLmNvbS8KCgoKSGksCgpUaGlzIHNl
-cmllcyBmYWlsZWQgYnVpbGQgdGVzdCBvbiBzMzkweCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0
-YWlscyBiZWxvdy4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKIyBUZXN0
-aW5nIHNjcmlwdCB3aWxsIGJlIGludm9rZWQgdW5kZXIgdGhlIGdpdCBjaGVja291dCB3aXRoCiMg
-SEVBRCBwb2ludGluZyB0byBhIGNvbW1pdCB0aGF0IGhhcyB0aGUgcGF0Y2hlcyBhcHBsaWVkIG9u
-IHRvcCBvZiAiYmFzZSIKIyBicmFuY2gKc2V0IC1lCgplY2hvCmVjaG8gIj09PSBFTlYgPT09Igpl
-bnYKCmVjaG8KZWNobyAiPT09IFBBQ0tBR0VTID09PSIKcnBtIC1xYQoKZWNobwplY2hvICI9PT0g
-VU5BTUUgPT09Igp1bmFtZSAtYQoKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxs
-CkJVSUxEPSRQV0QvYnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRC
-VUlMRAokU1JDL2NvbmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAoj
-IFhYWDogd2UgbmVlZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtl
-IGluc3RhbGwKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRt
-bXUvaHcvYXJtL3ZpcnQtYWNwaS1idWlsZC5vCi91c3IvYmluL2xkOiB0YXJnZXQvaTM4Ni9jcHUu
-bzogaW4gZnVuY3Rpb24gYGNwdV94ODZfY3B1aWQnOgovdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10
-bXAtZjlraWxlOTYvc3JjL3RhcmdldC9pMzg2L2NwdS5jOjQzMTc6IHVuZGVmaW5lZCByZWZlcmVu
-Y2UgdG8gYGt2bV9hcmNoX2dldF9zdXBwb3J0ZWRfY3B1aWQnCmNvbGxlY3QyOiBlcnJvcjogbGQg
-cmV0dXJuZWQgMSBleGl0IHN0YXR1cwptYWtlWzFdOiAqKiogW01ha2VmaWxlOjIwODogcWVtdS1z
-eXN0ZW0taTM4Nl0gRXJyb3IgMQptYWtlOiAqKiogW01ha2VmaWxlOjQ3MjogaTM4Ni1zb2Z0bW11
-L2FsbF0gRXJyb3IgMgptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2
-MjgyMzUwOS0xMzA3Mi0xLWdpdC1zZW5kLWVtYWlsLWppbmcyLmxpdUBsaW51eC5pbnRlbC5jb20v
-dGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
-Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
-IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Thanks for the comments Fabiano.
+
+
+On 05/22/2019 11:38 PM, Fabiano Rosas wrote:
+> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+>
+> +
+>> +    ddc = NVDIMM_GET_CLASS(nvdimm);
+>> +    ddc->read_label_data(nvdimm, &args[0], numBytesToRead, offset);
+>> +
+>> +    return H_SUCCESS;
+>> +}
+>> +
+>> +
+>> +static target_ulong h_scm_write_metadata(PowerPCCPU *cpu,
+>> +                                         SpaprMachineState *spapr,
+>> +                                         target_ulong opcode,
+>> +                                         target_ulong *args)
+>> +{
+>> +    uint32_t drc_index = args[0];
+>> +    uint64_t offset = args[1];
+>> +    uint64_t data = args[2];
+>> +    int8_t numBytesToWrite = args[3];
+> Likewise.
+
+This is supposed to be uint64_t like used in other places.
+Will fix it in the next version.
+
+Rest of the comments I think David has already answered the rational
+behind the usage to avoid integer overflow.
+
+>
+>> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
+>> +    NVDIMMDevice *nvdimm = NULL;
+>> +    DeviceState *dev = NULL;
+>>
+
+Regards,
+Shivaprasad
 
 
