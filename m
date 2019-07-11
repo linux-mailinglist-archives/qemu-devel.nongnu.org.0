@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB4A65F68
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:20:22 +0200 (CEST)
-Received: from localhost ([::1]:44298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A90F65F73
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:31:42 +0200 (CEST)
+Received: from localhost ([::1]:44602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hld7d-0002B7-Uw
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:44:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
+	id 1hldr2-0003TL-Lk
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 14:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53689)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hld4S-0005XP-Ey
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:29 -0400
+ (envelope-from <julio.montes@intel.com>) id 1hldqm-000357-VY
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:31:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hld4P-0004y8-9r
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38056)
+ (envelope-from <julio.montes@intel.com>) id 1hldqk-0001xk-Sp
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:31:23 -0400
+Received: from mga01.intel.com ([192.55.52.88]:21132)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hld4K-0004jr-TN; Thu, 11 Jul 2019 13:41:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 62C6030832C2;
- Thu, 11 Jul 2019 17:41:04 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C851C6092E;
- Thu, 11 Jul 2019 17:40:51 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:39:15 +0200
-Message-Id: <20190711173933.31203-12-eric.auger@redhat.com>
-In-Reply-To: <20190711173933.31203-1-eric.auger@redhat.com>
-References: <20190711173933.31203-1-eric.auger@redhat.com>
+ (Exim 4.71) (envelope-from <julio.montes@intel.com>)
+ id 1hldqg-0001h9-5J
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 14:31:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2019 11:31:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,479,1557212400"; d="scan'208";a="156903440"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by orsmga007.jf.intel.com with ESMTP; 11 Jul 2019 11:31:07 -0700
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 11 Jul 2019 11:31:06 -0700
+Received: from fmsmsx104.amr.corp.intel.com ([169.254.3.188]) by
+ fmsmsx124.amr.corp.intel.com ([169.254.8.213]) with mapi id 14.03.0439.000;
+ Thu, 11 Jul 2019 11:31:06 -0700
+From: "Montes, Julio" <julio.montes@intel.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>
+Thread-Topic: [Qemu-devel] [PATCH 2/2] create_config: remove
+ $(CONFIG_SOFTMMU) hack
+Thread-Index: AQHVOA1I3C1yJ6eLHkW/FCIDwa24EqbGMsmA
+Date: Thu, 11 Jul 2019 18:31:05 +0000
+Message-ID: <1f13d98cdb16cf47b15b6500ff4aa3a019f17f63.camel@intel.com>
+References: <1562865736-3546-1-git-send-email-pbonzini@redhat.com>
+ <1562865736-3546-3-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1562865736-3546-3-git-send-email-pbonzini@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.251.131.252]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2603496518F8C24BB1CDDF8B6FF480B7@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 11 Jul 2019 17:41:04 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v5 11/29] memory: Add arch_id and leaf fields in
- IOTLBEntry
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
+Subject: Re: [Qemu-devel] [PATCH 2/2] create_config: remove
+ $(CONFIG_SOFTMMU) hack
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,64 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
- jean-philippe.brucker@arm.com, zhangfei.gao@foxmail.com, peterx@redhat.com,
- alex.williamson@redhat.com, vincent.stehle@arm.com
+Cc: "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TLB entries are usually tagged with some ids such as the asid
-or pasid. When propagating an invalidation command from the
-guest to the host, we need to pass this id.
-
-Also we add a leaf field which indicates, in case of invalidation
-notification whether only cache entries for the last level of
-translation are required to be invalidated.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- include/exec/memory.h | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index d0de192887..8dd4d787d4 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -68,12 +68,30 @@ typedef enum {
-=20
- #define IOMMU_ACCESS_FLAG(r, w) (((r) ? IOMMU_RO : 0) | ((w) ? IOMMU_WO =
-: 0))
-=20
-+/**
-+ * IOMMUTLBEntry - IOMMU TLB entry
-+ *
-+ * Structure used when performing a translation or when notifying MAP or
-+ * UNMAP (invalidation) events
-+ *
-+ * @target_as: target address space
-+ * @iova: IO virtual address (input)
-+ * @translated_addr: translated address (output)
-+ * @addr_mask: address mask (0xfff means 4K binding), must be multiple o=
-f 2
-+ * @perm: permission flag of the mapping (NONE encodes no mapping or
-+ * invalidation notification)
-+ * @arch_id: architecture specific ID tagging the TLB
-+ * @leaf: when @perm is NONE, indicates whether only caches for the last
-+ * level of translation need to be invalidated.
-+ */
- struct IOMMUTLBEntry {
-     AddressSpace    *target_as;
-     hwaddr           iova;
-     hwaddr           translated_addr;
--    hwaddr           addr_mask;  /* 0xfff =3D 4k translation */
-+    hwaddr           addr_mask;
-     IOMMUAccessFlags perm;
-+    uint32_t         arch_id;
-+    bool             leaf;
- };
-=20
- /*
---=20
-2.20.1
-
+bGd0bSwgdGhhbmtzIFBhb2xvDQoNCg0KUmV2aWV3ZWQtYnk6IEp1bGlvIE1vbnRlcyA8anVsaW8u
+bW9udGVzQGludGVsLmNvbT4NClRlc3RlZC1ieTogSnVsaW8gTW9udGVzIDxqdWxpby5tb250ZXNA
+aW50ZWwuY29tPg0KDQpPbiBUaHUsIDIwMTktMDctMTEgYXQgMTk6MjIgKzAyMDAsIFBhb2xvIEJv
+bnppbmkgd3JvdGU6DQo+IENPTkZJR19UUE0gaXMgZGVmaW5lZCB0byBhIHJhdGhlciB3ZWlyZCAk
+KENPTkZJR19TT0ZUTU1VKSBzbyB0aGF0IGl0DQo+IGV4cGFuZHMgdG8gdGhlIHJpZ2h0IHRoaW5n
+IGluIGh3L01ha2VmaWxlLm9ianMuICBUaGlzIGhvd2V2ZXIgaXMgbm90DQo+IG5lZWRlZCBhbnlt
+b3JlIGFuZCBpdCBoYXMgYSBjb3JyZXNwb25kaW5nIGhhY2sgaW4gY3JlYXRlX2NvbmZpZw0KPiB0
+byB0dXJuIGl0IGludG8gIiNkZWZpbmUgQ09ORklHX1RQTSAxIi4gIENsZWFuIHVwLg0KPiANCj4g
+U2lnbmVkLW9mZi1ieTogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4NCj4gLS0t
+DQo+ICBjb25maWd1cmUgICAgICAgICAgICAgfCAyICstDQo+ICBzY3JpcHRzL2NyZWF0ZV9jb25m
+aWcgfCAyICstDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9jb25maWd1cmUNCj4gaW5kZXgg
+NDk4M2M4Yi4uZWI2MzVjMyAxMDA3NTUNCj4gLS0tIGEvY29uZmlndXJlDQo+ICsrKyBiL2NvbmZp
+Z3VyZQ0KPiBAQCAtNzE1OSw3ICs3MTU5LDcgQEAgaWYgdGVzdCAiJGxpdmVfYmxvY2tfbWlncmF0
+aW9uIiA9ICJ5ZXMiIDsgdGhlbg0KPiAgZmkNCj4gIA0KPiAgaWYgdGVzdCAiJHRwbSIgPSAieWVz
+IjsgdGhlbg0KPiAtICBlY2hvICdDT05GSUdfVFBNPSQoQ09ORklHX1NPRlRNTVUpJyA+PiAkY29u
+ZmlnX2hvc3RfbWFrDQo+ICsgIGVjaG8gJ0NPTkZJR19UUE09eScgPj4gJGNvbmZpZ19ob3N0X21h
+aw0KPiAgZmkNCj4gIA0KPiAgZWNobyAiVFJBQ0VfQkFDS0VORFM9JHRyYWNlX2JhY2tlbmRzIiA+
+PiAkY29uZmlnX2hvc3RfbWFrDQo+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2NyZWF0ZV9jb25maWcg
+Yi9zY3JpcHRzL2NyZWF0ZV9jb25maWcNCj4gaW5kZXggMDBlODZjOC4uNmQ4ZjA4YiAxMDA3NTUN
+Cj4gLS0tIGEvc2NyaXB0cy9jcmVhdGVfY29uZmlnDQo+ICsrKyBiL3NjcmlwdHMvY3JlYXRlX2Nv
+bmZpZw0KPiBAQCAtNTQsNyArNTQsNyBAQCBjYXNlICRsaW5lIGluDQo+ICAgICAgZG9uZQ0KPiAg
+ICAgIGVjaG8gIiAgICBOVUxMIg0KPiAgICAgIDs7DQo+IC0gQ09ORklHXyo9JyQoQ09ORklHX1NP
+RlRNTVUpJ3xDT05GSUdfKj15KSAjIGNvbmZpZ3VyYXRpb24NCj4gKyBDT05GSUdfKj15KSAjIGNv
+bmZpZ3VyYXRpb24NCj4gICAgICBuYW1lPSR7bGluZSU9Kn0NCj4gICAgICBlY2hvICIjZGVmaW5l
+ICRuYW1lIDEiDQo+ICAgICAgOzsNCg==
 
