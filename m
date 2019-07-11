@@ -2,102 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66C66545F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:16:59 +0200 (CEST)
-Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231DB65428
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 11:52:15 +0200 (CEST)
+Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlW8I-0002D2-Df
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
+	id 1hlVkL-0004D0-Rn
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 05:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <LMa@suse.com>) id 1hlW7f-0001la-2q
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hlVjk-0003lW-6X
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:51:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <LMa@suse.com>) id 1hlW7d-0003mk-RO
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:19 -0400
-Received: from m4a0041g.houston.softwaregrp.com ([15.124.2.87]:48720)
- by eggs.gnu.org with esmtp (Exim 4.71) (envelope-from <LMa@suse.com>)
- id 1hlW7d-0003Ue-KH
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:17 -0400
-Received: FROM m4a0041g.houston.softwaregrp.com (15.120.17.146) BY
- m4a0041g.houston.softwaregrp.com WITH ESMTP; 
- Thu, 11 Jul 2019 10:16:05 +0000
-Received: from M9W0068.microfocus.com (2002:f79:bf::f79:bf) by
- M4W0334.microfocus.com (2002:f78:1192::f78:1192) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10; Thu, 11 Jul 2019 09:44:35 +0000
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (15.124.72.11) by
- M9W0068.microfocus.com (15.121.0.191) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10 via Frontend Transport; Thu, 11 Jul 2019 09:44:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VHve2ho0KHLgbYfN1S4lSwaUTnIa9NZnR+x8SSexwFV0XrCE6BObictM3SXBOQiy1qEaIvNeQcJJbdsuDThVWHd4VoHwT1k8T2j54SRyTIC5v49Xu0JgFjDGiMf3ikgbGhk3lc5zIUjHBwuWgN/B2VyhCQOBdkd7mulLUCsg1bNC6PiSzoovv4Clx1+grbXTtGELuRli091KihWJeHo3khqBkDkkjJfDeYs77wPM3ASPBl3aq+6SSIMSVARxQ687JxI/lB6xvOIuj53Jx/hRJ9s5h4YQoPIw1DBzIAwvfKa6yjB9FVaJWpVzRo05EjcLkt9nZbvfD0gFNPWlNjKHyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HQ5Go9EyZaTPFQdN1usVDbOqjK733QH7UaaLr+5mzU=;
- b=awA3wxJFvGDQuDMMQqG+EIUN5Nmy6QM/rT0+5ouiXWfGSqDovKETosVBCGpBsl+cKH51eitmp5UP2dTVpRNpxRa2cyfb/4gEURCPvrQFQhmupePl5Id+VkrVhHUuWb+VrQy3LBLU5kkbsp9vBr/yJk26Wv8G/8CWVrdX9qtOdYccRIsoQTSemLcYT3kCVB3s+UTVxqwoUk1+qgVgGk9WNuCXoolW/i0FjXCM4M129avdbImyyYCKvcebbIaWkdR6h5OMdUbWLbRfiYt+Y0IHLhElDLUHF76tpu8jtlnJ0JOajrsk4fI3hRR2RclN2PMvy/ZLVTa756/r29MdXAeS4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=suse.com;dmarc=pass action=none header.from=suse.com;dkim=pass
- header.d=suse.com;arc=none
-Received: from BY5PR18MB3313.namprd18.prod.outlook.com (10.255.137.156) by
- BY5PR18MB3396.namprd18.prod.outlook.com (10.255.139.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.10; Thu, 11 Jul 2019 09:44:32 +0000
-Received: from BY5PR18MB3313.namprd18.prod.outlook.com
- ([fe80::b588:8e99:5614:73ad]) by BY5PR18MB3313.namprd18.prod.outlook.com
- ([fe80::b588:8e99:5614:73ad%4]) with mapi id 15.20.2052.020; Thu, 11 Jul 2019
- 09:44:32 +0000
-From: Lin Ma <LMa@suse.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "dgilbert@redhat.com"
- <dgilbert@redhat.com>
-Thread-Topic: [Qemu-devel] migrate_set_speed has no effect if the guest is
- using hugepages.
-Thread-Index: AdU3zTKKe7aEJr5KQ9WS3a20E1+sgg==
-Date: Thu, 11 Jul 2019 09:44:32 +0000
-Message-ID: <BY5PR18MB3313E1E22A22D236D4C2680DC5F30@BY5PR18MB3313.namprd18.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=LMa@suse.com; 
-x-originating-ip: [45.122.156.254]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a57aea17-e6d3-4192-a858-08d705e460a5
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:BY5PR18MB3396; 
-x-ms-traffictypediagnostic: BY5PR18MB3396:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <BY5PR18MB339602F5C149D6CF0491B170C5F30@BY5PR18MB3396.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:663;
-x-forefront-prvs: 0095BCF226
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(136003)(396003)(39860400002)(346002)(376002)(199004)(53754006)(189003)(2906002)(81156014)(8676002)(74316002)(33656002)(8936002)(478600001)(81166006)(3846002)(256004)(186003)(316002)(6116002)(99286004)(7736002)(486006)(790700001)(476003)(26005)(110136005)(53936002)(76116006)(14454004)(66066001)(2501003)(66946007)(71200400001)(7696005)(66556008)(66476007)(64756008)(66446008)(71190400001)(68736007)(102836004)(80792005)(25786009)(9686003)(55016002)(86362001)(6306002)(6506007)(54896002)(6436002)(52536014)(5660300002)(558084003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR18MB3396;
- H:BY5PR18MB3313.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: suse.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: wlO8YpkKXVVmjuqAgDZ71nrAiRAwWUHPh20Lnr5mrMOzsAMrQppgaGH78fpTEMr42EPR0XeKhlMjKN+5iiFtYZNqJg/5zR3SUc0R1oII3DVtT4zeWtg7GPwBe3Ke0kmY1S6uK8AH4QCWbdJAATmwvtfQoO//ADWSA8poimQhkNYN/41hSXcDys+/dykO3S0qIxXCuICuVjwwCMCIVDZ9VhrZSI3g3FvcOzeuBOhNWqRKH8sXpauG11vlSFoSQ6sHiJlEVCtlldRf7VIWWECUB+a3qGdLtxk93j/BnaSdk+93lja8T2e2V/nXVryAOhSIKJH6pehy0SGPzWExxTyC0sJmgKjJ7qocKE8YH7hVgXHuG2HGg4+8IR0ezM0OP0nrNSZLPCMpJa81ssBFe9x5FDPuE38bJIPoP8P4OQ9mG4E=
+ (envelope-from <richard.henderson@linaro.org>) id 1hlVjj-0006Du-1d
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:51:36 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55517)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hlVji-00066c-QG
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:51:34 -0400
+Received: by mail-wm1-x341.google.com with SMTP id a15so5006423wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 02:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gAVGaU2EukknbVz3LSnjZp6iwEIEBAJJTIj+DEAIuGA=;
+ b=hL1f+CP1d1r1rCTc4Mh4G/HBYQOTVazEk02NzfndEkGBM7GTGwMFSutQwL89DfP9xx
+ rO80l9S3LAFzmNQXxfVsAKmAslTpO3XL4pzLrSL5HL1JD3eZCA0Hz8RXaHzbQWwMOJ5t
+ 5oMqIszRtjXUZytr3XDvEoVkQDluxM7DTMlb6tbkzQtv2TWRV4pKlLQDkXQ1xt5wWs6w
+ FGaebiNqbrGdTfCaYj9dkpoa63FxRotjOgm7gVxZSty4oJQ+O8ixs4528jsX3RSbKijg
+ 66yR461+5MZHQWIu7FDesye0kWU8o9kgm5lgwnn6Vf8dJBnc7eg84RVO1N1pvSAkS8Rn
+ pVDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gAVGaU2EukknbVz3LSnjZp6iwEIEBAJJTIj+DEAIuGA=;
+ b=DGd5d/a9GmMcTkRUNyVvPrUXmH384jjWs1JiE2QYFuhXd1XFpdNPl8QWSltsqhaeXa
+ VVlyDNCnoc9jSJdEdeazX4K2wh4tx9EYxHMEdlVCTViuIYV8qYss6+J5RNAmITvywbSc
+ 1LWFUGnQxg10MrBh5Gfku594/n545zjxn7Fe6xFtQifbfDtFgitePjMaO4C0nr6VP7wf
+ e+drCw5Z7zYsSTwBsrKubs5rvQuGQbqKXwU25B9Ryewi/kxdWBUHMSI6Vw6Xp4mipQSe
+ hv/KstTLcaWeRwxN8bOKxvRpWHXrPXQKcsQVj08ynlI1FqMUK+VCdadgS5jzwLo4lKxL
+ oIBg==
+X-Gm-Message-State: APjAAAUERh8sCC7rZwaegCO/IwOoqNR5WDmoLJnyNdY7pyqCV/VfmKPQ
+ WmRJoOzL6XJOy0u2dVVq+oWOhA==
+X-Google-Smtp-Source: APXvYqzI4Qq0waYStIaqE86ndu7D18y7if+Ng8n5LfJrim4ezQyG64Kz9Hssm22fUfnjmY/HlKdRnQ==
+X-Received: by 2002:a1c:2e09:: with SMTP id u9mr3325599wmu.137.1562838692706; 
+ Thu, 11 Jul 2019 02:51:32 -0700 (PDT)
+Received: from [172.16.96.70] (mob-31-157-172-216.net.vodafone.it.
+ [31.157.172.216])
+ by smtp.gmail.com with ESMTPSA id g11sm5481552wrq.92.2019.07.11.02.51.31
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 11 Jul 2019 02:51:31 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190710172437.628-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <f85b75f3-f903-7bad-d43e-a545cafdb57d@linaro.org>
+Date: Thu, 11 Jul 2019 11:51:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: a57aea17-e6d3-4192-a858-08d705e460a5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2019 09:44:32.7046 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LMa@suse.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR18MB3396
-X-OriginatorOrg: suse.com
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 15.124.2.87
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] migrate_set_speed has no effect if the guest is using
- hugepages.
+In-Reply-To: <20190710172437.628-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH for 4.1] target/arm: report ARMv8.2 FP16
+ for ARM -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,18 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ 1836078@bugs.launchpad.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On 7/10/19 7:24 PM, Alex Bennée wrote:
+> When we converted to using feature bits in 602f6e42cfbf we missed out
+> the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
+> -cpu max configurations. This caused a regression in the GCC test
+> suite. Fix this by setting the appropriate FP16 bits in mvfr1.FPHP.
+> 
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  target/arm/cpu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index e75a64a25a..0a0a202fe3 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
+>              t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+>              cpu->isar.id_isar6 = t;
+>  
+> +            t = cpu->isar.mvfr1;
+> +            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.2 FP16 */
 
-When I live migrate a qemu/kvm guest, If the guest is using huge pages, I f=
-ound that
-the migrate_set_speed command had no effect during stage 2.
-It was caused by commit 4c011c3 postcopy: Send whole huge pages
+The comment is wrong.  This is not full v8.2 FP16 support (which would be value
+3, plus a change to SIMDHP), but v8.0 support for double<->half conversions.
 
-I'm wondering that is it by design or is it a bug waiting for fix?
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Thanks,
-Lin
+r~
+
