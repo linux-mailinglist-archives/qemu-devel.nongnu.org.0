@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833A46578B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:03:27 +0200 (CEST)
-Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE76365794
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:04:54 +0200 (CEST)
+Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlYjO-0003Ql-MW
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33901)
+	id 1hlYko-00064J-6M
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34241)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hlYhd-0001uY-NJ
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hlYii-0003I0-El
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:02:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hlYhb-0007qN-8F
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:37 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34288)
+ (envelope-from <peter.maydell@linaro.org>) id 1hlYih-0000Rk-2L
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:02:44 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hlYhb-0007pv-32
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n5so5764186otk.1
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 06:01:35 -0700 (PDT)
+ id 1hlYig-0000RW-Rd
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:02:42 -0400
+Received: by mail-ot1-x341.google.com with SMTP id d17so5749102oth.5
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 06:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DlCBAK869R2VULvL3hzvYE8/WG0a4e51TGIc7viUdU0=;
- b=AsI1MWJn6QKiJuTT6EP1tTKFcdNT0QvBfFpZfj4Gl+qBt3NrjbLomnXIIJKJPGR9Dt
- 0OmqBOfXs+2SVq7CbtDqrEGLbHL/6t64xHu8dVZTErvN/AXtGpJYIeIBRZ0a0EIGiwwq
- 7Yafex+ftj8MmhXYkYxCZyzjiBW8+WB8TtnZgDMjqTDNJSBmMbw7kgZicDhEnxbfgOCP
- EAxhDws/6+h7e5ozy0ak90l1FmmYiKDvaBZsiVRJsKsQpCDWzZjqznqdzD5fc4y9LkNg
- UaO/a3GcUzxWcwQE3JrKOIMlEwiVFvhpURAFG466w9nCaalu4Lhvu2qBZgBonTahywfl
- Pn9Q==
+ :cc:content-transfer-encoding;
+ bh=TELAib9fm3I39Fgu/vUwqt23pIiBDwdo7bpmfDjeHYo=;
+ b=n/RBiikCONDX//wZrkpTdxjZOTxiEbEfhWJdbbr6rRwbUp2qcRcTAPuKL7/mh8yAE1
+ 6UK9HrwyhBKJTIYNU8RUAj4BTf2mjBa0xEXJaHUfeRysiYrxG/sZg1qvj5rv8r69Gp+U
+ 2BEVT+KYu3bxkbZLK4J4VXziO+vsrkl2Cn4li01xyTSQXQ9e2nVFiZHYPU3taRN6rWqa
+ ZCtV1QY0vgt4VAHu66Q/O4/Fq6gX/TZ4Khai5ecqI8SWgjGvzbePuG5UvuaRzYrpwUcA
+ jKwZHcIlVmPL8pgTJ+CBHbQ2Q6loYAarErbR8nTqZMnwRfOVMRMF4Ik7ube/aO/kJYET
+ 2Iag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DlCBAK869R2VULvL3hzvYE8/WG0a4e51TGIc7viUdU0=;
- b=LMg5h7mbOThclee05sEWkans8FXX267CEANnYTQJduzCBCn2SS2k115Rpx5ptTnUal
- /9hesPtXR1K90cnHVcQhRpPLFxtTLPDMeFW7hYRomh3SRoSGkhChUakXXqXSg3SOKI9y
- DaFYa+9fuM3xr8+Gk7H6arK3pateIJmYiIEUbRdWTz8dnZLc7FiHpNX+8nnhW2lPvSww
- lpIPDYmukFsKKEBeSbK52DmrRalejE9A9PIliMDfqL2L+2PHQedT0t/yNU8DnrEdlEMe
- m3pUV7aumGfZkPF7P73BO32Fx1/SNzQWLtc8HN+lSCs7qIuv8wkOBsalclroS5V9QnM5
- JuPg==
-X-Gm-Message-State: APjAAAWylmxbXVmfAg1z/dAVEXi8oi6kwy8z9KySJtx9ha5QBLDUlk1f
- ZcGQAuHN+t48QCv5gKSvW1audXYPrSWttUqBU5PEUA==
-X-Google-Smtp-Source: APXvYqwsgtkq45KEyG0cWRGfkI61XQc4V1sn0YwWe1f4asohpxHLm0qSO8KvFEKrRc9EAwK1tmdCxxB1piVY52qzz1Q=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr3084074otj.97.1562850094117; 
- Thu, 11 Jul 2019 06:01:34 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TELAib9fm3I39Fgu/vUwqt23pIiBDwdo7bpmfDjeHYo=;
+ b=gXKuaIfvWJeQuvZoaC37D2tiQkYLp5tobTxfGw4JFzDgaqebzbMhFq3Q5znd0ciLXA
+ 6k/ZcpK2KOIB4psHBYxbLd/xnNNGQSDglX1S5+I2yY5eT2QxOOn1MkX/KmxS53eATfle
+ ABbE71erS0uMfUvFrQLE++kznOTLsMVdmiKVFpSAWrIA9kyOUJNMZrBBB/3gZUzI9fLg
+ qISZVBMsUxemA6QWNUpewSDGPMHeO7r5LCzH98vgMegEF4zjpjfxISwfhsYjiA0SIA20
+ WJqKfbgG49mr4wveKQHZ3aLxUeRbBw45K3wkC2nwD6nyd5+dPcFrj4VLDkL6Uo/mhtol
+ ap5A==
+X-Gm-Message-State: APjAAAVe3N5NP0eUgXJGA6393WROKiF1wYeAcIAGy0Vmv/bIe6k294B3
+ c5G4CSgMWaZuBh/UWEKxY9xvz7wU43bB6+UENWIaRA==
+X-Google-Smtp-Source: APXvYqweQJIrxUF4zMH0Lgdy9vyg9JITX68zRrHxTpt+kGR++9YdltJjl03//x/W7F/VzZvpIAc90q8oB7PCUXOgJnY=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr3371190oti.91.1562850162217; 
+ Thu, 11 Jul 2019 06:02:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190711104412.31233-1-quintela@redhat.com>
- <5828a0c7-bcb4-2ca4-eec3-cb44f9ab1312@de.ibm.com>
-In-Reply-To: <5828a0c7-bcb4-2ca4-eec3-cb44f9ab1312@de.ibm.com>
+References: <20190711121231.3601-1-peter.maydell@linaro.org>
+ <87d0igendr.fsf@zen.linaroharston>
+In-Reply-To: <87d0igendr.fsf@zen.linaroharston>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jul 2019 14:01:23 +0100
-Message-ID: <CAFEAcA_5Kb0aAyJKjv7OEGP8MzUvNYxvmuDcWhL8kT1zcUrCag@mail.gmail.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
+Date: Thu, 11 Jul 2019 14:02:31 +0100
+Message-ID: <CAFEAcA8KsVmsP6oAXC9n=jbO+NDvHusWPnGhMCo+25Q7_nCcpw@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PULL 00/19] Migration patches
+Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Set VFP-related MVFR0
+ fields for arm926 and arm1026
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,51 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Christophe Lyon <christophe.lyon@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jul 2019 at 13:56, Christian Borntraeger
-<borntraeger@de.ibm.com> wrote:
+On Thu, 11 Jul 2019 at 14:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
 >
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> On 11.07.19 12:43, Juan Quintela wrote:
-> > The following changes since commit 6df2cdf44a82426f7a59dcb03f0dd2181ed7fdfa:
+> > The ARMv5 architecture didn't specify detailed per-feature ID
+> > registers. Now that we're using the MVFR0 register fields to
+> > gate the existence of VFP instructions, we need to set up
+> > the correct values in the cpu->isar structure so that we still
+> > provide an FPU to the guest.
 > >
-> >   Update version for v4.1.0-rc0 release (2019-07-09 17:21:53 +0100)
+> > This fixes a regression in the arm926 and arm1026 CPUs, which
+> > are the only ones that both have VFP and are ARMv5 or earlier.
+> > This regression was introduced by the VFP refactoring, and more
+> > specifically by commits 1120827fa182f0e76 and 266bd25c485597c,
+> > which accidentally disabled VFP short-vector support and
+> > double-precision support on these CPUs.
 > >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/juanquintela/qemu.git tags/migration-pull-request
-> >
-> > for you to fetch changes up to 0b47e79b3d04f500b6f3490628905ec5884133df:
-> >
-> >   migration: allow private destination ram with x-ignore-shared (2019-07-11 12:30:40 +0200)
-> >
-> > ----------------------------------------------------------------
-> > Migration pull request
-> >
-> > ----------------------------------------------------------------
-> >
-> [...]
-> >  include/exec/memory.h        |   19 +
-> >  include/exec/memory.h.rej    |   26 +
-> >  include/exec/ram_addr.h      |   92 +-
-> >  include/exec/ram_addr.h.orig |  488 +++
-> [...]
-> >  migration/ram.c              |   93 +-
-> >  migration/ram.c.orig         | 4599 ++++++++++++++++++++++++++++++++++
-> >  migration/ram.c.rej          |   33 +
+> > Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > Fixes: 1120827fa182f0e
+> > Fixes: 266bd25c485597c
+> > Fixes: https://bugs.launchpad.net/qemu/+bug/1836192
+> > ---
+> > I've followed the existing approach we used for ISAR1 here
+> > of just filling in the fields we care about, rather than trying
+> > to set the entire register value.
 >
-> The .ref and .orig look odd. And they are is not part of the patches.
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> Do you think we have caught them all now? If we end up removing the
+> other ARM_FEATURE_foo flags in favour of isar tests we shall have to be
+> careful not to re-introduce these sort of bugs.
 
-Good catch -- git diff says they are part of the pullreq so
-they'd have ended up in the git repo if you hadn't noticed them.
+I checked that these were the only two extra ID-reg checks we
+added as part of the VFP conversion, at any rate (ignoring
+the checks for features the ARMv5 cores don't have).
 
 thanks
 -- PMM
