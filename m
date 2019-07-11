@@ -2,73 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED4E6549C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:39:06 +0200 (CEST)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10103654CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:56:31 +0200 (CEST)
+Received: from localhost ([::1]:40394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlWTh-0001J7-JG
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37671)
+	id 1hlWkY-0004YL-8Q
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hlWSU-0000sK-BO
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:37:51 -0400
+ (envelope-from <quintela@redhat.com>) id 1hlWf3-0004le-9Z
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hlWST-0003Tv-8T
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:37:50 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46555)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hlWST-0003Sq-1b
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:37:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id z1so5678687wru.13
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 03:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u/6SvhtREvU6SkK9m1R46tVlenPl2fhco/m7l+MFKSg=;
- b=Fcp8Mafah92j/wB486VwXsbmLPP5ad8141d6MOnFcq2pqQw3wLL67VH6Nu5RNbKWKN
- b5JpPHGwuvkBbk0G2qTOtHG7n2d6ldgyzlNpJKMNhYTfYO/xVB1bhwFT4CB3Ks5BYt4f
- tBMlO31yfHIikN9osFMvnbz+e09oestZ9RJ/Pvw9sbebzlf+cWioHWp5sJt/L1QWt5JH
- b+B7B1A8tBB6HD/z3Ln+9XjVoVjlSm84Cnqwg0Tnq5tKXBDxlejDTqIfSBnP+FgasfcZ
- q14pf5qPErVrEjam9aXCflWjI4rOdI4ejAlKHuEsNKO9W8EeJmi6cXoeBhNvEW9j2E1O
- SS7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=u/6SvhtREvU6SkK9m1R46tVlenPl2fhco/m7l+MFKSg=;
- b=PAblZrNElWVcxSWBHioahMuOGYVcujedxyZwkFWhsPxQ+u9YP+tIu3OlhXZH+4Zj/T
- E3r7KaGSl5MfMiySKuyr0BnAg/KIDul8LlpHzbOc1RUDJ1JZurtHmThj/YP2YwJMGXjR
- xiDR0JqSrVAi5roG+Lnz5T2S1tNGpT5TNDe6XT6/vkYtJyTxs5JrUWoD2mnuaQnYkBIL
- /Eog6P3ceQYysEFBHiucToZDClNytSKQ7anpO+voO1wcJHa8z76ehLrTWhK6zthGiv0q
- KMtdcI/CMnDxgRTXyC1CTrt9E0nIANOs29IK8VS2O6LAQWKvdCLbRHUuQ9idNjMDPpZ1
- G9iQ==
-X-Gm-Message-State: APjAAAUR+0f/RKVKvwG/vvyCUAKwoE4R5HCMK6JaPEPstf16HONCW3S6
- 5e7BIQO/OWdFWIn8hK9O8dS6lA==
-X-Google-Smtp-Source: APXvYqz7c384YrKDMomoSekDab4FpJYE/W3uQ/uDJ6sJKX5hafmOOOWT1PU+4fqkzlpA75grG6l/Wg==
-X-Received: by 2002:adf:eb06:: with SMTP id s6mr4616212wrn.151.1562841467462; 
- Thu, 11 Jul 2019 03:37:47 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h8sm4790564wmf.12.2019.07.11.03.37.46
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 11 Jul 2019 03:37:46 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 34FD51FF87;
- Thu, 11 Jul 2019 11:37:46 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <quintela@redhat.com>) id 1hlWf1-0004Od-U7
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48604)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlWf1-0004Nh-MW
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:47 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0AF6181F01;
+ Thu, 11 Jul 2019 10:44:18 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.36.118.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A90460600;
+ Thu, 11 Jul 2019 10:44:15 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 11:37:37 +0100
-Message-Id: <20190711103737.10017-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 11 Jul 2019 12:43:53 +0200
+Message-Id: <20190711104412.31233-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 for 4.1] target/arm: report ARMv8-A FP
- support for AArch32 -cpu max
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Thu, 11 Jul 2019 10:44:18 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 00/19] Migration patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,41 +52,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- 1836078@bugs.launchpad.net, Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we converted to using feature bits in 602f6e42cfbf we missed out
-the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
--cpu max configurations. This caused a regression in the GCC test
-suite. Fix this by setting the appropriate bits in mvfr1.FPHP to
-report ARMv8-A with FP support (but not ARMv8.2-FP16).
+The following changes since commit 6df2cdf44a82426f7a59dcb03f0dd2181ed7fd=
+fa:
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+  Update version for v4.1.0-rc0 release (2019-07-09 17:21:53 +0100)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index e75a64a25a..ad164a773b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
-             t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-             cpu->isar.id_isar6 = t;
- 
-+            t = cpu->isar.mvfr1;
-+            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.0 FP support */
-+            cpu->isar.mvfr1 = t;
-+
-             t = cpu->isar.mvfr2;
-             t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--- 
-2.20.1
+are available in the Git repository at:
+
+  https://github.com/juanquintela/qemu.git tags/migration-pull-request
+
+for you to fetch changes up to 0b47e79b3d04f500b6f3490628905ec5884133df:
+
+  migration: allow private destination ram with x-ignore-shared (2019-07-=
+11 12:30:40 +0200)
+
+----------------------------------------------------------------
+Migration pull request
+
+----------------------------------------------------------------
+
+Juan Quintela (3):
+  migration: fix multifd_recv event typo
+  migration-test: rename parameter to parameter_int
+  migration-test: Add migration multifd test
+
+Peng Tao (1):
+  migration: allow private destination ram with x-ignore-shared
+
+Peter Xu (10):
+  migration: No need to take rcu during sync_dirty_bitmap
+  memory: Don't set migration bitmap when without migration
+  bitmap: Add bitmap_copy_with_{src|dst}_offset()
+  memory: Pass mr into snapshot_and_clear_dirty
+  memory: Introduce memory listener hook log_clear()
+  kvm: Update comments for sync_dirty_bitmap
+  kvm: Persistent per kvmslot dirty bitmap
+  kvm: Introduce slots lock for memory listener
+  kvm: Support KVM_CLEAR_DIRTY_LOG
+  migration: Split log_clear() into smaller chunks
+
+Wei Yang (5):
+  migration/multifd: call multifd_send_sync_main when sending
+    RAM_SAVE_FLAG_EOS
+  migration/xbzrle: update cache and current_data in one place
+  cutils: remove one unnecessary pointer operation
+  migration/multifd: sync packet_num after all thread are done
+  migratioin/ram.c: reset complete_round when we gets a queued page
+
+ accel/kvm/kvm-all.c          |  260 +-
+ accel/kvm/trace-events       |    1 +
+ exec.c                       |   15 +-
+ include/exec/memory.h        |   19 +
+ include/exec/memory.h.rej    |   26 +
+ include/exec/ram_addr.h      |   92 +-
+ include/exec/ram_addr.h.orig |  488 ++++
+ include/qemu/bitmap.h        |    9 +
+ include/sysemu/kvm_int.h     |    4 +
+ memory.c                     |   56 +-
+ memory.c.rej                 |   17 +
+ migration/migration.c        |    4 +
+ migration/migration.h        |   27 +
+ migration/migration.h.orig   |  315 +++
+ migration/ram.c              |   93 +-
+ migration/ram.c.orig         | 4599 ++++++++++++++++++++++++++++++++++
+ migration/ram.c.rej          |   33 +
+ migration/trace-events       |    3 +-
+ migration/trace-events.orig  |  297 +++
+ tests/Makefile.include       |    2 +
+ tests/migration-test.c       |  103 +-
+ tests/test-bitmap.c          |   72 +
+ util/bitmap.c                |   85 +
+ util/cutils.c                |    8 +-
+ 24 files changed, 6545 insertions(+), 83 deletions(-)
+ create mode 100644 include/exec/memory.h.rej
+ create mode 100644 include/exec/ram_addr.h.orig
+ create mode 100644 memory.c.rej
+ create mode 100644 migration/migration.h.orig
+ create mode 100644 migration/ram.c.orig
+ create mode 100644 migration/ram.c.rej
+ create mode 100644 migration/trace-events.orig
+ create mode 100644 tests/test-bitmap.c
+
+--=20
+2.21.0
 
 
