@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6C365E69
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:22:43 +0200 (CEST)
-Received: from localhost ([::1]:43738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888B165E6A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:22:46 +0200 (CEST)
+Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlcmI-0006WO-0a
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59992)
+	id 1hlcmL-0006ko-Lq
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60004)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlclz-0005q4-LH
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:22:24 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlcm0-0005q7-7Z
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:22:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hlcly-0003j2-PN
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:22:23 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54705)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hlcly-0003jA-So
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:22:24 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33218)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hlcly-0003hY-JM
+ id 1hlcly-0003hi-Mf
  for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:22:22 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p74so6425180wme.4
+Received: by mail-wm1-x344.google.com with SMTP id h19so7450056wme.0
  for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 10:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=MMRHPKV8s5WDgjt0cQp3rOu+hHayH02p+73bo1A3S2Y=;
- b=a3fqmChWqU3tFTxHPG+kEYmbY5OVMLv9nWoThgqbvP5w9f+fMk3CTdUDLE1Vh+xS5X
- CJVoNR/y3xR2rVGHejmoU7IH//C/kEQOAW3E0lLecS3EaYt/lF/50eOpGL45DsrlEG+T
- rnsxuZiHjbc+43o3b8R02N5FCIzGuiHOTqAD38zPESqJzSB8S9iKdjZza66RITbKvQm8
- hJy29RfxThvvY3/dM40V60zyAr7PjQJhGguvylT0o/WJRk3YILr/8H0MfL/FL5+adEiv
- 9NRny4J5/DxfBW6HOSv1Bctl8L25xP5PD4haVmvyqSVw2SU8OHxve+LRFyt2Yasdl1IU
- lPnA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=8jfPHYDP/Jv1ss0TndIwtapkw5U3C3otDUhZHMou5PA=;
+ b=Iae8uT6jM74ZpwsABNNOFKNAaxIdsCfwjGTObwn6yc9B4VV81Qu/+05YM85Ed2X4wN
+ J1bUyCxLWiYZCIeG6KzboZGaUGYdFan9ReQkfdSCdP/kZ7HXuTfLu13CgpX9MxG3ZyOj
+ LYwWOwWr10j5z2Vs84o2HxPIBjcru8XI05YjbaZcAukgcFovSmgUyfO9z3HJ23y1DCuJ
+ 1GNsM18HIjKNl9BBNFtj6fpWMLBoZuUyLCyOO3r32C7mbtm+b6JcYxrshAVYz9ZqSapF
+ KtgRB+YdazgL2EKNqN4qGZs+WkQqY2s4zqBsEl5QKy0bKzyZzvlUodPfR5PWCL6n3iDY
+ pUkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=MMRHPKV8s5WDgjt0cQp3rOu+hHayH02p+73bo1A3S2Y=;
- b=nbo2HcBBUZgXwHVGlx+zO2LFlOzkBM5wqpM6Nr4WrXz8g695afJoeo4qK4sXvOMffF
- 4XkL62CBqdgAY5QtRUaUqTEyiWii1rdniTW4bfwHUAv8li3BHdFhaUREhcn9J8e9uA/V
- GhBEGJWH7J4wY5RvtjPKzcr5PwmDFk0c4b1dkbKrGg15pVk53b6ORwPQvQfEI5Fq9fBI
- srLK3SjNNtTxl22c3helScDjoPMtDq6kGBJ7n1LcmKe/v0KgHqb6UW9cDjpLCBdgoT01
- D+OEiNLtFF0Ps0HRbJZYONH2xYMbLZh14wJqhmhrjW4t6GEmhNAMfeBcBWRfgPquDvud
- G+SQ==
-X-Gm-Message-State: APjAAAWZQCKDYPuR81LQ/uNgHW4MvtnqQxXplNEvsDZBkjq7U8pvxQjH
- vq6GvFVbdmDKik7tLQQ53Y5U4RaZcxk=
-X-Google-Smtp-Source: APXvYqxNC+WOWVRJ89JC8tfG1Q2aZZgF3GAReG7eICVcFcJuJELzuXfDWo63htnSosWaBkYIcETADQ==
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr5304428wma.120.1562865738375; 
- Thu, 11 Jul 2019 10:22:18 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=8jfPHYDP/Jv1ss0TndIwtapkw5U3C3otDUhZHMou5PA=;
+ b=WW/yck4sk72IK6FaTzUSHCQkwUQQJXGCRqadTYQeEgyIJ+FPrbYQyi4zAHFaQJYBPn
+ O0qjBXebA0kJ3dEht8OClfqjdQOG4c8GMUsfhNzGQfO95sQemOO72bLX75H6dVE47iGi
+ Oku0WYMY0wkv7YOD9t/Re9XyW5Q0Dy3uFxpMiO2FozfnZuljy5kcttoYTlz1mzEbU0nL
+ f5AUDa8KGEvwBIAXEvM6cVF61AXdowOlDfpX4zsmNWxb1PV6ydqIWsangOVUuMSYAUgM
+ h5SJ7S6ciRqSjZhPCf0swvu+viEqW1FgJG1/O4uIS8zxwdqykgyzAt+81PQq2wzqoAav
+ tSyQ==
+X-Gm-Message-State: APjAAAVTR+pkfjBe/gcguxxP5oihQChqrfw0jcsEj3CA+BlfPji2p/hx
+ DtbwF36hfJUz0vJLaPEZUbdwJ+WpqIE=
+X-Google-Smtp-Source: APXvYqyPXq2MH5kCz10RZUiuekuxhMzRRsCCVVZs7DQT+cDqElvkdrEheXZTPQLkoYROwY+tHh8XUw==
+X-Received: by 2002:a1c:6a17:: with SMTP id f23mr5096115wmc.91.1562865739372; 
+ Thu, 11 Jul 2019 10:22:19 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c11sm8654514wrq.45.2019.07.11.10.22.17
+ by smtp.gmail.com with ESMTPSA id c11sm8654514wrq.45.2019.07.11.10.22.18
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 11 Jul 2019 10:22:17 -0700 (PDT)
+ Thu, 11 Jul 2019 10:22:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 19:22:14 +0200
-Message-Id: <1562865736-3546-1-git-send-email-pbonzini@redhat.com>
+Date: Thu, 11 Jul 2019 19:22:15 +0200
+Message-Id: <1562865736-3546-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1562865736-3546-1-git-send-email-pbonzini@redhat.com>
+References: <1562865736-3546-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 0/2] small create_config cleanup
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 1/2] Makefile: do not repeat $(CONFIG_SOFTMMU)
+ in hw/Makefile.objs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,19 +79,95 @@ Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Noticed while reviewing the config-devices.h, decided to remove
-it since it confused Philippe as well.
+The device directories must be included only for softmmu builds.
+Instead of repeating $(CONFIG_SOFTMMU), use an "ifeq".
 
-Paolo Bonzini (2):
-  Makefile: do not repeat $(CONFIG_SOFTMMU) in hw/Makefile.objs
-  create_config: remove $(CONFIG_SOFTMMU) hack
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/Makefile.objs | 61 +++++++++++++++++++++++++++++---------------------------
+ 1 file changed, 32 insertions(+), 29 deletions(-)
 
- configure             |  2 +-
- hw/Makefile.objs      | 61 +++++++++++++++++++++++++++------------------------
- scripts/create_config |  2 +-
- 3 files changed, 34 insertions(+), 31 deletions(-)
-
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+index d770926..ece6cc3 100644
+--- a/hw/Makefile.objs
++++ b/hw/Makefile.objs
+@@ -1,42 +1,45 @@
++devices-dirs-y = core/
++ifeq ($(CONFIG_SOFTMMU), y)
+ devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+-devices-dirs-$(CONFIG_SOFTMMU) += acpi/
+-devices-dirs-$(CONFIG_SOFTMMU) += adc/
+-devices-dirs-$(CONFIG_SOFTMMU) += audio/
+-devices-dirs-$(CONFIG_SOFTMMU) += block/
+-devices-dirs-$(CONFIG_SOFTMMU) += bt/
+-devices-dirs-$(CONFIG_SOFTMMU) += char/
+-devices-dirs-$(CONFIG_SOFTMMU) += cpu/
+-devices-dirs-$(CONFIG_SOFTMMU) += display/
+-devices-dirs-$(CONFIG_SOFTMMU) += dma/
+-devices-dirs-$(CONFIG_SOFTMMU) += gpio/
++devices-dirs-y += acpi/
++devices-dirs-y += adc/
++devices-dirs-y += audio/
++devices-dirs-y += block/
++devices-dirs-y += bt/
++devices-dirs-y += char/
++devices-dirs-y += cpu/
++devices-dirs-y += display/
++devices-dirs-y += dma/
++devices-dirs-y += gpio/
+ devices-dirs-$(CONFIG_HYPERV) += hyperv/
+ devices-dirs-$(CONFIG_I2C) += i2c/
+-devices-dirs-$(CONFIG_SOFTMMU) += ide/
+-devices-dirs-$(CONFIG_SOFTMMU) += input/
+-devices-dirs-$(CONFIG_SOFTMMU) += intc/
++devices-dirs-y += ide/
++devices-dirs-y += input/
++devices-dirs-y += intc/
+ devices-dirs-$(CONFIG_IPACK) += ipack/
+ devices-dirs-$(CONFIG_IPMI) += ipmi/
+-devices-dirs-$(CONFIG_SOFTMMU) += isa/
+-devices-dirs-$(CONFIG_SOFTMMU) += misc/
+-devices-dirs-$(CONFIG_SOFTMMU) += net/
+-devices-dirs-$(CONFIG_SOFTMMU) += rdma/
+-devices-dirs-$(CONFIG_SOFTMMU) += nvram/
+-devices-dirs-$(CONFIG_SOFTMMU) += pci/
++devices-dirs-y += isa/
++devices-dirs-y += misc/
++devices-dirs-y += net/
++devices-dirs-y += rdma/
++devices-dirs-y += nvram/
++devices-dirs-y += pci/
+ devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
+-devices-dirs-$(CONFIG_SOFTMMU) += pcmcia/
++devices-dirs-y += pcmcia/
+ devices-dirs-$(CONFIG_SCSI) += scsi/
+-devices-dirs-$(CONFIG_SOFTMMU) += sd/
+-devices-dirs-$(CONFIG_SOFTMMU) += ssi/
+-devices-dirs-$(CONFIG_SOFTMMU) += timer/
++devices-dirs-y += sd/
++devices-dirs-y += ssi/
++devices-dirs-y += timer/
+ devices-dirs-$(CONFIG_TPM) += tpm/
+-devices-dirs-$(CONFIG_SOFTMMU) += usb/
++devices-dirs-y += usb/
+ devices-dirs-$(CONFIG_VFIO) += vfio/
+-devices-dirs-$(CONFIG_SOFTMMU) += virtio/
+-devices-dirs-$(CONFIG_SOFTMMU) += watchdog/
+-devices-dirs-$(CONFIG_SOFTMMU) += xen/
++devices-dirs-y += virtio/
++devices-dirs-y += watchdog/
++devices-dirs-y += xen/
+ devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
+-devices-dirs-$(CONFIG_SOFTMMU) += smbios/
+ devices-dirs-y += semihosting/
+-devices-dirs-y += core/
++devices-dirs-y += smbios/
++endif
++
+ common-obj-y += $(devices-dirs-y)
+ obj-y += $(devices-dirs-y)
 -- 
 1.8.3.1
+
 
 
