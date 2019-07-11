@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBE7657C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:16:38 +0200 (CEST)
-Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4006578A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 15:03:24 +0200 (CEST)
+Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlYw9-00024m-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38299)
+	id 1hlYjL-0003J5-7a
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 09:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33838)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hlYvK-0001Rq-W0
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:15:48 -0400
+ (envelope-from <berrange@redhat.com>) id 1hlYhR-0001he-UP
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hlYvJ-0008HV-FV
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:15:46 -0400
-Resent-Date: Thu, 11 Jul 2019 09:15:46 -0400
-Resent-Message-Id: <E1hlYvJ-0008HV-FV@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21576)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hlYvJ-0008Ez-6a
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:15:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562850015; cv=none; d=zoho.com; s=zohoarc; 
- b=L3HSRDlP+ejURPOq2TH0Oew6AOXCpYoKjuNR+rYDf4LHumoVyT1VlqkgFX06hhP0R4edB/GVpab5dpATS0IXNWWYAHFU6zVLJe3k1zFT5TN9mn7fdGuGwYvE047lnXTbH6TAoiaUqQrsCrqSxyNYlik0HKpDHHfD2mFeWMvl5ds=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562850015;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=iMzJhm/W8218kCVAcyAJXcGVi33CDzPq2HWMUbAZqfo=; 
- b=KGnf92apJEiwhd+TGgmbiZf457TMbJ2o8uEM2uHiR3bhF+um/2JXhu4moSaeH0vjN3e2ajN8QZu/3VD9WD21LaVnhLdmLD+iMUkALXE1OtGA2mJm5PgSGBSVtWifyRDCLEkc1SMo6EPDE2TVI6EuefsnNuGvxnmh/YjZnMtjuG8=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562850014551526.7018997517526;
- Thu, 11 Jul 2019 06:00:14 -0700 (PDT)
-Message-ID: <156285001300.9994.16708326541124429284@c4a48874b076>
-In-Reply-To: <20190711104412.31233-1-quintela@redhat.com>
+ (envelope-from <berrange@redhat.com>) id 1hlYhP-0007cN-Lu
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 09:01:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40736)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1hlYhL-0007Yb-PF; Thu, 11 Jul 2019 09:01:19 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 531BA4E908;
+ Thu, 11 Jul 2019 13:01:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5951760143;
+ Thu, 11 Jul 2019 13:01:17 +0000 (UTC)
+Date: Thu, 11 Jul 2019 14:01:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190711130115.GJ11930@redhat.com>
+References: <20190710170349.1548-1-mlevitsk@redhat.com>
+ <84232589-627a-8151-a3d5-84c053d9a257@redhat.com>
+ <20190711092031.GB11930@redhat.com>
+ <4af9b328-f74b-50db-f130-3ce551239e14@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: quintela@redhat.com
-Date: Thu, 11 Jul 2019 06:00:14 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4af9b328-f74b-50db-f130-3ce551239e14@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 11 Jul 2019 13:01:18 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PULL 00/19] Migration patches
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] LUKS: support preallocation in qemu-img
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,106 +60,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: lvivier@redhat.com, thuth@redhat.com, kvm@vger.kernel.org,
- quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxMTEwNDQxMi4zMTIz
-My0xLXF1aW50ZWxhQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNzExMTA0NDEyLjMxMjMzLTEtcXVpbnRlbGFA
-cmVkaGF0LmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQVUxMIDAwLzE5
-XSBNaWdyYXRpb24gcGF0Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
-aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
-cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
-L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
-CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFn
-XSAgICAgICAgICAgICAgIHBhdGNoZXcvMjAxOTA3MTExMDQ0MTIuMzEyMzMtMS1xdWludGVsYUBy
-ZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAxOTA3MTExMDQ0MTIuMzEyMzMtMS1xdWludGVsYUByZWRo
-YXQuY29tCkF1dG8gcGFja2luZyB0aGUgcmVwb3NpdG9yeSBpbiBiYWNrZ3JvdW5kIGZvciBvcHRp
-bXVtIHBlcmZvcm1hbmNlLgpTZWUgImdpdCBoZWxwIGdjIiBmb3IgbWFudWFsIGhvdXNla2VlcGlu
-Zy4KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyMDljMjg0NWRiIG1pZ3JhdGlvbjog
-YWxsb3cgcHJpdmF0ZSBkZXN0aW5hdGlvbiByYW0gd2l0aCB4LWlnbm9yZS1zaGFyZWQKYzAwOGRl
-MzUxMyBtaWdyYXRpb246IFNwbGl0IGxvZ19jbGVhcigpIGludG8gc21hbGxlciBjaHVua3MKMWI5
-OGI5NjZlYyBrdm06IFN1cHBvcnQgS1ZNX0NMRUFSX0RJUlRZX0xPRwo2ODUwYzM0OTU4IGt2bTog
-SW50cm9kdWNlIHNsb3RzIGxvY2sgZm9yIG1lbW9yeSBsaXN0ZW5lcgo3ODdhM2U5MWRiIGt2bTog
-UGVyc2lzdGVudCBwZXIga3Ztc2xvdCBkaXJ0eSBiaXRtYXAKMThmYjYzMTM4MiBrdm06IFVwZGF0
-ZSBjb21tZW50cyBmb3Igc3luY19kaXJ0eV9iaXRtYXAKODZkOTVlNmNlMCBtZW1vcnk6IEludHJv
-ZHVjZSBtZW1vcnkgbGlzdGVuZXIgaG9vayBsb2dfY2xlYXIoKQpkMTA2M2YxNDYxIG1lbW9yeTog
-UGFzcyBtciBpbnRvIHNuYXBzaG90X2FuZF9jbGVhcl9kaXJ0eQozZmFmYmRhNWFmIGJpdG1hcDog
-QWRkIGJpdG1hcF9jb3B5X3dpdGhfe3NyY3xkc3R9X29mZnNldCgpCjc4YzY0M2Y4YzcgbWVtb3J5
-OiBEb24ndCBzZXQgbWlncmF0aW9uIGJpdG1hcCB3aGVuIHdpdGhvdXQgbWlncmF0aW9uCmM1YmFj
-NmRlYjMgbWlncmF0aW9uOiBObyBuZWVkIHRvIHRha2UgcmN1IGR1cmluZyBzeW5jX2RpcnR5X2Jp
-dG1hcAplYTQ0NWUyNTMzIG1pZ3JhdGlvaW4vcmFtLmM6IHJlc2V0IGNvbXBsZXRlX3JvdW5kIHdo
-ZW4gd2UgZ2V0cyBhIHF1ZXVlZCBwYWdlCmU4ZTVlOTE2MjYgbWlncmF0aW9uL211bHRpZmQ6IHN5
-bmMgcGFja2V0X251bSBhZnRlciBhbGwgdGhyZWFkIGFyZSBkb25lCmU1YzYyYmE4OWQgY3V0aWxz
-OiByZW1vdmUgb25lIHVubmVjZXNzYXJ5IHBvaW50ZXIgb3BlcmF0aW9uCjU5MTRjODM1MjcgbWln
-cmF0aW9uL3hienJsZTogdXBkYXRlIGNhY2hlIGFuZCBjdXJyZW50X2RhdGEgaW4gb25lIHBsYWNl
-CjQwNDY1NmEyYjAgbWlncmF0aW9uL211bHRpZmQ6IGNhbGwgbXVsdGlmZF9zZW5kX3N5bmNfbWFp
-biB3aGVuIHNlbmRpbmcgUkFNX1NBVkVfRkxBR19FT1MKZmQ1MjJmNjIyYiBtaWdyYXRpb24tdGVz
-dDogQWRkIG1pZ3JhdGlvbiBtdWx0aWZkIHRlc3QKNDEwYTQyYjA3NyBtaWdyYXRpb24tdGVzdDog
-cmVuYW1lIHBhcmFtZXRlciB0byBwYXJhbWV0ZXJfaW50CmM0YzkyMWFlNDMgbWlncmF0aW9uOiBm
-aXggbXVsdGlmZF9yZWN2IGV2ZW50IHR5cG8KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTkgQ2hl
-Y2tpbmcgY29tbWl0IGM0YzkyMWFlNDM4ZCAobWlncmF0aW9uOiBmaXggbXVsdGlmZF9yZWN2IGV2
-ZW50IHR5cG8pCjIvMTkgQ2hlY2tpbmcgY29tbWl0IDQxMGE0MmIwNzc5ZiAobWlncmF0aW9uLXRl
-c3Q6IHJlbmFtZSBwYXJhbWV0ZXIgdG8gcGFyYW1ldGVyX2ludCkKMy8xOSBDaGVja2luZyBjb21t
-aXQgZmQ1MjJmNjIyYmY3IChtaWdyYXRpb24tdGVzdDogQWRkIG1pZ3JhdGlvbiBtdWx0aWZkIHRl
-c3QpCjQvMTkgQ2hlY2tpbmcgY29tbWl0IDQwNDY1NmEyYjAyOSAobWlncmF0aW9uL211bHRpZmQ6
-IGNhbGwgbXVsdGlmZF9zZW5kX3N5bmNfbWFpbiB3aGVuIHNlbmRpbmcgUkFNX1NBVkVfRkxBR19F
-T1MpCjUvMTkgQ2hlY2tpbmcgY29tbWl0IDU5MTRjODM1MjcwYyAobWlncmF0aW9uL3hienJsZTog
-dXBkYXRlIGNhY2hlIGFuZCBjdXJyZW50X2RhdGEgaW4gb25lIHBsYWNlKQo2LzE5IENoZWNraW5n
-IGNvbW1pdCBlNWM2MmJhODlkNjAgKGN1dGlsczogcmVtb3ZlIG9uZSB1bm5lY2Vzc2FyeSBwb2lu
-dGVyIG9wZXJhdGlvbikKNy8xOSBDaGVja2luZyBjb21taXQgZThlNWU5MTYyNmQyIChtaWdyYXRp
-b24vbXVsdGlmZDogc3luYyBwYWNrZXRfbnVtIGFmdGVyIGFsbCB0aHJlYWQgYXJlIGRvbmUpCjgv
-MTkgQ2hlY2tpbmcgY29tbWl0IGVhNDQ1ZTI1MzM2NCAobWlncmF0aW9pbi9yYW0uYzogcmVzZXQg
-Y29tcGxldGVfcm91bmQgd2hlbiB3ZSBnZXRzIGEgcXVldWVkIHBhZ2UpCjkvMTkgQ2hlY2tpbmcg
-Y29tbWl0IGM1YmFjNmRlYjM2MyAobWlncmF0aW9uOiBObyBuZWVkIHRvIHRha2UgcmN1IGR1cmlu
-ZyBzeW5jX2RpcnR5X2JpdG1hcCkKMTAvMTkgQ2hlY2tpbmcgY29tbWl0IDc4YzY0M2Y4Yzc4NSAo
-bWVtb3J5OiBEb24ndCBzZXQgbWlncmF0aW9uIGJpdG1hcCB3aGVuIHdpdGhvdXQgbWlncmF0aW9u
-KQoxMS8xOSBDaGVja2luZyBjb21taXQgM2ZhZmJkYTVhZmE1IChiaXRtYXA6IEFkZCBiaXRtYXBf
-Y29weV93aXRoX3tzcmN8ZHN0fV9vZmZzZXQoKSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
-bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjc6IApuZXcg
-ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxOTMgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggMTEvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTIvMTkgQ2hl
-Y2tpbmcgY29tbWl0IGQxMDYzZjE0NjFlMiAobWVtb3J5OiBQYXNzIG1yIGludG8gc25hcHNob3Rf
-YW5kX2NsZWFyX2RpcnR5KQoxMy8xOSBDaGVja2luZyBjb21taXQgODZkOTVlNmNlMDAwIChtZW1v
-cnk6IEludHJvZHVjZSBtZW1vcnkgbGlzdGVuZXIgaG9vayBsb2dfY2xlYXIoKSkKMTQvMTkgQ2hl
-Y2tpbmcgY29tbWl0IDE4ZmI2MzEzODI5NSAoa3ZtOiBVcGRhdGUgY29tbWVudHMgZm9yIHN5bmNf
-ZGlydHlfYml0bWFwKQoxNS8xOSBDaGVja2luZyBjb21taXQgNzg3YTNlOTFkYmU3IChrdm06IFBl
-cnNpc3RlbnQgcGVyIGt2bXNsb3QgZGlydHkgYml0bWFwKQoxNi8xOSBDaGVja2luZyBjb21taXQg
-Njg1MGMzNDk1ODAyIChrdm06IEludHJvZHVjZSBzbG90cyBsb2NrIGZvciBtZW1vcnkgbGlzdGVu
-ZXIpCjE3LzE5IENoZWNraW5nIGNvbW1pdCAxYjk4Yjk2NmVjMzEgKGt2bTogU3VwcG9ydCBLVk1f
-Q0xFQVJfRElSVFlfTE9HKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjAxOiBG
-SUxFOiBhY2NlbC9rdm0va3ZtLWFsbC5jOjEwNTQ6CisgICAgS1ZNTWVtb3J5TGlzdGVuZXIgKmtt
-bCA9IGNvbnRhaW5lcl9vZihsaXN0ZW5lciwgS1ZNTWVtb3J5TGlzdGVuZXIsIGxpc3RlbmVyKTsK
-CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMjE3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE3
-LzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE4LzE5IENoZWNraW5nIGNvbW1pdCBjMDA4
-ZGUzNTEzYWMgKG1pZ3JhdGlvbjogU3BsaXQgbG9nX2NsZWFyKCkgaW50byBzbWFsbGVyIGNodW5r
-cykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHRy
-YWlsaW5nIHdoaXRlc3BhY2UKIzQ4OiBGSUxFOiBpbmNsdWRlL2V4ZWMvbWVtb3J5LmgucmVqOjY6
-CisgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzY3MDogRklMRTogbWVtb3J5LmMucmVq
-OjY6CisgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzU3NjU6IEZJTEU6IG1pZ3JhdGlv
-bi9yYW0uYy5yZWo6NDoKKyAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojNTc3MjogRklM
-RTogbWlncmF0aW9uL3JhbS5jLnJlajoxMToKKyAkCgp0b3RhbDogNCBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDYwMDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTgvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KCjE5LzE5IENoZWNraW5nIGNvbW1pdCAyMDljMjg0NWRiOTUgKG1pZ3JhdGlvbjogYWxs
-b3cgcHJpdmF0ZSBkZXN0aW5hdGlvbiByYW0gd2l0aCB4LWlnbm9yZS1zaGFyZWQpCj09PSBPVVRQ
-VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
-b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNzExMTA0NDEy
-LjMxMjMzLTEtcXVpbnRlbGFAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On Thu, Jul 11, 2019 at 02:23:55PM +0200, Max Reitz wrote:
+> On 11.07.19 11:20, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Jul 10, 2019 at 11:24:46PM +0200, Max Reitz wrote:
+> >> On 10.07.19 19:03, Maxim Levitsky wrote:
+> >>> preallocation=3Doff and preallocation=3Dmetadata
+> >>> both allocate luks header only, and preallocation=3Dfalloc/full
+> >>> is passed to underlying file, with the given image size.
+> >>>
+> >>> Note that the actual preallocated size is a bit smaller due
+> >>> to luks header.
+> >>
+> >> Couldn=E2=80=99t you just preallocate it after creating the crypto h=
+eader so
+> >> qcrypto_block_get_payload_offset(crypto->block) + size is the actual
+> >> file size?
+> >=20
+> > Yeah that would be preferrable. If that's really not possible, we
+> > could likely provide some API to query the expected hreader size for
+> > a given set of creation options.=20
+> >=20
+> >>
+> >>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534951
+> >>>
+> >>> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> >>> ---
+> >>>  block/crypto.c | 28 ++++++++++++++++++++++++++--
+> >>>  1 file changed, 26 insertions(+), 2 deletions(-)
+> >>
+> >> Hm.  I would expect a preallocated image to read 0.  But if you just
+> >> pass this through to the protocol layer, it won=E2=80=99t read 0.
+> >=20
+> > Yes, it will be zeros at the physical layer, but unintelligble
+> > garbage from POV of the virtual disk.
+> >=20
+> > I don't think this is really a problem though - this is what you
+> > get already if you create a LUKS volume on top of a block device
+> > today.
+>=20
+> Which is why we have BlockDriver.bdrv_has_zero_init(), which the LUKS
+> driver does not implement, hence it being treated as false.
+>=20
+> But if you are preallocating, you have a choice of what you write, and
+> why not make that zeroes?
+>=20
+> > AFAIK, we've not documented that preallocation guarantees future
+> > reads will return zeros. Preallocation simply ensures that all
+> > required space is allocated upfront. We do mention that it might
+> > be achieved by writing zeros to the underlying storage but never
+> > said you'll get zeros back.
+>=20
+> But we have, as I wrote in my second reply.  PreallocMode's
+> documentation says that at least =E2=80=9Cfull=E2=80=9D is writing zero=
+es, and to say
+> those zeroes can be anywhere in the stack is cheating, from my POV.
 
+I guess it depends on your interpretation of the docs. In qemu-img
+man page it says
+
+  "falloc" mode preallocates space for image by calling posix_fallocate()=
+.
+  "full" mode preallocates space for image by writing zeros to underlying
+  storage.
+
+To me both those sentances are talking about the lowest level in the
+stack, closest to the physical storage medium, though I can understand
+if people have other interpretations.
+
+> > IOW I think its at most a docs problem to more clearly explain
+> > that preallocation !=3D guaranteed zeros for reads.
+> >=20
+> >> (In fact, I don=E2=80=99t even quite see the point of having LUKS as=
+ an own
+> >> format still.  It was useful when qcow2 didn=E2=80=99t have LUKS sup=
+port, but
+> >> now it does, so...  I suppose everyone using the LUKS format should
+> >> actually be using qcow2 with LUKS?)
+> >=20
+> > Certainly not. LUKS on raw is going to be very common, not least beca=
+use
+> > that's directly compatible with what Linux kernel supports. If you do=
+n't
+> > want the features of qcow2 like snapshots, it just adds overhead and =
+mgmt
+> > complexity for no gain, especially if dealing with block device backe=
+d
+> > storage (iSCSI, RBD).
+> >=20
+> > OpenStack will use cryptsetup when initializing its block storage wit=
+h
+> > LUKS, then tell QEMU to run with the raw + LUKS driver.
+>=20
+> I see the compatibility with the Linux kernel, yes (as I wrote in my
+> second reply), but I=E2=80=99m not sure whether =E2=80=9Coverhead=E2=80=
+=9D really is that big of
+> a point when using encryption.
+
+Overhead is not purely about CPU burn. There's non-negligible memory
+overhead for qcow2s data tables that doesn't exist at all with raw.
+The mgmt complexity & interoperability is the real killer feature
+benefit of raw + LUKS vs qcow + LUKS though.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
