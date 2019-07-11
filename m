@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32C065960
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:52:41 +0200 (CEST)
-Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D4065938
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:43:25 +0200 (CEST)
+Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlaR6-00067d-OA
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
+	id 1hlaI8-0004fE-8t
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38211)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hlaPX-00059A-8n
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:04 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hlaHE-000486-6g
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:42:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hlaPW-0004DR-0g
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46608)
+ (envelope-from <alistair23@gmail.com>) id 1hlaHC-0002Br-PC
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:42:28 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:39863)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hlaPV-00049x-Q2
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:01 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hlaPR-0006CD-Q5
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 14:50:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ECFCF2E8191
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 14:50:53 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hlaHC-00027U-Ep; Thu, 11 Jul 2019 10:42:26 -0400
+Received: by mail-lf1-x142.google.com with SMTP id v85so4239061lfa.6;
+ Thu, 11 Jul 2019 07:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NBEGWgpWeqo8cs4hEVmc/ODFyB/v0FS0EPbJT2KuAw0=;
+ b=iDH73BpZKApFELe4+C0kBN/4KiyJkAwJaybBMkwy+z8TnBSCTo7tO6LGy/us0BXega
+ ePjRnJjJd53kMaGTQy2lbIzwJt72HHvk2zfVbaWuV32PbGLHK8rEdMKBurAvRVhcwlre
+ OxGd7n4orOIFtCf2Q4ZfiJ3CJmsFcoSG305Dzc2LgvzUwgY8EOhAY5Csguzlokzc0hJq
+ vdsHYJD62bkKhkmYi/IZRTl6eVFIrWM2QQENV3+WaiIkUvgF5CI/UXe9PDxiBkm2zrOc
+ lcbED95f3XT+SkviIc3oJ4FYSExh3sL1mka0OEu+GDzKnkLMg6tn4K6nNgSIXDAMZIkW
+ 5oKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NBEGWgpWeqo8cs4hEVmc/ODFyB/v0FS0EPbJT2KuAw0=;
+ b=X0zrLKeRoR4jdidhnKVsWR6zuvYy+4EmMYoA239iWerY16mG3vVJPl+4y4NVZJap2g
+ NkCj8VCwHV0MwRFqly1rgOKqBpfaaNdcl0ff0jkEiSDR6jNa/UJVKnZiHUw41Qh8uZFw
+ 0x0UK7FZsJ+o5L0cJlSrP7BAWm1+RBw0rz70hEpEZ4fn/QVM/RwIX2ySkUa6Mqb8evyX
+ 45PIjQnq0SFLFy9bdYZSWxmNz3Cm16h4uinTd8m2E/SgcC76kD+/RR4ukOrLixSw03Nq
+ EfoektoqnWXCqxieHDt+rGase4tlYZtEbChE3VZiow66XO6yre6Xl0QOOUJq9z2Kf+kv
+ ZGpQ==
+X-Gm-Message-State: APjAAAWSx/6zW4POPTdBdRUSwNmUAuDeX852MKS72xOyO3Q9+ZNXllAg
+ 7ExHv6llXBJd81ATtnL1GYEnbS5y+ZzQK5SBkpM=
+X-Google-Smtp-Source: APXvYqyCtGkHEHuqlkaAUYiK+CbSwhimP7XbmLvPA4otqJGkGZOZGAsdDLl8I81yd1FsJwtPLFFMVWUwCC7AbXiYoBo=
+X-Received: by 2002:a05:6512:29a:: with SMTP id
+ j26mr2071961lfp.44.1562856143876; 
+ Thu, 11 Jul 2019 07:42:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Jul 2019 14:38:58 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee christophe-lyon pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
- <20190711103737.10017-1-alex.bennee@linaro.org>
-Message-Id: <CAFEAcA-mJ5qcA-iS8BxfoVVMkAt13k11bYOT_eELw-WzcSEvRQ@mail.gmail.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 01297fc4c0e7740d9ead60de51307ae0773a0b01
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836078] Re: [PATCH v2 for 4.1] target/arm:
- report ARMv8-A FP support for AArch32 -cpu max
+References: <1562781026-27570-1-git-send-email-chihmin.chao@sifive.com>
+ <CAKmqyKMHxX6dhopB8fxH31HGAQ3y-EvL+09jNvp3xMS-dxirQA@mail.gmail.com>
+ <CAEiOBXUZ51h165GMEJEyDhToD2op7Z6S86B+Wnt9taZ3Q2iGfA@mail.gmail.com>
+In-Reply-To: <CAEiOBXUZ51h165GMEJEyDhToD2op7Z6S86B+Wnt9taZ3Q2iGfA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 11 Jul 2019 07:41:57 -0700
+Message-ID: <CAKmqyKOPEASD7QEhNm5pRSKb2mDcUwg2=ik8B2UUQ_ddbypSJA@mail.gmail.com>
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH] tests/boot_linux_console: add a test for
+ riscv64 + virt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,87 +74,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Caio Carrara <ccarrara@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Jul 2019 at 11:37, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+On Wed, Jul 10, 2019 at 6:54 PM Chih-Min Chao <chihmin.chao@sifive.com> wrote:
 >
-> When we converted to using feature bits in 602f6e42cfbf we missed out
-> the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
-> -cpu max configurations. This caused a regression in the GCC test
-> suite. Fix this by setting the appropriate bits in mvfr1.FPHP to
-> report ARMv8-A with FP support (but not ARMv8.2-FP16).
 >
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> On Thu, Jul 11, 2019 at 2:53 AM Alistair Francis <alistair23@gmail.com> wrote:
+>>
+>> On Wed, Jul 10, 2019 at 10:51 AM Chih-Min Chao <chihmin.chao@sifive.com> wrote:
+>> >
+>> > Similar to the mips + malta test, it boots a Linux kernel on a virt
+>> > board and verify the serial is working.  Also, it relies on the serial
+>> > device set by the machine itself.
+>> >
+>> > If riscv64 is a target being built, "make check-acceptance" will
+>> > automatically include this test by the use of the "arch:riscv64" tags.
+>> >
+>> > Alternatively, this test can be run using:
+>> >
+>> >   $ avocado run -t arch:riscv64 tests/acceptance
+>> >
+>> > Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
+>>
+>> Awesome! Thanks for the test case. This will help a lot with RISC-V
+>> regressions in QEMU.
+>>
+>> > ---
+>> >  tests/acceptance/boot_linux_console.py | 40 ++++++++++++++++++++++++++++++++++
+>> >  1 file changed, 40 insertions(+)
+>> >
+>> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> > index 3215950..bbc6b06 100644
+>> > --- a/tests/acceptance/boot_linux_console.py
+>> > +++ b/tests/acceptance/boot_linux_console.py
+>> > @@ -354,3 +354,43 @@ class BootLinuxConsole(Test):
+>> >          self.vm.launch()
+>> >          console_pattern = 'Kernel command line: %s' % kernel_command_line
+>> >          self.wait_for_console_pattern(console_pattern)
+>> > +
+>> > +    def test_riscv64_virt(self):
+>> > +        """
+>> > +        :avocado: tags=arch:riscv64
+>> > +        :avocado: tags=machine:virt
+>> > +        """
+>> > +
+>> > +        kernel_url = ('https://github.com/chihminchao/test-binary/raw/'
+>>
+>> These images need to be built with a standard build flow. Having them
+>> built from SiFive's custom scripts will make debugging problems in the
+>> future impossible. I'm also a little worried here about GPL
+>> violations, I'm not sure if it's enough to just point to a script SHA
+>> to meet GPL source disclosure. I know companies have huge headaches
+>> meeting GPL requirements so this seems too easy.
 >
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index e75a64a25a..ad164a773b 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
->              t =3D FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
->              cpu->isar.id_isar6 =3D t;
 >
-> +            t =3D cpu->isar.mvfr1;
-> +            t =3D FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.0 FP support =
-*/
-> +            cpu->isar.mvfr1 =3D t;
-> +
->              t =3D cpu->isar.mvfr2;
->              t =3D FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
->              t =3D FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-> --
-> 2.20.1
+>    I am not very familiar with this kind of binary and source license conflict.
 
+Thinking about it more you probably are ok with a SHA to a build tool.
+I guess companies do all the extra work and vetting just to be extra
+sure. So how much you do I guess is up to you ad SiFive.
 
-Applied to target-arm.next, thanks.
+>    Is it ok if I write a simple script with BSD license to build  kernel and image from sifive's linux/buildroot repo and commit the script to my test-binary repo ?
 
--- PMM
+No, it must be built from an upstream repo. Others need to be able to
+reproduce this in the future. You can just use upstream buildroot and
+include a config. Ideally as well use a projects release instead of
+some random SHA.
 
--- =
+>>
+>>
+>> > +                      '0b7787305d9e40815c05a805266cc74ff356239e/qemu/riscv64/'
+>> > +                      'bbl_w_kernel.gz')
+>>
+>> Don't use BBL, most people use OpenSBI now which is what we should be
+>> testing with.
+>
+>    I will try to move to OpenSBI in next version. My environment is based freedom-u-sdk and It still relays  on BBL. So ..:P
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836078
+Swap to an upstream distro, I think they all support OpenSBI now.
+Buildroot and OE/Yocto both give you development environments and
+Fedora and Debian work as well.
 
-Title:
-  Regressions on arm-linux-gnueabihf target with some GCC tests
+Alistair
 
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Hi,
-
-  After trying qemu master:
-  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
-  Merge: 68d7ff0 14f5d87
-  Author: Peter Maydell <email address hidden>
-  Date: Fri Jun 21 15:40:50 2019 +0100
-
-  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
-  I've noticed several regressions compared to qemu-3.1 when running the GC=
-C testsuite.
-  I'm attaching a tarball containing several GCC tests (binaries), needed s=
-hared libs, and a short script to run all the tests.
-
-  All tests used to pass w/o error, but with a recent qemu, all of them
-  make qemu crash.
-
-  This was noticed with GCC master configured with
-  --target arm-none-linux-gnueabihf
-  --with-cpu cortex-a57
-  --with-fpu crypto-neon-fp-armv8
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
+>>
+>>
+>> > +        kernel_hash = 'c7f6cc7967975ad42dc61ee0535db01c9cbd0968'
+>> > +        kernel_path_gz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>> > +        kernel_path = self.workdir + "bbl_w_kernel"
+>> > +
+>> > +        with gzip.open(kernel_path_gz, 'rb') as f_in:
+>> > +            with open(kernel_path, 'wb') as f_out:
+>> > +                shutil.copyfileobj(f_in, f_out)
+>> > +
+>> > +        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
+>> > +                      '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
+>> > +                      'riscv64/rootfs.cpio.gz')
+>>
+>> Same comment about build tools.
+>>
+>>
+>> Alistair
+>>
+>     Got it
+>>
+>> > +        initrd_hash = 'f4867d263754961b6f626cdcdc0cb334c47e3b49'
+>> > +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+>> > +
+>> > +        self.vm.set_machine('virt')
+>> > +        self.vm.set_console()
+>> > +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
+>> > +                               + 'console=ttyS0 noreboot')
+>> > +        self.vm.add_args('-kernel', kernel_path,
+>> > +                         '-initrd', initrd_path,
+>> > +                         '-append', kernel_command_line)
+>> > +        self.vm.launch()
+>> > +        self.wait_for_console_pattern('Boot successful.')
+>> > +
+>> > +        self.exec_command_and_wait_for_pattern('cat /proc/cpuinfo',
+>> > +                                               'isa')
+>> > +        self.exec_command_and_wait_for_pattern('uname -a',
+>> > +                                               'sifive')
+>> > +        self.exec_command_and_wait_for_pattern('reboot',
+>> > +                                               'reboot: Restarting system')
+>> > --
+>> > 2.7.4
+>> >
+>> >
 
