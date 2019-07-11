@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72E36540E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 11:44:55 +0200 (CEST)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66C66545F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:16:59 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlVdG-00029u-GL
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 05:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48974)
+	id 1hlW8I-0002D2-Df
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hlVcf-0001gv-O2
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:44:18 -0400
+ (envelope-from <LMa@suse.com>) id 1hlW7f-0001la-2q
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hlVce-000214-Mk
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:44:17 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43122)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hlVce-0001zz-FT
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 05:44:16 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p13so5506854wru.10
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 02:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=WS7ZX1gUM4Kv+O86nvFNaqgOEtk/PO+WXJ9kN9BnEeY=;
- b=rp2yhaphUqx+X5tIjpMFtd4oPdoJW6aiaxn32k+xNnCPuLPTZeez+xEFZ6ZHH25z/O
- yCSImE2B3/e0wr94jyfnhVEW5zUEuOKgGMepNPA4xx/Aq6LLtvsceiRZkpGV3QJvLYCs
- ImQNANglsz+LpVfu/NOUQTDALhbsTO/9fX/QNn6jjTrACC3r929p7DqRHcETcCHXk1Tg
- uYxA5/EjFJnTfHaWjrlGLOpMQCf1zUf0FDJ5si3R0mBgAi2Ka4KqXvXDN3khDEX1Ru5t
- /znQJk9nhorCtm995WUWaXgfBH8cXQPsbpeCyf5axLTU5PVCIqK1LltIGKvMr5U61nJT
- VdtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=WS7ZX1gUM4Kv+O86nvFNaqgOEtk/PO+WXJ9kN9BnEeY=;
- b=jld+ySqQGGdxYUzZ3pPo+E9WbISoA1++YSa3LVwNhvjU8DvfnySoLy0CaQjMshegSm
- JYyj0pYw2asPShaifmq1VFBAWxysOP7hMEN5HI6CV6eq3xpADkDfydrkclbTWjHvBvuZ
- xQLBYrHv9g76bkl8VigvK/KX5hKoj9phtL7HZCtuXCbb4lxzzIzZLdWKbwEgPkbA0YVC
- cJcbto8ReJi0Xy1H9Jsq5jGlrESNGBfZHOwtOupoLjVEQTy/Qww5sQYi/FTbUveE732k
- mffI3HAwH7e/+XgR42JQtr7Q4A4C4RtfwQhnrqrQ611dwbZLt+Wy+fqyJrY0oUFr9uFV
- 5FUA==
-X-Gm-Message-State: APjAAAWyOFZfy+iHbddvBxEj0+7MpTUS1h+Vwj5dVJjM8SQzES9Jt6UN
- 5BCttYsxHCU+rd3BltrwhMS3wQ==
-X-Google-Smtp-Source: APXvYqx8+UBCOdo/qp4qdCpWNXF9VEmKTJhFzj3P45O2aUj/I6LJkCoVnMBzbNwkNBMpRf0QS3X/xw==
-X-Received: by 2002:a5d:55c2:: with SMTP id i2mr3953306wrw.96.1562838254541;
- Thu, 11 Jul 2019 02:44:14 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id b15sm6497201wrt.77.2019.07.11.02.44.13
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 11 Jul 2019 02:44:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6E84E1FF87;
- Thu, 11 Jul 2019 10:44:13 +0100 (BST)
-References: <20190701043536.26019-1-jan.bobek@gmail.com>
- <20190701043536.26019-7-jan.bobek@gmail.com>
- <f1b0ff64-0c62-f1b0-8362-539d9d37156c@linaro.org>
- <53d71ce2-54da-b118-c5b9-c49216d13d51@gmail.com>
- <e2947ad4-3668-0d23-1374-4101ebad6c9d@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-In-reply-to: <e2947ad4-3668-0d23-1374-4101ebad6c9d@linaro.org>
-Date: Thu, 11 Jul 2019 10:44:13 +0100
-Message-ID: <87ftncewia.fsf@zen.linaroharston>
+ (envelope-from <LMa@suse.com>) id 1hlW7d-0003mk-RO
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:19 -0400
+Received: from m4a0041g.houston.softwaregrp.com ([15.124.2.87]:48720)
+ by eggs.gnu.org with esmtp (Exim 4.71) (envelope-from <LMa@suse.com>)
+ id 1hlW7d-0003Ue-KH
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:16:17 -0400
+Received: FROM m4a0041g.houston.softwaregrp.com (15.120.17.146) BY
+ m4a0041g.houston.softwaregrp.com WITH ESMTP; 
+ Thu, 11 Jul 2019 10:16:05 +0000
+Received: from M9W0068.microfocus.com (2002:f79:bf::f79:bf) by
+ M4W0334.microfocus.com (2002:f78:1192::f78:1192) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10; Thu, 11 Jul 2019 09:44:35 +0000
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (15.124.72.11) by
+ M9W0068.microfocus.com (15.121.0.191) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10 via Frontend Transport; Thu, 11 Jul 2019 09:44:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VHve2ho0KHLgbYfN1S4lSwaUTnIa9NZnR+x8SSexwFV0XrCE6BObictM3SXBOQiy1qEaIvNeQcJJbdsuDThVWHd4VoHwT1k8T2j54SRyTIC5v49Xu0JgFjDGiMf3ikgbGhk3lc5zIUjHBwuWgN/B2VyhCQOBdkd7mulLUCsg1bNC6PiSzoovv4Clx1+grbXTtGELuRli091KihWJeHo3khqBkDkkjJfDeYs77wPM3ASPBl3aq+6SSIMSVARxQ687JxI/lB6xvOIuj53Jx/hRJ9s5h4YQoPIw1DBzIAwvfKa6yjB9FVaJWpVzRo05EjcLkt9nZbvfD0gFNPWlNjKHyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1HQ5Go9EyZaTPFQdN1usVDbOqjK733QH7UaaLr+5mzU=;
+ b=awA3wxJFvGDQuDMMQqG+EIUN5Nmy6QM/rT0+5ouiXWfGSqDovKETosVBCGpBsl+cKH51eitmp5UP2dTVpRNpxRa2cyfb/4gEURCPvrQFQhmupePl5Id+VkrVhHUuWb+VrQy3LBLU5kkbsp9vBr/yJk26Wv8G/8CWVrdX9qtOdYccRIsoQTSemLcYT3kCVB3s+UTVxqwoUk1+qgVgGk9WNuCXoolW/i0FjXCM4M129avdbImyyYCKvcebbIaWkdR6h5OMdUbWLbRfiYt+Y0IHLhElDLUHF76tpu8jtlnJ0JOajrsk4fI3hRR2RclN2PMvy/ZLVTa756/r29MdXAeS4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=suse.com;dmarc=pass action=none header.from=suse.com;dkim=pass
+ header.d=suse.com;arc=none
+Received: from BY5PR18MB3313.namprd18.prod.outlook.com (10.255.137.156) by
+ BY5PR18MB3396.namprd18.prod.outlook.com (10.255.139.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2073.10; Thu, 11 Jul 2019 09:44:32 +0000
+Received: from BY5PR18MB3313.namprd18.prod.outlook.com
+ ([fe80::b588:8e99:5614:73ad]) by BY5PR18MB3313.namprd18.prod.outlook.com
+ ([fe80::b588:8e99:5614:73ad%4]) with mapi id 15.20.2052.020; Thu, 11 Jul 2019
+ 09:44:32 +0000
+From: Lin Ma <LMa@suse.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "dgilbert@redhat.com"
+ <dgilbert@redhat.com>
+Thread-Topic: [Qemu-devel] migrate_set_speed has no effect if the guest is
+ using hugepages.
+Thread-Index: AdU3zTKKe7aEJr5KQ9WS3a20E1+sgg==
+Date: Thu, 11 Jul 2019 09:44:32 +0000
+Message-ID: <BY5PR18MB3313E1E22A22D236D4C2680DC5F30@BY5PR18MB3313.namprd18.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=LMa@suse.com; 
+x-originating-ip: [45.122.156.254]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a57aea17-e6d3-4192-a858-08d705e460a5
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:BY5PR18MB3396; 
+x-ms-traffictypediagnostic: BY5PR18MB3396:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <BY5PR18MB339602F5C149D6CF0491B170C5F30@BY5PR18MB3396.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:663;
+x-forefront-prvs: 0095BCF226
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(366004)(136003)(396003)(39860400002)(346002)(376002)(199004)(53754006)(189003)(2906002)(81156014)(8676002)(74316002)(33656002)(8936002)(478600001)(81166006)(3846002)(256004)(186003)(316002)(6116002)(99286004)(7736002)(486006)(790700001)(476003)(26005)(110136005)(53936002)(76116006)(14454004)(66066001)(2501003)(66946007)(71200400001)(7696005)(66556008)(66476007)(64756008)(66446008)(71190400001)(68736007)(102836004)(80792005)(25786009)(9686003)(55016002)(86362001)(6306002)(6506007)(54896002)(6436002)(52536014)(5660300002)(558084003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR18MB3396;
+ H:BY5PR18MB3313.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: suse.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: wlO8YpkKXVVmjuqAgDZ71nrAiRAwWUHPh20Lnr5mrMOzsAMrQppgaGH78fpTEMr42EPR0XeKhlMjKN+5iiFtYZNqJg/5zR3SUc0R1oII3DVtT4zeWtg7GPwBe3Ke0kmY1S6uK8AH4QCWbdJAATmwvtfQoO//ADWSA8poimQhkNYN/41hSXcDys+/dykO3S0qIxXCuICuVjwwCMCIVDZ9VhrZSI3g3FvcOzeuBOhNWqRKH8sXpauG11vlSFoSQ6sHiJlEVCtlldRf7VIWWECUB+a3qGdLtxk93j/BnaSdk+93lja8T2e2V/nXVryAOhSIKJH6pehy0SGPzWExxTyC0sJmgKjJ7qocKE8YH7hVgXHuG2HGg4+8IR0ezM0OP0nrNSZLPCMpJa81ssBFe9x5FDPuE38bJIPoP8P4OQ9mG4E=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-MS-Exchange-CrossTenant-Network-Message-Id: a57aea17-e6d3-4192-a858-08d705e460a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2019 09:44:32.7046 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LMa@suse.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR18MB3396
+X-OriginatorOrg: suse.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 15.124.2.87
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [RISU RFC PATCH v2 06/14] x86.risu: add MMX
- instructions
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: [Qemu-devel] migrate_set_speed has no effect if the guest is using
+ hugepages.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,46 +109,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi all,
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+When I live migrate a qemu/kvm guest, If the guest is using huge pages, I f=
+ound that
+the migrate_set_speed command had no effect during stage 2.
+It was caused by commit 4c011c3 postcopy: Send whole huge pages
 
-> On 7/10/19 8:32 PM, Jan Bobek wrote:
->> On 7/3/19 5:49 PM, Richard Henderson wrote:
->>> On 7/1/19 6:35 AM, Jan Bobek wrote:
->>>> +MOVQ            MMX     00001111 011 d 1110 !emit { rex(w =3D> 1); mo=
-drm(mod =3D> MOD_DIRECT, rm =3D> ~REG_ESP); }
->>>> +MOVQ_mem        MMX     00001111 011 d 1110 !emit { rex(w =3D> 1); mo=
-drm(mod =3D> ~MOD_DIRECT); mem(size =3D> 8); }
->>>
->>> Oh, note that there are only 8 mmx registers, so the respective rex.{r,=
-b} bit
->>> can't be set.
->>
->> Actually, my CPU chewed it without choking even when the bits were
->> set, but it will taken care of in v3.
->
-> That's interesting data.
->
-> I wonder if it's worth retaining this as a feature in order to check qemu=
-'s
-> implementation?
-
-We could be some time, c.f. BlackHat 2017
-
-  https://www.youtube.com/watch?v=3DKrksBdWcZgQ
-
-I suspect if we set https://github.com/xoreaxeaxeax/sandsifter on QEMU
-we might find a few breakages.
-
->
->
-> r~
+I'm wondering that is it by design or is it a bug waiting for fix?
 
 
---
-Alex Benn=C3=A9e
-
+Thanks,
+Lin
