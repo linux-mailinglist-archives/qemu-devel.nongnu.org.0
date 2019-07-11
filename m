@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E8A65664
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:08:36 +0200 (CEST)
-Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4F765670
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:13:46 +0200 (CEST)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlXsJ-0003BG-CW
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1hlXxJ-0006Po-BT
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48645)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hlXrF-0002io-82
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:07:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hlXwE-0005lT-Ln
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:12:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hlXrB-0001ao-2l
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:07:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54842)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hlXrA-0001Y5-Qm
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:07:25 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F14F93082131;
- Thu, 11 Jul 2019 12:07:23 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1280D60603;
- Thu, 11 Jul 2019 12:07:15 +0000 (UTC)
-Date: Thu, 11 Jul 2019 13:07:13 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <20190711120713.GM3971@work-vm>
-References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
- <1562665760-26158-5-git-send-email-kwankhede@nvidia.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hlXwC-0000iz-FV
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:12:38 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hlXwB-0000hV-W9
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:12:36 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s3so5453801wms.2
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 05:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=V3cMonKbsaOdqE8YXh9RMaH2ufvX5rqBag4d1fqLsno=;
+ b=u83XEOxfttHrkYfRR73FH+1Bt+QVdu6ihf18+K/CsYJfsbore+Nud1Giocp4+HS0Kt
+ MFCwzg+hfmaS0GGCA3QBl38im7IDB9q/qf55dLqYYFNzTu+GcO43QDLcB7RVU+yp+/F9
+ W8dqbGbmYd4RPFbSVt6HNdgIoQmDg+RDBEPpbr2n249w/2qlW1NACfEYV9UTanDuCOL0
+ MUN/LnilhLZAWQiRCeqfXSvontMpYIV89mh0gY7kYwmMT813osJM8c6hmEJAAonFTkc2
+ TLIls6cmJbfmcAuiSLg1R8Pz/QJujVDGNGVbZDR9DmgOJj5XXIl1LY/YuJlSpdZDctpE
+ gvaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=V3cMonKbsaOdqE8YXh9RMaH2ufvX5rqBag4d1fqLsno=;
+ b=d8CE7P5b/yx6CqFQ+uzaRHpm09nUnrOvVaOY+TNp7l5kXLgU+k43bBaLeJiFVH/paH
+ AiOpSV/4WE9R+PeOFIu9lOPDk/ya2YEaczqIFsf25nsKisQnHVOQ4DYS835bpt4bpE1k
+ oy/ZyFude8l5toEEvFbW5lBA9uCOpIoGf+lbJhN3PxPwXObt+JQUkuExK6hValTMKruG
+ gUwZAPiMpoAgktEWxk7O02nXQr+xyADsA0Ji5Nvg+W1Q8j2tlaKXLfSkNEd3z1hlrI+6
+ lUQwDX3dr0g8hnD2Z84gabyPq1wxoba1IQn1H37enD5uwNol/+Ot6J4O+yZHxUGgiedy
+ +z1A==
+X-Gm-Message-State: APjAAAW88EziJo5Vi8aE0VlVYIzUE4zxA2CAqlqcgygK6dOG+PZ2cBA5
+ 4oojZ7KM/CsVw5gF15gGvbK/lg==
+X-Google-Smtp-Source: APXvYqyjRL4Pm4DJ6gxCMhMAABASOjX9YkWy30mz3VnyIHV5hXZJr9CkbqrhyS3PouGt0usrziod8A==
+X-Received: by 2002:a1c:eb17:: with SMTP id j23mr4268983wmh.151.1562847154257; 
+ Thu, 11 Jul 2019 05:12:34 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s25sm5129296wmc.21.2019.07.11.05.12.33
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 11 Jul 2019 05:12:33 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Thu, 11 Jul 2019 13:12:31 +0100
+Message-Id: <20190711121231.3601-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1562665760-26158-5-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 11 Jul 2019 12:07:24 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 04/13] vfio: Add save and load functions
- for VFIO PCI devices
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH for-4.1] target/arm: Set VFP-related MVFR0
+ fields for arm926 and arm1026
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,187 +77,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Christophe Lyon <christophe.lyon@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kirti Wankhede (kwankhede@nvidia.com) wrote:
-> These functions save and restore PCI device specific data - config
-> space of PCI device.
-> Tested save and restore with MSI and MSIX type.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/pci.c                 | 114 ++++++++++++++++++++++++++++++++++++++++++
->  include/hw/vfio/vfio-common.h |   2 +
->  2 files changed, 116 insertions(+)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index de0d286fc9dd..5fe4f8076cac 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2395,11 +2395,125 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
->      return OBJECT(vdev);
->  }
->  
-> +static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    uint16_t pci_cmd;
-> +    int i;
-> +
-> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> +        uint32_t bar;
-> +
-> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
-> +        qemu_put_be32(f, bar);
-> +    }
-> +
-> +    qemu_put_be32(f, vdev->interrupt);
-> +    if (vdev->interrupt == VFIO_INT_MSI) {
-> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> +        bool msi_64bit;
-> +
-> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                                            2);
-> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> +
-> +        msi_addr_lo = pci_default_read_config(pdev,
-> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
-> +        qemu_put_be32(f, msi_addr_lo);
-> +
-> +        if (msi_64bit) {
-> +            msi_addr_hi = pci_default_read_config(pdev,
-> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> +                                             4);
-> +        }
-> +        qemu_put_be32(f, msi_addr_hi);
-> +
-> +        msi_data = pci_default_read_config(pdev,
-> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> +                2);
-> +        qemu_put_be32(f, msi_data);
-> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
-> +        uint16_t offset;
-> +
-> +        /* save enable bit and maskall bit */
-> +        offset = pci_default_read_config(pdev,
-> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
-> +        qemu_put_be16(f, offset);
-> +        msix_save(pdev, f);
-> +    }
-> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> +    qemu_put_be16(f, pci_cmd);
-> +}
-> +
-> +static void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    uint32_t interrupt_type;
-> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> +    uint16_t pci_cmd;
-> +    bool msi_64bit;
-> +    int i;
-> +
-> +    /* retore pci bar configuration */
-> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> +    vfio_pci_write_config(pdev, PCI_COMMAND,
-> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
-> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> +        uint32_t bar = qemu_get_be32(f);
-> +
-> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
-> +    }
+The ARMv5 architecture didn't specify detailed per-feature ID
+registers. Now that we're using the MVFR0 register fields to
+gate the existence of VFP instructions, we need to set up
+the correct values in the cpu->isar structure so that we still
+provide an FPU to the guest.
 
-Is it possible to validate the bar's at all?  We just had a bug on a
-virtual device where one version was asking for a larger bar than the
-other; our validation caught this in some cases so we could tell that
-the guest had a BAR that was aligned at the wrong alignment.
+This fixes a regression in the arm926 and arm1026 CPUs, which
+are the only ones that both have VFP and are ARMv5 or earlier.
+This regression was introduced by the VFP refactoring, and more
+specifically by commits 1120827fa182f0e76 and 266bd25c485597c,
+which accidentally disabled VFP short-vector support and
+double-precision support on these CPUs.
 
-> +    vfio_pci_write_config(pdev, PCI_COMMAND,
-> +                          pci_cmd | PCI_COMMAND_IO | PCI_COMMAND_MEMORY, 2);
+Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 1120827fa182f0e
+Fixes: 266bd25c485597c
+Fixes: https://bugs.launchpad.net/qemu/+bug/1836192
+---
+I've followed the existing approach we used for ISAR1 here
+of just filling in the fields we care about, rather than trying
+to set the entire register value.
 
-Can you explain what this is for?  You write the command register at the
-end of the function with the original value; there's no guarantee that
-the device is using IO for example, so ORing it seems odd.
+ target/arm/cpu.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Also, are the other flags in COMMAND safe at this point - e.g. what
-about interrupts and stuff?
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index e75a64a25a4..446dd5163dc 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1666,6 +1666,12 @@ static void arm926_initfn(Object *obj)
+      * set the field to indicate Jazelle support within QEMU.
+      */
+     cpu->isar.id_isar1 = FIELD_DP32(cpu->isar.id_isar1, ID_ISAR1, JAZELLE, 1);
++    /*
++     * Similarly, we need to set MVFR0 fields to enable double precision
++     * and short vector support even though ARMv5 doesn't have this register.
++     */
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
+ }
+ 
+ static void arm946_initfn(Object *obj)
+@@ -1713,6 +1719,12 @@ static void arm1026_initfn(Object *obj)
+         };
+         define_one_arm_cp_reg(cpu, &ifar);
+     }
++    /*
++     * Similarly, we need to set MVFR0 fields to enable double precision
++     * and short vector support even though ARMv5 doesn't have this register.
++     */
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
++    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPDP, 1);
+ }
+ 
+ static void arm1136_r2_initfn(Object *obj)
+-- 
+2.20.1
 
-> +    interrupt_type = qemu_get_be32(f);
-> +
-> +    if (interrupt_type == VFIO_INT_MSI) {
-> +        /* restore msi configuration */
-> +        msi_flags = pci_default_read_config(pdev,
-> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
-> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> +
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
-> +
-> +        msi_addr_lo = qemu_get_be32(f);
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
-> +                              msi_addr_lo, 4);
-> +
-> +        msi_addr_hi = qemu_get_be32(f);
-> +        if (msi_64bit) {
-> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> +                                  msi_addr_hi, 4);
-> +        }
-> +        msi_data = qemu_get_be32(f);
-> +        vfio_pci_write_config(pdev,
-> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> +                msi_data, 2);
-> +
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
-> +    } else if (interrupt_type == VFIO_INT_MSIX) {
-> +        uint16_t offset = qemu_get_be16(f);
-> +
-> +        /* load enable bit and maskall bit */
-> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
-> +                              offset, 2);
-> +        msix_load(pdev, f);
-> +    }
-> +    pci_cmd = qemu_get_be16(f);
-> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
-> +}
-> +
->  static VFIODeviceOps vfio_pci_ops = {
->      .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
->      .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
->      .vfio_eoi = vfio_intx_eoi,
->      .vfio_get_object = vfio_pci_get_object,
-> +    .vfio_save_config = vfio_pci_save_config,
-> +    .vfio_load_config = vfio_pci_load_config,
->  };
->  
->  int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 771b6d59a3db..ee72bd984a36 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -120,6 +120,8 @@ struct VFIODeviceOps {
->      int (*vfio_hot_reset_multi)(VFIODevice *vdev);
->      void (*vfio_eoi)(VFIODevice *vdev);
->      Object *(*vfio_get_object)(VFIODevice *vdev);
-> +    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
-> +    void (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
->  };
->  
->  typedef struct VFIOGroup {
-> -- 
-> 2.7.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
