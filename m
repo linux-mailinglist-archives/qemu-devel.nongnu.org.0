@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E38656FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:34:48 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D974E656E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:31:31 +0200 (CEST)
+Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlYHf-0000pT-8u
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53279)
+	id 1hlYEV-0006NN-1U
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hlYBm-0004zW-5c
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:28:51 -0400
+ (envelope-from <armbru@redhat.com>) id 1hlYBk-0004yO-Lf
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:28:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hlYBc-0001sX-0S
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:28:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54100)
+ (envelope-from <armbru@redhat.com>) id 1hlYBb-0001sE-Ni
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:28:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50742)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hlYBb-0001pK-5M
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hlYBb-0001pT-5P
  for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:28:31 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CCCC8308427C;
+ by mx1.redhat.com (Postfix) with ESMTPS id D23BA30821EC;
  Thu, 11 Jul 2019 12:28:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
  [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9F7419C70;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC8AC5C559;
  Thu, 11 Jul 2019 12:28:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C5991138660; Thu, 11 Jul 2019 14:28:27 +0200 (CEST)
+ id 721A11138661; Thu, 11 Jul 2019 14:28:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 14:28:25 +0200
-Message-Id: <20190711122827.18970-2-armbru@redhat.com>
+Date: Thu, 11 Jul 2019 14:28:26 +0200
+Message-Id: <20190711122827.18970-3-armbru@redhat.com>
 In-Reply-To: <20190711122827.18970-1-armbru@redhat.com>
 References: <20190711122827.18970-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 11 Jul 2019 12:28:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Thu, 11 Jul 2019 12:28:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH RFC v5 1/3] tests: New make target check-source
+Subject: [Qemu-devel] [PATCH RFC v5 2/3] include: Make headers more
+ self-contained
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,3091 +62,2639 @@ Cc: peter.maydell@linaro.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make target check-source is for checking the source code itself.  For
-now, there's just one such check, make target check-headers.  It
-checks basic header sanity: for each header "FOO.h", test whether
+The previous commit marked 182 headers FIXME:
 
-	#include "qemu/osdep.h"
-	#include "FOO.h"
-	#include "FOO.h"
+      1 FIXME Does not pass make check-headers without CONFIG_CPUID_H, ye=
+t!
+      2 FIXME Does not pass make check-headers without CONFIG_LINUX, yet!
+      2 FIXME Does not pass make check-headers without CONFIG_OPENGL, yet=
+!
+      1 FIXME Does not pass make check-headers without CONFIG_POSIX, yet!
+      1 FIXME Does not pass make check-headers without CONFIG_SPICE, yet!
+      2 FIXME Does not pass make check-headers without CONFIG_WIN32, yet!
+      7 FIXME Does not pass make check-headers without CONFIG_XEN, yet!
+     17 FIXME Does not pass make check-headers without pixman, yet!
+      7 FIXME Does not pass make check-headers without system emulation, =
+yet!
+    150 FIXME Does not pass make check-headers, yet!
 
-compiles.
+As explained in the commit message, the configuration-specific ones
+may not actually need fixing.
 
-The test works only in a git tree, with git installed.  It is skipped
-unless $(SRC_PATH)/.git exists.
+Clean up the headers some, so that 56 of the 150 blanket FIXMEs go
+away, and 76 get replaced by configuration-specific ones, and just 18
+blanket FIXMEs remain:
 
-Third-party headers we don't intend to clean up are excluded from this
-test.  So are a few "funny" headers.  See make variable
-excluded-headers.
-
-Numerous headers don't pass this test, by design or by accident.  To
-keep things more manageable, exclude all headers outside include/ for
-now.
-
-Headers known to fail the test are marked with
-
-    /* FIXME Does not pass make check-headers, yet! */
-
-Headers known to work only in certain configurations are marked like
-
-    /* FIXME Does not pass make check-headers without CONFIG_WIN32, yet! =
-*/
-
-I tried to find and mark all of them by testing various
-configurations.  Still, "make check" might fail for configurations I
-didn't test.
-
-Known issue: some of these don't actually need fixing; they're *meant*
-to work only in certain configurations.  We'll want to invent a
-suitable marker that doesn't claim FIXME.
-
-Some headers may only be included into target-dependent code: they use
-identifiers poisoned by exec/poison.h, or include cpu.h.  These
-headers are marked with a comment
-
-    /* NOTE: May only be included into target-dependent code */
-
-The test treats them specially.
-
-Known issue: some of these are intended for specific targets.  The
-test should skip them for other targets, but doesn't.  They're marked
-FIXME instead, which is wrong.
-
-New make target check-bad-headers runs the test for headers expected
-to fail it.  This helps with examining the failures.
+     16 FIXME Does not pass make check-headers for TARGET_BASE_ARCH other=
+ than arm, yet!
+      1 FIXME Does not pass make check-headers for TARGET_BASE_ARCH other=
+ than i386, yet!
+      2 FIXME Does not pass make check-headers for TARGET_BASE_ARCH other=
+ than mips, yet!
+     41 FIXME Does not pass make check-headers for user emulation, yet!
+      1 FIXME Does not pass make check-headers without CONFIG_CPUID_H, ye=
+t!
+      2 FIXME Does not pass make check-headers without CONFIG_LINUX, yet!
+      3 FIXME Does not pass make check-headers without CONFIG_OPENGL, yet=
+!
+      1 FIXME Does not pass make check-headers without CONFIG_POSIX, yet!
+      2 FIXME Does not pass make check-headers without CONFIG_SPICE, yet!
+      3 FIXME Does not pass make check-headers without CONFIG_WIN32, yet!
+      7 FIXME Does not pass make check-headers without CONFIG_XEN, yet!
+     17 FIXME Does not pass make check-headers without pixman, yet!
+      9 FIXME Does not pass make check-headers without system emulation, =
+yet!
+     18 FIXME Does not pass make check-headers, yet!
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- Makefile                                  |  4 +-
- Makefile.target                           | 20 +++++
- include/block/raw-aio.h                   |  3 +
- include/block/write-threshold.h           |  3 +
- include/chardev/char-win.h                |  3 +
- include/chardev/spice.h                   |  2 +
- include/disas/disas.h                     |  2 +
- include/exec/cpu-all.h                    |  4 +
- include/exec/cpu-defs.h                   |  3 +
- include/exec/cpu_ldst.h                   |  4 +
- include/exec/cpu_ldst_template.h          |  3 +
- include/exec/cpu_ldst_useronly_template.h |  3 +
- include/exec/cputlb.h                     |  3 +
- include/exec/exec-all.h                   |  3 +
- include/exec/gen-icount.h                 |  2 +
- include/exec/helper-gen.h                 |  2 +
- include/exec/helper-proto.h               |  2 +
- include/exec/helper-tcg.h                 |  2 +
- include/exec/ioport.h                     |  2 +
- include/exec/memory-internal.h            |  2 +
- include/exec/memory_ldst.inc.h            |  2 +
- include/exec/memory_ldst_cached.inc.h     |  2 +
- include/exec/memory_ldst_phys.inc.h       |  2 +
- include/exec/ram_addr.h                   |  3 +
- include/exec/softmmu-semi.h               |  3 +
- include/exec/tb-hash.h                    |  3 +
- include/exec/tb-lookup.h                  |  3 +
- include/exec/translator.h                 |  3 +
- include/exec/user/abitypes.h              |  2 +
- include/exec/user/thunk.h                 |  4 +
- include/fpu/softfloat-macros.h            |  2 +
- include/fpu/softfloat.h                   |  2 +
- include/hw/acpi/pci.h                     |  3 +
- include/hw/acpi/tco.h                     |  3 +
- include/hw/adc/stm32f2xx_adc.h            |  2 +
- include/hw/arm/allwinner-a10.h            |  2 +
- include/hw/arm/armsse.h                   |  3 +
- include/hw/arm/armv7m.h                   |  3 +
- include/hw/arm/aspeed_soc.h               |  2 +
- include/hw/arm/bcm2835_peripherals.h      |  2 +
- include/hw/arm/bcm2836.h                  |  2 +
- include/hw/arm/digic.h                    |  3 +
- include/hw/arm/exynos4210.h               |  3 +-
- include/hw/arm/fsl-imx25.h                |  2 +
- include/hw/arm/fsl-imx31.h                |  2 +
- include/hw/arm/fsl-imx6.h                 |  3 +
- include/hw/arm/fsl-imx6ul.h               |  3 +
- include/hw/arm/fsl-imx7.h                 |  3 +
- include/hw/arm/msf2-soc.h                 |  3 +
- include/hw/arm/nrf51_soc.h                |  3 +
- include/hw/arm/omap.h                     |  2 +
- include/hw/arm/sharpsl.h                  |  3 +
- include/hw/arm/stm32f205_soc.h            |  3 +
- include/hw/arm/xlnx-zynqmp.h              |  2 +
- include/hw/block/fdc.h                    |  2 +
- include/hw/block/flash.h                  |  2 +
- include/hw/char/escc.h                    |  2 +
- include/hw/char/xilinx_uartlite.h         |  2 +
- include/hw/core/generic-loader.h          |  2 +
- include/hw/cris/etraxfs.h                 |  2 +
- include/hw/cris/etraxfs_dma.h             |  2 +
- include/hw/display/bcm2835_fb.h           |  2 +
- include/hw/display/i2c-ddc.h              |  2 +
- include/hw/display/xlnx_dp.h              |  2 +
- include/hw/dma/xlnx_dpdma.h               |  2 +
- include/hw/elf_ops.h                      |  2 +
- include/hw/empty_slot.h                   |  2 +
- include/hw/gpio/bcm2835_gpio.h            |  2 +
- include/hw/hyperv/hyperv.h                |  2 +
- include/hw/i2c/aspeed_i2c.h               |  3 +
- include/hw/i386/apic_internal.h           |  3 +
- include/hw/i386/ioapic_internal.h         |  2 +
- include/hw/input/hid.h                    |  2 +
- include/hw/input/tsc2xxx.h                |  2 +
- include/hw/intc/allwinner-a10-pic.h       |  2 +
- include/hw/intc/armv7m_nvic.h             |  3 +
- include/hw/intc/heathrow_pic.h            |  2 +
- include/hw/intc/mips_gic.h                |  3 +
- include/hw/isa/vt82c686.h                 |  2 +
- include/hw/kvm/clock.h                    |  2 +
- include/hw/mips/bios.h                    |  2 +
- include/hw/mips/cps.h                     |  3 +
- include/hw/mips/cpudevs.h                 |  2 +
- include/hw/misc/bcm2835_property.h        |  2 +
- include/hw/misc/macio/cuda.h              |  2 +
- include/hw/misc/macio/gpio.h              |  2 +
- include/hw/misc/macio/macio.h             |  2 +
- include/hw/misc/macio/pmu.h               |  2 +
- include/hw/misc/mips_cmgcr.h              |  2 +
- include/hw/misc/mips_cpc.h                |  2 +
- include/hw/misc/pvpanic.h                 |  3 +
- include/hw/net/allwinner_emac.h           |  2 +
- include/hw/net/lance.h                    |  2 +
- include/hw/nvram/chrp_nvram.h             |  2 +
- include/hw/pci-host/sabre.h               |  2 +
- include/hw/pci-host/spapr.h               |  3 +
- include/hw/pci-host/uninorth.h            |  2 +
- include/hw/pci/pcie_aer.h                 |  2 +
- include/hw/ppc/fdt.h                      |  2 +
- include/hw/ppc/pnv.h                      |  2 +
- include/hw/ppc/pnv_core.h                 |  2 +
- include/hw/ppc/pnv_xscom.h                |  2 +
- include/hw/ppc/ppc.h                      |  2 +
- include/hw/ppc/ppc4xx.h                   |  2 +
- include/hw/ppc/spapr.h                    |  3 +
- include/hw/ppc/spapr_cpu_core.h           |  4 +
- include/hw/ppc/spapr_irq.h                |  2 +
- include/hw/ppc/spapr_ovec.h               |  2 +
- include/hw/ppc/spapr_vio.h                |  2 +
- include/hw/ppc/spapr_xive.h               |  2 +
- include/hw/ppc/xics_spapr.h               |  3 +
- include/hw/ppc/xive_regs.h                |  2 +
- include/hw/riscv/boot.h                   |  2 +
- include/hw/riscv/riscv_hart.h             |  2 +
- include/hw/riscv/riscv_htif.h             |  3 +
- include/hw/riscv/sifive_clint.h           |  2 +
- include/hw/riscv/sifive_e.h               |  2 +
- include/hw/riscv/sifive_plic.h            |  2 +
- include/hw/riscv/sifive_prci.h            |  2 +
- include/hw/riscv/sifive_test.h            |  2 +
- include/hw/riscv/sifive_u.h               |  2 +
- include/hw/riscv/sifive_uart.h            |  2 +
- include/hw/riscv/spike.h                  |  2 +
- include/hw/riscv/virt.h                   |  2 +
- include/hw/s390x/3270-ccw.h               |  3 +
- include/hw/s390x/ap-device.h              |  3 +
- include/hw/s390x/css-bridge.h             |  2 +
- include/hw/s390x/css.h                    |  3 +
- include/hw/s390x/s390-ccw.h               |  3 +
- include/hw/s390x/storage-attributes.h     |  3 +
- include/hw/s390x/tod.h                    |  2 +
- include/hw/s390x/vfio-ccw.h               |  3 +
- include/hw/semihosting/console.h          |  3 +
- include/hw/sh4/sh.h                       |  2 +
- include/hw/sh4/sh_intc.h                  |  2 +
- include/hw/sparc/sparc64.h                |  2 +
- include/hw/ssi/aspeed_smc.h               |  2 +
- include/hw/ssi/xilinx_spips.h             |  2 +
- include/hw/timer/allwinner-a10-pit.h      |  2 +
- include/hw/timer/i8254_internal.h         |  2 +
- include/hw/timer/m48t59.h                 |  2 +
- include/hw/timer/mc146818rtc.h            |  2 +
- include/hw/timer/mc146818rtc_regs.h       |  2 +
- include/hw/timer/sun4v-rtc.h              |  2 +
- include/hw/timer/xlnx-zynqmp-rtc.h        |  2 +
- include/hw/vfio/vfio-amd-xgbe.h           |  2 +
- include/hw/vfio/vfio-calxeda-xgmac.h      |  2 +
- include/hw/vfio/vfio-common.h             |  2 +
- include/hw/vfio/vfio-platform.h           |  2 +
- include/hw/virtio/virtio-access.h         |  3 +
- include/hw/virtio/virtio-gpu-bswap.h      |  2 +
- include/hw/virtio/virtio-gpu-pci.h        |  2 +
- include/hw/virtio/virtio-gpu-pixman.h     |  2 +
- include/hw/virtio/virtio-gpu.h            |  2 +
- include/hw/virtio/virtio-input.h          |  2 +
- include/hw/virtio/virtio-rng.h            |  2 +
- include/hw/watchdog/wdt_aspeed.h          |  2 +
- include/hw/xen/xen-backend.h              |  3 +
- include/hw/xen/xen-block.h                |  3 +
- include/hw/xen/xen-bus-helper.h           |  3 +
- include/hw/xen/xen-bus.h                  |  3 +
- include/hw/xen/xen-legacy-backend.h       |  3 +
- include/hw/xen/xen_common.h               |  3 +
- include/hw/xen/xen_pvdev.h                |  3 +
- include/libdecnumber/decNumberLocal.h     |  2 +
- include/migration/cpu.h                   |  4 +
- include/monitor/hmp-target.h              |  3 +
- include/qemu/atomic128.h                  |  2 +
- include/qemu/cpuid.h                      |  2 +
- include/qemu/futex.h                      |  2 +
- include/qemu/ratelimit.h                  |  2 +
- include/qemu/thread-win32.h               |  2 +
- include/qemu/xattr.h                      |  3 +
- include/sysemu/balloon.h                  |  2 +
- include/sysemu/cryptodev-vhost-user.h     |  3 +
- include/sysemu/dump.h                     |  2 +
- include/sysemu/hvf.h                      |  3 +
- include/sysemu/iothread.h                 |  2 +
- include/sysemu/kvm_int.h                  |  2 +
- include/sysemu/memory_mapping.h           |  2 +
- include/sysemu/os-posix.h                 |  2 +
- include/sysemu/os-win32.h                 |  2 +
- include/sysemu/xen-mapcache.h             |  2 +
- include/trace-tcg.h                       |  2 +
- include/ui/console.h                      |  2 +
- include/ui/egl-context.h                  |  3 +
- include/ui/egl-helpers.h                  |  2 +
- include/ui/gtk.h                          |  2 +
- include/ui/input.h                        |  2 +
- include/ui/pixel_ops.h                    |  2 +
- include/ui/qemu-pixman.h                  |  2 +
- include/ui/sdl2.h                         |  2 +
- include/ui/shader.h                       |  2 +
- include/ui/spice-display.h                |  2 +
- tests/Makefile.include                    | 33 +++++++-
- tests/check-headers.mak                   | 92 +++++++++++++++++++++++
- tests/header-test-template.c              | 23 ++++++
- 197 files changed, 618 insertions(+), 4 deletions(-)
- create mode 100644 tests/check-headers.mak
- create mode 100644 tests/header-test-template.c
+ include/block/raw-aio.h               |  3 +--
+ include/block/write-threshold.h       |  3 +--
+ include/disas/disas.h                 |  3 +--
+ include/exec/cputlb.h                 |  4 ++--
+ include/exec/exec-all.h               |  2 +-
+ include/exec/ioport.h                 |  4 ++--
+ include/exec/memory-internal.h        |  4 +++-
+ include/exec/ram_addr.h               |  2 +-
+ include/exec/softmmu-semi.h           |  3 ++-
+ include/exec/tb-hash.h                |  3 ++-
+ include/exec/translator.h             |  1 -
+ include/exec/user/thunk.h             |  2 +-
+ include/fpu/softfloat-macros.h        |  4 +++-
+ include/hw/acpi/pci.h                 |  4 ++--
+ include/hw/acpi/tco.h                 |  4 ++--
+ include/hw/adc/stm32f2xx_adc.h        |  4 ++--
+ include/hw/arm/allwinner-a10.h        |  5 ++++-
+ include/hw/arm/armsse.h               |  3 ++-
+ include/hw/arm/armv7m.h               |  3 ++-
+ include/hw/arm/aspeed_soc.h           |  5 ++++-
+ include/hw/arm/bcm2836.h              |  5 ++++-
+ include/hw/arm/digic.h                |  3 ++-
+ include/hw/arm/exynos4210.h           |  4 +---
+ include/hw/arm/fsl-imx25.h            |  5 ++++-
+ include/hw/arm/fsl-imx31.h            |  5 ++++-
+ include/hw/arm/fsl-imx6.h             |  3 ++-
+ include/hw/arm/fsl-imx6ul.h           |  3 ++-
+ include/hw/arm/fsl-imx7.h             |  3 ++-
+ include/hw/arm/msf2-soc.h             |  3 ++-
+ include/hw/arm/nrf51_soc.h            |  3 ++-
+ include/hw/arm/sharpsl.h              |  4 ++--
+ include/hw/arm/stm32f205_soc.h        |  3 ++-
+ include/hw/arm/xlnx-zynqmp.h          |  5 ++++-
+ include/hw/block/fdc.h                |  4 ++--
+ include/hw/block/flash.h              |  3 +--
+ include/hw/char/escc.h                |  3 +--
+ include/hw/char/xilinx_uartlite.h     |  4 ++--
+ include/hw/core/generic-loader.h      |  3 +--
+ include/hw/cris/etraxfs.h             |  3 +--
+ include/hw/cris/etraxfs_dma.h         |  5 +++--
+ include/hw/display/i2c-ddc.h          |  3 +--
+ include/hw/empty_slot.h               |  4 ++--
+ include/hw/gpio/bcm2835_gpio.h        |  3 +--
+ include/hw/i2c/aspeed_i2c.h           |  3 +--
+ include/hw/i386/apic_internal.h       |  4 +++-
+ include/hw/i386/ioapic_internal.h     |  3 +--
+ include/hw/input/hid.h                |  2 --
+ include/hw/intc/allwinner-a10-pic.h   |  4 ++--
+ include/hw/intc/armv7m_nvic.h         |  3 ++-
+ include/hw/intc/heathrow_pic.h        |  4 ++--
+ include/hw/intc/mips_gic.h            |  4 +++-
+ include/hw/isa/vt82c686.h             |  4 ++--
+ include/hw/mips/cps.h                 |  4 +++-
+ include/hw/misc/macio/cuda.h          |  4 ++--
+ include/hw/misc/macio/gpio.h          |  5 +++--
+ include/hw/misc/macio/macio.h         |  4 ++--
+ include/hw/misc/macio/pmu.h           |  5 +++--
+ include/hw/misc/mips_cmgcr.h          |  4 ++--
+ include/hw/misc/mips_cpc.h            |  4 ++--
+ include/hw/misc/pvpanic.h             |  4 ++--
+ include/hw/net/allwinner_emac.h       |  3 +--
+ include/hw/net/lance.h                |  3 +--
+ include/hw/nvram/chrp_nvram.h         |  4 ++--
+ include/hw/pci-host/sabre.h           |  4 ++--
+ include/hw/pci-host/spapr.h           |  2 +-
+ include/hw/pci-host/uninorth.h        |  4 +---
+ include/hw/pci/pcie_aer.h             |  3 +--
+ include/hw/ppc/pnv.h                  |  1 +
+ include/hw/ppc/pnv_core.h             |  4 +++-
+ include/hw/ppc/ppc4xx.h               |  7 ++++++-
+ include/hw/ppc/spapr.h                |  2 +-
+ include/hw/ppc/spapr_cpu_core.h       |  2 +-
+ include/hw/ppc/spapr_irq.h            |  5 ++++-
+ include/hw/ppc/spapr_vio.h            | 11 +++++++----
+ include/hw/ppc/spapr_xive.h           |  5 ++++-
+ include/hw/ppc/xics_spapr.h           |  2 +-
+ include/hw/ppc/xive_regs.h            |  5 +++--
+ include/hw/riscv/boot.h               |  4 +++-
+ include/hw/riscv/riscv_hart.h         |  6 +++++-
+ include/hw/riscv/riscv_htif.h         |  2 +-
+ include/hw/riscv/sifive_clint.h       |  4 ++--
+ include/hw/riscv/sifive_e.h           |  4 +++-
+ include/hw/riscv/sifive_plic.h        |  4 +---
+ include/hw/riscv/sifive_prci.h        |  4 ++--
+ include/hw/riscv/sifive_test.h        |  4 ++--
+ include/hw/riscv/sifive_u.h           |  4 +++-
+ include/hw/riscv/sifive_uart.h        |  5 +++--
+ include/hw/riscv/spike.h              |  6 +++++-
+ include/hw/riscv/virt.h               |  6 +++++-
+ include/hw/s390x/3270-ccw.h           |  2 +-
+ include/hw/s390x/ap-device.h          |  4 ++--
+ include/hw/s390x/css-bridge.h         |  5 ++---
+ include/hw/s390x/css.h                |  3 ++-
+ include/hw/s390x/s390-ccw.h           |  2 +-
+ include/hw/s390x/storage-attributes.h |  2 +-
+ include/hw/s390x/tod.h                |  4 +---
+ include/hw/s390x/vfio-ccw.h           |  2 +-
+ include/hw/semihosting/console.h      |  3 ++-
+ include/hw/sh4/sh.h                   |  2 --
+ include/hw/sh4/sh_intc.h              |  3 +--
+ include/hw/sparc/sparc64.h            |  4 +++-
+ include/hw/ssi/aspeed_smc.h           |  3 +--
+ include/hw/ssi/xilinx_spips.h         |  3 +--
+ include/hw/timer/allwinner-a10-pit.h  |  3 +--
+ include/hw/timer/i8254_internal.h     |  3 +--
+ include/hw/timer/m48t59.h             |  4 ++--
+ include/hw/timer/mc146818rtc.h        |  2 --
+ include/hw/timer/mc146818rtc_regs.h   |  4 ++--
+ include/hw/timer/sun4v-rtc.h          |  7 ++++++-
+ include/hw/timer/xlnx-zynqmp-rtc.h    |  3 +--
+ include/hw/virtio/virtio-access.h     |  3 ++-
+ include/hw/virtio/virtio-gpu-bswap.h  |  3 +--
+ include/hw/virtio/virtio-input.h      |  2 --
+ include/hw/virtio/virtio-rng.h        |  3 +--
+ include/hw/watchdog/wdt_aspeed.h      |  3 +--
+ include/libdecnumber/decNumberLocal.h |  3 +--
+ include/migration/cpu.h               |  3 ++-
+ include/monitor/hmp-target.h          |  3 ++-
+ include/qemu/atomic128.h              |  4 ++--
+ include/qemu/ratelimit.h              |  4 ++--
+ include/qemu/thread-win32.h           |  4 ++--
+ include/sysemu/balloon.h              |  3 +--
+ include/sysemu/cryptodev-vhost-user.h |  4 ++--
+ include/sysemu/dump.h                 |  3 ++-
+ include/sysemu/hvf.h                  |  2 +-
+ include/sysemu/iothread.h             |  3 +--
+ include/sysemu/kvm_int.h              |  4 ++--
+ include/sysemu/memory_mapping.h       |  5 ++++-
+ include/sysemu/xen-mapcache.h         |  4 ++--
+ include/ui/egl-helpers.h              |  6 +++++-
+ include/ui/input.h                    |  3 +--
+ include/ui/pixel_ops.h                |  5 ++++-
+ include/ui/spice-display.h            |  4 +++-
+ target/hppa/cpu.h                     |  2 +-
+ tests/check-headers.mak               | 18 ++++++++++++++++++
+ 135 files changed, 291 insertions(+), 213 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index c63de4e36c..f8e919bc1a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -434,6 +434,8 @@ dummy :=3D $(call unnest-vars,, \
-                 audio-obj-m \
-                 trace-obj-y)
-=20
-+RECURSIVE_TARGETS :=3D all clean install
-+
- include $(SRC_PATH)/tests/Makefile.include
-=20
- all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurs=
-e-all modules $(vhost-user-json-y)
-@@ -454,7 +456,7 @@ config-host.h-timestamp: config-host.mak
- qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","=
-$@")
-=20
--TARGET_DIRS_RULES :=3D $(foreach t, all clean install, $(addsuffix /$(t)=
-, $(TARGET_DIRS)))
-+TARGET_DIRS_RULES:=3D$(foreach t, $(RECURSIVE_TARGETS), $(addsuffix /$(t=
-), $(TARGET_DIRS)))
-=20
- SOFTMMU_ALL_RULES=3D$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
- $(SOFTMMU_ALL_RULES): $(authz-obj-y)
-diff --git a/Makefile.target b/Makefile.target
-index 85216cace8..25620d913d 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -41,6 +41,7 @@ STPFILES=3D
-=20
- # Makefile Tests
- include $(SRC_PATH)/tests/tcg/Makefile.include
-+include $(SRC_PATH)/tests/check-headers.mak
-=20
- config-target.h: config-target.h-timestamp
- config-target.h-timestamp: config-target.mak
-@@ -220,6 +221,23 @@ hmp-commands.h: $(SRC_PATH)/hmp-commands.hx $(SRC_PA=
-TH)/scripts/hxtool
- hmp-commands-info.h: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/script=
-s/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","=
-$(TARGET_DIR)$@")
-=20
-+.PHONY: check-headers
-+ifeq ($(wildcard $(SRC_PATH)/.git),)
-+check-headers check-bad-headers:
-+	@echo "  SKIP  $@ (requires a git tree)"
-+else
-+check-headers: CFLAGS +=3D -g0	# save disk space
-+check-headers: $(check-target-header-tests:.c=3D.o)
-+
-+# Expected to fail:
-+check-bad-headers: $(check-bad-target-header-tests:.c=3D.o)
-+
-+.SECONDARY: $(check-target-header-tests) $(check-bad-target-header-tests=
-)
-+$(check-target-header-tests) $(check-bad-target-header-tests): tests/hea=
-der-test-template.c
-+	@mkdir -p $(dir $@)
-+	@sed 's,@header@,$(subst tests/headers-tgt/,,$(@:.c=3D.h)),' <$< >$@
-+endif
-+
- clean: clean-target
- 	rm -f *.a *~ $(PROGS)
- 	rm -f $(shell find . -name '*.[od]')
-@@ -258,3 +276,5 @@ Makefile: $(generated-files-y)
-=20
- .PHONY: coverage-report
- coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
-+
-+-include $(check-target-header-tests:.c=3D.d) $(check-bad-target-header-=
-tests:.c=3D.d)
 diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-index 0cb7cc74a2..3e7692eb64 100644
+index 3e7692eb64..4629f24d08 100644
 --- a/include/block/raw-aio.h
 +++ b/include/block/raw-aio.h
-@@ -12,6 +12,9 @@
-  * Contributions after 2012-01-13 are licensed under the terms of the
+@@ -13,11 +13,10 @@
   * GNU GPL, version 2 or (at your option) any later version.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_RAW_AIO_H
  #define QEMU_RAW_AIO_H
 =20
++#include "block/aio.h"
+ #include "qemu/coroutine.h"
+ #include "qemu/iov.h"
+=20
 diff --git a/include/block/write-threshold.h b/include/block/write-thresh=
 old.h
-index 80d8aab5d0..7b5adb2e6e 100644
+index 7b5adb2e6e..c646f267a4 100644
 --- a/include/block/write-threshold.h
 +++ b/include/block/write-threshold.h
-@@ -9,6 +9,9 @@
-  * This work is licensed under the terms of the GNU LGPL, version 2 or l=
-ater.
+@@ -10,11 +10,10 @@
   * See the COPYING.LIB file in the top-level directory.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef BLOCK_WRITE_THRESHOLD_H
  #define BLOCK_WRITE_THRESHOLD_H
 =20
-diff --git a/include/chardev/char-win.h b/include/chardev/char-win.h
-index fa59e9e423..423fa8dcd2 100644
---- a/include/chardev/char-win.h
-+++ b/include/chardev/char-win.h
-@@ -21,6 +21,9 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-  * THE SOFTWARE.
-  */
-+
-+/* FIXME Does not pass make check-headers without CONFIG_WIN32, yet! */
-+
- #ifndef CHAR_WIN_H
- #define CHAR_WIN_H
++#include "block/block_int.h"
 =20
-diff --git a/include/chardev/spice.h b/include/chardev/spice.h
-index 1f7339b649..2bc2a992b5 100644
---- a/include/chardev/spice.h
-+++ b/include/chardev/spice.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers without CONFIG_SPICE, yet! */
-+
- #ifndef CHARDEV_SPICE_H
- #define CHARDEV_SPICE_H
-=20
+ /*
+  * bdrv_write_threshold_set:
 diff --git a/include/disas/disas.h b/include/disas/disas.h
-index 15da511f49..f60bbc752c 100644
+index f60bbc752c..ba47e9197c 100644
 --- a/include/disas/disas.h
 +++ b/include/disas/disas.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,7 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_DISAS_H
  #define QEMU_DISAS_H
 =20
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 536ea58f81..f0f900b9e1 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -16,6 +16,10 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-+
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef CPU_ALL_H
- #define CPU_ALL_H
++#include "exec/hwaddr.h"
 =20
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 9bc713a70b..4710900f6d 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -16,6 +16,9 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-+
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef CPU_DEFS_H
- #define CPU_DEFS_H
-=20
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index a08b11bd2c..83331b4a64 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -44,6 +44,10 @@
-  * (for softmmu configs)  a target-specific MMU mode suffix as defined
-  * in target cpu.h.
-  */
-+
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef CPU_LDST_H
- #define CPU_LDST_H
-=20
-diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_tem=
-plate.h
-index af7e0b49f2..6ab493f833 100644
---- a/include/exec/cpu_ldst_template.h
-+++ b/include/exec/cpu_ldst_template.h
-@@ -24,6 +24,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #if !defined(SOFTMMU_CODE_ACCESS)
- #include "trace-root.h"
- #endif
-diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu=
-_ldst_useronly_template.h
-index bc45e2b8d4..0de722ab43 100644
---- a/include/exec/cpu_ldst_useronly_template.h
-+++ b/include/exec/cpu_ldst_useronly_template.h
-@@ -23,6 +23,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #if !defined(CODE_ACCESS)
- #include "trace-root.h"
- #endif
+ #ifdef NEED_CPU_H
+ #include "cpu.h"
 diff --git a/include/exec/cputlb.h b/include/exec/cputlb.h
-index 5373188be3..361df6dee0 100644
+index 361df6dee0..a62cfb28d5 100644
 --- a/include/exec/cputlb.h
 +++ b/include/exec/cputlb.h
-@@ -16,6 +16,9 @@
-  * You should have received a copy of the GNU Lesser General Public
+@@ -17,11 +17,11 @@
   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef CPUTLB_H
  #define CPUTLB_H
 =20
++#include "exec/cpu-common.h"
++
+ #if !defined(CONFIG_USER_ONLY)
+ /* cputlb.c */
+ void tlb_protect_code(ram_addr_t ram_addr);
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 16034ee651..547f539acc 100644
+index 547f539acc..4b6471014a 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -17,6 +17,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -18,11 +18,11 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef EXEC_ALL_H
  #define EXEC_ALL_H
 =20
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index f7669b6841..39b2a72551 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef GEN_ICOUNT_H
- #define GEN_ICOUNT_H
-=20
-diff --git a/include/exec/helper-gen.h b/include/exec/helper-gen.h
-index 22381a1708..63e4856b43 100644
---- a/include/exec/helper-gen.h
-+++ b/include/exec/helper-gen.h
-@@ -1,6 +1,8 @@
- /* Helper file for declaring TCG helper functions.
-    This one expands generation functions for tcg opcodes.  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef HELPER_GEN_H
- #define HELPER_GEN_H
-=20
-diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-index 74943edb13..e5a1b9403d 100644
---- a/include/exec/helper-proto.h
-+++ b/include/exec/helper-proto.h
-@@ -1,6 +1,8 @@
- /* Helper file for declaring TCG helper functions.
-    This one expands prototypes for the helper functions.  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef HELPER_PROTO_H
- #define HELPER_PROTO_H
-=20
-diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
-index 268e0f804b..51e4758082 100644
---- a/include/exec/helper-tcg.h
-+++ b/include/exec/helper-tcg.h
-@@ -1,6 +1,8 @@
- /* Helper file for declaring TCG helper functions.
-    This one defines data structures private to tcg.c.  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef HELPER_TCG_H
- #define HELPER_TCG_H
++#include "cpu.h"
+ #include "exec/tb-context.h"
+ #include "sysemu/cpus.h"
 =20
 diff --git a/include/exec/ioport.h b/include/exec/ioport.h
-index a298b89ce1..96dc6f5662 100644
+index 96dc6f5662..97feb296d2 100644
 --- a/include/exec/ioport.h
 +++ b/include/exec/ioport.h
-@@ -21,6 +21,8 @@
+@@ -21,11 +21,11 @@
   * IO ports API
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef IOPORT_H
  #define IOPORT_H
 =20
++#include "exec/memory.h"
++
+ #define MAX_IOPORTS     (64 * 1024)
+ #define IOPORTS_MASK    (MAX_IOPORTS - 1)
+=20
 diff --git a/include/exec/memory-internal.h b/include/exec/memory-interna=
 l.h
-index d1a9dd1ec8..d16ec2d36d 100644
+index d16ec2d36d..d9d871d827 100644
 --- a/include/exec/memory-internal.h
 +++ b/include/exec/memory-internal.h
-@@ -17,6 +17,8 @@
+@@ -17,11 +17,13 @@
   * internals and the TCG TLB code. Do not include it from elsewhere.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
+=20
  #ifndef MEMORY_INTERNAL_H
  #define MEMORY_INTERNAL_H
 =20
-diff --git a/include/exec/memory_ldst.inc.h b/include/exec/memory_ldst.in=
-c.h
-index 272c20f02e..7846e99b6d 100644
---- a/include/exec/memory_ldst.inc.h
-+++ b/include/exec/memory_ldst.inc.h
-@@ -19,6 +19,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
++#include "cpu.h"
 +
- #ifdef TARGET_ENDIANNESS
- extern uint32_t glue(address_space_lduw, SUFFIX)(ARG1_DECL,
-     hwaddr addr, MemTxAttrs attrs, MemTxResult *result);
-diff --git a/include/exec/memory_ldst_cached.inc.h b/include/exec/memory_=
-ldst_cached.inc.h
-index fd4bbb40e7..9725005455 100644
---- a/include/exec/memory_ldst_cached.inc.h
-+++ b/include/exec/memory_ldst_cached.inc.h
-@@ -17,6 +17,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #define ADDRESS_SPACE_LD_CACHED(size) \
-     glue(glue(address_space_ld, size), glue(ENDIANNESS, _cached))
- #define ADDRESS_SPACE_LD_CACHED_SLOW(size) \
-diff --git a/include/exec/memory_ldst_phys.inc.h b/include/exec/memory_ld=
-st_phys.inc.h
-index 91f72973cb..8cd1828f8c 100644
---- a/include/exec/memory_ldst_phys.inc.h
-+++ b/include/exec/memory_ldst_phys.inc.h
-@@ -19,6 +19,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifdef TARGET_ENDIANNESS
- static inline uint32_t glue(ldl_phys, SUFFIX)(ARG1_DECL, hwaddr addr)
+ #ifndef CONFIG_USER_ONLY
+ static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
  {
 diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index f96777bb99..507050a2e7 100644
+index 507050a2e7..27d567b192 100644
 --- a/include/exec/ram_addr.h
 +++ b/include/exec/ram_addr.h
-@@ -16,6 +16,9 @@
-  * The functions declared here will be removed soon.
+@@ -17,12 +17,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef RAM_ADDR_H
  #define RAM_ADDR_H
 =20
+ #ifndef CONFIG_USER_ONLY
++#include "cpu.h"
+ #include "hw/xen/xen.h"
+ #include "sysemu/tcg.h"
+ #include "exec/ramlist.h"
 diff --git a/include/exec/softmmu-semi.h b/include/exec/softmmu-semi.h
-index 970837992e..551c013652 100644
+index 551c013652..e00efba166 100644
 --- a/include/exec/softmmu-semi.h
 +++ b/include/exec/softmmu-semi.h
-@@ -7,6 +7,9 @@
-  * This code is licensed under the GPL
+@@ -8,11 +8,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef SOFTMMU_SEMI_H
  #define SOFTMMU_SEMI_H
 =20
++#include "cpu.h"
++
+ static inline uint64_t softmmu_tget64(CPUArchState *env, target_ulong ad=
+dr)
+ {
+     uint64_t val;
 diff --git a/include/exec/tb-hash.h b/include/exec/tb-hash.h
-index 4f3a37d927..79e53fb73d 100644
+index 79e53fb73d..a26f23d62d 100644
 --- a/include/exec/tb-hash.h
 +++ b/include/exec/tb-hash.h
-@@ -17,6 +17,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -18,11 +18,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef EXEC_TB_HASH_H
  #define EXEC_TB_HASH_H
 =20
-diff --git a/include/exec/tb-lookup.h b/include/exec/tb-lookup.h
-index 26921b6daf..93d6ebd148 100644
---- a/include/exec/tb-lookup.h
-+++ b/include/exec/tb-lookup.h
-@@ -4,6 +4,9 @@
-  * License: GNU GPL, version 2 or later.
-  *   See the COPYING file in the top-level directory.
-  */
-+
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef EXEC_TB_LOOKUP_H
- #define EXEC_TB_LOOKUP_H
++#include "exec/cpu-defs.h"
++#include "exec/exec-all.h"
+ #include "qemu/xxhash.h"
 =20
+ #ifdef CONFIG_SOFTMMU
 diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 180c51d509..301c740c4e 100644
+index 301c740c4e..7f7c4e7d71 100644
 --- a/include/exec/translator.h
 +++ b/include/exec/translator.h
-@@ -7,6 +7,9 @@
-  * See the COPYING file in the top-level directory.
+@@ -8,7 +8,6 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef EXEC__TRANSLATOR_H
  #define EXEC__TRANSLATOR_H
-=20
-diff --git a/include/exec/user/abitypes.h b/include/exec/user/abitypes.h
-index 743b8bb9ea..626840d9c2 100644
---- a/include/exec/user/abitypes.h
-+++ b/include/exec/user/abitypes.h
-@@ -1,3 +1,5 @@
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef EXEC_USER_ABITYPES_H
- #define EXEC_USER_ABITYPES_H
-=20
 diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
-index 8d3af5a3be..933fd77436 100644
+index 933fd77436..4b345ba7ca 100644
 --- a/include/exec/user/thunk.h
 +++ b/include/exec/user/thunk.h
-@@ -16,6 +16,10 @@
-  * You should have received a copy of the GNU Lesser General Public
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -18,12 +18,12 @@
   */
-+
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef THUNK_H
  #define THUNK_H
 =20
+ #include "cpu.h"
++#include "exec/user/abitypes.h"
+=20
+ /* types enums definitions */
+=20
 diff --git a/include/fpu/softfloat-macros.h b/include/fpu/softfloat-macro=
 s.h
-index c55aa6d174..df33e55c70 100644
+index df33e55c70..11690c3f89 100644
 --- a/include/fpu/softfloat-macros.h
 +++ b/include/fpu/softfloat-macros.h
-@@ -79,6 +79,8 @@ this code that are retained.
+@@ -79,11 +79,13 @@ this code that are retained.
   * version 2 or later. See the COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
+=20
  #ifndef FPU_SOFTFLOAT_MACROS_H
  #define FPU_SOFTFLOAT_MACROS_H
 =20
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 3ff3fa5224..303512c8a3 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -79,6 +79,8 @@ this code that are retained.
-  * version 2 or later. See the COPYING file in the top-level directory.
-  */
-=20
-+/* NOTE: May only be included into target-dependent code */
++#include "fpu/softfloat.h"
 +
- #ifndef SOFTFLOAT_H
- #define SOFTFLOAT_H
-=20
+ /*----------------------------------------------------------------------=
+------
+ | Shifts `a' right by the number of bits given in `count'.  If any nonze=
+ro
+ | bits are shifted off, they are ``jammed'' into the least significant b=
+it of
 diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
-index 8bbd32cf45..45d8a38589 100644
+index 45d8a38589..bf2a3ed0ba 100644
 --- a/include/hw/acpi/pci.h
 +++ b/include/hw/acpi/pci.h
-@@ -22,6 +22,9 @@
-  * You should have received a copy of the GNU General Public License alo=
-ng
+@@ -23,11 +23,11 @@
   * with this program; if not, see <http://www.gnu.org/licenses/>.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_ACPI_PCI_H
  #define HW_ACPI_PCI_H
 =20
++#include "hw/acpi/bios-linker-loader.h"
++
+ typedef struct AcpiMcfgInfo {
+     uint64_t base;
+     uint32_t size;
 diff --git a/include/hw/acpi/tco.h b/include/hw/acpi/tco.h
-index d19dd59353..1f3c2d17fb 100644
+index 1f3c2d17fb..726f840cce 100644
 --- a/include/hw/acpi/tco.h
 +++ b/include/hw/acpi/tco.h
-@@ -6,6 +6,9 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
+@@ -7,11 +7,11 @@
   * See the COPYING file in the top-level directory.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_ACPI_TCO_H
  #define HW_ACPI_TCO_H
 =20
++#include "exec/memory.h"
++#include "migration/vmstate.h"
+=20
+ /* As per ICH9 spec, the internal timer has an error of ~0.6s on every t=
+ick */
+ #define TCO_TICK_NSEC 600000000LL
 diff --git a/include/hw/adc/stm32f2xx_adc.h b/include/hw/adc/stm32f2xx_ad=
 c.h
-index a72f734eb1..8e67c0f24d 100644
+index 8e67c0f24d..663b79f4f3 100644
 --- a/include/hw/adc/stm32f2xx_adc.h
 +++ b/include/hw/adc/stm32f2xx_adc.h
-@@ -22,6 +22,8 @@
+@@ -22,11 +22,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_STM32F2XX_ADC_H
  #define HW_STM32F2XX_ADC_H
 =20
++#include "hw/sysbus.h"
++
+ #define ADC_SR    0x00
+ #define ADC_CR1   0x04
+ #define ADC_CR2   0x08
 diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a1=
 0.h
-index e99fe2ea2e..e8b8cc2ceb 100644
+index e8b8cc2ceb..91cc544ac3 100644
 --- a/include/hw/arm/allwinner-a10.h
 +++ b/include/hw/arm/allwinner-a10.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,4 +1,6 @@
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_ALLWINNER_A10_H
  #define HW_ARM_ALLWINNER_A10_H
+@@ -13,6 +15,7 @@
+ #include "hw/ide/ahci.h"
 =20
+ #include "sysemu/sysemu.h"
++#include "target/arm/cpu.h"
+=20
+=20
+ #define AW_A10_PIC_REG_BASE     0x01c20400
 diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 84080c2299..201893ccf5 100644
+index 201893ccf5..8ecfbf1a7d 100644
 --- a/include/hw/arm/armsse.h
 +++ b/include/hw/arm/armsse.h
-@@ -86,6 +86,9 @@
-  *  + named GPIO outputs mscexp_ns[0..15]
+@@ -87,7 +87,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef ARMSSE_H
  #define ARMSSE_H
-=20
 diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
-index d2c74d3872..fdb777d875 100644
+index fdb777d875..dfb87e0546 100644
 --- a/include/hw/arm/armv7m.h
 +++ b/include/hw/arm/armv7m.h
-@@ -7,6 +7,9 @@
-  * This code is licensed under the GPL version 2 or later.
+@@ -8,7 +8,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_ARMV7M_H
  #define HW_ARM_ARMV7M_H
-=20
 diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index cef605ad6b..c502ef0e65 100644
+index c502ef0e65..70017e7cb6 100644
 --- a/include/hw/arm/aspeed_soc.h
 +++ b/include/hw/arm/aspeed_soc.h
-@@ -9,6 +9,8 @@
+@@ -9,7 +9,9 @@
   * the COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef ASPEED_SOC_H
  #define ASPEED_SOC_H
+@@ -24,6 +26,7 @@
+ #include "hw/ssi/aspeed_smc.h"
+ #include "hw/watchdog/wdt_aspeed.h"
+ #include "hw/net/ftgmac100.h"
++#include "target/arm/cpu.h"
 =20
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
-5_peripherals.h
-index 6b17f6a382..79bb258467 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -8,6 +8,8 @@
-  * This code is licensed under the GNU GPLv2 and later.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef BCM2835_PERIPHERALS_H
- #define BCM2835_PERIPHERALS_H
-=20
+ #define ASPEED_SPIS_NUM  2
+ #define ASPEED_WDTS_NUM  3
 diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index a2cb8454de..aaa12f5cdb 100644
+index aaa12f5cdb..da2a6eac4a 100644
 --- a/include/hw/arm/bcm2836.h
 +++ b/include/hw/arm/bcm2836.h
-@@ -8,6 +8,8 @@
+@@ -8,13 +8,16 @@
   * This code is licensed under the GNU GPLv2 and later.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef BCM2836_H
  #define BCM2836_H
 =20
+ #include "hw/arm/bcm2835_peripherals.h"
+ #include "hw/intc/bcm2836_control.h"
++#include "target/arm/cpu.h"
+=20
+ #define TYPE_BCM283X "bcm283x"
+ #define BCM283X(obj) OBJECT_CHECK(BCM283XState, (obj), TYPE_BCM283X)
 diff --git a/include/hw/arm/digic.h b/include/hw/arm/digic.h
-index 63785baaa8..79f9278c64 100644
+index 79f9278c64..7cbf6ad0cb 100644
 --- a/include/hw/arm/digic.h
 +++ b/include/hw/arm/digic.h
-@@ -15,6 +15,9 @@
-  *
+@@ -16,7 +16,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_DIGIC_H
  #define HW_ARM_DIGIC_H
-=20
 diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
-index aa137271c0..0d0898e613 100644
+index 0d0898e613..f0f23b0e9b 100644
 --- a/include/hw/arm/exynos4210.h
 +++ b/include/hw/arm/exynos4210.h
-@@ -19,9 +19,10 @@
-  *
-  *  You should have received a copy of the GNU General Public License al=
-ong
+@@ -21,12 +21,10 @@
   *  with this program; if not, see <http://www.gnu.org/licenses/>.
-- *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef EXYNOS4210_H
  #define EXYNOS4210_H
 =20
+-#include "exec/memory.h"
++#include "hw/sysbus.h"
+ #include "target/arm/cpu-qom.h"
+=20
+ #define EXYNOS4210_NCPUS                    2
 diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index 3280ab1fb0..61028eaa99 100644
+index 61028eaa99..69732692cf 100644
 --- a/include/hw/arm/fsl-imx25.h
 +++ b/include/hw/arm/fsl-imx25.h
-@@ -14,6 +14,8 @@
+@@ -14,7 +14,9 @@
   * for more details.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef FSL_IMX25_H
  #define FSL_IMX25_H
+@@ -29,6 +31,7 @@
+ #include "hw/i2c/imx_i2c.h"
+ #include "hw/gpio/imx_gpio.h"
+ #include "exec/memory.h"
++#include "target/arm/cpu.h"
 =20
+ #define TYPE_FSL_IMX25 "fsl,imx25"
+ #define FSL_IMX25(obj) OBJECT_CHECK(FslIMX25State, (obj), TYPE_FSL_IMX25=
+)
 diff --git a/include/hw/arm/fsl-imx31.h b/include/hw/arm/fsl-imx31.h
-index e68a81efd7..bff92e79c0 100644
+index bff92e79c0..b844812eb9 100644
 --- a/include/hw/arm/fsl-imx31.h
 +++ b/include/hw/arm/fsl-imx31.h
-@@ -14,6 +14,8 @@
+@@ -14,7 +14,9 @@
   * for more details.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef FSL_IMX31_H
  #define FSL_IMX31_H
+@@ -28,6 +30,7 @@
+ #include "hw/i2c/imx_i2c.h"
+ #include "hw/gpio/imx_gpio.h"
+ #include "exec/memory.h"
++#include "target/arm/cpu.h"
 =20
+ #define TYPE_FSL_IMX31 "fsl,imx31"
+ #define FSL_IMX31(obj) OBJECT_CHECK(FslIMX31State, (obj), TYPE_FSL_IMX31=
+)
 diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 1265a55c3b..230d44c793 100644
+index 230d44c793..133d4e3e67 100644
 --- a/include/hw/arm/fsl-imx6.h
 +++ b/include/hw/arm/fsl-imx6.h
-@@ -14,6 +14,9 @@
-  * for more details.
+@@ -15,7 +15,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef FSL_IMX6_H
  #define FSL_IMX6_H
-=20
 diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index 9e94e98f8e..25e8540908 100644
+index 25e8540908..20ffb44ab6 100644
 --- a/include/hw/arm/fsl-imx6ul.h
 +++ b/include/hw/arm/fsl-imx6ul.h
-@@ -14,6 +14,9 @@
-  * GNU General Public License for more details.
+@@ -15,7 +15,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef FSL_IMX6UL_H
  #define FSL_IMX6UL_H
-=20
 diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 8003d45d1e..e32873ca73 100644
+index e32873ca73..f1df5e3608 100644
 --- a/include/hw/arm/fsl-imx7.h
 +++ b/include/hw/arm/fsl-imx7.h
-@@ -16,6 +16,9 @@
-  * GNU General Public License for more details.
+@@ -17,7 +17,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef FSL_IMX7_H
  #define FSL_IMX7_H
-=20
 diff --git a/include/hw/arm/msf2-soc.h b/include/hw/arm/msf2-soc.h
-index 3cfe5c76ee..3a209e48b8 100644
+index 3a209e48b8..d2d81364da 100644
 --- a/include/hw/arm/msf2-soc.h
 +++ b/include/hw/arm/msf2-soc.h
-@@ -22,6 +22,9 @@
-  * THE SOFTWARE.
+@@ -23,7 +23,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_MSF2_SOC_H
  #define HW_ARM_MSF2_SOC_H
-=20
 diff --git a/include/hw/arm/nrf51_soc.h b/include/hw/arm/nrf51_soc.h
-index 0cb78aafea..b5a3da0bdc 100644
+index b5a3da0bdc..8fef32792b 100644
 --- a/include/hw/arm/nrf51_soc.h
 +++ b/include/hw/arm/nrf51_soc.h
-@@ -7,6 +7,9 @@
-  * the COPYING file in the top-level directory.
+@@ -8,7 +8,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef NRF51_SOC_H
  #define NRF51_SOC_H
-=20
-diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index d21e418242..f28f803860 100644
---- a/include/hw/arm/omap.h
-+++ b/include/hw/arm/omap.h
-@@ -17,6 +17,8 @@
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_ARM_OMAP_H
- #define HW_ARM_OMAP_H
-=20
 diff --git a/include/hw/arm/sharpsl.h b/include/hw/arm/sharpsl.h
-index 5bf6db1fa2..dc456653e1 100644
+index dc456653e1..89e168fbff 100644
 --- a/include/hw/arm/sharpsl.h
 +++ b/include/hw/arm/sharpsl.h
-@@ -3,6 +3,9 @@
-  *
+@@ -4,11 +4,11 @@
   * This file is licensed under the GNU GPL.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_SHARPSL_H
  #define QEMU_SHARPSL_H
 =20
++#include "exec/hwaddr.h"
++
+ #define zaurus_printf(format, ...)	\
+     fprintf(stderr, "%s: " format, __func__, ##__VA_ARGS__)
+=20
 diff --git a/include/hw/arm/stm32f205_soc.h b/include/hw/arm/stm32f205_so=
 c.h
-index 922a733f88..4558c64823 100644
+index 4558c64823..7842fe616b 100644
 --- a/include/hw/arm/stm32f205_soc.h
 +++ b/include/hw/arm/stm32f205_soc.h
-@@ -22,6 +22,9 @@
-  * THE SOFTWARE.
+@@ -23,7 +23,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_STM32F205_SOC_H
  #define HW_ARM_STM32F205_SOC_H
-=20
 diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 35804ea80a..8c4a3a2815 100644
+index 8c4a3a2815..0d2b8f20a0 100644
 --- a/include/hw/arm/xlnx-zynqmp.h
 +++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -15,6 +15,8 @@
+@@ -15,7 +15,9 @@
   * for more details.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef XLNX_ZYNQMP_H
  #define XLNX_ZYNQMP_H
+@@ -34,6 +36,7 @@
+ #include "hw/intc/xlnx-zynqmp-ipi.h"
+ #include "hw/timer/xlnx-zynqmp-rtc.h"
+ #include "hw/cpu/cluster.h"
++#include "target/arm/cpu.h"
 =20
+ #define TYPE_XLNX_ZYNQMP "xlnx,zynqmp"
+ #define XLNX_ZYNQMP(obj) OBJECT_CHECK(XlnxZynqMPState, (obj), \
 diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
-index 8cece84326..d43a2fbd66 100644
+index d43a2fbd66..f4fe2f471b 100644
 --- a/include/hw/block/fdc.h
 +++ b/include/hw/block/fdc.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_FDC_H
  #define HW_FDC_H
 =20
++#include "exec/hwaddr.h"
++#include "hw/irq.h"
+ #include "qapi/qapi-types-block.h"
+=20
+ /* fdc.c */
 diff --git a/include/hw/block/flash.h b/include/hw/block/flash.h
-index 1acaf7de80..15ce2b3f14 100644
+index 15ce2b3f14..83a75f3170 100644
 --- a/include/hw/block/flash.h
 +++ b/include/hw/block/flash.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,11 +1,10 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_FLASH_H
  #define HW_FLASH_H
 =20
+ /* NOR flash devices */
+=20
+ #include "exec/memory.h"
++#include "migration/vmstate.h"
+=20
+ /* pflash_cfi01.c */
+=20
 diff --git a/include/hw/char/escc.h b/include/hw/char/escc.h
-index 42aca83611..71b95dd152 100644
+index 71b95dd152..d5196c53e6 100644
 --- a/include/hw/char/escc.h
 +++ b/include/hw/char/escc.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,10 +1,9 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_ESCC_H
  #define HW_ESCC_H
 =20
+ #include "chardev/char-fe.h"
+ #include "chardev/char-serial.h"
++#include "hw/sysbus.h"
+ #include "ui/input.h"
+=20
+ /* escc.c */
 diff --git a/include/hw/char/xilinx_uartlite.h b/include/hw/char/xilinx_u=
 artlite.h
-index 634086b657..a003b5977f 100644
+index a003b5977f..99d8bbf405 100644
 --- a/include/hw/char/xilinx_uartlite.h
 +++ b/include/hw/char/xilinx_uartlite.h
-@@ -12,6 +12,8 @@
+@@ -12,11 +12,11 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef XILINX_UARTLITE_H
  #define XILINX_UARTLITE_H
 =20
++#include "hw/sysbus.h"
++
+ static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
+                                         qemu_irq irq,
+                                         Chardev *chr)
 diff --git a/include/hw/core/generic-loader.h b/include/hw/core/generic-l=
 oader.h
-index dd27c42ab0..3827144a5f 100644
+index 3827144a5f..9ffce1c5a3 100644
 --- a/include/hw/core/generic-loader.h
 +++ b/include/hw/core/generic-loader.h
-@@ -15,6 +15,8 @@
+@@ -15,12 +15,11 @@
   * for more details.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef GENERIC_LOADER_H
  #define GENERIC_LOADER_H
 =20
+ #include "elf.h"
++#include "hw/qdev-core.h"
+=20
+ typedef struct GenericLoaderState {
+     /* <private> */
 diff --git a/include/hw/cris/etraxfs.h b/include/hw/cris/etraxfs.h
-index 8da965addb..108692bac3 100644
+index 108692bac3..494222d315 100644
 --- a/include/hw/cris/etraxfs.h
 +++ b/include/hw/cris/etraxfs.h
-@@ -22,6 +22,8 @@
+@@ -22,13 +22,12 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_ETRAXFS_H
  #define HW_ETRAXFS_H
 =20
+ #include "net/net.h"
+ #include "hw/cris/etraxfs_dma.h"
++#include "hw/sysbus.h"
+=20
+ /* Instantiate an ETRAXFS Ethernet MAC.  */
+ static inline DeviceState *
 diff --git a/include/hw/cris/etraxfs_dma.h b/include/hw/cris/etraxfs_dma.=
 h
-index f6f33e0980..a1c6ce44ba 100644
+index a1c6ce44ba..31ae360611 100644
 --- a/include/hw/cris/etraxfs_dma.h
 +++ b/include/hw/cris/etraxfs_dma.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,9 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_ETRAXFS_DMA_H
  #define HW_ETRAXFS_DMA_H
 =20
-diff --git a/include/hw/display/bcm2835_fb.h b/include/hw/display/bcm2835=
-_fb.h
-index 228988ba05..734d4d92ad 100644
---- a/include/hw/display/bcm2835_fb.h
-+++ b/include/hw/display/bcm2835_fb.h
-@@ -8,6 +8,8 @@
-  * This code is licensed under the GNU GPLv2 and later.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
++#include "exec/hwaddr.h"
++#include "hw/irq.h"
 +
- #ifndef BCM2835_FB_H
- #define BCM2835_FB_H
-=20
+ struct dma_context_metadata {
+ 	/* data descriptor md */
+ 	uint16_t metadata;
 diff --git a/include/hw/display/i2c-ddc.h b/include/hw/display/i2c-ddc.h
-index c29443c5af..814be09922 100644
+index 814be09922..1cf53a0c8d 100644
 --- a/include/hw/display/i2c-ddc.h
 +++ b/include/hw/display/i2c-ddc.h
-@@ -16,6 +16,8 @@
+@@ -16,12 +16,11 @@
   *  with this program; if not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef I2C_DDC_H
  #define I2C_DDC_H
 =20
-diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
-index ab0dd250cc..9ee13d0160 100644
---- a/include/hw/display/xlnx_dp.h
-+++ b/include/hw/display/xlnx_dp.h
-@@ -21,6 +21,8 @@
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
+ #include "hw/display/edid.h"
++#include "hw/i2c/i2c.h"
 =20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef XLNX_DP_H
- #define XLNX_DP_H
-=20
-diff --git a/include/hw/dma/xlnx_dpdma.h b/include/hw/dma/xlnx_dpdma.h
-index 7a304a5bb4..5fe621c650 100644
---- a/include/hw/dma/xlnx_dpdma.h
-+++ b/include/hw/dma/xlnx_dpdma.h
-@@ -22,6 +22,8 @@
-  *
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef XLNX_DPDMA_H
- #define XLNX_DPDMA_H
-=20
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 690f9238c8..f873519cfd 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
- static void glue(bswap_ehdr, SZ)(struct elfhdr *ehdr)
- {
-     bswap16s(&ehdr->e_type);			/* Object file type */
+ /* A simple I2C slave which just returns the contents of its EDID blob. =
+*/
+ struct I2CDDCState {
 diff --git a/include/hw/empty_slot.h b/include/hw/empty_slot.h
-index 123a9f8989..249092a1cd 100644
+index 249092a1cd..cb9a221aa6 100644
 --- a/include/hw/empty_slot.h
 +++ b/include/hw/empty_slot.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_EMPTY_SLOT_H
  #define HW_EMPTY_SLOT_H
 =20
++#include "exec/hwaddr.h"
++
+ /* empty_slot.c */
+ void empty_slot_init(hwaddr addr, uint64_t slot_size);
+=20
 diff --git a/include/hw/gpio/bcm2835_gpio.h b/include/hw/gpio/bcm2835_gpi=
 o.h
-index 9f8e0c720c..c24106aba5 100644
+index c24106aba5..b0de0a3c74 100644
 --- a/include/hw/gpio/bcm2835_gpio.h
 +++ b/include/hw/gpio/bcm2835_gpio.h
-@@ -11,6 +11,8 @@
+@@ -11,12 +11,11 @@
   * See the COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef BCM2835_GPIO_H
  #define BCM2835_GPIO_H
 =20
-diff --git a/include/hw/hyperv/hyperv.h b/include/hw/hyperv/hyperv.h
-index 597381cb01..eab9724561 100644
---- a/include/hw/hyperv/hyperv.h
-+++ b/include/hw/hyperv/hyperv.h
-@@ -7,6 +7,8 @@
-  * See the COPYING file in the top-level directory.
-  */
+ #include "hw/sd/sd.h"
++#include "hw/sysbus.h"
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef HW_HYPERV_HYPERV_H
- #define HW_HYPERV_HYPERV_H
-=20
+ typedef struct BCM2835GpioState {
+     SysBusDevice parent_obj;
 diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index f9020acdef..ee215ff26e 100644
+index ee215ff26e..a2753f0bbb 100644
 --- a/include/hw/i2c/aspeed_i2c.h
 +++ b/include/hw/i2c/aspeed_i2c.h
-@@ -17,6 +17,9 @@
-  *  with this program; if not, write to the Free Software Foundation, In=
-c.,
+@@ -18,12 +18,11 @@
   *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef ASPEED_I2C_H
  #define ASPEED_I2C_H
 =20
+ #include "hw/i2c/i2c.h"
++#include "hw/sysbus.h"
+=20
+ #define TYPE_ASPEED_I2C "aspeed.i2c"
+ #define ASPEED_I2C(obj) \
 diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_inter=
 nal.h
-index 1209eb483a..ec00577253 100644
+index ec00577253..1dbee70cfd 100644
 --- a/include/hw/i386/apic_internal.h
 +++ b/include/hw/i386/apic_internal.h
-@@ -18,6 +18,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>
+@@ -19,7 +19,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n i386, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef QEMU_APIC_INTERNAL_H
  #define QEMU_APIC_INTERNAL_H
+@@ -27,6 +28,7 @@
+ #include "cpu.h"
+ #include "exec/memory.h"
+ #include "qemu/timer.h"
++#include "target/i386/cpu-qom.h"
 =20
+ /* APIC Local Vector Table */
+ #define APIC_LVT_TIMER                  0
 diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_i=
 nternal.h
-index 07002f9662..9a9cd96788 100644
+index 9a9cd96788..3d2eec2aa7 100644
 --- a/include/hw/i386/ioapic_internal.h
 +++ b/include/hw/i386/ioapic_internal.h
-@@ -19,6 +19,8 @@
+@@ -19,13 +19,12 @@
   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_IOAPIC_INTERNAL_H
  #define QEMU_IOAPIC_INTERNAL_H
 =20
+ #include "hw/hw.h"
+ #include "exec/memory.h"
++#include "hw/i386/ioapic.h"
+ #include "hw/sysbus.h"
+ #include "qemu/notify.h"
+=20
 diff --git a/include/hw/input/hid.h b/include/hw/input/hid.h
-index 2127c7ce45..aec04352e0 100644
+index aec04352e0..2127c7ce45 100644
 --- a/include/hw/input/hid.h
 +++ b/include/hw/input/hid.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,5 +1,3 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_HID_H
  #define QEMU_HID_H
 =20
-diff --git a/include/hw/input/tsc2xxx.h b/include/hw/input/tsc2xxx.h
-index dbfe5c55c1..5d83270e00 100644
---- a/include/hw/input/tsc2xxx.h
-+++ b/include/hw/input/tsc2xxx.h
-@@ -8,6 +8,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_INPUT_TSC2XXX_H
- #define HW_INPUT_TSC2XXX_H
-=20
 diff --git a/include/hw/intc/allwinner-a10-pic.h b/include/hw/intc/allwin=
 ner-a10-pic.h
-index 1d314a70d9..897d5ad6cc 100644
+index 897d5ad6cc..a5895401d1 100644
 --- a/include/hw/intc/allwinner-a10-pic.h
 +++ b/include/hw/intc/allwinner-a10-pic.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef ALLWINNER_A10_PIC_H
  #define ALLWINNER_A10_PIC_H
 =20
++#include "hw/sysbus.h"
++
+ #define TYPE_AW_A10_PIC  "allwinner-a10-pic"
+ #define AW_A10_PIC(obj) OBJECT_CHECK(AwA10PICState, (obj), TYPE_AW_A10_P=
+IC)
+=20
 diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.=
 h
-index a472c9b8f0..5bcb946035 100644
+index 5bcb946035..7dd0a14830 100644
 --- a/include/hw/intc/armv7m_nvic.h
 +++ b/include/hw/intc/armv7m_nvic.h
-@@ -7,6 +7,9 @@
-  * This code is licensed under the GPL version 2 or later.
+@@ -8,7 +8,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n arm, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_ARM_ARMV7M_NVIC_H
  #define HW_ARM_ARMV7M_NVIC_H
-=20
 diff --git a/include/hw/intc/heathrow_pic.h b/include/hw/intc/heathrow_pi=
 c.h
-index 6c91ec91bb..9724912d59 100644
+index 9724912d59..b163e27ab9 100644
 --- a/include/hw/intc/heathrow_pic.h
 +++ b/include/hw/intc/heathrow_pic.h
-@@ -23,6 +23,8 @@
+@@ -23,11 +23,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_INTC_HEATHROW_PIC_H
  #define HW_INTC_HEATHROW_PIC_H
 =20
++#include "hw/sysbus.h"
++
+ #define TYPE_HEATHROW "heathrow"
+ #define HEATHROW(obj) OBJECT_CHECK(HeathrowState, (obj), TYPE_HEATHROW)
+=20
 diff --git a/include/hw/intc/mips_gic.h b/include/hw/intc/mips_gic.h
-index 902a12b178..870daa94c1 100644
+index 870daa94c1..9a2185bf9b 100644
 --- a/include/hw/intc/mips_gic.h
 +++ b/include/hw/intc/mips_gic.h
-@@ -8,6 +8,9 @@
-  *
+@@ -9,13 +9,15 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n mips, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef MIPS_GIC_H
  #define MIPS_GIC_H
 =20
+ #include "qemu/units.h"
+ #include "hw/timer/mips_gictimer.h"
++#include "hw/sysbus.h"
+ #include "cpu.h"
+ /*
+  * GIC Specific definitions
 diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index c3c2b6e786..49b3a96e4a 100644
+index 49b3a96e4a..a54c3fe60a 100644
 --- a/include/hw/isa/vt82c686.h
 +++ b/include/hw/isa/vt82c686.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_VT82C686_H
  #define HW_VT82C686_H
 =20
-diff --git a/include/hw/kvm/clock.h b/include/hw/kvm/clock.h
-index 81c66b2302..f942b5fa9b 100644
---- a/include/hw/kvm/clock.h
-+++ b/include/hw/kvm/clock.h
-@@ -10,6 +10,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* NOTE: May only be included into target-dependent code */
++#include "hw/irq.h"
 +
- #ifndef HW_KVM_CLOCK_H
- #define HW_KVM_CLOCK_H
+ #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
 =20
-diff --git a/include/hw/mips/bios.h b/include/hw/mips/bios.h
-index c03007999a..6a43a397dc 100644
---- a/include/hw/mips/bios.h
-+++ b/include/hw/mips/bios.h
-@@ -1,3 +1,5 @@
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef HW_MIPS_BIOS_H
- #define HW_MIPS_BIOS_H
-=20
+ /* vt82c686.c */
 diff --git a/include/hw/mips/cps.h b/include/hw/mips/cps.h
-index aab1af926d..af8d25e142 100644
+index af8d25e142..52cd4bed93 100644
 --- a/include/hw/mips/cps.h
 +++ b/include/hw/mips/cps.h
-@@ -17,6 +17,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -18,7 +18,8 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for TARGET_BASE_ARCH other tha=
+n mips, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef MIPS_CPS_H
  #define MIPS_CPS_H
+@@ -28,6 +29,7 @@
+ #include "hw/intc/mips_gic.h"
+ #include "hw/misc/mips_cpc.h"
+ #include "hw/misc/mips_itu.h"
++#include "target/mips/cpu.h"
 =20
-diff --git a/include/hw/mips/cpudevs.h b/include/hw/mips/cpudevs.h
-index 291f59281a..fc80c53980 100644
---- a/include/hw/mips/cpudevs.h
-+++ b/include/hw/mips/cpudevs.h
-@@ -1,3 +1,5 @@
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef HW_MIPS_CPUDEVS_H
- #define HW_MIPS_CPUDEVS_H
-=20
-diff --git a/include/hw/misc/bcm2835_property.h b/include/hw/misc/bcm2835=
-_property.h
-index 11be0dbeac..41a668d54a 100644
---- a/include/hw/misc/bcm2835_property.h
-+++ b/include/hw/misc/bcm2835_property.h
-@@ -3,6 +3,8 @@
-  * This code is licensed under the GNU GPLv2 and later.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef BCM2835_PROPERTY_H
- #define BCM2835_PROPERTY_H
-=20
+ #define TYPE_MIPS_CPS "mips-cps"
+ #define MIPS_CPS(obj) OBJECT_CHECK(MIPSCPSState, (obj), TYPE_MIPS_CPS)
 diff --git a/include/hw/misc/macio/cuda.h b/include/hw/misc/macio/cuda.h
-index 7dad469142..562927e1da 100644
+index 562927e1da..5768075ac5 100644
 --- a/include/hw/misc/macio/cuda.h
 +++ b/include/hw/misc/macio/cuda.h
-@@ -23,6 +23,8 @@
+@@ -23,11 +23,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef CUDA_H
  #define CUDA_H
 =20
++#include "hw/misc/mos6522.h"
++
+ /* CUDA commands (2nd byte) */
+ #define CUDA_WARM_START                0x0
+ #define CUDA_AUTOPOLL                  0x1
 diff --git a/include/hw/misc/macio/gpio.h b/include/hw/misc/macio/gpio.h
-index 2838ae5fde..c5231896ce 100644
+index c5231896ce..24a4364b39 100644
 --- a/include/hw/misc/macio/gpio.h
 +++ b/include/hw/misc/macio/gpio.h
-@@ -23,6 +23,8 @@
+@@ -23,11 +23,12 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MACIO_GPIO_H
  #define MACIO_GPIO_H
 =20
++#include "hw/ppc/openpic.h"
++#include "hw/sysbus.h"
++
+ #define TYPE_MACIO_GPIO "macio-gpio"
+ #define MACIO_GPIO(obj) OBJECT_CHECK(MacIOGPIOState, (obj), TYPE_MACIO_G=
+PIO)
+=20
 diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.=
 h
-index 970058b6ed..f19f756f38 100644
+index f19f756f38..070a694eb5 100644
 --- a/include/hw/misc/macio/macio.h
 +++ b/include/hw/misc/macio/macio.h
-@@ -23,6 +23,8 @@
+@@ -23,16 +23,16 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MACIO_H
  #define MACIO_H
 =20
+ #include "hw/char/escc.h"
++#include "hw/ide/internal.h"
+ #include "hw/intc/heathrow_pic.h"
+ #include "hw/misc/macio/cuda.h"
+ #include "hw/misc/macio/gpio.h"
+ #include "hw/misc/macio/pmu.h"
++#include "hw/ppc/mac.h"
+ #include "hw/ppc/mac_dbdma.h"
+ #include "hw/ppc/openpic.h"
+=20
 diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
-index d10895ba5f..0ab3c06a7e 100644
+index 0ab3c06a7e..7ef83dee4c 100644
 --- a/include/hw/misc/macio/pmu.h
 +++ b/include/hw/misc/macio/pmu.h
-@@ -7,6 +7,8 @@
+@@ -7,11 +7,12 @@
   * Copyright (C) 2016 Ben Herrenschmidt
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef PMU_H
  #define PMU_H
 =20
++#include "hw/misc/mos6522.h"
++#include "hw/misc/macio/gpio.h"
++
+ /*
+  * PMU commands
+  */
 diff --git a/include/hw/misc/mips_cmgcr.h b/include/hw/misc/mips_cmgcr.h
-index c9dfcb4b84..70b95ab163 100644
+index 70b95ab163..3e6e223273 100644
 --- a/include/hw/misc/mips_cmgcr.h
 +++ b/include/hw/misc/mips_cmgcr.h
-@@ -7,6 +7,8 @@
+@@ -7,11 +7,11 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MIPS_CMGCR_H
  #define MIPS_CMGCR_H
 =20
++#include "hw/sysbus.h"
++
+ #define TYPE_MIPS_GCR "mips-gcr"
+ #define MIPS_GCR(obj) OBJECT_CHECK(MIPSGCRState, (obj), TYPE_MIPS_GCR)
+=20
 diff --git a/include/hw/misc/mips_cpc.h b/include/hw/misc/mips_cpc.h
-index 72c834e039..86d2705526 100644
+index 86d2705526..3f670578b0 100644
 --- a/include/hw/misc/mips_cpc.h
 +++ b/include/hw/misc/mips_cpc.h
-@@ -17,6 +17,8 @@
+@@ -17,11 +17,11 @@
   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MIPS_CPC_H
  #define MIPS_CPC_H
 =20
++#include "hw/sysbus.h"
++
+ #define CPC_ADDRSPACE_SZ    0x6000
+=20
+ /* CPC blocks offsets relative to base address */
 diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index 1ee071a703..65c67e31f4 100644
+index 65c67e31f4..ae0c8188ce 100644
 --- a/include/hw/misc/pvpanic.h
 +++ b/include/hw/misc/pvpanic.h
-@@ -11,6 +11,9 @@
-  * See the COPYING file in the top-level directory.
+@@ -12,11 +12,11 @@
   *
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_MISC_PVPANIC_H
  #define HW_MISC_PVPANIC_H
 =20
++#include "qom/object.h"
++
+ #define TYPE_PVPANIC "pvpanic"
+=20
+ #define PVPANIC_IOPORT_PROP "ioport"
 diff --git a/include/hw/net/allwinner_emac.h b/include/hw/net/allwinner_e=
 mac.h
-index 905a43deb4..9389cb82c6 100644
+index 9389cb82c6..5013207d15 100644
 --- a/include/hw/net/allwinner_emac.h
 +++ b/include/hw/net/allwinner_emac.h
-@@ -20,6 +20,8 @@
+@@ -20,8 +20,6 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef ALLWINNER_EMAC_H
  #define ALLWINNER_EMAC_H
 =20
+@@ -29,6 +27,7 @@
+ #include "net/net.h"
+ #include "qemu/fifo8.h"
+ #include "hw/net/mii.h"
++#include "hw/sysbus.h"
+=20
+ #define TYPE_AW_EMAC "allwinner-emac"
+ #define AW_EMAC(obj) OBJECT_CHECK(AwEmacState, (obj), TYPE_AW_EMAC)
 diff --git a/include/hw/net/lance.h b/include/hw/net/lance.h
-index ffdd35c4d7..2b99153bbc 100644
+index 2b99153bbc..0357f5f65c 100644
 --- a/include/hw/net/lance.h
 +++ b/include/hw/net/lance.h
-@@ -26,6 +26,8 @@
+@@ -26,13 +26,12 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef LANCE_H
  #define LANCE_H
 =20
+ #include "net/net.h"
+ #include "hw/net/pcnet.h"
++#include "hw/sysbus.h"
+=20
+ #define TYPE_LANCE "lance"
+ #define SYSBUS_PCNET(obj) \
 diff --git a/include/hw/nvram/chrp_nvram.h b/include/hw/nvram/chrp_nvram.=
 h
-index b4f5b2b104..ae99396eab 100644
+index ae99396eab..09941a9be4 100644
 --- a/include/hw/nvram/chrp_nvram.h
 +++ b/include/hw/nvram/chrp_nvram.h
-@@ -15,6 +15,8 @@
+@@ -15,11 +15,11 @@
   * along with this program; if not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef CHRP_NVRAM_H
  #define CHRP_NVRAM_H
 =20
++#include "qemu/bswap.h"
++
+ /* OpenBIOS NVRAM partition */
+ typedef struct {
+     uint8_t signature;
 diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
-index 9afa4938fd..003bd17842 100644
+index 003bd17842..99b5aefbec 100644
 --- a/include/hw/pci-host/sabre.h
 +++ b/include/hw/pci-host/sabre.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_PCI_HOST_SABRE_H
  #define HW_PCI_HOST_SABRE_H
 =20
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
+ #include "hw/sparc/sun4u_iommu.h"
+=20
+ #define MAX_IVEC 0x40
 diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-index 1b61162f91..9d2e3e313c 100644
+index 9d2e3e313c..0f75b03924 100644
 --- a/include/hw/pci-host/spapr.h
 +++ b/include/hw/pci-host/spapr.h
-@@ -17,6 +17,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -18,7 +18,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef PCI_HOST_SPAPR_H
  #define PCI_HOST_SPAPR_H
-=20
 diff --git a/include/hw/pci-host/uninorth.h b/include/hw/pci-host/uninort=
 h.h
-index 060324536a..b541fbc12d 100644
+index b541fbc12d..9a5cabd4c5 100644
 --- a/include/hw/pci-host/uninorth.h
 +++ b/include/hw/pci-host/uninorth.h
-@@ -22,6 +22,8 @@
+@@ -22,13 +22,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef UNINORTH_H
  #define UNINORTH_H
 =20
+ #include "hw/hw.h"
+-
++#include "hw/pci/pci_host.h"
+ #include "hw/ppc/openpic.h"
+=20
+ /* UniNorth version */
 diff --git a/include/hw/pci/pcie_aer.h b/include/hw/pci/pcie_aer.h
-index 729a9439c8..a2e8bc77a7 100644
+index a2e8bc77a7..502dcd7eba 100644
 --- a/include/hw/pci/pcie_aer.h
 +++ b/include/hw/pci/pcie_aer.h
-@@ -18,6 +18,8 @@
+@@ -18,12 +18,11 @@
   * with this program; if not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_PCIE_AER_H
  #define QEMU_PCIE_AER_H
 =20
-diff --git a/include/hw/ppc/fdt.h b/include/hw/ppc/fdt.h
-index a8cd85069f..39670f61a8 100644
---- a/include/hw/ppc/fdt.h
-+++ b/include/hw/ppc/fdt.h
-@@ -7,6 +7,8 @@
-  * COPYING file in the top-level directory.
+ #include "hw/hw.h"
++#include "hw/pci/pci_regs.h"
+=20
+ /* definitions which PCIExpressDevice uses */
+=20
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 3435ac4d13..0bc9c26bda 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -17,6 +17,7 @@
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
   */
 =20
 +/* NOTE: May only be included into target-dependent code */
-+
- #ifndef PPC_FDT_H
- #define PPC_FDT_H
+ /* FIXME Does not pass make check-headers, yet! */
 =20
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index fb123edc4e..3435ac4d13 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -17,6 +17,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
-=20
-+/* FIXME Does not pass make check-headers, yet! */
-+
  #ifndef PPC_PNV_H
- #define PPC_PNV_H
-=20
 diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-index d0926454a9..403b9f1e49 100644
+index 403b9f1e49..cf597f45f4 100644
 --- a/include/hw/ppc/pnv_core.h
 +++ b/include/hw/ppc/pnv_core.h
-@@ -17,6 +17,8 @@
+@@ -17,12 +17,14 @@
   * License along with this library; if not, see <http://www.gnu.org/lice=
 nses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef PPC_PNV_CORE_H
  #define PPC_PNV_CORE_H
 =20
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 67641ed278..1ac2e1d948 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -17,6 +17,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
+ #include "hw/cpu/core.h"
++#include "target/ppc/cpu.h"
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef PPC_PNV_XSCOM_H
- #define PPC_PNV_XSCOM_H
-=20
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 4bdcb8bacd..d45cb675bf 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -1,3 +1,5 @@
-+/* NOTE: May only be included into target-dependent code */
-+
- #ifndef HW_PPC_H
- #define HW_PPC_H
-=20
+ #define TYPE_PNV_CORE "powernv-cpu-core"
+ #define PNV_CORE(obj) \
 diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index 39a7ba1ce6..2732200997 100644
+index 2732200997..757ff6bee1 100644
 --- a/include/hw/ppc/ppc4xx.h
 +++ b/include/hw/ppc/ppc4xx.h
-@@ -22,6 +22,8 @@
+@@ -22,11 +22,16 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef PPC4XX_H
  #define PPC4XX_H
 =20
++#include "hw/ppc/ppc.h"
++#include "exec/cpu-common.h"
++#include "exec/memory.h"
++
+ /* PowerPC 4xx core initialization */
+ PowerPCCPU *ppc4xx_init(const char *cpu_model,
+                         clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
 diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 60553d32c4..c7a31e43ea 100644
+index c7a31e43ea..1f63ad2e59 100644
 --- a/include/hw/ppc/spapr.h
 +++ b/include/hw/ppc/spapr.h
-@@ -1,3 +1,6 @@
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,5 +1,5 @@
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_SPAPR_H
  #define HW_SPAPR_H
-=20
 diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_c=
 ore.h
-index f9645a7290..980d9ded69 100644
+index 980d9ded69..372ed69440 100644
 --- a/include/hw/ppc/spapr_cpu_core.h
 +++ b/include/hw/ppc/spapr_cpu_core.h
-@@ -6,6 +6,10 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-  * See the COPYING file in the top-level directory.
+@@ -8,7 +8,7 @@
   */
-+
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_SPAPR_CPU_CORE_H
  #define HW_SPAPR_CPU_CORE_H
-=20
 diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index f965a58f89..9d9ef40388 100644
+index 9d9ef40388..f541b80fb0 100644
 --- a/include/hw/ppc/spapr_irq.h
 +++ b/include/hw/ppc/spapr_irq.h
-@@ -7,6 +7,8 @@
+@@ -7,11 +7,14 @@
   * COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
+=20
  #ifndef HW_SPAPR_IRQ_H
  #define HW_SPAPR_IRQ_H
 =20
-diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-index 5de5ecf5de..5d522b7526 100644
---- a/include/hw/ppc/spapr_ovec.h
-+++ b/include/hw/ppc/spapr_ovec.h
-@@ -34,6 +34,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* NOTE: May only be included into target-dependent code */
++#include "hw/irq.h"
++#include "target/ppc/cpu-qom.h"
 +
- #ifndef SPAPR_OVEC_H
- #define SPAPR_OVEC_H
-=20
+ /*
+  * IRQ range offsets per device type
+  */
 diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index 04609f214e..50cf292803 100644
+index 50cf292803..6f81b37901 100644
 --- a/include/hw/ppc/spapr_vio.h
 +++ b/include/hw/ppc/spapr_vio.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,11 @@
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_SPAPR_VIO_H
  #define HW_SPAPR_VIO_H
 =20
++#include "hw/ppc/spapr.h"
++
+ /*
+  * QEMU sPAPR VIO bus definitions
+  *
+@@ -39,6 +42,9 @@
+=20
+ #define TYPE_SPAPR_VIO_BRIDGE "spapr-vio-bridge"
+=20
++typedef struct SpaprVioDevice SpaprVioDevice;
++typedef struct SpaprVioBus SpaprVioBus;
++
+ typedef struct SpaprVioCrq {
+     uint64_t qladdr;
+     uint32_t qsize;
+@@ -46,9 +52,6 @@ typedef struct SpaprVioCrq {
+     int(*SendFunc)(struct SpaprVioDevice *vdev, uint8_t *crq);
+ } SpaprVioCrq;
+=20
+-typedef struct SpaprVioDevice SpaprVioDevice;
+-typedef struct SpaprVioBus SpaprVioBus;
+-
+ typedef struct SpaprVioDeviceClass {
+     DeviceClass parent_class;
+=20
 diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 7197144265..45a06cf4aa 100644
+index 45a06cf4aa..aba36eefbd 100644
 --- a/include/hw/ppc/spapr_xive.h
 +++ b/include/hw/ppc/spapr_xive.h
-@@ -7,6 +7,8 @@
+@@ -7,12 +7,15 @@
   * COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef PPC_SPAPR_XIVE_H
  #define PPC_SPAPR_XIVE_H
 =20
++#include "hw/ppc/spapr_irq.h"
+ #include "hw/ppc/xive.h"
++#include "sysemu/sysemu.h"
+=20
+ #define TYPE_SPAPR_XIVE "spapr-xive"
+ #define SPAPR_XIVE(obj) OBJECT_CHECK(SpaprXive, (obj), TYPE_SPAPR_XIVE)
 diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 5dabc9a138..5372a160ab 100644
+index 5372a160ab..fbc2d52174 100644
 --- a/include/hw/ppc/xics_spapr.h
 +++ b/include/hw/ppc/xics_spapr.h
-@@ -24,6 +24,9 @@
-  * THE SOFTWARE.
+@@ -25,7 +25,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef XICS_SPAPR_H
  #define XICS_SPAPR_H
-=20
 diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 1a8c5b5e64..4a6ed49215 100644
+index 4a6ed49215..b0c68ab5f7 100644
 --- a/include/hw/ppc/xive_regs.h
 +++ b/include/hw/ppc/xive_regs.h
-@@ -13,6 +13,8 @@
+@@ -13,11 +13,12 @@
   * COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef PPC_XIVE_REGS_H
  #define PPC_XIVE_REGS_H
 =20
++#include "qemu/bswap.h"
++#include "qemu/host-utils.h"
++
+ /*
+  * Interrupt source number encoding on PowerBUS
+  */
 diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index daa179b600..01c67335b1 100644
+index 01c67335b1..84dcb239fd 100644
 --- a/include/hw/riscv/boot.h
 +++ b/include/hw/riscv/boot.h
-@@ -17,6 +17,8 @@
+@@ -17,11 +17,13 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
+=20
  #ifndef RISCV_BOOT_H
  #define RISCV_BOOT_H
 =20
++#include "exec/cpu-defs.h"
++
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+                                  hwaddr firmware_load_addr);
+ target_ulong riscv_load_kernel(const char *kernel_filename);
 diff --git a/include/hw/riscv/riscv_hart.h b/include/hw/riscv/riscv_hart.=
 h
-index 0671d88a44..846a22c17d 100644
+index 846a22c17d..d1ad1dade4 100644
 --- a/include/hw/riscv/riscv_hart.h
 +++ b/include/hw/riscv/riscv_hart.h
-@@ -18,6 +18,8 @@
+@@ -18,11 +18,15 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_RISCV_HART_H
  #define HW_RISCV_HART_H
 =20
++#include "hw/sysbus.h"
++#include "target/riscv/cpu.h"
++
+ #define TYPE_RISCV_HART_ARRAY "riscv.hart_array"
+=20
+ #define RISCV_HART_ARRAY(obj) \
 diff --git a/include/hw/riscv/riscv_htif.h b/include/hw/riscv/riscv_htif.=
 h
-index fb5f88129e..df385dacf4 100644
+index df385dacf4..44f90d5eca 100644
 --- a/include/hw/riscv/riscv_htif.h
 +++ b/include/hw/riscv/riscv_htif.h
-@@ -17,6 +17,9 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
+@@ -18,7 +18,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_RISCV_HTIF_H
  #define HW_RISCV_HTIF_H
-=20
 diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_cl=
 int.h
-index e2865be1d1..dd9999333f 100644
+index dd9999333f..ae8286c884 100644
 --- a/include/hw/riscv/sifive_clint.h
 +++ b/include/hw/riscv/sifive_clint.h
-@@ -17,6 +17,8 @@
+@@ -17,11 +17,11 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_SIFIVE_CLINT_H
  #define HW_SIFIVE_CLINT_H
 =20
++#include "hw/sysbus.h"
++
+ #define TYPE_SIFIVE_CLINT "riscv.sifive.clint"
+=20
+ #define SIFIVE_CLINT(obj) \
 diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index d175b24cb2..a799718f2a 100644
+index a799718f2a..ce7083f4c1 100644
 --- a/include/hw/riscv/sifive_e.h
 +++ b/include/hw/riscv/sifive_e.h
-@@ -16,6 +16,8 @@
+@@ -16,11 +16,13 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_SIFIVE_E_H
  #define HW_SIFIVE_E_H
 =20
++#include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_gpio.h"
+=20
+ #define TYPE_RISCV_E_SOC "riscv.sifive.e.soc"
 diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_pli=
 c.h
-index ce8907f6aa..c292e578c6 100644
+index c292e578c6..b0edba2884 100644
 --- a/include/hw/riscv/sifive_plic.h
 +++ b/include/hw/riscv/sifive_plic.h
-@@ -18,6 +18,8 @@
+@@ -18,12 +18,10 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_SIFIVE_PLIC_H
  #define HW_SIFIVE_PLIC_H
 =20
+-#include "hw/irq.h"
++#include "hw/sysbus.h"
+=20
+ #define TYPE_SIFIVE_PLIC "riscv.sifive.plic"
+=20
 diff --git a/include/hw/riscv/sifive_prci.h b/include/hw/riscv/sifive_prc=
 i.h
-index bd51c4af3c..1fc80724c2 100644
+index 1fc80724c2..8b7de134f8 100644
 --- a/include/hw/riscv/sifive_prci.h
 +++ b/include/hw/riscv/sifive_prci.h
-@@ -16,6 +16,8 @@
+@@ -16,11 +16,11 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_SIFIVE_PRCI_H
  #define HW_SIFIVE_PRCI_H
 =20
++#include "hw/sysbus.h"
++
+ enum {
+     SIFIVE_PRCI_HFROSCCFG   =3D 0x0,
+     SIFIVE_PRCI_HFXOSCCFG   =3D 0x4,
 diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_tes=
 t.h
-index 71d4c9fad7..ca775d8e68 100644
+index ca775d8e68..3a603a6ead 100644
 --- a/include/hw/riscv/sifive_test.h
 +++ b/include/hw/riscv/sifive_test.h
-@@ -16,6 +16,8 @@
+@@ -16,11 +16,11 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_SIFIVE_TEST_H
  #define HW_SIFIVE_TEST_H
 =20
++#include "hw/sysbus.h"
++
+ #define TYPE_SIFIVE_TEST "riscv.sifive.test"
+=20
+ #define SIFIVE_TEST(obj) \
 diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 892f0eee21..74d8fbbf57 100644
+index 74d8fbbf57..0f361a827a 100644
 --- a/include/hw/riscv/sifive_u.h
 +++ b/include/hw/riscv/sifive_u.h
-@@ -16,6 +16,8 @@
+@@ -16,12 +16,14 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_SIFIVE_U_H
  #define HW_SIFIVE_U_H
 =20
+ #include "hw/net/cadence_gem.h"
++#include "hw/riscv/riscv_hart.h"
+=20
+ #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
+ #define RISCV_U_SOC(obj) \
 diff --git a/include/hw/riscv/sifive_uart.h b/include/hw/riscv/sifive_uar=
 t.h
-index c8dc1c57fd..62f36ec2d1 100644
+index 62f36ec2d1..65668825a3 100644
 --- a/include/hw/riscv/sifive_uart.h
 +++ b/include/hw/riscv/sifive_uart.h
-@@ -17,6 +17,8 @@
+@@ -17,11 +17,12 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_SIFIVE_UART_H
  #define HW_SIFIVE_UART_H
 =20
++#include "chardev/char-fe.h"
++#include "hw/sysbus.h"
++
+ enum {
+     SIFIVE_UART_TXFIFO        =3D 0,
+     SIFIVE_UART_RXFIFO        =3D 4,
 diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index 641b70da67..f259d2558b 100644
+index f259d2558b..835b94162e 100644
 --- a/include/hw/riscv/spike.h
 +++ b/include/hw/riscv/spike.h
-@@ -16,6 +16,8 @@
+@@ -16,11 +16,15 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_RISCV_SPIKE_H
  #define HW_RISCV_SPIKE_H
 =20
++#include "hw/riscv/riscv_hart.h"
++#include "hw/sysbus.h"
++
+ typedef struct {
+     /*< private >*/
+     SysBusDevice parent_obj;
 diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index d01a1a85c4..d6f34cd19f 100644
+index d6f34cd19f..ac693a33f8 100644
 --- a/include/hw/riscv/virt.h
 +++ b/include/hw/riscv/virt.h
-@@ -16,6 +16,8 @@
+@@ -16,11 +16,15 @@
   * this program.  If not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_RISCV_VIRT_H
  #define HW_RISCV_VIRT_H
 =20
++#include "hw/riscv/riscv_hart.h"
++#include "hw/sysbus.h"
++
+ typedef struct {
+     /*< private >*/
+     SysBusDevice parent_obj;
 diff --git a/include/hw/s390x/3270-ccw.h b/include/hw/s390x/3270-ccw.h
-index 9d1d18e2bd..bc24e78ec6 100644
+index bc24e78ec6..4921e44654 100644
 --- a/include/hw/s390x/3270-ccw.h
 +++ b/include/hw/s390x/3270-ccw.h
-@@ -10,6 +10,9 @@
-  * directory.
+@@ -11,7 +11,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_S390X_3270_CCW_H
  #define HW_S390X_3270_CCW_H
-=20
 diff --git a/include/hw/s390x/ap-device.h b/include/hw/s390x/ap-device.h
-index 765e9082a3..2f3488115e 100644
+index 2f3488115e..8df9cd2954 100644
 --- a/include/hw/s390x/ap-device.h
 +++ b/include/hw/s390x/ap-device.h
-@@ -7,6 +7,9 @@
-  * your option) any later version. See the COPYING file in the top-level
+@@ -8,11 +8,11 @@
   * directory.
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_S390X_AP_DEVICE_H
  #define HW_S390X_AP_DEVICE_H
 =20
++#include "hw/qdev-core.h"
++
+ #define AP_DEVICE_TYPE       "ap-device"
+=20
+ typedef struct APDevice {
 diff --git a/include/hw/s390x/css-bridge.h b/include/hw/s390x/css-bridge.=
 h
-index 5a0203be5f..1f5efeb203 100644
+index 1f5efeb203..f7ed2d9a03 100644
 --- a/include/hw/s390x/css-bridge.h
 +++ b/include/hw/s390x/css-bridge.h
-@@ -10,6 +10,8 @@
+@@ -10,12 +10,11 @@
   * directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_S390X_CSS_BRIDGE_H
  #define HW_S390X_CSS_BRIDGE_H
++
  #include "qom/object.h"
+-#include "hw/qdev-core.h"
++#include "hw/sysbus.h"
+=20
+ /* virtual css bridge */
+ typedef struct VirtualCssBridge {
 diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
-index d033387fba..3d55971ef5 100644
+index 3d55971ef5..49433718a4 100644
 --- a/include/hw/s390x/css.h
 +++ b/include/hw/s390x/css.h
-@@ -9,6 +9,9 @@
-  * directory.
+@@ -10,7 +10,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef CSS_H
  #define CSS_H
+@@ -20,6 +20,7 @@
+ #include "hw/s390x/s390_flic.h"
+ #include "hw/s390x/ioinst.h"
+ #include "sysemu/kvm.h"
++#include "target/s390x/cpu-qom.h"
 =20
+ /* Channel subsystem constants. */
+ #define MAX_DEVNO 65535
 diff --git a/include/hw/s390x/s390-ccw.h b/include/hw/s390x/s390-ccw.h
-index fffb54562f..91c1a8d21f 100644
+index 91c1a8d21f..a940eeb469 100644
 --- a/include/hw/s390x/s390-ccw.h
 +++ b/include/hw/s390x/s390-ccw.h
-@@ -10,6 +10,9 @@
-  * directory.
+@@ -11,7 +11,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_S390_CCW_H
  #define HW_S390_CCW_H
-=20
 diff --git a/include/hw/s390x/storage-attributes.h b/include/hw/s390x/sto=
 rage-attributes.h
-index d6403a0a7e..5bc4715c6b 100644
+index 5bc4715c6b..d859bd5ff0 100644
 --- a/include/hw/s390x/storage-attributes.h
 +++ b/include/hw/s390x/storage-attributes.h
-@@ -9,6 +9,9 @@
-  * directory.
+@@ -10,7 +10,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef S390_STORAGE_ATTRIBUTES_H
  #define S390_STORAGE_ATTRIBUTES_H
-=20
 diff --git a/include/hw/s390x/tod.h b/include/hw/s390x/tod.h
-index 9c4a6000c3..0ad708998b 100644
+index 0ad708998b..d71f4ea8a7 100644
 --- a/include/hw/s390x/tod.h
 +++ b/include/hw/s390x/tod.h
-@@ -8,6 +8,8 @@
+@@ -8,13 +8,11 @@
   * See the COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_S390_TOD_H
  #define HW_S390_TOD_H
 =20
+ #include "hw/qdev.h"
+-#include "s390-tod.h"
++#include "target/s390x/s390-tod.h"
+=20
+ typedef struct S390TOD {
+     uint8_t high;
 diff --git a/include/hw/s390x/vfio-ccw.h b/include/hw/s390x/vfio-ccw.h
-index ee5250d0d7..c35e86f9e8 100644
+index c35e86f9e8..e0db828023 100644
 --- a/include/hw/s390x/vfio-ccw.h
 +++ b/include/hw/s390x/vfio-ccw.h
-@@ -11,6 +11,9 @@
-  * directory.
+@@ -12,7 +12,7 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef HW_VFIO_CCW_H
  #define HW_VFIO_CCW_H
-=20
 diff --git a/include/hw/semihosting/console.h b/include/hw/semihosting/co=
 nsole.h
-index cfab572c0c..03e6bdb985 100644
+index 03e6bdb985..0649bc60c7 100644
 --- a/include/hw/semihosting/console.h
 +++ b/include/hw/semihosting/console.h
-@@ -6,6 +6,9 @@
-  * SPDX-License-Identifier: GPL-2.0-or-later
+@@ -7,11 +7,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef SEMIHOST_CONSOLE_H
  #define SEMIHOST_CONSOLE_H
 =20
++#include "cpu.h"
++
+ /**
+  * qemu_semihosting_console_outs:
+  * @env: CPUArchState
 diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
-index 767a2df7e2..1884271351 100644
+index 1884271351..767a2df7e2 100644
 --- a/include/hw/sh4/sh.h
 +++ b/include/hw/sh4/sh.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,5 +1,3 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_SH_H
  #define QEMU_SH_H
  /* Definitions for SH board emulation.  */
 diff --git a/include/hw/sh4/sh_intc.h b/include/hw/sh4/sh_intc.h
-index b7c2404334..ed56215736 100644
+index ed56215736..3d3efde059 100644
 --- a/include/hw/sh4/sh_intc.h
 +++ b/include/hw/sh4/sh_intc.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,7 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef SH_INTC_H
  #define SH_INTC_H
 =20
++#include "exec/memory.h"
+ #include "hw/irq.h"
+=20
+ typedef unsigned char intc_enum;
 diff --git a/include/hw/sparc/sparc64.h b/include/hw/sparc/sparc64.h
-index 21ab79e343..81b9c8a675 100644
+index 81b9c8a675..c778453b6d 100644
 --- a/include/hw/sparc/sparc64.h
 +++ b/include/hw/sparc/sparc64.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,10 @@
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
+=20
  #ifndef HW_SPARC_SPARC64_H
  #define HW_SPARC_SPARC64_H
 =20
++#include "target/sparc/cpu-qom.h"
++
+ #define IVEC_MAX             0x40
+=20
+ SPARCCPU *sparc64_cpu_devinit(const char *cpu_type, uint64_t prom_addr);
 diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 591279ba1f..06b50143c3 100644
+index 06b50143c3..aa07dac4fe 100644
 --- a/include/hw/ssi/aspeed_smc.h
 +++ b/include/hw/ssi/aspeed_smc.h
-@@ -22,6 +22,8 @@
+@@ -22,12 +22,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef ASPEED_SMC_H
  #define ASPEED_SMC_H
 =20
+ #include "hw/ssi/ssi.h"
++#include "hw/sysbus.h"
+=20
+ typedef struct AspeedSegments {
+     hwaddr addr;
 diff --git a/include/hw/ssi/xilinx_spips.h b/include/hw/ssi/xilinx_spips.=
 h
-index a0a0ae7584..7929546ad7 100644
+index 7929546ad7..6a39b55a7b 100644
 --- a/include/hw/ssi/xilinx_spips.h
 +++ b/include/hw/ssi/xilinx_spips.h
-@@ -22,6 +22,8 @@
+@@ -22,14 +22,13 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef XILINX_SPIPS_H
  #define XILINX_SPIPS_H
 =20
+ #include "hw/ssi/ssi.h"
+ #include "qemu/fifo32.h"
+ #include "hw/stream.h"
++#include "hw/sysbus.h"
+=20
+ typedef struct XilinxSPIPS XilinxSPIPS;
+=20
 diff --git a/include/hw/timer/allwinner-a10-pit.h b/include/hw/timer/allw=
 inner-a10-pit.h
-index c0cc3e2169..16cfc0d62d 100644
+index 16cfc0d62d..871c95b512 100644
 --- a/include/hw/timer/allwinner-a10-pit.h
 +++ b/include/hw/timer/allwinner-a10-pit.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,9 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef ALLWINNER_A10_PIT_H
  #define ALLWINNER_A10_PIT_H
 =20
+ #include "hw/ptimer.h"
++#include "hw/sysbus.h"
+=20
+ #define TYPE_AW_A10_PIT "allwinner-A10-timer"
+ #define AW_A10_PIT(obj) OBJECT_CHECK(AwA10PITState, (obj), TYPE_AW_A10_P=
+IT)
 diff --git a/include/hw/timer/i8254_internal.h b/include/hw/timer/i8254_i=
 nternal.h
-index c37a438f82..8d0e0ed17f 100644
+index 8d0e0ed17f..e611c6f227 100644
 --- a/include/hw/timer/i8254_internal.h
 +++ b/include/hw/timer/i8254_internal.h
-@@ -22,6 +22,8 @@
+@@ -22,13 +22,12 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_I8254_INTERNAL_H
  #define QEMU_I8254_INTERNAL_H
 =20
+ #include "hw/hw.h"
+ #include "hw/isa/isa.h"
++#include "hw/timer/i8254.h"
+ #include "qemu/timer.h"
+=20
+ typedef struct PITChannelState {
 diff --git a/include/hw/timer/m48t59.h b/include/hw/timer/m48t59.h
-index 43efc91f56..97c2471f2c 100644
+index 97c2471f2c..d3fb50e08c 100644
 --- a/include/hw/timer/m48t59.h
 +++ b/include/hw/timer/m48t59.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,8 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_M48T59_H
  #define HW_M48T59_H
 =20
++#include "exec/hwaddr.h"
++#include "hw/irq.h"
+ #include "qom/object.h"
+=20
+ #define TYPE_NVRAM "nvram"
 diff --git a/include/hw/timer/mc146818rtc.h b/include/hw/timer/mc146818rt=
 c.h
-index fe6ed63f71..a781ff1fb3 100644
+index a781ff1fb3..fe6ed63f71 100644
 --- a/include/hw/timer/mc146818rtc.h
 +++ b/include/hw/timer/mc146818rtc.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,5 +1,3 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MC146818RTC_H
  #define MC146818RTC_H
 =20
 diff --git a/include/hw/timer/mc146818rtc_regs.h b/include/hw/timer/mc146=
 818rtc_regs.h
-index c62f17bf2d..0b38971417 100644
+index 0b38971417..bfbb57e570 100644
 --- a/include/hw/timer/mc146818rtc_regs.h
 +++ b/include/hw/timer/mc146818rtc_regs.h
-@@ -22,6 +22,8 @@
+@@ -22,11 +22,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef MC146818RTC_REGS_H
  #define MC146818RTC_REGS_H
 =20
++#include "qemu/timer.h"
++
+ #define RTC_ISA_IRQ 8
+=20
+ #define RTC_SECONDS             0
 diff --git a/include/hw/timer/sun4v-rtc.h b/include/hw/timer/sun4v-rtc.h
-index 407278f918..11ced390a3 100644
+index 11ced390a3..4db0352e2b 100644
 --- a/include/hw/timer/sun4v-rtc.h
 +++ b/include/hw/timer/sun4v-rtc.h
-@@ -1 +1,3 @@
-+/* FIXME Does not pass make check-headers, yet! */
+@@ -1,3 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
++#ifndef HW_TIMER_SUN4V_RTC_H
++#define HW_TIMER_SUN4V_RTC_H
 +
++#include "exec/hwaddr.h"
+=20
  void sun4v_rtc_init(hwaddr addr);
++
++#endif
 diff --git a/include/hw/timer/xlnx-zynqmp-rtc.h b/include/hw/timer/xlnx-z=
 ynqmp-rtc.h
-index 6e9134edf6..23f37fe21a 100644
+index 23f37fe21a..97e32322ed 100644
 --- a/include/hw/timer/xlnx-zynqmp-rtc.h
 +++ b/include/hw/timer/xlnx-zynqmp-rtc.h
-@@ -24,6 +24,8 @@
+@@ -24,12 +24,11 @@
   * THE SOFTWARE.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_TIMER_XLNX_ZYNQMP_RTC_H
  #define HW_TIMER_XLNX_ZYNQMP_RTC_H
 =20
-diff --git a/include/hw/vfio/vfio-amd-xgbe.h b/include/hw/vfio/vfio-amd-x=
-gbe.h
-index 9fff65e99d..936514fe64 100644
---- a/include/hw/vfio/vfio-amd-xgbe.h
-+++ b/include/hw/vfio/vfio-amd-xgbe.h
-@@ -11,6 +11,8 @@
-  *
-  */
+ #include "hw/register.h"
++#include "hw/sysbus.h"
 =20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VFIO_VFIO_AMD_XGBE_H
- #define HW_VFIO_VFIO_AMD_XGBE_H
-=20
-diff --git a/include/hw/vfio/vfio-calxeda-xgmac.h b/include/hw/vfio/vfio-=
-calxeda-xgmac.h
-index f994775c09..498b399c48 100644
---- a/include/hw/vfio/vfio-calxeda-xgmac.h
-+++ b/include/hw/vfio/vfio-calxeda-xgmac.h
-@@ -11,6 +11,8 @@
-  *
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VFIO_VFIO_CALXEDA_XGMAC_H
- #define HW_VFIO_VFIO_CALXEDA_XGMAC_H
-=20
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.=
-h
-index 9107bd41c0..4815e1c74b 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -18,6 +18,8 @@
-  *  Copyright (C) 2008, IBM, Muli Ben-Yehuda (muli@il.ibm.com)
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VFIO_VFIO_COMMON_H
- #define HW_VFIO_VFIO_COMMON_H
-=20
-diff --git a/include/hw/vfio/vfio-platform.h b/include/hw/vfio/vfio-platf=
-orm.h
-index 30d3c28d3b..064f4a421d 100644
---- a/include/hw/vfio/vfio-platform.h
-+++ b/include/hw/vfio/vfio-platform.h
-@@ -13,6 +13,8 @@
-  *  Copyright Red Hat, Inc. 2012
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VFIO_VFIO_PLATFORM_H
- #define HW_VFIO_VFIO_PLATFORM_H
+ #define TYPE_XLNX_ZYNQMP_RTC "xlnx-zynmp.rtc"
 =20
 diff --git a/include/hw/virtio/virtio-access.h b/include/hw/virtio/virtio=
 -access.h
-index bdf58f3119..9a155f4c69 100644
+index 9a155f4c69..eaaf4dd033 100644
 --- a/include/hw/virtio/virtio-access.h
 +++ b/include/hw/virtio/virtio-access.h
-@@ -13,6 +13,9 @@
-  *
+@@ -14,11 +14,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef QEMU_VIRTIO_ACCESS_H
  #define QEMU_VIRTIO_ACCESS_H
 =20
++#include "exec/hwaddr.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-bus.h"
+=20
 diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/vir=
 tio-gpu-bswap.h
-index 38d12160f6..b3c749ebf2 100644
+index b3c749ebf2..203f9e1718 100644
 --- a/include/hw/virtio/virtio-gpu-bswap.h
 +++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -11,6 +11,8 @@
+@@ -11,12 +11,11 @@
   * See the COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef HW_VIRTIO_GPU_BSWAP_H
  #define HW_VIRTIO_GPU_BSWAP_H
 =20
-diff --git a/include/hw/virtio/virtio-gpu-pci.h b/include/hw/virtio/virti=
-o-gpu-pci.h
-index 2f69b5a9cc..204e2b3a52 100644
---- a/include/hw/virtio/virtio-gpu-pci.h
-+++ b/include/hw/virtio/virtio-gpu-pci.h
-@@ -11,6 +11,8 @@
-  * See the COPYING file in the top-level directory.
-  */
+ #include "qemu/bswap.h"
++#include "standard-headers/linux/virtio_gpu.h"
 =20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VIRTIO_GPU_PCI_H
- #define HW_VIRTIO_GPU_PCI_H
-=20
-diff --git a/include/hw/virtio/virtio-gpu-pixman.h b/include/hw/virtio/vi=
-rtio-gpu-pixman.h
-index 4dba782758..6e83be5f65 100644
---- a/include/hw/virtio/virtio-gpu-pixman.h
-+++ b/include/hw/virtio/virtio-gpu-pixman.h
-@@ -11,6 +11,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VIRTIO_GPU_PIXMAN_H
- #define HW_VIRTIO_GPU_PIXMAN_H
-=20
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gp=
-u.h
-index 6dd57f2025..27be0c6636 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -11,6 +11,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef HW_VIRTIO_GPU_H
- #define HW_VIRTIO_GPU_H
-=20
+ static inline void
+ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
 diff --git a/include/hw/virtio/virtio-input.h b/include/hw/virtio/virtio-=
 input.h
-index 4fca03e796..0727d5449b 100644
+index 0727d5449b..4fca03e796 100644
 --- a/include/hw/virtio/virtio-input.h
 +++ b/include/hw/virtio/virtio-input.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,5 +1,3 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_VIRTIO_INPUT_H
  #define QEMU_VIRTIO_INPUT_H
 =20
 diff --git a/include/hw/virtio/virtio-rng.h b/include/hw/virtio/virtio-rn=
 g.h
-index 922dce7cac..ee650297c2 100644
+index ee650297c2..ff699335e3 100644
 --- a/include/hw/virtio/virtio-rng.h
 +++ b/include/hw/virtio/virtio-rng.h
-@@ -9,6 +9,8 @@
+@@ -9,11 +9,10 @@
   * top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_VIRTIO_RNG_H
  #define QEMU_VIRTIO_RNG_H
 =20
++#include "hw/virtio/virtio.h"
+ #include "sysemu/rng.h"
+ #include "sysemu/rng-random.h"
+ #include "standard-headers/linux/virtio_rng.h"
 diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_a=
 speed.h
-index daef0c0e23..39e5689165 100644
+index 39e5689165..8c5691ce20 100644
 --- a/include/hw/watchdog/wdt_aspeed.h
 +++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -7,6 +7,8 @@
+@@ -7,11 +7,10 @@
   * COPYING file in the top-level directory.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef WDT_ASPEED_H
  #define WDT_ASPEED_H
 =20
-diff --git a/include/hw/xen/xen-backend.h b/include/hw/xen/xen-backend.h
-index 010d712638..d4cb4475be 100644
---- a/include/hw/xen/xen-backend.h
-+++ b/include/hw/xen/xen-backend.h
-@@ -5,6 +5,9 @@
-  * See the COPYING file in the top-level directory.
-  */
++#include "hw/misc/aspeed_scu.h"
+ #include "hw/sysbus.h"
 =20
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef HW_XEN_BACKEND_H
- #define HW_XEN_BACKEND_H
-=20
-diff --git a/include/hw/xen/xen-block.h b/include/hw/xen/xen-block.h
-index 11d351b4b3..9f8ddccd12 100644
---- a/include/hw/xen/xen-block.h
-+++ b/include/hw/xen/xen-block.h
-@@ -5,6 +5,9 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef HW_XEN_BLOCK_H
- #define HW_XEN_BLOCK_H
-=20
-diff --git a/include/hw/xen/xen-bus-helper.h b/include/hw/xen/xen-bus-hel=
-per.h
-index 4c0f747445..00ec76b4a6 100644
---- a/include/hw/xen/xen-bus-helper.h
-+++ b/include/hw/xen/xen-bus-helper.h
-@@ -5,6 +5,9 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef HW_XEN_BUS_HELPER_H
- #define HW_XEN_BUS_HELPER_H
-=20
-diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
-index 1c2d9dfdb8..a74335809f 100644
---- a/include/hw/xen/xen-bus.h
-+++ b/include/hw/xen/xen-bus.h
-@@ -5,6 +5,9 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef HW_XEN_BUS_H
- #define HW_XEN_BUS_H
-=20
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-leg=
-acy-backend.h
-index 07d4176ac1..e3f068e68b 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -1,3 +1,6 @@
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef HW_XEN_LEGACY_BACKEND_H
- #define HW_XEN_LEGACY_BACKEND_H
-=20
-diff --git a/include/hw/xen/xen_common.h b/include/hw/xen/xen_common.h
-index 0504b43659..bed3e49acf 100644
---- a/include/hw/xen/xen_common.h
-+++ b/include/hw/xen/xen_common.h
-@@ -1,3 +1,6 @@
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef QEMU_HW_XEN_COMMON_H
- #define QEMU_HW_XEN_COMMON_H
-=20
-diff --git a/include/hw/xen/xen_pvdev.h b/include/hw/xen/xen_pvdev.h
-index 83e5174d90..5089f14be8 100644
---- a/include/hw/xen/xen_pvdev.h
-+++ b/include/hw/xen/xen_pvdev.h
-@@ -1,3 +1,6 @@
-+/* FIXME Does not pass make check-headers without CONFIG_XEN, yet! */
-+/* FIXME Does not pass make check-headers without system emulation, yet!=
- */
-+
- #ifndef QEMU_HW_XEN_PVDEV_H
- #define QEMU_HW_XEN_PVDEV_H
-=20
+ #define TYPE_ASPEED_WDT "aspeed.wdt"
 diff --git a/include/libdecnumber/decNumberLocal.h b/include/libdecnumber=
 /decNumberLocal.h
-index 12cf1d8b6f..01ba6c7aea 100644
+index 01ba6c7aea..4d53c077f2 100644
 --- a/include/libdecnumber/decNumberLocal.h
 +++ b/include/libdecnumber/decNumberLocal.h
-@@ -37,6 +37,8 @@
+@@ -37,8 +37,6 @@
  /* decNumber.h or one of decDouble (etc.) must be included first.     */
  /* ------------------------------------------------------------------ */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef DECNUMBERLOCAL_H
  #define DECNUMBERLOCAL_H
 =20
+@@ -46,6 +44,7 @@
+   #define DECNLAUTHOR	"Mike Cowlishaw"	      /* Who to blame */
+=20
+   #include "libdecnumber/dconfig.h"
++  #include "libdecnumber/decContext.h"
+=20
+   /* Conditional code flag -- set this to match hardware platform     */
+   /* 1=3Dlittle-endian, 0=3Dbig-endian	                              */
 diff --git a/include/migration/cpu.h b/include/migration/cpu.h
-index a40bd3549f..4c8dde2e95 100644
+index 4c8dde2e95..37c04fe9e7 100644
 --- a/include/migration/cpu.h
 +++ b/include/migration/cpu.h
-@@ -1,4 +1,8 @@
+@@ -1,11 +1,12 @@
  /* Declarations for use for CPU state serialization.  */
-+
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef MIGRATION_CPU_H
  #define MIGRATION_CPU_H
 =20
++#include "exec/cpu-defs.h"
++
+ #if TARGET_LONG_BITS =3D=3D 64
+ #define qemu_put_betl qemu_put_be64
+ #define qemu_get_betl qemu_get_be64
 diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 454e8ed155..c022fd3b39 100644
+index c022fd3b39..8d4a172efa 100644
 --- a/include/monitor/hmp-target.h
 +++ b/include/monitor/hmp-target.h
-@@ -22,6 +22,9 @@
-  * THE SOFTWARE.
+@@ -23,11 +23,12 @@
   */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef MONITOR_HMP_TARGET_H
  #define MONITOR_HMP_TARGET_H
 =20
++#include "cpu.h"
++
+ #define MD_TLONG 0
+ #define MD_I32   1
+=20
 diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
-index ddd0d55d31..8dcf19482d 100644
+index 8dcf19482d..6b34484e15 100644
 --- a/include/qemu/atomic128.h
 +++ b/include/qemu/atomic128.h
-@@ -10,6 +10,8 @@
+@@ -10,11 +10,11 @@
   * atomic primitive is meant to provide.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_ATOMIC128_H
  #define QEMU_ATOMIC128_H
 =20
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 69301700bd..69c3917445 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -4,6 +4,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_CPUID_H, yet! *=
-/
++#include "qemu/int128.h"
 +
- #ifndef QEMU_CPUID_H
- #define QEMU_CPUID_H
-=20
-diff --git a/include/qemu/futex.h b/include/qemu/futex.h
-index 91ae88966e..0fa19d30df 100644
---- a/include/qemu/futex.h
-+++ b/include/qemu/futex.h
-@@ -11,6 +11,8 @@
+ /*
+  * GCC is a house divided about supporting large atomic operations.
   *
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_LINUX, yet! */
-+
- #ifndef QEMU_FUTEX_H
- #define QEMU_FUTEX_H
-=20
 diff --git a/include/qemu/ratelimit.h b/include/qemu/ratelimit.h
-index 1b38291823..efd6074823 100644
+index efd6074823..01da8d63f1 100644
 --- a/include/qemu/ratelimit.h
 +++ b/include/qemu/ratelimit.h
-@@ -11,6 +11,8 @@
+@@ -11,11 +11,11 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_RATELIMIT_H
  #define QEMU_RATELIMIT_H
 =20
++#include "qemu/timer.h"
++
+ typedef struct {
+     int64_t slice_start_time;
+     int64_t slice_end_time;
 diff --git a/include/qemu/thread-win32.h b/include/qemu/thread-win32.h
-index 50af5dd7ab..e09a7ba397 100644
+index e09a7ba397..94e7579b4e 100644
 --- a/include/qemu/thread-win32.h
 +++ b/include/qemu/thread-win32.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,4 +1,4 @@
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers without CONFIG_WIN32, yet! */
+=20
  #ifndef QEMU_THREAD_WIN32_H
  #define QEMU_THREAD_WIN32_H
+@@ -49,6 +49,6 @@ struct QemuThread {
+ };
 =20
-diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
-index a83fe8e749..8dae5620e4 100644
---- a/include/qemu/xattr.h
-+++ b/include/qemu/xattr.h
-@@ -10,6 +10,9 @@
-  * later version.  See the COPYING file in the top-level directory.
-  *
-  */
-+
-+/* FIXME Does not pass make check-headers without CONFIG_LINUX, yet! */
-+
- #ifndef QEMU_XATTR_H
- #define QEMU_XATTR_H
+ /* Only valid for joinable threads.  */
+-HANDLE qemu_thread_get_handle(QemuThread *thread);
++HANDLE qemu_thread_get_handle(struct QemuThread *thread);
 =20
+ #endif
 diff --git a/include/sysemu/balloon.h b/include/sysemu/balloon.h
-index c8f6145257..ec77a48925 100644
+index ec77a48925..aea0c44985 100644
 --- a/include/sysemu/balloon.h
 +++ b/include/sysemu/balloon.h
-@@ -11,6 +11,8 @@
+@@ -11,11 +11,10 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_BALLOON_H
  #define QEMU_BALLOON_H
 =20
++#include "exec/cpu-common.h"
+ #include "qapi/qapi-types-misc.h"
+=20
+ typedef void (QEMUBalloonEvent)(void *opaque, ram_addr_t target);
 diff --git a/include/sysemu/cryptodev-vhost-user.h b/include/sysemu/crypt=
 odev-vhost-user.h
-index 6debf53fc5..d2bbd854c4 100644
+index d2bbd854c4..0d3421e7e8 100644
 --- a/include/sysemu/cryptodev-vhost-user.h
 +++ b/include/sysemu/cryptodev-vhost-user.h
-@@ -20,6 +20,9 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
+@@ -21,11 +21,11 @@
   *
   */
-+
-+/* FIXME Does not pass make check-headers, yet! */
-+
+=20
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef CRYPTODEV_VHOST_USER_H
  #define CRYPTODEV_VHOST_USER_H
 =20
++#include "sysemu/cryptodev-vhost.h"
++
+ #define VHOST_USER_MAX_AUTH_KEY_LEN    512
+ #define VHOST_USER_MAX_CIPHER_KEY_LEN  64
+=20
 diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 250143cb5a..c5efa8b2f2 100644
+index c5efa8b2f2..82be70d46a 100644
 --- a/include/sysemu/dump.h
 +++ b/include/sysemu/dump.h
-@@ -11,6 +11,8 @@
+@@ -11,7 +11,8 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef DUMP_H
  #define DUMP_H
-=20
 diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index d275b5a843..2df17c4ed3 100644
+index 2df17c4ed3..25b1e58cf4 100644
 --- a/include/sysemu/hvf.h
 +++ b/include/sysemu/hvf.h
-@@ -10,6 +10,9 @@
-=20
+@@ -11,11 +11,11 @@
  /* header to be included in non-HVF-specific code */
 =20
-+/* NOTE: May only be included into target-dependent code */
-+/* FIXME Does not pass make check-headers, yet! */
-+
+ /* NOTE: May only be included into target-dependent code */
+-/* FIXME Does not pass make check-headers, yet! */
+=20
  #ifndef HVF_H
  #define HVF_H
 =20
++#include "cpu.h"
+ #include "qemu/bitops.h"
+ #include "exec/memory.h"
+ #include "sysemu/accel.h"
 diff --git a/include/sysemu/iothread.h b/include/sysemu/iothread.h
-index 5f6240d5cb..8d8af53df8 100644
+index 8d8af53df8..6181486401 100644
 --- a/include/sysemu/iothread.h
 +++ b/include/sysemu/iothread.h
-@@ -11,6 +11,8 @@
+@@ -11,13 +11,12 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef IOTHREAD_H
  #define IOTHREAD_H
 =20
+ #include "block/aio.h"
+ #include "qemu/thread.h"
++#include "qom/object.h"
+=20
+ #define TYPE_IOTHREAD "iothread"
+=20
 diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index f838412491..18f48589c1 100644
+index 18f48589c1..7a1c3cdcb1 100644
 --- a/include/sysemu/kvm_int.h
 +++ b/include/sysemu/kvm_int.h
-@@ -6,6 +6,8 @@
+@@ -6,11 +6,11 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef QEMU_KVM_INT_H
  #define QEMU_KVM_INT_H
 =20
++#include "exec/cpu-common.h"
++#include "exec/memory.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/accel.h"
+ #include "sysemu/kvm.h"
 diff --git a/include/sysemu/memory_mapping.h b/include/sysemu/memory_mapp=
 ing.h
-index 58452457ce..6fb5b42cf1 100644
+index 6fb5b42cf1..b02978543c 100644
 --- a/include/sysemu/memory_mapping.h
 +++ b/include/sysemu/memory_mapping.h
-@@ -11,6 +11,8 @@
+@@ -11,12 +11,15 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* NOTE: May only be included into target-dependent code */
++/* FIXME Does not pass make check-headers for user emulation, yet! */
+=20
  #ifndef MEMORY_MAPPING_H
  #define MEMORY_MAPPING_H
 =20
-diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-index 629c8c648b..5a7dabe22c 100644
---- a/include/sysemu/os-posix.h
-+++ b/include/sysemu/os-posix.h
-@@ -23,6 +23,8 @@
-  * THE SOFTWARE.
-  */
+ #include "qemu/queue.h"
++#include "exec/cpu-common.h"
++#include "exec/cpu-defs.h"
+ #include "exec/memory.h"
 =20
-+/* FIXME Does not pass make check-headers without CONFIG_POSIX, yet! */
-+
- #ifndef QEMU_OS_POSIX_H
- #define QEMU_OS_POSIX_H
-=20
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index ff18b23db1..b828117bb6 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -23,6 +23,8 @@
-  * THE SOFTWARE.
-  */
-=20
-+/* FIXME Does not pass make check-headers without CONFIG_WIN32, yet! */
-+
- #ifndef QEMU_OS_WIN32_H
- #define QEMU_OS_WIN32_H
-=20
+ typedef struct GuestPhysBlock {
 diff --git a/include/sysemu/xen-mapcache.h b/include/sysemu/xen-mapcache.=
 h
-index a03e2f1878..e3acb95b42 100644
+index e3acb95b42..c8e7c2f6cf 100644
 --- a/include/sysemu/xen-mapcache.h
 +++ b/include/sysemu/xen-mapcache.h
-@@ -6,6 +6,8 @@
+@@ -6,11 +6,11 @@
   *
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef XEN_MAPCACHE_H
  #define XEN_MAPCACHE_H
 =20
-diff --git a/include/trace-tcg.h b/include/trace-tcg.h
-index da68608c85..6084376731 100644
---- a/include/trace-tcg.h
-+++ b/include/trace-tcg.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
++#include "exec/cpu-common.h"
 +
- #ifndef TRACE_TCG_H
- #define TRACE_TCG_H
-=20
-diff --git a/include/ui/console.h b/include/ui/console.h
-index f981696848..4edb647178 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+
- #ifndef CONSOLE_H
- #define CONSOLE_H
-=20
-diff --git a/include/ui/egl-context.h b/include/ui/egl-context.h
-index f004ce11a7..fa777a9d7b 100644
---- a/include/ui/egl-context.h
-+++ b/include/ui/egl-context.h
-@@ -1,3 +1,6 @@
-+/* FIXME Does not pass make check-headers without pixman, yet! */
-+/* FIXME Does not pass make check-headers without CONFIG_OPENGL, yet! */
-+
- #ifndef EGL_CONTEXT_H
- #define EGL_CONTEXT_H
-=20
+ typedef hwaddr (*phys_offset_to_gaddr_t)(hwaddr phys_offset,
+                                          ram_addr_t size);
+ #ifdef CONFIG_XEN
 diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index d714127799..5ea65ddfa1 100644
+index 5ea65ddfa1..151e1c92b6 100644
 --- a/include/ui/egl-helpers.h
 +++ b/include/ui/egl-helpers.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,4 +1,5 @@
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers without CONFIG_OPENGL, yet! */
++/* FIXME Does not pass make check-headers without system emulation, yet!=
+ */
+=20
  #ifndef EGL_HELPERS_H
  #define EGL_HELPERS_H
+@@ -6,6 +7,9 @@
+ #include <epoxy/gl.h>
+ #include <epoxy/egl.h>
+ #include <gbm.h>
++#include "qapi/qapi-types-ui.h"
++#include "ui/console.h"
++#include "ui/shader.h"
 =20
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index d9eedad976..1bad122097 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef UI_GTK_H
- #define UI_GTK_H
-=20
+ extern EGLDisplay *qemu_egl_display;
+ extern EGLConfig qemu_egl_config;
 diff --git a/include/ui/input.h b/include/ui/input.h
-index 8c8ccb999f..718f152f98 100644
+index 718f152f98..c86219a1c1 100644
 --- a/include/ui/input.h
 +++ b/include/ui/input.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,9 +1,8 @@
+-/* FIXME Does not pass make check-headers, yet! */
+-
  #ifndef INPUT_H
  #define INPUT_H
 =20
+ #include "qapi/qapi-types-ui.h"
++#include "qemu/notify.h"
+=20
+ #define INPUT_EVENT_MASK_KEY   (1<<INPUT_EVENT_KIND_KEY)
+ #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
 diff --git a/include/ui/pixel_ops.h b/include/ui/pixel_ops.h
-index d390adfd1b..18d5e181a6 100644
+index 18d5e181a6..7952be77bf 100644
 --- a/include/ui/pixel_ops.h
 +++ b/include/ui/pixel_ops.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
+@@ -1,4 +1,5 @@
+-/* FIXME Does not pass make check-headers, yet! */
++#ifndef UI_PIXEL_OPS_H
++#define UI_PIXEL_OPS_H
+=20
  static inline unsigned int rgb_to_pixel8(unsigned int r, unsigned int g,
                                           unsigned int b)
+@@ -53,3 +54,5 @@ static inline unsigned int rgb_to_pixel32bgr(unsigned i=
+nt r, unsigned int g,
  {
-diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
-index 0668109305..4f559c1941 100644
---- a/include/ui/qemu-pixman.h
-+++ b/include/ui/qemu-pixman.h
-@@ -3,6 +3,8 @@
-  * See the COPYING file in the top-level directory.
-  */
-=20
-+/* FIXME Does not pass make check-headers without pixman, yet! */
+     return (b << 16) | (g << 8) | r;
+ }
 +
- #ifndef QEMU_PIXMAN_H
- #define QEMU_PIXMAN_H
-=20
-diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
-index 0875b8d56b..c57525755f 100644
---- a/include/ui/sdl2.h
-+++ b/include/ui/sdl2.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers, yet! */
-+
- #ifndef SDL2_H
- #define SDL2_H
-=20
-diff --git a/include/ui/shader.h b/include/ui/shader.h
-index 4c5acb2ce8..c062cac55f 100644
---- a/include/ui/shader.h
-+++ b/include/ui/shader.h
-@@ -1,3 +1,5 @@
-+/* FIXME Does not pass make check-headers without CONFIG_OPENGL, yet! */
-+
- #ifndef QEMU_SHADER_H
- #define QEMU_SHADER_H
-=20
++#endif
 diff --git a/include/ui/spice-display.h b/include/ui/spice-display.h
-index eed60e4fae..4bb30522a6 100644
+index 4bb30522a6..93930889cc 100644
 --- a/include/ui/spice-display.h
 +++ b/include/ui/spice-display.h
-@@ -15,6 +15,8 @@
+@@ -15,11 +15,13 @@
   * along with this program; if not, see <http://www.gnu.org/licenses/>.
   */
 =20
-+/* FIXME Does not pass make check-headers, yet! */
-+
+-/* FIXME Does not pass make check-headers, yet! */
++/* FIXME Does not pass make check-headers without CONFIG_SPICE, yet! */
++/* FIXME Does not pass make check-headers without system emulation, yet!=
+ */
+=20
  #ifndef UI_SPICE_DISPLAY_H
  #define UI_SPICE_DISPLAY_H
 =20
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index a983dd32da..9eafc99df2 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -15,6 +15,7 @@ check-help:
- 	@echo " $(MAKE) check-tcg            Run TCG tests"
- 	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
- 	@echo " $(MAKE) check-acceptance     Run all acceptance (functional) te=
-sts"
-+	@echo " $(MAKE) check-source         Run source code tests"
- 	@echo
- 	@echo " $(MAKE) check-report.html    Generates an HTML test report"
- 	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
-@@ -493,6 +494,7 @@ generated-files-y +=3D tests/test-qapi-introspect.h
++#include <spice.h>
+ #include <spice/ipc_ring.h>
+ #include <spice/enums.h>
+ #include <spice/qxl_dev.h>
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index aab251bc4b..e9fba96be9 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -22,7 +22,7 @@
 =20
- QEMU_CFLAGS +=3D -I$(SRC_PATH)/tests
+ #include "cpu-qom.h"
+ #include "exec/cpu-defs.h"
+-
++#include "exec/memory.h"
 =20
-+include $(SRC_PATH)/tests/check-headers.mak
-=20
- # Deps that are common to various different sets of tests below
- test-util-obj-y =3D libqemuutil.a
-@@ -1159,13 +1161,39 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-             --failfast=3Don $(SRC_PATH)/tests/acceptance, \
-             "AVOCADO", "tests/acceptance")
-=20
-+# Header sanity checking
-+
-+RECURSIVE_TARGETS +=3D check-headers check-bad-headers
-+
-+.PHONY: check-headers check-bad-headers
-+ifeq ($(wildcard $(SRC_PATH)/.git),)
-+check-headers check-bad-headers:
-+	@echo "  SKIP  $@ (requires a git tree)"
-+else
-+check-headers: CFLAGS +=3D -g0	# save disk space
-+check-headers: $(check-header-tests:.c=3D.o)
-+check-headers: $(addsuffix /check-headers, $(TARGET_DIRS))
-+
-+# Expected to fail:
-+check-bad-headers: $(check-bad-header-tests:.c=3D.o)
-+check-bad-headers: $(addsuffix /check-bad-headers, $(TARGET_DIRS))
-+
-+.SECONDARY: $(check-header-tests) $(check-bad-header-tests)
-+$(check-header-tests) $(check-bad-header-tests): tests/header-test-templ=
-ate.c
-+	@mkdir -p $(dir $@)
-+	@sed 's,@header@,$(subst tests/headers/,,$(@:.c=3D.h)),' <$< >$@
-+endif
-+
- # Consolidated targets
-=20
--.PHONY: check-block check-qapi-schema check-qtest check-unit check check=
--clean
-+.PHONY: check-block check-qapi-schema check-qtest check-unit check-sourc=
-e
-+.PHONY: check check-clean
- check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-t=
-ests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
--check: check-qapi-schema check-unit check-softfloat check-qtest check-de=
-codetree
-+check-source: check-headers
-+check: check-qapi-schema check-unit check-softfloat check-qtest check-de=
-codetree check-source
-+
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(t=
-arget)-y)) $(check-qtest-generic-y))
-@@ -1180,5 +1208,6 @@ all: $(QEMU_IOTESTS_HELPERS-y)
-=20
- -include $(wildcard tests/*.d)
- -include $(wildcard tests/libqos/*.d)
-+-include $(check-header-tests:.c=3D.d) $(check-bad-header-tests:.c=3D.d)
-=20
- endif
+ /* PA-RISC 1.x processors have a strong memory model.  */
+ /* ??? While we do not yet implement PA-RISC 2.0, those processors have
 diff --git a/tests/check-headers.mak b/tests/check-headers.mak
-new file mode 100644
-index 0000000000..367b9dfb9a
---- /dev/null
+index 367b9dfb9a..fee538c33b 100644
+--- a/tests/check-headers.mak
 +++ b/tests/check-headers.mak
-@@ -0,0 +1,92 @@
-+# -*- Mode: makefile -*-
-+
-+ifneq ($(wildcard $(SRC_PATH)/.git),)
-+
-+# All headers:
-+src-headers :=3D $(filter %.h, $(shell cd $(SRC_PATH) && git ls-files))
-+
-+# Headers we don't want to test
-+# Third party headers we don't want to mess with
-+excluded-headers :=3D $(filter disas/libvixl/vixl/% include/hw/xen/inter=
-face/% include/standard-headers/% linux-headers/% pc-bios/% slirp/%, $(sr=
-c-headers))
-+# Funny stuff we don't want to mess with
-+excluded-headers +=3D $(filter tests/multiboot/% tests/tcg/% tests/uefi-=
-test-tools/%, $(src-headers))
-+excluded-headers +=3D scripts/cocci-macro-file.h
-+# Exclude all but include/ for now:
-+excluded-headers +=3D $(filter-out include/%, $(src-headers))
-+
-+# Headers for target-dependent code only (require -DNEED_CPU_H etc.)
-+target-header-regexp :=3D NOTE: May only be included into target-depende=
-nt code
-+target-headers :=3D $(shell cd $(SRC_PATH) && egrep -l '$(target-header-=
-regexp)' $(src-headers))
-+
-+# Headers for target-independent code only
-+untarget-headers :=3D include/exec/poison.h
-+
-+# Headers carrying a FIXME about this test
-+# Extended regular expression matching the FIXME comment in headers
-+# not expected to pass the test in this build's configuration:
-+bad-header-regexp :=3D FIXME Does not pass make check-headers(
-+# Require <cpuid.h>:
-+ifneq ($(CONFIG_CPUID_H),y)
-+bad-header-regexp +=3D without CONFIG_CPUID_H|
+@@ -25,6 +25,24 @@ untarget-headers :=3D include/exec/poison.h
+ # Extended regular expression matching the FIXME comment in headers
+ # not expected to pass the test in this build's configuration:
+ bad-header-regexp :=3D FIXME Does not pass make check-headers(
++# Fails in %-user:
++ifneq ($(TARGET_DIR),)
++ifneq ($(CONFIG_USER_ONLY),)
++bad-header-regexp +=3D for user emulation|
 +endif
-+# Require Linux:
-+ifneq ($(CONFIG_LINUX),y)
-+bad-header-regexp +=3D without CONFIG_LINUX|
 +endif
-+# Require OpenGL:
-+ifneq ($(CONFIG_OPENGL),y)
-+bad-header-regexp +=3D without CONFIG_OPENGL|
++# Target-dependent arm only:
++ifneq ($(TARGET_BASE_ARCH),arm)
++bad-header-regexp +=3D for TARGET_BASE_ARCH other than arm|
 +endif
-+# Require Pixman:
-+# since there's no easy, precise way to detect "have pixman",
-+# approximate with CONFIG_SOFTMMU
-+ifneq ($(CONFIG_SOFTMMU),y)
-+bad-header-regexp +=3D without pixman|
++# Target-dependent i386 only:
++ifneq ($(TARGET_BASE_ARCH),i386)
++bad-header-regexp +=3D for TARGET_BASE_ARCH other than i386|
 +endif
-+# Require POSIX:
-+ifneq ($(CONFIG_POSIX),y)
-+bad-header-regexp +=3D without CONFIG_POSIX|
++# Target-dependent mips only:
++ifneq ($(TARGET_BASE_ARCH),mips)
++bad-header-regexp +=3D for TARGET_BASE_ARCH other than mips|
 +endif
-+# Require SPICE:
-+ifneq ($(CONFIG_SPICE),y)
-+bad-header-regexp +=3D without CONFIG_SPICE|
-+endif
-+# Require any system emulator being built
-+# can't use CONFIG_SOFTMMU, it's off in TARGET_DIR=3D%-user; check
-+# TARGET_DIRS instead
-+ifeq ($(filter %-softmmu, $(TARGET_DIRS)),)
-+bad-header-regexp +=3D without system emulation|
-+endif
-+# Require Windows:
-+ifneq ($(CONFIG_WIN32),y)
-+bad-header-regexp +=3D without CONFIG_WIN32|
-+endif
-+# Require Xen:
-+ifneq ($(CONFIG_XEN),y)
-+bad-header-regexp +=3D without CONFIG_XEN|
-+endif
-+bad-header-regexp +=3D D06F00D to avoid empty RE)?, yet!
-+# The headers not expected to pass the test in this build's configuratio=
-n:
-+bad-headers :=3D $(shell cd $(SRC_PATH) && egrep -l '$(bad-header-regexp=
-)' $(src-headers))
-+
-+# Checked headers (all less excluded and bad):
-+# to be checked target-independently: all less excluded, bad, and target
-+checked-headers :=3D $(filter-out $(excluded-headers) $(bad-headers) $(t=
-arget-headers), $(src-headers))
-+check-header-tests :=3D $(patsubst %.h, tests/headers/%.c, $(checked-hea=
-ders))
-+# to be checked for each target: all less excluded, bad, and untarget
-+checked-target-headers :=3D $(filter-out $(excluded-headers) $(bad-heade=
-rs) $(untarget-headers), $(src-headers))
-+# Testing target-independent headers for each target is massive
-+# overkill, limit to target-dependent headers for now.  This leaves
-+# gaps in testing.  TODO accept the overkill or pick something in betwee=
-n
-+checked-target-headers :=3D $(filter $(target-headers), $(checked-target=
--headers))
-+check-target-header-tests :=3D $(patsubst %.h, tests/headers-tgt/%.c, $(=
-checked-target-headers))
-+
-+# Bad headers (all less excluded and checked):
-+# to be checked target-independently: bad less excluded and target
-+unchecked-headers :=3D $(filter-out $(excluded-headers) $(target-headers=
-), $(bad-headers))
-+check-bad-header-tests :=3D $(patsubst %.h, tests/headers/%.c, $(uncheck=
-ed-headers))
-+# to be checked for each target: bad less excluded and untarget
-+unchecked-target-headers :=3D $(filter-out $(excluded-headers) $(untarge=
-t-headers), $(bad-headers))
-+check-bad-target-header-tests :=3D $(patsubst %.h, tests/headers-tgt/%.c=
-, $(unchecked-target-headers))
-+
-+endif
-diff --git a/tests/header-test-template.c b/tests/header-test-template.c
-new file mode 100644
-index 0000000000..469804e80c
---- /dev/null
-+++ b/tests/header-test-template.c
-@@ -0,0 +1,23 @@
-+/*
-+ * Template for make check-headers
-+ *
-+ * Copyright (C) 2016 Red Hat, Inc.
-+ *
-+ * Authors:
-+ *  Markus Armbruster <armbru@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+/*
-+ * Some headers define static functions that real includers all use,
-+ * but this one of course doesn't.  Suppress the resulting warning:
-+ */
-+#pragma GCC diagnostic ignored "-Wunused-function"
-+
-+#include "@header@"
-+/* Include a second time to catch missing header guard */
-+#include "@header@"
+ # Require <cpuid.h>:
+ ifneq ($(CONFIG_CPUID_H),y)
+ bad-header-regexp +=3D without CONFIG_CPUID_H|
 --=20
 2.21.0
 
