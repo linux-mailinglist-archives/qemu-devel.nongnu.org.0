@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4A065927
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:40:01 +0200 (CEST)
-Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32C065960
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 16:52:41 +0200 (CEST)
+Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlaEr-0003P0-21
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37180)
+	id 1hlaR6-00067d-OA
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 10:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hlaE4-0002qQ-Rd
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:39:13 -0400
+ (envelope-from <bounces@canonical.com>) id 1hlaPX-00059A-8n
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hlaE3-0006yR-Km
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:39:12 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34044)
+ (envelope-from <bounces@canonical.com>) id 1hlaPW-0004DR-0g
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46608)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hlaE3-0006w0-DF
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:39:11 -0400
-Received: by mail-ot1-x344.google.com with SMTP id n5so6107790otk.1
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 07:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BYOEYw35xlqaw1o7LBjte74j1xHji7u5iShs1xXWefQ=;
- b=EcaEfFB/nfr8zMoxkiMotiFkTx/0yZ9hMoz+D6BIWKVNUqolvZcjtWmgyYbRvABupO
- Ow9HQN+zcVO+HnUJ87eC66k4e2c4xHVFDIWcENkBNq4bH/1t2HM9bS5aAIJh3V8TwVsB
- AJgPlAntPEgAsLfgntLhQdj6APa2Nw11IgQJI0KIzyIrWq7/nBy0kVGepllhx6JclH5r
- 4YyxJOcw00++rJEQ7qjWHSuj3bQFKsk9aDzjLPCv6hpE0NlzObwvSaHNxbL39Wgex2OD
- xN3On5Qqd4TuuF42PKPj+hOlaN2ddggMmLX7pL1X5hlO3vLsf/RI5KmLNOzHolF4DiaK
- av2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BYOEYw35xlqaw1o7LBjte74j1xHji7u5iShs1xXWefQ=;
- b=JsKfS1iEyJ0EAnKRFdqae1JJqEVDZZNCJV3rzpeJ5H2jIGagDsSZzPuaUl5i/O0By4
- Xe70pfgoyq0RSqNpBi+pjSSt6LeGnNlu9dWSYeannTmRMF/5GbcxS5ZJP+0p59qNZ+vX
- mJ14FGnkU2IYyBg18KZDeUTuXoYTHrx0zLVcN8ehXyCE2xToCpxM8w8PCdeiUDf+q8nt
- gGbr5J9xYTeRIvS9oF6yqp5jrJMRO8Sf1UTZpWh2J+/ibN8znipFcZrH0n9ANh4wJqcb
- y30FiqztdGWXr+PSF7IoJQwjbdrcSX+AJAhUSXvO/5Oo2hPXSeVlFbXFSC8ej+QwwwH6
- qLHg==
-X-Gm-Message-State: APjAAAW1DHmYqZjS6sxmmsBqseyGzRdYnfT9ypt8DDlKyOdLFBrQptdS
- 7gkGnEipHZxzwFIrOnVQ39C8E19nvVYcJCyXlee+gA==
-X-Google-Smtp-Source: APXvYqyrmvsKMGyjQFlEAAp1a4kK3k+UUWb4MeuLqjsPCHK2f77Ir/fxoWCHXalGd9TIe1490sIeUE1ERHT3dFEb72M=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr3796751oti.91.1562855949933; 
- Thu, 11 Jul 2019 07:39:09 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hlaPV-00049x-Q2
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 10:51:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hlaPR-0006CD-Q5
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 14:50:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ECFCF2E8191
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 14:50:53 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190711103737.10017-1-alex.bennee@linaro.org>
-In-Reply-To: <20190711103737.10017-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 11 Jul 2019 15:38:58 +0100
-Message-ID: <CAFEAcA-mJ5qcA-iS8BxfoVVMkAt13k11bYOT_eELw-WzcSEvRQ@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v2 for 4.1] target/arm: report ARMv8-A FP
- support for AArch32 -cpu max
+Date: Thu, 11 Jul 2019 14:38:58 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon pmaydell
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
+ <20190711103737.10017-1-alex.bennee@linaro.org>
+Message-Id: <CAFEAcA-mJ5qcA-iS8BxfoVVMkAt13k11bYOT_eELw-WzcSEvRQ@mail.gmail.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 01297fc4c0e7740d9ead60de51307ae0773a0b01
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836078] Re: [PATCH v2 for 4.1] target/arm:
+ report ARMv8-A FP support for AArch32 -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,9 +67,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, 1836078@bugs.launchpad.net
+Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -116,8 +107,47 @@ te:
 > 2.20.1
 
 
-
 Applied to target-arm.next, thanks.
 
 -- PMM
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836078
+
+Title:
+  Regressions on arm-linux-gnueabihf target with some GCC tests
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  After trying qemu master:
+  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
+  Merge: 68d7ff0 14f5d87
+  Author: Peter Maydell <email address hidden>
+  Date: Fri Jun 21 15:40:50 2019 +0100
+
+  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
+  I've noticed several regressions compared to qemu-3.1 when running the GC=
+C testsuite.
+  I'm attaching a tarball containing several GCC tests (binaries), needed s=
+hared libs, and a short script to run all the tests.
+
+  All tests used to pass w/o error, but with a recent qemu, all of them
+  make qemu crash.
+
+  This was noticed with GCC master configured with
+  --target arm-none-linux-gnueabihf
+  --with-cpu cortex-a57
+  --with-fpu crypto-neon-fp-armv8
+
+  Thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
 
