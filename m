@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD857656BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:22:07 +0200 (CEST)
-Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8067165671
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 14:14:39 +0200 (CEST)
+Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlY5P-0001WS-2C
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50832)
+	id 1hlXyA-0007J5-MZ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 08:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48926)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hlY46-00015K-9G
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:20:47 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hlXx9-0006bi-Nw
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:13:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hlY45-0001nf-27
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:20:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37398)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hlY44-0001mi-Sl
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:20:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hlY43-0001Zv-8D
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 12:20:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3C2A32E8079
- for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 12:20:43 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1hlXx8-0001sT-CR
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:13:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37326)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hlXx8-0001rB-42
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 08:13:34 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D4FDF307CDD1;
+ Thu, 11 Jul 2019 12:13:32 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66D7160BFC;
+ Thu, 11 Jul 2019 12:13:26 +0000 (UTC)
+Date: Thu, 11 Jul 2019 13:13:23 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190711121323.GN3971@work-vm>
+References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
+ <1562665760-26158-7-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 11 Jul 2019 12:12:36 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156284637398.20784.534354445818037577.malonedeb@gac.canonical.com>
-Message-Id: <156284715624.20825.6546400846407571238.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4202fd7616182467ac3bf3cfd01b7712932f7845
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1562665760-26158-7-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 11 Jul 2019 12:13:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836192] Re: Regressions on arm926 target with
- some GCC tests
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v7 06/13] vfio: Add VM state change handler
+ to know state of VM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,57 +58,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836192 <1836192@bugs.launchpad.net>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We didn't spot that armv5 CPUs don't have mvfr0, so now the vfp refactor
-is looking at mvfr0 fields to gate feature presence we need to
-initialize cpu->isar.mvfr0 specifically to a value that indicates the
-right thing even on the armv5 CPUs which don't have a guest-visible
-mvfr0. This specifically affects just arm926 and arm1026, which have
-accidentally lost short-vector support and double-precision support.
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> VM state change handler gets called on change in VM's state. This is used to set
+> VFIO device state to _RUNNING.
+> VM state change handler, migration state change handler and log_sync listener
+> are called asynchronously, which sometimes lead to data corruption in migration
+> region. Initialised mutex that is used to serialize operations on migration data
+> region during saving state.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c           | 64 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |  2 ++
+>  include/hw/vfio/vfio-common.h |  4 +++
+>  3 files changed, 70 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index a2cfbd5af2e1..c01f08b659d0 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -78,6 +78,60 @@ err:
+>      return ret;
+>  }
+>  
+> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region.buffer;
+> +    uint32_t device_state;
+> +    int ret = 0;
+> +
+> +    device_state = (state & VFIO_DEVICE_STATE_MASK) |
+> +                   (vbasedev->device_state & ~VFIO_DEVICE_STATE_MASK);
+> +
+> +    if ((device_state & VFIO_DEVICE_STATE_MASK) == VFIO_DEVICE_STATE_INVALID) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    ret = pwrite(vbasedev->fd, &device_state, sizeof(device_state),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("%s: Failed to set device state %d %s",
+> +                     vbasedev->name, ret, strerror(errno));
+> +        return ret;
+> +    }
+> +
+> +    vbasedev->device_state = device_state;
+> +    trace_vfio_migration_set_state(vbasedev->name, device_state);
+> +    return 0;
+> +}
+> +
+> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if ((vbasedev->vm_running != running)) {
+> +        int ret;
+> +        uint32_t dev_state;
+> +
+> +        if (running) {
+> +            dev_state = VFIO_DEVICE_STATE_RUNNING;
+> +        } else {
+> +            dev_state = (vbasedev->device_state & VFIO_DEVICE_STATE_MASK) &
+> +                     ~VFIO_DEVICE_STATE_RUNNING;
+> +        }
+> +
+> +        ret = vfio_migration_set_state(vbasedev, dev_state);
+> +        if (ret) {
+> +            error_report("%s: Failed to set device state 0x%x",
+> +                         vbasedev->name, dev_state);
+> +        }
+> +        vbasedev->vm_running = running;
+> +        trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+> +                                  dev_state);
+> +    }
+> +}
+> +
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
+>  {
+> @@ -93,6 +147,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>          return ret;
+>      }
+>  
+> +    qemu_mutex_init(&vbasedev->migration->lock);
 
+Does this and it's friend below belong in this patch?  As far as I can
+tell you init/deinit the lock here but don't use it which is strange.
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+Dave
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836192
-
-Title:
-  Regressions on arm926 target with some GCC tests
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  Hi,
-
-  After trying qemu master:
-  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
-  Merge: 68d7ff0 14f5d87
-  Author: Peter Maydell <email address hidden>
-  Date: Fri Jun 21 15:40:50 2019 +0100
-
-  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
-  I've noticed several regressions compared to qemu-3.1 when running the GC=
-C testsuite, with GCC configured to generate arm10tdmi code by default, and=
- using qemu's --cpu arm926.
-
-  I'm attaching a tarball containing one of the GCC tests (binaries),
-  needed shared libs, and a short script to run the test.
-
-  This was noticed with GCC master configured with
-  --target arm-none-linux-gnueabi
-  --with-cpu arm10tdmi
-  --with-fpu vfp
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836192/+subscriptions
+> +    vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> +                                                          vbasedev);
+> +
+>      return 0;
+>  }
+>  
+> @@ -135,11 +194,16 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>          return;
+>      }
+>  
+> +    if (vbasedev->vm_state) {
+> +        qemu_del_vm_change_state_handler(vbasedev->vm_state);
+> +    }
+> +
+>      if (vbasedev->migration_blocker) {
+>          migrate_del_blocker(vbasedev->migration_blocker);
+>          error_free(vbasedev->migration_blocker);
+>      }
+>  
+> +    qemu_mutex_destroy(&vbasedev->migration->lock);
+>      vfio_migration_region_exit(vbasedev);
+>      g_free(vbasedev->migration);
+>  }
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 191a726a1312..3d15bacd031a 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -146,3 +146,5 @@ vfio_display_edid_write_error(void) ""
+>  
+>  # migration.c
+>  vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+> +vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+> +vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 152da3f8d6f3..f6c70db3a9c1 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -29,6 +29,7 @@
+>  #ifdef CONFIG_LINUX
+>  #include <linux/vfio.h>
+>  #endif
+> +#include "sysemu/sysemu.h"
+>  
+>  #define VFIO_MSG_PREFIX "vfio %s: "
+>  
+> @@ -124,6 +125,9 @@ typedef struct VFIODevice {
+>      unsigned int flags;
+>      VFIOMigration *migration;
+>      Error *migration_blocker;
+> +    uint32_t device_state;
+> +    VMChangeStateEntry *vm_state;
+> +    int vm_running;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
