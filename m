@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57F2661D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 00:36:01 +0200 (CEST)
-Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2349661C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 00:34:18 +0200 (CEST)
+Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlhfU-0002Ke-AM
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 18:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40529)
+	id 1hlhdp-0002yP-J3
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 18:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40405)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hlhdP-0002Dk-BI
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:53 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hlhdA-00016f-FR
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hlhdO-00049o-5H
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:51 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:36083)
+ (envelope-from <jan.bobek@gmail.com>) id 1hlhd2-0003rX-2m
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:30 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:41904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hlhdL-0003ex-Pi
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:47 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id x67so3129377ywd.3
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hlhcy-0003fC-U8
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 18:33:25 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id 13so3196970ybx.8
  for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 15:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p8Rb02xdn2cFJX2nERS/g1PcKR1NF5p4AWJrFwb0S5I=;
- b=qOyQBIRxz7BUTd1bOeLnpFoU1J21KkvJMaDCqmUUT6aETKq7HZVBIb1iTYDYJIiSyt
- Jik2BFMzlAgcWCLqnUgJK6vUc6iuRXxfdemIYsfeIJaKou1cSD+CeqhRuyqTbQRhKHsH
- 0L3A8FrDl5hX8csFVTo+xqZ2bnAXb0BN3yPD1lqHudS7I8y5pMIPBLCGavf5qATCr0Cp
- yQfrR6iK+lBpolYKHsOJ4Wr4yQrvmttPyZgyFtquIY3GX0c+Ew7QX5pyvw6Tnmo6excm
- LSsje0kcbYTTKUVTkxA9N6bBgfyUH5iVQwBOItyPFAgzQyDCqBgGrX/mFNmyBNg+dD7G
- L46A==
+ bh=dCnnbb8AWZepBe80f73sl6PvHUpiI5AToL5sD/uo3so=;
+ b=LBuBNeBP8jmrmvJyCvmZS4xYmE2cGEiieJvk/+jxwgDlDVIZENw+3jbgIBXOtD7CcV
+ 7T02n1OhrGY11MAnHLkCQs0eYGkvKlK8GE/Cvr5GjsIVY0WRmTRdYqVQPd9UmJYc9lay
+ Zz4u7DuoEFvnzei9NfXdPqgrZNLHQV3rZpOD70Viz9kNuye6/SbxYCLU5Ae7nlkU9Jyw
+ VwjBmFxN7XWqqyvXyKF8Dxr37OtkcGLZrXEnp3hP5lEgxFKgM8liS9nVTV6Jtrnm3rwe
+ EQVYIcTKVhic5f6YHWekg69jrdJDfzb29eLZgsFUaHvWTPDnqLq5Klt2GV9fLSXCtNjv
+ 7uJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p8Rb02xdn2cFJX2nERS/g1PcKR1NF5p4AWJrFwb0S5I=;
- b=JSctrLlQMF5Bvcv4Uw+uCiJxPh+aVXBRmBESxPww0dh4D3rcYJTNJK7UUvPcTT8AN3
- jk0KloX4vuru/7Vd84vKm6FcOoUmwuxWcJyi4SBueRHAMCzRkCOe0x+3QF6Ex2gjKHU2
- S3jKybesGwVrEbV34ILZxnUM1ttjnpHd99X5zrHACgZ9u11xh8z/IM+ka6RActk1FFXu
- /q69Nc+42SYWZd1IdW7xZC5MGNH32B/GOzE49YC6gAo6oDmAU9WzXz/HTGDYxNociDhT
- 4I44ZYhLzABrLRVY2bPUB/yntRTOPAuF3nZr7t/bNSS2E/YrOlNlZuvxZ9XDmP4karPt
- LG4w==
-X-Gm-Message-State: APjAAAUrBVx3ucDFKnAZeaiNAn6lbgIyzxOqqHgFJo5a9ZDGrqe9zvXq
- s3SdI5DS45nAYanfHL+sZ9px/pWv
-X-Google-Smtp-Source: APXvYqzsvB7WLw/q+tfun7YT/LHji9KRFPtAyPKGVH69+T3Bsgn+GAqozFTP4E6o9Iew8RWSItbMlw==
-X-Received: by 2002:a81:710a:: with SMTP id m10mr3518292ywc.277.1562884397492; 
+ bh=dCnnbb8AWZepBe80f73sl6PvHUpiI5AToL5sD/uo3so=;
+ b=oV4l86794k6CZ+zpTyrIs/PEQD5MveHyI+JIUlYvIZe72lrtC/5hqcD6yIKCPfthNr
+ Grn12ttb/Fr0ZuU3L95XKhhsPKAle95ouIaUsyPh+id3mSr/yQJ4cTI2ED/JBm7Q8oI2
+ sa/fZIgH66DSt58U4nvBO1lZasdrdos7I+OZeAuEikSDAn4bnfsfsrhYlzmSEDKuETYw
+ UutcQ0YeXQsXzCRgtxSSOitlU1jkmOGKYDioaCfB2fHsnF3O5SXULvRFW0/Hdd+ECQ8j
+ 93vIDbCSXSx2o+tNWzpfNrCztCzUQEIKZyTGNZCe30j5IRtGiUsJrSuFfJO5to9CFxzc
+ GY4Q==
+X-Gm-Message-State: APjAAAVXrmVqiwvdQHOe0a4fm8CjKPb/S/1VoDF7cSjcHYRj+jb6x18+
+ gFd6u9eaxHq5xRWUOSmnA9K7jbRS
+X-Google-Smtp-Source: APXvYqwK/oLEIgxMGK32pPybjEbxxHylGWyRORXlWfcYqJwExZ0k0nH0G+kMDmApCtqy/uDmwKxlGQ==
+X-Received: by 2002:a25:7083:: with SMTP id l125mr4158067ybc.449.1562884397940; 
  Thu, 11 Jul 2019 15:33:17 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id z191sm1676728ywa.31.2019.07.11.15.33.16
+ by smtp.gmail.com with ESMTPSA id z191sm1676728ywa.31.2019.07.11.15.33.17
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Thu, 11 Jul 2019 15:33:17 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 18:32:49 -0400
-Message-Id: <20190711223300.6061-8-jan.bobek@gmail.com>
+Date: Thu, 11 Jul 2019 18:32:50 -0400
+Message-Id: <20190711223300.6061-9-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190711223300.6061-1-jan.bobek@gmail.com>
 References: <20190711223300.6061-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [RISU PATCH v3 07/18] risugen: allow all byte-aligned
- instructions
+X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [Qemu-devel] [RISU PATCH v3 08/18] risugen: add command-line flag
+ --x86_64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +84,60 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accept all instructions whose bit length is divisible by 8. Note that
-the maximum instruction length (as specified in the config file) is 32
-bits, hence this change permits instructions which are 8 bits or 24
-bits long (16-bit instructions have already been considered valid).
+This flag instructs the x86 backend to emit 64-bit (rather than
+32-bit) code.
 
-Note that while valid x86 instructions may be up to 15 bytes long, the
-length constraint described above only applies to the main opcode
-field, which is usually only 1 or 2 bytes long. Therefore, the primary
-purpose of this change is to allow 1-byte x86 opcodes.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- risugen | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ risugen | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/risugen b/risugen
-index e690b18..0c859aa 100755
+index 0c859aa..50920eb 100755
 --- a/risugen
 +++ b/risugen
-@@ -229,12 +229,11 @@ sub parse_config_file($)
-                 push @fields, [ $var, $bitpos, $bitmask ];
-             }
-         }
--        if ($bitpos == 16) {
--            # assume this is a half-width thumb instruction
-+        if ($bitpos % 8 == 0) {
-             # Note that we don't fiddle with the bitmasks or positions,
-             # which means the generated insn will be in the high halfword!
--            $insnwidth = 16;
--        } elsif ($bitpos != 0) {
-+            $insnwidth -= $bitpos;
-+        } else {
-             print STDERR "$file:$.: ($insn $enc) not enough bits specified\n";
-             exit(1);
-         }
+@@ -10,6 +10,7 @@
+ #     Peter Maydell (Linaro) - initial implementation
+ #     Claudio Fontana (Linaro) - initial aarch64 support
+ #     Jose Ricardo Ziviani (IBM) - initial ppc64 support and arch isolation
++#     Jan Bobek - initial x86 support
+ ###############################################################################
+ 
+ # risugen -- generate a test binary file for use with risu
+@@ -309,6 +310,7 @@ Valid options:
+                    Useful to test before support for FP is available.
+     --sve        : enable sve floating point
+     --be         : generate instructions in Big-Endian byte order (ppc64 only).
++    --x86_64     : generate 64-bit (rather than 32-bit) code. (x86 only)
+     --help       : print this message
+ EOT
+ }
+@@ -321,6 +323,7 @@ sub main()
+     my $fp_enabled = 1;
+     my $sve_enabled = 0;
+     my $big_endian = 0;
++    my $is_x86_64 = 0;
+     my ($infile, $outfile);
+ 
+     GetOptions( "help" => sub { usage(); exit(0); },
+@@ -338,6 +341,7 @@ sub main()
+                 "be" => sub { $big_endian = 1; },
+                 "no-fp" => sub { $fp_enabled = 0; },
+                 "sve" => sub { $sve_enabled = 1; },
++                "x86_64" => sub { $is_x86_64 = 1; },
+         ) or return 1;
+     # allow "--pattern re,re" and "--pattern re --pattern re"
+     @pattern_re = split(/,/,join(',',@pattern_re));
+@@ -371,7 +375,8 @@ sub main()
+         'keys' => \@insn_keys,
+         'arch' => $full_arch[0],
+         'subarch' => $full_arch[1] || '',
+-        'bigendian' => $big_endian
++        'bigendian' => $big_endian,
++        'x86_64' => $is_x86_64,
+     );
+ 
+     write_test_code(\%params);
 -- 
 2.20.1
 
