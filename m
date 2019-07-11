@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C87651D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 08:22:44 +0200 (CEST)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5FB65127
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 06:31:57 +0200 (CEST)
+Received: from localhost ([::1]:38488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlSTb-0002Fc-9t
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 02:22:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1hlQkN-0001xv-H4
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 00:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35639)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hlSSR-0000sh-AL
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:21:32 -0400
+ (envelope-from <bounces@canonical.com>) id 1hlQjQ-0001Yb-Hh
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 00:30:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hlSSQ-0003DN-5P
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:21:31 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42559 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hlSSP-000330-0O
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 02:21:30 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45kmCm5G01z9sNF; Thu, 11 Jul 2019 16:21:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562826084;
- bh=C09pNryVDcEasgvucopMJO755obTYZIg19F3P5zVW04=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EA6kGwLjJnJNreSKh/a29tQPH00GLOZszZK1dmYlhGDeiEEOJ4ugAAfOJzKO4s6HD
- 3MNS4Bri3Si9Kl+/cuxG0FrI4oLMJPo+OS7T4Oo78BECDUVPD+A4tV2LUqueWuI6uP
- JVU7H5e8hdg8r3Oviul3hBYblb5+SUy9GEWz3z08=
-Date: Thu, 11 Jul 2019 13:51:51 +1000
-From: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Message-ID: <20190711035151.GG13271@umbus.fritz.box>
-References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
- <1562324511-2910-4-git-send-email-yi.l.liu@intel.com>
- <20190709021209.GA5178@xz-x1>
- <A2975661238FB949B60364EF0F2C257439F2A5F2@SHSMSX104.ccr.corp.intel.com>
+ (envelope-from <bounces@canonical.com>) id 1hlQjP-0006lT-Gz
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 00:30:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33432)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hlQjM-0006db-Bd
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 00:30:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hlQjG-0004zA-Pk
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 04:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 163412E80D3
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 04:30:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1XWsVB21DFCvn2e8"
-Content-Disposition: inline
-In-Reply-To: <A2975661238FB949B60364EF0F2C257439F2A5F2@SHSMSX104.ccr.corp.intel.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Jul 2019 04:23:43 -0000
+From: Rebecca Chang Swee Fun <1836136@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: rebeccas
+X-Launchpad-Bug-Reporter: Rebecca Chang Swee Fun (rebeccas)
+X-Launchpad-Bug-Modifier: Rebecca Chang Swee Fun (rebeccas)
+Message-Id: <156281902369.23368.14562778655096490350.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: b2ad315bd9612db16b9f0d97c897d5b40d9a0e89
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [RFC v1 03/18] hw/pci: introduce PCIPASIDOps to
- PCIDevice
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836136] [NEW] u-boot: any plans to update u-boot
+ to v2019.07
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,121 +63,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <zhexu@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>
+Reply-To: Bug 1836136 <1836136@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
---1XWsVB21DFCvn2e8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Just want to pulse about the plan to update u-boot binary to latest
+v2019.07.
 
-On Wed, Jul 10, 2019 at 11:08:15AM +0000, Liu, Yi L wrote:
-> > From: Peter Xu [mailto:zhexu@redhat.com]
-> > Sent: Tuesday, July 9, 2019 10:12 AM
-> > To: Liu, Yi L <yi.l.liu@intel.com>
-> > Subject: Re: [RFC v1 03/18] hw/pci: introduce PCIPASIDOps to PCIDevice
-> >=20
-> > On Fri, Jul 05, 2019 at 07:01:36PM +0800, Liu Yi L wrote:
-> > > +void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
-> > > +{
-> > > +    assert(ops && !dev->pasid_ops);
-> > > +    dev->pasid_ops =3D ops;
-> > > +}
-> > > +
-> > > +bool pci_device_is_ops_set(PCIBus *bus, int32_t devfn)
-> >=20
-> > Name should be "pci_device_is_pasid_ops_set".  Or maybe you can simply
-> > drop this function because as long as you check it in helper functions
-> > like [1] below always then it seems even unecessary.
->=20
-> yes, the name should be "pci_device_is_pasid_ops_set". I noticed your
-> comments on the necessity in another, let's talk in that thread. :-)
->=20
-> > > +{
-> > > +    PCIDevice *dev;
-> > > +
-> > > +    if (!bus) {
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    dev =3D bus->devices[devfn];
-> > > +    return !!(dev && dev->pasid_ops);
-> > > +}
-> > > +
-> > > +int pci_device_request_pasid_alloc(PCIBus *bus, int32_t devfn,
-> > > +                                   uint32_t min_pasid, uint32_t max_=
-pasid)
-> >=20
-> > From VT-d spec I see that the virtual command "allocate pasid" does
-> > not have bdf information so it's global, but here we've got bus/devfn.
-> > I'm curious is that reserved for ARM or some other arch?
->=20
-> You are right. VT-d spec doesn=E2=80=99t have bdf info. But we need to pa=
-ss the
-> allocation request via vfio. So this function has bdf info. In vIOMMU sid=
-e,
-> it should select a vfio-pci device and invoke this callback when it wants=
- to
-> request PASID alloc/free.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-That doesn't seem conceptually right.  IIUC, the pasids "belong" to a
-sort of SVM context.  It seems to be the alloc should be on that
-object - and that object would already have some connection to any
-relevant vfio containers.  At the vfio level this seems like it should
-be a container operation rather than a device operation.
+-- =
 
-> > > +{
-> > > +    PCIDevice *dev;
-> > > +
-> > > +    if (!bus) {
-> > > +        return -1;
-> > > +    }
-> > > +
-> > > +    dev =3D bus->devices[devfn];
-> > > +    if (dev && dev->pasid_ops && dev->pasid_ops->alloc_pasid) {
-> >=20
-> > [1]
-> >=20
-> > > +        return dev->pasid_ops->alloc_pasid(bus, devfn, min_pasid, ma=
-x_pasid);
->=20
-> Thanks,
-> Yi Liu
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836136
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  u-boot: any plans to update u-boot to v2019.07
 
---1XWsVB21DFCvn2e8
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  Just want to pulse about the plan to update u-boot binary to latest
+  v2019.07.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0mslQACgkQbDjKyiDZ
-s5Ll4RAAsJu80EXwInQoQipnmogNk7gVlfZBJqyD+3Ib85mIrnfk2vTqhs+Z/Z0N
-ytVwIvKYcHGD12/A8dKCBoJ9Dyr6Xb1veSKSdpcpIePNqWamWs+m2qIrvbP94QCU
-OsLS1uwyAm12MB4/tINkCbcoLCXYTFolNOpS10Iy3WB1aARNI1C8h02UbWQfPgGS
-lyYEmdjZ178Yh08bR8UYnHQFju8qavJVDmXf9u7bLrmHwwaI8SehNWxV4YBIfgVK
-eJUE/2HL4QwNX4pZpu+gKohunNc4pv1ZgQ3t61zFz1TRMW/H1x9K8hIlTgEG83ta
-2qcH3eIdrTEaTDtEdjBETTEgAZ2Ig9XeopXb7/HgI1JT3Lpg9xW+fhKXPZp+6Az/
-XxPt4zaGZXt1P3QEYSfpTw/Vhk2+9Pna+Cj7WbTK+ahHbZBVRXUGRmRX+jHuPCz/
-1YyQuhl+5omobHhUmNpOVestYnWgheq2WACgLtA3Isyo35FmEgLv/nNCPz2CmaLV
-+h3CWfXcyBUm03XegPAIJH2TxOumcmsZW9zFvjpjyucvPgb2IhCT5HaSv16nWwTM
-VRhL5eLeVRzfoXOS1hI99NsdVGeWP0Xtqj7aQdacMZUfysC9EJR4RzNwlGLyAT2s
-XzZ8M946yUCiRhziYCCZUVajA9fsvBxRJBCaFPnIXsnpbA1qV5M=
-=ete9
------END PGP SIGNATURE-----
-
---1XWsVB21DFCvn2e8--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836136/+subscriptions
 
