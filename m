@@ -2,50 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58AD65478
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:28:09 +0200 (CEST)
-Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969CD654C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 12:54:28 +0200 (CEST)
+Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlWJ7-0006M8-4s
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34722)
+	id 1hlWiZ-00016C-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 06:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hlWII-0005op-Ki
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:27:21 -0400
+ (envelope-from <bounces@canonical.com>) id 1hlWex-0004Yl-MN
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hlWIH-0003NR-EY
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:27:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46324)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlWIH-0003MU-8h
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:27:17 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 449CA307CDD1;
- Thu, 11 Jul 2019 10:27:16 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-45.brq.redhat.com [10.40.204.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BA7E5D71A;
- Thu, 11 Jul 2019 10:27:12 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 11 Jul 2019 12:27:10 +0200
-Message-Id: <20190711102710.2263-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hlWew-0004In-DD
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44360)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hlWew-0004HG-4o
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 06:50:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hlWeu-0005PO-Rc
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 10:50:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CCF7C2E8070
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 10:50:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 11 Jul 2019 10:27:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 11 Jul 2019 10:32:57 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156277131341.2267.3199507288563083183.malonedeb@wampee.canonical.com>
+Message-Id: <87ef2weu92.fsf@zen.linaroharston>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e644d64ca17236995bb00b17bc3a8068f3e3da64
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1] tests/docker: Install Sphinx in the
- Fedora image
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836078] Re: [PATCH for 4.1] target/arm: report
+ ARMv8.2 FP16 for ARM -cpu max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,42 +66,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1836078 <1836078@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 5f71eac06e the Sphinx tool is required
-to build the rST documentation.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-This fixes:
+> On 7/10/19 7:24 PM, Alex Benn=C3=A9e wrote:
+>> When we converted to using feature bits in 602f6e42cfbf we missed out
+>> the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
+>> -cpu max configurations. This caused a regression in the GCC test
+>> suite. Fix this by setting the appropriate FP16 bits in mvfr1.FPHP.
+>>
+>> Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  target/arm/cpu.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index e75a64a25a..0a0a202fe3 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
+>>              t =3D FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
+>>              cpu->isar.id_isar6 =3D t;
+>>
+>> +            t =3D cpu->isar.mvfr1;
+>> +            t =3D FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.2 FP16 */
+>
+> The comment is wrong.  This is not full v8.2 FP16 support (which would be=
+ value
+> 3, plus a change to SIMDHP), but v8.0 support for double<->half
+> conversions.
 
- $ ./configure --enable-docs
+Good catch - will fix in v2.
+>
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
 
- ERROR: User requested feature docs
-        configure was not able to find it.
-        Install texinfo, Perl/perl-podlators and python-sphinx
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/docker/dockerfiles/fedora.docker | 1 +
- 1 file changed, 1 insertion(+)
+--
+Alex Benn=C3=A9e
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
-files/fedora.docker
-index 619d1b5656..e6d39e14cb 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -76,6 +76,7 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     pixman-devel \
-     python3 \
-+    python3-sphinx \
-     PyYAML \
-     rdma-core-devel \
-     SDL2-devel \
---=20
-2.20.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836078
+
+Title:
+  Regressions on arm-linux-gnueabihf target with some GCC tests
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  After trying qemu master:
+  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
+  Merge: 68d7ff0 14f5d87
+  Author: Peter Maydell <email address hidden>
+  Date: Fri Jun 21 15:40:50 2019 +0100
+
+  even with the fix for https://bugs.launchpad.net/qemu/+bug/1834496,
+  I've noticed several regressions compared to qemu-3.1 when running the GC=
+C testsuite.
+  I'm attaching a tarball containing several GCC tests (binaries), needed s=
+hared libs, and a short script to run all the tests.
+
+  All tests used to pass w/o error, but with a recent qemu, all of them
+  make qemu crash.
+
+  This was noticed with GCC master configured with
+  --target arm-none-linux-gnueabihf
+  --with-cpu cortex-a57
+  --with-fpu crypto-neon-fp-armv8
+
+  Thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836078/+subscriptions
 
