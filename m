@@ -2,102 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7CE65E87
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:28:45 +0200 (CEST)
-Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE3C65E93
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:29:44 +0200 (CEST)
+Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlcs8-0002cA-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33453)
+	id 1hlct4-0004Rh-V1
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33704)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hlcrv-0002Ax-PK
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:28:32 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hlcsb-00036n-3V
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:29:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hlcru-00013V-Rb
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:28:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:52387)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hlcru-00012H-Im
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:28:30 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MLRgp-1i2KfW04LT-00IQXX; Thu, 11 Jul 2019 19:28:13 +0200
-To: qemu-devel@nongnu.org
-References: <20190711171556.3377-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <7b6221eb-2ea6-b0ec-f423-667933143a8f@vivier.eu>
-Date: Thu, 11 Jul 2019 19:28:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <eric.auger@redhat.com>) id 1hlcsZ-0001aR-E5
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:29:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59508)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hlcsV-0001VB-IK; Thu, 11 Jul 2019 13:29:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3E6E93083392;
+ Thu, 11 Jul 2019 17:29:06 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D62CB5C1B4;
+ Thu, 11 Jul 2019 17:28:53 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org
+Date: Thu, 11 Jul 2019 19:28:16 +0200
+Message-Id: <20190711172845.31035-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190711171556.3377-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ciU56i2nFxrLXe89umt4oJN5nEQOOnZSR9TzDW0F1wM658Rhz7A
- czUxwDMw2pEHPAQ6kw7H8tVLj04FXtp4vacCJpaclf/ro6DooOgdCPxGDgsAYpwXw5S0qtI
- XB/VRKpYpzZ6qvi2FWGP1X/E4UTiBozdBFG2nCCLIu7BJ5MOD23vGOgZ9J+MspSN1vA1B4H
- ryUp8VmeTeFTGK7bZV/cg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rdMhIgGVMk4=:QW56bkcNI6KGtuKxDLKwH/
- LKFpgLVrP3i+gdz0rwOXioddpItJwBCmgOHCORYUbNhp9N6Mx/CBDg+gopER8WsI0HT1tLNjE
- tduNet+y+67O0pOHq+C0kCJEc9ZiPG0PrkA7pjUMfF1fgwsFqnhWRzh41LllGWBZlqUId4nkY
- PBet4vbxis1DvGtjhZxn6enhXTk3DO+6nYh54yb3rSCSinLHbN73wAKxCeFPf2bKKUANHY0Cj
- lfKKouynZCwAJv0FlRpiYHj2KdVpPDmisy6ealLyMsrl6VVcdZIM/bd2G0/FmNcvmbwS9dmFY
- /j7ATWa5UlpSflG/1vFfp15vlS1uuSuB3IGsEhIktKexPlKR8rcjktuS2wHZYu7kJgkkmNcjm
- sBphYYSHQ18DbvWPvJtKiQh8f3swIZHI57+dSgKk7QDLHYeT29idApCjzDRI+AuiOW8Rw4BxH
- OiiAmAyOESkMS4jLa+f2aMBNvoPSuoYeiarpATjYdS2JikSjnpvi9TLYgNo7o18ULFnBeIi2C
- Hhd6vQUoi9Iqwt3e4CYn8JfVDQ9gL0x+0XdL4Su0gzljMSeCX7GuaOUIN3JJXV14bPm+HnvIz
- hchpq4O+u8tpw6+RWVof/mysECMiCio70+KDwN/e9q9hp290g3a+4NpaDaKjK8QDsgVRuBM9W
- cyWAiVk6o5IIlOj8VyFIejM0Ak3eegkYR6gBxyaCtk5iwpZU9UNXdhWCqIzvFbCtQw2mpnD+j
- 87WCaUGfNbVJv7oks4Q0KTuIW/11jlupoDx4LqfppMD2eH4RMD0BHD1JufA=
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 11 Jul 2019 17:29:06 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: Re: [Qemu-devel] [PATCH v3] linux-user: fix to handle variably
- sized SIOCGSTAMP with new kernels
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [RFC v4 00/29] vSMMUv3/pSMMUv3 2 stage VFIO integration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,47 +54,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>, Gerhard Stenzel <gerhard.stenzel@de.ibm.com>,
- Riku Voipio <riku.voipio@iki.fi>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
+ jean-philippe.brucker@arm.com, zhangfei.gao@foxmail.com, peterx@redhat.com,
+ alex.williamson@redhat.com, vincent.stehle@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/07/2019 à 19:15, Laurent Vivier a écrit :
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index b98a23b0f1b0..584087301edc 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -20,6 +20,12 @@ STRUCT(timeval,
->  STRUCT(timespec,
->         MK_ARRAY(TYPE_LONG, 2))
->  
-> +STRUCT(timeval64,
-> +       MK_ARRAY(TYPE_LONGLONG, 2))
-> +
-> +STRUCT(timespec64,
-> +       MK_ARRAY(TYPE_LONGLONG, 2))
-> +
+Up to now vSMMUv3 has not been integrated with VFIO. VFIO
+integration requires to program the physical IOMMU consistently
+with the guest mappings. However, as opposed to VTD, SMMUv3 has
+no "Caching Mode" which allows easy trapping of guest mappings.
+This means the vSMMUV3 cannot use the same VFIO integration as VTD.
 
-kernel type is:
+However SMMUv3 has 2 translation stages. This was devised with
+virtualization use case in mind where stage 1 is "owned" by the
+guest whereas the host uses stage 2 for VM isolation.
 
-typedef __s64 time64_t;
-struct timespec64 {
-        time64_t        tv_sec;                 /* seconds */
-        long            tv_nsec;                /* nanoseconds */
-};
+This series sets up this nested translation stage. It only works
+if there is one physical SMMUv3 used along with QEMU vSMMUv3 (in
+other words, it does not work if there is a physical SMMUv2).
 
-So the definitions from v2 were good:
+The series uses a new kernel user API [1] not yet upstream.
 
-STRUCT(timeval64, TYPE_LONGLONG, TYPE_LONG)
-STRUCT(timespec64, TYPE_LONGLONG, TYPE_LONG)
+- We force the host to use stage 2 instead of stage 1, when we
+  detect a vSMMUV3 is behind a VFIO device. For a VFIO device
+  without any virtual IOMMU, we still use stage 1 as many existing
+  SMMUs expect this behavior.
+- We use PCIPASIDOps to propage guest stage1 config changes on
+  STE (Stream Table Entry) changes.
+- We implement a specific UNMAP notifier that conveys guest
+  IOTLB invalidations to the host
+- We register MSI IOVA/GPA bindings to the host so that this latter
+  can build a nested stage translation
+- As the legacy MAP notifier is not called anymore, we must make
+  sure stage 2 mappings are set. This is achieved through another
+  prereg memory listener.
+- Physical SMMU stage 1 related faults are reported to the guest
+  via en eventfd mechanism and exposed trhough a dedicated VFIO-PCI
+  region. Then they are reinjected into the guest.
 
-kernel uses the same type for timeval and timespec.
+Best Regards
 
-I send a v4.
+Eric
 
-Thanks,
-Laurent
+This series can be found at:
+https://github.com/eauger/qemu/tree/v4.1.0-rc0-2stage-rfcv5
+
+Kernel Dependencies:
+[1] [PATCH v9 00/11] SMMUv3 Nested Stage Setup (VFIO part)
+[2] [PATCH v9 00/14] SMMUv3 Nested Stage Setup (IOMMU part)
+branch at: https://github.com/eauger/linux/tree/v5.3.0-rc0-2stage-v9
+
+Includes fixes sent separately:
+[3] [PATCH-for-4.2 v3 0/5] ARM SMMUv3: Fix spurious notification
+    errors and assert with vfio: in case of any comment on those
+    patches, please comment the other series.
+
+History:
+
+v4 -> v5:
+- Use PCIPASIDOps for config update notifications
+- removal of notification for MSI binding which is not needed
+  anymore
+- Uses fixes in [3]
+- Use a single fault region
+- use the specific interrupt index
+
+v3 -> v4:
+- adapt to changes in uapi (asid cache invalidation)
+- check VFIO_PCI_DMA_FAULT_IRQ_INDEX is supported at kernel level
+  before attempting to set signaling for it.
+- sync on 5.2-rc1 kernel headers + Drew's patch that imports sve_context.=
+h
+- fix MSI binding for MSI (not MSIX)
+- fix mingw compilation
+
+v2 -> v3:
+- rework fault handling
+- MSI binding registration done in vfio-pci. MSI binding tear down called
+  on container cleanup path
+- leaf parameter propagated
+
+v1 -> v2:
+- Fixed dual assignment (asid now correctly propagated on TLB invalidatio=
+ns)
+- Integrated fault reporting
+
+Andrew Jones (1):
+  update-linux-headers: Add sve_context.h to asm-arm64
+
+Eric Auger (27):
+  memory: Remove unused memory_region_iommu_replay_all()
+  memory: Add IOMMU_ATTR_VFIO_NESTED IOMMU memory region attribute
+  hw/vfio/common: Assert in case of nested mode
+  hw/arm/smmuv3: Log a guest error when decoding an invalid STE
+  hw/arm/smmuv3: Remove spurious error messages on IOVA invalidations
+  update-linux-headers: Import iommu.h
+  header update against 5.3.0-rc0 and IOMMU/VFIO nested stage APIs
+  memory: Add IOMMU_ATTR_MSI_TRANSLATE IOMMU memory region attribute
+  memory: Introduce IOMMU Memory Region inject_faults API
+  memory: Add arch_id and leaf fields in IOTLBEntry
+  iommu: Introduce generic header
+  vfio: Force nested if iommu requires it
+  vfio: Introduce hostwin_from_range helper
+  vfio: Introduce helpers to DMA map/unmap a RAM section
+  vfio: Set up nested stage mappings
+  vfio: Pass stage 1 MSI bindings to the host
+  vfio: Helper to get IRQ info including capabilities
+  vfio/pci: Register handler for iommu fault
+  vfio/pci: Set up the DMA FAULT region
+  vfio/pci: Implement the DMA fault handler
+  hw/arm/smmuv3: Advertise MSI_TRANSLATE attribute
+  hw/arm/smmuv3: Store the PASID table GPA in the translation config
+  hw/arm/smmuv3: Fill the IOTLBEntry arch_id on NH_VA invalidation
+  hw/arm/smmuv3: Fill the IOTLBEntry leaf field on NH_VA invalidation
+  hw/arm/smmuv3: Pass stage 1 configurations to the host
+  hw/arm/smmuv3: Implement fault injection
+  vfio: Remove VFIO/SMMUv3 assert
+
+Liu Yi L (1):
+  pci: introduce PCIPASIDOps to PCIDevice
+
+ hw/arm/smmuv3-internal.h                     |   1 +
+ hw/arm/smmuv3.c                              | 195 +++++--
+ hw/arm/trace-events                          |   3 +-
+ hw/pci/pci.c                                 |  34 ++
+ hw/vfio/common.c                             | 517 +++++++++++++++----
+ hw/vfio/pci.c                                | 267 +++++++++-
+ hw/vfio/pci.h                                |   9 +
+ hw/vfio/trace-events                         |   9 +-
+ include/exec/memory.h                        |  59 ++-
+ include/hw/arm/smmu-common.h                 |   1 +
+ include/hw/iommu/iommu.h                     |  28 +
+ include/hw/pci/pci.h                         |  11 +
+ include/hw/vfio/vfio-common.h                |  16 +
+ include/standard-headers/asm-x86/bootparam.h |   2 +
+ include/standard-headers/linux/virtio_ids.h  |   1 -
+ include/standard-headers/linux/virtio_pmem.h |  34 --
+ linux-headers/asm-arm/unistd-common.h        |   1 +
+ linux-headers/asm-arm64/kvm.h                |   7 +
+ linux-headers/asm-generic/unistd.h           |   4 +-
+ linux-headers/asm-mips/unistd_n32.h          |   1 +
+ linux-headers/asm-mips/unistd_n64.h          |   1 +
+ linux-headers/asm-mips/unistd_o32.h          |   1 +
+ linux-headers/asm-powerpc/unistd_32.h        |   1 +
+ linux-headers/asm-powerpc/unistd_64.h        |   1 +
+ linux-headers/asm-s390/unistd_32.h           |   1 +
+ linux-headers/asm-s390/unistd_64.h           |   1 +
+ linux-headers/asm-x86/kvm.h                  |   6 +-
+ linux-headers/asm-x86/unistd_32.h            |   1 +
+ linux-headers/asm-x86/unistd_64.h            |   1 +
+ linux-headers/asm-x86/unistd_x32.h           |   1 +
+ linux-headers/linux/iommu.h                  | 316 ++++++++++++
+ linux-headers/linux/psp-sev.h                |   5 +-
+ linux-headers/linux/vfio.h                   | 109 +++-
+ memory.c                                     |  19 +-
+ scripts/update-linux-headers.sh              |   5 +-
+ 35 files changed, 1462 insertions(+), 207 deletions(-)
+ create mode 100644 include/hw/iommu/iommu.h
+ delete mode 100644 include/standard-headers/linux/virtio_pmem.h
+ create mode 100644 linux-headers/linux/iommu.h
+
+--=20
+2.20.1
+
 
