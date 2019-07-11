@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B2265F55
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:08:48 +0200 (CEST)
-Received: from localhost ([::1]:43902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8744365F4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 20:04:37 +0200 (CEST)
+Received: from localhost ([::1]:43944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlcwA-0007PQ-77
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1hlcwz-0001rc-3B
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34491)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hlctd-0007eM-3n
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:30:18 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hlcuT-0002Bh-0H
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:31:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hlctb-0002ZY-V3
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:30:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33590)
+ (envelope-from <eric.auger@redhat.com>) id 1hlcuQ-0003KV-GB
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:31:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:9467)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hlctY-0002Wx-3E; Thu, 11 Jul 2019 13:30:12 -0400
+ id 1hlcuM-0003GB-D9; Thu, 11 Jul 2019 13:31:02 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4FDC2307D915;
- Thu, 11 Jul 2019 17:30:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D79944E90E;
+ Thu, 11 Jul 2019 17:31:00 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E54EF5C1B4;
- Thu, 11 Jul 2019 17:30:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE1655C1B4;
+ Thu, 11 Jul 2019 17:30:57 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:28:26 +0200
-Message-Id: <20190711172845.31035-11-eric.auger@redhat.com>
+Date: Thu, 11 Jul 2019 19:28:31 +0200
+Message-Id: <20190711172845.31035-16-eric.auger@redhat.com>
 In-Reply-To: <20190711172845.31035-1-eric.auger@redhat.com>
 References: <20190711172845.31035-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 11 Jul 2019 17:30:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Thu, 11 Jul 2019 17:31:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v4 10/29] memory: Introduce IOMMU Memory Region
- inject_faults API
+Subject: [Qemu-devel] [RFC v4 15/29] vfio: Introduce hostwin_from_range
+ helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,89 +62,93 @@ Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new API allows to inject @count iommu_faults into
-the IOMMU memory region.
+Let's introduce a hostwin_from_range() helper that returns the
+hostwin encapsulating an IOVA range or NULL if non is found.
+
+This improves the readibility of callers and removes the usage
+of hostwin_found.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/exec/memory.h | 25 +++++++++++++++++++++++++
- memory.c              | 10 ++++++++++
- 2 files changed, 35 insertions(+)
+ hw/vfio/common.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 593ef947c6..d0de192887 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -54,6 +54,8 @@ struct MemoryRegionMmio {
-     CPUWriteMemoryFunc *write[3];
- };
-=20
-+struct iommu_fault;
-+
- typedef struct IOMMUTLBEntry IOMMUTLBEntry;
-=20
- /* See address_space_translate: bit 0 is read, bit 1 is write.  */
-@@ -342,6 +344,19 @@ typedef struct IOMMUMemoryRegionClass {
-      * @iommu: the IOMMUMemoryRegion
-      */
-     int (*num_indexes)(IOMMUMemoryRegion *iommu);
-+
-+    /*
-+     * Inject @count faults into the IOMMU memory region
-+     *
-+     * Optional method: if this method is not provided, then
-+     * memory_region_injection_faults() will return -ENOENT
-+     *
-+     * @iommu: the IOMMU memory region to inject the faults in
-+     * @count: number of faults to inject
-+     * @buf: fault buffer
-+     */
-+    int (*inject_faults)(IOMMUMemoryRegion *iommu, int count,
-+                         struct iommu_fault *buf);
- } IOMMUMemoryRegionClass;
-=20
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
-@@ -1123,6 +1138,16 @@ int memory_region_iommu_attrs_to_index(IOMMUMemory=
-Region *iommu_mr,
-  */
- int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
-=20
-+/**
-+ * memory_region_inject_faults : inject @count faults stored in @buf
-+ *
-+ * @iommu_mr: the IOMMU memory region
-+ * @count: number of faults to be injected
-+ * @buf: buffer containing the faults
-+ */
-+int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
-+                                struct iommu_fault *buf);
-+
- /**
-  * memory_region_name: get a memory region's name
-  *
-diff --git a/memory.c b/memory.c
-index 90967b579d..d81525fe11 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2000,6 +2000,16 @@ int memory_region_iommu_num_indexes(IOMMUMemoryReg=
-ion *iommu_mr)
-     return imrc->num_indexes(iommu_mr);
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 46a1a089a4..81d29ce908 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -497,6 +497,19 @@ out:
+     rcu_read_unlock();
  }
 =20
-+int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
-+                                struct iommu_fault *buf)
++static VFIOHostDMAWindow *
++hostwin_from_range(VFIOContainer *container, hwaddr iova, hwaddr end)
 +{
-+    IOMMUMemoryRegionClass *imrc =3D IOMMU_MEMORY_REGION_GET_CLASS(iommu=
-_mr);
-+    if (!imrc->inject_faults) {
-+        return -ENOENT;
++    VFIOHostDMAWindow *hostwin;
++
++    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
++        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
++            return hostwin;
++        }
 +    }
-+    return imrc->inject_faults(iommu_mr, count, buf);
++    return NULL;
 +}
 +
- void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
  {
-     uint8_t mask =3D 1 << client;
+@@ -506,7 +519,6 @@ static void vfio_listener_region_add(MemoryListener *=
+listener,
+     void *vaddr;
+     int ret;
+     VFIOHostDMAWindow *hostwin;
+-    bool hostwin_found;
+=20
+     if (vfio_listener_skipped_section(section)) {
+         trace_vfio_listener_region_add_skip(
+@@ -583,15 +595,8 @@ static void vfio_listener_region_add(MemoryListener =
+*listener,
+ #endif
+     }
+=20
+-    hostwin_found =3D false;
+-    QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-        if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iova) {
+-            hostwin_found =3D true;
+-            break;
+-        }
+-    }
+-
+-    if (!hostwin_found) {
++    hostwin =3D hostwin_from_range(container, iova, end);
++    if (!hostwin) {
+         error_report("vfio: IOMMU container %p can't map guest IOVA regi=
+on"
+                      " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx,
+                      container, iova, end);
+@@ -763,16 +768,9 @@ static void vfio_listener_region_del(MemoryListener =
+*listener,
+=20
+     if (memory_region_is_ram_device(section->mr)) {
+         hwaddr pgmask;
+-        VFIOHostDMAWindow *hostwin;
+-        bool hostwin_found =3D false;
++        VFIOHostDMAWindow *hostwin =3D hostwin_from_range(container, iov=
+a, end);
+=20
+-        QLIST_FOREACH(hostwin, &container->hostwin_list, hostwin_next) {
+-            if (hostwin->min_iova <=3D iova && end <=3D hostwin->max_iov=
+a) {
+-                hostwin_found =3D true;
+-                break;
+-            }
+-        }
+-        assert(hostwin_found); /* or region_add() would have failed */
++        assert(hostwin); /* or region_add() would have failed */
+=20
+         pgmask =3D (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+         try_unmap =3D !((iova & pgmask) || (int128_get64(llsize) & pgmas=
+k));
 --=20
 2.20.1
 
