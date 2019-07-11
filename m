@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA0B65EBE
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:36:39 +0200 (CEST)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F44F65ED8
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:42:28 +0200 (CEST)
+Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlczj-0005Uv-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36485)
+	id 1hlcwC-0007rl-9v
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hlczN-0004VB-Fn
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:36:16 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hlcuI-0001eH-KX
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:31:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hlczB-0008FY-1x
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:36:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46722)
+ (envelope-from <eric.auger@redhat.com>) id 1hlcuG-0003Cu-DA
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:30:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58606)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hlcz0-00085W-3o; Thu, 11 Jul 2019 13:35:50 -0400
+ id 1hlcuB-00038q-PU; Thu, 11 Jul 2019 13:30:52 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 59D6587638;
- Thu, 11 Jul 2019 17:35:45 +0000 (UTC)
-Received: from [10.36.116.46] (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D7C5C207;
- Thu, 11 Jul 2019 17:35:35 +0000 (UTC)
-To: eric.auger.pro@gmail.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- peter.maydell@linaro.org
-References: <20190711172845.31035-1-eric.auger@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <5b8bf522-b87c-f18e-1154-a3d0ae3741c7@redhat.com>
-Date: Thu, 11 Jul 2019 19:35:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 0C977309174E;
+ Thu, 11 Jul 2019 17:30:51 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16D265C1B4;
+ Thu, 11 Jul 2019 17:30:38 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org
+Date: Thu, 11 Jul 2019 19:28:29 +0200
+Message-Id: <20190711172845.31035-14-eric.auger@redhat.com>
 In-Reply-To: <20190711172845.31035-1-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190711172845.31035-1-eric.auger@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 11 Jul 2019 17:35:45 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 11 Jul 2019 17:30:51 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC v4 00/29] vSMMUv3/pSMMUv3 2 stage VFIO
- integration
+Subject: [Qemu-devel] [RFC v4 13/29] pci: introduce PCIPASIDOps to PCIDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,166 +61,146 @@ Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Liu Yi L <yi.l.liu@intel.com>
 
-On 7/11/19 7:28 PM, Eric Auger wrote:
-> Up to now vSMMUv3 has not been integrated with VFIO. VFIO
-> integration requires to program the physical IOMMU consistently
-> with the guest mappings. However, as opposed to VTD, SMMUv3 has
-> no "Caching Mode" which allows easy trapping of guest mappings.
-> This means the vSMMUV3 cannot use the same VFIO integration as VTD.
-> 
-> However SMMUv3 has 2 translation stages. This was devised with
-> virtualization use case in mind where stage 1 is "owned" by the
-> guest whereas the host uses stage 2 for VM isolation.
-> 
-> This series sets up this nested translation stage. It only works
-> if there is one physical SMMUv3 used along with QEMU vSMMUv3 (in
-> other words, it does not work if there is a physical SMMUv2).
-> 
-> The series uses a new kernel user API [1] not yet upstream.
-> 
-> - We force the host to use stage 2 instead of stage 1, when we
->   detect a vSMMUV3 is behind a VFIO device. For a VFIO device
->   without any virtual IOMMU, we still use stage 1 as many existing
->   SMMUs expect this behavior.
-> - We use PCIPASIDOps to propage guest stage1 config changes on
->   STE (Stream Table Entry) changes.
-> - We implement a specific UNMAP notifier that conveys guest
->   IOTLB invalidations to the host
-> - We register MSI IOVA/GPA bindings to the host so that this latter
->   can build a nested stage translation
-> - As the legacy MAP notifier is not called anymore, we must make
->   sure stage 2 mappings are set. This is achieved through another
->   prereg memory listener.
-> - Physical SMMU stage 1 related faults are reported to the guest
->   via en eventfd mechanism and exposed trhough a dedicated VFIO-PCI
->   region. Then they are reinjected into the guest.
-> 
-> Best Regards
-> 
-> Eric
-> 
-> This series can be found at:
-> https://github.com/eauger/qemu/tree/v4.1.0-rc0-2stage-rfcv5
-Please forgive me. This is the v5 of the RFC. Resending it with the
-correct prefix ...
+This patch introduces PCIPASIDOps for IOMMU related operations.
 
-Sorry for the spam :-(
+https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00078.html
+https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00940.html
 
-Eric
-> 
-> Kernel Dependencies:
-> [1] [PATCH v9 00/11] SMMUv3 Nested Stage Setup (VFIO part)
-> [2] [PATCH v9 00/14] SMMUv3 Nested Stage Setup (IOMMU part)
-> branch at: https://github.com/eauger/linux/tree/v5.3.0-rc0-2stage-v9
-> 
-> Includes fixes sent separately:
-> [3] [PATCH-for-4.2 v3 0/5] ARM SMMUv3: Fix spurious notification
->     errors and assert with vfio: in case of any comment on those
->     patches, please comment the other series.
-> 
-> History:
-> 
-> v4 -> v5:
-> - Use PCIPASIDOps for config update notifications
-> - removal of notification for MSI binding which is not needed
->   anymore
-> - Uses fixes in [3]
-> - Use a single fault region
-> - use the specific interrupt index
-> 
-> v3 -> v4:
-> - adapt to changes in uapi (asid cache invalidation)
-> - check VFIO_PCI_DMA_FAULT_IRQ_INDEX is supported at kernel level
->   before attempting to set signaling for it.
-> - sync on 5.2-rc1 kernel headers + Drew's patch that imports sve_context.h
-> - fix MSI binding for MSI (not MSIX)
-> - fix mingw compilation
-> 
-> v2 -> v3:
-> - rework fault handling
-> - MSI binding registration done in vfio-pci. MSI binding tear down called
->   on container cleanup path
-> - leaf parameter propagated
-> 
-> v1 -> v2:
-> - Fixed dual assignment (asid now correctly propagated on TLB invalidations)
-> - Integrated fault reporting
-> 
-> Andrew Jones (1):
->   update-linux-headers: Add sve_context.h to asm-arm64
-> 
-> Eric Auger (27):
->   memory: Remove unused memory_region_iommu_replay_all()
->   memory: Add IOMMU_ATTR_VFIO_NESTED IOMMU memory region attribute
->   hw/vfio/common: Assert in case of nested mode
->   hw/arm/smmuv3: Log a guest error when decoding an invalid STE
->   hw/arm/smmuv3: Remove spurious error messages on IOVA invalidations
->   update-linux-headers: Import iommu.h
->   header update against 5.3.0-rc0 and IOMMU/VFIO nested stage APIs
->   memory: Add IOMMU_ATTR_MSI_TRANSLATE IOMMU memory region attribute
->   memory: Introduce IOMMU Memory Region inject_faults API
->   memory: Add arch_id and leaf fields in IOTLBEntry
->   iommu: Introduce generic header
->   vfio: Force nested if iommu requires it
->   vfio: Introduce hostwin_from_range helper
->   vfio: Introduce helpers to DMA map/unmap a RAM section
->   vfio: Set up nested stage mappings
->   vfio: Pass stage 1 MSI bindings to the host
->   vfio: Helper to get IRQ info including capabilities
->   vfio/pci: Register handler for iommu fault
->   vfio/pci: Set up the DMA FAULT region
->   vfio/pci: Implement the DMA fault handler
->   hw/arm/smmuv3: Advertise MSI_TRANSLATE attribute
->   hw/arm/smmuv3: Store the PASID table GPA in the translation config
->   hw/arm/smmuv3: Fill the IOTLBEntry arch_id on NH_VA invalidation
->   hw/arm/smmuv3: Fill the IOTLBEntry leaf field on NH_VA invalidation
->   hw/arm/smmuv3: Pass stage 1 configurations to the host
->   hw/arm/smmuv3: Implement fault injection
->   vfio: Remove VFIO/SMMUv3 assert
-> 
-> Liu Yi L (1):
->   pci: introduce PCIPASIDOps to PCIDevice
-> 
->  hw/arm/smmuv3-internal.h                     |   1 +
->  hw/arm/smmuv3.c                              | 195 +++++--
->  hw/arm/trace-events                          |   3 +-
->  hw/pci/pci.c                                 |  34 ++
->  hw/vfio/common.c                             | 517 +++++++++++++++----
->  hw/vfio/pci.c                                | 267 +++++++++-
->  hw/vfio/pci.h                                |   9 +
->  hw/vfio/trace-events                         |   9 +-
->  include/exec/memory.h                        |  59 ++-
->  include/hw/arm/smmu-common.h                 |   1 +
->  include/hw/iommu/iommu.h                     |  28 +
->  include/hw/pci/pci.h                         |  11 +
->  include/hw/vfio/vfio-common.h                |  16 +
->  include/standard-headers/asm-x86/bootparam.h |   2 +
->  include/standard-headers/linux/virtio_ids.h  |   1 -
->  include/standard-headers/linux/virtio_pmem.h |  34 --
->  linux-headers/asm-arm/unistd-common.h        |   1 +
->  linux-headers/asm-arm64/kvm.h                |   7 +
->  linux-headers/asm-generic/unistd.h           |   4 +-
->  linux-headers/asm-mips/unistd_n32.h          |   1 +
->  linux-headers/asm-mips/unistd_n64.h          |   1 +
->  linux-headers/asm-mips/unistd_o32.h          |   1 +
->  linux-headers/asm-powerpc/unistd_32.h        |   1 +
->  linux-headers/asm-powerpc/unistd_64.h        |   1 +
->  linux-headers/asm-s390/unistd_32.h           |   1 +
->  linux-headers/asm-s390/unistd_64.h           |   1 +
->  linux-headers/asm-x86/kvm.h                  |   6 +-
->  linux-headers/asm-x86/unistd_32.h            |   1 +
->  linux-headers/asm-x86/unistd_64.h            |   1 +
->  linux-headers/asm-x86/unistd_x32.h           |   1 +
->  linux-headers/linux/iommu.h                  | 316 ++++++++++++
->  linux-headers/linux/psp-sev.h                |   5 +-
->  linux-headers/linux/vfio.h                   | 109 +++-
->  memory.c                                     |  19 +-
->  scripts/update-linux-headers.sh              |   5 +-
->  35 files changed, 1462 insertions(+), 207 deletions(-)
->  create mode 100644 include/hw/iommu/iommu.h
->  delete mode 100644 include/standard-headers/linux/virtio_pmem.h
->  create mode 100644 linux-headers/linux/iommu.h
-> 
+So far, to setup virt-SVA for assigned SVA capable device, needs to
+configure host translation structures for specific pasid. (e.g. bind
+guest page table to host and enable nested translation in host).
+Besides, vIOMMU emulator needs to forward guest's cache invalidation
+to host since host nested translation is enabled. e.g. on VT-d, guest
+owns 1st level translation table, thus cache invalidation for 1st
+level should be propagated to host.
+
+This patch adds two functions: alloc_pasid and free_pasid to support
+guest pasid allocation and free. The implementations of the callbacks
+would be device passthru modules. Like vfio.
+
+Cc: Kevin Tian <kevin.tian@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Yi Sun <yi.y.sun@linux.intel.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+---
+ hw/pci/pci.c             | 34 ++++++++++++++++++++++++++++++++++
+ include/hw/iommu/iommu.h |  3 +++
+ include/hw/pci/pci.h     | 11 +++++++++++
+ 3 files changed, 48 insertions(+)
+
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 8076a80ab3..43c0cef2f6 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2626,6 +2626,40 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn,=
+ void *opaque)
+     bus->iommu_opaque =3D opaque;
+ }
+=20
++void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
++{
++    assert(ops && !dev->pasid_ops);
++    dev->pasid_ops =3D ops;
++}
++
++bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn)
++{
++    PCIDevice *dev;
++
++    if (!bus) {
++        return false;
++    }
++
++    dev =3D bus->devices[devfn];
++    return !!(dev && dev->pasid_ops);
++}
++
++int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn,
++                               IOMMUConfig *config)
++{
++    PCIDevice *dev;
++
++    if (!bus) {
++        return -EINVAL;
++    }
++
++    dev =3D bus->devices[devfn];
++    if (dev && dev->pasid_ops && dev->pasid_ops->set_pasid_table) {
++        return dev->pasid_ops->set_pasid_table(bus, devfn, config);
++    }
++    return -ENOENT;
++}
++
+ static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ {
+     Range *range =3D opaque;
+diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
+index 9e60ece160..12092bda7b 100644
+--- a/include/hw/iommu/iommu.h
++++ b/include/hw/iommu/iommu.h
+@@ -12,6 +12,9 @@
+=20
+ #ifndef QEMU_HW_IOMMU_IOMMU_H
+ #define QEMU_HW_IOMMU_IOMMU_H
++#ifdef __linux__
++#include <linux/iommu.h>
++#endif
+=20
+ typedef struct IOMMUConfig {
+     union {
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index aaf1b9f70d..84be2847a5 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -9,6 +9,7 @@
+ #include "hw/isa/isa.h"
+=20
+ #include "hw/pci/pcie.h"
++#include "hw/iommu/iommu.h"
+=20
+ extern bool pci_available;
+=20
+@@ -263,6 +264,11 @@ struct PCIReqIDCache {
+ };
+ typedef struct PCIReqIDCache PCIReqIDCache;
+=20
++typedef struct PCIPASIDOps PCIPASIDOps;
++struct PCIPASIDOps {
++    int (*set_pasid_table)(PCIBus *bus, int32_t devfn, IOMMUConfig *conf=
+ig);
++};
++
+ struct PCIDevice {
+     DeviceState qdev;
+=20
+@@ -352,6 +358,7 @@ struct PCIDevice {
+     MSIVectorUseNotifier msix_vector_use_notifier;
+     MSIVectorReleaseNotifier msix_vector_release_notifier;
+     MSIVectorPollNotifier msix_vector_poll_notifier;
++    PCIPASIDOps *pasid_ops;
+ };
+=20
+ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+@@ -485,6 +492,10 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void=
+ *, int);
+ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
+ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
+=20
++void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops);
++bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn);
++int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn, IOMMUConfig *=
+config);
++
+ static inline void
+ pci_set_byte(uint8_t *config, uint8_t val)
+ {
+--=20
+2.20.1
+
 
