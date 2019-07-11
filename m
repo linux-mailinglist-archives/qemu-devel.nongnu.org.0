@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5940365EBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:36:11 +0200 (CEST)
-Received: from localhost ([::1]:44064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E985165EB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:35:45 +0200 (CEST)
+Received: from localhost ([::1]:44050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlczK-0003ki-9W
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35329)
+	id 1hlcyu-0001rK-QI
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35165)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hlcw7-0008T4-Mt
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:32:52 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hlcvt-0007cL-FW
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:32:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hlcw6-00057z-NP
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:32:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60038)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hlcw1-0004zF-JV; Thu, 11 Jul 2019 13:32:45 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49E2F59441;
- Thu, 11 Jul 2019 17:32:43 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B84325C69A;
- Thu, 11 Jul 2019 17:32:37 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:28:45 +0200
-Message-Id: <20190711172845.31035-30-eric.auger@redhat.com>
-In-Reply-To: <20190711172845.31035-1-eric.auger@redhat.com>
-References: <20190711172845.31035-1-eric.auger@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1hlcvr-0004p6-6H
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:32:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:37093)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hlcvh-0004hb-Rz
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:32:29 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MgNlB-1iPdEG3sit-00hyp8; Thu, 11 Jul 2019 19:31:36 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Thu, 11 Jul 2019 19:31:31 +0200
+Message-Id: <20190711173131.6347-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 11 Jul 2019 17:32:43 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:irDBY3lKpqMm4kQULaUpwNULwAoFOXl1ZvCc01qqlQGCwriSy2p
+ JV7U6lZ2fCoowevgQs4o6tJHPjhypOZl0IUDqtwWWbVL3dcqN6VKAE2kPqOc7VcWB5AePdY
+ +jzog6I+sNUsgtsiQrts9phXpiwytzA16oxsew8IPEvk1HQjtSoJW1TcV9NQCRUpx3qCpVA
+ jXkVy8CGs43oDg+tUxbdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wNYGzXuqHm0=:06UrCYMqUACcEBOxpnNoIF
+ oo9dbBogh9omV8WqzTje02x2FJ4uqIrfcJIKQhBuMHgy5iTuSVR//HqP8zPMobUhr8kEpEgHC
+ D2CM0krOi8jVVG8IcKwO5q3Wc0HtCow/YMkzDKJ8+jasRcQj5mKBwglJEpFNJjAff2lIP6XFN
+ +5pdWDOlcHUXLFsZ2vyD1n8uWoDYiOU1O3GI1WGvVgz249EVOxDGNhKK1f24mmfrsh7UHui2V
+ ZmdtkRQiJ7nLvlvHfek6F2YAHG/tGo06PrSFS+LRdjHQE8HVbk3s/jFvePF/GKL0iFHDNpQJv
+ uzq5ACODN0k3iUR22Sggx9UoiC94FxZ3aEtr6nwlY9ekupEtSGMDg4KaJaLCk0YQEGNWpkfx+
+ o9rPxb5CBJIY07DjUvCatiJ5Cxen3ISQHZx1YQR6JzF+5gkxXJc0wwwvBdo7/1IT9wEObYH7w
+ Lwwx3mwdgjSnjwzk0sJFMzpUS9+Y0uo8xa+nTtPoMb69uhieMfXbJpzB8CiTBLlZoDp5lXcvc
+ njgilUpyyuB9sqD3vjXMI2x/I8I62DXwHTxKlO3pqk5lt3ybeuTtcm52mKHde9DwT3rZdUyHx
+ rvYOFA2Lzk7FR86qZzlmDr/R7THl4jYaNT2t7VYQI2wQN949AblDI9PS3g8FzSOmV9In4xUGo
+ o0/17S6QosynpSgIb8rKQkU7DQFEjnrJSCWmOARR9lzOdFn6z0XUQNYwXFz+Igb+T4N/YrzQV
+ XRW//kYUurDWGTXHM2CH4uy42DfJoSo7EkXit0xi1+zjPnlDdKOAOlJ25gw=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v4 29/29] vfio: Remove VFIO/SMMUv3 assert
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PATCH v4] linux-user: fix to handle variably sized
+ SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,46 +62,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
- jean-philippe.brucker@arm.com, zhangfei.gao@foxmail.com, peterx@redhat.com,
- alex.williamson@redhat.com, vincent.stehle@arm.com
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Gerhard Stenzel <gerhard.stenzel@de.ibm.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now all the bricks are there, let allow VFIO/SMMUv3 use case.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+The SIOCGSTAMP symbol was previously defined in the
+asm-generic/sockios.h header file. QEMU sees that header
+indirectly via sys/socket.h
+
+In linux kernel commit 0768e17073dc527ccd18ed5f96ce85f9985e9115
+the asm-generic/sockios.h header no longer defines SIOCGSTAMP.
+Instead it provides only SIOCGSTAMP_OLD, which only uses a
+32-bit time_t on 32-bit architectures.
+
+The linux/sockios.h header then defines SIOCGSTAMP using
+either SIOCGSTAMP_OLD or SIOCGSTAMP_NEW as appropriate. If
+SIOCGSTAMP_NEW is used, then the tv_sec field is 64-bit even
+on 32-bit architectures
+
+To cope with this we must now define two separate syscalls,
+with corresponding old and new sizes, as well as including
+the new linux/sockios.h header.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/vfio/common.c | 8 --------
- 1 file changed, 8 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 8a2d201058..c849b084bf 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -834,17 +834,9 @@ static void vfio_listener_region_add(MemoryListener =
-*listener,
-         IOMMUNotify notify;
-         VFIOGuestIOMMU *giommu;
-         IOMMUMemoryRegion *iommu_mr =3D IOMMU_MEMORY_REGION(section->mr)=
-;
--        bool nested;
-         int iommu_idx, flags;
-=20
-         trace_vfio_listener_region_add_iommu(iova, end);
--
--        if (!memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NEST=
-ED,
--                                          (void *)&nested) && nested) {
--            error_report("VFIO/vIOMMU integration based on HW nested pag=
-ing "
--                         "is not yet supported");
--            abort();
--        }
-         /*
-          * FIXME: For VFIO iommu types which have KVM acceleration to
-          * avoid bouncing all map/unmaps through qemu this way, this
---=20
-2.20.1
+Notes:
+    v4: [lv] timeval64 and timespec64 are { long long , long }
+    
+    v3: [lv] redefine TARGET_SIOCGSTAMP_NEW, TARGET_SIOCGSTAMPNS_NEW,
+        timeval64 and timespec64 to use 0x89 type and abi_llong[2]
+    
+    v2: [dpb] implement _NEW and _OLD variants
+
+ linux-user/ioctls.h        | 15 +++++++++++++++
+ linux-user/syscall.c       |  1 +
+ linux-user/syscall_defs.h  |  4 ++++
+ linux-user/syscall_types.h |  4 ++++
+ 4 files changed, 24 insertions(+)
+
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 5e84dc7c3a77..5a6d6def7e3f 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -222,8 +222,23 @@
+   IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq)))
+   IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
+   IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
++
++#ifdef SIOCGSTAMP_OLD
++  IOCTL(SIOCGSTAMP_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
++#else
+   IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
++#endif
++#ifdef SIOCGSTAMPNS_OLD
++  IOCTL(SIOCGSTAMPNS_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
++#else
+   IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
++#endif
++#ifdef SIOCGSTAMP_NEW
++  IOCTL(SIOCGSTAMP_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval64)))
++#endif
++#ifdef SIOCGSTAMPNS_NEW
++  IOCTL(SIOCGSTAMPNS_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec64)))
++#endif
+ 
+   IOCTL(RNDGETENTCNT, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 39a37496fed5..aa18ac4b2389 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -37,6 +37,7 @@
+ #include <sched.h>
+ #include <sys/timex.h>
+ #include <sys/socket.h>
++#include <linux/sockios.h>
+ #include <sys/un.h>
+ #include <sys/uio.h>
+ #include <poll.h>
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index fffa89f2564b..e0326923a018 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -751,6 +751,10 @@ struct target_pollfd {
+ 
+ #define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
+ #define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) */
++#define TARGET_SIOCGSTAMP_OLD   0x8906          /* Get stamp (timeval) */
++#define TARGET_SIOCGSTAMPNS_OLD 0x8907          /* Get stamp (timespec) */
++#define TARGET_SIOCGSTAMP_NEW   TARGET_IOR(0x89, 0x06, abi_llong[2]) /* Get stamp (timeval64) */
++#define TARGET_SIOCGSTAMPNS_NEW TARGET_IOR(0x89, 0x07, abi_llong[2]) /* Get stamp (timespec64) */
+ 
+ /* Networking ioctls */
+ #define TARGET_SIOCADDRT       0x890B          /* add routing table entry */
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index b98a23b0f1b0..de4c5a5b6f5b 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -20,6 +20,10 @@ STRUCT(timeval,
+ STRUCT(timespec,
+        MK_ARRAY(TYPE_LONG, 2))
+ 
++STRUCT(timeval64, TYPE_LONGLONG, TYPE_LONG)
++
++STRUCT(timespec64, TYPE_LONGLONG, TYPE_LONG)
++
+ STRUCT(rtentry,
+        TYPE_ULONG, MK_STRUCT(STRUCT_sockaddr), MK_STRUCT(STRUCT_sockaddr), MK_STRUCT(STRUCT_sockaddr),
+        TYPE_SHORT, TYPE_SHORT, TYPE_ULONG, TYPE_PTRVOID, TYPE_SHORT, TYPE_PTRVOID,
+-- 
+2.21.0
 
 
