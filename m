@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B580365EDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:43:03 +0200 (CEST)
-Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B89765ED6
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 Jul 2019 19:42:22 +0200 (CEST)
+Received: from localhost ([::1]:44194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hld5y-000345-BA
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38477)
+	id 1hld5I-0008JF-PY
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 13:42:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38437)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hld4T-0005fM-Eb
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:30 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hld4R-0005XQ-Q1
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hld4P-0004y9-9s
+ (envelope-from <eric.auger@redhat.com>) id 1hld4P-0004y5-9p
  for qemu-devel@nongnu.org; Thu, 11 Jul 2019 13:41:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48878)
+Received: from mx1.redhat.com ([209.132.183.28]:38106)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hld4L-0004d6-3d; Thu, 11 Jul 2019 13:41:21 -0400
+ id 1hld4L-0004lI-5p; Thu, 11 Jul 2019 13:41:21 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 70E4E8665F;
- Thu, 11 Jul 2019 17:40:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD94930832E1;
+ Thu, 11 Jul 2019 17:41:07 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 773F860A97;
- Thu, 11 Jul 2019 17:40:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA39B60A97;
+ Thu, 11 Jul 2019 17:41:04 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org
-Date: Thu, 11 Jul 2019 19:39:14 +0200
-Message-Id: <20190711173933.31203-11-eric.auger@redhat.com>
+Date: Thu, 11 Jul 2019 19:39:16 +0200
+Message-Id: <20190711173933.31203-13-eric.auger@redhat.com>
 In-Reply-To: <20190711173933.31203-1-eric.auger@redhat.com>
 References: <20190711173933.31203-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 11 Jul 2019 17:40:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Thu, 11 Jul 2019 17:41:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC v5 10/29] memory: Introduce IOMMU Memory Region
- inject_faults API
+Subject: [Qemu-devel] [RFC v5 12/29] iommu: Introduce generic header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,89 +61,47 @@ Cc: drjones@redhat.com, yi.l.liu@intel.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new API allows to inject @count iommu_faults into
-the IOMMU memory region.
+This header is meant to exposes data types used by
+several IOMMU devices such as struct for SVA and
+nested stage configuration.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/exec/memory.h | 25 +++++++++++++++++++++++++
- memory.c              | 10 ++++++++++
- 2 files changed, 35 insertions(+)
+ include/hw/iommu/iommu.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 include/hw/iommu/iommu.h
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 593ef947c6..d0de192887 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -54,6 +54,8 @@ struct MemoryRegionMmio {
-     CPUWriteMemoryFunc *write[3];
- };
-=20
-+struct iommu_fault;
-+
- typedef struct IOMMUTLBEntry IOMMUTLBEntry;
-=20
- /* See address_space_translate: bit 0 is read, bit 1 is write.  */
-@@ -342,6 +344,19 @@ typedef struct IOMMUMemoryRegionClass {
-      * @iommu: the IOMMUMemoryRegion
-      */
-     int (*num_indexes)(IOMMUMemoryRegion *iommu);
-+
-+    /*
-+     * Inject @count faults into the IOMMU memory region
-+     *
-+     * Optional method: if this method is not provided, then
-+     * memory_region_injection_faults() will return -ENOENT
-+     *
-+     * @iommu: the IOMMU memory region to inject the faults in
-+     * @count: number of faults to inject
-+     * @buf: fault buffer
-+     */
-+    int (*inject_faults)(IOMMUMemoryRegion *iommu, int count,
-+                         struct iommu_fault *buf);
- } IOMMUMemoryRegionClass;
-=20
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
-@@ -1123,6 +1138,16 @@ int memory_region_iommu_attrs_to_index(IOMMUMemory=
-Region *iommu_mr,
-  */
- int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
-=20
-+/**
-+ * memory_region_inject_faults : inject @count faults stored in @buf
+diff --git a/include/hw/iommu/iommu.h b/include/hw/iommu/iommu.h
+new file mode 100644
+index 0000000000..9e60ece160
+--- /dev/null
++++ b/include/hw/iommu/iommu.h
+@@ -0,0 +1,25 @@
++/*
++ * common header for iommu devices
 + *
-+ * @iommu_mr: the IOMMU memory region
-+ * @count: number of faults to be injected
-+ * @buf: buffer containing the faults
++ * Copyright Red Hat, Inc. 2019
++ *
++ * Authors:
++ *  Eric Auger <eric.auger@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
 + */
-+int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
-+                                struct iommu_fault *buf);
 +
- /**
-  * memory_region_name: get a memory region's name
-  *
-diff --git a/memory.c b/memory.c
-index 90967b579d..d81525fe11 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2000,6 +2000,16 @@ int memory_region_iommu_num_indexes(IOMMUMemoryReg=
-ion *iommu_mr)
-     return imrc->num_indexes(iommu_mr);
- }
-=20
-+int memory_region_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
-+                                struct iommu_fault *buf)
-+{
-+    IOMMUMemoryRegionClass *imrc =3D IOMMU_MEMORY_REGION_GET_CLASS(iommu=
-_mr);
-+    if (!imrc->inject_faults) {
-+        return -ENOENT;
-+    }
-+    return imrc->inject_faults(iommu_mr, count, buf);
-+}
++#ifndef QEMU_HW_IOMMU_IOMMU_H
++#define QEMU_HW_IOMMU_IOMMU_H
 +
- void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
- {
-     uint8_t mask =3D 1 << client;
++typedef struct IOMMUConfig {
++    union {
++#ifdef __linux__
++        struct iommu_pasid_table_config pasid_cfg;
++#endif
++          };
++} IOMMUConfig;
++
++
++#endif /* QEMU_HW_IOMMU_IOMMU_H */
 --=20
 2.20.1
 
