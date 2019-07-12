@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B517D67190
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:37:03 +0200 (CEST)
-Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13886719F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:47:16 +0200 (CEST)
+Received: from localhost ([::1]:50048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlwfW-0005Qj-VF
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45791)
+	id 1hlwdT-0004gl-Rc
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hlwdr-0006xE-Aw
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:35:20 -0400
+ (envelope-from <quintela@redhat.com>) id 1hlwbL-0005Ji-KP
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hlwdd-0003Q2-9o
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:35:15 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33297)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlwdd-0003KW-2S
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:35:05 -0400
-Received: by mail-wm1-f65.google.com with SMTP id h19so9395241wme.0
- for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 07:35:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=I3Rqj94Dj4IR0qU/xeDzTPEkRicLJfLqFPxPRhgmulg=;
- b=gXV+qBxAGlcr2SoRAlE/47mvGmQfZbPsaMAYAGdH3vElJRde3uX7h3NrX6/HF/9veg
- jpB0CiB1KTlhluMq8htT82SZ9BjKWKIEMeZ97UGKwg250lYzbfaSgtPzQ51WED5Zxvhv
- Ki21dUroIyqZ8WelbqcbyOCTRyK/3ONyLzHPsUoiz9slkULqjHwn6GuzYrdUCUNqvtdP
- I2sPsP+7HcIx2ziDdXE3WW05f63D+f9JTQ0pyKfZ0mi8CNRlt7DaK79uclAWVslm7l6d
- zZqn1ocdo0ItsPqdDf5w0n3f+W4bT4t6JMUmAflHW14oWGeeE+kmgcnFPlKpRPdyJdNB
- npTg==
-X-Gm-Message-State: APjAAAXPv3VPcQhylJFkUeN+JPdPChd+CVBbWsc7eLt/eZjgGM4ntfh5
- DTCE4lDYnVaxT+qFKWDGn9IVyg==
-X-Google-Smtp-Source: APXvYqxk3U8qABAdEJE6G+JSraaoAd+HuT1ExSa9eeKpCMIBBstMWRur3SI2kxridYrWO/whRYmQRQ==
-X-Received: by 2002:a1c:56d7:: with SMTP id k206mr9833794wmb.56.1562942100139; 
- Fri, 12 Jul 2019 07:35:00 -0700 (PDT)
-Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id o6sm14570538wra.27.2019.07.12.07.34.59
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 12 Jul 2019 07:34:59 -0700 (PDT)
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20190712132611.20411-1-sw@weilnetz.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <056e4dd6-70b7-395a-2062-913ddcea0028@redhat.com>
-Date: Fri, 12 Jul 2019 16:34:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <quintela@redhat.com>) id 1hlwbI-0001qL-Vh
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58762)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlwbI-0001oq-Nz
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:40 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 051F4308FC4E;
+ Fri, 12 Jul 2019 14:32:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.36.118.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9B3A60920;
+ Fri, 12 Jul 2019 14:32:37 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 12 Jul 2019 16:31:59 +0200
+Message-Id: <20190712143207.4214-12-quintela@redhat.com>
+In-Reply-To: <20190712143207.4214-1-quintela@redhat.com>
+References: <20190712143207.4214-1-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190712132611.20411-1-sw@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 12 Jul 2019 14:32:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH for 4.1] Fix broken build with WHPX enabled
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 11/19] bitmap: Add
+ bitmap_copy_with_{src|dst}_offset()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,63 +55,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Justin Terry <juterry@microsoft.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Justin
+From: Peter Xu <peterx@redhat.com>
 
-Maybe we should add a MAINTAINERS section for the WHPX files.
+These helpers copy the source bitmap to destination bitmap with a
+shift either on the src or dst bitmap.
 
-On 7/12/19 3:26 PM, Stefan Weil wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->  target/i386/whpx-all.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
-> index 31d47320e4..ed95105eae 100644
-> --- a/target/i386/whpx-all.c
-> +++ b/target/i386/whpx-all.c
-> @@ -1396,7 +1396,7 @@ static int whpx_accel_init(MachineState *ms)
->      }
->  
->      memset(&prop, 0, sizeof(WHV_PARTITION_PROPERTY));
-> -    prop.ProcessorCount = smp_cpus;
-> +    prop.ProcessorCount = ms->smp.cpus;
+Meanwhile, we never have bitmap tests but we should.
 
-I tried to understand how the Windows Hypervisor would answer to an
-invalid or zeroed property, but I can't find doc for
-WHvPartitionPropertyCodeProcessorCount.
+This patch also introduces the initial test cases for utils/bitmap.c
+but it only tests the newly introduced functions.
 
-There is a funny comment in VirtualBox although:
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20190603065056.25211-5-peterx@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 
- /**
-  * @todo Someone at Microsoft please explain another weird API:
-  *  - Why this API doesn't take the WHV_PARTITION_PROPERTY_CODE value as an
-  *    argument rather than as part of the struct.  That is so weird if
-you've
-  *    used any other NT or windows API,  including WHvGetCapability().
-  *  - Why use PVOID when WHV_PARTITION_PROPERTY is what's expected.  We
-  *    technically only need 9 bytes for setting/getting
-  *    WHVPartitionPropertyCodeProcessorClFlushSize, but the API insists
-on 16. */
+---
 
-https://www.virtualbox.org/svn/vbox/trunk/src/VBox/VMM/VMMR3/NEMR3Native-win.cpp
+Bitmap test used sizeof(unsigned long) instead of BITS_PER_LONG.
+---
+ include/qemu/bitmap.h  |  9 +++++
+ tests/Makefile.include |  2 +
+ tests/test-bitmap.c    | 72 +++++++++++++++++++++++++++++++++++
+ util/bitmap.c          | 85 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 168 insertions(+)
+ create mode 100644 tests/test-bitmap.c
 
->      hr = whp_dispatch.WHvSetPartitionProperty(
->          whpx->partition,
->          WHvPartitionPropertyCodeProcessorCount,
-> @@ -1405,7 +1405,7 @@ static int whpx_accel_init(MachineState *ms)
->  
->      if (FAILED(hr)) {
->          error_report("WHPX: Failed to set partition core count to %d,"
-> -                     " hr=%08lx", smp_cores, hr);
-> +                     " hr=%08lx", ms->smp.cores, hr);
->          ret = -EINVAL;
->          goto error;
->      }
-> 
+diff --git a/include/qemu/bitmap.h b/include/qemu/bitmap.h
+index 5c313346b9..82a1d2f41f 100644
+--- a/include/qemu/bitmap.h
++++ b/include/qemu/bitmap.h
+@@ -41,6 +41,10 @@
+  * bitmap_find_next_zero_area(buf, len, pos, n, mask)	Find bit free area
+  * bitmap_to_le(dst, src, nbits)      Convert bitmap to little endian
+  * bitmap_from_le(dst, src, nbits)    Convert bitmap from little endian
++ * bitmap_copy_with_src_offset(dst, src, offset, nbits)
++ *                                    *dst =3D *src (with an offset into=
+ src)
++ * bitmap_copy_with_dst_offset(dst, src, offset, nbits)
++ *                                    *dst =3D *src (with an offset into=
+ dst)
+  */
+=20
+ /*
+@@ -271,4 +275,9 @@ void bitmap_to_le(unsigned long *dst, const unsigned =
+long *src,
+ void bitmap_from_le(unsigned long *dst, const unsigned long *src,
+                     long nbits);
+=20
++void bitmap_copy_with_src_offset(unsigned long *dst, const unsigned long=
+ *src,
++                                 unsigned long offset, unsigned long nbi=
+ts);
++void bitmap_copy_with_dst_offset(unsigned long *dst, const unsigned long=
+ *src,
++                                 unsigned long shift, unsigned long nbit=
+s);
++
+ #endif /* BITMAP_H */
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index a983dd32da..fd7fdb8658 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -65,6 +65,7 @@ check-unit-y +=3D tests/test-opts-visitor$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) +=3D tests/test-coroutine$(EXESUF)
+ check-unit-y +=3D tests/test-visitor-serialization$(EXESUF)
+ check-unit-y +=3D tests/test-iov$(EXESUF)
++check-unit-y +=3D tests/test-bitmap$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) +=3D tests/test-aio$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) +=3D tests/test-aio-multithread$(EXESUF)
+ check-unit-$(CONFIG_BLOCK) +=3D tests/test-throttle$(EXESUF)
+@@ -538,6 +539,7 @@ tests/test-image-locking$(EXESUF): tests/test-image-l=
+ocking.o $(test-block-obj-y
+ tests/test-thread-pool$(EXESUF): tests/test-thread-pool.o $(test-block-o=
+bj-y)
+ tests/test-iov$(EXESUF): tests/test-iov.o $(test-util-obj-y)
+ tests/test-hbitmap$(EXESUF): tests/test-hbitmap.o $(test-util-obj-y) $(t=
+est-crypto-obj-y)
++tests/test-bitmap$(EXESUF): tests/test-bitmap.o $(test-util-obj-y)
+ tests/test-x86-cpuid$(EXESUF): tests/test-x86-cpuid.o
+ tests/test-xbzrle$(EXESUF): tests/test-xbzrle.o migration/xbzrle.o migra=
+tion/page_cache.o $(test-util-obj-y)
+ tests/test-cutils$(EXESUF): tests/test-cutils.o util/cutils.o $(test-uti=
+l-obj-y)
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+new file mode 100644
+index 0000000000..cb7c5e462d
+--- /dev/null
++++ b/tests/test-bitmap.c
+@@ -0,0 +1,72 @@
++/*
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * Bitmap.c unit-tests.
++ *
++ * Copyright (C) 2019, Red Hat, Inc.
++ *
++ * Author: Peter Xu <peterx@redhat.com>
++ */
++
++#include <stdlib.h>
++#include "qemu/osdep.h"
++#include "qemu/bitmap.h"
++
++#define BMAP_SIZE  1024
++
++static void check_bitmap_copy_with_offset(void)
++{
++    unsigned long *bmap1, *bmap2, *bmap3, total;
++
++    bmap1 =3D bitmap_new(BMAP_SIZE);
++    bmap2 =3D bitmap_new(BMAP_SIZE);
++    bmap3 =3D bitmap_new(BMAP_SIZE);
++
++    bmap1[0] =3D random();
++    bmap1[1] =3D random();
++    bmap1[2] =3D random();
++    bmap1[3] =3D random();
++    total =3D BITS_PER_LONG * 4;
++
++    /* Shift 115 bits into bmap2 */
++    bitmap_copy_with_dst_offset(bmap2, bmap1, 115, total);
++    /* Shift another 85 bits into bmap3 */
++    bitmap_copy_with_dst_offset(bmap3, bmap2, 85, total + 115);
++    /* Shift back 200 bits back */
++    bitmap_copy_with_src_offset(bmap2, bmap3, 200, total);
++
++    g_assert_cmpmem(bmap1, total / BITS_PER_LONG,
++                    bmap2, total / BITS_PER_LONG);
++
++    bitmap_clear(bmap1, 0, BMAP_SIZE);
++    /* Set bits in bmap1 are 100-245 */
++    bitmap_set(bmap1, 100, 145);
++
++    /* Set bits in bmap2 are 60-205 */
++    bitmap_copy_with_src_offset(bmap2, bmap1, 40, 250);
++    g_assert_cmpint(find_first_bit(bmap2, 60), =3D=3D, 60);
++    g_assert_cmpint(find_next_zero_bit(bmap2, 205, 60), =3D=3D, 205);
++    g_assert(test_bit(205, bmap2) =3D=3D 0);
++
++    /* Set bits in bmap3 are 135-280 */
++    bitmap_copy_with_dst_offset(bmap3, bmap1, 35, 250);
++    g_assert_cmpint(find_first_bit(bmap3, 135), =3D=3D, 135);
++    g_assert_cmpint(find_next_zero_bit(bmap3, 280, 135), =3D=3D, 280);
++    g_assert(test_bit(280, bmap3) =3D=3D 0);
++
++    g_free(bmap1);
++    g_free(bmap2);
++    g_free(bmap3);
++}
++
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    g_test_add_func("/bitmap/bitmap_copy_with_offset",
++                    check_bitmap_copy_with_offset);
++
++    g_test_run();
++
++    return 0;
++}
+diff --git a/util/bitmap.c b/util/bitmap.c
+index cb618c65a5..1753ff7f5b 100644
+--- a/util/bitmap.c
++++ b/util/bitmap.c
+@@ -402,3 +402,88 @@ void bitmap_to_le(unsigned long *dst, const unsigned=
+ long *src,
+ {
+     bitmap_to_from_le(dst, src, nbits);
+ }
++
++/*
++ * Copy "src" bitmap with a positive offset and put it into the "dst"
++ * bitmap.  The caller needs to make sure the bitmap size of "src"
++ * is bigger than (shift + nbits).
++ */
++void bitmap_copy_with_src_offset(unsigned long *dst, const unsigned long=
+ *src,
++                                 unsigned long shift, unsigned long nbit=
+s)
++{
++    unsigned long left_mask, right_mask, last_mask;
++
++    /* Proper shift src pointer to the first word to copy from */
++    src +=3D BIT_WORD(shift);
++    shift %=3D BITS_PER_LONG;
++
++    if (!shift) {
++        /* Fast path */
++        bitmap_copy(dst, src, nbits);
++        return;
++    }
++
++    right_mask =3D (1ul << shift) - 1;
++    left_mask =3D ~right_mask;
++
++    while (nbits >=3D BITS_PER_LONG) {
++        *dst =3D (*src & left_mask) >> shift;
++        *dst |=3D (src[1] & right_mask) << (BITS_PER_LONG - shift);
++        dst++;
++        src++;
++        nbits -=3D BITS_PER_LONG;
++    }
++
++    if (nbits > BITS_PER_LONG - shift) {
++        *dst =3D (*src & left_mask) >> shift;
++        nbits -=3D BITS_PER_LONG - shift;
++        last_mask =3D (1ul << nbits) - 1;
++        *dst |=3D (src[1] & last_mask) << (BITS_PER_LONG - shift);
++    } else if (nbits) {
++        last_mask =3D (1ul << nbits) - 1;
++        *dst =3D (*src >> shift) & last_mask;
++    }
++}
++
++/*
++ * Copy "src" bitmap into the "dst" bitmap with an offset in the
++ * "dst".  The caller needs to make sure the bitmap size of "dst" is
++ * bigger than (shift + nbits).
++ */
++void bitmap_copy_with_dst_offset(unsigned long *dst, const unsigned long=
+ *src,
++                                 unsigned long shift, unsigned long nbit=
+s)
++{
++    unsigned long left_mask, right_mask, last_mask;
++
++    /* Proper shift dst pointer to the first word to copy from */
++    dst +=3D BIT_WORD(shift);
++    shift %=3D BITS_PER_LONG;
++
++    if (!shift) {
++        /* Fast path */
++        bitmap_copy(dst, src, nbits);
++        return;
++    }
++
++    right_mask =3D (1ul << (BITS_PER_LONG - shift)) - 1;
++    left_mask =3D ~right_mask;
++
++    *dst &=3D (1ul << shift) - 1;
++    while (nbits >=3D BITS_PER_LONG) {
++        *dst |=3D (*src & right_mask) << shift;
++        dst[1] =3D (*src & left_mask) >> (BITS_PER_LONG - shift);
++        dst++;
++        src++;
++        nbits -=3D BITS_PER_LONG;
++    }
++
++    if (nbits > BITS_PER_LONG - shift) {
++        *dst |=3D (*src & right_mask) << shift;
++        nbits -=3D BITS_PER_LONG - shift;
++        last_mask =3D ((1ul << nbits) - 1) << (BITS_PER_LONG - shift);
++        dst[1] =3D (*src & last_mask) >> (BITS_PER_LONG - shift);
++    } else if (nbits) {
++        last_mask =3D (1ul << nbits) - 1;
++        *dst |=3D (*src & last_mask) << shift;
++    }
++}
+--=20
+2.21.0
+
 
