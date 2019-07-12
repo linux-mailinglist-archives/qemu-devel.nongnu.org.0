@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E7E67467
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:37:41 +0200 (CEST)
-Received: from localhost ([::1]:51542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C3567469
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:38:01 +0200 (CEST)
+Received: from localhost ([::1]:51566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlzUJ-0003OM-U7
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39921)
+	id 1hlzUf-0005dJ-1h
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40161)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlzT7-0007N9-6j
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hlzTo-0002B0-I9
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:37:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlzT4-0004f9-Kq
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45600)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlzT1-0004YO-Ru; Fri, 12 Jul 2019 13:36:20 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 304BC3098458;
- Fri, 12 Jul 2019 17:36:19 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE86860142;
- Fri, 12 Jul 2019 17:36:18 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri, 12 Jul 2019 19:36:00 +0200
-Message-Id: <20190712173600.14554-8-mreitz@redhat.com>
-In-Reply-To: <20190712173600.14554-1-mreitz@redhat.com>
-References: <20190712173600.14554-1-mreitz@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hlzTl-0005xA-R5
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:37:07 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37943)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hlzTl-0005vi-6F
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:37:05 -0400
+Received: by mail-wm1-f68.google.com with SMTP id s15so9665692wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 10:37:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X1faAN96ess887B8VaOA42Fh9cAb/DCyoJk65g4NgnE=;
+ b=RIB9tJH7GGv2wUahkdDPn8BmoSTAJVhk2yRLkpHwQQJIWn51kOQknycdadQQEzgzMY
+ ftVws2eYpxBlzk8Np0eYzHR7BMiaHSwg1lJ40uqc8Y9JO3ps+rYbrDZ57Hedt5iiYIST
+ alXcDSPR0ZYbAUAfGJZevx8t5TT6JcCNEfORflrOCi3hLFz0fLNKDr/V+8aZ1qGAS83c
+ xTlsTAk2ZrRQVqM+Zon6aT7h1ZIXH586zsTjgCxBq/Tau0ZIkiqXxJf+vc2C1q2gLWwh
+ GSa7zguMPNhCcCrFsmd5HREAhvCC/PeIQ75iAcbwEGA/OHzX1c7LaYLXtxxFW0CSJocq
+ 8zeQ==
+X-Gm-Message-State: APjAAAXgXJTJbK2uK2UnTp22T7HAE+sWQBhc240iiDnUsEIXXqhZ2I2T
+ QtWYroTwFaYnr7/4OWfy9kAoV4USnic=
+X-Google-Smtp-Source: APXvYqzZeKLqDyQR9K6rughtj6wrejHRQgwbtAbualqFrc7UF4KiI7c1F//rz59mTdCjeTLKtMBPig==
+X-Received: by 2002:a05:600c:20ca:: with SMTP id
+ y10mr10335777wmm.72.1562953023665; 
+ Fri, 12 Jul 2019 10:37:03 -0700 (PDT)
+Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id g19sm17275393wrb.52.2019.07.12.10.37.02
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 12 Jul 2019 10:37:03 -0700 (PDT)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190712172743.17632-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <f9a3ad2f-e895-d4e4-6aee-8d956f907e9b@redhat.com>
+Date: Fri, 12 Jul 2019 19:37:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 12 Jul 2019 17:36:19 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190712172743.17632-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 7/7] iotests: Add test for image creation
- fallback
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH] build-sys: remove slirp cflags from
+ main-loop.o
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,120 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/259     | 61 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/259.out | 14 +++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 76 insertions(+)
- create mode 100755 tests/qemu-iotests/259
- create mode 100644 tests/qemu-iotests/259.out
+Hi Marc-André,
 
-diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
-new file mode 100755
-index 0000000000..22b4c10241
---- /dev/null
-+++ b/tests/qemu-iotests/259
-@@ -0,0 +1,61 @@
-+#!/usr/bin/env bash
-+#
-+# Test generic image creation fallback (by using NBD)
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dmreitz@redhat.com
-+
-+seq=3D$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=3D1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt raw
-+_supported_proto nbd
-+_supported_os Linux
-+
-+
-+_make_test_img 64M
-+
-+echo
-+echo '--- Testing creation ---'
-+
-+$QEMU_IMG create -f qcow2 "$TEST_IMG" 64M | _filter_img_create
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info
-+
-+echo
-+echo '--- Testing creation for which the node would need to grow ---'
-+
-+$QEMU_IMG create -f qcow2 -o preallocation=3Dmetadata "$TEST_IMG" 64M 2>=
-&1 \
-+    | _filter_img_create
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
-new file mode 100644
-index 0000000000..ffed19c2a0
---- /dev/null
-+++ b/tests/qemu-iotests/259.out
-@@ -0,0 +1,14 @@
-+QA output created by 259
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+
-+--- Testing creation ---
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864
-+image: TEST_DIR/t.IMGFMT
-+file format: qcow2
-+virtual size: 64 MiB (67108864 bytes)
-+disk size: unavailable
-+
-+--- Testing creation for which the node would need to grow ---
-+qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver=
- does not support resize
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3Dqcow2 size=3D67108864 preallocatio=
-n=3Dmetadata
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index b34c8e3c0c..80e7603174 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -269,3 +269,4 @@
- 254 rw auto backing quick
- 255 rw auto quick
- 256 rw auto quick
-+259 rw auto quick
---=20
-2.21.0
+On 7/12/19 7:27 PM, Marc-André Lureau wrote:
+> Left over from c2d63650d962612cfa1b21302782d4cd12142c74.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  util/Makefile.objs | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/util/Makefile.objs b/util/Makefile.objs
+> index 38178201ff..68af3cd5e9 100644
+> --- a/util/Makefile.objs
+> +++ b/util/Makefile.objs
+> @@ -3,7 +3,6 @@ util-obj-y += bufferiszero.o
+>  util-obj-y += lockcnt.o
+>  util-obj-y += aiocb.o async.o aio-wait.o thread-pool.o qemu-timer.o
+>  util-obj-y += main-loop.o iohandler.o
+> -main-loop.o-cflags := $(SLIRP_CFLAGS)
+>  util-obj-$(call lnot,$(CONFIG_ATOMIC64)) += atomic64.o
+>  util-obj-$(CONFIG_POSIX) += aio-posix.o
+>  util-obj-$(CONFIG_POSIX) += compatfd.o
+> 
+
+Since you are looking at slirp, I'm having a bunch of:
+
+$ make help
+[...]
+  CC      slirp/src/tftp.o
+Package glib-2.0 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `glib-2.0.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'glib-2.0' found
+  CC      slirp/src/udp6.o
+Package glib-2.0 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `glib-2.0.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'glib-2.0' found
+[...]
+
+On MinGW.
+
+I can silent the warnings using (32-git build):
+
+PKG_CONFIG_PATH=/usr/lib/mxe/usr/i686-w64-mingw32.shared/lib/pkgconfig
+
+This is new since the slirp split.
+
+Any idea where to fix that?
+
+Thanks,
+
+Phil.
 
