@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2FE66BB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:39:57 +0200 (CEST)
-Received: from localhost ([::1]:48472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B0766BB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:39:58 +0200 (CEST)
+Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hltu8-00018c-Sf
+	id 1hltu8-0001EH-Uy
 	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 07:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53595)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53592)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttH-0006GQ-Ly
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttH-0006GP-IK
  for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttG-00059L-7y
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttG-00059R-8l
  for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:03 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:57830 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:57844 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hlttF-0003Z9-Ss
+ id 1hlttF-0003ZY-TS
  for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:02 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id D5B671A1FE9;
- Fri, 12 Jul 2019 13:37:55 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id 068731A1FEB;
+ Fri, 12 Jul 2019 13:37:56 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A052D1A1FE2;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C871B1A1FBF;
  Fri, 12 Jul 2019 13:37:55 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 12 Jul 2019 13:37:46 +0200
-Message-Id: <1562931470-3700-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri, 12 Jul 2019 13:37:47 +0200
+Message-Id: <1562931470-3700-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1562931470-3700-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1562931470-3700-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.1 v2] linux-user: Fix structure
- target_ucontext for MIPS
+Subject: [Qemu-devel] [PATCH for 4.1 1/4] target/mips: Add 'fall through'
+ comments for handling nanoMips' SHXS, SWXS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,58 +57,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Structure ucontext for MIPS is defined in the following way in
-Linux kernel:
+This was found by GCC 8.3 static analysis.
 
-(arch/mips/include/uapi/asm/ucontext.h, lines 54-64)
-
-struct ucontext {
-    /* Historic fields matching asm-generic */
-    unsigned long       uc_flags;
-    struct ucontext     *uc_link;
-    stack_t             uc_stack;
-    struct sigcontext   uc_mcontext;
-    sigset_t            uc_sigmask;
-
-    /* Extended context structures may follow ucontext */
-    unsigned long long	uc_extcontext[0];
-};
-
-Fix the structure target_ucontext for MIPS to reflect the definition
-above, except the correction for field uc_extcontext, which will
-follow at some later time.
-
-Fixes: 94c5495d
-
-Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
 ---
+ target/mips/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v2: rectified a commit message mistake with
-    s/target_sigset_t/target_ucontext
----
- linux-user/mips/signal.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
-index 6aa303e..455a8a2 100644
---- a/linux-user/mips/signal.c
-+++ b/linux-user/mips/signal.c
-@@ -71,10 +71,9 @@ struct sigframe {
- };
- 
- struct target_ucontext {
--    target_ulong tuc_flags;
--    target_ulong tuc_link;
-+    abi_ulong tuc_flags;
-+    abi_ulong tuc_link;
-     target_stack_t tuc_stack;
--    target_ulong pad0;
-     struct target_sigcontext tuc_mcontext;
-     target_sigset_t tuc_sigmask;
- };
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f96f141..2be5e2d 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -20136,12 +20136,14 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
+         switch (extract32(ctx->opcode, 7, 4)) {
+         case NM_SHXS:
+             check_nms(ctx);
++            /* fall through */
+         case NM_LHXS:
+         case NM_LHUXS:
+             tcg_gen_shli_tl(t0, t0, 1);
+             break;
+         case NM_SWXS:
+             check_nms(ctx);
++            /* fall through */
+         case NM_LWXS:
+         case NM_LWC1XS:
+         case NM_SWC1XS:
 -- 
 2.7.4
 
