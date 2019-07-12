@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B296745E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:36:48 +0200 (CEST)
-Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C0567464
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:37:32 +0200 (CEST)
+Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlzTS-0007mA-Rb
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39718)
+	id 1hlzUB-0002e2-0w
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39737)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlzSu-0006OL-11
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:13 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlzSv-0006WW-VT
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlzSs-0004I2-Qy
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36118)
+ (envelope-from <mreitz@redhat.com>) id 1hlzSu-0004NC-Ot
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34668)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlzSq-0004Ao-4x; Fri, 12 Jul 2019 13:36:08 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hlzSs-0004G2-EY; Fri, 12 Jul 2019 13:36:10 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 792F13079B63;
- Fri, 12 Jul 2019 17:36:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C18073082211;
+ Fri, 12 Jul 2019 17:36:09 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10E8819C58;
- Fri, 12 Jul 2019 17:36:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FE9E5C207;
+ Fri, 12 Jul 2019 17:36:09 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 12 Jul 2019 19:35:55 +0200
-Message-Id: <20190712173600.14554-3-mreitz@redhat.com>
+Date: Fri, 12 Jul 2019 19:35:56 +0200
+Message-Id: <20190712173600.14554-4-mreitz@redhat.com>
 In-Reply-To: <20190712173600.14554-1-mreitz@redhat.com>
 References: <20190712173600.14554-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 12 Jul 2019 17:36:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 12 Jul 2019 17:36:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/7] block: Add blk_truncate_for_formatting()
+Subject: [Qemu-devel] [PATCH 3/7] block: Use blk_truncate_for_formatting()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,105 +61,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/sysemu/block-backend.h | 12 ++++++++
- block/block-backend.c          | 54 ++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ block/parallels.c | 2 +-
+ block/qcow.c      | 2 +-
+ block/qcow2.c     | 2 +-
+ block/qed.c       | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backen=
-d.h
-index 733c4957eb..cd9ec8bf52 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -236,6 +236,18 @@ int blk_pwrite_compressed(BlockBackend *blk, int64_t=
- offset, const void *buf,
-                           int bytes);
- int blk_truncate(BlockBackend *blk, int64_t offset, PreallocMode preallo=
-c,
-                  Error **errp);
-+
-+/**
-+ * Wrapper of blk_truncate() for format drivers that need to truncate
-+ * their protocol node before formatting it.
-+ * Invoke blk_truncate() to truncate the file to @offset; if that
-+ * fails with -ENOTSUP (and the file is already big enough), try to
-+ * overwrite the first sector with zeroes.  If that succeeds, return
-+ * success.
-+ */
-+int blk_truncate_for_formatting(BlockBackend *blk, int64_t offset,
-+                                Error **errp);
-+
- int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-                      int64_t pos, int size);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index a8d160fd5d..c0e64b1ee1 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2041,6 +2041,60 @@ int blk_truncate(BlockBackend *blk, int64_t offset=
-, PreallocMode prealloc,
-     return bdrv_truncate(blk->root, offset, prealloc, errp);
- }
+diff --git a/block/parallels.c b/block/parallels.c
+index 00fae125d1..a17b2d92f2 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -563,7 +563,7 @@ static int coroutine_fn parallels_co_create(BlockdevC=
+reateOptions* opts,
+     blk_set_allow_write_beyond_eof(blk, true);
 =20
-+int blk_truncate_for_formatting(BlockBackend *blk, int64_t offset, Error=
- **errp)
-+{
-+    Error *local_err =3D NULL;
-+    int64_t current_size;
-+    int bytes_to_clear;
-+    int ret;
-+
-+    ret =3D blk_truncate(blk, offset, PREALLOC_MODE_OFF, &local_err);
-+    if (ret < 0 && ret !=3D -ENOTSUP) {
-+        error_propagate(errp, local_err);
-+        return ret;
-+    } else if (ret >=3D 0) {
-+        return ret;
-+    }
-+
-+    current_size =3D blk_getlength(blk);
-+    if (current_size < 0) {
-+        error_free(local_err);
-+        error_setg_errno(errp, -current_size,
-+                         "Failed to inquire new image file's current len=
-gth");
-+        return current_size;
-+    }
-+
-+    if (current_size < offset) {
-+        /* Need to grow the image, but we failed to do that */
-+        error_propagate(errp, local_err);
-+        return -ENOTSUP;
-+    }
-+
-+    error_free(local_err);
-+    /*
-+     * We can deal with images that are too big.  We just need to
-+     * clear the first sector.
-+     */
-+
-+    bytes_to_clear =3D MIN(current_size, BDRV_SECTOR_SIZE) - offset;
-+    if (bytes_to_clear) {
-+        if (!(blk->root->perm & BLK_PERM_WRITE)) {
-+            error_setg(errp, "Cannot clear first sector of new image: "
-+                       "Write permission missing");
-+            return -EPERM;
-+        }
-+
-+        ret =3D blk_pwrite_zeroes(blk, offset, bytes_to_clear, 0);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to clear the first sect=
-or of "
-+                             "the new image");
-+            return ret;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
- static void blk_pdiscard_entry(void *opaque)
- {
-     BlkRwCo *rwco =3D opaque;
+     /* Create image format */
+-    ret =3D blk_truncate(blk, 0, PREALLOC_MODE_OFF, errp);
++    ret =3D blk_truncate_for_formatting(blk, 0, errp);
+     if (ret < 0) {
+         goto out;
+     }
+diff --git a/block/qcow.c b/block/qcow.c
+index 5bdf72ba33..86034135f9 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -858,7 +858,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreate=
+Options *opts,
+     blk_set_allow_write_beyond_eof(qcow_blk, true);
+=20
+     /* Create image format */
+-    ret =3D blk_truncate(qcow_blk, 0, PREALLOC_MODE_OFF, errp);
++    ret =3D blk_truncate_for_formatting(qcow_blk, 0, errp);
+     if (ret < 0) {
+         goto exit;
+     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 039bdc2f7e..f3e53c781d 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3184,7 +3184,7 @@ qcow2_co_create(BlockdevCreateOptions *create_optio=
+ns, Error **errp)
+     blk_set_allow_write_beyond_eof(blk, true);
+=20
+     /* Clear the protocol layer and preallocate it if necessary */
+-    ret =3D blk_truncate(blk, 0, PREALLOC_MODE_OFF, errp);
++    ret =3D blk_truncate_for_formatting(blk, 0, errp);
+     if (ret < 0) {
+         goto out;
+     }
+diff --git a/block/qed.c b/block/qed.c
+index 77c7cef175..ec244158b5 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -673,7 +673,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCr=
+eateOptions *opts,
+     l1_size =3D header.cluster_size * header.table_size;
+=20
+     /* File must start empty and grow, check truncate is supported */
+-    ret =3D blk_truncate(blk, 0, PREALLOC_MODE_OFF, errp);
++    ret =3D blk_truncate_for_formatting(blk, 0, errp);
+     if (ret < 0) {
+         goto out;
+     }
 --=20
 2.21.0
 
