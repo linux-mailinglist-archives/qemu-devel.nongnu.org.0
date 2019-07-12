@@ -2,44 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AFB671A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:50:37 +0200 (CEST)
-Received: from localhost ([::1]:50232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA681671B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:54:57 +0200 (CEST)
+Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlwse-0003cL-RW
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50361)
+	id 1hlwwq-0005Pe-3K
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51531)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <julio.montes@intel.com>) id 1hlwsQ-0003Cb-Rs
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:50:23 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hlwwc-00051K-O0
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:54:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <julio.montes@intel.com>) id 1hlwsP-0006g5-UF
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:50:22 -0400
-Received: from mga11.intel.com ([192.55.52.93]:19585)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <julio.montes@intel.com>)
- id 1hlwsP-0006dU-Lk
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:50:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2019 07:50:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,482,1557212400"; d="scan'208";a="186615576"
-Received: from unknown (HELO fedora.zpn.intel.com.) ([10.219.4.39])
- by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2019 07:50:17 -0700
-From: Julio Montes <julio.montes@intel.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 12 Jul 2019 14:50:17 +0000
-Message-Id: <20190712145017.17879-1-julio.montes@intel.com>
-X-Mailer: git-send-email 2.17.2
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.93
-Subject: [Qemu-devel] [PATCH] hw/i386: turn off vmport if CONFIG_VMPORT is
- disabled
+ (envelope-from <no-reply@patchew.org>) id 1hlwwa-00038z-TW
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:54:42 -0400
+Resent-Date: Fri, 12 Jul 2019 10:54:42 -0400
+Resent-Message-Id: <E1hlwwa-00038z-TW@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21840)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hlwwa-00033O-LR
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:54:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562943251; cv=none; d=zoho.com; s=zohoarc; 
+ b=kvryKJLnPXHzmGM77hm8f7qTQDGOikA6xE26r5ESJr9oG+flnPPaSq915IIlOljQxmx5EQKVJYtz80kWdfvAfuyXINuTZpP2PbGVCLRJJZmypt7MS9Y6auz85pm3C/4JRhXShdVZcehYwa4I7UYQ9whXMTukIaRlxAGmbdf7NRc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562943251;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=iROJHTSrWLAB4u9aotuX40BwtC3Nq0A3/tzQFpV/fvI=; 
+ b=PkA/S0iLq2dbWSL/Jiwplh8ce51OidfierlcEtb5zfTKqTrD9gHv8ni2EfhFNDGjJNuLj6GMdo8rXNr0U3LKY+fPYWtmX6JHQZOr/krNx05UWUaICJqFYTDjbrWSvikAExnGg1k1WR+bFRjcM8q6S/+kToljjLZzwKi7F8ebe1g=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562943250042222.43238368698724;
+ Fri, 12 Jul 2019 07:54:10 -0700 (PDT)
+Message-ID: <156294324850.12463.4978227844970030858@c4a48874b076>
+In-Reply-To: <20190711171556.3377-1-laurent@vivier.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Fri, 12 Jul 2019 07:54:10 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v3] linux-user: fix to handle variably
+ sized SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,46 +62,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julio Montes <julio.montes@intel.com>, pbonzini@redhat.com,
- philmd@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, arnd@arndb.de, gerhard.stenzel@de.ibm.com,
+ riku.voipio@iki.fi, qemu-devel@nongnu.org, christian.ehrhardt@canonical.com,
+ laurent@vivier.eu, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vmport device is not included when CONFIG_VMPORT is disabled, hence
-QEMU fails with the following error:
-
-`Unknown device 'vmport' for bus 'ISA': unknown.`
-
-Signed-off-by: Julio Montes <julio.montes@intel.com>
----
- hw/i386/pc.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c33ce47578..549c437050 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -83,6 +83,7 @@
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "qapi/qmp/qerror.h"
-+#include "config-devices.h"
- 
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -2793,7 +2794,11 @@ static void pc_machine_initfn(Object *obj)
- 
-     pcms->max_ram_below_4g = 0; /* use default */
-     pcms->smm = ON_OFF_AUTO_AUTO;
-+#ifdef CONFIG_VMPORT
-     pcms->vmport = ON_OFF_AUTO_AUTO;
-+#else
-+    pcms->vmport = ON_OFF_AUTO_OFF;
-+#endif /* CONFIG_VMPORT */
-     /* acpi build is enabled by default if machine supports it */
-     pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
-     pcms->smbus_enabled = true;
--- 
-2.17.2
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxMTE3MTU1Ni4zMzc3
+LTEtbGF1cmVudEB2aXZpZXIuZXUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNzExMTcxNTU2LjMzNzctMS1sYXVyZW50QHZpdmll
+ci5ldQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2M10gbGludXgt
+dXNlcjogZml4IHRvIGhhbmRsZSB2YXJpYWJseSBzaXplZCBTSU9DR1NUQU1QIHdpdGggbmV3IGtl
+cm5lbHMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBh
+IG5ldyBicmFuY2ggJ3Rlc3QnCjhiNjViNDYyY2QgbGludXgtdXNlcjogZml4IHRvIGhhbmRsZSB2
+YXJpYWJseSBzaXplZCBTSU9DR1NUQU1QIHdpdGggbmV3IGtlcm5lbHMKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNzk6IEZJTEU6IGxpbnV4LXVz
+ZXIvc3lzY2FsbF9kZWZzLmg6NzU2OgorI2RlZmluZSBUQVJHRVRfU0lPQ0dTVEFNUF9ORVcgICBU
+QVJHRVRfSU9SKDB4ODksIDB4MDYsIGFiaV9sbG9uZ1syXSkgLyogR2V0IHN0YW1wICh0aW1ldmFs
+NjQpICovCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzgwOiBGSUxFOiBsaW51eC11
+c2VyL3N5c2NhbGxfZGVmcy5oOjc1NzoKKyNkZWZpbmUgVEFSR0VUX1NJT0NHU1RBTVBOU19ORVcg
+VEFSR0VUX0lPUigweDg5LCAweDA3LCBhYmlfbGxvbmdbMl0pIC8qIEdldCBzdGFtcCAodGltZXNw
+ZWM2NCkgKi8KCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgNTIgbGluZXMgY2hlY2tlZAoK
+Q29tbWl0IDhiNjViNDYyY2Q1ZiAobGludXgtdXNlcjogZml4IHRvIGhhbmRsZSB2YXJpYWJseSBz
+aXplZCBTSU9DR1NUQU1QIHdpdGggbmV3IGtlcm5lbHMpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIw
+MTkwNzExMTcxNTU2LjMzNzctMS1sYXVyZW50QHZpdmllci5ldS90ZXN0aW5nLmNoZWNrcGF0Y2gv
+P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
+ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
+YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
 
