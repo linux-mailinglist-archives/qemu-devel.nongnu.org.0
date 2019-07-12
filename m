@@ -2,66 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF5B671A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:47:41 +0200 (CEST)
-Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193FA671AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:51:13 +0200 (CEST)
+Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlwpo-0002Of-96
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49696)
+	id 1hlwdT-0004cK-F0
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45143)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlwpZ-0001tX-Fn
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:47:26 -0400
+ (envelope-from <quintela@redhat.com>) id 1hlwbf-0006V6-0W
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hlwpY-0004ln-FO
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:47:25 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44782)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1hlwpV-0004i2-Fd; Fri, 12 Jul 2019 10:47:21 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p17so10241018wrf.11;
- Fri, 12 Jul 2019 07:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=04IwV+TUkf32mECcVEsbSZGl4M5f9jdHOjZ03oGi6Iw=;
- b=gT7i5ZsjWXdy15NmIG7j9rCS8yAIpX7O0Ikgo6W01/b0XIWHv5yTWyY2eXyWb2SfMb
- QMEANyVdBLN+ZQBQjsaTzfR6VaPGJGxQfCGY//WJD4LqMOIFU1IeJo1gOqEmqFtaV/IV
- r5XA56Z/ftjg+1fXkYYODLe17xP1pq0EhVoQGavgiy/ZrHNCFWxsr0iANKCZq0n8PpGE
- ZdMi+i9XNdfCIlK1U+frxA5koJNTakrxQ++4tNVnBxjn8vsHbTBGIH6P1MkyeIa/sWZk
- OSpbtvGkTvijSXdpgHmYmI2q+atXMalLgp6wSsX48ooHHWQvkXEig6lUMM0Yph3slLd/
- C4hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=04IwV+TUkf32mECcVEsbSZGl4M5f9jdHOjZ03oGi6Iw=;
- b=K6aumokdCDEddhYCiXIbCXtg7qSV1kbTRw0dE61iw5iA9bY3nLXDl5jTOcQyxjgnMD
- MtP6YwdA6qYBVuf+IKlxtJsnFKKZ3HkwpRFuDs6IgAjIOf1gyvWh39TW77WbP+waK6Y5
- TAZ9rijQhB3Lu82LdSY3YvlJyzMHcUI3fkNkMM7GXnbb9zsZ8XYet6dlMyKNSf5a9TvZ
- 6pQDsEyRqK7/qWL6CNCaxgOj9o0/1PBFOK1N5jK+2goclp2qbg9w0eUkmX/+PQUN5ptN
- Nag1+djMkxOz1E55qj9NGcJeWujgR0/6P7rCQsT2BrT16nVFmwKdE9YV+SLvSI2MQDKi
- hwLQ==
-X-Gm-Message-State: APjAAAXqd0lPMeyQxtRNm5EYbhszEz0nBsZS6bexq6reWlLPtNI0VVhm
- 7+ULe/jJdeBSymRg9DvKV2Or22Hjhmxc3KcQKmg=
-X-Google-Smtp-Source: APXvYqykVOR23LPyiBdtOvs4b7mcYSFCiCs1peUr1LfIqA03SbKrWWf/ELMNSPO9X27Mo3F4Tn6kzYAEfkl9Dg0yJ5k=
-X-Received: by 2002:adf:c70e:: with SMTP id k14mr12542106wrg.201.1562942839527; 
- Fri, 12 Jul 2019 07:47:19 -0700 (PDT)
+ (envelope-from <quintela@redhat.com>) id 1hlwbd-00023C-JX
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57624)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlwbd-00022s-AH
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 672F34E908;
+ Fri, 12 Jul 2019 14:33:00 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.36.118.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E7EA608C2;
+ Fri, 12 Jul 2019 14:32:57 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 12 Jul 2019 16:32:07 +0200
+Message-Id: <20190712143207.4214-20-quintela@redhat.com>
+In-Reply-To: <20190712143207.4214-1-quintela@redhat.com>
+References: <20190712143207.4214-1-quintela@redhat.com>
 MIME-Version: 1.0
-References: <db150a03315a89a849ab9968e4a5a26110d41424.1562942402.git.mprivozn@redhat.com>
-In-Reply-To: <db150a03315a89a849ab9968e4a5a26110d41424.1562942402.git.mprivozn@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 12 Jul 2019 18:47:07 +0400
-Message-ID: <CAJ+F1CLm251K1ysYKMxyovRFv1KA8b=R6hEh_=Z+bCatjCvyZw@mail.gmail.com>
-To: Michal Privoznik <mprivozn@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Fri, 12 Jul 2019 14:33:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH] .gitignore: ignore some vhost-user*
- related files
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 19/19] migration: allow private destination ram
+ with x-ignore-shared
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,54 +55,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu trival <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yury Kotov <yury-kotov@yandex-team.ru>, Xu Wang <xu@hyper.sh>,
+ Jiangshan Lai <laijs@hyper.sh>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 12, 2019 at 6:42 PM Michal Privoznik <mprivozn@redhat.com> wrot=
-e:
->
-> Commit d52c454aadc creates
-> '/contrib/vhost-user-gpu/50-qemu-gpu.json' and '/vhost-user-gpu'
-> and commit 06914c97d3a creates '/vhost-user-input' neither of
-> which is ignored by git.
->
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+From: Peng Tao <tao.peng@linux.alibaba.com>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+By removing the share ram check, qemu is able to migrate
+to private destination ram when x-ignore-shared capability
+is on. Then we can create multiple destination VMs based
+on the same source VM.
 
-> ---
->  .gitignore | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/.gitignore b/.gitignore
-> index fd6e6c38c7..e9bbc006d3 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -65,6 +65,8 @@
->  /scsi/qemu-pr-helper
->  /vhost-user-scsi
->  /vhost-user-blk
-> +/vhost-user-gpu
-> +/vhost-user-input
->  /fsdev/virtfs-proxy-helper
->  *.tmp
->  *.[1-9]
-> @@ -131,6 +133,7 @@
->  /docs/interop/qemu-qmp-ref.info*
->  /docs/interop/qemu-qmp-ref.txt
->  /docs/version.texi
-> +/contrib/vhost-user-gpu/50-qemu-gpu.json
->  *.tps
->  .stgit-*
->  .git-submodule-status
-> --
-> 2.21.0
->
->
+This changes the x-ignore-shared migration capability to
+work similar to Lai's original bypass-shared-memory
+work(https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg00003.html)
+which enables kata containers (https://katacontainers.io)
+to implement the VM templating feature.
 
+An example usage in kata containers(https://katacontainers.io):
+1. Start the source VM:
+   qemu-system-x86 -m 2G \
+     -object memory-backend-file,id=3Dmem0,size=3D2G,share=3Don,mem-path=3D=
+/tmpfs/template-memory \
+     -numa node,memdev=3Dmem0
+2. Stop the template VM, set migration x-ignore-shared capability,
+   migrate "exec:cat>/tmpfs/state", quit it
+3. Start target VM:
+   qemu-system-x86 -m 2G \
+     -object memory-backend-file,id=3Dmem0,size=3D2G,share=3Doff,mem-path=
+=3D/tmpfs/template-memory \
+     -numa node,memdev=3Dmem0 \
+     -incoming defer
+4. connect to target VM qmp, set migration x-ignore-shared capability,
+migrate_incoming "exec:cat /tmpfs/state"
+5. create more target VMs repeating 3 and 4
 
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>
+Cc: Jiangshan Lai <laijs@hyper.sh>
+Cc: Xu Wang <xu@hyper.sh>
+Signed-off-by: Peng Tao <tao.peng@linux.alibaba.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <1560494113-1141-1-git-send-email-tao.peng@linux.alibaba.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index 8a6ad61d3d..8622b4dc49 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3426,7 +3426,6 @@ static int ram_save_setup(QEMUFile *f, void *opaque=
+)
+         }
+         if (migrate_ignore_shared()) {
+             qemu_put_be64(f, block->mr->addr);
+-            qemu_put_byte(f, ramblock_is_ignored(block) ? 1 : 0);
+         }
+     }
+=20
+@@ -4393,12 +4392,6 @@ static int ram_load(QEMUFile *f, void *opaque, int=
+ version_id)
+                     }
+                     if (migrate_ignore_shared()) {
+                         hwaddr addr =3D qemu_get_be64(f);
+-                        bool ignored =3D qemu_get_byte(f);
+-                        if (ignored !=3D ramblock_is_ignored(block)) {
+-                            error_report("RAM block %s should %s be migr=
+ated",
+-                                         id, ignored ? "" : "not");
+-                            ret =3D -EINVAL;
+-                        }
+                         if (ramblock_is_ignored(block) &&
+                             block->mr->addr !=3D addr) {
+                             error_report("Mismatched GPAs for block %s "
 --=20
-Marc-Andr=C3=A9 Lureau
+2.21.0
+
 
