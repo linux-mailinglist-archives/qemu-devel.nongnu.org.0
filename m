@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08B67179
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:33:58 +0200 (CEST)
-Received: from localhost ([::1]:50018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E011E67177
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:33:20 +0200 (CEST)
+Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlwcV-00005b-7l
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44841)
+	id 1hlwbv-0006OT-Ig
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44867)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hlwb5-0004LM-Kq
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:28 -0400
+ (envelope-from <quintela@redhat.com>) id 1hlwb6-0004PK-Nh
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hlwb3-0001e2-FU
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40776)
+ (envelope-from <quintela@redhat.com>) id 1hlwb5-0001fS-Hf
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40360)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlwaz-0001ax-KM
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:23 -0400
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlwb4-0001cl-JU
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:27 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B0E630860A0;
- Fri, 12 Jul 2019 14:32:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EB22E307D911;
+ Fri, 12 Jul 2019 14:32:22 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.36.118.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 781F960920;
- Fri, 12 Jul 2019 14:32:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEE6560C7F;
+ Fri, 12 Jul 2019 14:32:20 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 12 Jul 2019 16:31:51 +0200
-Message-Id: <20190712143207.4214-4-quintela@redhat.com>
+Date: Fri, 12 Jul 2019 16:31:52 +0200
+Message-Id: <20190712143207.4214-5-quintela@redhat.com>
 In-Reply-To: <20190712143207.4214-1-quintela@redhat.com>
 References: <20190712143207.4214-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 12 Jul 2019 14:32:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Fri, 12 Jul 2019 14:32:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 03/19] migration-test: Add migration multifd test
+Subject: [Qemu-devel] [PULL 04/19] migration/multifd: call
+ multifd_send_sync_main when sending RAM_SAVE_FLAG_EOS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,85 +63,46 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We set multifd-channels.
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Wei Yang <richardw.yang@linux.intel.com>
+On receiving RAM_SAVE_FLAG_EOS, multifd_recv_sync_main() is called to
+synchronize receive threads. Current synchronization mechanism is to wait
+for each channel's sem_sync semaphore. This semaphore is triggered by a
+packet with MULTIFD_FLAG_SYNC flag. While in current implementation, we
+don't do multifd_send_sync_main() to send such packet when
+blk_mig_bulk_active() is true.
+
+This will leads to the receive threads won't notify
+multifd_recv_sync_main() by sem_sync. And multifd_recv_sync_main() will
+always wait there.
+
+[Note]: normal migration test works, while didn't test the
+blk_mig_bulk_active() case. Since not sure how to produce this
+situation.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20190612014337.11255-1-richardw.yang@linux.intel.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/migration-test.c | 48 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index a4feb9545d..0dcaad86b5 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -1121,6 +1121,53 @@ static void test_migrate_fd_proto(void)
-     test_migrate_end(from, to, true);
- }
+diff --git a/migration/ram.c b/migration/ram.c
+index 908517fc2b..74c9306c78 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3466,8 +3466,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaq=
+ue)
+      */
+     ram_control_after_iterate(f, RAM_CONTROL_ROUND);
 =20
-+static void test_multifd_tcp(void)
-+{
-+    char *uri;
-+    QTestState *from, *to;
-+
-+    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", false, false))=
- {
-+        return;
-+    }
-+
-+    /*
-+     * We want to pick a speed slow enough that the test completes
-+     * quickly, but that it doesn't complete precopy even on a slow
-+     * machine, so also set the downtime.
-+     */
-+    /* 1 ms should make it not converge*/
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    /* 1GB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
-+
-+    migrate_set_parameter_int(from, "multifd-channels", 2);
-+    migrate_set_parameter_int(to, "multifd-channels", 2);
-+
-+    migrate_set_capability(from, "multifd", "true");
-+    migrate_set_capability(to, "multifd", "true");
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    uri =3D migrate_get_socket_address(to, "socket-address");
-+
-+    migrate(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    /* 300ms it should converge */
-+    migrate_set_parameter_int(from, "downtime-limit", 600);
-+
-+    if (!got_stop) {
-+        qtest_qmp_eventwait(from, "STOP");
-+    }
-+    qtest_qmp_eventwait(to, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+    test_migrate_end(from, to, true);
-+    free(uri);
-+}
-+
- int main(int argc, char **argv)
- {
-     char template[] =3D "/tmp/migration-test-XXXXXX";
-@@ -1176,6 +1223,7 @@ int main(int argc, char **argv)
-     /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); *=
-/
-     qtest_add_func("/migration/xbzrle/unix", test_xbzrle_unix);
-     qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
-+    qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
-=20
-     ret =3D g_test_run();
-=20
+-    multifd_send_sync_main();
+ out:
++    multifd_send_sync_main();
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+     ram_counters.transferred +=3D 8;
 --=20
 2.21.0
 
