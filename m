@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF6766B78
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:17:49 +0200 (CEST)
-Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAEF66B7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:19:48 +0200 (CEST)
+Received: from localhost ([::1]:48300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hltYi-00086p-IB
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 07:17:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46731)
+	id 1hltac-0002nu-Rp
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 07:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hltYT-0007dV-8d
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:17:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hltZn-0000Gn-0b
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:18:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hltYS-0007nj-4X
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:17:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48316)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hltYN-0007kx-0e; Fri, 12 Jul 2019 07:17:28 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 83CF159441;
- Fri, 12 Jul 2019 11:17:25 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA5F65DD8D;
- Fri, 12 Jul 2019 11:17:21 +0000 (UTC)
-Date: Fri, 12 Jul 2019 13:17:20 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190712111720.GF4514@dhcp-200-226.str.redhat.com>
-References: <20190711195804.30703-1-mreitz@redhat.com>
- <20190711195804.30703-3-mreitz@redhat.com>
- <20190712094919.GC4514@dhcp-200-226.str.redhat.com>
- <e0d93b2b-21c2-3eaa-bf27-0a1c7f19f4e4@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hltZl-0000KI-Rl
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:18:54 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hltZl-0000H7-HE
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:18:53 -0400
+Received: by mail-wr1-x441.google.com with SMTP id c2so6379386wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 04:18:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+uCpKFxtpwZ33dZKWTNDPHC7WX/EUHFtIcT+09+dr7o=;
+ b=Afb4J5m6NLOVN1aNi667CoJYRfZiapuSTRPcPEwzwYUpGhp4EsoXkXDSP4LxC2y/Gz
+ uzyPMk610FAeqwx5i8ReANoZZzcsfXm/sGJ/Itvpx+nHDMU8WCCcEtsJIAa95BnzG2S/
+ rhv/qQzj7sV7K4MU1+q1zCHVDSJuinH2AdgAJy1wT2bxTVoeerJDu1Y8oll4uoSCxjd8
+ Xp6ot9a9rhmSDmWhBC9rbXW7DWDd6bVjq3pYvs8Q44gJqfL8assFiEieRDER0mUnqqWm
+ 1uwUuLXdqhpaqNSHJsnBXoq7Dj2NYsBA3tyKtE395xv5TyGFXik1zv9C+FQ0FLZGwbWq
+ vK6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+uCpKFxtpwZ33dZKWTNDPHC7WX/EUHFtIcT+09+dr7o=;
+ b=IyQEQux+ZaWLbYsTzuN7EOs3jyzO2oz0oBd4UrpXOBFr2j9w/SEcT6NetbC8imHHwl
+ b9bRVhIxvl/s0Qn/ll5PY2E5cp9sZs1ZWu3j6aaYFrGO8aT/QfJgHteNLsFt8ZH90Pxv
+ pO/YmOq+kkoDUBYUVyuBnJtfkh/sc2b/hUUmbkyLdeCaeAds5aAeHSutnZVTRuEUEBd5
+ mFWpNuiAui0gw700H+HFriF7r2NsHNveMYeKawprNMhE1WgMk/BwtbKwVQ5xtq7GePhN
+ LuZQGtuCbUNidf6IrznQ60vvg2MOyMBrJw7DgH2S+QUHDA1MjbrNtqvZYc6M5n700gqq
+ dAGw==
+X-Gm-Message-State: APjAAAWCQi2DWVXr7TsqO8T9pcFySEoPvI/ai25PMnRJsmncA7mvDHB4
+ BIks9/QStuxaYgV/M7O6m0HKPA==
+X-Google-Smtp-Source: APXvYqyFbhrgRPfGvGP9sFdt/qkKw1cgFBMIzeEZqGYSZwJ/1TpNxmpWwPGmApxuYQzwIkHM51lrjQ==
+X-Received: by 2002:adf:ca0f:: with SMTP id o15mr11316307wrh.135.1562930330856; 
+ Fri, 12 Jul 2019 04:18:50 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id j17sm3684717wrb.35.2019.07.12.04.18.50
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 12 Jul 2019 04:18:50 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D58941FF87;
+ Fri, 12 Jul 2019 12:18:49 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 12 Jul 2019 12:18:42 +0100
+Message-Id: <20190712111849.9006-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
-Content-Disposition: inline
-In-Reply-To: <e0d93b2b-21c2-3eaa-bf27-0a1c7f19f4e4@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 12 Jul 2019 11:17:25 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC 2/5] block: Generic truncation fallback
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH for 4.1? v1 0/7] testing/next (docker,
+ win-cross)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,102 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---SkvwRMAIpAhPCcCJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is my current queue for testing/next. I think they are all worth
+it for 4.1 but it would be nice to get the Windows cross builds up and
+running again.
 
-Am 12.07.2019 um 12:58 hat Max Reitz geschrieben:
-> On 12.07.19 11:49, Kevin Wolf wrote:
-> > Am 11.07.2019 um 21:58 hat Max Reitz geschrieben:
-> >> If a protocol driver does not support truncation, we call fall back to
-> >> effectively not doing anything if the new size is less than the actual
-> >> file size.  This is what we have been doing for some host device drive=
-rs
-> >> already.
-> >=20
-> > Specifically, we're doing it for drivers that access a fixed-size image,
-> > i.e. block devices rather than regular files. We don't want to do this
-> > for drivers where the file size could be changed, but just didn't
-> > implement it.
-> >=20
-> > So I would suggest calling the function more specifically something like
-> > bdrv_co_truncate_blockdev(), and not using it as an automatic fallback
-> > in bdrv_co_truncate(), but just make it the BlockDriver.bdrv_co_truncate
-> > implementation for those drivers where it makes sense.
->=20
-> I was thinking about this, but the problem is that .bdrv_co_truncate()
-> does not get a BdrvChild, so an implementation for it cannot generically
-> zero the first sector (without bypassing the permission system, which
-> would be wrong).
+The following patches need review
+ patch 0001/tests docker add test misc for building tools doc.patch
+ patch 0005/tests migration test don t spam the logs when we .patch
+ patch 0006/tests dockerfiles update the win cross builds to .patch
+ patch 0007/shippable re enable the windows cross builds.patch
 
-Hm, I see. The next best thing would then probably having a bool in
-BlockDriver that enables the fallback.
+Alex Bennée (4):
+  tests/docker: add test-misc for building tools & docs
+  tests/migration-test: don't spam the logs when we fail
+  tests/dockerfiles: update the win cross builds to stretch
+  shippable: re-enable the windows cross builds
 
-> So the function pointer would actually need to be set to something like
-> (int (*)(BlockDriverState *, int64_t, PreallocMode, Error **))42ul, or a
-> dummy function that just aborts, and then bdrv_co_truncate() would
-> recognize this magic constant.  But that seemed so weird to me that I
-> decided just not to do it, mostly because I was wondering what would be
-> so bad about treating images whose size we cannot change because we
-> haven=E2=80=99t implemented it exactly like fixed-size images.
->=20
-> (Also, =E2=80=9Cfixed-size=E2=80=9D is up to interpretation.  You can cha=
-nge an LVM
-> volume=E2=80=99s size.  qemu doesn=E2=80=99t do it, obviously.  But that =
-is the reason
-> for the warning qemu-img resize emits when it sees that the file size
-> did not change.)
->=20
-> > And of course, we only need these fake implementations because qemu-img
-> > (or .bdrv_co_create_opts) always wants to create the protocol level. If
-> > we could avoid this, then we wouldn't need any of this.
->=20
-> It=E2=80=99s trivial to avoid this.  I mean, patch 4 does exactly that.
->=20
-> So it isn=E2=80=99t about avoiding creating the protocol level, it=E2=80=
-=99s about
-> avoiding the truncation there.  But why would you do that?
+Philippe Mathieu-Daudé (3):
+  tests/docker: Install Sphinx in the Ubuntu images
+  tests/docker: Install Sphinx in the Fedora image
+  tests/docker: Install Ubuntu images noninteractively
 
-Because we can't actually truncate there. We can only do the fake thing
-and claim we have truncated even though the size didn't change.
+ .shippable.yml                                |  9 ++++----
+ tests/docker/Makefile.include                 |  6 ++---
+ .../dockerfiles/debian-win32-cross.docker     |  4 ++--
+ .../dockerfiles/debian-win64-cross.docker     |  4 ++--
+ ...{debian8-mxe.docker => debian9-mxe.docker} | 11 ++++++----
+ tests/docker/dockerfiles/fedora.docker        |  1 +
+ tests/docker/dockerfiles/ubuntu.docker        |  3 ++-
+ tests/docker/dockerfiles/ubuntu1804.docker    |  3 ++-
+ tests/docker/test-misc                        | 22 +++++++++++++++++++
+ tests/migration-test.c                        | 19 ++++++++++------
+ 10 files changed, 57 insertions(+), 25 deletions(-)
+ rename tests/docker/dockerfiles/{debian8-mxe.docker => debian9-mxe.docker} (56%)
+ create mode 100755 tests/docker/test-misc
 
-But actually, while avoiding the fake truncate outside of image creation
-would avoid confusing situations where the user requested image
-shrinking, gets success, but nothing happened, it would also break
-actual resizes where the volume is resized externally and block_resize
-is only called to notify qemu to pick up the size change.
+-- 
+2.20.1
 
-So after all, we probably do need to keep the hack in bdrv_co_truncate()
-instead of moving it to image creation only.
-
-Kevin
-
---SkvwRMAIpAhPCcCJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdKGxAAAoJEH8JsnLIjy/W2u8QAKp0U8XUrw5GSI+ilMrpKqEK
-59zmPoTDZsqWlh8FrEY5ZPS9wg6Fl0/WIuEdGUoFAquL1gObGE5VL4g8iwAiER0v
-Ot6Q9Oujmj0WWTOJyFhkirOAEtWhQwRKbUNVRgO8uMVa0seyLgzRQbnQHAa996fk
-1q0MkyPNNlV+137/TZgJJdXsv3BJDiuHyP6Aq1FrVVD8w45r/f1Cum7GXkUcuIWU
-iXhRTAQWvp0Z0mwoybinA/UzKdxJqrvW/cgqZWNyfB2AZ505SCQLlMaD9jzktRbw
-wT2lOsN3/GUz9qEIB2r/WoTuMdZk7dNI3/qHfnDvRDLyRy0o4ChjGRvt8yBtz0ia
-cllfryfZY6WERqupzJfAzerBVBnkOZQlze/pXWBwcEUVPxX7a1IAaKxWqnyMGx4T
-BmVbjkw2R/S5Y+vmv5pAKGmg8N4W28hYAzF89DcnDSIKB2iea7rcw8kJMyP8VSZW
-SyYxSzuD9HyuZrD3EbT79o8SJzhqUw7C9MKJjBwOkAiPZdgCONs2ERB9RoWznwKe
-gUXMyy9i1ZlGUtRGO3zwt4rvhzQD+GXlRBYAsPOpN4yqY42PG3ieOQui3oWm0Z+V
-xjqOBRrEvsfNiD96txWk+CMRsuNE9og6ZMtb+oh0LaS+B+fbA4V4tru9zYYKszeL
-WglEY8Ep+tXL4uYqchtV
-=wtez
------END PGP SIGNATURE-----
-
---SkvwRMAIpAhPCcCJ--
 
