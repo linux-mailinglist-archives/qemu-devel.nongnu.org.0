@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252B867093
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 15:53:42 +0200 (CEST)
-Received: from localhost ([::1]:49666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53371670A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 15:56:03 +0200 (CEST)
+Received: from localhost ([::1]:49684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlvzZ-00055v-8G
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 09:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32956)
+	id 1hlw1q-0007AN-GZ
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 09:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33494)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hlvz2-0003g1-Cw
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 09:53:09 -0400
+ (envelope-from <arndbergmann@gmail.com>) id 1hlw1d-0006kx-Jz
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 09:55:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hlvz0-0001b8-Uk
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 09:53:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47474)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hlvyw-0001XX-RO; Fri, 12 Jul 2019 09:53:03 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0C65330821BE;
- Fri, 12 Jul 2019 13:53:02 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D4F65D739;
- Fri, 12 Jul 2019 13:53:00 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri, 12 Jul 2019 15:52:53 +0200
-Message-Id: <20190712135253.9410-3-kwolf@redhat.com>
-In-Reply-To: <20190712135253.9410-1-kwolf@redhat.com>
-References: <20190712135253.9410-1-kwolf@redhat.com>
+ (envelope-from <arndbergmann@gmail.com>) id 1hlw1b-0004HH-NQ
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 09:55:49 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:39945)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <arndbergmann@gmail.com>)
+ id 1hlw1b-0004GN-Jj
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 09:55:47 -0400
+Received: by mail-qt1-f193.google.com with SMTP id a15so8111008qtn.7
+ for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 06:55:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OIav03XMUFr78hQxMDY4yPvnZ+u+z8/xEccH0zaZ458=;
+ b=IEf/v4z9zLJ3LWPnbpxiwgE3HO+s4Ca7PmC/CwH7xOq4sZkWz8eNVfel5TGCkIarZJ
+ r4bWOYG2ebdl9gOavEBBNyhH/Sh4Zusm40Cfi0y9fHDRaBbY4v88PNtH8LEG+vZrlYyJ
+ UkPhelHDrGWc7g5BoxBdwj3ENiyAwVdx5zU6scpeNLJhhSLJgvQ9iofuMV32Gh5ehFKJ
+ 407MDnnng2kxm/9Ks7Ijg9Q1pCT5fbHjMGhskSFnCtXmXEqqj9u/sOtUkAudqntLJUsk
+ Jfppti9KY8kD7OLJRfffoHEESem+/yXJs3HAw6Zgrrg3YmdxHgxI8TxPDueS5YKajNRT
+ WC2Q==
+X-Gm-Message-State: APjAAAVldTX7R0GkMoJvJ9PSStY1j3S/ap3UC3fZbjWQ9ncwgw6e7ZpC
+ 8+sMyBZ6OtryuzvBAAFkb3Y9TbWYUsQMrAG2Cgo=
+X-Google-Smtp-Source: APXvYqw8IzPKP31Ae5zRGuaveXLUbAyO+8tF34Tu/0NE4QMuES0IU+SuQcYjYaDtO5IWFz7TFj9oUXryGTP1CXWH5x8=
+X-Received: by 2002:aed:33a4:: with SMTP id v33mr6448691qtd.18.1562939745707; 
+ Fri, 12 Jul 2019 06:55:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 12 Jul 2019 13:53:02 +0000 (UTC)
+References: <20190711173131.6347-1-laurent@vivier.eu>
+ <CAK8P3a3-UaZ+RzYNZ25zFHs=1iZNrnaP_eAuHE0WAztztA4EGA@mail.gmail.com>
+ <74807892-5d59-0a9a-8385-48cce361d842@vivier.eu>
+ <CAK8P3a3XR=C27eYWQ+AxjZ1EEDNBz0HBB_NHh0hbrSDF5ASyqQ@mail.gmail.com>
+ <e1c736b2-6f68-208e-9993-57ae143195ad@vivier.eu>
+ <CAK8P3a3fZgcSR7V=NAjDa37-5j8L+n-cF1CVPiWjteV6hfHSLg@mail.gmail.com>
+ <db82d6a2-8ca7-5bbb-0cf9-feecc8b2adfb@vivier.eu>
+In-Reply-To: <db82d6a2-8ca7-5bbb-0cf9-feecc8b2adfb@vivier.eu>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 12 Jul 2019 15:55:29 +0200
+Message-ID: <CAK8P3a3GwDr1wPU3hfnmN-N4kvBvSqxa2aRVLQABO70fv21YhQ@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/2] file-posix: Use max transfer length/segment
- count only for SCSI passthrough
+ [fuzzy]
+X-Received-From: 209.85.160.193
+Subject: Re: [Qemu-devel] [PATCH v4] linux-user: fix to handle variably
+ sized SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,155 +70,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerhard Stenzel <gerhard.stenzel@de.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+On Fri, Jul 12, 2019 at 3:50 PM Laurent Vivier <laurent@vivier.eu> wrote:
+> Le 12/07/2019 =C3=A0 15:36, Arnd Bergmann a =C3=A9crit :
+> >> We don't do memcopy() but we set each field one by one, so the padding=
+ doesn't
+> >> seem needed if we define correctly the user structure:
+> >>
+> >> struct target_timeval64 {
+> >>     abi_llong tv_sec;
+> >>     abi_long tv_usec;
+> >> };
+> >>
+> >> and do something like:
+> >>
+> >>     struct target_timeval64 *target_tv;
+> >>     struct timeval *host_tv;
+> >> ...
+> >>     __put_user(host_tv->tv_sec, &target_tv->tv_sec);
+> >>     __put_user(host_tv->tv_usec, &target_tv->tv_usec);
+> >> ...
+> >
+> > That still seems wrong. The user application has a definition
+> > of 'timeval' that contains the padding, so your definition has
+> > to match that.
+>
+> I don't find this definition with the padding. Where it is defined?
+>
+> We are at the syscall level, so structures are the ones provided by the
+> target to the syscall, and they can be converted by the libc if the one
+> from the user space differs.
 
-Regular kernel block devices (/dev/sda*, /dev/nvme*, etc) don't have
-max segment size/max segment count hardware requirements exposed
-to the userspace, but rather the kernel block layer
-takes care to split the incoming requests that
-violate these requirements.
+glibc will have to create a definition that matches the kernel, which uses
 
-Allowing the kernel to do the splitting allows qemu to avoid
-various overheads that arise otherwise from this.
+struct __kernel_timespec {
+    __s64 tv_sec;
+    __s64 tv_nsec;
+};
 
-This is especially visible in nbd server,
-exposing as a raw file, a mostly empty qcow2 image over the net.
-In this case most of the reads by the remote user
-won't even hit the underlying kernel block device,
-and therefore most of the  overhead will be in the
-nbd traffic which increases significantly with lower max transfer size.
+As posix requires tv_nsec to be 'long', you need padding between
+tv_sec and tv_nsec to have a libc definition matching the kernel's
+binary layout.
 
-In addition to that even for local block device
-access the peformance improves a bit due to less
-traffic between qemu and the kernel when large
-transfer sizes are used (e.g for image conversion)
-
-More info can be found at:
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1647104
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Pankaj Gupta <pagupta@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/file-posix.c | 54 ++++++++++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index ab05b51a66..4479cc7ab4 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1038,15 +1038,13 @@ static void raw_reopen_abort(BDRVReopenState *sta=
-te)
-     s->reopen_state =3D NULL;
- }
-=20
--static int hdev_get_max_transfer_length(BlockDriverState *bs, int fd)
-+static int sg_get_max_transfer_length(int fd)
- {
- #ifdef BLKSECTGET
-     int max_bytes =3D 0;
--    short max_sectors =3D 0;
--    if (bs->sg && ioctl(fd, BLKSECTGET, &max_bytes) =3D=3D 0) {
-+
-+    if (ioctl(fd, BLKSECTGET, &max_bytes) =3D=3D 0) {
-         return max_bytes;
--    } else if (!bs->sg && ioctl(fd, BLKSECTGET, &max_sectors) =3D=3D 0) =
-{
--        return max_sectors << BDRV_SECTOR_BITS;
-     } else {
-         return -errno;
-     }
-@@ -1055,25 +1053,31 @@ static int hdev_get_max_transfer_length(BlockDriv=
-erState *bs, int fd)
- #endif
- }
-=20
--static int hdev_get_max_segments(const struct stat *st)
-+static int sg_get_max_segments(int fd)
- {
- #ifdef CONFIG_LINUX
-     char buf[32];
-     const char *end;
--    char *sysfspath;
-+    char *sysfspath =3D NULL;
-     int ret;
--    int fd =3D -1;
-+    int sysfd =3D -1;
-     long max_segments;
-+    struct stat st;
-+
-+    if (fstat(fd, &st)) {
-+        ret =3D -errno;
-+        goto out;
-+    }
-=20
-     sysfspath =3D g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segmen=
-ts",
--                                major(st->st_rdev), minor(st->st_rdev));
--    fd =3D open(sysfspath, O_RDONLY);
--    if (fd =3D=3D -1) {
-+                                major(st.st_rdev), minor(st.st_rdev));
-+    sysfd =3D open(sysfspath, O_RDONLY);
-+    if (sysfd =3D=3D -1) {
-         ret =3D -errno;
-         goto out;
-     }
-     do {
--        ret =3D read(fd, buf, sizeof(buf) - 1);
-+        ret =3D read(sysfd, buf, sizeof(buf) - 1);
-     } while (ret =3D=3D -1 && errno =3D=3D EINTR);
-     if (ret < 0) {
-         ret =3D -errno;
-@@ -1090,8 +1094,8 @@ static int hdev_get_max_segments(const struct stat =
-*st)
-     }
-=20
- out:
--    if (fd !=3D -1) {
--        close(fd);
-+    if (sysfd !=3D -1) {
-+        close(sysfd);
-     }
-     g_free(sysfspath);
-     return ret;
-@@ -1103,19 +1107,17 @@ out:
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     BDRVRawState *s =3D bs->opaque;
--    struct stat st;
-=20
--    if (!fstat(s->fd, &st)) {
--        if (S_ISBLK(st.st_mode) || S_ISCHR(st.st_mode)) {
--            int ret =3D hdev_get_max_transfer_length(bs, s->fd);
--            if (ret > 0 && ret <=3D BDRV_REQUEST_MAX_BYTES) {
--                bs->bl.max_transfer =3D pow2floor(ret);
--            }
--            ret =3D hdev_get_max_segments(&st);
--            if (ret > 0) {
--                bs->bl.max_transfer =3D MIN(bs->bl.max_transfer,
--                                          ret * getpagesize());
--            }
-+    if (bs->sg) {
-+        int ret =3D sg_get_max_transfer_length(s->fd);
-+
-+        if (ret > 0 && ret <=3D BDRV_REQUEST_MAX_BYTES) {
-+            bs->bl.max_transfer =3D pow2floor(ret);
-+        }
-+
-+        ret =3D sg_get_max_segments(s->fd);
-+        if (ret > 0) {
-+            bs->bl.max_transfer =3D MIN(bs->bl.max_transfer, ret * getpa=
-gesize());
-         }
-     }
-=20
---=20
-2.20.1
-
+      Arnd
 
