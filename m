@@ -2,51 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957A766BAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:37:43 +0200 (CEST)
-Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB23C66BAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 13:39:33 +0200 (CEST)
+Received: from localhost ([::1]:48458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hltry-0005ec-II
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 07:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
+	id 1hlttk-0007RV-KP
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 07:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53585)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hltrm-0005Gt-Ty
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:37:31 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttH-0006GO-Cs
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hltrl-0002hH-P7
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:37:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55546)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hlttG-00059D-6F
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:03 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:57826 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hltrj-0002ds-Tg
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:37:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF4E530C34C8;
- Fri, 12 Jul 2019 11:37:25 +0000 (UTC)
-Received: from work-vm (ovpn-117-214.ams2.redhat.com [10.36.117.214])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41A82611C3;
- Fri, 12 Jul 2019 11:37:24 +0000 (UTC)
-Date: Fri, 12 Jul 2019 12:37:21 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Singh, Brijesh" <brijesh.singh@amd.com>
-Message-ID: <20190712113721.GG2730@work-vm>
-References: <20190710202219.25939-1-brijesh.singh@amd.com>
- <20190710202219.25939-14-brijesh.singh@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190710202219.25939-14-brijesh.singh@amd.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 12 Jul 2019 11:37:26 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 13/13] target/i386: sev: remove
- migration blocker
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hlttF-0003Yt-S3
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 07:39:02 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id A9C8B1A1FE7;
+ Fri, 12 Jul 2019 13:37:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 7DF961A1FBF;
+ Fri, 12 Jul 2019 13:37:55 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 12 Jul 2019 13:37:45 +0200
+Message-Id: <1562931470-3700-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.1 0/4] target/mips: Fixes for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,62 +48,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Lendacky,
- Thomas" <Thomas.Lendacky@amd.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
+Cc: arikalo@wavecomp.com, sw@weilnetz.de, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Singh, Brijesh (brijesh.singh@amd.com) wrote:
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+At the moment, this includes fixes for problems in switch statements
+found by GCC 8.3 improved code analysis features.
 
-> ---
->  target/i386/sev.c | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 93c6a90806..48336515a2 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -34,7 +34,6 @@
->  #define DEFAULT_SEV_DEVICE      "/dev/sev"
->  
->  static SEVState *sev_state;
-> -static Error *sev_mig_blocker;
->  
->  static const char *const sev_fw_errlist[] = {
->      "",
-> @@ -686,7 +685,6 @@ static void
->  sev_launch_finish(SEVState *s)
->  {
->      int ret, error;
-> -    Error *local_err = NULL;
->  
->      trace_kvm_sev_launch_finish();
->      ret = sev_ioctl(sev_state->sev_fd, KVM_SEV_LAUNCH_FINISH, 0, &error);
-> @@ -697,16 +695,6 @@ sev_launch_finish(SEVState *s)
->      }
->  
->      sev_set_guest_state(SEV_STATE_RUNNING);
-> -
-> -    /* add migration blocker */
-> -    error_setg(&sev_mig_blocker,
-> -               "SEV: Migration is not implemented");
-> -    ret = migrate_add_blocker(sev_mig_blocker, &local_err);
-> -    if (local_err) {
-> -        error_report_err(local_err);
-> -        error_free(sev_mig_blocker);
-> -        exit(1);
-> -    }
->  }
->  
->  static int
-> -- 
-> 2.17.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Aleksandar Markovic (4):
+  target/mips: Add 'fall through' comments for handling nanoMips' SHXS,
+    SWXS
+  target/mips: Add missing 'break' for a case of MTHC0 handling
+  target/mips: Add missing 'break' for certain cases of MFTR handling
+  target/mips: Add missing 'break' for certain cases of MTTR handling
+
+ target/mips/translate.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+-- 
+2.7.4
+
 
