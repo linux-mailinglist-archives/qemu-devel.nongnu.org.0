@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCFB67461
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:37:24 +0200 (CEST)
-Received: from localhost ([::1]:51536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B296745E
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:36:48 +0200 (CEST)
+Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlzU3-00023X-1a
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39673)
+	id 1hlzTS-0007mA-Rb
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39718)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlzSq-0006Ap-Ss
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:09 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlzSu-0006OL-11
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlzSp-0004B9-Su
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41506)
+ (envelope-from <mreitz@redhat.com>) id 1hlzSs-0004I2-Qy
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36118)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlzSn-000469-Qd; Fri, 12 Jul 2019 13:36:05 -0400
+ id 1hlzSq-0004Ao-4x; Fri, 12 Jul 2019 13:36:08 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 23B31300194A;
- Fri, 12 Jul 2019 17:36:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 792F13079B63;
+ Fri, 12 Jul 2019 17:36:07 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B307919C58;
- Fri, 12 Jul 2019 17:36:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10E8819C58;
+ Fri, 12 Jul 2019 17:36:06 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 12 Jul 2019 19:35:54 +0200
-Message-Id: <20190712173600.14554-2-mreitz@redhat.com>
+Date: Fri, 12 Jul 2019 19:35:55 +0200
+Message-Id: <20190712173600.14554-3-mreitz@redhat.com>
 In-Reply-To: <20190712173600.14554-1-mreitz@redhat.com>
 References: <20190712173600.14554-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 12 Jul 2019 17:36:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 12 Jul 2019 17:36:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/7] block/nbd: Fix hang in .bdrv_close()
+Subject: [Qemu-devel] [PATCH 2/7] block: Add blk_truncate_for_formatting()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,60 +59,107 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When nbd_close() is called from a coroutine, the connection_co never
-gets to run, and thus nbd_teardown_connection() hangs.
-
-This is because aio_co_enter() only puts the connection_co into the main
-coroutine's wake-up queue, so this main coroutine needs to yield and
-wait for connection_co to terminate.
-
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/nbd.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ include/sysemu/block-backend.h | 12 ++++++++
+ block/block-backend.c          | 54 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 66 insertions(+)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 81edabbf35..8f5ee86842 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -61,6 +61,7 @@ typedef struct BDRVNBDState {
-     CoMutex send_mutex;
-     CoQueue free_sema;
-     Coroutine *connection_co;
-+    Coroutine *teardown_co;
-     int in_flight;
-=20
-     NBDClientRequest requests[MAX_NBD_REQUESTS];
-@@ -135,7 +136,15 @@ static void nbd_teardown_connection(BlockDriverState=
- *bs)
-     qio_channel_shutdown(s->ioc,
-                          QIO_CHANNEL_SHUTDOWN_BOTH,
-                          NULL);
--    BDRV_POLL_WHILE(bs, s->connection_co);
-+    if (qemu_in_coroutine()) {
-+        s->teardown_co =3D qemu_coroutine_self();
-+        /* connection_co resumes us when it terminates */
-+        qemu_coroutine_yield();
-+        s->teardown_co =3D NULL;
-+    } else {
-+        BDRV_POLL_WHILE(bs, s->connection_co);
-+    }
-+    assert(!s->connection_co);
-=20
-     nbd_client_detach_aio_context(bs);
-     object_unref(OBJECT(s->sioc));
-@@ -207,6 +216,9 @@ static coroutine_fn void nbd_connection_entry(void *o=
-paque)
-     bdrv_dec_in_flight(s->bs);
-=20
-     s->connection_co =3D NULL;
-+    if (s->teardown_co) {
-+        aio_co_wake(s->teardown_co);
-+    }
-     aio_wait_kick();
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backen=
+d.h
+index 733c4957eb..cd9ec8bf52 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -236,6 +236,18 @@ int blk_pwrite_compressed(BlockBackend *blk, int64_t=
+ offset, const void *buf,
+                           int bytes);
+ int blk_truncate(BlockBackend *blk, int64_t offset, PreallocMode preallo=
+c,
+                  Error **errp);
++
++/**
++ * Wrapper of blk_truncate() for format drivers that need to truncate
++ * their protocol node before formatting it.
++ * Invoke blk_truncate() to truncate the file to @offset; if that
++ * fails with -ENOTSUP (and the file is already big enough), try to
++ * overwrite the first sector with zeroes.  If that succeeds, return
++ * success.
++ */
++int blk_truncate_for_formatting(BlockBackend *blk, int64_t offset,
++                                Error **errp);
++
+ int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
+ int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
+                      int64_t pos, int size);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index a8d160fd5d..c0e64b1ee1 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2041,6 +2041,60 @@ int blk_truncate(BlockBackend *blk, int64_t offset=
+, PreallocMode prealloc,
+     return bdrv_truncate(blk->root, offset, prealloc, errp);
  }
 =20
++int blk_truncate_for_formatting(BlockBackend *blk, int64_t offset, Error=
+ **errp)
++{
++    Error *local_err =3D NULL;
++    int64_t current_size;
++    int bytes_to_clear;
++    int ret;
++
++    ret =3D blk_truncate(blk, offset, PREALLOC_MODE_OFF, &local_err);
++    if (ret < 0 && ret !=3D -ENOTSUP) {
++        error_propagate(errp, local_err);
++        return ret;
++    } else if (ret >=3D 0) {
++        return ret;
++    }
++
++    current_size =3D blk_getlength(blk);
++    if (current_size < 0) {
++        error_free(local_err);
++        error_setg_errno(errp, -current_size,
++                         "Failed to inquire new image file's current len=
+gth");
++        return current_size;
++    }
++
++    if (current_size < offset) {
++        /* Need to grow the image, but we failed to do that */
++        error_propagate(errp, local_err);
++        return -ENOTSUP;
++    }
++
++    error_free(local_err);
++    /*
++     * We can deal with images that are too big.  We just need to
++     * clear the first sector.
++     */
++
++    bytes_to_clear =3D MIN(current_size, BDRV_SECTOR_SIZE) - offset;
++    if (bytes_to_clear) {
++        if (!(blk->root->perm & BLK_PERM_WRITE)) {
++            error_setg(errp, "Cannot clear first sector of new image: "
++                       "Write permission missing");
++            return -EPERM;
++        }
++
++        ret =3D blk_pwrite_zeroes(blk, offset, bytes_to_clear, 0);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Failed to clear the first sect=
+or of "
++                             "the new image");
++            return ret;
++        }
++    }
++
++    return 0;
++}
++
+ static void blk_pdiscard_entry(void *opaque)
+ {
+     BlkRwCo *rwco =3D opaque;
 --=20
 2.21.0
 
