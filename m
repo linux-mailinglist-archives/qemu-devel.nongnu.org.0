@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63EF6717B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:34:14 +0200 (CEST)
-Received: from localhost ([::1]:50024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0614667189
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 16:36:14 +0200 (CEST)
+Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlwcn-0001Da-C7
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45113)
+	id 1hlwei-0001Yh-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 10:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45202)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hlwbb-0006Ho-Tq
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:01 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hlwbt-0007Mu-Ar
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hlwbZ-00020w-TG
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49784)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hlwbZ-00020V-Kt
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:32:57 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ED8803086205;
- Fri, 12 Jul 2019 14:32:56 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.36.118.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA6EF6092E;
- Fri, 12 Jul 2019 14:32:54 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 12 Jul 2019 16:32:06 +0200
-Message-Id: <20190712143207.4214-19-quintela@redhat.com>
-In-Reply-To: <20190712143207.4214-1-quintela@redhat.com>
-References: <20190712143207.4214-1-quintela@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1hlwbr-00029c-AJ
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:17 -0400
+Resent-Date: Fri, 12 Jul 2019 10:33:17 -0400
+Resent-Message-Id: <E1hlwbr-00029c-AJ@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21958)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hlwbr-00028p-4a
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 10:33:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1562941982; cv=none; d=zoho.com; s=zohoarc; 
+ b=H56kezIrRS0z7qNZzWUukuSsMYploqnWyyw1oXQqTW6stIBqcbNsADbXzPLAw1QorEnxOhUxGXLuFfHlLhoPUVLC97Dz3qDBGZxcUGyIyEfxmqFKnOonpLlmGBJ/xb/o9n+487SqoBRCRZNo/fm4OKX94kBgcQeVmdNeBPHQ8go=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1562941982;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=MhM5avbUwvAWT/wgrBEnTu/0s235pwoC69x2lKbbnfk=; 
+ b=Z1Vf1i5Gp7rQveYlkin6BNHkS/m5/5AZJ8/qW0/V7x9i7XBz3j2WEdHAjo1CJCP3VAMM7XuSNEfdovDTZHVOhsMr1IxIR/vwezUj6e0VPCnvYmBYH/1n6zzDV1/aUQP+HPCqoMP/cgDyN6fWaZh/RBnnROUsSUXsgyjnFFBt9UI=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1562941981285341.95373745103177;
+ Fri, 12 Jul 2019 07:33:01 -0700 (PDT)
+Message-ID: <156294197990.12463.16232422939322749551@c4a48874b076>
+In-Reply-To: <20190711104412.31233-1-quintela@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 12 Jul 2019 14:32:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: quintela@redhat.com
+Date: Fri, 12 Jul 2019 07:33:01 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 18/19] migration: Split log_clear() into smaller
- chunks
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PULL 00/19] Migration patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,326 +61,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, kvm@vger.kernel.org,
+ quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
-
-Currently we are doing log_clear() right after log_sync() which mostly
-keeps the old behavior when log_clear() was still part of log_sync().
-
-This patch tries to further optimize the migration log_clear() code
-path to split huge log_clear()s into smaller chunks.
-
-We do this by spliting the whole guest memory region into memory
-chunks, whose size is decided by MigrationState.clear_bitmap_shift (an
-example will be given below).  With that, we don't do the dirty bitmap
-clear operation on the remote node (e.g., KVM) when we fetch the dirty
-bitmap, instead we explicitly clear the dirty bitmap for the memory
-chunk for each of the first time we send a page in that chunk.
-
-Here comes an example.
-
-Assuming the guest has 64G memory, then before this patch the KVM
-ioctl KVM_CLEAR_DIRTY_LOG will be a single one covering 64G memory.
-If after the patch, let's assume when the clear bitmap shift is 18,
-then the memory chunk size on x86_64 will be 1UL<<18 * 4K =3D 1GB.  Then
-instead of sending a big 64G ioctl, we'll send 64 small ioctls, each
-of the ioctl will cover 1G of the guest memory.  For each of the 64
-small ioctls, we'll only send if any of the page in that small chunk
-was going to be sent right away.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20190603065056.25211-12-peterx@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- include/exec/ram_addr.h | 76 +++++++++++++++++++++++++++++++++++++++--
- migration/migration.c   |  4 +++
- migration/migration.h   | 27 +++++++++++++++
- migration/ram.c         | 44 ++++++++++++++++++++++++
- migration/trace-events  |  1 +
- 5 files changed, 150 insertions(+), 2 deletions(-)
-
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 222b4338fb..b7b2e60ff6 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -51,8 +51,70 @@ struct RAMBlock {
-     unsigned long *unsentmap;
-     /* bitmap of already received pages in postcopy */
-     unsigned long *receivedmap;
-+
-+    /*
-+     * bitmap to track already cleared dirty bitmap.  When the bit is
-+     * set, it means the corresponding memory chunk needs a log-clear.
-+     * Set this up to non-NULL to enable the capability to postpone
-+     * and split clearing of dirty bitmap on the remote node (e.g.,
-+     * KVM).  The bitmap will be set only when doing global sync.
-+     *
-+     * NOTE: this bitmap is different comparing to the other bitmaps
-+     * in that one bit can represent multiple guest pages (which is
-+     * decided by the `clear_bmap_shift' variable below).  On
-+     * destination side, this should always be NULL, and the variable
-+     * `clear_bmap_shift' is meaningless.
-+     */
-+    unsigned long *clear_bmap;
-+    uint8_t clear_bmap_shift;
- };
-=20
-+/**
-+ * clear_bmap_size: calculate clear bitmap size
-+ *
-+ * @pages: number of guest pages
-+ * @shift: guest page number shift
-+ *
-+ * Returns: number of bits for the clear bitmap
-+ */
-+static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
-+{
-+    return DIV_ROUND_UP(pages, 1UL << shift);
-+}
-+
-+/**
-+ * clear_bmap_set: set clear bitmap for the page range
-+ *
-+ * @rb: the ramblock to operate on
-+ * @start: the start page number
-+ * @size: number of pages to set in the bitmap
-+ *
-+ * Returns: None
-+ */
-+static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
-+                                  uint64_t npages)
-+{
-+    uint8_t shift =3D rb->clear_bmap_shift;
-+
-+    bitmap_set_atomic(rb->clear_bmap, start >> shift,
-+                      clear_bmap_size(npages, shift));
-+}
-+
-+/**
-+ * clear_bmap_test_and_clear: test clear bitmap for the page, clear if s=
-et
-+ *
-+ * @rb: the ramblock to operate on
-+ * @page: the page number to check
-+ *
-+ * Returns: true if the bit was set, false otherwise
-+ */
-+static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page=
-)
-+{
-+    uint8_t shift =3D rb->clear_bmap_shift;
-+
-+    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1=
-);
-+}
-+
- static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
- {
-     return (b && b->host && offset < b->used_length) ? true : false;
-@@ -463,8 +525,18 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBl=
-ock *rb,
-             }
-         }
-=20
--        /* TODO: split the huge bitmap into smaller chunks */
--        memory_region_clear_dirty_bitmap(rb->mr, start, length);
-+        if (rb->clear_bmap) {
-+            /*
-+             * Postpone the dirty bitmap clear to the point before we
-+             * really send the pages, also we will split the clear
-+             * dirty procedure into smaller chunks.
-+             */
-+            clear_bmap_set(rb, start >> TARGET_PAGE_BITS,
-+                           length >> TARGET_PAGE_BITS);
-+        } else {
-+            /* Slow path - still do that in a huge chunk */
-+            memory_region_clear_dirty_bitmap(rb->mr, start, length);
-+        }
-     } else {
-         ram_addr_t offset =3D rb->offset;
-=20
-diff --git a/migration/migration.c b/migration/migration.c
-index 2865ae3fa9..8a607fe1e2 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3362,6 +3362,8 @@ void migration_global_dump(Monitor *mon)
-                    ms->send_section_footer ? "on" : "off");
-     monitor_printf(mon, "decompress-error-check: %s\n",
-                    ms->decompress_error_check ? "on" : "off");
-+    monitor_printf(mon, "clear-bitmap-shift: %u\n",
-+                   ms->clear_bitmap_shift);
- }
-=20
- #define DEFINE_PROP_MIG_CAP(name, x)             \
-@@ -3376,6 +3378,8 @@ static Property migration_properties[] =3D {
-                      send_section_footer, true),
-     DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
-                       decompress_error_check, true),
-+    DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
-+                      clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
-=20
-     /* Migration parameters */
-     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
-diff --git a/migration/migration.h b/migration/migration.h
-index 5e8f09c6db..1fdd7b21fd 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -26,6 +26,23 @@ struct PostcopyBlocktimeContext;
-=20
- #define  MIGRATION_RESUME_ACK_VALUE  (1)
-=20
-+/*
-+ * 1<<6=3D64 pages -> 256K chunk when page size is 4K.  This gives us
-+ * the benefit that all the chunks are 64 pages aligned then the
-+ * bitmaps are always aligned to LONG.
-+ */
-+#define CLEAR_BITMAP_SHIFT_MIN             6
-+/*
-+ * 1<<18=3D256K pages -> 1G chunk when page size is 4K.  This is the
-+ * default value to use if no one specified.
-+ */
-+#define CLEAR_BITMAP_SHIFT_DEFAULT        18
-+/*
-+ * 1<<31=3D2G pages -> 8T chunk when page size is 4K.  This should be
-+ * big enough and make sure we won't overflow easily.
-+ */
-+#define CLEAR_BITMAP_SHIFT_MAX            31
-+
- /* State for the incoming migration */
- struct MigrationIncomingState {
-     QEMUFile *from_src_file;
-@@ -232,6 +249,16 @@ struct MigrationState
-      * do not trigger spurious decompression errors.
-      */
-     bool decompress_error_check;
-+
-+    /*
-+     * This decides the size of guest memory chunk that will be used
-+     * to track dirty bitmap clearing.  The size of memory chunk will
-+     * be GUEST_PAGE_SIZE << N.  Say, N=3D0 means we will clear dirty
-+     * bitmap for each page to send (1<<0=3D1); N=3D10 means we will cle=
-ar
-+     * dirty bitmap only once for 1<<10=3D1K continuous guest pages
-+     * (which is in 4M chunk).
-+     */
-+    uint8_t clear_bitmap_shift;
- };
-=20
- void migrate_set_state(int *state, int old_state, int new_state);
-diff --git a/migration/ram.c b/migration/ram.c
-index 48969db84b..8a6ad61d3d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1664,6 +1664,33 @@ static inline bool migration_bitmap_clear_dirty(RA=
-MState *rs,
-     bool ret;
-=20
-     qemu_mutex_lock(&rs->bitmap_mutex);
-+
-+    /*
-+     * Clear dirty bitmap if needed.  This _must_ be called before we
-+     * send any of the page in the chunk because we need to make sure
-+     * we can capture further page content changes when we sync dirty
-+     * log the next time.  So as long as we are going to send any of
-+     * the page in the chunk we clear the remote dirty bitmap for all.
-+     * Clearing it earlier won't be a problem, but too late will.
-+     */
-+    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
-+        uint8_t shift =3D rb->clear_bmap_shift;
-+        hwaddr size =3D 1ULL << (TARGET_PAGE_BITS + shift);
-+        hwaddr start =3D (page << TARGET_PAGE_BITS) & (-size);
-+
-+        /*
-+         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-+         * can make things easier sometimes since then start address
-+         * of the small chunk will always be 64 pages aligned so the
-+         * bitmap will always be aligned to unsigned long.  We should
-+         * even be able to remove this restriction but I'm simply
-+         * keeping it.
-+         */
-+        assert(shift >=3D 6);
-+        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page)=
-;
-+        memory_region_clear_dirty_bitmap(rb->mr, start, size);
-+    }
-+
-     ret =3D test_and_clear_bit(page, rb->bmap);
-=20
-     if (ret) {
-@@ -2687,6 +2714,8 @@ static void ram_save_cleanup(void *opaque)
-     memory_global_dirty_log_stop();
-=20
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        g_free(block->clear_bmap);
-+        block->clear_bmap =3D NULL;
-         g_free(block->bmap);
-         block->bmap =3D NULL;
-         g_free(block->unsentmap);
-@@ -3197,11 +3226,24 @@ static int ram_state_init(RAMState **rsp)
-=20
- static void ram_list_init_bitmaps(void)
- {
-+    MigrationState *ms =3D migrate_get_current();
-     RAMBlock *block;
-     unsigned long pages;
-+    uint8_t shift;
-=20
-     /* Skip setting bitmap if there is no RAM */
-     if (ram_bytes_total()) {
-+        shift =3D ms->clear_bitmap_shift;
-+        if (shift > CLEAR_BITMAP_SHIFT_MAX) {
-+            error_report("clear_bitmap_shift (%u) too big, using "
-+                         "max value (%u)", shift, CLEAR_BITMAP_SHIFT_MAX=
-);
-+            shift =3D CLEAR_BITMAP_SHIFT_MAX;
-+        } else if (shift < CLEAR_BITMAP_SHIFT_MIN) {
-+            error_report("clear_bitmap_shift (%u) too small, using "
-+                         "min value (%u)", shift, CLEAR_BITMAP_SHIFT_MIN=
-);
-+            shift =3D CLEAR_BITMAP_SHIFT_MIN;
-+        }
-+
-         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-             pages =3D block->max_length >> TARGET_PAGE_BITS;
-             /*
-@@ -3214,6 +3256,8 @@ static void ram_list_init_bitmaps(void)
-              * Here setting RAMBlock.bmap would be fine too but not nece=
-ssary.
-              */
-             block->bmap =3D bitmap_new(pages);
-+            block->clear_bmap_shift =3D shift;
-+            block->clear_bmap =3D bitmap_new(clear_bmap_size(pages, shif=
-t));
-             if (migrate_postcopy_ram()) {
-                 block->unsentmap =3D bitmap_new(pages);
-                 bitmap_set(block->unsentmap, 0, pages);
-diff --git a/migration/trace-events b/migration/trace-events
-index cd50a1e659..d8e54c367a 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -79,6 +79,7 @@ get_queued_page(const char *block_name, uint64_t tmp_of=
-fset, unsigned long page_
- get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, u=
-nsigned long page_abs, int sent) "%s/0x%" PRIx64 " page_abs=3D0x%lx (sent=
-=3D%d)"
- migration_bitmap_sync_start(void) ""
- migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
-+migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, u=
-nsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
- migration_throttle(void) ""
- multifd_recv(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t fl=
-ags, uint32_t next_packet_size) "channel %d packet_num %" PRIu64 " pages =
-%d flags 0x%x next packet size %d"
- multifd_recv_sync_main(long packet_num) "packet num %ld"
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxMTEwNDQxMi4zMTIz
+My0xLXF1aW50ZWxhQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNzExMTA0NDEyLjMxMjMzLTEtcXVpbnRlbGFA
+cmVkaGF0LmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQVUxMIDAwLzE5
+XSBNaWdyYXRpb24gcGF0Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
+aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
+cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
+ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMjA5YzI4NCBtaWdyYXRpb246IGFsbG93
+IHByaXZhdGUgZGVzdGluYXRpb24gcmFtIHdpdGggeC1pZ25vcmUtc2hhcmVkCmMwMDhkZTMgbWln
+cmF0aW9uOiBTcGxpdCBsb2dfY2xlYXIoKSBpbnRvIHNtYWxsZXIgY2h1bmtzCjFiOThiOTYga3Zt
+OiBTdXBwb3J0IEtWTV9DTEVBUl9ESVJUWV9MT0cKNjg1MGMzNCBrdm06IEludHJvZHVjZSBzbG90
+cyBsb2NrIGZvciBtZW1vcnkgbGlzdGVuZXIKNzg3YTNlOSBrdm06IFBlcnNpc3RlbnQgcGVyIGt2
+bXNsb3QgZGlydHkgYml0bWFwCjE4ZmI2MzEga3ZtOiBVcGRhdGUgY29tbWVudHMgZm9yIHN5bmNf
+ZGlydHlfYml0bWFwCjg2ZDk1ZTYgbWVtb3J5OiBJbnRyb2R1Y2UgbWVtb3J5IGxpc3RlbmVyIGhv
+b2sgbG9nX2NsZWFyKCkKZDEwNjNmMSBtZW1vcnk6IFBhc3MgbXIgaW50byBzbmFwc2hvdF9hbmRf
+Y2xlYXJfZGlydHkKM2ZhZmJkYSBiaXRtYXA6IEFkZCBiaXRtYXBfY29weV93aXRoX3tzcmN8ZHN0
+fV9vZmZzZXQoKQo3OGM2NDNmIG1lbW9yeTogRG9uJ3Qgc2V0IG1pZ3JhdGlvbiBiaXRtYXAgd2hl
+biB3aXRob3V0IG1pZ3JhdGlvbgpjNWJhYzZkIG1pZ3JhdGlvbjogTm8gbmVlZCB0byB0YWtlIHJj
+dSBkdXJpbmcgc3luY19kaXJ0eV9iaXRtYXAKZWE0NDVlMiBtaWdyYXRpb2luL3JhbS5jOiByZXNl
+dCBjb21wbGV0ZV9yb3VuZCB3aGVuIHdlIGdldHMgYSBxdWV1ZWQgcGFnZQplOGU1ZTkxIG1pZ3Jh
+dGlvbi9tdWx0aWZkOiBzeW5jIHBhY2tldF9udW0gYWZ0ZXIgYWxsIHRocmVhZCBhcmUgZG9uZQpl
+NWM2MmJhIGN1dGlsczogcmVtb3ZlIG9uZSB1bm5lY2Vzc2FyeSBwb2ludGVyIG9wZXJhdGlvbgo1
+OTE0YzgzIG1pZ3JhdGlvbi94YnpybGU6IHVwZGF0ZSBjYWNoZSBhbmQgY3VycmVudF9kYXRhIGlu
+IG9uZSBwbGFjZQo0MDQ2NTZhIG1pZ3JhdGlvbi9tdWx0aWZkOiBjYWxsIG11bHRpZmRfc2VuZF9z
+eW5jX21haW4gd2hlbiBzZW5kaW5nIFJBTV9TQVZFX0ZMQUdfRU9TCmZkNTIyZjYgbWlncmF0aW9u
+LXRlc3Q6IEFkZCBtaWdyYXRpb24gbXVsdGlmZCB0ZXN0CjQxMGE0MmIgbWlncmF0aW9uLXRlc3Q6
+IHJlbmFtZSBwYXJhbWV0ZXIgdG8gcGFyYW1ldGVyX2ludApjNGM5MjFhIG1pZ3JhdGlvbjogZml4
+IG11bHRpZmRfcmVjdiBldmVudCB0eXBvCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzE5IENoZWNr
+aW5nIGNvbW1pdCBjNGM5MjFhZTQzOGQgKG1pZ3JhdGlvbjogZml4IG11bHRpZmRfcmVjdiBldmVu
+dCB0eXBvKQoyLzE5IENoZWNraW5nIGNvbW1pdCA0MTBhNDJiMDc3OWYgKG1pZ3JhdGlvbi10ZXN0
+OiByZW5hbWUgcGFyYW1ldGVyIHRvIHBhcmFtZXRlcl9pbnQpCjMvMTkgQ2hlY2tpbmcgY29tbWl0
+IGZkNTIyZjYyMmJmNyAobWlncmF0aW9uLXRlc3Q6IEFkZCBtaWdyYXRpb24gbXVsdGlmZCB0ZXN0
+KQo0LzE5IENoZWNraW5nIGNvbW1pdCA0MDQ2NTZhMmIwMjkgKG1pZ3JhdGlvbi9tdWx0aWZkOiBj
+YWxsIG11bHRpZmRfc2VuZF9zeW5jX21haW4gd2hlbiBzZW5kaW5nIFJBTV9TQVZFX0ZMQUdfRU9T
+KQo1LzE5IENoZWNraW5nIGNvbW1pdCA1OTE0YzgzNTI3MGMgKG1pZ3JhdGlvbi94YnpybGU6IHVw
+ZGF0ZSBjYWNoZSBhbmQgY3VycmVudF9kYXRhIGluIG9uZSBwbGFjZSkKNi8xOSBDaGVja2luZyBj
+b21taXQgZTVjNjJiYTg5ZDYwIChjdXRpbHM6IHJlbW92ZSBvbmUgdW5uZWNlc3NhcnkgcG9pbnRl
+ciBvcGVyYXRpb24pCjcvMTkgQ2hlY2tpbmcgY29tbWl0IGU4ZTVlOTE2MjZkMiAobWlncmF0aW9u
+L211bHRpZmQ6IHN5bmMgcGFja2V0X251bSBhZnRlciBhbGwgdGhyZWFkIGFyZSBkb25lKQo4LzE5
+IENoZWNraW5nIGNvbW1pdCBlYTQ0NWUyNTMzNjQgKG1pZ3JhdGlvaW4vcmFtLmM6IHJlc2V0IGNv
+bXBsZXRlX3JvdW5kIHdoZW4gd2UgZ2V0cyBhIHF1ZXVlZCBwYWdlKQo5LzE5IENoZWNraW5nIGNv
+bW1pdCBjNWJhYzZkZWIzNjMgKG1pZ3JhdGlvbjogTm8gbmVlZCB0byB0YWtlIHJjdSBkdXJpbmcg
+c3luY19kaXJ0eV9iaXRtYXApCjEwLzE5IENoZWNraW5nIGNvbW1pdCA3OGM2NDNmOGM3ODUgKG1l
+bW9yeTogRG9uJ3Qgc2V0IG1pZ3JhdGlvbiBiaXRtYXAgd2hlbiB3aXRob3V0IG1pZ3JhdGlvbikK
+MTEvMTkgQ2hlY2tpbmcgY29tbWl0IDNmYWZiZGE1YWZhNSAoYml0bWFwOiBBZGQgYml0bWFwX2Nv
+cHlfd2l0aF97c3JjfGRzdH1fb2Zmc2V0KCkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxl
+dGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzY3OiAKbmV3IGZp
+bGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTkzIGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDExLzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjEyLzE5IENoZWNr
+aW5nIGNvbW1pdCBkMTA2M2YxNDYxZTIgKG1lbW9yeTogUGFzcyBtciBpbnRvIHNuYXBzaG90X2Fu
+ZF9jbGVhcl9kaXJ0eSkKMTMvMTkgQ2hlY2tpbmcgY29tbWl0IDg2ZDk1ZTZjZTAwMCAobWVtb3J5
+OiBJbnRyb2R1Y2UgbWVtb3J5IGxpc3RlbmVyIGhvb2sgbG9nX2NsZWFyKCkpCjE0LzE5IENoZWNr
+aW5nIGNvbW1pdCAxOGZiNjMxMzgyOTUgKGt2bTogVXBkYXRlIGNvbW1lbnRzIGZvciBzeW5jX2Rp
+cnR5X2JpdG1hcCkKMTUvMTkgQ2hlY2tpbmcgY29tbWl0IDc4N2EzZTkxZGJlNyAoa3ZtOiBQZXJz
+aXN0ZW50IHBlciBrdm1zbG90IGRpcnR5IGJpdG1hcCkKMTYvMTkgQ2hlY2tpbmcgY29tbWl0IDY4
+NTBjMzQ5NTgwMiAoa3ZtOiBJbnRyb2R1Y2Ugc2xvdHMgbG9jayBmb3IgbWVtb3J5IGxpc3RlbmVy
+KQoxNy8xOSBDaGVja2luZyBjb21taXQgMWI5OGI5NjZlYzMxIChrdm06IFN1cHBvcnQgS1ZNX0NM
+RUFSX0RJUlRZX0xPRykKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIwMTogRklM
+RTogYWNjZWwva3ZtL2t2bS1hbGwuYzoxMDU0OgorICAgIEtWTU1lbW9yeUxpc3RlbmVyICprbWwg
+PSBjb250YWluZXJfb2YobGlzdGVuZXIsIEtWTU1lbW9yeUxpc3RlbmVyLCBsaXN0ZW5lcik7Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDIxNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8x
+OSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
+b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
+ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOC8xOSBDaGVja2luZyBjb21taXQgYzAwOGRl
+MzUxM2FjIChtaWdyYXRpb246IFNwbGl0IGxvZ19jbGVhcigpIGludG8gc21hbGxlciBjaHVua3Mp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiB0cmFp
+bGluZyB3aGl0ZXNwYWNlCiM0ODogRklMRTogaW5jbHVkZS9leGVjL21lbW9yeS5oLnJlajo2Ogor
+ICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM2NzA6IEZJTEU6IG1lbW9yeS5jLnJlajo2
+OgorICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM1NzY1OiBGSUxFOiBtaWdyYXRpb24v
+cmFtLmMucmVqOjQ6CisgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzU3NzI6IEZJTEU6
+IG1pZ3JhdGlvbi9yYW0uYy5yZWo6MTE6CisgJAoKdG90YWw6IDQgZXJyb3JzLCAxIHdhcm5pbmdz
+LCA2MDAwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE4LzE5IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgoxOS8xOSBDaGVja2luZyBjb21taXQgMjA5YzI4NDVkYjk1IChtaWdyYXRpb246IGFsbG93
+IHByaXZhdGUgZGVzdGluYXRpb24gcmFtIHdpdGggeC1pZ25vcmUtc2hhcmVkKQo9PT0gT1VUUFVU
+IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcxMTEwNDQxMi4z
+MTIzMy0xLXF1aW50ZWxhQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3Nh
+Z2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczov
+L3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZl
+bEByZWRoYXQuY29t
 
 
