@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 247C6667F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 09:52:22 +0200 (CEST)
-Received: from localhost ([::1]:47266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6417966806
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 09:55:31 +0200 (CEST)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlqLt-0004xH-2J
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 03:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
+	id 1hlqOw-0007OD-Hb
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 03:55:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hlqLg-0004YM-T7
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:52:09 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hlqOk-0006wH-Fy
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:55:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hlqLf-0007Ep-Op
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:52:08 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33236)
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hlqOj-0001f2-Gu
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:55:18 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39721)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1hlqLf-0007DT-Hm
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:52:07 -0400
-Received: by mail-wm1-x341.google.com with SMTP id h19so8629096wme.0
- for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 00:52:06 -0700 (PDT)
+ id 1hlqOj-0001eQ-2I
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 03:55:17 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x4so8896402wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 12 Jul 2019 00:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=kBPNkVAE+1dn8d38g2pq7SDBCNJopOCbX6igWvvzJ+8=;
- b=I6xOpnR+FDB5c08wqVfY4jHAjW2WX8QyANgq4a1oyDcwVF/NQlJ2EDn7Cv97wyX9Wz
- 1hLDZ8svabXvHZDE05PBzyK6BCiMvYnJQ03PWNYJ9npXJdt+K5G5mhkdThb5UE7SZpyH
- HrJUFxbFmovnpqj0gVrJ4BSd37xmO8HNHlLYAM7c7tgJJzODIBhR0y/d1N3J2M1cDxjE
- vqCumIrtXA1dDj4Y47fk+WiJ8mJIJrDqLP/JcMQ44TClmTQGyYGvy3skytba1+yZDBFE
- Dso/ih2KmR2LE6gbkUORlg42xs5z4zzsQ0BprtIPFhSbY5xuh8IdWxTUOb8gWz8bjMJw
- F3KA==
+ bh=5KxKAEwho4J/ZngTh1mES1M/ojCXrTU9e6+TtoYyVb8=;
+ b=OiRgYQl5X9qreDA49pRTac2PxR5llIO4blV3FGNLiwywJMYrM67ocLtymhUhqxvSpy
+ Lb9m5ApMkZ/Ij2yX416J1a1e4oEX1sB+Vpd03EdM5JCpkpePrloceLXr0AlWzfS93ZVO
+ 2EIytLLAle9rvylYBcjIEUB14y0qZaDIN/GOIfUk5l9sAbf6TpO0SJiwxdQrHZzSNGaz
+ cycJA27AmRsavfjoNox/psuJUaUrh510mCGWBD2p1jKjQX61c9YabndjfprzG4r3V9u9
+ T3OzuZcz2oHSGfpYZwBjPlrvoF+YyXIFkGJjioW3xPwsGaCo0h/uwG2vKKZoFrO/Zs61
+ j8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=kBPNkVAE+1dn8d38g2pq7SDBCNJopOCbX6igWvvzJ+8=;
- b=Gbyu0sxj6PwedDvBkp75TPhJkbRJSAOU7b2P2SZq/6+Wu4aEy6yxzgLIgTRug8Rz19
- ThN0BvQzBza1FLz+rJrvOrv4xtPrvgO3/yoGyBx1jM/R4hoVeOL7SWvOkv6jmB/DvmNr
- 91jSpZEYBzqtwdvz0UDvoyPPJyawzCrwGOsGFEEFPH5HWeBd+kE1eIHxU7uo/icNpvna
- 5pRlRYCsXVVnBsMfbd3LuhT48oGvpN2t9fTxpzalgWSjfufNcLD1Ae5jqg8qyAaiiMT0
- 97c4nR8EO6Yj44DW9lXnxKh6CMNunY6WWOg2e0JkjFSV3wYAhPBMp9QbOasFTI1JKo/n
- jwwA==
-X-Gm-Message-State: APjAAAXQoRXbBlV8btoS+oXRnwnqQ2DBdDcm54anORIcDl3MUWycnwTd
- 7iJ37gOV75o5IDApi18g5LU=
-X-Google-Smtp-Source: APXvYqzsgJweM8sCHn5THBtS+k6C0JRZ7eDTsUe/zV4Cxbivy6TCkMHrmB6ALftxqaZ4/M44JjEuJw==
-X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr8165429wmh.100.1562917925889; 
- Fri, 12 Jul 2019 00:52:05 -0700 (PDT)
+ bh=5KxKAEwho4J/ZngTh1mES1M/ojCXrTU9e6+TtoYyVb8=;
+ b=S86iinPNpLJA7VrCdNTGDh0OcDdrSmVfA+Avp0Wf2mVKo0k/o9JquXOhlFa1VLKGuY
+ dgBwzzi3IwEiq5fCyynIEG4ho6E/LSZQwsbdnB3Eh+YwKPI5YMLGZ6jElAsQuoc6/3PR
+ PFsLiUP2fhSTdrnQIHTPIDkkGgsh0TLwvpiKTJuZbY04EeyCX9QZJpCa5JFfxu5ZJT1v
+ AZeYL1YqwEeBQAjezMcFf0HsbMJblI75GnELp5eudXUKYAQfBKLyZC0OYoabd7TBUa1/
+ kXAu2CKxMMJBooT0BoRiiXRzmtV5nXx6+InSodanKRBSoziNL9paydRP61Xzg8pPGT+4
+ +hOA==
+X-Gm-Message-State: APjAAAXrvwEEMcyGx7wx6/k/Jy/8pdLyipSnJURAlOR3Q1COa4U8alwt
+ 7JWB/kPiH+zUGi2uFSHruhtegghz
+X-Google-Smtp-Source: APXvYqzcylkhrncvSQE+tJGJRdXK4bs5msh72avr4fgOUaMmVw6LlWfcBoOW10SCjfPrCCSCZ5Dbxg==
+X-Received: by 2002:adf:f186:: with SMTP id h6mr9798954wro.274.1562918115642; 
+ Fri, 12 Jul 2019 00:55:15 -0700 (PDT)
 Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id f7sm8234118wrv.38.2019.07.12.00.52.04
+ by smtp.gmail.com with ESMTPSA id f17sm7088375wmf.27.2019.07.12.00.55.14
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 12 Jul 2019 00:52:05 -0700 (PDT)
+ Fri, 12 Jul 2019 00:55:15 -0700 (PDT)
 To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20190711202819.3500-1-mst@redhat.com>
+References: <20190711192512.31936-1-mst@redhat.com>
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <7d68bc97-c5c1-84a0-882e-9059c70df6fe@gmail.com>
-Date: Fri, 12 Jul 2019 10:52:21 +0300
+Message-ID: <31f0357b-7117-45e8-230e-d13f326b202c@gmail.com>
+Date: Fri, 12 Jul 2019 10:55:30 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190711202819.3500-1-mst@redhat.com>
+In-Reply-To: <20190711192512.31936-1-mst@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v2] pcie: consistent names for function args
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] xio3130_downstream: typo fix
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,41 +87,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 7/11/19 11:28 PM, Michael S. Tsirkin wrote:
-> The function declarations for pci_cap_slot_get and
-> pci_cap_slot_write_config call the argument "slot_ctl", but the function
-> definitions and all the call sites drop the 'o' and call it "slt_ctl".
-> Let's be consistent.
+On 7/11/19 10:25 PM, Michael S. Tsirkin wrote:
+> slt ctl/status are passed in incorrect order.
+> Fix this up.
 >
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>   hw/pci-bridge/xio3130_downstream.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Fix pcie_cap_slot_write_config too.
->
->   include/hw/pci/pcie.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> index 34f277735c..8cf3361fc4 100644
-> --- a/include/hw/pci/pcie.h
-> +++ b/include/hw/pci/pcie.h
-> @@ -107,9 +107,9 @@ void pcie_cap_lnkctl_reset(PCIDevice *dev);
+> diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
+> index 899b0fd6c9..182e164f74 100644
+> --- a/hw/pci-bridge/xio3130_downstream.c
+> +++ b/hw/pci-bridge/xio3130_downstream.c
+> @@ -43,7 +43,7 @@ static void xio3130_downstream_write_config(PCIDevice *d, uint32_t address,
+>   {
+>       uint16_t slt_ctl, slt_sta;
 >   
->   void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot);
->   void pcie_cap_slot_reset(PCIDevice *dev);
-> -void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slot_ctl, uint16_t *slt_sta);
-> +void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta);
->   void pcie_cap_slot_write_config(PCIDevice *dev,
-> -                                uint16_t old_slot_ctl, uint16_t old_slt_sta,
-> +                                uint16_t old_slt_ctl, uint16_t old_slt_sta,
->                                   uint32_t addr, uint32_t val, int len);
->   int pcie_cap_slot_post_load(void *opaque, int version_id);
->   void pcie_cap_slot_push_attention_button(PCIDevice *dev);
+> -    pcie_cap_slot_get(d, &slt_sta, &slt_ctl);
+> +    pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
+>       pci_bridge_write_config(d, address, val, len);
+>       pcie_cap_flr_write_config(d, address, val, len);
+>       pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
 
 Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 
 Thanks,
 Marcel
-
 
