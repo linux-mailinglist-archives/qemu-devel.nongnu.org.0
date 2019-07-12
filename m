@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B0567460
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:37:00 +0200 (CEST)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EDA67468
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 19:37:47 +0200 (CEST)
+Received: from localhost ([::1]:51548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlzTe-0000IS-Sf
-	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39788)
+	id 1hlzUQ-0003qh-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 12 Jul 2019 13:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39854)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hlzT0-0006tU-Uf
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hlzT4-00077K-1b
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hlzSz-0004VE-Kv
- for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49758)
+ (envelope-from <mreitz@redhat.com>) id 1hlzT1-0004ZY-Sy
+ for qemu-devel@nongnu.org; Fri, 12 Jul 2019 13:36:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36190)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hlzSx-0004RU-4C; Fri, 12 Jul 2019 13:36:15 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hlzSz-0004UJ-DR; Fri, 12 Jul 2019 13:36:17 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6F95419CBD6;
- Fri, 12 Jul 2019 17:36:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B7D26307845E;
+ Fri, 12 Jul 2019 17:36:16 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07E336013B;
- Fri, 12 Jul 2019 17:36:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 514035D71C;
+ Fri, 12 Jul 2019 17:36:16 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 12 Jul 2019 19:35:58 +0200
-Message-Id: <20190712173600.14554-6-mreitz@redhat.com>
+Date: Fri, 12 Jul 2019 19:35:59 +0200
+Message-Id: <20190712173600.14554-7-mreitz@redhat.com>
 In-Reply-To: <20190712173600.14554-1-mreitz@redhat.com>
 References: <20190712173600.14554-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 12 Jul 2019 17:36:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 12 Jul 2019 17:36:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/7] file-posix: Drop hdev_co_create_opts()
+Subject: [Qemu-devel] [PATCH 6/7] iscsi: Drop iscsi_co_create_opts()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,115 +63,93 @@ The generic fallback implementation effectively does the same.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/file-posix.c | 67 ----------------------------------------------
- 1 file changed, 67 deletions(-)
+ block/iscsi.c | 56 ---------------------------------------------------
+ 1 file changed, 56 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..65bd6d3333 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3325,67 +3325,6 @@ static coroutine_fn int hdev_co_pwrite_zeroes(Bloc=
-kDriverState *bs,
-     return raw_do_pwrite_zeroes(bs, offset, bytes, flags, true);
+diff --git a/block/iscsi.c b/block/iscsi.c
+index 267f160bf6..0e5729d335 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -2157,58 +2157,6 @@ static int coroutine_fn iscsi_co_truncate(BlockDri=
+verState *bs, int64_t offset,
+     return 0;
  }
 =20
--static int coroutine_fn hdev_co_create_opts(const char *filename, QemuOp=
-ts *opts,
--                                            Error **errp)
+-static int coroutine_fn iscsi_co_create_opts(const char *filename, QemuO=
+pts *opts,
+-                                             Error **errp)
 -{
--    int fd;
 -    int ret =3D 0;
--    struct stat stat_buf;
 -    int64_t total_size =3D 0;
--    bool has_prefix;
+-    BlockDriverState *bs;
+-    IscsiLun *iscsilun =3D NULL;
+-    QDict *bs_options;
+-    Error *local_err =3D NULL;
 -
--    /* This function is used by both protocol block drivers and therefor=
-e either
--     * of these prefixes may be given.
--     * The return value has to be stored somewhere, otherwise this is an=
- error
--     * due to -Werror=3Dunused-value. */
--    has_prefix =3D
--        strstart(filename, "host_device:", &filename) ||
--        strstart(filename, "host_cdrom:" , &filename);
--
--    (void)has_prefix;
--
--    ret =3D raw_normalize_devicepath(&filename, errp);
--    if (ret < 0) {
--        return ret;
--    }
+-    bs =3D bdrv_new();
 -
 -    /* Read out options */
--    total_size =3D ROUND_UP(qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, =
-0),
--                          BDRV_SECTOR_SIZE);
+-    total_size =3D DIV_ROUND_UP(qemu_opt_get_size_del(opts, BLOCK_OPT_SI=
+ZE, 0),
+-                              BDRV_SECTOR_SIZE);
+-    bs->opaque =3D g_new0(struct IscsiLun, 1);
+-    iscsilun =3D bs->opaque;
 -
--    fd =3D qemu_open(filename, O_WRONLY | O_BINARY);
--    if (fd < 0) {
--        ret =3D -errno;
--        error_setg_errno(errp, -ret, "Could not open device");
--        return ret;
+-    bs_options =3D qdict_new();
+-    iscsi_parse_filename(filename, bs_options, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        ret =3D -EINVAL;
+-    } else {
+-        ret =3D iscsi_open(bs, bs_options, 0, NULL);
 -    }
+-    qobject_unref(bs_options);
 -
--    if (fstat(fd, &stat_buf) < 0) {
--        ret =3D -errno;
--        error_setg_errno(errp, -ret, "Could not stat device");
--    } else if (!S_ISBLK(stat_buf.st_mode) && !S_ISCHR(stat_buf.st_mode))=
- {
--        error_setg(errp,
--                   "The given file is neither a block nor a character de=
-vice");
+-    if (ret !=3D 0) {
+-        goto out;
+-    }
+-    iscsi_detach_aio_context(bs);
+-    if (iscsilun->type !=3D TYPE_DISK) {
 -        ret =3D -ENODEV;
--    } else if (lseek(fd, 0, SEEK_END) < total_size) {
--        error_setg(errp, "Device is too small");
+-        goto out;
+-    }
+-    if (bs->total_sectors < total_size) {
 -        ret =3D -ENOSPC;
+-        goto out;
 -    }
 -
--    if (!ret && total_size) {
--        uint8_t buf[BDRV_SECTOR_SIZE] =3D { 0 };
--        int64_t zero_size =3D MIN(BDRV_SECTOR_SIZE, total_size);
--        if (lseek(fd, 0, SEEK_SET) =3D=3D -1) {
--            ret =3D -errno;
--        } else {
--            ret =3D qemu_write_full(fd, buf, zero_size);
--            ret =3D ret =3D=3D zero_size ? 0 : -errno;
--        }
+-    ret =3D 0;
+-out:
+-    if (iscsilun->iscsi !=3D NULL) {
+-        iscsi_destroy_context(iscsilun->iscsi);
 -    }
--    qemu_close(fd);
+-    g_free(bs->opaque);
+-    bs->opaque =3D NULL;
+-    bdrv_unref(bs);
 -    return ret;
 -}
 -
- static BlockDriver bdrv_host_device =3D {
-     .format_name        =3D "host_device",
-     .protocol_name        =3D "host_device",
-@@ -3398,8 +3337,6 @@ static BlockDriver bdrv_host_device =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
--    .bdrv_co_create_opts =3D hdev_co_create_opts,
--    .create_opts         =3D &raw_create_opts,
-     .mutable_opts        =3D mutable_opts,
-     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-     .bdrv_co_pwrite_zeroes =3D hdev_co_pwrite_zeroes,
-@@ -3525,8 +3462,6 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
--    .bdrv_co_create_opts =3D hdev_co_create_opts,
--    .create_opts         =3D &raw_create_opts,
-     .mutable_opts        =3D mutable_opts,
-     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-=20
-@@ -3659,8 +3594,6 @@ static BlockDriver bdrv_host_cdrom =3D {
-     .bdrv_reopen_prepare =3D raw_reopen_prepare,
-     .bdrv_reopen_commit  =3D raw_reopen_commit,
-     .bdrv_reopen_abort   =3D raw_reopen_abort,
--    .bdrv_co_create_opts =3D hdev_co_create_opts,
--    .create_opts        =3D &raw_create_opts,
-     .mutable_opts       =3D mutable_opts,
-=20
-     .bdrv_co_preadv         =3D raw_co_preadv,
+ static int iscsi_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+ {
+     IscsiLun *iscsilun =3D bs->opaque;
+@@ -2479,8 +2427,6 @@ static BlockDriver bdrv_iscsi =3D {
+     .bdrv_parse_filename    =3D iscsi_parse_filename,
+     .bdrv_file_open         =3D iscsi_open,
+     .bdrv_close             =3D iscsi_close,
+-    .bdrv_co_create_opts    =3D iscsi_co_create_opts,
+-    .create_opts            =3D &iscsi_create_opts,
+     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
+     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
+     .bdrv_co_invalidate_cache =3D iscsi_co_invalidate_cache,
+@@ -2518,8 +2464,6 @@ static BlockDriver bdrv_iser =3D {
+     .bdrv_parse_filename    =3D iscsi_parse_filename,
+     .bdrv_file_open         =3D iscsi_open,
+     .bdrv_close             =3D iscsi_close,
+-    .bdrv_co_create_opts    =3D iscsi_co_create_opts,
+-    .create_opts            =3D &iscsi_create_opts,
+     .bdrv_reopen_prepare    =3D iscsi_reopen_prepare,
+     .bdrv_reopen_commit     =3D iscsi_reopen_commit,
+     .bdrv_co_invalidate_cache  =3D iscsi_co_invalidate_cache,
 --=20
 2.21.0
 
