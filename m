@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B566634E
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 03:20:53 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C456636A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 Jul 2019 03:44:02 +0200 (CEST)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hlkF0-0002xz-4s
-	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 21:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55597)
+	id 1hlkbR-00078g-0v
+	for lists+qemu-devel@lfdr.de; Thu, 11 Jul 2019 21:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60965)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hlkEb-0001we-8C
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 21:20:26 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hlkb5-0006Jt-Sl
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 21:43:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hlkEZ-0003QC-38
- for qemu-devel@nongnu.org; Thu, 11 Jul 2019 21:20:25 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52177 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hlkEV-0003JM-E3; Thu, 11 Jul 2019 21:20:21 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45lFTm4jmSz9sN4; Fri, 12 Jul 2019 11:20:12 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562894412;
- bh=TbxgRAd9L59D3rUTIDcULPrzz+lpNGkzv05bZeb2fRE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NXpRjEl/0GpxJiAVlP2fV/gXbiizXT/n4EhuSMI3G7GyF9pmN0p15FUxlBF2kUsUC
- h1ptnMhgEKCqVqvW+U3iWawPNubYvTeoYr+9IGNHBKE9LEOAKRdeZh4fbQ9LInWK1f
- ZS9csMTgFCmJ0sYBZTAPI7uaBfb2Mwz4/SN16LKw=
-Date: Fri, 12 Jul 2019 11:18:17 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190712011817.GD2561@umbus.fritz.box>
-References: <20190606040919.110655-1-aik@ozlabs.ru>
- <20190612061103.GC26378@umbus.fritz.box>
- <02bf721f-26e6-91d4-88ec-371e959e4161@ozlabs.ru>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IDYEmSnFhs3mNXr+"
-Content-Disposition: inline
-In-Reply-To: <02bf721f-26e6-91d4-88ec-371e959e4161@ozlabs.ru>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] spapr_pci: Advertise BAR reallocation capability
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hlkb4-0003FU-TO
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 21:43:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33120)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
+ id 1hlkb4-0003En-HZ
+ for qemu-devel@nongnu.org; Thu, 11 Jul 2019 21:43:38 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6C1gDrM138066
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 21:43:37 -0400
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tpfh0tdjv-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 11 Jul 2019 21:43:37 -0400
+Received: from localhost
+ by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
+ Fri, 12 Jul 2019 02:21:02 +0100
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+ by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 12 Jul 2019 02:20:30 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6C1K1Qp49021416
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 12 Jul 2019 01:20:01 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 089E3B206B;
+ Fri, 12 Jul 2019 01:20:01 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF26EB2064;
+ Fri, 12 Jul 2019 01:20:00 +0000 (GMT)
+Received: from localhost (unknown [9.53.179.212])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 12 Jul 2019 01:20:00 +0000 (GMT)
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 11 Jul 2019 20:19:32 -0500
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+x-cbid: 19071201-0064-0000-0000-000003FA8FFE
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011412; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01230877; UDB=6.00648363; IPR=6.01012152; 
+ MB=3.00027683; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-12 01:21:00
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071201-0065-0000-0000-00003E3A2A2B
+Message-Id: <20190712011934.29863-1-mdroth@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-11_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907120020
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [RFC PATCH 0/2] spapr: Implement H_TPM_COMM for
+ accessing host TPM device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,101 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shawn Anastasio <shawn@anastas.io>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These patches are also available at:
 
---IDYEmSnFhs3mNXr+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  https://github.com/mdroth/qemu/commits/spapr-tpm-hcall-v0
 
-On Thu, Jun 13, 2019 at 11:37:45AM +1000, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 12/06/2019 16:11, David Gibson wrote:
-> > On Thu, Jun 06, 2019 at 02:09:19PM +1000, Alexey Kardashevskiy wrote:
-> >> The pseries guests do not normally allocate PCI resouces and rely on
-> >> the system firmware doing so. Furthermore at least at some point in
-> >> the past the pseries guests won't even be allowed to change BARs, prob=
-ably
-> >> it is still the case for phyp. So since the initial commit we have [1]
-> >> which prevents resource reallocation.
-> >>
-> >> This is not a problem until we want specific BAR alignments, for examp=
-le,
-> >> PAGE_SIZE=3D=3D64k to make sure we can still map MMIO BARs directly. F=
-or
-> >> the boot time devices we handle this in SLOF [2] but since QEMU's RTAS
-> >> does not allocate BARs, the guest does this instead and does not align
-> >> BARs even if Linux is given pci=3Dresource_alignment=3D16@pci:0:0 as
-> >> PCI_PROBE_ONLY makes Linux ignore alignment requests.
-> >>
-> >> ARM folks added a dial to control PCI_PROBE_ONLY via the device tree [=
-3].
-> >> This makes use of the dial to advertise to the guest that we can handle
-> >> BAR reassignments.
-> >>
-> >> We do not remove the flag from [1] as pseries guests are still support=
-ed
-> >> under phyp so having that removed may cause problems.
-> >>
-> >> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/tree/arch/powerpc/platforms/pseries/setup.c?h=3Dv5.1#n773
-> >> [2] https://git.qemu.org/?p=3DSLOF.git;a=3Dblob;f=3Dboard-qemu/slof/pc=
-i-phb.fs;h=3D06729bcf77a0d4e900c527adcd9befe2a269f65d;hb=3DHEAD#l338
-> >> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
-/commit/?id=3Df81c11af
-> >> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> >=20
-> > Changing a guest visible property, that could have a big effect on how
-> > the guest behaves, without a machine version change seems... unwise.
->=20
->=20
-> As a general rule - sure, not good. In this particular case QEMU has
-> always been able to cope with BAR reallocations.
+This patchset implements the H_TPM_COMM hypercall, which provides a way
+for an Ultravisor to pass raw TPM commands on to a host's TPM device,
+either directly or through a TPM Resource Manager (needed to support
+multiple guests).
 
-That's not really the point.  What I'm worried about is some old
-kernel version running on a guest in the wild having a bug here and
-the supposedly compatible qemu change breaking it.
+Secure Guests running on an Ultravisor have a symmetric key that is
+encrypted using a public key that is bound to a trusted host's TPM
+hardware. This hypercall provides a means to decrypt the symmetric
+key on behalf of a Secure Guest using the host's TPM hardware.
 
-> What could probably
-> make sense is having it as a machine option (pci-probe-only=3Doff by
-> default) in case if we find some old kernel which cannot handle
-> "linux,pci-probe-only" but I seriously doubt we'll find such a broken
-> kernel - I do remove the probe-only switch from guest kernels on a
-> regular basis last 7 or so years when debugging.
+More details are provided in the spec summary introduced in patch 1.
 
-Yeah, doing it when debugging isn't really the same as exercising it
-in production environments.
+ docs/specs/ppc-spapr-uv-hcalls.txt |  74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/ppc/Makefile.objs               |   1 +
+ hw/ppc/spapr.c                     |  27 +++++++++++++++++++++++++++
+ hw/ppc/spapr_hcall_tpm.c           | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/ppc/trace-events                |   4 ++++
+ include/hw/ppc/spapr.h             |   7 ++++++-
+ 6 files changed, 247 insertions(+), 1 deletion(-)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---IDYEmSnFhs3mNXr+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0n39gACgkQbDjKyiDZ
-s5IUZQ/9GQ/vjwx58UVqf7trvE0GgxWAlEZaZARULdLRVCK++gsNqfUBEA9VHY1l
-4i1lXnd7bCBXL4KeICSdM54Qm/itAODyVmsCSX97X734HLFka+DN0n0SMJkYi1th
-TDQt4LwgREfvlz5g1PDIjm2d4rXK0L2DxfiJ8WYSCrvbMtiSF1E7j99/Utte68Oq
-sjURTiPSMX7A7kQjonOHk2FI2bQC9xVE0w/lb1/uxx9FXjgPfFQwL+RuJ87Dx1Ft
-NfYVMD6gPSWYhlmTl+fh+9aO7+780GRjz3VVK3XBTv4gCroUDE7QxX+pTuYCMo2s
-0smFdC08LHDZ3pfGXB0cwMy129CDvOTdrOM54085rdOip1rVM5KZle+xC3AFFRiQ
-yc9thg9aM+rh0Jtrz1ISCHnQ+sfGVeyzYl6nnMDQzxQJSvnoyHv2E+mSPaM3eYOo
-+sD5ZOUN9ZL6o/KH6oU42L09XURsCm+9aSxvWnpZbvmTDFBsSkMMkdShF/2hYgQR
-Ag/9imXrr2qHjDFiA7nk9uj3+Q/foW3ItN0qBBJgoXPw72I0fuIjrx+W2bELnTMr
-losIN75HAh1Jt+Of5nRTLyz2xVSeHDfAxCj2Cz7hBjxJUie8X7uInRo3i1f50oOe
-kXfi1zJmZyCb+4rIP1SRC5tNazHncKq00xQqO7AS5W/oJXFiRh4=
-=z7tB
------END PGP SIGNATURE-----
-
---IDYEmSnFhs3mNXr+--
 
