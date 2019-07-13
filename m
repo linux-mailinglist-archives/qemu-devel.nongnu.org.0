@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97A867A9B
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jul 2019 16:35:14 +0200 (CEST)
-Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9567AB6
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jul 2019 16:57:12 +0200 (CEST)
+Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmJ7J-0003Ua-Gx
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jul 2019 10:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
+	id 1hmJSY-0004lY-HT
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jul 2019 10:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52367)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6m-000277-RR
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:41 -0400
+ (envelope-from <philmd@redhat.com>) id 1hmJSK-0004F4-I7
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6l-0007nK-Qf
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33996)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1hmJ6l-0007mE-HO
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:39 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DC80F3082E57;
- Sat, 13 Jul 2019 14:34:38 +0000 (UTC)
-Received: from localhost (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CF83196E5;
- Sat, 13 Jul 2019 14:34:30 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sat, 13 Jul 2019 18:33:11 +0400
-Message-Id: <20190713143311.17620-7-marcandre.lureau@redhat.com>
-In-Reply-To: <20190713143311.17620-1-marcandre.lureau@redhat.com>
-References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hmJSJ-0007Pu-4J
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:56:56 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50305)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hmJSI-0007P5-TW
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:56:55 -0400
+Received: by mail-wm1-f65.google.com with SMTP id v15so11319416wml.0
+ for <qemu-devel@nongnu.org>; Sat, 13 Jul 2019 07:56:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RqJLY8lpsDPDZvp0h+DmOIWrKUuAgzNMrfP+VYR/8X4=;
+ b=aOYb0ntpvieH3yfj/f5Bm+HRbOGuaw6Vuy3fwPPsVc4mS5qEQikQRkI1E2JbgHMS1i
+ nsPgVKswfQ+fFC6o0if8Z8ccq9ltoTYp5UBThh10kw6b4Ro1phyJhWTiPWDwH5fAPL0c
+ GSaAvVV1zKD+9Z09v8UHF1MzThtY8nRf92F6dfTMCWbcXwFazhxMDmd4hx/yV/N0ZVFE
+ 9czbWOp7FAwBz/5lnPBan2QqLxFOm7UjSLHOWx5RuM6DgC0oCoHE69cFVyhGoMZEWQVU
+ i9W+36yXxEmkoKF/gikGZmsH5dlZ79+RPV/+yaDS3ehuBu3Guw4Fup3V+fMBaC126amj
+ zbAA==
+X-Gm-Message-State: APjAAAXntUCfQ3oBwzLVgnPBXPGUJUN5pwILcoDiYnnoixKJba97s2sB
+ z9NbVaqlmf1hrLVAqo+na90qqw==
+X-Google-Smtp-Source: APXvYqzGhnVDZlvuzK0sebFCqHsNtin9YtlaJhAuyyNSekj1AGJtxbVoG8N7+1tWQF9kErrYoMrXnw==
+X-Received: by 2002:a1c:407:: with SMTP id 7mr15926633wme.113.1563029813516;
+ Sat, 13 Jul 2019 07:56:53 -0700 (PDT)
+Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id r11sm15655848wre.14.2019.07.13.07.56.52
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Sat, 13 Jul 2019 07:56:53 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190712111849.9006-1-alex.bennee@linaro.org>
+ <20190712111849.9006-7-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <c9409240-3afe-e9ca-0910-8c8ed48ef7af@redhat.com>
+Date: Sat, 13 Jul 2019 16:56:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Sat, 13 Jul 2019 14:34:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190712111849.9006-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 6/6] test: skip tests if
- socket_check_protocol_support() failed
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v1 6/7] tests/dockerfiles: update the win
+ cross builds to stretch
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,89 +76,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Skip the tests if socket_check_protocol_support() failed, but do run
-g_test_run() to keep TAP harness happy.
+On 7/12/19 1:18 PM, Alex Bennée wrote:
+> While fixing up pkg.mxe.cc they move the URLs around a bit and dropped
+> Jessie support in favour of Stretch. We also need to update the keys
+> used to verify the packages.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/docker/Makefile.include                         |  6 +++---
+>  tests/docker/dockerfiles/debian-win32-cross.docker    |  4 ++--
+>  tests/docker/dockerfiles/debian-win64-cross.docker    |  4 ++--
+>  .../{debian8-mxe.docker => debian9-mxe.docker}        | 11 +++++++----
+>  4 files changed, 14 insertions(+), 11 deletions(-)
+>  rename tests/docker/dockerfiles/{debian8-mxe.docker => debian9-mxe.docker} (56%)
+> 
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index aaf5396b85d..dbd58e548c1 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -85,7 +85,7 @@ endif
+>  
+>  # Enforce dependencies for composite images
+>  docker-image-debian: docker-image-debian9
+> -docker-image-debian8-mxe: docker-image-debian8
+> +docker-image-debian9-mxe: docker-image-debian9
+>  docker-image-debian-amd64: docker-image-debian9
+>  docker-image-debian-armel-cross: docker-image-debian9
+>  docker-image-debian-armhf-cross: docker-image-debian9
+> @@ -96,8 +96,8 @@ docker-image-debian-mipsel-cross: docker-image-debian9
+>  docker-image-debian-mips64el-cross: docker-image-debian9
+>  docker-image-debian-ppc64el-cross: docker-image-debian9
+>  docker-image-debian-s390x-cross: docker-image-debian9
+> -docker-image-debian-win32-cross: docker-image-debian8-mxe
+> -docker-image-debian-win64-cross: docker-image-debian8-mxe
+> +docker-image-debian-win32-cross: docker-image-debian9-mxe
+> +docker-image-debian-win64-cross: docker-image-debian9-mxe
+>  
+>  docker-image-debian-alpha-cross: docker-image-debian-sid
+>  docker-image-debian-hppa-cross: docker-image-debian-sid
+> diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/docker/dockerfiles/debian-win32-cross.docker
+> index 0a4970c0683..c787e432454 100644
+> --- a/tests/docker/dockerfiles/debian-win32-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-win32-cross.docker
+> @@ -1,9 +1,9 @@
+>  #
+>  # Docker mingw32 cross-compiler target
+>  #
+> -# This docker target builds on the debian Jessie MXE base image.
+> +# This docker target builds on the debian Stretch MXE base image.
+>  #
+> -FROM qemu:debian8-mxe
+> +FROM qemu:debian9-mxe
+>  
+>  MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  
+> diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
+> index b27985b1b1f..a7068ed6ac6 100644
+> --- a/tests/docker/dockerfiles/debian-win64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-win64-cross.docker
+> @@ -1,9 +1,9 @@
+>  #
+>  # Docker mingw64 cross-compiler target
+>  #
+> -# This docker target builds on the debian Jessie MXE base image.
+> +# This docker target builds on the debian Stretch MXE base image.
+>  #
+> -FROM qemu:debian8-mxe
+> +FROM qemu:debian9-mxe
+>  
+>  MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  
+> diff --git a/tests/docker/dockerfiles/debian8-mxe.docker b/tests/docker/dockerfiles/debian9-mxe.docker
+> similarity index 56%
+> rename from tests/docker/dockerfiles/debian8-mxe.docker
+> rename to tests/docker/dockerfiles/debian9-mxe.docker
+> index 2df4cc8c5c9..5bc8a6d5c36 100644
+> --- a/tests/docker/dockerfiles/debian8-mxe.docker
+> +++ b/tests/docker/dockerfiles/debian9-mxe.docker
+> @@ -1,15 +1,18 @@
+>  #
+>  # Docker mingw cross-compiler target
+>  #
+> -# This docker target builds on the debian Jessie base image.
+> +# This docker target builds on the debian Stretch base image.
+>  #
+> -FROM qemu:debian8
+> +FROM qemu:debian9
+>  
+>  MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  
+> +RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+> +    apt install -y --no-install-recommends gnupg dirmngr
+> +
+>  # Add the foreign architecture we want and install dependencies
+> -RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB && \
+> -    echo "deb http://pkg.mxe.cc/repos/apt/debian jessie main" > /etc/apt/sources.list.d/mxeapt.list
+> +RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C6BF758A33A3A276 && \
+> +    echo "deb http://pkg.mxe.cc/repos/apt stretch main" > /etc/apt/sources.list.d/mxeapt.list
+>  RUN apt-get update
+>  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+>      apt-get install -y --no-install-recommends \
+> 
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- tests/test-char.c              | 4 +++-
- tests/test-io-channel-socket.c | 4 +++-
- tests/test-util-sockets.c      | 4 +++-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+Thank you Alex!
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 2dde620afc..b56e43c1eb 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -1365,7 +1365,8 @@ int main(int argc, char **argv)
-     g_test_init(&argc, &argv, NULL);
-=20
-     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
--        return -1;
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
-     }
-=20
-     module_call_init(MODULE_INIT_QOM);
-@@ -1465,5 +1466,6 @@ int main(int argc, char **argv)
-     g_test_add_func("/char/hotswap", char_hotswap_test);
-     g_test_add_func("/char/websocket", char_websock_test);
-=20
-+end:
-     return g_test_run();
- }
-diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socke=
-t.c
-index d2053c464c..d172f3070f 100644
---- a/tests/test-io-channel-socket.c
-+++ b/tests/test-io-channel-socket.c
-@@ -566,7 +566,8 @@ int main(int argc, char **argv)
-      * with either IPv4 or IPv6 disabled.
-      */
-     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
--        return 1;
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
-     }
-=20
-     if (has_ipv4) {
-@@ -595,5 +596,6 @@ int main(int argc, char **argv)
-                     test_io_channel_unix_listen_cleanup);
- #endif /* _WIN32 */
-=20
-+end:
-     return g_test_run();
- }
-diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index f1ebffee5a..e2a3a8a093 100644
---- a/tests/test-util-sockets.c
-+++ b/tests/test-util-sockets.c
-@@ -242,7 +242,8 @@ int main(int argc, char **argv)
-      * with either IPv4 or IPv6 disabled.
-      */
-     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
--        return 1;
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
-     }
-=20
-     if (has_ipv4) {
-@@ -264,5 +265,6 @@ int main(int argc, char **argv)
-                         test_socket_fd_pass_num_nocli);
-     }
-=20
-+end:
-     return g_test_run();
- }
---=20
-2.22.0.428.g6d5b264208
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
