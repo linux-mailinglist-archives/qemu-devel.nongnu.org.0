@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2A367A99
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jul 2019 16:34:55 +0200 (CEST)
-Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97A867A9B
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 Jul 2019 16:35:14 +0200 (CEST)
+Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmJ70-00026K-Gp
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jul 2019 10:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46779)
+	id 1hmJ7J-0003Ua-Gx
+	for lists+qemu-devel@lfdr.de; Sat, 13 Jul 2019 10:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6b-0001Tk-28
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:30 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6m-000277-RR
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6Z-0007cJ-Lq
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55984)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hmJ6l-0007nK-Qf
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33996)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1hmJ6Z-0007aW-Dz
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:27 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hmJ6l-0007mE-HO
+ for qemu-devel@nongnu.org; Sat, 13 Jul 2019 10:34:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 819F5C057F4F;
- Sat, 13 Jul 2019 14:34:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC80F3082E57;
+ Sat, 13 Jul 2019 14:34:38 +0000 (UTC)
 Received: from localhost (ovpn-112-50.ams2.redhat.com [10.36.112.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4603A5D968;
- Sat, 13 Jul 2019 14:34:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CF83196E5;
+ Sat, 13 Jul 2019 14:34:30 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 13 Jul 2019 18:33:10 +0400
-Message-Id: <20190713143311.17620-6-marcandre.lureau@redhat.com>
+Date: Sat, 13 Jul 2019 18:33:11 +0400
+Message-Id: <20190713143311.17620-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20190713143311.17620-1-marcandre.lureau@redhat.com>
 References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Sat, 13 Jul 2019 14:34:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Sat, 13 Jul 2019 14:34:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 5/6] test-char: skip tcp tests if ipv4 check
- failed
+Subject: [Qemu-devel] [PATCH v3 6/6] test: skip tests if
+ socket_check_protocol_support() failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,82 +65,80 @@ Cc: Fam Zheng <fam@euphon.net>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Skip the tests if socket_check_protocol_support() failed, but do run
+g_test_run() to keep TAP harness happy.
+
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- tests/Makefile.include |  2 +-
- tests/test-char.c      | 17 +++++++++++++----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ tests/test-char.c              | 4 +++-
+ tests/test-io-channel-socket.c | 4 +++-
+ tests/test-util-sockets.c      | 4 +++-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index a983dd32da..2bddebaf4b 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -523,7 +523,7 @@ tests/check-qlit$(EXESUF): tests/check-qlit.o $(test-=
-util-obj-y)
- tests/check-qom-interface$(EXESUF): tests/check-qom-interface.o $(test-q=
-om-obj-y)
- tests/check-qom-proplist$(EXESUF): tests/check-qom-proplist.o $(test-qom=
--obj-y)
-=20
--tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(qtest-o=
-bj-y) $(test-io-obj-y) $(chardev-obj-y)
-+tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(qtest-o=
-bj-y) $(test-io-obj-y) $(chardev-obj-y) tests/socket-helpers.o
- tests/test-coroutine$(EXESUF): tests/test-coroutine.o $(test-block-obj-y=
-)
- tests/test-aio$(EXESUF): tests/test-aio.o $(test-block-obj-y)
- tests/test-aio-multithread$(EXESUF): tests/test-aio-multithread.o $(test=
--block-obj-y)
 diff --git a/tests/test-char.c b/tests/test-char.c
-index f9440cdcfd..2dde620afc 100644
+index 2dde620afc..b56e43c1eb 100644
 --- a/tests/test-char.c
 +++ b/tests/test-char.c
-@@ -15,6 +15,7 @@
- #include "io/channel-socket.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/qapi-visit-sockets.h"
-+#include "socket-helpers.h"
-=20
- static bool quit;
-=20
-@@ -1356,11 +1357,17 @@ static void char_hotswap_test(void)
-=20
- int main(int argc, char **argv)
- {
-+    bool has_ipv4, has_ipv6;
-+
-     qemu_init_main_loop(&error_abort);
-     socket_init();
-=20
+@@ -1365,7 +1365,8 @@ int main(int argc, char **argv)
      g_test_init(&argc, &argv, NULL);
 =20
-+    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-+        return -1;
-+    }
-+
+     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
+-        return -1;
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
+     }
+=20
      module_call_init(MODULE_INIT_QOM);
-     qemu_add_opts(&qemu_chardev_opts);
+@@ -1465,5 +1466,6 @@ int main(int argc, char **argv)
+     g_test_add_func("/char/hotswap", char_hotswap_test);
+     g_test_add_func("/char/websocket", char_websock_test);
 =20
-@@ -1438,10 +1445,12 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/char/socket/client/wait-conn-fdpass/" # name,=
- \
-                          &client6 ##name, char_socket_client_test)
++end:
+     return g_test_run();
+ }
+diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socke=
+t.c
+index d2053c464c..d172f3070f 100644
+--- a/tests/test-io-channel-socket.c
++++ b/tests/test-io-channel-socket.c
+@@ -566,7 +566,8 @@ int main(int argc, char **argv)
+      * with either IPv4 or IPv6 disabled.
+      */
+     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
+-        return 1;
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
+     }
 =20
--    SOCKET_SERVER_TEST(tcp, &tcpaddr);
--    SOCKET_CLIENT_TEST(tcp, &tcpaddr);
--    g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr=
-,
--                         char_socket_server_two_clients_test);
-+    if (has_ipv4) {
-+        SOCKET_SERVER_TEST(tcp, &tcpaddr);
-+        SOCKET_CLIENT_TEST(tcp, &tcpaddr);
-+        g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcp=
-addr,
-+                             char_socket_server_two_clients_test);
-+    }
- #ifndef WIN32
-     SOCKET_SERVER_TEST(unix, &unixaddr);
-     SOCKET_CLIENT_TEST(unix, &unixaddr);
+     if (has_ipv4) {
+@@ -595,5 +596,6 @@ int main(int argc, char **argv)
+                     test_io_channel_unix_listen_cleanup);
+ #endif /* _WIN32 */
+=20
++end:
+     return g_test_run();
+ }
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index f1ebffee5a..e2a3a8a093 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -242,7 +242,8 @@ int main(int argc, char **argv)
+      * with either IPv4 or IPv6 disabled.
+      */
+     if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
+-        return 1;
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
+     }
+=20
+     if (has_ipv4) {
+@@ -264,5 +265,6 @@ int main(int argc, char **argv)
+                         test_socket_fd_pass_num_nocli);
+     }
+=20
++end:
+     return g_test_run();
+ }
 --=20
 2.22.0.428.g6d5b264208
 
