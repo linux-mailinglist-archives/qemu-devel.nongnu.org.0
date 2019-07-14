@@ -2,112 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB0C67F1E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 15:31:48 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E2967F24
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 15:41:16 +0200 (CEST)
+Received: from localhost ([::1]:60558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmebT-0000W4-Ue
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 09:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36857)
+	id 1hmekd-0003ie-Nm
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 09:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hmebE-00004x-Rf
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:31:33 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hmekH-0002QA-2h
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hmebD-0006jH-SP
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:31:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:41551)
+ (envelope-from <laurent@vivier.eu>) id 1hmekG-0004V4-4x
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:53 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:50987)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hmebD-0006gu-Iz
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:31:31 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MFsdD-1hgIXR0ai7-00HMHS; Sun, 14 Jul 2019 15:31:10 +0200
-To: Arnd Bergmann <arnd@arndb.de>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20190711173131.6347-1-laurent@vivier.eu>
- <CAK8P3a3-UaZ+RzYNZ25zFHs=1iZNrnaP_eAuHE0WAztztA4EGA@mail.gmail.com>
- <74807892-5d59-0a9a-8385-48cce361d842@vivier.eu>
- <CAK8P3a3XR=C27eYWQ+AxjZ1EEDNBz0HBB_NHh0hbrSDF5ASyqQ@mail.gmail.com>
- <e1c736b2-6f68-208e-9993-57ae143195ad@vivier.eu>
- <CAK8P3a3fZgcSR7V=NAjDa37-5j8L+n-cF1CVPiWjteV6hfHSLg@mail.gmail.com>
- <db82d6a2-8ca7-5bbb-0cf9-feecc8b2adfb@vivier.eu>
- <CAK8P3a3GwDr1wPU3hfnmN-N4kvBvSqxa2aRVLQABO70fv21YhQ@mail.gmail.com>
- <ac90d2b2-83e8-6ad3-5dca-81e179edec00@linaro.org>
- <CAK8P3a3L9e9X1-rODexx34EEs37zNK2qKXZRfZ+oi7eni_286Q@mail.gmail.com>
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hmekF-0004Rw-SN
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:52 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MHFwM-1hiClZ3BXU-00DKAM; Sun, 14 Jul 2019 15:40:37 +0200
 From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <72f5a433-fbea-305a-fff8-7a2374298c53@vivier.eu>
-Date: Sun, 14 Jul 2019 15:31:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+To: qemu-devel@nongnu.org
+Date: Sun, 14 Jul 2019 15:40:27 +0200
+Message-Id: <20190714134028.315-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a3L9e9X1-rODexx34EEs37zNK2qKXZRfZ+oi7eni_286Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PtO4p1g2/Jjg4mduIYm7dN98zR9dcoUA0EJ89C8M7Gg28Iv90I4
- wt++bs2Z1Y14JQIfBIVreL6fVE9eVDkVp6kRpSj2pH3bItuULityU7akRxpWzdZkmOTjmM/
- ILRTQ58Ff+WD1VBEEfeoS9jyH16MzxLtzO+P2ccFBj//bO/h93Y4JeirukI1inqueXzH7Bv
- yCu+T4xgG/rIM/k2k8aAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EglYD8GXc8Q=:uYgdspf0ceh4dUrsGsdqCg
- JMauzG1UvDX1AU2BMh76ftbmJkkfNuLWLeEDuPgKDag1I4R4dOJUaUqpBlU2Qqp3xGk/ST7Vk
- eh2AZ7gbFXoeJu3fVH5fI6+YYetOC4y16duYtHmR1AsIQaaOhFBerPUmLpC26oIU6N6HevaYj
- ofYdQD5DdhxU6gZlmBfROrO9ghivYdKSkQAkwu4SjZZ/NwULA2m9Rq6nsZqYVSPyxybBVcE7k
- E7fuu5LvJIjXiRfGQY4RssxhikvN0FcWyN0sN40a39miZqkjkQIoR/L8I5ZTSj9K9F1GYfhIw
- eVPFPC6xZL5U4iYbT4CBYgG4WxwwgLZzTFLpa5L34Sls0h5lyZqK9rM8BrHZ7H3soyJJ7yqGO
- hWgxWK1mTLdjtdkbXOU495m/UWPnBjRcnJxBmEhdW1N8QUJ8G0Vums++ZxlX7s/WU+AKxBQZU
- fjcPGOYLuovQrAqWCtL1Oj4Khkf0M/MK0UTULh8rvfDLQgDNPFZk4IyutWt18Plxc1G5SIbLU
- EhAVsU83OpDQKRH+FnLm8vt2QtzGITGfUW+DeK724P+7auiePSUxvz/hcim3e/W9UyGbFelhF
- IBjVeG+ZTMxPJB2dfplIYCKvgSWoKcP0uKWeSE9vBXx0fhsSghbMf8pMIsU6cBWJhrmF/kHCR
- 6SX7Rf5EIh8qWRzHcUo9H7d//l7K7pq36Kd+VTQk9z9Q0h6CvcAvNbOZ4sHKoUKv3oaoMOK9O
- sNdbvwwWUnfHzpdmx6O3KcqyXfAw3+547KjuL/MmCljoNYN0cEKzs1uPTAo=
+X-Provags-ID: V03:K1:W2oKBr2yYGbFSuf9U/8f5mZmEhzv/n4Vt8nY4mXqU0da53Gpd/M
+ XJ7NcanRsitBp2VffZYDi6lEwPw6AIPz2Va+7mkxHO04BK1L5rn2xIHlaiSjowgx6Y+Ohvc
+ dyZKmNcpbp1plG2YwoYd+LNSSqVMxWUgEp1WScbe7Upvv5QF3yqJf1GH8GmnP3i8z/bEZLb
+ 25eEu3q6sFV/mKyFSk/WQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RU2I3wTcelE=:YFdhpJsMvO9KvPUDBEDbCa
+ 7wBttdPRS43Ycsk9GS4d9onilyg0sYlNvBObW4G2wkwPj1i+oYeT7oUNmBJ1t/cqfh4FNc9nX
+ JD5N4oS7GqYMfYTeLSxOsprX2qbIK942rvno36CJz5xH8n3ctzAZBnL1R6ESK8z3D3NRT5SYc
+ MdhPLlsJRBLANfH1UP0Nk2lz2NIhN2AIWy7O8/T10SZP7qcqSnco0Gv9LgfZX5MTuGHEo2zh6
+ srCZdokBCQUY/CoZWPmWEr/4P5Btx7URLGWh2Bory6MQLikPaGP/AikJ8Od3CnjO87uhB2bw0
+ W9Tm5R4uUhm4uXJrMvb8i1qYUla2hz2CrrZaDw44he7ONgOc68YfgpYI9iTCZtntU17uy2127
+ BlHJKiIIgvXKMNUzxCvYxOY9xYshJIIuwIwlwXnzDvydK/RwWAC2vo0FSTw791W+DtxMrqBZY
+ geqZlMyL4sPvYrGtclogyK4dwbJCZSSX37YJ/2kaqgIuVqj6zJpa15HIzfM13ZugI19crcmJF
+ cDKs9u2z68mnbSr7M6N39IyXnUQpidEdeAI+da/01daOcK8JW/dWWbPlSi2RqoCvs/nmCVWik
+ sSjBMNCbETywQNu3upKCz2Q5706nKakUwIE5/PEMm2F8h5FxDRvRoKom2XzpGwpATDe3eKzdy
+ zeX7+EAFdz3eG8z/RWgEBt3BDQonUhvtAr1tHO5zI1QvniOvEeoBNhNbsSD8bv9eR/OkvonJd
+ gs1u4TsPL8KPYSu89+snf7H6Qkf4YiNZaPXo0A==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: Re: [Qemu-devel] [PATCH v4] linux-user: fix to handle variably
- sized SIOCGSTAMP with new kernels
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PATCH 1/2] linux-user: remove useless variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,47 +60,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Gerhard Stenzel <gerhard.stenzel@de.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-devel@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 14/07/2019 à 13:33, Arnd Bergmann a écrit :
-> On Sun, Jul 14, 2019 at 12:41 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 7/12/19 3:55 PM, Arnd Bergmann wrote:
->>> glibc will have to create a definition that matches the kernel, which uses
->>>
->>> struct __kernel_timespec {
->>>     __s64 tv_sec;
->>>     __s64 tv_nsec;
->>> };
->>>
->>> As posix requires tv_nsec to be 'long', you need padding between
->>> tv_sec and tv_nsec to have a libc definition matching the kernel's
->>> binary layout.
->>
->> Yes, but that's glibc's lookout.  All qemu cares about emulating is the kernel
->> interface.  So I think Laurent is right here, in that two reads handle the
->> above structure just fine.
-> 
-> But that only works if the structure defined by qemu matches the kernel's.
-> 
-> The structure that Laurent proposed
-> 
-> struct target_timeval64 {
->     abi_llong tv_sec;
->     abi_long tv_usec;
-> };
-> 
-> is not compatible with the kernel or the glibc structure.
+filename is only used to open the file if AT_EXECFD is not provided.
+But exec_path already contains the path of the file to open.
+Remove filename as it is only used in main.c whereas exec_path is
+also used in syscall.c.
 
-Yes, you're right. The next patch revision will change this to the
-kernel structure one.
+Fixes: d088d664f201 ("linux-user: identify running binary in /proc/self/exe")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Thanks,
-Laurent
+diff --git a/linux-user/main.c b/linux-user/main.c
+index a59ae9439de1..ef8e8cb10eba 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -48,7 +48,6 @@
+ char *exec_path;
+ 
+ int singlestep;
+-static const char *filename;
+ static const char *argv0;
+ static int gdbstub_port;
+ static envlist_t *envlist;
+@@ -580,7 +579,6 @@ static int parse_args(int argc, char **argv)
+         exit(EXIT_FAILURE);
+     }
+ 
+-    filename = argv[optind];
+     exec_path = argv[optind];
+ 
+     return optind;
+@@ -651,9 +649,9 @@ int main(int argc, char **argv, char **envp)
+ 
+     execfd = qemu_getauxval(AT_EXECFD);
+     if (execfd == 0) {
+-        execfd = open(filename, O_RDONLY);
++        execfd = open(exec_path, O_RDONLY);
+         if (execfd < 0) {
+-            printf("Error while loading %s: %s\n", filename, strerror(errno));
++            printf("Error while loading %s: %s\n", exec_path, strerror(errno));
+             _exit(EXIT_FAILURE);
+         }
+     }
+@@ -778,10 +776,10 @@ int main(int argc, char **argv, char **envp)
+     cpu->opaque = ts;
+     task_settid(ts);
+ 
+-    ret = loader_exec(execfd, filename, target_argv, target_environ, regs,
++    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
+-        printf("Error while loading %s: %s\n", filename, strerror(-ret));
++        printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
+         _exit(EXIT_FAILURE);
+     }
+ 
+-- 
+2.21.0
+
 
