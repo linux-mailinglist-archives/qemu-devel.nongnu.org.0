@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42ACC67F23
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 15:41:03 +0200 (CEST)
-Received: from localhost ([::1]:60548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3884167F29
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 15:55:15 +0200 (CEST)
+Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmekP-0002gE-Ha
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 09:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38684)
+	id 1hmeyA-0006Hr-4J
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 09:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41771)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hmekC-00026q-Iq
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:49 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hmexs-0005g1-Qi
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:54:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hmekB-0004Ox-7O
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:48 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:33571)
+ (envelope-from <laurent@vivier.eu>) id 1hmexr-0002xe-7H
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:54:56 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:40589)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hmekA-0004O5-UY
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:40:47 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hmexq-0002wc-Ta
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 09:54:55 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MCsDe-1hdp3O1MaO-008uK2; Sun, 14 Jul 2019 15:40:38 +0200
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MirfI-1iRTPz2LcS-00etGX; Sun, 14 Jul 2019 15:54:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Sun, 14 Jul 2019 15:40:28 +0200
-Message-Id: <20190714134028.315-2-laurent@vivier.eu>
+Date: Sun, 14 Jul 2019 15:54:23 +0200
+Message-Id: <20190714135423.1274-1-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190714134028.315-1-laurent@vivier.eu>
-References: <20190714134028.315-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g6hC2kndF+xEY3SJyfv+j6kUeTH+TixdiX1460rF3FSIt5uqgM7
- OCLI/LTq3CVucbOog6Vc5oanr7O7ewOZ7FTeCgmMxRVnm87YMq82HxGdj+AML/OFyQI12eV
- kk+ubP2zCrXKD5IMM+2QLkc9UkSjKPZSXvUM5NpF2E6L9Y70k5p+2Cd34T+6xPYDvMy1RZb
- RNlyMY1bBe9V8tG+o/Ucg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zaATLEmj+DI=:EY3Ir1mR3OlKnXRuIt4Lao
- t9vufI4fZ8V0Dmw6WZrFakfkEKeZJQ4LCcp8qoRxuz0XEwLbbn4kBJ3rwVscSgRR/3VVoBZV3
- DXgOJn84vAQ1b0Rxz9pp5Obd8fJ0qJrSLi1m/1Y0Fb4YGNVvmBRxdllZVk4NtRby9eBAAc0nW
- Msacg54LVzu60r+1m0ZWM5GjmYNr4Don+hr6ylBA1Bn+KT8G5NdyXlCo66sgMt0iNIMvXZoEK
- 9KcptwODtRi0D02KACjxBKXiOOxNbZrSirvSIaGR+quwMOVA4gswTXEzv92WxUNrqIR98y/bE
- pgXnpBZXzVIAOqa/qOUSx1x3WioH5jYju5js9t5tzTmaWbAIAsIxMgHvnk1BUNmnD6UdZoiDg
- CimxJRKdwznLxpUJuqV7zdWL186syJ2RdlkjINUdhEYR8nPA+lodD5hHlyYzMdBwduWoWTixE
- Wmt8GhvUxAF48U2wAstLXyrLXjy7NKSOV5qRcDV8npxyuaykzPtdDBVhGlSReszuGpm8bQCzY
- Pv39KyMBxyHxDlXnfrz6WTY00+XNWv6srumOEX2GfTiDkhjBRfUr3GsN7ViYdWeATgeZJpoAA
- ld9/kzzLmfcXk6EPqaQeeipAiQtnWFZL4Z8lab6D7QdL1OfUVywXCPa8c1N0fTECFlFHBvmdk
- iyq/xEZ+9J2xdODYxESyI9VdfZ0vf4gjb86JNoQ5clCw9sG9JbxR4f0go1BzdBnmVwlQhASkH
- MSGUfBp6fMkeuEF8JH7dX2+DGQj+RPyaOk2Plg==
+X-Provags-ID: V03:K1:pQt01OdkZdGVKgd32LRfini262vFUofIuATNCizIyhdR3caMs1S
+ nwsnNENI32dCXoF4wErQT8DlpJOJ9cMZHaLwUcBEsp73CFKWNRY5+hUJuQFmDxunsVfmmy3
+ r+7R+AMZMp+8NgauobdJEP2kyzCIhhY0Qj3RtE27pNcr3KiivdLJGDjYG+L6mdE1Iolp5O8
+ GMwo1XmFvNeyIweTFkaew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4GacGqXL6vI=:k0CO2sscSOLpb8ccWCzCCo
+ Y1FurNIMCvJIlR8/VuLhj/DSGNvBXpcGMTxPFbrUnTWJXFd9ULUWvg4Hkx6leWGpfl6JHoTd9
+ uBKfZOhBK1pqUb/JGeVahdNKtcdv/+QrNUelXN5HatwvwaUOPmMjflV9W78DPixxBybJMVPF0
+ EG8YbWt77D4JSZjQnq2UzHa7+PWuKSr+CwKRGO+EQxKRn6czUZ3ujQcB0A2qr7B8WWfa35F57
+ RYWAjh7+Kyy84fQ8v00joocs4RFPVX3t+e/u5jjCqYwtN4Z1fyOlG6Q5EaSPSOjp7IesB85/U
+ 86kZ+YuDVzrD+pcjtrQ8fKu0fs05hIe9AIincOV/lUnZiORTvaUx5te7+KgaGaCCOuZTfKd1C
+ 6LTSloVjSeN2NeuCKbGlh5tD+sWx1kUqg+PZVyB1xLk5bm0I1CvwW+7dTBAo8Bg7Dwaag0f+J
+ Cs/BNdhP9zbcci7ZhIJcPd5/STJ+zdp65t0ChNDgLnkZvCD45fia3F37v9Mo8jwYdfd8s6k6V
+ 7tfvN1DgHvQHP+7M+QzhxUzxR2avtlsTAX3C/HeTsaseXyQt+bL145gJRwBAJleZWwUVhKIgv
+ EmDt0/XDKtNLhkh8rm5/51II/8v/EHB90On+WJ0WJAl7YmWUbDoSkX6S1r7SiB42rqO56r/q1
+ vSazHPjUnIfiOQnKSufeFl2s6e2++ijmEopQaDFSid+SXRk5EO0PaAxUHR4aSDeYbs96OWnuk
+ P9d8dtjF+WEnNSUylP/a4I7bpA8WZ6K/dtM87mbE9FhhC2EyJ+lnyw5MiUA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PATCH 2/2] linux-user: manage binfmt-misc
- preserve-arg[0] flag
+X-Received-From: 212.227.126.134
+Subject: [Qemu-devel] [PATCH v5] linux-user: fix to handle variably sized
+ SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,160 +62,345 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Arnd Bergmann <arnd@arndb.de>, Gerhard Stenzel <gerhard.stenzel@de.ibm.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add --preserve-arg0 in qemu-binfmt-conf.sh to configure the preserve-arg0
-flag.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Now, if QEMU is started with -0 or QEMU_ARGV0 and an empty parameter
-argv[0] (the full pathname provided by binfmt-misc) is removed and
-replaced by argv[1] (the original argv[0] provided by binfmt-misc when
-'P'/preserve-arg[0] is set)
+The SIOCGSTAMP symbol was previously defined in the
+asm-generic/sockios.h header file. QEMU sees that header
+indirectly via sys/socket.h
 
-For instance:
+In linux kernel commit 0768e17073dc527ccd18ed5f96ce85f9985e9115
+the asm-generic/sockios.h header no longer defines SIOCGSTAMP.
+Instead it provides only SIOCGSTAMP_OLD, which only uses a
+32-bit time_t on 32-bit architectures.
 
-  $ sudo QEMU_ARGV0= chroot m68k-chroot sh -c 'echo $0'
-  sh
+The linux/sockios.h header then defines SIOCGSTAMP using
+either SIOCGSTAMP_OLD or SIOCGSTAMP_NEW as appropriate. If
+SIOCGSTAMP_NEW is used, then the tv_sec field is 64-bit even
+on 32-bit architectures
 
-without this patch:
+To cope with this we must now convert the old and new type from
+the target to the host one.
 
-  $ sudo chroot m68k-chroot sh -c 'echo $0'
-  /usr/bin/sh
-
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c           | 18 ++++++++++++++-
- scripts/qemu-binfmt-conf.sh | 44 +++++++++++++++++++++++--------------
- 2 files changed, 44 insertions(+), 18 deletions(-)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index ef8e8cb10eba..eeaba4a7b914 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -647,6 +647,9 @@ int main(int argc, char **argv, char **envp)
+Notes:
+    v5: [lv] define special _OLD values for sh
+        define special case for SPARC64
+        define ioctl helpers
+        define target__kernel_sock_timeval and target__kernel_timespec and
+        converters to the host type
+        always use SIOCGSTAMP and SIOCGSTAMPNS on the host
+    
+    v4: [lv] timeval64 and timespec64 are { long long , long }
+    
+    v3: [lv] redefine TARGET_SIOCGSTAMP_NEW, TARGET_SIOCGSTAMPNS_NEW,
+        timeval64 and timespec64 to use 0x89 type and abi_llong[2]
+    
+    v2: [dpb] implement _NEW and _OLD variants
+
+ linux-user/ioctls.h        |  11 ++-
+ linux-user/syscall.c       | 140 +++++++++++++++++++++++++++++--------
+ linux-user/syscall_defs.h  |  30 +++++++-
+ linux-user/syscall_types.h |   6 --
+ 4 files changed, 149 insertions(+), 38 deletions(-)
+
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 5e84dc7c3a77..9a4957840ac4 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -222,8 +222,15 @@
+   IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq)))
+   IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
+   IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
+-  IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
+-  IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
++
++  { TARGET_SIOCGSTAMP_OLD, SIOCGSTAMP, "IOCGSTAMP_OLD", IOC_R, \
++    do_ioctl_SIOCGSTAMP },
++  { TARGET_SIOCGSTAMPNS_OLD, SIOCGSTAMPNS, "IOCGSTAMPNS_OLD", IOC_R, \
++    do_ioctl_SIOCGSTAMPNS },
++  { TARGET_SIOCGSTAMP_NEW, SIOCGSTAMP, "IOCGSTAMP_NEW", IOC_R, \
++    do_ioctl_SIOCGSTAMP },
++  { TARGET_SIOCGSTAMPNS_NEW, SIOCGSTAMPNS, "IOCGSTAMPNS_NEW", IOC_R, \
++    do_ioctl_SIOCGSTAMPNS },
  
-     init_qemu_uname_release();
+   IOCTL(RNDGETENTCNT, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 39a37496fed5..8367cb138dfe 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -37,6 +37,7 @@
+ #include <sched.h>
+ #include <sys/timex.h>
+ #include <sys/socket.h>
++#include <linux/sockios.h>
+ #include <sys/un.h>
+ #include <sys/uio.h>
+ #include <poll.h>
+@@ -1126,8 +1127,9 @@ static inline abi_long copy_from_user_timeval(struct timeval *tv,
+ {
+     struct target_timeval *target_tv;
  
-+    /*
-+     * Manage binfmt-misc open-binary flag
-+     */
-     execfd = qemu_getauxval(AT_EXECFD);
-     if (execfd == 0) {
-         execfd = open(exec_path, O_RDONLY);
-@@ -656,6 +659,19 @@ int main(int argc, char **argv, char **envp)
-         }
-     }
+-    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 1))
++    if (!lock_user_struct(VERIFY_READ, target_tv, target_tv_addr, 1)) {
+         return -TARGET_EFAULT;
++    }
  
-+    /*
-+     * Manage binfmt-misc preserve-arg[0] flag
-+     *    argv[optind]     full path to the binary
-+     *    argv[optind + 1] original argv[0]
-+     */
-+    if (optind + 1 < argc && argv0 != NULL && argv0[0] == 0) {
-+        /*
-+         * argv0 with an empty string will set argv[optind + 1]
-+         * as target_argv[0]
-+         */
-+        optind++;
+     __get_user(tv->tv_sec, &target_tv->tv_sec);
+     __get_user(tv->tv_usec, &target_tv->tv_usec);
+@@ -1142,8 +1144,26 @@ static inline abi_long copy_to_user_timeval(abi_ulong target_tv_addr,
+ {
+     struct target_timeval *target_tv;
+ 
+-    if (!lock_user_struct(VERIFY_WRITE, target_tv, target_tv_addr, 0))
++    if (!lock_user_struct(VERIFY_WRITE, target_tv, target_tv_addr, 0)) {
++        return -TARGET_EFAULT;
 +    }
 +
-     if (cpu_model == NULL) {
-         cpu_model = cpu_get_model(get_elf_eflags(execfd));
-     }
-@@ -760,7 +776,7 @@ int main(int argc, char **argv, char **envp)
-      * argv[0] pointer with the given one.
-      */
-     i = 0;
--    if (argv0 != NULL) {
-+    if (argv0 != NULL && argv0[0] != 0) {
-         target_argv[i++] = strdup(argv0);
-     }
-     for (; i < target_argc; i++) {
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index b5a16742a149..7c9a4609c232 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -170,25 +170,27 @@ usage() {
- Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
-                            [--help][--credential yes|no][--exportdir PATH]
-                            [--persistent yes|no][--qemu-suffix SUFFIX]
-+                           [--preserve-arg0 yes|no]
++    __put_user(tv->tv_sec, &target_tv->tv_sec);
++    __put_user(tv->tv_usec, &target_tv->tv_usec);
++
++    unlock_user_struct(target_tv, target_tv_addr, 1);
++
++    return 0;
++}
++
++static inline abi_long copy_to_user_timeval64(abi_ulong target_tv_addr,
++                                             const struct timeval *tv)
++{
++    struct target__kernel_sock_timeval *target_tv;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_tv, target_tv_addr, 0)) {
+         return -TARGET_EFAULT;
++    }
  
-        Configure binfmt_misc to use qemu interpreter
- 
--       --help:        display this usage
--       --qemu-path:   set path to qemu interpreter ($QEMU_PATH)
--       --qemu-suffix: add a suffix to the default interpreter name
--       --debian:      don't write into /proc,
--                      instead generate update-binfmts templates
--       --systemd:     don't write into /proc,
--                      instead generate file for systemd-binfmt.service
--                      for the given CPU. If CPU is "ALL", generate a
--                      file for all known cpus
--       --exportdir:   define where to write configuration files
--                      (default: $SYSTEMDDIR or $DEBIANDIR)
--       --credential:  if yes, credential and security tokens are
--                      calculated according to the binary to interpret
--       --persistent:  if yes, the interpreter is loaded when binfmt is
--                      configured and remains in memory. All future uses
--                      are cloned from the open file.
-+       --help:          display this usage
-+       --qemu-path:     set path to qemu interpreter ($QEMU_PATH)
-+       --qemu-suffix:   add a suffix to the default interpreter name
-+       --debian:        don't write into /proc,
-+                        instead generate update-binfmts templates
-+       --systemd:       don't write into /proc,
-+                        instead generate file for systemd-binfmt.service
-+                        for the given CPU. If CPU is "ALL", generate a
-+                        file for all known cpus
-+       --exportdir:     define where to write configuration files
-+                        (default: $SYSTEMDDIR or $DEBIANDIR)
-+       --credential:    if yes, credential and security tokens are
-+                        calculated according to the binary to interpret
-+       --persistent:    if yes, the interpreter is loaded when binfmt is
-+                        configured and remains in memory. All future uses
-+                        are cloned from the open file.
-+       --preserve-arg0  preserve arg[0]
- 
-     To import templates with update-binfmts, use :
- 
-@@ -261,6 +263,9 @@ qemu_generate_register() {
-     if [ "$PERSISTENT" = "yes" ] ; then
-         flags="${flags}F"
-     fi
-+    if [ "$PRESERVE_ARG0" = "yes" ] ; then
-+        flags="${flags}P"
-+    fi
- 
-     echo ":qemu-$cpu:M::$magic:$mask:$qemu:$flags"
+     __put_user(tv->tv_sec, &target_tv->tv_sec);
+     __put_user(tv->tv_usec, &target_tv->tv_usec);
+@@ -1153,6 +1173,48 @@ static inline abi_long copy_to_user_timeval(abi_ulong target_tv_addr,
+     return 0;
  }
-@@ -322,9 +327,10 @@ DEBIANDIR="/usr/share/binfmts"
- QEMU_PATH=/usr/local/bin
- CREDENTIAL=no
- PERSISTENT=no
-+PRESERVE_ARG0=no
- QEMU_SUFFIX=""
  
--options=$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent: -- "$@")
-+options=$(getopt -o ds:Q:S:e:hc:p:0: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-arg0: -- "$@")
- eval set -- "$options"
++static inline abi_long target_to_host_timespec(struct timespec *host_ts,
++                                               abi_ulong target_addr)
++{
++    struct target_timespec *target_ts;
++
++    if (!lock_user_struct(VERIFY_READ, target_ts, target_addr, 1)) {
++        return -TARGET_EFAULT;
++    }
++    __get_user(host_ts->tv_sec, &target_ts->tv_sec);
++    __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    unlock_user_struct(target_ts, target_addr, 0);
++    return 0;
++}
++
++static inline abi_long host_to_target_timespec(abi_ulong target_addr,
++                                               struct timespec *host_ts)
++{
++    struct target_timespec *target_ts;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_ts, target_addr, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __put_user(host_ts->tv_sec, &target_ts->tv_sec);
++    __put_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    unlock_user_struct(target_ts, target_addr, 1);
++    return 0;
++}
++
++static inline abi_long host_to_target_timespec64(abi_ulong target_addr,
++                                                 struct timespec *host_ts)
++{
++    struct target__kernel_timespec *target_ts;
++
++    if (!lock_user_struct(VERIFY_WRITE, target_ts, target_addr, 0)) {
++        return -TARGET_EFAULT;
++    }
++    __put_user(host_ts->tv_sec, &target_ts->tv_sec);
++    __put_user(host_ts->tv_nsec, &target_ts->tv_nsec);
++    unlock_user_struct(target_ts, target_addr, 1);
++    return 0;
++}
++
+ static inline abi_long copy_from_user_timezone(struct timezone *tz,
+                                                abi_ulong target_tz_addr)
+ {
+@@ -4899,6 +4961,54 @@ static abi_long do_ioctl_kdsigaccept(const IOCTLEntry *ie, uint8_t *buf_temp,
+     return get_errno(safe_ioctl(fd, ie->host_cmd, sig));
+ }
  
- while true ; do
-@@ -380,6 +386,10 @@ while true ; do
-         shift
-         PERSISTENT="$1"
-         ;;
-+    -0|--preserve-arg0)
-+        shift
-+        PRESERVE_ARG0="$1"
-+        ;;
-     *)
-         break
-         ;;
++static abi_long do_ioctl_SIOCGSTAMP(const IOCTLEntry *ie, uint8_t *buf_temp,
++                                    int fd, int cmd, abi_long arg)
++{
++    struct timeval tv;
++    abi_long ret;
++
++    ret = get_errno(safe_ioctl(fd, SIOCGSTAMP, &tv));
++    if (is_error(ret)) {
++        return ret;
++    }
++
++    if (cmd == (int)TARGET_SIOCGSTAMP_OLD) {
++        if (copy_to_user_timeval(arg, &tv)) {
++            return -TARGET_EFAULT;
++        }
++    } else {
++        if (copy_to_user_timeval64(arg, &tv)) {
++            return -TARGET_EFAULT;
++        }
++    }
++
++    return ret;
++}
++
++static abi_long do_ioctl_SIOCGSTAMPNS(const IOCTLEntry *ie, uint8_t *buf_temp,
++                                      int fd, int cmd, abi_long arg)
++{
++    struct timespec ts;
++    abi_long ret;
++
++    ret = get_errno(safe_ioctl(fd, SIOCGSTAMPNS, &ts));
++    if (is_error(ret)) {
++        return ret;
++    }
++
++    if (cmd == (int)TARGET_SIOCGSTAMPNS_OLD) {
++        if (host_to_target_timespec(arg, &ts)) {
++            return -TARGET_EFAULT;
++        }
++    } else{
++        if (host_to_target_timespec64(arg, &ts)) {
++            return -TARGET_EFAULT;
++        }
++    }
++
++    return ret;
++}
++
+ #ifdef TIOCGPTPEER
+ static abi_long do_ioctl_tiocgptpeer(const IOCTLEntry *ie, uint8_t *buf_temp,
+                                      int fd, int cmd, abi_long arg)
+@@ -6271,32 +6381,6 @@ static inline abi_long target_ftruncate64(void *cpu_env, abi_long arg1,
+ }
+ #endif
+ 
+-static inline abi_long target_to_host_timespec(struct timespec *host_ts,
+-                                               abi_ulong target_addr)
+-{
+-    struct target_timespec *target_ts;
+-
+-    if (!lock_user_struct(VERIFY_READ, target_ts, target_addr, 1))
+-        return -TARGET_EFAULT;
+-    __get_user(host_ts->tv_sec, &target_ts->tv_sec);
+-    __get_user(host_ts->tv_nsec, &target_ts->tv_nsec);
+-    unlock_user_struct(target_ts, target_addr, 0);
+-    return 0;
+-}
+-
+-static inline abi_long host_to_target_timespec(abi_ulong target_addr,
+-                                               struct timespec *host_ts)
+-{
+-    struct target_timespec *target_ts;
+-
+-    if (!lock_user_struct(VERIFY_WRITE, target_ts, target_addr, 0))
+-        return -TARGET_EFAULT;
+-    __put_user(host_ts->tv_sec, &target_ts->tv_sec);
+-    __put_user(host_ts->tv_nsec, &target_ts->tv_nsec);
+-    unlock_user_struct(target_ts, target_addr, 1);
+-    return 0;
+-}
+-
+ static inline abi_long target_to_host_itimerspec(struct itimerspec *host_itspec,
+                                                  abi_ulong target_addr)
+ {
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index fffa89f2564b..06622703008a 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -209,16 +209,34 @@ struct target_linger {
+     abi_int l_linger;       /* How long to linger for       */
+ };
+ 
++#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
++struct target_timeval {
++    abi_long tv_sec;
++    abi_int tv_usec;
++};
++#define target__kernel_sock_timeval target_timeval
++#else
+ struct target_timeval {
+     abi_long tv_sec;
+     abi_long tv_usec;
+ };
+ 
++struct target__kernel_sock_timeval {
++    abi_llong tv_sec;
++    abi_llong tv_usec;
++};
++#endif
++
+ struct target_timespec {
+     abi_long tv_sec;
+     abi_long tv_nsec;
+ };
+ 
++struct target__kernel_timespec {
++    abi_llong tv_sec;
++    abi_llong tv_nsec;
++};
++
+ struct target_timezone {
+     abi_int tz_minuteswest;
+     abi_int tz_dsttime;
+@@ -749,8 +767,16 @@ struct target_pollfd {
+ #define TARGET_SIOCGPGRP       0x8904
+ #endif
+ 
+-#define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
+-#define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) */
++#if defined(TARGET_SH4)
++#define TARGET_SIOCGSTAMP_OLD   TARGET_IOR('s', 100, struct target_timeval)
++#define TARGET_SIOCGSTAMPNS_OLD TARGET_IOR('s', 101, struct target_timespec)
++#else
++#define TARGET_SIOCGSTAMP_OLD   0x8906
++#define TARGET_SIOCGSTAMPNS_OLD 0x8907
++#endif
++
++#define TARGET_SIOCGSTAMP_NEW   TARGET_IOR(0x89, 0x06, abi_llong[2])
++#define TARGET_SIOCGSTAMPNS_NEW TARGET_IOR(0x89, 0x07, abi_llong[2])
+ 
+ /* Networking ioctls */
+ #define TARGET_SIOCADDRT       0x890B          /* add routing table entry */
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index b98a23b0f1b0..4e3698382629 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -14,12 +14,6 @@ STRUCT(serial_icounter_struct,
+ STRUCT(sockaddr,
+        TYPE_SHORT, MK_ARRAY(TYPE_CHAR, 14))
+ 
+-STRUCT(timeval,
+-       MK_ARRAY(TYPE_LONG, 2))
+-
+-STRUCT(timespec,
+-       MK_ARRAY(TYPE_LONG, 2))
+-
+ STRUCT(rtentry,
+        TYPE_ULONG, MK_STRUCT(STRUCT_sockaddr), MK_STRUCT(STRUCT_sockaddr), MK_STRUCT(STRUCT_sockaddr),
+        TYPE_SHORT, TYPE_SHORT, TYPE_ULONG, TYPE_PTRVOID, TYPE_SHORT, TYPE_PTRVOID,
 -- 
 2.21.0
 
