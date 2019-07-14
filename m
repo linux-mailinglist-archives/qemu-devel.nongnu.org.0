@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764F167EC4
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 13:13:35 +0200 (CEST)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C9C67EC7
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 13:14:07 +0200 (CEST)
+Received: from localhost ([::1]:59760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmcRi-0007AJ-BN
-	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 07:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60303)
+	id 1hmcSE-0001Rq-DG
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 07:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60318)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hmcR4-0005TY-ER
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hmcR5-0005Tg-D0
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hmcR3-0006M8-9z
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33094)
+ (envelope-from <richard.henderson@linaro.org>) id 1hmcR4-0006MU-D7
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:55 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44266)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hmcR3-0006Ld-3t
- for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:53 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n9so14202034wru.0
- for <qemu-devel@nongnu.org>; Sun, 14 Jul 2019 04:12:53 -0700 (PDT)
+ id 1hmcR4-0006MC-6a
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 07:12:54 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p17so14119335wrf.11
+ for <qemu-devel@nongnu.org>; Sun, 14 Jul 2019 04:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QWcqefmxLRbmEUfSEqDtCzXI1bFjI9WN8pfzB0Jzwck=;
- b=yO8ROLXJyDL9A3nECDL4t13PvlssQCtGuq0AZBc8cK2TxiTHdE6FcIugdsxGumIdZq
- vD8r3BnSrk+8KZ10H/OYgWPHYjv2e/vk/pf7ciCyP6dkaxeappvffvQX6S9o3uiiGD2c
- v3qGaesrOoaA8OPOW1sde5O+snZNOtxe5SuqdsUAuvpvYPjb629vd4+bVwOZPwbrxkzP
- HAXk7mqtEkZhGz0iUutmniKhNf8mwd52WjaNzWbAszn/713VS6LEoRXQBp8jTQjr5ySj
- whR9bO+Gkcg2ChsOhGRlGAocd3s6n0+sC8KsS33Z27I4h6C9Yx9Y9ilZxeFBCCzZ7uWK
- NKsg==
+ bh=0wQZY7BwhMGbzrEOB1c2143JMgOfq1mTVa8os+QOs8k=;
+ b=SnjNwwFgWLWo/sDnqsLQa0H3gMnaxxiVUJy1ljCTHjzYy15C7DEYkZWxwCFNs+/Cto
+ I9f2O6uftSECOxttpVsh4bm0kNG5y3Pbf5cTFG/KrTpA3llKreMJUulW1Z9FXCoW6csa
+ zT393DLvo2oLMNZ3iX9Teb9KaSV4xhjqXPbXfHzc6a4dG38/Nc4gFYQMeS7hRH2Pttcn
+ Q7BuEYZ4fnfKyN2zj5TVZoWJ/E4icvgeUknkvIgNUR1r4aq6o/33Ou3EKf/u0VnCGhz5
+ UpUOmP5DCPYIcr9CcJRi+HDQ9TykD1+P5vKMuCGU+dEDr7Yu++5NZ8dZmtatco04KhYv
+ vU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QWcqefmxLRbmEUfSEqDtCzXI1bFjI9WN8pfzB0Jzwck=;
- b=YyrIUENhFGf/KFBCrxWBGxlkFEBHKbTexFLvEsQMkyU9TIXRgDNdRW7Nf+Pvb4yhu7
- 14B8YqZkpZ/imri41JP4paoRsaBKOfryrPIe/xsM0IK/cw1a/qrZf84cl3pgVvDeB30t
- Z5BJoJutfdbq09KddMDAKg4hSLILUgIiQVzlJYlhBhkpONkCof1E1R9qJaykJo7g4iE3
- ArFv6MVDvCKfCoqm7YZkkWcxntNQyVHEN6HDN3O7apnOEguhrjixB2VOJU2CC5WK4UnS
- 8Jdod7UAbj/S6zXZKL2GkAL8cSaKX8OfI2/Tdj5P2nEf7ZBdn2RjEMHs5oBNE8nvmfpg
- MWEw==
-X-Gm-Message-State: APjAAAXhPoWyXI/U0WwGK+yEYF0myas1b7LPgFzqgDanholFTvFRtY+8
- 4Q1Ii60++HjQ8xwSA98RZiEEeHH7iI+4GA==
-X-Google-Smtp-Source: APXvYqwvdGELyTyAG0oVhLZBpo8EkfBnclsGMJ2FxNLHXBb+8kJ9j8K4YjXeytX2KygMZSXOw8QlGg==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr21875470wrr.5.1563102771773;
- Sun, 14 Jul 2019 04:12:51 -0700 (PDT)
+ bh=0wQZY7BwhMGbzrEOB1c2143JMgOfq1mTVa8os+QOs8k=;
+ b=CaHoM9CSNLHxBOoISCaBF2Ky68ZTE3ahZl3ckM0TqwQ3UtiQXTzlgf1PZdSNIG519W
+ YtQ9o/+hUGE0fDKjHZmw1bSwimaWyk1f7NL1ZujxkK7pr7CNoJVjXlAVIrTNCW5IyYBt
+ tIXj95yyPSwjH8UI9WAPsXiZa2vokx5m67FBntC2U+yQUqpIaRor8/lAj4vwU1R6cvBF
+ /6VJicng1pOqMxTAz9QSqj+kTi0cpl6mSTysq46qm7tyAIwMQwP9ux+MI5CfUB3PBHgj
+ X6znzS3jFKDbGhBel+JkuNyP8jrQvLkxD4zHpfakNyn3jFczA5idU7A2mu7trYqrlsWp
+ 6Lmg==
+X-Gm-Message-State: APjAAAXB4w5fXU4xo2XFT9lDKYO1MOKEZCC9XRsf07H5p23kISB+ZBIQ
+ gZT4Uqp28Ki4Bdds/7xeqJ3HCiDz1A7ubg==
+X-Google-Smtp-Source: APXvYqxZkcShDOZVElySLxWxx+1XhoZelDeNjzY8uaHygzZPGXUba3Q7mO03WA00+HTQrcUEnxPylQ==
+X-Received: by 2002:adf:80e6:: with SMTP id 93mr22588812wrl.298.1563102772979; 
+ Sun, 14 Jul 2019 04:12:52 -0700 (PDT)
 Received: from localhost.localdomain ([194.144.248.241])
- by smtp.gmail.com with ESMTPSA id f17sm12675795wmf.27.2019.07.14.04.12.50
+ by smtp.gmail.com with ESMTPSA id f17sm12675795wmf.27.2019.07.14.04.12.51
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 14 Jul 2019 04:12:51 -0700 (PDT)
+ Sun, 14 Jul 2019 04:12:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 14 Jul 2019 11:12:43 +0000
-Message-Id: <20190714111249.13859-2-richard.henderson@linaro.org>
+Date: Sun, 14 Jul 2019 11:12:44 +0000
+Message-Id: <20190714111249.13859-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190714111249.13859-1-richard.henderson@linaro.org>
 References: <20190714111249.13859-1-richard.henderson@linaro.org>
@@ -65,9 +65,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL for-4.1 1/7] tcg: Fix constant folding of
- INDEX_op_extract2_i32
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PULL for-4.1 2/7] tcg/aarch64: Fix output of extract2
+ opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,33 +83,34 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On a 64-bit host, discard any replications of the 32-bit
-sign bit when performing the shift and merge.
+This patch fixes two problems:
+(1) The inputs to the EXTR insn were reversed,
+(2) The input constraints use rZ, which means that we need to use
+    the REG0 macro in order to supply XZR for a constant 0 input.
 
-Fixes: https://bugs.launchpad.net/bugs/1834496
-Tested-by: Christophe Lyon <christophe.lyon@linaro.org>
+Fixes: 464c2969d5d
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tcg/aarch64/tcg-target.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index d7c71a6085..d2424de4af 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1213,8 +1213,8 @@ void tcg_optimize(TCGContext *s)
-                 if (opc == INDEX_op_extract2_i64) {
-                     tmp = (v1 >> op->args[3]) | (v2 << (64 - op->args[3]));
-                 } else {
--                    tmp = (v1 >> op->args[3]) | (v2 << (32 - op->args[3]));
--                    tmp = (int32_t)tmp;
-+                    tmp = (int32_t)(((uint32_t)v1 >> op->args[3]) |
-+                                    ((uint32_t)v2 << (32 - op->args[3])));
-                 }
-                 tcg_opt_gen_movi(s, op, op->args[0], tmp);
-                 break;
+diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
+index b0f8106642..0713448bf5 100644
+--- a/tcg/aarch64/tcg-target.inc.c
++++ b/tcg/aarch64/tcg-target.inc.c
+@@ -2226,7 +2226,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+ 
+     case INDEX_op_extract2_i64:
+     case INDEX_op_extract2_i32:
+-        tcg_out_extr(s, ext, a0, a1, a2, args[3]);
++        tcg_out_extr(s, ext, a0, REG0(2), REG0(1), args[3]);
+         break;
+ 
+     case INDEX_op_add2_i32:
 -- 
 2.17.1
 
