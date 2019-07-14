@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977D067CC8
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 05:38:33 +0200 (CEST)
-Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B492667EA4
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Jul 2019 12:42:02 +0200 (CEST)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmVLM-0001VW-Pp
-	for lists+qemu-devel@lfdr.de; Sat, 13 Jul 2019 23:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52111)
+	id 1hmbxB-0007Ke-3c
+	for lists+qemu-devel@lfdr.de; Sun, 14 Jul 2019 06:42:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54117)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hmVLA-000173-Em
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 23:38:21 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hmbwx-0006o4-F5
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 06:41:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hmVL9-0003kp-Cu
- for qemu-devel@nongnu.org; Sat, 13 Jul 2019 23:38:20 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:43031)
+ (envelope-from <richard.henderson@linaro.org>) id 1hmbww-0004BX-C5
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 06:41:47 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53321)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hmVL7-0003iz-3m; Sat, 13 Jul 2019 23:38:17 -0400
-Received: by mail-ed1-x541.google.com with SMTP id e3so12387349edr.10;
- Sat, 13 Jul 2019 20:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=epXt3tMCuaCZ+FBDgx3zrjs1rQeNPB0DcBSKGrdJiGc=;
- b=HZhRhDagqG4KEMuJlJS58veC1css7UA61acQQtMWWKHoRlfyDEa4nQ0jSBEszW37KL
- 45N+3Culs13+Ph25zcHRoiYDPT3H/6QudSmzHQN/au7PpuH9feqqOy0wFipyimINLRx5
- /Z1O1o7ueMdMwBD/IoEOkGZNWf2q2cuqrK90v/O54zdog2QCycMqXsNeBRw6sr2rtZvG
- tr2HNVISzHDBZXrg93nLCk+dvnTKTzecN4cYvFfiMF0rTEEfCGeS+slqn6HvLHKgybKH
- msd8o464u4AQt3Mc5177TZYi9lEjI9rmDVUsSjZ5SytXnlB4GQzuazGMkm0JF3H8DvHn
- r1Lg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hmbww-0004Aa-3X
+ for qemu-devel@nongnu.org; Sun, 14 Jul 2019 06:41:46 -0400
+Received: by mail-wm1-x343.google.com with SMTP id x15so12461375wmj.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Jul 2019 03:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ekfN7zelEptPkdaz3uwfS2QEwGl6oC2JaNU4vJovymI=;
+ b=A89b0bLG5oxqUB9xsoZfD+iKpMIbIz1KU4gkjLNIqE3QCJrhB2AU/8yc/I3MFvXAD+
+ xdKRQSu3NocbVa7sBQnoDyGoVWYtf8SCz2cOR+2lMEe9CoeTDuBJ48NShNbqJC1yJ2iS
+ SGEQ3dXam9kBx2aD12yiEnWhsjLCd/S39veEPNPwBkMBo+JEn1D8ds3fnbIWGAZYiMD9
+ K3rNKolHXFqF5CuuvnmybdRdxrbxYYlegjOxeQgjTTOOulxfTUkVftJV1e8GorQHbcXp
+ BOga/sIoVxpatLNNN989ag8DHiP2g197eajJcAN0xRq85Ypd/6Jbs9JYLQ/o+oyxC0CD
+ HPlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=epXt3tMCuaCZ+FBDgx3zrjs1rQeNPB0DcBSKGrdJiGc=;
- b=GkxzJX8XHn+3c3nS4t/8x6nRWfKVkE+iXXGENrF2zAxwnN8TrW93HllWIXrttK1EvR
- Gzo/zZOxd73BC2/fK5zJauSZF9m0VNGQwaZX11Xrz39kuLdonQ9RB+NJ4l7ROFR3B87l
- d0g04obMX3je0sMhYi3eyxkd9fVhZ1tjohmP6Q2ca5z7NMDp9Wda6pfAsqvk5FMuBnWn
- WC3+Jrv/6tK+PCf+ttA8m3n7ZcJk+xB/afpdJhxttXVb6msgRboQTwD0MzP0xv6oIXjJ
- NDGnT3UHhOb+mEoDc49SaOgL/Vx9oDTmhseqJ8wnhw+LaMfrxpWGr7dJiOO7sa1fQ5jQ
- aTbw==
-X-Gm-Message-State: APjAAAUmrqIJScL3eBXhwS1CDYfoCzC0x/qGJ/C2Xv/aIABt2pnm5PD8
- mK3KOaD+LzNzpLqSM5ZuJ8Jit8hp9oPJfyYSWHo=
-X-Google-Smtp-Source: APXvYqx67bOgUgJAwgc5K46c9yvh/ujiQ/8/2T900p2FxpcV9sHWZxOOoQuhlgEp5Z131on/xOVNnhdCPlXX35Ksv4M=
-X-Received: by 2002:a17:906:fcb8:: with SMTP id
- qw24mr14784506ejb.239.1563075496133; 
- Sat, 13 Jul 2019 20:38:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ekfN7zelEptPkdaz3uwfS2QEwGl6oC2JaNU4vJovymI=;
+ b=GJohTvFtZCuw9kCmqSQDke/syj+0hxmkcw1SeD6enkf/ubLErv7TlVmuZ2dMO9O68U
+ 9uB+v5Hk1MX4pj98Blc+wOsfAn7DLa79o/BQFs4n7wTl6FcSU9oGlo4sRaL33oodTv4x
+ xnjOzqtz0ridM4FEgsHc9y+zWRenNOZc++N6kSOcy32B8AHEVScnA9KAKOFpT2B2lP9W
+ ld9iOHk5qLdlWKXtRO1aaC/vA5jEsoStLCPXk4uMrQNMWW1U2WJ2sdNJRHlQPFiag4r1
+ Od0bsry02WH2ZoJGQQOvv7Z2BfyUO66U7npqsrUKQXX2owrqDpBHorrCFKmLOchkzXtf
+ W86A==
+X-Gm-Message-State: APjAAAV8B2hMT8VHoP1UL6PJpZawmZABEoMjCytaKpnm84GqoK7P/aXm
+ nRrVQ06xQ3fzzNXUrRr+8Gn76w==
+X-Google-Smtp-Source: APXvYqz2P6+01VRLqfOunluUmvcFHCnXWe0yEtdOGyuZgqlDDHGah4PXZwqkYrQqIf3WgN+TrNSByA==
+X-Received: by 2002:a1c:480a:: with SMTP id v10mr18953733wma.120.1563100904033; 
+ Sun, 14 Jul 2019 03:41:44 -0700 (PDT)
+Received: from [10.0.7.42] ([194.144.248.241])
+ by smtp.gmail.com with ESMTPSA id 17sm14057302wmx.47.2019.07.14.03.41.41
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 14 Jul 2019 03:41:42 -0700 (PDT)
+To: Arnd Bergmann <arnd@arndb.de>, Laurent Vivier <laurent@vivier.eu>
+References: <20190711173131.6347-1-laurent@vivier.eu>
+ <CAK8P3a3-UaZ+RzYNZ25zFHs=1iZNrnaP_eAuHE0WAztztA4EGA@mail.gmail.com>
+ <74807892-5d59-0a9a-8385-48cce361d842@vivier.eu>
+ <CAK8P3a3XR=C27eYWQ+AxjZ1EEDNBz0HBB_NHh0hbrSDF5ASyqQ@mail.gmail.com>
+ <e1c736b2-6f68-208e-9993-57ae143195ad@vivier.eu>
+ <CAK8P3a3fZgcSR7V=NAjDa37-5j8L+n-cF1CVPiWjteV6hfHSLg@mail.gmail.com>
+ <db82d6a2-8ca7-5bbb-0cf9-feecc8b2adfb@vivier.eu>
+ <CAK8P3a3GwDr1wPU3hfnmN-N4kvBvSqxa2aRVLQABO70fv21YhQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <ac90d2b2-83e8-6ad3-5dca-81e179edec00@linaro.org>
+Date: Sun, 14 Jul 2019 12:41:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <1560525351-590-1-git-send-email-bmeng.cn@gmail.com>
- <mhng-4825dce4-e510-41cd-b97c-0e599d6a2369@palmer-si-x1e>
-In-Reply-To: <mhng-4825dce4-e510-41cd-b97c-0e599d6a2369@palmer-si-x1e>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 14 Jul 2019 11:38:05 +0800
-Message-ID: <CAEUhbmVH8cWcWn=s9J7VA40VCUoYpMkjXAMe=X1MLZfwghxP4A@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK8P3a3GwDr1wPU3hfnmN-N4kvBvSqxa2aRVLQABO70fv21YhQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH] riscv: sifive_test: Add reset functionality
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v4] linux-user: fix to handle variably
+ sized SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,80 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Gerhard Stenzel <gerhard.stenzel@de.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-devel@nongnu.org, Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 9, 2019 at 5:48 PM Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> On Fri, 14 Jun 2019 08:15:51 PDT (-0700), bmeng.cn@gmail.com wrote:
-> > This adds a reset opcode for sifive_test device to trigger a system
-> > reset for testing purpose.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/riscv/sifive_test.c         | 4 ++++
-> >  include/hw/riscv/sifive_test.h | 3 ++-
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-> > index 24a04d7..cd86831 100644
-> > --- a/hw/riscv/sifive_test.c
-> > +++ b/hw/riscv/sifive_test.c
-> > @@ -21,6 +21,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include "hw/sysbus.h"
-> >  #include "qemu/module.h"
-> > +#include "sysemu/sysemu.h"
-> >  #include "target/riscv/cpu.h"
-> >  #include "hw/riscv/sifive_test.h"
-> >
-> > @@ -40,6 +41,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
-> >              exit(code);
-> >          case FINISHER_PASS:
-> >              exit(0);
-> > +        case FINISHER_RESET:
-> > +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> > +            return;
-> >          default:
-> >              break;
-> >          }
-> > diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
-> > index 71d4c9f..c186a31 100644
-> > --- a/include/hw/riscv/sifive_test.h
-> > +++ b/include/hw/riscv/sifive_test.h
-> > @@ -34,7 +34,8 @@ typedef struct SiFiveTestState {
-> >
-> >  enum {
-> >      FINISHER_FAIL = 0x3333,
-> > -    FINISHER_PASS = 0x5555
-> > +    FINISHER_PASS = 0x5555,
-> > +    FINISHER_RESET = 0x7777
-> >  };
-> >
-> >  DeviceState *sifive_test_create(hwaddr addr);
->
-> Poking around the hardware side, it looks like we're silently ignoring all
-> codes aside from 0x3333 and 0x5555.  As a result there's really no way to test
-> if this added reset is going to work, so this should be a "sifive,test1"
-> instead of a "sifive,test0".  It's backwards compatible, so the compat string
-> in the device trees should look something like
->
->     compatible = "sifive,test1", "sifive,test0";
->
-> With that it should be fine, pending the change to our hardware to reserve this
-> as an error code within "sifive,test0" devices.
->
-> Do you mind also submitting a device tree binding to Linux that describes this
-> device?  That way we can all stay on the same page about what the pair of
-> interfaces do.
+On 7/12/19 3:55 PM, Arnd Bergmann wrote:
+> glibc will have to create a definition that matches the kernel, which uses
+> 
+> struct __kernel_timespec {
+>     __s64 tv_sec;
+>     __s64 tv_nsec;
+> };
+> 
+> As posix requires tv_nsec to be 'long', you need padding between
+> tv_sec and tv_nsec to have a libc definition matching the kernel's
+> binary layout.
 
-Thanks for the confirmation. I will try to create a device tree
-binding for Linux.
+Yes, but that's glibc's lookout.  All qemu cares about emulating is the kernel
+interface.  So I think Laurent is right here, in that two reads handle the
+above structure just fine.
 
-Regards,
-Bin
+
+r~
 
