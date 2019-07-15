@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C61690CE
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8EB690CC
 	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:24:52 +0200 (CEST)
-Received: from localhost ([::1]:39314 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1uN-0001ro-MT
+	id 1hn1uN-0001nO-6l
 	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32865)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32861)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1th-0008Nz-96
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1th-0008NZ-4U
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1tf-0002Xu-IT
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1tf-0002Xo-Hy
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:09 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:34295 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:34297 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hn1tf-0001jO-70
+ id 1hn1tf-0001jR-6e
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:07 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 1D0651A20A0;
+ by mail.rt-rk.com (Postfix) with ESMTP id 2EF2C1A20A4;
  Mon, 15 Jul 2019 16:23:02 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
  [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D62751A2081;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id E4C201A2088;
  Mon, 15 Jul 2019 16:23:01 +0200 (CEST)
 From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 16:22:47 +0200
-Message-Id: <1563200574-11098-2-git-send-email-stefan.brankovic@rt-rk.com>
+Date: Mon, 15 Jul 2019 16:22:48 +0200
+Message-Id: <1563200574-11098-3-git-send-email-stefan.brankovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
 References: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v5 1/8] target/ppc: Optimize emulation of lvsl
- and lvsr instructions
+Subject: [Qemu-devel] [PATCH v5 2/8] target/ppc: Optimize emulation of vsl
+ and vsr instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,267 +56,220 @@ Cc: stefan.brankovic@rt-rk.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding simple macro that is calling tcg implementation of appropriate
-instruction if altivec support is active.
+Optimization of altivec instructions vsl and vsr(Vector Shift Left/Rigt).
+Perform shift operation (left and right respectively) on 128 bit value of
+register vA by value specified in bits 125-127 of register vB. Lowest 3
+bits in each byte element of register vB must be identical or result is
+undefined.
 
-Optimization of altivec instruction lvsl (Load Vector for Shift Left).
-Place bytes sh:sh+15 of value 0x00 || 0x01 || 0x02 || ... || 0x1E || 0x1F
-in destination register. Sh is calculated by adding 2 source registers an=
-d
-getting bits 60-63 of result.
+For vsl instruction, the first step is bits 125-127 of register vB have
+to be saved in variable sh. Then, the highest sh bits of the lower
+doubleword element of register vA are saved in variable shifted,
+in order not to lose those bits when shift operation is performed on
+the lower doubleword element of register vA, which is the next
+step. After shifting the lower doubleword element shift operation
+is performed on higher doubleword element of vA, with replacement of
+the lowest sh bits(that are now 0) with bits saved in shifted.
 
-First, the bits [28-31] are placed from EA to variable sh. After that,
-the bytes are created in the following way:
-sh:(sh+7) of X(from description) by multiplying sh with 0x010101010101010=
-1
-followed by addition of the result with 0x0001020304050607. Value obtaine=
-d
-is placed in higher doubleword element of vD.
-(sh+8):(sh+15) by adding the result of previous multiplication with
-0x08090a0b0c0d0e0f. Value obtained is placed in lower doubleword element
-of vD.
-
-Optimization of altivec instruction lvsr (Load Vector for Shift Right).
-Place bytes 16-sh:31-sh of value 0x00 || 0x01 || 0x02 || ... || 0x1E ||
-0x1F in destination register. Sh is calculated by adding 2 source
-registers and getting bits 60-63 of result.
-
-First, the bits [28-31] are placed from EA to variable sh. After that,
-the bytes are created in the following way:
-sh:(sh+7) of X(from description) by multiplying sh with 0x010101010101010=
-1
-followed by substraction of the result from 0x1011121314151617. Value
-obtained is placed in higher doubleword element of vD.
-(sh+8):(sh+15) by substracting the result of previous multiplication from
-0x18191a1b1c1d1e1f. Value obtained is placed in lower doubleword element
-of vD.
+For vsr instruction, firstly, the bits 125-127 of register vB have
+to be saved in variable sh. Then, the lowest sh bits of the higher
+doubleword element of register vA are saved in variable shifted,
+in odred not to lose those bits when the shift operation is
+performed on the higher doubleword element of register vA, which is
+the next step. After shifting higher doubleword element, shift operation
+is performed on lower doubleword element of vA, with replacement of
+highest sh bits(that are now 0) with bits saved in shifted.
 
 Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  target/ppc/helper.h                 |   2 -
- target/ppc/int_helper.c             |  18 ------
- target/ppc/translate/vmx-impl.inc.c | 121 ++++++++++++++++++++++++++----=
-------
- 3 files changed, 89 insertions(+), 52 deletions(-)
+ target/ppc/int_helper.c             |  35 -------------
+ target/ppc/translate/vmx-impl.inc.c | 101 +++++++++++++++++++++++++++++++++++-
+ 3 files changed, 99 insertions(+), 39 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 02b67a3..c82105e 100644
+index c82105e..33dad6a 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -189,8 +189,6 @@ DEF_HELPER_2(vprtybw, void, avr, avr)
- DEF_HELPER_2(vprtybd, void, avr, avr)
- DEF_HELPER_2(vprtybq, void, avr, avr)
- DEF_HELPER_3(vsubcuw, void, avr, avr, avr)
--DEF_HELPER_2(lvsl, void, avr, tl)
--DEF_HELPER_2(lvsr, void, avr, tl)
- DEF_HELPER_FLAGS_5(vaddsbs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i=
-32)
- DEF_HELPER_FLAGS_5(vaddshs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i=
-32)
- DEF_HELPER_FLAGS_5(vaddsws, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i=
-32)
+@@ -213,8 +213,6 @@ DEF_HELPER_3(vrlb, void, avr, avr, avr)
+ DEF_HELPER_3(vrlh, void, avr, avr, avr)
+ DEF_HELPER_3(vrlw, void, avr, avr, avr)
+ DEF_HELPER_3(vrld, void, avr, avr, avr)
+-DEF_HELPER_3(vsl, void, avr, avr, avr)
+-DEF_HELPER_3(vsr, void, avr, avr, avr)
+ DEF_HELPER_4(vsldoi, void, avr, avr, avr, i32)
+ DEF_HELPER_3(vextractub, void, avr, avr, i32)
+ DEF_HELPER_3(vextractuh, void, avr, avr, i32)
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 8ce89f2..9505f4c 100644
+index 9505f4c..a23853e 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -457,24 +457,6 @@ SATCVT(sd, uw, int64_t, uint32_t, 0, UINT32_MAX)
- #undef SATCVT
- #undef SATCVTU
-=20
--void helper_lvsl(ppc_avr_t *r, target_ulong sh)
--{
--    int i, j =3D (sh & 0xf);
--
--    for (i =3D 0; i < ARRAY_SIZE(r->u8); i++) {
--        r->VsrB(i) =3D j++;
+@@ -1738,41 +1738,6 @@ VEXTU_X_DO(vextuhrx, 16, 0)
+ VEXTU_X_DO(vextuwrx, 32, 0)
+ #undef VEXTU_X_DO
+ 
+-/*
+- * The specification says that the results are undefined if all of the
+- * shift counts are not identical.  We check to make sure that they
+- * are to conform to what real hardware appears to do.
+- */
+-#define VSHIFT(suffix, leftp)                                           \
+-    void helper_vs##suffix(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)    \
+-    {                                                                   \
+-        int shift = b->VsrB(15) & 0x7;                                  \
+-        int doit = 1;                                                   \
+-        int i;                                                          \
+-                                                                        \
+-        for (i = 0; i < ARRAY_SIZE(r->u8); i++) {                       \
+-            doit = doit && ((b->u8[i] & 0x7) == shift);                 \
+-        }                                                               \
+-        if (doit) {                                                     \
+-            if (shift == 0) {                                           \
+-                *r = *a;                                                \
+-            } else if (leftp) {                                         \
+-                uint64_t carry = a->VsrD(1) >> (64 - shift);            \
+-                                                                        \
+-                r->VsrD(0) = (a->VsrD(0) << shift) | carry;             \
+-                r->VsrD(1) = a->VsrD(1) << shift;                       \
+-            } else {                                                    \
+-                uint64_t carry = a->VsrD(0) << (64 - shift);            \
+-                                                                        \
+-                r->VsrD(1) = (a->VsrD(1) >> shift) | carry;             \
+-                r->VsrD(0) = a->VsrD(0) >> shift;                       \
+-            }                                                           \
+-        }                                                               \
 -    }
--}
+-VSHIFT(l, 1)
+-VSHIFT(r, 0)
+-#undef VSHIFT
 -
--void helper_lvsr(ppc_avr_t *r, target_ulong sh)
--{
--    int i, j =3D 0x10 - (sh & 0xf);
--
--    for (i =3D 0; i < ARRAY_SIZE(r->u8); i++) {
--        r->VsrB(i) =3D j++;
--    }
--}
--
- void helper_mtvscr(CPUPPCState *env, uint32_t vscr)
+ void helper_vslv(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
  {
-     env->vscr =3D vscr & ~(1u << VSCR_SAT);
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/v=
-mx-impl.inc.c
-index 663275b..a9fe3c7 100644
+     int i;
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+index a9fe3c7..e06e65a 100644
 --- a/target/ppc/translate/vmx-impl.inc.c
 +++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -142,38 +142,6 @@ GEN_VR_STVE(bx, 0x07, 0x04, 1);
- GEN_VR_STVE(hx, 0x07, 0x05, 2);
- GEN_VR_STVE(wx, 0x07, 0x06, 4);
-=20
--static void gen_lvsl(DisasContext *ctx)
--{
--    TCGv_ptr rd;
--    TCGv EA;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    EA =3D tcg_temp_new();
--    gen_addr_reg_index(ctx, EA);
--    rd =3D gen_avr_ptr(rD(ctx->opcode));
--    gen_helper_lvsl(rd, EA);
--    tcg_temp_free(EA);
--    tcg_temp_free_ptr(rd);
--}
--
--static void gen_lvsr(DisasContext *ctx)
--{
--    TCGv_ptr rd;
--    TCGv EA;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    EA =3D tcg_temp_new();
--    gen_addr_reg_index(ctx, EA);
--    rd =3D gen_avr_ptr(rD(ctx->opcode));
--    gen_helper_lvsr(rd, EA);
--    tcg_temp_free(EA);
--    tcg_temp_free_ptr(rd);
--}
--
- static void gen_mfvscr(DisasContext *ctx)
- {
-     TCGv_i32 t;
-@@ -316,6 +284,16 @@ static void glue(gen_, name)(DisasContext *ctx)     =
-                    \
-     tcg_temp_free_ptr(rd);                                              =
-\
+@@ -570,6 +570,103 @@ static void trans_lvsr(DisasContext *ctx)
+     tcg_temp_free(EA);
  }
-=20
-+#define GEN_VXFORM_TRANS(name, opc2, opc3)                              =
-\
-+static void glue(gen_, name)(DisasContext *ctx)                         =
-\
-+{                                                                       =
-\
-+    if (unlikely(!ctx->altivec_enabled)) {                              =
-\
-+        gen_exception(ctx, POWERPC_EXCP_VPU);                           =
-\
-+        return;                                                         =
-\
-+    }                                                                   =
-\
-+    trans_##name(ctx);                                                  =
-\
-+}
-+
- #define GEN_VXFORM_ENV(name, opc2, opc3)                                =
-\
- static void glue(gen_, name)(DisasContext *ctx)                         =
-\
- {                                                                       =
-\
-@@ -515,6 +493,83 @@ static void gen_vmrgow(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
- }
-=20
+ 
 +/*
-+ * lvsl VRT,RA,RB - Load Vector for Shift Left
++ * vsl VRT,VRA,VRB - Vector Shift Left
 + *
-+ * Let the EA be the sum (rA|0)+(rB). Let sh=3DEA[28=E2=80=9331].
-+ * Let X be the 32-byte value 0x00 || 0x01 || 0x02 || ... || 0x1E || 0x1=
-F.
-+ * Bytes sh:sh+15 of X are placed into vD.
++ * Shifting left 128 bit value of vA by value specified in bits 125-127 of vB.
++ * Lowest 3 bits in each byte element of register vB must be identical or
++ * result is undefined.
 + */
-+static void trans_lvsl(DisasContext *ctx)
++static void trans_vsl(DisasContext *ctx)
 +{
-+    int VT =3D rD(ctx->opcode);
-+    TCGv_i64 result =3D tcg_temp_new_i64();
-+    TCGv_i64 sh =3D tcg_temp_new_i64();
-+    TCGv EA =3D tcg_temp_new();
++    int VT = rD(ctx->opcode);
++    int VA = rA(ctx->opcode);
++    int VB = rB(ctx->opcode);
++    TCGv_i64 avrA = tcg_temp_new_i64();
++    TCGv_i64 avrB = tcg_temp_new_i64();
++    TCGv_i64 sh = tcg_temp_new_i64();
++    TCGv_i64 shifted = tcg_temp_new_i64();
++    TCGv_i64 tmp = tcg_temp_new_i64();
 +
-+    /* Get sh(from description) by anding EA with 0xf. */
-+    gen_addr_reg_index(ctx, EA);
-+    tcg_gen_extu_tl_i64(sh, EA);
-+    tcg_gen_andi_i64(sh, sh, 0xfULL);
++    /* Place bits 125-127 of vB in sh. */
++    get_avr64(avrB, VB, false);
++    tcg_gen_andi_i64(sh, avrB, 0x07ULL);
 +
 +    /*
-+     * Create bytes sh:sh+7 of X(from description) and place them in
-+     * higher doubleword of vD.
++     * Save highest sh bits of lower doubleword element of vA in variable
++     * shifted and perform shift on lower doubleword.
 +     */
-+    tcg_gen_muli_i64(sh, sh, 0x0101010101010101ULL);
-+    tcg_gen_addi_i64(result, sh, 0x0001020304050607ull);
-+    set_avr64(VT, result, true);
-+    /*
-+     * Create bytes sh+8:sh+15 of X(from description) and place them in
-+     * lower doubleword of vD.
-+     */
-+    tcg_gen_addi_i64(result, sh, 0x08090a0b0c0d0e0fULL);
-+    set_avr64(VT, result, false);
++    get_avr64(avrA, VA, false);
++    tcg_gen_subfi_i64(tmp, 64, sh);
++    tcg_gen_shr_i64(shifted, avrA, tmp);
++    tcg_gen_andi_i64(shifted, shifted, 0x7fULL);
++    tcg_gen_shl_i64(avrA, avrA, sh);
++    set_avr64(VT, avrA, false);
 +
-+    tcg_temp_free_i64(result);
++    /*
++     * Perform shift on higher doubleword element of vA and replace lowest
++     * sh bits with shifted.
++     */
++    get_avr64(avrA, VA, true);
++    tcg_gen_shl_i64(avrA, avrA, sh);
++    tcg_gen_or_i64(avrA, avrA, shifted);
++    set_avr64(VT, avrA, true);
++
++    tcg_temp_free_i64(avrA);
++    tcg_temp_free_i64(avrB);
 +    tcg_temp_free_i64(sh);
-+    tcg_temp_free(EA);
++    tcg_temp_free_i64(shifted);
++    tcg_temp_free_i64(tmp);
 +}
 +
 +/*
-+ * lvsr VRT,RA,RB - Load Vector for Shift Right
++ * vsr VRT,VRA,VRB - Vector Shift Right
 + *
-+ * Let the EA be the sum (rA|0)+(rB). Let sh=3DEA[28=E2=80=9331].
-+ * Let X be the 32-byte value 0x00 || 0x01 || 0x02 || ... || 0x1E || 0x1=
-F.
-+ * Bytes (16-sh):(31-sh) of X are placed into vD.
++ * Shifting right 128 bit value of vA by value specified in bits 125-127 of vB.
++ * Lowest 3 bits in each byte element of register vB must be identical or
++ * result is undefined.
 + */
-+static void trans_lvsr(DisasContext *ctx)
++static void trans_vsr(DisasContext *ctx)
 +{
-+    int VT =3D rD(ctx->opcode);
-+    TCGv_i64 result =3D tcg_temp_new_i64();
-+    TCGv_i64 sh =3D tcg_temp_new_i64();
-+    TCGv EA =3D tcg_temp_new();
++    int VT = rD(ctx->opcode);
++    int VA = rA(ctx->opcode);
++    int VB = rB(ctx->opcode);
++    TCGv_i64 avrA = tcg_temp_new_i64();
++    TCGv_i64 avrB = tcg_temp_new_i64();
++    TCGv_i64 sh = tcg_temp_new_i64();
++    TCGv_i64 shifted = tcg_temp_new_i64();
++    TCGv_i64 tmp = tcg_temp_new_i64();
 +
-+
-+    /* Get sh(from description) by anding EA with 0xf. */
-+    gen_addr_reg_index(ctx, EA);
-+    tcg_gen_extu_tl_i64(sh, EA);
-+    tcg_gen_andi_i64(sh, sh, 0xfULL);
++    /* Place bits 125-127 of vB in sh. */
++    get_avr64(avrB, VB, false);
++    tcg_gen_andi_i64(sh, avrB, 0x07ULL);
 +
 +    /*
-+     * Create bytes (16-sh):(23-sh) of X(from description) and place the=
-m in
-+     * higher doubleword of vD.
++     * Save lowest sh bits of higher doubleword element of vA in variable
++     * shifted and perform shift on higher doubleword.
 +     */
-+    tcg_gen_muli_i64(sh, sh, 0x0101010101010101ULL);
-+    tcg_gen_subfi_i64(result, 0x1011121314151617ULL, sh);
-+    set_avr64(VT, result, true);
++    get_avr64(avrA, VA, true);
++    tcg_gen_subfi_i64(tmp, 64, sh);
++    tcg_gen_shl_i64(shifted, avrA, tmp);
++    tcg_gen_andi_i64(shifted, shifted, 0xfe00000000000000ULL);
++    tcg_gen_shr_i64(avrA, avrA, sh);
++    set_avr64(VT, avrA, true);
 +    /*
-+     * Create bytes (24-sh):(32-sh) of X(from description) and place the=
-m in
-+     * lower doubleword of vD.
++     * Perform shift on lower doubleword element of vA and replace highest
++     * sh bits with shifted.
 +     */
-+    tcg_gen_subfi_i64(result, 0x18191a1b1c1d1e1fULL, sh);
-+    set_avr64(VT, result, false);
++    get_avr64(avrA, VA, false);
++    tcg_gen_shr_i64(avrA, avrA, sh);
++    tcg_gen_or_i64(avrA, avrA, shifted);
++    set_avr64(VT, avrA, false);
 +
-+    tcg_temp_free_i64(result);
++    tcg_temp_free_i64(avrA);
++    tcg_temp_free_i64(avrB);
 +    tcg_temp_free_i64(sh);
-+    tcg_temp_free(EA);
++    tcg_temp_free_i64(shifted);
++    tcg_temp_free_i64(tmp);
 +}
 +
  GEN_VXFORM(vmuloub, 4, 0);
  GEN_VXFORM(vmulouh, 4, 1);
  GEN_VXFORM(vmulouw, 4, 2);
-@@ -662,6 +717,8 @@ GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
-+GEN_VXFORM_TRANS(lvsl, 6, 31)
-+GEN_VXFORM_TRANS(lvsr, 6, 32)
- GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
-=20
---=20
+@@ -682,11 +779,11 @@ GEN_VXFORM(vrld, 2, 3);
+ GEN_VXFORM(vrldmi, 2, 3);
+ GEN_VXFORM_DUAL(vrld, PPC_NONE, PPC2_ALTIVEC_207, \
+                 vrldmi, PPC_NONE, PPC2_ISA300)
+-GEN_VXFORM(vsl, 2, 7);
++GEN_VXFORM_TRANS(vsl, 2, 7);
+ GEN_VXFORM(vrldnm, 2, 7);
+ GEN_VXFORM_DUAL(vsl, PPC_ALTIVEC, PPC_NONE, \
+                 vrldnm, PPC_NONE, PPC2_ISA300)
+-GEN_VXFORM(vsr, 2, 11);
++GEN_VXFORM_TRANS(vsr, 2, 11);
+ GEN_VXFORM_ENV(vpkuhum, 7, 0);
+ GEN_VXFORM_ENV(vpkuwum, 7, 1);
+ GEN_VXFORM_ENV(vpkudum, 7, 17);
+-- 
 2.7.4
 
 
