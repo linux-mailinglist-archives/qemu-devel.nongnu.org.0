@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7818A684DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 10:08:49 +0200 (CEST)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B866850B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 10:16:22 +0200 (CEST)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmw2R-0000BL-R7
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 04:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33691)
+	id 1hmw9l-0002YR-S4
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 04:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35592)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hmw2F-0008Bv-NW
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:08:36 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1hmw9W-00025w-CB
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:16:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hmw2E-0002tN-QP
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:08:35 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33117)
+ (envelope-from <sgarzare@redhat.com>) id 1hmw9V-0007qS-7z
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:16:06 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33874)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hmw2E-0002sZ-Gp
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:08:34 -0400
-Received: by mail-wr1-x435.google.com with SMTP id n9so16057393wru.0
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 01:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CjGaMRx2ePGlfEGa//QQbsBOaS63FOOAHxt3w7kMx3k=;
- b=KjaX2nnYA6M/EEK86CXUa1tzYTsXzcexXgCOugLxxGbVqvQ5ufhkEpbE4WCHNGaimR
- OVmQgKmz5SmzoYs5kQvG/QWqu5NhOwPcllhFVqCFyFdF18SSymb5+4ldRECmWSE6KIO1
- 5gWghRPYDF5Gycak/gcoO51ekA8YSfuq9KH/SGNv7dFNn6zMae/AcC/8Zuz38jgaviJo
- 2JSwS86DsFkFpvriQU/L6/cEOZCm0+mYl4tdRuvv93DRx4VLYzuo7NdhdX/YHUfBMRwi
- t0MZvrRF7hTi0rRdnVfz7XrgoVBJqsjLq7A7b4W04isMlv/DFamYJREFfkmMrs+YXAo4
- klmw==
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hmw9V-0007pk-0M
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:16:05 -0400
+Received: by mail-wr1-f66.google.com with SMTP id 31so16059570wrm.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 01:16:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CjGaMRx2ePGlfEGa//QQbsBOaS63FOOAHxt3w7kMx3k=;
- b=FMeC6F2oyqzJt7P/c3QxMNWRgzvnwLoIlyWD5Mlib+wPSx1ixZDYY5SM0MGBI+7M4O
- +oEjubLlTp+TZdIgDFnnwYEE42GulZWUxZoFTz71rChZa36LUDbUZV3bpPrQ3Pe14z5c
- CEvd4Gtr6xaCRHdIqEFcseK+JjBF40DPGVRoZp3A/gHpcu7GUQyybtWHVou7myKjVcjG
- z6otYaPdvAETJEY1AeE22tQrYmIn21lOWykydH690GpBw1SybgMfetFUEcIItdxXDNXy
- 07LP6ahxVm+6K6EHOz76ov3nOuIx+uP6PrSpQvVcWLfs1mD5UXkz/t9lTylYGYS5eyzs
- E3yg==
-X-Gm-Message-State: APjAAAW5khvpZHbEA27HvexamGjFyLmiJD7dpbRO7TKXykVu/rYJn3uq
- CLAgelxVInSGa9zG4zLfeF+pFA==
-X-Google-Smtp-Source: APXvYqxyUWFJTA06XUgdsh43py/hCgd6LKJNfeEla/X51QwgkD4Rt/Od6PUNTMHScA8xiv22bpmWbw==
-X-Received: by 2002:adf:e4c3:: with SMTP id v3mr27016799wrm.107.1563178113007; 
- Mon, 15 Jul 2019 01:08:33 -0700 (PDT)
-Received: from [10.0.7.42] ([194.144.248.241])
- by smtp.gmail.com with ESMTPSA id p7sm832860wrs.6.2019.07.15.01.08.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jul 2019 01:08:32 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>
-References: <030a439f-bb17-8232-bd1c-3585905e8feb@weilnetz.de>
- <CAFEAcA-ZEsX2nf7OmLmBE+v3VLHYQo60m8Vay28o7VNVgcn_ig@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <442551a1-bb10-3fb1-efa4-3f8df184ac03@linaro.org>
-Date: Mon, 15 Jul 2019 08:08:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=ZXe1tJnzYaaCKKWbquZTx1iP6Fn8k98oY9fj7dmSc6o=;
+ b=t3gW3OGmb91ShSyboyKPLpCAu75cnm5PLwUHbugZYWRfaD+N1WsUd7IP9F1DIY2TJv
+ Ux97hMZOLpwKDYojLJqbbOxfb7EXtbELF+1fHCbwHuF93tHfq0SLS0l+Hl3S6BdUeVyP
+ WbQ7BLpp115CgvzoJGm9EG6P7ObnEmoSFmMgskLUOGCj2fRaNu5gVGxCn0Zdots5wkQl
+ aEPJoMKRCBRZH1+/th77q6juu1iEKNwrxJlC2Tvg23swgg37z/DdkXuYkqPYWq9G13aE
+ ZcPVseVRx1oOMNG3V0ofgUXTSQ7C5Tg0WvP5DTzsCpjnXoPiSPyu0oTjDSMQG2WsJD+s
+ 4Ncg==
+X-Gm-Message-State: APjAAAUT+Q5ick+Qs/taXe3wQwO3lFis2Mya/XxCTNv0HTEJN8e1wgwJ
+ i0hc05cX2117gcPIioCiTNwpcw==
+X-Google-Smtp-Source: APXvYqzUXK9NXNEFf4NRVhB7r3C/IQTBKBaBO0PMe+/fdXH14ODy3M4QT5Xeh9jueOZIwngi2i0FjA==
+X-Received: by 2002:a5d:55c2:: with SMTP id i2mr26821428wrw.96.1563178564006; 
+ Mon, 15 Jul 2019 01:16:04 -0700 (PDT)
+Received: from steredhat (host122-201-dynamic.13-79-r.retail.telecomitalia.it.
+ [79.13.201.122])
+ by smtp.gmail.com with ESMTPSA id r12sm19490582wrt.95.2019.07.15.01.16.03
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 15 Jul 2019 01:16:03 -0700 (PDT)
+Date: Mon, 15 Jul 2019 10:16:01 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190715081601.rpvavykcuhyr3fiw@steredhat>
+References: <20190712104617.94707-1-sgarzare@redhat.com>
+ <5017daf6-2739-d260-09fd-cfccd6c77bc1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-ZEsX2nf7OmLmBE+v3VLHYQo60m8Vay28o7VNVgcn_ig@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: Re: [Qemu-devel] [BUG] 216 Alerts reported by LGTM for QEMU (some
- might be release critical)
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5017daf6-2739-d260-09fd-cfccd6c77bc1@redhat.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH] gluster: fix .bdrv_reopen_prepare when
+ backing file is a JSON object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +72,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, integration@gluster.org,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/19 5:30 PM, Peter Maydell wrote:
-> I had a look at some of these before, but mostly I came
-> to the conclusion that it wasn't worth trying to put the
-> effort into keeping up with the site because they didn't
-> seem to provide any useful way to mark things as false
-> positives. Coverity has its flaws but at least you can do
-> that kind of thing in its UI (it runs at about a 33% fp
-> rate, I think.)
+On Fri, Jul 12, 2019 at 08:35:12PM +0200, Max Reitz wrote:
+> On 12.07.19 12:46, Stefano Garzarella wrote:
+> > When the backing_file is specified as a JSON object, the
+> > qemu_gluster_reopen_prepare() fails with this message:
+> >     invalid URI json:{"server.0.host": ...}
+> > 
+> > In this case, we should call qemu_gluster_init() using the QDict
+> > 'state->options' that contains the parameters already parsed.
+> > 
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1542445
+> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > ---
+> >  block/gluster.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/block/gluster.c b/block/gluster.c
+> > index 62f8ff2147..26971db1ea 100644
+> > --- a/block/gluster.c
+> > +++ b/block/gluster.c
+> > @@ -931,7 +931,16 @@ static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
+> >      gconf->has_debug = true;
+> >      gconf->logfile = g_strdup(s->logfile);
+> >      gconf->has_logfile = true;
+> > -    reop_s->glfs = qemu_gluster_init(gconf, state->bs->filename, NULL, errp);
+> > +    /*
+> > +     * If 'bs->filename' starts with "json:", then 'state->options' will
+> > +     * contain the parameters already parsed.
+> > +     */
+> > +    if (state->bs->filename && !strstart(state->bs->filename, "json:", NULL)) {
+> > +        reop_s->glfs = qemu_gluster_init(gconf, state->bs->filename, NULL,
+> > +                                         errp);
+> > +    } else {
+> > +        reop_s->glfs = qemu_gluster_init(gconf, NULL, state->options, errp);
+> > +    }
+> 
+> Hmmm, aren’t they always in state->options?
 
-Yes, LGTM wants you to modify the source code with
+Yes, you are rigth, but the qemu_gluster_parse() doesn't search for the
+'filename' in the QDict *options.
 
-  /* lgtm [cpp/some-warning-code] */
+Maybe I can simply modify it in this way in order to hanlde this case,
+calling qemu_gluster_init() only with 'state->options'.
 
-and on the same line as the reported problem.  Which is mildly annoying in that
-you're definitely committing to LGTM in the long term.  Also for any
-non-trivial bit of code, it will almost certainly run over 80 columns.
+diff --git a/block/gluster.c b/block/gluster.c
+index 26971db1ea..91d674cd2b 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -695,6 +695,11 @@ static int qemu_gluster_parse(BlockdevOptionsGluster *gconf,
+                               QDict *options, Error **errp)
+ {
+     int ret;
++
++    if (!filename) {
++        filename = qdict_get_try_str(options, GLUSTER_OPT_FILENAME);
++    }
++
+     if (filename) {
+         ret = qemu_gluster_parse_uri(gconf, filename);
+         if (ret < 0) {
 
 
-r~
+Do you think it is better/cleaner?
+
+Thanks,
+Stefano
 
