@@ -2,62 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1528E691A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:31:31 +0200 (CEST)
-Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34656918A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:30:32 +0200 (CEST)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn20n-0003R0-O0
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34917)
+	id 1hn1zr-0008Fs-AU
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:30:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hn20D-00025z-HC
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hn1yl-0004ft-7t
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hn20C-0006hX-31
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hn20B-0006gb-Ti
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hn208-0006fb-Js
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:30:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9585D2E80CD
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:30:48 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1hn1yi-0005vO-BE
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60256)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hn1yg-0005tf-Ap; Mon, 15 Jul 2019 10:29:18 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A4C083001757;
+ Mon, 15 Jul 2019 14:29:17 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A3885C232;
+ Mon, 15 Jul 2019 14:29:16 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 15 Jul 2019 16:28:57 +0200
+Message-Id: <20190715142905.9078-4-mreitz@redhat.com>
+In-Reply-To: <20190715142905.9078-1-mreitz@redhat.com>
+References: <20190715142905.9078-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Mon, 15 Jul 2019 14:29:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jul 2019 14:16:57 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
-References: <156164884976.17804.15592866928864750515.malonedeb@wampee.canonical.com>
-Message-Id: <156320021855.15203.11712698181827067441.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 413ecfe4337cdb0dadf9e2d061f102577356ebcf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834496] Re: Regressions on arm target with some
- GCC tests
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 03/11] block/stream: Fix error path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,59 +54,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834496 <1834496@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+As of commit c624b015bf14fe01f1e6452a36e63b3ea1ae4998, the stream job
+only freezes the chain until the overlay of the base node.  The error
+path must consider this.
 
--- =
+Fixes: c624b015bf14fe01f1e6452a36e63b3ea1ae4998
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190703172813.6868-3-mreitz@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/stream.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834496
+diff --git a/block/stream.c b/block/stream.c
+index cd5e2ba9b0..b27e61625d 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -284,5 +284,5 @@ fail:
+     if (bs_read_only) {
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-    bdrv_unfreeze_backing_chain(bs, base);
++    bdrv_unfreeze_backing_chain(bs, bottom);
+ }
+--=20
+2.21.0
 
-Title:
-  Regressions on arm target with some GCC tests
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Hi,
-
-  After trying qemu master:
-  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
-  Merge: 68d7ff0 14f5d87
-  Author: Peter Maydell <peter.maydell@linaro.org>
-  Date:   Fri Jun 21 15:40:50 2019 +0100
-
-  I found several regressions compared to qemu-3.1 when running the GCC tes=
-tsuite.
-  I'm attaching a tarball containing several GCC tests (binaries), needed s=
-hared libs, and a short script to run all the tests.
-
-  All tests used to pass w/o error (one of them is verbose), but with a
-  recent qemu, all of them make qemu crash:
-
-  qemu: uncaught target signal 6 (Aborted) - core dumped
-
-  This was noticed with GCC master configured with
-  --target arm-none-linux-gnueabi
-  --with-mode arm
-  --with-cpu cortex-a9
-
-  and calling qemu with --cpu cortex-a9 (the script uses "any", this
-  makes no difference).
-
-  I have noticed other failures with arm-v8 code, but this is probably
-  the same root cause. Since it's a bit tedious to manually rebuild &
-  extract the testcases, I'd prefer to start with this subset, and I can
-  extract more if needed later.
-
-  Thanks
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834496/+subscriptions
 
