@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5859B69C19
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 22:01:49 +0200 (CEST)
-Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7A669C12
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 22:01:43 +0200 (CEST)
+Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn7AR-00056l-Tw
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 16:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50769)
+	id 1hn7AK-0004cI-3I
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 16:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50772)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hn79e-0003Nu-RL
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hn79e-0003Nx-RY
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:00:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hn79d-0003LY-HE
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hn79d-0003Lk-Ij
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:00:58 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:37419 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:37426 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hn79d-0003IU-5a
+ id 1hn79d-0003IY-7t
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:00:57 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 5D2E21A1FA4;
+ by mail.rt-rk.com (Postfix) with ESMTP id 6A4FF1A20B3;
  Mon, 15 Jul 2019 22:00:53 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 36B921A1FF7;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 3EA441A200F;
  Mon, 15 Jul 2019 22:00:53 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 22:00:43 +0200
-Message-Id: <1563220847-14630-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 15 Jul 2019 22:00:44 +0200
+Message-Id: <1563220847-14630-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1563220847-14630-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1563220847-14630-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.1 v4 1/5] target/mips: Add 'fall through'
- comments for handling nanoMips' SHXS, SWXS
+Subject: [Qemu-devel] [PATCH for 4.1 v4 2/5] target/mips: Add missing
+ 'break' for a case of MTHC0 handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,31 +62,30 @@ From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 This was found by GCC 8.3 static analysis.
 
+Fixes: 5fb2dcd1792
+
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/mips/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index f96f141..2be5e2d 100644
+index 2be5e2d..59d4acd 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -20136,12 +20136,14 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
-         switch (extract32(ctx->opcode, 7, 4)) {
-         case NM_SHXS:
-             check_nms(ctx);
-+            /* fall through */
-         case NM_LHXS:
-         case NM_LHUXS:
-             tcg_gen_shli_tl(t0, t0, 1);
-             break;
-         case NM_SWXS:
-             check_nms(ctx);
-+            /* fall through */
-         case NM_LWXS:
-         case NM_LWC1XS:
-         case NM_SWC1XS:
--- 
+@@ -6745,6 +6745,7 @@ static void gen_mthc0(DisasContext *ctx, TCGv arg, =
+int reg, int sel)
+         default:
+             goto cp0_unimplemented;
+         }
++        break;
+     case CP0_REGISTER_17:
+         switch (sel) {
+         case 0:
+--=20
 2.7.4
 
 
