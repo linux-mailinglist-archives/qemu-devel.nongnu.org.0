@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB025685AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 10:46:04 +0200 (CEST)
-Received: from localhost ([::1]:35969 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17772685CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 10:55:56 +0200 (CEST)
+Received: from localhost ([::1]:36014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmwcV-0001m0-2z
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 04:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41261)
+	id 1hmwm3-0005qX-1f
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 04:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43774)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hmwcD-0001Ge-Ss
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:45:46 -0400
+ (envelope-from <bounces@canonical.com>) id 1hmwlp-0005Qv-Lb
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hmwcB-0004HQ-M0
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:45:45 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46353)
+ (envelope-from <bounces@canonical.com>) id 1hmwlo-00026L-9E
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:55:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59348)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hmwc8-0004GB-Tm
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:45:41 -0400
-Received: by mail-ot1-x343.google.com with SMTP id z23so16103145ote.13
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 01:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ad1daU+mbhzBv6ri/xPkhbDznTHG6noyNYUr+gz/KJo=;
- b=NNFsKvo59FPOMw5j4AyOuRQaIWT7JEq55GzMuHrGyy3J34ZCrLFVDpHU0Y2xi8ZvwF
- jskQmCd0qAiukrll5ZyqLBfO669icahI/Cd3vZ2ENHrtgdAQ/eyO9zKTagwI//KRMb4d
- 9rWh2Xe9b+QIY9xriGxfOooVleGs6R210c6vYEnsrQdGVPI6IzTSUigu2nHNT8rwO6Qz
- NSdoME3mVhZ87LyPbe+CRqiJdJAs43u9B9hHjyprjR7v3es1driDTqsROnDSHx0yYsJr
- UaeBRnBnI4G2CQQIRodC6IMHgypo7xbp89ou3SJvIOrsU/3W530R+duuhFEvA1wmiCDT
- x17A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ad1daU+mbhzBv6ri/xPkhbDznTHG6noyNYUr+gz/KJo=;
- b=TiG2jZsqhRIFqMfjZLOELfNvEJEfylG8SnOPux1N+73rH8Dz86xmQH8N0h/WTMgv+R
- 4+6WrJBWr8bvATxSStRv7izzvJCd2Jd4fSBMCGgyN4jSRFg22SE4BUAYfky+kyehZ1Qv
- KHtTdjhxRbe0fitELgcpr5FJLn2HmkjnBWjonDVCzJsJVU/TmlRmDTfJTeo9K+YB3+1I
- XwU1EA91m3WqEYTG9FuZoFps9+x2XJ9GSK7UQhKya8fFWcP0tf0gNuLO0LhO1HFrAt78
- 8Gmq+t3S9WwUtEVO5bP5nUApculzsnNgw1v0lnghoSSpa/wcUts/CX1tBQRKSc6OZdRU
- BBEA==
-X-Gm-Message-State: APjAAAXALENZLI1q8TzAFPfnLrCDJ3VEUEf+ewM/jxDhnxuRgkp52+fw
- ux99VlV9ABQhet9XCwzZ5XQQfQYO8oXT4fDOv4DZZA==
-X-Google-Smtp-Source: APXvYqyZet0H0/UMq+VKJ2g2AEG9chSgM3eBvlVUBdk1uT8jopOIBuabgyhULJ/rtcVyKmpymen/P/Lo/K3n/ToqpFA=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr18082429otk.221.1563180338601; 
- Mon, 15 Jul 2019 01:45:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hmwlo-00024w-09
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 04:55:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hmwlm-0005wT-GC
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 08:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 798282E8005
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 08:55:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190712153504.14937-1-mst@redhat.com>
-In-Reply-To: <20190712153504.14937-1-mst@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jul 2019 08:49:10 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jul 2019 09:45:27 +0100
-Message-ID: <CAFEAcA8O+7DhMFsR0ROq5cUCS40apR9gWWgOF89qkAAXpVK7qg@mail.gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 0/8] virtio, pc, pci: fixes, cleanups, tests
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell skandal
+X-Launchpad-Bug-Reporter: Lutz (skandal)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
+Message-Id: <156318055099.20622.6163761055394358115.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 65a608413daeb199a34470a0137b790977c709fc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836501] Re: cpu_address_space_init fails with
+ assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,40 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Jul 2019 at 16:36, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit a2a9d4adabe340617a24eb73a8b2a116d28a6b38:
->
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190712' into staging (2019-07-12 11:06:48 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 207efa18ac9eb7085a44cad24489d0da54bc5f65:
->
->   virtio pmem: remove transitional names (2019-07-12 10:57:27 -0400)
->
-> ----------------------------------------------------------------
-> virtio, pc, pci: fixes, cleanups, tests
->
-> A bunch of fixes all over the place.
-> ACPI tests will now run on more systems: might
-> introduce new failure reports but that's for
-> the best, isn't it?
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
+2.6 is now very old -- can you check whether this is still a problem
+with a more recent QEMU version, please?
 
+The command line you're using should in theory work, but vexpress-a15 +
+KVM is a bit of an obscure combination -- most people who want to use
+virtualization use the 'virt' machine, which supports more RAM and has
+PCI, unlike the vexpress-a15 board. So it's possible we broke it by
+accident and didn't notice.
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836501
 
--- PMM
+Title:
+  cpu_address_space_init fails with assertion
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
+
+    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
+  failed.
+
+  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
+  Stretch (9) or Buster (10).
+
+  Without KVM it is running fine but slow. I'm operating Debian Jessie
+  with qemu 2.1 for a long time with KVM virtualization working
+  flawlessly. When I upgraded to Stretch I ran into the trouble
+  described before. I tried Debian Stretch and Buster with all Kernels
+  provided by the Board manufacturer (Hardkernel).
+
+  It seems to be related to the feature introduced in Version 2.6:
+  https://wiki.qemu.org/ChangeLog/2.6
+  - Support for a separate EL3 address space
+
+  KVM is enabled, so I assume the adress space index asidx to be causing
+  the assert to fail.
+
+  dmesg | grep -i KVM
+  [    0.741714] kvm [1]: 8-bit VMID
+  [    0.741721] kvm [1]: IDMAP page: 40201000
+  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
+  [    0.742543] kvm [1]: Hyp mode initialized successfully
+  [    0.742600] kvm [1]: vgic-v2@10484000
+  [    0.742924] kvm [1]: vgic interrupt IRQ16
+  [    0.742943] kvm [1]: virtual timer IRQ60
+
+  Full command line is:
+  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
+el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
+blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
+e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
+
+  Is there anything to do to understand, if this is a hardware related
+  failure or probably just a missing parameter?
+
+  Regards
+
+  Lutz
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
 
