@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D74869C99
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 22:20:33 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF6969CA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 22:20:51 +0200 (CEST)
+Received: from localhost ([::1]:42628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn7SZ-0005uB-NY
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 16:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55260)
+	id 1hn7Ss-0007RQ-QF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 16:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55317)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hn7SB-0004sD-G4
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:20:08 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hn7SK-0005Wa-Sf
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:20:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hn7SA-0007RY-FJ
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:20:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47034)
+ (envelope-from <stefanha@redhat.com>) id 1hn7SJ-0007ax-GW
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 16:20:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51678)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hn7S8-0007Pm-AU; Mon, 15 Jul 2019 16:20:04 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hn7SG-0007Xn-Sk; Mon, 15 Jul 2019 16:20:13 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A463CC00C7DD;
- Mon, 15 Jul 2019 20:20:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D39EB85360;
+ Mon, 15 Jul 2019 20:20:10 +0000 (UTC)
 Received: from localhost (ovpn-117-120.ams2.redhat.com [10.36.117.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7590A1001B35;
- Mon, 15 Jul 2019 20:19:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDCE819C59;
+ Mon, 15 Jul 2019 20:20:04 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 21:19:48 +0100
-Message-Id: <20190715201950.9444-2-stefanha@redhat.com>
+Date: Mon, 15 Jul 2019 21:19:49 +0100
+Message-Id: <20190715201950.9444-3-stefanha@redhat.com>
 In-Reply-To: <20190715201950.9444-1-stefanha@redhat.com>
 References: <20190715201950.9444-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 15 Jul 2019 20:20:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 15 Jul 2019 20:20:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/3] block/io_uring: add submission and
- completion trace events
+Subject: [Qemu-devel] [PATCH 2/3] block/io_uring: fix EINTR request
+ resubmission
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,69 +62,163 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is useful to follow individual requests as they are submitted.  Add
-trace events that show details of each request.
+Adding the request to sq_overflow isn't enough:
+1. luringcb->sqeq is uninitialized if there was space in the sq ring at
+   submission time.
+2. Not all code paths invoke ioq_submit() after processing completions,
+   so the request could hang.
+
+Additional bugs include checking for EINTR instead of -EINTR and
+forgetting to skip the completion callback when a request is
+resubmitted.
+
+Fix this by always initializing luringcb->sqeq and ensuring that all
+code paths invoke ioq_submit() after appending to sq_overflow.  Ensure
+that luring_process_completions() marks the cqe seen and decrements
+in_flight before resubmitting the request.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io_uring.c   | 5 +++++
- block/trace-events | 3 +++
- 2 files changed, 8 insertions(+)
+ block/io_uring.c | 64 ++++++++++++++++++++++++++++--------------------
+ 1 file changed, 37 insertions(+), 27 deletions(-)
 
 diff --git a/block/io_uring.c b/block/io_uring.c
-index 22e8d3d9ca..19919da4c9 100644
+index 19919da4c9..97e4f876d7 100644
 --- a/block/io_uring.c
 +++ b/block/io_uring.c
-@@ -128,6 +128,8 @@ static void luring_process_completions(LuringState *s=
+@@ -87,6 +87,18 @@ int luring_register_fd(LuringState *s, unsigned int fd=
 )
-         LuringAIOCB *luringcb =3D io_uring_cqe_get_data(cqes);
-         ret =3D cqes->res;
+                              s->fd.head, s->fd.size);
+ }
 =20
-+        trace_luring_process_completion(s, luringcb, ret);
++/**
++ * luring_resubmit:
++ *
++ * Resubmit a request by appending it to sq_overflow.  The caller must e=
+nsure
++ * that ioq_submit() is called later so that sq_overflow requests are st=
+arted.
++ */
++static void luring_resubmit(LuringState *s, LuringAIOCB *luringcb)
++{
++    QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
++    s->io_q.in_queue++;
++}
 +
-         if (ret =3D=3D luringcb->qiov->size) {
-             ret =3D 0;
-         } else if (ret >=3D 0) {
-@@ -233,6 +235,7 @@ static int ioq_submit(LuringState *s)
-             QSIMPLEQ_REMOVE_HEAD(&s->io_q.sq_overflow, next);
+ /**
+  * luring_process_completions:
+  * @s: AIO state
+@@ -102,7 +114,6 @@ int luring_register_fd(LuringState *s, unsigned int f=
+d)
+ static void luring_process_completions(LuringState *s)
+ {
+     struct io_uring_cqe *cqes;
+-    int ret;
+=20
+     /*
+      * Request completion callbacks can run the nested event loop.
+@@ -122,11 +133,20 @@ static void luring_process_completions(LuringState =
+*s)
+     qemu_bh_schedule(s->completion_bh);
+=20
+     while (io_uring_peek_cqe(&s->ring, &cqes) =3D=3D 0) {
++        LuringAIOCB *luringcb;
++        int ret;
++
+         if (!cqes) {
+             break;
          }
-         ret =3D io_uring_submit(&s->ring);
-+        trace_luring_io_uring_submit(s, ret);
-         /* Prevent infinite loop if submission is refused */
-         if (ret <=3D 0) {
-             if (ret =3D=3D -EAGAIN) {
-@@ -339,6 +342,8 @@ int coroutine_fn luring_co_submit(BlockDriverState *b=
-s, LuringState *s, int fd,
-         .is_read    =3D (type =3D=3D QEMU_AIO_READ),
-     };
-=20
-+    trace_luring_co_submit(bs, s, &luringcb, fd, offset, qiov ? qiov->si=
-ze : 0, type);
+-        LuringAIOCB *luringcb =3D io_uring_cqe_get_data(cqes);
 +
-     ret =3D luring_do_submit(fd, &luringcb, s, offset, type);
-     if (ret < 0) {
-         return ret;
-diff --git a/block/trace-events b/block/trace-events
-index 069779773b..02952fe4cb 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -67,6 +67,9 @@ luring_io_plug(void *s) "LuringState %p plug"
- luring_io_unplug(void *s, int blocked, int plugged, int queued, int infl=
-ight) "LuringState %p blocked %d plugged %d queued %d inflight %d"
- luring_do_submit(void *s, int blocked, int plugged, int queued, int infl=
-ight) "LuringState %p blocked %d plugged %d queued %d inflight %d"
- luring_do_submit_done(void *s, int ret) "LuringState %p submitted to ker=
-nel %d"
-+luring_co_submit(void *bs, void *s, void *luringcb, int fd, uint64_t off=
-set, size_t nbytes, int type) "bs %p s %p luringcb %p fd %d offset %" PRI=
-d64 " nbytes %zd type %d"
-+luring_process_completion(void *s, void *aiocb, int ret) "LuringState %p=
- luringcb %p ret %d"
-+luring_io_uring_submit(void *s, int ret) "LuringState %p ret %d"
++        luringcb =3D io_uring_cqe_get_data(cqes);
+         ret =3D cqes->res;
++        io_uring_cqe_seen(&s->ring, cqes);
++        cqes =3D NULL;
++
++        /* Change counters one-by-one because we can be nested. */
++        s->io_q.in_flight--;
 =20
- # qcow2.c
- qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offse=
-t 0x%" PRIx64 " bytes %d"
+         trace_luring_process_completion(s, luringcb, ret);
+=20
+@@ -143,17 +163,12 @@ static void luring_process_completions(LuringState =
+*s)
+                 ret =3D -ENOSPC;;
+             }
+         /* Add to overflow queue to be resubmitted later */
+-        } else if (ret =3D=3D EINTR) {
+-            QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
++        } else if (ret =3D=3D -EINTR) {
++            luring_resubmit(s, luringcb);
++            continue;
+         }
+         luringcb->ret =3D ret;
+=20
+-
+-        io_uring_cqe_seen(&s->ring, cqes);
+-        cqes =3D NULL;
+-        /* Change counters one-by-one because we can be nested. */
+-        s->io_q.in_flight--;
+-
+         /*
+          * If the coroutine is already entered it must be in ioq_submit(=
+)
+          * and will notice luringcb->ret has been filled in when it
+@@ -245,16 +260,16 @@ static int ioq_submit(LuringState *s)
+         }
+         s->io_q.in_flight +=3D ret;
+         s->io_q.in_queue  -=3D ret;
++
++        if (s->io_q.in_flight) {
++            /*
++             * We can try to complete something just right away if there=
+ are
++             * still requests in-flight.
++             */
++            luring_process_completions(s);
++        }
+     }
+     s->io_q.blocked =3D (s->io_q.in_queue > 0);
+-
+-    if (s->io_q.in_flight) {
+-        /*
+-         * We can try to complete something just right away if there are
+-         * still requests in-flight.
+-         */
+-        luring_process_completions(s);
+-    }
+     return ret;
+ }
+=20
+@@ -290,15 +305,7 @@ static int luring_do_submit(int fd, LuringAIOCB *lur=
+ingcb, LuringState *s,
+                             uint64_t offset, int type)
+ {
+     int ret;
+-    struct io_uring_sqe *sqes =3D io_uring_get_sqe(&s->ring);
+-    /*=20
+-     *If the ring is full and cannot fetch new sqes, add the request to
+-     * to an overflow queue to be submitted later
+-     */
+-    if (!sqes) {
+-        sqes =3D &luringcb->sqeq;
+-        QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
+-    }
++    struct io_uring_sqe *sqes =3D &luringcb->sqeq;
+=20
+     switch (type) {
+     case QEMU_AIO_WRITE:
+@@ -318,7 +325,10 @@ static int luring_do_submit(int fd, LuringAIOCB *lur=
+ingcb, LuringState *s,
+         abort();
+     }
+     io_uring_sqe_set_data(sqes, luringcb);
++
++    QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
+     s->io_q.in_queue++;
++
+     trace_luring_do_submit(s, s->io_q.blocked, s->io_q.plugged,
+                            s->io_q.in_queue, s->io_q.in_flight);
+     if (!s->io_q.blocked &&
 --=20
 2.21.0
 
