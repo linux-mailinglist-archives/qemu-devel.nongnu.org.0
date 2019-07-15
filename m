@@ -2,76 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF2C69128
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:27:09 +0200 (CEST)
-Received: from localhost ([::1]:39374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0431169166
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:28:59 +0200 (CEST)
+Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1wZ-0001SD-6j
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33609)
+	id 1hn1yM-0003QN-2r
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:28:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34014)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hn1wI-0000xe-8t
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:26:51 -0400
+ (envelope-from <alex.williamson@redhat.com>) id 1hn1y9-00031u-1e
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:28:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hn1wH-0003uP-1d
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:26:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44960)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hn1wG-0003tk-Oj
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:26:48 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p17so17310001wrf.11
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 07:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=xidU/GH85Ja4Rud7Iin5N5XoJbOSfDZco9pJa91b46w=;
- b=cBacO19Q1OgjiE6t6Qb569/HleHBpXI2ZZamDFwHd6jJKeXjgQFIQ6/JbZvoohTc4l
- J9RShcia9lQ9Ox5LTUR0bok8iP2PjPQ4vFn70AE8gH0lWzOjg53UVJsGLEWsS+NnKNjj
- aBL/lQZagKB6vo0j4rJagzpIJ1Oqk0PQ5k0qrJJ4InHLzBASthB3pTCdG394qBAlAqHi
- N+W/J2m7Iddp3AnC7mJoxjXFVywi7lmVOZtCzjpRuebFNCI4A/bZm7S3bqUUwUGoiYUr
- urLEQjgTpEx0JV7hbwVANW6qAz1Mls7tZQOIvEKj8N2fTVtMFdTkA4+cmUU+6I8I41g4
- Zgyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=xidU/GH85Ja4Rud7Iin5N5XoJbOSfDZco9pJa91b46w=;
- b=gpJ1SgGD4EsjU4mc/f/FV8ggXs+M5Zu8TUhKyneC4NqziyL2S7vzSvzZwU9k+I5Smx
- J2X0M9odAzUZrjJ3VOQGOAftoB0jDsWbd9RNo3sI6CVbjI69hRd5AoFBBNTGC/Q1Nih8
- Jr4r4m4j+lZsfybKGuSWUa0D/mj9Ib9J8VVUm70VhIRbqJv/Fb4fvaZqNYmWHqL05G0v
- bopx0HSO9Q00YSPNjEMhsxLtiNBexGcXS3PlOxRybIGwvhkHC8+Oq0EoSbaJdsfuUz28
- EaKbX+/jUJu75YIfzd5C+1vHHe+89kq49/TPW2d3HohOxbQFUdEamTktKLVxMRU7+KWO
- pwgg==
-X-Gm-Message-State: APjAAAWiWI8S/vVqT1GqMaGmx+q2//pmX/6rfbAbkQ8G+1NRNEkJ2HzM
- pYOHI/aXe0VL8vrvIFlxTGeZkA==
-X-Google-Smtp-Source: APXvYqym43iedSNGzzpJ92pMAGhJKJ8VAOOyNozAdgHDQXFryx4tq2hOT03bUSLHgC4trcADtVI0Kw==
-X-Received: by 2002:a5d:4205:: with SMTP id n5mr22041060wrq.52.1563200807364; 
- Mon, 15 Jul 2019 07:26:47 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s10sm21287724wmf.8.2019.07.15.07.26.46
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 15 Jul 2019 07:26:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 680C01FF87;
- Mon, 15 Jul 2019 15:26:46 +0100 (BST)
-References: <20190713163558.13204-1-philmd@redhat.com>
- <20190713163558.13204-3-philmd@redhat.com>
-User-agent: mu4e 1.3.3; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <20190713163558.13204-3-philmd@redhat.com>
-Date: Mon, 15 Jul 2019 15:26:46 +0100
-Message-ID: <87k1cjv0ex.fsf@zen.linaroharston>
+ (envelope-from <alex.williamson@redhat.com>) id 1hn1y8-0005bD-37
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:28:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56114)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1hn1y7-0005ZT-TZ
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:28:44 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F15FE31628E5;
+ Mon, 15 Jul 2019 14:28:41 +0000 (UTC)
+Received: from gimli.home (ovpn-116-35.phx2.redhat.com [10.3.116.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CA145D9C8;
+ Mon, 15 Jul 2019 14:28:39 +0000 (UTC)
+From: Alex Williamson <alex.williamson@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 15 Jul 2019 08:28:39 -0600
+Message-ID: <156320087103.2556.10983987500488190423.stgit@gimli.home>
+User-Agent: StGit/0.19-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH 2/3] tests/docker: Install the NSIS tools
- in the MXE images
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Mon, 15 Jul 2019 14:28:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH for-4.1] target/i386: sev: Do not unpin ram
+ device memory region
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,101 +56,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The commit referenced below skipped pinning ram device memory when
+ram blocks are added, we need to do the same when they're removed.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Fixes: cedc0ad539af ("target/i386: sev: Do not pin the ram device memory region")
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ target/i386/sev.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> This fixes:
->
->   $ make installer
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 6dbdc3cdf10f..5ba1384ea1f6 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -161,6 +161,17 @@ sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size)
+ {
+     int r;
+     struct kvm_enc_region range;
++    ram_addr_t offset;
++    MemoryRegion *mr;
++
++    /*
++     * The RAM device presents a memory region that should be treated
++     * as IO region and should not have been pinned.
++     */
++    mr = memory_region_from_host(host, &offset);
++    if (mr && memory_region_is_ram_device(mr)) {
++        return;
++    }
+ 
+     range.addr = (__u64)(unsigned long)host;
+     range.size = size;
 
-We should probably be exercising this via test-mingw (and making it
-usable for fedora/debian based mingw build)
-
->   (cd /tmp/qemu-nsis; \
->            for i in qemu-system-*.exe; do \
->              arch=3D${i%.exe}; \
->              arch=3D${arch#qemu-system-}; \
->              echo Section \"$arch\" Section_$arch; \
->              echo SetOutPath \"\$INSTDIR\"; \
->              echo File \"\${BINDIR}\\$i\"; \
->              echo SectionEnd; \
->            done \
->           ) >/tmp/qemu-nsis/system-emulations.nsh
->   makensis -V2 -NOCD \
->                   -DCONFIG_DOCUMENTATION=3D"y" \
->                    \
->                   -DBINDIR=3D"/tmp/qemu-nsis" \
->                    \
->                   -DSRCDIR=3D"/home/phil/source/qemu" \
->                   -DOUTFILE=3D"qemu-setup-4.0.90.exe" \
->                   -DDISPLAYVERSION=3D"4.0.90" \
->                   /home/phil/source/qemu/qemu.nsi
->   /bin/sh: 1: makensis: not found
->   Makefile:1077: recipe for target 'qemu-setup-4.0.90.exe' failed
->   make: *** [qemu-setup-4.0.90.exe] Error 127
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  tests/docker/dockerfiles/debian-win32-cross.docker | 3 +++
->  tests/docker/dockerfiles/debian-win64-cross.docker | 3 +++
->  2 files changed, 6 insertions(+)
->
-> diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/d=
-ocker/dockerfiles/debian-win32-cross.docker
-> index c787e43245..77f5cc45e9 100644
-> --- a/tests/docker/dockerfiles/debian-win32-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-win32-cross.docker
-> @@ -9,6 +9,8 @@ MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
->  ENV TARGET i686
->
-> +ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
-> +
->  RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->      apt-get install -y --no-install-recommends \
->          mxe-$TARGET-w64-mingw32.shared-bzip2 \
-> @@ -19,6 +21,7 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          mxe-$TARGET-w64-mingw32.shared-lzo \
->          mxe-$TARGET-w64-mingw32.shared-nettle \
->          mxe-$TARGET-w64-mingw32.shared-ncurses \
-> +        mxe-$TARGET-w64-mingw32.shared-nsis \
->          mxe-$TARGET-w64-mingw32.shared-pixman \
->          mxe-$TARGET-w64-mingw32.shared-pkgconf \
->          mxe-$TARGET-w64-mingw32.shared-pthreads \
-> diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/d=
-ocker/dockerfiles/debian-win64-cross.docker
-> index a7068ed6ac..3908c5abc4 100644
-> --- a/tests/docker/dockerfiles/debian-win64-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-win64-cross.docker
-> @@ -9,6 +9,8 @@ MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
->  ENV TARGET x86-64
->
-> +ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
-> +
->  RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->      apt-get install -y --no-install-recommends \
->          mxe-$TARGET-w64-mingw32.shared-bzip2 \
-> @@ -19,6 +21,7 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          mxe-$TARGET-w64-mingw32.shared-lzo \
->          mxe-$TARGET-w64-mingw32.shared-nettle \
->          mxe-$TARGET-w64-mingw32.shared-ncurses \
-> +        mxe-$TARGET-w64-mingw32.shared-nsis \
->          mxe-$TARGET-w64-mingw32.shared-pixman \
->          mxe-$TARGET-w64-mingw32.shared-pkgconf \
->          mxe-$TARGET-w64-mingw32.shared-pthreads \
-
-
---
-Alex Benn=C3=A9e
 
