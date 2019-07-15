@@ -2,50 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1C269176
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:29:50 +0200 (CEST)
-Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1528E691A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:31:31 +0200 (CEST)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1zA-0005dM-Of
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34251)
+	id 1hn20n-0003R0-O0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34917)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hn1yi-0004Rt-2B
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:23 -0400
+ (envelope-from <bounces@canonical.com>) id 1hn20D-00025z-HC
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hn1yg-0005uB-OS
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54578)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hn1yd-0005ry-5t; Mon, 15 Jul 2019 10:29:15 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7835C30C0DCF;
- Mon, 15 Jul 2019 14:29:14 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E72E957A1;
- Mon, 15 Jul 2019 14:29:13 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 15 Jul 2019 16:28:56 +0200
-Message-Id: <20190715142905.9078-3-mreitz@redhat.com>
-In-Reply-To: <20190715142905.9078-1-mreitz@redhat.com>
-References: <20190715142905.9078-1-mreitz@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hn20C-0006hX-31
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53738)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hn20B-0006gb-Ti
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:30:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hn208-0006fb-Js
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:30:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9585D2E80CD
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:30:48 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 15 Jul 2019 14:29:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jul 2019 14:16:57 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee christophe-lyon
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
+References: <156164884976.17804.15592866928864750515.malonedeb@wampee.canonical.com>
+Message-Id: <156320021855.15203.11712698181827067441.launchpad@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 413ecfe4337cdb0dadf9e2d061f102577356ebcf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/11] block: Add BDS.never_freeze
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1834496] Re: Regressions on arm target with some
+ GCC tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,95 +66,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1834496 <1834496@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit and the mirror block job must be able to drop their filter
-node at any point.  However, this will not be possible if any of the
-BdrvChild links to them is frozen.  Therefore, we need to prevent them
-from ever becoming frozen.
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-id: 20190703172813.6868-2-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- include/block/block_int.h | 3 +++
- block.c                   | 8 ++++++++
- block/commit.c            | 4 ++++
- block/mirror.c            | 4 ++++
- 4 files changed, 19 insertions(+)
+-- =
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index d6415b53c1..50902531b7 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -885,6 +885,9 @@ struct BlockDriverState {
-=20
-     /* Only read/written by whoever has set active_flush_req to true.  *=
-/
-     unsigned int flushed_gen;             /* Flushed write generation */
-+
-+    /* BdrvChild links to this node may never be frozen */
-+    bool never_freeze;
- };
-=20
- struct BlockBackendRootState {
-diff --git a/block.c b/block.c
-index c139540f2b..6565192b91 100644
---- a/block.c
-+++ b/block.c
-@@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs=
-, BlockDriverState *base,
-         return -EPERM;
-     }
-=20
-+    for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
-+        if (i->backing && backing_bs(i)->never_freeze) {
-+            error_setg(errp, "Cannot freeze '%s' link to '%s'",
-+                       i->backing->name, backing_bs(i)->node_name);
-+            return -EPERM;
-+        }
-+    }
-+
-     for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
-         if (i->backing) {
-             i->backing->frozen =3D true;
-diff --git a/block/commit.c b/block/commit.c
-index ca7e408b26..2c5a6d4ebc 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -298,6 +298,10 @@ void commit_start(const char *job_id, BlockDriverSta=
-te *bs,
-     if (!filter_node_name) {
-         commit_top_bs->implicit =3D true;
-     }
-+
-+    /* So that we can always drop this node */
-+    commit_top_bs->never_freeze =3D true;
-+
-     commit_top_bs->total_sectors =3D top->total_sectors;
-=20
-     bdrv_append(commit_top_bs, top, &local_err);
-diff --git a/block/mirror.c b/block/mirror.c
-index 2fcec70e35..8cb75fb409 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1551,6 +1551,10 @@ static BlockJob *mirror_start_job(
-     if (!filter_node_name) {
-         mirror_top_bs->implicit =3D true;
-     }
-+
-+    /* So that we can always drop this node */
-+    mirror_top_bs->never_freeze =3D true;
-+
-     mirror_top_bs->total_sectors =3D bs->total_sectors;
-     mirror_top_bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED;
-     mirror_top_bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
---=20
-2.21.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1834496
 
+Title:
+  Regressions on arm target with some GCC tests
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Hi,
+
+  After trying qemu master:
+  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
+  Merge: 68d7ff0 14f5d87
+  Author: Peter Maydell <peter.maydell@linaro.org>
+  Date:   Fri Jun 21 15:40:50 2019 +0100
+
+  I found several regressions compared to qemu-3.1 when running the GCC tes=
+tsuite.
+  I'm attaching a tarball containing several GCC tests (binaries), needed s=
+hared libs, and a short script to run all the tests.
+
+  All tests used to pass w/o error (one of them is verbose), but with a
+  recent qemu, all of them make qemu crash:
+
+  qemu: uncaught target signal 6 (Aborted) - core dumped
+
+  This was noticed with GCC master configured with
+  --target arm-none-linux-gnueabi
+  --with-mode arm
+  --with-cpu cortex-a9
+
+  and calling qemu with --cpu cortex-a9 (the script uses "any", this
+  makes no difference).
+
+  I have noticed other failures with arm-v8 code, but this is probably
+  the same root cause. Since it's a bit tedious to manually rebuild &
+  extract the testcases, I'd prefer to start with this subset, and I can
+  extract more if needed later.
+
+  Thanks
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1834496/+subscriptions
 
