@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914F569853
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 17:23:51 +0200 (CEST)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E9C69865
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 17:36:03 +0200 (CEST)
+Received: from localhost ([::1]:40164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn2pS-0000on-EY
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 11:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47457)
+	id 1hn31G-0005rv-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 11:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hn2ox-0007c0-43
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:23:20 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hn314-0005SL-86
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:35:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hn2ow-0001ez-0t
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:23:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36548)
+ (envelope-from <cohuck@redhat.com>) id 1hn30x-00006T-Cm
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:35:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34838)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hn2ot-0001c2-Gs; Mon, 15 Jul 2019 11:23:15 -0400
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hn30x-0008VC-2D; Mon, 15 Jul 2019 11:35:43 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BA401C057F3D;
- Mon, 15 Jul 2019 15:23:14 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEA5A608C6;
- Mon, 15 Jul 2019 15:23:08 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 17:22:25 +0200
-Message-Id: <20190715152225.26135-6-philmd@redhat.com>
-In-Reply-To: <20190715152225.26135-1-philmd@redhat.com>
-References: <20190715152225.26135-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 780113082A98;
+ Mon, 15 Jul 2019 15:35:40 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BEB76085B;
+ Mon, 15 Jul 2019 15:35:35 +0000 (UTC)
+Date: Mon, 15 Jul 2019 17:35:33 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <20190715173533.3ecca672.cohuck@redhat.com>
+In-Reply-To: <20190715142304.215018-4-borntraeger@de.ibm.com>
+References: <20190715142304.215018-1-borntraeger@de.ibm.com>
+ <20190715142304.215018-4-borntraeger@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 15 Jul 2019 15:23:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.45]); Mon, 15 Jul 2019 15:35:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH-for-4.1? v2 5/5] target/mips: Add stubs to
- build with CONFIG_SEMIHOSTING disabled
+Subject: Re: [Qemu-devel] [PATCH 3/3] s390x/cpumodel: change internal name
+ of vxp to make description
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,104 +58,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, James Hogan <jhogan@kernel.org>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, James Hogan <james.hogan@mips.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>, qemu-devel <qemu-devel@nongnu.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a distribution wants to build QEMU without semihosting support,
-it currently gets this build failure:
+On Mon, 15 Jul 2019 16:23:04 +0200
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-  $ ./configure --target-list=3Dmips64el-softmmu --without-default-device=
-s
-  $ sed -i s/CONFIG_SEMIHOSTING=3Dy/CONFIG_SEMIHOSTING=3Dn/ default-confi=
-gs/mips-softmmu-common.mak
-  $ make subdir-mips64el-softmmu
-  [...]
-    LINK    mips64el-softmmu/qemu-system-mips64el
-  /usr/bin/ld: target/mips/mips-semi.o: in function `helper_do_semihostin=
-g':
-  ./target/mips/mips-semi.c:335: undefined reference to `qemu_semihosting=
-_log_out'
-  /usr/bin/ld: ./target/mips/mips-semi.c:338: undefined reference to `qem=
-u_semihosting_log_out'
-  collect2: error: ld returned 1 exit status
-  make[1]: *** [Makefile:204: qemu-system-mips64el] Error 1
-  make: *** [Makefile:472: subdir-mips64el-softmmu] Error 2
+> The internal macro name VECTOR_BCD_ENH does not match the actual
+> description. Fix this.
+> 
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  target/s390x/cpu_features_def.inc.h | 2 +-
+>  target/s390x/gen-features.c         | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-Fix it by providing a stub when semihosting is disabled.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- default-configs/mips-softmmu-common.mak |  2 +-
- target/mips/Makefile.objs               |  3 ++-
- target/mips/mips-semi-stubs.c           | 22 ++++++++++++++++++++++
- 3 files changed, 25 insertions(+), 2 deletions(-)
- create mode 100644 target/mips/mips-semi-stubs.c
-
-diff --git a/default-configs/mips-softmmu-common.mak b/default-configs/mi=
-ps-softmmu-common.mak
-index da29c6c0b2..08fa16191f 100644
---- a/default-configs/mips-softmmu-common.mak
-+++ b/default-configs/mips-softmmu-common.mak
-@@ -1,6 +1,6 @@
- # Common mips*-softmmu CONFIG defines
-=20
--# CONFIG_SEMIHOSTING is always required on this architecture
-+# CONFIG_SEMIHOSTING is probably not required on KVM only builds
- CONFIG_SEMIHOSTING=3Dy
-=20
- CONFIG_ISA_BUS=3Dy
-diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
-index 3448ad5e19..3f4d566a35 100644
---- a/target/mips/Makefile.objs
-+++ b/target/mips/Makefile.objs
-@@ -1,5 +1,6 @@
- obj-y +=3D translate.o dsp_helper.o op_helper.o lmi_helper.o helper.o cp=
-u.o
- obj-y +=3D gdbstub.o msa_helper.o
--obj-$(CONFIG_SOFTMMU) +=3D mips-semi.o
-+obj-$(CONFIG_SEMIHOSTING) +=3D mips-semi.o
-+obj-$(call lnot,$(CONFIG_SEMIHOSTING)) +=3D mips-semi-stubs.o
- obj-$(CONFIG_SOFTMMU) +=3D machine.o cp0_timer.o
- obj-$(CONFIG_KVM) +=3D kvm.o
-diff --git a/target/mips/mips-semi-stubs.c b/target/mips/mips-semi-stubs.=
-c
-new file mode 100644
-index 0000000000..b1d3f88edc
---- /dev/null
-+++ b/target/mips/mips-semi-stubs.c
-@@ -0,0 +1,22 @@
-+/*
-+ * Unified Hosting Interface syscalls stubs
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/helper-proto.h"
-+
-+void helper_do_semihosting(CPUMIPSState *env)
-+{
-+    g_assert_not_reached();
-+}
---=20
-2.20.1
-
+s/make/match/ in $SUBJECT?
 
