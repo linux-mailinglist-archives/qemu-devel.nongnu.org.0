@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F4F68BB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 15:43:01 +0200 (CEST)
-Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB6B68BBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 15:43:36 +0200 (CEST)
+Received: from localhost ([::1]:38738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1Fs-00017r-Ct
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 09:43:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
+	id 1hn1GQ-0003Z3-K3
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 09:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hn1FF-0007n7-PA
+ (envelope-from <peter.maydell@linaro.org>) id 1hn1FF-0007mO-L0
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hn1FE-0006A3-MQ
+ (envelope-from <peter.maydell@linaro.org>) id 1hn1FE-0006A7-Mg
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:21 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51646)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40739)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hn1FC-00067L-1F
+ id 1hn1FC-00067e-1S
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:18 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 207so15246878wma.1
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 06:42:15 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id v19so15275585wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 06:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=vAsiB4hjT86jOZ/YYLR/hX2fOxLZe4WaIVAdFxNA9qQ=;
- b=zLlw2+RTdcaSU/3nV+ab9934WQAiBnD3VI3Y854a8tzPCa9vIKeXe89D0wTBfZJ/qJ
- 34NwG5LfIKfJW0Be2olDlCoLv4lV4dfWbb9j7bWhloswJryp+AyxrCl2kit3/bteEjFa
- M2tGAe4jqFL6dqeSTj7wh4CjObOYAqRPsRKdmk3dLy2kn+8nqoOn4vh2bxW+zDQ3o9O4
- sKAT63Jc1pCJ88604uskGefqJYmpNKlE+THxjvKejznoe92exCr5xd1TO+2cz2BPYJKY
- +iWHt2OvD/iOoaptbM/gJjioa/Bt7QWYfVhv+/Y62w0gbjy/HVml0oD6ya1kYPqPx6GH
- 1ZLw==
+ bh=cZNM3b90C0KI7GS3KaL+3KknzrTXZsMagrLfxlk+ajU=;
+ b=otxZc/mtaOuA7Lkvv9rjj9HKjelnjfwkFJQu7Y9VlKFOp6WPj42XYCSIloW+OgH5eT
+ YkO2OlC8a8DURpPPbCBJ27oIOPqPEm+6zj2AVs70SzgLT3vDsHZQgAAKTM1ZJ4xAt21T
+ 7krDirQh1GpaD864eMhEhtDCLsBxDDgaOoF1qSgp6XP9TGgu21C3thFMZpoFo+G6CIoY
+ r2+OPAETIVK+2U4nan2IiKWEDDSlejEhvK1q8paV9XfcRXiPSbivJOVfAIrO020j2CRB
+ 3JSUfoJkhu3UzHYHCDwPcLkFse5+wfXHwgQMjLKz0NZxSXWGsKRBHK+gWt2eBqEp7szq
+ rjhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vAsiB4hjT86jOZ/YYLR/hX2fOxLZe4WaIVAdFxNA9qQ=;
- b=BlNmRS4Nu3rnmZA20xkNnNHlg1afDAclJrFsaW1xgSHVOylv5ViLBLg3Jys5Qg56yG
- B5z1ctkLzk5KxS2Np53no1N/O1Xgl1ZuE0Rxg+M3MKm2GIYR/TFYJiEXPFyZOOUzW25M
- xqlwh5eAnPpcW3bOMw8PiEV03nhFRTuV4Y7txA05hdz/xUSoigDBIvGYDCKqq8HgB7Qo
- BXNty7EtPqjqKEUyXfH6XnU6NnmMJ/Gv1HTgK+eIAyweP7/DJYnbPRM7WlPb61g96PyG
- uoSqcsEK5es2Fm9VeJvvJJ/r6t4pguCzhhCeKKzIqa8pLFPpvv1a7N7Hr0bgiIQL4C/s
- b9cA==
-X-Gm-Message-State: APjAAAXs99JhdKUPqzq4uoMWC6bSiv1aXOYhLcvwfcAMiMIG4hjSj9Q8
- /R5MdPBxXfsELfPRcItKkLJbROvmr8Ol6g==
-X-Google-Smtp-Source: APXvYqylDhIOUWbQHrXKFnDe+s1VDHsS/gm37+4WRvKrcyu/EQ4d8BAJuqAIAjZ88U9qXtGEcfEWnA==
-X-Received: by 2002:a05:600c:2549:: with SMTP id
- e9mr23218602wma.46.1563198133890; 
- Mon, 15 Jul 2019 06:42:13 -0700 (PDT)
+ bh=cZNM3b90C0KI7GS3KaL+3KknzrTXZsMagrLfxlk+ajU=;
+ b=jMf7GVdDhdw+3wojs/YJnUsHZGNj0jWiDuSweqc9U53wfc8WS7TanpoSTW65v4Vu/0
+ iCh4fPY9YW/vDb6xmiYvBu5Szq7SKCpqbz2+5fI2scVoNqUJffymC+HgTy/mYU1YWW3R
+ ZNlJ89vajhCRiauWLWd9JrPKiEU2l3IvPwKvW1MZdsKQePHbu2+pVKetc1xV3dIvhLsy
+ /23ebRbuuoi9Yzu69bwPVH/ckHMLTWciL/xZJJ1ruUnGbSxY2YkrVARWDML0JqIlOQtE
+ s9pde+BbggOwOgO66CM1tNuf/3ly2MryMYw9RSdS+GPitSzxrmxHS6vkc8Atz8fXWeC2
+ wpeg==
+X-Gm-Message-State: APjAAAUwPuDzcjZ5gRVMXeYDzWDXSXROVb25BySCr74mNrLqCCf6ryZe
+ 4WybnLYuu3IAlUZXQhMuaqI00cpcNN893Q==
+X-Google-Smtp-Source: APXvYqyEekqB2pH4T8kJYxFYkCaYK7OYbT75TzPxT3yJ8GpBMO9dQjWn3tSegTqCAkHnk1YfmLQzjQ==
+X-Received: by 2002:a1c:c742:: with SMTP id x63mr26250512wmf.0.1563198135022; 
+ Mon, 15 Jul 2019 06:42:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id c7sm14221808wro.70.2019.07.15.06.42.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 15 Jul 2019 06:42:13 -0700 (PDT)
+ Mon, 15 Jul 2019 06:42:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 14:42:02 +0100
-Message-Id: <20190715134211.23063-2-peter.maydell@linaro.org>
+Date: Mon, 15 Jul 2019 14:42:03 +0100
+Message-Id: <20190715134211.23063-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134211.23063-1-peter.maydell@linaro.org>
 References: <20190715134211.23063-1-peter.maydell@linaro.org>
@@ -67,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PULL 01/10] target/arm: report ARMv8-A FP support for
- AArch32 -cpu max
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 02/10] hw/ssi/xilinx_spips: Convert lqspi_read()
+ to read_with_attrs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,38 +83,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When we converted to using feature bits in 602f6e42cfbf we missed out
-the fact (dp && arm_dc_feature(s, ARM_FEATURE_V8)) was supported for
--cpu max configurations. This caused a regression in the GCC test
-suite. Fix this by setting the appropriate bits in mvfr1.FPHP to
-report ARMv8-A with FP support (but not ARMv8.2-FP16).
+In the next commit we will implement the write_with_attrs()
+handler. To avoid using different APIs, convert the read()
+handler first.
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1836078
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190711103737.10017-1-alex.bennee@linaro.org
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Tested-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/ssi/xilinx_spips.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index e75a64a25a4..ad164a773b2 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2452,6 +2452,10 @@ static void arm_max_initfn(Object *obj)
-             t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-             cpu->isar.id_isar6 = t;
+diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
+index 8115bb6d468..b7c7275dbe4 100644
+--- a/hw/ssi/xilinx_spips.c
++++ b/hw/ssi/xilinx_spips.c
+@@ -1202,27 +1202,26 @@ static void lqspi_load_cache(void *opaque, hwaddr addr)
+     }
+ }
  
-+            t = cpu->isar.mvfr1;
-+            t = FIELD_DP32(t, MVFR1, FPHP, 2);     /* v8.0 FP support */
-+            cpu->isar.mvfr1 = t;
+-static uint64_t
+-lqspi_read(void *opaque, hwaddr addr, unsigned int size)
++static MemTxResult lqspi_read(void *opaque, hwaddr addr, uint64_t *value,
++                              unsigned size, MemTxAttrs attrs)
+ {
+-    XilinxQSPIPS *q = opaque;
+-    uint32_t ret;
++    XilinxQSPIPS *q = XILINX_QSPIPS(opaque);
+ 
+     if (addr >= q->lqspi_cached_addr &&
+             addr <= q->lqspi_cached_addr + LQSPI_CACHE_SIZE - 4) {
+         uint8_t *retp = &q->lqspi_buf[addr - q->lqspi_cached_addr];
+-        ret = cpu_to_le32(*(uint32_t *)retp);
+-        DB_PRINT_L(1, "addr: %08x, data: %08x\n", (unsigned)addr,
+-                   (unsigned)ret);
+-        return ret;
+-    } else {
+-        lqspi_load_cache(opaque, addr);
+-        return lqspi_read(opaque, addr, size);
++        *value = cpu_to_le32(*(uint32_t *)retp);
++        DB_PRINT_L(1, "addr: %08" HWADDR_PRIx ", data: %08" PRIx64 "\n",
++                   addr, *value);
++        return MEMTX_OK;
+     }
 +
-             t = cpu->isar.mvfr2;
-             t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
++    lqspi_load_cache(opaque, addr);
++    return lqspi_read(opaque, addr, value, size, attrs);
+ }
+ 
+ static const MemoryRegionOps lqspi_ops = {
+-    .read = lqspi_read,
++    .read_with_attrs = lqspi_read,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
 -- 
 2.20.1
 
