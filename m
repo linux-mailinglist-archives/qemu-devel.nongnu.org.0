@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021F969976
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 19:01:10 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6006997A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 19:03:40 +0200 (CEST)
+Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn4Lc-0000pI-Qb
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 13:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39138)
+	id 1hn4O2-0002sP-Ux
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 13:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39659)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hn4LF-0008SJ-Aq
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:00:46 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hn4Nk-0002To-O8
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:03:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hn4LE-0000A7-7c
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:00:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60118)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hn4LE-00009e-0c
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:00:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hn4LD-0008Na-9X
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 17:00:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 460E62E80C7
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 17:00:43 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hn4Nj-0002Hz-9I
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:03:20 -0400
+Resent-Date: Mon, 15 Jul 2019 13:03:20 -0400
+Resent-Message-Id: <E1hn4Nj-0002Hz-9I@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21942)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hn4Nj-0002Ew-3F
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 13:03:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1563210191; cv=none; d=zoho.com; s=zohoarc; 
+ b=UKUg4n3ov4QhPwbZ2meuy8GHHOKqoy3QrKYiiKSWbvURfLxKSXpa5d70QKFYTbXSnADiLgrIxRmHVBiTOiMJmm8dVskw0fECZoCXvKUiHZk2NRXWIPEaGmnLOhizbSuR6m+KCVsS0zIPLZvXbw+pTvnOITDfztIJltkLCLmb9b0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1563210191;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=h7nBi0GcM/vo+haoRHI7jCjm+75csRHV5NGyIl4450Y=; 
+ b=ON1HxD5aj4qOS5lAWsALfoPvTqUOFOeQTvOA2EvLbM4egOKAQb56LK0dI9xxpyk/4vkoJsTRa84rl+ZIomqM1ih/M5qQgvcySv9apTgzcfH/Wui2kkSmAza/dM9H6W3Me5v3U6wj82S7GBuYrmTW06KZB28sgo71/IMM7hK9SrQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1563210189228330.5234500038224;
+ Mon, 15 Jul 2019 10:03:09 -0700 (PDT)
+Message-ID: <156321018841.3080.5007760449569935702@c4a48874b076>
+In-Reply-To: <20190715134211.23063-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jul 2019 16:54:03 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: docs
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
-References: <156303245351.28480.9481024859968233865.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156320964417.15101.15246424391778112872.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4bc7fce4d65d111cbd0f18a0815cceeedd518a82
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Mon, 15 Jul 2019 10:03:09 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836451] Re: 'make info' fails due to errors in
- qemu-tech.texi
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PULL 00/10] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,46 +61,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836451 <1836451@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: docs
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxNTEzNDIxMS4yMzA2
+My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA3MTUxMzQyMTEuMjMwNjMtMS1wZXRl
+ci5tYXlkZWxsQGxpbmFyby5vcmcKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
+UFVMTCAwMC8xMF0gdGFyZ2V0LWFybSBxdWV1ZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
+IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
+Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
+IEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
+IFtuZXcgdGFnXSAgICAgICAgICAgICAgIHBhdGNoZXcvMjAxOTA3MTUxMzQyMTEuMjMwNjMtMS1w
+ZXRlci5tYXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDE5MDcxNTEzNDIxMS4yMzA2My0x
+LXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3Qn
+CjM3NGZkYjkzNmUgdGFyZ2V0L2FybTogTlMgQnVzRmF1bHQgb24gdmVjdG9yIHRhYmxlIGZldGNo
+IGVzY2FsYXRlcyB0byBOUyBIYXJkRmF1bHQKYTMwYjFkYWQ4MSB0YXJnZXQvYXJtOiBTZXQgVkZQ
+LXJlbGF0ZWQgTVZGUjAgZmllbGRzIGZvciBhcm05MjYgYW5kIGFybTEwMjYKNmQ3MDUxNzczZiBw
+bDAzMTogQ29ycmVjdGx5IG1pZ3JhdGUgc3RhdGUgd2hlbiB1c2luZyAtcnRjIGNsb2NrPWhvc3QK
+OTNkNTg0NTViYSBody9hcm0vdmlydDogRml4IG5vbi1zZWN1cmUgZmxhc2ggbW9kZQowODU5NGQ5
+ODMxIGh3L2Rpc3BsYXkveGxueF9kcDogQXZvaWQgY3Jhc2ggd2hlbiByZWFkaW5nIGVtcHR5IFJY
+IEZJRk8KZDRiZmVlNjQwMyBody9zc2kvbXNzLXNwaTogQXZvaWQgY3Jhc2ggd2hlbiByZWFkaW5n
+IGVtcHR5IFJYIEZJRk8KNTIxZGNmYzYyMSBody9zc2kveGlsaW54X3NwaXBzOiBBdm9pZCBvdXQt
+b2YtYm91bmQgYWNjZXNzIHRvIGxxc3BpX2J1ZltdCjI4ZGM5OTRhODcgaHcvc3NpL3hpbGlueF9z
+cGlwczogQXZvaWQgQVhJIHdyaXRlcyB0byB0aGUgTFFTUEkgbGluZWFyIG1lbW9yeQozM2QxMGQz
+OWJkIGh3L3NzaS94aWxpbnhfc3BpcHM6IENvbnZlcnQgbHFzcGlfcmVhZCgpIHRvIHJlYWRfd2l0
+aF9hdHRycwo0YWQ1NDBjYjAwIHRhcmdldC9hcm06IHJlcG9ydCBBUk12OC1BIEZQIHN1cHBvcnQg
+Zm9yIEFBcmNoMzIgLWNwdSBtYXgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTAgQ2hlY2tpbmcg
+Y29tbWl0IDRhZDU0MGNiMDAzZiAodGFyZ2V0L2FybTogcmVwb3J0IEFSTXY4LUEgRlAgc3VwcG9y
+dCBmb3IgQUFyY2gzMiAtY3B1IG1heCkKMi8xMCBDaGVja2luZyBjb21taXQgMzNkMTBkMzliZDFl
+IChody9zc2kveGlsaW54X3NwaXBzOiBDb252ZXJ0IGxxc3BpX3JlYWQoKSB0byByZWFkX3dpdGhf
+YXR0cnMpCjMvMTAgQ2hlY2tpbmcgY29tbWl0IDI4ZGM5OTRhODc3MSAoaHcvc3NpL3hpbGlueF9z
+cGlwczogQXZvaWQgQVhJIHdyaXRlcyB0byB0aGUgTFFTUEkgbGluZWFyIG1lbW9yeSkKNC8xMCBD
+aGVja2luZyBjb21taXQgNTIxZGNmYzYyMTMxIChody9zc2kveGlsaW54X3NwaXBzOiBBdm9pZCBv
+dXQtb2YtYm91bmQgYWNjZXNzIHRvIGxxc3BpX2J1ZltdKQo1LzEwIENoZWNraW5nIGNvbW1pdCBk
+NGJmZWU2NDAzYTYgKGh3L3NzaS9tc3Mtc3BpOiBBdm9pZCBjcmFzaCB3aGVuIHJlYWRpbmcgZW1w
+dHkgUlggRklGTykKNi8xMCBDaGVja2luZyBjb21taXQgMDg1OTRkOTgzMWI0IChody9kaXNwbGF5
+L3hsbnhfZHA6IEF2b2lkIGNyYXNoIHdoZW4gcmVhZGluZyBlbXB0eSBSWCBGSUZPKQo3LzEwIENo
+ZWNraW5nIGNvbW1pdCA5M2Q1ODQ1NWJhZjYgKGh3L2FybS92aXJ0OiBGaXggbm9uLXNlY3VyZSBm
+bGFzaCBtb2RlKQo4LzEwIENoZWNraW5nIGNvbW1pdCA2ZDcwNTE3NzNmMjcgKHBsMDMxOiBDb3Jy
+ZWN0bHkgbWlncmF0ZSBzdGF0ZSB3aGVuIHVzaW5nIC1ydGMgY2xvY2s9aG9zdCkKRVJST1I6IHNw
+YWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiMxNTg6IEZJTEU6IGh3L3Rp
+bWVyL3BsMDMxLmM6MzAwOgorICAgIC5zdWJzZWN0aW9ucyA9IChjb25zdCBWTVN0YXRlRGVzY3Jp
+cHRpb24qW10pIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+XgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDYgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
+OC8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKOS8xMCBDaGVja2luZyBjb21taXQgYTMw
+YjFkYWQ4MTVjICh0YXJnZXQvYXJtOiBTZXQgVkZQLXJlbGF0ZWQgTVZGUjAgZmllbGRzIGZvciBh
+cm05MjYgYW5kIGFybTEwMjYpCjEwLzEwIENoZWNraW5nIGNvbW1pdCAzNzRmZGI5MzZlZTkgKHRh
+cmdldC9hcm06IE5TIEJ1c0ZhdWx0IG9uIHZlY3RvciB0YWJsZSBmZXRjaCBlc2NhbGF0ZXMgdG8g
+TlMgSGFyZEZhdWx0KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
+aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDE5MDcxNTEzNDIxMS4yMzA2My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90
+ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
+bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
+eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836451
-
-Title:
-  'make info' fails due to errors in qemu-tech.texi
-
-Status in QEMU:
-  New
-
-Bug description:
-  git tag: v4.1.0-rc0
-  host: Fedora 29, x86_64
-
-  $ make info
-  make[1]: Entering directory 'qemu/slirp'
-  make[1]: Nothing to be done for 'all'.
-  make[1]: Leaving directory 'qemu/slirp'
-    GEN     docs/version.texi
-    GEN     qemu-options.texi
-    GEN     qemu-monitor.texi
-    GEN     qemu-img-cmds.texi
-    GEN     qemu-monitor-info.texi
-    GEN     qemu-doc.info
-  qemu/qemu-tech.texi:6: @menu reference to nonexistent node `Translator In=
-ternals'
-  qemu/qemu-tech.texi:7: @menu reference to nonexistent node `QEMU compared=
- to other emulators'
-  qemu/qemu-tech.texi:9: @menu reference to nonexistent node `Bibliography'
-  Makefile:960: recipe for target 'qemu-doc.info' failed
-  make: *** [qemu-doc.info] Error 1
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836451/+subscriptions
 
