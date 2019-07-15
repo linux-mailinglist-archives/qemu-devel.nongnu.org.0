@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C51698A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 17:56:51 +0200 (CEST)
-Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FE0698BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:00:53 +0200 (CEST)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn3LO-00082q-FZ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 11:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54589)
+	id 1hn3PI-0000SA-8H
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55222)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hn3LA-0007Lw-WC
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:56:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1hn3OW-0007Rt-JZ
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hn3L9-00028F-SJ
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:56:36 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38606)
+ (envelope-from <bounces@canonical.com>) id 1hn3OS-0003XZ-Pw
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42262)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hn3L9-00027h-Li
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 11:56:35 -0400
-Received: by mail-oi1-x243.google.com with SMTP id v186so13035447oie.5
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 08:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qE1l7HK/XZzEyn/G0YQDymltaZQMckPbIXRw32OkiHY=;
- b=awkQqvBvqgmAC/rVAmUDcA8+o8f9zsw8zhxZmTaONxZ4skYHR0k3axfZkBdvA3vgO3
- EzJdbUy1yiy9sehRdkwgEr08oMemZ47A3Mfe5Gx4diq33TdeTyaFqGA8Tp5rwQY97TJb
- qQ6oLstJw5iBxdb0+eTh7wE1lQsjOcmirMpb6exhBlzh70hEGLIYplLpG6BZFzQIEJC6
- /5Qn9NTKKX+WOduLmD4hhBDlQ6qRDw3EgCWQywYiP9yN9rr9qgNyS9PSDzxI8VZhVoeW
- E+tGmCnCPRMofVxw+dqJkNxPp95lVN3DKFx8rG9AfonA5B4r17k/kmN/nG6MraqeqGCa
- xEFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qE1l7HK/XZzEyn/G0YQDymltaZQMckPbIXRw32OkiHY=;
- b=EIcnOMC41iYa2rIWmdv3Ta2JZNT21Jc0aIS5kSNUi5K+eD4e26ogm7VENeEAtph/q/
- n5I6rwJQYDe5ui+gNpa8iKIQfOemytmkXrbfEVvycde0MATYP18Jtzw7bwZlHQTG46Q1
- 8Ozm2RE8vXd2yXA3cZQBojt++o5z/6hDcrTf9qdEZlnc5Es26fxAOEw9cuppni1mXUqh
- jUQfuUjpWLnVclSTIkr6//SImxxbNMQmq1Goi4u3nspgfsy3u9yfapNIWdLYqV+/UoH8
- AAW2eP6oyTUxrrOnm/o0DIJv2OlURHdCHbUm03TNLUoM70deACPzC36RIabDvUZnqUFK
- 6OrQ==
-X-Gm-Message-State: APjAAAXx4tE6KuecFd5RHdo17aZbiOs2JqYHaIllo8iTKqoY7h/C5LeR
- XATVHyYU02sGqAF0jzec4Sk0JxXRM/iTv/TwFzarWQ==
-X-Google-Smtp-Source: APXvYqylphpogqoqXu7u/oOKDB9erZnozrUSNWo2Ds4fO/1w+Rpj+hPum5tTJb44xDpJba15W/4+rG2R1bPQle24OFs=
-X-Received: by 2002:a05:6808:8c2:: with SMTP id
- k2mr13141568oij.98.1563206194518; 
- Mon, 15 Jul 2019 08:56:34 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hn3OS-0003Wd-EW
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hn3OR-0008Nv-2r
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 15:59:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F28342E80CD
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 15:59:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190715142905.9078-1-mreitz@redhat.com>
-In-Reply-To: <20190715142905.9078-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Jul 2019 16:56:23 +0100
-Message-ID: <CAFEAcA_Fxv-EOzcdYh-tZUontKy82_TzRys71tZ3FpU8fthCLg@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PULL 00/11] Block patches for rc1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jul 2019 15:46:50 -0000
+From: Thomas Huth <1606899@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: freddy77 lersek th-huth
+X-Launchpad-Bug-Reporter: Frediano Ziglio (freddy77)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20160727115911.17233.55909.malonedeb@wampee.canonical.com>
+Message-Id: <156320561090.15950.10825987454305750615.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 6848c7125f9c6708a791eb8ba23932a6fbc8d859
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1606899] Re: virtio-vga does not let guest
+ poweroff properly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,37 +65,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1606899 <1606899@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Jul 2019 at 15:29, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit b9404bf592e7ba74180e1a54ed7a266ec6ee67f2:
->
->   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-hmp-20190715' into staging (2019-07-15 12:22:07 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-07-15
->
-> for you to fetch changes up to 0b1847bbc2b4f50e7497cb05c4540bf7b016c9c6:
->
->   gluster: fix .bdrv_reopen_prepare when backing file is a JSON object (2019-07-15 15:48:41 +0200)
->
-> ----------------------------------------------------------------
-> Block patches for 4.1-rc1:
-> - Fixes for the NVMe block driver, the gluster block driver, and for
->   running multiple block jobs concurrently on a single chain
->
-> ----------------------------------------------------------------
+Can you still reproduce this problem with the latest version of QEMU?
 
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1606899
 
--- PMM
+Title:
+  virtio-vga does not let guest poweroff properly
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I have a VM running rawhide (Fedora development) and I can't poweroff
+  the machine when I enable virtio-vga. Reboot works correctly. Using
+  QXL works also. The machine arrive to print the "Powering off" message
+  (from Linux kernel) but then hangs.
+
+  The command line is
+
+  /usr/bin/qemu-system-x86_64 -machine accel=3Dkvm -name rawhide -machine
+  pc-i440fx-2.3,accel=3Dkvm,usb=3Doff -cpu Haswell-noTSX -m 2048 -realtime
+  mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -uuid
+  64216421-aec4-4ce4-aa52-aed9e4e31a1c -no-user-config -nodefaults
+  -chardev
+  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/rawhide.monitor,serv=
+er,nowait
+  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddiscard -no-
+  hpet -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global
+  PIIX4_PM.disable_s4=3D1 -boot strict=3Don -device ich9-usb-
+  ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x6.0x7 -device ich9-usb-
+  uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multifunction=3Don,addr=
+=3D0x6
+  -device ich9-usb-
+  uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=3D0x6.0x1 -device =
+ich9
+  -usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=3D0x6.0x2 -de=
+vice
+  virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x5 -drive
+  file=3D/home/rawhide.qcow2,if=3Dnone,id=3Ddrive-virtio-disk0,format=3Dqco=
+w2
+  -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x7,drive=3Ddrive-vi=
+rtio-
+  disk0,id=3Dvirtio-disk0,bootindex=3D1 -drive if=3Dnone,id=3Ddrive-
+  ide0-0-0,readonly=3Don -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Ddrive-
+  ide0-0-0,id=3Dide0-0-0 -netdev user,id=3Dhostnet0 -device virtio-net-
+  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:fc:11:43,bus=3Dpci.0,addr=
+=3D0x3
+  -chardev pty,id=3Dcharserial0 -device isa-
+  serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
+  socket,id=3Dcharchannel0,path=3D/var/lib/libvirt/qemu/channel/target/rawh=
+ide.org.qemu.guest_agent.0,server,nowait
+  -device virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dorg.qemu.gue=
+st_agent.0
+  -chardev spicevmc,id=3Dcharchannel1,name=3Dvdagent -device
+  virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D2,chardev=3Dcharchannel1,id=3Dchannel1,name=3Dcom.redhat.s=
+pice.0
+  -device usb-tablet,id=3Dinput0 -spice ipv4,addr=3D0.0.0.0,port=3D5900
+  ,disable-ticketing,image-compression=3Dlz,seamless-migration=3Don
+  ,streaming-video=3Dfilter -device virtio-vga,bus=3Dpci.0,addr=3D0x2 -devi=
+ce
+  intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -device hda-
+  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir0,id=3Dredir0 -chardev
+  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir1,id=3Dredir1 -device virtio-balloon-
+  pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x8 -msg timestamp=3Don
+
+  I though was due to Virgl but disabling it does not change.
+
+  I'm using Qemu 2.6.0 from Fedora 24.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1606899/+subscriptions
 
