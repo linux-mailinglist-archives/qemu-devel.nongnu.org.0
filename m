@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFC8698BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:00:48 +0200 (CEST)
-Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DE7698C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:02:02 +0200 (CEST)
+Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn3PB-000062-LK
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:00:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55211)
+	id 1hn3QP-00055E-0p
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hn3OU-0007RD-Lu
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:03 -0400
+ (envelope-from <bounces@canonical.com>) id 1hn3PF-0001EB-BU
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hn3OS-0003Xf-QF
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42270)
+ (envelope-from <bounces@canonical.com>) id 1hn3PD-0004Mr-O2
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42492)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hn3OS-0003We-EB
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:00 -0400
+ id 1hn3PD-0004Ih-HU
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:00:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hn3OR-0008Nw-9E
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 15:59:59 +0000
+ id 1hn3PC-0008Vk-Pr
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 16:00:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 451A02E8055
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 15:59:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BA4642E80C7
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 16:00:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jul 2019 15:49:46 -0000
-From: Thomas Huth <1606708@bugs.launchpad.net>
+Date: Mon, 15 Jul 2019 15:52:42 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: josem11200 th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Miguel_=28josem11200=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160726215226.16940.44257.malonedeb@wampee.canonical.com>
-Message-Id: <156320578666.15671.5318504744964181470.malone@soybean.canonical.com>
+X-Launchpad-Bug-Commenters: alex-bennee scherft
+X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
+References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156320596219.28429.12314000798052307695.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19007";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 119407b4fb552c547c505f07f947bd94342a29e6
+X-Launchpad-Hash: e812588781174b7f5626aeb2c306f3f9d9e997dc
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1606708] Re: QEMU crashes when switching consoles
- using SDL
+Subject: [Qemu-devel] [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,57 +65,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1606708 <1606708@bugs.launchpad.net>
+Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this should be fixed with the latest version of QEMU ... or can
-you still reproduce this issue with the latest version?
+By running:
+
+  valgrind --leak-check=3Dyes ./qemu-ppc tests/testthread
+
+I can replicate a leak compared to qemu-arm with the same test....
+
+=3D=3D25789=3D=3D    at 0x483577F: malloc (vg_replace_malloc.c:299)        =
+                                                                           =
+                      [13/7729]
+=3D=3D25789=3D=3D    by 0x4D7F8D0: g_malloc (in /usr/lib/x86_64-linux-gnu/l=
+ibglib-2.0.so.0.5800.3)
+=3D=3D25789=3D=3D    by 0x1FC65D: create_new_table (translate_init.inc.c:92=
+52)
+=3D=3D25789=3D=3D    by 0x1FC65D: register_ind_in_table (translate_init.inc=
+.c:9291)
+=3D=3D25789=3D=3D    by 0x1FC971: register_ind_insn (translate_init.inc.c:9=
+325)
+=3D=3D25789=3D=3D    by 0x1FC971: register_insn (translate_init.inc.c:9390)
+=3D=3D25789=3D=3D    by 0x1FC971: create_ppc_opcodes (translate_init.inc.c:=
+9450)
+=3D=3D25789=3D=3D    by 0x1FC971: ppc_cpu_realize (translate_init.inc.c:981=
+9)
+=3D=3D25789=3D=3D    by 0x277263: device_set_realized (qdev.c:834)
+=3D=3D25789=3D=3D    by 0x27BBC6: property_set_bool (object.c:2076)
+=3D=3D25789=3D=3D    by 0x28019E: object_property_set_qobject (qom-qobject.=
+c:26)
+=3D=3D25789=3D=3D    by 0x27DAF4: object_property_set_bool (object.c:1334)
+=3D=3D25789=3D=3D    by 0x27AE4B: cpu_create (cpu.c:62)
+=3D=3D25789=3D=3D    by 0x1C89B8: cpu_copy (main.c:188)
+=3D=3D25789=3D=3D    by 0x1CA44F: do_fork (syscall.c:5604)
+=3D=3D25789=3D=3D    by 0x1D665A: do_syscall1.isra.43 (syscall.c:9160)
+=3D=3D25789=3D=3D
+=3D=3D25789=3D=3D 6,656 bytes in 26 blocks are possibly lost in loss record=
+ 216 of 238
+=3D=3D25789=3D=3D    at 0x483577F: malloc (vg_replace_malloc.c:299)
+=3D=3D25789=3D=3D    by 0x4D7F8D0: g_malloc (in /usr/lib/x86_64-linux-gnu/l=
+ibglib-2.0.so.0.5800.3)
+=3D=3D25789=3D=3D    by 0x1FC65D: create_new_table (translate_init.inc.c:92=
+52)
+=3D=3D25789=3D=3D    by 0x1FC65D: register_ind_in_table (translate_init.inc=
+.c:9291)
+=3D=3D25789=3D=3D    by 0x1FC9BA: register_dblind_insn (translate_init.inc.=
+c:9337)
+=3D=3D25789=3D=3D    by 0x1FC9BA: register_insn (translate_init.inc.c:9384)
+=3D=3D25789=3D=3D    by 0x1FC9BA: create_ppc_opcodes (translate_init.inc.c:=
+9450)
+=3D=3D25789=3D=3D    by 0x1FC9BA: ppc_cpu_realize (translate_init.inc.c:981=
+9)
+=3D=3D25789=3D=3D    by 0x277263: device_set_realized (qdev.c:834)
+=3D=3D25789=3D=3D    by 0x27BBC6: property_set_bool (object.c:2076)
+=3D=3D25789=3D=3D    by 0x28019E: object_property_set_qobject (qom-qobject.=
+c:26)
+=3D=3D25789=3D=3D    by 0x27DAF4: object_property_set_bool (object.c:1334)
+=3D=3D25789=3D=3D    by 0x27AE4B: cpu_create (cpu.c:62)
+=3D=3D25789=3D=3D    by 0x17304D: main (main.c:681)
+=3D=3D25789=3D=3D
+=3D=3D25789=3D=3D 10,752 (1,024 direct, 9,728 indirect) bytes in 4 blocks a=
+re definitely lost in loss record 223 of 238
+=3D=3D25789=3D=3D    at 0x483577F: malloc (vg_replace_malloc.c:299)
+=3D=3D25789=3D=3D    by 0x4D7F8D0: g_malloc (in /usr/lib/x86_64-linux-gnu/l=
+ibglib-2.0.so.0.5800.3)
+=3D=3D25789=3D=3D    by 0x1FC65D: create_new_table (translate_init.inc.c:92=
+52)
+=3D=3D25789=3D=3D    by 0x1FC65D: register_ind_in_table (translate_init.inc=
+.c:9291)
+=3D=3D25789=3D=3D    by 0x1FC998: register_dblind_insn (translate_init.inc.=
+c:9332)
+=3D=3D25789=3D=3D    by 0x1FC998: register_insn (translate_init.inc.c:9384)
+=3D=3D25789=3D=3D    by 0x1FC998: create_ppc_opcodes (translate_init.inc.c:=
+9450)
+=3D=3D25789=3D=3D    by 0x1FC998: ppc_cpu_realize (translate_init.inc.c:981=
+9)
+=3D=3D25789=3D=3D    by 0x277263: device_set_realized (qdev.c:834)
+=3D=3D25789=3D=3D    by 0x27BBC6: property_set_bool (object.c:2076)
+=3D=3D25789=3D=3D    by 0x28019E: object_property_set_qobject (qom-qobject.=
+c:26)
+=3D=3D25789=3D=3D    by 0x27DAF4: object_property_set_bool (object.c:1334)
+=3D=3D25789=3D=3D    by 0x27AE4B: cpu_create (cpu.c:62)
+=3D=3D25789=3D=3D    by 0x1C89B8: cpu_copy (main.c:188)
+=3D=3D25789=3D=3D    by 0x1CA44F: do_fork (syscall.c:5604)
+=3D=3D25789=3D=3D    by 0x1D665A: do_syscall1.isra.43 (syscall.c:9160)
+
+So something funky happens to the PPC translator for each new thread....
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: New =3D> Confirmed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1606708
+https://bugs.launchpad.net/bugs/1836558
 
 Title:
-  QEMU crashes when switching consoles using SDL
+  Qemu-ppc Memory leak creating threads
 
 Status in QEMU:
-  Incomplete
+  Confirmed
 
 Bug description:
-  I've trying to use QEMU with SDL, and I noticed that it doesn't behave
-  well, specially when switching from VGA to any console. Resuming,
-  switching is erratic when using SDL, and its effects go from creating
-  a new window, doing nothing, showing a window that disappears
-  inmediately or even crash.
+  When creating c++ threads (with c++ std::thread), the resulting binary
+  has memory leaks when running with qemu-ppc.
 
-  Tested with:
-  Arch Linux with all packages updated (2016/7/26)
-  TWM as window manager
-  QEMU (both stable 2.6.0-1 and latest git commit f49ee63)
-  Command: qemu-system-x86_64 -display sdl
+  Eg the following c++ program, when compiled with gcc, consumes more
+  and more memory while running at qemu-ppc. (does not have memory leaks
+  when compiling for Intel, when running same binary on real powerpc CPU
+  hardware also no memory leaks).
 
-  sdl2 version 2.0.4-2
+  (Note I used function getCurrentRSS to show available memory, see
+  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
+  runtime-using-c; calls commented out here)
 
-  How to reproduce:
-  1. Open QEMU with the given command
-  2. Try to switch console (Ctrl-Alt-2 for example)
+  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
+with older g++ compilers even 4.9)
+  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
+  qemu: qemu-ppc version 3.1.50
 
-  Expected behaviour:
-  As in GTK, the window should now show the desired console
 
-  Actual behaviour:
-  Here I have to say I can't explain it very well. Almost always it just cr=
-eates a new window that shows the desired console, but it is closed inmedia=
-tley. If not, it opens a new window that keeps open, and it sometimes is re=
-sponsive, but further attempts to switch consoles end causing a crash, and =
-QEMU has to be SIGKILLed
+  ---
+
+  #include <iostream>
+  #include <thread>
+  #include <chrono>
+
+  =
+
+  using namespace std::chrono_literals;
+
+  // Create/run and join a 100 threads.
+  void Fun100()
+  {
+  //    auto b4 =3D getCurrentRSS();
+  //    std::cout << getCurrentRSS() << std::endl;
+      for(int n =3D 0; n < 100; n++)
+      {
+          std::thread t([]
+          {
+              std::this_thread::sleep_for( 10ms );
+          });
+  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
+          t.join();
+      }
+      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
+ memory...
+  //    auto after =3D getCurrentRSS();
+      std::cout << b4 << ' ' << after << std::endl;
+  }
+
+  =
+
+  int main(int, char **)
+  {
+      Fun100();
+      Fun100();  // memory used keeps increasing
+  }
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1606708/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
