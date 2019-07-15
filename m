@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2466691A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:31:32 +0200 (CEST)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E65691B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:31:58 +0200 (CEST)
+Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn20p-0003Xw-EF
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:31:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34411)
+	id 1hn21G-0005nY-16
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:31:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hn1yt-0005CF-0o
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:32 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hn1yu-0005Hd-6c
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hn1yr-00061H-Va
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57668)
+ (envelope-from <mreitz@redhat.com>) id 1hn1ys-00061k-Ls
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10446)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hn1ym-0005xi-Jc; Mon, 15 Jul 2019 10:29:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hn1yp-0005zc-OO; Mon, 15 Jul 2019 10:29:27 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD6913082200;
- Mon, 15 Jul 2019 14:29:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 12F3930B97AA;
+ Mon, 15 Jul 2019 14:29:27 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A0FC5D9C6;
- Mon, 15 Jul 2019 14:29:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E9201001B02;
+ Mon, 15 Jul 2019 14:29:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 15 Jul 2019 16:28:59 +0200
-Message-Id: <20190715142905.9078-6-mreitz@redhat.com>
+Date: Mon, 15 Jul 2019 16:29:00 +0200
+Message-Id: <20190715142905.9078-7-mreitz@redhat.com>
 In-Reply-To: <20190715142905.9078-1-mreitz@redhat.com>
 References: <20190715142905.9078-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 15 Jul 2019 14:29:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Mon, 15 Jul 2019 14:29:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/11] block: Deep-clear inherits_from
+Subject: [Qemu-devel] [PULL 06/11] iotests: Fix throttling in 030
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,82 +59,143 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BDS.inherits_from does not always point to an immediate parent node.
-When launching a block job with a filter node, for example, the node
-directly below the filter will not point to the filter, but keep its old
-pointee (above the filter).
+Currently, TestParallelOps in 030 creates images that are too small for
+job throttling to be effective.  This is reflected by the fact that it
+never undoes the throttling.
 
-If that pointee goes away while the job is still running, the node's
-inherits_from will not be updated and thus point to garbage.  To fix
-this, bdrv_unref_child() has to check not only the parent node's
-immediate children for nodes whose inherits_from needs to be cleared,
-but its whole subtree.
+Increase the image size and undo the throttling when the job should be
+completed.  Also, add throttling in test_overlapping_4, or the jobs may
+not be so overlapping after all.  In fact, the error usually emitted
+here is that node2 simply does not exist, not that overlapping jobs are
+not allowed -- the fact that this job ignores the exact error messages
+and just checks the error class is something that should be fixed in a
+follow-up patch.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190703172813.6868-7-mreitz@redhat.com
+Tested-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Message-id: 20190703172813.6868-8-mreitz@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/030 | 32 +++++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/block.c b/block.c
-index 6565192b91..29e931e217 100644
---- a/block.c
-+++ b/block.c
-@@ -2472,18 +2472,20 @@ void bdrv_root_unref_child(BdrvChild *child)
-     bdrv_unref(child_bs);
- }
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index c6311d1825..2cf8d54dc5 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -154,7 +154,7 @@ class TestSingleDrive(iotests.QMPTestCase):
+ class TestParallelOps(iotests.QMPTestCase):
+     num_ops =3D 4 # Number of parallel block-stream operations
+     num_imgs =3D num_ops * 2 + 1
+-    image_len =3D num_ops * 512 * 1024
++    image_len =3D num_ops * 4 * 1024 * 1024
+     imgs =3D []
 =20
--void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
-+/**
-+ * Clear all inherits_from pointers from children and grandchildren of
-+ * @root that point to @root, where necessary.
-+ */
-+static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *=
-child)
- {
--    if (child =3D=3D NULL) {
--        return;
--    }
--
--    if (child->bs->inherits_from =3D=3D parent) {
--        BdrvChild *c;
-+    BdrvChild *c;
+     def setUp(self):
+@@ -176,11 +176,11 @@ class TestParallelOps(iotests.QMPTestCase):
+         # Put data into the images we are copying data from
+         odd_img_indexes =3D [x for x in reversed(range(self.num_imgs)) i=
+f x % 2 =3D=3D 1]
+         for i in range(len(odd_img_indexes)):
+-            # Alternate between 256KB and 512KB.
++            # Alternate between 2MB and 4MB.
+             # This way jobs will not finish in the same order they were =
+created
+-            num_kb =3D 256 + 256 * (i % 2)
++            num_mb =3D 2 + 2 * (i % 2)
+             qemu_io('-f', iotests.imgfmt,
+-                    '-c', 'write -P 0xFF %dk %dk' % (i * 512, num_kb),
++                    '-c', 'write -P 0xFF %dM %dM' % (i * 4, num_mb),
+                     self.imgs[odd_img_indexes[i]])
 =20
--        /* Remove inherits_from only when the last reference between par=
-ent and
--         * child->bs goes away. */
--        QLIST_FOREACH(c, &parent->children, next) {
-+    if (child->bs->inherits_from =3D=3D root) {
-+        /*
-+         * Remove inherits_from only when the last reference between roo=
-t and
-+         * child->bs goes away.
-+         */
-+        QLIST_FOREACH(c, &root->children, next) {
-             if (c !=3D child && c->bs =3D=3D child->bs) {
-                 break;
-             }
-@@ -2493,6 +2495,18 @@ void bdrv_unref_child(BlockDriverState *parent, Bd=
-rvChild *child)
-         }
-     }
+         # Attach the drive to the VM
+@@ -213,6 +213,10 @@ class TestParallelOps(iotests.QMPTestCase):
+             result =3D self.vm.qmp('block-stream', device=3Dnode_name, j=
+ob_id=3Djob_id, base=3Dself.imgs[i-2], speed=3D512*1024)
+             self.assert_qmp(result, 'return', {})
 =20
-+    QLIST_FOREACH(c, &child->bs->children, next) {
-+        bdrv_unset_inherits_from(root, c);
-+    }
-+}
++        for job in pending_jobs:
++            result =3D self.vm.qmp('block-job-set-speed', device=3Djob, =
+speed=3D0)
++            self.assert_qmp(result, 'return', {})
 +
-+void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
-+{
-+    if (child =3D=3D NULL) {
-+        return;
-+    }
-+
-+    bdrv_unset_inherits_from(parent, child);
-     bdrv_root_unref_child(child);
- }
+         # Wait for all jobs to be finished.
+         while len(pending_jobs) > 0:
+             for event in self.vm.get_qmp_events(wait=3DTrue):
+@@ -260,6 +264,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
+self.imgs[0], top=3Dself.imgs[1], job_id=3D'commit-node0')
+         self.assert_qmp(result, 'error/class', 'GenericError')
 =20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'stream-n=
+ode4', speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         self.wait_until_completed(drive=3D'stream-node4')
+         self.assert_no_active_block_jobs()
+=20
+@@ -289,6 +296,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-stream', device=3D'drive0', base=3D=
+self.imgs[5], job_id=3D'stream-drive0')
+         self.assert_qmp(result, 'error/class', 'GenericError')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'commit-n=
+ode3', speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         self.wait_until_completed(drive=3D'commit-node3')
+=20
+     # Similar to test_overlapping_2, but here block-commit doesn't use t=
+he 'top' parameter.
+@@ -309,6 +319,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_qmp(event, 'data/type', 'commit')
+         self.assert_qmp_absent(event, 'data/error')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'commit-d=
+rive0', speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         result =3D self.vm.qmp('block-job-complete', device=3D'commit-dr=
+ive0')
+         self.assert_qmp(result, 'return', {})
+=20
+@@ -321,13 +334,18 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_no_active_block_jobs()
+=20
+         # Commit from node2 into node0
+-        result =3D self.vm.qmp('block-commit', device=3D'drive0', top=3D=
+self.imgs[2], base=3Dself.imgs[0])
++        result =3D self.vm.qmp('block-commit', device=3D'drive0',
++                             top=3Dself.imgs[2], base=3Dself.imgs[0],
++                             speed=3D1024*1024)
+         self.assert_qmp(result, 'return', {})
+=20
+         # Stream from node2 into node4
+         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
+de=3D'node2', job_id=3D'node4')
+         self.assert_qmp(result, 'error/class', 'GenericError')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
+ speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         self.wait_until_completed()
+         self.assert_no_active_block_jobs()
+=20
+@@ -378,6 +396,10 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
+self.imgs[5], speed=3D1024*1024)
+         self.assert_qmp(result, 'return', {})
+=20
++        for job in ['drive0', 'node4']:
++            result =3D self.vm.qmp('block-job-set-speed', device=3Djob, =
+speed=3D0)
++            self.assert_qmp(result, 'return', {})
++
+         # Wait for all jobs to be finished.
+         pending_jobs =3D ['node4', 'drive0']
+         while len(pending_jobs) > 0:
 --=20
 2.21.0
 
