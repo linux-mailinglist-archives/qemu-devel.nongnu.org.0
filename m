@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2882C690F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:25:53 +0200 (CEST)
-Received: from localhost ([::1]:39351 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C901E6912B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:27:15 +0200 (CEST)
+Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1vM-0006uz-4X
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33050)
+	id 1hn1wh-0002EW-2Q
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33629)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hn1u1-0001Q8-Ro
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:31 -0400
+ (envelope-from <james.morse@arm.com>) id 1hn1wK-00010x-Jn
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:26:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hn1u0-0002kx-H4
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55763)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hn1tz-0002jp-4w
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:27 -0400
-Received: by mail-wm1-x343.google.com with SMTP id a15so15381822wmj.5
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 07:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=LJ1SW2CapLq3j+AoEDMffiAbDzz/4kxGKSB9DHSXD4U=;
- b=Jy5tU6nOyD6xMQcf/n27+FIqtjUo6iuk5j/NaXM9M6ULiQAm5rhH/hVwwO7XGhQ4Jq
- 0gE/A20Pu65gbPxeNx+FPISzXDHEP0MzQF8gfZ4FdgVBSfGloBX7WaLzBzo61kQItLf7
- JZrI3k0jU9ZP06wSLeg7DwIJ9gHpz0wGHzG9WSlzKRyCNQ9MGnWVXNs+RGNrNXbkZwC1
- LqGsJUd7TGLD/Sfl+rJqTSrRYcV1qNHAxgVDwcAKR3v7pEjqBmv2L454alajKHVgz94I
- 2/zcxuXYg8CTmZMKgtScOotRwM7XeIe9tWMGIJBG16D4eDNfaImgRdoSPq6Hl7DFOgJo
- npSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=LJ1SW2CapLq3j+AoEDMffiAbDzz/4kxGKSB9DHSXD4U=;
- b=ZqDt/6ihvZQ0mK5iVxw+o1ipowRh9jTE4WmBR/GEpc35SgsL6NI4wpG7Uxb5lOF6Nf
- Jl2y9QEWJPOzMNq20mg1/SNBitA7fpW/586+2AqF9DHzvPShTF79aRc4VgDsxI9411X+
- O9WcRNPUPqHqFnnD3Q+XbExBQqXDrZfXVodRz+AbpE3ehSLf21uCOvyFtaLCeCn3PXqr
- g1clFNP3NXa4GvVgs/sCXf3CvOO1gTUl7cM/Po8GY8bgnuPehZ9CiH6TZGr1zWzuLPOF
- ZP/yApQuzW5LqeILz8HywecDUADUILQaLVv18jb0ftNr1IRkNSFo2xMvIvmJII305G4j
- bwpQ==
-X-Gm-Message-State: APjAAAXngmzodY5RBK9t5pihSCVS98jwTF5IcjL4+ihwhX0TblRCb+Zr
- 44DSveHBfBmprILo0M4fKGFJ9A==
-X-Google-Smtp-Source: APXvYqyk11Kd21EOvho1iBcOh/2WqnczT1XmmuJ2aekwwdthtdWoJqTrOrR3LtTEL6vtWDp57strsA==
-X-Received: by 2002:a1c:f408:: with SMTP id z8mr19184249wma.97.1563200664401; 
- Mon, 15 Jul 2019 07:24:24 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o24sm22341164wmh.2.2019.07.15.07.24.23
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 15 Jul 2019 07:24:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 420501FF87;
- Mon, 15 Jul 2019 15:24:23 +0100 (BST)
-References: <20190713163558.13204-1-philmd@redhat.com>
- <20190713163558.13204-2-philmd@redhat.com>
-User-agent: mu4e 1.3.3; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <20190713163558.13204-2-philmd@redhat.com>
-Date: Mon, 15 Jul 2019 15:24:23 +0100
-Message-ID: <87lfwzv0iw.fsf@zen.linaroharston>
+ (envelope-from <james.morse@arm.com>) id 1hn1wJ-0003wY-3e
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:26:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:49344)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <james.morse@arm.com>)
+ id 1hn1wG-0003sw-4f; Mon, 15 Jul 2019 10:26:48 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B204E28;
+ Mon, 15 Jul 2019 07:26:45 -0700 (PDT)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E10E3F59C;
+ Mon, 15 Jul 2019 07:26:44 -0700 (PDT)
+To: Guoheyi <guoheyi@huawei.com>
+References: <1b0aa6b2-80b1-a72e-6849-7323c3b9c6bc@huawei.com>
+ <20190715134059.GJ2790@e103592.cambridge.arm.com>
+ <20190715134848.GI56232@lakrids.cambridge.arm.com>
+From: James Morse <james.morse@arm.com>
+Message-ID: <4daefb19-6c15-f82c-31e9-1ae035d45bd5@arm.com>
+Date: Mon, 15 Jul 2019 15:26:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190715134848.GI56232@lakrids.cambridge.arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH 1/3] tests/docker: Install Sphinx in the
- Debian images
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.140.110.172
+Subject: Re: [Qemu-devel] [RFC] Add virtual SDEI support in qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,117 +54,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ qemu-devel@nongnu.org, Dave Martin <Dave.Martin@arm.com>, qemu-arm@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi guys,
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 15/07/2019 14:48, Mark Rutland wrote:
+> On Mon, Jul 15, 2019 at 02:41:00PM +0100, Dave Martin wrote:
+>> On Sat, Jul 13, 2019 at 05:53:57PM +0800, Guoheyi wrote:
+>>> Do it make sense to implement virtual SDEI in qemu? So that we can have the
+>>> standard way for guest to handle NMI watchdog, RAS events and something else
+>>> which involves SDEI in a physical ARM64 machine.
 
-> Since commit 5f71eac06e the Sphinx tool is required
-> to build the rST documentation.
->
-> This fixes:
->
->  $ ./configure --enable-docs
->
->  ERROR: User requested feature docs
->         configure was not able to find it.
->         Install texinfo, Perl/perl-podlators and python-sphinx
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/docker/dockerfiles/debian-sid.docker          | 1 +
->  tests/docker/dockerfiles/debian-xtensa-cross.docker | 3 ++-
-
-These two are probably overkill - sid and xtensa are used for building
-test cases.
-
->  tests/docker/dockerfiles/debian10.docker            | 1 +
-
-Again used as a base for docker-cross targets - it can't build QEMU on
-it's own but I guess makes sense to include it here.
-
->  tests/docker/dockerfiles/debian9-mxe.docker         | 1 +
-
-debian9-mxe is derived from  qemu:debian9 so
-
->  tests/docker/dockerfiles/debian9.docker             | 1 +
-
-We only really need this one.
-
->  5 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/do=
-ckerfiles/debian-sid.docker
-> index 676941cb32..9d65c15916 100644
-> --- a/tests/docker/dockerfiles/debian-sid.docker
-> +++ b/tests/docker/dockerfiles/debian-sid.docker
-> @@ -38,4 +38,5 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          pkg-config \
->          psmisc \
->          python \
-> +        python3-sphinx \
->          texinfo || { echo "Failed to build - see debian-sid.docker notes=
-"; exit 1; }
-> diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/=
-docker/dockerfiles/debian-xtensa-cross.docker
-> index afd2ab9163..3022940e64 100644
-> --- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> @@ -18,7 +18,8 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          flex \
->          gettext \
->          git \
-> -        python-minimal
-> +        python-minimal \
-> +        python3-sphinx
->
->  ENV CPU_LIST csp dc232b dc233c
->  ENV TOOLCHAIN_RELEASE 2018.02
-> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dock=
-erfiles/debian10.docker
-> index aeeb151b52..cf57d8218f 100644
-> --- a/tests/docker/dockerfiles/debian10.docker
-> +++ b/tests/docker/dockerfiles/debian10.docker
-> @@ -27,5 +27,6 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          pkg-config \
->          psmisc \
->          python \
-> +        python3-sphinx \
->          texinfo \
->          $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut =
--d\  -f2)
-> diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/d=
-ockerfiles/debian9-mxe.docker
-> index 5bc8a6d5c3..497c198731 100644
-> --- a/tests/docker/dockerfiles/debian9-mxe.docker
-> +++ b/tests/docker/dockerfiles/debian9-mxe.docker
-> @@ -17,6 +17,7 @@ RUN apt-get update
->  RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->      apt-get install -y --no-install-recommends \
->          libpython2.7-stdlib \
-> +        python3-sphinx \
->          $(apt-get -s install -y --no-install-recommends gw32.shared-ming=
-w-w64 | egrep "^Inst mxe-x86-64-unknown-" | cut -d\  -f2)
->
->  ENV PATH $PATH:/usr/lib/mxe/usr/bin/
-> diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/docke=
-rfiles/debian9.docker
-> index 5f23a35404..52c589a7d6 100644
-> --- a/tests/docker/dockerfiles/debian9.docker
-> +++ b/tests/docker/dockerfiles/debian9.docker
-> @@ -27,5 +27,6 @@ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
->          pkg-config \
->          psmisc \
->          python \
-> +        python3-sphinx \
->          texinfo \
->          $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut =
--d\  -f2)
+I think so!
 
 
---
-Alex Benn=C3=A9e
+>>> My basic idea is like below:
+>>>
+>>> 1. Change a few lines of code in kvm to allow unhandled SMC invocations
+>>> (like SDEI) to be sent to qemu, with exit reason of KVM_EXIT_HYPERCALL, so
+>>> we don't need to add new API.
+>>
+>> So long as KVM_EXIT_HYPERCALL reports sufficient information so that
+>> userspace can identify the cause as an SMC and retrieve the SMC
+>> immediate field, this seems feasible.
+>>
+>> For its own SMCCC APIs, KVM exclusively uses HVC, so rerouting SMC to
+>> userspace shouldn't conflict.
+> 
+> Be _very_ careful here! In systems without EL3 (and without NV), SMC
+> UNDEFs rather than trapping to EL2. Given that, we shouldn't build a
+> hypervisor ABI that depends on SMC.
+> 
+> I am strongly of the opinion that (for !NV) we should always use HVC
+> here and have KVM appropriately forward calls to userspace, rather than
+> trying to use HVC/SMC to distinguish handled-by-kernel and
+> handled-by-userspace events.
+> 
+> For NV, the first guest hypervisor would use SMC to talk to KVM, all
+> else being the same.
+> 
+>> This bouncing of SMCs to userspace would need to be opt-in, otherwise
+>> old userspace would see exits that it doesn't know what to do with.
+>>
+>>> 2. qemu handles supported SDEI calls just as the spec says for what a
+>>> hypervisor should do for a guest OS.
+
+[pulled point 3 out to discuss separately]
+
+>> Something like that.
+>>
+>> Interactions between SDEI and PSCI would need some thought: for example,
+>> after PSCI_CPU_ON, the newly online cpu needs to have SDEs masked.
+>>
+>> One option (suggested to me by James Morse) would be to allow userspace
+>> to disable in the in-kernel PSCI implementation and provide its own
+>> PSCI to the guest via SMC -- in which case userspace that wants to
+>> implement SDEI would have to implement PSCI as well.
+> 
+> I think this would be the best approach, since it puts userspace in
+> charge of everything.
+> 
+> However, this interacts poorly with FW-based mitigations that we
+> implement in hyp. I suspect we'd probably need a mechanism to delegate
+> that responsibility back to the kernel, and figure out if that has any
+> interaction with thigns that got punted to userspace...
+
+This has come up before:
+https://lore.kernel.org/r/59C139D0.3040507@arm.com
+
+I agree Qemu should opt-in to this, it needs to be a feature that is enabled.
+
+I had an early version of something like this for testing SDEI before there was firmware
+available. The review feedback from Christoffer was that it should include HVC and SMC,
+their immediates, and shouldn't be tied to SMC-CC ranges.
+
+I think this should be a catch-all as Heyi describes to deliver 'unhandled SMC/HVC' to
+user-space as hypercall exits. We should include the immediate in the struct.
+
+We can allow Qemu to disable the in-kernel PSCI implementation, which would let it be done
+in user-space via this catch-all mechanism. (PSCI in user-space has come up on another
+thread recently). The in-kernel PSCI needs to be default-on for backwards compatibility.
+
+As Mark points out, the piece that's left is the 'arch workaround' stuff. We always need
+to handle these in the kernel. I don't think these should be routed-back, they should be
+un-obtainable by user-space.
+Ideally there would be a way for user-space to discover the immediate/x0 values that the
+kernel will not deliver via the catch-all. This could be done via some co-processor
+register... thing...
+
+
+
+>>> 3. For interrupts bound to hypervisor, qemu should stop injecting the IRQ to
+>>> guest through KVM, but jump to the registered event handler directly,
+>>> including context saving and restoring. Some interrupts like virtual timer
+>>> are handled by kvm directly, so we may refuse to bind such interrupts to
+>>> SDEI events.
+
+I don't think we'd ever need a physical interrupt to be delivered via Qemu as an SDEI event.
+The use-cases for this stuff mean it can be done 'higher-up'. For example, your timer is
+probably used as a watchdog. On a real system this may well be a device with an interrupt,
+but Qemu could happily emulate a watchdog using some other linux API. (e.g. SIGALRM).
+
+
+
+Thanks,
+
+James
 
