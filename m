@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CAF691D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:32:37 +0200 (CEST)
-Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658BA6918B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:30:33 +0200 (CEST)
+Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn21s-0007md-Be
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34587)
+	id 1hn1zr-0008LA-VC
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:30:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34621)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hn1z7-0006EX-Mi
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:46 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hn1zC-0006ae-Pd
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hn1z6-00069y-Gg
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34164)
+ (envelope-from <mreitz@redhat.com>) id 1hn1zA-0006Bp-P9
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:29:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41780)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hn1z4-00068c-12; Mon, 15 Jul 2019 10:29:42 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hn1z8-0006Aa-DO; Mon, 15 Jul 2019 10:29:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A4513092640;
- Mon, 15 Jul 2019 14:29:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B52ABC057F2B;
+ Mon, 15 Jul 2019 14:29:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2BFB5DD6E;
- Mon, 15 Jul 2019 14:29:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F4F65F74;
+ Mon, 15 Jul 2019 14:29:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 15 Jul 2019 16:29:04 +0200
-Message-Id: <20190715142905.9078-11-mreitz@redhat.com>
+Date: Mon, 15 Jul 2019 16:29:05 +0200
+Message-Id: <20190715142905.9078-12-mreitz@redhat.com>
 In-Reply-To: <20190715142905.9078-1-mreitz@redhat.com>
 References: <20190715142905.9078-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 15 Jul 2019 14:29:41 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Mon, 15 Jul 2019 14:29:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 10/11] iotests: Add read-only test case to 030
+Subject: [Qemu-devel] [PULL 11/11] gluster: fix .bdrv_reopen_prepare when
+ backing file is a JSON object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,81 +60,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests that the stream job exits cleanly (without abort) when the
-top node is read-only and cannot be reopened read/write.
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190703172813.6868-12-mreitz@redhat.com
+When the backing_file is specified as a JSON object, the
+qemu_gluster_reopen_prepare() fails with this message:
+    invalid URI json:{"server.0.host": ...}
+
+In this case, we should call qemu_gluster_init() using the QDict
+'state->options' that contains the JSON parameters already parsed.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1542445
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-id: 20190715132844.506584-1-sgarzare@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/030     | 29 ++++++++++++++++++++++++++++-
- tests/qemu-iotests/030.out |  4 ++--
- 2 files changed, 30 insertions(+), 3 deletions(-)
+ block/gluster.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index a0397072bc..1b69f318c6 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -36,7 +36,9 @@ class TestSingleDrive(iotests.QMPTestCase):
-         qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%=
-s' % mid_img, test_img)
-         qemu_io('-f', 'raw', '-c', 'write -P 0x1 0 512', backing_img)
-         qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0x1 524288 512', m=
-id_img)
--        self.vm =3D iotests.VM().add_drive("blkdebug::" + test_img, "bac=
-king.node-name=3Dmid")
-+        self.vm =3D iotests.VM().add_drive("blkdebug::" + test_img,
-+                                         "backing.node-name=3Dmid," +
-+                                         "backing.backing.node-name=3Dba=
-se")
-         self.vm.launch()
-=20
-     def tearDown(self):
-@@ -151,6 +153,31 @@ class TestSingleDrive(iotests.QMPTestCase):
-         result =3D self.vm.qmp('block-stream', device=3D'mid')
-         self.assert_qmp(result, 'error/desc', "Invalid job ID ''")
-=20
-+    def test_read_only(self):
-+        # Create a new file that we can attach (we need a read-only top)
-+        with iotests.FilePath('ro-top.img') as ro_top_path:
-+            qemu_img('create', '-f', iotests.imgfmt, ro_top_path,
-+                     str(self.image_len))
+diff --git a/block/gluster.c b/block/gluster.c
+index 62f8ff2147..f64dc5b01e 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -931,7 +931,17 @@ static int qemu_gluster_reopen_prepare(BDRVReopenSta=
+te *state,
+     gconf->has_debug =3D true;
+     gconf->logfile =3D g_strdup(s->logfile);
+     gconf->has_logfile =3D true;
+-    reop_s->glfs =3D qemu_gluster_init(gconf, state->bs->filename, NULL,=
+ errp);
 +
-+            result =3D self.vm.qmp('blockdev-add',
-+                                 node_name=3D'ro-top',
-+                                 driver=3Diotests.imgfmt,
-+                                 read_only=3DTrue,
-+                                 file=3D{
-+                                     'driver': 'file',
-+                                     'filename': ro_top_path,
-+                                     'read-only': True
-+                                 },
-+                                 backing=3D'mid')
-+            self.assert_qmp(result, 'return', {})
-+
-+            result =3D self.vm.qmp('block-stream', job_id=3D'stream',
-+                                 device=3D'ro-top', base_node=3D'base')
-+            self.assert_qmp(result, 'error/desc', 'Block node is read-on=
-ly')
-+
-+            result =3D self.vm.qmp('blockdev-del', node_name=3D'ro-top')
-+            self.assert_qmp(result, 'return', {})
-+
-=20
- class TestParallelOps(iotests.QMPTestCase):
-     num_ops =3D 4 # Number of parallel block-stream operations
-diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-index 5eb508de07..6d9bee1a4b 100644
---- a/tests/qemu-iotests/030.out
-+++ b/tests/qemu-iotests/030.out
-@@ -1,5 +1,5 @@
--..........................
-+...........................
- ----------------------------------------------------------------------
--Ran 26 tests
-+Ran 27 tests
-=20
- OK
++    /*
++     * If 'state->bs->exact_filename' is empty, 'state->options' should =
+contain
++     * the JSON parameters already parsed.
++     */
++    if (state->bs->exact_filename[0] !=3D '\0') {
++        reop_s->glfs =3D qemu_gluster_init(gconf, state->bs->exact_filen=
+ame, NULL,
++                                         errp);
++    } else {
++        reop_s->glfs =3D qemu_gluster_init(gconf, NULL, state->options, =
+errp);
++    }
+     if (reop_s->glfs =3D=3D NULL) {
+         ret =3D -errno;
+         goto exit;
 --=20
 2.21.0
 
