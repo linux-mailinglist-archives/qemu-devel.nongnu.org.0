@@ -2,44 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA035690D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:25:27 +0200 (CEST)
-Received: from localhost ([::1]:39335 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD764690A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:23:32 +0200 (CEST)
+Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1uw-0004mX-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32909)
+	id 1hn1t5-0005MX-NA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1ti-0008SX-In
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:11 -0400
+ (envelope-from <borntraeger@de.ibm.com>) id 1hn1sr-0004va-QA
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:23:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1tg-0002ZH-S1
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:10 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36913 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hn1tg-0002YJ-FR
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:08 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 818691A209C;
- Mon, 15 Jul 2019 16:23:02 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
- [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 3C3891A2096;
- Mon, 15 Jul 2019 16:23:02 +0200 (CEST)
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 16:22:54 +0200
-Message-Id: <1563200574-11098-9-git-send-email-stefan.brankovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v5 8/8] target/ppc: Refactor emulation of
- vmrgew and vmrgow instructions
+ (envelope-from <borntraeger@de.ibm.com>) id 1hn1sq-0001rL-Qw
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:23:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34692)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+ id 1hn1sq-0001pK-G7
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:23:16 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6FEMLgf009718
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 10:23:12 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2trt5p506w-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 10:23:12 -0400
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+ Mon, 15 Jul 2019 15:23:10 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 15 Jul 2019 15:23:07 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x6FEN5ew34275600
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 15 Jul 2019 14:23:05 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F74CA4065;
+ Mon, 15 Jul 2019 14:23:05 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6D782A4054;
+ Mon, 15 Jul 2019 14:23:05 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 15 Jul 2019 14:23:05 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 2F3F4E02FA; Mon, 15 Jul 2019 16:23:05 +0200 (CEST)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Date: Mon, 15 Jul 2019 16:23:01 +0200
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19071514-0016-0000-0000-00000292BC08
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071514-0017-0000-0000-000032F08833
+Message-Id: <20190715142304.215018-1-borntraeger@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-15_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=559 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907150172
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 0/3] s390x/cpumodel fixes for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,131 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefan.brankovic@rt-rk.com, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since I found this two instructions implemented with tcg, I refactored
-them so they are consistent with other similar implementations that
-I introduced in this patch.
+Some fallout of the gen15 cpu model. As this is new in 4.1
+it is still time to fixup some aspects.
 
-Also, a new dual macro GEN_VXFORM_TRANS_DUAL is added. This macro is
-used if one instruction is realized with direct translation, and second
-one with a helper.
+Christian Borntraeger (3):
+  s390x/cpumodel: remove esort from the default model
+  s390x/cpumodel: also change name of vxbeh
+  s390x/cpumodel: change internal name of vxp to make description
 
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
----
- target/ppc/translate/vmx-impl.inc.c | 66 +++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 29 deletions(-)
+ target/s390x/cpu_features_def.inc.h | 2 +-
+ target/s390x/gen-features.c         | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index e8a0fb6..6af9c73 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -350,6 +350,28 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
- }
- 
-+/*
-+ * We use this macro if one instruction is realized with direct
-+ * translation, and second one with helper.
-+ */
-+#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
-+static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-+{                                                                      \
-+    if ((Rc(ctx->opcode) == 0) &&                                      \
-+        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
-+        if (unlikely(!ctx->altivec_enabled)) {                         \
-+            gen_exception(ctx, POWERPC_EXCP_VPU);                      \
-+            return;                                                    \
-+        }                                                              \
-+        trans_##name0(ctx);                                            \
-+    } else if ((Rc(ctx->opcode) == 1) &&                               \
-+        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
-+        gen_##name1(ctx);                                              \
-+    } else {                                                           \
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
-+    }                                                                  \
-+}
-+
- /* Adds support to provide invalid mask */
- #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
-                             name1, flg1, flg2_1, inval1)                \
-@@ -431,20 +453,13 @@ GEN_VXFORM(vmrglb, 6, 4);
- GEN_VXFORM(vmrglh, 6, 5);
- GEN_VXFORM(vmrglw, 6, 6);
- 
--static void gen_vmrgew(DisasContext *ctx)
-+static void trans_vmrgew(DisasContext *ctx)
- {
--    TCGv_i64 tmp;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    tmp = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(avr, VB, true);
-     tcg_gen_shri_i64(tmp, avr, 32);
-@@ -462,21 +477,14 @@ static void gen_vmrgew(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
- }
- 
--static void gen_vmrgow(DisasContext *ctx)
-+static void trans_vmrgow(DisasContext *ctx)
- {
--    TCGv_i64 t0, t1;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(t0, VB, true);
-     get_avr64(t1, VA, true);
-@@ -1165,14 +1173,14 @@ GEN_VXFORM_ENV(vminfp, 5, 17);
- GEN_VXFORM_HETRO(vextublx, 6, 24)
- GEN_VXFORM_HETRO(vextuhlx, 6, 25)
- GEN_VXFORM_HETRO(vextuwlx, 6, 26)
--GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-+GEN_VXFORM_TRANS_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwlx, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
- GEN_VXFORM_TRANS(lvsl, 6, 31)
- GEN_VXFORM_TRANS(lvsr, 6, 32)
--GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-+GEN_VXFORM_TRANS_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
- 
- #define GEN_VXRFORM1(opname, name, str, opc2, opc3)                     \
 -- 
-2.7.4
+2.21.0
 
 
