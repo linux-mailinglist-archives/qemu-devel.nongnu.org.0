@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945FC68BC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 15:43:48 +0200 (CEST)
-Received: from localhost ([::1]:38744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A3C68BBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 15:43:46 +0200 (CEST)
+Received: from localhost ([::1]:38740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1Gd-0004bt-FL
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 09:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
+	id 1hn1Gb-0004N9-9J
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 09:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51787)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hn1FG-0007sT-VL
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:24 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hn1FG-0007sU-VV
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hn1FF-0006Ap-8r
+ (envelope-from <peter.maydell@linaro.org>) id 1hn1FF-0006BH-NU
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:22 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36202)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39297)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hn1FF-00069c-2T
+ id 1hn1FF-00069z-Gr
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 09:42:21 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id g67so11155196wme.1
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 06:42:20 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id x4so17141142wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 06:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lHOw/lFmFh4DCBqEH/SEFyeXO8oWbfUPsK1BSik9p+k=;
- b=EyNgZrxGyFWbJv274Z/DHUUe6esAV/mM5X262HZ6Uzw653STIvLUSsyJshnK9MAylp
- OXkwdXS0AfBgNTST1TSD/of004/rpC+QNaJ0Dt1TpAn9aqB+xu6tYpw80ApiAD3dkxRs
- MCU1K07ssWn5MTsG97DTr7DN7zRU6HbG98wXXLKHzDZH4rwomxzUjIRTiGDAcOFHTajz
- XQDfMxLk56zgjjtadbgatETYut880FehZZFSFkcLdAOMkG7oyc2AQDciHoCh+pGT3u/t
- fhTlIyTsipKFwyQ4VLC4avxKpn1HRBiH2C13ZyLkGrlETdISAYpkT54WsLErWizKPxH0
- D2ww==
+ bh=Lkg7H1NRSw1xymZWFmnKrvzweUJjE5TzOTqnyXYm+p0=;
+ b=beAAmzYmHgMu4mw9foyEgPO/LTAocGSdXuDkBTbB2NcOTLZuK0k6hnfAFO/+3vdmZy
+ W/kGAg/CktB/772KsVN4pXD9/bQuvTX+gbPMA6HNpyd65sbQ9sQp3UO3yTz/g95DVZXL
+ WKytwXYSPqbogTs0Z0T2wEGKME8nRDL5b6TwYcrdx13pL9HYm2OnUs1Qotq4Oji9FLOL
+ 4QQPomFiGijzU3LEAD9C0PxOhg+X37PTZpITqJxUk/J/rVAjk16ohjGmvxMHt+MOJSgw
+ Sy4j5v98ZnDVpT6wKvgYJZ1OPLc9bBn2jbT/dC5/lLM+7l2yM2QqD3NUR+B4ciM8W9NX
+ LDGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lHOw/lFmFh4DCBqEH/SEFyeXO8oWbfUPsK1BSik9p+k=;
- b=e3v92ymIeRxAkc4VzutcoyBsBxCV6a5uYnprZEIBFyNvrTUHC3b1XUPQPgDV43MW9/
- JcJDI2DEvXRRh24LYY1vQGkpUPzuaLgD6WQQ2Fb0yfNjXkACBdJD8XoRz9eG4gaw9Pde
- Cie706XBYAhUEjviIPL4ci67VVnEql0XvXe8lCbRpyh9AMiPG6GqT9qwS4PxvyYA0gvQ
- GqdTeptJon7nF1vBQDnln67sC70y7kgCJUINm18tOhKMoLgaZn2jFzXBN6kkOc8bTxpL
- yA5mmVulvm0S7BXiqIf1iCLK/HGn+M7BLrM2z4ySIiPeZ3NjTnLtPMAQfHFXx51IrZgN
- Px1A==
-X-Gm-Message-State: APjAAAViPamRo2IDScnmnU00hxk+zBltsVdbeCRm9TD80YSxwyBI53Mt
- fF7RI7QLdAXREd67e+f2LHzG3UqKfFk1OA==
-X-Google-Smtp-Source: APXvYqy2OuV9w/c+f5kAHvBgI2Dh1XMZBPEVkoLPUVzGeen12hcG7lbiWsG1eF1PFLbS5eFhnqXvag==
-X-Received: by 2002:a1c:c542:: with SMTP id v63mr24181312wmf.97.1563198138969; 
- Mon, 15 Jul 2019 06:42:18 -0700 (PDT)
+ bh=Lkg7H1NRSw1xymZWFmnKrvzweUJjE5TzOTqnyXYm+p0=;
+ b=iSA8T1xkahG1Ht5rFa+UVIxpz123sl2T+X3/jCnLZy590B9ao8avy1KrQBxS9vZUDE
+ kBURyuPr8yC08fSdPXP9ZuauWWPEjy7f+SWuJQxoc3Zw6Jz94DxyObF9dQYe3cZmxOG5
+ Wh8PS9kHIUFxmbIEAuNOd2VVKq9dZylv6AFeNxa9zZKwUDBAJkZGxOoA8mpsxwLSL5XJ
+ 9CJzfp0ElT684OzCo87KgjqbBo3Jsh6VLfDqCMtubgG5CkPASHV8upwy5ehFUj8RcuLg
+ CfRNC0n7iUN9GLpvfMKfa0j5ov946LaMgp6/y6LRlCuHmJHVfr1Xw+CM5QO0tty2Nivs
+ OIQg==
+X-Gm-Message-State: APjAAAULJJHYOXOgw3TMrnP1wHQCpTX0swA+7GRnCnn2S3n1ajzsJT6I
+ 8In5KACVFxQGVcqgnEXH2FlNnwOvtte/oQ==
+X-Google-Smtp-Source: APXvYqyiu+KISngMkfNELdbRmmyVoYuPkMAg+WC4Xcas2ZY1g7OTuHHAX0OkQn2yotys+XdYAOd6ZQ==
+X-Received: by 2002:adf:f646:: with SMTP id x6mr31177839wrp.18.1563198139863; 
+ Mon, 15 Jul 2019 06:42:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c7sm14221808wro.70.2019.07.15.06.42.18
+ by smtp.gmail.com with ESMTPSA id c7sm14221808wro.70.2019.07.15.06.42.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 15 Jul 2019 06:42:18 -0700 (PDT)
+ Mon, 15 Jul 2019 06:42:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 14:42:07 +0100
-Message-Id: <20190715134211.23063-7-peter.maydell@linaro.org>
+Date: Mon, 15 Jul 2019 14:42:08 +0100
+Message-Id: <20190715134211.23063-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190715134211.23063-1-peter.maydell@linaro.org>
 References: <20190715134211.23063-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
-Subject: [Qemu-devel] [PULL 06/10] hw/display/xlnx_dp: Avoid crash when
- reading empty RX FIFO
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [PULL 07/10] hw/arm/virt: Fix non-secure flash mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,74 +81,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: David Engraf <david.engraf@sysgo.com>
 
-In the previous commit we fixed a crash when the guest read a
-register that pop from an empty FIFO.
-By auditing the repository, we found another similar use with
-an easy way to reproduce:
+Using the whole 128 MiB flash in non-secure mode is not working because
+virt_flash_fdt() expects the same address for secure_sysmem and sysmem.
+This is not correctly handled by caller because it forwards NULL for
+secure_sysmem in non-secure flash mode.
 
-  $ qemu-system-aarch64 -M xlnx-zcu102 -monitor stdio -S
-  QEMU 4.0.50 monitor - type 'help' for more information
-  (qemu) xp/b 0xfd4a0134
-  Aborted (core dumped)
+Fixed by using sysmem when secure_sysmem is NULL.
 
-  (gdb) bt
-  #0  0x00007f6936dea57f in raise () at /lib64/libc.so.6
-  #1  0x00007f6936dd4895 in abort () at /lib64/libc.so.6
-  #2  0x0000561ad32975ec in xlnx_dp_aux_pop_rx_fifo (s=0x7f692babee70) at hw/display/xlnx_dp.c:431
-  #3  0x0000561ad3297dc0 in xlnx_dp_read (opaque=0x7f692babee70, offset=77, size=4) at hw/display/xlnx_dp.c:667
-  #4  0x0000561ad321b896 in memory_region_read_accessor (mr=0x7f692babf620, addr=308, value=0x7ffe05c1db88, size=4, shift=0, mask=4294967295, attrs=...) at memory.c:439
-  #5  0x0000561ad321bd70 in access_with_adjusted_size (addr=308, value=0x7ffe05c1db88, size=1, access_size_min=4, access_size_max=4, access_fn=0x561ad321b858 <memory_region_read_accessor>, mr=0x7f692babf620, attrs=...) at memory.c:569
-  #6  0x0000561ad321e9d5 in memory_region_dispatch_read1 (mr=0x7f692babf620, addr=308, pval=0x7ffe05c1db88, size=1, attrs=...) at memory.c:1420
-  #7  0x0000561ad321ea9d in memory_region_dispatch_read (mr=0x7f692babf620, addr=308, pval=0x7ffe05c1db88, size=1, attrs=...) at memory.c:1447
-  #8  0x0000561ad31bd742 in flatview_read_continue (fv=0x561ad69c04f0, addr=4249485620, attrs=..., buf=0x7ffe05c1dcf0 "\020\335\301\005\376\177", len=1, addr1=308, l=1, mr=0x7f692babf620) at exec.c:3385
-  #9  0x0000561ad31bd895 in flatview_read (fv=0x561ad69c04f0, addr=4249485620, attrs=..., buf=0x7ffe05c1dcf0 "\020\335\301\005\376\177", len=1) at exec.c:3423
-  #10 0x0000561ad31bd90b in address_space_read_full (as=0x561ad5bb3020, addr=4249485620, attrs=..., buf=0x7ffe05c1dcf0 "\020\335\301\005\376\177", len=1) at exec.c:3436
-  #11 0x0000561ad33b1c42 in address_space_read (len=1, buf=0x7ffe05c1dcf0 "\020\335\301\005\376\177", attrs=..., addr=4249485620, as=0x561ad5bb3020) at include/exec/memory.h:2131
-  #12 0x0000561ad33b1c42 in memory_dump (mon=0x561ad59c4530, count=1, format=120, wsize=1, addr=4249485620, is_physical=1) at monitor/misc.c:723
-  #13 0x0000561ad33b1fc1 in hmp_physical_memory_dump (mon=0x561ad59c4530, qdict=0x561ad6c6fd00) at monitor/misc.c:795
-  #14 0x0000561ad37b4a9f in handle_hmp_command (mon=0x561ad59c4530, cmdline=0x561ad59d0f22 "/b 0x00000000fd4a0134") at monitor/hmp.c:1082
-
-Fix by checking the FIFO is not empty before popping from it.
-
-The datasheet is not clear about the reset value of this register,
-we choose to return '0'.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20190709113715.7761-4-philmd@redhat.com
+Signed-off-by: David Engraf <david.engraf@sysgo.com>
+Message-id: 20190712075002.14326-1-david.engraf@sysgo.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/xlnx_dp.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/arm/virt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index cfd4c700b7f..cc5b650df0c 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -427,11 +427,18 @@ static uint8_t xlnx_dp_aux_pop_rx_fifo(XlnxDPState *s)
-     uint8_t ret;
- 
-     if (fifo8_is_empty(&s->rx_fifo)) {
--        DPRINTF("rx_fifo underflow..\n");
--        abort();
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Reading empty RX_FIFO\n",
-+                      __func__);
-+        /*
-+         * The datasheet is not clear about the reset value, it seems
-+         * to be unspecified. We choose to return '0'.
-+         */
-+        ret = 0;
-+    } else {
-+        ret = fifo8_pop(&s->rx_fifo);
-+        DPRINTF("pop 0x%" PRIX8 " from rx_fifo.\n", ret);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 0b5138cb22c..d9496c93634 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1674,7 +1674,7 @@ static void machvirt_init(MachineState *machine)
+                                     &machine->device_memory->mr);
      }
--    ret = fifo8_pop(&s->rx_fifo);
--    DPRINTF("pop 0x%" PRIX8 " from rx_fifo.\n", ret);
-     return ret;
- }
+ 
+-    virt_flash_fdt(vms, sysmem, secure_sysmem);
++    virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
+     create_gic(vms, pic);
  
 -- 
 2.20.1
