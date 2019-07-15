@@ -2,60 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87A96903E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:21:34 +0200 (CEST)
-Received: from localhost ([::1]:39246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF900690CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 16:24:44 +0200 (CEST)
+Received: from localhost ([::1]:39309 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn1rA-0003ez-96
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:21:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60415)
+	id 1hn1uF-0001F0-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 10:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32832)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hn1qo-0002mb-Ae
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:21:11 -0400
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1tg-0008KA-Bs
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hn1qm-0000j0-64
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:21:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46282)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hn1ql-0000hM-VI
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:21:08 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hn1qh-0002Zj-Rh
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:21:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D536E2E80E9
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:20:58 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jul 2019 14:15:28 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hn1tf-0002XL-AX
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:08 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:34274 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
+ id 1hn1tf-0001jG-3u
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 10:24:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 00AE11A2095;
+ Mon, 15 Jul 2019 16:23:02 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
+ [10.10.13.132])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C2BFC1A2072;
+ Mon, 15 Jul 2019 16:23:01 +0200 (CEST)
+From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-bennee scherft
-X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
-References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156320012839.28282.2207567239635008696.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 42bfaca6c233a0a921551578e55a8ffe519a3356
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
+Date: Mon, 15 Jul 2019 16:22:46 +0200
+Message-Id: <1563200574-11098-1-git-send-email-stefan.brankovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v5 0/8] target/ppc: Optimize emulation of some
+ Altivec instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,90 +49,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
+Cc: stefan.brankovic@rt-rk.com, richard.henderson@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forgive my ignorance of the C++ threading semantics but when do these
-threads end? Inspection shows we do clear-up CPU and thread structures
-on exit. That said we do have a comment in linux-user that says:
+Optimize emulation of ten Altivec instructions: lvsl, lvsr, vsl, vsr, vpkpx,
+vgbbd, vclzb, vclzh, vclzw and vclzd.
 
-    /* TODO: Free new CPU state if thread creation failed.  */
+This series buils up on and complements recent work of Thomas Murta, Mark
+Cave-Ayland and Richard Henderson in the same area. It is based on devising TCG
+translation implementation for selected instructions rather than using helpers.
+The selected instructions are most of the time idiosyncratic to ppc platform,
+so relatively complex TCG translation (without direct mapping to host
+instruction that is not possible in these cases) seems to be the best option,
+and that approach is presented in this series. The performance improvements
+are significant in all cases.
 
-So I wonder if thread creation is actually failing and and that is where
-we start leaking?
+V5:
 
-** Tags added: linux-user
+Fixed vpkpx bug and added it back in patch.
+Fixed graphical distortions on OSX 10.3 and 10.4.
+Removed conversion of vmrgh and vmrgl instructions to vector operations for
+further investigation.
 
--- =
+V4:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836558
+Addressed Richard's Henderson's suggestions.
+Removed vpkpx's optimization for further investigation on graphical distortions
+it caused on OSX 10.2-4 guests.
+Added opcodes for vector vmrgh(b|h|w) and vmrgl(b|h|w) in tcg.
+Implemented vector vmrgh and vmrgl instructions for i386.
+Converted vmrgh and vmrgl instructions to vector operations.
 
-Title:
-  Qemu-ppc Memory leak creating threads
+V3:
 
-Status in QEMU:
-  New
+Fixed problem during build.
 
-Bug description:
-  When creating c++ threads (with c++ std::thread), the resulting binary
-  has memory leaks when running with qemu-ppc.
+V2:
 
-  Eg the following c++ program, when compiled with gcc, consumes more
-  and more memory while running at qemu-ppc. (does not have memory leaks
-  when compiling for Intel, when running same binary on real powerpc CPU
-  hardware also no memory leaks).
+Addressed Richard's Henderson's suggestions.
+Fixed problem during build on patch 2/8.
+Rebased series to the latest qemu code.
 
-  (Note I used function getCurrentRSS to show available memory, see
-  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
-  runtime-using-c; calls commented out here)
+Stefan Brankovic (8):
+  target/ppc: Optimize emulation of lvsl and lvsr instructions
+  target/ppc: Optimize emulation of vsl and vsr instructions
+  target/ppc: Optimize emulation of vpkpx instruction
+  target/ppc: Optimize emulation of vgbbd instruction
+  target/ppc: Optimize emulation of vclzd instruction
+  target/ppc: Optimize emulation of vclzw instruction
+  target/ppc: Optimize emulation of vclzh and vclzb instructions
+  target/ppc: Refactor emulation of vmrgew and vmrgow instructions
 
-  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
-with older g++ compilers even 4.9)
-  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
-  qemu: qemu-ppc version 3.1.50
+ target/ppc/helper.h                 |  10 -
+ target/ppc/int_helper.c             | 365 --------------------
+ target/ppc/translate/vmx-impl.inc.c | 656 ++++++++++++++++++++++++++++++++----
+ 3 files changed, 587 insertions(+), 444 deletions(-)
 
+-- 
+2.7.4
 
-  ---
-
-  #include <iostream>
-  #include <thread>
-  #include <chrono>
-
-  =
-
-  using namespace std::chrono_literals;
-
-  // Create/run and join a 100 threads.
-  void Fun100()
-  {
-  //    auto b4 =3D getCurrentRSS();
-  //    std::cout << getCurrentRSS() << std::endl;
-      for(int n =3D 0; n < 100; n++)
-      {
-          std::thread t([]
-          {
-              std::this_thread::sleep_for( 10ms );
-          });
-  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
-          t.join();
-      }
-      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
- memory...
-  //    auto after =3D getCurrentRSS();
-      std::cout << b4 << ' ' << after << std::endl;
-  }
-
-  =
-
-  int main(int, char **)
-  {
-      Fun100();
-      Fun100();  // memory used keeps increasing
-  }
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
