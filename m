@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915AA698D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:07:20 +0200 (CEST)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BCD698DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:08:33 +0200 (CEST)
+Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn3VX-0007lo-AM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56653)
+	id 1hn3Wi-0000Sx-QF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hn3VF-0007BV-1j
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:07:04 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hn3WR-0008VS-Un
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:08:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hn3VB-0008Mk-Ku
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:07:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:52186)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hn3WO-0000QL-GF
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:08:15 -0400
+Received: from relay.sw.ru ([185.231.240.75]:52368)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hn3VB-0008LJ-4Q
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:06:57 -0400
+ id 1hn3WO-0000Pv-4e; Mon, 15 Jul 2019 12:08:12 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hn3V7-0003GL-Pv; Mon, 15 Jul 2019 19:06:53 +0300
+ id 1hn3WL-0003Hq-UX; Mon, 15 Jul 2019 19:08:10 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
-	andrey.shinkevich@virtuozzo.com
-Date: Mon, 15 Jul 2019 19:06:44 +0300
-Message-Id: <1563206804-396512-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+	qemu-block@nongnu.org
+Date: Mon, 15 Jul 2019 19:07:59 +0300
+Message-Id: <1563206879-396579-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
@@ -46,6 +45,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
