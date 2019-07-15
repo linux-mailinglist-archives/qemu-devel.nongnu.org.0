@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A7C685DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 11:01:05 +0200 (CEST)
-Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12EB685D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 11:00:26 +0200 (CEST)
+Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmwr3-00086J-1C
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 05:01:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45023)
+	id 1hmwqP-0007ED-P9
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 05:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hmwqn-0007hq-R5
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:50 -0400
+ (envelope-from <philmd@redhat.com>) id 1hmwq7-0006ZL-KL
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hmwqm-0005wL-21
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59672)
+ (envelope-from <philmd@redhat.com>) id 1hmwq6-0005R8-Bz
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:07 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36503)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hmwql-0005vU-Rt
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hmwqk-0006UF-6P
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 09:00:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 13B412E80C8
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 09:00:46 +0000 (UTC)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hmwq6-0005Nc-1M
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:00:06 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n4so16206376wrs.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 02:00:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h04AUmzXzsMNQ+8jBBE3QW+zFoi7B7raryiOrieWp4w=;
+ b=Q3jPAAkA0cruMQh47u9GK0ExvMCjgYhS5nXCzUfkFsGQ+oUHsHIY+Li1WztqCsXbIX
+ tIv7oyeH2pU3ycquNT8OQvChy0Ngq6aFO5KorZm1AS3RI0+YqJ663Vm5TZnmDW1N5ysu
+ 0C5U4txcf7SDwkejENOu9wF4jTHcEa4yZwKB8Eid429AzU7P0k1NLY/pPE0c09gy9Ct4
+ 5FC4dWT+xPK5hS8HhkmTyEp9SuGdCwOvmJkHQdy3fieWjFy/UrUM1xUJ2mw4a1TnaYN6
+ ZIkho+zD2+dtJ4O7QXqLQsJVMVLk9BFbgb3SG7pUW5B6aF3Jpuhpa3o3WJdiOQYUKMun
+ 9ruQ==
+X-Gm-Message-State: APjAAAUqzxQtbxwRsKOTdt+lb7mS9egJiM8NwJedsbvoAk9+4KV+ACy0
+ J4plcEHzSsuLPdvOkJBKGw7SBA==
+X-Google-Smtp-Source: APXvYqxTHfcrajpRwnXQajjRr/I4jBBMZh8MfCusOOGSfXTfQJMkgOTrepZQW1FxCWoo0EEBBd6nlA==
+X-Received: by 2002:a5d:53ca:: with SMTP id a10mr28228432wrw.131.1563181203293; 
+ Mon, 15 Jul 2019 02:00:03 -0700 (PDT)
+Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id s15sm3058393wrw.21.2019.07.15.02.00.02
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Jul 2019 02:00:02 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190715055736.15214-1-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d13965c7-f0cf-4b53-3388-8ce0a26d206d@redhat.com>
+Date: Mon, 15 Jul 2019 11:00:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jul 2019 08:53:00 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1836537@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <156318078057.16506.13413250654919589949.malonedeb@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19007";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1d6173192a013015ce59b8716bf6a5f02ed59f37
+In-Reply-To: <20190715055736.15214-1-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836537] [NEW] Kconfig-related options not shown
- in ./configure --help
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH for-4.1 0/2] qemu-doc build fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,47 +73,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836537 <1836537@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 7/15/19 7:57 AM, Markus Armbruster wrote:
+> Markus Armbruster (2):
+>   Makefile: Fix missing dependency of on qemu-tech.texi
+>   qemu-tech: Fix dangling @menu entries
+> 
+>  Makefile       | 3 ++-
+>  qemu-tech.texi | 3 ---
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 
-tag: v4.1.0-rc0
+Series:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I notice these options not documented by '--help':
-
-  --with-default-devices) default_devices=3D"yes"
-  --without-default-devices) default_devices=3D"no"
-
-We might have other options not documented too.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836537
-
-Title:
-  Kconfig-related options not shown in ./configure --help
-
-Status in QEMU:
-  New
-
-Bug description:
-  tag: v4.1.0-rc0
-
-  I notice these options not documented by '--help':
-
-    --with-default-devices) default_devices=3D"yes"
-    --without-default-devices) default_devices=3D"no"
-
-  We might have other options not documented too.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836537/+subscriptions
+Thanks!
 
