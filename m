@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA99769D61
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 23:11:10 +0200 (CEST)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0758269D5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 23:10:31 +0200 (CEST)
+Received: from localhost ([::1]:43826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn8FY-00023x-7d
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 17:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42285)
+	id 1hn8Ev-0007Bx-HM
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 17:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42292)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hn8D0-0008Hx-4B
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hn8D1-0008N5-7H
  for qemu-devel@nongnu.org; Mon, 15 Jul 2019 17:08:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1hn8Cy-0004mI-Q9
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 17:08:30 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53615)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1hn8Cz-0004mV-5U
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 17:08:31 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45085)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1hn8Cy-0004lV-Ja
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 17:08:28 -0400
-Received: by mail-wm1-x342.google.com with SMTP id x15so16554856wmj.3
+ id 1hn8Cy-0004m1-Ve
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 17:08:29 -0400
+Received: by mail-wr1-x442.google.com with SMTP id f9so18541119wre.12
  for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 14:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6OHafAEHZIuHozFrMT2v5DQsOPGlwWydb4OAeYtBXa8=;
- b=OwTg1hnSJRfvCPPeCtlJresK7A6FwCjI5zEHFdSG6iMhNApq2Cdv+59vZUePTWl4dD
- T70w5ArkzdTs0ruBUWZZQ/ShRTTBMR2W/REDIJ3EI4w++Cbv3ELxov8+T0C9UmLDTa6I
- V8E5N5rIpmiHf4KI72nSU90PCJB+7ydLzlQS5Y3dcUV6fnkE0yoGK6uWT6hHwch3jP3s
- dSQWfdCvvLZNy0Z+uQspjbRmVBIUsSb7FpZscWt7sj9H/Vt4mTeU4b960A+jyEfl0DJ1
- kNaUauBRGEuoQ+yKaAQMsjOfFVwGT/Okzwkc1dTqY2CLaRZw3ZRtTGKDC/4K6JWRkSAh
- DGDA==
+ bh=KkJvtrc3QrV2I7WYyibxflgUNfu3hfn3RhzurnFS0ws=;
+ b=GDs0Qpy48j+fWFjAOJq+Z+M3HF7RS/rQA/oUG0yDaLj8EiQuEI+YFLt7FVFdejdCms
+ MaMnELG75Nhtd6puW7yTjRQyb2qOOsLwrPM/hACfhVHd/h2AZXhKOG+pLA97ppxJbf3/
+ QQzwG7yxJFwyzRQMStIMJcoo1RRl9eyt44CZNE0GoyvOhfoeq5d8xF3o3VLbWPHcpLOh
+ YvKr6jtZUiz1vHjZ4LSYWBqvF6maSYU0Wylhx/dRDqbejFYexi40g3mL+J33QVYQMnOS
+ Gu42scSW5E7iUzMDzMQjDPloVkAain9CRaefdfFxVNV1o6VZSEvSqWh/JvIX82Mfuc3D
+ TBCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6OHafAEHZIuHozFrMT2v5DQsOPGlwWydb4OAeYtBXa8=;
- b=EkiGFgGbZcwXSZ52LTuwzRf1eReiT83FSefCpGctVUvFt6QxH2SfCCRBiW8EnICvtY
- AnUXCM395reErPcCki+k57Vj2y/un5TPbvrAiapcKhgdzpMs5RNlbGbKAZUl5PXQoDkO
- TGHJIh2b9Yx543gCJmDu6lPXni+NNhZTHqiYwkadOXFUeBSRF2yw2OVya7HH9m9Wx/Dk
- 8sNZ/ofjnk47+AXBBij7J6S06cAmJVTQRHYrFUZ8VYFiB1UXbJkQPrB+G9B87wLDzZBd
- /T0l41bwwkTIHm52UTHmgiCVY3naNGPe+ebIkYJw1n4QKpMeKFNRwxckugBB+H4Iazzj
- h1yw==
-X-Gm-Message-State: APjAAAX7cMJKVGy50RxzAh89RFKjrhTJoNVUtA+yn/Mux5ojaXRrD24L
- EJkhu+CpSvP69iVAxx2pF/5+93kt
-X-Google-Smtp-Source: APXvYqz5jTqXC5d0MHPzTkiqUZDjTOATOSYkDWPGU6o8CS4TFFJebGQgKprD1Sch0ykpt/vHVN7gIw==
-X-Received: by 2002:a1c:a1c1:: with SMTP id k184mr26997361wme.81.1563224907308; 
+ bh=KkJvtrc3QrV2I7WYyibxflgUNfu3hfn3RhzurnFS0ws=;
+ b=ctOnGtaNqrw7zdy5pE8jrsxBMByg6F7C8TZyAaTsZJghFDWXU3adFv+icV9z17zpYK
+ nt0AjExII7QWCoQm8zbllJYvAOO281Fb196gt03+MltDIOdborarGBNh7k4yBAw5+eKF
+ LGNGlDBkMUOZ59+D3OWV22H9Ohqlg7n4bqGM4knnRJeb2MlB5u5WyGevpzyy3JKWcuaP
+ vulkVbY33/Gl7xsMwtSNLbrehAAHeWxgviNXck1p3uclUVNWILld32W0thVkTUO5ssO4
+ nUyipBUrSPd0b9/E8k6JYNYWmk8uyPjRnS4Ji3jUgo8CArt/YB75bHk9/+4yj2cbUrmF
+ SZeg==
+X-Gm-Message-State: APjAAAV/I1Mh8kB8g2wbu9+ImYInqN6w4kADj8rwvQwzSc/hEzwgoGRb
+ jOuUAW84lromcUOe/GJGlylzw/S2
+X-Google-Smtp-Source: APXvYqy8GIUMuqEr6cQ0g0AQPqxo0EKxob3kDirgMDYzaD9XCY70lK+67Ebrh/uaSJINzAGy4e38hg==
+X-Received: by 2002:adf:e28a:: with SMTP id v10mr31600071wri.178.1563224907943; 
  Mon, 15 Jul 2019 14:08:27 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-31ca-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:31ca::5])
- by smtp.gmail.com with ESMTPSA id n8sm11513447wro.89.2019.07.15.14.08.26
+ by smtp.gmail.com with ESMTPSA id n8sm11513447wro.89.2019.07.15.14.08.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jul 2019 14:08:26 -0700 (PDT)
+ Mon, 15 Jul 2019 14:08:27 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 23:08:12 +0200
-Message-Id: <7fc7c4f35e8c0ee4dcab05e70e168a62f2a8eef3.1563224628.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 15 Jul 2019 23:08:13 +0200
+Message-Id: <807236d168f1c69d19d62e4a3b0f5472fc0d7d26.1563224628.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1563224628.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1563224628.git.DirtY.iCE.hu@gmail.com>
@@ -70,9 +70,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v2 10/14] audio: do not run each backend in
- audio_run
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 11/14] paaudio: fix playback glitches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,150 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-audio_run is called manually by alsa and oss backends when polling.
-In this case only the requesting backend should be run, not all of them.
+Pulseaudio normally assumes that when the server wants it, the client
+can generate the audio samples and send it right away.  Unfortunately
+this is not the case with QEMU -- it's up to the emulated system when
+does it generate the samples.  Buffering the samples and sending them
+from a background thread is just a workaround, that doesn't work too
+well.  Instead enable pa's compatibility support and let pa worry about
+the details.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- audio/audio_int.h |  2 +-
- audio/alsaaudio.c |  7 +++++--
- audio/audio.c     | 14 +++++---------
- audio/ossaudio.c  | 12 ++++++------
- 4 files changed, 17 insertions(+), 18 deletions(-)
+ audio/paaudio.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 9f01f6ad00..7e00c1332e 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -221,7 +221,7 @@ int audio_pcm_hw_clip_out (HWVoiceOut *hw, void *pcm_buf,
- int audio_bug (const char *funcname, int cond);
- void *audio_calloc (const char *funcname, int nmemb, size_t size);
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index f3864e1d50..c8ae1a6eca 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -512,10 +512,8 @@ static pa_stream *qpa_simple_new (
  
--void audio_run (const char *msg);
-+void audio_run(AudioState *s, const char *msg);
+     flags =
+         PA_STREAM_INTERPOLATE_TIMING
+-#ifdef PA_STREAM_ADJUST_LATENCY
+-        | PA_STREAM_ADJUST_LATENCY
+-#endif
+-        | PA_STREAM_AUTO_TIMING_UPDATE;
++        | PA_STREAM_AUTO_TIMING_UPDATE
++        | PA_STREAM_EARLY_REQUESTS;
  
- #define VOICE_ENABLE 1
- #define VOICE_DISABLE 2
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 6b9e0f06af..3daa7c8f8f 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -39,6 +39,7 @@ struct pollhlp {
-     struct pollfd *pfds;
-     int count;
-     int mask;
-+    AudioState *s;
- };
- 
- typedef struct ALSAVoiceOut {
-@@ -199,11 +200,11 @@ static void alsa_poll_handler (void *opaque)
-         break;
- 
-     case SND_PCM_STATE_PREPARED:
--        audio_run ("alsa run (prepared)");
-+        audio_run(hlp->s, "alsa run (prepared)");
-         break;
- 
-     case SND_PCM_STATE_RUNNING:
--        audio_run ("alsa run (running)");
-+        audio_run(hlp->s, "alsa run (running)");
-         break;
- 
-     default:
-@@ -749,6 +750,7 @@ static int alsa_init_out(HWVoiceOut *hw, struct audsettings *as,
-         return -1;
-     }
- 
-+    alsa->pollhlp.s = hw->s;
-     alsa->handle = handle;
-     alsa->dev = dev;
-     return 0;
-@@ -850,6 +852,7 @@ static int alsa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-         return -1;
-     }
- 
-+    alsa->pollhlp.s = hw->s;
-     alsa->handle = handle;
-     alsa->dev = dev;
-     return 0;
-diff --git a/audio/audio.c b/audio/audio.c
-index cb0222ab4a..07b35ffa03 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -835,7 +835,7 @@ static void audio_timer (void *opaque)
-     }
-     s->timer_last = now;
- 
--    audio_run("timer");
-+    audio_run(s, "timer");
-     audio_reset_timer(s);
- }
- 
-@@ -1237,15 +1237,11 @@ static void audio_run_capture (AudioState *s)
-     }
- }
- 
--void audio_run (const char *msg)
-+void audio_run(AudioState *s, const char *msg)
- {
--    AudioState *s;
--
--    QTAILQ_FOREACH(s, &audio_states, list) {
--        audio_run_out(s);
--        audio_run_in(s);
--        audio_run_capture(s);
--    }
-+    audio_run_out(s);
-+    audio_run_in(s);
-+    audio_run_capture(s);
- 
- #ifdef DEBUG_POLL
-     {
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 29139ef1f5..456fba7480 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -110,28 +110,28 @@ static void oss_anal_close (int *fdp)
- 
- static void oss_helper_poll_out (void *opaque)
- {
--    (void) opaque;
--    audio_run ("oss_poll_out");
-+    AudioState *s = opaque;
-+    audio_run(s, "oss_poll_out");
- }
- 
- static void oss_helper_poll_in (void *opaque)
- {
--    (void) opaque;
--    audio_run ("oss_poll_in");
-+    AudioState *s = opaque;
-+    audio_run(s, "oss_poll_in");
- }
- 
- static void oss_poll_out (HWVoiceOut *hw)
- {
-     OSSVoiceOut *oss = (OSSVoiceOut *) hw;
- 
--    qemu_set_fd_handler (oss->fd, NULL, oss_helper_poll_out, NULL);
-+    qemu_set_fd_handler(oss->fd, NULL, oss_helper_poll_out, hw->s);
- }
- 
- static void oss_poll_in (HWVoiceIn *hw)
- {
-     OSSVoiceIn *oss = (OSSVoiceIn *) hw;
- 
--    qemu_set_fd_handler (oss->fd, oss_helper_poll_in, NULL, NULL);
-+    qemu_set_fd_handler(oss->fd, oss_helper_poll_in, NULL, hw->s);
- }
- 
- static int oss_write (SWVoiceOut *sw, void *buf, int len)
+     if (dev) {
+         /* don't move the stream if the user specified a sink/source */
 -- 
 2.22.0
 
