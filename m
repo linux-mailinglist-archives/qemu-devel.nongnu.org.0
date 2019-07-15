@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CC769953
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:45:56 +0200 (CEST)
-Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785F16996A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 18:55:56 +0200 (CEST)
+Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn46t-0001gi-KX
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36025)
+	id 1hn4GT-0005VQ-Bm
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 12:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hn46b-0001BB-Dn
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:45:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1hn4GG-00054b-Lv
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:55:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hn46Z-0006Y4-FD
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:45:37 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45524)
+ (envelope-from <bounces@canonical.com>) id 1hn4GF-0005Vq-GL
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:55:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hn46X-0006Uf-FQ
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:45:33 -0400
-Received: by mail-wr1-f65.google.com with SMTP id f9so17807827wre.12
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 09:45:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RdD9ZFMqCnEp5edOsUdwqWGGqk4Byt0NvgoZsRxRYdQ=;
- b=bBxcgARVPFvQ05PvJpJOHvyi7PNr72rVF4w2edabiGXdfFxK47ktWhSH4ScILDV3v/
- OhCKzEyrFzGLKP2ASW6fkMu8kf+IAdzyzRzQAv/cIaJN4kmRcOx6JSCe8kj90OiGaAz/
- 7tOmph+dYarPTN2nUj3eiLbsCsSC/H6zDeb2EQD3Sj6RwiN88hfRr6K+qJGE//FrPcMk
- lLqwskOIcMGO8pK/8FAG0+oxOzjJd1wq38svvdyoXR9y08xdRcDAVqUVDyJD7gLQrg2M
- nMJkdpsH/uXXWBQbUk/mbWAlyP+3RgZisIQsWa90JHbcoIT11N0t89stKzJFTIYv62a+
- 7n8Q==
-X-Gm-Message-State: APjAAAXKtq9bIsPb2c63g6dIuxG1VBI6vCFIt5sE0jlERkzzJ9+7eOfw
- 54UKipnbsmBHA3vkqi2r6HPtFg==
-X-Google-Smtp-Source: APXvYqxWfTrhDlXFWqVzdveCJTUn6XQ8H6Ht0qAoyEmU4Sa+ST62F/G6EBJib4PzzJWYIrC1/buf2w==
-X-Received: by 2002:adf:ff84:: with SMTP id j4mr28733578wrr.71.1563209129676; 
- Mon, 15 Jul 2019 09:45:29 -0700 (PDT)
-Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id e19sm24109114wra.71.2019.07.15.09.45.28
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jul 2019 09:45:29 -0700 (PDT)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
- <20190713143311.17620-6-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <2cbc75cf-887d-630d-f4e9-835d8ad135f1@redhat.com>
-Date: Mon, 15 Jul 2019 18:45:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hn4GF-0005VM-A1
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 12:55:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hn4GE-0007z4-BH
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 16:55:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 511132E80C7
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 16:55:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190713143311.17620-6-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Jul 2019 16:50:06 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-bennee scherft
+X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
+References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156320940654.20514.11587554980294663291.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 5c4b63b0ca2db81b0b8ecf4ad5ac44643ef57af4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v3 5/6] test-char: skip tcp tests if ipv4
- check failed
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,81 +65,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, pbonzini@redhat.com, berrange@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/19 4:33 PM, Marc-André Lureau wrote:
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  tests/Makefile.include |  2 +-
->  tests/test-char.c      | 17 +++++++++++++----
->  2 files changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index a983dd32da..2bddebaf4b 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -523,7 +523,7 @@ tests/check-qlit$(EXESUF): tests/check-qlit.o $(test-util-obj-y)
->  tests/check-qom-interface$(EXESUF): tests/check-qom-interface.o $(test-qom-obj-y)
->  tests/check-qom-proplist$(EXESUF): tests/check-qom-proplist.o $(test-qom-obj-y)
->  
-> -tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(qtest-obj-y) $(test-io-obj-y) $(chardev-obj-y)
-> +tests/test-char$(EXESUF): tests/test-char.o $(test-util-obj-y) $(qtest-obj-y) $(test-io-obj-y) $(chardev-obj-y) tests/socket-helpers.o
->  tests/test-coroutine$(EXESUF): tests/test-coroutine.o $(test-block-obj-y)
->  tests/test-aio$(EXESUF): tests/test-aio.o $(test-block-obj-y)
->  tests/test-aio-multithread$(EXESUF): tests/test-aio-multithread.o $(test-block-obj-y)
-> diff --git a/tests/test-char.c b/tests/test-char.c
-> index f9440cdcfd..2dde620afc 100644
-> --- a/tests/test-char.c
-> +++ b/tests/test-char.c
-> @@ -15,6 +15,7 @@
->  #include "io/channel-socket.h"
->  #include "qapi/qobject-input-visitor.h"
->  #include "qapi/qapi-visit-sockets.h"
-> +#include "socket-helpers.h"
->  
->  static bool quit;
->  
-> @@ -1356,11 +1357,17 @@ static void char_hotswap_test(void)
->  
->  int main(int argc, char **argv)
->  {
-> +    bool has_ipv4, has_ipv6;
-> +
->      qemu_init_main_loop(&error_abort);
->      socket_init();
->  
->      g_test_init(&argc, &argv, NULL);
->  
-> +    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-> +        return -1;
-> +    }
-> +
->      module_call_init(MODULE_INIT_QOM);
->      qemu_add_opts(&qemu_chardev_opts);
->  
-> @@ -1438,10 +1445,12 @@ int main(int argc, char **argv)
->      g_test_add_data_func("/char/socket/client/wait-conn-fdpass/" # name, \
->                           &client6 ##name, char_socket_client_test)
->  
-> -    SOCKET_SERVER_TEST(tcp, &tcpaddr);
-> -    SOCKET_CLIENT_TEST(tcp, &tcpaddr);
-> -    g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr,
-> -                         char_socket_server_two_clients_test);
-> +    if (has_ipv4) {
+Nope we think we have identified the leak. On CPU realize
+(ppc_cpu_realize) the translator sets up its tables
+(create_ppc_opcodes). This will happen for each thread created. This
+would be fine but linux_user cpu_copy function then does:
 
-Why not if(has_ipv4 || has_ipv6) ?
+    memcpy(new_env, env, sizeof(CPUArchState));
 
-> +        SOCKET_SERVER_TEST(tcp, &tcpaddr);
-> +        SOCKET_CLIENT_TEST(tcp, &tcpaddr);
-> +        g_test_add_data_func("/char/socket/server/two-clients/tcp", &tcpaddr,
-> +                             char_socket_server_two_clients_test);
-> +    }
->  #ifndef WIN32
->      SOCKET_SERVER_TEST(unix, &unixaddr);
->      SOCKET_CLIENT_TEST(unix, &unixaddr);
-> 
+which will blindly overwrite the tables in CPUArchState (CPUPPCState)
+causing the leak. The suggestion is the data should be moved to
+PowerPCCPU (as it is internal to the translator) and avoid being smashed
+by the memcpy. However longer term we should replace the memcpy with an
+arch aware smart copy.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836558
+
+Title:
+  Qemu-ppc Memory leak creating threads
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  When creating c++ threads (with c++ std::thread), the resulting binary
+  has memory leaks when running with qemu-ppc.
+
+  Eg the following c++ program, when compiled with gcc, consumes more
+  and more memory while running at qemu-ppc. (does not have memory leaks
+  when compiling for Intel, when running same binary on real powerpc CPU
+  hardware also no memory leaks).
+
+  (Note I used function getCurrentRSS to show available memory, see
+  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
+  runtime-using-c; calls commented out here)
+
+  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
+with older g++ compilers even 4.9)
+  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
+  qemu: qemu-ppc version 3.1.50
+
+
+  ---
+
+  #include <iostream>
+  #include <thread>
+  #include <chrono>
+
+  =
+
+  using namespace std::chrono_literals;
+
+  // Create/run and join a 100 threads.
+  void Fun100()
+  {
+  //    auto b4 =3D getCurrentRSS();
+  //    std::cout << getCurrentRSS() << std::endl;
+      for(int n =3D 0; n < 100; n++)
+      {
+          std::thread t([]
+          {
+              std::this_thread::sleep_for( 10ms );
+          });
+  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
+          t.join();
+      }
+      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
+ memory...
+  //    auto after =3D getCurrentRSS();
+      std::cout << b4 << ' ' << after << std::endl;
+  }
+
+  =
+
+  int main(int, char **)
+  {
+      Fun100();
+      Fun100();  // memory used keeps increasing
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
