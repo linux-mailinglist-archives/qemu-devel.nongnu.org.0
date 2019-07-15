@@ -2,61 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A8368342
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 07:24:58 +0200 (CEST)
-Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EC06835D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 07:58:16 +0200 (CEST)
+Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmtTt-0000RF-EM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 01:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59876)
+	id 1hmu07-0005TU-6c
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 01:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37672)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hmtTf-0008U9-6Z
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:24:45 -0400
+ (envelope-from <armbru@redhat.com>) id 1hmtzb-0004C1-1W
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:57:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hmtTe-0005FS-35
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:24:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48120)
+ (envelope-from <armbru@redhat.com>) id 1hmtza-0007XT-5r
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:57:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41254)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hmtTd-0005D7-TX
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:24:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hmtza-0007Vw-0e
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 01:57:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 553278535D;
- Mon, 15 Jul 2019 05:24:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DBCBAC049E23;
+ Mon, 15 Jul 2019 05:57:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
  [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5EC55C232;
- Mon, 15 Jul 2019 05:24:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D51BB6012C;
+ Mon, 15 Jul 2019 05:57:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 29A081138648; Mon, 15 Jul 2019 07:24:36 +0200 (CEST)
+ id 6506A1138648; Mon, 15 Jul 2019 07:57:36 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <3c8b83fe-120b-40e6-84d5-5a3b88e46ee3@ilande.co.uk>
- <CAFEAcA9KjJUE7R0OYfM9AT=Ydu8eXBYJR=sGoGog25xrpRMZig@mail.gmail.com>
- <914f608a-5128-87a5-1c08-e20db88ad216@ilande.co.uk>
- <CAFEAcA9=KKtbR624rV77cu41zUTyu2N8-+1Gjmg-rQwdS1htuw@mail.gmail.com>
- <20190708094107.GD3082@redhat.com>
- <28ca7c60-5795-31ff-1d71-1fac477ad996@redhat.com>
- <20190708101919.GF3082@redhat.com>
- <267315a5-9969-9bfb-b4f6-57c61890fae4@ilande.co.uk>
- <87lfx4wry6.fsf@dusky.pond.sub.org>
- <98789380-7402-535b-0db9-b6c90af2f161@ilande.co.uk>
-Date: Mon, 15 Jul 2019 07:24:36 +0200
-In-Reply-To: <98789380-7402-535b-0db9-b6c90af2f161@ilande.co.uk> (Mark
- Cave-Ayland's message of "Fri, 12 Jul 2019 20:34:26 +0100")
-Message-ID: <87lfwzzx7v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+To: qemu-devel@nongnu.org
+Date: Mon, 15 Jul 2019 07:57:34 +0200
+Message-Id: <20190715055736.15214-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 15 Jul 2019 05:24:40 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 15 Jul 2019 05:57:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Parallel make build fails on fast machine
+Subject: [Qemu-devel] [PATCH for-4.1 0/2] qemu-doc build fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,51 +56,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+*** BLURB HERE ***
 
-> On 11/07/2019 15:45, Markus Armbruster wrote:
->
->> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
->> 
->>> Something also looks a bit odd with distclean here on a fresh checkout:
->>>
->>> build@ezio:~/src/qemu/git/tmp/qemu$ make distclean
->>>   LD      recurse-clean.mo
->>> cc: fatal error: no input files
->>> compilation terminated.
->>> rules.mak:118: recipe for target 'recurse-clean.mo' failed
->>> make: *** [recurse-clean.mo] Error 1
->> 
->> This one should be fixed in master (commit 8d358a5ea08).  If it's still
->> broken for you, let me know.
->
-> Yes, this is certainly looking much better! There still seems to be something wrong
-> with the tests/ subdirectory with your "make install" patch applied to git master if
-> I attempt a "make distclean" after a successful "make V=1 -j2 install" in an
-> out-of-tree build:
->
-> build@ezio:~/src/qemu/git/obj$ ../qemu/configure '--target-list=x86_64-softmmu
-> sparc64-softmmu sparc-softmmu ppc-softmmu arm-softmmu'
-> '--prefix=/home/build/rel-qemu-git' '--disable-pie' '--enable-debug'
-> build@ezio:~/src/qemu/git/obj$ make V=1 -j2 install
->
-> (lots of build output cut, but completes successfully)
->
-> build@ezio:~/src/qemu/git/obj$ make distclean
-> Makefile:85: rules.mak: No such file or directory
-> Makefile:437: tests/Makefile.include: No such file or directory
-> cat: VERSION: No such file or directory
-> Makefile:1127: tests/docker/Makefile.include: No such file or directory
-> Makefile:1128: tests/vm/Makefile.include: No such file or directory
-> make: *** No rule to make target 'tests/vm/Makefile.include'.  Stop.
+Markus Armbruster (2):
+  Makefile: Fix missing dependency of on qemu-tech.texi
+  qemu-tech: Fix dangling @menu entries
 
-Double-checking: is this with my '[PATCH for-4.1] Makefile: Fix "make
-install" when "make all" needs work' applied?
+ Makefile       | 3 ++-
+ qemu-tech.texi | 3 ---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+--=20
+2.21.0
+
 
