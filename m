@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98C668745
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 12:46:30 +0200 (CEST)
-Received: from localhost ([::1]:36838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FB168741
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 12:46:06 +0200 (CEST)
+Received: from localhost ([::1]:36822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmyV4-0006Fk-2z
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 06:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39329)
+	id 1hmyUf-0003yP-Ck
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 06:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hmyTv-0002AU-CF
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:45:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hmyTy-0002L9-EO
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hmyTu-0001fU-9P
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:45:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34530)
+ (envelope-from <mreitz@redhat.com>) id 1hmyTx-0001hH-Df
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:45:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42280)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hmyTr-0001do-Ma; Mon, 15 Jul 2019 06:45:15 -0400
+ id 1hmyTu-0001fR-Oq; Mon, 15 Jul 2019 06:45:18 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0B5D6307D847;
- Mon, 15 Jul 2019 10:45:15 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 15AC2308FC4B;
+ Mon, 15 Jul 2019 10:45:18 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F8014505;
- Mon, 15 Jul 2019 10:45:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8603945C3;
+ Mon, 15 Jul 2019 10:45:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 15 Jul 2019 12:45:05 +0200
-Message-Id: <20190715104508.7568-2-mreitz@redhat.com>
+Date: Mon, 15 Jul 2019 12:45:06 +0200
+Message-Id: <20190715104508.7568-3-mreitz@redhat.com>
 In-Reply-To: <20190715104508.7568-1-mreitz@redhat.com>
 References: <20190715104508.7568-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 15 Jul 2019 10:45:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 15 Jul 2019 10:45:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.1? 1/4] qcow2: Fix .bdrv_has_zero_init()
+Subject: [Qemu-devel] [PATCH for-4.1? 2/4] vdi: Fix .bdrv_has_zero_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,133 +60,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Jeff Cody <codyprime@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a qcow2 file is preallocated, it can no longer guarantee that it
-initially appears as filled with zeroes.
-
-So implement .bdrv_has_zero_init() by checking whether the file is
-preallocated; if so, forward the call to the underlying storage node,
-except for when it is encrypted: Encrypted preallocated images always
-return effectively random data, so .bdrv_has_zero_init() must always
-return 0 for them.
+Static VDI images cannot guarantee to be zero-initialized.  If the image
+has been statically allocated, forward the call to the underlying
+storage node.
 
 Reported-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 90 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 89 insertions(+), 1 deletion(-)
+ block/vdi.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 039bdc2f7e..730fd53890 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4631,6 +4631,94 @@ static ImageInfoSpecific *qcow2_get_specific_info(=
-BlockDriverState *bs,
-     return spec_info;
+diff --git a/block/vdi.c b/block/vdi.c
+index b9845a4cbd..0caa3f281d 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -988,6 +988,17 @@ static void vdi_close(BlockDriverState *bs)
+     error_free(s->migration_blocker);
  }
 =20
-+/*
-+ * Return 1 if the file only contains zero and unallocated clusters.
-+ * Return 0 if it contains compressed or normal clusters.
-+ * Return -errno on error.
-+ */
-+static int qcow2_is_zero(BlockDriverState *bs)
++static int vdi_has_zero_init(BlockDriverState *bs)
 +{
-+    BDRVQcow2State *s =3D bs->opaque;
-+    int l1_i;
-+    int ret;
++    BDRVVdiState *s =3D bs->opaque;
 +
-+    if (bs->backing) {
-+        return 0;
-+    }
-+
-+    for (l1_i =3D 0; l1_i < s->l1_size; l1_i++) {
-+        uint64_t l2_offset =3D s->l1_table[l1_i] & L1E_OFFSET_MASK;
-+        int slice_start_i;
-+
-+        if (!l2_offset) {
-+            continue;
-+        }
-+
-+        for (slice_start_i =3D 0; slice_start_i < s->l2_size;
-+             slice_start_i +=3D s->l2_slice_size)
-+        {
-+            uint64_t *l2_slice;
-+            int l2_slice_i;
-+
-+            ret =3D qcow2_cache_get(bs, s->l2_table_cache,
-+                                  l2_offset + slice_start_i * sizeof(uin=
-t64_t),
-+                                  (void **)&l2_slice);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+
-+            for (l2_slice_i =3D 0; l2_slice_i < s->l2_slice_size; l2_sli=
-ce_i++) {
-+                uint64_t l2_entry =3D be64_to_cpu(l2_slice[l2_slice_i]);
-+
-+                switch (qcow2_get_cluster_type(bs, l2_entry)) {
-+                case QCOW2_CLUSTER_UNALLOCATED:
-+                case QCOW2_CLUSTER_ZERO_PLAIN:
-+                case QCOW2_CLUSTER_ZERO_ALLOC:
-+                    break;
-+
-+                case QCOW2_CLUSTER_NORMAL:
-+                case QCOW2_CLUSTER_COMPRESSED:
-+                    qcow2_cache_put(s->l2_table_cache, (void **)&l2_slic=
-e);
-+                    return 0;
-+
-+                default:
-+                    abort();
-+                }
-+            }
-+
-+            qcow2_cache_put(s->l2_table_cache, (void **)&l2_slice);
-+        }
-+    }
-+
-+    return 1;
-+}
-+
-+static int qcow2_has_zero_init(BlockDriverState *bs)
-+{
-+    BDRVQcow2State *s =3D bs->opaque;
-+    int ret;
-+
-+    if (qemu_in_coroutine()) {
-+        qemu_co_mutex_lock(&s->lock);
-+    }
-+    /* Check preallocation status */
-+    ret =3D qcow2_is_zero(bs);
-+    if (qemu_in_coroutine()) {
-+        qemu_co_mutex_unlock(&s->lock);
-+    }
-+    if (ret < 0) {
-+        return 0;
-+    }
-+
-+    if (ret =3D=3D 1) {
-+        return 1;
-+    } else if (bs->encrypted) {
-+        return 0;
++    if (s->header.image_type =3D=3D VDI_TYPE_STATIC) {
++        return bdrv_has_zero_init(bs->file->bs);
 +    } else {
-+        return bdrv_has_zero_init(s->data_file->bs);
++        return 1;
 +    }
 +}
 +
- static int qcow2_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
-                               int64_t pos)
- {
-@@ -5186,7 +5274,7 @@ BlockDriver bdrv_qcow2 =3D {
-     .bdrv_child_perm      =3D bdrv_format_default_perms,
-     .bdrv_co_create_opts  =3D qcow2_co_create_opts,
-     .bdrv_co_create       =3D qcow2_co_create,
+ static QemuOptsList vdi_create_opts =3D {
+     .name =3D "vdi-create-opts",
+     .head =3D QTAILQ_HEAD_INITIALIZER(vdi_create_opts.head),
+@@ -1028,7 +1039,7 @@ static BlockDriver bdrv_vdi =3D {
+     .bdrv_child_perm          =3D bdrv_format_default_perms,
+     .bdrv_co_create      =3D vdi_co_create,
+     .bdrv_co_create_opts =3D vdi_co_create_opts,
 -    .bdrv_has_zero_init =3D bdrv_has_zero_init_1,
-+    .bdrv_has_zero_init   =3D qcow2_has_zero_init,
-     .bdrv_co_block_status =3D qcow2_co_block_status,
++    .bdrv_has_zero_init  =3D vdi_has_zero_init,
+     .bdrv_co_block_status =3D vdi_co_block_status,
+     .bdrv_make_empty =3D vdi_make_empty,
 =20
-     .bdrv_co_preadv         =3D qcow2_co_preadv,
 --=20
 2.21.0
 
