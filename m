@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93B169AD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 20:29:47 +0200 (CEST)
-Received: from localhost ([::1]:41759 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EE469B27
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 21:10:04 +0200 (CEST)
+Received: from localhost ([::1]:41988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hn5jP-0007hB-0p
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 14:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58852)
+	id 1hn6MM-00017U-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 15:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39117)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hn5jB-0007IL-Oj
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 14:29:34 -0400
+ (envelope-from <marcandre.lureau@gmail.com>) id 1hn6M7-0000No-MT
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 15:09:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hn5jA-0002Va-NY
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 14:29:33 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33735)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1hn6M5-00024P-N4
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 15:09:47 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35850)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hn5jA-0002Tq-EI
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 14:29:32 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n9so18226981wru.0
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 11:29:31 -0700 (PDT)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1hn6M5-00022a-HF
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 15:09:45 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g67so12168859wme.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 12:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RWBp2IE1vwSKoCESzMaColafJOklblLLXQ5f+pIP/MI=;
+ b=SMv42YKUEeY6kzn8xDQKIZ3LlphkFSvuD3c34k2wOfebt6zOQdKXXyB4izBlUDQbxV
+ FMDeHCpWGqXmyQGnc/ExeUQ+ZPTtk/sf7OoHW4GMm7uJ3G9ws5SbiRn7dfdbL6c9aoVQ
+ 230HrxK5/u4s7SRjOqL54Wg0uWo2hytyloFrMMkaciRlRI69nBEOLk7uHIWywnabaMWA
+ FqQdvn2H4PeiRbHM4xBb3MFLXtdcqh79DB8qXwLz2b8/vE1NC9EVHnDVdrXAhDVdkhkT
+ 8u8PjehqvlChthK/xodrd8uTbNbll1yf2QFX4kbQR8DcHVj2yJEro9YF9tfiChAT45eB
+ cYhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0RhHwIUL8kDeVWFR5G96Jni2KX+TcbVRuIgdEI4bm2U=;
- b=tyrTTtuf1yZGBI6Hk1UmgXFeBnhXigHluSi4e/1JrIJ8nec3nL6TYe0DFIVohQ2Cav
- mKcW//z+6cP+1FGFWJD6vb+k48n3OvMV3epE97dwvW1Cfu22Lb1yykXMCX6ukcQyxsh+
- 2skV8eAgdg9xZPGZNA15zzfvgGz5bi8czgmzN2kPJ5LNbwAtYbqlceZj9O7c635UeXzk
- xL2CzFHuKjrWvwJRRtWCk/EA1CNQPOcQOVfCujiVzm9OWg28HGEFtxy9Qcf8Uo5DxUQp
- gtVmQUi/Pys9d3LHgJq4om0ha/t3shejaw9O9YRsdu03GqoP+MjIeTN7ZlgWAuLtFYJu
- c9iw==
-X-Gm-Message-State: APjAAAWCmxpEwFCufRqoP3KLKET0QjYKJ2EVjtLqu1yO5uF1ebBeYicg
- bgPD1GKeBTupyJ57WlpyJolb+A==
-X-Google-Smtp-Source: APXvYqziKr72h67Qmkcc+9KKmUWKXz7qAhAyb/FgER87zGp+ELg65Q7M1Bmq7w0al9j1lWXI0bj4KA==
-X-Received: by 2002:a5d:51c1:: with SMTP id n1mr26088710wrv.254.1563215370335; 
- Mon, 15 Jul 2019 11:29:30 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:b159:8d52:3041:ae0d?
- ([2001:b07:6468:f312:b159:8d52:3041:ae0d])
- by smtp.gmail.com with ESMTPSA id o11sm17256283wmh.37.2019.07.15.11.29.29
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Jul 2019 11:29:29 -0700 (PDT)
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-References: <156320087103.2556.10983987500488190423.stgit@gimli.home>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <e5f5a2f9-23a6-1fcb-d16a-1907825c4169@redhat.com>
-Date: Mon, 15 Jul 2019 20:29:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RWBp2IE1vwSKoCESzMaColafJOklblLLXQ5f+pIP/MI=;
+ b=EhqHbWjElqw38LrrlHZaLPjgP+bQyv1Be3Ua+GdDK/SXOwV5r9MEKmmjRqFRmWFr++
+ usMUULgQhBSVtYou0N95XGPqdoxrN77tohze2rdc2URIj8RL7J8dSc3AQXX9Sl0/qs/9
+ 8gJod2xtuOjT3Cr7M7bZrvYXtRUhczrFjcEYYCS1PoYnRGkUi2maSP6LGbFiUUUGjfZQ
+ /1SGdQAkwYjra6YOieVPppaanHgDjQ5AU3yxcMTFoRBZTL8cqJcvjZR6F9mSMpHLIWbu
+ n81AlECSXDrVGoKyd3B/kaO/14SND+B+Q6aDHGSnFC8aWtuvBawcNG0121saRUqSMJE5
+ VVzQ==
+X-Gm-Message-State: APjAAAV40RFQ+qLp2FvQbQ6P9QxoVkbnRyUghpXY5QYqKBCqi0t7e86W
+ n0ygwkY3C1VD6xqy75/kDYQ9GDwPBgqWcRRVd8Q=
+X-Google-Smtp-Source: APXvYqzYB4cMcCJJ6FLVZ0iKbVGN+bBRF9c3VDTD1v3tkrILaFuNm8obU21npaERdoPg4CAZTFEdB2aSe4WDM10SVZU=
+X-Received: by 2002:a05:600c:28d:: with SMTP id
+ 13mr26043586wmk.5.1563217783212; 
+ Mon, 15 Jul 2019 12:09:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <156320087103.2556.10983987500488190423.stgit@gimli.home>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH for-4.1] target/i386: sev: Do not unpin ram
- device memory region
+References: <20190409161009.6322-1-marcandre.lureau@redhat.com>
+ <20190409161009.6322-18-marcandre.lureau@redhat.com>
+ <20190410084830.hiesbi6aumiwsdfk@sirius.home.kraxel.org>
+In-Reply-To: <20190410084830.hiesbi6aumiwsdfk@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 15 Jul 2019 23:09:31 +0400
+Message-ID: <CAJ+F1CL8jD9-Pu_G60uRr77QnLR5KhTJ4PfbN__A9pyYBCUpTQ@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v4 17/20] console: make screendump
+ asynchronous
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,47 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: brijesh.singh@amd.com, ehabkost@redhat.com, rth@twiddle.net
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/07/19 16:28, Alex Williamson wrote:
-> The commit referenced below skipped pinning ram device memory when
-> ram blocks are added, we need to do the same when they're removed.
-> 
-> Cc: Brijesh Singh <brijesh.singh@amd.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Fixes: cedc0ad539af ("target/i386: sev: Do not pin the ram device memory region")
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
->  target/i386/sev.c |   11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 6dbdc3cdf10f..5ba1384ea1f6 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -161,6 +161,17 @@ sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size)
->  {
->      int r;
->      struct kvm_enc_region range;
-> +    ram_addr_t offset;
-> +    MemoryRegion *mr;
-> +
-> +    /*
-> +     * The RAM device presents a memory region that should be treated
-> +     * as IO region and should not have been pinned.
-> +     */
-> +    mr = memory_region_from_host(host, &offset);
-> +    if (mr && memory_region_is_ram_device(mr)) {
-> +        return;
-> +    }
->  
->      range.addr = (__u64)(unsigned long)host;
->      range.size = size;
-> 
+On Wed, Apr 10, 2019 at 12:49 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> > +static void qmp_screendump_finish(QemuConsole *con, struct qmp_screend=
+ump *dump)
+> > +{
+> > +    Error *err =3D NULL;
+> > +    DisplaySurface *surface;
+> > +    Monitor *prev_mon =3D cur_mon;
+>
+> Why this is needed?
+>
 
-Queued, thanks.
+ppm_save() calls qemu_open() which may lookup fd associated to the
+monitor: monitor_fdset_get_fd().
 
-Paolo
+Interestingly, it seems fdset are not coupled with the current
+monitor, so it's probably unnecessary to update the monitor to the one
+associated with the command invocation.
+
+> > +        /*
+> > +         * FIXME: async save with coroutine? it would have to copy or
+> > +         * lock the surface.
+> > +         */
+> > +        ppm_save(dump->filename, surface, &err);
+>
+> DisplaySurface is just a thin layer above pixman images these days.
+> Pixman images are reference counted, so you can
+> pixman_image_ref(surface->image) to make sure it doesn't disappear
+> underneath you, then pass the pixman image to ppm_save.
+
+ppm_save() is still synchronous. I suppose you suggested that for a
+future async version. (note that in this case, ref the surface is
+probably not sufficient, as it could be mutated while it is being
+saved)
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
