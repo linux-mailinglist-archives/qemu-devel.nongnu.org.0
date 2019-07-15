@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6184686B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 11:58:26 +0200 (CEST)
-Received: from localhost ([::1]:36486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618FE686BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 11:59:32 +0200 (CEST)
+Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmxkY-0004Fc-1s
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 05:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58277)
+	id 1hmxlb-0006BI-IF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 05:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hmxkL-0003rA-JG
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:58:14 -0400
+ (envelope-from <berrange@redhat.com>) id 1hmxlO-0005mq-W9
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:59:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hmxkK-0002VO-GL
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:58:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50646)
+ (envelope-from <berrange@redhat.com>) id 1hmxlM-0002zz-PC
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:59:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43194)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hmxkK-0002Uz-AT
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:58:12 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hmxlL-0002yI-Dm
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 05:59:15 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D2F530821EC;
- Mon, 15 Jul 2019 09:58:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 19A2183F51;
+ Mon, 15 Jul 2019 09:59:12 +0000 (UTC)
 Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE1BF60142;
- Mon, 15 Jul 2019 09:58:02 +0000 (UTC)
-Date: Mon, 15 Jul 2019 10:57:58 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 92F475C257;
+ Mon, 15 Jul 2019 09:58:57 +0000 (UTC)
+Date: Mon, 15 Jul 2019 10:58:54 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190715095758.GE30298@redhat.com>
+Message-ID: <20190715095854.GF30298@redhat.com>
 References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
- <20190713143311.17620-2-marcandre.lureau@redhat.com>
+ <20190713143311.17620-3-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190713143311.17620-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20190713143311.17620-3-marcandre.lureau@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 15 Jul 2019 09:58:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 15 Jul 2019 09:59:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/6] docker.py: add --run-as-current-user
+Subject: Re: [Qemu-devel] [PATCH v3 2/6] docker.py: add podman support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,15 +66,35 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 13, 2019 at 06:33:06PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Podman will need further tweaks.
+On Sat, Jul 13, 2019 at 06:33:07PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> Add a --engine option to select either docker, podman or auto.
 >=20
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Among other advantages, podman allows to run rootless & daemonless
+> containers, fortunately sharing compatible CLI with docker.
+>=20
+> With current podman, we have to use a uidmap trick in order to be able
+> to rw-share the ccache directory with the container user.
+>=20
+> With a user 1000, the default mapping is:                              =
+                                                                         =
+                                                                  1000 (h=
+ost) -> 0 (container).
+> So write access to /var/tmp/ccache ends will end with permission
+> denied error.
+>=20
+> With "--uidmap 1000:0:1 --uidmap 0:1:1000", the mapping is:
+> 1000 (host) -> 0 (container, 1st namespace) -> 1000 (container, 2nd nam=
+espace).
+> (the rest is mumbo jumbo to avoid holes in the range of UIDs)
+>=20
+> A future podman version may have an option such as --userns-keep-uid.
+> Thanks to Debarshi Ray <rishi@redhat.com> for the help!
+>=20
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  tests/docker/Makefile.include | 2 +-
->  tests/docker/docker.py        | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
+>  tests/docker/docker.py | 48 +++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 43 insertions(+), 5 deletions(-)
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
