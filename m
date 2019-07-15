@@ -2,58 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C91A686F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 12:25:36 +0200 (CEST)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AE168706
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Jul 2019 12:27:17 +0200 (CEST)
+Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hmyAp-0002YL-BJ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 06:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35273)
+	id 1hmyCS-0004do-EI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 06:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35841)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlureau@redhat.com>) id 1hmyAa-00029i-KX
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:25:21 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hmyCF-0004FJ-Gi
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:27:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1hmyAY-0000YF-Jt
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:25:20 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33402)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1hmyAY-0000Wp-El
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:25:18 -0400
-Received: by mail-oi1-f194.google.com with SMTP id u15so12259195oiv.0
- for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 03:25:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QJe91/oeuGV5zj4hUXggxgWQygb/5mot1rOiQDRAi0M=;
- b=SrqaIqIvE6bUq2yWbqHHm3SmYxBwrNZsTAtDoN3ghacWlGCD208LpQg38gacj9BWIL
- LbcYecXlLvhg/1R6PUII27/J3dhYr4JH5ybwqheoGxzdnWE2RUfGgjGYUT2rY6wMJ7Q9
- 5soi3efwxzTIcrQdyrR9dIkmq28f1M+Bh8aInyUm+APZbzYiNdptYHpfu4A/yC/Unvfw
- hBhAmtD6AbKH9k1DGkNcKJ/iZa0RD6z/vo5pBALc5L1HNiJvzHpa/s4WyKwF59RyG1cg
- aN6bbJSFoeva/uHVUNdLaWQ4HhH/nxaIr6aWcU1J+i+4jOWmXtCgNUDGGQb3W9UmG9zK
- /J0A==
-X-Gm-Message-State: APjAAAWSOuxrtOUIw9OSiIkCbNsZyBXu+slds7ou87M29xPZWEZgdjyo
- tm7Orrt4nLXWGqep+4caDQ6/Sylms35FksYgeu9vnQ==
-X-Google-Smtp-Source: APXvYqzw4cJFq170iTNICjFpldg64oz+8s0KmL8Cd2WSoiMoC9bzMu8g4Vylk38wWpSyr50Ff+g5lVR8opylq25tQoM=
-X-Received: by 2002:aca:4d12:: with SMTP id a18mr6567021oib.33.1563186314534; 
- Mon, 15 Jul 2019 03:25:14 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1hmyCE-0001Uw-K4
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:27:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56644)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hmyCE-0001TV-EQ
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 06:27:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9812E307D913
+ for <qemu-devel@nongnu.org>; Mon, 15 Jul 2019 10:27:01 +0000 (UTC)
+Received: from work-vm (ovpn-117-181.ams2.redhat.com [10.36.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FC574505;
+ Mon, 15 Jul 2019 10:26:55 +0000 (UTC)
+Date: Mon, 15 Jul 2019 11:26:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190715102653.GF2689@work-vm>
+References: <20190625123905.25434-1-dinechin@redhat.com>
+ <20190626164913.dn2vfv4rji7xsk5k@steredhat>
+ <0458fb96-33d8-05eb-cb41-cf19086f986b@redhat.com>
 MIME-Version: 1.0
-References: <20190713143311.17620-1-marcandre.lureau@redhat.com>
- <20190713143311.17620-7-marcandre.lureau@redhat.com>
- <20190715094026.GC30298@redhat.com>
-In-Reply-To: <20190715094026.GC30298@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 15 Jul 2019 14:25:03 +0400
-Message-ID: <CAMxuvawZ6nCt-6KtnzPUnX4PWbvEs1tycufZK4c4tMr1s2T0ag@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0458fb96-33d8-05eb-cb41-cf19086f986b@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 15 Jul 2019 10:27:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.194
-Subject: Re: [Qemu-devel] [PATCH v3 6/6] test: skip tests if
- socket_check_protocol_support() failed
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] Fix build error when VNC is configured
+ out
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,45 +60,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "Bonzini, Paolo" <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Christophe de Dinechin <dinechin@redhat.com>, qemu-devel@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+* Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
+> On 6/26/19 6:49 PM, Stefano Garzarella wrote:
+> > On Tue, Jun 25, 2019 at 02:39:05PM +0200, Christophe de Dinechin wrot=
+e:
+> >> In hmp_change(), the variable hmp_mon is only used
+> >> by code under #ifdef CONFIG_VNC. This results in a build
+> >> error when VNC is configured out with the default of
+> >> treating warnings as errors:
+> >>
+> >> monitor/hmp-cmds.c: In function =E2=80=98hmp_change=E2=80=99:
+> >> monitor/hmp-cmds.c:1946:17: error: unused variable =E2=80=98hmp_mon=E2=
+=80=99 [-Werror=3Dunused-variable]
+> >> 1946 |     MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, com=
+mon);
+> >>      |                 ^~~~~~~
+> >>
+> >> v2: Move variable down as suggested by Philippe Mathieu-Daud=C3=A9
+> >=20
+> > Should we move out this line from the commit message?
+> > (Maybe Dave can remove it when apply)
+>=20
+> Yes please :) It was meant to go after the '---' separator.
 
-On Mon, Jul 15, 2019 at 1:40 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Sat, Jul 13, 2019 at 06:33:11PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > Skip the tests if socket_check_protocol_support() failed, but do run
-> > g_test_run() to keep TAP harness happy.
->
-> Did you actually find a scenario in which it failed, or is this just
-> doing the change for the sake of strict correctness ?
+Done.
 
-It fails under podman atm (https://github.com/containers/libpod/issues/3535=
-)
+Queued.
 
->
-> In any case
->
->   Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
-
-thanks
-
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> >>
+> >> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+> >> ---
+> >>  monitor/hmp-cmds.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> >=20
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
