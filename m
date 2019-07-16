@@ -2,36 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9898A6AC1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 17:43:25 +0200 (CEST)
-Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA6A6AC24
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 17:44:33 +0200 (CEST)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnPbw-0007K2-IF
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 11:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37069)
+	id 1hnPd3-00034e-0n
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 11:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hnPao-0003J4-AL
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:42:15 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hnPcn-0002eO-TH
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:44:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hnPam-00056s-81
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:42:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36370)
+ (envelope-from <mreitz@redhat.com>) id 1hnPcl-0006Rm-GN
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:44:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44967)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hnPag-00051p-5b; Tue, 16 Jul 2019 11:42:06 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hnPci-0006Po-N8; Tue, 16 Jul 2019 11:44:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E2D2F307D960;
- Tue, 16 Jul 2019 15:42:04 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id F240B30832DA;
+ Tue, 16 Jul 2019 15:44:11 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9087F600C4;
- Tue, 16 Jul 2019 15:42:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4122A5D784;
+ Tue, 16 Jul 2019 15:44:08 +0000 (UTC)
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20190716122836.31187-1-thuth@redhat.com>
- <20190716122836.31187-5-thuth@redhat.com>
+ <20190716122836.31187-3-thuth@redhat.com>
+ <1832e90b-0fd2-19ac-f90e-572147e51f53@redhat.com>
+ <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -58,22 +60,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b9abc916-59b1-3edb-16c4-2b817393ae9d@redhat.com>
-Date: Tue, 16 Jul 2019 17:41:58 +0200
+Message-ID: <03b260f7-b108-f035-2974-17b5ef74e4e6@redhat.com>
+Date: Tue, 16 Jul 2019 17:44:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190716122836.31187-5-thuth@redhat.com>
+In-Reply-To: <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="FI03ZIUx1GDTPHfrF8mji3s3wcC7kPddE"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="fBd3v86y2wgJr9w03TCLhPQC9LLx2Hc1u"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 16 Jul 2019 15:42:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Tue, 16 Jul 2019 15:44:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] gitlab-ci: Remove qcow2 tests that
- are handled by "make check" already
+Subject: Re: [Qemu-devel] [PATCH v2 2/4] tests/qemu-iotests/group: Remove
+ some more tests from the "auto" group
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,95 +93,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---FI03ZIUx1GDTPHfrF8mji3s3wcC7kPddE
-Content-Type: multipart/mixed; boundary="SlzTCpJVquTjRtaulGhbvSgAJ1MKCuO6W";
+--fBd3v86y2wgJr9w03TCLhPQC9LLx2Hc1u
+Content-Type: multipart/mixed; boundary="AKll5aYQba5lA7dCRKNQ30R2s6qVRZbLE";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Message-ID: <b9abc916-59b1-3edb-16c4-2b817393ae9d@redhat.com>
-Subject: Re: [PATCH v2 4/4] gitlab-ci: Remove qcow2 tests that are handled by
- "make check" already
+Message-ID: <03b260f7-b108-f035-2974-17b5ef74e4e6@redhat.com>
+Subject: Re: [PATCH v2 2/4] tests/qemu-iotests/group: Remove some more tests
+ from the "auto" group
 References: <20190716122836.31187-1-thuth@redhat.com>
- <20190716122836.31187-5-thuth@redhat.com>
-In-Reply-To: <20190716122836.31187-5-thuth@redhat.com>
+ <20190716122836.31187-3-thuth@redhat.com>
+ <1832e90b-0fd2-19ac-f90e-572147e51f53@redhat.com>
+ <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
+In-Reply-To: <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
 
---SlzTCpJVquTjRtaulGhbvSgAJ1MKCuO6W
+--AKll5aYQba5lA7dCRKNQ30R2s6qVRZbLE
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 16.07.19 14:28, Thomas Huth wrote:
-> Since most iotests are now run during "make check" already, we do not
-> need to test them explicitly from the gitlab-ci.yml script anymore.
-> And while we're at it, add some of the new non-auto tests >=3D 248 inst=
-ead.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.yml | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->=20
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index c63bf2f822..fa5d094453 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -45,15 +45,9 @@ build-tcg-disabled:
->   - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 03=
-3 048
->              052 063 077 086 101 104 106 113 147 148 150 151 152 157 15=
-9 160
->              163 170 171 183 184 192 194 197 205 208 215 221 222 226 22=
-7 236
-> - - ./check -qcow2 001 002 003 004 005 007 008 009 010 011 012 013 017 =
-018 019
-> -            020 021 022 024 025 027 028 029 031 032 033 034 035 036 03=
-7 038
-> -            039 040 042 043 046 047 048 049 050 051 052 053 054 056 05=
-7 058
-> -            060 061 062 063 065 066 067 068 069 071 072 073 074 079 08=
-0 082
-> -            085 086 089 090 091 095 096 097 098 099 102 103 104 105 10=
-7 108
-> -            110 111 114 117 120 122 124 126 127 129 130 132 133 134 13=
-7 138
-> -            139 140 141 142 143 144 145 147 150 151 152 154 155 156 15=
-7 158
-> -            161 165 170 172 174 176 177 179 184 186 187 190 192 194 19=
-5 196
-> -            197 200 202 203 205 208 209 214 215 216 217 218 222 226 22=
-7 229 234
-> + - ./check -qcow2 028 040 051 056 057 058 065 067 068 082 085 091 095 =
-096 102
-> +            124 127 129 132 139 142 144 145 147 151 152 155 157 165 19=
-4 196
-> +            200 202 203 205 208 209 216 218 222 227 234 248 250 254 25=
-5 256
+On 16.07.19 17:31, Thomas Huth wrote:
+> On 16/07/2019 17.26, Max Reitz wrote:
+>> On 16.07.19 14:28, Thomas Huth wrote:
+>>> Remove some more tests from the "auto" group that either have issues
+>>> in certain environments (like macOS or FreeBSD, or on certain file sy=
+stems
+>>> like ZFS or tmpfs), do not work with the qcow2 format, or that are si=
+mply
+>>> taking too much time.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>  tests/qemu-iotests/group | 114 ++++++++++++++++++++-----------------=
+--
+>>>  1 file changed, 58 insertions(+), 56 deletions(-)
+>>
+>> I just looked through the list to see whether any of the test seems li=
+ke
+>> we=E2=80=99d want to keep it even though it is a bit slow.  Mostly I w=
+as looking
+>> for tests that cover complex cases.
+>>
+>> 255 is the only one that seemed to fit that bill to me.  So why do you=
 
-This removes 197 and 215.  Why?
+>> remove it?  Is it because it takes two seconds?
+>=20
+> No, I removed it because it was failing on macOS:
+>=20
+>  https://cirrus-ci.com/task/4860239294234624
+>=20
+> ("OSError: AF_UNIX path too long" is the error, if I got that right)
+
+Ah, OK.  So, uh, we effectively can=E2=80=99t run any Python tests on mac=
+OS?
 
 Max
 
 
---SlzTCpJVquTjRtaulGhbvSgAJ1MKCuO6W--
+--AKll5aYQba5lA7dCRKNQ30R2s6qVRZbLE--
 
---FI03ZIUx1GDTPHfrF8mji3s3wcC7kPddE
+--fBd3v86y2wgJr9w03TCLhPQC9LLx2Hc1u
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0t8EYACgkQ9AfbAGHV
-z0DBQwgAktV9I4eysoMs91jLzaWie5OTFEd67cO/c4Rb1MgHfO1TGT2UVd3QAwFh
-StLyfYu0cc91NXUlOf0+v+QyT7+cEXuX6E1+iR5PK+V42wNaYncsIqPlEgjjgoku
-z3pfQxWtdzibcCH0Rqa4gyxe5xe9MAnomUv2w5wLj/sHWt6/CqAQ5F5GjhidnerD
-hZOsQDqFw0qGdfGMSIwXRJnRra0T102E3/HHB3gtzleRcAPip/B0ETJx2sx+uNpB
-Z76iWTWUwkX3nvusRdMwvXkuO/ZxBGtSNiCybKqV2WeEVShip6HxiU4htibns1m3
-XQ2IeDBk0nhCDvqg9VmyuXq4G9G5IA==
-=p9jU
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0t8MYACgkQ9AfbAGHV
+z0BFgwf/UowakTIdFGoxvB8USeu2uBz/R30O/RoiBAGUd+8j4uyMPGphJF2o6usg
+ViYtad/QF8a2foz8Vd2zUwK/kY1m49B+wTwld1icZ47rx5t0BfgAWj0PWRzTVwH2
+bbLZcBa4TY9VPr0kF1vfM54l1tLpG/a4EgL0mg9P6RvbUfW8GmXC/wyZocUHOVBh
+V3fRQst/xzi9ThHszARkjruiInsM0fWKZW7pAe/4fMsC7vYFS2Zgzgwx8aWOVwSt
+xl6GLvOZC6SifJeOZB9esJBtO8BiaKN9RlCc3Sa3ryazPw2DW0UzsygkjJZMdtyo
+dFZUASpBtksp5Md1m52MSuz17pY0xA==
+=6IUg
 -----END PGP SIGNATURE-----
 
---FI03ZIUx1GDTPHfrF8mji3s3wcC7kPddE--
+--fBd3v86y2wgJr9w03TCLhPQC9LLx2Hc1u--
 
