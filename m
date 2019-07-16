@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9646A44E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:53:59 +0200 (CEST)
-Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06366A455
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:56:03 +0200 (CEST)
+Received: from localhost ([::1]:46578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnJDi-0001jI-UH
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45106)
+	id 1hnJFi-0005gY-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006h-MR
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:17 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hnJFW-0005Ht-1G
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:55:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TZ-4R
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:15 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58705 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnJCz-0007SJ-1O; Tue, 16 Jul 2019 04:53:14 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45nvLY4HxLz9sNp; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563267189;
- bh=s1wRmK0MVG64rLPyBaUut9UQuelJLlGKqjzYZkvKjuk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=htvyRepqCWtlBdFYtMQ55e8bsMb1OazVLc6CQxWlPh2atlmCmjCDkesEGpCncvUGM
- bLgNMwoeCEvwWPRW5AiHyfRN0MrWHdSDFHNLHmBORJfQNcOo2mFiU/dPbdQzusAWuV
- b5+tYuzFsMJiWsKz+c4jZueiI9Ze2zBb8C0hYUWs=
-Date: Tue, 16 Jul 2019 18:52:36 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190716085236.GH7525@umbus.fritz.box>
-References: <20190716045633.15319-1-joel@jms.id.au>
- <6e98fffb-2642-3835-d3ba-f06b73ca2fdc@kaod.org>
+ (envelope-from <no-reply@patchew.org>) id 1hnJFU-0001Ev-Lh
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:55:49 -0400
+Resent-Date: Tue, 16 Jul 2019 04:55:49 -0400
+Resent-Message-Id: <E1hnJFU-0001Ev-Lh@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21841)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hnJFU-00019I-2m
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:55:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1563267339; cv=none; d=zoho.com; s=zohoarc; 
+ b=Vs/hAHk1/13xodAFSUMf/vcz7oISycktZTOwroe+UHIBAIXrTtaqv/NWspDX2WRQA/f6Yb1s9W6HkAVPhoWrzLZt7NqpdIE1mxJyjfO0jzY4+QLXq1hVAE261bRE3085Xu5jP4LfpPcW7UdCCP6pEQLkRsodO7VSX/IRRZB7os4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1563267339;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=/7NxRJ6aCm7Q1HitfsOXGbBKgZNyAramnMSLXc5cr6A=; 
+ b=EHw6lhz+205IQG6ULvfJD3xxDh8w6wYxk7GUe144331I3cYTNdBwsQk0c+k7WRCnQ+nyl/82QsPOoxaFhMyVHoPACd5hwSL5zjyz08GOqd5ED9qDX1/jRBCKj2yJj8cmCjJK6xAkcjcJK1BQo/3qcFWpkPo4J/Ahz4whUHrZge0=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1563267337896778.2158463289884;
+ Tue, 16 Jul 2019 01:55:37 -0700 (PDT)
+Message-ID: <156326733708.3080.10406062385941007342@c4a48874b076>
+In-Reply-To: <20190715134211.23063-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PW0Eas8rCkcu1VkF"
-Content-Disposition: inline
-In-Reply-To: <6e98fffb-2642-3835-d3ba-f06b73ca2fdc@kaod.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Tue, 16 Jul 2019 01:55:37 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: Warn when using -initrd and low
- ram
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PULL 00/10] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,137 +61,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxNTEzNDIxMS4yMzA2
+My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUFVM
+TCAwMC8xMF0gdGFyZ2V0LWFybSBxdWV1ZQpNZXNzYWdlLWlkOiAyMDE5MDcxNTEzNDIxMS4yMzA2
+My0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
+IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
+Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
+IEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAq
+IFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAxOTA3MTUxMzQyMTEuMjMwNjMtMS1wZXRlci5t
+YXlkZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDE5MDcxNTEzNDIxMS4yMzA2My0xLXBldGVy
+Lm1heWRlbGxAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjM3NGZk
+YjkgdGFyZ2V0L2FybTogTlMgQnVzRmF1bHQgb24gdmVjdG9yIHRhYmxlIGZldGNoIGVzY2FsYXRl
+cyB0byBOUyBIYXJkRmF1bHQKYTMwYjFkYSB0YXJnZXQvYXJtOiBTZXQgVkZQLXJlbGF0ZWQgTVZG
+UjAgZmllbGRzIGZvciBhcm05MjYgYW5kIGFybTEwMjYKNmQ3MDUxNyBwbDAzMTogQ29ycmVjdGx5
+IG1pZ3JhdGUgc3RhdGUgd2hlbiB1c2luZyAtcnRjIGNsb2NrPWhvc3QKOTNkNTg0NSBody9hcm0v
+dmlydDogRml4IG5vbi1zZWN1cmUgZmxhc2ggbW9kZQowODU5NGQ5IGh3L2Rpc3BsYXkveGxueF9k
+cDogQXZvaWQgY3Jhc2ggd2hlbiByZWFkaW5nIGVtcHR5IFJYIEZJRk8KZDRiZmVlNiBody9zc2kv
+bXNzLXNwaTogQXZvaWQgY3Jhc2ggd2hlbiByZWFkaW5nIGVtcHR5IFJYIEZJRk8KNTIxZGNmYyBo
+dy9zc2kveGlsaW54X3NwaXBzOiBBdm9pZCBvdXQtb2YtYm91bmQgYWNjZXNzIHRvIGxxc3BpX2J1
+ZltdCjI4ZGM5OTQgaHcvc3NpL3hpbGlueF9zcGlwczogQXZvaWQgQVhJIHdyaXRlcyB0byB0aGUg
+TFFTUEkgbGluZWFyIG1lbW9yeQozM2QxMGQzIGh3L3NzaS94aWxpbnhfc3BpcHM6IENvbnZlcnQg
+bHFzcGlfcmVhZCgpIHRvIHJlYWRfd2l0aF9hdHRycwo0YWQ1NDBjIHRhcmdldC9hcm06IHJlcG9y
+dCBBUk12OC1BIEZQIHN1cHBvcnQgZm9yIEFBcmNoMzIgLWNwdSBtYXgKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CjEvMTAgQ2hlY2tpbmcgY29tbWl0IDRhZDU0MGNiMDAzZiAodGFyZ2V0L2FybTogcmVw
+b3J0IEFSTXY4LUEgRlAgc3VwcG9ydCBmb3IgQUFyY2gzMiAtY3B1IG1heCkKMi8xMCBDaGVja2lu
+ZyBjb21taXQgMzNkMTBkMzliZDFlIChody9zc2kveGlsaW54X3NwaXBzOiBDb252ZXJ0IGxxc3Bp
+X3JlYWQoKSB0byByZWFkX3dpdGhfYXR0cnMpCjMvMTAgQ2hlY2tpbmcgY29tbWl0IDI4ZGM5OTRh
+ODc3MSAoaHcvc3NpL3hpbGlueF9zcGlwczogQXZvaWQgQVhJIHdyaXRlcyB0byB0aGUgTFFTUEkg
+bGluZWFyIG1lbW9yeSkKNC8xMCBDaGVja2luZyBjb21taXQgNTIxZGNmYzYyMTMxIChody9zc2kv
+eGlsaW54X3NwaXBzOiBBdm9pZCBvdXQtb2YtYm91bmQgYWNjZXNzIHRvIGxxc3BpX2J1ZltdKQo1
+LzEwIENoZWNraW5nIGNvbW1pdCBkNGJmZWU2NDAzYTYgKGh3L3NzaS9tc3Mtc3BpOiBBdm9pZCBj
+cmFzaCB3aGVuIHJlYWRpbmcgZW1wdHkgUlggRklGTykKNi8xMCBDaGVja2luZyBjb21taXQgMDg1
+OTRkOTgzMWI0IChody9kaXNwbGF5L3hsbnhfZHA6IEF2b2lkIGNyYXNoIHdoZW4gcmVhZGluZyBl
+bXB0eSBSWCBGSUZPKQo3LzEwIENoZWNraW5nIGNvbW1pdCA5M2Q1ODQ1NWJhZjYgKGh3L2FybS92
+aXJ0OiBGaXggbm9uLXNlY3VyZSBmbGFzaCBtb2RlKQo4LzEwIENoZWNraW5nIGNvbW1pdCA2ZDcw
+NTE3NzNmMjcgKHBsMDMxOiBDb3JyZWN0bHkgbWlncmF0ZSBzdGF0ZSB3aGVuIHVzaW5nIC1ydGMg
+Y2xvY2s9aG9zdCkKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpW
+eFYpCiMxNTg6IEZJTEU6IGh3L3RpbWVyL3BsMDMxLmM6MzAwOgorICAgIC5zdWJzZWN0aW9ucyA9
+IChjb25zdCBWTVN0YXRlRGVzY3JpcHRpb24qW10pIHsKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDYg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKOS8x
+MCBDaGVja2luZyBjb21taXQgYTMwYjFkYWQ4MTVjICh0YXJnZXQvYXJtOiBTZXQgVkZQLXJlbGF0
+ZWQgTVZGUjAgZmllbGRzIGZvciBhcm05MjYgYW5kIGFybTEwMjYpCjEwLzEwIENoZWNraW5nIGNv
+bW1pdCAzNzRmZGI5MzZlZTkgKHRhcmdldC9hcm06IE5TIEJ1c0ZhdWx0IG9uIHZlY3RvciB0YWJs
+ZSBmZXRjaCBlc2NhbGF0ZXMgdG8gTlMgSGFyZEZhdWx0KQo9PT0gT1VUUFVUIEVORCA9PT0KClRl
+c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
+ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcxNTEzNDIxMS4yMzA2My0xLXBldGVy
+Lm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
+CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
+dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
+dC5jb20=
 
---PW0Eas8rCkcu1VkF
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 16, 2019 at 09:39:36AM +0200, C=E9dric Le Goater wrote:
-> On 16/07/2019 06:56, Joel Stanley wrote:
-> > When booting with the default amount of RAM the powernv machine will
-> > load the initrd above the top of RAM and cause the Linux kernel to crash
-> > when it attempts to access the initrd:
-> >=20
-> >   Linux/PowerPC load:
-> >   Finalizing device tree... flat tree at 0x202770c0
-> >   [    0.070476] nvram: Failed to find or create lnx,oops-log partition=
-, err -28
-> >   [    0.073270] nvram: Failed to initialize oops partition!
-> >   [    0.156302] BUG: Unable to handle kernel data access at 0xc0000000=
-60000000
-> >   [    0.158009] Faulting instruction address: 0xc000000001002e5c
-> >   cpu 0x0: Vector: 300 (Data Access) at [c00000003d1e3870]
-> >       pc: c000000001002e5c: unpack_to_rootfs+0xdc/0x2f0
-> >       lr: c000000001002df4: unpack_to_rootfs+0x74/0x2f0
-> >       sp: c00000003d1e3b00
-> >      msr: 9000000002009033
-> >      dar: c000000060000000
-> >    dsisr: 40000000
-> >     current =3D 0xc00000003d1c0000
-> >     paca    =3D 0xc000000001320000	 irqmask: 0x03	 irq_happened: 0x01
-> >       pid   =3D 1, comm =3D swapper/0
-> >   Linux version 5.2.0-10292-g040e2e618374 (joel@voyager) (gcc version 8=
-=2E3.0 (Debian 8.3.0-2)) #1 SMP Tue Jul 16 13:50:32 ACST 2019
-> >   enter ? for help
-> >   [c00000003d1e3bb0] c000000001003c90 populate_rootfs+0x84/0x1dc
-> >   [c00000003d1e3c40] c00000000000f494 do_one_initcall+0x88/0x1d0
-> >   [c00000003d1e3d10] c000000001000fc4 kernel_init_freeable+0x24c/0x250
-> >   [c00000003d1e3db0] c00000000000f7a0 kernel_init+0x1c/0x150
-> >   [c00000003d1e3e20] c00000000000b8a4 ret_from_kernel_thread+0x5c/0x78
-> >=20
-> > Provide a helpful message for users so they don't go reporting bugs to
-> > kernel developers.
-> >=20
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> > We could solve this in other ways, such as warn when loading the initrd
-> > outside of RAM, or load it within the known boundaries or RAM, but after
-> > hitting this myself I wanted to start the discussion.
->=20
-> We should also increase :=20
->=20
->     mc->default_ram_size =3D 1 * GiB;
->=20
-> to 2 or 4 GiB. I always use 4.
-
-It seems to be increasing the default addresses the real problem in
-practice.  Putting in a warning but still letting you do it, rather
-than relocating where we load the image based on the ram size seems
-kind of roundabout.
-
->=20
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  hw/ppc/pnv.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >=20
-> > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> > index bd4531c82260..bbd596ab9eca 100644
-> > --- a/hw/ppc/pnv.c
-> > +++ b/hw/ppc/pnv.c
-> > @@ -649,6 +649,13 @@ static void pnv_init(MachineState *machine)
->=20
->=20
-> at the beginning of this routine we have :
->=20
->     /* allocate RAM */
->     if (machine->ram_size < (1 * GiB)) {
->         warn_report("skiboot may not work with < 1GB of RAM");
->     }
->=20
-> and we should exit instead.=20
->=20
-> >      /* load initrd */
-> >      if (machine->initrd_filename) {
-> > +        if (machine->ram_size <=3D (1.5 * GiB)) {
-> > +            /* INITRD_LOAD_ADDR is at 1.5GB, so we require at least th=
-at much RAM
-> > +             * when specifying the initrd on the command line */
-> > +            warn_report("initrd load requires > %ld MB of RAM",
-> > +                    INITRD_LOAD_ADDR / MiB);
-> > +        }
->=20
-> Shouldn't we take into account the initrd size also ? I don't know if it =
-is=20
-> relevant as it can be compressed.
->=20
-> >          pnv->initrd_base =3D INITRD_LOAD_ADDR;
-> >          pnv->initrd_size =3D load_image_targphys(machine->initrd_filen=
-ame,
-> >                                    pnv->initrd_base, INITRD_MAX_SIZE);
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---PW0Eas8rCkcu1VkF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tkFEACgkQbDjKyiDZ
-s5LjMA/+NmpSzvPQTRYlDiu5LyppJ7GsYFfLTcqZwcxcuQZs/9+9EdmzpVIn4A8n
-Ro25eIbC6ryChYTveRzb3F29U2+CPWN8W3CT8wIf4j0vkAFy9NNnCuhuMBNrdhn6
-0a4r1PnNBN4HTrFp+Lg0qf5LmAjhPFoQRDQzF2D7piCX2V4MKMfybqB5s0FqgTN0
-AhYHQuQ70yUAWGoWz4NytcW6zsuLVC9xTlUYBvq6kQTrVVS84No355RyeXCWfIZF
-uxG1wxLSgUIB/th4ee5B3B8Qku4r+rSKc0PtNRDbHAvD7vT7G91RAzFfFUg10UzK
-TJJnL1r4E2WZ5KYScktGDyb8JHM5wwJFh6RIyw28AY6m30p3DZIBoJ4wTG4LeBwF
-nJEIbqQhdILGkVq08SpUnrdy5u4NiuNCYsqUaSuI0paQAQ8SucrCX6Y6/g9cqvDx
-04eUJe+6V1lYNhZkUbvOAoJREuv5TYklocEvjwN796FjKipP3P/ihaIT2jkx0aCq
-4gmngSblhomOIFSQV0g0uVRlc8hyjxrqtLU2PwZDJUxoev9erT4rn32D2fMc0mEr
-imY+d+mk1oESMntCy0lQpU84U2I2AjlnWihwm9JqauYnwn2othGcF5f1w/kGNk6a
-FUZIvAV5XUAriLmqE1GXn/BB4i7MgpBKddPhG6UbVyjS20EKVrI=
-=Jdfr
------END PGP SIGNATURE-----
-
---PW0Eas8rCkcu1VkF--
 
