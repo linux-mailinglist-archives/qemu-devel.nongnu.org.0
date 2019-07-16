@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E47376A241
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 08:32:54 +0200 (CEST)
-Received: from localhost ([::1]:45578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4316A279
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 08:55:25 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnH1C-0003Av-2U
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 02:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
+	id 1hnHMx-0007Pq-7d
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 02:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37225)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hnH0x-0002hb-MJ
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:32:40 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1hnHMj-0006uU-PO
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:55:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hnH0w-0006vy-Az
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:32:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60224)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hnH0t-0006tW-DW; Tue, 16 Jul 2019 02:32:35 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 70600307D848;
- Tue, 16 Jul 2019 06:32:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 969A95C221;
- Tue, 16 Jul 2019 06:32:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EC4D411386A0; Tue, 16 Jul 2019 08:32:28 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-References: <20190530143941.241963-1-vsementsov@virtuozzo.com>
- <c7ef8501-0c9f-f21b-1b60-dcd7dba03557@redhat.com>
- <f9af022a-7acf-bb1c-3d2c-b095bff2e251@redhat.com>
- <2a9f6327-1cb6-78eb-ad10-93a33c6e754c@redhat.com>
- <87a7ew9p3o.fsf@dusky.pond.sub.org>
- <4ee9736d-4e49-6572-e6e8-94739d155323@redhat.com>
-Date: Tue, 16 Jul 2019 08:32:28 +0200
-In-Reply-To: <4ee9736d-4e49-6572-e6e8-94739d155323@redhat.com> (John Snow's
- message of "Mon, 15 Jul 2019 20:13:13 -0400")
-Message-ID: <874l3mqykj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <joel.stan@gmail.com>) id 1hnHMi-00079j-RU
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:55:09 -0400
+Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:37736)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1hnHMc-00070C-SL; Tue, 16 Jul 2019 02:55:03 -0400
+Received: by mail-qt1-x841.google.com with SMTP id y26so18425204qto.4;
+ Mon, 15 Jul 2019 23:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=usensxpkP49U49PKDqI42Xxl/kfLbhduueChDwmz3K4=;
+ b=mujOGOqC7rBngmL1oo23bhsSFuXzdfTOQ1T9J/1k82QOioccqV5RrWOw6eOZux+Hv1
+ zK9z5lLRlndkaMuMF2BWr/o/QNdnDVo4TtKrIyCq5yX2HxtzlKoVDWwr3Q1thdd3XT64
+ aw/2GXyPqzq36MhvmPB7WKUe4VfdAUtjHi6XQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=usensxpkP49U49PKDqI42Xxl/kfLbhduueChDwmz3K4=;
+ b=Gk520HtLFgKmYz6IKXL1OuoArpBn1WQdmMSzN2R0YRr7fid37y9NPrBIWDvpSmVl4P
+ jwNEfFT3ACzwUGA1y+E8QzFfs3hqlb3EuVfE4T/ipY+6NloGtblOke4vVDDH+2DXHMYa
+ HF0ETh1uIHvKb+UKnM9sLr8unvO2dOaPOF+ZN0940W3hbTpraMUgsE2sqLdcC3bH6IG5
+ KkWb9K4dsMZ7uPNMAaLDaaM6qALaGoEfcFbHGLKYPmjyBpnrH5zrWLlw+T2OG8MyvmuJ
+ ZysyNNzy97boDMcY7u1xqC4tqmoE/g3TrwpKZQg4Alo4uQ3jbZJzJBqy41lZIwcv8DGJ
+ 4PQQ==
+X-Gm-Message-State: APjAAAXXFm8OuPQETD9hdIWJvzdZFDnmriAu/NRhZGr6rSesnMRlUBpo
+ /HA8x9il80Dazc53Lkh2aElAcSREp8YmXmENDcQ=
+X-Google-Smtp-Source: APXvYqwykvTarS/l2maKnZcuje8bvfubs3i/lWMFSignKUIq9OlBhYE/zPQjY1pq1RlMmDeH/1tMwa/MpUYokdFDuCU=
+X-Received: by 2002:a0c:afd5:: with SMTP id t21mr22451648qvc.105.1563260101260; 
+ Mon, 15 Jul 2019 23:55:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 16 Jul 2019 06:32:34 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qapi: add dirty-bitmaps to
- query-named-block-nodes result
+References: <20190704055150.4899-1-clg@kaod.org>
+ <cd1f8a48-27cb-5cc5-1fd2-46f1597a7094@redhat.com>
+ <20190704101345.GC1609@stefanha-x1.localdomain>
+ <b304e4bd-1315-b1be-6c48-add99df92626@redhat.com>
+In-Reply-To: <b304e4bd-1315-b1be-6c48-add99df92626@redhat.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 16 Jul 2019 06:54:48 +0000
+Message-ID: <CACPK8XdFUO6+Fx17Dry0D2QFhM885DugdvOkWnhgjxPc9VgG2Q@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::841
+Subject: Re: [Qemu-devel] [PATCH for 4.1] aspeed/timer: Provide
+ back-pressure information for short periods
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,124 +73,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- nshirokovskiy@virtuozzo.com, den@openvz.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Hi Peter,
 
-> On 6/5/19 8:46 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 5/31/19 10:55 AM, Eric Blake wrote:
->>>> On 5/30/19 11:26 AM, John Snow wrote:
->>>>>
->>>>>
->>>>> On 5/30/19 10:39 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> Let's add a possibility to query dirty-bitmaps not only on root nodes.
->>>>>> It is useful when dealing both with snapshots and incremental backups.
->>>>>>
->>>>
->>>>>> +++ b/block/qapi.c
->>>>>> @@ -78,6 +78,11 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
->>>>>>          info->backing_file = g_strdup(bs->backing_file);
->>>>>>      }
->>>>>>  
->>>>>> +    if (!QLIST_EMPTY(&bs->dirty_bitmaps)) {
->>>>>> +        info->has_dirty_bitmaps = true;
->>>>>> +        info->dirty_bitmaps = bdrv_query_dirty_bitmaps(bs);
->>>>>> +    }
->>>>>> +
->>>>>>      info->detect_zeroes = bs->detect_zeroes;
->>>>>>  
->>>>>>      if (blk && blk_get_public(blk)->throttle_group_member.throttle_state) {
->>>>>>
->>>>>
->>>>> So query-block uses bdrv_query_info, which calls bdrv_block_device_info,
->>>>> so we'll duplicate the bitmap output when doing the old-fashioned block
->>>>> query, but that's probably harmless overall.
->>>>
->>>> We already know that none of our existing query- interfaces are sane
->>>> (either too little information, or too much).  Duplication starts to
->>>> push an interface towards too much (it takes processor time to bundle up
->>>> the extra JSON, especially if the other end is not going to care if it
->>>> was present). I know Kevin still has somewhere on his to-do list the
->>>> implementation of a saner query- command for the information we really
->>>> want (about each block, without redundant information, and where we
->>>> don't repeat information in a nested manner, but where we also don't
->>>> omit information that would otherwise require multiple existing query-
->>>> to reconstruct).
->>>>
->>>>>
->>>>> We can continue to support the output in both places, or we could opt to
->>>>> deprecate the older interface; I think this is one of the last chances
->>>>> we'd get to do so before libvirt and wider adoption.
->>>>>
->>>>> I think that's probably Eric's choice.
->>>>
->>>> If you want to try to deprecate the old location, introspection at least
->>>> works to allow libvirt to know which place to look for it on a given
->>>> qemu. If you don't think deprecation is necessary, the duplication is
->>>> probably tolerable for now (as ideally we'd be deprecating ALL of our
->>>> not-quite-perfect query- block interfaces in favor of whatever sane
->>>> interface Kevin comes up with).
->>>>
->>>
->>> It sounds like it's probably the right move to deprecate the entire
->>> legacy interface, but still... If you have 20 or 30 bitmaps on a root
->>> node, you will see 40 or 60 entries.
->>>
->>> What's the smart way to deprecate it? We're not adding new flags or
->>> showing new arguments or anything. There might not be bitmaps, so you
->>> can't rely on that field being present or absent.
->>>
->>> Recommendations?
->> 
->> Kevin's "[PATCH v4 0/6] file-posix: Add dynamic-auto-read-only QAPI
->> feature" adds "feature flags" to the QAPI schema language, limited to
->> struct types, because that's what he needs.  They're visible in
->> introspection.  I intend to complete his work, so we can tack
->> "deprecated" feature flags to pretty much anything
->> 
->> Could that address your need?
->> 
+On Thu, 4 Jul 2019 at 12:26, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Hi Markus, digging this up again.
+> On 04/07/19 12:13, Stefan Hajnoczi wrote:
+> > On Thu, Jul 04, 2019 at 11:26:53AM +0200, Philippe Mathieu-Daud=C3=A9 w=
+rote:
+> >> CC'ing Stefan & Paolo for a non-ARM view on this...
+> >
+> > I'm not familiar with the various clock smoothing techniques implemente=
+d
+> > in QEMU and KVM, but this looks okay given that Linux guests expect
+> > this.
 >
-> In brief, we are displaying bitmap info in the "wrong" part of the query
-> result (attached to drive instead of node) and would like to change it.
+> Yeah, even KVM applies a minimum period of 200us to the x86 LAPIC timer.
 
-I lack context: which query command, which part of its result?
+Can we please merge this so guests can boot on 4.1?
 
-> I'd like to avoid reporting bitmaps in both locations permanently, so if
-> we have a plan to deprecate reporting bitmaps in the old location, I
-> will tolerate the duplicated output temporarily.
+Cheers,
 
-How bulky is the bitmap report?
-
-> Keeping in mind the bitmap fields are optional (so they can be absent
-> from both the new and old locations), what plan can we implement?
-
-"Optional" is a syntactic thing, which ought to be backed by a semantic
-"present iff" condition.  Have we specified such conditions?
-
-> Perhaps I can add a feature flag "has-node-bitmaps" for 4.2. Then, for
-> the next three versions, I will report bitmaps from both locations.
-> Then, in 5.2+ I will remove the old location.
-
-For how long has the bitmap been in the "wrong" place?  Any known
-consumers?
-
-> A client knows it can find bitmaps (if there are any) in the new
-> location if the feature flag is set. Otherwise, it should look in the
-> old location.
->
-> I think I've convinced myself that this is correct, so correct me if I
-> am wrong.
-
-Sounds like a valid use of feature flags to me.  However, feature flags
-are best used as a last resort.  With answers to my questions, I should
-be able to compare the feature flags solution to possible alternatives.
+Joel
 
