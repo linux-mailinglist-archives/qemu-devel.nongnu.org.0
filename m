@@ -2,56 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD136A23A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 08:24:17 +0200 (CEST)
-Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D556A248
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 08:39:38 +0200 (CEST)
+Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnGsp-0001Nq-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 02:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56529)
+	id 1hnH7h-0004cI-EM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 02:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60665)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hnGsc-0000zc-9Q
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:24:03 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnH7S-000479-Bl
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:39:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hnGsa-0002Lu-LT
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:24:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40954)
+ (envelope-from <dgibson@ozlabs.org>) id 1hnH7P-0003RD-V9
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:39:22 -0400
+Received: from ozlabs.org ([203.11.71.1]:58339)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hnGsa-0002KL-Bs
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 02:24:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 09FFC83F42;
- Tue, 16 Jul 2019 06:23:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4613A19C59;
- Tue, 16 Jul 2019 06:23:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C683B11386A0; Tue, 16 Jul 2019 08:23:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
-References: <cover.1563224628.git.DirtY.iCE.hu@gmail.com>
- <8245dab2e59b99b55f3f7773fd39dc920ae48951.1563224628.git.DirtY.iCE.hu@gmail.com>
-Date: Tue, 16 Jul 2019 08:23:53 +0200
-In-Reply-To: <8245dab2e59b99b55f3f7773fd39dc920ae48951.1563224628.git.DirtY.iCE.hu@gmail.com>
- (=?utf-8?B?IkvFkXbDoWfDsywgWm9sdMOhbiIncw==?= message of "Mon, 15 Jul 2019
- 23:08:05 +0200")
-Message-ID: <878ssyqyyu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hnH7N-0003Kx-MV; Tue, 16 Jul 2019 02:39:19 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45nrMv18xZz9sNC; Tue, 16 Jul 2019 16:39:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563259147;
+ bh=YE4vbUav9e71hcb1ZI/pEkOKYliaKPnBx9Jo3PHjUYI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nHpHwf5p6KBs00ZnY3Tam+MaUISSevcUU8fIJJ+MWWba5X8nsxfKHH74IHb8Evzol
+ 5miQ03muma2YzH8pUlW+gvgQikJ54iibCZokJpDlwIAHr2eW81ycwlEv8ce2AzqkEH
+ zCq9yibMn+u7JHSoSIa3UG/mha8iru8Jjyl8ETSQ=
+Date: Tue, 16 Jul 2019 14:48:33 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Jose Ricardo Ziviani <joserz@linux.ibm.com>
+Message-ID: <20190716044833.GB7525@umbus.fritz.box>
+References: <20190716040253.23490-1-joserz@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 16 Jul 2019 06:23:58 +0000 (UTC)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DKU6Jbt7q3WqK7+M"
+Content-Disposition: inline
+In-Reply-To: <20190716040253.23490-1-joserz@linux.ibm.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 03/14] audio: add audiodev property to
- vnc and wav_capture
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH] ppc: Improve SMT experience with TCG accel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,223 +54,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com> writes:
 
-> Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com>
+--DKU6Jbt7q3WqK7+M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 16, 2019 at 01:02:53AM -0300, Jose Ricardo Ziviani wrote:
+> It's not possible to specify the number of threads of a guest when
+> running QEMU/TCG. Today, users can have setups like:
+>=20
+> ... -accel tcg,thread=3Dmulti -smp 8,threads=3D1,cores=3D8 ...
+> or
+> ... -accel tcg,thread=3Dmulti -smp 8,sockets=3D2,cores=3D4,threads=3D1 ...
+>=20
+> However, the following is not possible:
+>=20
+> ... -accel tcg,thread=3Dmulti -smp 16,threads=3D4,cores=3D2,sockets=3D2 .=
+=2E.
+> qemu-system-ppc64: TCG cannot support more than 1 thread/core on a pserie=
+s machine
+>=20
+> The reason is due to how SMT is implemented since Power8. This patch
+> implements a very basic simulation of the msgsndp instruction, using ext
+> interrupt instead of doorbells. The result is a better user experience,
+> allowing them to play with SMT modes. However, it doesn't relate with
+> MTTCG threads in any way.
+
+This really isn't enough.
+
+POWER also has a number of SPRs which are per-core rather than
+per-thread, but currently TCG treats everything as per-thread.  You'd
+need to properly implement per-core registers before you can advertise
+support for multiple threads in TCG.
+
+>=20
+> Results:
+> ... -accel tcg,thread=3Dmulti -smp 16,threads=3D4,cores=3D2,sockets=3D2 .=
+=2E.
+>=20
+> root@ubuntu:~# ppc64_cpu --smt
+> SMT=3D4
+> root@ubuntu:~# ppc64_cpu --info
+> Core   0:    0*    1*    2*    3*
+> Core   1:    4*    5*    6*    7*
+> Core   2:    8*    9*   10*   11*
+> Core   3:   12*   13*   14*   15*
+> root@ubuntu:~# ppc64_cpu --smt=3D2
+> root@ubuntu:~# ppc64_cpu --info
+> Core   0:    0*    1*    2     3
+> Core   1:    4*    5*    6     7
+> Core   2:    8*    9*   10    11
+> Core   3:   12*   13*   14    15
+> root@ubuntu:~# ppc64_cpu --smt=3Doff
+> root@ubuntu:~# ppc64_cpu --info
+> Core   0:    0*    1     2     3
+> Core   1:    4*    5     6     7
+> Core   2:    8*    9    10    11
+> Core   3:   12*   13    14    15
+>=20
+> root@ubuntu:~# ppc64_cpu --smt
+> SMT is off
+> root@ubuntu:~# lscpu
+> Architecture:         ppc64le
+> Byte Order:           Little Endian
+> CPU(s):               16
+> On-line CPU(s) list:  0,4,8,12
+> Off-line CPU(s) list: 1-3,5-7,9-11,13-15
+> Thread(s) per core:   1
+> Core(s) per socket:   2
+> Socket(s):            2
+> NUMA node(s):         1
+> Model:                2.0 (pvr 004e 1200)
+> Model name:           POWER9 (architected), altivec supported
+> Hypervisor vendor:    KVM
+> Virtualization type:  para
+> L1d cache:            32K
+> L1i cache:            32K
+> NUMA node0 CPU(s):    0,4,8,12
+>=20
+> root@ubuntu:~# ppc64_cpu --smt=3D4
+> root@ubuntu:~# lscpu
+> Architecture:        ppc64le
+> Byte Order:          Little Endian
+> CPU(s):              16
+> On-line CPU(s) list: 0-15
+> Thread(s) per core:  4
+> Core(s) per socket:  2
+> Socket(s):           2
+> NUMA node(s):        1
+> Model:               2.0 (pvr 004e 1200)
+> Model name:          POWER9 (architected), altivec supported
+> Hypervisor vendor:   KVM
+> Virtualization type: para
+> L1d cache:           32K
+> L1i cache:           32K
+> NUMA node0 CPU(s):   0-15
+>=20
+> Note: it's also possible to simulate SMT in TCG single threaded mode.
+>=20
+> Signed-off-by: Jose Ricardo Ziviani <joserz@linux.ibm.com>
 > ---
->  ui/vnc.h        |  2 ++
->  monitor/misc.c  | 12 +++++++++++-
->  ui/vnc.c        | 15 ++++++++++++++-
->  hmp-commands.hx | 13 ++++++++-----
->  qemu-options.hx |  6 ++++++
->  5 files changed, 41 insertions(+), 7 deletions(-)
->
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index 2f84db3142..6f54653455 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -183,6 +183,8 @@ struct VncDisplay
->  #ifdef CONFIG_VNC_SASL
->      VncDisplaySASL sasl;
->  #endif
+>  hw/ppc/spapr.c           |  5 -----
+>  target/ppc/excp_helper.c | 24 ++++++++++++++++++++++++
+>  target/ppc/helper.h      |  1 +
+>  target/ppc/translate.c   | 11 +++++++++++
+>  4 files changed, 36 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 8783b43396..3a864dfc7d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2572,11 +2572,6 @@ static void spapr_set_vsmt_mode(SpaprMachineState =
+*spapr, Error **errp)
+>      int ret;
+>      unsigned int smp_threads =3D ms->smp.threads;
+> =20
+> -    if (!kvm_enabled() && (smp_threads > 1)) {
+> -        error_setg(&local_err, "TCG cannot support more than 1 thread/co=
+re "
+> -                     "on a pseries machine");
+> -        goto out;
+> -    }
+>      if (!is_power_of_2(smp_threads)) {
+>          error_setg(&local_err, "Cannot support %d threads/core on a pser=
+ies "
+>                       "machine because it must be a power of 2", smp_thre=
+ads);
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 50b004d00d..ac5d196641 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1231,6 +1231,30 @@ static int book3s_dbell2irq(target_ulong rb)
+>      return msg =3D=3D DBELL_TYPE_DBELL_SERVER ? PPC_INTERRUPT_HDOORBELL =
+: -1;
+>  }
+> =20
+> +void helper_msgsndp(target_ulong rb)
+> +{
+> +    CPUState *cs;
+> +    int irq =3D rb & DBELL_TYPE_MASK;
+> +    int thread_id =3D rb & 0x3f;
 > +
-> +    AudioState *audio_state;
->  };
->=20=20
->  typedef struct VncTight {
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index e393333a0e..f97810d370 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -1148,7 +1148,17 @@ static void hmp_wavcapture(Monitor *mon, const QDi=
-ct *qdict)
->      int bits =3D qdict_get_try_int(qdict, "bits", -1);
->      int has_channels =3D qdict_haskey(qdict, "nchannels");
->      int nchannels =3D qdict_get_try_int(qdict, "nchannels", -1);
-> +    const char *audiodev =3D qdict_get_try_str(qdict, "audiodev");
->      CaptureState *s;
-> +    AudioState *as =3D NULL;
-> +
-> +    if (audiodev) {
-> +        as =3D audio_state_by_name(audiodev);
-> +        if (!as) {
-> +            monitor_printf(mon, "Invalid audiodev specified\n");
-> +            return;
-> +        }
+> +    if (irq !=3D DBELL_TYPE_DBELL_SERVER) {
+> +        return;
 > +    }
-
-Note for later: if "audiodev" is specified, it must name an existing
-AudioState.
-
->=20=20
->      s =3D g_malloc0 (sizeof (*s));
->=20=20
-> @@ -1156,7 +1166,7 @@ static void hmp_wavcapture(Monitor *mon, const QDic=
-t *qdict)
->      bits =3D has_bits ? bits : 16;
->      nchannels =3D has_channels ? nchannels : 2;
->=20=20
-> -    if (wav_start_capture(NULL, s, path, freq, bits, nchannels)) {
-> +    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
->          monitor_printf(mon, "Failed to add wave capture\n");
->          g_free (s);
->          return;
-
-Note for later: this is the only other failure mode.
-
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 140f364dda..24f9be5b5d 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -1222,7 +1222,7 @@ static void audio_add(VncState *vs)
->      ops.destroy =3D audio_capture_destroy;
->      ops.capture =3D audio_capture;
->=20=20
-> -    vs->audio_cap =3D AUD_add_capture(NULL, &vs->as, &ops, vs);
-> +    vs->audio_cap =3D AUD_add_capture(vs->vd->audio_state, &vs->as, &ops=
-, vs);
->      if (!vs->audio_cap) {
->          error_report("Failed to add audio capture");
->      }
-> @@ -3369,6 +3369,9 @@ static QemuOptsList qemu_vnc_opts =3D {
->          },{
->              .name =3D "non-adaptive",
->              .type =3D QEMU_OPT_BOOL,
-> +        },{
-> +            .name =3D "audiodev",
-> +            .type =3D QEMU_OPT_STRING,
->          },
->          { /* end of list */ }
->      },
-> @@ -3806,6 +3809,7 @@ void vnc_display_open(const char *id, Error **errp)
->      const char *saslauthz;
->      int lock_key_sync =3D 1;
->      int key_delay_ms;
-> +    const char *audiodev;
->=20=20
->      if (!vd) {
->          error_setg(errp, "VNC display not active");
-> @@ -3991,6 +3995,15 @@ void vnc_display_open(const char *id, Error **errp)
->      }
->      vd->ledstate =3D 0;
->=20=20
-> +    audiodev =3D qemu_opt_get(opts, "audiodev");
-> +    if (audiodev) {
-> +        vd->audio_state =3D audio_state_by_name(audiodev);
-> +        if (!vd->audio_state) {
-> +            error_setg(errp, "Audiodev '%s' not found", audiodev);
-> +            goto fail;
+> +
+> +    qemu_mutex_lock_iothread();
+> +    CPU_FOREACH(cs) {
+> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> +
+> +        if (cpu->vcpu_id =3D=3D thread_id) {
+> +            continue;
 > +        }
+> +
+> +        cpu->env.pending_interrupts |=3D 1 << PPC_INTERRUPT_EXT;
+> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
 > +    }
-
-Note for later: if "audiodev" is specified, it must name an existing
-AudioState.
-
-I like this error message better than the one in hmp_wavcapture().  Use
-it there, too?
-
-Move it into audio_state_by_name() by giving it an Error **errp
-parameter?  Matter of taste, up to you.
-
+> +    qemu_mutex_unlock_iothread();
+> +}
 > +
->      device_id =3D qemu_opt_get(opts, "display");
->      if (device_id) {
->          int head =3D qemu_opt_get_number(opts, "head", 0);
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index bfa5681dd2..fa7f009268 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -819,16 +819,19 @@ ETEXI
->=20=20
->      {
->          .name       =3D "wavcapture",
-> -        .args_type  =3D "path:F,freq:i?,bits:i?,nchannels:i?",
-> -        .params     =3D "path [frequency [bits [channels]]]",
-> +        .args_type  =3D "path:F,freq:i?,bits:i?,nchannels:i?,audiodev:s?=
-",
-> +        .params     =3D "path [frequency [bits [channels [audiodev]]]]",
->          .help       =3D "capture audio to a wave file (default frequency=
-=3D44100 bits=3D16 channels=3D2)",
->          .cmd        =3D hmp_wavcapture,
->      },
->  STEXI
-> -@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{chann=
-els}]]]
-> +@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{chann=
-els} [@var{audiodev}]]]]
->  @findex wavcapture
-> -Capture audio into @var{filename}. Using sample rate @var{frequency}
-> -bits per sample @var{bits} and number of channels @var{channels}.
-> +Capture audio into @var{filename} from @var{audiodev}, using sample rate
-> +@var{frequency} bits per sample @var{bits} and number of channels
-> +@var{channels}. When not using an -audiodev argument on command line,
-> +@var{audiodev} must be omitted, otherwise is must specify a valid
-> +audiodev.
-
-I can see the code for "must specify a valid audiodev" in
-hmp_wavcapture().  Where is "must be omitted" checked?
-
-Preexisting: the list "sample rate @var{frequency} bits per sample
-@var{bits} and number of channels @var{channels}" lacks a comma after
-@var{frequency}, please fix that.  I'd put one after @var{bits} as well,
-but that's a matter of taste[*]
-
-The sentence is of the form "if not COND then A else B".  The
-less-negated form "if COND then B else A" is commonly easier to read.
-
-Documentation says "from @var{audiodev}".  But when "not using an
--audiodev argument on command line, +@var{audiodev} must be omitted".
-Where does it sample from then?  I figure from some default audio
-device.  Where is that default audio device explained?  I skimmed the
--audiodev documentation in qemu-options.hx, but couldn't see it there.
-
-Suggest to say "an -audiodev command line option" instead of "an
--audiodev argument on command line".
-
-Double-checking:
-
-* -audiodev is the only way to create an audio backend.
-
-* If the user creates no audio backend, QEMU supplies a default audio
-  backend.
-
-Correct?
-
-Other kinds of backends can also be created at run-time with the
-monitor.  I'm not asking you provide that for audio.  I'm just wondering
-whether it could conceivably be useful.
-
-If yes, you might want to avoid the narrow "if using -audiodev", and
-instead say "if the default audio device is in use".
-
->=20=20
->  Defaults:
->  @itemize @minus
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 9621e934c0..a308e5f5aa 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1978,6 +1978,12 @@ can help the device and guest to keep up and not l=
-ose events in case
->  events are arriving in bulk.  Possible causes for the latter are flaky
->  network connections, or scripts for automated testing.
->=20=20
-> +@item audiodev=3D@var{audiodev}
+>  void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
+>  {
+>      int irq =3D book3s_dbell2irq(rb);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 380c9b1e2a..eadd08324b 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -630,6 +630,7 @@ DEF_HELPER_FLAGS_3(store_sr, TCG_CALL_NO_RWG, void, e=
+nv, tl, tl)
+> =20
+>  DEF_HELPER_FLAGS_1(602_mfrom, TCG_CALL_NO_RWG_SE, tl, tl)
+>  DEF_HELPER_1(msgsnd, void, tl)
+> +DEF_HELPER_1(msgsndp, void, tl)
+>  DEF_HELPER_2(msgclr, void, env, tl)
+>  DEF_HELPER_1(book3s_msgsnd, void, tl)
+>  DEF_HELPER_2(book3s_msgclr, void, env, tl)
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 4a5de28036..083731292b 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -6657,6 +6657,15 @@ static void gen_msgsnd(DisasContext *ctx)
+>  #endif /* defined(CONFIG_USER_ONLY) */
+>  }
+> =20
+> +static void gen_msgsndp(DisasContext *ctx)
+> +{
+> +#if defined(CONFIG_USER_ONLY)
+> +    GEN_PRIV;
+> +#else
+> +    gen_helper_msgsndp(cpu_gpr[rB(ctx->opcode)]);
+> +#endif /* defined(CONFIG_USER_ONLY) */
+> +}
 > +
-> +Use the specified @var{audiodev} when the VNC client requests audio
-> +transmission. When not using an -audiodev argument, this option must
-> +be omitted, otherwise is must be present and specify a valid audiodev.
-> +
->  @end table
->  ETEXI
+>  static void gen_msgsync(DisasContext *ctx)
+>  {
+>  #if defined(CONFIG_USER_ONLY)
+> @@ -7176,6 +7185,8 @@ GEN_HANDLER2_E(tlbilx_booke206, "tlbilx", 0x1F, 0x1=
+2, 0x00, 0x03800001,
+>                 PPC_NONE, PPC2_BOOKE206),
+>  GEN_HANDLER2_E(msgsnd, "msgsnd", 0x1F, 0x0E, 0x06, 0x03ff0001,
+>                 PPC_NONE, PPC2_PRCNTL),
+> +GEN_HANDLER2_E(msgsndp, "msgsndp", 0x1F, 0x0E, 0x04, 0x03ff0001,
+> +               PPC_NONE, PPC_POWER),
+>  GEN_HANDLER2_E(msgclr, "msgclr", 0x1F, 0x0E, 0x07, 0x03ff0001,
+>                 PPC_NONE, PPC2_PRCNTL),
+>  GEN_HANDLER2_E(msgsync, "msgsync", 0x1F, 0x16, 0x1B, 0x00000000,
 
-Same as for wavcapture, basically.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--DKU6Jbt7q3WqK7+M
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[*] https://en.wikipedia.org/wiki/Serial_comma
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tVx8ACgkQbDjKyiDZ
+s5I8gQ/+I1fN+fkYYckaruJiRP1g6IeAwFiV1HOgLz0uVzXrR6khqiJMrVcdMoE0
+4qEMEjqCdxhcZz9+Fd2C2Lp0vo8J+h5p3tBUxn+4w1MkC3V1Egl0DINiXZBdIKb/
+WVootOJQlGHNOpl5E46Q6LDii/+XQr4I/tSuaevsj0xlasEzsZJYx/78SFsXHBf8
+Xrlaa/lMtQARgx4uytgfX1MegRcdcj9uzrJwRs2JpWhOxQZzpJYaHANtqNOme22w
+FhXbhknhA8WX7pkqXStB9MKNjcqxKdcVD4PBLZfoU0SC8mS+0nvIW50MFdeOjKtd
+FTspSl6TJjlSyEfTHAURNCWc2PVn0lCqkOXIl2NvbW7pGC610e+K8+zroOKIzYqB
+Tnic74kWs6YMRh/BF5o1y0m3gi0aVGYMrUJdSnyGPxTAFJgqokx72czzLjsI2Hnu
+yKkojz5XB0XllRQ6voYSEsoHPpf2BTMiHcwLI4aO6FKtF3ytXERbXw8pAKUG1iYW
+RKcECZtjOFUIqOfUkpVLS57sWE1ggG81pn2ZW3dyOI9RGNaCREWYEYkFK39MU7Ye
+Rw4QVykN9wQp55apQO07jHcYLgzf9jKO7CsaslX0jBk9649A0E8ggDVBQGxFM5sZ
+wrG4YRbb6pPZIduu+sum4Mefor8EricRTyDJUDfT2yqs9OAs85w=
+=2z3q
+-----END PGP SIGNATURE-----
+
+--DKU6Jbt7q3WqK7+M--
 
