@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA4E6AA2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 16:02:07 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4D16AA74
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 16:16:14 +0200 (CEST)
+Received: from localhost ([::1]:49500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnO1u-0006va-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 10:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33405)
+	id 1hnOFZ-0002XD-8b
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 10:16:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38267)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hnO1b-0006Wj-OU
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:01:52 -0400
+ (envelope-from <bounces@canonical.com>) id 1hnOF8-0001Y4-RH
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:15:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hnO1a-00064X-Jj
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:01:47 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53421)
+ (envelope-from <bounces@canonical.com>) id 1hnOF7-00068g-Fw
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:15:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35372)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hnO1a-00063q-A9
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:01:46 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x15so18790542wmj.3
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 07:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mz7/qAWIZBgCxy/KQHnwd3kx6dvkYS2R0nAOMZwpcnc=;
- b=lO9SRqxtMYzubpB8KHB3tzm+dQIkcf3/WC7Aia5YfoZjHyWCBWQKdSIEHpFZ9u6/b7
- lleANc7jnXUSXe3e17lSHFEH7xkLSO8a0rdgAHQkdBCqCzebIeA3gMIuk5ZuGrAorkZt
- 9PJ3iWIULeg3iJZ/VZbzhhOXFYR9HMGB9QWIxzOSY4QEXkSDGlf7HHLAujMTib3xr2V0
- CNwNRmntUJoieNUdMUBcNJnsYV1xWXUwSrzzXJLsv/Z6shza1kCCEzjmLyDd9UqpLS+9
- Z/IqUd+qHSEkR0cnpsrNb9IYN9EdtX/WSUzr7VeX+rNmYJxmlUOTKuZ/LyVO9N0hBy0H
- +v3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mz7/qAWIZBgCxy/KQHnwd3kx6dvkYS2R0nAOMZwpcnc=;
- b=TDdBAASEMqeWP7dAwM/V6sQVANDuV8h4sFRG3fsDoTfLerIWLhuF+f6eEv4majfz0b
- YT8DitcN25GL8NdsftoU4wtNbmdjJsT2Q1eu5Xf/C7Ui/1TEvBiWEP9lupjGeyU1MxO4
- GWO3JnJggISZB3wzop6u5Jys1iKcysiFrpsn14NEm9dvr1F3wvLsg8UkNrBV1RBU2Hr/
- oOQdzDJH/HIedCRL+SXx6QjsdYPh+cRAoR0UgkSI51PY9hTqqqQEDuwA0LMeI4OYLdyy
- 1Eu8qSpjZfUf0+X1ueIADYWmVZCqOC1jAdt9fuyPIM30RjmuibNzIK61I9IZnzP/KvFU
- t+Iw==
-X-Gm-Message-State: APjAAAXmuBRmEVnLLsj331/rlBUEUROGhEuA9jarj9RSrztSvke4y08T
- IqQO41Y90KIKyJEpRr2bCsSa9Q==
-X-Google-Smtp-Source: APXvYqzKzCFo/FvuC1NLn+RQOY3+pKxdmEWKNhaivBU3mFAlWiBfXc7RsPC8Fki6/1H7FPNkvF926g==
-X-Received: by 2002:a1c:968c:: with SMTP id y134mr30300379wmd.75.1563285704980; 
- Tue, 16 Jul 2019 07:01:44 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 15sm14734964wmk.34.2019.07.16.07.01.44
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 16 Jul 2019 07:01:44 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B9DD31FF87;
- Tue, 16 Jul 2019 15:01:43 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 15:01:33 +0100
-Message-Id: <20190716140133.8578-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hnOF7-00068C-8d
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:15:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hnOF5-0003Jn-Rw
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 14:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CC7232E80D4
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 14:15:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [RFC PATCH for 4.1] linux-user: unparent CPU object
- before unref
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Jul 2019 14:01:33 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alex-bennee scherft
+X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
+Message-Id: <20190716140133.8578-1-alex.bennee@linaro.org>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 4e7a2f83538d1c9b8c69941803e0e78d43cd7eed
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836558] [RFC PATCH for 4.1] linux-user: unparent
+ CPU object before unref
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,9 +66,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 1836558@bugs.launchpad.net, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,7 +79,7 @@ allocate a lot of memory in their CPU structures.
 
 Fixes: https://bugs.launchpad.net/qemu/+bug/1836558
 Cc: 1836558@bugs.launchpad.net
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 ---
  linux-user/syscall.c | 1 +
  1 file changed, 1 insertion(+)
@@ -104,15 +88,88 @@ diff --git a/linux-user/syscall.c b/linux-user/syscall.c
 index 39a37496fed..4c9313fd9d0 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7183,6 +7183,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -7183,6 +7183,7 @@ static abi_long do_syscall1(void *cpu_env, int num, a=
+bi_long arg1,
                            NULL, NULL, 0);
              }
-             thread_cpu = NULL;
+             thread_cpu =3D NULL;
 +            object_unparent(OBJECT(cpu));
              object_unref(OBJECT(cpu));
              g_free(ts);
              rcu_unregister_thread();
--- 
+-- =
+
 2.20.1
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836558
+
+Title:
+  Qemu-ppc Memory leak creating threads
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  When creating c++ threads (with c++ std::thread), the resulting binary
+  has memory leaks when running with qemu-ppc.
+
+  Eg the following c++ program, when compiled with gcc, consumes more
+  and more memory while running at qemu-ppc. (does not have memory leaks
+  when compiling for Intel, when running same binary on real powerpc CPU
+  hardware also no memory leaks).
+
+  (Note I used function getCurrentRSS to show available memory, see
+  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
+  runtime-using-c; calls commented out here)
+
+  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
+with older g++ compilers even 4.9)
+  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
+  qemu: qemu-ppc version 3.1.50
+
+
+  ---
+
+  #include <iostream>
+  #include <thread>
+  #include <chrono>
+
+  =
+
+  using namespace std::chrono_literals;
+
+  // Create/run and join a 100 threads.
+  void Fun100()
+  {
+  //    auto b4 =3D getCurrentRSS();
+  //    std::cout << getCurrentRSS() << std::endl;
+      for(int n =3D 0; n < 100; n++)
+      {
+          std::thread t([]
+          {
+              std::this_thread::sleep_for( 10ms );
+          });
+  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
+          t.join();
+      }
+      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
+ memory...
+  //    auto after =3D getCurrentRSS();
+      std::cout << b4 << ' ' << after << std::endl;
+  }
+
+  =
+
+  int main(int, char **)
+  {
+      Fun100();
+      Fun100();  // memory used keeps increasing
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
