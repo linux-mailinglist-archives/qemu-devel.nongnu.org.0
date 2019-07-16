@@ -2,93 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A847B6ACCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:31:52 +0200 (CEST)
-Received: from localhost ([::1]:51072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6026ACC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:30:31 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnQMp-0008JP-Hm
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53192)
+	id 1hnQLW-0003D3-3a
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52691)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hnQME-0006jq-8N
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:15 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hnQLH-0002lE-JU
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hnQMD-0002M1-1i
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33384
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hnQMC-0002Ka-Rc
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:12 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6GGUxve079830
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 12:31:09 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tsgbrws2k-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 12:31:06 -0400
-Received: from localhost
- by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 16 Jul 2019 17:30:37 +0100
-Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
- by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 16 Jul 2019 17:30:34 +0100
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6GGUXAW46268742
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Jul 2019 16:30:33 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F8F6136055;
- Tue, 16 Jul 2019 16:30:33 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 87882136059;
- Tue, 16 Jul 2019 16:30:33 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.212])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 16 Jul 2019 16:30:33 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <cohuck@redhat.com>) id 1hnQLF-0001lb-Uh
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39850)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hnQLF-0001l2-Ki
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 129CE3082B41;
+ Tue, 16 Jul 2019 16:30:12 +0000 (UTC)
+Received: from gondolin (ovpn-117-180.ams2.redhat.com [10.36.117.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 590AC5DA34;
+ Tue, 16 Jul 2019 16:30:01 +0000 (UTC)
+Date: Tue, 16 Jul 2019 18:29:58 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190716182958.7428b1f9.cohuck@redhat.com>
+In-Reply-To: <1562665760-26158-3-git-send-email-kwankhede@nvidia.com>
+References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
+ <1562665760-26158-3-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: David Gibson <david@gibson.dropbear.id.au>
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <20190715022555.GB3440@umbus.fritz.box>
-References: <20190712011934.29863-1-mdroth@linux.vnet.ibm.com>
- <20190712011934.29863-2-mdroth@linux.vnet.ibm.com>
- <20190712064027.GF2561@umbus.fritz.box>
- <156294442813.22588.13951961791159970871@sif>
- <20190715022555.GB3440@umbus.fritz.box>
-User-Agent: alot/0.7
-Date: Tue, 16 Jul 2019 11:25:34 -0500
-X-TM-AS-GCONF: 00
-x-cbid: 19071616-0016-0000-0000-000009CE47EE
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011439; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01233065; UDB=6.00649693; IPR=6.01014376; 
- MB=3.00027745; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-16 16:30:35
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071616-0017-0000-0000-000044097943
-Message-Id: <156329433410.5171.6918528130179183618@sif>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-16_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907160202
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PATCH 1/2] docs/specs: initial spec summary for
- Ultravisor-related hcalls
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 16 Jul 2019 16:30:12 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v7 02/13] vfio: Add function to unmap VFIO
+ region
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,52 +58,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
+ eskultet@redhat.com, ziye.yang@intel.com, qemu-devel@nongnu.org,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting David Gibson (2019-07-14 21:25:55)
-> On Fri, Jul 12, 2019 at 10:13:48AM -0500, Michael Roth wrote:
-> > Quoting David Gibson (2019-07-12 01:40:27)
-> > > On Thu, Jul 11, 2019 at 08:19:33PM -0500, Michael Roth wrote:
-> > > > For now this only covers hcalls relating to TPM communication since
-> > > > it's the only one particularly important from a QEMU perspective at=
-m,
-> > > > but others can be added here where it makes sense.
-> > > > =
+On Tue, 9 Jul 2019 15:19:09 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-> > > > The full specification for all hcalls/ucalls will eventually be made
-> > > > available in the public/OpenPower version of the PAPR specification.
-> > > > =
+> This function is used in follwing patch in this series.
 
-> > > > Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> > > =
+"This function will be used for the migration region." ?
 
-> > > Thanks for adding this documentation.  Is there a PAPR extension
-> > > proposal which covers this, which we could cite as the source?
-> > =
+("This series" will be a bit confusing when this has been merged :)
 
-> > We have an internal document/repo that serves as a catch-all for the Ul=
-travisor
-> > related spec changes. We could make that available publically via githu=
-b and
-> > cite it here until it hits the full spec. Would that work?
-> =
+> Migration region is mmaped when migration starts and will be unmapped when
+> migration is complete.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/common.c              | 20 ++++++++++++++++++++
+>  hw/vfio/trace-events          |  1 +
+>  include/hw/vfio/vfio-common.h |  1 +
+>  3 files changed, 22 insertions(+)
 
-> Yes, that sounds good.
-
-Ok, we're working on getting that posted externally. If it's not up in
-time for next submission I will send a follow-up patch to add a
-reference.
-
-> =
-
-> -- =
-
-> David Gibson                    | I'll have my music baroque, and my code
-> david AT gibson.dropbear.id.au  | minimalist, thank you.  NOT _the_ _othe=
-r_
->                                 | _way_ _around_!
-> http://www.ozlabs.org/~dgibson
-
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
