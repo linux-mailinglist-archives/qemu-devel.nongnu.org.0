@@ -2,46 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A58B6ACCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:31:34 +0200 (CEST)
-Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632656ACD0
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:32:25 +0200 (CEST)
+Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnQMX-000743-8h
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52936)
+	id 1hnQNM-000209-8O
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53136)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hnQLg-0004JA-2q
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hnQM9-0006On-CX
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hnQLf-00021f-2S
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52842)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hnQLc-00020b-KG; Tue, 16 Jul 2019 12:30:36 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E7556285AE;
- Tue, 16 Jul 2019 16:30:35 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC65C5C28D;
- Tue, 16 Jul 2019 16:30:32 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 19:30:20 +0300
-Message-Id: <20190716163020.13383-4-mlevitsk@redhat.com>
-In-Reply-To: <20190716163020.13383-1-mlevitsk@redhat.com>
-References: <20190716163020.13383-1-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 16 Jul 2019 16:30:35 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 3/3] block/nvme: don't touch the completion
- entries
+ (envelope-from <peter.maydell@linaro.org>) id 1hnQM8-0002Hl-6r
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:09 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32818)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hnQM7-0002H5-Ud
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:31:08 -0400
+Received: by mail-ot1-x342.google.com with SMTP id q20so21726069otl.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 09:31:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VSz1VqOqD40aBjneZfra1E/jcK7RSgKE9Sw01p8enxo=;
+ b=BQn3L5nq3Yr+KNZHT2FjoPyaIsGXJBrOcEH6ItsvR8Nz1UIytDbygrO+Rx5+dEpVo2
+ BLSVVMeh1zI/3rEWdTa7z6kbDeEf820TIlVqI8i+hqnPn+OS926ViGCp4PnkKdcJ5017
+ TgHl4zAiC6Xc3gdTFXsVanSu28yI91+8orIQb7vZIbIFzPHTElhjTYibTs300evT8+xL
+ 9V4XCkx7BY4CpYOuysRFOcT3Nq+2Igf8dtZOWy1k2SrqImDAVYuLS1Sj/JwiuANh4gPB
+ CNOqwCmv+Wtg/FSF5dTo3bQLvZnQvQmchwPdCI9Ve9hoR2Py2LK0OczT1uZOn9wIrZHj
+ R56w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VSz1VqOqD40aBjneZfra1E/jcK7RSgKE9Sw01p8enxo=;
+ b=W9rpsTrbORZIHpS1WeFQufSzk0TgD4DGAgq5A9G6n+b17aAbf67QYsYVyG77SJuDsV
+ fuWhMvQheJFfBpR05J4zeI/ay8KOP0FiQxbuIQk+L1JdQ3TwYyLE8H31mG5O0YKtsP07
+ ZZ/8ZTooT6otO//XeVGRy6VyEOxjSnGyILP3TH0KBMHf/aVi+iQf1uQYsq3m3HiDy/OP
+ iqgDvtKsKfX5V9842mOzhCMbb4qVnmgF5koXm1sFXbFpEwDK8xK+Lw+AsKNOXIQniPNe
+ kodn4ABkEKHV+HMER5GEuHpdlMJpW9o+31NRWQtzdDkMkOJkPYSz+rn4PhCLDVg4m0/l
+ DU1Q==
+X-Gm-Message-State: APjAAAWV1CK7z1DMpjCdSAzzDKj8XbH+hWd4xKampLwqDHvsm0pCA9Vq
+ KkkXeHYFYadRCwv+xRnr1jTYjOYO/mFn72QzVGaaJw==
+X-Google-Smtp-Source: APXvYqyoDlW1Jr/Y6Ua9eVb83btQ9KjVkd1pa9xv5HwL5grQiX/DFSlQbbATo8eDqIZ7bS66qbf2XcVnOw68ovFrB8c=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr4141763oti.91.1563294666903; 
+ Tue, 16 Jul 2019 09:31:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190716160143.394-1-philmd@redhat.com>
+In-Reply-To: <20190716160143.394-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Jul 2019 17:30:55 +0100
+Message-ID: <CAFEAcA_JTBOUsC5K0JrX_dV+STWJv95nzPLfc+ktP6=pR4rjHQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PULL 0/2] pflash-next patches for v4.1.0-rc1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,49 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Completion entries are meant to be only read by the host and written by the device.
-The driver is supposed to scan the completions from the last point where it left,
-and until it sees a completion with non flipped phase bit.
+On Tue, 16 Jul 2019 at 17:02, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> The following changes since commit 697f59243f5a28b8a243ff5ad59e34bbecffca=
+e1:
+>
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into s=
+taging (2019-07-16 15:08:29 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/pflash-next-20190716
+>
+> for you to fetch changes up to 611c749c3b86fe377c94ea301feab3d9ce3bf617:
+>
+>   hw/block/pflash_cfi01: Start state machine as READY to accept commands =
+(2019-07-16 17:54:06 +0200)
+>
+> ----------------------------------------------------------------
+>
+> Trivial pflash fixes for rc1.
+>
+> ----------------------------------------------------------------
 
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- block/nvme.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Applied, thanks.
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 35ce10dc79..c28755cc31 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -318,7 +318,7 @@ static bool nvme_process_completion(BDRVNVMeState *s, NVMeQueuePair *q)
-     while (q->inflight) {
-         int16_t cid;
-         c = (NvmeCqe *)&q->cq.queue[q->cq.head * NVME_CQ_ENTRY_BYTES];
--        if (!c->cid || (le16_to_cpu(c->status) & 0x1) == q->cq_phase) {
-+        if ((le16_to_cpu(c->status) & 0x1) == q->cq_phase) {
-             break;
-         }
-         q->cq.head = (q->cq.head + 1) % NVME_QUEUE_SIZE;
-@@ -342,10 +342,7 @@ static bool nvme_process_completion(BDRVNVMeState *s, NVMeQueuePair *q)
-         qemu_mutex_unlock(&q->lock);
-         req.cb(req.opaque, nvme_translate_error(c));
-         qemu_mutex_lock(&q->lock);
--        c->cid = cpu_to_le16(0);
-         q->inflight--;
--        /* Flip Phase Tag bit. */
--        c->status = cpu_to_le16(le16_to_cpu(c->status) ^ 0x1);
-         progress = true;
-     }
-     if (progress) {
--- 
-2.17.2
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
+-- PMM
 
