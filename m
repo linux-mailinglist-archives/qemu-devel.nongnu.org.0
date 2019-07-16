@@ -2,49 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1195C6A3A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:15:05 +0200 (CEST)
-Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141CA6A3AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:16:13 +0200 (CEST)
+Received: from localhost ([::1]:46272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIc2-0005P9-8E
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
+	id 1hnIdA-000265-5A
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:16:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33345)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hnIbK-0003Vi-Is
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:19 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hnIcW-00005N-TD
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:15:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hnIbI-0005YT-J7
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37358)
+ (envelope-from <mlevitsk@redhat.com>) id 1hnIcU-0006iu-IN
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:15:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48260)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hnIbI-0005Xe-DN
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:16 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1hnIcN-0006W1-Ek; Tue, 16 Jul 2019 04:15:23 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5225A307CDD1;
- Tue, 16 Jul 2019 08:14:15 +0000 (UTC)
-Received: from redhat.com (ovpn-117-158.ams2.redhat.com [10.36.117.158])
- by smtp.corp.redhat.com (Postfix) with SMTP id D76BA5D721;
- Tue, 16 Jul 2019 08:14:02 +0000 (UTC)
-Date: Tue, 16 Jul 2019 04:14:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Oleinik, Alexander" <alxndr@bu.edu>
-Message-ID: <20190716041205-mutt-send-email-mst@kernel.org>
-References: <20190716033719.2866-1-alxndr@bu.edu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190716033719.2866-1-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+ by mx1.redhat.com (Postfix) with ESMTPS id 0AB8983F42;
+ Tue, 16 Jul 2019 08:15:21 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E45E60C05;
+ Tue, 16 Jul 2019 08:15:19 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 16 Jul 2019 11:15:16 +0300
+Message-Id: <20190716081516.27374-1-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 16 Jul 2019 08:14:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Tue, 16 Jul 2019 08:15:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/1] Add check for header length in
- virtio-net-tx
+Subject: [Qemu-devel] [PATCH v4] LUKS: support preallocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,51 +50,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "bsd@redhat.com" <bsd@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 16, 2019 at 03:38:00AM +0000, Oleinik, Alexander wrote:
-> While fuzzing the virtio-net tx vq, I ran into an assertion failure due
-> to iov_copy offsets larger than the total iov size. Though there is
-> a check to cover this, it does not execute when !n->has_vnet_hdr. This
-> patch tries to fix this. 
-> 
-> The call stack for the assertion failure:
-> 
-> #8 in __assert_fail (libc.so.6+0x300f1)
-> #9 in iov_copy iov.c:266:5
-> #10 in virtio_net_flush_tx virtio-net.c:2073:23
-> #11 in virtio_net_tx_bh virtio-net.c:2197:11
-> #12 in aio_bh_poll async.c:118:13
-> #13 in aio_dispatch aio-posix.c:460:5
-> #14 in aio_ctx_dispatch async.c:261:5
-> #15 in g_main_context_dispatch (libglib-2.0.so.0+0x4df2d)
-> #16 in glib_pollfds_poll main-loop.c:213:9
-> #17 in os_host_main_loop_wait main-loop.c:236
-> #18 in main_loop_wait main-loop.c:512
-> #19 in virtio_net_tx_fuzz virtio-net-fuzz.c:160:3
-> 
-> Thanks
-> -Alex
+preallocation=off and preallocation=metadata
+both allocate luks header only, and preallocation=falloc/full
+is passed to underlying file.
 
-I think I'd rather introduce a variant of iov_copy
-that returns the remaining offset.
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1534951
 
-the code that duplicates this for byte-swap seems to
-also have this problem.
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/crypto.c       | 29 ++++++++++++++++++++++++++---
+ qapi/block-core.json |  5 ++++-
+ 2 files changed, 30 insertions(+), 4 deletions(-)
 
 
-> Alexander Oleinik (1):
->   virtio-net: check guest header length is valid
-> 
->  hw/net/virtio-net.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 2.20.1
+Changes from V3: updated the blockdev-create description
+
+diff --git a/block/crypto.c b/block/crypto.c
+index 8237424ae6..034a645652 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -74,6 +74,7 @@ static ssize_t block_crypto_read_func(QCryptoBlock *block,
+ struct BlockCryptoCreateData {
+     BlockBackend *blk;
+     uint64_t size;
++    PreallocMode prealloc;
+ };
+ 
+ 
+@@ -112,7 +113,7 @@ static ssize_t block_crypto_init_func(QCryptoBlock *block,
+      * available to the guest, so we must take account of that
+      * which will be used by the crypto header
+      */
+-    return blk_truncate(data->blk, data->size + headerlen, PREALLOC_MODE_OFF,
++    return blk_truncate(data->blk, data->size + headerlen, data->prealloc,
+                         errp);
+ }
+ 
+@@ -251,6 +252,7 @@ static int block_crypto_open_generic(QCryptoBlockFormat format,
+ static int block_crypto_co_create_generic(BlockDriverState *bs,
+                                           int64_t size,
+                                           QCryptoBlockCreateOptions *opts,
++                                          PreallocMode prealloc,
+                                           Error **errp)
+ {
+     int ret;
+@@ -266,9 +268,14 @@ static int block_crypto_co_create_generic(BlockDriverState *bs,
+         goto cleanup;
+     }
+ 
++    if (prealloc == PREALLOC_MODE_METADATA) {
++        prealloc = PREALLOC_MODE_OFF;
++    }
++
+     data = (struct BlockCryptoCreateData) {
+         .blk = blk,
+         .size = size,
++        .prealloc = prealloc,
+     };
+ 
+     crypto = qcrypto_block_create(opts, NULL,
+@@ -500,6 +507,7 @@ block_crypto_co_create_luks(BlockdevCreateOptions *create_options, Error **errp)
+     BlockdevCreateOptionsLUKS *luks_opts;
+     BlockDriverState *bs = NULL;
+     QCryptoBlockCreateOptions create_opts;
++    PreallocMode preallocation = PREALLOC_MODE_OFF;
+     int ret;
+ 
+     assert(create_options->driver == BLOCKDEV_DRIVER_LUKS);
+@@ -515,8 +523,11 @@ block_crypto_co_create_luks(BlockdevCreateOptions *create_options, Error **errp)
+         .u.luks = *qapi_BlockdevCreateOptionsLUKS_base(luks_opts),
+     };
+ 
++    if (luks_opts->has_preallocation)
++        preallocation = luks_opts->preallocation;
++
+     ret = block_crypto_co_create_generic(bs, luks_opts->size, &create_opts,
+-                                         errp);
++                                         preallocation, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+@@ -534,12 +545,24 @@ static int coroutine_fn block_crypto_co_create_opts_luks(const char *filename,
+     QCryptoBlockCreateOptions *create_opts = NULL;
+     BlockDriverState *bs = NULL;
+     QDict *cryptoopts;
++    PreallocMode prealloc;
++    char *buf = NULL;
+     int64_t size;
+     int ret;
++    Error *local_err = NULL;
+ 
+     /* Parse options */
+     size = qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
+ 
++    buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
++    prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
++                               PREALLOC_MODE_OFF, &local_err);
++    g_free(buf);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return -EINVAL;
++    }
++
+     cryptoopts = qemu_opts_to_qdict_filtered(opts, NULL,
+                                              &block_crypto_create_opts_luks,
+                                              true);
+@@ -565,7 +588,7 @@ static int coroutine_fn block_crypto_co_create_opts_luks(const char *filename,
+     }
+ 
+     /* Create format layer */
+-    ret = block_crypto_co_create_generic(bs, size, create_opts, errp);
++    ret = block_crypto_co_create_generic(bs, size, create_opts, prealloc, errp);
+     if (ret < 0) {
+         goto fail;
+     }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0d43d4f37c..9c04d83fa2 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4205,13 +4205,16 @@
+ #
+ # @file             Node to create the image format on
+ # @size             Size of the virtual disk in bytes
++# @preallocation    Preallocation mode for the new image (default: off;
++#                   allowed values: off/metadata/falloc/full (since: 4.2)
+ #
+ # Since: 2.12
+ ##
+ { 'struct': 'BlockdevCreateOptionsLUKS',
+   'base': 'QCryptoBlockCreateOptionsLUKS',
+   'data': { 'file':             'BlockdevRef',
+-            'size':             'size' } }
++            'size':             'size',
++            '*preallocation':   'PreallocMode' } }
+ 
+ ##
+ # @BlockdevCreateOptionsNfs:
+-- 
+2.17.2
+
 
