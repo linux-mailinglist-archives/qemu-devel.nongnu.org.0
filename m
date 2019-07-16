@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F716A3A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:15:22 +0200 (CEST)
-Received: from localhost ([::1]:46240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1195C6A3A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:15:05 +0200 (CEST)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIcL-0006nQ-1x
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:15:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60203)
+	id 1hnIc2-0005P9-8E
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYn-0000Wq-HZ
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:42 -0400
+ (envelope-from <mst@redhat.com>) id 1hnIbK-0003Vi-Is
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYm-0003QR-Ex
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:41 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54374)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYm-0003PN-7D
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:40 -0400
-Received: by mail-wm1-x342.google.com with SMTP id p74so17633316wme.4
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4z2hHvRDYhdwl8/3C9+GCvMIElrn7WkJD5Frbj4tMvU=;
- b=PO0oBgHWgjyGzP64SHHOFaYWX0l4+2NCWX+3Fsd8G55Xpp4E8CPInxYkeTrI/RtDtG
- 41bnjYhz0ZafOGNtm+IVQ2XGf3IkNwup1qxJj+u4MG+0a21Ku8HNDqhbMGx7K9yMDp7e
- zb4k07TK7Z2dNee9BHpExOYQBZyBgoyeclzR6ydxH4PQmIgMlRvHAOmSx7F56G4prIss
- wnZpSVIXNPToLWTrNpHyVF+ldAMMNbPZiJewg3spgunptmvVs22lv7gsDuJ4G7IBlgqe
- XfeyLhHmnvkohiNbCLSIDPjR9NUofLdvBeW0wEidJxw5yh15hPLBXFjqR9Xd7JLLznCe
- NNGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=4z2hHvRDYhdwl8/3C9+GCvMIElrn7WkJD5Frbj4tMvU=;
- b=Z+dubIC6VBCm5y4nARIUrDcYMno9iP2YkxSMV4oYr744gM7n4p4v3SPfnukPT1qTdS
- EbsrMJW7kJ0W2YqR3haVWqViNNEr1ZHpCrR3Md5REvBoagnz3lINrqgtLW933Qi8nSUu
- t/f8hEoRk7S1vlgmbMMq5KmjZjtBTWqpgp1Ai42YYdgBGtbWLsfR1F1c3vpjV9SfCPDy
- GUFuGoI4swq0z/9dCCDLRl+8c6gocCHYzCRTsJ1zxmggxtlm25udMS91jf2CVdS1ss74
- /az1VurCTujpTde7ypYWTHGjy4+2nZYxDjRMRHfeHdLAJE9boHJ9VTT3F1UKyQg1zD6u
- axpA==
-X-Gm-Message-State: APjAAAWMTh+hRI8Z8NYEgcZkXGj95lUzp2CevFTDSGm9Mt7kpPDqTCfL
- PkF+mKY6kta4gZMW5PiAe7nvn2EkV5s=
-X-Google-Smtp-Source: APXvYqwGyMAm3RQJr69wadoJberq1UVX/K7BYE+p+WeY0cF8kFEn+wTZ/LZto6++oN95AtSJS2iOMw==
-X-Received: by 2002:a1c:9696:: with SMTP id y144mr29068800wmd.73.1563264698898; 
- Tue, 16 Jul 2019 01:11:38 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:38 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:17 +0200
-Message-Id: <1563264677-39718-20-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
-References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 19/19] vl: make sure char-pty message displayed
- by moving setbuf to the beginning
+ (envelope-from <mst@redhat.com>) id 1hnIbI-0005YT-J7
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37358)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hnIbI-0005Xe-DN
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:14:16 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5225A307CDD1;
+ Tue, 16 Jul 2019 08:14:15 +0000 (UTC)
+Received: from redhat.com (ovpn-117-158.ams2.redhat.com [10.36.117.158])
+ by smtp.corp.redhat.com (Postfix) with SMTP id D76BA5D721;
+ Tue, 16 Jul 2019 08:14:02 +0000 (UTC)
+Date: Tue, 16 Jul 2019 04:14:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Oleinik, Alexander" <alxndr@bu.edu>
+Message-ID: <20190716041205-mutt-send-email-mst@kernel.org>
+References: <20190716033719.2866-1-alxndr@bu.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190716033719.2866-1-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 16 Jul 2019 08:14:15 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/1] Add check for header length in
+ virtio-net-tx
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,52 +56,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: "bsd@redhat.com" <bsd@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+On Tue, Jul 16, 2019 at 03:38:00AM +0000, Oleinik, Alexander wrote:
+> While fuzzing the virtio-net tx vq, I ran into an assertion failure due
+> to iov_copy offsets larger than the total iov size. Though there is
+> a check to cover this, it does not execute when !n->has_vnet_hdr. This
+> patch tries to fix this. 
+> 
+> The call stack for the assertion failure:
+> 
+> #8 in __assert_fail (libc.so.6+0x300f1)
+> #9 in iov_copy iov.c:266:5
+> #10 in virtio_net_flush_tx virtio-net.c:2073:23
+> #11 in virtio_net_tx_bh virtio-net.c:2197:11
+> #12 in aio_bh_poll async.c:118:13
+> #13 in aio_dispatch aio-posix.c:460:5
+> #14 in aio_ctx_dispatch async.c:261:5
+> #15 in g_main_context_dispatch (libglib-2.0.so.0+0x4df2d)
+> #16 in glib_pollfds_poll main-loop.c:213:9
+> #17 in os_host_main_loop_wait main-loop.c:236
+> #18 in main_loop_wait main-loop.c:512
+> #19 in virtio_net_tx_fuzz virtio-net-fuzz.c:160:3
+> 
+> Thanks
+> -Alex
 
-Recently we found a behavior change after commit 6ade45f2ac93611
-('char-pty: Print "char device redirected" message to stdout').
+I think I'd rather introduce a variant of iov_copy
+that returns the remaining offset.
 
-When we redirect output to a file, the message "char device redirected
-to PTY_NAME (label LABEL)" would not be seen at the beginning of the
-file. Instead, the message is displayed after QEMU quit. This will block
-test automation.
+the code that duplicates this for byte-swap seems to
+also have this problem.
 
-The reason is this message is printed after we set line buffer mode. So
-move this to the beginning.
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- vl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/vl.c b/vl.c
-index 5089fce..a5808f9 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2890,6 +2890,8 @@ int main(int argc, char **argv, char **envp)
-     char *dir, **dirs;
-     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
- 
-+    os_set_line_buffering();
-+
-     error_init(argv[0]);
-     module_call_init(MODULE_INIT_TRACE);
- 
-@@ -4246,8 +4248,6 @@ int main(int argc, char **argv, char **envp)
-         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
-     }
- 
--    os_set_line_buffering();
--
-     /* spice needs the timers to be initialized by this point */
-     qemu_spice_init();
- 
--- 
-1.8.3.1
-
+> Alexander Oleinik (1):
+>   virtio-net: check guest header length is valid
+> 
+>  hw/net/virtio-net.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.20.1
 
