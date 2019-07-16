@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F696AAE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 16:50:40 +0200 (CEST)
-Received: from localhost ([::1]:49702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D28D6AB0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 16:54:51 +0200 (CEST)
+Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnOms-0001fT-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 10:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
+	id 1hnOqw-0005Gg-A0
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 10:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49695)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hnOmc-00017y-5G
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:50:23 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hnOqQ-0004WK-TB
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:54:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hnOma-0007Ld-PQ
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:50:22 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36899)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hnOma-0007Jo-2m
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:50:20 -0400
-Received: by mail-pl1-x644.google.com with SMTP id b3so10242044plr.4
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 07:50:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vRcmmmidZBO1sdzPHIFCAIh9wKUQjMlDgQeKKeUIXy8=;
- b=okBQK4nm2zcPSiaxpxrASKtyQJ/END1Yq26bg9KvFb/YDZkzsCrxjTD7kfq9jnWLQS
- AEqhA31Jp6r8fFptekuOXv9wRJsl4DAYTzbgZPtVOET3fVSN3kxvGaQImLztpxc3CrHe
- fo2zC4esP/7DWnFiy8C0a9d2Bxk5+AdXd+zTbw4GO51LS8HE/p8/txE7mRBsMWbTaOe1
- xOp4jE69L1EMw4QMRUxnRdW6Y/Rw01CBWVODYjSvzGw8bQxbygO+JkBi5K070lhq9eb8
- SsuGMBdrPV1V0U0AfHjb4uFejjhow9U2zqjobGsMyqAp1h45lrL/QdI/ZQWmkAj+/Cc2
- pD1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vRcmmmidZBO1sdzPHIFCAIh9wKUQjMlDgQeKKeUIXy8=;
- b=L1eHI+ozpD6clI5/lWtJVFXNosjPpQ1MYx7XMcH//e/ufMryfwv+OO8XpawRVAHLdo
- yG7w/Py+RAOEu7rYN3gONY4causCFN/xl+t3VwMEnnwOgZKTdnEN3gBdGaewa8rhHAGt
- GRZ+LFuROJRpFtTeQo6X5mqkNcD+E6iOh9hANVQYosm08bcG58pN2WEvL21GRnQZ2p0r
- zSnAfPrD9JOB/uKmha43pU5CWjuEZRpSKkJEEjiaCWh69YhqfwDsBpT5F3UpJhuAXV2U
- bforlpbqUtTzRTWoXYcYptAjiwdVoyXVt+VwIys8g6cJMJYBzVt+A4j4AiM/VBRmqQCN
- g3SA==
-X-Gm-Message-State: APjAAAX2jsP6bhb7QRBQ+h5zF7NefmgYS966YobXn7VlZCQYYeYfHkeS
- 4+hx1TkDJig1SDfDjsRHA8V4mQ==
-X-Google-Smtp-Source: APXvYqzha3i3u/8m5/pGw7dradxalM7V2ONS2WR7lBAE66fjkYIKeE1JomQpdXsHE8VR7gpiHgjJtQ==
-X-Received: by 2002:a17:902:7088:: with SMTP id
- z8mr36656722plk.125.1563288617710; 
- Tue, 16 Jul 2019 07:50:17 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-176-6.tukw.qwest.net. [97.113.176.6])
- by smtp.gmail.com with ESMTPSA id f88sm21747331pjg.5.2019.07.16.07.50.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 07:50:17 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190716121352.302-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c3a0e0ba-285f-48e6-17d2-fc68f170645f@linaro.org>
-Date: Tue, 16 Jul 2019 07:50:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <tao3.xu@intel.com>) id 1hnOqP-0000z7-Cq
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:54:18 -0400
+Received: from mga03.intel.com ([134.134.136.65]:20977)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hnOqP-0000xO-1u
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:54:17 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2019 07:54:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,498,1557212400"; d="scan'208";a="319014742"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
+ by orsmga004.jf.intel.com with ESMTP; 16 Jul 2019 07:54:11 -0700
+From: Tao Xu <tao3.xu@intel.com>
+To: imammedo@redhat.com,
+	eblake@redhat.com,
+	ehabkost@redhat.com
+Date: Tue, 16 Jul 2019 22:51:10 +0800
+Message-Id: <20190716145121.19578-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190716121352.302-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [RFC PATCH for 4.1?] target/ppc: move opcode
- decode tables to PowerPCCPU
+X-Received-From: 134.134.136.65
+Subject: [Qemu-devel] [PATCH v7 00/11] Build ACPI Heterogeneous Memory
+ Attribute Table (HMAT)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,31 +54,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 1836558@bugs.launchpad.net,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com, dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/16/19 12:13 PM, Alex Bennée wrote:
-> The opcode decode tables aren't really part of the CPUPPCState but an
-> internal implementation detail for the translator. This can cause
-> problems with memcpy in cpu_copy as any table created during
-> ppc_cpu_realize get written over causing a memory leak. To avoid this
-> move the tables into PowerPCCPU which is better suited to hold
-> internal implementation details.
-> 
-> Attempts to fix: https://bugs.launchpad.net/qemu/+bug/1836558
-> Cc: 1836558@bugs.launchpad.net
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/ppc/cpu.h                |  8 ++++----
->  target/ppc/translate.c          |  3 ++-
->  target/ppc/translate_init.inc.c | 16 +++++++---------
->  3 files changed, 13 insertions(+), 14 deletions(-)
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
 
+The V6 RESEND patches link:
+https://patchwork.kernel.org/cover/11036461/
 
-r~
+Changelog:
+v7:
+    - Defer 11-13 of patch v6, because the driver of _HMA hasn't been
+      implemented in kernel driver
+    - Drop the HMAT_LB_MEM_CACHE_LAST_LEVEL which is not used in
+      ACPI 6.3 (Jonathan)
+    - Add bit mask in flags of hmat-lb (Jonathan)
+    - Add a marco to indicate the type is latency or bandwidth (Jonathan)
+v6:
+    - Rebase to upstream, move numa globals in arm/sbsa-ref
+    - When used once or twice in the function, use
+      ms->numa_state->num_nodes(numa_info) directly (Igor)
+    - Correct some mistakes
+    - Use once monitor_printf in hmp_info_numa (Igor)
+    - Add new patch to extend CLI of "-numa node" option to indicate the
+      initiator numa node-id (Dan)
+    - Update to ACPI 6.3 (Jonathan)
+    - Add QMP interface to update HMAT at runtime (Igor)
+    - Add test cases for ACPI HMAT
+
+Liu Jingqi (5):
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
+  numa: Extend the CLI to provide memory latency and bandwidth
+    information
+  numa: Extend the CLI to provide memory side cache information
+
+Tao Xu (6):
+  hw/arm: simplify arm_load_dtb
+  numa: move numa global variable nb_numa_nodes into MachineState
+  numa: move numa global variable have_numa_distance into MachineState
+  numa: move numa global variable numa_info into MachineState
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/bios-tables-test: add test cases for ACPI HMAT
+
+ exec.c                              |   5 +-
+ hw/acpi/Kconfig                     |   5 +
+ hw/acpi/Makefile.objs               |   1 +
+ hw/acpi/aml-build.c                 |   9 +-
+ hw/acpi/hmat.c                      | 256 +++++++++++++++++++++++++
+ hw/acpi/hmat.h                      | 103 ++++++++++
+ hw/arm/aspeed.c                     |   5 +-
+ hw/arm/boot.c                       |  20 +-
+ hw/arm/collie.c                     |   8 +-
+ hw/arm/cubieboard.c                 |   5 +-
+ hw/arm/exynos4_boards.c             |   7 +-
+ hw/arm/highbank.c                   |   8 +-
+ hw/arm/imx25_pdk.c                  |   5 +-
+ hw/arm/integratorcp.c               |   8 +-
+ hw/arm/kzm.c                        |   5 +-
+ hw/arm/mainstone.c                  |   5 +-
+ hw/arm/mcimx6ul-evk.c               |   5 +-
+ hw/arm/mcimx7d-sabre.c              |   5 +-
+ hw/arm/musicpal.c                   |   8 +-
+ hw/arm/nseries.c                    |   5 +-
+ hw/arm/omap_sx1.c                   |   5 +-
+ hw/arm/palm.c                       |  10 +-
+ hw/arm/raspi.c                      |   6 +-
+ hw/arm/realview.c                   |   5 +-
+ hw/arm/sabrelite.c                  |   5 +-
+ hw/arm/sbsa-ref.c                   |  12 +-
+ hw/arm/spitz.c                      |   5 +-
+ hw/arm/tosa.c                       |   8 +-
+ hw/arm/versatilepb.c                |   5 +-
+ hw/arm/vexpress.c                   |   5 +-
+ hw/arm/virt-acpi-build.c            |  19 +-
+ hw/arm/virt.c                       |  17 +-
+ hw/arm/xilinx_zynq.c                |   8 +-
+ hw/arm/xlnx-versal-virt.c           |   7 +-
+ hw/arm/xlnx-zcu102.c                |   5 +-
+ hw/arm/z2.c                         |   8 +-
+ hw/core/machine-hmp-cmds.c          |  12 +-
+ hw/core/machine.c                   |  38 +++-
+ hw/core/numa.c                      | 287 ++++++++++++++++++++++++----
+ hw/i386/acpi-build.c                |   7 +-
+ hw/i386/pc.c                        |  13 +-
+ hw/mem/pc-dimm.c                    |   2 +
+ hw/pci-bridge/pci_expander_bridge.c |   3 +-
+ hw/ppc/spapr.c                      |  33 ++--
+ hw/ppc/spapr_pci.c                  |   4 +-
+ include/hw/acpi/aml-build.h         |   2 +-
+ include/hw/arm/boot.h               |   4 +-
+ include/hw/boards.h                 |   1 +
+ include/qemu/typedefs.h             |   2 +
+ include/sysemu/numa.h               |  30 ++-
+ include/sysemu/sysemu.h             |  23 +++
+ qapi/machine.json                   | 183 +++++++++++++++++-
+ qemu-options.hx                     |  84 +++++++-
+ tests/bios-tables-test.c            |  43 +++++
+ 54 files changed, 1131 insertions(+), 248 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+
+-- 
+2.20.1
+
 
