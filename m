@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248376A98B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 15:22:45 +0200 (CEST)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8030B6A9E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 15:56:44 +0200 (CEST)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnNPm-0003fh-M6
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 09:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59229)
+	id 1hnNwg-0004bX-I0
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 09:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59979)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <iii@linux.ibm.com>) id 1hnMfj-00078H-Ps
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 08:35:08 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1hnNwR-0004Au-1c
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 09:56:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <iii@linux.ibm.com>) id 1hnMfh-0007em-Mt
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 08:35:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28584
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <iii@linux.ibm.com>) id 1hnMfg-0007V2-Vq
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 08:35:05 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6GCX1IR015526
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 08:34:56 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tsdhrbck6-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 08:34:56 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <iii@linux.ibm.com>;
- Tue, 16 Jul 2019 13:34:55 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 16 Jul 2019 13:34:53 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6GCYpxR60293302
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Jul 2019 12:34:51 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7488D42041;
- Tue, 16 Jul 2019 12:34:51 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 360A542042;
- Tue, 16 Jul 2019 12:34:51 +0000 (GMT)
-Received: from white.boeblingen.de.ibm.com (unknown [9.152.96.205])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 16 Jul 2019 12:34:51 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, rth@twiddle.net,
- david@redhat.com, cohuck@redhat.com
-Date: Tue, 16 Jul 2019 14:34:46 +0200
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <chihmin.chao@sifive.com>) id 1hnNwO-0002tN-Iq
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 09:56:26 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38252)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1hnNwO-0002sg-5e
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 09:56:24 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g17so21081218wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 06:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zq1EFfzBW3vc2RfEhdgU7ESjt5rbzN4LUFJgr40aBA0=;
+ b=ljG1eCTum16wMKbwciwPkVFLZi3D5FrFDTotX/16fUcAdcgN+Lm8UMwFSnR5IoIZpL
+ Wnv/xRv5icNPIOb20LvO6gdT1T5qtZTpVQgMTTzyyp2qSFACeEw3LhsDk7+lrxc8j85A
+ 4GcFgLQ2nFfF6MWg49shCJf0RSute2nl4LEGlUA3ajMfOxZmOuYm18/AX4XQaAtle6Iu
+ MM3UY9IPY98AC32LE1ulpUr326MArKwDdgb/7tscKyg73TKWidmEeVcDok5jZYkrnDxV
+ yvv2KolxqoQ2mOWnPqdkOYZpdhtBpXcmHFvL7On4kJfe/SSAZHBoeZTL/ru8YoysPFPT
+ nIUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zq1EFfzBW3vc2RfEhdgU7ESjt5rbzN4LUFJgr40aBA0=;
+ b=Pwxx21cfWcy1pfs7A6nVZHJ7LEJaVwsYrKVe7tG0KIykJYIEf8Ykl1j4qYkvfa4l6A
+ ZpyYr0o09ME0pkIniXj4qcd4zyvi8KnpA81OvJNWWE3mgxWG6goGZCgIGnAixKOR9kXX
+ o95h3GAoXe4+ze4Is9aPWiVO85npZqRxuxZCVA8k0pMq4NVQacLQq9USDPunnjFgpgjo
+ mI6roXaqe1ioQ5xJNJG74lSgDwe8Tqg6pFKUhNfXpMLczMP/xP9EqxKsPAs8u6/sw0p9
+ EYjcRI5EQ1B+B391lm1WRPJiWB67GXHTANQPPuePgd/Ov3gCMEXzRZ7TSZl/Lg04nVH6
+ 4OxQ==
+X-Gm-Message-State: APjAAAUhM1bFD13JIFhTsjsp2duw2nezpvuzwzUDyIC0i9HKh5JrFPyN
+ 9eJ5ckTqYzCBcb5nd/MydGXZKlC36hKtj7r6KMo5Qw==
+X-Google-Smtp-Source: APXvYqwjuhyAcFZmqoT+L6SORWDz5UwM2f5DEtspvgUOiLDfXMq822byyngFjtgVHCIskbkXVvT0Dtl4e9NM946aZmE=
+X-Received: by 2002:a5d:56d0:: with SMTP id m16mr34991946wrw.276.1563285381923; 
+ Tue, 16 Jul 2019 06:56:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19071612-4275-0000-0000-0000034D6EBB
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071612-4276-0000-0000-0000385D80A6
-Message-Id: <20190716123446.24039-1-iii@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-16_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=895 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907160155
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-X-Mailman-Approved-At: Tue, 16 Jul 2019 09:22:23 -0400
-Subject: [Qemu-devel] [PATCH] s390: support EDAT-2 in mmu_translate_region
+References: <1563181721-5055-1-git-send-email-chihmin.chao@sifive.com>
+ <93b35a5e-c40a-535b-2a91-2c210b4a5928@redhat.com>
+ <CAEiOBXXxS-93rTAQuvY_Tkxi1pYc1YfJenpBC_8gG2ou9uUZMg@mail.gmail.com>
+ <7eb239bc-32aa-b5fc-ab2e-a741b005aad7@redhat.com>
+ <CAKmqyKOZSz4f1-kLDhn=+imCvKHcZJVgqgqWbQ6qxD3K1n17GA@mail.gmail.com>
+In-Reply-To: <CAKmqyKOZSz4f1-kLDhn=+imCvKHcZJVgqgqWbQ6qxD3K1n17GA@mail.gmail.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Tue, 16 Jul 2019 21:56:10 +0800
+Message-ID: <CAEiOBXUBPFx5__wOLvLD0qQ7dzV2XVpHfiOoBZpXpu-SZsMiUg@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2] tests/boot_linux_console: add a test
+ for riscv64 + virt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,60 +78,257 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Fam Zheng <fam@euphon.net>, Cornelia Huck <cohuck@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When debugging s390 linux kernel with qemu kvm gdbstub, dumping memory
-contents at addresses in range 0x80000000-0x100000000 results in an
-error or all zeroes being returned.
+On Tue, Jul 16, 2019 at 12:34 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-The problem appears to be that linux puts 2G page at that location,
-which qemu currently does not know about.
+> On Mon, Jul 15, 2019 at 6:02 AM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+> >
+> > On 7/15/19 1:09 PM, Chih-Min Chao wrote:
+> > > On Mon, Jul 15, 2019 at 5:15 PM Philippe Mathieu-Daud=C3=A9
+> > > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
+> > >
+> > >     On 7/15/19 11:08 AM, Chih-Min Chao wrote:
+> > >     > Similar to the mips + malta test, it boots a Linux kernel on a
+> virt
+> > >     > board and verify the serial is working.  Also, it relies on the
+> serial
+> > >     > device set by the machine itself.
+> > >     >
+> > >     > If riscv64 is a target being built, "make check-acceptance" wil=
+l
+> > >     > automatically include this test by the use of the "arch:riscv64=
+"
+> tags.
+> > >     >
+> > >     > Alternatively, this test can be run using:
+> > >     >
+> > >     >   $ avocado run -t arch:riscv64 tests/acceptance
+> > >     >
+> > >     > packages
+> > >     >   debian official
+> > >     >     binutils-riscv64-linux-gnu_2.32-8
+> > >     >     opensbi_0.4-1_all
+> > >     >     linux-image-4.19.0-5-riscv64 4.19.37-4
+> > >     >   third-party
+> > >     >
+> > >
+> https://github.com/groeck/linux-build-test/rootfs/riscv64/rootfs.cpio.gz
+> > >     >     (the repo is also used in mips target acceptance)
+> > >     >
+> > >     > Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com
+> > >     <mailto:chihmin.chao@sifive.com>>
+> > >     > ---
+> > >     >  .travis.yml                            |  2 +-
+> > >     >  tests/acceptance/boot_linux_console.py | 66
+> > >     ++++++++++++++++++++++++++++++++++
+> > >     >  2 files changed, 67 insertions(+), 1 deletion(-)
+> > >     >
+> > >     > diff --git a/.travis.yml b/.travis.yml
+> > >     > index 5d3d6ee..21fcead 100644
+> > >     > --- a/.travis.yml
+> > >     > +++ b/.travis.yml
+> > >     > @@ -232,7 +232,7 @@ matrix:
+> > >     >
+> > >     >      # Acceptance (Functional) tests
+> > >     >      - env:
+> > >     > -        - CONFIG=3D"--python=3D/usr/bin/python3
+> > >
+>  --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-sof=
+tmmu,arm-softmmu,s390x-softmmu,alpha-softmmu"
+> > >     > +        - CONFIG=3D"--python=3D/usr/bin/python3
+> > >
+>  --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-sof=
+tmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,riscv64-softmmu"
+> > >     >          - TEST_CMD=3D"make check-acceptance"
+> > >     >        after_failure:
+> > >     >          - cat tests/results/latest/job.log
+> > >     > diff --git a/tests/acceptance/boot_linux_console.py
+> > >     b/tests/acceptance/boot_linux_console.py
+> > >     > index 3215950..0f638bc 100644
+> > >     > --- a/tests/acceptance/boot_linux_console.py
+> > >     > +++ b/tests/acceptance/boot_linux_console.py
+> > >     > @@ -354,3 +354,69 @@ class BootLinuxConsole(Test):
+> > >     >          self.vm.launch()
+> > >     >          console_pattern =3D 'Kernel command line: %s' %
+> > >     kernel_command_line
+> > >     >          self.wait_for_console_pattern(console_pattern)
+> > >     > +
+> > >     > +    def test_riscv64_virt(self):
+> > >     > +        """
+> > >     > +        :avocado: tags=3Darch:riscv64
+> > >     > +        :avocado: tags=3Dmachine:virt
+> > >     > +        """
+> > >     > +        deb_url =3D ('https://snapshot.debian.org/archive/debi=
+an/
+> '
+> > >     > +
+>  '20190424T171759Z/pool/main/b/binutils/'
+> > >     > +
+> > >      'binutils-riscv64-linux-gnu_2.32-8_amd64.deb')
+> > >     > +        deb_hash =3D ('7fe376fd4452696c03acd508d6d613ca553ea15=
+e')
+> > >     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> > >     > +        objcopy_path =3D '/usr/bin/riscv64-linux-gnu-objcopy'
+> > >     > +        objcopy_path =3D self.extract_from_deb(deb_path,
+> objcopy_path)
+> > >     > +        libbfd_path =3D
+> > >     '/usr/lib/x86_64-linux-gnu/libbfd-2.32-riscv64.so
+> > >     <http://libbfd-2.32-riscv64.so>'
+> > >     > +        libbfd_path =3D self.extract_from_deb(deb_path,
+> libbfd_path)
+> > >     > +        process.run('ls -al %s' % (objcopy_path))
+> > >     > +
+> > >     > +        deb_url =3D ('https://snapshot.debian.org/archive/debi=
+an/
+> '
+> > >     > +                   '20190708T032337Z/pool/main/o/opensbi/'
+> > >     > +                   'opensbi_0.4-1_all.deb')
+> > >     > +        deb_hash =3D ('2319dcd702958291d323acf5649fd98a11d9011=
+2')
+> > >     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> > >     > +        opensbi_path =3D ('/usr/lib/riscv64-linux-gnu/opensbi/=
+'
+> > >     > +                        'qemu/virt/fw_jump.elf')
+> > >     > +        opensbi_path =3D self.extract_from_deb(deb_path,
+> opensbi_path)
+> > >     > +
+> > >     > +        deb_url =3D
+> > >     ('https://snapshot.debian.org/archive/debian-ports/'
+> > >     > +                   '20190620T095935Z/pool-riscv64/main/l/linux=
+/'
+> > >     > +
+> > >      'linux-image-4.19.0-5-riscv64_4.19.37-4_riscv64.deb')
+> > >     > +        deb_hash =3D ('bf5b5680c41d92134d22caef4fbd277c5217e1f=
+0')
+> > >     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> > >     > +        kernel_path =3D '/boot/vmlinux-4.19.0-5-riscv64'
+> > >     > +        kernel_path =3D self.extract_from_deb(deb_path,
+> kernel_path)
+> > >     > +        kimage_path =3D self.workdir + "/Image"
+> > >     > +        env =3D os.environ
+> > >     > +        env['LD_LIBRARY_PATH'] =3D ('%s:' %
+> > >     (os.path.dirname(libbfd_path)) +
+> > >     > +                                 env.get('LD_LIBRARY_PATH', ''=
+))
+> > >     > +        process.run(('%s -O binary -O binary -R'
+> > >     > +                     '.note -R .note.gnu.build-id -R .comment =
+-S
+> > >     %s %s') %
+> > >     > +                     (objcopy_path, kernel_path, kimage_path))
+> > >
+> > >     Please explain why you need to do that...
+> > >
+> > >     Also note these tests are run on other host architecture than x86=
+,
+> at
+> > >     least ppc64/s390x (so this won't work there).
+> > >
+> > > it is because riscv64 vmlinux doesn't have physical loading address
+> > > information and
+> > > depends on certain stage bootloader to move kernel raw data to specif=
+ic
+> > > physical address (0x8020_0000)
+> > >
+> > > The vmlinux program headers are
+> > >   Type             Offset       VirtAddr                  PhysAddr
+> > >     FileSiz  MemSiz   Flg Align
+> > >   LOAD           0x001000 0xffffffe000000000 0x0000000000000000
+> 0x0303a6
+> > > 0x0303a6 R E 0x1000
+> > >   LOAD           0x032000 0xffffffe000031000 0x0000000000031000
+> 0x828f0c
+> > > 0x828f0c RWE 0x1000
+> > >   NOTE           0x85aec0 0xffffffe000859ec0 0x0000000000859ec0
+> 0x00004c
+> > > 0x00004c R   0x4
+> > >
+> > > For legacy bootloader, bbl, It can handle payload in ELF format.
+> > > However, for the newer OpenSBI, it can only handle raw data and
+> > > debian doesn't provide linux image in raw data format.
+>
+> This doesn't sound right. You should just be able to say -kernel
+> <anything> and it should work. It has worked for me with vmlinux and
+> Image files when using master (not the 4.0 release but master/4.1).
+> Although all of my testing was with the 5.1 kernel, so maybe there is
+> a difference there?
+>
+> What isn't working for you? Can you include the errors and output of -d
+> in_asm?
+>
+>
+> Alistair
+>
 
-Check FC bit of Region-Third-Table Entry in mmu_translate_region, just
-like it's already done for FC bit of Segment-Table Entry in
-mmu_translate_segment.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
----
- target/s390x/cpu.h        | 1 +
- target/s390x/mmu_helper.c | 8 ++++++++
- 2 files changed, 9 insertions(+)
-
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index a606547b4d..947553386f 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -548,6 +548,7 @@ QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
- #define ASCE_TABLE_LENGTH     0x03        /* region table length              */
- 
- #define REGION_ENTRY_ORIGIN   (~0xfffULL) /* region/segment table origin    */
-+#define REGION_ENTRY_FC       0x400       /* region format control          */
- #define REGION_ENTRY_RO       0x200       /* region/segment protection bit  */
- #define REGION_ENTRY_TF       0xc0        /* region/segment table offset    */
- #define REGION_ENTRY_INV      0x20        /* invalid region table entry     */
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 6e9c4d6151..76cf920cd2 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -242,6 +242,14 @@ static int mmu_translate_region(CPUS390XState *env, target_ulong vaddr,
-         return -1;
-     }
- 
-+    if (level == ASCE_TYPE_REGION3
-+        && (new_entry & REGION_ENTRY_FC) && (env->cregs[0] & CR0_EDAT)) {
-+        /* Decode EDAT-2 region frame absolute address (2GB page) */
-+        *raddr = (new_entry & 0xffffffff80000000ULL) | (vaddr & 0x7fffffff);
-+        PTE_DPRINTF("%s: REG=0x%" PRIx64 "\n", __func__, new_entry);
-+        return 0;
-+    }
-+
-     if (level == ASCE_TYPE_SEGMENT) {
-         return mmu_translate_segment(env, vaddr, asc, new_entry, raddr, flags,
-                                      rw, exc);
--- 
-2.21.0
+Hi Alistair,
+   I have come across error before starting target simulation.  What I
+means is to execute
+            qemu-system-riscv64 -M virt -m 256M -nographic -bios
+./opensbi/build/platform/qemu/virt/firmware/fw_jump.elf -kernel vmlinux
+   then get the error message
+            rom: requested regions overlap (rom mrom.reset.
+free=3D0x000000000001eb7c, addr=3D0x0000000000001000)
+            qemu-system-riscv64: rom check and register reset failed
 
 
+  chihmin.chao
+
+
+> >
+> > I think you should be able to use -device loader,file=3D... here, then =
+no
+> > need to use objcopy.
+> >
+> > Cc'ing Alistair who is an expert on this.
+> >
+> > >     > +
+> > >     > +        initrd_url =3D
+> > >     ('https://github.com/groeck/linux-build-test/raw/'
+> > >     > +
+> > >     '8584a59ed9e5eb5ee7ca91f6d74bbb06619205b8/rootfs/'
+> > >     > +                      'riscv64/rootfs.cpio.gz')
+> > >     > +        initrd_hash =3D 'f4867d263754961b6f626cdcdc0cb334c47e3=
+b49'
+> > >     > +        initrd_path =3D self.fetch_asset(initrd_url,
+> > >     asset_hash=3Dinitrd_hash)
+> > >     > +
+> > >     > +        self.vm.set_machine('virt')
+> > >     > +        self.vm.set_console()
+> > >     > +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LI=
+NE
+> > >     > +                               + 'console=3DttyS0 noreboot')
+> > >     > +        self.vm.add_args('-bios', opensbi_path,
+> > >     > +                         '-kernel', kimage_path,
+> > >     > +                         '-initrd', initrd_path,
+> > >     > +                         '-append', kernel_command_line,
+> > >     > +                         '-no-reboot')
+> > >     > +
+> > >     > +        self.vm.launch()
+> > >     > +        self.wait_for_console_pattern('Boot successful.')
+> > >     > +
+> > >     > +        self.exec_command_and_wait_for_pattern('cat
+> /proc/cpuinfo',
+> > >     > +                                               'isa')
+> > >     > +        self.exec_command_and_wait_for_pattern('uname -a',
+> > >     > +                                               'SMP Debian')
+> > >     > +        self.exec_command_and_wait_for_pattern('reboot',
+> > >     > +                                               'reboot:
+> > >     Restarting system')
+> > >     >
+> > >
+> >
+>
