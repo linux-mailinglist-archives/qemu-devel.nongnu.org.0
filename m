@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39B76A450
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:54:00 +0200 (CEST)
-Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9646A44E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:53:59 +0200 (CEST)
+Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnJDj-0001rB-Bq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
+	id 1hnJDi-0001jI-UH
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45106)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006g-IV
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006h-MR
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TR-3Q
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TZ-4R
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:15 -0400
-Received: from ozlabs.org ([203.11.71.1]:49053)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58705 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnJCz-0007SH-1M; Tue, 16 Jul 2019 04:53:13 -0400
+ id 1hnJCz-0007SJ-1O; Tue, 16 Jul 2019 04:53:14 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45nvLY3dNFz9sNf; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
+ id 45nvLY4HxLz9sNp; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563267189;
- bh=JP3aQ3UpVaaRvKWN607lBrrvkr6kDcLbQKudQ1bS/dc=;
+ bh=s1wRmK0MVG64rLPyBaUut9UQuelJLlGKqjzYZkvKjuk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A1ufJ/qGYia2QdZUH3Xoe9kxPFH294kp/G3PbOZHEIoqgMu2MgSCX7gnrJBUYnqQs
- E58be8hU7wGWzPwbH+A2k4gtuuk2ZvZWRp9ADAdpQm2Mi/ufjhVuPt0ABr1eIn9vYH
- MnNUXldgX+WfWwKPQjuSqq2yU7+lIYqlqkTVH1O8=
-Date: Tue, 16 Jul 2019 18:30:47 +1000
+ b=htvyRepqCWtlBdFYtMQ55e8bsMb1OazVLc6CQxWlPh2atlmCmjCDkesEGpCncvUGM
+ bLgNMwoeCEvwWPRW5AiHyfRN0MrWHdSDFHNLHmBORJfQNcOo2mFiU/dPbdQzusAWuV
+ b5+tYuzFsMJiWsKz+c4jZueiI9Ze2zBb8C0hYUWs=
+Date: Tue, 16 Jul 2019 18:52:36 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190716083047.GG7525@umbus.fritz.box>
-References: <20190716024726.17864-1-npiggin@gmail.com>
- <20190716024726.17864-6-npiggin@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190716085236.GH7525@umbus.fritz.box>
+References: <20190716045633.15319-1-joel@jms.id.au>
+ <6e98fffb-2642-3835-d3ba-f06b73ca2fdc@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="t4apE7yKrX2dGgJC"
+ protocol="application/pgp-signature"; boundary="PW0Eas8rCkcu1VkF"
 Content-Disposition: inline
-In-Reply-To: <20190716024726.17864-6-npiggin@gmail.com>
+In-Reply-To: <6e98fffb-2642-3835-d3ba-f06b73ca2fdc@kaod.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v4 5/5] spapr: Implement ibm,suspend-me
+Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: Warn when using -initrd and low
+ ram
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,180 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---t4apE7yKrX2dGgJC
-Content-Type: text/plain; charset=us-ascii
+--PW0Eas8rCkcu1VkF
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2019 at 12:47:26PM +1000, Nicholas Piggin wrote:
-> This has been useful to modify and test the Linux pseries suspend
-> code but it requires modification to the guest to call it (due to
-> being gated by other unimplemented features). It is not otherwise
-> used by Linux yet, but work is slowly progressing there.
+On Tue, Jul 16, 2019 at 09:39:36AM +0200, C=E9dric Le Goater wrote:
+> On 16/07/2019 06:56, Joel Stanley wrote:
+> > When booting with the default amount of RAM the powernv machine will
+> > load the initrd above the top of RAM and cause the Linux kernel to crash
+> > when it attempts to access the initrd:
+> >=20
+> >   Linux/PowerPC load:
+> >   Finalizing device tree... flat tree at 0x202770c0
+> >   [    0.070476] nvram: Failed to find or create lnx,oops-log partition=
+, err -28
+> >   [    0.073270] nvram: Failed to initialize oops partition!
+> >   [    0.156302] BUG: Unable to handle kernel data access at 0xc0000000=
+60000000
+> >   [    0.158009] Faulting instruction address: 0xc000000001002e5c
+> >   cpu 0x0: Vector: 300 (Data Access) at [c00000003d1e3870]
+> >       pc: c000000001002e5c: unpack_to_rootfs+0xdc/0x2f0
+> >       lr: c000000001002df4: unpack_to_rootfs+0x74/0x2f0
+> >       sp: c00000003d1e3b00
+> >      msr: 9000000002009033
+> >      dar: c000000060000000
+> >    dsisr: 40000000
+> >     current =3D 0xc00000003d1c0000
+> >     paca    =3D 0xc000000001320000	 irqmask: 0x03	 irq_happened: 0x01
+> >       pid   =3D 1, comm =3D swapper/0
+> >   Linux version 5.2.0-10292-g040e2e618374 (joel@voyager) (gcc version 8=
+=2E3.0 (Debian 8.3.0-2)) #1 SMP Tue Jul 16 13:50:32 ACST 2019
+> >   enter ? for help
+> >   [c00000003d1e3bb0] c000000001003c90 populate_rootfs+0x84/0x1dc
+> >   [c00000003d1e3c40] c00000000000f494 do_one_initcall+0x88/0x1d0
+> >   [c00000003d1e3d10] c000000001000fc4 kernel_init_freeable+0x24c/0x250
+> >   [c00000003d1e3db0] c00000000000f7a0 kernel_init+0x1c/0x150
+> >   [c00000003d1e3e20] c00000000000b8a4 ret_from_kernel_thread+0x5c/0x78
+> >=20
+> > Provide a helpful message for users so they don't go reporting bugs to
+> > kernel developers.
+> >=20
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> > We could solve this in other ways, such as warn when loading the initrd
+> > outside of RAM, or load it within the known boundaries or RAM, but after
+> > hitting this myself I wanted to start the discussion.
 >=20
-> This allows a (lightly modified) guest kernel to suspend with
-> `echo mem > /sys/power/state` and be resumed with system_wakeup
-> monitor command.
+> We should also increase :=20
 >=20
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->  hw/ppc/spapr.c         | 26 ++++++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  7 ++++++-
->  3 files changed, 64 insertions(+), 1 deletion(-)
+>     mc->default_ram_size =3D 1 * GiB;
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 5c54e1cb9a..b85d41bb1e 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1710,6 +1710,11 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
->      void *fdt;
->      int rc;
-> =20
-> +    if (spapr->suspend_reset) {
-> +        spapr->suspend_reset =3D false;
+> to 2 or 4 GiB. I always use 4.
 
-Do we need to migrate this value?
+It seems to be increasing the default addresses the real problem in
+practice.  Putting in a warning but still letting you do it, rather
+than relocating where we load the image based on the ram size seems
+kind of roundabout.
 
-> +        return;
-> +    }
-> +
->      spapr_caps_apply(spapr);
-> =20
->      first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> @@ -2721,6 +2726,23 @@ static PCIHostState *spapr_create_default_phb(void)
->      return PCI_HOST_BRIDGE(dev);
->  }
-> =20
-> +static Notifier wakeup;
-
-I think this should be in sPAPRMachineState rather than global.
-
-> +static void spapr_notify_wakeup(Notifier *notifier, void *data)
-> +{
-> +    WakeupReason *reason =3D data;
-> +
-> +    switch (*reason) {
-> +    case QEMU_WAKEUP_REASON_RTC:
-> +        break;
-> +    case QEMU_WAKEUP_REASON_PMTIMER:
-> +        break;
-> +    case QEMU_WAKEUP_REASON_OTHER:
-> +        break;
-> +    default:
-> +        break;
-> +    }
-
-So.. you have a bunch of switch cases, all of which ignore the input..
-
-> +}
-> +
->  /* pSeries LPAR / sPAPR hardware init */
->  static void spapr_machine_init(MachineState *machine)
->  {
-> @@ -3078,6 +3100,10 @@ static void spapr_machine_init(MachineState *machi=
-ne)
-> =20
->      qemu_register_boot_set(spapr_boot_set, spapr);
-> =20
-> +    wakeup.notify =3D spapr_notify_wakeup;
-> +    qemu_register_wakeup_notifier(&wakeup);
-> +    qemu_register_wakeup_support();
-> +
->      if (kvm_enabled()) {
->          /* to stop and start vmclock */
->          qemu_add_vm_change_state_handler(cpu_ppc_clock_vm_state_change,
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index a618a2ac0f..60a007ec38 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -216,6 +216,36 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMac=
-hineState *spapr,
->      qemu_cpu_kick(cs);
->  }
-> =20
-> +static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spap=
-r,
-> +                           uint32_t token, uint32_t nargs,
-> +                           target_ulong args,
-> +                           uint32_t nret, target_ulong rets)
-> +{
-> +    CPUState *cs;
-> +
-> +    if (nargs !=3D 0 || nret !=3D 1) {
-> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> +        return;
-> +    }
-> +
-> +    CPU_FOREACH(cs) {
-> +        PowerPCCPU *c =3D POWERPC_CPU(cs);
-> +        CPUPPCState *e =3D &c->env;
-> +        if (c =3D=3D cpu)
-> +            continue;
-> +
-> +	/* See h_join */
-> +        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
-> +            rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
-> +            return;
-> +        }
-> +    }
-> +
-> +    spapr->suspend_reset =3D true;
-> +    qemu_system_suspend_request();
-> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +}
-> +
->  static inline int sysparm_st(target_ulong addr, target_ulong len,
->                               const void *val, uint16_t vallen)
->  {
-> @@ -483,6 +513,8 @@ static void core_rtas_register_types(void)
->                          rtas_query_cpu_stopped_state);
->      spapr_rtas_register(RTAS_START_CPU, "start-cpu", rtas_start_cpu);
->      spapr_rtas_register(RTAS_STOP_SELF, "stop-self", rtas_stop_self);
-> +    spapr_rtas_register(RTAS_IBM_SUSPEND_ME, "ibm,suspend-me",
-> +                        rtas_ibm_suspend_me);
->      spapr_rtas_register(RTAS_IBM_GET_SYSTEM_PARAMETER,
->                          "ibm,get-system-parameter",
->                          rtas_ibm_get_system_parameter);
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 5d36eec9d0..df0b0c15da 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -171,6 +171,10 @@ struct SpaprMachineState {
->      bool use_hotplug_event_source;
->      SpaprEventSource *event_sources;
-> =20
-> +    /* Machine has been suspended, so the next machine_reset should not
-> +     * reset state, but just return and allow execution to resume. */
-> +    bool suspend_reset;
-
-Hrm, this seems odd, but maybe it's part of the existing suspend
-design.  Why would system_reset resume a suspend, rather than having a
-specific operation for that.
-
-> +
->      /* ibm,client-architecture-support option negotiation */
->      bool cas_reboot;
->      bool cas_legacy_guest_workaround;
-> @@ -631,8 +635,9 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_=
-ulong opcode,
->  #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
->  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
->  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
-> +#define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
-> =20
-> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
-> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
-> =20
->  /* RTAS ibm,get-system-parameter token values */
->  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
+>=20
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  hw/ppc/pnv.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >=20
+> > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> > index bd4531c82260..bbd596ab9eca 100644
+> > --- a/hw/ppc/pnv.c
+> > +++ b/hw/ppc/pnv.c
+> > @@ -649,6 +649,13 @@ static void pnv_init(MachineState *machine)
+>=20
+>=20
+> at the beginning of this routine we have :
+>=20
+>     /* allocate RAM */
+>     if (machine->ram_size < (1 * GiB)) {
+>         warn_report("skiboot may not work with < 1GB of RAM");
+>     }
+>=20
+> and we should exit instead.=20
+>=20
+> >      /* load initrd */
+> >      if (machine->initrd_filename) {
+> > +        if (machine->ram_size <=3D (1.5 * GiB)) {
+> > +            /* INITRD_LOAD_ADDR is at 1.5GB, so we require at least th=
+at much RAM
+> > +             * when specifying the initrd on the command line */
+> > +            warn_report("initrd load requires > %ld MB of RAM",
+> > +                    INITRD_LOAD_ADDR / MiB);
+> > +        }
+>=20
+> Shouldn't we take into account the initrd size also ? I don't know if it =
+is=20
+> relevant as it can be compressed.
+>=20
+> >          pnv->initrd_base =3D INITRD_LOAD_ADDR;
+> >          pnv->initrd_size =3D load_image_targphys(machine->initrd_filen=
+ame,
+> >                                    pnv->initrd_base, INITRD_MAX_SIZE);
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -236,25 +168,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---t4apE7yKrX2dGgJC
+--PW0Eas8rCkcu1VkF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tizcACgkQbDjKyiDZ
-s5KNvQ/+K32uYHc43V0RovZPavtxaS35GwlXbXSQomjyWEtmb11gDkMI+qO5v0qF
-4SFOO4bSTu3yzD1jjR0x6HQI6yLiZfU23Ey072HMRz6ocCRYKWRfvQy06oKzvZKm
-DYv0HpuI85lpPKv2BNY3FJpwB4L42qBE2mpKCUQyoIEyxFibJ7QPcKbqZymwxHrG
-ZK0Jtp85i3v2gMDJ6VkgHg48auY5em3wTRMSOIAC78US4fxn/mkfnQ81jGLiAjo9
-lPg7Amj40ond/0A4eOhIjPX3ciTmLTIuhcfcuCdfJetAfKKDCEJDUAMaWri5d2g6
-W3kRvqH/3at/zS8jbcrsKdvT5c1uDYkoJ+9cLfz5wBxxWOdppFb9Q9N4OPiJAhc4
-U/JX8nftnGYJXueV9Gp3KIRFcvp0Ir3F6FEp5OthHxPzw16qL4VLvVZ2gYk1DFlw
-TQL7g9vh3UhHzE3iBTt0WmaqQR/KLcU6nkLoWJCHyS06+C5+/z/HyY91KrN0VgPX
-evjT/PWs4s3cu6o+Wo81aUwtedOrTqSlKOqUhxD494mmxjj4S3dhUSxfZ6T7Xknp
-tSduuzk5J0ucW6hcGFORy2yaTyBidIfhom+EXnWxlzN25HmDfWA8AHGhBvKG8J/I
-Rkt+mpS8UFzmJvF3ZW0hJPAqUgMt4N/wcSkgxJJYz5KzS67O8Kc=
-=IMNe
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tkFEACgkQbDjKyiDZ
+s5LjMA/+NmpSzvPQTRYlDiu5LyppJ7GsYFfLTcqZwcxcuQZs/9+9EdmzpVIn4A8n
+Ro25eIbC6ryChYTveRzb3F29U2+CPWN8W3CT8wIf4j0vkAFy9NNnCuhuMBNrdhn6
+0a4r1PnNBN4HTrFp+Lg0qf5LmAjhPFoQRDQzF2D7piCX2V4MKMfybqB5s0FqgTN0
+AhYHQuQ70yUAWGoWz4NytcW6zsuLVC9xTlUYBvq6kQTrVVS84No355RyeXCWfIZF
+uxG1wxLSgUIB/th4ee5B3B8Qku4r+rSKc0PtNRDbHAvD7vT7G91RAzFfFUg10UzK
+TJJnL1r4E2WZ5KYScktGDyb8JHM5wwJFh6RIyw28AY6m30p3DZIBoJ4wTG4LeBwF
+nJEIbqQhdILGkVq08SpUnrdy5u4NiuNCYsqUaSuI0paQAQ8SucrCX6Y6/g9cqvDx
+04eUJe+6V1lYNhZkUbvOAoJREuv5TYklocEvjwN796FjKipP3P/ihaIT2jkx0aCq
+4gmngSblhomOIFSQV0g0uVRlc8hyjxrqtLU2PwZDJUxoev9erT4rn32D2fMc0mEr
+imY+d+mk1oESMntCy0lQpU84U2I2AjlnWihwm9JqauYnwn2othGcF5f1w/kGNk6a
+FUZIvAV5XUAriLmqE1GXn/BB4i7MgpBKddPhG6UbVyjS20EKVrI=
+=Jdfr
 -----END PGP SIGNATURE-----
 
---t4apE7yKrX2dGgJC--
+--PW0Eas8rCkcu1VkF--
 
