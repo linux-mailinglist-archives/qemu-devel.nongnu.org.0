@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBAC6A3A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:15:02 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CA66A3AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:15:42 +0200 (CEST)
+Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIc0-0005QO-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60093)
+	id 1hnIce-0008Jo-QM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60111)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYk-0000HV-1p
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYk-0000Ji-Hi
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYi-0003M0-Iy
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:37 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37351)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYj-0003My-CK
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:38 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42484)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYi-0003Kp-Ap
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:36 -0400
-Received: by mail-wm1-x333.google.com with SMTP id f17so17655287wme.2
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:36 -0700 (PDT)
+ id 1hnIYj-0003M4-4l
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:37 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x1so4842042wrr.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tYkWxfQocQcN4T6E1ktela7goxtlWdSVxpbi0ybM8Vc=;
- b=ZxNAqCLSLenzrnbhdYFkfhEVqNVdYP93iRmmJPABl34bIqqWbc8IuCIOBq0PEtAUIG
- rM8t0knCQSUtOYAAfX30UEA/tSCXpN1kfBXgqpB+ub5Tts3w6pUnfrY/3/vkc7XghbTU
- 7ddnGbCLj6nQQJW088/1h+TzSZeRnY/M9tPaL5bKSoLwNR1HD8yYG7bz/chiLhg/WmvZ
- sgfRikyejospHBFaOhRNmz7FR699dcYYxRFIJI890G+psCBG7dcY79aK+1L7X9pme0Lw
- txy5IP3A86liJM3kAsvjhfrT6iZKIkC93/LfJgCNDZyZdxSjJDbUt0OyRcOlgDw8oZfA
- IYZg==
+ bh=M6lsGMl+nf2V5Rsu715+jo/F0NLVYFfe6LEKAl/IYr0=;
+ b=I1GYy5rS1/RgdW1mKn+ddrtlAJ6e25MD2A6560TtYHDv1sVMVHcy3Ximv2SGQHaXaF
+ Ren6b9kmYY8dj6b6dyAtNJcpSCvD/qDRHzoAItgOSyv29RxeJVoN8l+ysZs5j9f5Evpy
+ 8xwP9tcbDzIf1eg4jBSbgWnbucgtmO0S1YrI/Aqqs6m8UudyJASkuH8rhfOiwoUvTfV4
+ AnF/vZC312CTAmH4Ik5Fbg9nf0Y4t//NmsnXwQwINnueTyrC4G/YcALXl0nYtrT1EwAW
+ o58eX7Pi/9BoLFRzh24Lc2ql5Po9TLf4wcK3Y6ZPEyQYPAvvObVZmBFiTSQIa/nOnaVi
+ Bx4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tYkWxfQocQcN4T6E1ktela7goxtlWdSVxpbi0ybM8Vc=;
- b=tj3+B/KE44LHk061y4MSXfL14wg9K5eHAkeT21amZx6a4hRLMqz6IlJDMyKxKp2Cc2
- SxoN/DW85uOl0fvtT032/lR0/tcN0+Kv6jl6n7wfEiNIWX/3no+8WWE3kiN0whSno67L
- JOKl8wbgJX3GAUDAUhk4WhsGy2Hwf1tZCWg4wbD2URehPyFWSugS7mTEIpegtbYlaEoy
- BknG6tT2vA44R+86ZJYJGWViuUeYrCwiWWrx1eBEnkyIyCCJ62hnx1KPju7Hy/BaxER8
- VhQp3JQvL3l2/eGAdu/DC0DjfRfSvlXMkDnkqkiiTiSExtrzwNFOx1t0FMBnJcR1uGlU
- ISGA==
-X-Gm-Message-State: APjAAAUhL+9Ln2HDaHhb7xR5ldO7gREpTePmm0XiDNWu7Fchd1bx4f87
- seIlxZ/lUsl/J98r0iBUezkaK8nhUEw=
-X-Google-Smtp-Source: APXvYqx+qJp+GwXKxpc/EQlA8LVrkxXJqC8kmmig1xa65GIDldhueeG6+VlxB5n8uPzEMOZVjyuPwQ==
-X-Received: by 2002:a1c:a5c2:: with SMTP id
- o185mr28528112wme.172.1563264695019; 
+ bh=M6lsGMl+nf2V5Rsu715+jo/F0NLVYFfe6LEKAl/IYr0=;
+ b=iebRbngW8RxnvFkCld0ooaxSjIUr2LylEBpigZm+6DQ0/WIvDp+6lU6SPIBtD1CccM
+ oIXPk5ZNZFrGYTsWMiV1+j5ettxewJ0js21u2pxvTdqKs3uCuKmc5SFAveaagQ8BLmmM
+ yH6GXsxwguvd1Le5TIR6Tws2MCAxFMrRnqaZovfRiB6V4cd0h05Ce3uRxQtSqzSkVmDv
+ b2Og/osqd/YPAPACff4m3aMTrPeviWCPTNAO7Wz5rOJVMrQoaSNl+H0qsu2RYB9j8BDH
+ Wha46WFQAbhFIQPo0L0nP16J/kDpeKh0UHInH+0joUas9NossceOF9sG8KDL/LgC1cGu
+ PqDw==
+X-Gm-Message-State: APjAAAWN5RPja9aBp5eAYsvR8AuI40Wa1ZsfpW/dMfnGke/jzZkVluCp
+ NDCZRKiK/SXfn3laivENVqKtA1NpIRI=
+X-Google-Smtp-Source: APXvYqz4VCrSaQiaJ/T+kXJ9ZTamS+hhncOzdCedJoONSn2EDmj84M1UwTRq9wgrxoxv9Xby8d1ihA==
+X-Received: by 2002:adf:f046:: with SMTP id t6mr36367130wro.307.1563264695955; 
  Tue, 16 Jul 2019 01:11:35 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.34
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.35
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:34 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:13 +0200
-Message-Id: <1563264677-39718-16-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:14 +0200
+Message-Id: <1563264677-39718-17-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
@@ -66,8 +65,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
-Subject: [Qemu-devel] [PULL 15/19] hw/usb/Kconfig: Add CONFIG_USB_EHCI_PCI
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PULL 16/19] hw/usb/Kconfig: USB_XHCI_NEC requires
+ USB_XHCI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,58 +85,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The USB_EHCI entry currently include PCI code. Since the EHCI
-implementation is already split in sysbus/PCI, add a new
-USB_EHCI_PCI. There are no logical changes, but the Kconfig
-dependencies tree is cleaner.
+TYPE_NEC_XHCI is child of TYPE_XHCI. Add the missing Kconfig
+dependency.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/usb/Kconfig       | 9 ++++++---
- hw/usb/Makefile.objs | 5 +++--
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ hw/usb/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/usb/Kconfig b/hw/usb/Kconfig
-index 564305e..495c6f2 100644
+index 495c6f2..555e093 100644
 --- a/hw/usb/Kconfig
 +++ b/hw/usb/Kconfig
-@@ -19,13 +19,16 @@ config USB_OHCI_PCI
- 
- config USB_EHCI
+@@ -40,7 +40,7 @@ config USB_XHCI_NEC
      bool
--    default y if PCI_DEVICES
--    depends on PCI
-     select USB
- 
-+config USB_EHCI_PCI
-+    bool
-+    default y if PCI_DEVICES
-+    select USB_EHCI
-+
- config USB_EHCI_SYSBUS
-     bool
+     default y if PCI_DEVICES
+     depends on PCI
 -    select USB
-+    select USB_EHCI
++    select USB_XHCI
  
- config USB_XHCI
+ config USB_MUSB
      bool
-diff --git a/hw/usb/Makefile.objs b/hw/usb/Makefile.objs
-index 81688f6..303ac08 100644
---- a/hw/usb/Makefile.objs
-+++ b/hw/usb/Makefile.objs
-@@ -6,8 +6,9 @@ common-obj-$(CONFIG_USB) += desc.o desc-msos.o
- common-obj-$(CONFIG_USB_UHCI) += hcd-uhci.o
- common-obj-$(CONFIG_USB_OHCI) += hcd-ohci.o
- common-obj-$(CONFIG_USB_OHCI_PCI) += hcd-ohci-pci.o
--common-obj-$(CONFIG_USB_EHCI) += hcd-ehci.o hcd-ehci-pci.o
--common-obj-$(CONFIG_USB_EHCI_SYSBUS) += hcd-ehci.o hcd-ehci-sysbus.o
-+common-obj-$(CONFIG_USB_EHCI) += hcd-ehci.o
-+common-obj-$(CONFIG_USB_EHCI_PCI) += hcd-ehci-pci.o
-+common-obj-$(CONFIG_USB_EHCI_SYSBUS) += hcd-ehci-sysbus.o
- common-obj-$(CONFIG_USB_XHCI) += hcd-xhci.o
- common-obj-$(CONFIG_USB_XHCI_NEC) += hcd-xhci-nec.o
- common-obj-$(CONFIG_USB_MUSB) += hcd-musb.o
 -- 
 1.8.3.1
 
