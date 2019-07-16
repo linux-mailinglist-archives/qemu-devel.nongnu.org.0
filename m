@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D3C6A391
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:04 +0200 (CEST)
-Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5AF6A399
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:51 +0200 (CEST)
+Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIZ8-0000w4-WA
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1hnIZu-0004Nx-J1
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59805)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYW-0007sP-He
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:25 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYX-0007sb-JR
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYV-000396-8d
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:24 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53992)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYW-0003AL-LX
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:25 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46503)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYV-00038I-1j
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:23 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id x15so17659981wmj.3
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:22 -0700 (PDT)
+ id 1hnIYW-00039b-Ed
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:24 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z1so19805124wru.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=LYTPu7psuc85Dpnmvnd3GNUHtSt1nCg5qgokDKUHd0w=;
- b=KcC1zqWOmSIa9mrjwskY+NScdT6DFe904LAly52ad/Fy4HJYMO0qMISHaZGSDuFm9N
- WIXYSrStySxEjL0hEexS8tPuATh/VHCZP591GqPfgm/DY8q6oPfnvszhO6Kk6ychnIP3
- 3Vqo56C3A++nEksYynPJeM7nW0LWV+V3rZaKF1rZuP9wHYTCsu0H3D6qnRWBTokNHBwV
- EQonMnFIQVilOXW/S3Bsn+R2u57iy/2yNwD0DqTY7FgDxOgsogXso7I5dOJUUBkOVDOg
- CkqR0DHnKeHngVnnqVDYoY1hA2kxl8P9iR/EfH6r57qzsqs0pdZLT+Ix32GtfqjUUWfC
- yVpQ==
+ bh=R2KY92Z7mdmQFY2AfwkaNFzZ9VI1hZbFTT8NYQ7db68=;
+ b=sWENDNk/wQyoH9tX8MtQ07aEekkeiyHTvpDbXxUMNBqyUMfAqIZtzGNlBUJLUHlS7u
+ za+fuA8VvfsnkJfgn1xj4PQkpNCdkCT/aAuMMVlFVDicoL1K9CMkuVrn08NwBnQY/dJZ
+ 5N2pZG1zleGgAaUOPVn7NCHHXVmVSfmBWxcbOE/oznnr5SKFUQ2OWUtD/pdwn8w37lZL
+ KOlAAqgRRG17OPJV7JmFfQN25vsv5upQXctwg+SKCZr1dewVUlGPGcvwwCRT7xgajb3w
+ yl9o+YjLrLh2cVsIgl1W0lcd7O+2IOSIPheDIpToJjpuc2bfLWOifunnOO++UINKEuB5
+ slFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=LYTPu7psuc85Dpnmvnd3GNUHtSt1nCg5qgokDKUHd0w=;
- b=EmsTteQ1ypypjfdemPOf9elrEP0YnsoHbyKVT0C1Je6yP28KZs7uWZNtpT+jpBJr/y
- Tw4tO0xAFNaduLIXTaK9IcLUw4Au9sFc7/Ac2lXHbFSvdJcHas46yXWIr2Ys+ypgZi9N
- OhflAB/aRTXp8FCKWZLQLIW+1B+ztYUNcFe8XdRGIG6ZjGynug3x1tHzyQMHPY9T44x3
- 1D6smPfsVRRvxrGQ2ijSP4UXZwVaNAICdnNWzIF9aeNr0oonhL97SqsdRWZmH92cV36Y
- PNmK2VK+R/iFigWTiOmVPzZ3rE0v6ct41GSJqxw+LQf5eSWkdptQ/6SPm2WPTp+TNiOU
- TQNA==
-X-Gm-Message-State: APjAAAXTtgo+KUNKtVNnbyUYaOfQT9As+2Vd43DaWojewC/1OqhFoG1Z
- /ghSzCHwdzUvbxa2HvPmTCLZFZ1DO+g=
-X-Google-Smtp-Source: APXvYqx+emaMxBnLfy5JGSCS+C7DEBwdtW9UJYGl48s6Om1ouENMcjf1wl4eXhwSJi72v34wFbOvjA==
-X-Received: by 2002:a1c:9e90:: with SMTP id h138mr30270024wme.67.1563264681704; 
- Tue, 16 Jul 2019 01:11:21 -0700 (PDT)
+ bh=R2KY92Z7mdmQFY2AfwkaNFzZ9VI1hZbFTT8NYQ7db68=;
+ b=Je/PZQeIsdyMz5IyjZ6l/M80jAiv80yTKOdnxutsJO9WaRgzKJaZWR9sFSsiFCb0xe
+ GM5SkFN2iXz4SDafwIoLxJjh7GNUk7A+ZUOUGzxDYOFqeuJ99bevj5eMGkBWgajR9dwf
+ SlcJl9dsZp320/tz/r1uigsjxcjlL9zrtYKSnE2LRMC+GrtHWZeKvK3JJvF5oZfSnaPr
+ 1Gvbi6WaELvfG+GflwI1hlU4mKu0+lUyjTnnxuInmQ6cnd/sFUzn/ziGianFcQJIHHkT
+ 6OnG2bcogUcoyohKNge/qjZrXrh5M5oGNb7UX4WITzaPwBpLGBF5qpBqktw6qoI8CYDT
+ +OcA==
+X-Gm-Message-State: APjAAAW1LuNMtsQmBFqZlqf7GoopDtquk0Fnqsuu72urL0Jr0L6qjfVU
+ WIsGBqhEW0MG0CUkXyYHro7OTfuXyq8=
+X-Google-Smtp-Source: APXvYqy0zvEn3aDOSukVbm4Qf3shFAraLKyKx5BLID/w+L9t02epQpmnLB48sa692GwVuAB/RVX2YA==
+X-Received: by 2002:adf:cf02:: with SMTP id o2mr15163612wrj.352.1563264683110; 
+ Tue, 16 Jul 2019 01:11:23 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.20
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:20 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:00 +0200
-Message-Id: <1563264677-39718-3-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:01 +0200
+Message-Id: <1563264677-39718-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PULL 02/19] scsi: explicitly list guest-recoverable
- sense codes
+X-Received-From: 2a00:1450:4864:20::42c
+Subject: [Qemu-devel] [PULL 03/19] scsi: add guest-recoverable ZBC errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,113 +78,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's not really possible to fit all sense codes into errno codes,
-especially in such a way that sense codes can be properly categorized as
-either guest-recoverable or host-handled.  Create a new function that
-checks for guest recoverable sense, then scsi_sense_buf_to_errno only
-needs to be called for host handled sense codes.
+When running basic operations on zoned storage from the guest via
+scsi-block, the following ASCs are reported for write or read commands
+due to unexpected zone status or write pointer status:
 
+     21h 04h: UNALIGNED WRITE COMMAND
+     21h 05h: WRITE BOUNDARY VIOLATION
+     21h 06h: ATTEMPT TO READ INVALID DATA
+     55h 0Eh: INSUFFICIENT ZONE RESOURCES
+
+Reporting these ASCs to the guest, the user applications can handle
+them to manage zone/write pointer status, or help the user application
+developers to understand the failure reason and fix bugs.
+
+Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c  |  5 ++---
- include/scsi/utils.h |  1 +
- scsi/utils.c         | 43 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+), 3 deletions(-)
+ scsi/utils.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 5d3fb3c..8e95e3e 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -454,14 +454,13 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
-              * pause the host.
-              */
-             assert(r->status && *r->status);
--            error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
--            if (error == ECANCELED || error == EAGAIN || error == ENOTCONN ||
--                error == 0)  {
-+            if (scsi_sense_buf_is_guest_recoverable(r->req.sense, sizeof(r->req.sense))) {
-                 /* These errors are handled by guest. */
-                 sdc->update_sense(&r->req);
-                 scsi_req_complete(&r->req, *r->status);
-                 return true;
-             }
-+            error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
-             break;
-         case ENOMEDIUM:
-             scsi_check_condition(r, SENSE_CODE(NO_MEDIUM));
-diff --git a/include/scsi/utils.h b/include/scsi/utils.h
-index 9351b21..fbc5588 100644
---- a/include/scsi/utils.h
-+++ b/include/scsi/utils.h
-@@ -106,6 +106,7 @@ extern const struct SCSISense sense_code_SPACE_ALLOC_FAILED;
- 
- int scsi_sense_to_errno(int key, int asc, int ascq);
- int scsi_sense_buf_to_errno(const uint8_t *sense, size_t sense_size);
-+bool scsi_sense_buf_is_guest_recoverable(const uint8_t *sense, size_t sense_size);
- 
- int scsi_convert_sense(uint8_t *in_buf, int in_len,
-                        uint8_t *buf, int len, bool fixed);
 diff --git a/scsi/utils.c b/scsi/utils.c
-index 8738522..ad243a9 100644
+index ad243a9..873d49c 100644
 --- a/scsi/utils.c
 +++ b/scsi/utils.c
-@@ -336,6 +336,38 @@ int scsi_convert_sense(uint8_t *in_buf, int in_len,
-     }
- }
+@@ -360,6 +360,11 @@ static bool scsi_sense_is_guest_recoverable(int key, int asc, int ascq)
+     case 0x2500: /* LOGICAL UNIT NOT SUPPORTED */
+     case 0x2600: /* INVALID FIELD IN PARAMETER LIST */
  
-+static bool scsi_sense_is_guest_recoverable(int key, int asc, int ascq)
-+{
-+    switch (key) {
-+    case NO_SENSE:
-+    case RECOVERED_ERROR:
-+    case UNIT_ATTENTION:
-+    case ABORTED_COMMAND:
-+        return true;
-+    case NOT_READY:
-+    case ILLEGAL_REQUEST:
-+    case DATA_PROTECT:
-+        /* Parse ASCQ */
-+        break;
-+    default:
-+        return false;
-+    }
++    case 0x2104: /* UNALIGNED WRITE COMMAND */
++    case 0x2105: /* WRITE BOUNDARY VIOLATION */
++    case 0x2106: /* ATTEMPT TO READ INVALID DATA */
++    case 0x550e: /* INSUFFICIENT ZONE RESOURCES */
 +
-+    switch ((asc << 8) | ascq) {
-+    case 0x1a00: /* PARAMETER LIST LENGTH ERROR */
-+    case 0x2000: /* INVALID OPERATION CODE */
-+    case 0x2400: /* INVALID FIELD IN CDB */
-+    case 0x2500: /* LOGICAL UNIT NOT SUPPORTED */
-+    case 0x2600: /* INVALID FIELD IN PARAMETER LIST */
-+
-+    case 0x0401: /* NOT READY, IN PROGRESS OF BECOMING READY */
-+    case 0x0402: /* NOT READY, INITIALIZING COMMAND REQUIRED */
-+        return true;
-+    default:
-+        return false;
-+    }
-+}
-+
- int scsi_sense_to_errno(int key, int asc, int ascq)
- {
-     switch (key) {
-@@ -391,6 +423,17 @@ int scsi_sense_buf_to_errno(const uint8_t *in_buf, size_t in_len)
-     return scsi_sense_to_errno(sense.key, sense.asc, sense.ascq);
- }
- 
-+bool scsi_sense_buf_is_guest_recoverable(const uint8_t *in_buf, size_t in_len)
-+{
-+    SCSISense sense;
-+    if (in_len < 1) {
-+        return false;
-+    }
-+
-+    sense = scsi_parse_sense_buf(in_buf, in_len);
-+    return scsi_sense_is_guest_recoverable(sense.key, sense.asc, sense.ascq);
-+}
-+
- const char *scsi_command_name(uint8_t cmd)
- {
-     static const char *names[] = {
+     case 0x0401: /* NOT READY, IN PROGRESS OF BECOMING READY */
+     case 0x0402: /* NOT READY, INITIALIZING COMMAND REQUIRED */
+         return true;
 -- 
 1.8.3.1
 
