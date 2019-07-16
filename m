@@ -2,132 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA276AB25
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 16:58:09 +0200 (CEST)
-Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0BC6AB39
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 17:01:27 +0200 (CEST)
+Received: from localhost ([::1]:49880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnOu8-0002lu-EE
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 10:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50781)
+	id 1hnOxK-0005FC-0Q
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 11:01:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hnOtX-0000tJ-PJ
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:57:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1hnOwr-0004OA-Pk
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:01:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hnOtW-0002kA-PY
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 10:57:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35554)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hnOtT-0002du-BZ; Tue, 16 Jul 2019 10:57:27 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2755F3082B07;
- Tue, 16 Jul 2019 14:57:23 +0000 (UTC)
-Received: from [10.18.17.130] (dhcp-17-130.bos.redhat.com [10.18.17.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8CD96012C;
- Tue, 16 Jul 2019 14:57:15 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, Alexander Popov <alex.popov@linux.com>
-References: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
- <0bce1e99-fb98-6354-9426-391a3e9363f1@linux.com>
- <20190716112535.GB7297@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
- IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
- vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
- rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
- 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
- ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
- 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
- h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
- T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
- LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
- KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
- BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
- qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
- LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
- ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
- J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
- vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
- il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
- 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
- tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
- 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
- 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
- d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
- 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
- MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
- NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
- TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
- L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
- JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
- /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
- nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
- 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
- Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
- e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
- ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
- vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
- C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
- fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
- rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
- TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
- PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
- Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
- E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
- Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
- rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
- cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
- wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
- jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
- vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
- eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
- RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
- CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
- AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
- VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
- XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
- Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
- y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
- sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
- HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
- 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
- 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
- y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
- uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
- YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
- 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
- Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
- TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
- TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
- GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
- rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
- i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
- RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
- glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <52979901-15a7-ee2c-80d7-4cbbc99f461c@redhat.com>
-Date: Tue, 16 Jul 2019 10:57:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <bounces@canonical.com>) id 1hnOwl-0004ek-M5
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:00:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54442)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hnOwi-0004cs-VA
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 11:00:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hnOwg-0004II-3r
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 15:00:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1A47C2E8005
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 15:00:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190716112535.GB7297@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 16 Jul 2019 14:57:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Jul 2019 14:53:58 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1836762@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: spice
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156328883859.28108.13283790893247050323.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19007";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 0182143d503b03c1e923f82e6a973b19e1efc01c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [QEMU-SECURITY] ide: fix assertion in
- ide_dma_cb() to prevent qemu DoS from quest
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836762] [NEW] Many leaks from
+ qemu_spice_create_update
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -136,49 +66,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sstabellini@kernel.org, pmatouse@redhat.com, mdroth@linux.vnet.ibm.com,
- qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, pjp@redhat.com
+Reply-To: Bug 1836762 <1836762@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
+
+tag: v4.1.0-rc0
+
+Compiled with --enable-sanitizers
+
+$ qemu-system-x86_64 -device qxl-vga ...
+[guest exits calling 'hlt']
+=3D=3D20452=3D=3DERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 167616 byte(s) in 582 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+    #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+22:21
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Direct leak of 5184 byte(s) in 18 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+    #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+43:13
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Direct leak of 2560 byte(s) in 4 object(s) allocated from:
+    #0 0x561146f2cb46 in realloc (x86_64-softmmu/qemu-system-x86_64+0x1824b=
+46)
+    #1 0x7f73ac04c420  (/lib64/libfontconfig.so.1+0x21420)
+
+Direct leak of 22 byte(s) in 1 object(s) allocated from:
+    #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system-x=
+86_64+0x18246af)
+    #1 0x7f73ae781953 in XGetAtomName (/lib64/libX11.so.6+0x2a953)
+
+Indirect leak of 54936 byte(s) in 510 object(s) allocated from:
+    #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system-x=
+86_64+0x18246af)
+    #1 0x7f73af3dddc5 in g_malloc (/lib64/libglib-2.0.so.0+0x54dc5)
+    #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+22:21
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Indirect leak of 30720 byte(s) in 23 object(s) allocated from:
+    #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system-x=
+86_64+0x18246af)
+    #1 0x7f73af3dddc5 in g_malloc (/lib64/libglib-2.0.so.0+0x54dc5)
+    #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+43:13
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Indirect leak of 8288 byte(s) in 259 object(s) allocated from:
+    #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system-x=
+86_64+0x18246af)
+    #1 0x7f73ac0385af  (/lib64/libfontconfig.so.1+0xd5af)
+
+Indirect leak of 4068 byte(s) in 303 object(s) allocated from:
+    #0 0x561146e78f40 in __interceptor_strdup (x86_64-softmmu/qemu-system-x=
+86_64+0x1770f40)
+    #1 0x7f73ac04bc44 in FcValueSave (/lib64/libfontconfig.so.1+0x20c44)
+
+Indirect leak of 2336 byte(s) in 73 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73ac04c9cc  (/lib64/libfontconfig.so.1+0x219cc)
+
+Indirect leak of 1536 byte(s) in 48 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73ac04bf0c  (/lib64/libfontconfig.so.1+0x20f0c)
+
+Indirect leak of 1440 byte(s) in 5 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+    #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+43:13
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Indirect leak of 1440 byte(s) in 5 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+    #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c:2=
+22:21
+    #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display.c=
+:488:9
+    #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+    #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+    #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+    #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+    #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588:12
+    #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c:7=
+08:25
+    #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+    #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+    #12 0x561147c4976d in main qemu/vl.c:4473:5
+    #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+Indirect leak of 384 byte(s) in 12 object(s) allocated from:
+    #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x18248e=
+f)
+    #1 0x7f73ac04bd9e  (/lib64/libfontconfig.so.1+0x20d9e)
+
+Indirect leak of 96 byte(s) in 2 object(s) allocated from:
+    #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system-x=
+86_64+0x18246af)
+    #1 0x7f73ac045e51 in FcLangSetCreate (/lib64/libfontconfig.so.1+0x1ae51)
+
+SUMMARY: AddressSanitizer: 280628 byte(s) leaked in 1847 allocation(s).
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-On 7/16/19 7:25 AM, Kevin Wolf wrote:
-> Am 15.07.2019 um 13:24 hat Alexander Popov geschrieben:
->> On 05.07.2019 17:07, Alexander Popov wrote:
->>> This assertion was introduced in the commit a718978ed58a in July 2015.
->>> It implies that the size of successful DMA transfers handled in
->>> ide_dma_cb() should be multiple of 512 (the size of a sector).
->>>
->>> But guest systems can initiate DMA transfers that don't fit this
->>> requirement. Let's improve the assertion to prevent qemu DoS from quests.
->>
->> Hello!
->>
->> Just a friendly ping.
->>
->> Could you have a look at this patch?
-> 
-> John, I think this is for you.
-> 
-> I haven't reviewed this yet, but if we put an assertion there that the
-> request is aligned, we probably rely on this fact somewhere in the code.
-> So I suspect that just changing the assertion without changing other
-> code, too, might not be enough.
-> 
-> Kevin
-> 
+** Tags: spice
 
-Right; I'm aware of the patch. It's on the list to investigate today.
+-- =
 
-I have the same concern that the assertion intuits a bug elsewhere, so I
-wanted to give this one a thorough investigation before inclusion for rc1.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836762
 
-Sorry for the delay, it IS on my list, but I also feel that a privileged
-DOS by a guest of a legacy device is actually low priority
-security-wise, unless we can demonstrate that there are side effects
-that can be exploited.
+Title:
+  Many leaks from qemu_spice_create_update
 
---js
+Status in QEMU:
+  New
+
+Bug description:
+  tag: v4.1.0-rc0
+
+  Compiled with --enable-sanitizers
+
+  $ qemu-system-x86_64 -device qxl-vga ...
+  [guest exits calling 'hlt']
+  =3D=3D20452=3D=3DERROR: LeakSanitizer: detected memory leaks
+
+  Direct leak of 167616 byte(s) in 582 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+      #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c=
+:222:21
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Direct leak of 5184 byte(s) in 18 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+      #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c=
+:243:13
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Direct leak of 2560 byte(s) in 4 object(s) allocated from:
+      #0 0x561146f2cb46 in realloc (x86_64-softmmu/qemu-system-x86_64+0x182=
+4b46)
+      #1 0x7f73ac04c420  (/lib64/libfontconfig.so.1+0x21420)
+
+  Direct leak of 22 byte(s) in 1 object(s) allocated from:
+      #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system=
+-x86_64+0x18246af)
+      #1 0x7f73ae781953 in XGetAtomName (/lib64/libX11.so.6+0x2a953)
+
+  Indirect leak of 54936 byte(s) in 510 object(s) allocated from:
+      #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system=
+-x86_64+0x18246af)
+      #1 0x7f73af3dddc5 in g_malloc (/lib64/libglib-2.0.so.0+0x54dc5)
+      #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c=
+:222:21
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Indirect leak of 30720 byte(s) in 23 object(s) allocated from:
+      #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system=
+-x86_64+0x18246af)
+      #1 0x7f73af3dddc5 in g_malloc (/lib64/libglib-2.0.so.0+0x54dc5)
+      #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c=
+:243:13
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Indirect leak of 8288 byte(s) in 259 object(s) allocated from:
+      #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system=
+-x86_64+0x18246af)
+      #1 0x7f73ac0385af  (/lib64/libfontconfig.so.1+0xd5af)
+
+  Indirect leak of 4068 byte(s) in 303 object(s) allocated from:
+      #0 0x561146e78f40 in __interceptor_strdup (x86_64-softmmu/qemu-system=
+-x86_64+0x1770f40)
+      #1 0x7f73ac04bc44 in FcValueSave (/lib64/libfontconfig.so.1+0x20c44)
+
+  Indirect leak of 2336 byte(s) in 73 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73ac04c9cc  (/lib64/libfontconfig.so.1+0x219cc)
+
+  Indirect leak of 1536 byte(s) in 48 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73ac04bf0c  (/lib64/libfontconfig.so.1+0x20f0c)
+
+  Indirect leak of 1440 byte(s) in 5 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+      #2 0x561148c6e3e7 in qemu_spice_create_update qemu/ui/spice-display.c=
+:243:13
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Indirect leak of 1440 byte(s) in 5 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73af3dde1d in g_malloc0 (/lib64/libglib-2.0.so.0+0x54e1d)
+      #2 0x561148c6d547 in qemu_spice_create_update qemu/ui/spice-display.c=
+:222:21
+      #3 0x561148c6ba2b in qemu_spice_display_refresh qemu/ui/spice-display=
+.c:488:9
+      #4 0x561148172eff in display_refresh qemu/hw/display/qxl.c:2030:9
+      #5 0x561148c2748f in dpy_refresh qemu/ui/console.c:1629:13
+      #6 0x561148c263f1 in gui_update qemu/ui/console.c:206:5
+      #7 0x561149558e6b in timerlist_run_timers qemu/util/qemu-timer.c:574:9
+      #8 0x5611495591de in qemu_clock_run_timers qemu/util/qemu-timer.c:588=
+:12
+      #9 0x56114955a489 in qemu_clock_run_all_timers qemu/util/qemu-timer.c=
+:708:25
+      #10 0x56114955b235 in main_loop_wait qemu/util/main-loop.c:519:5
+      #11 0x561147c587b3 in main_loop qemu/vl.c:1791:9
+      #12 0x561147c4976d in main qemu/vl.c:4473:5
+      #13 0x7f73ac5c4412 in __libc_start_main (/lib64/libc.so.6+0x24412)
+
+  Indirect leak of 384 byte(s) in 12 object(s) allocated from:
+      #0 0x561146f2c8ef in calloc (x86_64-softmmu/qemu-system-x86_64+0x1824=
+8ef)
+      #1 0x7f73ac04bd9e  (/lib64/libfontconfig.so.1+0x20d9e)
+
+  Indirect leak of 96 byte(s) in 2 object(s) allocated from:
+      #0 0x561146f2c6af in __interceptor_malloc (x86_64-softmmu/qemu-system=
+-x86_64+0x18246af)
+      #1 0x7f73ac045e51 in FcLangSetCreate (/lib64/libfontconfig.so.1+0x1ae=
+51)
+
+  SUMMARY: AddressSanitizer: 280628 byte(s) leaked in 1847
+  allocation(s).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836762/+subscriptions
 
