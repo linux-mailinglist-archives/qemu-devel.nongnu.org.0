@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112CD6A451
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:54:27 +0200 (CEST)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DA66A44D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:53:56 +0200 (CEST)
+Received: from localhost ([::1]:46538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnJEA-0004Q5-3g
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
+	id 1hnJDe-0001Ua-Vq
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45099)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006c-Bx
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006d-CC
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TK-2s
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TE-2i
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:15 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43137 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:45775)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnJCz-0007SE-8i; Tue, 16 Jul 2019 04:53:13 -0400
+ id 1hnJCz-0007SI-8t; Tue, 16 Jul 2019 04:53:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45nvLY320Nz9sNj; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
+ id 45nvLY1rsXz9sN4; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563267189;
- bh=kdDz65odmbBZPSq/8iNy90UTGXtaOsFmTSKHPRqjT2Y=;
+ bh=3CZuikxAi84d/JnDOphY/C6UJVItEFSkAsyy0Ahrd5Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BKoAtel7Fnf4TglEeIMHTFgnrmG+4YHQ452cq2l4tnJT2JBDHHuytOPa3S0NdfI2F
- 6/TuelaweoyQyFjGPDDdzDkM7iPjVx6KSQgwkfy5Whq0rwzh3O6qqNUygDsDXTlWEv
- aSwm0q61i74hl/gfKvVTIhwvmSx5lmwopYuNeNoA=
-Date: Tue, 16 Jul 2019 18:25:49 +1000
+ b=cpMki/jHX1BHsxPIpCAi5eri5YgXhf16o4GT3WIp11aa6aWnqUmVJTFD8YcvdbxdU
+ Wz22OajAlTQofuwSjTeYfDMRxqK6lApW3CjTbbc3T7eoi9csk0rj7psukwqqwKVNij
+ lnvOqp4aEpcvpx8CQobMo6B5O6z2uBuX3me6ZW0s=
+Date: Tue, 16 Jul 2019 18:26:25 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190716082549.GE7525@umbus.fritz.box>
+Message-ID: <20190716082625.GF7525@umbus.fritz.box>
 References: <20190716024726.17864-1-npiggin@gmail.com>
- <20190716024726.17864-4-npiggin@gmail.com>
+ <20190716024726.17864-5-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pY3vCvL1qV+PayAL"
+ protocol="application/pgp-signature"; boundary="NQTVMVnDVuULnIzU"
 Content-Disposition: inline
-In-Reply-To: <20190716024726.17864-4-npiggin@gmail.com>
+In-Reply-To: <20190716024726.17864-5-npiggin@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v4 3/5] spapr: Implement H_CONFER
+Subject: Re: [Qemu-devel] [PATCH v4 4/5] spapr: Implement H_JOIN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,102 +61,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---pY3vCvL1qV+PayAL
+--NQTVMVnDVuULnIzU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2019 at 12:47:24PM +1000, Nicholas Piggin wrote:
-> This does not do directed yielding and is not quite as strict as PAPR
-> specifies in terms of precise dispatch behaviour. This generally will
-> mean suboptimal performance, rather than guest misbehaviour. Linux
-> does not rely on exact dispatch behaviour.
+On Tue, Jul 16, 2019 at 12:47:25PM +1000, Nicholas Piggin wrote:
+> This has been useful to modify and test the Linux pseries suspend
+> code but it requires modification to the guest to call it (due to
+> being gated by other unimplemented features). It is not otherwise
+> used by Linux yet, but work is slowly progressing there.
 >=20
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+
+LGTM apart from style issues as noted by the bot.
+
 > ---
->  hw/ppc/spapr_hcall.c | 48 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
+>  hw/ppc/spapr.c       |  1 +
+>  hw/ppc/spapr_hcall.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
 >=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 87b11e2484..5c54e1cb9a 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1066,6 +1066,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr,=
+ void *fdt)
+>      add_str(hypertas, "hcall-tce");
+>      add_str(hypertas, "hcall-vio");
+>      add_str(hypertas, "hcall-splpar");
+> +    add_str(hypertas, "hcall-join");
+>      add_str(hypertas, "hcall-bulk");
+>      add_str(hypertas, "hcall-set-mode");
+>      add_str(hypertas, "hcall-sprg0");
 > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 8b208ab259..28d58113be 100644
+> index 28d58113be..52847a7047 100644
 > --- a/hw/ppc/spapr_hcall.c
 > +++ b/hw/ppc/spapr_hcall.c
-> @@ -1069,6 +1069,53 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprM=
+> @@ -1069,6 +1069,47 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprM=
 achineState *spapr,
 >      return H_SUCCESS;
 >  }
 > =20
-> +static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +static target_ulong h_join(PowerPCCPU *cpu, SpaprMachineState *spapr,
 > +                           target_ulong opcode, target_ulong *args)
 > +{
-> +    target_long target =3D args[0];
-> +    uint32_t dispatch =3D args[1];
-> +    PowerPCCPU *target_cpu =3D spapr_find_cpu(target);
-> +    CPUState *target_cs =3D CPU(target_cpu);
-> +    CPUState *cs =3D CPU(cpu);
-> +    SpaprCpuState *spapr_cpu;
+> +    CPUPPCState *env =3D &cpu->env;
+> +    CPUState *cs;
+> +    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> +    bool last_unjoined =3D true;
 > +
-> +    /*
-> +     * This does not do a targeted yield or confer, but check the parame=
-ter
-> +     * anyway. -1 means confer to all/any other CPUs.
-> +     */
-> +    if (target !=3D -1 && !target_cs) {
-> +        return H_PARAMETER;
+> +    if (env->msr & (1ULL << MSR_EE)) {
+> +        return H_BAD_MODE;
 > +    }
-
-Should we return an error if a targeted yield is attempted, rather
-than pretend we've done it?
-
 > +
-> +    spapr_cpu =3D spapr_cpu_state(target_cpu);
+> +    if (spapr_cpu->prod) {
+> +        spapr_cpu->prod =3D false;
+> +        return H_SUCCESS;
+> +    }
 > +
-> +    /*
-> +     * PAPR specifies waiting until proded in this case, without dispatch
-
-s/proded/prodded/
-
-> +     * counter check.
-> +     */
-> +    if (cpu =3D=3D target_cpu) {
-> +        if (spapr_cpu->prod) {
-> +            spapr_cpu->prod =3D false;
-> +            return H_SUCCESS;
+> +    CPU_FOREACH(cs) {
+> +        PowerPCCPU *c =3D POWERPC_CPU(cs);
+> +        CPUPPCState *e =3D &c->env;
+> +        if (c =3D=3D cpu)
+> +            continue;
+> +
+> +	/* Don't have a way to indicate joined, so use halted && MSR[EE]=3D0 */
+> +        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
+> +            last_unjoined =3D false;
+> +            break;
 > +        }
-> +
-> +        cs->halted =3D 1;
-> +        cs->exception_index =3D EXCP_HALTED;
-> +        cs->exit_request =3D 1;
-
-Now that we're using this sequence in a bunch of places, I wonder if
-we want a little helper function.
-
-> +
-> +        return H_SUCCESS;
+> +    }
+> +    if (last_unjoined) {
+> +        return H_CONTINUE;
 > +    }
 > +
-> +    if (spapr_cpu->dispatch_counter !=3D dispatch || (dispatch & 1) =3D=
-=3D 0) {
-> +        return H_SUCCESS;
-> +    }
-> +
-> +    cs->exception_index =3D EXCP_YIELD;
-> +    cpu_loop_exit(cs);
+> +    cs =3D CPU(cpu);
+> +    cs->halted =3D 1;
+> +    cs->exception_index =3D EXCP_HALTED;
+> +    cs->exit_request =3D 1;
 > +
 > +    return H_SUCCESS;
 > +}
 > +
->  static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>  static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
 >                             target_ulong opcode, target_ulong *args)
 >  {
-> @@ -1909,6 +1956,7 @@ static void hypercall_register_types(void)
->      /* hcall-splpar */
->      spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
->      spapr_register_hypercall(H_CEDE, h_cede);
-> +    spapr_register_hypercall(H_CONFER, h_confer);
+> @@ -1959,6 +2000,9 @@ static void hypercall_register_types(void)
+>      spapr_register_hypercall(H_CONFER, h_confer);
 >      spapr_register_hypercall(H_PROD, h_prod);
 > =20
+> +    /* hcall-join */
+> +    spapr_register_hypercall(H_JOIN, h_join);
+> +
 >      spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
+> =20
+>      /* processor register resource access h-calls */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -164,25 +164,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---pY3vCvL1qV+PayAL
+--NQTVMVnDVuULnIzU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tig0ACgkQbDjKyiDZ
-s5Kimg//W/sc1aAYObKViC473brR1CqnP6pUlsrNB3DQCQw82ru1/j/dIdSdXEp6
-d29pMsd6laNBlvM4TrtnEbc5gxo5IYV8wC+YB9j9dT5N1bhuMFiWStI3kAPlQYan
-mmPD6BRya7aRQOj36Oq3tO/MOXtWN6UQ+P+ksZrYJyOn3ui+tLONfyLrMSrS3pmU
-1XpzUQ18yUZyUVLqEbnbcxXo9u2ymHSuvDltENkPcseAO7ZqTdYWDy96gTXmxM35
-PZtziyhRND04kyZPOz8aGjcZyK37obPid8wat5ClQp3IgDi0mYUxgGvq7PjDWlDl
-v0/FhI/qF12F11NWXDvXwt2oNckAYkVzzxI09nIbdx/6ddfkBtTF/GKZhCDG+Iez
-14A0bi/bG9ofNk3AvnBjd+JgsJei16o/pVzYHrg7+z1LtRk1TUu4IKh0U5CHvRPt
-RUmukTEERQyEsfGuqcdA82SwpBSo/OZV3Kc1Uy/VX1PCAT1CiIkyEkwsXh1QbcdW
-bIObe5ux6/qWXvfR2LtY7QRkVMsH06Q0AxVtqeulAgcGMqC3MvepWsGCZnrIYTYL
-qiynHtfSx03U/8RTnOG3Wm5zTYHSlg6M38gUTopPyo/rR5HfOju6y0ZCAflzDgMA
-bw4plE5yRMLN/Nd2dGPHF/O4atcEIco5HU/m632QEC0msyiCZ9Y=
-=pfmU
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tijAACgkQbDjKyiDZ
+s5Lt6w/7BVKLxiKSFXmjPv2941wGlng9BQoDCL/EkkvNp2R1ovj5+GjomlFWWTuV
+lGrH/aHGA6XWGs0oeylywSEdTpVIWsxVjENVjqcIurLCS0EfORXmbLd6KlNTO07v
+rLJk1kMSY+cV6eBytfPkFRYftlG6faS551t7Ds32RskaybrBQdqXdjLzc4erm+P/
+WgxRZyN1O7/v9WMjoAVVvv8lKVrIF07v6NNsQ+lZl0eWT1uyjwPmGXGhZ/Ia2kvh
+OyHCItJEWXPI0Yy7uFJ4SMOmlIZq+ZvHSN4/Qn/sTRZGpqN/B1orLVF5M9mPcoCj
+qJiSvF4znV2qmUbrW8oQXxtLFDR9+TC1HOBCnX1wyjUAo1QxTZalI/bKyBFH0tw9
+HHbScxpk7HueNPeaGLsk/i4Qbl6rmAIGCxclD0yR+44pA3v/O9x0bQgH97em/1nB
+dYbCp8YxMvyvW/P9ejj+ATLGVHzP7T2qxhtFCH4a1R9tNJB4uVKXkCNdII49PAeB
+DyDCdHXqtJiLW1VfFpW8K5vId1j4MUMCuvt74XbRHnxCma3yR9JRP3kUr1HKSDEL
+kLVrisuNYf0yZ0RCrRA+W+v9+4UZ26BWBFjCV3PQYKeZ6YxM6UUdSWCLPzUnBXOB
+RcqjyIxBX6gTPNTeMixVDlhMmtZSYLQoC65ORM7NW5kJAsfMcRk=
+=sWqr
 -----END PGP SIGNATURE-----
 
---pY3vCvL1qV+PayAL--
+--NQTVMVnDVuULnIzU--
 
