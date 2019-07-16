@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461526A420
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:47:57 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658C66A44F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:54:00 +0200 (CEST)
+Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnJ7s-0007YE-DO
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43153)
+	id 1hnJDj-0001qm-0d
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Dave.Martin@arm.com>) id 1hnJ7f-00074f-0r
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:47:44 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006e-CK
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>) id 1hnJ7d-0002j1-Pr
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:47:42 -0400
-Received: from foss.arm.com ([217.140.110.172]:58306)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>)
- id 1hnJ7b-0002ge-2v; Tue, 16 Jul 2019 04:47:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13D242B;
- Tue, 16 Jul 2019 01:47:38 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E94343F59C;
- Tue, 16 Jul 2019 01:47:36 -0700 (PDT)
-Date: Tue, 16 Jul 2019 09:47:34 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Message-ID: <20190716084734.GL2790@e103592.cambridge.arm.com>
-References: <1b0aa6b2-80b1-a72e-6849-7323c3b9c6bc@huawei.com>
- <20190715134059.GJ2790@e103592.cambridge.arm.com>
- <20190715134848.GI56232@lakrids.cambridge.arm.com>
- <4daefb19-6c15-f82c-31e9-1ae035d45bd5@arm.com>
- <20190715144446.GK56232@lakrids.cambridge.arm.com>
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007T8-24
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:15 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:57863)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hnJCz-0007SG-4U; Tue, 16 Jul 2019 04:53:13 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45nvLY0tWvz9sNT; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563267189;
+ bh=0t32TsDHikmCUWkN9jUBAlXKYvSxuA6pkyI1EoMTHjU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KEiI4GaLrw+UPx0IPjuDO2DZo+QBm+iU/e2QKSbyVGaVpv5xaABMR9Ggkg/GHH/Ed
+ DCOb5LnZmHMBheS8+Lq8z+Jix2vwNmqlLe9sF7o121tPsUzlTL0mXx2ZDa1pVlxXhA
+ rRBj7lxoCNrvv7/JM+/yKcuy3GLUeR7MBlGxjA2Q=
+Date: Tue, 16 Jul 2019 18:22:50 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Nicholas Piggin <npiggin@gmail.com>
+Message-ID: <20190716082250.GD7525@umbus.fritz.box>
+References: <20190716024726.17864-1-npiggin@gmail.com>
+ <20190716024726.17864-3-npiggin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="at6+YcpfzWZg/htY"
 Content-Disposition: inline
-In-Reply-To: <20190715144446.GK56232@lakrids.cambridge.arm.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.110.172
-Subject: Re: [Qemu-devel] [RFC] Add virtual SDEI support in qemu
+In-Reply-To: <20190716024726.17864-3-npiggin@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v4 2/5] spapr: Implement H_PROD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,75 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <marc.zyngier@arm.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, James Morse <james.morse@arm.com>,
- Guoheyi <guoheyi@huawei.com>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 15, 2019 at 03:44:46PM +0100, Mark Rutland wrote:
-> On Mon, Jul 15, 2019 at 03:26:39PM +0100, James Morse wrote:
-> > On 15/07/2019 14:48, Mark Rutland wrote:
-> > > On Mon, Jul 15, 2019 at 02:41:00PM +0100, Dave Martin wrote:
-> > >> One option (suggested to me by James Morse) would be to allow userspace
-> > >> to disable in the in-kernel PSCI implementation and provide its own
-> > >> PSCI to the guest via SMC -- in which case userspace that wants to
-> > >> implement SDEI would have to implement PSCI as well.
-> > > 
-> > > I think this would be the best approach, since it puts userspace in
-> > > charge of everything.
-> > > 
-> > > However, this interacts poorly with FW-based mitigations that we
-> > > implement in hyp. I suspect we'd probably need a mechanism to delegate
-> > > that responsibility back to the kernel, and figure out if that has any
-> > > interaction with thigns that got punted to userspace...
-> > 
-> > This has come up before:
-> > https://lore.kernel.org/r/59C139D0.3040507@arm.com
-> > 
-> > I agree Qemu should opt-in to this, it needs to be a feature that is enabled.
-> > 
-> > I had an early version of something like this for testing SDEI before
-> > there was firmware available. The review feedback from Christoffer was
-> > that it should include HVC and SMC, their immediates, and shouldn't be
-> > tied to SMC-CC ranges.
-> > 
-> > I think this should be a catch-all as Heyi describes to deliver
-> > 'unhandled SMC/HVC' to user-space as hypercall exits. We should
-> > include the immediate in the struct.
-> > 
-> > We can allow Qemu to disable the in-kernel PSCI implementation, which
-> > would let it be done in user-space via this catch-all mechanism. (PSCI
-> > in user-space has come up on another thread recently). The in-kernel
-> > PSCI needs to be default-on for backwards compatibility.
-> > 
-> > As Mark points out, the piece that's left is the 'arch workaround'
-> > stuff. We always need to handle these in the kernel. I don't think
-> > these should be routed-back, they should be un-obtainable by
-> > user-space.
-> 
-> Sure; I meant that those should be handled in the kernel rather than
-> going to host userspace and back.
-> 
-> I was suggesting was that userspace would opt into taking ownership of
-> all HVC calls, then explicitly opt-in to the kernel handling specific
-> (sets of) calls.
 
-The most logical thing to do would be to have userspace handle all
-calls, but add an ioctl to forward a call to KVM.  This puts userspace
-in charge of the SMCCC interface, with KVM handling only those things
-that userspace can't do for itself, on request.
+--at6+YcpfzWZg/htY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If the performance overhead is unacceptable for certain calls, we could
-have a way to delegate specific function IDs to KVM.  I suspect that
-will be the exception rather than the rule.
+On Tue, Jul 16, 2019 at 12:47:23PM +1000, Nicholas Piggin wrote:
+> H_PROD is added, and H_CEDE is modified to test the prod bit
+> according to PAPR.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-> There are probably issues with that, but I suspect defining "all
-> undandled calls" will be problematic otherwise.
+LGTM apart from the style issues the bot noted.
 
-Agreed: the set of calls not handled by KVM will mutate over time.
+> ---
+>  hw/ppc/spapr_hcall.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index e615881ac4..8b208ab259 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1050,14 +1050,41 @@ static target_ulong h_cede(PowerPCCPU *cpu, Spapr=
+MachineState *spapr,
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+>      CPUState *cs =3D CPU(cpu);
+> +    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> =20
+>      env->msr |=3D (1ULL << MSR_EE);
+>      hreg_compute_hflags(env);
+> +
+> +    if (spapr_cpu->prod) {
+> +        spapr_cpu->prod =3D false;
+> +        return H_SUCCESS;
+> +    }
+> +
+>      if (!cpu_has_work(cs)) {
+>          cs->halted =3D 1;
+>          cs->exception_index =3D EXCP_HLT;
+>          cs->exit_request =3D 1;
+>      }
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                           target_ulong opcode, target_ulong *args)
+> +{
+> +    target_long target =3D args[0];
+> +    CPUState *cs;
+> +    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+> +
+> +    cs =3D CPU(spapr_find_cpu(target));
+> +    if (!cs) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    spapr_cpu->prod =3D true;
+> +    cs->halted =3D 0;
+> +    qemu_cpu_kick(cs);
+> +
+>      return H_SUCCESS;
+>  }
+> =20
+> @@ -1882,6 +1909,8 @@ static void hypercall_register_types(void)
+>      /* hcall-splpar */
+>      spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
+>      spapr_register_hypercall(H_CEDE, h_cede);
+> +    spapr_register_hypercall(H_PROD, h_prod);
+> +
+>      spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
+> =20
+>      /* processor register resource access h-calls */
 
-Cheers
----Dave
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--at6+YcpfzWZg/htY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tiVgACgkQbDjKyiDZ
+s5JYZg/+P+ULLdROR4k1PeZo1sofzMBxwh9wNDvgfcX+4Ukop1gMDu35RBoc/3op
++pgwTKi+cxA7fKa/Hp4zh2f2tgtgGw9fPw217C1a7gE/WZyTIkUXcxCh5yJUnAPy
+p6O0cHXt/U/m1M/f2Jn/uAA9NkxT3K+n0sadP3wEtXumOgPnbSMabIqMBNUajBSr
+FNL02nL4NyQOCSdVyyJnuTRSyNI+8sB7r4qXv2v5/0RqdizBHQEfMOmLGrp/e1YK
+AoukO6t/DYWmq7yR0yoTY8ezMUjox4Lzv0x1RSPGxjKhEDbqbqYqPUe5Py494kBT
+N04pN/Uf3dGgV+ghSsNxYOgEMIcAdU/9ZbRzQ3Bkj3UjeWyJlxnQfZuTeIVyPyw+
+D25NrHPkOFBM2MS67Fbvz7PgeNxmA2GblbHG6fjhMr/FjWTtoUgK+63N20wOtY4H
+9wQCxWDNEagWtP17mEI9uHWkwOKQwFbZX47+z5rKj4jT8uSdQDpgTz7ECU8MA4D6
+Hx42U1FFKivMLNWDbIu/pBloktqNqHTd3EEDmD4tF8JR58QSnZBX90wVuLg7CC5D
+wFkAZ9+UZHXZ8O5nYnJPEpY7JKjs2VJHu9+HMjLtNYnU+RFtVR3IwievdIWcmBOt
+O0Zm0Q/I6JDglRKb4J797OGw9i/ngDYGzGZ3Py8JADSi8X6j3qc=
+=1nwN
+-----END PGP SIGNATURE-----
+
+--at6+YcpfzWZg/htY--
 
