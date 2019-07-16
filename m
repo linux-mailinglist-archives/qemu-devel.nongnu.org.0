@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CA26A39D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:13:33 +0200 (CEST)
-Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351DB6A39F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:13:43 +0200 (CEST)
+Received: from localhost ([::1]:46183 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIaZ-0007NU-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
+	id 1hnIak-0008CB-4M
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59915)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYd-0008Gc-O9
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYd-0008GS-Lq
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYb-0003FV-E4
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:30 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46512)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYc-0003GM-CX
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:31 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYb-0003Ez-7X
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:29 -0400
-Received: by mail-wr1-x435.google.com with SMTP id z1so19805401wru.13
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:29 -0700 (PDT)
+ id 1hnIYc-0003Fb-68
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:30 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n4so19888599wrs.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/JvRa5GldjixJBnlluCiYqlWEcL01lxJeEtUkaaqEzk=;
- b=OKUVPUgKZTo4u1BWebllav6gIIhEBKN6Yya9Dv2JPx1uJUuOD8aMHIvua667orrbW9
- GLQSWUq9XWKgNhEMSv8Vz5zgUwRyc4DRxrGwZQ53vEJkPZne7esLpg8tm4p50XZJx39e
- xkdvHnJW6zDbWy2HwjKIqUg7H2nXpYzUeAcDx4hOIcxZwY6U3vRXdpDTADuvYAdxAkbx
- qSeFkbLiK/6EOfzCQuiZRFr0zb46W4zbaT7CYjYhaPPz4N3ZY3koAGDOw4gX6AlD5QHO
- rvHz1D6BKSU2iBSaKI2oO0yaxB32NHaKGLpN923Vvq8WrEnQrO93JvxmeHsyf/hgxrxV
- /HuA==
+ bh=UxGATMBNQig2wIfjWLxzWQxLyakGvI3IHTSyhIIbcuE=;
+ b=ZtI3N8WmcsSjB326JXV4NX2p6ACeFbGi0divP59eJUfFp1+xOSyhpD5cakMdPq4SqM
+ al/7nxnUbcLrD5jbEn1P55QHkIOmVPiPcN5AaSmevXhCjWiZCvlvaT52Ydfcregl1uee
+ OYfD8dCq+UjjkKP8mEJJx5IMW6eAZEMGzQlqzqwIoOK391+6Fb0k14kRg9mcewsmAVJu
+ qQBzDQttLPWnfBqhYLiJn5sKf3QR8nxHSakYFT9GNC1oxTlotAS5DXJEPsrpYsDVvNiJ
+ rFFrxOURjwfAmrYhkiIgYORGAPpWvAetzDuGO2M0MH7oQ8PEWPuFgKoxvBKgD+dpMOZ8
+ GD/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=/JvRa5GldjixJBnlluCiYqlWEcL01lxJeEtUkaaqEzk=;
- b=Ryf0cNOBpFjV5iGt7dMxF+x4roArUVPEraYdoYSBCafvFHTwutKm0EORsoQW7PIq93
- RuyjvpzP+tuw04tdLlSgywgrXq6ssOEkxh4yRluTblVtJXDg7B+lUU6tp+ltOrJ7rNnj
- 8eKU1YYyWcEJag4Ya2gACC9VKYwdeD8AmA0JgJ/haGxxN88r0ebfnbjGUHvwA8hwpWea
- VUypXosRbgpm7Q9+k+k0d+OVjk/LHQLxjelcA/PJbHIIv6ehFCbw3ZcHPC1Es8ZSjWtp
- KO4f20h19oOTe7cf61hIE6QqgZbr5GX8N+z9b0edCKfj2FPEC9TO/OeRcWwLySd0nkpx
- u/2A==
-X-Gm-Message-State: APjAAAV3C3giiNunNv+Dy0zcvuoSuPZNZVqM2st2es/orvY0ZN+q72ph
- IhlmjglsZm180r+ScojFrq7Kvt15RiY=
-X-Google-Smtp-Source: APXvYqys2ogiTSny6pr60z+BWmAdxkzpcMNJPTtrmor7E1OyFDu9A49FopB7plNbrDAdqMTgr1SKFw==
-X-Received: by 2002:adf:c003:: with SMTP id z3mr13448564wre.243.1563264687917; 
- Tue, 16 Jul 2019 01:11:27 -0700 (PDT)
+ bh=UxGATMBNQig2wIfjWLxzWQxLyakGvI3IHTSyhIIbcuE=;
+ b=PUqP5JzuDSQCbvKynnqmMhJP6fGGXoq959HYQOmsosBZWJ89K4+TEpT0+BIftIe7oH
+ Hdhk3GGrMyqPaxV8Xu86ijods+dxb3wLg+thY+nuIxpev2w+mASMMdj4EMDr8vEOjBsS
+ G2A7yeOoI9QIdK80gNdbYUKmZw/uWk0hZaEnDrmdKhuWGBjAyVc82xVZgijS6igeF0wl
+ DPccY3ukLh5lV4TQ2zEoW0nQsJqV/R9oS3i4bX4mTpX9O1uzDzjpIHzplGskSgryMLe9
+ Q7Fsu0muJ2jpFsB6JhcxWkyokTZzvs05/jPz51BEcZZeHjqh8hlGzE6/3GjKcsbKuYb8
+ 5mRQ==
+X-Gm-Message-State: APjAAAXqbxBzkYyaUSD49DSrjiRzrkgeSkvQxdKUQGQMj8CdmuEokveT
+ 6J31p+Vf0SSF+x3BhrP0QICKicWSEc8=
+X-Google-Smtp-Source: APXvYqyTYIdM/xOg9NHClSKz7NNh9HpbCGsybjuvAR7Zi5HR94sIeJUx7WuxfUK4sgvQEQtF4DbXQg==
+X-Received: by 2002:a5d:46cf:: with SMTP id g15mr35592887wrs.93.1563264688886; 
+ Tue, 16 Jul 2019 01:11:28 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.27
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:27 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:06 +0200
-Message-Id: <1563264677-39718-9-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:07 +0200
+Message-Id: <1563264677-39718-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: [Qemu-devel] [PULL 08/19] hw/i386: turn off vmport if CONFIG_VMPORT
- is disabled
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 09/19] memory: unref the memory region in
+ simplify flatview
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,87 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julio Montes <julio.montes@intel.com>
+Cc: King Wang <king.wang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Julio Montes <julio.montes@intel.com>
+From: King Wang <king.wang@huawei.com>
 
-vmport device is not included when CONFIG_VMPORT is disabled, hence
-QEMU fails with the following error:
+The memory region reference is increased when insert a range
+into flatview range array, then decreased by destroy flatview.
+If some flat range merged by flatview_simplify, the memory region
+reference can not be decreased by destroy flatview any more.
 
-`Unknown device 'vmport' for bus 'ISA': unknown.`
+In this case, start virtual machine by the command line:
+qemu-system-x86_64
+-name guest=ubuntu,debug-threads=on
+-machine pc,accel=kvm,usb=off,dump-guest-core=off
+-cpu host
+-m 16384
+-realtime mlock=off
+-smp 8,sockets=2,cores=4,threads=1
+-object memory-backend-file,id=ram-node0,prealloc=yes,mem-path=/dev/hugepages,share=yes,size=8589934592
+-numa node,nodeid=0,cpus=0-3,memdev=ram-node0
+-object memory-backend-file,id=ram-node1,prealloc=yes,mem-path=/dev/hugepages,share=yes,size=8589934592
+-numa node,nodeid=1,cpus=4-7,memdev=ram-node1
+-no-user-config
+-nodefaults
+-rtc base=utc
+-no-shutdown
+-boot strict=on
+-device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2
+-device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x2
+-device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x3
+-drive file=ubuntu.qcow2,format=qcow2,if=none,id=drive-virtio-disk0,cache=none,aio=native
+-device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1
+-chardev pty,id=charserial0
+-device isa-serial,chardev=charserial0,id=serial0
+-device usb-tablet,id=input0,bus=usb.0,port=1
+-vnc 0.0.0.0:0
+-device VGA,id=video0,vgamem_mb=16,bus=pci.0,addr=0x5
+-device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x6
+-msg timestamp=on
 
-v2: imply VMPORT (Paolo Bonzini )
+And run the script in guest OS:
+while true
+do
+    setpci -s 00:06.0 04.b=03
+	setpci -s 00:06.0 04.b=07
+done
 
-Signed-off-by: Julio Montes <julio.montes@intel.com>
-Message-Id: <20190712160257.18270-1-julio.montes@intel.com>
+I found the reference of node0 HostMemoryBackendFile is a big one.
+(gdb) p numa_info[0]->node_memdev->parent.ref
+$6 = 1636278
+(gdb)
+
+Signed-off-by: King Wang<king.wang@huawei.com>
+Message-Id: <20190712065241.11784-1-king.wang@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/Kconfig | 4 ++--
- hw/i386/pc.c    | 5 +++++
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ memory.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 4ddf2a9..b9c96ac 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -51,6 +51,7 @@ config PC_ACPI
- config I440FX
-     bool
-     imply E1000_PCI
-+    imply VMPORT
-     select PC_PCI
-     select PC_ACPI
-     select ACPI_SMBUS
-@@ -58,7 +59,6 @@ config I440FX
-     select IDE_PIIX
-     select DIMM
-     select SMBIOS
--    select VMPORT
-     select VMMOUSE
-     select FW_CFG_DMA
+diff --git a/memory.c b/memory.c
+index 480f3d9..d8d42bd 100644
+--- a/memory.c
++++ b/memory.c
+@@ -321,7 +321,7 @@ static bool can_merge(FlatRange *r1, FlatRange *r2)
+ /* Attempt to simplify a view by merging adjacent ranges */
+ static void flatview_simplify(FlatView *view)
+ {
+-    unsigned i, j;
++    unsigned i, j, k;
  
-@@ -77,6 +77,7 @@ config Q35
-     imply VTD
-     imply AMD_IOMMU
-     imply E1000E_PCI_EXPRESS
-+    imply VMPORT
-     select PC_PCI
-     select PC_ACPI
-     select PCI_EXPRESS_Q35
-@@ -84,7 +85,6 @@ config Q35
-     select AHCI_ICH9
-     select DIMM
-     select SMBIOS
--    select VMPORT
-     select VMMOUSE
-     select FW_CFG_DMA
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c33ce47..549c437 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -83,6 +83,7 @@
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "qapi/qmp/qerror.h"
-+#include "config-devices.h"
- 
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -2793,7 +2794,11 @@ static void pc_machine_initfn(Object *obj)
- 
-     pcms->max_ram_below_4g = 0; /* use default */
-     pcms->smm = ON_OFF_AUTO_AUTO;
-+#ifdef CONFIG_VMPORT
-     pcms->vmport = ON_OFF_AUTO_AUTO;
-+#else
-+    pcms->vmport = ON_OFF_AUTO_OFF;
-+#endif /* CONFIG_VMPORT */
-     /* acpi build is enabled by default if machine supports it */
-     pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
-     pcms->smbus_enabled = true;
+     i = 0;
+     while (i < view->nr) {
+@@ -332,6 +332,9 @@ static void flatview_simplify(FlatView *view)
+             ++j;
+         }
+         ++i;
++        for (k = i; k < j; k++) {
++            memory_region_unref(view->ranges[k].mr);
++        }
+         memmove(&view->ranges[i], &view->ranges[j],
+                 (view->nr - j) * sizeof(view->ranges[j]));
+         view->nr -= j - i;
 -- 
 1.8.3.1
 
