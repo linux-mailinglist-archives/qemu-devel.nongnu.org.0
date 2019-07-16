@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DA66A44D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:53:56 +0200 (CEST)
-Received: from localhost ([::1]:46538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39B76A450
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:54:00 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnJDe-0001Ua-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45099)
+	id 1hnJDj-0001rB-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45104)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006d-CC
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:16 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD1-00006g-IV
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TE-2i
+ (envelope-from <dgibson@ozlabs.org>) id 1hnJD0-0007TR-3Q
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:53:15 -0400
-Received: from ozlabs.org ([203.11.71.1]:45775)
+Received: from ozlabs.org ([203.11.71.1]:49053)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnJCz-0007SI-8t; Tue, 16 Jul 2019 04:53:13 -0400
+ id 1hnJCz-0007SH-1M; Tue, 16 Jul 2019 04:53:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45nvLY1rsXz9sN4; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
+ id 45nvLY3dNFz9sNf; Tue, 16 Jul 2019 18:53:09 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563267189;
- bh=3CZuikxAi84d/JnDOphY/C6UJVItEFSkAsyy0Ahrd5Y=;
+ bh=JP3aQ3UpVaaRvKWN607lBrrvkr6kDcLbQKudQ1bS/dc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cpMki/jHX1BHsxPIpCAi5eri5YgXhf16o4GT3WIp11aa6aWnqUmVJTFD8YcvdbxdU
- Wz22OajAlTQofuwSjTeYfDMRxqK6lApW3CjTbbc3T7eoi9csk0rj7psukwqqwKVNij
- lnvOqp4aEpcvpx8CQobMo6B5O6z2uBuX3me6ZW0s=
-Date: Tue, 16 Jul 2019 18:26:25 +1000
+ b=A1ufJ/qGYia2QdZUH3Xoe9kxPFH294kp/G3PbOZHEIoqgMu2MgSCX7gnrJBUYnqQs
+ E58be8hU7wGWzPwbH+A2k4gtuuk2ZvZWRp9ADAdpQm2Mi/ufjhVuPt0ABr1eIn9vYH
+ MnNUXldgX+WfWwKPQjuSqq2yU7+lIYqlqkTVH1O8=
+Date: Tue, 16 Jul 2019 18:30:47 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190716082625.GF7525@umbus.fritz.box>
+Message-ID: <20190716083047.GG7525@umbus.fritz.box>
 References: <20190716024726.17864-1-npiggin@gmail.com>
- <20190716024726.17864-5-npiggin@gmail.com>
+ <20190716024726.17864-6-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NQTVMVnDVuULnIzU"
+ protocol="application/pgp-signature"; boundary="t4apE7yKrX2dGgJC"
 Content-Disposition: inline
-In-Reply-To: <20190716024726.17864-5-npiggin@gmail.com>
+In-Reply-To: <20190716024726.17864-6-npiggin@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v4 4/5] spapr: Implement H_JOIN
+Subject: Re: [Qemu-devel] [PATCH v4 5/5] spapr: Implement ibm,suspend-me
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,63 +61,110 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---NQTVMVnDVuULnIzU
+--t4apE7yKrX2dGgJC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2019 at 12:47:25PM +1000, Nicholas Piggin wrote:
+On Tue, Jul 16, 2019 at 12:47:26PM +1000, Nicholas Piggin wrote:
 > This has been useful to modify and test the Linux pseries suspend
 > code but it requires modification to the guest to call it (due to
 > being gated by other unimplemented features). It is not otherwise
 > used by Linux yet, but work is slowly progressing there.
 >=20
+> This allows a (lightly modified) guest kernel to suspend with
+> `echo mem > /sys/power/state` and be resumed with system_wakeup
+> monitor command.
+>=20
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-
-LGTM apart from style issues as noted by the bot.
-
 > ---
->  hw/ppc/spapr.c       |  1 +
->  hw/ppc/spapr_hcall.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 45 insertions(+)
+>  hw/ppc/spapr.c         | 26 ++++++++++++++++++++++++++
+>  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h |  7 ++++++-
+>  3 files changed, 64 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 87b11e2484..5c54e1cb9a 100644
+> index 5c54e1cb9a..b85d41bb1e 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -1066,6 +1066,7 @@ static void spapr_dt_rtas(SpaprMachineState *spapr,=
- void *fdt)
->      add_str(hypertas, "hcall-tce");
->      add_str(hypertas, "hcall-vio");
->      add_str(hypertas, "hcall-splpar");
-> +    add_str(hypertas, "hcall-join");
->      add_str(hypertas, "hcall-bulk");
->      add_str(hypertas, "hcall-set-mode");
->      add_str(hypertas, "hcall-sprg0");
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 28d58113be..52847a7047 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1069,6 +1069,47 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprM=
-achineState *spapr,
->      return H_SUCCESS;
->  }
+> @@ -1710,6 +1710,11 @@ static void spapr_machine_reset(MachineState *mach=
+ine)
+>      void *fdt;
+>      int rc;
 > =20
-> +static target_ulong h_join(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> +                           target_ulong opcode, target_ulong *args)
-> +{
-> +    CPUPPCState *env =3D &cpu->env;
-> +    CPUState *cs;
-> +    SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
-> +    bool last_unjoined =3D true;
-> +
-> +    if (env->msr & (1ULL << MSR_EE)) {
-> +        return H_BAD_MODE;
+> +    if (spapr->suspend_reset) {
+> +        spapr->suspend_reset =3D false;
+
+Do we need to migrate this value?
+
+> +        return;
 > +    }
 > +
-> +    if (spapr_cpu->prod) {
-> +        spapr_cpu->prod =3D false;
-> +        return H_SUCCESS;
+>      spapr_caps_apply(spapr);
+> =20
+>      first_ppc_cpu =3D POWERPC_CPU(first_cpu);
+> @@ -2721,6 +2726,23 @@ static PCIHostState *spapr_create_default_phb(void)
+>      return PCI_HOST_BRIDGE(dev);
+>  }
+> =20
+> +static Notifier wakeup;
+
+I think this should be in sPAPRMachineState rather than global.
+
+> +static void spapr_notify_wakeup(Notifier *notifier, void *data)
+> +{
+> +    WakeupReason *reason =3D data;
+> +
+> +    switch (*reason) {
+> +    case QEMU_WAKEUP_REASON_RTC:
+> +        break;
+> +    case QEMU_WAKEUP_REASON_PMTIMER:
+> +        break;
+> +    case QEMU_WAKEUP_REASON_OTHER:
+> +        break;
+> +    default:
+> +        break;
+> +    }
+
+So.. you have a bunch of switch cases, all of which ignore the input..
+
+> +}
+> +
+>  /* pSeries LPAR / sPAPR hardware init */
+>  static void spapr_machine_init(MachineState *machine)
+>  {
+> @@ -3078,6 +3100,10 @@ static void spapr_machine_init(MachineState *machi=
+ne)
+> =20
+>      qemu_register_boot_set(spapr_boot_set, spapr);
+> =20
+> +    wakeup.notify =3D spapr_notify_wakeup;
+> +    qemu_register_wakeup_notifier(&wakeup);
+> +    qemu_register_wakeup_support();
+> +
+>      if (kvm_enabled()) {
+>          /* to stop and start vmclock */
+>          qemu_add_vm_change_state_handler(cpu_ppc_clock_vm_state_change,
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index a618a2ac0f..60a007ec38 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -216,6 +216,36 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMac=
+hineState *spapr,
+>      qemu_cpu_kick(cs);
+>  }
+> =20
+> +static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spap=
+r,
+> +                           uint32_t token, uint32_t nargs,
+> +                           target_ulong args,
+> +                           uint32_t nret, target_ulong rets)
+> +{
+> +    CPUState *cs;
+> +
+> +    if (nargs !=3D 0 || nret !=3D 1) {
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
 > +    }
 > +
 > +    CPU_FOREACH(cs) {
@@ -126,37 +173,62 @@ achineState *spapr,
 > +        if (c =3D=3D cpu)
 > +            continue;
 > +
-> +	/* Don't have a way to indicate joined, so use halted && MSR[EE]=3D0 */
+> +	/* See h_join */
 > +        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
-> +            last_unjoined =3D false;
-> +            break;
+> +            rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
+> +            return;
 > +        }
 > +    }
-> +    if (last_unjoined) {
-> +        return H_CONTINUE;
-> +    }
 > +
-> +    cs =3D CPU(cpu);
-> +    cs->halted =3D 1;
-> +    cs->exception_index =3D EXCP_HALTED;
-> +    cs->exit_request =3D 1;
-> +
-> +    return H_SUCCESS;
+> +    spapr->suspend_reset =3D true;
+> +    qemu_system_suspend_request();
+> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
 > +}
 > +
->  static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                             target_ulong opcode, target_ulong *args)
+>  static inline int sysparm_st(target_ulong addr, target_ulong len,
+>                               const void *val, uint16_t vallen)
 >  {
-> @@ -1959,6 +2000,9 @@ static void hypercall_register_types(void)
->      spapr_register_hypercall(H_CONFER, h_confer);
->      spapr_register_hypercall(H_PROD, h_prod);
+> @@ -483,6 +513,8 @@ static void core_rtas_register_types(void)
+>                          rtas_query_cpu_stopped_state);
+>      spapr_rtas_register(RTAS_START_CPU, "start-cpu", rtas_start_cpu);
+>      spapr_rtas_register(RTAS_STOP_SELF, "stop-self", rtas_stop_self);
+> +    spapr_rtas_register(RTAS_IBM_SUSPEND_ME, "ibm,suspend-me",
+> +                        rtas_ibm_suspend_me);
+>      spapr_rtas_register(RTAS_IBM_GET_SYSTEM_PARAMETER,
+>                          "ibm,get-system-parameter",
+>                          rtas_ibm_get_system_parameter);
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 5d36eec9d0..df0b0c15da 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -171,6 +171,10 @@ struct SpaprMachineState {
+>      bool use_hotplug_event_source;
+>      SpaprEventSource *event_sources;
 > =20
-> +    /* hcall-join */
-> +    spapr_register_hypercall(H_JOIN, h_join);
+> +    /* Machine has been suspended, so the next machine_reset should not
+> +     * reset state, but just return and allow execution to resume. */
+> +    bool suspend_reset;
+
+Hrm, this seems odd, but maybe it's part of the existing suspend
+design.  Why would system_reset resume a suspend, rather than having a
+specific operation for that.
+
 > +
->      spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
+>      /* ibm,client-architecture-support option negotiation */
+>      bool cas_reboot;
+>      bool cas_legacy_guest_workaround;
+> @@ -631,8 +635,9 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_=
+ulong opcode,
+>  #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
+>  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
+>  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
+> +#define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
 > =20
->      /* processor register resource access h-calls */
+> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
+> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
+> =20
+>  /* RTAS ibm,get-system-parameter token values */
+>  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -164,25 +236,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---NQTVMVnDVuULnIzU
+--t4apE7yKrX2dGgJC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tijAACgkQbDjKyiDZ
-s5Lt6w/7BVKLxiKSFXmjPv2941wGlng9BQoDCL/EkkvNp2R1ovj5+GjomlFWWTuV
-lGrH/aHGA6XWGs0oeylywSEdTpVIWsxVjENVjqcIurLCS0EfORXmbLd6KlNTO07v
-rLJk1kMSY+cV6eBytfPkFRYftlG6faS551t7Ds32RskaybrBQdqXdjLzc4erm+P/
-WgxRZyN1O7/v9WMjoAVVvv8lKVrIF07v6NNsQ+lZl0eWT1uyjwPmGXGhZ/Ia2kvh
-OyHCItJEWXPI0Yy7uFJ4SMOmlIZq+ZvHSN4/Qn/sTRZGpqN/B1orLVF5M9mPcoCj
-qJiSvF4znV2qmUbrW8oQXxtLFDR9+TC1HOBCnX1wyjUAo1QxTZalI/bKyBFH0tw9
-HHbScxpk7HueNPeaGLsk/i4Qbl6rmAIGCxclD0yR+44pA3v/O9x0bQgH97em/1nB
-dYbCp8YxMvyvW/P9ejj+ATLGVHzP7T2qxhtFCH4a1R9tNJB4uVKXkCNdII49PAeB
-DyDCdHXqtJiLW1VfFpW8K5vId1j4MUMCuvt74XbRHnxCma3yR9JRP3kUr1HKSDEL
-kLVrisuNYf0yZ0RCrRA+W+v9+4UZ26BWBFjCV3PQYKeZ6YxM6UUdSWCLPzUnBXOB
-RcqjyIxBX6gTPNTeMixVDlhMmtZSYLQoC65ORM7NW5kJAsfMcRk=
-=sWqr
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tizcACgkQbDjKyiDZ
+s5KNvQ/+K32uYHc43V0RovZPavtxaS35GwlXbXSQomjyWEtmb11gDkMI+qO5v0qF
+4SFOO4bSTu3yzD1jjR0x6HQI6yLiZfU23Ey072HMRz6ocCRYKWRfvQy06oKzvZKm
+DYv0HpuI85lpPKv2BNY3FJpwB4L42qBE2mpKCUQyoIEyxFibJ7QPcKbqZymwxHrG
+ZK0Jtp85i3v2gMDJ6VkgHg48auY5em3wTRMSOIAC78US4fxn/mkfnQ81jGLiAjo9
+lPg7Amj40ond/0A4eOhIjPX3ciTmLTIuhcfcuCdfJetAfKKDCEJDUAMaWri5d2g6
+W3kRvqH/3at/zS8jbcrsKdvT5c1uDYkoJ+9cLfz5wBxxWOdppFb9Q9N4OPiJAhc4
+U/JX8nftnGYJXueV9Gp3KIRFcvp0Ir3F6FEp5OthHxPzw16qL4VLvVZ2gYk1DFlw
+TQL7g9vh3UhHzE3iBTt0WmaqQR/KLcU6nkLoWJCHyS06+C5+/z/HyY91KrN0VgPX
+evjT/PWs4s3cu6o+Wo81aUwtedOrTqSlKOqUhxD494mmxjj4S3dhUSxfZ6T7Xknp
+tSduuzk5J0ucW6hcGFORy2yaTyBidIfhom+EXnWxlzN25HmDfWA8AHGhBvKG8J/I
+Rkt+mpS8UFzmJvF3ZW0hJPAqUgMt4N/wcSkgxJJYz5KzS67O8Kc=
+=IMNe
 -----END PGP SIGNATURE-----
 
---NQTVMVnDVuULnIzU--
+--t4apE7yKrX2dGgJC--
 
