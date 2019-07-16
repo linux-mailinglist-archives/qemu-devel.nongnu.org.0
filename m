@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5AF6A399
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:51 +0200 (CEST)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C38F6A398
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:48 +0200 (CEST)
+Received: from localhost ([::1]:46150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIZu-0004Nx-J1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59805)
+	id 1hnIZq-00045P-Cr
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYX-0007sb-JR
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:26 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYZ-0007vw-0p
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYW-0003AL-LX
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:25 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46503)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYY-0003BI-1M
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:26 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33683)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYW-00039b-Ed
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z1so19805124wru.13
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:24 -0700 (PDT)
+ id 1hnIYX-0003AW-QV
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:25 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n9so19911502wru.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=R2KY92Z7mdmQFY2AfwkaNFzZ9VI1hZbFTT8NYQ7db68=;
- b=sWENDNk/wQyoH9tX8MtQ07aEekkeiyHTvpDbXxUMNBqyUMfAqIZtzGNlBUJLUHlS7u
- za+fuA8VvfsnkJfgn1xj4PQkpNCdkCT/aAuMMVlFVDicoL1K9CMkuVrn08NwBnQY/dJZ
- 5N2pZG1zleGgAaUOPVn7NCHHXVmVSfmBWxcbOE/oznnr5SKFUQ2OWUtD/pdwn8w37lZL
- KOlAAqgRRG17OPJV7JmFfQN25vsv5upQXctwg+SKCZr1dewVUlGPGcvwwCRT7xgajb3w
- yl9o+YjLrLh2cVsIgl1W0lcd7O+2IOSIPheDIpToJjpuc2bfLWOifunnOO++UINKEuB5
- slFA==
+ bh=6MMWJOB60+c75PU76TA7zzCHcU/JiW0qA1hZwYycJq8=;
+ b=FznEp5iytJIqBQagO4RHcCJddED8oQyL4M5BKqbd0IdXC+UrbxWjaWpRJjwyCdQXX0
+ NQQxMTFOVui3vjBdT5zHKjEryO/I5G0GLj6Z16mWjYKYIxrFyQUWuahSwH20rGZwqCpF
+ xaFnD6YCGMwd0FfdwzqMrnbv0l2vNGsoCrVxoNVYV5jFL9TLOrqX7WWjjKdWlIfJ4qQg
+ mkLeC4arzRbWbZMcw+z8KcMrhjipkR4v5E9Y93ExhP3IyTICbQomBW5BAiq8Tc65l072
+ t0z+rSNM0azodDNDwnonL0XsvozdTGL7oe7dOcLzt2xvsa+9AthaZl8uCmacbLZzsNST
+ rz1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=R2KY92Z7mdmQFY2AfwkaNFzZ9VI1hZbFTT8NYQ7db68=;
- b=Je/PZQeIsdyMz5IyjZ6l/M80jAiv80yTKOdnxutsJO9WaRgzKJaZWR9sFSsiFCb0xe
- GM5SkFN2iXz4SDafwIoLxJjh7GNUk7A+ZUOUGzxDYOFqeuJ99bevj5eMGkBWgajR9dwf
- SlcJl9dsZp320/tz/r1uigsjxcjlL9zrtYKSnE2LRMC+GrtHWZeKvK3JJvF5oZfSnaPr
- 1Gvbi6WaELvfG+GflwI1hlU4mKu0+lUyjTnnxuInmQ6cnd/sFUzn/ziGianFcQJIHHkT
- 6OnG2bcogUcoyohKNge/qjZrXrh5M5oGNb7UX4WITzaPwBpLGBF5qpBqktw6qoI8CYDT
- +OcA==
-X-Gm-Message-State: APjAAAW1LuNMtsQmBFqZlqf7GoopDtquk0Fnqsuu72urL0Jr0L6qjfVU
- WIsGBqhEW0MG0CUkXyYHro7OTfuXyq8=
-X-Google-Smtp-Source: APXvYqy0zvEn3aDOSukVbm4Qf3shFAraLKyKx5BLID/w+L9t02epQpmnLB48sa692GwVuAB/RVX2YA==
-X-Received: by 2002:adf:cf02:: with SMTP id o2mr15163612wrj.352.1563264683110; 
- Tue, 16 Jul 2019 01:11:23 -0700 (PDT)
+ bh=6MMWJOB60+c75PU76TA7zzCHcU/JiW0qA1hZwYycJq8=;
+ b=ET5zvGtITFyRVF2zdSjmtHcXME353vGFP7CMgaZ4e32Ok7paXoEf0yT2pn0zGbdilP
+ 99gG3XooDbBVBqVlc5laZamZSXyO5WwfrIapjAj6joWxl+rtGBKJQb+WSlEr9pxaP55S
+ KONd7jVFSO2/w5c9m79DtVhh455UU1sMbnFOdrOdPqUbm6IU4HV1gk5uxdfNP5PHy9aK
+ xa+wvg5Fuq+5W6MamVEHC5ly5Nvba4Hfmuv91Bp4ZhsdRnzBD2bRJgEADkwVg2YKNuF+
+ K387W41LF21BhD3C22JP68fBj7W6Q0uG1HybuB9l2y03zikWPMoZFv/C8dLLl2BdjMq5
+ wn2g==
+X-Gm-Message-State: APjAAAXNQCzTuWOuOMiDaXOwshvqA36uKmW7i3OUU9fUGWRx/Qyipd4Z
+ kK0TQB/YY59HAuHMc+DTDnEW+f3cNEM=
+X-Google-Smtp-Source: APXvYqxEGXlnDoXf+3RGVJ2KWxmNd+ZfU4CsF8SkTsGMAfBOJZeno9EL5nQiNTMhLh1FV7QUu0Tftg==
+X-Received: by 2002:adf:fb52:: with SMTP id c18mr33761352wrs.216.1563264684383; 
+ Tue, 16 Jul 2019 01:11:24 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.21
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:21 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:23 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:01 +0200
-Message-Id: <1563264677-39718-4-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:02 +0200
+Message-Id: <1563264677-39718-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 03/19] scsi: add guest-recoverable ZBC errors
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL 04/19] iscsi: fix busy/timeout/task set full
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,41 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running basic operations on zoned storage from the guest via
-scsi-block, the following ASCs are reported for write or read commands
-due to unexpected zone status or write pointer status:
+In this case, do_retry was set without calling aio_co_wake, thus never
+waking up the coroutine.
 
-     21h 04h: UNALIGNED WRITE COMMAND
-     21h 05h: WRITE BOUNDARY VIOLATION
-     21h 06h: ATTEMPT TO READ INVALID DATA
-     55h 0Eh: INSUFFICIENT ZONE RESOURCES
-
-Reporting these ASCs to the guest, the user applications can handle
-them to manage zone/write pointer status, or help the user application
-developers to understand the failure reason and fix bugs.
-
-Reported-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scsi/utils.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ block/iscsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scsi/utils.c b/scsi/utils.c
-index ad243a9..873d49c 100644
---- a/scsi/utils.c
-+++ b/scsi/utils.c
-@@ -360,6 +360,11 @@ static bool scsi_sense_is_guest_recoverable(int key, int asc, int ascq)
-     case 0x2500: /* LOGICAL UNIT NOT SUPPORTED */
-     case 0x2600: /* INVALID FIELD IN PARAMETER LIST */
- 
-+    case 0x2104: /* UNALIGNED WRITE COMMAND */
-+    case 0x2105: /* WRITE BOUNDARY VIOLATION */
-+    case 0x2106: /* ATTEMPT TO READ INVALID DATA */
-+    case 0x550e: /* INSUFFICIENT ZONE RESOURCES */
-+
-     case 0x0401: /* NOT READY, IN PROGRESS OF BECOMING READY */
-     case 0x0402: /* NOT READY, INITIALIZING COMMAND REQUIRED */
-         return true;
+diff --git a/block/iscsi.c b/block/iscsi.c
+index 267f160..6e238bf 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -272,7 +272,7 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
+                 timer_mod(&iTask->retry_timer,
+                           qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + retry_time);
+                 iTask->do_retry = 1;
+-                return;
++                goto out;
+             }
+         }
+         iTask->err_code = iscsi_translate_sense(&task->sense);
 -- 
 1.8.3.1
 
