@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EBA6A1A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 06:52:20 +0200 (CEST)
-Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E376A6A1A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 06:57:05 +0200 (CEST)
+Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnFRr-0001QU-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 00:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38233)
+	id 1hnFWT-0004BE-5v
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 00:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39208)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hnFRL-0008L7-12
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 00:51:47 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1hnFWG-0003j3-HR
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 00:56:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hnFRK-0007Bi-38
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 00:51:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34598)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hnFRJ-0007Ay-Tm
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 00:51:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 22A4C308338E;
- Tue, 16 Jul 2019 04:51:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-111.ams2.redhat.com
- [10.36.116.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A521C5E7A5;
- Tue, 16 Jul 2019 04:51:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 30ACD11385FA; Tue, 16 Jul 2019 06:51:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 06:51:41 +0200
-Message-Id: <20190716045141.21383-4-armbru@redhat.com>
-In-Reply-To: <20190716045141.21383-1-armbru@redhat.com>
-References: <20190716045141.21383-1-armbru@redhat.com>
+ (envelope-from <joel.stan@gmail.com>) id 1hnFWE-0005wZ-HD
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 00:56:52 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40606)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1hnFWA-0005jT-Tp; Tue, 16 Jul 2019 00:56:47 -0400
+Received: by mail-pg1-x544.google.com with SMTP id w10so8790358pgj.7;
+ Mon, 15 Jul 2019 21:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=84EdYxFDMFqQ8NYPswNkXpi54sRKOo94ARjpEEadd+w=;
+ b=mWnCoy/jcaqKDU/GC3iglKAt5tKeZuyLuU+wzOGz1RuSTiw3PJDKZ4tmAqY544PKNf
+ bvyTelgxSyEwYQdeLKiTdjhoLNMGhpgt8xQ1VY0LWcK4EWAFsZ1HkdK2BJywSSZ5V1/H
+ rO/HPQzu30DR2pPn34lPoSibOSlar42BDJhvAvQvMMAx+w3tHDis6KZgPKUXa6u39oHR
+ /KQcjKRM+ECAQPsLsRhvizIwK6L3dvZV9/9YmNHp1zOJVkw16hdiwKckCZU32Hh8Bb6O
+ lkqFlh8qjirBJ1nqvUDqOxaI8Gksp6gOisrroxTZJyWuMa8OFZDuUV1V4AOhKFYfKPXl
+ ywfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=84EdYxFDMFqQ8NYPswNkXpi54sRKOo94ARjpEEadd+w=;
+ b=LLi5arvFAoo+XEAki9kH0pxtCrME+9IxL53c6+Z5R0QtRfTxDMp33Y/oNHdgz60DgZ
+ JtHAUVUviJYAi5bei5P/S+LtFY9c3PGofea4H5FKJR4kLirO+PsTI2Hg1YCGEbM8gp1V
+ 5ajD0LA6OwDccpqhfL4TaHi4gYFX7Fd5vi5l09L4KrnBcghG97IYdmLDcvIqhKIFHZXA
+ lOWgXQOjQMoBB2mbu8SUsrHj3rX0lKMWuoUZEp1SiezJWwSxowxWV1BhLt81XmS1Gr33
+ 43frtliLcNe9OqbWWcx0qVGdff6CEXR52JuAVwy9EXTMIWaBBtK91Pr7f7+7X1AMYBkm
+ gOQg==
+X-Gm-Message-State: APjAAAUt5ZLoc6QHm0xVcE4i0PpAU5OjYDg0XTjkBM8dD1p/K4PUC8yX
+ xs7sBoKAAw103dexJOMxrwM=
+X-Google-Smtp-Source: APXvYqy49xD3NLzvE0Gy8u4A4NBMcJj1Byhd5Oijw5gQcRQoeElTVJXjqkCaIv7ts22NSIoJvlDylw==
+X-Received: by 2002:a17:90a:7d04:: with SMTP id
+ g4mr33890745pjl.41.1563253002902; 
+ Mon, 15 Jul 2019 21:56:42 -0700 (PDT)
+Received: from voyager.ibm.com ([36.255.48.244])
+ by smtp.gmail.com with ESMTPSA id o14sm39201167pfh.153.2019.07.15.21.56.40
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 15 Jul 2019 21:56:42 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 16 Jul 2019 14:26:33 +0930
+Message-Id: <20190716045633.15319-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 16 Jul 2019 04:51:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/3] qemu-tech: Fix dangling @menu entries
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH] ppc/pnv: Warn when using -initrd and low ram
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,45 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent commit 2f2c4e4731 "Convert "translator internals" docs to RST,
-move to devel manual" and commit 282d36b5e2 "qemu-tech.texi: Remove
-"QEMU compared to other emulators" section" removed @node, but left
-their @menu entries behind.  This broke building qemu-doc.info (but
-not qemu-doc.{html,pdf,txt}; how odd).  Bury the dead @menu entries.
+When booting with the default amount of RAM the powernv machine will
+load the initrd above the top of RAM and cause the Linux kernel to crash
+when it attempts to access the initrd:
 
-Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Fixes: 2f2c4e4731449449a2b1aafcd73e4f9ae107d78b
-Fixes: 282d36b5e27ba86d42d0638430e439c2c257367b
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190715055736.15214-3-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  Linux/PowerPC load:
+  Finalizing device tree... flat tree at 0x202770c0
+  [    0.070476] nvram: Failed to find or create lnx,oops-log partition, err -28
+  [    0.073270] nvram: Failed to initialize oops partition!
+  [    0.156302] BUG: Unable to handle kernel data access at 0xc000000060000000
+  [    0.158009] Faulting instruction address: 0xc000000001002e5c
+  cpu 0x0: Vector: 300 (Data Access) at [c00000003d1e3870]
+      pc: c000000001002e5c: unpack_to_rootfs+0xdc/0x2f0
+      lr: c000000001002df4: unpack_to_rootfs+0x74/0x2f0
+      sp: c00000003d1e3b00
+     msr: 9000000002009033
+     dar: c000000060000000
+   dsisr: 40000000
+    current = 0xc00000003d1c0000
+    paca    = 0xc000000001320000	 irqmask: 0x03	 irq_happened: 0x01
+      pid   = 1, comm = swapper/0
+  Linux version 5.2.0-10292-g040e2e618374 (joel@voyager) (gcc version 8.3.0 (Debian 8.3.0-2)) #1 SMP Tue Jul 16 13:50:32 ACST 2019
+  enter ? for help
+  [c00000003d1e3bb0] c000000001003c90 populate_rootfs+0x84/0x1dc
+  [c00000003d1e3c40] c00000000000f494 do_one_initcall+0x88/0x1d0
+  [c00000003d1e3d10] c000000001000fc4 kernel_init_freeable+0x24c/0x250
+  [c00000003d1e3db0] c00000000000f7a0 kernel_init+0x1c/0x150
+  [c00000003d1e3e20] c00000000000b8a4 ret_from_kernel_thread+0x5c/0x78
+
+Provide a helpful message for users so they don't go reporting bugs to
+kernel developers.
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- qemu-tech.texi | 3 ---
- 1 file changed, 3 deletions(-)
+We could solve this in other ways, such as warn when loading the initrd
+outside of RAM, or load it within the known boundaries or RAM, but after
+hitting this myself I wanted to start the discussion.
 
-diff --git a/qemu-tech.texi b/qemu-tech.texi
-index 3451cfaa5b..0380de77b6 100644
---- a/qemu-tech.texi
-+++ b/qemu-tech.texi
-@@ -3,10 +3,7 @@
-=20
- @menu
- * CPU emulation::
--* Translator Internals::
--* QEMU compared to other emulators::
- * Managed start up options::
--* Bibliography::
- @end menu
-=20
- @node CPU emulation
---=20
-2.21.0
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ hw/ppc/pnv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index bd4531c82260..bbd596ab9eca 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -649,6 +649,13 @@ static void pnv_init(MachineState *machine)
+ 
+     /* load initrd */
+     if (machine->initrd_filename) {
++        if (machine->ram_size <= (1.5 * GiB)) {
++            /* INITRD_LOAD_ADDR is at 1.5GB, so we require at least that much RAM
++             * when specifying the initrd on the command line */
++            warn_report("initrd load requires > %ld MB of RAM",
++                    INITRD_LOAD_ADDR / MiB);
++        }
++
+         pnv->initrd_base = INITRD_LOAD_ADDR;
+         pnv->initrd_size = load_image_targphys(machine->initrd_filename,
+                                   pnv->initrd_base, INITRD_MAX_SIZE);
+-- 
+2.20.1
 
 
