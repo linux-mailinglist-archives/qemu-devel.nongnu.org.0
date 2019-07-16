@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351DB6A39F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:13:43 +0200 (CEST)
-Received: from localhost ([::1]:46183 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187CC6A3A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:14:21 +0200 (CEST)
+Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIak-0008CB-4M
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59915)
+	id 1hnIbL-0002eI-Mf
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59947)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYd-0008GS-Lq
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:32 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYe-0008Kq-OY
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYc-0003GM-CX
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:31 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36696)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYd-0003Gw-8v
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:32 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36922)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYc-0003Fb-68
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:30 -0400
-Received: by mail-wr1-x429.google.com with SMTP id n4so19888599wrs.3
+ id 1hnIYd-0003GQ-2W
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:31 -0400
+Received: by mail-wr1-x434.google.com with SMTP id n9so19863188wrr.4
  for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=UxGATMBNQig2wIfjWLxzWQxLyakGvI3IHTSyhIIbcuE=;
- b=ZtI3N8WmcsSjB326JXV4NX2p6ACeFbGi0divP59eJUfFp1+xOSyhpD5cakMdPq4SqM
- al/7nxnUbcLrD5jbEn1P55QHkIOmVPiPcN5AaSmevXhCjWiZCvlvaT52Ydfcregl1uee
- OYfD8dCq+UjjkKP8mEJJx5IMW6eAZEMGzQlqzqwIoOK391+6Fb0k14kRg9mcewsmAVJu
- qQBzDQttLPWnfBqhYLiJn5sKf3QR8nxHSakYFT9GNC1oxTlotAS5DXJEPsrpYsDVvNiJ
- rFFrxOURjwfAmrYhkiIgYORGAPpWvAetzDuGO2M0MH7oQ8PEWPuFgKoxvBKgD+dpMOZ8
- GD/Q==
+ bh=KaySmgI0vFG3f8nxtwM3Mu8yasXrk6fOBut/kewGAmc=;
+ b=nRn8ESDnqePtSElQ3Nb2VF4u2UZDuqSh8zBpMK2Hat/ONmlIcoiXlAdQBuxAdMEZFx
+ +3BBE7MNGIiz7XpGX/J8f8d10WTQ9RI1PYHr7rwU46Iiej0SyQPSJSzBDWDeZ+sXA0/Z
+ gzCRmyNYm0XDqXFoY+IOdgbLdAo6XbbSmLaTQjyVwqBJ43n25b91z3kxRmL2rr+IurUL
+ 0PVtc16HDleLWdfLaVBnWxhCA8vB8Wyoh2Zr+mUOrb7dvq6WMQBwpPeTUXdHAxM2nezf
+ X+V8nwMhyrQPF2HMuJEKFerJEBnk0Mmgr2Lwd2ZIclQMc7QHIyRXjsMKKKMsxl8eAYa1
+ W6lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=UxGATMBNQig2wIfjWLxzWQxLyakGvI3IHTSyhIIbcuE=;
- b=PUqP5JzuDSQCbvKynnqmMhJP6fGGXoq959HYQOmsosBZWJ89K4+TEpT0+BIftIe7oH
- Hdhk3GGrMyqPaxV8Xu86ijods+dxb3wLg+thY+nuIxpev2w+mASMMdj4EMDr8vEOjBsS
- G2A7yeOoI9QIdK80gNdbYUKmZw/uWk0hZaEnDrmdKhuWGBjAyVc82xVZgijS6igeF0wl
- DPccY3ukLh5lV4TQ2zEoW0nQsJqV/R9oS3i4bX4mTpX9O1uzDzjpIHzplGskSgryMLe9
- Q7Fsu0muJ2jpFsB6JhcxWkyokTZzvs05/jPz51BEcZZeHjqh8hlGzE6/3GjKcsbKuYb8
- 5mRQ==
-X-Gm-Message-State: APjAAAXqbxBzkYyaUSD49DSrjiRzrkgeSkvQxdKUQGQMj8CdmuEokveT
- 6J31p+Vf0SSF+x3BhrP0QICKicWSEc8=
-X-Google-Smtp-Source: APXvYqyTYIdM/xOg9NHClSKz7NNh9HpbCGsybjuvAR7Zi5HR94sIeJUx7WuxfUK4sgvQEQtF4DbXQg==
-X-Received: by 2002:a5d:46cf:: with SMTP id g15mr35592887wrs.93.1563264688886; 
- Tue, 16 Jul 2019 01:11:28 -0700 (PDT)
+ bh=KaySmgI0vFG3f8nxtwM3Mu8yasXrk6fOBut/kewGAmc=;
+ b=QaolWuP26KyI6WYhLzAMxuYPOHFG42zD8NqW1f2LshbehYikISJssqYVSoAB3Du+Cq
+ xcONrK+B0vwW602mntxTPIjGfjzM7vEPwED9PBPvXieDD6a/8ylxfDb+kRS3CtippBG3
+ 7qZpQ7EfR1OQ3em00DOd/ZTOI3a6vzUrbyxqQKSrLdwAra9wJO/sIu0LPX+WI7OT/4xE
+ YS2AMk0ILoAENu9x1NfwNnnA/U1QFg9GAvTzVB6gQsKHTFKbwL/QtpQd21lbX50Vriqv
+ 5gGz/s72o45u8s/O16Yi6Sl2kKkGKxSn6BZXBX3+SLke4ZR6iAowuaQEHnrYXCUksR/i
+ 4Psw==
+X-Gm-Message-State: APjAAAXcW1s/h0aQ/yNMNw71rYBVtgypv2OTLz7DXlK3DjKp5r4ux7ou
+ QlEsITz1sODPFf8wl4pNOWscEKK+pkg=
+X-Google-Smtp-Source: APXvYqwLoXgk9zyx0VvuTplgvTkUHIuYxE9wrSEipffh1JiDdXkatkgJAx+ah2RUFJgEVVSFA5U0Qg==
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr34548306wrq.28.1563264689819; 
+ Tue, 16 Jul 2019 01:11:29 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.27
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.28
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:28 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:07 +0200
-Message-Id: <1563264677-39718-10-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:08 +0200
+Message-Id: <1563264677-39718-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PULL 09/19] memory: unref the memory region in
- simplify flatview
+X-Received-From: 2a00:1450:4864:20::434
+Subject: [Qemu-devel] [PULL 10/19] Fix broken build with WHPX enabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,89 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: King Wang <king.wang@huawei.com>
+Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: King Wang <king.wang@huawei.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-The memory region reference is increased when insert a range
-into flatview range array, then decreased by destroy flatview.
-If some flat range merged by flatview_simplify, the memory region
-reference can not be decreased by destroy flatview any more.
-
-In this case, start virtual machine by the command line:
-qemu-system-x86_64
--name guest=ubuntu,debug-threads=on
--machine pc,accel=kvm,usb=off,dump-guest-core=off
--cpu host
--m 16384
--realtime mlock=off
--smp 8,sockets=2,cores=4,threads=1
--object memory-backend-file,id=ram-node0,prealloc=yes,mem-path=/dev/hugepages,share=yes,size=8589934592
--numa node,nodeid=0,cpus=0-3,memdev=ram-node0
--object memory-backend-file,id=ram-node1,prealloc=yes,mem-path=/dev/hugepages,share=yes,size=8589934592
--numa node,nodeid=1,cpus=4-7,memdev=ram-node1
--no-user-config
--nodefaults
--rtc base=utc
--no-shutdown
--boot strict=on
--device piix3-usb-uhci,id=usb,bus=pci.0,addr=0x1.0x2
--device virtio-scsi-pci,id=scsi0,bus=pci.0,addr=0x2
--device virtio-serial-pci,id=virtio-serial0,bus=pci.0,addr=0x3
--drive file=ubuntu.qcow2,format=qcow2,if=none,id=drive-virtio-disk0,cache=none,aio=native
--device virtio-blk-pci,scsi=off,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=1
--chardev pty,id=charserial0
--device isa-serial,chardev=charserial0,id=serial0
--device usb-tablet,id=input0,bus=usb.0,port=1
--vnc 0.0.0.0:0
--device VGA,id=video0,vgamem_mb=16,bus=pci.0,addr=0x5
--device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x6
--msg timestamp=on
-
-And run the script in guest OS:
-while true
-do
-    setpci -s 00:06.0 04.b=03
-	setpci -s 00:06.0 04.b=07
-done
-
-I found the reference of node0 HostMemoryBackendFile is a big one.
-(gdb) p numa_info[0]->node_memdev->parent.ref
-$6 = 1636278
-(gdb)
-
-Signed-off-by: King Wang<king.wang@huawei.com>
-Message-Id: <20190712065241.11784-1-king.wang@huawei.com>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20190712132611.20411-1-sw@weilnetz.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- memory.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ target/i386/whpx-all.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 480f3d9..d8d42bd 100644
---- a/memory.c
-+++ b/memory.c
-@@ -321,7 +321,7 @@ static bool can_merge(FlatRange *r1, FlatRange *r2)
- /* Attempt to simplify a view by merging adjacent ranges */
- static void flatview_simplify(FlatView *view)
- {
--    unsigned i, j;
-+    unsigned i, j, k;
+diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+index 31d4732..ed95105 100644
+--- a/target/i386/whpx-all.c
++++ b/target/i386/whpx-all.c
+@@ -1396,7 +1396,7 @@ static int whpx_accel_init(MachineState *ms)
+     }
  
-     i = 0;
-     while (i < view->nr) {
-@@ -332,6 +332,9 @@ static void flatview_simplify(FlatView *view)
-             ++j;
-         }
-         ++i;
-+        for (k = i; k < j; k++) {
-+            memory_region_unref(view->ranges[k].mr);
-+        }
-         memmove(&view->ranges[i], &view->ranges[j],
-                 (view->nr - j) * sizeof(view->ranges[j]));
-         view->nr -= j - i;
+     memset(&prop, 0, sizeof(WHV_PARTITION_PROPERTY));
+-    prop.ProcessorCount = smp_cpus;
++    prop.ProcessorCount = ms->smp.cpus;
+     hr = whp_dispatch.WHvSetPartitionProperty(
+         whpx->partition,
+         WHvPartitionPropertyCodeProcessorCount,
+@@ -1405,7 +1405,7 @@ static int whpx_accel_init(MachineState *ms)
+ 
+     if (FAILED(hr)) {
+         error_report("WHPX: Failed to set partition core count to %d,"
+-                     " hr=%08lx", smp_cores, hr);
++                     " hr=%08lx", ms->smp.cores, hr);
+         ret = -EINVAL;
+         goto error;
+     }
 -- 
 1.8.3.1
 
