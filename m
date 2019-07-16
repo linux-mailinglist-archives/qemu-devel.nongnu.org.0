@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB086A336
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 09:47:50 +0200 (CEST)
-Received: from localhost ([::1]:45962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1116A345
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 09:50:51 +0200 (CEST)
+Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIBh-0005tT-8V
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 03:47:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52255)
+	id 1hnIEc-0001Ap-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 03:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52891)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hnIBS-0005VE-1s
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:35 -0400
+ (envelope-from <zhexu@redhat.com>) id 1hnIEQ-0000mI-5Z
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hnIBR-0000S2-0q
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36214)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hnIBQ-0000R4-OH
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:32 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 954D085376;
- Tue, 16 Jul 2019 07:47:31 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C6CD5C554;
- Tue, 16 Jul 2019 07:47:24 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
-References: <1562959033-223586-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <b270d0cc-2a28-8a60-ccac-45ac4de89f02@redhat.com>
- <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7064b3ea-d0a9-dbb9-aecd-d0dbca168c40@redhat.com>
-Date: Tue, 16 Jul 2019 09:47:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <zhexu@redhat.com>) id 1hnIEP-0002Wz-7a
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:50:38 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:41483)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hnIEP-0002WU-1s
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:50:37 -0400
+Received: by mail-pl1-f196.google.com with SMTP id m9so9625268pls.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 00:50:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=XEhzBzTzfYlQQq1A/2SAGyBPHtUjsp5jkPdpj8xF+4k=;
+ b=oMTLqnUeM0UJOTu/3CWF634P8F1GOdNETksPJhqZp5QbOevekB0OG455D6cSZ09byx
+ mqayEqw4dTBZ/bp3W3eDoE75EBJnTmdB0eVRZbwA7QJX049K2v0QfWhvbRNqKomLmIVu
+ h2u8uuR/5lYqKHFKvk+mJBfnzb9OjcZsb81i/Jqz6fN9bNzlfr/U0GDLeRNILlmrAorP
+ MRiqQc3bbjBTHXK6wDhnlCSDNo1mpw6d7paTsHJA7zQbGhKkrYenwoJXY0j20tSWo1TQ
+ 3LaeYdbntB76LW3kOc462JC1EE5PBw5vsm0PszBI9e2dWyaaFbqa2b2rzmT0M1QC9YFG
+ vOMA==
+X-Gm-Message-State: APjAAAVVfsaHEjahoMXhj+4EJLW3aEr+LDnSLnAVDTCsy4VVVjPuub79
+ jQydonGm0JSOacPQKQFHzQbJ9g==
+X-Google-Smtp-Source: APXvYqy/nOOZ+mdBzdqRBBy8MoSL8ARf52BmWucHEabnLalI1WCJMofkfmgpC8zI76eHripweh0QFw==
+X-Received: by 2002:a17:902:b20d:: with SMTP id
+ t13mr31891723plr.229.1563263436220; 
+ Tue, 16 Jul 2019 00:50:36 -0700 (PDT)
+Received: from xz-x1 ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id n19sm20325877pfa.11.2019.07.16.00.50.32
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 16 Jul 2019 00:50:35 -0700 (PDT)
+From: Peter Xu <zhexu@redhat.com>
+X-Google-Original-From: Peter Xu <peterx@redhat.com>
+Date: Tue, 16 Jul 2019 15:50:25 +0800
+To: Yan Zhao <yan.y.zhao@intel.com>
+Message-ID: <20190716075025.GB30980@xz-x1>
+References: <1563261042-15974-1-git-send-email-yan.y.zhao@intel.com>
+ <20190716072315.GA30980@xz-x1>
+ <20190716072919.GA8912@joy-OptiPlex-7040>
 MIME-Version: 1.0
-In-Reply-To: <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 16 Jul 2019 07:47:31 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190716072919.GA8912@joy-OptiPlex-7040>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] chardev: race condition with
- tcp_chr_disconnect
+ [fuzzy]
+X-Received-From: 209.85.214.196
+Subject: Re: [Qemu-devel] [PATCH] migration: notify runstate immediately
+ before vcpu stops
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,80 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, vsementsov@virtuozzo.com, rkagan@virtuozzo.com,
- den@openvz.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ "crosthwaite.peter@gmail.com" <crosthwaite.peter@gmail.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <zhexu@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk
-Content-Type: multipart/mixed; boundary="J7p7uDhYQRtexc9zqboe9LwzfHje16Df8";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: vsementsov@virtuozzo.com, rkagan@virtuozzo.com,
- marcandre.lureau@redhat.com, den@openvz.org
-Message-ID: <7064b3ea-d0a9-dbb9-aecd-d0dbca168c40@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] chardev: race condition with
- tcp_chr_disconnect
-References: <1562959033-223586-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <b270d0cc-2a28-8a60-ccac-45ac4de89f02@redhat.com>
- <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
-In-Reply-To: <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
+On Tue, Jul 16, 2019 at 03:29:19AM -0400, Yan Zhao wrote:
+> On Tue, Jul 16, 2019 at 03:23:16PM +0800, Peter Xu wrote:
+> > On Tue, Jul 16, 2019 at 03:10:42PM +0800, Yan Zhao wrote:
+> > > for some devices to do live migration, it is needed to do something
+> > > immediately before vcpu stops. add a notification here.
+> > 
+> > Hi, Yan,
+> > 
+> > Could I ask for a more detailed commit message here?  E.g., what is
+> > "some devices"?  And, what's the problem behind?
+> >
+> hi Peter,
+> 
+> Some devices refer to assigned devices, like NICs.
+> For assigned devices to do live migration, it is sometimes required that
+> source device is stopped before stopping source vcpus. vcpus can do some
+> final cleanups (like handling interrupt) in that case.
 
---J7p7uDhYQRtexc9zqboe9LwzfHje16Df8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I see, so this is a prerequisite of another work?
 
-On 15.07.19 20:27, Paolo Bonzini wrote:
-> On 15/07/19 19:23, Max Reitz wrote:
->> On 12.07.19 21:17, Andrey Shinkevich wrote:
->>> When tcp_chr_disconnect() is called, other thread may be still writin=
-g
->>> to the channel. This patch protects only read operations that initiat=
-e
->>> the disconnection.
->>>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> ---
->>
->> Have you looked at
->> https://lists.nongnu.org/archive/html/qemu-devel/2019-02/msg06174.html=
+IMHO it would make more sense to have this patch to be with that
+patchset, then it'll justify itself with reasoning.  Unless I
+misunderstood - this single patch seems to help nothing if as a
+standalone one.
 
->> already?  From a glance, it looks like that series supersedes this one=
-=2E
->>
->> (No, I don=E2=80=99t know why the other series is delayed.
->=20
-> Because it broke some testcases in tests/vhost-user-test.  They are
-> disabled by default, because AFAIR they broke on some CI environment,
-> but they are supposed to work.
+Thanks,
 
-Ah, OK.  Thanks!
-
-Max
-
-
---J7p7uDhYQRtexc9zqboe9LwzfHje16Df8--
-
---MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0tgQgACgkQ9AfbAGHV
-z0CUcAf/WV+AbSQKmIWzvQbKABBEaOC0hRB+vRlWK2sWoHwYKLKZGpAq/Q5tGvcm
-20GHnzvktNFKntILrKy8awodTnOXkYjY3yLx5qXzJkfyFC0T6yNDn0+U+nR30suA
-TgwvAKjPDwJ6AdbKr4FnG+wQyx5Ylp2IslZnGjQv183OHh8Z8w7u0SuOg55fS3oY
-HyeDG4jz1+jlg7UI8PZuJ8Zj9u95ISnWkSPptKTkPjGBVtrkZ7NiV580TZZ3jnv9
-wQKJtXBjddwKOfS0HQjAbr0p80ZbFPM4n4pNh+/DBuA0AgcPS23WafEKCvFk0WjZ
-+evIq4YevKUo0Xv7NhLLqEVODSY2WQ==
-=NldG
------END PGP SIGNATURE-----
-
---MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk--
+-- 
+Peter Xu
 
