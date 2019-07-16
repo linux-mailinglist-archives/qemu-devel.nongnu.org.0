@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD326A39B
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:54 +0200 (CEST)
-Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5586A3A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:14:52 +0200 (CEST)
+Received: from localhost ([::1]:46222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIZw-0004NA-RE
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
+	id 1hnIbr-0004mu-GX
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60105)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYk-0000IG-81
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYk-0000IZ-AE
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYi-0003MC-MP
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYi-0003Ls-GX
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:38 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40710)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38900)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYi-0003Jh-D7
+ id 1hnIYi-0003Kl-8f
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:36 -0400
-Received: by mail-wm1-x334.google.com with SMTP id v19so17670155wmj.5
+Received: by mail-wm1-x344.google.com with SMTP id s15so17666721wmj.3
  for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=KIJAmLbllmYJ3+/5atxAnv6JwBGCasb1tyGUjSZJRAI=;
- b=WUIUjWobFWPjdMXAG844rOO9ELRCyAlMZbq2nq2qN4/NtmCl/pVVP6HQ2xWi48FvaY
- 87mgputi8vcvt15JtSVQdNObZtjFBNBob+tjmJMg2WGeghrQ2TDutgYT9UdeYiS9xwfj
- MEXub1Sr/NUfTXwWZCZlpjNrZRXAlK6RXst4KkLZulFnZ6QWVNAYaEd6zZyDm9jWD/BF
- S40kB32h96R5D5bV/ToI/iWGdQADcMr17Hs67ZlEcqAYvy++INOljNZUPlaEsi087qUC
- uSjOl8FWG8bLBxkdf718tQH7uljfKUWAVVwLOLe4Imsl5tdz5W/9R5jxCbDww6aZgZgq
- 5s1A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=8Qfy8a0GAVN3cZj53fYSGM9mBcfsB1yLOHRsBKNqTiU=;
+ b=uLP6Nq5R+E+B5kGnDaycxGgK6koWwtR7zCMbDFrQp+hz/diqzJ3Vd3/3x6u5Npfs61
+ y0eO2GwyMBvri266zyD6YavIVgzWasl6n+5ZenTjJvTExrMRgHeFN0LQo7Y+NyxornfB
+ GfuSID8nymaniWexvBomqdLYbZ3AWUwutevRdgx0R6yMw9Z3i5xyQe9Qqyl98m1RPYfc
+ v74uo0s4egHPiiW3Dk3thmoKiUWvHTSb6NF8ZSDiIyuRYnJwxpFzOVOt/JCFfMmNdp9g
+ yt4iCjFl3vSAiV7r8TOIccxveiWfKruweGIUnrFbDAMnyafKR0tH/T3YimeAjD7MoH4e
+ 29BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=KIJAmLbllmYJ3+/5atxAnv6JwBGCasb1tyGUjSZJRAI=;
- b=rDb8Ci6Qb0ocT2ZvpVrLzVcUBCXTBImPryutQ4fbMh3s2rKs9Qqj+2Ml9l9UfJuTQ0
- 5S0xJ5a6aHMFDNP5s0Afqm2eXm2Vya9IrCcbuLUbHD3img0rH8mVg9Vmo3EuWZqAvHk/
- Xo5XJz9R0RnPRKoGejUqxb3QsyIdUIbUFnwunPBWSIwSkDNAezxi0jSfeG3q3jRXbnSS
- LsqHCLe45Sn/IlUu00Yg7tJaNxH2JHG6r54A9zXyPsugsPb7ctue3EIgzdQln2hJCJsS
- N2kMDRI6+KPZAw3Kt2H9uQk42ZCXvfIUqtCZrT9dClI/omesfRN+XtOtLGboR77FXZ9M
- L5IQ==
-X-Gm-Message-State: APjAAAUMZChlqIv2eOhZW2LIL1zduFqSNgyUgquFZFuSPYQtuf9bhVPx
- 5Qvwagt7ekTdoi039/UmljsvUVlmVNw=
-X-Google-Smtp-Source: APXvYqz4bqiP/CMEMBtqgqbGL1b5TlG1SKKmAlthyM5kmj6xKAR7/IEo6ld1aV8j90HntX7TD6iFOQ==
-X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr29407803wmk.10.1563264693198; 
- Tue, 16 Jul 2019 01:11:33 -0700 (PDT)
+ bh=8Qfy8a0GAVN3cZj53fYSGM9mBcfsB1yLOHRsBKNqTiU=;
+ b=d2qs/9oSU1S75MyqhZWFm8jP7VaF/dZ0lJ8i1o11e7EkJ6vatKPw1itPINSHK+zpgA
+ 5OatpDllWVBXr1SY0f7vw95RU3n2AvxVwpmZQaB9MkCOzxlaV9wIOVh7WFY73S8OssDy
+ 5zfXL63p4ohVl9PB+ZpMCTHGl4iCuBXouCfsXGadV1DAunXgJ+Qvz1+UQ50I0krrMzO5
+ AKr4H9sVYCpX9d4N68CPmwIGa9Yi/LHDB7ZbsAl/3XhQKWsrh4mvRuUcSTFLFAIFVB44
+ yH6FQdxutReVs9JmMRSJc3qDtZ8q4Qmnwk8FUokp7yyM7NX450TA5tT32e8VTI+QRSMp
+ WVgg==
+X-Gm-Message-State: APjAAAWidZl8sBLGhUecUYypGtx0RH06ddkn6mnY8VcI9yY1i01m+IVH
+ pC3BTAoDoQr1GEjlAXKiE28p2zE/Geo=
+X-Google-Smtp-Source: APXvYqz6oZIlQl9LCX+0+0LTUTSf5jMUydYg88xTmfhY/l2MmjknCsaWw03bdPVPD8yxCmwqNYhpug==
+X-Received: by 2002:a1c:20c3:: with SMTP id g186mr17436015wmg.15.1563264694251; 
+ Tue, 16 Jul 2019 01:11:34 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.32
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.33
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:32 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:11 +0200
-Message-Id: <1563264677-39718-14-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:12 +0200
+Message-Id: <1563264677-39718-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 13/19] checkpatch: detect doubly-encoded UTF-8
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PULL 14/19] target/i386: sev: Do not unpin ram device
+ memory region
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,59 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Copy and pasting from Thunderbird's "view source" window results in double
-encoding of multibyte UTF-8 sequences.  The appearance of those sequences is
-very peculiar, so detect it and give an error despite the (low) possibility
-of false positives.
+From: Alex Williamson <alex.williamson@redhat.com>
 
-As the major offender, I am also adding the same check to my applypatch-msg
-and commit-msg hooks, but this will also cause patchew to croak loudly when
-this mistake happens.
+The commit referenced below skipped pinning ram device memory when
+ram blocks are added, we need to do the same when they're removed.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1558099140-53240-1-git-send-email-pbonzini@redhat.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Fixes: cedc0ad539af ("target/i386: sev: Do not pin the ram device memory region")
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+Message-Id: <156320087103.2556.10983987500488190423.stgit@gimli.home>
+Reviewed-by: Singh, Brijesh <brijesh.singh@amd.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/checkpatch.pl | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ target/i386/sev.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 2f81371..d24c944 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -262,6 +262,19 @@ our $UTF8	= qr{
- 	| $NON_ASCII_UTF8
- }x;
- 
-+# some readers default to ISO-8859-1 when showing email source. detect
-+# when UTF-8 is incorrectly interpreted as ISO-8859-1 and reencoded back.
-+# False positives are possible but very unlikely.
-+our $UTF8_MOJIBAKE = qr{
-+	\xC3[\x82-\x9F] \xC2[\x80-\xBF]                    # c2-df 80-bf
-+	| \xC3\xA0 \xC2[\xA0-\xBF] \xC2[\x80-\xBF]         # e0 a0-bf 80-bf
-+	| \xC3[\xA1-\xAC\xAE\xAF] (?: \xC2[\x80-\xBF]){2}  # e1-ec/ee/ef 80-bf 80-bf
-+	| \xC3\xAD \xC2[\x80-\x9F] \xC2[\x80-\xBF]         # ed 80-9f 80-bf
-+	| \xC3\xB0 \xC2[\x90-\xBF] (?: \xC2[\x80-\xBF]){2} # f0 90-bf 80-bf 80-bf
-+	| \xC3[\xB1-\xB3] (?: \xC2[\x80-\xBF]){3}          # f1-f3 80-bf 80-bf 80-bf
-+	| \xC3\xB4 \xC2[\x80-\x8F] (?: \xC2[\x80-\xBF]){2} # f4 80-b8 80-bf 80-bf
-+}x;
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 6dbdc3c..5ba1384 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -161,6 +161,17 @@ sev_ram_block_removed(RAMBlockNotifier *n, void *host, size_t size)
+ {
+     int r;
+     struct kvm_enc_region range;
++    ram_addr_t offset;
++    MemoryRegion *mr;
 +
- # There are still some false positives, but this catches most
- # common cases.
- our $typeTypedefs = qr{(?x:
-@@ -1506,6 +1519,9 @@ sub process {
- 			ERROR("Invalid UTF-8, patch and commit message should be encoded in UTF-8\n" . $hereptr);
- 		}
++    /*
++     * The RAM device presents a memory region that should be treated
++     * as IO region and should not have been pinned.
++     */
++    mr = memory_region_from_host(host, &offset);
++    if (mr && memory_region_is_ram_device(mr)) {
++        return;
++    }
  
-+		if ($rawline =~ m/$UTF8_MOJIBAKE/) {
-+			ERROR("Doubly-encoded UTF-8\n" . $herecurr);
-+		}
- # Check if it's the start of a commit log
- # (not a header line and we haven't seen the patch filename)
- 		if ($in_header_lines && $realfile =~ /^$/ &&
+     range.addr = (__u64)(unsigned long)host;
+     range.size = size;
 -- 
 1.8.3.1
 
