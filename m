@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4874169FAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 02:04:06 +0200 (CEST)
-Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419B369FA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 02:03:10 +0200 (CEST)
+Received: from localhost ([::1]:44458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnAwv-0000Sr-7y
-	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 20:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44699)
+	id 1hnAw1-00059D-Co
+	for lists+qemu-devel@lfdr.de; Mon, 15 Jul 2019 20:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hnAuX-0007Mg-HB
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 20:01:39 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hnAuT-00077B-M5
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 20:01:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hnAuT-0007aM-Q0
- for qemu-devel@nongnu.org; Mon, 15 Jul 2019 20:01:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50888)
+ (envelope-from <jsnow@redhat.com>) id 1hnAuR-0007YN-VO
+ for qemu-devel@nongnu.org; Mon, 15 Jul 2019 20:01:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36958)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hnAuO-0007UI-Is; Mon, 15 Jul 2019 20:01:28 -0400
+ id 1hnAuP-0007VP-Ma; Mon, 15 Jul 2019 20:01:29 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D63AD30821A3;
- Tue, 16 Jul 2019 00:01:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DCD2E3098576;
+ Tue, 16 Jul 2019 00:01:28 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-130.bos.redhat.com [10.18.17.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02D9D6085B;
- Tue, 16 Jul 2019 00:01:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 048AC6085B;
+ Tue, 16 Jul 2019 00:01:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 15 Jul 2019 20:01:12 -0400
-Message-Id: <20190716000117.25219-7-jsnow@redhat.com>
+Date: Mon, 15 Jul 2019 20:01:13 -0400
+Message-Id: <20190716000117.25219-8-jsnow@redhat.com>
 In-Reply-To: <20190716000117.25219-1-jsnow@redhat.com>
 References: <20190716000117.25219-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 16 Jul 2019 00:01:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 16 Jul 2019 00:01:28 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 06/11] block/backup: improve sync=bitmap
- work estimates
+Subject: [Qemu-devel] [PATCH v2 07/11] block/backup: centralize copy_bitmap
+ initialization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,342 +62,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When making backups based on bitmaps, the work estimate can be more
-accurate. Update iotests to reflect the new strategy.
-
-TOP work estimates are broken, but do not get worse with this commit.
-That issue is addressed in the following commits instead.
+Just a few housekeeping changes that keeps the following commit easier
+to read; perform the initial copy_bitmap initialization in one place.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- block/backup.c             |  8 +++-----
- tests/qemu-iotests/256.out |  4 ++--
- tests/qemu-iotests/257.out | 36 ++++++++++++++++++------------------
- 3 files changed, 23 insertions(+), 25 deletions(-)
+ block/backup.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/block/backup.c b/block/backup.c
-index a64b768e24..22fafbb80f 100644
+index 22fafbb80f..c88a70fe10 100644
 --- a/block/backup.c
 +++ b/block/backup.c
-@@ -449,9 +449,8 @@ static void backup_incremental_init_copy_bitmap(Backu=
-pBlockJob *job)
-                                                 NULL, true);
-     assert(ret);
+@@ -441,16 +441,22 @@ static int coroutine_fn backup_loop(BackupBlockJob =
+*job)
+     return ret;
+ }
 =20
--    /* TODO job_progress_set_remaining() would make more sense */
--    job_progress_update(&job->common.job,
--                        job->len - bdrv_get_dirty_count(job->copy_bitmap=
-));
-+    job_progress_set_remaining(&job->common.job,
-+                               bdrv_get_dirty_count(job->copy_bitmap));
+-/* init copy_bitmap from sync_bitmap */
+-static void backup_incremental_init_copy_bitmap(BackupBlockJob *job)
++static void backup_init_copy_bitmap(BackupBlockJob *job)
+ {
+-    bool ret =3D bdrv_dirty_bitmap_merge_internal(job->copy_bitmap,
+-                                                job->sync_bitmap,
+-                                                NULL, true);
+-    assert(ret);
++    bool ret;
++    uint64_t estimate;
+=20
+-    job_progress_set_remaining(&job->common.job,
+-                               bdrv_get_dirty_count(job->copy_bitmap));
++    if (job->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
++        ret =3D bdrv_dirty_bitmap_merge_internal(job->copy_bitmap,
++                                               job->sync_bitmap,
++                                               NULL, true);
++        assert(ret);
++    } else {
++        bdrv_set_dirty_bitmap(job->copy_bitmap, 0, job->len);
++    }
++
++    estimate =3D bdrv_get_dirty_count(job->copy_bitmap);
++    job_progress_set_remaining(&job->common.job, estimate);
  }
 =20
  static int coroutine_fn backup_run(Job *job, Error **errp)
-@@ -463,12 +462,11 @@ static int coroutine_fn backup_run(Job *job, Error =
-**errp)
+@@ -462,12 +468,7 @@ static int coroutine_fn backup_run(Job *job, Error *=
+*errp)
      QLIST_INIT(&s->inflight_reqs);
      qemu_co_rwlock_init(&s->flush_rwlock);
 =20
--    job_progress_set_remaining(job, s->len);
--
-     if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
-         backup_incremental_init_copy_bitmap(s);
-     } else {
-         bdrv_set_dirty_bitmap(s->copy_bitmap, 0, s->len);
-+        job_progress_set_remaining(job, s->len);
-     }
+-    if (s->sync_mode =3D=3D MIRROR_SYNC_MODE_BITMAP) {
+-        backup_incremental_init_copy_bitmap(s);
+-    } else {
+-        bdrv_set_dirty_bitmap(s->copy_bitmap, 0, s->len);
+-        job_progress_set_remaining(job, s->len);
+-    }
++    backup_init_copy_bitmap(s);
 =20
      s->before_write.notify =3D backup_before_write_notify;
-diff --git a/tests/qemu-iotests/256.out b/tests/qemu-iotests/256.out
-index eec38614ec..f18ecb0f91 100644
---- a/tests/qemu-iotests/256.out
-+++ b/tests/qemu-iotests/256.out
-@@ -113,7 +113,7 @@
- {
-   "return": {}
- }
--{"data": {"device": "j2", "len": 67108864, "offset": 67108864, "speed": =
-0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"micr=
-oseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "j3", "len": 67108864, "offset": 67108864, "speed": =
-0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"micr=
-oseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "j2", "len": 0, "offset": 0, "speed": 0, "type": "ba=
-ckup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "US=
-ECS", "seconds": "SECS"}}
-+{"data": {"device": "j3", "len": 0, "offset": 0, "speed": 0, "type": "ba=
-ckup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "US=
-ECS", "seconds": "SECS"}}
-=20
- --- Done ---
-diff --git a/tests/qemu-iotests/257.out b/tests/qemu-iotests/257.out
-index 43f2e0f9c9..811b1b11f1 100644
---- a/tests/qemu-iotests/257.out
-+++ b/tests/qemu-iotests/257.out
-@@ -150,7 +150,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-cancel", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -228,7 +228,7 @@ expecting 15 dirty sectors; have 15. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 983040, "offset": 983040, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -367,7 +367,7 @@ expecting 6 dirty sectors; have 6. OK!
- {"execute": "blockdev-backup", "arguments": {"auto-finalize": false, "bi=
-tmap": "bitmap0", "bitmap-mode": "never", "device": "drive0", "job-id": "=
-backup_1", "sync": "bitmap", "target": "backup_target_1"}}
- {"return": {}}
- {"data": {"action": "report", "device": "backup_1", "operation": "read"}=
-, "event": "BLOCK_JOB_ERROR", "timestamp": {"microseconds": "USECS", "sec=
-onds": "SECS"}}
--{"data": {"device": "backup_1", "error": "Input/output error", "len": 67=
-108864, "offset": 66781184, "speed": 0, "type": "backup"}, "event": "BLOC=
-K_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS=
-"}}
-+{"data": {"device": "backup_1", "error": "Input/output error", "len": 39=
-3216, "offset": 65536, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB=
-_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -445,7 +445,7 @@ expecting 14 dirty sectors; have 14. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 917504, "offset": 917504, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -633,7 +633,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -711,7 +711,7 @@ expecting 15 dirty sectors; have 15. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 983040, "offset": 983040, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -899,7 +899,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-cancel", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -977,7 +977,7 @@ expecting 15 dirty sectors; have 15. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 983040, "offset": 983040, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1116,7 +1116,7 @@ expecting 6 dirty sectors; have 6. OK!
- {"execute": "blockdev-backup", "arguments": {"auto-finalize": false, "bi=
-tmap": "bitmap0", "bitmap-mode": "on-success", "device": "drive0", "job-i=
-d": "backup_1", "sync": "bitmap", "target": "backup_target_1"}}
- {"return": {}}
- {"data": {"action": "report", "device": "backup_1", "operation": "read"}=
-, "event": "BLOCK_JOB_ERROR", "timestamp": {"microseconds": "USECS", "sec=
-onds": "SECS"}}
--{"data": {"device": "backup_1", "error": "Input/output error", "len": 67=
-108864, "offset": 66781184, "speed": 0, "type": "backup"}, "event": "BLOC=
-K_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS=
-"}}
-+{"data": {"device": "backup_1", "error": "Input/output error", "len": 39=
-3216, "offset": 65536, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB=
-_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1194,7 +1194,7 @@ expecting 14 dirty sectors; have 14. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 917504, "offset": 917504, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1382,7 +1382,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1460,7 +1460,7 @@ expecting 12 dirty sectors; have 12. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 786432, "offset": 786432, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1648,7 +1648,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-cancel", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1726,7 +1726,7 @@ expecting 12 dirty sectors; have 12. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 786432, "offset": 786432, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1865,7 +1865,7 @@ expecting 6 dirty sectors; have 6. OK!
- {"execute": "blockdev-backup", "arguments": {"auto-finalize": false, "bi=
-tmap": "bitmap0", "bitmap-mode": "always", "device": "drive0", "job-id": =
-"backup_1", "sync": "bitmap", "target": "backup_target_1"}}
- {"return": {}}
- {"data": {"action": "report", "device": "backup_1", "operation": "read"}=
-, "event": "BLOCK_JOB_ERROR", "timestamp": {"microseconds": "USECS", "sec=
-onds": "SECS"}}
--{"data": {"device": "backup_1", "error": "Input/output error", "len": 67=
-108864, "offset": 66781184, "speed": 0, "type": "backup"}, "event": "BLOC=
-K_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS=
-"}}
-+{"data": {"device": "backup_1", "error": "Input/output error", "len": 39=
-3216, "offset": 65536, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB=
-_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -1943,7 +1943,7 @@ expecting 13 dirty sectors; have 13. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 851968, "offset": 851968, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -2131,7 +2131,7 @@ expecting 7 dirty sectors; have 7. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_1"}}
- {"return": {}}
- {"data": {"id": "backup_1", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_1", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_1", "len": 393216, "offset": 393216, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
-@@ -2209,7 +2209,7 @@ expecting 12 dirty sectors; have 12. OK!
- {"execute": "job-finalize", "arguments": {"id": "backup_2"}}
- {"return": {}}
- {"data": {"id": "backup_2", "type": "backup"}, "event": "BLOCK_JOB_PENDI=
-NG", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
--{"data": {"device": "backup_2", "len": 67108864, "offset": 67108864, "sp=
-eed": 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": =
-{"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "backup_2", "len": 786432, "offset": 786432, "speed"=
-: 0, "type": "backup"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"mi=
-croseconds": "USECS", "seconds": "SECS"}}
- {
-   "bitmaps": {
-     "device0": [
+     bdrv_add_before_write_notifier(bs, &s->before_write);
 --=20
 2.21.0
 
