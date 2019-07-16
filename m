@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91976A3A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:14:14 +0200 (CEST)
-Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD326A39B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:54 +0200 (CEST)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIbF-0002GB-N4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60016)
+	id 1hnIZw-0004NA-RE
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYh-00006v-NV
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:36 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYk-0000IG-81
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYf-0003JX-Ka
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:35 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38083)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYi-0003MC-MP
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:38 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40710)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYf-0003IO-Db
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:33 -0400
-Received: by mail-wm1-x330.google.com with SMTP id s15so17666572wmj.3
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:33 -0700 (PDT)
+ id 1hnIYi-0003Jh-D7
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:36 -0400
+Received: by mail-wm1-x334.google.com with SMTP id v19so17670155wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eMIawS30YngPpRftqQLfFq60155CmM2qHe8aA4uFf00=;
- b=obr/niMoaXWIinTfq6TKFcDpWMPOiBQK9HRo/5bjlt7VLa6FlTbrYfQ9DIwr8T2MFh
- oUNrqyt/vomzm0LBEt4DlNREfRQKGvey3JfhGugamKDA2p9VIQVT9YcOe72pNhttAX+s
- w3HDWsAFqOBGjHbCIePL8rnuUMCdmyAEWU1TQaRpvW9l9twdWSE4T4F+vJV0eicRTi6V
- ZLlm1Ir9+NIQKab6yJ9qTEM0pXPUjvD5LGU68h4mW9EivUCT8K3y2KcqxKhizImhahmT
- Yy71O5Ra7n2/+moNB4Q9ELicUw2VbJHu1eH+v4zw6cypjjuUKsa2PePvfDiV3/jO8eua
- cY/Q==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=KIJAmLbllmYJ3+/5atxAnv6JwBGCasb1tyGUjSZJRAI=;
+ b=WUIUjWobFWPjdMXAG844rOO9ELRCyAlMZbq2nq2qN4/NtmCl/pVVP6HQ2xWi48FvaY
+ 87mgputi8vcvt15JtSVQdNObZtjFBNBob+tjmJMg2WGeghrQ2TDutgYT9UdeYiS9xwfj
+ MEXub1Sr/NUfTXwWZCZlpjNrZRXAlK6RXst4KkLZulFnZ6QWVNAYaEd6zZyDm9jWD/BF
+ S40kB32h96R5D5bV/ToI/iWGdQADcMr17Hs67ZlEcqAYvy++INOljNZUPlaEsi087qUC
+ uSjOl8FWG8bLBxkdf718tQH7uljfKUWAVVwLOLe4Imsl5tdz5W/9R5jxCbDww6aZgZgq
+ 5s1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eMIawS30YngPpRftqQLfFq60155CmM2qHe8aA4uFf00=;
- b=aeLL5Pi34xkyKXCTsJzGc0UKB/GT5CNBYFWkBpnrqCiVNIWlYIClR1UBy9dDvciCCD
- cJOs1WF0HSKOFPMoECClLwToVOgd5BGDA4NTm1FqvZhp8JyIY9SZdtv3eDVAyzlMU/VL
- aDRFrveCWbpTgvxDr26/t1u5YgDW4Fztu554EWbCfKOO2v+krbe2tw8xp1j8GV8fWUVh
- aLg6OlGQ6INschNhAbbZUouI4W6cMYfCK+iIX5e3l2PP6P78W7P/jrCJWhyVPBRtSQej
- VyGGBaF4YpgL2tsNYJ8sYOOQfcf82XDurM5hc7X+/L654tNdKXzJwE2vgkPxvawcL/Ks
- ChNQ==
-X-Gm-Message-State: APjAAAW2Mi9Vo9/7MwzgLi24M1PGFX5AOYijoUaSLct/t7wtjd8Q1Eh1
- sZrBz0t3ZpCgy3UqkI3FUTlG4HNqWqI=
-X-Google-Smtp-Source: APXvYqwaq3/eP2Db738+rHSmBgPPGuc1ZsjblSQ9Iij1DeDFgIQ/7/eN88u0hM/t88i7/0et8SCs/g==
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr29993713wma.41.1563264692099; 
- Tue, 16 Jul 2019 01:11:32 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references;
+ bh=KIJAmLbllmYJ3+/5atxAnv6JwBGCasb1tyGUjSZJRAI=;
+ b=rDb8Ci6Qb0ocT2ZvpVrLzVcUBCXTBImPryutQ4fbMh3s2rKs9Qqj+2Ml9l9UfJuTQ0
+ 5S0xJ5a6aHMFDNP5s0Afqm2eXm2Vya9IrCcbuLUbHD3img0rH8mVg9Vmo3EuWZqAvHk/
+ Xo5XJz9R0RnPRKoGejUqxb3QsyIdUIbUFnwunPBWSIwSkDNAezxi0jSfeG3q3jRXbnSS
+ LsqHCLe45Sn/IlUu00Yg7tJaNxH2JHG6r54A9zXyPsugsPb7ctue3EIgzdQln2hJCJsS
+ N2kMDRI6+KPZAw3Kt2H9uQk42ZCXvfIUqtCZrT9dClI/omesfRN+XtOtLGboR77FXZ9M
+ L5IQ==
+X-Gm-Message-State: APjAAAUMZChlqIv2eOhZW2LIL1zduFqSNgyUgquFZFuSPYQtuf9bhVPx
+ 5Qvwagt7ekTdoi039/UmljsvUVlmVNw=
+X-Google-Smtp-Source: APXvYqz4bqiP/CMEMBtqgqbGL1b5TlG1SKKmAlthyM5kmj6xKAR7/IEo6ld1aV8j90HntX7TD6iFOQ==
+X-Received: by 2002:a7b:c7d8:: with SMTP id z24mr29407803wmk.10.1563264693198; 
+ Tue, 16 Jul 2019 01:11:33 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.30
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.32
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:31 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:11:10 +0200
-Message-Id: <1563264677-39718-13-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:11:11 +0200
+Message-Id: <1563264677-39718-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
-Subject: [Qemu-devel] [PULL 12/19] hw/lm32/Kconfig: Milkymist One provides a
- USB 1.1 Controller
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 13/19] checkpatch: detect doubly-encoded UTF-8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,31 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Copy and pasting from Thunderbird's "view source" window results in double
+encoding of multibyte UTF-8 sequences.  The appearance of those sequences is
+very peculiar, so detect it and give an error despite the (low) possibility
+of false positives.
 
-The Milkymist SoftUSB block provides the OHCI USB standard
-(missed in 0858746b835).
+As the major offender, I am also adding the same check to my applypatch-msg
+and commit-msg hooks, but this will also cause patchew to croak loudly when
+this mistake happens.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190714124755.14356-1-philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <1558099140-53240-1-git-send-email-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/lm32/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/checkpatch.pl | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/hw/lm32/Kconfig b/hw/lm32/Kconfig
-index 3d09c2d..ed2e306 100644
---- a/hw/lm32/Kconfig
-+++ b/hw/lm32/Kconfig
-@@ -11,3 +11,4 @@ config MILKYMIST
-     select PFLASH_CFI01
-     select FRAMEBUFFER
-     select SD
-+    select USB_OHCI
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 2f81371..d24c944 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -262,6 +262,19 @@ our $UTF8	= qr{
+ 	| $NON_ASCII_UTF8
+ }x;
+ 
++# some readers default to ISO-8859-1 when showing email source. detect
++# when UTF-8 is incorrectly interpreted as ISO-8859-1 and reencoded back.
++# False positives are possible but very unlikely.
++our $UTF8_MOJIBAKE = qr{
++	\xC3[\x82-\x9F] \xC2[\x80-\xBF]                    # c2-df 80-bf
++	| \xC3\xA0 \xC2[\xA0-\xBF] \xC2[\x80-\xBF]         # e0 a0-bf 80-bf
++	| \xC3[\xA1-\xAC\xAE\xAF] (?: \xC2[\x80-\xBF]){2}  # e1-ec/ee/ef 80-bf 80-bf
++	| \xC3\xAD \xC2[\x80-\x9F] \xC2[\x80-\xBF]         # ed 80-9f 80-bf
++	| \xC3\xB0 \xC2[\x90-\xBF] (?: \xC2[\x80-\xBF]){2} # f0 90-bf 80-bf 80-bf
++	| \xC3[\xB1-\xB3] (?: \xC2[\x80-\xBF]){3}          # f1-f3 80-bf 80-bf 80-bf
++	| \xC3\xB4 \xC2[\x80-\x8F] (?: \xC2[\x80-\xBF]){2} # f4 80-b8 80-bf 80-bf
++}x;
++
+ # There are still some false positives, but this catches most
+ # common cases.
+ our $typeTypedefs = qr{(?x:
+@@ -1506,6 +1519,9 @@ sub process {
+ 			ERROR("Invalid UTF-8, patch and commit message should be encoded in UTF-8\n" . $hereptr);
+ 		}
+ 
++		if ($rawline =~ m/$UTF8_MOJIBAKE/) {
++			ERROR("Doubly-encoded UTF-8\n" . $herecurr);
++		}
+ # Check if it's the start of a commit log
+ # (not a header line and we haven't seen the patch filename)
+ 		if ($in_header_lines && $realfile =~ /^$/ &&
 -- 
 1.8.3.1
 
