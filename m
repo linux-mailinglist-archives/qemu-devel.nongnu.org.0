@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AF66A394
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:05 +0200 (CEST)
-Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D806A392
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 10:12:04 +0200 (CEST)
+Received: from localhost ([::1]:46126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnIZA-0000xq-8X
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59754)
+	id 1hnIZ8-0000ua-Mv
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 04:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYV-0007sH-7G
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYV-0007sJ-Ms
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYU-000386-27
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hnIYU-00038L-Dn
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:23 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40067)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53999)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hnIYT-00036d-N0
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:21 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r1so19825043wrl.7
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:21 -0700 (PDT)
+ id 1hnIYU-00037i-6x
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 04:11:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id x15so17659935wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 01:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hZAdpmh3ofD5CtmSnrzTVd4lkwPQzmzagWI6t0vwsew=;
- b=sTDD9aQUXrjkpfcgRXg6wIgI4f6CGq5sTgzqh2HgKffBHJ5hlEPnMREe+lv0DCuCNr
- gSc/hMaysPqbVzDtBU09T7AVv10wleL74Jq27F1MgUdMJJjRsiRPQiyTTISSisAnhM5K
- cF3ymj7wKaonsD50wdPwYZTY8d/XSDo+W5TNxChw97/E1l15R9W+R8e4BgdaEEDFIUkh
- qPf+7KnPIz28briyenOjqBDEaBZj2FF3aIPJunmbU8QbF9KKamej0BdRizPPBI+sA330
- BKLj0Ryd6Btm07n6MSXlilQmqRls4ERrrUiPqaHMI8YfflR7ejbBp3IebBCn4pfBwA7s
- J7Dw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=s2VORvYpXzDmq+pVd9Zwp8LUzbuylAos0sk8Od+qroI=;
+ b=IImjpVp53nxxXA496kh9MAUu6SKssJAonAL8l/Lzb/7TPPiCgG8LRYZ8HdCSUzKTaf
+ 4OqRd8FMzQIopyIElB3V6wRArsHSrp9qE2Et5K6emylBjpD5IrTZbTGNGm2NUxbsYpMZ
+ OtQej6WzNg6BHJkapPHnl22q5JRYLH0oV9eSnAkJyEtsD35Pko1zfVj04c9UfjkMzcdT
+ aZtGyjvMXmSqO1sf+8vxKYs6Ll/+WmS97loqXl9Toan8AZLu9qkhQbQQ4AAH3IXml9Xe
+ FvKV0IcTjD1SVewkR0yZFPz6g5cAdYF/+NEvS82FtaZZKxCO1TcKYwp9BOjcRV+8aBxO
+ XILA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=hZAdpmh3ofD5CtmSnrzTVd4lkwPQzmzagWI6t0vwsew=;
- b=OzezIwCYaAA5PN5/gUCvlmL0K74NByMNcowRl8WTVTLAtv4cuAEiPSQGs3IuGQVOb9
- G7utalvfxVpLHFjaZb9uO6PVY2YNfJhhtHOFnvJOtDehVW12JTmgBrgF1WRbKFzPtVzn
- Ffiv6qcZzAjKNjrEqeAi7FmApcO2w/zIBqcIuREHGAyAEt+m6Li6BiMmcJD+RtVm7u1U
- RsnGZFdtEnn/qwq5raxGqmN1dQ935lGNT18XWCKrnQ7to+9hmXlhEpKEb3oB5NNr/txP
- VI+G4sTTPkVTy38poLSaMjpV+/5NcT1+krCMXBFAbYnkK0y0SabFd0UWjDL9mqvojm37
- OI0g==
-X-Gm-Message-State: APjAAAWlZ9UpltG8d/hxa1p6XBuVnvxSyte8FqYGhRc3aC/cDLdmiAG+
- 638V4g+0Umk7vmYli4x8Gh3KRk1BqwY=
-X-Google-Smtp-Source: APXvYqy/JsBAJYGe54ZncCt3ksUNKg9l+5gh47Vv2jsvhguyKOICCdGYS5MeVI4dQMNblg6sKzZaOQ==
-X-Received: by 2002:adf:d4c1:: with SMTP id w1mr35258068wrk.229.1563264679485; 
- Tue, 16 Jul 2019 01:11:19 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=s2VORvYpXzDmq+pVd9Zwp8LUzbuylAos0sk8Od+qroI=;
+ b=KSDn8ZmIl5gZXE8Up2eut432wUnfQ9M4tR62ni9He77WVJhJc8AYsQs97ASRVQ/1nB
+ EdoKgm2gf+DhOC/T2HIe/37I/+flxW9q7rShvubJLHuhE91JuhUBXUuz6KocpWWt+ffj
+ E0J1UQ9pVY0doWIqJWoOz193bsyrBiUkqXM2GG1YvEaT9DQKCan7TljBmlxYeluCD4pl
+ FL45IxSqknJ/n1Ckzb3qo+dq/u4jAn6rcytv+XpfrdQC8ICU+Qf0bBvw5y2XqVYUs3Jh
+ 5WAjfmPoGOOQuoYk+dsosuaTlnLr5zAS0I/hpiIh4a24Y2S/3nRGycSkp4oc9xLvHHyc
+ Hydg==
+X-Gm-Message-State: APjAAAVUao9c8Q+e0SLJNKNUYA9ljyCK27xoyHvMlTy6hGZv+tosOpxY
+ K1bV9fy0BGnUddYHDCfe6G36imfrAMI=
+X-Google-Smtp-Source: APXvYqwzQ97h5vi3QX8wv3yRppLlNVLVp4LXyJMr5t8LmW7ae/maxVSn28qefUu325KJ96LNXOQSFw==
+X-Received: by 2002:a1c:d108:: with SMTP id i8mr30585909wmg.28.1563264680696; 
+ Tue, 16 Jul 2019 01:11:20 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.18
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id c1sm37723879wrh.1.2019.07.16.01.11.19
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 01:11:18 -0700 (PDT)
+ Tue, 16 Jul 2019 01:11:19 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 10:10:58 +0200
-Message-Id: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
+Date: Tue, 16 Jul 2019 10:10:59 +0200
+Message-Id: <1563264677-39718-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
+References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PULL 00/19] Bugfix/cleanup patches for 2019-07-16
+X-Received-From: 2a00:1450:4864:20::336
+Subject: [Qemu-devel] [PULL 01/19] scsi-disk: pass sense correctly for
+ guest-recoverable errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,94 +75,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 46cd24e7ed38191b5ab5c40a836d6c5b6b604f8a:
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-07-12 17:34:13 +0100)
+When an error was passed down to the guest because it was recoverable,
+the sense length was not copied from the SG_IO data.  As a result,
+the guest saw the CHECK CONDITION status but not the sense data.
 
-are available in the git repository at:
+Signed-off-by: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/scsi/scsi-disk.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-
-  git://github.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 45d8bc3adedeceaf449d758aee1810bfbe6feff4:
-
-  vl: make sure char-pty message displayed by moving setbuf to the beginning (2019-07-16 09:27:16 +0200)
-
-----------------------------------------------------------------
-* VFIO bugfix for AMD SEV (Alex)
-* Kconfig improvements (Julio, Philippe)
-* MemoryRegion reference counting bugfix (King Wang)
-* Build system cleanups (Marc-André, myself)
-* rdmacm-mux off-by-one (Marc-André)
-* ZBC passthrough fixes (Shinichiro, myself)
-* WHPX build fix (Stefan)
-* char-pty fix (Wei Yang)
-
-----------------------------------------------------------------
-Alex Williamson (1):
-      target/i386: sev: Do not unpin ram device memory region
-
-Julio Montes (1):
-      hw/i386: turn off vmport if CONFIG_VMPORT is disabled
-
-King Wang (1):
-      memory: unref the memory region in simplify flatview
-
-Marc-André Lureau (2):
-      build-sys: remove slirp cflags from main-loop.o
-      rdmacm-mux: fix strcpy string warning
-
-Paolo Bonzini (8):
-      scsi: explicitly list guest-recoverable sense codes
-      scsi: add guest-recoverable ZBC errors
-      iscsi: fix busy/timeout/task set full
-      iscsi: base all handling of check condition on scsi_sense_to_errno
-      util: merge main-loop.c and iohandler.c
-      checkpatch: detect doubly-encoded UTF-8
-      Makefile: do not repeat $(CONFIG_SOFTMMU) in hw/Makefile.objs
-      create_config: remove $(CONFIG_SOFTMMU) hack
-
-Philippe Mathieu-Daudé (3):
-      hw/lm32/Kconfig: Milkymist One provides a USB 1.1 Controller
-      hw/usb/Kconfig: Add CONFIG_USB_EHCI_PCI
-      hw/usb/Kconfig: USB_XHCI_NEC requires USB_XHCI
-
-Shinichiro Kawasaki (1):
-      scsi-disk: pass sense correctly for guest-recoverable errors
-
-Stefan Weil (1):
-      Fix broken build with WHPX enabled
-
-Wei Yang (1):
-      vl: make sure char-pty message displayed by moving setbuf to the beginning
-
- block/iscsi.c             |  29 +++++-----
- configure                 |   2 +-
- contrib/rdmacm-mux/main.c |   2 +-
- hw/Makefile.objs          |  61 +++++++++++----------
- hw/i386/Kconfig           |   4 +-
- hw/i386/pc.c              |   5 ++
- hw/lm32/Kconfig           |   1 +
- hw/scsi/scsi-disk.c       |  15 ++++--
- hw/usb/Kconfig            |  11 ++--
- hw/usb/Makefile.objs      |   5 +-
- include/scsi/utils.h      |   1 +
- memory.c                  |   5 +-
- scripts/checkpatch.pl     |  16 ++++++
- scripts/create_config     |   2 +-
- scsi/utils.c              |  53 ++++++++++++++++--
- target/i386/sev.c         |  11 ++++
- target/i386/whpx-all.c    |   4 +-
- util/Makefile.objs        |   3 +-
- util/iohandler.c          | 135 ----------------------------------------------
- util/main-loop.c          | 110 +++++++++++++++++++++++++++++++++++++
- vl.c                      |   4 +-
- 21 files changed, 276 insertions(+), 203 deletions(-)
- delete mode 100644 util/iohandler.c
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index ed7295b..5d3fb3c 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -62,6 +62,7 @@ typedef struct SCSIDiskClass {
+     DMAIOFunc       *dma_readv;
+     DMAIOFunc       *dma_writev;
+     bool            (*need_fua_emulation)(SCSICommand *cmd);
++    void            (*update_sense)(SCSIRequest *r);
+ } SCSIDiskClass;
+ 
+ typedef struct SCSIDiskReq {
+@@ -438,6 +439,7 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+ {
+     bool is_read = (r->req.cmd.mode == SCSI_XFER_FROM_DEV);
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
++    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
+     BlockErrorAction action = blk_get_error_action(s->qdev.conf.blk,
+                                                    is_read, error);
+ 
+@@ -456,6 +458,7 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+             if (error == ECANCELED || error == EAGAIN || error == ENOTCONN ||
+                 error == 0)  {
+                 /* These errors are handled by guest. */
++                sdc->update_sense(&r->req);
+                 scsi_req_complete(&r->req, *r->status);
+                 return true;
+             }
+@@ -2894,6 +2897,12 @@ static int scsi_block_parse_cdb(SCSIDevice *d, SCSICommand *cmd,
+     }
+ }
+ 
++static void scsi_block_update_sense(SCSIRequest *req)
++{
++    SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
++    SCSIBlockReq *br = DO_UPCAST(SCSIBlockReq, req, r);
++    r->req.sense_len = MIN(br->io_header.sb_len_wr, sizeof(r->req.sense));
++}
+ #endif
+ 
+ static
+@@ -3059,6 +3068,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
+     sc->parse_cdb    = scsi_block_parse_cdb;
+     sdc->dma_readv   = scsi_block_dma_readv;
+     sdc->dma_writev  = scsi_block_dma_writev;
++    sdc->update_sense = scsi_block_update_sense;
+     sdc->need_fua_emulation = scsi_block_no_fua;
+     dc->desc = "SCSI block device passthrough";
+     dc->props = scsi_block_properties;
 -- 
 1.8.3.1
+
 
 
