@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260D66B1B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 00:17:40 +0200 (CEST)
-Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8256B1CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 00:28:27 +0200 (CEST)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnVlT-0001xG-8M
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 18:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41879)
+	id 1hnVvu-0005Ke-En
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 18:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45439)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hnVks-0008WI-3Z
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 18:17:03 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hnVvi-0004rv-0k
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 18:28:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hnVkq-0002kv-Pa
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 18:17:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58722)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hnVko-0002hz-0Z; Tue, 16 Jul 2019 18:16:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4AB19308218D;
- Tue, 16 Jul 2019 22:16:57 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64CF95D96F;
- Tue, 16 Jul 2019 22:16:42 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 17 Jul 2019 00:15:55 +0200
-Message-Id: <20190716221555.11145-6-philmd@redhat.com>
-In-Reply-To: <20190716221555.11145-1-philmd@redhat.com>
-References: <20190716221555.11145-1-philmd@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1hnVvg-0001bx-Sn
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 18:28:13 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35102)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hnVvg-0001bM-I6; Tue, 16 Jul 2019 18:28:12 -0400
+Received: by mail-lj1-x244.google.com with SMTP id x25so21595254ljh.2;
+ Tue, 16 Jul 2019 15:28:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=IT5RheTQYkKAMQ78utcSnhMBl+X8MmEEBJAnDYSZIq4=;
+ b=T/cj1B3FeJRoPfuhNHboJXeeKjsNc7AAMb89fipUDK38lfjVWmU/X9y23C447nVDPp
+ LMDtd6j0MqZSmvSbw1sZS8KZp86goorBnUZtOCJlDIEuMV83up3bBw/1jDf4adlEq1cC
+ d/XUHWe3JyoPFK7VzEDPaGN2HeT4zpq9KK+AF34MHR61w7kmi1Lf/o1D+c6r8AKkeTpz
+ 4a49qo/XbPfXpYyzpvzd4eghilur2KQ4N9+PxO/zEiZkEt6oWu8uwr+tVHULY5VlVFp4
+ D4Sn8oLvpoPqNBviaVViUiRGg8odr2AwmMBu9drVoz2bzJhhMVVHIaqbY4eSJvugZV+6
+ 8ZAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IT5RheTQYkKAMQ78utcSnhMBl+X8MmEEBJAnDYSZIq4=;
+ b=HiB+yK9UymgsGZ2/LBUbEcv5ngEsDtGJ7TJKGijf/CWOgFlprRhi7fvSJ71/UW7JU3
+ VWMaLn8rlTN8Ji3MkFywCMpl7BowyhhGKmB4cXrjQksvPEy4UdKbtME+9ppsrtXUimip
+ tZE1FKpladwz0oR3gbsHjEikmKYugDeeOJT42UQkMsyeoyrKQmft6oTBhiwYPYqy4QzE
+ L3Dqnv7UQDmLAjbAwpQAjmp0UDAKvZTDOo4Jd60hFwW2ARClGHViYNCKhy/N+CYi0Yff
+ SHTMrA2ywuvUouTx8XUtJbQHbqA7OrC595u7P3/aGDwFGyDRncxqdMnAzbm7KTy/yoBV
+ M9/A==
+X-Gm-Message-State: APjAAAXAJku7PdgBmVkC7eTsMXtzLjCbSpi7OQlGrX+Mu1+TD8oRRBfk
+ pEu640RlhvCTu3Ndxcv4sYlaHEPZOTJz3Hd3DU0=
+X-Google-Smtp-Source: APXvYqzhBd55guBLX0PZGLK+5kVL5vp5K2C4Y8W313kYXmSGjBih4sS0zDZ+Vv2TOXyu3vm70EtSyd2Yjo14GfYUWRQ=
+X-Received: by 2002:a2e:9158:: with SMTP id q24mr19142770ljg.119.1563316091003; 
+ Tue, 16 Jul 2019 15:28:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 16 Jul 2019 22:16:57 +0000 (UTC)
+References: <20190716221555.11145-1-philmd@redhat.com>
+ <20190716221555.11145-3-philmd@redhat.com>
+In-Reply-To: <20190716221555.11145-3-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 16 Jul 2019 15:24:52 -0700
+Message-ID: <CAKmqyKN-wbWvT_WDS5AEkuO4ZVMnVSmnL6swYr5h_-NECUrsBg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v6 5/5] hw/block/pflash_cfi01: Add the
- DeviceReset() handler
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v6 2/5] hw/block/pflash_cfi01:
+ Document use of non-CFI compliant command '0x00'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,86 +75,113 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, John Snow <jsnow@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Max Reitz <mreitz@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A "system reset" sets the device state machine in READ_ARRAY mode
-and, after some delay, set the SR.7 READY bit.
+On Tue, Jul 16, 2019 at 3:16 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> The command 0x00 is used by this model since its origin (commit
+> 05ee37ebf630). In this commit the command is described with a
+> amusing '/* ??? */' comment, probably meaning 'FIXME'.
+>
+>         switch (cmd) {
+>         case 0x00: /* ??? */
+>             ...
+>
+> This comment survived 12 years because the 0x00 value is indeed
+> not specified by the CFI open standard (as of this commit).
+>
+> The 'cmd' field is transfered during migration. To keep the
+> migration feature working with older QEMU version, we have to
+> take a lot of care with migrated field. We figured out it is
+> too late to remove a non-specified value from this model
+> (this would make migration review very complex). It is however
+> not too late to improve the documentation.
+>
+> Add few comments to remember this is a special value related
+> to QEMU, and we won't find information about it on the CFI
+> spec.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-We do not model timings, so we set the SR.7 bit directly.
-
-The TYPE_DEVICE interface provides a DeviceReset handler.
-This pflash device is a subclass of TYPE_SYS_BUS_DEVICE (which
-is a subclass of TYPE_DEVICE).
-SYS_BUS devices are automatically plugged into the 'main system
-bus', which is the root of the qbus tree.
-Devices in the qbus tree are guaranteed to have their reset()
-handler called after realize() and before we try to run the guest.
-
-To avoid incoherent states when the machine resets (see but report
-below), factor out the reset code into pflash_cfi01_system_reset,
-and register the method as a device reset callback.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
-Reported-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v6: dropped Laszlo's Regression-tested-by tag
----
- hw/block/pflash_cfi01.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 65afdbf3a7..ee0ed70242 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -768,8 +768,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
-ror **errp)
-         pfl->max_device_width =3D pfl->device_width;
-     }
-=20
--    pflash_mode_read_array(pfl);
--    pfl->status =3D 0x80; /* WSM ready */
-     /* Hardcoded CFI table */
-     /* Standard "QRY" string */
-     pfl->cfi_table[0x10] =3D 'Q';
-@@ -857,6 +855,18 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
+Alistair
+
+> ---
+> v6: new patch
+> ---
+>  hw/block/pflash_cfi01.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index a9529957f8..6838e8a1ab 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -277,9 +277,13 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr=
+ offset,
+>          /* This should never happen : reset state & treat it as a read *=
+/
+>          DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+>          pfl->wcycle =3D 0;
+> -        pfl->cmd =3D 0;
+> +        /*
+> +         * The command 0x00 is not assigned by the CFI open standard,
+> +         * but QEMU historically uses it for the READ_ARRAY command (0xf=
+f).
+> +         */
+> +        pfl->cmd =3D 0x00;
+>          /* fall through to read code */
+> -    case 0x00:
+> +    case 0x00: /* This model reset value for READ_ARRAY (not CFI complia=
+nt) */
+>          /* Flash area read */
+>          ret =3D pflash_data_read(pfl, offset, width, be);
+>          break;
+> @@ -448,7 +452,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>      case 0:
+>          /* read mode */
+>          switch (cmd) {
+> -        case 0x00: /* ??? */
+> +        case 0x00: /* This model reset value for READ_ARRAY (not CFI) */
+>              goto reset_flash;
+>          case 0x10: /* Single Byte Program */
+>          case 0x40: /* Single Byte Program */
+> @@ -645,7 +649,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>      trace_pflash_reset();
+>      memory_region_rom_device_set_romd(&pfl->mem, true);
+>      pfl->wcycle =3D 0;
+> -    pfl->cmd =3D 0;
+> +    pfl->cmd =3D 0x00; /* This model reset value for READ_ARRAY (not CFI=
+) */
+>  }
+>
+>
+> @@ -761,7 +765,11 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
 rror **errp)
-     pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
- }
-=20
-+static void pflash_cfi01_system_reset(DeviceState *dev)
-+{
-+    PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
-+
-+    pflash_mode_read_array(pfl);
-+    /*
-+     * The WSM ready timer occurs at most 150ns after system reset.
-+     * This model deliberately ignores this delay.
-+     */
-+    pfl->status =3D 0x80;
-+}
-+
- static Property pflash_cfi01_properties[] =3D {
-     DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
-     /* num-blocks is the number of blocks actually visible to the guest,
-@@ -901,6 +911,7 @@ static void pflash_cfi01_class_init(ObjectClass *klas=
-s, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-+    dc->reset =3D pflash_cfi01_system_reset;
-     dc->realize =3D pflash_cfi01_realize;
-     dc->props =3D pflash_cfi01_properties;
-     dc->vmsd =3D &vmstate_pflash;
---=20
-2.20.1
-
+>      }
+>
+>      pfl->wcycle =3D 0;
+> -    pfl->cmd =3D 0;
+> +    /*
+> +     * The command 0x00 is not assigned by the CFI open standard,
+> +     * but QEMU historically uses it for the READ_ARRAY command (0xff).
+> +     */
+> +    pfl->cmd =3D 0x00;
+>      pfl->status =3D 0x80; /* WSM ready */
+>      /* Hardcoded CFI table */
+>      /* Standard "QRY" string */
+> --
+> 2.20.1
+>
+>
 
