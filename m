@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62146ACCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:31:05 +0200 (CEST)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C496ACCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:31:41 +0200 (CEST)
+Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnQM5-0005H1-1H
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52872)
+	id 1hnQMe-0007SP-1Z
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hnQLa-0003uk-35
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:34 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hnQLd-00047V-2Y
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hnQLZ-0001z5-5t
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36366)
+ (envelope-from <mlevitsk@redhat.com>) id 1hnQLb-00020V-UC
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:30:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hnQLW-0001w4-Qa; Tue, 16 Jul 2019 12:30:30 -0400
+ id 1hnQLZ-0001yo-55; Tue, 16 Jul 2019 12:30:33 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 183F1307D847;
- Tue, 16 Jul 2019 16:30:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 74FE53082129;
+ Tue, 16 Jul 2019 16:30:32 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4791C61781;
- Tue, 16 Jul 2019 16:30:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8AF5C28D;
+ Tue, 16 Jul 2019 16:30:30 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 16 Jul 2019 19:30:18 +0300
-Message-Id: <20190716163020.13383-2-mlevitsk@redhat.com>
+Date: Tue, 16 Jul 2019 19:30:19 +0300
+Message-Id: <20190716163020.13383-3-mlevitsk@redhat.com>
 In-Reply-To: <20190716163020.13383-1-mlevitsk@redhat.com>
 References: <20190716163020.13383-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 16 Jul 2019 16:30:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 16 Jul 2019 16:30:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 1/3] block/nvme: fix doorbell stride
+Subject: [Qemu-devel] [PATCH v4 2/3] block/nvme: support larger that 512
+ bytes sector devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,27 +60,117 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the math involving non standard doorbell stride
+Currently the driver hardcodes the sector size to 512,
+and doesn't check the underlying device. Fix that.
+
+Also fail if underlying nvme device is formatted with metadata
+as this needs special support.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nvme.c | 45 ++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 40 insertions(+), 5 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 9896b7f7c6..82fdefccd6 100644
+index 82fdefccd6..35ce10dc79 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -217,7 +217,7 @@ static NVMeQueuePair *nvme_create_queue_pair(BlockDriverState *bs,
-         error_propagate(errp, local_err);
-         goto fail;
-     }
--    q->cq.doorbell = &s->regs->doorbells[idx * 2 * s->doorbell_scale + 1];
-+    q->cq.doorbell = &s->regs->doorbells[(idx * 2 + 1) * s->doorbell_scale];
+@@ -102,8 +102,11 @@ typedef struct {
+     size_t doorbell_scale;
+     bool write_cache_supported;
+     EventNotifier irq_notifier;
++
+     uint64_t nsze; /* Namespace size reported by identify command */
+     int nsid;      /* The namespace id to read/write data. */
++    size_t blkshift;
++
+     uint64_t max_transfer;
+     bool plugged;
  
-     return q;
- fail:
+@@ -418,8 +421,9 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     BDRVNVMeState *s = bs->opaque;
+     NvmeIdCtrl *idctrl;
+     NvmeIdNs *idns;
++    NvmeLBAF *lbaf;
+     uint8_t *resp;
+-    int r;
++    int r, hwsect_size;
+     uint64_t iova;
+     NvmeCmd cmd = {
+         .opcode = NVME_ADM_CMD_IDENTIFY,
+@@ -466,7 +470,22 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     }
+ 
+     s->nsze = le64_to_cpu(idns->nsze);
++    lbaf = &idns->lbaf[NVME_ID_NS_FLBAS_INDEX(idns->flbas)];
++
++    if (lbaf->ms) {
++        error_setg(errp, "Namespaces with metadata are not yet supported");
++        goto out;
++    }
++
++    hwsect_size = 1 << lbaf->ds;
++
++    if (hwsect_size < BDRV_SECTOR_SIZE || hwsect_size > s->page_size) {
++        error_setg(errp, "Namespace has unsupported block size (%d)",
++                hwsect_size);
++        goto out;
++    }
+ 
++    s->blkshift = lbaf->ds;
+ out:
+     qemu_vfio_dma_unmap(s->vfio, resp);
+     qemu_vfree(resp);
+@@ -785,8 +804,22 @@ fail:
+ static int64_t nvme_getlength(BlockDriverState *bs)
+ {
+     BDRVNVMeState *s = bs->opaque;
++    return s->nsze << s->blkshift;
++}
+ 
+-    return s->nsze << BDRV_SECTOR_BITS;
++static int64_t nvme_get_blocksize(BlockDriverState *bs)
++{
++    BDRVNVMeState *s = bs->opaque;
++    assert(s->blkshift >= BDRV_SECTOR_BITS);
++    return 1 << s->blkshift;
++}
++
++static int nvme_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz)
++{
++    int64_t blocksize = nvme_get_blocksize(bs);
++    bsz->phys = blocksize;
++    bsz->log = blocksize;
++    return 0;
+ }
+ 
+ /* Called with s->dma_map_lock */
+@@ -917,13 +950,14 @@ static coroutine_fn int nvme_co_prw_aligned(BlockDriverState *bs,
+     BDRVNVMeState *s = bs->opaque;
+     NVMeQueuePair *ioq = s->queues[1];
+     NVMeRequest *req;
+-    uint32_t cdw12 = (((bytes >> BDRV_SECTOR_BITS) - 1) & 0xFFFF) |
++
++    uint32_t cdw12 = (((bytes >> s->blkshift) - 1) & 0xFFFF) |
+                        (flags & BDRV_REQ_FUA ? 1 << 30 : 0);
+     NvmeCmd cmd = {
+         .opcode = is_write ? NVME_CMD_WRITE : NVME_CMD_READ,
+         .nsid = cpu_to_le32(s->nsid),
+-        .cdw10 = cpu_to_le32((offset >> BDRV_SECTOR_BITS) & 0xFFFFFFFF),
+-        .cdw11 = cpu_to_le32(((offset >> BDRV_SECTOR_BITS) >> 32) & 0xFFFFFFFF),
++        .cdw10 = cpu_to_le32((offset >> s->blkshift) & 0xFFFFFFFF),
++        .cdw11 = cpu_to_le32(((offset >> s->blkshift) >> 32) & 0xFFFFFFFF),
+         .cdw12 = cpu_to_le32(cdw12),
+     };
+     NVMeCoData data = {
+@@ -1154,6 +1188,7 @@ static BlockDriver bdrv_nvme = {
+     .bdrv_file_open           = nvme_file_open,
+     .bdrv_close               = nvme_close,
+     .bdrv_getlength           = nvme_getlength,
++    .bdrv_probe_blocksizes    = nvme_probe_blocksizes,
+ 
+     .bdrv_co_preadv           = nvme_co_preadv,
+     .bdrv_co_pwritev          = nvme_co_pwritev,
 -- 
 2.17.2
 
