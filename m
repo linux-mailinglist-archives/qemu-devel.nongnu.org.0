@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C606A33D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 09:48:34 +0200 (CEST)
-Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB086A336
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 09:47:50 +0200 (CEST)
+Received: from localhost ([::1]:45962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnICO-0007b8-RU
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 03:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52445)
+	id 1hnIBh-0005tT-8V
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 03:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52255)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hnIBv-0006QR-AG
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:48:04 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hnIBS-0005VE-1s
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hnIBu-0000sn-3v
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:48:03 -0400
-Received: from mga04.intel.com ([192.55.52.120]:44116)
+ (envelope-from <mreitz@redhat.com>) id 1hnIBR-0000S2-0q
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hnIBt-0000k5-Rr
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:48:02 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2019 00:47:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,497,1557212400"; d="scan'208";a="158066390"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
- by orsmga007.jf.intel.com with ESMTP; 16 Jul 2019 00:47:52 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- cohuck@redhat.com, mst@redhat.com, mtosatti@redhat.com
-Date: Tue, 16 Jul 2019 15:44:59 +0800
-Message-Id: <20190716074459.6026-3-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190716074459.6026-1-tao3.xu@intel.com>
-References: <20190716074459.6026-1-tao3.xu@intel.com>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hnIBQ-0000R4-OH
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 03:47:32 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 954D085376;
+ Tue, 16 Jul 2019 07:47:31 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C6CD5C554;
+ Tue, 16 Jul 2019 07:47:24 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
+References: <1562959033-223586-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <b270d0cc-2a28-8a60-ccac-45ac4de89f02@redhat.com>
+ <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7064b3ea-d0a9-dbb9-aecd-d0dbca168c40@redhat.com>
+Date: Tue, 16 Jul 2019 09:47:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.120
-Subject: [Qemu-devel] [PATCH v4 2/2] target/i386: Add support for save/load
- IA32_UMWAIT_CONTROL MSR
+In-Reply-To: <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Tue, 16 Jul 2019 07:47:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] chardev: race condition with
+ tcp_chr_disconnect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,142 +87,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
+Cc: marcandre.lureau@redhat.com, vsementsov@virtuozzo.com, rkagan@virtuozzo.com,
+ den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UMWAIT and TPAUSE instructions use 32bits IA32_UMWAIT_CONTROL at MSR
-index E1H to determines the maximum time in TSC-quanta that the processor
-can reside in either C0.1 or C0.2.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk
+Content-Type: multipart/mixed; boundary="J7p7uDhYQRtexc9zqboe9LwzfHje16Df8";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, rkagan@virtuozzo.com,
+ marcandre.lureau@redhat.com, den@openvz.org
+Message-ID: <7064b3ea-d0a9-dbb9-aecd-d0dbca168c40@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] chardev: race condition with
+ tcp_chr_disconnect
+References: <1562959033-223586-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <b270d0cc-2a28-8a60-ccac-45ac4de89f02@redhat.com>
+ <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
+In-Reply-To: <a55d4518-734e-9dd1-296f-473600eacbf7@redhat.com>
 
-This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
-guest.
+--J7p7uDhYQRtexc9zqboe9LwzfHje16Df8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+On 15.07.19 20:27, Paolo Bonzini wrote:
+> On 15/07/19 19:23, Max Reitz wrote:
+>> On 12.07.19 21:17, Andrey Shinkevich wrote:
+>>> When tcp_chr_disconnect() is called, other thread may be still writin=
+g
+>>> to the channel. This patch protects only read operations that initiat=
+e
+>>> the disconnection.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> ---
+>>
+>> Have you looked at
+>> https://lists.nongnu.org/archive/html/qemu-devel/2019-02/msg06174.html=
 
-Changes in v4:
-        Set IA32_UMWAIT_CONTROL 32bits
----
- target/i386/cpu.h     |  2 ++
- target/i386/kvm.c     | 13 +++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+>> already?  From a glance, it looks like that series supersedes this one=
+=2E
+>>
+>> (No, I don=E2=80=99t know why the other series is delayed.
+>=20
+> Because it broke some testcases in tests/vhost-user-test.  They are
+> disabled by default, because AFAIR they broke on some CI environment,
+> but they are supposed to work.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 19caf82729..e5d4c81926 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -451,6 +451,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
-+#define MSR_IA32_UMWAIT_CONTROL         0xe1
- 
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
-@@ -1385,6 +1386,7 @@ typedef struct CPUX86State {
-     uint16_t fpregs_format_vmstate;
- 
-     uint64_t xss;
-+    uint32_t umwait;
- 
-     TPRAccess tpr_access_type;
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index f8daa13f10..ba0ee01598 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -91,6 +91,7 @@ static bool has_msr_hv_stimer;
- static bool has_msr_hv_frequencies;
- static bool has_msr_hv_reenlightenment;
- static bool has_msr_xss;
-+static bool has_msr_umwait;
- static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
-@@ -1914,6 +1915,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-                 case MSR_IA32_XSS:
-                     has_msr_xss = true;
-                     break;
-+                case MSR_IA32_UMWAIT_CONTROL:
-+                    has_msr_umwait = true;
-+                    break;
-                 case HV_X64_MSR_CRASH_CTL:
-                     has_msr_hv_crash = true;
-                     break;
-@@ -2464,6 +2468,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
-     }
-@@ -2863,6 +2870,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
-     }
-@@ -3112,6 +3122,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_XSS:
-             env->xss = msrs[i].data;
-             break;
-+        case MSR_IA32_UMWAIT_CONTROL:
-+            env->umwait = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 704ba6de46..861a5c5a20 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -910,6 +910,25 @@ static const VMStateDescription vmstate_xss = {
-     }
- };
- 
-+static bool umwait_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->umwait != 0;
-+}
-+
-+static const VMStateDescription vmstate_umwait = {
-+    .name = "cpu/umwait",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = umwait_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(env.umwait, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
- {
-@@ -1376,6 +1395,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_reenlightenment,
-         &vmstate_avx512,
-         &vmstate_xss,
-+        &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
- #ifdef TARGET_X86_64
--- 
-2.20.1
+Ah, OK.  Thanks!
 
+Max
+
+
+--J7p7uDhYQRtexc9zqboe9LwzfHje16Df8--
+
+--MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0tgQgACgkQ9AfbAGHV
+z0CUcAf/WV+AbSQKmIWzvQbKABBEaOC0hRB+vRlWK2sWoHwYKLKZGpAq/Q5tGvcm
+20GHnzvktNFKntILrKy8awodTnOXkYjY3yLx5qXzJkfyFC0T6yNDn0+U+nR30suA
+TgwvAKjPDwJ6AdbKr4FnG+wQyx5Ylp2IslZnGjQv183OHh8Z8w7u0SuOg55fS3oY
+HyeDG4jz1+jlg7UI8PZuJ8Zj9u95ISnWkSPptKTkPjGBVtrkZ7NiV580TZZ3jnv9
+wQKJtXBjddwKOfS0HQjAbr0p80ZbFPM4n4pNh+/DBuA0AgcPS23WafEKCvFk0WjZ
++evIq4YevKUo0Xv7NhLLqEVODSY2WQ==
+=NldG
+-----END PGP SIGNATURE-----
+
+--MbGD1P2qzaC1HhgExJ0VG9tiXU1o2hkEk--
 
