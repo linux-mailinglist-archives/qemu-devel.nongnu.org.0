@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48896AC83
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:10:25 +0200 (CEST)
-Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AA76AC88
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Jul 2019 18:11:46 +0200 (CEST)
+Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnQ24-0005Jb-44
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:10:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46381)
+	id 1hnQ3O-0007W5-3P
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 12:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46703)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hnQ1p-0004pQ-Fw
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:10:10 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hnQ3A-00073L-7E
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:11:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hnQ1k-0005FM-K4
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:10:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44366)
+ (envelope-from <mreitz@redhat.com>) id 1hnQ39-00068P-1v
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 12:11:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53190)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hnQ1h-0005CQ-Vw; Tue, 16 Jul 2019 12:10:02 -0400
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hnQ36-00066E-CW; Tue, 16 Jul 2019 12:11:28 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8D7C437F46;
- Tue, 16 Jul 2019 16:09:58 +0000 (UTC)
-Received: from [10.3.116.46] (ovpn-116-46.phx2.redhat.com [10.3.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93EC919D7A;
- Tue, 16 Jul 2019 16:09:57 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190716122836.31187-1-thuth@redhat.com>
- <20190716122836.31187-3-thuth@redhat.com>
- <1832e90b-0fd2-19ac-f90e-572147e51f53@redhat.com>
- <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
- <03b260f7-b108-f035-2974-17b5ef74e4e6@redhat.com>
- <99ee850e-d9e0-1079-7fb2-64a1901009e6@redhat.com>
- <cc4c609e-d8e6-bdeb-8c15-c7617ee09fdc@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 8B70F307D844;
+ Tue, 16 Jul 2019 16:11:27 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9D9119C68;
+ Tue, 16 Jul 2019 16:11:22 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190716000117.25219-1-jsnow@redhat.com>
+ <20190716000117.25219-10-jsnow@redhat.com>
+ <1e0e9638-6d60-7343-e6db-a1e77b5da932@redhat.com>
+ <4045c084-572a-b274-3acb-f634162e8605@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <f2cde3ed-f776-5c1e-cc57-a9cff7190502@redhat.com>
-Date: Tue, 16 Jul 2019 11:09:56 -0500
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <79271f37-fb1e-96d5-ead1-bb7b441fceea@redhat.com>
+Date: Tue, 16 Jul 2019 18:11:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <cc4c609e-d8e6-bdeb-8c15-c7617ee09fdc@redhat.com>
+In-Reply-To: <4045c084-572a-b274-3acb-f634162e8605@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="i8nQrOvbkRUiUGgy9TyKKVCjTCl7xPDIn"
+ boundary="5vkVQg7ZxFsNNi6sYtcgTsjAFxZerSJZ7"
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 16 Jul 2019 16:09:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 16 Jul 2019 16:11:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/4] tests/qemu-iotests/group: Remove
- some more tests from the "auto" group
+Subject: Re: [Qemu-devel] [PATCH v2 09/11] block/backup: teach TOP to never
+ copy unallocated regions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,112 +87,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---i8nQrOvbkRUiUGgy9TyKKVCjTCl7xPDIn
-Content-Type: multipart/mixed; boundary="k8IPBfoNecjX6IpyL873TBIt7oNjZbCAO";
+--5vkVQg7ZxFsNNi6sYtcgTsjAFxZerSJZ7
+Content-Type: multipart/mixed; boundary="lDANxdiD0a5YyqSSe4eM0hhVm11AJVwEb";
  protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-block@nongnu.org
-Message-ID: <f2cde3ed-f776-5c1e-cc57-a9cff7190502@redhat.com>
-Subject: Re: [PATCH v2 2/4] tests/qemu-iotests/group: Remove some more tests
- from the "auto" group
-References: <20190716122836.31187-1-thuth@redhat.com>
- <20190716122836.31187-3-thuth@redhat.com>
- <1832e90b-0fd2-19ac-f90e-572147e51f53@redhat.com>
- <62ec1243-3bb9-c18d-0ff6-4c4ad193620c@redhat.com>
- <03b260f7-b108-f035-2974-17b5ef74e4e6@redhat.com>
- <99ee850e-d9e0-1079-7fb2-64a1901009e6@redhat.com>
- <cc4c609e-d8e6-bdeb-8c15-c7617ee09fdc@redhat.com>
-In-Reply-To: <cc4c609e-d8e6-bdeb-8c15-c7617ee09fdc@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ vsementsov@virtuozzo.com, Markus Armbruster <armbru@redhat.com>
+Message-ID: <79271f37-fb1e-96d5-ead1-bb7b441fceea@redhat.com>
+Subject: Re: [PATCH v2 09/11] block/backup: teach TOP to never copy
+ unallocated regions
+References: <20190716000117.25219-1-jsnow@redhat.com>
+ <20190716000117.25219-10-jsnow@redhat.com>
+ <1e0e9638-6d60-7343-e6db-a1e77b5da932@redhat.com>
+ <4045c084-572a-b274-3acb-f634162e8605@redhat.com>
+In-Reply-To: <4045c084-572a-b274-3acb-f634162e8605@redhat.com>
 
---k8IPBfoNecjX6IpyL873TBIt7oNjZbCAO
+--lDANxdiD0a5YyqSSe4eM0hhVm11AJVwEb
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 7/16/19 10:58 AM, Max Reitz wrote:
-
->>> Ah, OK.  So, uh, we effectively can=E2=80=99t run any Python tests on=
- macOS?
->>
->> Not when our CI is set up to use super-long file names:
->>
->> +  File
->> "/private/var/folders/sy/2x5qvs0n4lg18fry9jz4y21m0000gn/T/cirrus-ci-bu=
-ild/tests/qemu-iotests/../../python/qemu/machine.py",
->> line 294, in launch
+On 16.07.19 18:02, John Snow wrote:
 >=20
-> That isn=E2=80=99t really long.
-
-The MacOS limit is 104 (or 103 if you insist on using the trailing NUL
-yourself), compared to Linux at 108 (107).  And:
-
-$ printf
-"/private/var/folders/sy/2x5qvs0n4lg18fry9jz4y21m0000gn/T/cirrus-ci-build=
-/tests/qemu-iotests/scratch/name"
-| wc -c
-104
-
-shows that we are right on the verge of overflowing the space allotted,
-with any socket name worth using when the socket lives inside
-qemu-iotests/scratch.
-
 >=20
->> Is there any way to create our sockets somewhere under /tmp instead of=
+> On 7/16/19 7:43 AM, Max Reitz wrote:
+>> On 16.07.19 02:01, John Snow wrote:
+>>> Presently, If sync=3DTOP is selected, we mark the entire bitmap as di=
+rty.
+>>> In the write notifier handler, we dutifully copy out such regions.
+>>>
+>>> Fix this in three parts:
+>>>
+>>> 1. Mark the bitmap as being initialized before the first yield.
+>>> 2. After the first yield but before the backup loop, interrogate the
+>>> allocation status asynchronously and initialize the bitmap.
+>>> 3. Teach the write notifier to interrogate allocation status if it is=
 
->> inside tests/qemu-iotests, so that we have a shorter filename for
->> sockets no matter how deep in the file hierarchy the tests themselves =
-live?
+>>> invoked during bitmap initialization.
+>>>
+>>> As an effect of this patch, the job progress for TOP backups
+>>> now behaves like this:
+>>>
+>>> - total progress starts at bdrv_length.
+>>> - As allocation status is interrogated, total progress decreases.
+>>> - As blocks are copied, current progress increases.
+>>>
+>>> Taken together, the floor and ceiling move to meet each other.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>  block/backup.c     | 78 ++++++++++++++++++++++++++++++++++++++++----=
+--
+>>>  block/trace-events |  1 +
+>>>  2 files changed, 70 insertions(+), 9 deletions(-)
 >>
->> Also, at one point, we tossed around the idea of
->> s/qemu-iotests/iotests/, to shave off 5 characters that don't really a=
-dd
->> anything.
+>> Looks good to me but for a seemingly unrelated change:
+>>
+>>> diff --git a/block/backup.c b/block/backup.c
+>>> index b407d57954..e28fd23f6a 100644
+>>> --- a/block/backup.c
+>>> +++ b/block/backup.c
+>>
+>> [...]
+>>
+>>> @@ -507,10 +565,12 @@ static int coroutine_fn backup_run(Job *job, Er=
+ror **errp)
+>>>               * notify callback service CoW requests. */
+>>>              job_yield(job);
+>>>          }
+>>> +        ret =3D -ECANCELED;
+>>
+>> This one.  This doesn=E2=80=99t look like it belongs in this patch, an=
+d I=E2=80=99m not
+>> even sure it=E2=80=99s correct.  Being cancelled is the normal state f=
+or
+>> sync=3Dnone, so I suppose it is correct to just return 0 then.
+>>
+>> Max
+>>
+> Yeah, this is wiggly, so... yes, we can return 0 here. The job
+> infrastructure machinery is going to change it to an ECANCELED for us
+> anyway:
 >=20
-> I=E2=80=99d personally rather just skip the iotests if we detect such a=
- silly
-> OS, but maybe that=E2=80=99s just me.
+> job_completed
+>   job_update_rc
+>     if (!job->ret && job_is_cancelled(job)) {
+>         job->ret =3D -ECANCELED;
+>     }
+>=20
+> So in this case I just figured that I might as well make it explicit;
+> this is an error exit.
+>=20
+> (I guess just leaving it at 0 means "whatever the job machinery thinks"=
 
-It's a rather unfortunate limit, but it's not all that silly (the limit
-is based on the fact that struct sockaddr has to fit inside a nice
-power-of-2 structure somewhere in the kernel, and enough else is used
-that you really are left with just 104/108 bytes, or even 92 bytes if
-you use HP-UX 11).  POSIX does not place a minimum length on sun_path,
-but I know of no system that does not allow at least 92 bytes, if you
-are aiming for a portably-small name.
+> too, which is probably also fine. The job machinery does not distinguis=
+h
+> between "canceled and 0" or "canceled and < 0".)
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Hm, OK.  I think it should be an own patch, though.
+
+> Since we're here, though... I was wondering if it shouldn't be the case=
+
+> that "canceling" a sync=3Dnone job should actually result in success,
+> unless you force-cancel. OR, allow sync=3Dnone jobs to receive "COMPLET=
+E"
+> verbs to finish successfully, or "CANCEL" verbs to terminate with error=
+=2E
+
+That=E2=80=99s what I had thought.  (That canceling would be a success.)
+
+As for COMPLETE, you want it to emit a READY event right when it=E2=80=99=
+s
+started? :-)
+
+> (I don't like what mirror does and don't wish to mimic it. I continue t=
+o
+> dislike the idea that canceling a ready mirror job allows it to complet=
+e
+> with a successful error code.)
+
+Hm.  Actually, I don=E2=80=99t even care that much.  If the user canceled=
+ it,
+they probably won=E2=80=99t really look at the return code anyway...
+
+Max
+
+>>>      } else {
+>>>          ret =3D backup_loop(s);
+>>>      }
+>>> =20
+>>> + out:
+>>>      notifier_with_return_remove(&s->before_write);
+>>> =20
+>>>      /* wait until pending backup_do_cow() calls have completed */
+>>
 
 
---k8IPBfoNecjX6IpyL873TBIt7oNjZbCAO--
 
---i8nQrOvbkRUiUGgy9TyKKVCjTCl7xPDIn
+--lDANxdiD0a5YyqSSe4eM0hhVm11AJVwEb--
+
+--5vkVQg7ZxFsNNi6sYtcgTsjAFxZerSJZ7
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0t9tQACgkQp6FrSiUn
-Q2q8Gwf/XDJXsB6gO8PqbI1MmGMJyavRs4TePXlB6tShCg5FzgzjATLjIxeVlepp
-YcgiwRSmVyYvhey3Og1qxI5KLxcUBsMcvlErSshmdvR2i4KDsEh64gRbeXmgP81z
-27cUO0/k+RqPRwJrWfI2EoAVZGLSHiG7TrpXG/5ah2aZYUgvS+vDUxfeU8Mo7S/3
-l+H1A/bMkZx+lqyJ0lL0TS/lnivgf7Mo0jo5w7Sf8TvHq+ntIV9H6uJOSKatGpRo
-ftCpR8Dwj9OaX/lVRqFxFeobJrNhh0qvYSeZAuq8QtJF1YWuM09swBnxWvNzdMK+
-6FbnmF4KhSa7eTCXVQbMszJiE6TzuA==
-=4FxX
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0t9ygACgkQ9AfbAGHV
+z0Dk7gf6AiBkwDoyDjGIthYQ61LnxBpfxmeEjxn4Wkb/CqG4p4XG+1mmXK44gXo3
+kj726A2W1rFu0heSPPR8XTm15tGnUjK3cK6nqvHqetNX39gKpBA+iQwEwfMZSiu6
+hHVCXPvPLJqNu+r5Uv1jGKPcokxQIdo6Hc27ao+44LrwjJyfmRqLbFoZDkn/CIQZ
+MQSkn1lKOZ4zJLEGpXr5ujEmu0aXEXa4XBlTeZAXCFw1ko7LYouWmpLLpubuaYIY
+8mkO9yrwfoDrC3hiQ2jNREREvIg04gU1XpA7YBY/cgPScIdClDb/vubsP8ECZEL4
+re/4Q6GCGMB69Pn0OWr8rkZOVyuMRw==
+=zpWr
 -----END PGP SIGNATURE-----
 
---i8nQrOvbkRUiUGgy9TyKKVCjTCl7xPDIn--
+--5vkVQg7ZxFsNNi6sYtcgTsjAFxZerSJZ7--
 
