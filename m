@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7096E6BCE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:20:41 +0200 (CEST)
-Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75326BCF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:26:15 +0200 (CEST)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnjrL-0007SY-UT
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:20:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
+	id 1hnjwl-0003oB-0p
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hnjr5-0006xD-3N
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:20:24 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hnjwW-00035D-S7
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:26:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hnjr3-0006qI-36
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:20:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57758)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hnjqw-0006n8-O9; Wed, 17 Jul 2019 09:20:14 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D0910821D8;
- Wed, 17 Jul 2019 13:20:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25D9F60BEE;
- Wed, 17 Jul 2019 13:20:09 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190619152603.5937-1-mreitz@redhat.com>
- <20190716144016.GE7297@linux.fritz.box>
- <82ce3044-e228-2453-5da2-9f86e4627066@redhat.com>
- <20190716163746.GH7297@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ced90b10-b5ee-21dc-4c46-e47aaac27fc9@redhat.com>
-Date: Wed, 17 Jul 2019 15:20:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <no-reply@patchew.org>) id 1hnjwV-00019Y-8h
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:26:00 -0400
+Resent-Date: Wed, 17 Jul 2019 09:26:00 -0400
+Resent-Message-Id: <E1hnjwV-00019Y-8h@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21582)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hnjwV-00018e-00
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:25:59 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1563369942; cv=none; d=zoho.com; s=zohoarc; 
+ b=T9TpsXyXFkBkLfGgs1QCWCvDKlICW7j5vfW3svNZy/xrFds3IrAnzvgauRwKCk1VIbFxAAX94phPB7hPLGHlYbROcgp/++FjAn68xgNkrS1fCLR/v9FSNE5lU3rvpOcr1TdEbyud1hKMYBclRNEPDIJTa9ZG9WfnqGN9JsJOOyc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1563369942;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=iGxbY8QPbhv1VaCGZ6FBcId8NQPm4r3rCZd7wF65bzU=; 
+ b=g65JKoc8LZUi1kzQFJLs6a+CiDMR320CrlKkZknwcJLq70FBCZyElQ/8R5iX7BbpeAdcKhbaFEHAW03rjqxI/7aVGtSnL7D2zjIl6p2kHjsDUUEg1CDEeyPl+5KMJbWcvGBw2UCOj8EX8O/vndF6uaOLv2fjg9K6nGA+Adn+QqM=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1563369941246589.8099122795194;
+ Wed, 17 Jul 2019 06:25:41 -0700 (PDT)
+Message-ID: <156336993969.10055.11383316596769508622@c4a48874b076>
+In-Reply-To: <20190716145421.17645-1-yury-kotov@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <20190716163746.GH7297@linux.fritz.box>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cZKTTdNFa8tdXoW3MFyxQdtwSYN87W39H"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 17 Jul 2019 13:20:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: yury-kotov@yandex-team.ru
+Date: Wed, 17 Jul 2019 06:25:41 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 0/9] block: Delay poll when ending
- drained sections
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v2 0/3] High downtime with 95+ throttle pct
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,193 +61,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, quintela@redhat.com, sw@weilnetz.de,
+ dgilbert@redhat.com, qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cZKTTdNFa8tdXoW3MFyxQdtwSYN87W39H
-Content-Type: multipart/mixed; boundary="UZYrh9tEO2Es68Db94Zy1GFmrlLqrQSUc";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <ced90b10-b5ee-21dc-4c46-e47aaac27fc9@redhat.com>
-Subject: Re: [PATCH v2 0/9] block: Delay poll when ending drained sections
-References: <20190619152603.5937-1-mreitz@redhat.com>
- <20190716144016.GE7297@linux.fritz.box>
- <82ce3044-e228-2453-5da2-9f86e4627066@redhat.com>
- <20190716163746.GH7297@linux.fritz.box>
-In-Reply-To: <20190716163746.GH7297@linux.fritz.box>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcxNjE0NTQyMS4xNzY0
+NS0xLXl1cnkta290b3ZAeWFuZGV4LXRlYW0ucnUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
+IHRoZSBhc2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFu
+ZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBj
+YW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRp
+bWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRt
+bXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCmNsYW5nIC1pcXVvdGUg
+L3RtcC9xZW11LXRlc3QvYnVpbGQvdGVzdHMvbGlicW9zIC1pcXVvdGUgdGVzdHMvbGlicW9zIC1p
+cXVvdGUgL3RtcC9xZW11LXRlc3Qvc3JjL3RjZyAtaXF1b3RlIC90bXAvcWVtdS10ZXN0L3NyYy90
+Y2cvaTM4NiAtSS90bXAvcWVtdS10ZXN0L3NyYy9saW51eC1oZWFkZXJzIC1JL3RtcC9xZW11LXRl
+c3QvYnVpbGQvbGludXgtaGVhZGVycyAtaXF1b3RlIC4gLWlxdW90ZSAvdG1wL3FlbXUtdGVzdC9z
+cmMgLWlxdW90ZSAvdG1wL3FlbXUtdGVzdC9zcmMvYWNjZWwvdGNnIC1pcXVvdGUgL3RtcC9xZW11
+LXRlc3Qvc3JjL2luY2x1ZGUgLUkvdXNyL2luY2x1ZGUvcGl4bWFuLTEgIC1JL3RtcC9xZW11LXRl
+c3Qvc3JjL2R0Yy9saWJmZHQgLVdlcnJvciAgLXB0aHJlYWQgLUkvdXNyL2luY2x1ZGUvZ2xpYi0y
+LjAgLUkvdXNyL2xpYjY0L2dsaWItMi4wL2luY2x1ZGUgIC1mUElFIC1EUElFIC1tNjQgLW1jeDE2
+IC1EX0dOVV9TT1VSQ0UgLURfRklMRV9PRkZTRVRfQklUUz02NCAtRF9MQVJHRUZJTEVfU09VUkNF
+IC1Xc3RyaWN0LXByb3RvdHlwZXMgLVdyZWR1bmRhbnQtZGVjbHMgLVdhbGwgLVd1bmRlZiAtV3dy
+aXRlLXN0cmluZ3MgLVdtaXNzaW5nLXByb3RvdHlwZXMgLWZuby1zdHJpY3QtYWxpYXNpbmcgLWZu
+by1jb21tb24gLWZ3cmFwdiAtc3RkPWdudTk5ICAtV25vLXN0cmluZy1wbHVzLWludCAtV25vLXR5
+cGVkZWYtcmVkZWZpbml0aW9uIC1Xbm8taW5pdGlhbGl6ZXItb3ZlcnJpZGVzIC1XZXhwYW5zaW9u
+LXRvLWRlZmluZWQgLVdlbmRpZi1sYWJlbHMgLVduby1zaGlmdC1uZWdhdGl2ZS12YWx1ZSAtV25v
+LW1pc3NpbmctaW5jbHVkZS1kaXJzIC1XZW1wdHktYm9keSAtV25lc3RlZC1leHRlcm5zIC1XZm9y
+bWF0LXNlY3VyaXR5IC1XZm9ybWF0LXkyayAtV2luaXQtc2VsZiAtV2lnbm9yZWQtcXVhbGlmaWVy
+cyAtV29sZC1zdHlsZS1kZWZpbml0aW9uIC1XdHlwZS1saW1pdHMgLWZzdGFjay1wcm90ZWN0b3It
+c3Ryb25nICAtSS91c3IvaW5jbHVkZS9wMTEta2l0LTEgICAgIC1JL3Vzci9pbmNsdWRlL2xpYnBu
+ZzE2ICAtSS91c3IvaW5jbHVkZS9zcGljZS0xIC1JL3Vzci9pbmNsdWRlL3NwaWNlLXNlcnZlciAt
+SS91c3IvaW5jbHVkZS9jYWNhcmQgLUkvdXNyL2luY2x1ZGUvZ2xpYi0yLjAgLUkvdXNyL2xpYjY0
+L2dsaWItMi4wL2luY2x1ZGUgLUkvdXNyL2luY2x1ZGUvbnNzMyAtSS91c3IvaW5jbHVkZS9uc3By
+NCAtcHRocmVhZCAtSS91c3IvaW5jbHVkZS9saWJtb3VudCAtSS91c3IvaW5jbHVkZS9ibGtpZCAt
+SS91c3IvaW5jbHVkZS91dWlkIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xICAgLUkvdG1wL3FlbXUt
+dGVzdC9zcmMvdGVzdHMgLU1NRCAtTVAgLU1UIHRlc3RzL2xpYnFvcy92aXJ0aW8tc2VyaWFsLm8g
+LU1GIHRlc3RzL2xpYnFvcy92aXJ0aW8tc2VyaWFsLmQgLWZzYW5pdGl6ZT11bmRlZmluZWQgLWZz
+YW5pdGl6ZT1hZGRyZXNzIC1nICAgLWMgLW8gdGVzdHMvbGlicW9zL3ZpcnRpby1zZXJpYWwubyAv
+dG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvbGlicW9zL3ZpcnRpby1zZXJpYWwuYwpjbGFuZyAtaXF1
+b3RlIC90bXAvcWVtdS10ZXN0L2J1aWxkL3Rlc3RzL2xpYnFvcyAtaXF1b3RlIHRlc3RzL2xpYnFv
+cyAtaXF1b3RlIC90bXAvcWVtdS10ZXN0L3NyYy90Y2cgLWlxdW90ZSAvdG1wL3FlbXUtdGVzdC9z
+cmMvdGNnL2kzODYgLUkvdG1wL3FlbXUtdGVzdC9zcmMvbGludXgtaGVhZGVycyAtSS90bXAvcWVt
+dS10ZXN0L2J1aWxkL2xpbnV4LWhlYWRlcnMgLWlxdW90ZSAuIC1pcXVvdGUgL3RtcC9xZW11LXRl
+c3Qvc3JjIC1pcXVvdGUgL3RtcC9xZW11LXRlc3Qvc3JjL2FjY2VsL3RjZyAtaXF1b3RlIC90bXAv
+cWVtdS10ZXN0L3NyYy9pbmNsdWRlIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xICAtSS90bXAvcWVt
+dS10ZXN0L3NyYy9kdGMvbGliZmR0IC1XZXJyb3IgIC1wdGhyZWFkIC1JL3Vzci9pbmNsdWRlL2ds
+aWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlICAtZlBJRSAtRFBJRSAtbTY0IC1t
+Y3gxNiAtRF9HTlVfU09VUkNFIC1EX0ZJTEVfT0ZGU0VUX0JJVFM9NjQgLURfTEFSR0VGSUxFX1NP
+VVJDRSAtV3N0cmljdC1wcm90b3R5cGVzIC1XcmVkdW5kYW50LWRlY2xzIC1XYWxsIC1XdW5kZWYg
+LVd3cml0ZS1zdHJpbmdzIC1XbWlzc2luZy1wcm90b3R5cGVzIC1mbm8tc3RyaWN0LWFsaWFzaW5n
+IC1mbm8tY29tbW9uIC1md3JhcHYgLXN0ZD1nbnU5OSAgLVduby1zdHJpbmctcGx1cy1pbnQgLVdu
+by10eXBlZGVmLXJlZGVmaW5pdGlvbiAtV25vLWluaXRpYWxpemVyLW92ZXJyaWRlcyAtV2V4cGFu
+c2lvbi10by1kZWZpbmVkIC1XZW5kaWYtbGFiZWxzIC1Xbm8tc2hpZnQtbmVnYXRpdmUtdmFsdWUg
+LVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV2VtcHR5LWJvZHkgLVduZXN0ZWQtZXh0ZXJucyAt
+V2Zvcm1hdC1zZWN1cml0eSAtV2Zvcm1hdC15MmsgLVdpbml0LXNlbGYgLVdpZ25vcmVkLXF1YWxp
+ZmllcnMgLVdvbGQtc3R5bGUtZGVmaW5pdGlvbiAtV3R5cGUtbGltaXRzIC1mc3RhY2stcHJvdGVj
+dG9yLXN0cm9uZyAgLUkvdXNyL2luY2x1ZGUvcDExLWtpdC0xICAgICAtSS91c3IvaW5jbHVkZS9s
+aWJwbmcxNiAgLUkvdXNyL2luY2x1ZGUvc3BpY2UtMSAtSS91c3IvaW5jbHVkZS9zcGljZS1zZXJ2
+ZXIgLUkvdXNyL2luY2x1ZGUvY2FjYXJkIC1JL3Vzci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vzci9s
+aWI2NC9nbGliLTIuMC9pbmNsdWRlIC1JL3Vzci9pbmNsdWRlL25zczMgLUkvdXNyL2luY2x1ZGUv
+bnNwcjQgLXB0aHJlYWQgLUkvdXNyL2luY2x1ZGUvbGlibW91bnQgLUkvdXNyL2luY2x1ZGUvYmxr
+aWQgLUkvdXNyL2luY2x1ZGUvdXVpZCAtSS91c3IvaW5jbHVkZS9waXhtYW4tMSAgIC1JL3RtcC9x
+ZW11LXRlc3Qvc3JjL3Rlc3RzIC1NTUQgLU1QIC1NVCB0ZXN0cy9saWJxb3MvYWFyY2g2NC14bG54
+LXpjdTEwMi1tYWNoaW5lLm8gLU1GIHRlc3RzL2xpYnFvcy9hYXJjaDY0LXhsbngtemN1MTAyLW1h
+Y2hpbmUuZCAtZnNhbml0aXplPXVuZGVmaW5lZCAtZnNhbml0aXplPWFkZHJlc3MgLWcgICAtYyAt
+byB0ZXN0cy9saWJxb3MvYWFyY2g2NC14bG54LXpjdTEwMi1tYWNoaW5lLm8gL3RtcC9xZW11LXRl
+c3Qvc3JjL3Rlc3RzL2xpYnFvcy9hYXJjaDY0LXhsbngtemN1MTAyLW1hY2hpbmUuYwpjbGFuZyAt
+aXF1b3RlIC90bXAvcWVtdS10ZXN0L2J1aWxkLy4gLWlxdW90ZSAuIC1pcXVvdGUgL3RtcC9xZW11
+LXRlc3Qvc3JjL3RjZyAtaXF1b3RlIC90bXAvcWVtdS10ZXN0L3NyYy90Y2cvaTM4NiAtSS90bXAv
+cWVtdS10ZXN0L3NyYy9saW51eC1oZWFkZXJzIC1JL3RtcC9xZW11LXRlc3QvYnVpbGQvbGludXgt
+aGVhZGVycyAtaXF1b3RlIC4gLWlxdW90ZSAvdG1wL3FlbXUtdGVzdC9zcmMgLWlxdW90ZSAvdG1w
+L3FlbXUtdGVzdC9zcmMvYWNjZWwvdGNnIC1pcXVvdGUgL3RtcC9xZW11LXRlc3Qvc3JjL2luY2x1
+ZGUgLUkvdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvZnAgLUkvdG1wL3FlbXUtdGVzdC9zcmMvdGVz
+dHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMvc291cmNlL2luY2x1ZGUgLUkvdG1wL3FlbXUtdGVz
+dC9zcmMvdGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMvc291cmNlLzgwODYtU1NFIC1JL3Rt
+cC9xZW11LXRlc3Qvc3JjL3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zL3NvdXJjZSAtSS91
+c3IvaW5jbHVkZS9waXhtYW4tMSAtSS90bXAvcWVtdS10ZXN0L3NyYy9kdGMvbGliZmR0IC1XZXJy
+b3IgLXB0aHJlYWQgLUkvdXNyL2luY2x1ZGUvZ2xpYi0yLjAgLUkvdXNyL2xpYjY0L2dsaWItMi4w
+L2luY2x1ZGUgLWZQSUUgLURQSUUgLW02NCAtbWN4MTYgLURfR05VX1NPVVJDRSAtRF9GSUxFX09G
+RlNFVF9CSVRTPTY0IC1EX0xBUkdFRklMRV9TT1VSQ0UgLVdzdHJpY3QtcHJvdG90eXBlcyAtV3Jl
+ZHVuZGFudC1kZWNscyAtV2FsbCAtV3VuZGVmIC1Xd3JpdGUtc3RyaW5ncyAtV21pc3NpbmctcHJv
+dG90eXBlcyAtZm5vLXN0cmljdC1hbGlhc2luZyAtZm5vLWNvbW1vbiAtZndyYXB2IC1zdGQ9Z251
+OTkgLVduby1zdHJpbmctcGx1cy1pbnQgLVduby10eXBlZGVmLXJlZGVmaW5pdGlvbiAtV25vLWlu
+aXRpYWxpemVyLW92ZXJyaWRlcyAtV2V4cGFuc2lvbi10by1kZWZpbmVkIC1XZW5kaWYtbGFiZWxz
+IC1Xbm8tc2hpZnQtbmVnYXRpdmUtdmFsdWUgLVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV2Vt
+cHR5LWJvZHkgLVduZXN0ZWQtZXh0ZXJucyAtV2Zvcm1hdC1zZWN1cml0eSAtV2Zvcm1hdC15Mmsg
+LVdpbml0LXNlbGYgLVdpZ25vcmVkLXF1YWxpZmllcnMgLVdvbGQtc3R5bGUtZGVmaW5pdGlvbiAt
+V3R5cGUtbGltaXRzIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAtSS91c3IvaW5jbHVkZS9wMTEt
+a2l0LTEgLUkvdXNyL2luY2x1ZGUvbGlicG5nMTYgLUkvdXNyL2luY2x1ZGUvc3BpY2UtMSAtSS91
+c3IvaW5jbHVkZS9zcGljZS1zZXJ2ZXIgLUkvdXNyL2luY2x1ZGUvY2FjYXJkIC1JL3Vzci9pbmNs
+dWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlIC1JL3Vzci9pbmNsdWRl
+L25zczMgLUkvdXNyL2luY2x1ZGUvbnNwcjQgLXB0aHJlYWQgLUkvdXNyL2luY2x1ZGUvbGlibW91
+bnQgLUkvdXNyL2luY2x1ZGUvYmxraWQgLUkvdXNyL2luY2x1ZGUvdXVpZCAtSS91c3IvaW5jbHVk
+ZS9waXhtYW4tMSAtREhXX1BPSVNPTl9IIC1EVEFSR0VUX0FSTSAgLURTT0ZURkxPQVRfUk9VTkRf
+T0REIC1ESU5MSU5FX0xFVkVMPTUgLURTT0ZURkxPQVRfRkFTVF9ESVYzMlRPMTYgLURTT0ZURkxP
+QVRfRkFTVF9ESVY2NFRPMzIgLURTT0ZURkxPQVRfRkFTVF9JTlQ2NCAgLURGTE9BVDE2IC1ERkxP
+QVQ2NCAtREVYVEZMT0FUODAgLURGTE9BVDEyOCAtREZMT0FUX1JPVU5EX09ERCAtRExPTkdfRE9V
+QkxFX0lTX0VYVEZMT0FUODAgIC1Xbm8tc3RyaWN0LXByb3RvdHlwZXMgLVduby11bmtub3duLXBy
+YWdtYXMgLVduby11bmluaXRpYWxpemVkIC1Xbm8tbWlzc2luZy1wcm90b3R5cGVzIC1Xbm8tcmV0
+dXJuLXR5cGUgLVduby11bnVzZWQtZnVuY3Rpb24gLVduby1lcnJvciAtTU1EIC1NUCAtTVQgdGVz
+dF9hX2V4dEY4MF96X2YxMjgubyAtTUYgLi90ZXN0X2FfZXh0RjgwX3pfZjEyOC5kIC1mc2FuaXRp
+emU9dW5kZWZpbmVkIC1mc2FuaXRpemU9YWRkcmVzcyAtZyAgIC1jIC1vIHRlc3RfYV9leHRGODBf
+el9mMTI4Lm8gL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0z
+L3NvdXJjZS90ZXN0X2FfZXh0RjgwX3pfZjEyOC5jCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9t
+aWdyYXRpb24tdGVzdC5jOjExNjM6NTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1
+bmN0aW9uICdtaWdyYXRlX3NldF9wYXJhbWV0ZXInIGlzIGludmFsaWQgaW4gQzk5IFstV2Vycm9y
+LC1XaW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgICBtaWdyYXRlX3NldF9wYXJhbWV0
+ZXIoZnJvbSwgImNwdS10aHJvdHRsZS1pbml0aWFsIiwgZXhwZWN0ZWRfcGN0c1sxXSk7CiAgICBe
+Ci90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9taWdyYXRpb24tdGVzdC5jOjExNjM6NTogbm90ZTog
+ZGlkIHlvdSBtZWFuICdtaWdyYXRlX3NldF9wYXJhbWV0ZXJfaW50Jz8KL3RtcC9xZW11LXRlc3Qv
+c3JjL3Rlc3RzL21pZ3JhdGlvbi10ZXN0LmM6NDM1OjEzOiBub3RlOiAnbWlncmF0ZV9zZXRfcGFy
+YW1ldGVyX2ludCcgZGVjbGFyZWQgaGVyZQpzdGF0aWMgdm9pZCBtaWdyYXRlX3NldF9wYXJhbWV0
+ZXJfaW50KFFUZXN0U3RhdGUgKndobywgY29uc3QgY2hhciAqcGFyYW1ldGVyLAogICAgICAgICAg
+ICBeCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9taWdyYXRpb24tdGVzdC5jOjExNjM6NTogZXJy
+b3I6IHRoaXMgZnVuY3Rpb24gZGVjbGFyYXRpb24gaXMgbm90IGEgcHJvdG90eXBlIFstV2Vycm9y
+LC1Xc3RyaWN0LXByb3RvdHlwZXNdCiAgICBtaWdyYXRlX3NldF9wYXJhbWV0ZXIoZnJvbSwgImNw
+dS10aHJvdHRsZS1pbml0aWFsIiwgZXhwZWN0ZWRfcGN0c1sxXSk7CiAgICBeCjIgZXJyb3JzIGdl
+bmVyYXRlZC4KCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMTkwNzE2MTQ1NDIxLjE3NjQ1LTEteXVyeS1rb3RvdkB5YW5kZXgtdGVhbS5ydS90
+ZXN0aW5nLmFzYW4vP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
+bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
+ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
---UZYrh9tEO2Es68Db94Zy1GFmrlLqrQSUc
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 16.07.19 18:37, Kevin Wolf wrote:
-> Am 16.07.2019 um 18:24 hat Max Reitz geschrieben:
->> On 16.07.19 16:40, Kevin Wolf wrote:
->>> Am 19.06.2019 um 17:25 hat Max Reitz geschrieben:
->>>> Hi,
->>>>
->>>> This is v2 to =E2=80=9Cblock: Keep track of parent quiescing=E2=80=9D=
-=2E
->>>>
->>>> Please read this cover letter, because I=E2=80=99m very unsure about=
- the design
->>>> in this series and I=E2=80=99d appreciate some comments.
->>>>
->>>> As Kevin wrote in his reply to that series, the actual problem is th=
-at
->>>> bdrv_drain_invoke() polls on every node whenever ending a drain.  Th=
-is
->>>> may cause graph changes, which is actually forbidden.
->>>>
->>>> To solve that problem, this series makes the drain code construct a =
-list
->>>> of undrain operations that have been initiated, and then polls all o=
-f
->>>> them on the root level once graph changes are acceptable.
->>>>
->>>> Note that I don=E2=80=99t like this list concept very much, so I=E2=80=
-=99m open to
->>>> alternatives.
->>>
->>> So drain_end is different from drain_begin in that it wants to wait o=
-nly
->>> for all bdrv_drain_invoke() calls to complete, but not for other
->>> requests that are in flight. Makes sense.
->>>
->>> Though instead of managing a whole list, wouldn't a counter suffice?
->>>
->>>> Furthermore, all BdrvChildRoles with BDS parents have a broken
->>>> .drained_end() implementation.  The documentation clearly states tha=
-t
->>>> this function is not allowed to poll, but it does.  So this series
->>>> changes it to a variant (using the new code) that does not poll.
->>>>
->>>> There is a catch, which may actually be a problem, I don=E2=80=99t k=
-now: The new
->>>> variant of that .drained_end() does not poll at all, never.  As
->>>> described above, now every bdrv_drain_invoke() returns an object tha=
-t
->>>> describes when it will be done and which can thus be polled for.  Th=
-ese
->>>> objects are just discarded when using BdrvChildRole.drained_end().  =
-That
->>>> does not feel quite right.  It would probably be more correct to let=
-
->>>> BdrvChildRole.drained_end() return these objects so the top level
->>>> bdrv_drained_end() can poll for their completion.
->>>>
->>>> I decided not to do this, for two reasons:
->>>> (1) Doing so would spill the =E2=80=9Clist of objects to poll for=E2=
-=80=9D design to
->>>>     places outside of block/io.c.  I don=E2=80=99t like the design v=
-ery much as
->>>>     it is, but I can live with it as long as it=E2=80=99s constraine=
-d to the
->>>>     core drain code in block/io.c.
->>>>     This is made worse by the fact that currently, those objects are=
- of
->>>>     type BdrvCoDrainData.  But it shouldn=E2=80=99t be a problem to =
-add a new
->>>>     type that is externally visible (we only need the AioContext and=
-
->>>>     whether bdrv_drain_invoke_entry() is done).
->>>>
->>>> (2) It seems to work as it is.
->>>>
->>>> The alternative would be to add the same GSList ** parameter to
->>>> BdrvChildRole.drained_end() that I added in the core drain code in p=
-atch
->>>> 2, and then let the .drained_end() implementation fill that with obj=
-ects
->>>> to poll for.  (Which would be accomplished by adding a frontend to
->>>> bdrv_do_drained_end() that lets bdrv_child_cb_drained_poll() pass th=
-e
->>>> parameter through.)
->>>>
->>>> Opinions?
->>>
->>> I think I would add an int* to BdrvChildRole.drained_end() so that we=
-
->>> can just increase the counter whereever we need to.
->>
->> So you mean just polling the @bs for which a caller gave poll=3Dtrue u=
-ntil
->> the counter reaches 0?  I=E2=80=99ll try, sounds good (if I can get it=
- to work).
->=20
-> Yes, that's what I have in mind.
->=20
-> We expect graph changes to happen during the polling, but I think the
-> caller is responsible for making sure that the top-level @bs stays
-> around, so we don't need to be extra careful here.
->=20
-> Also, bdrv_drain_invoke() is always called in the same AioContext as th=
-e
-> top-level drain operation, so the whole aio_context_acquire/release
-> stuff from this series should become unnecessary, and we don't need
-> atomics to access the counter either.
->=20
-> So I think this should really simplify the series a lot.
-
-Hm.  Unfortunately, not all nodes in a chain always have the same
-AioContext.
-
-I think they generally should, but there is at least one exception:
-bdrv_set_aio_context*() itself.  bdrv_set_aio_context_ignore() drains
-the node, then puts other members of the subgraph into the same
-AioContext, then itself.
-
-Now say this reaches the bottom node.  That node will not recurse
-anywhere else, but only change its own AioContext, in a drained section.
- So when that section ends, the bottom node will be in a different
-AioContext than the other nodes.
-
-So, er, well.  I have three ideas:
-
-(1) Skip the polling on the top level drained_end if the node still has
-another quiesce_counter on it.  Sounds a bit too error-prone to me.
-
-(2) Drop the drained sections in bdrv_set_aio_context_ignore().  Instead
-require the root caller to have the whole subtree drained.  That way,
-drained_end will never be invoked while the subtree has different
-AioContexts.
-
-(3) I need a list after all (one that only contains AioContexts, but stil=
-l).
-
-
-I like (3) as little as I did in this series.  (1) seems wrong.  I=E2=80=99=
-ll
-try (2) first.
-
-Max
-
-
---UZYrh9tEO2Es68Db94Zy1GFmrlLqrQSUc--
-
---cZKTTdNFa8tdXoW3MFyxQdtwSYN87W39H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0vIIcACgkQ9AfbAGHV
-z0Dhvwf/dluGUc+EYuBscELMkbSf/45cTKJ2eEhyqwIrcwrVKGNQp1CzSWmVJgyX
-H32AUXk6kYMgGeh06NNkZOoAqSLR7vC3JGAxAoR9lX76J5Q4sqqjc0vknK6MsSpQ
-4+AWAfWt7W1PpqKM+uvZsQRkrZGTHkfdq7XlLa+HO9ZCnxlhP7O6xRcmH87TpSKy
-GXoIkoHNf+zRxReAna68FD9tYJ12C1R0DFCUt8Jjk/i1/8bT6pK2pqHLpaET7D1n
-moTtpqmsR/XbnhOvKDX/u7MY+S6z29oKbvOWvMK2N1TnijKcDMswJc3tuMWYLAJx
-Fl3OtJZI7Z2li8rColRZdtv4QXmJcg==
-=lqtU
------END PGP SIGNATURE-----
-
---cZKTTdNFa8tdXoW3MFyxQdtwSYN87W39H--
 
