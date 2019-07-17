@@ -2,127 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97FC6C271
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 23:13:11 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE4A6C28F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 23:28:18 +0200 (CEST)
+Received: from localhost ([::1]:60589 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnrEc-0002yG-CH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 17:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46141)
+	id 1hnrTF-0002Wi-D2
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 17:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hnrEP-0002XY-Ig
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:12:58 -0400
+ (envelope-from <prvs=09475cf9f=dmitry.fomichev@wdc.com>)
+ id 1hnrSB-0006ox-3S
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:27:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hnrEO-0006gw-7R
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:12:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:4497)
+ (envelope-from <prvs=09475cf9f=dmitry.fomichev@wdc.com>)
+ id 1hnrS9-0006zH-MA
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:27:11 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:14125)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hnrEL-0006fK-KH; Wed, 17 Jul 2019 17:12:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E9C1F30C1324;
- Wed, 17 Jul 2019 21:12:51 +0000 (UTC)
-Received: from [10.18.17.203] (dhcp-17-203.bos.redhat.com [10.18.17.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF6465C257;
- Wed, 17 Jul 2019 21:12:48 +0000 (UTC)
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190717173937.18747-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d180aebd-a614-9927-9ae6-c99973b7e669@redhat.com>
-Date: Wed, 17 Jul 2019 17:12:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (Exim 4.71) (envelope-from <prvs=09475cf9f=dmitry.fomichev@wdc.com>)
+ id 1hnrS9-0006xL-D4; Wed, 17 Jul 2019 17:27:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1563398829; x=1594934829;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=h9+Bzc7byhQZccPGwh+WXfctMpkyb+r6mhOQEYlQ66M=;
+ b=dKlF4dhZihtTpUnyglaRFh73/fXgCOnx8XpcUUJIkX+eN7SnRSU+uHCZ
+ Ot5Xkguv/wW0qkSsz3stWLH7BWm4iiL86OLMRtn4oPt2dwN2UqcJbdixS
+ +PypZA1obD/S74i5V9H5hnUYARLIv2ApihZYUu48FRWmz4hE96cIdiBJt
+ Y1tA6ZuX1ZHwOjWav8EoBYnHO+d43O6V0RxN4wUGXv2mbJt0FivURygqL
+ uDS2EyiDrLkuwBngMQfkOL5Y2+Nw+4Pz4bkOV9i41uCJVbcjg3HLm0ADC
+ HBRFt3OdBf0SX/1P+2zEv2Ni2Aets7VYY1wL0iKR7ipCQsgRQqJIIpjbL A==;
+IronPort-SDR: W4DxUTaesUKnMPql3TqTqe5FP5RmpiqqnH+XyX10R33h8EX8CDCOuYGvRkeVKD5NRMmA1AWdYf
+ EX3u4BPht5G2eTymUaM0YifaKKOAmx+29YhnZ3/XStPw/TxW9/t5okUNSEUfz+rW5H7T/LLKfG
+ NMvZOXopm7I5KesGZK86oe6ztdX1kobAYzs09FqIMiXIisSpOXzAnt80jV3XgO0M/jmqxNdDUB
+ vwBZkrFw2xBUh1AwJeGQXbt64ey7R4phQrorGAh/w977A1RoLrJ0Kc9t9BD/WQ6Lu3Us+UrAzg
+ eAw=
+X-IronPort-AV: E=Sophos;i="5.64,275,1559491200"; d="scan'208";a="113319438"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2019 05:27:04 +0800
+IronPort-SDR: vjBT0rwWyxeWDTpsY5X+h30Y6U+2QgojZWfCdircZTWPKMm97NXGS7Cl4guC0I+iqWr+n9RS/X
+ HHZ/bA0AWS5vkwQqn5ymnhEmBsgJ2hnqgndVmlQwmw/xhpILh3OTa3Bh/RzO4xdwlZ+qPKjbiZ
+ jbwf1bhS9EQ9E+9iokUMgOndukC3IKz2qEiQ1NH7c2B/wsqMhlaalUoZHhzYfTcW38qQ/EUKxF
+ IVRBDwFGG94lDBv8lHrriD4C8C/ThhMwPTqjdcLC9P6asJ6sj3ERFf75G1E8sbWDiYJ92Fj/oy
+ gMgm/bjStz9lXgBqBh6zdSr8
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP; 17 Jul 2019 14:25:32 -0700
+IronPort-SDR: jyS5sLaIH/7x4kWqMJ8a3R7vLDUTq0rYc2CUAEfMZI1WG6jhU6CK5Uyo/LC8jj/V7HyZo0anaV
+ C2WvjtEtaGoxvf+POydJNle2V705BBytITnXdxckmZ08kYT76Gq0A03RI9bIP/r5GtkisSpxnc
+ EO4jr6RsJ9JB4LZs75DEIyI5bZcgF3PGm+jPZVWs4/1MXMRoPNQ2fHdivaY61uYhwK8LXNrXIc
+ yBKlGQ5YbTqDYEtmfRbct1f88MW/z3s6RFc9oSExjeNsKezgP1FEPUXbVEGQI+p9jjvfLUfR/P
+ 1iA=
+Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Jul 2019 14:27:04 -0700
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Wed, 17 Jul 2019 17:26:58 -0400
+Message-Id: <20190717212703.10205-1-dmitry.fomichev@wdc.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190717173937.18747-1-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Wed, 17 Jul 2019 21:12:51 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] qapi: add dirty-bitmaps to
- query-named-block-nodes result
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.154.42
+Subject: [Qemu-devel] [PATCH v2 0/5] virtio/block: handle zoned backing
+ devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,30 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently, attaching zoned block devices (i.e. storage devices
+compliant to ZAC/ZBC standards) using several virtio methods doesn't
+work properly as zoned devices appear as regular block devices at the
+guest. This may cause unexpected i/o errors and, potentially, some
+data corruption.
 
+To be more precise, attaching a zoned device via virtio-pci-blk,
+virtio-scsi-pci/scsi-disk or virtio-scsi-pci/scsi-hd demonstrates the
+above behavior. The virtio-scsi-pci/scsi-block method works with a
+recent patch. The virtio-scsi-pci/scsi-generic method also appears to
+handle zoned devices without problems.
 
-On 7/17/19 1:39 PM, John Snow wrote:
-> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> Let's add a possibility to query dirty-bitmaps not only on root nodes.
-> It is useful when dealing both with snapshots and incremental backups.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> [Added deprecation information. --js]
-> Signed-off-by: John Snow <jsnow@redhat.com>
+This patchset adds code to check if the backing device that is being
+opened is a zoned Host Managed device. If this is the case, the patch
+prohibits virtualization of the device for all use cases lacking proper
+zoned support.
 
-Made spelling edit suggested by Eric, and queued for 4.2.
+Host Aware zoned block devices are designed to work as regular block
+devices at a guest system that does not support ZBD. Therefeore, this
+patchset doesn't prohibit attachment of Host Aware devices.
 
-Thanks, applied to my bitmaps tree:
+Host Aware attachments were tested using file_zbc handler of
+tcmu-runner daemon. Running QEMU against zoned devices provisioned by
+tcmu-runner emulator exposed another problem - upon startup, QEMU
+would exit via divide by zero exception in scsi_disk_reset(). The
+reason for this is that tcmu-runner zoned devices don't support
+READ CAPACITY(10). This is by design, since only READ CAPACITY(16)
+support is mandatory for ZBDs and READ CAPACITY(10) is optional.
+The last commit of this series fixes this problem.
 
-https://github.com/jnsnow/qemu/commits/bitmaps
-https://github.com/jnsnow/qemu.git
+Considering that there is still a couple of different working ways
+to virtualize a ZBD, this patchset provides a reasonable short-term
+solution for this problem. What about long term?
 
---js
+It appears to be beneficial to add proper ZBD support to virtio-blk.
+In order to support this use case properly, some virtio-blk protocol
+changes will be necessary. They are needed to allow the host code to
+propagate some ZBD properties that are required for virtio guest
+driver to configure the guest block device as ZBD, such as zoned
+device model, zone size and the total number of zones. Further, some
+support needs to be added for REPORT ZONES command as well as for zone
+operations, such as OPEN ZONE, CLOSE ZONE, FINISH ZONE and RESET ZONE.
+
+These additions to the protocol are relatively straightforward, but
+they need to be approved by the virtio TC and the whole process may
+take some time.
+
+ZBD support for virtio-scsi-pci/scsi-disk and virtio-scsi-pci/scsi-hd
+does not seem as necessary. Users will be expected to attach zoned
+block devices via virtio-scsi-pci/scsi-block instead.
+
+This patchset contains some Linux-specific code. This code is
+necessary to obtain Zoned Block Device model value from Linux sysfs.
+
+Dmitry Fomichev (4):
+  block: Add zoned device model property
+  raw: Recognize zoned backing devices
+  block/ide/scsi: Set BLK_PERM_SUPPORT_ZONED
+  raw: Don't open ZBDs if backend can't handle them
+
+Shin'ichiro Kawasaki (1):
+  hw/scsi: Check sense key before READ CAPACITY output snoop
+
+ block.c                   | 19 +++++++++
+ block/file-posix.c        | 88 +++++++++++++++++++++++++++++++++------
+ block/raw-format.c        |  8 ++++
+ hw/block/block.c          |  8 +++-
+ hw/block/fdc.c            |  4 +-
+ hw/block/nvme.c           |  2 +-
+ hw/block/virtio-blk.c     |  2 +-
+ hw/block/xen-block.c      |  2 +-
+ hw/ide/qdev.c             |  2 +-
+ hw/scsi/scsi-disk.c       | 13 +++---
+ hw/scsi/scsi-generic.c    | 33 +++++++++------
+ hw/usb/dev-storage.c      |  2 +-
+ include/block/block.h     | 21 +++++++++-
+ include/block/block_int.h |  4 ++
+ include/hw/block/block.h  |  3 +-
+ 15 files changed, 169 insertions(+), 42 deletions(-)
+
+-- 
+2.21.0
+
 
