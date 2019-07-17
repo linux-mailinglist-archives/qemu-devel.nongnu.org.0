@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4D6B60F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 07:41:14 +0200 (CEST)
-Received: from localhost ([::1]:54184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A126B60D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 07:41:00 +0200 (CEST)
+Received: from localhost ([::1]:54172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hncgj-0005h9-A3
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 01:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50113)
+	id 1hncgV-0004Ad-5R
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 01:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50221)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <npiggin@gmail.com>) id 1hncfq-00021B-2p
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:40:18 -0400
+ (envelope-from <npiggin@gmail.com>) id 1hncfy-0002dn-CT
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:40:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1hncfp-0005GQ-05
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:40:17 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38936)
+ (envelope-from <npiggin@gmail.com>) id 1hncfw-0005Ps-Vy
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:40:26 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36587)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1hncfl-0005Bf-Rg; Wed, 17 Jul 2019 01:40:13 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f17so6266297pfn.6;
- Tue, 16 Jul 2019 22:40:13 -0700 (PDT)
+ id 1hncfq-0005Gr-0H; Wed, 17 Jul 2019 01:40:19 -0400
+Received: by mail-pl1-x644.google.com with SMTP id k8so11351807plt.3;
+ Tue, 16 Jul 2019 22:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aspJFmRkiuGl98ZZpfTk4UAxRVGqt3PVQT6yVoIbn6Q=;
- b=FdXjsO5mRmokaFRmbwR/DaaQqePC8CSAjMzr9fCK1JTZS5QUBEbVgTP1qCEHlVoQhb
- en/nb6cw3bYR2G6ixAkmHLyNZdhhq5MIHpyHfcebIM8CbNM8PyMrusztOfpxhH7ZfFJd
- EkG+Iia1TuaxC4F0R3E5p+QfubJSOz/fgvL36/svz4hAIFxyXL1L8/sjJWdKTp3acari
- uwFVo1X2ZyoMxWsThoJEvVciVP94/bK/2GZD9ktrgeN1ggFKMFffv+7+v+h/ebZSkjwb
- 7c9BX4Ji0euILO37F+EA+9IZYdBr82la4XcHMy4ndexh0LfFKbxm23WLXRahrB4IKSd8
- X4og==
+ bh=4ymRbbQ1EIHFO3Mw1nCIQEG1l7W4bUNAte9gP14Oo18=;
+ b=YW6w6fONBsPOOw922YFEe1rvDVqhZF0Zjs0BQ/x9yNLJZXWkgN7CtzAqt0xnb9QLpJ
+ t1TMNjvKbAx8nKiNzfMDeC1LFQcMkT2brPab+mJVZs1NDvaxx03+X4TSXP5r9YGYCsbI
+ AEYXCboaNsdjESRQmZiNFzL/TDWNo/k4WsG9y7U6vX96YmYcrUO+TxTO9tVJ09TCiMN1
+ wjpFljiTjevTkImj27eZ3zzHGuJpd0Lbu7Y485+T/Fq7s4KRA0d1P6VU6I7N8+SXIEFY
+ 9JGtHvSmf5DWYD006DTcgLt1+O7vmH3oLq7QLPKs66nPyLhVU1QImm4DPXkEXp93tysv
+ AQtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aspJFmRkiuGl98ZZpfTk4UAxRVGqt3PVQT6yVoIbn6Q=;
- b=PmaQuFQsw3NyHcE5ircPM1OipIQOu70DkdciNRRiuVOvsIB/DJABAD8FnyGDfSMRW4
- wVtiPq2ugD9vEonb8dg6zKIirCrNrTb4pKELYdReCVaNl6YnbY0+6nhWJiAqIgK+fi3d
- Bhv+AbR3+wbLDJ1Mz3UOsJSdujKUDQizLPvVEM9eJmgkcshM68AySF+biNC49+1fmHBC
- dkbDzJHirSYjX9+1Fz7712NFO0EzFDK9GMjfcQs7zfWD6a3yFJ4zXmp4IIp0lotkr3ZO
- PTIQdmnQ6Oox2atJ8zbGD4FCEtGDIzzg6Fnbzd1UtojNaQETKIe10AFJUsPHuVPFS7AK
- gIqg==
-X-Gm-Message-State: APjAAAUlUN+Zs+IilIVMBrmNV+ctMvrqF7JUPXos3dmUuxnULpHlYkT+
- lNXHBvzDGPj2ufRhX+o9cks=
-X-Google-Smtp-Source: APXvYqyRqAdRjQuTCq0nXyBslfjQ3C2ahv49npfxSv4hCG6uRpz6iBO9AICbO2M4gc+jJ+7lNGIN4w==
-X-Received: by 2002:a63:9e43:: with SMTP id r3mr13698802pgo.148.1563342013018; 
- Tue, 16 Jul 2019 22:40:13 -0700 (PDT)
+ bh=4ymRbbQ1EIHFO3Mw1nCIQEG1l7W4bUNAte9gP14Oo18=;
+ b=k23yV5vNe2vnRTVUgVBBIFGfu8qzIRH95bRry8y4FEdejG5nrmjRFFPl3bnQ7i2wnG
+ lYSvwa0RoesGAlZZtc+fZpCTyQerO5hl1TlXEJyaE+Rwf4mNnCUSdoRqPEseNqtU58nC
+ OKk1N5h734sthEFUUcj5NiRjaivSkNAQLf3wPbOcAU5HNRtPppNyCIhqi1fBuivSych1
+ k18kVxGASOBq3GJpu3UYQSEzes3lainsU0bZEwomJzrbYW4kx8lWWxZB/zVEshHxDX4k
+ bmtGgdOv4hRkDkijgl5Gfs8FstHSDU4ncoZFDgdD6/E8KOKk7hcYMo3TyxFZ8MKRvylC
+ uGYg==
+X-Gm-Message-State: APjAAAUuqkUaOG/wp7C/mdUT8GK+/WJ5WBvOIJxYPODw9DmdReN1Wt7c
+ GYnShaD8fw6+KTbxh84qV9k2AnOR
+X-Google-Smtp-Source: APXvYqxskJ6fxN864Ec3dZPi4jRkAUj84m4cmIYyBMsGVww3hSPXm0D5zHrsvRqWgvClzXjxcUSoWQ==
+X-Received: by 2002:a17:902:28e9:: with SMTP id
+ f96mr39314755plb.114.1563342017145; 
+ Tue, 16 Jul 2019 22:40:17 -0700 (PDT)
 Received: from bobo.local0.net ([203.220.8.141])
- by smtp.gmail.com with ESMTPSA id g18sm39322656pgm.9.2019.07.16.22.40.09
+ by smtp.gmail.com with ESMTPSA id g18sm39322656pgm.9.2019.07.16.22.40.13
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 16 Jul 2019 22:40:12 -0700 (PDT)
+ Tue, 16 Jul 2019 22:40:16 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 17 Jul 2019 15:39:50 +1000
-Message-Id: <20190717053952.13729-3-npiggin@gmail.com>
+Date: Wed, 17 Jul 2019 15:39:51 +1000
+Message-Id: <20190717053952.13729-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190717053952.13729-1-npiggin@gmail.com>
 References: <20190717053952.13729-1-npiggin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v5 2/4] spapr: Implement H_PROD
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH v5 3/4] spapr: Implement H_CONFER
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,69 +84,106 @@ Cc: Greg Kurz <groug@kaod.org>, Nicholas Piggin <npiggin@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-H_PROD is added, and H_CEDE is modified to test the prod bit
-according to PAPR.
+This does not do directed yielding and is not quite as strict as PAPR
+specifies in terms of precise dispatch behaviour. This generally will
+mean suboptimal performance, rather than guest misbehaviour. Linux
+does not rely on exact dispatch behaviour.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_hcall.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Changes since v4:
+- Style, added justification comments, spelling.
+- Fixed trying to dereference spapr_cpu for a -1 target.
+
+ hw/ppc/spapr_hcall.c | 68 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index e615881ac4..8b208ab259 100644
+index 8b208ab259..5e655172b2 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1050,14 +1050,41 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
- {
-     CPUPPCState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
-+    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+@@ -1069,6 +1069,73 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     return H_SUCCESS;
+ }
  
-     env->msr |= (1ULL << MSR_EE);
-     hreg_compute_hflags(env);
++static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                           target_ulong opcode, target_ulong *args)
++{
++    target_long target = args[0];
++    uint32_t dispatch = args[1];
++    CPUState *cs = CPU(cpu);
++    SpaprCpuState *spapr_cpu;
 +
-+    if (spapr_cpu->prod) {
-+        spapr_cpu->prod = false;
-+        return H_SUCCESS;
++    /*
++     * -1 means confer to all other CPUs without dispatch counter check,
++     *  otherwise it's a targeted confer.
++     */
++    if (target != -1) {
++        PowerPCCPU *target_cpu = spapr_find_cpu(target);
++        CPUState *target_cs = CPU(target_cpu);
++        unsigned int target_dispatch;
++
++        if (!target_cs) {
++            return H_PARAMETER;
++        }
++
++        spapr_cpu = spapr_cpu_state(target_cpu);
++
++        /*
++         * target == self is a special case, we wait until prodded, without
++         * dispatch counter check.
++         */
++        if (cpu == target_cpu) {
++            if (spapr_cpu->prod) {
++                spapr_cpu->prod = false;
++
++                return H_SUCCESS;
++            }
++
++            cs->halted = 1;
++            cs->exception_index = EXCP_HALTED;
++            cs->exit_request = 1;
++
++            return H_SUCCESS;
++        }
++
++        if (!spapr_cpu->vpa_addr || ((dispatch & 1) == 0)) {
++            return H_SUCCESS;
++        }
++
++        target_dispatch = ldl_be_phys(cs->as,
++                                  spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTER);
++        if (target_dispatch != dispatch) {
++            return H_SUCCESS;
++        }
++
++        /*
++         * The targeted confer does not do anything special beyond yielding
++         * the current vCPU, but even this should be better than nothing.
++         * At least for single-threaded tcg, it gives the target a chance to
++         * run before we run again. Multi-threaded tcg does not really do
++         * anything with EXCP_YIELD yet.
++         */
 +    }
 +
-     if (!cpu_has_work(cs)) {
-         cs->halted = 1;
-         cs->exception_index = EXCP_HLT;
-         cs->exit_request = 1;
-     }
++    cs->exception_index = EXCP_YIELD;
++    cs->exit_request = 1;
++    cpu_loop_exit(cs);
 +
 +    return H_SUCCESS;
 +}
 +
-+static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                           target_ulong opcode, target_ulong *args)
-+{
-+    target_long target = args[0];
-+    CPUState *cs;
-+    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
-+
-+    cs = CPU(spapr_find_cpu(target));
-+    if (!cs) {
-+        return H_PARAMETER;
-+    }
-+
-+    spapr_cpu->prod = true;
-+    cs->halted = 0;
-+    qemu_cpu_kick(cs);
-+
-     return H_SUCCESS;
- }
- 
-@@ -1882,6 +1909,8 @@ static void hypercall_register_types(void)
+ static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                            target_ulong opcode, target_ulong *args)
+ {
+@@ -1909,6 +1976,7 @@ static void hypercall_register_types(void)
      /* hcall-splpar */
      spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
      spapr_register_hypercall(H_CEDE, h_cede);
-+    spapr_register_hypercall(H_PROD, h_prod);
-+
-     spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
++    spapr_register_hypercall(H_CONFER, h_confer);
+     spapr_register_hypercall(H_PROD, h_prod);
  
-     /* processor register resource access h-calls */
+     spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
 -- 
 2.20.1
 
