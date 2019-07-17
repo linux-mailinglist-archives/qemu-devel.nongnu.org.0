@@ -2,51 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F2D6B43F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:02:31 +0200 (CEST)
-Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920E76B450
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:07:15 +0200 (CEST)
+Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnZH3-0002zh-KL
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1hnZLd-0000yM-PS
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46296)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZG8-00011N-2W
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:33 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hnZLQ-0000Ze-Mx
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:07:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZG6-0008CJ-Er
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:32 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:40061)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hnZLO-0003cQ-NQ
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:07:00 -0400
+Received: from mga17.intel.com ([192.55.52.151]:9869)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnZG5-00087I-90; Tue, 16 Jul 2019 22:01:30 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45pL904B2dz9sNT; Wed, 17 Jul 2019 12:01:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563328884;
- bh=jvLVswi7c2/MltPFD8LtQpZkiFp5usMNH5XC87fnFIw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b5aJHJKWgcM/uWMapYmq4g1fwdjbLDY/zgB6jtMbSCmyJL70xZ4vQbzCy7tIbowP7
- ZpFAPuxPZitOwbwr55g1cflf7ioTH2cSz20ypJOtgXv88MOL9LIr/MtYqxRgf1HT7f
- eHouyytGA5gZtLrT+RPWY6lALofY8vKy18yFUwIs=
-Date: Wed, 17 Jul 2019 11:54:02 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190717015402.GC9123@umbus.fritz.box>
-References: <20190716024726.17864-1-npiggin@gmail.com>
- <20190716024726.17864-6-npiggin@gmail.com>
- <20190716083047.GG7525@umbus.fritz.box>
- <1563272743.gip4xrq099.astroid@bobo.none>
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hnZLM-0003YL-N8
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:06:58 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2019 19:06:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="191113098"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga004.fm.intel.com with ESMTP; 16 Jul 2019 19:06:48 -0700
+Date: Tue, 16 Jul 2019 22:00:46 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Peter Xu <zhexu@redhat.com>
+Message-ID: <20190717020046.GC8912@joy-OptiPlex-7040>
+References: <1563261042-15974-1-git-send-email-yan.y.zhao@intel.com>
+ <20190716072315.GA30980@xz-x1>
+ <20190716072919.GA8912@joy-OptiPlex-7040>
+ <20190716075025.GB30980@xz-x1>
+ <20190716075749.GB8912@joy-OptiPlex-7040>
+ <20190716103341.GC30980@xz-x1>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ncSAzJYg3Aa9+CRW"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1563272743.gip4xrq099.astroid@bobo.none>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190716103341.GC30980@xz-x1>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v4 5/5] spapr: Implement ibm,suspend-me
+X-Received-From: 192.55.52.151
+Subject: Re: [Qemu-devel] [PATCH] migration: notify runstate immediately
+ before vcpu stops
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,215 +63,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Greg Kurz <groug@kaod.org>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ "crosthwaite.peter@gmail.com" <crosthwaite.peter@gmail.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jul 16, 2019 at 06:33:41PM +0800, Peter Xu wrote:
+> On Tue, Jul 16, 2019 at 03:57:49AM -0400, Yan Zhao wrote:
+> > On Tue, Jul 16, 2019 at 03:50:25PM +0800, Peter Xu wrote:
+> > > On Tue, Jul 16, 2019 at 03:29:19AM -0400, Yan Zhao wrote:
+> > > > On Tue, Jul 16, 2019 at 03:23:16PM +0800, Peter Xu wrote:
+> > > > > On Tue, Jul 16, 2019 at 03:10:42PM +0800, Yan Zhao wrote:
+> > > > > > for some devices to do live migration, it is needed to do something
+> > > > > > immediately before vcpu stops. add a notification here.
+> > > > > 
+> > > > > Hi, Yan,
+> > > > > 
+> > > > > Could I ask for a more detailed commit message here?  E.g., what is
+> > > > > "some devices"?  And, what's the problem behind?
+> > > > >
+> > > > hi Peter,
+> > > > 
+> > > > Some devices refer to assigned devices, like NICs.
+> > > > For assigned devices to do live migration, it is sometimes required that
+> > > > source device is stopped before stopping source vcpus. vcpus can do some
+> > > > final cleanups (like handling interrupt) in that case.
+> > > 
+> > > I see, so this is a prerequisite of another work?
+> > 
+> > Yes.
+> > > 
+> > > IMHO it would make more sense to have this patch to be with that
+> > > patchset, then it'll justify itself with reasoning.  Unless I
+> > > misunderstood - this single patch seems to help nothing if as a
+> > > standalone one.
+> > 
+> > It would be better. but this patch alone is also somewhat general,
+> > as it only adds an extra notification and wouldn't impact others.
+> > 
+> > Only after this patch is upstreamed, can VFIO live migration have a
+> > second choice for those devices of special requirements.
+> > 
+> > Hope it can get understanding from you:)
+> 
+> No you don't need my understanding, as long as the maintainer likes it
+> it's good enough, so you probably only need to persuade the
+> maintainers. :)
+> 
+> But again for me I would prefer patch like this to simply be the first
+> patch of your live migration series.  There can be some exceptions
+> like that when the prerequisite is too big so we'd better split them
+> out to do things step by step, but this patch (which is a oneliner)
+> should not be the case.
+> 
+> Thanks,
+>
 
---ncSAzJYg3Aa9+CRW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ok. Thank you, Peter :)
 
-On Tue, Jul 16, 2019 at 09:15:23PM +1000, Nicholas Piggin wrote:
-65;5603;1c> David Gibson's on July 16, 2019 6:30 pm:
-> > On Tue, Jul 16, 2019 at 12:47:26PM +1000, Nicholas Piggin wrote:
-> >> This has been useful to modify and test the Linux pseries suspend
-> >> code but it requires modification to the guest to call it (due to
-> >> being gated by other unimplemented features). It is not otherwise
-> >> used by Linux yet, but work is slowly progressing there.
-> >>=20
-> >> This allows a (lightly modified) guest kernel to suspend with
-> >> `echo mem > /sys/power/state` and be resumed with system_wakeup
-> >> monitor command.
-> >>=20
-> >> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> >> ---
-> >>  hw/ppc/spapr.c         | 26 ++++++++++++++++++++++++++
-> >>  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
-> >>  include/hw/ppc/spapr.h |  7 ++++++-
-> >>  3 files changed, 64 insertions(+), 1 deletion(-)
-> >>=20
-> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >> index 5c54e1cb9a..b85d41bb1e 100644
-> >> --- a/hw/ppc/spapr.c
-> >> +++ b/hw/ppc/spapr.c
-> >> @@ -1710,6 +1710,11 @@ static void spapr_machine_reset(MachineState *m=
-achine)
-> >>      void *fdt;
-> >>      int rc;
-> >> =20
-> >> +    if (spapr->suspend_reset) {
-> >> +        spapr->suspend_reset =3D false;
-> >=20
-> > Do we need to migrate this value?
->=20
-> I suppose we do if we can migrate a suspended machine?
-
-I don't see why we couldn't.  And it might not happen because of
-explicit user choice in a managed environment like RHV or openstack.
-
-> >> +        return;
-> >> +    }
-> >> +
-> >>      spapr_caps_apply(spapr);
-> >> =20
-> >>      first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> >> @@ -2721,6 +2726,23 @@ static PCIHostState *spapr_create_default_phb(v=
-oid)
-> >>      return PCI_HOST_BRIDGE(dev);
-> >>  }
-> >> =20
-> >> +static Notifier wakeup;
-> >=20
-> > I think this should be in sPAPRMachineState rather than global.
->=20
-> Sure.
->=20
-> >=20
-> >> +static void spapr_notify_wakeup(Notifier *notifier, void *data)
-> >> +{
-> >> +    WakeupReason *reason =3D data;
-> >> +
-> >> +    switch (*reason) {
-> >> +    case QEMU_WAKEUP_REASON_RTC:
-> >> +        break;
-> >> +    case QEMU_WAKEUP_REASON_PMTIMER:
-> >> +        break;
-> >> +    case QEMU_WAKEUP_REASON_OTHER:
-> >> +        break;
-> >> +    default:
-> >> +        break;
-> >> +    }
-> >=20
-> > So.. you have a bunch of switch cases, all of which ignore the input..
->=20
-> Yeah I kind of just copy and pasted I think. This part of the patch
-> may not have been quite as cooked as I remembered :\
-
-Heh :).
-
-> >> +}
-> >> +
-> >>  /* pSeries LPAR / sPAPR hardware init */
-> >>  static void spapr_machine_init(MachineState *machine)
-> >>  {
-> >> @@ -3078,6 +3100,10 @@ static void spapr_machine_init(MachineState *ma=
-chine)
-> >> =20
-> >>      qemu_register_boot_set(spapr_boot_set, spapr);
-> >> =20
-> >> +    wakeup.notify =3D spapr_notify_wakeup;
-> >> +    qemu_register_wakeup_notifier(&wakeup);
-> >> +    qemu_register_wakeup_support();
-> >> +
-> >>      if (kvm_enabled()) {
-> >>          /* to stop and start vmclock */
-> >>          qemu_add_vm_change_state_handler(cpu_ppc_clock_vm_state_chang=
-e,
-> >> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> >> index a618a2ac0f..60a007ec38 100644
-> >> --- a/hw/ppc/spapr_rtas.c
-> >> +++ b/hw/ppc/spapr_rtas.c
-> >> @@ -216,6 +216,36 @@ static void rtas_stop_self(PowerPCCPU *cpu, Spapr=
-MachineState *spapr,
-> >>      qemu_cpu_kick(cs);
-> >>  }
-> >> =20
-> >> +static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *s=
-papr,
-> >> +                           uint32_t token, uint32_t nargs,
-> >> +                           target_ulong args,
-> >> +                           uint32_t nret, target_ulong rets)
-> >> +{
-> >> +    CPUState *cs;
-> >> +
-> >> +    if (nargs !=3D 0 || nret !=3D 1) {
-> >> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    CPU_FOREACH(cs) {
-> >> +        PowerPCCPU *c =3D POWERPC_CPU(cs);
-> >> +        CPUPPCState *e =3D &c->env;
-> >> +        if (c =3D=3D cpu)
-> >> +            continue;
-> >> +
-> >> +	/* See h_join */
-> >> +        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
-> >> +            rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
-> >> +            return;
-> >> +        }
-> >> +    }
-> >> +
-> >> +    spapr->suspend_reset =3D true;
-> >> +    qemu_system_suspend_request();
-> >> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> >> +}
-> >> +
-> >>  static inline int sysparm_st(target_ulong addr, target_ulong len,
-> >>                               const void *val, uint16_t vallen)
-> >>  {
-> >> @@ -483,6 +513,8 @@ static void core_rtas_register_types(void)
-> >>                          rtas_query_cpu_stopped_state);
-> >>      spapr_rtas_register(RTAS_START_CPU, "start-cpu", rtas_start_cpu);
-> >>      spapr_rtas_register(RTAS_STOP_SELF, "stop-self", rtas_stop_self);
-> >> +    spapr_rtas_register(RTAS_IBM_SUSPEND_ME, "ibm,suspend-me",
-> >> +                        rtas_ibm_suspend_me);
-> >>      spapr_rtas_register(RTAS_IBM_GET_SYSTEM_PARAMETER,
-> >>                          "ibm,get-system-parameter",
-> >>                          rtas_ibm_get_system_parameter);
-> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >> index 5d36eec9d0..df0b0c15da 100644
-> >> --- a/include/hw/ppc/spapr.h
-> >> +++ b/include/hw/ppc/spapr.h
-> >> @@ -171,6 +171,10 @@ struct SpaprMachineState {
-> >>      bool use_hotplug_event_source;
-> >>      SpaprEventSource *event_sources;
-> >> =20
-> >> +    /* Machine has been suspended, so the next machine_reset should n=
-ot
-> >> +     * reset state, but just return and allow execution to resume. */
-> >> +    bool suspend_reset;
-> >=20
-> > Hrm, this seems odd, but maybe it's part of the existing suspend
-> > design.  Why would system_reset resume a suspend, rather than having a
-> > specific operation for that.
->=20
-> It is where `system_wakeup` cmd pops out, via qemu_system_reset,
-> main_loop_should_exit. I'm not sure if we have any existing state
-> we can use. runstate_is_running() doesn't seem to work because of
-> CAS I guess (maybe CAS is what makes spapr so much different from
-> x86 in terms of resetting the world here?)
-
-CAS certainly complicates things.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ncSAzJYg3Aa9+CRW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0uf7oACgkQbDjKyiDZ
-s5JLBg//a+cpUe5NBYrNkDTGGq3Q3Yy5tTjZe2KQvoAYI/zvc51+cgzAdTnZmY1P
-YcxVUdG1HT0mR+GgmMqLHFOpwEB2E5RYtdUPx/ANP+KZ8vqO/djpgiLmEiOVGoCr
-2C0F5ZmsWsEbn/rNDbYehUEGmF2/KNVckjkXGpjn5qThrjO5L8Kw4ybpBLiHU3nR
-UB9I+XlNfnHMEtcxqF5dpJydv7YfA4O62nB+rmLI1w9ges51oSv7jxuJcNlaPIvh
-N3eozuKvJgPgqTlF+VKDNbbyM12PC7q/DJ1qq7hEuOgiFBVs5Q1gPtg1gLlic8MD
-BTa3idVpd+ET4eWSigZ8/ndPKrfmf/41kJtXRLiFMrFTr1WPyqrhaD38AAINM0Mj
-8kk5JCfxq8osxqy1ycIh6hVjUd/RgVISuhTmhgOO9B3CT1i8eh5hkrEDMmG+gfYe
-o0Sb3WoPBKQMgJ99aY8PCR5kYoRwC9BLBiI25f7FI/+Lszpo3wyd2oQIk/mDmlFn
-q0LDRgk6EgictCeN/UAfi8vnPun+x7u8dkvVWH2RQfAuuAmJjG4kgFoDP55XGgLv
-PobdJaNvExKVv+gnSlvBP0uyotqHNUV9b6GBrW34EI8P6nBNxoYzjZ5KCAD0nUW9
-ZHrSr9ZRedIOFVCiyriVRV3KCXX478B5BS4yB0osNBDWMxZRPMM=
-=lM1z
------END PGP SIGNATURE-----
-
---ncSAzJYg3Aa9+CRW--
+> > 
+> > Or do you think I need to change the commit message a little to unbind
+> > from migration?
+> > 
+> > Thanks
+> > Yan
+> > 
+> 
+> -- 
+> Peter Xu
 
