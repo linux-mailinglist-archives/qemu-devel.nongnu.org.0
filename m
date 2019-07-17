@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CA36B442
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:03:05 +0200 (CEST)
-Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0676B488
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:31:40 +0200 (CEST)
+Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnZHc-0005lD-G4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45035)
+	id 1hnZjH-0007s6-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52407)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZGB-00011n-9M
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:37 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hnZj4-0007Ti-HY
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZGA-0008Eu-05
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:35 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58917 helo=ozlabs.org)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hnZj3-0004YF-Ak
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:31:26 -0400
+Received: from mga02.intel.com ([134.134.136.20]:15309)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnZG9-0008CP-9y; Tue, 16 Jul 2019 22:01:33 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45pL906HV0z9sNp; Wed, 17 Jul 2019 12:01:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563328884;
- bh=91TitBDOhwxzRn0q9RRrsll5WxUp3E/p7v0dA7Zsvrw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HgU+pTD1zLvzFk3Gj9+IlnemyTgEnmjd1GqzlZhikPmZ5ESY+x5GLPziESJTjro7V
- AEGlnt8XgTUg0P4kmYl4w3nAQP8dt1fuDLQ1twtk+az17j9a/CXO/e8EYIX9zNqMkF
- fzNroIhRCL9fsl5PlVAyvXob2DSndhkS+L4JL/8U=
-Date: Wed, 17 Jul 2019 12:01:15 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-Message-ID: <20190717020115.GD9123@umbus.fritz.box>
-References: <20190716235313.29806-1-mdroth@linux.vnet.ibm.com>
- <20190716235313.29806-3-mdroth@linux.vnet.ibm.com>
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hnZj3-0004Vn-13
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:31:25 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2019 19:31:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="170114774"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga003.jf.intel.com with ESMTP; 16 Jul 2019 19:31:15 -0700
+Date: Tue, 16 Jul 2019 22:25:13 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190717022513.GD8912@joy-OptiPlex-7040>
+References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
+ <1562665760-26158-8-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190716235313.29806-3-mdroth@linux.vnet.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH for-4.2 2/2] spapr: initial implementation
- for H_TPM_COMM/spapr-tpm-proxy
+In-Reply-To: <1562665760-26158-8-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
+Subject: Re: [Qemu-devel] [PATCH v7 07/13] vfio: Add migration state change
+ notifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,119 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Hf61M2y+wYpnELGG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 16, 2019 at 06:53:13PM -0500, Michael Roth wrote:
-> This implements the H_TPM_COMM hypercall, which is used by an
-> Ultravisor to pass TPM commands directly to the host's TPM device, or
-> a TPM Resource Manager associated with the device.
->=20
-> This also introduces a new virtual device, spapr-tpm-proxy, which
-> is used to configure the host TPM path to be used to service
-> requests sent by H_TPM_COMM hcalls, for example:
->=20
->   -device spapr-tpm-proxy,id=3Dtpmp0,host-path=3D/dev/tpmrm0
->=20
-> By default, no spapr-tpm-proxy will be created, and hcalls will return
-> H_FUNCTION.
->=20
-> The full specification for this hypercall can be found in
-> docs/specs/ppc-spapr-uv-hcalls.txt
-
-Mostly LGTM, but..
-
-[...]
->  #define H_SUCCESS         0
-> @@ -490,8 +492,9 @@ struct SpaprMachineState {
->  #define H_INT_ESB               0x3C8
->  #define H_INT_SYNC              0x3CC
->  #define H_INT_RESET             0x3D0
-> +#define H_TPM_COMM              0xEF10
-
-This is vastly increasing the size of the hcall dispatch table, which
-isn't great.  Is the 0xE... range reserved for PEF related hypercalls?
-I'm wondering if we want to make a third table here (we already have a
-separate one for the qemu-specific hypercalls).
-
-> =20
-> -#define MAX_HCALL_OPCODE        H_INT_RESET
-> +#define MAX_HCALL_OPCODE        H_TPM_COMM
-> =20
->  /* The hcalls above are standardized in PAPR and implemented by pHyp
->   * as well.
-> diff --git a/include/hw/ppc/spapr_tpm_proxy.h b/include/hw/ppc/spapr_tpm_=
-proxy.h
-> new file mode 100644
-> index 0000000000..4843cdaf58
-> --- /dev/null
-> +++ b/include/hw/ppc/spapr_tpm_proxy.h
-> @@ -0,0 +1,31 @@
-> +/*
-> + * SPAPR TPM Proxy/Hypercall
-> + *
-> + * Copyright IBM Corp. 2019
-> + *
-> + * Authors:
-> + *  Michael Roth      <mdroth@linux.vnet.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + */
+On Tue, Jul 09, 2019 at 05:49:14PM +0800, Kirti Wankhede wrote:
+> Added migration state change notifier to get notification on migration state
+> change. These states are translated to VFIO device state and conveyed to vendor
+> driver.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c           | 54 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |  1 +
+>  include/hw/vfio/vfio-common.h |  1 +
+>  3 files changed, 56 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index c01f08b659d0..e4a89a6f9bc7 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -132,6 +132,53 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>      }
+>  }
+>  
+> +static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> +{
+> +    MigrationState *s = data;
+> +    VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
+> +    int ret;
 > +
-> +#ifndef HW_SPAPR_TPM_PROXY_H
-> +#define HW_SPAPR_TPM_PROXY_H
+> +    trace_vfio_migration_state_notifier(vbasedev->name, s->state);
 > +
-> +#include "qom/object.h"
-> +#include "hw/qdev.h"
+> +    switch (s->state) {
+> +    case MIGRATION_STATUS_ACTIVE:
+> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING) {
+> +            if (vbasedev->vm_running) {
+> +                ret = vfio_migration_set_state(vbasedev,
+> +                          VFIO_DEVICE_STATE_RUNNING | VFIO_DEVICE_STATE_SAVING);
+> +                if (ret) {
+> +                    error_report("%s: Failed to set state RUNNING and SAVING",
+> +                                  vbasedev->name);
+> +                }
+> +            } else {
+> +                ret = vfio_migration_set_state(vbasedev,
+> +                                               VFIO_DEVICE_STATE_SAVING);
+> +                if (ret) {
+> +                    error_report("%s: Failed to set state STOP and SAVING",
+> +                                 vbasedev->name);
+> +                }
+> +            }
+> +        } else {
+> +            ret = vfio_migration_set_state(vbasedev,
+> +                                           VFIO_DEVICE_STATE_RESUMING);
+> +            if (ret) {
+> +                error_report("%s: Failed to set state RESUMING",
+> +                             vbasedev->name);
+> +            }
+> +        }
+> +        return;
 > +
-> +#define TYPE_SPAPR_TPM_PROXY "spapr-tpm-proxy"
-> +#define SPAPR_TPM_PROXY(obj) OBJECT_CHECK(SpaprTpmProxy, (obj), \
-> +                                          TYPE_SPAPR_TPM_PROXY)
+hi Kirti
+currently, migration state notifiers are only notified in below 3 interfaces:
+migrate_fd_connect, migrate_fd_cleanup, postcopy_start, where
+MIGRATION_STATUS_ACTIVE is not an valid state.
+Have you tested the above code? what's the purpose of the code?
+
+Thanks
+Yan
+
+> +    case MIGRATION_STATUS_CANCELLING:
+> +    case MIGRATION_STATUS_CANCELLED:
+> +    case MIGRATION_STATUS_FAILED:
+> +        ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING);
+> +        if (ret) {
+> +            error_report("%s: Failed to set state RUNNING", vbasedev->name);
+> +        }
+> +        return;
+> +    }
+> +}
 > +
-> +typedef struct SpaprTpmProxy {
-> +    /*< private >*/
-> +    DeviceState parent;
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
+>  {
+> @@ -152,6 +199,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>      vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>                                                            vbasedev);
+>  
+> +    vbasedev->migration_state.notify = vfio_migration_state_notifier;
+> +    add_migration_state_change_notifier(&vbasedev->migration_state);
 > +
-> +    char *host_path;
-> +    int host_fd;
-> +} SpaprTpmProxy;
+>      return 0;
+>  }
+>  
+> @@ -194,6 +244,10 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>          return;
+>      }
+>  
+> +    if (vbasedev->migration_state.notify) {
+> +        remove_migration_state_change_notifier(&vbasedev->migration_state);
+> +    }
 > +
-> +#endif /* HW_SPAPR_TPM_PROXY_H */
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Hf61M2y+wYpnELGG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ugWsACgkQbDjKyiDZ
-s5LrkxAAuBkg/Pjr6e47I4EMnzRflp2MKqh4XnuJ6Krg/ND09HJt59qZ6SGBv2X3
-NhUe0va6FlnfB8HdrY75Vlv+ASo8rbpgOcdegYh9BfiUDpS+Ybhy5092ETpsJkYP
-9/IagQMEVijgDXhMFaarwMgGOmQqmzP7ElijB4PtKQaUtwbjyc5vj5Cy4z9GRwsn
-6iBDemkfbCaK4T9iSeUgvhcUZMUayiqnJDbq0l88yUishqJ7wwawTFOi/yC+MhUe
-W4o/b1/RJuSZ6sMk6x4BkycqkpDK+xpfQRf6o/8WFS65tBfa4m07S+P+oELTmn7N
-CpUcLoYf+hgciKQdZ6RsTip8omkJHR0nT9oZ0A76ngsbIRQ5FeMbmBwtnY1MH2gj
-AmLlKemPXsjRRP3NkN49YEPVN8LwI/WUoHqmGdGJMe2kyugWUthqLXqB10n07mua
-Y9wunGTwI745Dt1i+BrwYrHPR9ci496+aFOZ6TnQup3JMRAxlnCQk6cyh+6oCzuo
-kkCWQz528+JnJ7EU7PAbGFUhPjrdG+k9Qt22yMehxV7y4441NJfS0iJDDvxX2jqV
-tAUsl7rngEc6DeXYFO1hsOXI30xOmy91EyEfheLONkWm4DswKeQqmE+NsEbRUtp5
-p2sBn0Db2hxqQqqIzAlzbMFXLuferS4oHuF7OWzy+TtoFZwKoBI=
-=U6Vs
------END PGP SIGNATURE-----
-
---Hf61M2y+wYpnELGG--
+>      if (vbasedev->vm_state) {
+>          qemu_del_vm_change_state_handler(vbasedev->vm_state);
+>      }
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 3d15bacd031a..69503228f20e 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -148,3 +148,4 @@ vfio_display_edid_write_error(void) ""
+>  vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+>  vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+>  vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+> +vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index f6c70db3a9c1..a022484d2636 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -128,6 +128,7 @@ typedef struct VFIODevice {
+>      uint32_t device_state;
+>      VMChangeStateEntry *vm_state;
+>      int vm_running;
+> +    Notifier migration_state;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
+> -- 
+> 2.7.0
+> 
 
