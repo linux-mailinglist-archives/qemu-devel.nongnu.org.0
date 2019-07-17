@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5CC6B98E
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 11:48:03 +0200 (CEST)
-Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9874B6B999
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 11:55:56 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hngXa-00073H-1e
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 05:48:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42211)
+	id 1hngfD-0003DH-Rb
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 05:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hngXD-00063H-OL
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:47:40 -0400
+ (envelope-from <bounces@canonical.com>) id 1hngez-0002mm-O6
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:55:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hngXC-0004Tl-Nb
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:47:39 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45495)
+ (envelope-from <bounces@canonical.com>) id 1hngex-0001Ah-Uu
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:55:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hngXC-0004TU-HM
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:47:38 -0400
-Received: by mail-wr1-x430.google.com with SMTP id f9so24015978wre.12
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 02:47:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NjI+HmyxGNKghok4nOlp66yM1BjstXg68u+D7oUdNEc=;
- b=TESzvAxJEltSse3Qs1grm+2ivvCGvT5m8QSEsHFCKtBDRl3veA70lPTI7NsDG5Wjjg
- +7yRXZZgOPgG4UgD+TR+C6+Zz9oyZVALoaQxM8rSdM6fsBbTWNarCKkjxNkXjhMJflZ8
- 4nl5pL9yWOt/oR5isHurGWBN//4WKm9yat3ZsJdeSEXDEvZfcKFZvvZL/jTNXsHwhTAV
- Y+ertceD7rtG+o/qB/C8/OXYZ1tgL/o3kh/jIWMLlTZzbE2qB0UezHJoG7ikjNMR29EP
- koSxw+BLGmpNT/Xs5T3b2FhWlHPbf5UPTaNuJ8KSYTBkigdH2jNXpTv2yRCG5p4KR9N1
- l9pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NjI+HmyxGNKghok4nOlp66yM1BjstXg68u+D7oUdNEc=;
- b=neVIOAEsxxyfynkfytUxHe1vLVvB8KAwdOlLTNcK6rkKXLBal2DhnnXjSNHXImkhDa
- wkwS0z5LaxLcaddZav5kuqZkTIAxv9KKtb+mZNPwLMzBNBm7gjHd/B2+/n30B+uSHYc+
- aaRDhwE08bqXT5qz8eWldXDuCRQ/7DwznqB0QEkSMSoCkbaECq7P5zMF0YahYVV5LgAM
- W+2AhkERzIFQXlt2wlx+4baiZ9TjxA8HKpvpNTi7k+uE8dbbXp15PXuevTACjBvaE5wz
- LZkmqJaTZbWeTu8MBzTprytZsyyZBiy/9nRRgIKwwuASyjpiJthGl9OZaXc2OUIHzBT+
- Szdg==
-X-Gm-Message-State: APjAAAXOk6C6ORtHESDdFtd7U7/ilYhIxYd7JZRSB9MBbp+MzHKVWqtp
- eJrgbIc9w6sTtIIkJF3esG6I9M9wJVs=
-X-Google-Smtp-Source: APXvYqxrfniimrHvc8NUjiOLAb2h3gZNJG6RmqQuAcRpEoU9MvnJ8BtjuFgobiDQUpeKLLX1qr8l+Q==
-X-Received: by 2002:adf:deca:: with SMTP id i10mr30730025wrn.313.1563356857248; 
- Wed, 17 Jul 2019 02:47:37 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:e427:3beb:1110:dda2])
- by smtp.gmail.com with ESMTPSA id y12sm2037249wru.30.2019.07.17.02.47.36
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 17 Jul 2019 02:47:36 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 17 Jul 2019 11:47:35 +0200
-Message-Id: <20190717094735.31151-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hngex-00019j-OT
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:55:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hngeu-0007UT-O6
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 09:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8C87D2E80CC
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 09:55:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PATCH] vhost-user-scsi: Call
- virtio_scsi_common_unrealize() when device realize failed
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jul 2019 09:41:16 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alex-bennee pmaydell scherft
+X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
+Message-Id: <878ssxuhfn.fsf@zen.linaroharston>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19009";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: d29e339a838ad56ecc8d502df2727fd036433b5a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836558] Re: [RFC PATCH for 4.1?] target/ppc:
+ move opcode decode tables to PowerPCCPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,62 +66,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xie Yongji <xieyongji@baidu.com>
+Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@baidu.com>
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-This avoids memory leak when device hotplug is failed.
+> On Tue, Jul 16, 2019 at 01:13:52PM +0100, Alex Benn=C3=A9e wrote:
+>> The opcode decode tables aren't really part of the CPUPPCState but an
+>> internal implementation detail for the translator. This can cause
+>> problems with memcpy in cpu_copy as any table created during
+>> ppc_cpu_realize get written over causing a memory leak. To avoid this
+>> move the tables into PowerPCCPU which is better suited to hold
+>> internal implementation details.
+>>
+>> Attempts to fix: https://bugs.launchpad.net/qemu/+bug/1836558
+>> Cc: 1836558@bugs.launchpad.net
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> I've applied this now to ppc-for-4.2.  If there's an argument for
+> including it in 4.1 during hard freeze, you'll need to spell it out
+> for me.
 
-Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-Message-Id: <20190717004606.12444-2-xieyongji@baidu.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/scsi/vhost-user-scsi.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+Well without:
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index a0b69fbc0f..665939df19 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -87,7 +87,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     }
- 
-     if (!vhost_user_init(&s->vhost_user, &vs->conf.chardev, errp)) {
--        return;
-+        goto free_virtio;
-     }
- 
-     vsc->dev.nvqs = 2 + vs->conf.num_queues;
-@@ -101,15 +101,23 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     if (ret < 0) {
-         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
-                    strerror(-ret));
--        vhost_user_cleanup(&s->vhost_user);
--        g_free(vqs);
--        return;
-+        goto free_vhost;
-     }
- 
-     /* Channel and lun both are 0 for bootable vhost-user-scsi disk */
-     vsc->channel = 0;
-     vsc->lun = 0;
-     vsc->target = vs->conf.boot_tpgt;
-+
-+    return;
-+
-+free_vhost:
-+    vhost_user_cleanup(&s->vhost_user);
-+    g_free(vqs);
-+free_virtio:
-+    err = NULL;
-+    virtio_scsi_common_unrealize(dev, &err);
-+    error_propagate(errp, err);
- }
- 
- static void vhost_user_scsi_unrealize(DeviceState *dev, Error **errp)
--- 
-2.21.0
+  Subject: [RFC PATCH for 4.1] linux-user: unparent CPU object before unref
+  Date: Tue, 16 Jul 2019 15:01:33 +0100
+  Message-Id: <20190716140133.8578-1-alex.bennee@linaro.org>
 
+it doesn't matter as we never attempt to free the memory once a thread
+is destroyed. This causes all linux-user guests that create and destroy
+threads quickly to slowly leak memory. However due to the dynamic opcode
+table ppc/ppc64-linux-user guests leak a lot faster than most, in the
+order of ~50k each time a thread is created and destroyed.
+
+However I'm happy to defer to you as the maintainer :-)
+
+--
+Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836558
+
+Title:
+  Qemu-ppc Memory leak creating threads
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  When creating c++ threads (with c++ std::thread), the resulting binary
+  has memory leaks when running with qemu-ppc.
+
+  Eg the following c++ program, when compiled with gcc, consumes more
+  and more memory while running at qemu-ppc. (does not have memory leaks
+  when compiling for Intel, when running same binary on real powerpc CPU
+  hardware also no memory leaks).
+
+  (Note I used function getCurrentRSS to show available memory, see
+  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
+  runtime-using-c; calls commented out here)
+
+  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
+with older g++ compilers even 4.9)
+  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
+  qemu: qemu-ppc version 3.1.50
+
+
+  ---
+
+  #include <iostream>
+  #include <thread>
+  #include <chrono>
+
+  =
+
+  using namespace std::chrono_literals;
+
+  // Create/run and join a 100 threads.
+  void Fun100()
+  {
+  //    auto b4 =3D getCurrentRSS();
+  //    std::cout << getCurrentRSS() << std::endl;
+      for(int n =3D 0; n < 100; n++)
+      {
+          std::thread t([]
+          {
+              std::this_thread::sleep_for( 10ms );
+          });
+  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
+          t.join();
+      }
+      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
+ memory...
+  //    auto after =3D getCurrentRSS();
+      std::cout << b4 << ' ' << after << std::endl;
+  }
+
+  =
+
+  int main(int, char **)
+  {
+      Fun100();
+      Fun100();  // memory used keeps increasing
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
