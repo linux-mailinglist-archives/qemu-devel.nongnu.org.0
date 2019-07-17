@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087146B2A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:05:37 +0200 (CEST)
-Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A287E6B2C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:17:03 +0200 (CEST)
+Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnXRw-00053a-8b
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1hnXd0-0001Cu-La
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:17:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnXRX-0003um-TH
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:05:13 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hnXcl-0000mU-Q2
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnXRW-0001mL-HM
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:05:11 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43277 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnXRV-0001gg-S9; Tue, 16 Jul 2019 20:05:10 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45pHZm1XnTz9sLt; Wed, 17 Jul 2019 10:05:04 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563321904;
- bh=7QxQXjF+/3q0javjafvFC/nu6B8dq0jO6IHBh8vGtwQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bV8rrW2+YAQfyjWffWBb5I3VRRjmqQbnoT/ud6szj19q2+9cak97AKQ4qjq1fxlj1
- szL3nJOi5Vb/4XfNlrCunm3wttP5TaRou0MOcWgMioMZPCOjUUhZY5W8/0n6kX8icE
- WCR5PoWvUnkCE8IZMJnKbFAnZHgMQxj6nrQEjDpM=
-Date: Tue, 16 Jul 2019 19:16:49 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190716091649.GJ7525@umbus.fritz.box>
-References: <156326547324.51324.17260886524634041718.stgit@lep8c.aus.stglabs.ibm.com>
+ (envelope-from <alistair23@gmail.com>) id 1hnXck-0007ou-7D
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:47 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:44960)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hnXcj-0007oV-VO; Tue, 16 Jul 2019 20:16:46 -0400
+Received: by mail-lf1-x142.google.com with SMTP id r15so10140208lfm.11;
+ Tue, 16 Jul 2019 17:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OgPVlsbrorWi18Tla4KQmw9FL8bnAGlRzO4TGzSi/EQ=;
+ b=bW22tHFWkMvxKEjj1f4yWkA+YVD08gk+KvRSbJ35V6wNxNTOGxKtFUaH0RW20gMhNt
+ f3yOS4odO4Hu4uZoybkpG57/58ukSYWbiZ5f9QWm57utUA+rQuQeCvExejVEWsmluTZp
+ 21iW7evz8hqYKjlEyE43B+/17YjYTphbUt05FmR7TtHts9AeMkcnOo6n0HM4jDhC+qxO
+ oZnN2VOGT1YTJPZLms+CF+TJ3w9WFPMuXk1WITWqaRi1xWiBM7RzV7tNBcHEz6mJ1IWZ
+ okLq+ZsR5ySLEG5Nm7riMFTLzCRwtgLv19aUq488E2A8oTa9VwaXFDneEPEZhduS6dIG
+ FPjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OgPVlsbrorWi18Tla4KQmw9FL8bnAGlRzO4TGzSi/EQ=;
+ b=TEQwKZ6qbzp8fP8A1fg+s5CXRUsDTZzbePJJoNoWt7XjGRZjkeE1MdHlmITKF+XnsR
+ IzoElbVXSMiD8gsYSYr/Al9+AULfXT0blTiFYqoA/1jSNY/9VFKO7lto0Njy4o2+1AnV
+ DgfnMY2EbWcySB7KRts4YpgUukXBAVInt/cQTQ3pMqxWC8FWrfCyK1NgFqlaaLNz5Sn3
+ YpAiAB6yByS5Ixm/9yZ8Xw2MghktrNuNOzf4Ru8MWC5A/OUkO9+mtdej2PDySvKfzlR0
+ oFB9hJCYdeO42qqCnvuvJbyOWYoixU4ygDtJeLizj7g5sgg8CT/v01JigxWR+sMLkiF/
+ py4Q==
+X-Gm-Message-State: APjAAAUhtzxV9qAV/iOQWvD1Lyq//bNEeN3NoY5aoEg/Z7976NumrebM
+ ySUytjiICrbYtmewYxICq9Ee07VGldALJNscA+k=
+X-Google-Smtp-Source: APXvYqw7ajG+ZF8BnG3zQp0p0BgcoxEe1oaOudPeqCugkwm8hBRHZsf1RpW+2IxyCYLpKlvYmSKqx6OgdHX4Ff+nbd4=
+X-Received: by 2002:a19:7006:: with SMTP id h6mr15966240lfc.5.1563322603906;
+ Tue, 16 Jul 2019 17:16:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UlxN1C6awaFNesUv"
-Content-Disposition: inline
-In-Reply-To: <156326547324.51324.17260886524634041718.stgit@lep8c.aus.stglabs.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <cover.1559944445.git.alistair.francis@wdc.com>
+ <CAEiOBXWT=npMfc5kJ_kiRPk4LQe7Nfj13-sEYFtaJ_zHRdCxSQ@mail.gmail.com>
+In-Reply-To: <CAEiOBXWT=npMfc5kJ_kiRPk4LQe7Nfj13-sEYFtaJ_zHRdCxSQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 16 Jul 2019 17:13:25 -0700
+Message-ID: <CAKmqyKMVPUvkaXLZ7_3yjU-byHA9Ohhy=kWr+ExKW3e38=AkMw@mail.gmail.com>
+To: Chih-Min Chao <chihmin.chao@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] ppc: Fix some memory leaks
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v1 00/27] Add RISC-V Hypervisor Extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,142 +71,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 15, 2019 at 4:50 AM Chih-Min Chao <chihmin.chao@sifive.com> wrote:
+>
+>
+>
+> On Sat, Jun 8, 2019 at 6:03 AM Alistair Francis <alistair.francis@wdc.com> wrote:
+>>
+>> This patch series adds the RISC-V Hypervisor extension 0.3. This is the
+>> latest draft spec of the Hypervisor extension.
+>>
+>> The Hypervisor extension is disabled by default, so this series should
+>> result in no changes to anyone using QEMU unless they enable the
+>> extension. The extention can be enabled with the -cpu property (see
+>> below).
+>>
+>> At the moment the spec does not include information about the mstatush
+>> register. As it is not in the spec I haven't added it to QEMU. This
+>> means the extension won't work correctly for 32-bit guests. This should
+>> be a small fix to add the CSR once the spec is updated.
+>>
+>> All testing of this implementation has been done by using the baremetal
+>> Xvisor Hypervisor. We are able to run two Linux guests (that's all I
+>> have tried) as guests.
+>>
+>> At the moment this spec is in a draft state and is subject to change. As
+>> QEMU is extreamly useful in early bring up I think it makes sense for
+>> QEMU to support non-frozen extensions. I would like to decide with this
+>> series how QEMU will handle all future non-frozen extensions. That is a
+>> standard way that QEMU users can test future RISC-V extensions while
+>> still understanding things will change. One idea is just to disable it by
+>> default, another option is to maybe use the Kconfig to make it a compile
+>> time option which developers can use. Should we also display a warning
+>> when running non-frozen extensions?
+>>
+>> Thanks to Anup for doing the initial port of Xvisor. The port is avaliable here:
+>> https://github.com/avpatel/xvisor-next and will run on QEMU.
+>>
+>> Also thanks to Atish for implementing the SBI call support in Xvisor and
+>> for lots of help debugging.
+>>
+>> To run this yourself:
+>>  1. Apply this patch series to QEMU. The latest branch can be found here:
+>>       https://github.com/alistair23/qemu/tree/mainline/alistair/riscv-hyp-work.next
+>>  2. Get the version of OpenSBI that supports the H extension. This can
+>>     be found here:
+>>       https://github.com/riscv/opensbi/tree/hyp_ext_changes_v1
+>>  3. Build the next release of Xvisor. It is available here:
+>>       https://github.com/avpatel/xvisor-next
+>>  4. Make sure you build the Xvisor tests, see here for details:
+>>       https://github.com/avpatel/xvisor-next/tree/master/tests/riscv/virt64/linux
+>>  5. Run QEMU:
+>>      ./riscv64-softmmu/qemu-system-riscv64 -nographic \
+>>        -machine virt -cpu rv64,h=true\
+>>        -serial mon:stdio -serial null -m 4G \
+>>        -device loader,file=vmm.bin,addr=0x80200000 \
+>>        -kernel fw_jump.elf \
+>>        -initrd vmm-disk-linux.img \
+>>        -append "vmm.console=uart@10000000 vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt\""
+>>
+>>    Once you get to the prompt you can start the geust by running:
+>>      guest kick guest0
+>>    You can then bind to the serial port using:
+>>      vserial bind guest0/uart0
+>>    Then you can start Linux using:
+>>      autoexec
+>>
+>>  This was all tested with the mainline 5.1 kernel. I don't know if it
+>>  will work on older kernels.
+>>
+>> So far all of the QEMU work has been tested on Xvisor.
+>>
+>> Known Issues/TODO:
+>>  - Add mstatush to support 32-bit Hypervisors
+>>  - Fix the random hang that sometimes appears when running a Hypervisor guest (~5%)
+>>
+>> There is also on going work from Anup to port KVM.
+>> We have code complete implementation of RISC-V KVM kernel module and
+>> RISC-V KVMTOOL. Currently, we are debugging KVM on QEMU and we will
+>> send-out RFC PATCHES for KVM in June/July 2019.
+>> The KVM RISC-V kernel module is available in riscv_kvm_v1
+>> branch at: https://github.com/avpatel/linux.git
+>> The KVMTOOL RISC-V port is available in riscv_v1 branch of
+>> https://github.com/avpatel/kvmtool.git
+>>
+>> There is very early work on a Xen port as well which is avaliable here:
+>> https://github.com/alistair23/xen/tree/alistair/riscv-port
+>>
+>> Changes from RFC:
+>>  - Rebase on latest master
+>>  - Add floating point changes from Hypervisor extension
+>>
+>> Alistair Francis (27):
+>>   target/riscv: Don't set write permissions on dirty PTEs
+>>   target/riscv: Add the Hypervisor extension
+>>   target/riscv: Add the virtulisation mode
+>>   target/riscv: Add the force HS exception mode
+>>   target/riscv: Add the Hypervisor CSRs to CPUState
+>>   target/riscv: Dump Hypervisor registers if enabled
+>>   target/riscv: Remove strict perm checking for CSR R/W
+>>   target/riscv: Create function to test if FP is enabled
+>>   target/riscv: Add support for background interrupt setting
+>>   target/riscv: Add Hypervisor CSR access functions
+>>   target/riscv: Add background CSRs accesses
+>>   target/riscv: Add background register swapping function
+>>   target/ricsv: Flush the TLB on virtulisation mode changes
+>>   target/riscv: Generate illegal instruction on WFI when V=1
+>>   riscv: plic: Remove unused interrupt functions
+>>   riscv: plic: Always set sip.SEIP bit for HS
+>>   target/riscv: Add hypvervisor trap support
+>>   target/riscv: Add Hypervisor trap return support
+>>   target/riscv: Add hfence instructions
+>>   target/riscv: Disable guest FP support based on backgrond status
+>>   target/riscv: Mark both sstatus and bsstatus as dirty
+>>   target/riscv: Respect MPRV and SPRV for floating point ops
+>>   target/riscv: Allow specifying MMU stage
+>>   target/riscv: Allow specifying number of MMU stages
+>>   target/riscv: Implement second stage MMU
+>>   target/riscv: Call the second stage MMU in virtualisation mode
+>>   target/riscv: Allow enabling the Hypervisor extension
+>>
+>>  hw/riscv/sifive_plic.c                        |  24 +-
+>>  include/hw/riscv/sifive_plic.h                |   3 -
+>>  target/riscv/cpu.c                            |  31 ++
+>>  target/riscv/cpu.h                            |  32 +-
+>>  target/riscv/cpu_bits.h                       |  32 +-
+>>  target/riscv/cpu_helper.c                     | 443 ++++++++++++++++--
+>>  target/riscv/csr.c                            | 216 ++++++++-
+>>  target/riscv/insn32.decode                    |  23 +-
+>>  .../riscv/insn_trans/trans_privileged.inc.c   |  40 ++
+>>  target/riscv/op_helper.c                      |  71 ++-
+>>  target/riscv/translate.c                      |  26 +
+>>  11 files changed, 839 insertions(+), 102 deletions(-)
+>>
+>> --
+>> 2.21.0
+>>
+>
+>   tested with Linux kernel v5.2 and related opensbi/xvisor branches described above.
+>
+>  Tested-by: Chih-Min Chao <chihmin.chao@sifive.com>
 
---UlxN1C6awaFNesUv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for testing!!!
 
-On Tue, Jul 16, 2019 at 03:24:57AM -0500, Shivaprasad G Bhat wrote:
-> valgrind showed some memory leaks while running qemu-system-ppc64.
-> Fixing them in this patch.
->=20
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Unfortunately I don't think this is going to be merged. It is too late
+to have this in the 4.1 release and I'm about to start working on
+upgrading this to the v0.4 Hypervisor spec. So hopefully we can have
+that in 4.2.
 
-Applied, thanks.
+Alistair
 
-> ---
->  hw/ppc/spapr_caps.c  |    2 ++
->  hw/ppc/spapr_drc.c   |    5 ++++-
->  hw/ppc/spapr_hcall.c |    2 ++
->  target/ppc/kvm.c     |    3 ++-
->  4 files changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index bbb001f84a..8e3350f777 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -786,11 +786,13 @@ void spapr_caps_add_properties(SpaprMachineClass *s=
-mc, Error **errp)
->                                    NULL, cap, &local_err);
->          if (local_err) {
->              error_propagate(errp, local_err);
-> +            g_free((char *)name);
->              return;
->          }
-> =20
->          desc =3D g_strdup_printf("%s", cap->description);
->          object_class_property_set_description(klass, name, desc, &local_=
-err);
-> +        g_free((char *)name);
->          g_free(desc);
->          if (local_err) {
->              error_propagate(errp, local_err);
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index bacadfcac5..37fbfe6900 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -827,6 +827,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
-, uint32_t drc_type_mask)
->          Object *obj;
->          SpaprDrc *drc;
->          SpaprDrcClass *drck;
-> +        const char *drc_name =3D NULL;
->          uint32_t drc_index, drc_power_domain;
-> =20
->          if (!strstart(prop->type, "link<", NULL)) {
-> @@ -856,8 +857,10 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
-r, uint32_t drc_type_mask)
->          g_array_append_val(drc_power_domains, drc_power_domain);
-> =20
->          /* ibm,drc-names */
-> -        drc_names =3D g_string_append(drc_names, spapr_drc_name(drc));
-> +        drc_name =3D spapr_drc_name(drc);
-> +        drc_names =3D g_string_append(drc_names, drc_name);
->          drc_names =3D g_string_insert_len(drc_names, -1, "\0", 1);
-> +        g_free((char *)drc_name);
-> =20
->          /* ibm,drc-types */
->          drc_types =3D g_string_append(drc_types, drck->typename);
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 6808d4cda8..0fc58156a0 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1612,6 +1612,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
->      ov5_updates =3D spapr_ovec_new();
->      spapr->cas_reboot =3D spapr_ovec_diff(ov5_updates,
->                                          ov5_cas_old, spapr->ov5_cas);
-> +    spapr_ovec_cleanup(ov5_cas_old);
->      /* Now that processing is finished, set the radix/hash bit for the
->       * guest if it requested a valid mode; otherwise terminate the boot.=
- */
->      if (guest_radix) {
-> @@ -1640,6 +1641,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
->              (spapr_h_cas_compose_response(spapr, args[1], args[2],
->                                            ov5_updates) !=3D 0);
->      }
-> +    spapr_ovec_cleanup(ov1_guest);
-> =20
->      /*
->       * Ensure the guest asks for an interrupt mode we support; otherwise
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8a06d3171e..498ca6d53b 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -491,7 +491,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          return ret;
->      }
-> =20
-> -    idle_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
-> +    if (!idle_timer)
-> +        idle_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cp=
-u);
-> =20
->      switch (cenv->mmu_model) {
->      case POWERPC_MMU_BOOKE206:
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---UlxN1C6awaFNesUv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0tlf8ACgkQbDjKyiDZ
-s5I7YhAAruYZWc/MxVerdEog9KMNw+2aHhn9jSguf9qgZNvQoGKG29kiKVLQZ8Pa
-dyUzYHP0IDDKZ/1ru+5WD9FuOUcacorU4YiUweytRyLMXlQSY71SysZS28Rm4zEu
-y0innztZF/QUdUK8+9C3U+dJQ7pDKz749v4DN6VlVvbTqdtlp1oVRYBMoourTbNY
-ncgdTY/sIhidwdhX3DiBvBXDbQl2SlikjlCBHQrq9GtXz93y6SKwpCsyPAWeejZK
-+BGzg7iSrQEgW9AVQ2dqC6CfkNeaOObcSEOO0h+1zsYOpHoQiMK1vav2AaZKxcfQ
-+bD382PufJTDBEGPjtH1L8RKZ/7XMP4y3M5mfdh8KtHQJ1zHPecoAIJGjnFS79zP
-EH0Wp3jcHK0T0upc+72+wmEmbQZSGOxJYefDRJCCMeB/is0XCQAQQv68sot6oyeD
-OWsbodSdy6FDC0yhgd264CjjakKuKhv9mIrtxSyUMaS66pxlii9kW1R8lD92/1CS
-FzrIJVicBybWIqcQ+xSYpoSq1I+Y8SO4VgrN9QBhc7ITNZyaL3dDjQiDDt/Gh/VU
-YZxYPNfzT73zQCocnCys/F/1JxgU4xx48yECeublBptFGJPoLlyMRoU/c7v0jyqw
-v64WJ/MwjycXbgeRPu5YTN/T1UreZu0Zp9ZOVWIh40NFFZww0T4=
-=Iv6r
------END PGP SIGNATURE-----
-
---UlxN1C6awaFNesUv--
+>
 
