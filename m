@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502086B2C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:17:53 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F136B2C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:16:17 +0200 (CEST)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnXdo-00026N-I1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45139)
+	id 1hnXcG-0000Is-LR
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hnXdb-0001eB-Kl
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:17:40 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hnXc2-0008Li-Oa
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hnXda-00084l-K1
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:17:39 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:46084)
+ (envelope-from <elohimes@gmail.com>) id 1hnXc1-0007Vo-Ln
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:02 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:41766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hnXda-00084a-An; Tue, 16 Jul 2019 20:17:38 -0400
-Received: by mail-lf1-x142.google.com with SMTP id z15so10737633lfh.13;
- Tue, 16 Jul 2019 17:17:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hnXc1-0007U3-F4
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:01 -0400
+Received: by mail-qk1-x744.google.com with SMTP id v22so16077722qkj.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 17:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9QZgh22M+ts7wnAbDENlpUJosc80GCJNMZ0pBHax8eo=;
- b=c2dA8701kQn0EekbAY01J+yXbXh/aboG0LWQK36XQQioVFkTingJnOA14inTctiIUs
- 0/yaoJzjUWn98aeFAs6XkSnHPMDufjel6pCcCRaK+mVbJ6gLHwg63UeQxPsDPQ/AQ2+O
- hdjReAXZhsSjtfgypkdKXvXV3iEsejBOWobrW6rGLV55RQLAZQuG44b7m+dsbUBwriRN
- fjw9Hd1Cg52w1oGjtJvQ6utTHQnPWDTYFTgCDl6KeJYeCQnQGFQsg5EG52ZaRFx8Xl+H
- L5261LmYDSCPs21tHJydWXQszR49sb3HoRuGplNw1cZSK9jsNq961i/LpkQ1qXyKNj3X
- h7Yw==
+ :cc; bh=M5ckMOSIMZvSWWF/m5XgA5N+1zkIPe6mtKvJb+Wx4MQ=;
+ b=lqnMK/u9gXOB7E9yqx7AvFynG2g3UNm5Zyl0T3MlMolIgDjHmlsRkNcK/+/HrScct4
+ GsoSLOEQOEw/kVjXzEe4EPZ/AnLTMQUz+VjnkmdSC3WK4+21SuSobeVaEXZjr/ZSHOJY
+ vDyvZAXeVAfre5af4SWyIRnnPgUWEKkErd2Pw95mbq5kTt6IVrR7wOzVBtt0PCYrs/0L
+ X9T6wbnilzusQXES8iZBptOZ4unuQU7hn+HWEgfVMejjhvuxTrhYqxqLaaD7UYo69To6
+ MvgNCFgQoxi5E9VzGEKK1egSAFcTvScn+Mn36CUbMMQsUxWdr8NrOPLFhO5G+j9Qc989
+ oWWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9QZgh22M+ts7wnAbDENlpUJosc80GCJNMZ0pBHax8eo=;
- b=JohE8/+cp5RWQf+7VJ+1m82C0tzrII+FeAoJSkeIW1mySKRWufM9P3FWJ0tIo6qshV
- 2rsqTbXmvIlk3W9SF2AQEtONOQV+xJCnYzXJKYz8l2X+hb/gsvPEqbCkgdFyPrIVMC0+
- 5whm9E97pEdcxBJbvm3KL9EUhDmf3lcQ1k1lKTfaUHUoMyZlSy7PnaAjcoCYQQedydo3
- k9wrqeHv/eDdwww8IeDw0XxLXRgNzGm6VIoebzSPGtcqWZ+vRUOh3OEg28+ycpnLoxIQ
- LYMDw/lfvrGyzQfBHLkAgZgxkM0W1k2emYGD52sPxxC69QSp3Oayubauz8pMQOfRU3Ws
- 7v3w==
-X-Gm-Message-State: APjAAAVXsYfzjjItJXWuf61iLD/qFHNVo1HgJULBnREXJg43PyvKGKsw
- 9N7xG5/ZPxi4ZW62F4l5v0EHihdNqeVQ4vx1K4M=
-X-Google-Smtp-Source: APXvYqxzfkqUOIdzwY9KPSNiAhGUAHkFiE7yoOUqg1CGC3tfVS4eX5Q3pQSifAWW5jgTMCVyAAbulK6lJFhdCtyMmAk=
-X-Received: by 2002:a19:7709:: with SMTP id s9mr15246531lfc.86.1563322657174; 
- Tue, 16 Jul 2019 17:17:37 -0700 (PDT)
+ bh=M5ckMOSIMZvSWWF/m5XgA5N+1zkIPe6mtKvJb+Wx4MQ=;
+ b=Jcwuhfizh+CCE/UmMxauj38SE8UaZAcNEF3XuA5EliHeaVhunfG6/3iLG6tYzQjYO/
+ FXfz/2lghi6eKWSq6Pf9+H7JjSDKv1ROhQZH8z5hV/iJakJS52m+vMPZJc79N29rNWXd
+ tfyFHtq9T0w25B8gbeztDqB9fJ48Wv3MEPnp75TZJI/q9wOsoe1QHNNABHUmYYJJIc7l
+ XIMMJm34lvAa+4qhKpozkDMFcFXWpd72tXEIDPTl+9en+NFGAsMVCoyJ/mNnCQxb88Nf
+ oPnNFZohnk74Sa5fIH8V6MjWD48o/aiUf7N9CNAyXlNfFX76eaihHWrvruwc5cH9KuVS
+ U9DQ==
+X-Gm-Message-State: APjAAAXJLRWK4kiNI8kywK/PFRlaR+hUUv68R94dwf2qVm5qbDkLIPms
+ jvKVZtycmcefbKmHPCYfSAovXDMHQs8GvWAFGkc=
+X-Google-Smtp-Source: APXvYqx3dnLUseAdju0ATbRRk8LOKGNrGU6awtJXmxDxCLkulmN5iuzhKo/XinTFSkeVo98JBBdaNB7TTn/c43fAeG0=
+X-Received: by 2002:ae9:c106:: with SMTP id z6mr25021615qki.285.1563322559826; 
+ Tue, 16 Jul 2019 17:15:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1559944445.git.alistair.francis@wdc.com>
- <CAFEAcA95grVBoiCbMAeZYTXYxc6nhjx1EM6=05G_3Qqpp8obNQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA95grVBoiCbMAeZYTXYxc6nhjx1EM6=05G_3Qqpp8obNQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Jul 2019 17:14:19 -0700
-Message-ID: <CAKmqyKPPtSHSBMvrVxwi1aX=oPSEfxxpD-QQ=ym2ymvcvk5z0w@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190715102326.2805-1-xieyongji@baidu.com>
+ <20190716144202.GB18691@stefanha-x1.localdomain>
+In-Reply-To: <20190716144202.GB18691@stefanha-x1.localdomain>
+From: Yongji Xie <elohimes@gmail.com>
+Date: Wed, 17 Jul 2019 08:15:48 +0800
+Message-ID: <CAONzpcbx10OHQ7y=ZW7U1TbdOEhtfOG571ioq8q6naonuUNG1A@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
-Subject: Re: [Qemu-devel] [PATCH v1 00/27] Add RISC-V Hypervisor Extension
+X-Received-From: 2607:f8b0:4864:20::744
+Subject: Re: [Qemu-devel] [PATCH 1/2] vhost-scsi: Call
+ virtio_scsi_common_unrealize() when device realize failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,51 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, pbonzini@redhat.com, Xie Yongji <xieyongji@baidu.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 15, 2019 at 5:00 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 16 Jul 2019 at 22:42, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> On Fri, 7 Jun 2019 at 23:03, Alistair Francis <alistair.francis@wdc.com> wrote:
-> > At the moment this spec is in a draft state and is subject to change. As
-> > QEMU is extreamly useful in early bring up I think it makes sense for
-> > QEMU to support non-frozen extensions. I would like to decide with this
-> > series how QEMU will handle all future non-frozen extensions. That is a
-> > standard way that QEMU users can test future RISC-V extensions while
-> > still understanding things will change. One idea is just to disable it by
-> > default, another option is to maybe use the Kconfig to make it a compile
-> > time option which developers can use. Should we also display a warning
-> > when running non-frozen extensions?
+> On Mon, Jul 15, 2019 at 06:23:25PM +0800, elohimes@gmail.com wrote:
+> > From: Xie Yongji <xieyongji@baidu.com>
+> >
+> > This avoids memory leak when device hotplug is failed.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+> > ---
+> >  hw/scsi/vhost-scsi.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+> > index 4090f99ee4..db4a090576 100644
+> > --- a/hw/scsi/vhost-scsi.c
+> > +++ b/hw/scsi/vhost-scsi.c
+> > @@ -210,7 +210,7 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+> >          if (err) {
+> >              error_propagate(errp, err);
+> >              error_free(vsc->migration_blocker);
+> > -            goto close_fd;
+> > +            goto free_virtio;
+> >          }
+> >      }
+> >
+> > @@ -240,6 +240,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+> >          migrate_del_blocker(vsc->migration_blocker);
+> >      }
+> >      g_free(vsc->dev.vqs);
+> > + free_virtio:
+> > +    virtio_scsi_common_unrealize(dev, errp);
 >
-> We had an instance of this for Arm (though in fact the
-> relevant patches to QEMU didn't end up getting into master
-> before the spec was finalized in the end). My suggestion
-> would be at minimum:
->  * by default non-frozen extensions should not be provided
-
-Yep, these are off by default.
-
->  * they should be enabled via a command line option (cpu
->    property) whose name starts with "x-", which is our standard
->    way of flagging properties that are experimental and subject
->    to change or removal in future QEMU versions
-
-Sounds good, I'll rename the property in the next version.
-
-Alistair
-
+> error_set*() requires that *errp == NULL:
 >
-> That way end-users know they're doing something non-standard
-> that won't necessarily be supported in future by newer versions
-> of QEMU, and if people copy recipes/commandlines/random guest
-> images off old blog posts there'll be a hint that there's a
-> reason why they don't work on newer QEMU that adheres to the
-> final spec.
+>   static void error_setv(Error **errp, ...
+>   ...
+>       assert(*errp == NULL);
 >
-> thanks
-> -- PMM
+> Today virtio_scsi_common_unrealize() doesn't use the errp argument but
+> if it ever uses it then QEMU will hit an assertion failure.
+>
+> Please do this instead:
+>
+>   virtio_scsi_common_unrealize(dev, &error_abort);
+>
+> If virtio_scsi_common_unrealize() ever produces an error there will be
+> an message explaining that errors are unexpected.
+>
+> This also applies to Patch 2.
+>
+> Alternatively you could do this to handle all cases and propagate the
+> error:
+>
+>   Error *local_err = NULL;
+>   virtio_scsi_common_unrealize(dev, &local_err);
+>   error_propagate(errp, local_err);
+
+Will fix it in v2. Thank you.
+
+Thanks,
+Yongji
 
