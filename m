@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2685F6B497
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:35:40 +0200 (CEST)
-Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598656B49A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:36:03 +0200 (CEST)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnZn9-0008Jz-3e
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:35:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53170)
+	id 1hnZnW-0002Bl-G2
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53187)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shirley17fei@gmail.com>) id 1hnZld-0002BS-7m
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:06 -0400
+ (envelope-from <shirley17fei@gmail.com>) id 1hnZlg-0002PB-9h
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shirley17fei@gmail.com>) id 1hnZlb-0006R0-23
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:05 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44911)
+ (envelope-from <shirley17fei@gmail.com>) id 1hnZlf-0006TQ-6F
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:08 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <shirley17fei@gmail.com>)
- id 1hnZla-0006QA-Ro
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:02 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id i18so10366199pgl.11
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 19:34:02 -0700 (PDT)
+ id 1hnZlf-0006Sm-0C
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:34:07 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t132so10360754pgb.9
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 19:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7FY9rArmeN2qGXWCSOPhl+5ILUXBgNadzkrqAFbuET0=;
- b=hYVN4SO+5XIW8q5ZNzatit06yB/L3Df29sQAdSUzh4H1LNzPS1fmWMVqwKm8HvI8h5
- nXm+ANWcEM+ihA8dbv+D8q6qA3ProkB5xiFnQc91rPkg9AMKEpGXq1gg3okqcm972cYL
- QI2tiLvixPOMKOBW+jhOwiRVXWzz9HeeOdGYGsmjdm093P/7AFHTk1ndPomA9MkqSqxo
- NNLvyVKPVsaTSM/9nrGNS0emhuXx9xbz3vwxAnlqo4OcZzGq9BUs54tHc+WQOZuTWSAD
- CIQIknszFEGiz0GVdBFMgpYmoo8Ea8O7JP363Dryb9ag37BJ+HSO5WukwFuxd/V+YKEr
- y8KA==
+ bh=ZlmBo0TLQANZAtGi/aDCtbMrJkweF6r+WlH/gv43QgA=;
+ b=oc8cvP0ATx4w+MylNhKJfJvNkpLnLAo/LlNlnXU9qU3hVy14KKhiCzedRyKSVHh92i
+ p9PWeTancxN570mGLx7vYS3tGFymB/3zhTN0WE9OVRdZ2vIc3J6RoHOVQomrxAIqxqcP
+ SSwNz5Gsz/Fm+5yU97KKrAmVFDiP7Adra3eyhT1oB2khw2Kg+F4Soz4pFQ7CLDPjOX0/
+ dRE7p8YTz2UcdL50N0ZbuMbnA3dzTbABkGeKXvlf9Tpd2nWqlSg8SSj3JALFpsCEG9zb
+ fdXXFdoSDSBIKhBpdbeo/9whSWGuiSuMyVU2T29BbKXe8u7chVdm1oR2P9yVyJbGYjz+
+ WZmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7FY9rArmeN2qGXWCSOPhl+5ILUXBgNadzkrqAFbuET0=;
- b=ptZmKFMoL3zQMDwmdswNO/laZ/RXvslSjAyx8AskXBOYXLmVQbDftT9pp3O9mqe1SM
- uJkAS7WfQyG+mSFkArqeKGnRjBMPKofcJpv0J6hLFJ/QTrC/n5XYpzxHJ6FCbUAUeQeF
- n1J7bHm2kavPeAx+jJrGGy2cAwf/I5kwq0P1D2EyAfGdo8jAubDV9TM/DcbkGENItyIQ
- rp8skSRrUuCy5h4poupob2AhK+fA6+83CBeQIS0Whq4wvIUjVeEfV+CsFMiIzc87QvTD
- BcSlAFPCp75tbHjxGXCYHHsUEnjIYPj02ZjRN555px/ruOHcJwFpep8MAd+9KTN1ari/
- 4v3g==
-X-Gm-Message-State: APjAAAUQFfEOxxtw5aBKfjbSYrgBW69kwxwY3DxecOfY3iYpMIRNBiUI
- L7PuP8camm6C4h6+nVB9Enq+xBE9
-X-Google-Smtp-Source: APXvYqyWNDrH5M/VgXOWJDavXmS1N67P/ZH1ErPedS5rC3efCszrmwBAzWP0dPrQYZ+X98G68easwQ==
-X-Received: by 2002:a63:d23:: with SMTP id c35mr37568550pgl.376.1563330841443; 
- Tue, 16 Jul 2019 19:34:01 -0700 (PDT)
+ bh=ZlmBo0TLQANZAtGi/aDCtbMrJkweF6r+WlH/gv43QgA=;
+ b=ORL4Ahuj8XO3cDz8ePpuMD7EvdW8cQMhAo1A3Lwo5eY7aKqgBZMDO01Z9mYXgf6INW
+ Vm9ndYbd+AQ1jjj8qW0FMgmdVAaI/s6dkhW6u7if60WQlW2C2v16Vxi1zlDLcdlaFii0
+ XnVXJ06w3Q0Rj4t3BMlN6322qVVcogVkj+eKcyr3RRXFo59A64FZIG3gppAopfRPQgTd
+ yJ3nF4MPBEZVmyYxUYy+QK3ENEUTXYZ1o5ez4RJzub+MFJrkfZJW7lYPX0QDWfaS8cOk
+ 8QHSCgwEPrZs27g4j5XnPidokdeT6wDEIQSKTRIJSPw0XWaid2JcCOZ8YWHHMBs8oX8z
+ 6Y1g==
+X-Gm-Message-State: APjAAAWyfCMdBtNpCjxlTkS8gkDnYdk93IwpsRitq+vOD2mn3IFZPsIy
+ HZdPB2UaA5cCjgTVA4MIvnOYOrPJ
+X-Google-Smtp-Source: APXvYqwoITl4shxkQG5p9IVRUvVMcI2KBVbBQHKg80HIatfrSBh9jgcMvBlOwow0dnnlvueNRm53UA==
+X-Received: by 2002:a63:f13:: with SMTP id e19mr37682711pgl.132.1563330845374; 
+ Tue, 16 Jul 2019 19:34:05 -0700 (PDT)
 Received: from n3-021-211.byted.org ([49.7.44.72])
- by smtp.gmail.com with ESMTPSA id b1sm20986530pfi.91.2019.07.16.19.33.58
+ by smtp.gmail.com with ESMTPSA id b1sm20986530pfi.91.2019.07.16.19.34.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 19:34:00 -0700 (PDT)
+ Tue, 16 Jul 2019 19:34:04 -0700 (PDT)
 From: Fei Li <shirley17fei@gmail.com>
 To: qemu-devel@nongnu.org,
 	shirley17fei@gmail.com
-Date: Wed, 17 Jul 2019 10:33:09 +0800
-Message-Id: <20190717023310.197246-11-shirley17fei@gmail.com>
+Date: Wed, 17 Jul 2019 10:33:10 +0800
+Message-Id: <20190717023310.197246-12-shirley17fei@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190717023310.197246-1-shirley17fei@gmail.com>
 References: <20190717023310.197246-1-shirley17fei@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52a
-Subject: [Qemu-devel] [PATCH v14 10/11] qemu_thread: supplement error
- handling for vnc_start_worker_thread
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v14 11/11] qemu_thread: supplement error
+ handling for touch_all_pages
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,81 +84,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fei Li <fli@suse.com>
 
-Supplement the error handling for vnc_thread_worker_thread: add
-an Error parameter for it to propagate the error to its caller to
-handle in case it fails, and make it return a Boolean to indicate
-whether it succeeds.
+Supplement the error handling for touch_all_pages: add an Error
+parameter for it to propagate the error to its caller to do the
+handling in case it fails.
 
 Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Fei Li <fli@suse.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- ui/vnc-jobs.c | 17 +++++++++++------
- ui/vnc-jobs.h |  2 +-
- ui/vnc.c      |  4 +++-
- 3 files changed, 15 insertions(+), 8 deletions(-)
+ util/oslib-posix.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/ui/vnc-jobs.c b/ui/vnc-jobs.c
-index 5712f1f501..1371895513 100644
---- a/ui/vnc-jobs.c
-+++ b/ui/vnc-jobs.c
-@@ -332,16 +332,21 @@ static bool vnc_worker_thread_running(void)
-     return queue; /* Check global queue */
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 55c1b9c098..eff5af3ccf 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -448,12 +448,12 @@ static inline int get_memset_num_threads(int smp_cpus)
  }
  
--void vnc_start_worker_thread(void)
-+bool vnc_start_worker_thread(Error **errp)
+ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                            int smp_cpus)
++                            int smp_cpus, Error **errp)
  {
-     VncJobQueue *q;
+     size_t numpages_per_thread;
+     size_t size_per_thread;
+     char *addr = area;
+-    int i = 0;
++    int i = 0, j = 0;
  
--    if (vnc_worker_thread_running())
--        return ;
-+    if (vnc_worker_thread_running()) {
-+        return true;
-+    }
+     memset_thread_failed = false;
+     memset_num_threads = get_memset_num_threads(smp_cpus);
+@@ -465,20 +465,32 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+         memset_thread[i].numpages = (i == (memset_num_threads - 1)) ?
+                                     numpages : numpages_per_thread;
+         memset_thread[i].hpagesize = hpagesize;
+-        /* TODO: let the callers handle the error instead of abort() here */
+-        qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
+-                           do_touch_pages, &memset_thread[i],
+-                           QEMU_THREAD_JOINABLE, &error_abort);
++        if (qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
++                               do_touch_pages, &memset_thread[i],
++                               QEMU_THREAD_JOINABLE, errp) < 0) {
++            break;
++        }
+         addr += size_per_thread;
+         numpages -= numpages_per_thread;
+     }
+-    for (i = 0; i < memset_num_threads; i++) {
+-        qemu_thread_join(&memset_thread[i].pgthread);
++
++    for (j = 0; j < i; j++) {
++        qemu_thread_join(&memset_thread[j].pgthread);
+     }
+     g_free(memset_thread);
+     memset_thread = NULL;
  
-     q = vnc_queue_init();
--    /* TODO: let the further caller handle the error instead of abort() here */
--    qemu_thread_create(&q->thread, "vnc_worker", vnc_worker_thread,
--                       q, QEMU_THREAD_DETACHED, &error_abort);
-+    if (qemu_thread_create(&q->thread, "vnc_worker", vnc_worker_thread,
-+                           q, QEMU_THREAD_DETACHED, errp) < 0) {
-+        vnc_queue_clear(q);
+-    return memset_thread_failed;
++    if (i < memset_num_threads) {
++        /* qemu_thread_create() has set @errp */
 +        return false;
 +    }
-     queue = q; /* Set global queue */
 +
++    if (memset_thread_failed) {
++        error_setg(errp, "os_mem_prealloc: Insufficient free host "
++                         "memory pages available to allocate guest RAM");
++        return false;
++    }
 +    return true;
  }
-diff --git a/ui/vnc-jobs.h b/ui/vnc-jobs.h
-index 59f66bcc35..14640593db 100644
---- a/ui/vnc-jobs.h
-+++ b/ui/vnc-jobs.h
-@@ -37,7 +37,7 @@ void vnc_job_push(VncJob *job);
- void vnc_jobs_join(VncState *vs);
  
- void vnc_jobs_consume_buffer(VncState *vs);
--void vnc_start_worker_thread(void);
-+bool vnc_start_worker_thread(Error **errp);
+ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+@@ -501,10 +513,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     }
  
- /* Locks */
- static inline int vnc_trylock_display(VncDisplay *vd)
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 38f92bfca3..561fcb9a29 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3196,7 +3196,9 @@ void vnc_display_init(const char *id, Error **errp)
-     vd->connections_limit = 32;
+     /* touch pages simultaneously */
+-    if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
+-        error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
+-            "pages available to allocate guest RAM");
+-    }
++    touch_all_pages(area, hpagesize, numpages, smp_cpus, errp);
  
-     qemu_mutex_init(&vd->mutex);
--    vnc_start_worker_thread();
-+    if (!vnc_start_worker_thread(errp)) {
-+        return;
-+    }
- 
-     vd->dcl.ops = &dcl_ops;
-     register_displaychangelistener(&vd->dcl);
+     ret = sigaction(SIGBUS, &oldact, NULL);
+     if (ret) {
 -- 
 2.11.0
 
