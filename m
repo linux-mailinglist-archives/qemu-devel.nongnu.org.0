@@ -2,86 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EEB6C261
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 23:00:34 +0200 (CEST)
-Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97FC6C271
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 23:13:11 +0200 (CEST)
+Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnr2P-0004ja-7u
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 17:00:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
+	id 1hnrEc-0002yG-CH
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 17:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46141)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hnr1v-0003oQ-Vr
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:00:07 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hnrEP-0002XY-Ig
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:12:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hnr1t-0006oS-OO
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:00:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57880
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hnr1t-0006mR-Gq
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:00:01 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6HKvER8069275
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 17:00:01 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tt9nrbunn-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 17:00:00 -0400
-Received: from localhost
- by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Wed, 17 Jul 2019 22:00:00 +0100
-Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
- by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 17 Jul 2019 21:59:58 +0100
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6HKxvRX52035888
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 17 Jul 2019 20:59:57 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 444587805C;
- Wed, 17 Jul 2019 20:59:57 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1FB17805E;
- Wed, 17 Jul 2019 20:59:56 +0000 (GMT)
-Received: from localhost (unknown [9.80.82.153])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 17 Jul 2019 20:59:56 +0000 (GMT)
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 17 Jul 2019 15:58:42 -0500
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190717205842.17827-1-mdroth@linux.vnet.ibm.com>
-References: <20190717205842.17827-1-mdroth@linux.vnet.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19071720-0036-0000-0000-00000ADB5B16
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011448; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01233612; UDB=6.00650028; IPR=6.01014937; 
- MB=3.00027766; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-17 20:59:59
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071720-0037-0000-0000-00004CA405EF
-Message-Id: <20190717205842.17827-3-mdroth@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-17_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907170237
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH for-4.2 v2 2/2] spapr: initial implementation
- for H_TPM_COMM/spapr-tpm-proxy
+ (envelope-from <jsnow@redhat.com>) id 1hnrEO-0006gw-7R
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 17:12:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:4497)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1hnrEL-0006fK-KH; Wed, 17 Jul 2019 17:12:53 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E9C1F30C1324;
+ Wed, 17 Jul 2019 21:12:51 +0000 (UTC)
+Received: from [10.18.17.203] (dhcp-17-203.bos.redhat.com [10.18.17.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF6465C257;
+ Wed, 17 Jul 2019 21:12:48 +0000 (UTC)
+To: qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190717173937.18747-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d180aebd-a614-9927-9ae6-c99973b7e669@redhat.com>
+Date: Wed, 17 Jul 2019 17:12:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <20190717173937.18747-1-jsnow@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Wed, 17 Jul 2019 21:12:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] qapi: add dirty-bitmaps to
+ query-named-block-nodes result
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,443 +134,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the H_TPM_COMM hypercall, which is used by an
-Ultravisor to pass TPM commands directly to the host's TPM device, or
-a TPM Resource Manager associated with the device.
 
-This also introduces a new virtual device, spapr-tpm-proxy, which
-is used to configure the host TPM path to be used to service
-requests sent by H_TPM_COMM hcalls, for example:
 
-  -device spapr-tpm-proxy,id=tpmp0,host-path=/dev/tpmrm0
+On 7/17/19 1:39 PM, John Snow wrote:
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> Let's add a possibility to query dirty-bitmaps not only on root nodes.
+> It is useful when dealing both with snapshots and incremental backups.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> [Added deprecation information. --js]
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-By default, no spapr-tpm-proxy will be created, and hcalls will return
-H_FUNCTION.
+Made spelling edit suggested by Eric, and queued for 4.2.
 
-The full specification for this hypercall can be found in
-docs/specs/ppc-spapr-uv-hcalls.txt
+Thanks, applied to my bitmaps tree:
 
-Since SVM-related hcalls like H_TPM_COMM use a reserved range of
-0xEF00-0xEF80, we introduce a separate hcall table here to handle
-them.
+https://github.com/jnsnow/qemu/commits/bitmaps
+https://github.com/jnsnow/qemu.git
 
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com
----
- hw/ppc/Makefile.objs             |   1 +
- hw/ppc/spapr.c                   |  33 +++++-
- hw/ppc/spapr_hcall.c             |  13 +++
- hw/ppc/spapr_tpm_proxy.c         | 176 +++++++++++++++++++++++++++++++
- hw/ppc/trace-events              |   4 +
- include/hw/ppc/spapr.h           |  11 ++
- include/hw/ppc/spapr_tpm_proxy.h |  31 ++++++
- 7 files changed, 268 insertions(+), 1 deletion(-)
- create mode 100644 hw/ppc/spapr_tpm_proxy.c
- create mode 100644 include/hw/ppc/spapr_tpm_proxy.h
-
-diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-index 9da93af905..2c4e1c8de0 100644
---- a/hw/ppc/Makefile.objs
-+++ b/hw/ppc/Makefile.objs
-@@ -5,6 +5,7 @@ obj-$(CONFIG_PSERIES) += spapr.o spapr_caps.o spapr_vio.o spapr_events.o
- obj-$(CONFIG_PSERIES) += spapr_hcall.o spapr_iommu.o spapr_rtas.o
- obj-$(CONFIG_PSERIES) += spapr_pci.o spapr_rtc.o spapr_drc.o
- obj-$(CONFIG_PSERIES) += spapr_cpu_core.o spapr_ovec.o spapr_irq.o
-+obj-$(CONFIG_PSERIES) += spapr_tpm_proxy.o
- obj-$(CONFIG_SPAPR_RNG) +=  spapr_rng.o
- # IBM PowerNV
- obj-$(CONFIG_POWERNV) += pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_psi.o pnv_occ.o pnv_bmc.o
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 8783b43396..0ddf129abe 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -75,6 +75,7 @@
- #include "qemu/cutils.h"
- #include "hw/ppc/spapr_cpu_core.h"
- #include "hw/mem/memory-device.h"
-+#include "hw/ppc/spapr_tpm_proxy.h"
- 
- #include <libfdt.h>
- 
-@@ -4031,6 +4032,29 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
-     }
- }
- 
-+static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-+                                 Error **errp)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-+    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(dev);
-+
-+    if (spapr->tpm_proxy != NULL) {
-+        error_setg(errp, "Only one TPM proxy can be specified for this machine");
-+        return;
-+    }
-+
-+    spapr->tpm_proxy = tpm_proxy;
-+}
-+
-+static void spapr_tpm_proxy_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-+
-+    object_property_set_bool(OBJECT(dev), false, "realized", NULL);
-+    object_unparent(OBJECT(dev));
-+    spapr->tpm_proxy = NULL;
-+}
-+
- static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
-                                       DeviceState *dev, Error **errp)
- {
-@@ -4040,6 +4064,8 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
-         spapr_core_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-         spapr_phb_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-+        spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
-     }
- }
- 
-@@ -4052,6 +4078,8 @@ static void spapr_machine_device_unplug(HotplugHandler *hotplug_dev,
-         spapr_core_unplug(hotplug_dev, dev);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-         spapr_phb_unplug(hotplug_dev, dev);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-+        spapr_tpm_proxy_unplug(hotplug_dev, dev);
-     }
- }
- 
-@@ -4086,6 +4114,8 @@ static void spapr_machine_device_unplug_request(HotplugHandler *hotplug_dev,
-             return;
-         }
-         spapr_phb_unplug_request(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-+        spapr_tpm_proxy_unplug(hotplug_dev, dev);
-     }
- }
- 
-@@ -4106,7 +4136,8 @@ static HotplugHandler *spapr_get_hotplug_handler(MachineState *machine,
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE) ||
--        object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 0fc58156a0..97e41b5730 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1826,6 +1826,7 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, SpaprMachineState *spapr,
- 
- static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
- static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_HCALL_BASE + 1];
-+static spapr_hcall_fn svm_hypercall_table[(SVM_HCALL_MAX - SVM_HCALL_BASE) / 4 + 1];
- 
- void spapr_register_hypercall(target_ulong opcode, spapr_hcall_fn fn)
- {
-@@ -1835,6 +1836,11 @@ void spapr_register_hypercall(target_ulong opcode, spapr_hcall_fn fn)
-         assert((opcode & 0x3) == 0);
- 
-         slot = &papr_hypercall_table[opcode / 4];
-+    } else if (opcode >= SVM_HCALL_BASE && opcode <= SVM_HCALL_MAX) {
-+        /* we only have SVM-related hcall numbers assigned in multiples of 4 */
-+        assert((opcode & 0x3) == 0);
-+
-+        slot = &svm_hypercall_table[(opcode - SVM_HCALL_BASE) / 4];
-     } else {
-         assert((opcode >= KVMPPC_HCALL_BASE) && (opcode <= KVMPPC_HCALL_MAX));
- 
-@@ -1854,6 +1860,13 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
-         && ((opcode & 0x3) == 0)) {
-         spapr_hcall_fn fn = papr_hypercall_table[opcode / 4];
- 
-+        if (fn) {
-+            return fn(cpu, spapr, opcode, args);
-+        }
-+    } else if ((opcode >= SVM_HCALL_BASE) &&
-+               (opcode <= SVM_HCALL_MAX)) {
-+        spapr_hcall_fn fn = svm_hypercall_table[(opcode - SVM_HCALL_BASE) / 4];
-+
-         if (fn) {
-             return fn(cpu, spapr, opcode, args);
-         }
-diff --git a/hw/ppc/spapr_tpm_proxy.c b/hw/ppc/spapr_tpm_proxy.c
-new file mode 100644
-index 0000000000..435ba8e2c1
---- /dev/null
-+++ b/hw/ppc/spapr_tpm_proxy.c
-@@ -0,0 +1,176 @@
-+/*
-+ * SPAPR TPM Proxy/Hypercall
-+ *
-+ * Copyright IBM Corp. 2019
-+ *
-+ * Authors:
-+ *  Michael Roth      <mdroth@linux.vnet.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "cpu.h"
-+#include "hw/ppc/spapr.h"
-+#include "trace.h"
-+
-+#define TPM_SPAPR_BUFSIZE 4096
-+
-+enum {
-+    TPM_COMM_OP_EXECUTE = 1,
-+    TPM_COMM_OP_CLOSE_SESSION = 2,
-+};
-+
-+static void spapr_tpm_proxy_reset(void *opaque)
-+{
-+    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(opaque);
-+
-+    if (tpm_proxy->host_fd != -1) {
-+        close(tpm_proxy->host_fd);
-+        tpm_proxy->host_fd = -1;
-+    }
-+}
-+
-+static ssize_t tpm_execute(SpaprTpmProxy *tpm_proxy, target_ulong *args)
-+{
-+    uint64_t data_in = ppc64_phys_to_real(args[1]);
-+    target_ulong data_in_size = args[2];
-+    uint64_t data_out = ppc64_phys_to_real(args[3]);
-+    target_ulong data_out_size = args[4];
-+    uint8_t buf_in[TPM_SPAPR_BUFSIZE];
-+    uint8_t buf_out[TPM_SPAPR_BUFSIZE];
-+    ssize_t ret;
-+
-+    trace_spapr_tpm_execute(data_in, data_in_size, data_out, data_out_size);
-+
-+    if (data_in_size > TPM_SPAPR_BUFSIZE) {
-+        error_report("invalid TPM input buffer size: " TARGET_FMT_lu,
-+                     data_in_size);
-+        return H_P3;
-+    }
-+
-+    if (data_out_size < TPM_SPAPR_BUFSIZE) {
-+        error_report("invalid TPM output buffer size: " TARGET_FMT_lu,
-+                     data_out_size);
-+        return H_P5;
-+    }
-+
-+    if (tpm_proxy->host_fd == -1) {
-+        tpm_proxy->host_fd = open(tpm_proxy->host_path, O_RDWR);
-+        if (tpm_proxy->host_fd == -1) {
-+            error_report("failed to open TPM device %s: %d",
-+                         tpm_proxy->host_path, errno);
-+            return H_RESOURCE;
-+        }
-+    }
-+
-+    cpu_physical_memory_read(data_in, buf_in, data_in_size);
-+
-+    do {
-+        ret = write(tpm_proxy->host_fd, buf_in, data_in_size);
-+        if (ret > 0) {
-+            data_in_size -= ret;
-+        }
-+    } while ((ret >= 0 && data_in_size > 0) || (ret == -1 && errno == EINTR));
-+
-+    if (ret == -1) {
-+        error_report("failed to write to TPM device %s: %d",
-+                     tpm_proxy->host_path, errno);
-+        return H_RESOURCE;
-+    }
-+
-+    do {
-+        ret = read(tpm_proxy->host_fd, buf_out, data_out_size);
-+    } while (ret == 0 || (ret == -1 && errno == EINTR));
-+
-+    if (ret == -1) {
-+        error_report("failed to read from TPM device %s: %d",
-+                     tpm_proxy->host_path, errno);
-+        return H_RESOURCE;
-+    }
-+
-+    cpu_physical_memory_write(data_out, buf_out, ret);
-+    args[0] = ret;
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_tpm_comm(PowerPCCPU *cpu,
-+                               SpaprMachineState *spapr,
-+                               target_ulong opcode,
-+                               target_ulong *args)
-+{
-+    target_ulong op = args[0];
-+    SpaprTpmProxy *tpm_proxy = spapr->tpm_proxy;
-+
-+    if (!tpm_proxy) {
-+        error_report("TPM proxy not available");
-+        return H_FUNCTION;
-+    }
-+
-+    trace_spapr_h_tpm_comm(tpm_proxy->host_path ?: "null", op);
-+
-+    switch (op) {
-+    case TPM_COMM_OP_EXECUTE:
-+        return tpm_execute(tpm_proxy, args);
-+    case TPM_COMM_OP_CLOSE_SESSION:
-+        spapr_tpm_proxy_reset(tpm_proxy);
-+        return H_SUCCESS;
-+    default:
-+        return H_PARAMETER;
-+    }
-+}
-+
-+static void spapr_tpm_proxy_realize(DeviceState *d, Error **errp)
-+{
-+    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(d);
-+
-+    if (tpm_proxy->host_path == NULL) {
-+        error_setg(errp, "must specify 'host-path' option for device");
-+        return;
-+    }
-+
-+    tpm_proxy->host_fd = -1;
-+    qemu_register_reset(spapr_tpm_proxy_reset, tpm_proxy);
-+}
-+
-+static void spapr_tpm_proxy_unrealize(DeviceState *d, Error **errp)
-+{
-+    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(d);
-+
-+    qemu_unregister_reset(spapr_tpm_proxy_reset, tpm_proxy);
-+}
-+
-+static Property spapr_tpm_proxy_properties[] = {
-+    DEFINE_PROP_STRING("host-path", SpaprTpmProxy, host_path),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void spapr_tpm_proxy_class_init(ObjectClass *k, void *data)
-+{
-+    DeviceClass *dk = DEVICE_CLASS(k);
-+
-+    dk->realize = spapr_tpm_proxy_realize;
-+    dk->unrealize = spapr_tpm_proxy_unrealize;
-+    dk->user_creatable = true;
-+    dk->props = spapr_tpm_proxy_properties;
-+}
-+
-+static const TypeInfo spapr_tpm_proxy_info = {
-+    .name          = TYPE_SPAPR_TPM_PROXY,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(SpaprTpmProxy),
-+    .class_init    = spapr_tpm_proxy_class_init,
-+};
-+
-+static void spapr_tpm_proxy_register_types(void)
-+{
-+    type_register_static(&spapr_tpm_proxy_info);
-+    spapr_register_hypercall(SVM_H_TPM_COMM, h_tpm_comm);
-+}
-+
-+type_init(spapr_tpm_proxy_register_types)
-diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-index f76448f532..96dad767a1 100644
---- a/hw/ppc/trace-events
-+++ b/hw/ppc/trace-events
-@@ -25,6 +25,10 @@ spapr_update_dt(unsigned cb) "New blob %u bytes"
- spapr_update_dt_failed_size(unsigned cbold, unsigned cbnew, unsigned magic) "Old blob %u bytes, new blob %u bytes, magic 0x%x"
- spapr_update_dt_failed_check(unsigned cbold, unsigned cbnew, unsigned magic) "Old blob %u bytes, new blob %u bytes, magic 0x%x"
- 
-+# spapr_hcall_tpm.c
-+spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_device_path=%s operation=0x%"PRIu64
-+spapr_tpm_execute(uint64_t data_in, uint64_t data_in_sz, uint64_t data_out, uint64_t data_out_sz) "data_in=0x%"PRIx64", data_in_sz=%"PRIu64", data_out=0x%"PRIx64", data_out_sz=%"PRIu64
-+
- # spapr_iommu.c
- spapr_iommu_put(uint64_t liobn, uint64_t ioba, uint64_t tce, uint64_t ret) "liobn=0x%"PRIx64" ioba=0x%"PRIx64" tce=0x%"PRIx64" ret=%"PRId64
- spapr_iommu_get(uint64_t liobn, uint64_t ioba, uint64_t ret, uint64_t tce) "liobn=0x%"PRIx64" ioba=0x%"PRIx64" ret=%"PRId64" tce=0x%"PRIx64
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 60553d32c4..76dec20680 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -10,6 +10,7 @@
- #include "hw/ppc/spapr_irq.h"
- #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
- #include "hw/ppc/xics.h"        /* For ICSState */
-+#include "hw/ppc/spapr_tpm_proxy.h"
- 
- struct SpaprVioBus;
- struct SpaprPhbState;
-@@ -203,6 +204,7 @@ struct SpaprMachineState {
-     SpaprCapabilities def, eff, mig;
- 
-     unsigned gpu_numa_id;
-+    SpaprTpmProxy *tpm_proxy;
- };
- 
- #define H_SUCCESS         0
-@@ -508,6 +510,15 @@ struct SpaprMachineState {
- #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
- #define KVMPPC_HCALL_MAX        KVMPPC_H_UPDATE_DT
- 
-+/*
-+ * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilitating
-+ * Secure VM mode via an Ultravisor / Protected Execution Facility
-+ */
-+#define SVM_HCALL_BASE              0xEF00
-+#define SVM_H_TPM_COMM              0xEF10
-+#define SVM_HCALL_MAX               SVM_H_TPM_COMM
-+
-+
- typedef struct SpaprDeviceTreeUpdateHeader {
-     uint32_t version_id;
- } SpaprDeviceTreeUpdateHeader;
-diff --git a/include/hw/ppc/spapr_tpm_proxy.h b/include/hw/ppc/spapr_tpm_proxy.h
-new file mode 100644
-index 0000000000..4843cdaf58
---- /dev/null
-+++ b/include/hw/ppc/spapr_tpm_proxy.h
-@@ -0,0 +1,31 @@
-+/*
-+ * SPAPR TPM Proxy/Hypercall
-+ *
-+ * Copyright IBM Corp. 2019
-+ *
-+ * Authors:
-+ *  Michael Roth      <mdroth@linux.vnet.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HW_SPAPR_TPM_PROXY_H
-+#define HW_SPAPR_TPM_PROXY_H
-+
-+#include "qom/object.h"
-+#include "hw/qdev.h"
-+
-+#define TYPE_SPAPR_TPM_PROXY "spapr-tpm-proxy"
-+#define SPAPR_TPM_PROXY(obj) OBJECT_CHECK(SpaprTpmProxy, (obj), \
-+                                          TYPE_SPAPR_TPM_PROXY)
-+
-+typedef struct SpaprTpmProxy {
-+    /*< private >*/
-+    DeviceState parent;
-+
-+    char *host_path;
-+    int host_fd;
-+} SpaprTpmProxy;
-+
-+#endif /* HW_SPAPR_TPM_PROXY_H */
--- 
-2.17.1
-
+--js
 
