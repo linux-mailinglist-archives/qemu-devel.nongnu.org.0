@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617246B992
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 11:50:39 +0200 (CEST)
-Received: from localhost ([::1]:55474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C666B99E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 11:57:57 +0200 (CEST)
+Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnga6-0008PC-JU
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 05:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43046)
+	id 1hnghB-0004Nr-1W
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 05:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44939)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hngZq-0007qn-5R
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:50:23 -0400
+ (envelope-from <mst@redhat.com>) id 1hnggx-0003wT-BQ
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:57:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hngZo-0006Gg-UC
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:50:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40654)
+ (envelope-from <mst@redhat.com>) id 1hnggw-0002Kq-5t
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 05:57:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hngZm-0006D2-3Q; Wed, 17 Jul 2019 05:50:18 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <mst@redhat.com>)
+ id 1hnggv-0002HY-Tc; Wed, 17 Jul 2019 05:57:42 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BB203307D91E;
- Wed, 17 Jul 2019 09:50:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0F1C608A6;
- Wed, 17 Jul 2019 09:50:11 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20190716000117.25219-1-jsnow@redhat.com>
- <20190716000117.25219-12-jsnow@redhat.com>
- <9cf9c85d-c41e-123c-07cb-81c453363aea@redhat.com>
- <91af10c4-e4ff-df49-d1e9-31ea210fc637@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0f773100-ecba-2d2a-8526-9fe980c6830a@redhat.com>
-Date: Wed, 17 Jul 2019 11:50:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ by mx1.redhat.com (Postfix) with ESMTPS id ADC5D307D86F;
+ Wed, 17 Jul 2019 09:57:39 +0000 (UTC)
+Received: from redhat.com (ovpn-120-247.rdu2.redhat.com [10.10.120.247])
+ by smtp.corp.redhat.com (Postfix) with SMTP id 30E2A5D9D5;
+ Wed, 17 Jul 2019 09:57:32 +0000 (UTC)
+Date: Wed, 17 Jul 2019 05:57:31 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190717054727-mutt-send-email-mst@kernel.org>
+References: <20190717084255.17173-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <91af10c4-e4ff-df49-d1e9-31ea210fc637@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NEVl8ziVwRmU0CO05KAvrWFSNI8U9EXWQ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190717084255.17173-1-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 17 Jul 2019 09:50:16 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Wed, 17 Jul 2019 09:57:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 11/11] iotests/257: test traditional
- sync modes
+Subject: Re: [Qemu-devel] [PATCH-for-4.1] virtio-balloon: fix QEMU crashes
+ on pagesize > BALLOON_PAGE_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,177 +56,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Markus Armbruster <armbru@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NEVl8ziVwRmU0CO05KAvrWFSNI8U9EXWQ
-Content-Type: multipart/mixed; boundary="tO2hyOmUcKGubr40RMYw3g7kuNPGfACgn";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- Markus Armbruster <armbru@redhat.com>
-Message-ID: <0f773100-ecba-2d2a-8526-9fe980c6830a@redhat.com>
-Subject: Re: [PATCH v2 11/11] iotests/257: test traditional sync modes
-References: <20190716000117.25219-1-jsnow@redhat.com>
- <20190716000117.25219-12-jsnow@redhat.com>
- <9cf9c85d-c41e-123c-07cb-81c453363aea@redhat.com>
- <91af10c4-e4ff-df49-d1e9-31ea210fc637@redhat.com>
-In-Reply-To: <91af10c4-e4ff-df49-d1e9-31ea210fc637@redhat.com>
+On Wed, Jul 17, 2019 at 10:42:55AM +0200, David Hildenbrand wrote:
+> We are using the wrong functions to set/clear bits, effectively touching
+> multiple bits, writing out of range of the bitmap, resulting in memory
+> corruptions. We have to use set_bit()/clear_bit() instead.
+> 
+> Can easily be reproduced by starting a qemu guest on hugetlbfs memory,
+> inflating the balloon. QEMU crashes. This never could have worked
+> properly - especially, also pages would have been discarded when the
+> first sub-page would be inflated (the whole bitmap would be set).
+> 
+> While testing I realized, that on hugetlbfs it is pretty much impossible
+> to discard a page - the guest just frees the 4k sub-pages in random order
+> most of the time. I was only able to discard a hugepage a handful of
+> times - so I hope that now works correctly.
+> 
+> Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE <
+>                      host page size")
+> Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruption
+>                      with inflates & deflates")
+> Cc: qemu-stable@nongnu.org #v4.0.0
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/virtio-balloon.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index e85d1c0d5c..669067d661 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -94,9 +94,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
+>          balloon->pbp->base = host_page_base;
+>      }
+>  
+> -    bitmap_set(balloon->pbp->bitmap,
+> -               (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> -               subpages);
+> +    set_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> +            balloon->pbp->bitmap);
+>  
+>      if (bitmap_full(balloon->pbp->bitmap, subpages)) {
+>          /* We've accumulated a full host page, we can actually discard
+> @@ -140,9 +139,8 @@ static void balloon_deflate_page(VirtIOBalloon *balloon,
+>           * for a guest to do this in practice, but handle it anyway,
+>           * since getting it wrong could mean discarding memory the
+>           * guest is still using. */
+> -        bitmap_clear(balloon->pbp->bitmap,
+> -                     (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> -                     subpages);
+> +        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> +                  balloon->pbp->bitmap);
+>  
+>          if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
+>              g_free(balloon->pbp);
 
---tO2hyOmUcKGubr40RMYw3g7kuNPGfACgn
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I also started to wonder about this:
 
-On 16.07.19 18:58, John Snow wrote:
->=20
->=20
-> On 7/16/19 8:04 AM, Max Reitz wrote:
->> On 16.07.19 02:01, John Snow wrote:
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>  tests/qemu-iotests/257     |   41 +-
->>>  tests/qemu-iotests/257.out | 3089 ++++++++++++++++++++++++++++++++++=
-++
->>>  2 files changed, 3128 insertions(+), 2 deletions(-)
->>
->> This needs a %s/specify Bitmap sync mode/specify bitmap sync mode/.
->>
->>> diff --git a/tests/qemu-iotests/257 b/tests/qemu-iotests/257
->>> index 53ab31c92e..c2a72c577a 100755
->>> --- a/tests/qemu-iotests/257
->>> +++ b/tests/qemu-iotests/257
->>
->> [...]
->>
->>> @@ -393,7 +399,7 @@ def test_bitmap_sync(bsync_mode, msync_mode=3D'bi=
-tmap', failure=3DNone):
->>>              # group 1 gets cleared first, then group two gets writte=
-n.
->>>              if ((bsync_mode =3D=3D 'on-success' and not failure) or
->>>                  (bsync_mode =3D=3D 'always')):
->>> -                ebitmap.clear_group(1)
->>> +                ebitmap.clear()
->>
->> Hmmm...  Why?
->>
->=20
-> From an order of operations standpoint, if we are here, we are expectin=
-g
-> the bitmap to be synchronized. We can clear any existing data it holds,=
+    if (!balloon->pbp) {
+        /* Starting on a new host page */
+        size_t bitlen = BITS_TO_LONGS(subpages) * sizeof(unsigned long);
+        balloon->pbp = g_malloc0(sizeof(PartiallyBalloonedPage) + bitlen);
+        balloon->pbp->rb = rb;
+        balloon->pbp->base = host_page_base;
+    }
 
-> and then:
->=20
->>>              ebitmap.dirty_group(2)
->>> =20
->=20
-> Add new writes that occurred during the job; which only happen here in
-> this callback.
->=20
-> (The old code cleared specifically only group 1, the new code is just
-> more general. I wound up changing it for a version that didn't make it
-> to the list, but this is still correct.)
->=20
->>>          vm.run_job(job, auto_dismiss=3DTrue, auto_finalize=3DFalse,
->>> @@ -404,8 +410,19 @@ def test_bitmap_sync(bsync_mode, msync_mode=3D'b=
-itmap', failure=3DNone):
->>>          log('')
->>> =20
->>>          if bsync_mode =3D=3D 'always' and failure =3D=3D 'intermedia=
-te':
->>> +            # TOP treats anything allocated as dirty, expect to see:=
-
->>> +            if msync_mode =3D=3D 'top':
->>> +                ebitmap.dirty_group(0)
->>> +
->=20
-> Sorry, this code is definitely in the "cute" category...
->=20
-> If the failure was intermediate, we never call the pre-finalize callbac=
-k
-> above. So we know that the allocated regions of the file are only from
-> groups 0 and 1.
->=20
-> So, HERE, we can mark the emulated bitmap's group 0 as dirty, to mimic
-> what the copy_bitmap is going to have started the operation with.
->=20
->>>              # We manage to copy one sector (one bit) before the erro=
-r.
->>>              ebitmap.clear_bit(ebitmap.first_bit)
->=20
-> And then right here, we clear the first bit which we did copy out
-> successfully. The emulated bitmap is now correct for sync=3Dtop.
->=20
->>> +
->>> +            # Full returns all bits set except what was copied/skipp=
-ed
->>> +            if msync_mode =3D=3D 'full':
->>> +                fail_bit =3D ebitmap.first_bit
->>> +                ebitmap.clear()
->>> +                ebitmap.dirty_bits(range(fail_bit, SIZE // GRANULARI=
-TY))
->>> +
->=20
-> The full mode, though, is special. We cleared the first allocated bit
-> just like for sync=3Dtop, but we take note of the second bit which is t=
-he
-> one that caused the injected failure.
->=20
-> For both 'top' and 'full' modes here we're really using the ebitmap as
-> an allocation record to inform what the output bitmap is going to look =
-like.
->=20
->>
->> So sync=3Dtop didn=E2=80=98t copy anything?  Is that because it now er=
-rors out
->> before getting to copy something?
->>
->=20
-> The ebitmap.clear_bit(ebitmap.first_bit) triggers for top, too. The tes=
-t
-> output should hopefully make sense here.
-
-I...   I have no idea how I missed the ebitmap.clear_bit().
-
-So with the test output fixed:
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
->> (The rest looks good to me.)
->>
->> Max
->>
->>>          ebitmap.compare(get_bitmap(bitmaps, drive0.device, 'bitmap0'=
-))
->>> =20
->>>          # 2 - Writes and Reference Backup
->>
->=20
+Is keeping a pointer to a ram block like this safe? what if the ramblock
+gets removed?
 
 
-
---tO2hyOmUcKGubr40RMYw3g7kuNPGfACgn--
-
---NEVl8ziVwRmU0CO05KAvrWFSNI8U9EXWQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0u71EACgkQ9AfbAGHV
-z0CPIAf/SZpGGK6h7+okxPu7BHFtM8QjFB+LgKaFqwjsR2A+8kAMfSLZ0ZOrR1mb
-8NjfOPjSdXBlyA9yqom1xuZaDzGE7SRIZrd7O2WppkK9hbpN/cNlbVXxakIsGCwy
-ZpBzwfpNZPXJNZd6dNodVfgPP+icf9HKVaxhwQmdH9n3aKN30Ks3TagetSwRxvAd
-YuhHtKx/enrSoRUz17C+sknLG/NfRWeSQ9hrNKLQKzIv/vXnShPAV/vs3rghcwpE
-49VJZtVBESJuy4nMo4YQ4WOxjCCoHYEV9mSURv+fSOJjfUFEo8l6hDbLBdFdd8L6
-1obzQ6tGKexCTKxeyWz/Gk/JOWM+HQ==
-=LbHy
------END PGP SIGNATURE-----
-
---NEVl8ziVwRmU0CO05KAvrWFSNI8U9EXWQ--
+> -- 
+> 2.21.0
 
