@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5446BE95
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 16:55:26 +0200 (CEST)
-Received: from localhost ([::1]:58098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B986BEA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 16:56:11 +0200 (CEST)
+Received: from localhost ([::1]:58130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnlL3-0003Mg-P1
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 10:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47934)
+	id 1hnlLn-0006jY-1A
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 10:56:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48179)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hnlKj-0002cZ-9B
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:06 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hnlL8-0004Hp-Qw
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hnlKi-0000VY-CO
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:60161)
+ (envelope-from <laurent@vivier.eu>) id 1hnlL4-0000mB-Jf
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:32921)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hnlKi-0000Ts-2j
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:04 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hnlL4-0000hI-8o
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:55:26 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MhUDj-1iQeaM33Zb-00eZlb; Wed, 17 Jul 2019 16:54:38 +0200
+ id 1MlfCk-1iDi8q3HQg-00ikdO; Wed, 17 Jul 2019 16:54:38 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 17 Jul 2019 16:54:15 +0200
-Message-Id: <20190717145418.23883-1-laurent@vivier.eu>
+Date: Wed, 17 Jul 2019 16:54:16 +0200
+Message-Id: <20190717145418.23883-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190717145418.23883-1-laurent@vivier.eu>
+References: <20190717145418.23883-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iJUMQWmn/IU+W3uizwrVdTgIfbJhN6jkXX8hV9D2L4xOianp89o
- SLMFuJ/2YI4n9xbB3ITeyywN8SZRZwB9eqqqbPC/7rE9um0v4L2BRhrud1638dHRvwxqyGX
- 2SAIU6lqw6CnLInnuHDAgeGHMKRaDVqJVSRYowDSKJOxAlnMG7aNGaOFjGoTzXu0O0KunWz
- WCNVZk50OM8O+z/YfpO0A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wKO8LhpXoEM=:saoikWuItXgJWSku06K+PJ
- X98vXRpeRU7OAIejHOhjf1Nnvb/Hhnqhgftoymjp0SgsPOn/IxgPofhz704nMuOQqZwbTwKYN
- ID9UgmQ3hfR+R9e0hSQZDslANNWzvl8RT9IZd9Ib1epAZePwL12Szp/ybDdYxZbUC8/pyeqwQ
- 2T2VgC6r5KNFJXCOsyybuAF8uhehaChXy2XAeP5HWwPxZC5uW20CfqXkYrOKurMKdpWd/HAre
- z9Qtk/0RJrrQ6PzRqYoSUji22cK0F7elNhfo6UJJit/79WmI9Bmk3o2i4sl48W1f6l45i4/z8
- zGK7RE38QzpRQrJSXmTCS1jUKJdCE4NuaHmIlvVBQMEx1sQyepzNfd3UbD9GuJ03ufo1YmHB5
- s87ZB3iAU3ddg6YLJi7JZsTWq+KhDXSndPEQxDcq9FmyaXQH1HiRFI1UoNFvT6lbtk2UzKL9R
- BKZuCoW5qj6O4vMxhojuUDAXLfJPB9SBjxsBWQaaUzrnZWE6Eh5W3BMtpoRaLiDAdssoyaroi
- 4uiuK4A1yboWCEwu3WXzoHJ9l72aR0k4kxxPIaJY90vxQwmCHqn/fgX/Kf5Hm0zGqojZseOP1
- rqagUPFXpzrikSl51G4WpsZTEJDzoCwcSdbj7OW2smFsrNP8iT7MdWhHTNbUZcRPNgkNp8tM8
- MWjmJ6OeWrlyNqVk28NLsxRetGC9c0BGG+RN6ZeyKnwEai68SsQyinFMTTC5EH9jOdu1wnhzc
- mVjlD/WnpBqEKuTN9yXn8qg7PeWKkFcHLboM+PySf45KH3pop9At7W3Q5Q4=
+X-Provags-ID: V03:K1:/uU3Iw6FRkYlIr/YSJIBPhpggc9tLECLeDfacBj1X6GtMOXvI2J
+ 7uc6i/JqcxopF3YG9yby5J5R47On3cLqHSCEN8Xo5Puln7/apPCPdTJPe3nur2NZSqMMh0l
+ OppuH2pS08gJoWH96+OaSHEebGR3w5Zwtefbo/ROw/Z9wuO0VM+MY5SJU7PYGmUAZILQ3vx
+ xhZbqgpoCxaMYi76167Kg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tjIhIcauqoE=:xvlqiaOOeahjicl8gbn8eO
+ i0bJrjnb3crBQiE46CtkgEuG1RC28lkLXsGw/ikntGMn8UX6qxiNsUCwW96CsNt/n6EL/mYHO
+ 0VNpw5Ape5J4QI5bBhse1pcMn+7LL4n2nmWqEDHIFtQiz6U6Wa7VX4LTc/RAxNYcQBnd72AbW
+ SEvwLpV7+1fGY4LERJ0e94GSdHyPRxbVAJAi/Rj9Hu0hvycET+FidbsoFrbAvTbacq0HB/W7u
+ BbCzgRJeNDVdgKhAkorNdWRdwOcvd0Z500xlDyPBkJtoG/HZy0l4VSCG3mbSiqfqqYBJfe44Z
+ UUuzDZX4WtTdRb4PYlkaIeOassdH7oCeF9+nvexD+y9bpnrnGNFdQa5yiF8hu8wivYEC//5Pk
+ 1hzmF8oCdwIfRIE6dcbN0B9VqnEn67auDqmDZMYFDuifK3KGpabs8UTEiREOqBFq9D/PEyLjt
+ mdHuCNka56tLgYJNCv++mNl/O1pYusVT01IMY2bSAGHMjSaG3RAOloIZWhOkp8qujSuKu1G/7
+ wC/eGVQlrxOgAz/2ZYM7xsHhWSLaUamU5w2R29IJkDJo1tfZnv/2BTHlsv5n64mCVFFfyZuKf
+ 2pzf44XxNovU0EMV2CFpzLI5J5hQaKGbb1JUeLKnFinMf2ozoKdrS103lrHKbKPLvIrjbS883
+ u9yNWkOXrXqPIGI5fdfZswb9nUvAGYIF3XQyQAJkoCLYbANlqqdWOVpg+NfVmnDZoHwuHYtLh
+ 60Orvy7cmUsHGxVIkMlyqy4a7+GK6FwgdFbr7g==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL 0/3] Linux user for 4.1 patches
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PULL 1/3] linux-user: Fix structure target_ucontext
+ for MIPS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,7 +63,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Dragan Mladjenovic <dmladjenovic@wavecomp.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
  Laurent Vivier <laurent@vivier.eu>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
@@ -69,43 +72,57 @@ Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a1a4d49f60d2b899620ee2be4ebb991c4a90a026:
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-20190716' into staging (2019-07-16 17:02:44 +0100)
+Structure ucontext for MIPS is defined in the following way in
+Linux kernel:
 
-are available in the Git repository at:
+(arch/mips/include/uapi/asm/ucontext.h, lines 54-64)
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+struct ucontext {
+    /* Historic fields matching asm-generic */
+    unsigned long       uc_flags;
+    struct ucontext     *uc_link;
+    stack_t             uc_stack;
+    struct sigcontext   uc_mcontext;
+    sigset_t            uc_sigmask;
 
-for you to fetch changes up to ad0bcf5d59f120d546be7a2c3590afc66eea0b01:
+    /* Extended context structures may follow ucontext */
+    unsigned long long	uc_extcontext[0];
+};
 
-  linux-user: check valid address in access_ok() (2019-07-17 09:02:51 +0200)
+Fix the structure target_ucontext for MIPS to reflect the definition
+above, except the correction for field uc_extcontext, which will
+follow at some later time.
 
-----------------------------------------------------------------
-fix access_ok() to allow to run LTP on AARCH64,
-fix SIOCGSTAMP with 5.2 kernel headers,
-fix structure target_ucontext for MIPS
+Fixes: 94c5495d
 
-----------------------------------------------------------------
+Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1562931470-3700-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/mips/signal.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Aleksandar Markovic (1):
-  linux-user: Fix structure target_ucontext for MIPS
-
-Daniel P. Berrangé (1):
-  linux-user: fix to handle variably sized SIOCGSTAMP with new kernels
-
-Rémi Denis-Courmont (1):
-  linux-user: check valid address in access_ok()
-
- include/exec/cpu_ldst.h    |   4 ++
- linux-user/ioctls.h        |  11 ++-
- linux-user/mips/signal.c   |   5 +-
- linux-user/qemu.h          |   4 +-
- linux-user/syscall.c       | 140 +++++++++++++++++++++++++++++--------
- linux-user/syscall_defs.h  |  30 +++++++-
- linux-user/syscall_types.h |   6 --
- 7 files changed, 158 insertions(+), 42 deletions(-)
-
+diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
+index 6aa303ec9c16..455a8a229a83 100644
+--- a/linux-user/mips/signal.c
++++ b/linux-user/mips/signal.c
+@@ -71,10 +71,9 @@ struct sigframe {
+ };
+ 
+ struct target_ucontext {
+-    target_ulong tuc_flags;
+-    target_ulong tuc_link;
++    abi_ulong tuc_flags;
++    abi_ulong tuc_link;
+     target_stack_t tuc_stack;
+-    target_ulong pad0;
+     struct target_sigcontext tuc_mcontext;
+     target_sigset_t tuc_sigmask;
+ };
 -- 
 2.21.0
 
