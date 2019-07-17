@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA326BD93
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:46:29 +0200 (CEST)
-Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D16BD95
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:47:02 +0200 (CEST)
+Received: from localhost ([::1]:57375 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnkGK-0007ca-0L
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
+	id 1hnkGr-0001jS-9K
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:47:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hnkFS-0004cg-HH
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hnkGX-0000kK-OA
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hnkFR-0005oO-DM
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:34 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41694)
+ (envelope-from <peter.maydell@linaro.org>) id 1hnkGV-0006Nd-QK
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:41 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44647)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hnkFR-0005nW-7Q
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:33 -0400
-Received: by mail-ot1-x343.google.com with SMTP id o101so25047882ota.8
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:45:32 -0700 (PDT)
+ id 1hnkGU-0006Mm-M3
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:38 -0400
+Received: by mail-oi1-x241.google.com with SMTP id e189so18471809oib.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mIA2vzeTnkhB/e6CFWSokCe2bOE/PdJL1LQ+Nea8kUw=;
- b=YaikLNKlB2QRqk2lZDYn+RfZnIq24M/ar0s2oJ5fK+eShtgMbJYYnL1NKjsHNLQWnM
- 5P2YXnI4utTNGITJzbda3slZZ20+mD+ogKV1Zx21P2MBba2v/1NnZ4oOvEo6Gq2M0eiN
- FbDKlpmU2Rw6qTXDMp9ACwUaanN7tKaiyEpuTdOg9hvZ24ZV21iJnasuOacRfIp2ZT2s
- dwUs7XZWOHqajUSmO/Ai+QBcdjkvURpuv9CuF47ZBd5xwEmOrH6nwPaA9+0dt1q7vMLk
- zCRkTQkY/+bbjopkSIFCSHDe3yEUDCMKq59MkIbQGVsOrYyhlGlZ7cpY95YueytwDXM/
- AkHg==
+ :cc:content-transfer-encoding;
+ bh=SAU1A+yF3GKBYG0AfK5rJ7p5mbeKqtl5MdzvF/YdnIk=;
+ b=qEff6ZID3kZxLlhM8vC4JLtyBoUCZQPCnWLinQHIPXeFwfH3zO1YaEtZXgygggW/ZD
+ BItQotLZLJJlklENnesZuJ2+G9CHTeVzVDkxnnB+vRltS2bzn5lhlblEG1FfE2Nr9enC
+ VO9khYMrKABebxFLJVUPseM6UAok1KmopA0jSaqxUDUlxWrVWNr5A0ejNGXnDLGMWS7A
+ eBrbgXe750LnTjKc78MTsfCuVVprBzC9Vjm5es+aPbH3bi1xKNXTqIeXv7DfDSXBBCuh
+ FA6UtK9DPLddBu+Gy+HSB2z9sSJ/XmaPkPX7ZPBKFhRbFNPtw29gLW/oqpOBwl9T4z2M
+ uRLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mIA2vzeTnkhB/e6CFWSokCe2bOE/PdJL1LQ+Nea8kUw=;
- b=nuX65UxDAsw4iDi2hrYDbu9ZFSg2x2akIlYnGO5qMzileGCsHD97NtJ9AZkrMpFKP0
- O0yKZXUdwEjI5EhL9wNCjsZaD/cldA/3YPNFO/M4k163hl1ixpZJdszyUUzPvNwAVrN5
- QN4gM3PobfF8PcyooVcHHaEDzNAevbDN7HoX74+/AAHE9pJ4CjuODJP5gfj9nfyPQxmM
- 9NuWAdVLCRhzSIWR11QywFjnVLNgHpd+C3OfocDAPAeHgIv0SDFI4+i78bmJn0mc/Rp3
- RpgCYQcoHJto368xbBYOrvUcKY16G2/fC35IPw/z/A8tcGs6zATH9u9r+LM5HCZ8jNGU
- QZVw==
-X-Gm-Message-State: APjAAAXNhr/5Q7nDDw+UA6F/wNM/9p1odEB6nRpT80u3xjbFvNGKNT1l
- wxzSii+wd5QFfMQ++rXdTmhWChHV/5g8YQ70IpIHvg==
-X-Google-Smtp-Source: APXvYqw5FciZAmox7fxjmuV9DsZ6PKusErI+L5jnzvV7vdB2fXAeFiq6vnFGf1T4Pe5lk0Ji+QYVpQPXO1QzSr1SXWc=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr8339991oti.91.1563371131388; 
- Wed, 17 Jul 2019 06:45:31 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SAU1A+yF3GKBYG0AfK5rJ7p5mbeKqtl5MdzvF/YdnIk=;
+ b=l9zvUnM7rxhBL2UfUnm49yU2Fh7QQNIrkk+G5jVQ5WQwNHKRlJoyC5VA8qVeYNKr2Q
+ WzoDRiJEwEOe2UXR5VBFA5U53y8cOGZmRcAHa7imuFVDX9AMxkwbGODkza80E5r8YMgv
+ QvgkAmf+xZRPm3XlT8mXiArP9vzM+hCv9yJ04Xyjxxso33XQ0CSzIksBn8iws8MuRiWh
+ kSdWQijb2NOWxlYBQUeuITFU5isHqLLfWnSCJsawnLl3OMI6q8ldasXs6lZSeTU9bX4k
+ 8QJNXzcHKPUni/MwK8Iv7ecxc39HEEEXVb2dQwyhdgps4u1HiLIY3y5xrMSzBuUwxKqF
+ u9IA==
+X-Gm-Message-State: APjAAAWabAmBQPDOrZZFyKOsYxXCbfTljDcn+YKf92dqjhfAqwaDUPyl
+ Oufcjh2YGY0HrdvWcaFri3p/cwvww5ouVRiYf4a+0g==
+X-Google-Smtp-Source: APXvYqwarKtZS0SfF0bKxwCaikw+J5FoZ8478txdhTGmIuoEhPE+PmPKG06j02di0W1Uv0z8ejexxj1r7mZIXIkWW7Y=
+X-Received: by 2002:aca:5cd7:: with SMTP id
+ q206mr18082455oib.146.1563371196665; 
+ Wed, 17 Jul 2019 06:46:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20181102171638.24069-1-peter.maydell@linaro.org>
  <20181102171638.24069-9-peter.maydell@linaro.org>
@@ -59,15 +61,17 @@ References: <20181102171638.24069-1-peter.maydell@linaro.org>
  <dfeab9fd-7ee1-01f2-dd38-cba449b1de63@redhat.com>
  <f625f1f1-ad97-1c75-e44d-3b0c015312b3@redhat.com>
  <cf9156f6-c3fa-ec7e-c51a-8b8d2fd1e6d6@redhat.com>
-In-Reply-To: <cf9156f6-c3fa-ec7e-c51a-8b8d2fd1e6d6@redhat.com>
+ <7b45c073-8653-28e0-9d06-9e3aaa6dc460@redhat.com>
+In-Reply-To: <7b45c073-8653-28e0-9d06-9e3aaa6dc460@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Jul 2019 14:45:19 +0100
-Message-ID: <CAFEAcA_SAvEi7wGPp-MUf3qoXK17MwO4NjRYUtKXKZikCH6crg@mail.gmail.com>
-To: Laszlo Ersek <lersek@redhat.com>
+Date: Wed, 17 Jul 2019 14:46:25 +0100
+Message-ID: <CAFEAcA8RZuzv=KkATMozxfp8MTsCOPPsK7mN6oCJq_TfwWiPMA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::241
 Subject: Re: [Qemu-devel] [PULL 08/10] target/arm: Conditionalize some
  asserts on aarch32 support
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,70 +87,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+ Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Jul 2019 at 10:22, Laszlo Ersek <lersek@redhat.com> wrote:
-> Hmmm wait a second. The ARMv8 ARM says, about ID_ISAR0_EL1:
->
-> > Divide, bits [27:24]
-> >
-> >     Indicates the implemented Divide instructions. Permitted values
-> >     are:
-> >     0000 None implemented.
-> >     0001 Adds SDIV and UDIV in the T32 instruction set.
-> >     0010 As for 0b0001, and adds SDIV and UDIV in the A32 instruction
-> >          set.
-> >     All other values are reserved.
->
-> So this means that (aa32 && !arm_div) *does* conform to the architecture
-> manual!
+On Wed, 17 Jul 2019 at 14:36, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> I still wonder why this didn't assert on Peter's setup.
 
-The architecture manual also says
-"In ARMv8-A the only permitted value is 0010.", and in
-earlier versions of the manual it says also that ARMv7VE
-implies that we must have all the integer divide instructions.
-And this assert is guarded by "if (arm_feature(env, ARM_FEATURE_V7VE))".
-(This is what we're trying to test, really: something that's
-providing AArch32 v7VE-or-better must include the divide insns.)
-
-> Upon re-reading the commit message more carefully:
->
->     on a host that doesn't support aarch32 mode at all, neither arm_div
->     nor jazelle will be supported either
-
-The point of this text is that "v8 AArch64 with no AArch32" is
-an exception to the previous version of the check, which was
-just "v7VE must mean we have the divide insns".
-
-Similarly with Jazelle: what we were testing before commit 0f8d06f
-was "v6 must imply Jazelle", which is true for everything except
-the special case of "an AArch64 CPU with no AArch32 support" (which
-can only happen for a KVM setup), and the test we are trying to
-check after the commit is "v6 aarch32 must imply Jazelle".
-
-> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> > index e75a64a25a4b..ea84a3e11abb 100644
-> > --- a/target/arm/cpu.c
-> > +++ b/target/arm/cpu.c
-> > @@ -1382,8 +1382,13 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-> >           * include the various other features that V7VE implies.
-> >           * Presence of EL2 itself is ARM_FEATURE_EL2, and of the
-> >           * Security Extensions is ARM_FEATURE_EL3.
-> > +         *
-> > +         * Lack of aa32 support excludes arm_div support:
-> > +         *   no_aa32 --> !arm_div
-> > +         * Using the logical OR operator, the same is expressed as:
-> > +         *   !no_aa32 || !arm_div
-> >           */
-> > -        assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
-> > +        assert(!no_aa32 || !cpu_isar_feature(arm_div, cpu));
-
-This now fails to test what we wanted, because it will allow
-an incorrect set of ID registers that define a v7VE CPU
-without the arm_div feature to pass.
+My setup does not assert because my host kernel correctly
+provides the ID register values to QEMU. Laszlo's appears
+to be providing all-zeroes, which then obviously breaks
+assertions being made about the sanity of those ID register
+values...
 
 thanks
 -- PMM
