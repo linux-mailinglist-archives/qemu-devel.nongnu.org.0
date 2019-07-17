@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE4C6C002
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 19:00:55 +0200 (CEST)
-Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA7E6C007
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 19:01:32 +0200 (CEST)
+Received: from localhost ([::1]:59206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnnIV-0005MA-41
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 13:00:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60416)
+	id 1hnnJ5-0006Iu-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 13:01:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60694)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hnnIH-0004uf-Rk
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:00:42 -0400
+ (envelope-from <groug@kaod.org>) id 1hnnIq-0005oH-6D
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:01:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hnnIG-0001XD-VZ
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:00:41 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40991)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hnnIG-0001UO-OF
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:00:40 -0400
-Received: by mail-pl1-x642.google.com with SMTP id m9so12230652pls.8
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 10:00:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zdRLmcLU1Jtzp0I6KGZETWRZXg17Vg6WwjOfzWu7bYM=;
- b=gR15lyExVDjlbo5q+wz/E5V33sA4HsJRXk6FCfVFaJvSqC07cUitvKrFSrLobk2xD4
- UokDjTu8E85cxnT/3/BZsZgMRUmSnD9nINp4ESD2NG4KzK0LFquiItCGfKO3RWcbIZNg
- Cb8J0osip6zFvGxhFDVO4LwrkXcSiBXdoC5GisAruxWZFK0LWp818le5jn61e4X0tI9j
- NtkmVJC7Jtd6X2iviMz86mvx8ukL0wEa79L8qNUSNta+FRXMgs0rIpKkSN8ComnagtGI
- 5WaXH4tTad03RTIsKTlqPFlQV0ZMGSjMugGDo34JTZusNIJTw0xquZaRxLXb+tXBmxIy
- n6nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zdRLmcLU1Jtzp0I6KGZETWRZXg17Vg6WwjOfzWu7bYM=;
- b=NValfpdYCKCYyYGwYN7A6664JDvTBnI1U8XDoRdgkAUXl55g1Rme3vzSRQFeZeOONf
- 1zve+yvGeMo5m9citWJI1qJlRyBsRdMGPR703AaWHrA7MGO3UXpmPn19eJJUJk+h6vTU
- liRSHvjEgU9NUWX6oubR/ZieI5hgPKh3kLiAuTgzrB6O4OcKDIl/rTTfUrn+1bH3qz1N
- 3SX01w9OS27d34+L2KA89v0ygSjm0BXgzd4U3IeCzra/XUoY1Ah/z4Bt3AnTCCqtLUbR
- Vpr+2hHFixz3B2+kSs6Gp7Xa8r9E6XKYKCSYu0gniTVHfjnK4AcFJRBCxsr9nzcrMDlC
- FIbQ==
-X-Gm-Message-State: APjAAAVxs7eZt4k6LoJ2z5muK5EAJGzmpIF629BQEA/xeH5A7k1Fmd4D
- cQB6wYx9JCtiq2bR+QRiAusctg==
-X-Google-Smtp-Source: APXvYqxmQUtxJagBLjvSjkef0rS+QqXM4vWSiK4uAeMzPB4+fdErx7CDG9Kind0x6VmK9W7pN5BiHQ==
-X-Received: by 2002:a17:902:5998:: with SMTP id
- p24mr44099177pli.110.1563382838975; 
- Wed, 17 Jul 2019 10:00:38 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-176-6.tukw.qwest.net. [97.113.176.6])
- by smtp.gmail.com with ESMTPSA id t2sm22185621pgo.61.2019.07.17.10.00.37
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Jul 2019 10:00:37 -0700 (PDT)
-To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
-References: <20190711223300.6061-1-jan.bobek@gmail.com>
- <20190711223300.6061-9-jan.bobek@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <146e30c1-e9e2-d504-f9fa-e496e8be4acc@linaro.org>
-Date: Wed, 17 Jul 2019 10:00:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <groug@kaod.org>) id 1hnnIp-0001oz-2b
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:01:16 -0400
+Received: from 6.mo1.mail-out.ovh.net ([46.105.43.205]:40062)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hnnIo-0001k3-SW
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 13:01:15 -0400
+Received: from player739.ha.ovh.net (unknown [10.109.146.76])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 242F41865EA
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 19:01:05 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player739.ha.ovh.net (Postfix) with ESMTPSA id A80008292245;
+ Wed, 17 Jul 2019 17:00:59 +0000 (UTC)
+Date: Wed, 17 Jul 2019 19:00:58 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Nicholas Piggin <npiggin@gmail.com>
+Message-ID: <20190717190058.269862ea@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190717053952.13729-4-npiggin@gmail.com>
+References: <20190717053952.13729-1-npiggin@gmail.com>
+ <20190717053952.13729-4-npiggin@gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190711223300.6061-9-jan.bobek@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [RISU PATCH v3 08/18] risugen: add command-line
- flag --x86_64
+X-Ovh-Tracer-Id: 6075637374735260099
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieefgdekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.43.205
+Subject: Re: [Qemu-devel] [PATCH v5 3/4] spapr: Implement H_CONFER
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,21 +56,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/19 3:32 PM, Jan Bobek wrote:
-> This flag instructs the x86 backend to emit 64-bit (rather than
-> 32-bit) code.
+On Wed, 17 Jul 2019 15:39:51 +1000
+Nicholas Piggin <npiggin@gmail.com> wrote:
+
+> This does not do directed yielding and is not quite as strict as PAPR
+> specifies in terms of precise dispatch behaviour. This generally will
+> mean suboptimal performance, rather than guest misbehaviour. Linux
+> does not rely on exact dispatch behaviour.
 > 
-> Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
->  risugen | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+LGTM.
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-r~
+Just two minor comments, see below.
+
+> Changes since v4:
+> - Style, added justification comments, spelling.
+> - Fixed trying to dereference spapr_cpu for a -1 target.
+> 
+>  hw/ppc/spapr_hcall.c | 68 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 8b208ab259..5e655172b2 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1069,6 +1069,73 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>      return H_SUCCESS;
+>  }
+>  
+> +static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                           target_ulong opcode, target_ulong *args)
+> +{
+> +    target_long target = args[0];
+> +    uint32_t dispatch = args[1];
+> +    CPUState *cs = CPU(cpu);
+> +    SpaprCpuState *spapr_cpu;
+> +
+> +    /*
+> +     * -1 means confer to all other CPUs without dispatch counter check,
+> +     *  otherwise it's a targeted confer.
+> +     */
+> +    if (target != -1) {
+> +        PowerPCCPU *target_cpu = spapr_find_cpu(target);
+> +        CPUState *target_cs = CPU(target_cpu);
+> +        unsigned int target_dispatch;
+
+Maybe make it uint32_t to be consistent with dispatch above, and this
+is the actual return type of ldl_be_phys() ?
+
+> +
+> +        if (!target_cs) {
+
+This is the only user of target_cs, maybe drop it and use target_cpu
+instead ?
+
+> +            return H_PARAMETER;
+> +        }
+> +
+> +        spapr_cpu = spapr_cpu_state(target_cpu);
+> +
+> +        /*
+> +         * target == self is a special case, we wait until prodded, without
+> +         * dispatch counter check.
+> +         */
+> +        if (cpu == target_cpu) {
+> +            if (spapr_cpu->prod) {
+> +                spapr_cpu->prod = false;
+> +
+> +                return H_SUCCESS;
+> +            }
+> +
+> +            cs->halted = 1;
+> +            cs->exception_index = EXCP_HALTED;
+> +            cs->exit_request = 1;
+> +
+> +            return H_SUCCESS;
+> +        }
+> +
+> +        if (!spapr_cpu->vpa_addr || ((dispatch & 1) == 0)) {
+> +            return H_SUCCESS;
+> +        }
+> +
+> +        target_dispatch = ldl_be_phys(cs->as,
+> +                                  spapr_cpu->vpa_addr + VPA_DISPATCH_COUNTER);
+> +        if (target_dispatch != dispatch) {
+> +            return H_SUCCESS;
+> +        }
+> +
+> +        /*
+> +         * The targeted confer does not do anything special beyond yielding
+> +         * the current vCPU, but even this should be better than nothing.
+> +         * At least for single-threaded tcg, it gives the target a chance to
+> +         * run before we run again. Multi-threaded tcg does not really do
+> +         * anything with EXCP_YIELD yet.
+> +         */
+> +    }
+> +
+> +    cs->exception_index = EXCP_YIELD;
+> +    cs->exit_request = 1;
+> +    cpu_loop_exit(cs);
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+>  static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                             target_ulong opcode, target_ulong *args)
+>  {
+> @@ -1909,6 +1976,7 @@ static void hypercall_register_types(void)
+>      /* hcall-splpar */
+>      spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
+>      spapr_register_hypercall(H_CEDE, h_cede);
+> +    spapr_register_hypercall(H_CONFER, h_confer);
+>      spapr_register_hypercall(H_PROD, h_prod);
+>  
+>      spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
+
 
