@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D16BD95
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:47:02 +0200 (CEST)
-Received: from localhost ([::1]:57375 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1178D6BDAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:52:20 +0200 (CEST)
+Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnkGr-0001jS-9K
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
+	id 1hnkLy-00012X-T6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57854)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hnkGX-0000kK-OA
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hnkKh-0004dS-Lo
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:51:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hnkGV-0006Nd-QK
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:41 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44647)
+ (envelope-from <alex.bennee@linaro.org>) id 1hnkKg-00014X-OP
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:50:59 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hnkGU-0006Mm-M3
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:46:38 -0400
-Received: by mail-oi1-x241.google.com with SMTP id e189so18471809oib.11
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:46:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hnkKg-00013V-I6
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:50:58 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id v15so22272962wml.0
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SAU1A+yF3GKBYG0AfK5rJ7p5mbeKqtl5MdzvF/YdnIk=;
- b=qEff6ZID3kZxLlhM8vC4JLtyBoUCZQPCnWLinQHIPXeFwfH3zO1YaEtZXgygggW/ZD
- BItQotLZLJJlklENnesZuJ2+G9CHTeVzVDkxnnB+vRltS2bzn5lhlblEG1FfE2Nr9enC
- VO9khYMrKABebxFLJVUPseM6UAok1KmopA0jSaqxUDUlxWrVWNr5A0ejNGXnDLGMWS7A
- eBrbgXe750LnTjKc78MTsfCuVVprBzC9Vjm5es+aPbH3bi1xKNXTqIeXv7DfDSXBBCuh
- FA6UtK9DPLddBu+Gy+HSB2z9sSJ/XmaPkPX7ZPBKFhRbFNPtw29gLW/oqpOBwl9T4z2M
- uRLQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1rdrIH3bm5qkuZl4p0xTWAvlSwsZzcm3Oz5u60m4FZ8=;
+ b=LloJJfsA9sHBBM7peW5bhux7Tst3iGkBDy1wseASmAmsjI8YrQlcbYR6V1GgA2wPZZ
+ sDvqVIcpdf6KdnZxFESbGTcQe3H15CAZxEhy5trw5RvWYc1CP0Ks8k+Kk69RyHDtd4Xy
+ /FE1GBJmyJP63yHL5ylzgJ+DeRZDUA2ZKwKR/S275pZJnGChziss+WqGCASSiZ1GjmbA
+ ANaH1934Ya5+hmjZ28R5hRmyuVJfhYhFIiOtVnCPepDqkZEfX5wLfy6jB8RjL4T+DR3L
+ VQfFFOXBqj7WHExo7hQwQ3Hx9FOZ2EbGVvp7z8i1035rMaYnTl9EB5IPQ85OpOhbT5K0
+ EkAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SAU1A+yF3GKBYG0AfK5rJ7p5mbeKqtl5MdzvF/YdnIk=;
- b=l9zvUnM7rxhBL2UfUnm49yU2Fh7QQNIrkk+G5jVQ5WQwNHKRlJoyC5VA8qVeYNKr2Q
- WzoDRiJEwEOe2UXR5VBFA5U53y8cOGZmRcAHa7imuFVDX9AMxkwbGODkza80E5r8YMgv
- QvgkAmf+xZRPm3XlT8mXiArP9vzM+hCv9yJ04Xyjxxso33XQ0CSzIksBn8iws8MuRiWh
- kSdWQijb2NOWxlYBQUeuITFU5isHqLLfWnSCJsawnLl3OMI6q8ldasXs6lZSeTU9bX4k
- 8QJNXzcHKPUni/MwK8Iv7ecxc39HEEEXVb2dQwyhdgps4u1HiLIY3y5xrMSzBuUwxKqF
- u9IA==
-X-Gm-Message-State: APjAAAWabAmBQPDOrZZFyKOsYxXCbfTljDcn+YKf92dqjhfAqwaDUPyl
- Oufcjh2YGY0HrdvWcaFri3p/cwvww5ouVRiYf4a+0g==
-X-Google-Smtp-Source: APXvYqwarKtZS0SfF0bKxwCaikw+J5FoZ8478txdhTGmIuoEhPE+PmPKG06j02di0W1Uv0z8ejexxj1r7mZIXIkWW7Y=
-X-Received: by 2002:aca:5cd7:: with SMTP id
- q206mr18082455oib.146.1563371196665; 
- Wed, 17 Jul 2019 06:46:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1rdrIH3bm5qkuZl4p0xTWAvlSwsZzcm3Oz5u60m4FZ8=;
+ b=WVfJc33blBQInc+WIoBvnyD1spVNJGQgFuS8di7J6/ZPi0ffBVdHwh7ZJkr60els2c
+ nhEMCiiBX1K8xZQh/mWaxwKcLzzcovJuqj0le2TaO80mzvsmCcwWm5XW2EHRcvh9bgbE
+ m1DTaZWOgqNnzwTyIn13QHRgPxe+l02H9nZToq40Rg+0QSqxDG9FymxPgyxJEXRUoHvP
+ 4rciDJEgfbC8lIuYooYEYpqMal/5Al1PDp6uJYaMOB4+iBw7gCxCvmNjqHZjBsK/SGyP
+ O9XKc5Y1B7h+sUvYlfre3G3C28pPrGc71ydC3SmCbxE+gYHImN3P/D7WHPtnWsTGeVt5
+ SXEw==
+X-Gm-Message-State: APjAAAWfHnDBTAVqprB+Xmeayx2rXQqCNc1UtOJuRf6N7dLaQTNBBkxT
+ EpPC/uFtoBcLxgrOr03A6XfnSA==
+X-Google-Smtp-Source: APXvYqwjJCTjYFCIBCznEYogriHzgdSkS6stpcKviC1YxVoRr3VWStNnZlB5TVqHfYXqtwODlgW1sw==
+X-Received: by 2002:a1c:e0c4:: with SMTP id
+ x187mr35258811wmg.177.1563371457347; 
+ Wed, 17 Jul 2019 06:50:57 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id s10sm18975823wrt.49.2019.07.17.06.50.53
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 17 Jul 2019 06:50:55 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0AB451FF9C;
+ Wed, 17 Jul 2019 14:43:37 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 17 Jul 2019 14:43:25 +0100
+Message-Id: <20190717134335.15351-14-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190717134335.15351-1-alex.bennee@linaro.org>
+References: <20190717134335.15351-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20181102171638.24069-1-peter.maydell@linaro.org>
- <20181102171638.24069-9-peter.maydell@linaro.org>
- <3e3d2018-3993-f651-8e94-5bea612bd776@redhat.com>
- <CAFEAcA_FtoHOUv_cPgfO7GrZ8Ug9cKCvmY2z75i9DaAQ8Qx+gQ@mail.gmail.com>
- <417cd887-aec4-d8ba-1dd2-810bc4c04977@redhat.com>
- <CAFEAcA_JntiaOOWisqLVqAV6jc=wk4nR548KbbUcG0XLabcNpA@mail.gmail.com>
- <8d06b8f2-7ee8-a77a-81d7-3219d5e43c45@redhat.com>
- <dfeab9fd-7ee1-01f2-dd38-cba449b1de63@redhat.com>
- <f625f1f1-ad97-1c75-e44d-3b0c015312b3@redhat.com>
- <cf9156f6-c3fa-ec7e-c51a-8b8d2fd1e6d6@redhat.com>
- <7b45c073-8653-28e0-9d06-9e3aaa6dc460@redhat.com>
-In-Reply-To: <7b45c073-8653-28e0-9d06-9e3aaa6dc460@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Jul 2019 14:46:25 +0100
-Message-ID: <CAFEAcA8RZuzv=KkATMozxfp8MTsCOPPsK7mN6oCJq_TfwWiPMA@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PULL 08/10] target/arm: Conditionalize some
- asserts on aarch32 support
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PATCH v2 13/23] buildsys: The NSIS Windows build
+ requires the documentation installed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,22 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Jul 2019 at 14:36, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> I still wonder why this didn't assert on Peter's setup.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-My setup does not assert because my host kernel correctly
-provides the ID register values to QEMU. Laszlo's appears
-to be providing all-zeroes, which then obviously breaks
-assertions being made about the sanity of those ID register
-values...
+This fixes:
 
-thanks
--- PMM
+  $ make installer
+  [...]
+  (cd /tmp/qemu-nsis; \
+           for i in qemu-system-*.exe; do \
+             arch=${i%.exe}; \
+             arch=${arch#qemu-system-}; \
+             echo Section \"$arch\" Section_$arch; \
+             echo SetOutPath \"\$INSTDIR\"; \
+             echo File \"\${BINDIR}\\$i\"; \
+             echo SectionEnd; \
+           done \
+          ) >/tmp/qemu-nsis/system-emulations.nsh
+  makensis -V2 -NOCD \
+                   \
+                  -DCONFIG_GTK="y" \
+                  -DBINDIR="/tmp/qemu-nsis" \
+                   \
+                  -DSRCDIR="/source/qemu" \
+                  -DOUTFILE="qemu-setup-4.0.90.exe" \
+                  -DDISPLAYVERSION="4.0.90" \
+                  /source/qemu/qemu.nsi
+  File: "/tmp/qemu-nsis\qemu-doc.html" -> no files found.
+  Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] |
+     /oname=outfile one_file_only)
+  Error in script "/source/qemu/qemu.nsi" on line 173 -- aborting creation process
+  make: *** [Makefile:1080: qemu-setup-4.0.90.exe] Error 1
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190715174817.18981-7-philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index f9791dcb827..5a462629370 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1075,7 +1075,7 @@ installer: $(INSTALLER)
+ 
+ INSTDIR=/tmp/qemu-nsis
+ 
+-$(INSTALLER): $(SRC_PATH)/qemu.nsi
++$(INSTALLER): install-doc $(SRC_PATH)/qemu.nsi
+ 	$(MAKE) install prefix=${INSTDIR}
+ ifdef SIGNCODE
+ 	(cd ${INSTDIR}; \
+-- 
+2.20.1
+
 
