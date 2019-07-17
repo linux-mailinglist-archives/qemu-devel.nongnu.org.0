@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A606BD94
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:46:40 +0200 (CEST)
-Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA326BD93
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:46:29 +0200 (CEST)
+Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnkGV-0000F9-R8
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1hnkGK-0007ca-0L
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hnkDk-0005Tt-QQ
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:43:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hnkFS-0004cg-HH
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hnkDj-0004aP-Pw
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:43:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40055)
+ (envelope-from <peter.maydell@linaro.org>) id 1hnkFR-0005oO-DM
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:34 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41694)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hnkDj-0004Zi-J4
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:43:47 -0400
-Received: by mail-wr1-x435.google.com with SMTP id r1so24881109wrl.7
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:43:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hnkFR-0005nW-7Q
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:45:33 -0400
+Received: by mail-ot1-x343.google.com with SMTP id o101so25047882ota.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0S+4gBrjFxD4IDsxwuRAQetESfbW572jH6fFh6WvUkk=;
- b=W8P5MihMKVg7EwSAUqoqo4yRco5P21vQwOT29xToAQv/4unnbgTj3BSliTb6v6fQ27
- 9JsgQVwafEL62RJ+mpK9S3XKLC80Ifc81z6Erm7IPx2OBP9s/L+f607V8KjZVtlq9qAU
- CJws0goqduW0XYBh3dOgU7XfOfaUEWatrkjg4NPbLTk5dPFWV6d1NuyZ2y9MtdAeHCLn
- f7bSHphPEULZ10agW9eTNLt1eWhuWCp5Ck6OvCSInFhr+45hGAIYnCteVBvfO0XqI2oR
- GP6OEBVEqnLG0JPRKjYNeOiy/sqTkWPhCmB3BbamAu/nIUKUevJNFPzPG7tmaVTzPuLj
- rVZQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mIA2vzeTnkhB/e6CFWSokCe2bOE/PdJL1LQ+Nea8kUw=;
+ b=YaikLNKlB2QRqk2lZDYn+RfZnIq24M/ar0s2oJ5fK+eShtgMbJYYnL1NKjsHNLQWnM
+ 5P2YXnI4utTNGITJzbda3slZZ20+mD+ogKV1Zx21P2MBba2v/1NnZ4oOvEo6Gq2M0eiN
+ FbDKlpmU2Rw6qTXDMp9ACwUaanN7tKaiyEpuTdOg9hvZ24ZV21iJnasuOacRfIp2ZT2s
+ dwUs7XZWOHqajUSmO/Ai+QBcdjkvURpuv9CuF47ZBd5xwEmOrH6nwPaA9+0dt1q7vMLk
+ zCRkTQkY/+bbjopkSIFCSHDe3yEUDCMKq59MkIbQGVsOrYyhlGlZ7cpY95YueytwDXM/
+ AkHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0S+4gBrjFxD4IDsxwuRAQetESfbW572jH6fFh6WvUkk=;
- b=RN6i348ceTVLJ0f/XDtV8hPBNYqTzyvwEoORx5qysw+bQ6WMwk46u/yt11FkR42Yf+
- a8CJIPP8lXykWkC2Ms0su5mscN97qIdWaO4//XXe7ayQhh55sC32jZVDMzTskH0aAmGt
- sCrQxS08jw9oAjAq4cSySiMO7n40HLNmrdcl/YlWhbuUPqOvEaBxVcqoofGWNgeZRnFZ
- PYsrTHKLh+HFZMrxJCWmTr1wfiUi3nRi7ji4du5fZHJUVz/ejqOaFkt/7RXSJMUB7xVG
- LVOjGrtERPlYHgQM80E5jbMQGUg0MgzSbyD2jpGHfmNpDPTkgbJh1w4u7cVOJnM4/3Vm
- g9Ew==
-X-Gm-Message-State: APjAAAV6BttGFCfy6zeZNuBthgDBErkcYw20KoKrrR4ZeHX7BU1Sxjx5
- ZmRGwIWaYVP6B2wne/6i9veE2w==
-X-Google-Smtp-Source: APXvYqzY2OneKDWIsgPvVryRFgNybBYSnTf9pHUWJNpN8TaGuuamm9rh0RLOmrm7/w65Jp1mQ6PuXg==
-X-Received: by 2002:adf:f601:: with SMTP id t1mr43430852wrp.337.1563371026340; 
- Wed, 17 Jul 2019 06:43:46 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id w23sm25040444wmi.45.2019.07.17.06.43.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 17 Jul 2019 06:43:42 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA8DD1FF8C;
- Wed, 17 Jul 2019 14:43:36 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 17 Jul 2019 14:43:24 +0100
-Message-Id: <20190717134335.15351-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190717134335.15351-1-alex.bennee@linaro.org>
-References: <20190717134335.15351-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mIA2vzeTnkhB/e6CFWSokCe2bOE/PdJL1LQ+Nea8kUw=;
+ b=nuX65UxDAsw4iDi2hrYDbu9ZFSg2x2akIlYnGO5qMzileGCsHD97NtJ9AZkrMpFKP0
+ O0yKZXUdwEjI5EhL9wNCjsZaD/cldA/3YPNFO/M4k163hl1ixpZJdszyUUzPvNwAVrN5
+ QN4gM3PobfF8PcyooVcHHaEDzNAevbDN7HoX74+/AAHE9pJ4CjuODJP5gfj9nfyPQxmM
+ 9NuWAdVLCRhzSIWR11QywFjnVLNgHpd+C3OfocDAPAeHgIv0SDFI4+i78bmJn0mc/Rp3
+ RpgCYQcoHJto368xbBYOrvUcKY16G2/fC35IPw/z/A8tcGs6zATH9u9r+LM5HCZ8jNGU
+ QZVw==
+X-Gm-Message-State: APjAAAXNhr/5Q7nDDw+UA6F/wNM/9p1odEB6nRpT80u3xjbFvNGKNT1l
+ wxzSii+wd5QFfMQ++rXdTmhWChHV/5g8YQ70IpIHvg==
+X-Google-Smtp-Source: APXvYqw5FciZAmox7fxjmuV9DsZ6PKusErI+L5jnzvV7vdB2fXAeFiq6vnFGf1T4Pe5lk0Ji+QYVpQPXO1QzSr1SXWc=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr8339991oti.91.1563371131388; 
+ Wed, 17 Jul 2019 06:45:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20181102171638.24069-1-peter.maydell@linaro.org>
+ <20181102171638.24069-9-peter.maydell@linaro.org>
+ <3e3d2018-3993-f651-8e94-5bea612bd776@redhat.com>
+ <CAFEAcA_FtoHOUv_cPgfO7GrZ8Ug9cKCvmY2z75i9DaAQ8Qx+gQ@mail.gmail.com>
+ <417cd887-aec4-d8ba-1dd2-810bc4c04977@redhat.com>
+ <CAFEAcA_JntiaOOWisqLVqAV6jc=wk4nR548KbbUcG0XLabcNpA@mail.gmail.com>
+ <8d06b8f2-7ee8-a77a-81d7-3219d5e43c45@redhat.com>
+ <dfeab9fd-7ee1-01f2-dd38-cba449b1de63@redhat.com>
+ <f625f1f1-ad97-1c75-e44d-3b0c015312b3@redhat.com>
+ <cf9156f6-c3fa-ec7e-c51a-8b8d2fd1e6d6@redhat.com>
+In-Reply-To: <cf9156f6-c3fa-ec7e-c51a-8b8d2fd1e6d6@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Jul 2019 14:45:19 +0100
+Message-ID: <CAFEAcA_SAvEi7wGPp-MUf3qoXK17MwO4NjRYUtKXKZikCH6crg@mail.gmail.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: [Qemu-devel] [PATCH v2 12/23] tests/docker: Install texinfo in the
- Fedora image
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PULL 08/10] target/arm: Conditionalize some
+ asserts on aarch32 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,38 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, 17 Jul 2019 at 10:22, Laszlo Ersek <lersek@redhat.com> wrote:
+> Hmmm wait a second. The ARMv8 ARM says, about ID_ISAR0_EL1:
+>
+> > Divide, bits [27:24]
+> >
+> >     Indicates the implemented Divide instructions. Permitted values
+> >     are:
+> >     0000 None implemented.
+> >     0001 Adds SDIV and UDIV in the T32 instruction set.
+> >     0010 As for 0b0001, and adds SDIV and UDIV in the A32 instruction
+> >          set.
+> >     All other values are reserved.
+>
+> So this means that (aa32 && !arm_div) *does* conform to the architecture
+> manual!
 
-The 'makeinfo' is required to generate the documentation from
-the 'html' Makefile rule (called by 'install-doc').
-The NSIS installer uses these files.
+The architecture manual also says
+"In ARMv8-A the only permitted value is 0010.", and in
+earlier versions of the manual it says also that ARMv7VE
+implies that we must have all the integer divide instructions.
+And this assert is guarded by "if (arm_feature(env, ARM_FEATURE_V7VE))".
+(This is what we're trying to test, really: something that's
+providing AArch32 v7VE-or-better must include the divide insns.)
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190715174817.18981-6-philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/docker/dockerfiles/fedora.docker | 1 +
- 1 file changed, 1 insertion(+)
+> Upon re-reading the commit message more carefully:
+>
+>     on a host that doesn't support aarch32 mode at all, neither arm_div
+>     nor jazelle will be supported either
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 226ac1026fa..4ddc7dd112a 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -87,6 +87,7 @@ ENV PACKAGES \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-+    texinfo \
-     usbredir-devel \
-     virglrenderer-devel \
-     vte291-devel \
--- 
-2.20.1
+The point of this text is that "v8 AArch64 with no AArch32" is
+an exception to the previous version of the check, which was
+just "v7VE must mean we have the divide insns".
 
+Similarly with Jazelle: what we were testing before commit 0f8d06f
+was "v6 must imply Jazelle", which is true for everything except
+the special case of "an AArch64 CPU with no AArch32 support" (which
+can only happen for a KVM setup), and the test we are trying to
+check after the commit is "v6 aarch32 must imply Jazelle".
+
+> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> > index e75a64a25a4b..ea84a3e11abb 100644
+> > --- a/target/arm/cpu.c
+> > +++ b/target/arm/cpu.c
+> > @@ -1382,8 +1382,13 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+> >           * include the various other features that V7VE implies.
+> >           * Presence of EL2 itself is ARM_FEATURE_EL2, and of the
+> >           * Security Extensions is ARM_FEATURE_EL3.
+> > +         *
+> > +         * Lack of aa32 support excludes arm_div support:
+> > +         *   no_aa32 --> !arm_div
+> > +         * Using the logical OR operator, the same is expressed as:
+> > +         *   !no_aa32 || !arm_div
+> >           */
+> > -        assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
+> > +        assert(!no_aa32 || !cpu_isar_feature(arm_div, cpu));
+
+This now fails to test what we wanted, because it will allow
+an incorrect set of ID registers that define a v7VE CPU
+without the arm_div feature to pass.
+
+thanks
+-- PMM
 
