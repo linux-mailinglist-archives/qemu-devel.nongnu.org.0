@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A406BEED
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 17:21:20 +0200 (CEST)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28626BEEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 17:21:18 +0200 (CEST)
+Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnlk7-0000xX-GI
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 11:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
+	id 1hnlk5-0000w7-79
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 11:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hnljj-0008Ta-JT
+ (envelope-from <bounces@canonical.com>) id 1hnljj-0008Tv-Ms
  for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:20:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hnlji-0001Vs-IK
+ (envelope-from <bounces@canonical.com>) id 1hnlji-0001Vx-Ig
  for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:20:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34460)
+Received: from indium.canonical.com ([91.189.90.7]:34468)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hnlji-0001Uv-Bt
+ id 1hnlji-0001V5-C2
  for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:20:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hnljf-0007uz-On
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:20:51 +0000
+ id 1hnljg-000869-5R
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:20:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B9F4B2E80CB
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:20:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1A46C2E80CB
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:20:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Jul 2019 15:08:11 -0000
+Date: Wed, 17 Jul 2019 15:10:46 -0000
 From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,13 +44,13 @@ X-Launchpad-Bug-Commenters: ajbennee moschny philmd
 X-Launchpad-Bug-Reporter: Thomas Moschny (moschny)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <155766144999.15801.8727893741494500797.malonedeb@wampee.canonical.com>
-Message-Id: <156337609204.7142.17681294799321042717.malone@soybean.canonical.com>
+Message-Id: <156337624609.495.11421948550659635647.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19009";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: d8581551aee7775211482e6e60573a38660eec71
+X-Launchpad-Hash: f79d04307a8e5bf056be8044bc056023900242c6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1828723] Re: [RFE] option to suppress gemu_log()
@@ -69,9 +69,16 @@ Reply-To: Bug 1828723 <1828723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -d/-D options should work in linux-user as well. You can also set
-QEMU_LOG_FILENAME and QEMU_LOG environment variables. Do these not work
-for you?
+Although arguably the line:
+
+  gemu_log("Unsupported setsockopt level=3D%d optname=3D%d\n", level,
+optname);
+
+Could be
+
+  qemu_log_mask(LOG_UNIMP,....)
+
+Not sure where gemu_log is used, it seems to be strace related.
 
 -- =
 
