@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB3B6BDB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 15:53:04 +0200 (CEST)
-Received: from localhost ([::1]:57474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6686BDC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 16:00:33 +0200 (CEST)
+Received: from localhost ([::1]:57532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnkMh-0004na-9Q
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 09:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
+	id 1hnkTv-0001ky-Bc
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 10:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60071)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hnkMC-00034Z-At
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:52:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1hnkTf-0001IL-EE
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:00:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hnkMB-0002Mk-7Q
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:52:32 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38991)
+ (envelope-from <philmd@redhat.com>) id 1hnkTa-0007AU-0q
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:00:15 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:37072)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hnkMB-0002Lb-16
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 09:52:31 -0400
-Received: by mail-wm1-f67.google.com with SMTP id u25so11893425wmc.4
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 06:52:30 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hnkTZ-00076b-QS
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 10:00:09 -0400
+Received: by mail-wm1-f65.google.com with SMTP id f17so22276240wme.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 07:00:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lcPKlikHVw0UKOu5w7sujRIctLFD92nRZ7VhRKeyegM=;
- b=pza0iLM4Lp0mXrQsWV0x6yPwg7iFc5lIA9isPu+mLB++2asPbv0ziSjk+QTMkriOuD
- x9gVwK8OhxjJwE2O/UHpgfkZA9yC3DbfzjbfoSUMVeCbC2CBqh4YrRGa6/3ql0/Jl73f
- X0sWWoc18cWDJ+O+at6zcxUpw6pfMRudRGWgttO1AWDRhvUw6oHZH4FYq2VpEDVOD5ab
- 6/sNOVb+z+mzXd1E0lCu8j1045DinB1gUdGFdrn9vkv2G8rAA6F1TLKAcgyImdVJGBLj
- x+tRd+3R2eGe6xXwm60b7LWR+fmn8HGMTqtiRJ8hL81e2/m3UALGi5r3q/j6FU62i07B
- JLCA==
-X-Gm-Message-State: APjAAAWje4QqB8wm3BHl3gujtfJkmjARbybUYaU6CPI1aIUp90b1seve
- HAC5yDqyC4S+Ktp2zWFxUBqZXw==
-X-Google-Smtp-Source: APXvYqziNvMjIbDvojBWsg3svqTFETmwdKblqqmdyZ7n+h7uLvEKvMQxIpRMQJAodFwJVcZlcBVJWA==
-X-Received: by 2002:a05:600c:2388:: with SMTP id
- m8mr35524465wma.23.1563371549409; 
- Wed, 17 Jul 2019 06:52:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e427:3beb:1110:dda2?
- ([2001:b07:6468:f312:e427:3beb:1110:dda2])
- by smtp.gmail.com with ESMTPSA id h133sm24905915wme.28.2019.07.17.06.52.28
+ bh=anIiPly3Laa6zJaJDv5DB+OM70pYOQJzvDrDXM9w8to=;
+ b=LPHrNI2/+DppfazxQp3L8s0xbqzLdPR3KdeW4mPzYoMY5vsT4P2tAKYCorrvQqIDDx
+ AMuEekT09AVhf/iN58fu5eRUSvTjMTszBCukfK2UUMeRJp/1tpqWCWTjeTWQStt6Runq
+ mE/oPMlznaeqy7hF+WMs6z+Ycy7L4HYx+TtXsm8jzVD8UZvyZVeP5DGEPE20l4pq77s1
+ yyd48Gk1vOLiLbn+KTxBnKSjP69tafXTzO4so0VN8mKYLJ/Yv9GbHXmmsv+6Jz4Lqzw+
+ ropR1iTAYkykr8F23DWJrtwLi5kt65CaQc3ld6w7zrI1A16sCXOtz2UqmffAkK/ZXVDz
+ j6dQ==
+X-Gm-Message-State: APjAAAVCTr/3Ycayx9kZiB9d9+DVdYjONJY1RBRgYPls2BGuD5AnoANm
+ AfXUuyKsnmy2/A2cO2/EHCFqHw==
+X-Google-Smtp-Source: APXvYqye6TK8bjyVSdutQSj7zHggCBy4T8YXwsASRdCLeYNUX9EcPdJimPwxBoQeX0EZyU7DE1gLrA==
+X-Received: by 2002:a1c:720e:: with SMTP id n14mr36789635wmc.53.1563372008697; 
+ Wed, 17 Jul 2019 07:00:08 -0700 (PDT)
+Received: from [10.32.224.209] (red-hat-inc.vlan560.asr1.mad1.gblx.net.
+ [159.63.51.90])
+ by smtp.gmail.com with ESMTPSA id w67sm27299046wma.24.2019.07.17.07.00.07
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Jul 2019 06:52:28 -0700 (PDT)
-To: Collin Walling <walling@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20190715095545.28545-1-philmd@redhat.com>
- <20190715095545.28545-2-philmd@redhat.com>
- <ca528cdc-6118-0b2f-c1b8-30b06875dde8@redhat.com>
- <CAFEAcA-wgTVfj0TUJ=piP0wEgLGiNpOYia5DK2GQAO4Q7gNaWg@mail.gmail.com>
- <6d69e8ad-d720-ce04-20f2-a03193903078@redhat.com>
- <20190715125653.6e65d575.cohuck@redhat.com>
- <c1c68faf-0424-6c7c-e39f-42159457c3ee@redhat.com>
- <20190715130955.4a117388.cohuck@redhat.com>
- <13fce62f-234c-1b13-595f-5910c066bc4f@redhat.com>
- <6c39a198-e951-c0bd-1ddc-5d227afe72ff@redhat.com>
- <87a7dfth4i.fsf@dusky.pond.sub.org>
- <20190715181206.3cb1db93.cohuck@redhat.com>
- <799aa0f5-8850-5caa-5103-e1cf3cdb018f@redhat.com>
- <87h87m2knh.fsf@dusky.pond.sub.org>
- <beb5fe93-991d-ba2b-d2c1-51e01b912dbe@redhat.com>
- <50befb09-d381-4362-9cd1-6fb11c96a719@linux.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <633cc3f7-eb20-1bfe-03d2-e481be188eb1@redhat.com>
-Date: Wed, 17 Jul 2019 15:52:27 +0200
+ Wed, 17 Jul 2019 07:00:08 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20190716221555.11145-1-philmd@redhat.com>
+ <7f45fc26-4063-5b8d-d103-a0ac6e873bef@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <2c58bae8-7a9c-4827-109f-741dc8461a2b@redhat.com>
+Date: Wed, 17 Jul 2019 16:00:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <50befb09-d381-4362-9cd1-6fb11c96a719@linux.ibm.com>
+In-Reply-To: <7f45fc26-4063-5b8d-d103-a0ac6e873bef@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [qemu-s390x] [RFC PATCH 1/3] hw/Kconfig: PCI bus
- implies PCI_DEVICES
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v6 0/5] hw/block/pflash_cfi01: Add
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,47 +75,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Helge Deller <deller@gmx.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- "open list:S390" <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ John Snow <jsnow@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/07/19 14:59, Collin Walling wrote:
-> On 7/16/19 11:04 AM, Thomas Huth wrote:
->> On 16/07/2019 15.06, Markus Armbruster wrote:
->>> Paolo Bonzini <pbonzini@redhat.com> writes:
->>>
->>>> On 15/07/19 18:12, Cornelia Huck wrote:
->>>>>> Is it INTx vs. MSI vs. MSI-X?
->>>>>
->>>>> I think for s390x we need (INTx || MSI) vs MSI-X...
->>>>
->>>> I think MSI vs MSI-X is just how it's configured, not the actual
->>>> behavior, so it should be irrelevant.
->>>
->>> My best guesses from confusing information, please correct
->>> misunderstandings:
->>>
->>> 1. PCI devices need to support MSI or MSI-X to work with s390x.
->>
->> I think Cornelia mentioned that we might even require MSI-X there ...
->> Collin (being listed as "S390 PCI" maintainer), can you confirm?
+Hi Laszlo,
+
+On 7/17/19 2:24 PM, Laszlo Ersek wrote:
+> Hi Phil,
 > 
-> MSI-X is mandatory for PCI devices in the s390 architecture.
+> On 07/17/19 00:15, Philippe Mathieu-Daudé wrote:
+>> Hello it's me again, insisting with this series because there are at
+>> least 2 different report of guests bricked on reset due to the bug
+>> fixed by patch #5:
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1678713
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1704584
+>>
+>> Patches missing review: 2 and 3
+>>
+>> The pflash device lacks a reset() function.
+>> When a machine is resetted, the flash might be in an
+>> inconsistent state, leading to unexpected behavior.
+>> Resolve this issue by adding a DeviceReset() handler.
+>>
+>> Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00962.html
+>> - addressed Laszlo review comments
+>>
+>> Since v2: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00395.html
+>> - consider migration (Laszlo, Peter)
+>>
+>> Since v3: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01668.html
+>> - more reliable migration (Dave)
+>> - dropped patches 6-9 not required for next release
+>>
+>> Since v4: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg02785.html
+>> - document why using READ_ARRAY value 0x00 for migration is safe
+>>
+>> Since v5: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg03366.html
+>> - avoid trying to be spec-compliant and messing with migration. KISS.
+>>   review/test tags reset, sorry.
+> 
+> I have a number of questions / requests.
+> 
+> 
+> (1) The last I recall from the v5 discussion is Markus asking about some
+> risky cases (corner cases?) related to migration.
+> 
+> So what is the new avenue taken in v6? What does "continue ignoring spec
+> compliance" mean, with regard to migration?
+> 
+> My vague understanding is that we're not trying to answer Markus's
+> questions; instead, we're side-stepping them, by doing something else.
 
-How are MSI and MSI-X distinguished?
+I'd love to keep the v5 series and address Markus issues, but as shown
+by the quantity of respins, I don't understand the migration feature
+enough to fix it in time for the next release. I plan to address them
+(and other issues reported by Markus in other reviews) during the next
+dev cycle.
 
-Paolo
+> That works for me, but can we please summarize in a bit more detail?
+> Like, "in v6, we're not mapping 0x00 vs. 0xff across migration because..."
+
+Since it is very late in the release process and this series intend to
+fix a guest corruption bug worthwhile for release, the approch taken by
+v6 is "try to change the strict minimum regarding to migration, do not
+worry about spec issues". I even tried to make no migration change at
+all, but as explained in patch 6 "Extract pflash_mode_read_array" there
+is still one.
+
+I could make no migration change, and in patch 6 not call
+memory_region_rom_device_set_romd() in pflash_mode_read_array() [and
+call it in other places instead], but then we still have the undefined
+behavior described in the patch. We always lived with this UNDEF, so...
+I could work on a simpler v7.
+
+> Yes, I could inter-diff v5 vs. v6, but I know way too little about
+> pflash. I'd miss how our *dropping* of the special 0xff mapping impacts
+> our conformance to the data sheet.
+
+To reassure you, it never worked well but nobody cared, I noticed while
+converting DPRINTF to trace-events and adding more, then follow the
+model state machine. While it's probably not worth fixing, it makes
+debugging slighly harder when looking at the CFI spec workflow. Now I'm
+used to it.
+
+> I'm not asking for commit message updates, just a bit more explanation
+> in this free-form discussion. (I looked for it under v5, and couldn't
+> find it.)
+
+I tried to be verbose in the patch description, so for reference:
+
+0xff on v5:
+https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg03368.html
+
+not 0xff on v6:
+https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg03931.html
+
+migration impact on v6 [1]:
+https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg03932.html
+
+> (2) Has someone regression-tested v6 for migration specifically?
+
+No, neither were tested the previous versions.
+
+> 
+> Or, is v6 not "risky" wrt. migration any longer?
+
+v6 should be way less risky than previous versions (still one issue
+noted in [1]).
+
+> (3) I'm fine regression testing v6 too (without migration, again).
+> Please ping me separately once the reviews have converged and the series
+> is otherwise ready for merging.
+
+Yes, I know your testing takes very long, so let's wait first.
+
+Thanks for having a look.
+
+Phil.
+
+> 
+> Thanks!
+> Laszlo
+> 
+> 
+>> $ git backport-diff -u v5
+>> Key:
+>> [----] : patches are identical
+>> [####] : number of functional differences between upstream/downstream patch
+>> [down] : patch is downstream-only
+>> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+>>
+>> 001/5:[----] [-C] 'hw/block/pflash_cfi01: Removed an unused timer'
+>> 002/5:[down] 'hw/block/pflash_cfi01: Document use of non-CFI compliant command '0x00''
+>> 003/5:[0031] [FC] 'hw/block/pflash_cfi01: Extract pflash_mode_read_array()'
+>> 004/5:[down] 'hw/block/pflash_cfi01: Rename 'reset_flash' label as 'mode_read_array''
+>> 005/5:[----] [--] 'hw/block/pflash_cfi01: Add the DeviceReset() handler'
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> Philippe Mathieu-Daudé (5):
+>>   hw/block/pflash_cfi01: Removed an unused timer
+>>   hw/block/pflash_cfi01: Document use of non-CFI compliant command
+>>     '0x00'
+>>   hw/block/pflash_cfi01: Extract pflash_mode_read_array()
+>>   hw/block/pflash_cfi01: Rename 'reset_flash' label as 'mode_read_array'
+>>   hw/block/pflash_cfi01: Add the DeviceReset() handler
+>>
+>>  hw/block/pflash_cfi01.c | 77 +++++++++++++++++++++--------------------
+>>  hw/block/trace-events   |  1 +
+>>  2 files changed, 41 insertions(+), 37 deletions(-)
+>>
+> 
 
