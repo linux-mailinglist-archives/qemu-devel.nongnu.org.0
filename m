@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1206B9C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 12:08:46 +0200 (CEST)
-Received: from localhost ([::1]:55590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9426B9C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 12:09:37 +0200 (CEST)
+Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hngrd-0002cU-De
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 06:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
+	id 1hngsS-0003U0-75
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 06:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48283)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hngrQ-0002DZ-Mh
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:08:33 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hngsF-000362-6u
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:09:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hngrK-0000j5-QU
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:08:28 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40899)
+ (envelope-from <pbonzini@redhat.com>) id 1hngsE-0001K9-92
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:09:23 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37039)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hngrI-0000hw-MJ
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:08:24 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v19so21524337wmj.5
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 03:08:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hngsE-0001JD-1l
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 06:09:22 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n9so24140100wrr.4
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 03:09:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4pb89/+4zq7H/Ld2QmNntFZ9nQJLHwhJfPb5IeUQS0w=;
- b=BROb5nhcATQR1D5Ceru5Tjn7cf4l1KhfwDjwUO5QHPPPGMysh1xCxlY9JDHVDZnveE
- Ngfz6FYFlLaERNZEUcxh0z/nD5+oDTcWpuAuj79ReESJcovmUhBtB8lYtXTnt1ZW+fKZ
- NilZjtV8HL6EFhgna8yDs8/FnWfAsyoNFlCK6MtFwxVh+9aycgC7FNLUPDaxte+MPdbh
- HkYc5Nf89qNzDmTAQvKz0qst4gVUsnwXHK0vTzYvytaGbOZ5/A4VXnlFKEjG3p+osOw9
- O0wJbLwhcz/kZ8JX2vjNpeVtkFVjhF5uhgFpzyM3ZnTREVBe5q9xD3Zs0OxVHNRCpg08
- nTfA==
-X-Gm-Message-State: APjAAAVRNJJZHDmmT1FyYZlbZhllO7SP9+OCmdFSOE8aB7s/vADnkSpj
- 7APpHVIKOWmgIN4vsjD9NkPcHg==
-X-Google-Smtp-Source: APXvYqzXHINw1gq/MzX4vSImIYWqB0W9SzTPsjKo3RZRhoTXNixm4H+fzrCDiHEPghNmZZSO/y02qw==
-X-Received: by 2002:a7b:cb51:: with SMTP id v17mr35142447wmj.20.1563358103446; 
- Wed, 17 Jul 2019 03:08:23 -0700 (PDT)
+ bh=sBelC1IJe9XNbdmsMt1UhNhhysTd8hW3FZZ//QE04vk=;
+ b=anWSxPb4CJ8z22tZVfo6gUSDYrBf6i4mKM0NdojJwNEwtOLzOYnnsZYxlloED7XHXl
+ +7FmEHmfmxAo4c3qhbDg9ZN8RqffllXlnwlbbKdCBY2VaMXHm7jLnhbCV59C4RS4RRc6
+ m02bMTqPmFy5wjf0jfD5cn+vGK8ZKEkgsPAen11IpCW142jUsLmGiCX8CG198w8ZBmWR
+ 9GFNdcQlGfKgK1ocKbifWV4uQa/UCEXvNCS6dvTWjDBMfP0qVBW4aANs2Kj7HJjx/8D4
+ jqIU4PmC6b9eKZwm8JfZbXnN5g2dtqneG91zYQmMroA5+0rYjz80R2miXs9P8pPuPywt
+ yhuA==
+X-Gm-Message-State: APjAAAWBIaWzItfmYSVJbXOrcNPFldrJIwdC4HfyTYCjtgxklsv+pms9
+ 49m3yRkfblgTiYwTYmOqbHXEoA==
+X-Google-Smtp-Source: APXvYqzODTh9QVDY9RZ8Inn4uVRfg/JZ8DwxM8sDGv1VPX3WCaFrP+2zFaU0K8SZzwP4ChOKV9oH0A==
+X-Received: by 2002:adf:ea87:: with SMTP id s7mr42752434wrm.24.1563358160846; 
+ Wed, 17 Jul 2019 03:09:20 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:e427:3beb:1110:dda2?
  ([2001:b07:6468:f312:e427:3beb:1110:dda2])
- by smtp.gmail.com with ESMTPSA id u1sm22474989wml.14.2019.07.17.03.08.22
+ by smtp.gmail.com with ESMTPSA id w24sm19477116wmc.30.2019.07.17.03.09.19
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Jul 2019 03:08:22 -0700 (PDT)
+ Wed, 17 Jul 2019 03:09:20 -0700 (PDT)
 To: tony.nguyen@bt.com, qemu-devel@nongnu.org
 References: <a5f7f8854af046c18c6342035662a193@tpw09926dag18e.domain1.systemhost.net>
- <1563343596429.3033@bt.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <8391cc14-3fc3-789e-b5a6-91b707a3a5a8@redhat.com>
-Date: Wed, 17 Jul 2019 12:08:21 +0200
+Message-ID: <521daf39-6984-f20d-9436-e79f23a071ff@redhat.com>
+Date: Wed, 17 Jul 2019 12:09:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <1563343596429.3033@bt.com>
+In-Reply-To: <a5f7f8854af046c18c6342035662a193@tpw09926dag18e.domain1.systemhost.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 2/4] memory: Single byte swap along the I/O
- path
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH 0/4] Invert Endian bit in SPARCv9 MMU TTE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,66 +76,18 @@ Cc: mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/07/19 08:06, tony.nguyen@bt.com wrote:
-> +
-> +static inline MemOp MEMOP(unsigned size)
-> +{
-> +    switch (size) {
-> +    case 1:
-> +        return MO_8;
-> +    case 2:
-> +        return MO_16;
-> +    case 4:
-> +        return MO_32;
-> +    case 8:
-> +        return MO_64;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
+On 17/07/19 07:57, tony.nguyen@bt.com wrote:
+> This patchset implements the IE (Invert Endian) bit in SPARCv9 MMU TTE.
+> 
+> It is an attempt of the instructions outlined by Richard Henderson to Mark
+> Cave-Ayland.
+> 
+> Tested with OpenBSD on sun4u. Solaris 10 is my actual goal, but unfortunately a
+> separate keyboard issue remains in the way.
 
-FWIW, this is just "ctz(size)".
-
-My main concern is that MO_BE/MO_LE/MO_TE do not really apply to the 
-memory.c paths.  MO_BSWAP is never passed into the MemOp, even if target 
-endianness != host endianness.
-
-Therefore, you could return MO_TE | MO_{8,16,32,64} from this function, 
-and change memory_region_endianness_inverted to test 
-HOST_WORDS_BIGENDIAN instead of TARGET_WORDS_BIGENDIAN.  Then the two
-MO_BSWAPs (one from MO_TE, one from adjust_endianness because
-memory_region_endianness_inverted returns true) cancel out if the
-memory region's endianness is the same as the host's but different
-from the target's.
-
-Some care is needed in virtio_address_space_write and zpci_write_bar.  I 
-think the latter is okay, while the former could do something like this:
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ce928f2429..61885f020c 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -541,16 +541,16 @@ void virtio_address_space_write(VirtIOPCIProxy *proxy, hwaddr addr,
-         val = pci_get_byte(buf);
-         break;
-     case 2:
--        val = cpu_to_le16(pci_get_word(buf));
-+        val = pci_get_word(buf);
-         break;
-     case 4:
--        val = cpu_to_le32(pci_get_long(buf));
-+        val = pci_get_long(buf);
-         break;
-     default:
-         /* As length is under guest control, handle illegal values. */
-         return;
-     }
--    memory_region_dispatch_write(mr, addr, val, len, MEMTXATTRS_UNSPECIFIED);
-+    memory_region_dispatch_write(mr, addr, val, size_memop(len) & ~MO_BSWAP, MEMTXATTRS_UNSPECIFIED);
- }
- 
- static void
-
+It's very good, I'm just a bit worried that the meaning of MemOp is
+slightly different between memory API and TCG.  I've replied to patch 2
+with the details.
 
 Paolo
 
