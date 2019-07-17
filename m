@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B626B48C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:34:28 +0200 (CEST)
-Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AB36B496
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:35:29 +0200 (CEST)
+Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnZlz-0002dx-Bn
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53055)
+	id 1hnZmy-00079E-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53087)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shirley17fei@gmail.com>) id 1hnZlO-0001BS-7h
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:51 -0400
+ (envelope-from <shirley17fei@gmail.com>) id 1hnZlS-0001S2-6s
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shirley17fei@gmail.com>) id 1hnZlN-0006Er-6s
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:50 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43261)
+ (envelope-from <shirley17fei@gmail.com>) id 1hnZlR-0006Hq-5A
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:54 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:39835)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <shirley17fei@gmail.com>)
- id 1hnZlN-0006EN-16
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:49 -0400
-Received: by mail-pf1-x442.google.com with SMTP id i189so10041848pfg.10
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 19:33:48 -0700 (PDT)
+ id 1hnZlQ-0006HI-Ud
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:33:53 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u17so10369854pgi.6
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 19:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0e/ngLNRrmzCNyqP64QJRvjo9UERFAOaH0yurKB6MKM=;
- b=VgTY3C5FlBFNP+zsNZptHLjdSr7Bm7rJIgpOJipQqkimKQfIygNwZ9Z7p/fZT4yTj1
- cs8PIbmiN0P7WgdYbeNWjrmzeUzWXNLI2pqmMerMXoZd8Xyqyi0s3d35zNFku5oFAS7C
- xnmxxae6+nMWJkdKMM+z7TUxT13+KQcKYmazM1EVx7Y/GX16ReCeh8CYAWVUotB7vH0O
- bYojWkJnF3OD9btXxsx7+1Ztl01try/XVStZCAla6OZ3UJX0aoLF2Tp1KspPrmTt4g2Z
- V/D6XAlISlyqmklPFS1T+HQgXK6hr2QScG5+W/3vilVsasDkov1+byb8RoOO+ArHQmF4
- rK2w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=VM7YAJwry+wyZ2yuE+WkugvtQMJfdLiPFMhwqCS6SXA=;
+ b=AwCpgJ1jy+igCKsUWWOo+oZNqPZgx31GZusSNWrwJpHO6kHb+xE5oWBxgqncc7INiC
+ inryyUtPHeUBUmFWbu5gYzyw3SP2izEyK5UJGnaKMtav26WacuVlVOQCDNhdHvxAUs8J
+ mQIGQ+zfgF26CwZbiPlus1j7Q6qvRz4dr3ow2UW1V+tBJNPcTSRK+gaxyxkw07ILEVgq
+ f3s+9034EVU3MJ5lPIAZW8MQhaWaBwQ68QwD+zgB2RgwofJrD+dKUX9Qalfldtdu6UP5
+ Vu1DzRlZ3/63CmVHxzTJjX1GSh3G34b1jJYvE9SBYRi2XUz8eFaKf97WlN2CJ4Zr/yS7
+ E3FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0e/ngLNRrmzCNyqP64QJRvjo9UERFAOaH0yurKB6MKM=;
- b=pXDnokEBJyiHQbW3awQT3p/ObGOa8jRpVeLQLCkYS8hP+DrtoSY6yeiAmVK+RZJkPW
- VwDhNL5SCp5dzA8t7R1QpclksG5DDmiYs6RINFRjkgsfwKvBcL64uAfcZC6b3p+WdObC
- VgwQjRhKoBCXnO6IxqyRKnyXnhL0vn7Ipzsv1x6WJv0l+TdO2ajhkxlO/MGAipSnnM4B
- 6x3CAsyVWl3ywgrSo3DprxtVh1+/5jBUZ9edJ6NjGT5Lr62D5GHxIsxS7QEAUmvgh2vH
- naZuY7xYdGbovcD5vuXzPGlJlreL5ma5sE7RHUPYoNfDFeT18jy4b21f+ATxzlh7Cte/
- Bu+g==
-X-Gm-Message-State: APjAAAWWSUD/9UWiGpywq9GHzXc8AiT3AJwPToV/hMO+woYHBtKqlUH8
- VcFcKmSGPb5HP+KUB0+pByYWZLBK
-X-Google-Smtp-Source: APXvYqwThnvZOBaddq+r3mDPCL8uVk7NraVd+t0OgZQw75Lxm+c4AN/CJ3QYpT8nTi6TBia6IJX4UQ==
-X-Received: by 2002:a17:90a:346c:: with SMTP id
- o99mr39834390pjb.20.1563330827879; 
- Tue, 16 Jul 2019 19:33:47 -0700 (PDT)
+ :references;
+ bh=VM7YAJwry+wyZ2yuE+WkugvtQMJfdLiPFMhwqCS6SXA=;
+ b=bdklQZ2JfG3HFT9rjRRLpznTd27flR3bgP5tmCk+rnAJULzqw4STfCZ1pVkatkCfmB
+ 5OazCIYRlbCEoCXVR3yZMRu+kjRN6hcWn+iMHcMaQ0+2JwxjYet3X3xVsR39Pf0YbHp7
+ 77xV/kJhxl9Cmqo7nvBZKZbIhLSskXza11UxzlK5zqv3R9jLfAV/aWKf+ChZLh8/fWO7
+ OriNyLD7CdP3neoWjgLXr8xJLMQSZLzVcxDCm3Vuoe5zbotOmpvtXfrp5xyLYKBi9RA+
+ 0fzgs7kdCoDcwazMKZ98or4kiw6lRKBb2N4UICgRcUDJ9cm3kpKosKaaunXT5qTB7xOK
+ wgNA==
+X-Gm-Message-State: APjAAAWkkyqIJKMKDmUOImZs1CNsdABlkzxRBxuaHJnHC60VEa2cCC9h
+ Sc8dhwWEKQpMxC4c7eSRPbmr4hJ3
+X-Google-Smtp-Source: APXvYqx52Lkfej/uv7TQ0xluHXOfs3fh8G8OLSMq4JZQ3RDPh0ms84JK2QeUZUCL3YN4oE4u1L8iDg==
+X-Received: by 2002:a65:4103:: with SMTP id w3mr25808719pgp.1.1563330831645;
+ Tue, 16 Jul 2019 19:33:51 -0700 (PDT)
 Received: from n3-021-211.byted.org ([49.7.44.72])
- by smtp.gmail.com with ESMTPSA id b1sm20986530pfi.91.2019.07.16.19.33.44
+ by smtp.gmail.com with ESMTPSA id b1sm20986530pfi.91.2019.07.16.19.33.48
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 16 Jul 2019 19:33:46 -0700 (PDT)
+ Tue, 16 Jul 2019 19:33:50 -0700 (PDT)
 From: Fei Li <shirley17fei@gmail.com>
 To: qemu-devel@nongnu.org,
 	shirley17fei@gmail.com
-Date: Wed, 17 Jul 2019 10:33:05 +0800
-Message-Id: <20190717023310.197246-7-shirley17fei@gmail.com>
+Date: Wed, 17 Jul 2019 10:33:06 +0800
+Message-Id: <20190717023310.197246-8-shirley17fei@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190717023310.197246-1-shirley17fei@gmail.com>
 References: <20190717023310.197246-1-shirley17fei@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v14 06/11] qemu_thread: supplement error
- handling for emulated_realize
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v14 07/11] qemu_thread: supplement error
+ handling for iothread_complete
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,11 +76,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Fergeau <cfergeau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+Cc: Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Fei Li <fli@suse.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -94,46 +87,66 @@ From: Fei Li <fli@suse.com>
 
 Utilize the existed errp to propagate the error and do the
 corresponding cleanup to replace the temporary &error_abort.
-If the second thread fails to be created, use a VEvent to
-cancel the first thread before the join().
 
 Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christophe Fergeau <cfergeau@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
 Signed-off-by: Fei Li <fli@suse.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/usb/ccid-card-emulated.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ iothread.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 4d95ee07aa..bdf1971e6b 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -545,11 +545,18 @@ static void emulated_realize(CCIDCardState *base, Error **errp)
-         error_setg(errp, "%s: failed to initialize vcard", TYPE_EMULATED_CCID);
-         goto out2;
+diff --git a/iothread.c b/iothread.c
+index 2d5a5bfe6c..1ebacaf089 100644
+--- a/iothread.c
++++ b/iothread.c
+@@ -166,6 +166,7 @@ static void iothread_complete(UserCreatable *obj, Error **errp)
+     Error *local_error = NULL;
+     IOThread *iothread = IOTHREAD(obj);
+     char *name, *thread_name;
++    int thread_ok;
+ 
+     iothread->stopping = false;
+     iothread->running = true;
+@@ -188,9 +189,7 @@ static void iothread_complete(UserCreatable *obj, Error **errp)
+                                 &local_error);
+     if (local_error) {
+         error_propagate(errp, local_error);
+-        aio_context_unref(iothread->ctx);
+-        iothread->ctx = NULL;
+-        return;
++        goto fail;
      }
+ 
+     /* This assumes we are called from a thread with useful CPU affinity for us
+@@ -198,16 +197,23 @@ static void iothread_complete(UserCreatable *obj, Error **errp)
+      */
+     name = object_get_canonical_path_component(OBJECT(obj));
+     thread_name = g_strdup_printf("IO %s", name);
 -    /* TODO: let the further caller handle the error instead of abort() here */
--    qemu_thread_create(&card->event_thread_id, "ccid/event", event_thread,
--                       card, QEMU_THREAD_JOINABLE, &error_abort);
--    qemu_thread_create(&card->apdu_thread_id, "ccid/apdu", handle_apdu_thread,
--                       card, QEMU_THREAD_JOINABLE, &error_abort);
-+    if (qemu_thread_create(&card->event_thread_id, "ccid/event", event_thread,
-+                           card, QEMU_THREAD_JOINABLE, errp) < 0) {
-+        goto out2;
-+    }
-+    if (qemu_thread_create(&card->apdu_thread_id, "ccid/apdu",
-+                           handle_apdu_thread, card,
-+                           QEMU_THREAD_JOINABLE, errp) < 0) {
-+        VEvent *vevent = vevent_new(VEVENT_LAST, NULL, NULL);
-+        vevent_queue_vevent(vevent); /* stop vevent thread */
-+        qemu_thread_join(&card->event_thread_id);
-+        goto out2;
+-    qemu_thread_create(&iothread->thread, thread_name, iothread_run,
+-                       iothread, QEMU_THREAD_JOINABLE, &error_abort);
++    thread_ok = qemu_thread_create(&iothread->thread, thread_name, iothread_run,
++                                   iothread, QEMU_THREAD_JOINABLE, errp);
+     g_free(thread_name);
+     g_free(name);
++    if (thread_ok < 0) {
++        qemu_sem_destroy(&iothread->init_done_sem);
++        goto fail;
 +    }
  
-     return;
+     /* Wait for initialization to complete */
+     while (iothread->thread_id == -1) {
+         qemu_sem_wait(&iothread->init_done_sem);
+     }
++    return;
++fail:
++    aio_context_unref(iothread->ctx);
++    iothread->ctx = NULL;
+ }
  
+ typedef struct {
 -- 
 2.11.0
 
