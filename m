@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD416B443
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:03:05 +0200 (CEST)
-Received: from localhost ([::1]:53546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCC76B43E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 04:02:30 +0200 (CEST)
+Received: from localhost ([::1]:53511 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnZHc-0005nK-RQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44997)
+	id 1hnZH2-00030T-UV
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 22:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZG9-00011a-SW
+ (envelope-from <dgibson@ozlabs.org>) id 1hnZGA-00011b-IZ
  for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnZG7-0008D6-L1
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:33 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50637 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hnZG9-0008Ds-7w
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 22:01:34 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57375 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnZG5-000878-CE; Tue, 16 Jul 2019 22:01:31 -0400
+ id 1hnZG8-0008CV-J0; Tue, 16 Jul 2019 22:01:33 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45pL901xnwz9sNF; Wed, 17 Jul 2019 12:01:24 +1000 (AEST)
+ id 45pL905ZR0z9sNq; Wed, 17 Jul 2019 12:01:24 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563328884;
- bh=2ftxnbDHmzUoQ2yf6EO2KtlTfbVmVOQ0t5hEdw5fkbE=;
+ bh=q6UzWaLPvEiEIhiNKkSs5QmIRbeg/sFKGRR6qGcoNjE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WlcwwrhQcK9wmaWcGrPLnfI/JTL16hFvKnUrnPNJQ8Ojl+nbsshCC533NBrfeGhub
- Tm8N8Pu7SPvTbq8fYz+HHxKzhGtrR7rNA2htpvcW7a/CMVBGUT11qzpr68qiWXP/8Y
- l1F6rHMUYaPOfepYVpUQbOKzTM1NP4Kv64T+6ajw=
-Date: Wed, 17 Jul 2019 11:51:15 +1000
+ b=ZuRc/nQ6QvXCd/h+qG+xLpoqjnZN0MVv8fbz9m3m6y8YTWSBtmW0kQ75pulyNHswg
+ xbpBHd+3pLnV07aMLGJFN35hgSrMmSzvydPsEK2nKZniW76awJ3sjQq/KSeempzLVL
+ mcsNrdyXfJjfNkstp1Z4TK2yuKXEKRdNxr6YBjtk=
+Date: Wed, 17 Jul 2019 11:51:53 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190717015115.GA9123@umbus.fritz.box>
+Message-ID: <20190717015153.GB9123@umbus.fritz.box>
 References: <20190716024726.17864-1-npiggin@gmail.com>
- <20190716024726.17864-2-npiggin@gmail.com>
- <20190716073433.GC7525@umbus.fritz.box>
- <1563269012.r4tmfz9h7z.astroid@bobo.none>
+ <20190716024726.17864-4-npiggin@gmail.com>
+ <20190716082549.GE7525@umbus.fritz.box>
+ <1563270152.eyfvtns0jc.astroid@bobo.none>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+ protocol="application/pgp-signature"; boundary="v9Ux+11Zm5mwPlX6"
 Content-Disposition: inline
-In-Reply-To: <1563269012.r4tmfz9h7z.astroid@bobo.none>
+In-Reply-To: <1563270152.eyfvtns0jc.astroid@bobo.none>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v4 1/5] spapr: Implement dispatch counter
- and prod bit on tcg
+Subject: Re: [Qemu-devel] [PATCH v4 3/5] spapr: Implement H_CONFER
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,50 +64,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---a8Wt8u1KmwUX3Y2C
+--v9Ux+11Zm5mwPlX6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 16, 2019 at 07:27:22PM +1000, Nicholas Piggin wrote:
-> David Gibson's on July 16, 2019 5:34 pm:
-> > On Tue, Jul 16, 2019 at 12:47:22PM +1000, Nicholas Piggin wrote:
-> >> Implement cpu_exec_enter/exit on ppc which calls into new methods of
-> >> the same name in PPCVirtualHypervisorClass. These are used by spapr
-> >> to implement these splpar elements, used in subsequent changes.
+On Tue, Jul 16, 2019 at 08:25:28PM +1000, Nicholas Piggin wrote:
+> David Gibson's on July 16, 2019 6:25 pm:
+> > On Tue, Jul 16, 2019 at 12:47:24PM +1000, Nicholas Piggin wrote:
+> >> This does not do directed yielding and is not quite as strict as PAPR
+> >> specifies in terms of precise dispatch behaviour. This generally will
+> >> mean suboptimal performance, rather than guest misbehaviour. Linux
+> >> does not rely on exact dispatch behaviour.
 > >>=20
 > >> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > >> ---
-> >>  hw/ppc/spapr.c                  | 25 +++++++++++++++++++++++++
-> >>  hw/ppc/spapr_cpu_core.c         |  5 ++++-
-> >>  hw/ppc/spapr_hcall.c            |  5 -----
-> >>  include/hw/ppc/spapr.h          |  7 +++++++
-> >>  include/hw/ppc/spapr_cpu_core.h |  2 ++
-> >>  target/ppc/cpu.h                |  2 ++
-> >>  target/ppc/translate_init.inc.c | 25 +++++++++++++++++++++++++
-> >>  7 files changed, 65 insertions(+), 6 deletions(-)
+> >>  hw/ppc/spapr_hcall.c | 48 ++++++++++++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 48 insertions(+)
+> >>=20
+> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> >> index 8b208ab259..28d58113be 100644
+> >> --- a/hw/ppc/spapr_hcall.c
+> >> +++ b/hw/ppc/spapr_hcall.c
+> >> @@ -1069,6 +1069,53 @@ static target_ulong h_cede(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+> >>      return H_SUCCESS;
+> >>  }
+> >> =20
+> >> +static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spap=
+r,
+> >> +                           target_ulong opcode, target_ulong *args)
+> >> +{
+> >> +    target_long target =3D args[0];
+> >> +    uint32_t dispatch =3D args[1];
+> >> +    PowerPCCPU *target_cpu =3D spapr_find_cpu(target);
+> >> +    CPUState *target_cs =3D CPU(target_cpu);
+> >> +    CPUState *cs =3D CPU(cpu);
+> >> +    SpaprCpuState *spapr_cpu;
+> >> +
+> >> +    /*
+> >> +     * This does not do a targeted yield or confer, but check the par=
+ameter
+> >> +     * anyway. -1 means confer to all/any other CPUs.
+> >> +     */
+> >> +    if (target !=3D -1 && !target_cs) {
+> >> +        return H_PARAMETER;
+> >> +    }
 > >=20
-> > Mostly LGTM.  Please do address the style issues that the bot
-> > reported.
+> > Should we return an error if a targeted yield is attempted, rather
+> > than pretend we've done it?
 >=20
-> Will do.
+> I don't think so, because we do _some_ kind of yield for the directed
+> case which is probably better than nothing, and Linux won't fall back.
 >=20
-> > In addition, do the dispatch_counter and prod values need to be
-> > migrated?
+> PAPR is much more strict about dispatching. The H_CONFERing vCPU must=20
+> not run until the target(s) has been dispatched (if runnable), for
+> example. So we don't really implement it to the letter, we just do
+> "some kind of yield, whatever generic tcg code has implemented".
 >=20
-> I was thinking no, it should be just a blip. But could the guest
-> be reading the dispatch counter in the vpa for some other reason?
-> There are other (unimplemented) dispatch statistics in there AFAIKS.
-> Linux doesn't, but others might.
+> For single threaded tcg it seems a signifcant complication to the
+> round robin algorithm to add a directed yield, yet simply yielding
+> to the next vCPU is a good idea here because useful work will get
+> done including by the lock holder before we run again.
+>=20
+> If multi threaded tcg performance with lot of vCPUs and lock contention
+> starts becoming more important I guess directed yielding might be
+> something to look at.
 
-Right, I guess it's a question of whether a guest would get confused
-if the dispatch count suddenly resets.
-
-> And what about KVM, does any of the VPA data get migrated for=20
-> KVM guests?
-
-Well, the stuff that's actually written into the VPA is implicitly
-migrated, since it's part of guest memory.
+Ok, makes sense to me.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -116,25 +139,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---a8Wt8u1KmwUX3Y2C
+--v9Ux+11Zm5mwPlX6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ufxAACgkQbDjKyiDZ
-s5JwjxAAnVciuzwbuZjexZo+qX942oDIT/NNhzXgj9APyhcVJFN2A/YYhVrIzBWV
-UY30kKY4HXPDGbHUedAMAqFc4XkjmPpbgTJkL7f0KvXtfh3JMrpejxD036MrpJMm
-UINxRPSsIuRPgxYwzDnc89Jg3sz9EWb0rBgVM6VcVGSVbAskFVICIcpixMclwq7Y
-21q2ZcJOnaCaE+cU3WvoeUalI2iOQAZ/5X09/uJv4eeA7Y1pt8h289DCuGW2ph20
-6JunlVNrdN1j9fkhzmB98mK2b6xgtbfTp0Qg0z0ackpkpQguzKArsebylGTgNz1e
-cVtEmHpAH6uzy1BuNtovr8AEmOVCjSWvsMJr3zVw54L9xBsmg721wTgbIISGmom7
-6qXtZXl7nLrLCj1rGWmzjYtnx2pOyp6DNPbKGvfJmc+3ubhnuVZrMji4HCmVn6v7
-6Y8cehyUBvN9mTeD7CSbXLpi2Lx5RifKIL/BCGBHb/J4N4EhPqn+U9Uq5Cw8Gv66
-q/CumtGunTNqgkKiXdB0gQQSnoFG0y82VCqgQOsEaJzAxMf+fYay6ZtPceRS49xd
-RAt5chy7VOsPcjLmQkMRiEhzUskLxhVRiwigNS9fNq5OYntjAtPazTvKoizrPey9
-ZxwMORYtq570q2oqvx2jLPb9s9dsOr9suZvGEXyoRfJcfBfQFFs=
-=zIUt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ufzkACgkQbDjKyiDZ
+s5IwJQ/5AchWldMf3+8LTgVobwwLpNOFFXqDC6ywOgREmAeQyGWOFaQOHVGnDx4/
+/cfzvFehWMuQNoNtBB7a8aHr8Z612XJBU9lNV0tGS/ZyhjhAAVH1exdQSHl/IXWh
+J1AbTP2trU5IcPT5DmkE8lazZCIX1y55t7kTT1akf+iwkNU9FWhkblMahEzHEkXx
+AlO+KvMM0mvCbc7D6wO/7aBwqfwoOTkap0GXjb9CakbdNv7aBAsYwX6TFao8dh0p
+H41q7wo8wsK51EkLE2+MctvJ3GDu169AJ3NLsXQLZu3S1iH0CBQcMrPufNG4LiLm
+iHcmYbtBZHM6GNkPpgDKR1M0mVXLDrjpnMFmY9RKHXJClSGw0yO/sT+tEf3/Vyd3
+qyLTWVOr2poCHwH5+6j1MeEaRjf0KPihi05Ysml90a1n6USAQtSgQCINNJFgLNeI
+h8HPYxpY0QlNslKVsjig+cYT53X4DMPBixWUzRthaAL7Bk1QqJCWLJw+LIMW/rPv
+r8FSqf54cfFzOiX55Ux7ZHWCNIM3ugm9E9D5/DsTXHOqrcXEc2+Wu+MX/A1x+nAX
+B3PXX0rcWpoRcDPapUg5jGEBDTSVEy/fCHwKk5xLfz5TWPPi3gXxfMxHqK+bFZQG
+mVjG6nPHbB12Btmvzhy/RxrLbpnPsCka4DTgBsZatkCaFXqzTWg=
+=S7Sd
 -----END PGP SIGNATURE-----
 
---a8Wt8u1KmwUX3Y2C--
+--v9Ux+11Zm5mwPlX6--
 
