@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020B66BED7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 17:11:26 +0200 (CEST)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443406BEDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 17:11:41 +0200 (CEST)
+Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnlaX-0002O9-0k
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 11:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54629)
+	id 1hnlam-0003me-EM
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 11:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54638)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hnla9-0001Pg-Cl
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:11:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1hnla9-0001Pk-Mb
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:11:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hnla8-0001zJ-AH
+ (envelope-from <bounces@canonical.com>) id 1hnla8-0001zi-IW
  for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:11:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60658)
+Received: from indium.canonical.com ([91.189.90.7]:60680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hnla8-0001yl-3m
+ id 1hnla8-0001yy-CP
  for qemu-devel@nongnu.org; Wed, 17 Jul 2019 11:11:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hnla7-0006tZ-7d
+ id 1hnla7-0006wc-M3
  for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:10:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 11E942E80CC
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D0352E80BA
  for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 15:10:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Jul 2019 15:03:30 -0000
+Date: Wed, 17 Jul 2019 15:04:50 -0000
 From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc64
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: abarbala ajbennee
-X-Launchpad-Bug-Reporter: antonio barbalace (abarbala)
+X-Launchpad-Bug-Commenters: ajbennee ivmn jlsantiago0 mark-cave-ayland
+X-Launchpad-Bug-Reporter: Jose Santiago (jlsantiago0)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <155871970026.24947.15130007838572135437.malonedeb@gac.canonical.com>
-Message-Id: <156337581083.374.4234155633539324509.malone@gac.canonical.com>
+References: <155812687142.26079.4364411221525864419.malonedeb@soybean.canonical.com>
+Message-Id: <156337589060.1096.12626132991631170188.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19009";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 57e37f74845cf48f25a1a7e04202efd83799029a
+X-Launchpad-Hash: e36e0fe55f6c370e23f7eae8de65f51569dc52f9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830415] Re: linux-user elf loader issue
+Subject: [Qemu-devel] [Bug 1829576] Re: QEMU-SYSTEM-PPC64 Regression
+ QEMU-4.0.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,51 +65,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830415 <1830415@bugs.launchpad.net>
+Reply-To: Bug 1829576 <1829576@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have you got a test case? The check-tcg tests all pass and they are
-statically linked elfs.
-
-** Tags added: linux-user
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Is this fixed now? Can we mark as fix committed?
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830415
+https://bugs.launchpad.net/bugs/1829576
 
 Title:
-  linux-user elf loader issue
+  QEMU-SYSTEM-PPC64 Regression QEMU-4.0.0
 
 Status in QEMU:
-  Incomplete
+  New
 
 Bug description:
-  all versions up to 4.0 (I didn't test others)
-  file affected linux-user/elfload.c
-  function load_elf_image
+  I have been using QEMU-SYSTEM-PPC64 v3.1.0 to run CentOS7 PPC emulated
+  system. It stopped working when I upgraded to QEMU-4.0.0 . I
+  downgraded back to QEMU-3.1.0 and it started working again. The
+  problem is that my CentOS7 image will not boot up udner QEMU-4.0.0,
+  but works fine under QEMU-3.1.0.
 
-  if (phdr[i].p_type =3D=3D PT_LOAD) {
-             =
+  I have an QCOW2 image available at
+  https://www.mediafire.com/file/d8dda05ro85whn1/linux-
+  centos7-ppc64.qcow2/file . NOTE: It is 15GB. Kind of large.
 
-  -            abi_ulong a =3D phdr[i].p_vaddr - phdr[i].p_offset; =
+  I run it as follows:
 
-  +            abi_ulong a =3D phdr[i].p_vaddr ; // - phdr[i].p_offset; =
+     qemu-system-ppc64 \
+        -name "CENTOS7-PPC64" \
+        -cpu POWER7 -machine pseries \
+        -m 4096 \
+        -netdev bridge,id=3Dnetbr0,br=3Dbr0 \
+        -device e1000,netdev=3Dnetbr0,mac=3D52:54:3c:13:21:33 \
+        -hda "./linux-centos7-ppc64.qcow2" \
+        -monitor stdio
 
-              if (a < loaddr) {
-                  loaddr =3D a;
+  HOST: I am using Manjaro Linux on an Intel i7 machine with the QEMU
+  packages installed via the package manager of the distribution.
 
-  To the best of my understanding of the elf format p_offset is not a
-  virtual offset. In fact, when I load statically compiled applications,
-  the load fails because the libc before main is trying to access phdr
-  in the executable image but that memory is not mapped -- this is
-  caused by the wrong loaddr above.
+  [jsantiago@jlsws0 ~]$ uname -a
+  Linux jlsws0.haivision.com 4.19.42-1-MANJARO #1 SMP PREEMPT Fri May 10 20=
+:52:43 UTC 2019 x86_64 GNU/Linux
+
+  jsantiago@jlsws0 ~]$ cpuinfo =
+
+  Intel(R) processor family information utility, Version 2019 Update 3 Buil=
+d 20190214 (id: b645a4a54)
+  Copyright (C) 2005-2019 Intel Corporation.  All rights reserved.
+
+  =3D=3D=3D=3D=3D  Processor composition  =3D=3D=3D=3D=3D
+  Processor name    : Intel(R) Core(TM) i7-6700K  =
+
+  Packages(sockets) : 1
+  Cores             : 4
+  Processors(CPUs)  : 8
+  Cores per package : 4
+  Threads per core  : 2
+
+  =3D=3D=3D=3D=3D  Processor identification  =3D=3D=3D=3D=3D
+  Processor	Thread Id.	Core Id.	Package Id.
+  0       	0   		0   		0   =
+
+  1       	0   		1   		0   =
+
+  2       	0   		2   		0   =
+
+  3       	0   		3   		0   =
+
+  4       	1   		0   		0   =
+
+  5       	1   		1   		0   =
+
+  6       	1   		2   		0   =
+
+  7       	1   		3   		0   =
+
+  =3D=3D=3D=3D=3D  Placement on packages  =3D=3D=3D=3D=3D
+  Package Id.	Core Id.	Processors
+  0   		0,1,2,3		(0,4)(1,5)(2,6)(3,7)
+
+  =3D=3D=3D=3D=3D  Cache sharing  =3D=3D=3D=3D=3D
+  Cache	Size		Processors
+  L1	32  KB		(0,4)(1,5)(2,6)(3,7)
+  L2	256 KB		(0,4)(1,5)(2,6)(3,7)
+  L3	8   MB		(0,1,2,3,4,5,6,7)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1830415/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1829576/+subscriptions
 
