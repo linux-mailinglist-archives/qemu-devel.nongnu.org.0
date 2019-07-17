@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DD76B617
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 07:47:30 +0200 (CEST)
-Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541356B61A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 07:50:54 +0200 (CEST)
+Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hncmn-0000BA-KU
-	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 01:47:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52133)
+	id 1hncq5-00032B-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 17 Jul 2019 01:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53074)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <npiggin@gmail.com>) id 1hncmV-00087Z-6J
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:47:12 -0400
+ (envelope-from <bounces@canonical.com>) id 1hncps-0002b2-Le
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:50:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1hncmU-0001ZK-23
- for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:47:11 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36655)
+ (envelope-from <bounces@canonical.com>) id 1hncpr-0003Zi-Ji
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35296)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1hncmR-0001Xj-PA; Wed, 17 Jul 2019 01:47:07 -0400
-Received: by mail-pl1-x641.google.com with SMTP id k8so11359865plt.3;
- Tue, 16 Jul 2019 22:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d6z/VFzkc+E+tzTM4giE0MZX0TDQpyGL1Wz1LFCmAss=;
- b=G5U+ctfYpc04Oet4Stpr8F6vFjeP+LxpWMq4p5ZAfhfBr2jRZGTrA5Yw9l8+Mfighd
- taobcPlBzw2RsOt+AY98+lK/Y0LesqBlcxsJqj/hK3GocD7jRpLjSs9DkoZLIPutSsN9
- 9dl7AD7WuaRksseTzcbKaHo97uRbrgICFVFL+kcRrcVippETaZnUGp7qus+4uV6WJFN6
- 5bLudQfwQnG2iH4SJFeB1kP5Lz7EBzqvL5uU46fB+NZrZBGRY7/mXRomZ1Ee/PMpZmhE
- 820WNu9t1KeLSh9Vn2YLJq/IJApXo4YqohLcx9+xMx0nmXqVvglWNMd/Jfs9w4D7Thbx
- YEdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=d6z/VFzkc+E+tzTM4giE0MZX0TDQpyGL1Wz1LFCmAss=;
- b=iHOd1QRbAbGKG2FcHDueVrB/6r8dxFX4rRrT8it3X7D8shYRi7fRO87eIBnpu4Q2pd
- 5UldRnp1wI2YxvxNDw4RZpJ/S/BRv07V5/gFNqWdHWx9qeeb/xCq0WFUnRVI4544fs1i
- 5Pd1+S00tMpu8fedi4WMxI44hKd8Pvc55UMG89jJpUW4R9BEbWQ7g68rvqPkI8hP0gvU
- +/pedQvzAumhMGog7+68PxlOK8euvDYTqpzE75VBgCuymmKtZ8uaIXIAcGtLKdupwP2C
- 2deSnRiQf88m2rgqx3mjZPLIiqcyXvtGSpAyYbPjjVF2UjalgHsmiQkO9pGIXnZ77OjK
- BHeg==
-X-Gm-Message-State: APjAAAX68X2JEd6n4Wr1cqK1MJQcybG3EPrq4TfaHGXfQhfqGZs0ZCZ/
- GvHNbkwxLwktXKIg4+cwS+g=
-X-Google-Smtp-Source: APXvYqx17i0Rz0TxdUrFmrmgxQR4qtPZGFQMUiFnrcXoEg1pYDAYTqWEdHeYrxwcy6w6l+km/PGf/w==
-X-Received: by 2002:a17:902:1566:: with SMTP id
- b35mr42000558plh.147.1563342426748; 
- Tue, 16 Jul 2019 22:47:06 -0700 (PDT)
-Received: from bobo.local0.net ([203.220.8.141])
- by smtp.gmail.com with ESMTPSA id q69sm32573165pjb.0.2019.07.16.22.47.02
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 16 Jul 2019 22:47:06 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 17 Jul 2019 15:46:55 +1000
-Message-Id: <20190717054655.14104-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hncpr-0003Z3-AY
+ for qemu-devel@nongnu.org; Wed, 17 Jul 2019 01:50:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hncpp-0005oY-OX
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 05:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B813F2E80BA
+ for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 05:50:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [RFC PATCH] Implement qemu_thread_yield for posix,
- use it in mttcg to handle EXCP_YIELD
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Jul 2019 05:44:18 -0000
+From: Lutz <1836501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell skandal
+X-Launchpad-Bug-Reporter: Lutz (skandal)
+X-Launchpad-Bug-Modifier: Lutz (skandal)
+References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
+Message-Id: <156334225841.840.12435363074113321111.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19009";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: f4162c77086f1bbc2e0c18b86e310c87a6ebf4f1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836501] Re: cpu_address_space_init fails with
+ assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,112 +66,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, Nicholas Piggin <npiggin@gmail.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a bit of proof of concept in case mttcg becomes more important
-yield could be handled like this. You can have by accident or deliberately
-force vCPUs onto the same physical CPU and cause inversion issues when the
-lock holder was preempted by the waiter. This is lightly tested but not
-to the point of measuring performance difference.
+UPDATE: Kernel page handling seems to be related to the -smp 2
+parameter. Any number > 1 leads to the paging error while omitting the
+parameter lead to a running system (without KVM).
 
-I really consider the previous confer/prod patches more important just to
-provide a more complete guest environment and better test coverage, than
-performance, but maybe someone wants to persue this.
+-- =
 
-Thanks,
-Nick
----
- cpus.c                   |  6 ++++++
- hw/ppc/spapr_hcall.c     | 14 +++++++-------
- include/qemu/thread.h    |  1 +
- util/qemu-thread-posix.c |  5 +++++
- util/qemu-thread-win32.c |  4 ++++
- 5 files changed, 23 insertions(+), 7 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836501
 
-diff --git a/cpus.c b/cpus.c
-index 927a00aa90..f036e062d9 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -1760,6 +1760,12 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
-                 qemu_mutex_unlock_iothread();
-                 cpu_exec_step_atomic(cpu);
-                 qemu_mutex_lock_iothread();
-+                break;
-+            case EXCP_YIELD:
-+                qemu_mutex_unlock_iothread();
-+                qemu_thread_yield();
-+                qemu_mutex_lock_iothread();
-+                break;
-             default:
-                 /* Ignore everything else? */
-                 break;
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 57c1ee0fe1..9c24a64dfe 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1162,13 +1162,13 @@ static target_ulong h_confer(PowerPCCPU *cpu, SpaprMachineState *spapr,
-             return H_SUCCESS;
-         }
- 
--        /*
--         * The targeted confer does not do anything special beyond yielding
--         * the current vCPU, but even this should be better than nothing.
--         * At least for single-threaded tcg, it gives the target a chance to
--         * run before we run again. Multi-threaded tcg does not really do
--         * anything with EXCP_YIELD yet.
--         */
-+       /*
-+        * The targeted confer does not do anything special beyond yielding
-+        * the current vCPU, but even this should be better than nothing.
-+        * For single-threaded tcg, it gives the target a chance to run
-+        * before we run again, multi-threaded tcg will yield the CPU to
-+        * another vCPU.
-+        */
-     }
- 
-     cs->exception_index = EXCP_YIELD;
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 55d83a907c..8525b0a70a 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -160,6 +160,7 @@ void qemu_thread_get_self(QemuThread *thread);
- bool qemu_thread_is_self(QemuThread *thread);
- void qemu_thread_exit(void *retval);
- void qemu_thread_naming(bool enable);
-+void qemu_thread_yield(void);
- 
- struct Notifier;
- /**
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 1bf5e65dea..91b12a1082 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -573,3 +573,8 @@ void *qemu_thread_join(QemuThread *thread)
-     }
-     return ret;
- }
-+
-+void qemu_thread_yield(void)
-+{
-+    pthread_yield();
-+}
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index 572f88535d..72fe406bef 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -442,3 +442,7 @@ bool qemu_thread_is_self(QemuThread *thread)
- {
-     return GetCurrentThreadId() == thread->tid;
- }
-+
-+void qemu_thread_yield(void)
-+{
-+}
--- 
-2.20.1
+Title:
+  cpu_address_space_init fails with assertion
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
+
+    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
+  failed.
+
+  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
+  Stretch (9) or Buster (10).
+
+  Without KVM it is running fine but slow. I'm operating Debian Jessie
+  with qemu 2.1 for a long time with KVM virtualization working
+  flawlessly. When I upgraded to Stretch I ran into the trouble
+  described before. I tried Debian Stretch and Buster with all Kernels
+  provided by the Board manufacturer (Hardkernel).
+
+  It seems to be related to the feature introduced in Version 2.6:
+  https://wiki.qemu.org/ChangeLog/2.6
+  - Support for a separate EL3 address space
+
+  KVM is enabled, so I assume the adress space index asidx to be causing
+  the assert to fail.
+
+  dmesg | grep -i KVM
+  [    0.741714] kvm [1]: 8-bit VMID
+  [    0.741721] kvm [1]: IDMAP page: 40201000
+  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
+  [    0.742543] kvm [1]: Hyp mode initialized successfully
+  [    0.742600] kvm [1]: vgic-v2@10484000
+  [    0.742924] kvm [1]: vgic interrupt IRQ16
+  [    0.742943] kvm [1]: virtual timer IRQ60
+
+  Full command line is:
+  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
+el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
+blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
+e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
+
+  Is there anything to do to understand, if this is a hardware related
+  failure or probably just a missing parameter?
+
+  Regards
+
+  Lutz
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
 
