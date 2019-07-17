@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F136B2C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:16:17 +0200 (CEST)
-Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D056B2E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Jul 2019 02:46:51 +0200 (CEST)
+Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnXcG-0000Is-LR
-	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
+	id 1hnY5e-0001fS-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Jul 2019 20:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53609)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elohimes@gmail.com>) id 1hnXc2-0008Li-Oa
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:03 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hnY5Q-0001HI-06
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:46:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elohimes@gmail.com>) id 1hnXc1-0007Vo-Ln
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:02 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:41766)
+ (envelope-from <elohimes@gmail.com>) id 1hnY5P-0001l7-4P
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:46:23 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37239)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hnXc1-0007U3-F4
- for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:16:01 -0400
-Received: by mail-qk1-x744.google.com with SMTP id v22so16077722qkj.8
- for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 17:16:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hnY5N-0001jm-94
+ for qemu-devel@nongnu.org; Tue, 16 Jul 2019 20:46:23 -0400
+Received: by mail-pf1-x443.google.com with SMTP id 19so9930176pfa.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Jul 2019 17:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=M5ckMOSIMZvSWWF/m5XgA5N+1zkIPe6mtKvJb+Wx4MQ=;
- b=lqnMK/u9gXOB7E9yqx7AvFynG2g3UNm5Zyl0T3MlMolIgDjHmlsRkNcK/+/HrScct4
- GsoSLOEQOEw/kVjXzEe4EPZ/AnLTMQUz+VjnkmdSC3WK4+21SuSobeVaEXZjr/ZSHOJY
- vDyvZAXeVAfre5af4SWyIRnnPgUWEKkErd2Pw95mbq5kTt6IVrR7wOzVBtt0PCYrs/0L
- X9T6wbnilzusQXES8iZBptOZ4unuQU7hn+HWEgfVMejjhvuxTrhYqxqLaaD7UYo69To6
- MvgNCFgQoxi5E9VzGEKK1egSAFcTvScn+Mn36CUbMMQsUxWdr8NrOPLFhO5G+j9Qc989
- oWWw==
+ h=from:to:cc:subject:date:message-id;
+ bh=bKSblPx9MgZD4RtFAKIXTYOFpN5+W8v5wIvWZqdsNl8=;
+ b=lVd5azNWDFud+sgga6wbB2HPlW5D7t2POQQDx3gsiR4nbrqwKhqUBeu5sjT/uahoj2
+ Wkx4zaCmXGX8hv0gDBxNlEOKSdCMRLbNcP9jmTTwCDjKxG2nEKRGzVfGY5bjDgzraq+I
+ O9xQqyldTe2I8XNgUvAFz78BJGlrFy7cblq8p2QYzYmYYq63lcqLVswdXipdFpA9bwF9
+ PtQ41+CTW3qx6BaHvSYWYLZ63T6aZV/QfupWGIv+csvNODyFYUUFY4EIU4r1GZa+43K/
+ OwyVdTQw5KZfNDlybSt4if+alMdG+bA5uo1k7SiyqJwk68tcBtpJ7KNXGfrb7i6JXUVK
+ cSiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M5ckMOSIMZvSWWF/m5XgA5N+1zkIPe6mtKvJb+Wx4MQ=;
- b=Jcwuhfizh+CCE/UmMxauj38SE8UaZAcNEF3XuA5EliHeaVhunfG6/3iLG6tYzQjYO/
- FXfz/2lghi6eKWSq6Pf9+H7JjSDKv1ROhQZH8z5hV/iJakJS52m+vMPZJc79N29rNWXd
- tfyFHtq9T0w25B8gbeztDqB9fJ48Wv3MEPnp75TZJI/q9wOsoe1QHNNABHUmYYJJIc7l
- XIMMJm34lvAa+4qhKpozkDMFcFXWpd72tXEIDPTl+9en+NFGAsMVCoyJ/mNnCQxb88Nf
- oPnNFZohnk74Sa5fIH8V6MjWD48o/aiUf7N9CNAyXlNfFX76eaihHWrvruwc5cH9KuVS
- U9DQ==
-X-Gm-Message-State: APjAAAXJLRWK4kiNI8kywK/PFRlaR+hUUv68R94dwf2qVm5qbDkLIPms
- jvKVZtycmcefbKmHPCYfSAovXDMHQs8GvWAFGkc=
-X-Google-Smtp-Source: APXvYqx3dnLUseAdju0ATbRRk8LOKGNrGU6awtJXmxDxCLkulmN5iuzhKo/XinTFSkeVo98JBBdaNB7TTn/c43fAeG0=
-X-Received: by 2002:ae9:c106:: with SMTP id z6mr25021615qki.285.1563322559826; 
- Tue, 16 Jul 2019 17:15:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190715102326.2805-1-xieyongji@baidu.com>
- <20190716144202.GB18691@stefanha-x1.localdomain>
-In-Reply-To: <20190716144202.GB18691@stefanha-x1.localdomain>
-From: Yongji Xie <elohimes@gmail.com>
-Date: Wed, 17 Jul 2019 08:15:48 +0800
-Message-ID: <CAONzpcbx10OHQ7y=ZW7U1TbdOEhtfOG571ioq8q6naonuUNG1A@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=bKSblPx9MgZD4RtFAKIXTYOFpN5+W8v5wIvWZqdsNl8=;
+ b=Ek6+h4EfWT752++SMa7SwxonTD7WhL5+LiVCflrHCSD2AbQNx8+TWjD6MOvBIuYo+Y
+ lWoboQfOnhT8ey+Q9lRdQ/xrsHlkoCoZFjXsP9KGkjHm9RS7rVq71eDF8Q6U5Q2dEJlY
+ kGXOHqJAptWMPgtw+7QdFqqS6I9Ewbs6pPzDj/s2ljKKI5QmfJ8Ev/B3KxncLlGLqLgB
+ o6bTdkrT1nrVSMP+UE7ta3P/rLjrLw6DncwSQdefNA/6TLd/3x+F1Rc3zXyE7DUHC024
+ xsHjNfpYNJ82LJTRTZSLVby05mcQy3B35CNh+NXWnQDUV60qZGXfAuhxoUKSkLqY0NtI
+ HcIg==
+X-Gm-Message-State: APjAAAUD30ESSACSIEtfyeSTgLFmoRdUUymAkP9a7iauD+qvJXoayAVK
+ hKsO2vgMdsih46qshzec2Jw=
+X-Google-Smtp-Source: APXvYqwVWwee6HKE6fK1pHQoBZBQjr2gs53SHMjhh5MxLmrXeuhKS3pWoRnpcu9h490RK9iPNvGbBg==
+X-Received: by 2002:a63:bd0a:: with SMTP id a10mr36894992pgf.55.1563324379595; 
+ Tue, 16 Jul 2019 17:46:19 -0700 (PDT)
+Received: from localhost ([116.247.112.152])
+ by smtp.gmail.com with ESMTPSA id g62sm22132880pje.11.2019.07.16.17.46.18
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 16 Jul 2019 17:46:19 -0700 (PDT)
+From: elohimes@gmail.com
+X-Google-Original-From: xieyongji@baidu.com
+To: mst@redhat.com, stefanha@gmail.com, pbonzini@redhat.com, fam@euphon.net
+Date: Wed, 17 Jul 2019 08:46:05 +0800
+Message-Id: <20190717004606.12444-1-xieyongji@baidu.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Subject: Re: [Qemu-devel] [PATCH 1/2] vhost-scsi: Call
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v2 1/2] vhost-scsi: Call
  virtio_scsi_common_unrealize() when device realize failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,70 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, Xie Yongji <xieyongji@baidu.com>,
- qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Xie Yongji <xieyongji@baidu.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jul 2019 at 22:42, Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Mon, Jul 15, 2019 at 06:23:25PM +0800, elohimes@gmail.com wrote:
-> > From: Xie Yongji <xieyongji@baidu.com>
-> >
-> > This avoids memory leak when device hotplug is failed.
-> >
-> > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-> > ---
-> >  hw/scsi/vhost-scsi.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-> > index 4090f99ee4..db4a090576 100644
-> > --- a/hw/scsi/vhost-scsi.c
-> > +++ b/hw/scsi/vhost-scsi.c
-> > @@ -210,7 +210,7 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-> >          if (err) {
-> >              error_propagate(errp, err);
-> >              error_free(vsc->migration_blocker);
-> > -            goto close_fd;
-> > +            goto free_virtio;
-> >          }
-> >      }
-> >
-> > @@ -240,6 +240,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-> >          migrate_del_blocker(vsc->migration_blocker);
-> >      }
-> >      g_free(vsc->dev.vqs);
-> > + free_virtio:
-> > +    virtio_scsi_common_unrealize(dev, errp);
->
-> error_set*() requires that *errp == NULL:
->
->   static void error_setv(Error **errp, ...
->   ...
->       assert(*errp == NULL);
->
-> Today virtio_scsi_common_unrealize() doesn't use the errp argument but
-> if it ever uses it then QEMU will hit an assertion failure.
->
-> Please do this instead:
->
->   virtio_scsi_common_unrealize(dev, &error_abort);
->
-> If virtio_scsi_common_unrealize() ever produces an error there will be
-> an message explaining that errors are unexpected.
->
-> This also applies to Patch 2.
->
-> Alternatively you could do this to handle all cases and propagate the
-> error:
->
->   Error *local_err = NULL;
->   virtio_scsi_common_unrealize(dev, &local_err);
->   error_propagate(errp, local_err);
+From: Xie Yongji <xieyongji@baidu.com>
 
-Will fix it in v2. Thank you.
+This avoids memory leak when device hotplug is failed.
 
-Thanks,
-Yongji
+Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+---
+ hw/scsi/vhost-scsi.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
+index 4090f99ee4..c0dd9bdf89 100644
+--- a/hw/scsi/vhost-scsi.c
++++ b/hw/scsi/vhost-scsi.c
+@@ -210,7 +210,7 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+         if (err) {
+             error_propagate(errp, err);
+             error_free(vsc->migration_blocker);
+-            goto close_fd;
++            goto free_virtio;
+         }
+     }
+ 
+@@ -240,6 +240,10 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
+         migrate_del_blocker(vsc->migration_blocker);
+     }
+     g_free(vsc->dev.vqs);
++ free_virtio:
++    err = NULL;
++    virtio_scsi_common_unrealize(dev, &err);
++    error_propagate(errp, err);
+  close_fd:
+     close(vhostfd);
+     return;
+-- 
+2.17.1
+
 
