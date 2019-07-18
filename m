@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE1B6CCE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 12:41:24 +0200 (CEST)
-Received: from localhost ([::1]:36202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC1F6CCEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 12:47:40 +0200 (CEST)
+Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho3ql-0006Vq-Au
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 06:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34981)
+	id 1ho3wp-00032I-9i
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 06:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37180)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1ho3qH-0005Qr-OL
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:54 -0400
+ (envelope-from <groug@kaod.org>) id 1ho3wT-00026Y-F0
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:47:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ho3qG-000167-Kk
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:53 -0400
-Received: from 10.mo3.mail-out.ovh.net ([87.98.165.232]:56188)
+ (envelope-from <groug@kaod.org>) id 1ho3wS-0006y6-2w
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:47:17 -0400
+Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:44793)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ho3qG-00014X-CD
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:52 -0400
-Received: from player774.ha.ovh.net (unknown [10.108.35.131])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id CC26720C0A0
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 12:40:49 +0200 (CEST)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ho3wR-0006wj-QR
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:47:15 -0400
+Received: from player734.ha.ovh.net (unknown [10.108.35.90])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 8E9D713B606
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 12:47:13 +0200 (CEST)
 Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
  [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player774.ha.ovh.net (Postfix) with ESMTPSA id 9CA5080F0DA5;
- Thu, 18 Jul 2019 10:40:44 +0000 (UTC)
-Date: Thu, 18 Jul 2019 12:40:42 +0200
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id EC6C68034494;
+ Thu, 18 Jul 2019 10:47:06 +0000 (UTC)
+Date: Thu, 18 Jul 2019 12:47:05 +0200
 From: Greg Kurz <groug@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190718124042.4dd7b132@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <9587706e-d53c-5490-cb4a-4c89eadfc497@ozlabs.ru>
-References: <20190716053522.78813-1-aik@ozlabs.ru>
- <8b727864-1634-0a5d-c557-fcaa52c49434@redhat.com>
- <9587706e-d53c-5490-cb4a-4c89eadfc497@ozlabs.ru>
+To: Nicholas Piggin <npiggin@gmail.com>
+Message-ID: <20190718124705.2d18dc52@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <20190718034214.14948-3-npiggin@gmail.com>
+References: <20190718034214.14948-1-npiggin@gmail.com>
+ <20190718034214.14948-3-npiggin@gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 5526198218723269109
+X-Ovh-Tracer-Id: 5634284611086490051
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdeffecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.165.232
-Subject: Re: [Qemu-devel] [Qemu-ppc] [RFC PATCH qemu] spapr: Stop providing
- RTAS blob
+X-Received-From: 46.105.61.94
+Subject: Re: [Qemu-devel] [PATCH v6 2/4] spapr: Implement H_PROD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,40 +56,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Jul 2019 17:55:12 +1000
-Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+On Thu, 18 Jul 2019 13:42:12 +1000
+Nicholas Piggin <npiggin@gmail.com> wrote:
 
+> H_PROD is added, and H_CEDE is modified to test the prod bit
+> according to PAPR.
 > 
-> 
-> On 18/07/2019 17:20, Thomas Huth wrote:
-> > On 16/07/2019 07.35, Alexey Kardashevskiy wrote:
-> >> SLOF implements one itself so let's remove it from QEMU. It is one less
-> >> image and simpler setup as the RTAS blob never stays in its initial place
-> >> anyway as the guest OS always decides where to put it.
-> >>
-> >> This totally depends on https://patchwork.ozlabs.org/patch/1132440/ ,
-> >> hence RFC.
-> > 
-> > Patch looks basically fine for me, but I wonder whether we should wait
-> > for one or two releases until we really remove it from QEMU, so that it
-> > is still possible to test the latest QEMU with older SLOF releases for a
-> > while (which is sometimes useful when hunting bugs). Or should this
-> > maybe even go through the official deprecation process (i.e. with an
-> > entry in qemu-deprecated.texi)?
-> 
-> I worry more about slof being distributed as a separate package in RHEL, 
-> easy enough to get qemu/slof out of sync.
-> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
 
-Then it seems to call for keeping the code around in QEMU in case RHEL's
-slof doesn't implement the RTAS blob. Following the official deprecation
-process looks like a good option IMHO.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
+> Changes since v5:
+> - Add the prod bit here
+> - Fix target CPU
 > 
+>  hw/ppc/spapr.c                  |  1 +
+>  hw/ppc/spapr_hcall.c            | 32 ++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr_cpu_core.h |  1 +
+>  3 files changed, 34 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 3e5678d467..68341c128d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4309,6 +4309,7 @@ static void spapr_cpu_exec_enter(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
+>  
+>      /* These are only called by TCG, KVM maintains dispatch state */
+>  
+> +    spapr_cpu->prod = false;
+>      if (spapr_cpu->vpa_addr) {
+>          CPUState *cs = CPU(cpu);
+>          uint32_t dispatch;
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index e615881ac4..098b3dda22 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1050,14 +1050,44 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>  {
+>      CPUPPCState *env = &cpu->env;
+>      CPUState *cs = CPU(cpu);
+> +    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+>  
+>      env->msr |= (1ULL << MSR_EE);
+>      hreg_compute_hflags(env);
+> +
+> +    if (spapr_cpu->prod) {
+> +        spapr_cpu->prod = false;
+> +        return H_SUCCESS;
+> +    }
+> +
+>      if (!cpu_has_work(cs)) {
+>          cs->halted = 1;
+>          cs->exception_index = EXCP_HLT;
+>          cs->exit_request = 1;
+>      }
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                           target_ulong opcode, target_ulong *args)
+> +{
+> +    target_long target = args[0];
+> +    PowerPCCPU *tcpu;
+> +    CPUState *cs;
+> +    SpaprCpuState *spapr_cpu;
+> +
+> +    tcpu = spapr_find_cpu(target);
+> +    cs = CPU(tcpu);
+> +    if (!cs) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    spapr_cpu = spapr_cpu_state(tcpu);
+> +    spapr_cpu->prod = true;
+> +    cs->halted = 0;
+> +    qemu_cpu_kick(cs);
+> +
+>      return H_SUCCESS;
+>  }
+>  
+> @@ -1882,6 +1912,8 @@ static void hypercall_register_types(void)
+>      /* hcall-splpar */
+>      spapr_register_hypercall(H_REGISTER_VPA, h_register_vpa);
+>      spapr_register_hypercall(H_CEDE, h_cede);
+> +    spapr_register_hypercall(H_PROD, h_prod);
+> +
+>      spapr_register_hypercall(H_SIGNAL_SYS_RESET, h_signal_sys_reset);
+>  
+>      /* processor register resource access h-calls */
+> diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
+> index f9645a7290..a40cd08ea0 100644
+> --- a/include/hw/ppc/spapr_cpu_core.h
+> +++ b/include/hw/ppc/spapr_cpu_core.h
+> @@ -46,6 +46,7 @@ typedef struct SpaprCpuState {
+>      uint64_t vpa_addr;
+>      uint64_t slb_shadow_addr, slb_shadow_size;
+>      uint64_t dtl_addr, dtl_size;
+> +    bool prod; /* not migrated, only used to improve dispatch latencies */
+>      struct ICPState *icp;
+>      struct XiveTCTX *tctx;
+>  } SpaprCpuState;
 
 
