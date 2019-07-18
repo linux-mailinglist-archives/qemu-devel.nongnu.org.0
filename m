@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B01D6CDB2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 13:55:16 +0200 (CEST)
-Received: from localhost ([::1]:36752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A66CDB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 13:56:02 +0200 (CEST)
+Received: from localhost ([::1]:36776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho50F-0004dp-5P
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 07:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58509)
+	id 1ho50v-0007X4-F3
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 07:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58645)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1ho4zk-0003pQ-Re
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:46 -0400
+ (envelope-from <clg@kaod.org>) id 1ho4zq-00043l-Bn
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ho4zj-0001QS-K6
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:44 -0400
-Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:43594)
+ (envelope-from <clg@kaod.org>) id 1ho4zp-0001Xt-Bm
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:50 -0400
+Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:58714)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho4zj-0001J6-DT
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:43 -0400
-Received: from player778.ha.ovh.net (unknown [10.109.159.90])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 2404C138F79
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:54:33 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho4zp-0001No-4p
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:54:49 -0400
+Received: from player778.ha.ovh.net (unknown [10.109.146.50])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 3162F1D8405
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:54:40 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 45765801F1BE;
- Thu, 18 Jul 2019 11:54:27 +0000 (UTC)
+ by player778.ha.ovh.net (Postfix) with ESMTPSA id BC8B5801F20C;
+ Thu, 18 Jul 2019 11:54:33 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 18 Jul 2019 13:54:03 +0200
-Message-Id: <20190718115420.19919-1-clg@kaod.org>
+Date: Thu, 18 Jul 2019 13:54:04 +0200
+Message-Id: <20190718115420.19919-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
+References: <20190718115420.19919-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6771443516498152422
+X-Ovh-Tracer-Id: 6773132366158007270
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.61.94
-Subject: [Qemu-devel] [PATCH v2 00/17] ppc/pnv: add XIVE support for KVM
- guests
+X-Received-From: 178.32.124.17
+Subject: [Qemu-devel] [PATCH v2 01/17] ppc/xive: use an abstract type for
+ XiveNotifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,77 +61,31 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/xive.h | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-The QEMU PowerNV machine emulates a baremetal OpenPOWER system and
-acts as an hypervisor (L0). Supporting emulation of KVM to run guests
-(L1) requires a few more extensions, among which guest support for the
-XIVE interrupt controller on POWER9 processor.
-
-The following changes include some fixes for the PowerNV machine and
-provide support for XIVE escalations and interrupt resend. This
-mechanism is used by XIVE to notify the hypervisor that a vCPU is not
-dispatched on a HW thread. Tested on a QEMU PowerNV machine and a
-simple QEMU pseries guest doing network on a local bridge.
-
-The XIVE interrupt controller offers a way to increase the XIVE
-resources per chip by configuring multiple XIVE blocks on a chip. This
-is not currently supported by the model. However, some configurations,
-such as OPAL/skiboot, use one block-per-chip configuration with some
-optimizations. One of them is to override the hardwired chip ID by the
-block id in the PowerBUS operations and for CAM compares. This
-patchset improves the support for this setup. Tested with 4 chips.
-
-A series from Suraj adding guest support in the Radix MMU model of the
-QEMU PowerNV machine is still required and will be send later. The
-whole patchset can be found under :
-
-  https://github.com/legoater/qemu/tree/powernv-4.1
-
-Thanks,
-
-C.
-
-Changes since v1:
-
- - minor extra fixes=20
- - split the escalation support in different patches
- - kept the XiveRouter type for XiveTCTX back pointer (will address
-   this in P10)
- - removed pnv_xive_vst_size(). Really broken on indirect tables.
- - improved the dump of the NVT table
- - introduce pnv_xive_get_block_id()
-
-
-C=C3=A9dric Le Goater (17):
-  ppc/xive: use an abstract type for XiveNotifier
-  ppc/pnv: add more dummy XSCOM addresses for the P9 CAPP
-  ppc/xive: Implement TM_PULL_OS_CTX special command
-  ppc/xive: Provide backlog support
-  ppc/xive: Provide escalation support
-  ppc/xive: Provide unconditional escalation support
-  ppc/xive: Provide silent escalation support
-  ppc/xive: Improve 'info pic' support
-  ppc/xive: Extend XiveTCTX with a XiveRouter pointer
-  ppc/xive: Introduce xive_tctx_ipb_update()
-  ppc/xive: Synthesize interrupt from the saved IPB in the NVT
-  ppc/pnv: Remove pnv_xive_vst_size() routine
-  ppc/pnv: Dump the XIVE NVT table
-  ppc/pnv: Skip empty slots of the XIVE NVT table
-  ppc/pnv: Grab the XiveRouter object from XiveTCTX in
-    pnv_xive_get_tctx()
-  ppc/pnv: Introduce a pnv_xive_get_block_id() interface to XiveRouter
-  ppc/pnv: quiesce some XIVE errors
-
- include/hw/ppc/pnv_xive.h  |   3 -
- include/hw/ppc/xive.h      |  21 +--
- include/hw/ppc/xive_regs.h |  34 +++++
- hw/intc/pnv_xive.c         | 210 +++++++++++++------------
- hw/intc/spapr_xive.c       |   7 +-
- hw/intc/xive.c             | 304 ++++++++++++++++++++++++++++++-------
- hw/ppc/pnv_xscom.c         |  20 +++
- 7 files changed, 428 insertions(+), 171 deletions(-)
-
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 55c53c741776..085e468ea69a 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -149,13 +149,11 @@
+  * XIVE Notifier (Interface between Source and Router)
+  */
+=20
+-typedef struct XiveNotifier {
+-    Object parent;
+-} XiveNotifier;
++typedef struct XiveNotifier XiveNotifier;
+=20
+ #define TYPE_XIVE_NOTIFIER "xive-notifier"
+ #define XIVE_NOTIFIER(obj)                                     \
+-    OBJECT_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
++    INTERFACE_CHECK(XiveNotifier, (obj), TYPE_XIVE_NOTIFIER)
+ #define XIVE_NOTIFIER_CLASS(klass)                                     \
+     OBJECT_CLASS_CHECK(XiveNotifierClass, (klass), TYPE_XIVE_NOTIFIER)
+ #define XIVE_NOTIFIER_GET_CLASS(obj)                                   \
 --=20
 2.21.0
 
