@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B5A6CF3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 15:55:26 +0200 (CEST)
-Received: from localhost ([::1]:38250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65716CFF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 16:35:55 +0200 (CEST)
+Received: from localhost ([::1]:38654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho6sX-0004Dz-GU
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 09:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41809)
+	id 1ho7Vj-0004lI-3R
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 10:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58849)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <wrfsh@yandex-team.ru>) id 1ho6qS-0001On-7O
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:53:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1ho7VW-0004JC-BT
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:35:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wrfsh@yandex-team.ru>) id 1ho6qP-00079b-Hq
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:53:16 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:37858)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wrfsh@yandex-team.ru>)
- id 1ho6q9-0006wn-Am; Thu, 18 Jul 2019 09:52:59 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 1774A2E14F6;
- Thu, 18 Jul 2019 16:52:48 +0300 (MSK)
-Received: from smtpcorp1o.mail.yandex.net (smtpcorp1o.mail.yandex.net
- [2a02:6b8:0:1a2d::30])
- by mxbackcorp1j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- JNPBS9jU3l-ql4CC4F0; Thu, 18 Jul 2019 16:52:48 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1563457968; bh=clbv3hqUgtWA7taEznd4pBUuMZx8g+WhNtLgelDTaL4=;
- h=Date:Message-ID:To:Subject:From:Cc;
- b=G4+nOqmUtUp6LsorjkbcsM0H4twEVuUomfKZT06+hYgjGf29ktVj/jfMzPH7KecsO
- jJOTEtxgVEg08WZpsOOsSvl2kivyOUzZD1fGlLh8oWjaYSZYwAnvEP2KACGhQ/jLt8
- 0+LcWcWDJkGp086xylURq4eJlZWaPPyNaP+myRpk=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
- [2a02:6b8:0:40c:f68c:50ff:fee9:44bd])
- by smtpcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id
- MjGOyz9VRt-qk9aNgJA; Thu, 18 Jul 2019 16:52:47 +0300
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client certificate not present)
-From: =?UTF-8?B?0JXQstCz0LXQvdC40Lkg0K/QutC+0LLQu9C10LI=?=
- <wrfsh@yandex-team.ru>
-To: qemu-devel@nongnu.org, stefanha@redhat.com, kwolf@redhat.com,
- mreitz@redhat.com
-Message-ID: <ad4c52a9-e848-e3fd-3c1b-046d2670c025@yandex-team.ru>
-Date: Thu, 18 Jul 2019 16:52:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <bounces@canonical.com>) id 1ho7VV-0006OI-1p
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:35:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56472)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ho7VU-0006NS-Ru
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:35:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ho7VT-0005nm-1S
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 14:35:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 094392E80C9
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 14:35:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
-Subject: [Qemu-devel] BDRV request fragmentation and virtio-blk write
- submission guarantees (2nd try)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 18 Jul 2019 14:25:58 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell skandal
+X-Launchpad-Bug-Reporter: Lutz (skandal)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
+Message-Id: <156345995851.9066.17624776341988830344.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 96fd82f79ecdd5ad7fea86d52155431b20230b0c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1836501] Re: cpu_address_space_init fails with
+ assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -72,81 +66,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, yc-core@yandex-team.ru
+Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi everyone,
+I can boot a KVM guest (either with the debian stretch qemu-system-arm
+2.8.1, or with a head-of-upstream-git QEMU), which wouldn't work with
+EL3 enabled, so I'm not sure what is going wrong for you. To try to
+debug this further you'd need to build QEMU from source and start
+running it under the debugger to see what exactly is going on and why
+it's hitting that assertion.
 
-My previous message was misformatted, so here's another one. Sorry about 
-that.
+I would be tempted to try a newer kernel to see if that helped. (My
+working setup is using the debian stretch stock "4.9.0-0.bpo.9-armmp-
+lpae #1 SMP Debian 4.9.168-1+deb9u3~deb8u1 (2019-06-17)", but in general
+4.9 is fairly elderly now.)
 
-We're currently working on implementing a qemu BDRV format driver which 
-we are using with virtio-blk devices.
+For forums to talk about this kind of thing you might also try the qemu-
+arm mailing list (https://lists.nongnu.org/mailman/listinfo/qemu-arm) or
+qemu-devel itself (generally best to cc qemu-devel on qemu-arm emails
+anyway, lots of people don't subscribe to the per-architecture lists).
 
-I have a question concerning BDRV request fragmentation and virtio-blk 
-write request submission which is not entirely clear to me by only 
-reading virtio spec. Could you please consider the following case and 
-give some additional guidance?
+-- =
 
-1. Our BDRV format driver has a notion of max supported transfer size. 
-So we implement BlockDriver::bdrv_refresh_limits where we fill out 
-BlockLimits::max_transfer and opt_transfer fields.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836501
 
-2. virtio-blk exposes max_transfer as a virtio_blk_config::opt_io_size 
-field, which (according to spec 1.1) is a **suggested** maximum. We read 
-"suggested" as "guest driver may still send requests that don't fit into 
-opt_io_size and we should handle those"...
+Title:
+  cpu_address_space_init fails with assertion
 
-3. ... and judging by code in block/io.c qemu block layer handles such 
-requests by fragmenting them into several BDRV requests if request size 
-is > max_transfer
+Status in QEMU:
+  Confirmed
 
-4. Guest will see request completion only after all fragments are 
-handled. However each fragment submission path can call 
-qemu_coroutine_yield and move on to submitting next request available in 
-virtq before completely submitting the rest of the fragments. Which 
-means the following situation is possible where BDRV sees 2 write 
-requests in virtq, both of which are larger than max_transfer:
+Bug description:
+  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
 
-Blocks: -----------------------------
+    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
+  failed.
 
-Write1: ------xxxxxxxx
+  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
+  Stretch (9) or Buster (10).
 
-Write2: ------yyyyyyyy
+  Without KVM it is running fine but slow. I'm operating Debian Jessie
+  with qemu 2.1 for a long time with KVM virtualization working
+  flawlessly. When I upgraded to Stretch I ran into the trouble
+  described before. I tried Debian Stretch and Buster with all Kernels
+  provided by the Board manufacturer (Hardkernel).
 
-Write1Chunk1: xxxx
+  It seems to be related to the feature introduced in Version 2.6:
+  https://wiki.qemu.org/ChangeLog/2.6
+  - Support for a separate EL3 address space
 
-Write2Chunk1: yyyy
+  KVM is enabled, so I assume the adress space index asidx to be causing
+  the assert to fail.
 
-Write2Chunk2: ----yyyy
+  dmesg | grep -i KVM
+  [    0.741714] kvm [1]: 8-bit VMID
+  [    0.741721] kvm [1]: IDMAP page: 40201000
+  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
+  [    0.742543] kvm [1]: Hyp mode initialized successfully
+  [    0.742600] kvm [1]: vgic-v2@10484000
+  [    0.742924] kvm [1]: vgic interrupt IRQ16
+  [    0.742943] kvm [1]: virtual timer IRQ60
 
-Write1Chunk1: ----xxxx
+  Full command line is:
+  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
+el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
+blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
+e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
 
-Blocks: ------yyyyxxxx-----------------
+  Is there anything to do to understand, if this is a hardware related
+  failure or probably just a missing parameter?
 
+  Regards
 
-In above scenario guest virtio-blk driver decided to submit 2 
-intersecting write requests, both of which are larger than 
-||max_transfer, and then call hypervisor.
+  Lutz
 
-I understand that virtio-blk may handle requests out of order, so guest 
-must not make any assumptions on relative order in which those requests 
-will be handled.
-
-However, can guest driver expect that whatever the submission order will 
-be, the actual intersecting writes will be atomic?
-
-In other words, will it be correct for conforming virtio-blk driver to 
-expect only "xxxxxxxx" or "yyyyyyyy" but not anything else in between, 
-after both requests are reported as completed?
-
-Because i think that is something that may happen in qemu right now, if 
-i understood correctly.
-
-
-
-Thanks!
-
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
 
