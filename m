@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F776CBA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 11:18:34 +0200 (CEST)
-Received: from localhost ([::1]:35736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570C66CBE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 11:27:49 +0200 (CEST)
+Received: from localhost ([::1]:35796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho2Yb-0007Ey-B0
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 05:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38983)
+	id 1ho2hY-0005X3-I2
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 05:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41546)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1ho2Y4-0005hs-Uw
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:18:01 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1ho2hI-000599-4g
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:27:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ho2Y3-00084d-U9
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:18:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48068)
+ (envelope-from <chen.zhang@intel.com>) id 1ho2hG-00069J-WF
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:27:32 -0400
+Received: from mga12.intel.com ([192.55.52.136]:21640)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1ho2Y1-00082q-Vt; Thu, 18 Jul 2019 05:17:58 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9916830872DA;
- Thu, 18 Jul 2019 09:17:56 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.153])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 631F15D6A9;
- Thu, 18 Jul 2019 09:17:43 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 18 Jul 2019 11:17:40 +0200
-Message-Id: <20190718091740.6834-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 18 Jul 2019 09:17:56 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1] hw/ide/piix: Mark the PIIX IDE
- interfaces as not user_creatable
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1ho2hG-00063c-MV
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:27:30 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2019 02:27:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,276,1559545200"; d="scan'208";a="168220616"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by fmsmga008.fm.intel.com with ESMTP; 18 Jul 2019 02:27:21 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Date: Thu, 18 Jul 2019 17:22:19 +0800
+Message-Id: <20190718092219.20081-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.GIT
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.136
+Subject: [Qemu-devel] [PATCH V3] net/colo-compare.c: Fix memory leak and
+ code style issue.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,53 +53,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'piix3-ide' (and 'piix3-ide-xen') devices are part of the
-PIIX3 chipset modelled as TYPE_PIIX3_PCI_DEVICE (respectivelly
-TYPE_PIIX3_XEN_DEVICE). The PIIX3 chipset can not be created
-in part, it has to be created and used as a whole.
+From: Zhang Chen <chen.zhang@intel.com>
 
-Similarly with the 'piix4-ide' device and the PIIX4 chipset
-modelled as TYPE_PIIX4_PCI_DEVICE.
+This patch to fix the origin "char *data" menory leak, code style issue
+and add necessary check here.
+Reported-by: Coverity (CID 1402785)
 
-Disable the 'user_creatable' flag.
-
-part of TYPE_PIIX3_PCI_DEVICE (TYPE_PIIX3_XEN_DEVICE)
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- hw/ide/piix.c | 2 ++
- 1 file changed, 2 insertions(+)
+ net/colo-compare.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index b97e555072..c02e768668 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -253,6 +253,7 @@ static void piix3_ide_class_init(ObjectClass *klass, =
-void *data)
-     k->device_id =3D PCI_DEVICE_ID_INTEL_82371SB_1;
-     k->class_id =3D PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    dc->user_creatable =3D false;
-     dc->hotpluggable =3D false;
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 909dd6c6eb..fcccb4c6f6 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -127,6 +127,17 @@ static int compare_chr_send(CompareState *s,
+                             uint32_t vnet_hdr_len,
+                             bool notify_remote_frame);
+ 
++static bool packet_matches_str(const char *str,
++                               uint8_t *buf,
++                               uint32_t packet_len)
++{
++    if (packet_len != strlen(str)) {
++        return false;
++    }
++
++    return !memcmp(str, buf, strlen(str));
++}
++
+ static void notify_remote_frame(CompareState *s)
+ {
+     char msg[] = "DO_CHECKPOINT";
+@@ -1008,21 +1019,24 @@ static void compare_notify_rs_finalize(SocketReadState *notify_rs)
+ {
+     CompareState *s = container_of(notify_rs, CompareState, notify_rs);
+ 
+-    /* Get Xen colo-frame's notify and handle the message */
+-    char *data = g_memdup(notify_rs->buf, notify_rs->packet_len);
+-    char msg[] = "COLO_COMPARE_GET_XEN_INIT";
++    const char msg[] = "COLO_COMPARE_GET_XEN_INIT";
+     int ret;
+ 
+-    if (!strcmp(data, "COLO_USERSPACE_PROXY_INIT")) {
++    if (packet_matches_str("COLO_USERSPACE_PROXY_INIT",
++                           notify_rs->buf,
++                           notify_rs->packet_len)) {
+         ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
+         if (ret < 0) {
+             error_report("Notify Xen COLO-frame INIT failed");
+         }
+-    }
+-
+-    if (!strcmp(data, "COLO_CHECKPOINT")) {
++    } else if (packet_matches_str("COLO_CHECKPOINT",
++                                  notify_rs->buf,
++                                  notify_rs->packet_len)) {
+         /* colo-compare do checkpoint, flush pri packet and remove sec packet */
+         g_queue_foreach(&s->conn_list, colo_flush_packets, s);
++    } else {
++        error_report("COLO compare got unsupported instruction '%s'",
++                     (char *)notify_rs->buf);
+     }
  }
-=20
-@@ -279,6 +280,7 @@ static void piix4_ide_class_init(ObjectClass *klass, =
-void *data)
-     k->device_id =3D PCI_DEVICE_ID_INTEL_82371AB;
-     k->class_id =3D PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    dc->user_creatable =3D false;
-     dc->hotpluggable =3D false;
- }
-=20
---=20
-2.20.1
+ 
+-- 
+2.17.GIT
 
 
