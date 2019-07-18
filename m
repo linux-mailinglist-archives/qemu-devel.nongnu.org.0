@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F108B6C8F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:01:21 +0200 (CEST)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54A76C901
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:12 +0200 (CEST)
+Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnzTj-0008Q6-OA
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:01:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41703)
+	id 1hnzUZ-0003Iu-Ag
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41794)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSt-0006oe-BB
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:28 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSx-0006t0-E9
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSs-0004DY-0x
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:49385)
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSs-0004DR-0U
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:31 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:43091)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnzSr-0004BG-9x; Thu, 18 Jul 2019 02:00:25 -0400
+ id 1hnzSq-0004BF-S1; Thu, 18 Jul 2019 02:00:25 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45q3QB1syyz9sND; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
+ id 45q3QB5TVCz9sNH; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563429618;
- bh=eQg8NoMt1hjHmOdm1V0w9noulGR5SutDqZOhREZICbk=;
+ bh=TGl9aGNMWCj3W7fGG/aGc+knLslW4zzipWE0COgEYgk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hLBaYN+MoHPSItiFJPkL5zyxRfvTBNnH4b0rAn3lUTL+VYIB/rFiutMwWsR+c2MOd
- tJX5HetlvGFLUF9KKos9TEXAvAZ7f8aXyK/ILvWFJBj+5Pv94tr2KaIbCauareCN/I
- GwzPMagU5nWVBqLlvEheUQy1rSmWO68FrEBVeDQA=
-Date: Thu, 18 Jul 2019 14:19:19 +1000
+ b=JkJI+eCTCgnY5qu5Cz56RZRwP3WI7IBidruFEjYqWJt2Mey8p7EKMmRKHqcIFzQLd
+ Q9v0zhlZkYCmSHMFKZmJ702I3EX4lIJFbnQZttwD4JoSUepQlkMckbeKyTMKyhSRQ6
+ rT+NyND1zuN4/LMxeG4/ZAvIyTOQgtd0Cpz3ak4k=
+Date: Thu, 18 Jul 2019 14:20:08 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190718041919.GF8468@umbus.fritz.box>
+Message-ID: <20190718042008.GG8468@umbus.fritz.box>
 References: <156335150620.82682.9535735857478533420.stgit@lep8c.aus.stglabs.ibm.com>
- <156335156198.82682.8756968724044750843.stgit@lep8c.aus.stglabs.ibm.com>
+ <156335159028.82682.5404622104535818162.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sDKAb4OeUBrWWL6P"
+ protocol="application/pgp-signature"; boundary="MrRUTeZlqqNo1jQ9"
 Content-Disposition: inline
-In-Reply-To: <156335156198.82682.8756968724044750843.stgit@lep8c.aus.stglabs.ibm.com>
+In-Reply-To: <156335159028.82682.5404622104535818162.stgit@lep8c.aus.stglabs.ibm.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 1/4] ppc: fix memory leak in
- spapr_caps_add_properties
+Subject: Re: [Qemu-devel] [PATCH v2 2/4] ppc: fix memory leak in
+ spapr_dt_drc()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,53 +62,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sDKAb4OeUBrWWL6P
+--MrRUTeZlqqNo1jQ9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 17, 2019 at 03:19:43AM -0500, Shivaprasad G Bhat wrote:
-> Free the capability name string after setting
-> the capability.
+On Wed, Jul 17, 2019 at 03:20:01AM -0500, Shivaprasad G Bhat wrote:
+> Leaking the drc_name while preparing the DT properties.
+> Fixing that.
+>=20
+> Also, remove the const qualifier from spapr_drc_name().
 >=20
 > Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 
 Applied to ppc-for-4.2, thanks.
 
 > ---
->  hw/ppc/spapr_caps.c |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/ppc/spapr_drc.c |    7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index bbb001f84a..0263c78d69 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -778,7 +778,7 @@ void spapr_caps_add_properties(SpaprMachineClass *smc=
-, Error **errp)
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index bacadfcac5..695a0b2285 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -226,7 +226,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
+>      return RTAS_OUT_SUCCESS;
+>  }
 > =20
->      for (i =3D 0; i < ARRAY_SIZE(capability_table); i++) {
->          SpaprCapabilityInfo *cap =3D &capability_table[i];
-> -        const char *name =3D g_strdup_printf("cap-%s", cap->name);
-> +        char *name =3D g_strdup_printf("cap-%s", cap->name);
->          char *desc;
+> -static const char *spapr_drc_name(SpaprDrc *drc)
+> +static char *spapr_drc_name(SpaprDrc *drc)
+>  {
+>      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
 > =20
->          object_class_property_add(klass, name, cap->type,
-> @@ -786,11 +786,13 @@ void spapr_caps_add_properties(SpaprMachineClass *s=
-mc, Error **errp)
->                                    NULL, cap, &local_err);
->          if (local_err) {
->              error_propagate(errp, local_err);
-> +            g_free(name);
->              return;
->          }
+> @@ -827,6 +827,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask)
+>          Object *obj;
+>          SpaprDrc *drc;
+>          SpaprDrcClass *drck;
+> +        char *drc_name =3D NULL;
+>          uint32_t drc_index, drc_power_domain;
 > =20
->          desc =3D g_strdup_printf("%s", cap->description);
->          object_class_property_set_description(klass, name, desc, &local_=
-err);
-> +        g_free(name);
->          g_free(desc);
->          if (local_err) {
->              error_propagate(errp, local_err);
+>          if (!strstart(prop->type, "link<", NULL)) {
+> @@ -856,8 +857,10 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
+r, uint32_t drc_type_mask)
+>          g_array_append_val(drc_power_domains, drc_power_domain);
+> =20
+>          /* ibm,drc-names */
+> -        drc_names =3D g_string_append(drc_names, spapr_drc_name(drc));
+> +        drc_name =3D spapr_drc_name(drc);
+> +        drc_names =3D g_string_append(drc_names, drc_name);
+>          drc_names =3D g_string_insert_len(drc_names, -1, "\0", 1);
+> +        g_free(drc_name);
+> =20
+>          /* ibm,drc-types */
+>          drc_types =3D g_string_append(drc_types, drck->typename);
 >=20
 
 --=20
@@ -117,25 +124,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---sDKAb4OeUBrWWL6P
+--MrRUTeZlqqNo1jQ9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v80QACgkQbDjKyiDZ
-s5ILYBAAyq24dPw/hQ1rCaMTo7dNGOY2iHAwzBVLrXGvlM5Xe9UCUwAVmQT2LUZp
-JDPZ1U3WZUf9E2oiAltQpJNj/OtsA+ehii9Nh1/2eeKZRXROAiYYZpprLnARq5cY
-JFqoJIAeWkQuXTyQdHm+D9CSFhjHju4pcdhb6jDA8oXDEYoXchDpifX98/zT/Irn
-Ob2ncCSy08nlKMJavVG6nsMo/HJXXbSa2hXENKrV6I/A/t2UFKag9Q+F96539m4k
-t2gIhVv1s/rt4gfh80ebZjBRhgFpOou3kHpvOPCI4XeME5Y8bkpUOmJLfMPlED2P
-vBV+EVYRlgJNiu+BOEoYzsu/5qhA7QkC8pKyk3Ko8DuC5sXP4qsyoJuREJETwugE
-l0Z4TpOOK81Nzqs9asNniGdbaha/X7zNLH3LH8tY+U/e8i/kaBnBHFliPQ+lxCQy
-ReW72jE987hoE9cXHor5RmNenbuobIau/rRKF4knvIqwvJ6L6PZe4WlUCwg7J8dY
-fEtuyQFr9lkp0PODJS0bCPhhQYx9B8S2oVL7ElstfWxWNdiUD9A2uwa9iaO3mCTo
-0wy7+RLnW5cafknCqu0l2aGHr62oFHb/LhnDaY4N4lpUumPgrEbkBW1kZ4gr3GNa
-cnLbWYAKqpGrvAG2nIifs0k7lxasiEos5YQHPmHUZ9E0fTvpEIc=
-=dzl2
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v83gACgkQbDjKyiDZ
+s5LXTxAAsB7w6SzOQTZQRYVp8GF2K7Iz+usYbe0r512IKOspRnbF9BEL3Wm92vvB
+SqlGwLZb7O9E4ozOxiwSPSEMLgI1M7AmarJjg+40qMkiHPckbh1giPBd3arwpav/
+L2kSez4kBP8wBYXocIKHZoqQsUzQ/H7G6oKhbJW25MoWnthuJ8r4CJkdCHlXcX9O
+Zprs2VA90U1dZbJyJb217zvNYOIT/m8h3Z9Kb1D4cpJ+9xMEC1KIejA6HmMTUleb
+6NyvrFCKFwydnf/dTcDihu8BGlkpLFc1QKq0LJ8NpocSe/7M37ckZwgXb43j9y2u
+94B8v+b+g1OYQQaZzzvxkvma70Dp9GuUbRODLNy3bTiRukgBHmTa/8S/HCPG0PEI
+tWFQD49aBXt0pQza2oT3HqpLgRDoVUjh91PsxYdVa79RSAo4UrT0NNp0OQQW1w9X
+tRSAdTtsec9cTaYnjHvkmzSb9kDlxGCCPj7uoqZnfKZdoZVZJ3DfJzOV9G7vBdTP
+DglZBqpt+iznfxR46956EXaBjh5W7aB/by0U3ej1MGNzemDWAjEsJ94d9POaCLy/
+RLRoRK9ZiSYhf/Eia/YDcxb8fhx7xmxsh+3ySy3veKD+p3eRWLXzDpGfp2bUrfV4
+Zfkn+Cxjs1fUxOofsnLFat9+vNjY0ieVniXFGuMSLI3LycPiXQA=
+=0eBd
 -----END PGP SIGNATURE-----
 
---sDKAb4OeUBrWWL6P--
+--MrRUTeZlqqNo1jQ9--
 
