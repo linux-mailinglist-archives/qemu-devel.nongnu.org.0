@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297486D09D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 17:01:46 +0200 (CEST)
-Received: from localhost ([::1]:38896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7B76D09A
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 17:00:56 +0200 (CEST)
+Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho7uj-00005j-9z
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 11:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39023)
+	id 1ho7tv-0006cc-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 11:00:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1ho7uG-0007Pr-25
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:01:22 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1ho7tZ-00060Y-MT
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:00:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ho7u9-0007rX-TS
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:01:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33260)
+ (envelope-from <chihmin.chao@sifive.com>) id 1ho7tW-0007VU-FT
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:00:33 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45326)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ho7u9-0007qt-Jf
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:01:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ho7u8-0000Ee-PW
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 15:01:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BEC4C2E80CC
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 15:01:08 +0000 (UTC)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1ho7tW-0007UY-1J
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 11:00:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id f9so29023430wre.12
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 08:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jwpnjH16FusQM83DMGiFOSOcRyy4bh9UWOmI7cynoQM=;
+ b=NW5u2CeYULs1mecNDRivkoScErBeskHgxXfkVKlB4nPWmMLZ3yf4sMGokrygqLCz9f
+ dBiqZV7uwqZ9qH1NufG/JscRmTSQvzft92NXmKl2CkHZp41oppxgwNi6BydksdfVC9bb
+ n0xOaYUP5XTxHRieyWfhSosFBbX99PQOUbOromBFgJTvQioJF4DpWn+opBm1kPCFCRnj
+ CX1WEBX1L6XqJLDYbUtx6dI1zkAmnfThO+dqyWPAzOI1tRxS6IenVRs4vNt4XxLeMcM7
+ WZcRhtnKhsz1bxFtIOc6IpH1ESc+UP/mAipf34CeldsBTVqX5TmOCEov0yBSv7mJAMEt
+ vgmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jwpnjH16FusQM83DMGiFOSOcRyy4bh9UWOmI7cynoQM=;
+ b=TNadHFIFLsl3zCPtZR5PM+HMO8Sqle0dkQLOgQ5XoGyPJ3HihE6+ZMx2Vht0LxmKYJ
+ DDEQxIwWrFmTqaX70zd8Xh/LAw6J+4bZt7Y6Okxc04rXSQ8iM3z4VDumaYdBC1r0Mrgi
+ Pnu+I4dX/SizX4bjIlZXuWv38ZSsmgWYT+H8aG5skQ9r7RkQjGdT077VnFg9CNS1pgT0
+ X0wCjxmB0pOAQf9Pi9Xxf3acjitCHaHnoVro9bmamoVBUdyB0hJN//+ZRXODAKoqHHLw
+ NTnHcz7t4m3C8HDp/wq5vLqsEsrbeY18mSPRRRWpv1X8LhIV/h7CByYtbhePeqfx70EY
+ 8KZg==
+X-Gm-Message-State: APjAAAWA5x6juVADsJz6IVNlrhjuZRxu2vFDTTUZ5mSMWmcT3ePePSAt
+ 4l3Nqnvu/XzsvHZ9N57/fafE8n07s0aVCJiuPVx6Lw==
+X-Google-Smtp-Source: APXvYqycQ/YApzOLIgAhpvMGyHd2exi5mPXrc8V7IM5ZxIm7oEZmsTPusS6JZeC2Bo0NMyJNYic+CFR5+91NMQrytlE=
+X-Received: by 2002:adf:ecd0:: with SMTP id s16mr49915164wro.324.1563462028056; 
+ Thu, 18 Jul 2019 08:00:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <1563181721-5055-1-git-send-email-chihmin.chao@sifive.com>
+ <93b35a5e-c40a-535b-2a91-2c210b4a5928@redhat.com>
+ <CAEiOBXXxS-93rTAQuvY_Tkxi1pYc1YfJenpBC_8gG2ou9uUZMg@mail.gmail.com>
+ <7eb239bc-32aa-b5fc-ab2e-a741b005aad7@redhat.com>
+ <CAKmqyKOZSz4f1-kLDhn=+imCvKHcZJVgqgqWbQ6qxD3K1n17GA@mail.gmail.com>
+ <CAEiOBXUBPFx5__wOLvLD0qQ7dzV2XVpHfiOoBZpXpu-SZsMiUg@mail.gmail.com>
+ <CAKmqyKNOiRYqZgiWT+LUKkOv+Bew3djOqc9vHpmSqZ-1Gfjd8Q@mail.gmail.com>
+ <d2c7e6c6-4d4a-d47e-e496-4f4cfe466fe1@redhat.com>
+ <CAKmqyKPiDHrPVuz2P1n9_j170k2bSm=7uDKrQg-fAUhL1FQm9g@mail.gmail.com>
+ <CAEiOBXUXdyntjnt-bi9-wiO2mmpgVC8WpD9KnxWoDdP__71XXQ@mail.gmail.com>
+ <CAKmqyKOHfx+h8=x2OnvyDD5LnqO09Uk56doqnkBY0VDcEbxQpA@mail.gmail.com>
+In-Reply-To: <CAKmqyKOHfx+h8=x2OnvyDD5LnqO09Uk56doqnkBY0VDcEbxQpA@mail.gmail.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Thu, 18 Jul 2019 23:00:16 +0800
+Message-ID: <CAEiOBXXMRXEEdp27c0C6RpxLQFW7BYdTDsoR5pRyxf=m74A5Kg@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42d
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jul 2019 14:55:07 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user mips
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: daniel-santos philmd pmaydell th-huth
-X-Launchpad-Bug-Reporter: Daniel Santos (daniel-santos)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <155542675846.7866.6509809085972568558.malonedeb@wampee.canonical.com>
-Message-Id: <156346170759.18485.10533293168862597121.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: d398a7e59ad7ce9c19306e6ce7515e372b1c2b2e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1825002] Re: "qemu: Unexpected FPU mode" since
- 0c1bbedc10e86ea9366b6af8c5520fafa3266b2f
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2] tests/boot_linux_console: add a test
+ for riscv64 + virt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,264 +84,359 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1825002 <1825002@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Cornelia Huck <cohuck@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A fix for this was committed as abcac736c1505254ec3 and will be in the
-upcoming 4.1 release.
+On Thu, Jul 18, 2019 at 6:47 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+> On Tue, Jul 16, 2019 at 10:21 PM Chih-Min Chao <chihmin.chao@sifive.com>
+> wrote:
+> >
+> >
+> >
+> > On Wed, Jul 17, 2019 at 6:59 AM Alistair Francis <alistair23@gmail.com>
+> wrote:
+> >>
+> >> On Tue, Jul 16, 2019 at 2:50 PM Philippe Mathieu-Daud=C3=A9
+> >> <philmd@redhat.com> wrote:
+> >> >
+> >> > On 7/16/19 10:43 PM, Alistair Francis wrote:
+> >> > > On Tue, Jul 16, 2019 at 6:56 AM Chih-Min Chao <
+> chihmin.chao@sifive.com> wrote:
+> >> > >>
+> >> > >>
+> >> > >> On Tue, Jul 16, 2019 at 12:34 AM Alistair Francis <
+> alistair23@gmail.com> wrote:
+> >> > >>>
+> >> > >>> On Mon, Jul 15, 2019 at 6:02 AM Philippe Mathieu-Daud=C3=A9
+> >> > >>> <philmd@redhat.com> wrote:
+> >> > >>>>
+> >> > >>>> On 7/15/19 1:09 PM, Chih-Min Chao wrote:
+> >> > >>>>> On Mon, Jul 15, 2019 at 5:15 PM Philippe Mathieu-Daud=C3=A9
+> >> > >>>>> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
+> >> > >>>>>
+> >> > >>>>>     On 7/15/19 11:08 AM, Chih-Min Chao wrote:
+> >> > >>>>>     > Similar to the mips + malta test, it boots a Linux kerne=
+l
+> on a virt
+> >> > >>>>>     > board and verify the serial is working.  Also, it relies
+> on the serial
+> >> > >>>>>     > device set by the machine itself.
+> >> > >>>>>     >
+> >> > >>>>>     > If riscv64 is a target being built, "make
+> check-acceptance" will
+> >> > >>>>>     > automatically include this test by the use of the
+> "arch:riscv64" tags.
+> >> > >>>>>     >
+> >> > >>>>>     > Alternatively, this test can be run using:
+> >> > >>>>>     >
+> >> > >>>>>     >   $ avocado run -t arch:riscv64 tests/acceptance
+> >> > >>>>>     >
+> >> > >>>>>     > packages
+> >> > >>>>>     >   debian official
+> >> > >>>>>     >     binutils-riscv64-linux-gnu_2.32-8
+> >> > >>>>>     >     opensbi_0.4-1_all
+> >> > >>>>>     >     linux-image-4.19.0-5-riscv64 4.19.37-4
+> >> > >>>>>     >   third-party
+> >> > >>>>>     >
+> >> > >>>>>
+> https://github.com/groeck/linux-build-test/rootfs/riscv64/rootfs.cpio.gz
+> >> > >>>>>     >     (the repo is also used in mips target acceptance)
+> >> > >>>>>     >
+> >> > >>>>>     > Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com
+> >> > >>>>>     <mailto:chihmin.chao@sifive.com>>
+> >> > >>>>>     > ---
+> >> > >>>>>     >  .travis.yml                            |  2 +-
+> >> > >>>>>     >  tests/acceptance/boot_linux_console.py | 66
+> >> > >>>>>     ++++++++++++++++++++++++++++++++++
+> >> > >>>>>     >  2 files changed, 67 insertions(+), 1 deletion(-)
+> >> > >>>>>     >
+> >> > >>>>>     > diff --git a/.travis.yml b/.travis.yml
+> >> > >>>>>     > index 5d3d6ee..21fcead 100644
+> >> > >>>>>     > --- a/.travis.yml
+> >> > >>>>>     > +++ b/.travis.yml
+> >> > >>>>>     > @@ -232,7 +232,7 @@ matrix:
+> >> > >>>>>     >
+> >> > >>>>>     >      # Acceptance (Functional) tests
+> >> > >>>>>     >      - env:
+> >> > >>>>>     > -        - CONFIG=3D"--python=3D/usr/bin/python3
+> >> > >>>>>
+>  --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-sof=
+tmmu,arm-softmmu,s390x-softmmu,alpha-softmmu"
+> >> > >>>>>     > +        - CONFIG=3D"--python=3D/usr/bin/python3
+> >> > >>>>>
+>  --target-list=3Dx86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-sof=
+tmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,riscv64-softmmu"
+> >> > >>>>>     >          - TEST_CMD=3D"make check-acceptance"
+> >> > >>>>>     >        after_failure:
+> >> > >>>>>     >          - cat tests/results/latest/job.log
+> >> > >>>>>     > diff --git a/tests/acceptance/boot_linux_console.py
+> >> > >>>>>     b/tests/acceptance/boot_linux_console.py
+> >> > >>>>>     > index 3215950..0f638bc 100644
+> >> > >>>>>     > --- a/tests/acceptance/boot_linux_console.py
+> >> > >>>>>     > +++ b/tests/acceptance/boot_linux_console.py
+> >> > >>>>>     > @@ -354,3 +354,69 @@ class BootLinuxConsole(Test):
+> >> > >>>>>     >          self.vm.launch()
+> >> > >>>>>     >          console_pattern =3D 'Kernel command line: %s' %
+> >> > >>>>>     kernel_command_line
+> >> > >>>>>     >          self.wait_for_console_pattern(console_pattern)
+> >> > >>>>>     > +
+> >> > >>>>>     > +    def test_riscv64_virt(self):
+> >> > >>>>>     > +        """
+> >> > >>>>>     > +        :avocado: tags=3Darch:riscv64
+> >> > >>>>>     > +        :avocado: tags=3Dmachine:virt
+> >> > >>>>>     > +        """
+> >> > >>>>>     > +        deb_url =3D ('
+> https://snapshot.debian.org/archive/debian/'
+> >> > >>>>>     > +
+>  '20190424T171759Z/pool/main/b/binutils/'
+> >> > >>>>>     > +
+> >> > >>>>>      'binutils-riscv64-linux-gnu_2.32-8_amd64.deb')
+> >> > >>>>>     > +        deb_hash =3D
+> ('7fe376fd4452696c03acd508d6d613ca553ea15e')
+> >> > >>>>>     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> >> > >>>>>     > +        objcopy_path =3D
+> '/usr/bin/riscv64-linux-gnu-objcopy'
+> >> > >>>>>     > +        objcopy_path =3D self.extract_from_deb(deb_path=
+,
+> objcopy_path)
+> >> > >>>>>     > +        libbfd_path =3D
+> >> > >>>>>     '/usr/lib/x86_64-linux-gnu/libbfd-2.32-riscv64.so
+> >> > >>>>>     <http://libbfd-2.32-riscv64.so>'
+> >> > >>>>>     > +        libbfd_path =3D self.extract_from_deb(deb_path,
+> libbfd_path)
+> >> > >>>>>     > +        process.run('ls -al %s' % (objcopy_path))
+> >> > >>>>>     > +
+> >> > >>>>>     > +        deb_url =3D ('
+> https://snapshot.debian.org/archive/debian/'
+> >> > >>>>>     > +
+>  '20190708T032337Z/pool/main/o/opensbi/'
+> >> > >>>>>     > +                   'opensbi_0.4-1_all.deb')
+> >> > >>>>>     > +        deb_hash =3D
+> ('2319dcd702958291d323acf5649fd98a11d90112')
+> >> > >>>>>     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> >> > >>>>>     > +        opensbi_path =3D
+> ('/usr/lib/riscv64-linux-gnu/opensbi/'
+> >> > >>>>>     > +                        'qemu/virt/fw_jump.elf')
+> >> > >>>>>     > +        opensbi_path =3D self.extract_from_deb(deb_path=
+,
+> opensbi_path)
+> >> > >>>>>     > +
+> >> > >>>>>     > +        deb_url =3D
+> >> > >>>>>     ('https://snapshot.debian.org/archive/debian-ports/'
+> >> > >>>>>     > +
+>  '20190620T095935Z/pool-riscv64/main/l/linux/'
+> >> > >>>>>     > +
+> >> > >>>>>      'linux-image-4.19.0-5-riscv64_4.19.37-4_riscv64.deb')
+> >> > >>>>>     > +        deb_hash =3D
+> ('bf5b5680c41d92134d22caef4fbd277c5217e1f0')
+> >> > >>>>>     > +        deb_path =3D self.fetch_asset(deb_url,
+> asset_hash=3Ddeb_hash)
+> >> > >>>>>     > +        kernel_path =3D '/boot/vmlinux-4.19.0-5-riscv64=
+'
+> >> > >>>>>     > +        kernel_path =3D self.extract_from_deb(deb_path,
+> kernel_path)
+> >> > >>>>>     > +        kimage_path =3D self.workdir + "/Image"
+> >> > >>>>>     > +        env =3D os.environ
+> >> > >>>>>     > +        env['LD_LIBRARY_PATH'] =3D ('%s:' %
+> >> > >>>>>     (os.path.dirname(libbfd_path)) +
+> >> > >>>>>     > +
+>  env.get('LD_LIBRARY_PATH', ''))
+> >> > >>>>>     > +        process.run(('%s -O binary -O binary -R'
+> >> > >>>>>     > +                     '.note -R .note.gnu.build-id -R
+> .comment -S
+> >> > >>>>>     %s %s') %
+> >> > >>>>>     > +                     (objcopy_path, kernel_path,
+> kimage_path))
+> >> > >>>>>
+> >> > >>>>>     Please explain why you need to do that...
+> >> > >>>>>
+> >> > >>>>>     Also note these tests are run on other host architecture
+> than x86, at
+> >> > >>>>>     least ppc64/s390x (so this won't work there).
+> >> > >>>>>
+> >> > >>>>> it is because riscv64 vmlinux doesn't have physical loading
+> address
+> >> > >>>>> information and
+> >> > >>>>> depends on certain stage bootloader to move kernel raw data to
+> specific
+> >> > >>>>> physical address (0x8020_0000)
+> >> > >>>>>
+> >> > >>>>> The vmlinux program headers are
+> >> > >>>>>   Type             Offset       VirtAddr
+> PhysAddr
+> >> > >>>>>     FileSiz  MemSiz   Flg Align
+> >> > >>>>>   LOAD           0x001000 0xffffffe000000000 0x000000000000000=
+0
+> 0x0303a6
+> >> > >>>>> 0x0303a6 R E 0x1000
+> >> > >>>>>   LOAD           0x032000 0xffffffe000031000 0x000000000003100=
+0
+> 0x828f0c
+> >> > >>>>> 0x828f0c RWE 0x1000
+> >> > >>>>>   NOTE           0x85aec0 0xffffffe000859ec0 0x0000000000859ec=
+0
+> 0x00004c
+> >> > >>>>> 0x00004c R   0x4
+> >> > >>>>>
+> >> > >>>>> For legacy bootloader, bbl, It can handle payload in ELF forma=
+t.
+> >> > >>>>> However, for the newer OpenSBI, it can only handle raw data an=
+d
+> >> > >>>>> debian doesn't provide linux image in raw data format.
+> >> > >>>
+> >> > >>> This doesn't sound right. You should just be able to say -kernel
+> >> > >>> <anything> and it should work. It has worked for me with vmlinux
+> and
+> >> > >>> Image files when using master (not the 4.0 release but
+> master/4.1).
+> >> > >>> Although all of my testing was with the 5.1 kernel, so maybe
+> there is
+> >> > >>> a difference there?
+> >> > >>>
+> >> > >>> What isn't working for you? Can you include the errors and outpu=
+t
+> of -d in_asm?
+> >> > >>>
+> >> > >>>
+> >> > >>> Alistair
+> >> > >>
+> >> > >>
+> >> > >> Hi Alistair,
+> >> > >>    I have come across error before starting target simulation.
+> What I means is to execute
+> >> > >>             qemu-system-riscv64 -M virt -m 256M -nographic -bios
+> ./opensbi/build/platform/qemu/virt/firmware/fw_jump.elf -kernel vmlinux
+> >> > >>    then get the error message
+> >> > >>             rom: requested regions overlap (rom mrom.reset.
+> free=3D0x000000000001eb7c, addr=3D0x0000000000001000)
+> >> > >>             qemu-system-riscv64: rom check and register reset
+> failed
+> >> > >
+> >> > > Hmmm.... I don't remember seeing this problem in my testing, but i=
+t
+> >> > > does seem to make sense.
+> >> > >
+> >> > > We have two options here:
+> >> > > 1. Use the Image file from Linux 5.0+ (my preferred option as 4.19
+> is
+> >> > > getting old)
+> >
+> >  I choose 4.19 version rather than 5.0+  because 4.19 is stable branch
+> maintained by Greg.
+> >  But it is ok to use 5.0 trunk, the latest version provided by debian.
+> >
+> >>
+> >> > > 2. Use the device loader (documented here:
+> >> > >
+> https://github.com/riscv/opensbi/blob/master/docs/platform/qemu_virt.md)
+> >
+> >
+> > The document describes two user cases
+> >   1. fw_payload.elf
+> >       a. include the Image (raw data file, not elf)  into data section
+> >       b. -kernel load the each part to the correct address
+> >
+> >      the program header of  fw_payload.elf are
+> >      Type           Offset   VirtAddr           PhysAddr
+>  FileSiz  MemSiz   Flg Align
+> >     LOAD           0x0000b0 0x0000000080000000 0x0000000080000000
+> 0x00a008 0x00b0b8 RWE 0x10               <-  fw_payload  main program
+> >     LOAD           0x00a0b8 0x0000000080200000 0x0000000080200000
+> 0x8dbe20 0x8dbe20 R E 0x1                    <-  arch/riscv/boot/Image   =
+or
+> u-boot.bin
+> >
+> >   2. fw_jump.elf
+> >       a. use  "-kernel <raw image> or -device  loader,file=3D<raw
+> Image>,addr=3D0x80200000" to load correct address
+> >       b. fw_jump.elf just jump to the entry address 0x80200000
+> >
+> >
+> >  The issues are
+> >    a. debian linux-image package only provides vmlinux.
+>
+> This can be fixed by upgrading the kernel version. Fedora should have
+> a 5.2 kernel that you can use instead of Debian.
+>
+> >        so I use objcopy in acceptance test
+> >    b. riscv64 vmlinux doesn't have correct PhysAddr and -kernel can't
+> move data to expected address
+> >        explicit load the Image to specific
+> >            -kernel raw_image   (if file is not elf or uImage,
+> riscv_kerner_loader treat it is as raw image and place it at 0x8020_0000)
+> >            -device loader,file=3D<raw_image>,0x80200000  (do the same
+> thing)
+>
+> Does the device loader not work?
+>
+> Alistair
+>
 
--- =
+  The device loader works for "Image" case (raw data)
+  If the data is raw image,  for riscv_load_kernel implementation,
+ "-kernel <raw_image>" and  -device loader,file=3D<raw_image>,0x80200000  a=
+re
+the same.
+  They finally call "load_image_targphys_as"
+  The only difference is that target address is hardcoded or feed from
+command line option.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1825002
-
-Title:
-  "qemu: Unexpected FPU mode" since
-  0c1bbedc10e86ea9366b6af8c5520fafa3266b2f
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  This happens every time I attempt to chroot into a gentoo-mips image
-  unless I load the executable via ld.so
-
-  /home (root)# chroot gentoo-mips32r2el /bin/sh
-  qemu: Unexpected FPU mode
-  /home (root)# chroot gentoo-mips32r2el /lib/ld-2.19.so /bin/sh
-  sh-4.2# exit
-  /home (root)# =
+  I don't prefe one than the other.  Both of them are Ok to me.  I could
+refine that if one of them is more preferable.
 
 
-  I don't know the underlying cause, but keep in mind that we may lie
-  and claim to have an FPU when our CPU doesn't because of kernel
-  emulation that may not be present in the host kernel.  Don't know if
-  that's related.
+ chihmin.chao
 
-  I get this with various gentoo-mips stage3 tarballs, but not with
-  OpenWRT.  (e.g.,
-  https://gentoo.osuosl.org/experimental/mips/stages/mips32r2el/2014)
-
-
-  # emerge --info app-emulation/qemu
-  Portage 2.3.51 (python 3.6.5-final-0, default/linux/amd64/17.0/desktop/pl=
-asma, gcc-8.2.0, glibc-2.27-r6, 4.14.96-gentoo x86_64)
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-                           System Settings
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  System uname: Linux-4.14.96-gentoo-x86_64-AMD_Ryzen_7_2700X_Eight-Core_Pr=
-ocessor-with-gentoo-2.6
-  KiB Mem:    32890732 total,   3480024 free
-  KiB Swap:   16777212 total,  10575592 free
-  Timestamp of repository gentoo: Thu, 11 Apr 2019 06:00:01 +0000
-  Head commit of repository gentoo: 66eaaa28926103e690db0699466a274a17ab1979
-  sh bash 4.4_p23-r1
-  ld GNU ld (Gentoo 2.30 p5) 2.30.0
-  distcc 3.3.2 x86_64-pc-linux-gnu [disabled]
-  ccache version 3.3.4 [disabled]
-  app-shells/bash:          4.4_p23-r1::gentoo
-  dev-java/java-config:     2.2.0-r4::gentoo
-  dev-lang/perl:            5.26.2::gentoo
-  dev-lang/python:          2.7.15::gentoo, 3.6.5::gentoo
-  dev-util/ccache:          3.3.4-r1::gentoo
-  dev-util/cmake:           3.9.6::gentoo
-  dev-util/pkgconfig:       0.29.2::gentoo
-  sys-apps/baselayout:      2.6-r1::gentoo
-  sys-apps/openrc:          0.38.3-r1::gentoo
-  sys-apps/sandbox:         2.13::gentoo
-  sys-devel/autoconf:       2.13-r1::gentoo, 2.64-r1::gentoo, 2.69-r4::gent=
-oo
-  sys-devel/automake:       1.11.6-r3::gentoo, 1.13.4-r2::gentoo, 1.15.1-r2=
-::gentoo, 1.16.1-r1::gentoo
-  sys-devel/binutils:       2.30-r4::gentoo
-  sys-devel/gcc:            4.9.4::gentoo, 5.4.0-r6::gentoo, 6.4.0-r5::gent=
-oo, 7.3.0-r6::gentoo, 8.1.0-r3::gentoo, 8.2.0-r6::gentoo, 8.3.0::gentoo
-  sys-devel/gcc-config:     2.0::gentoo
-  sys-devel/libtool:        2.4.6-r3::gentoo
-  sys-devel/make:           4.2.1-r4::gentoo
-  sys-kernel/linux-headers: 4.14-r1::gentoo (virtual/os-headers)
-  sys-libs/glibc:           2.27-r6::gentoo
-  Repositories:
-
-  gentoo
-      location: /usr/portage
-      sync-type: rsync
-      sync-uri: rsync://rsync.gentoo.org/gentoo-portage
-      priority: -1000
-      sync-rsync-verify-jobs: 1
-      sync-rsync-extra-opts: =
-
-      sync-rsync-verify-metamanifest: yes
-      sync-rsync-verify-max-age: 24
-
-  love-local
-      location: /usr/local/portage
-      masters: gentoo
-      priority: 0
-
-  chaoslab
-      location: /var/lib/layman/chaoslab
-      masters: gentoo
-      priority: 50
-
-  java
-      location: /var/lib/layman/java
-      masters: gentoo
-      priority: 50
-
-  steam-overlay
-      location: /var/lib/layman/steam-overlay
-      masters: gentoo
-      priority: 50
-
-  zugaina
-      location: /var/lib/layman/zugaina
-      masters: gentoo
-      priority: 50
-
-  ACCEPT_KEYWORDS=3D"amd64"
-  ACCEPT_LICENSE=3D"* -@EULA"
-  CBUILD=3D"x86_64-pc-linux-gnu"
-  CFLAGS=3D"-march=3Dnative -O2 -ggdb3 -pipe"
-  CHOST=3D"x86_64-pc-linux-gnu"
-  CONFIG_PROTECT=3D"/etc /usr/lib64/libreoffice/program/sofficerc /usr/shar=
-e/config /usr/share/gnupg/qualified.txt"
-  CONFIG_PROTECT_MASK=3D"/etc/ca-certificates.conf /etc/dconf /etc/env.d /e=
-tc/fonts/fonts.conf /etc/gconf /etc/gentoo-release /etc/revdep-rebuild /etc=
-/sandbox.d /etc/splash /etc/terminfo /etc/texmf/language.dat.d /etc/texmf/l=
-anguage.def.d /etc/texmf/updmap.d /etc/texmf/web2c"
-  CXXFLAGS=3D"-march=3Dnative -O2 -ggdb3 -pipe"
-  DISTDIR=3D"/mnt/large/distfiles"
-  EMERGE_DEFAULT_OPTS=3D"-j3 --load-average=3D17.5 --with-bdeps=3Dy --autou=
-nmask=3Dn"
-  ENV_UNSET=3D"DBUS_SESSION_BUS_ADDRESS DISPLAY GOBIN PERL5LIB PERL5OPT PER=
-LPREFIX PERL_CORE PERL_MB_OPT PERL_MM_OPT XAUTHORITY XDG_CACHE_HOME XDG_CON=
-FIG_HOME XDG_DATA_HOME XDG_RUNTIME_DIR"
-  FCFLAGS=3D"-O2 -pipe"
-  FEATURES=3D"assume-digests binpkg-logs buildpkg candy cgroup compress-bui=
-ld-logs compressdebug config-protect-if-modified distlocks ebuild-locks fix=
-lafiles installsources ipc-sandbox merge-sync multilib-strict network-sandb=
-ox news parallel-fetch preserve-libs protect-owned sandbox sfperms split-el=
-og split-log splitdebug strict strict-keepdir unknown-features-warn unmerge=
--logs unmerge-orphans userfetch userpriv usersandbox usersync xattr"
-  FFLAGS=3D"-O2 -pipe"
-  GENTOO_MIRRORS=3D"http://gentoo.mirrors.tds.net/gentoo http://gentoo.mirr=
-ors.easynews.com/linux/gentoo/ http://gentoo.osuosl.org/ http://mirrors.rit=
-.edu/gentoo/ http://gentoo.cs.uni.edu/ http://gentoo.osuosl.org/ "
-  LANG=3D"en_US.utf8"
-  LDFLAGS=3D"-Wl,-O1 -Wl,--as-needed"
-  LINGUAS=3D"en en-US en_US"
-  MAKEOPTS=3D"-j15 --load-average=3D17"
-  PKGDIR=3D"/mnt/large/packages"
-  PORTAGE_COMPRESS=3D"pxz"
-  PORTAGE_COMPRESS_FLAGS=3D"-9e"
-  PORTAGE_CONFIGROOT=3D"/"
-  PORTAGE_RSYNC_OPTS=3D"--recursive --links --safe-links --perms --times --=
-omit-dir-times --compress --force --whole-file --delete --stats --human-rea=
-dable --timeout=3D180 --exclude=3D/distfiles --exclude=3D/local --exclude=
-=3D/packages --exclude=3D/.git"
-  PORTAGE_TMPDIR=3D"/tmp"
-  USE=3D"X a52 aac aacs acl acpi activities aes aio alsa amd64 amr avx avx2=
- bcache berkdb bluetooth bluray branding bzip2 cairo cdda cddb cdio cdr cel=
-t cli consolekit crypt cups cxx d3d9 dbus declarative designer device-mappe=
-r dirac directfb dot dri dts dvd dvdr emboss encode exif f16c fam ffmpeg ff=
-tw flac fluidsynth fma3 fontconfig fortran fuse gdbm geolocation gif git gl=
-amor go gphoto2 gpm gps graphite graphviz gsm gstreamer gtk hardened hddtem=
-p highlight iconv icu ipv6 jpeg jpeg2k kde kerberos kipi kwallet lame latex=
- lcms ldap libass libcaca libnotify libsamplerate libtirpc lm_sensors lto l=
-vm lz4 lzma lzo mad matroska midi mjpeg mmx mmxext mng mono mp3 mp4 mpeg mt=
-p multicall multilib multitarget musepack natspec ncurses netlink networkma=
-nager nfs nls nptl nsplugin ogg openal openexr opengl openh264 openmp opens=
-sl opus osmesa pam pango pcap pch pclmul pcre pdf perl pgo phonon plasma pl=
-aylist png policykit popcnt postgres postproc ppds pulseaudio python qml qt=
-5 rar raw readline samba sasl savedconfig scanner schroedinger sdl seccomp =
-sensors sid smp snappy speex spell spice sqlite sqlite3 squashfs sse sse2 s=
-se3 sse4_1 sse4_2 sse4a ssh ssl ssse3 startup-notification static-libs subv=
-ersion svg syslog systemtap taglib tcpd theora threads tiff timidity tools =
-tremor truetype tty-helpers twolame udev udisks unicode upnp-av upower usb =
-usbredir utils v4l vaapi valgrind vcdx vdpau vim-syntax virt-network virtio=
- vlc vorbis vpx webdav webp widgets wxwidgets x264 x265 xattr xcb xcomposit=
-e xen xine xml xspice xv xvid xvmc zeroconf zlib" ABI_X86=3D"64 32" ALSA_CA=
-RDS=3D"ali5451 als4000 atiixp atiixp-modem bt87x ca0106 cmipci emu10k1x ens=
-1370 ens1371 es1938 es1968 fm801 hda-intel intel8x0 intel8x0m maestro3 trid=
-ent usb-audio via82xx via82xx-modem ymfpci" APACHE2_MODULES=3D"authn_core a=
-uthz_core socache_shmcb unixd actions alias auth_basic authn_alias authn_an=
-on authn_dbm authn_default authn_file authz_dbm authz_default authz_groupfi=
-le authz_host authz_owner authz_user autoindex cache cgi cgid dav dav_fs da=
-v_lock deflate dir disk_cache env expires ext_filter file_cache filter head=
-ers include info log_config logio mem_cache mime mime_magic negotiation rew=
-rite setenvif speling status unique_id userdir usertrack vhost_alias" CALLI=
-GRA_FEATURES=3D"karbon sheets words" COLLECTD_PLUGINS=3D"df interface irq l=
-oad memory rrdtool swap syslog" CPU_FLAGS_X86=3D"aes avx avx2 f16c fma3 mmx=
- mmxext pclmul popcnt sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3" CURL_SSL=3D"=
-openssl" ELIBC=3D"glibc" GPSD_PROTOCOLS=3D"ashtech aivdm earthmate evermore=
- fv18 garmin garmintxt gpsclock isync itrax mtk3301 nmea ntrip navcom ocean=
-server oldstyle oncore rtcm104v2 rtcm104v3 sirf skytraq superstar2 timing t=
-sip tripmate tnt ublox ubx" GRUB_PLATFORMS=3D"efi-64 pc coreboot emu multib=
-oot qemu xen" INPUT_DEVICES=3D"keyboard mouse joystick evdev wacom vmmouse"=
- KERNEL=3D"linux" L10N=3D"en en-US en_US" LCD_DEVICES=3D"bayrad cfontz cfon=
-tz633 glk hd44780 lb216 lcdm001 mtxorb ncurses text" LIBREOFFICE_EXTENSIONS=
-=3D"presenter-console presenter-minimizer" LLVM_TARGETS=3D"AMDGPU ARM BPF N=
-VPTX Mips X86" NETBEANS_MODULES=3D"apisupport cnd groovy gsf harness ide id=
-entity j2ee java mobility nb php profiler soa visualweb webcommon websvccom=
-mon xml" OFFICE_IMPLEMENTATION=3D"libreoffice" PHP_TARGETS=3D"php5-6 php7-1=
-" POSTGRES_TARGETS=3D"postgres9_5 postgres10" PYTHON_SINGLE_TARGET=3D"pytho=
-n3_6" PYTHON_TARGETS=3D"python2_7 python3_6" QEMU_SOFTMMU_TARGETS=3D"aarch6=
-4 arm armeb i386 hppa m68k microblaze microblazeel mips mips64 mips64el mip=
-sel mipsn32 mipsn32el ppc ppc64 ppc64abi32 ppc64le s390x sparc sparc32plus =
-sparc64 x86_64" QEMU_USER_TARGETS=3D"aarch64 arm armeb i386 hppa m68k micro=
-blaze microblazeel mips mips64 mips64el mipsel mipsn32 mipsn32el ppc ppc64 =
-ppc64abi32 ppc64le s390x sparc sparc32plus sparc64 x86_64" RUBY_TARGETS=3D"=
-ruby24" USERLAND=3D"GNU" VIDEO_CARDS=3D"radeon radeonsi vesa qxl vmware amd=
-gpu" XTABLES_ADDONS=3D"quota2 psd pknock lscan length2 ipv4options ipset ip=
-p2p iface geoip fuzzy condition tee tarpit sysrq steal rawnat logmark ipmar=
-k dhcpmac delude chaos account"
-  Unset:  CC, CPPFLAGS, CTARGET, CXX, INSTALL_MASK, LC_ALL, PORTAGE_BINHOST=
-, PORTAGE_BUNZIP2_COMMAND, PORTAGE_RSYNC_EXTRA_OPTS
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-                          Package Settings
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  app-emulation/qemu-3.1.0-r4::gentoo was built with the following:
-  USE=3D"aio alsa bzip2 caps curl fdt filecaps gtk jpeg lzo ncurses nfs nls=
- opengl pin-upstream-blobs png pulseaudio python sasl sdl seccomp snappy sp=
-ice ssh static-user systemtap usb usbredir vde vhost-net virtfs vnc vte xat=
-tr xen -accessibility (-capstone) -debug (-glusterfs) -gnutls -infiniband -=
-iscsi -numa -rbd (-selinux) -smartcard (-static) -tci -test -virgl -xfs" AB=
-I_X86=3D"(64)" PYTHON_TARGETS=3D"python2_7 python3_6 -python3_5 (-python3_7=
-)" QEMU_SOFTMMU_TARGETS=3D"aarch64 arm hppa i386 m68k microblaze microblaze=
-el mips mips64 mips64el mipsel ppc ppc64 s390x sparc sparc64 x86_64 -alpha =
--cris -lm32 -moxie -nios2 -or1k -riscv32 -riscv64 -sh4 -sh4eb -tricore -uni=
-core32 -xtensa -xtensaeb" QEMU_USER_TARGETS=3D"aarch64 arm armeb hppa i386 =
-m68k microblaze microblazeel mips mips64 mips64el mipsel mipsn32 mipsn32el =
-ppc ppc64 ppc64abi32 ppc64le s390x sparc sparc32plus sparc64 x86_64 -aarch6=
-4_be -alpha -cris -nios2 -or1k -riscv32 -riscv64 -sh4 -sh4eb -tilegx -xtens=
-a -xtensaeb"
-
-  >>> Attempting to run pkg_info() for 'app-emulation/qemu-3.1.0-r4'
-  Using:
-    app-emulation/spice-protocol-0.12.14
-    sys-firmware/edk2-ovmf-2017_p20180211
-      USE=3Dbinary
-    sys-firmware/ipxe-1.0.0_p20180211
-    sys-firmware/seabios-1.11.0
-      USE=3Dbinary
-    sys-firmware/sgabios-0.1_pre8-r1
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1825002/+subscriptions
-
+>
+> >
+> >   ELF should work only if it has correct loading information.
+> >
+> >   chihmin.chao
+> >>
+> >> >
+> >> > Nice doc, this example is exactly what I had in mind:
+> >> >
+> >> >   qemu-system-riscv64 -M virt -m 256M -nographic \
+> >> >         -kernel build/platform/qemu/virt/firmware/fw_jump.elf \
+> >> >         -device
+> >> >
+> loader,file=3D<linux_build_directory>/arch/riscv/boot/Image,addr=3D0x8020=
+0000 \
+> >> >         -drive file=3D<path_to_linux_rootfs>,format=3Draw,id=3Dhd0 \
+> >> >         -device virtio-blk-device,drive=3Dhd0 \
+> >> >         -append "root=3D/dev/vda rw console=3DttyS0"
+> >> >
+> >> > If the Image is an ELF, I assume we don't need to specify the addres=
+s,
+> >> > because the device loader knows how to parse this format. Again,
+> >> > Alistair is the expert ;)
+> >>
+> >> Yep, an elf should just work.
+> >>
+> >  describe the issue above
+> >
+> >>
+> >> >
+> >> > If for some reason it only works with Linux 5.0+, let's use these!
+> >>
+> >> Only 5.0+ builds an elf.
+> >>
+> >> Alistair
+> >>
+> >> >
+> >> > Regards,
+> >> >
+> >> > Phil.
+>
