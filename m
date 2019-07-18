@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5546CCE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 12:40:53 +0200 (CEST)
-Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E256CCEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 12:41:39 +0200 (CEST)
+Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho3qG-0004kE-Rk
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 06:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34875)
+	id 1ho3r0-0007ia-5v
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 06:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34910)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <npiggin@gmail.com>) id 1ho3pr-0003eq-Uj
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:28 -0400
+ (envelope-from <npiggin@gmail.com>) id 1ho3py-00043z-7V
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <npiggin@gmail.com>) id 1ho3pq-0000gf-Ro
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:27 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:33753)
+ (envelope-from <npiggin@gmail.com>) id 1ho3pw-0000sh-Qt
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 06:40:34 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34865)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <npiggin@gmail.com>)
- id 1ho3po-0000dO-A1; Thu, 18 Jul 2019 06:40:24 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id g2so12443849pfq.0;
- Thu, 18 Jul 2019 03:40:24 -0700 (PDT)
+ id 1ho3pu-0000mU-41; Thu, 18 Jul 2019 06:40:30 -0400
+Received: by mail-pf1-x443.google.com with SMTP id u14so12448020pfn.2;
+ Thu, 18 Jul 2019 03:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jeDfu5EycFvl9XFUWjClydY4i9PbIdp0Dl2n2igY378=;
- b=du2EdGeBkny+IfgWNzwqYqHutMf9z9h/WVcIjUyH/Mp5Jfz0L68EkTg86Us7OcSlRY
- +VpfdyTK7tagjno46JRE7+xxNQ6O8NcQeJDs1mDiDFGuixAzqlNq+ttlDaQkmg/uJOfD
- 1tbTSsXPowJkoexkZCpnGOEvTPf9GOe6uOVxZUVU2wMUBS17SDocB7vbqtQioWAUhK4Z
- QXCZ7wzMnHZg3mHnRFQkLONMOoO/VSFPKsXW2vwUooAk/R48LJY+8zK8KXc+FYjhmKeV
- HjU7jE97aB8vYbMFfflPLL7kcarvrE63jH0n0Y37PUEIo1Z0UZ/C4YE4sDR+P9RMOO70
- yFNg==
+ bh=lteyBjEv79ancuyu48+6RkOCiXixXc/t0skBD9V32vQ=;
+ b=nnSMfJtfbz3GZR6j8f14cbn6GCnbfFXOalYlIrtLUOooKg4J9NRyQ4RkUexObVi3Om
+ u13CAM8Y5tHXEVVthXSk38zcgCVW43+AeREk2Z55AYZlIDLaQM35LElOAQSjMo1qvjJp
+ SDsrPAUvjZPb1XCgYdYtzq8OyeOmnb84KH61zuBfit6FVwKBJ1rTUlK7pTxGb6pObLmQ
+ NlLbq4KONCQ0sqa5hwmx4nobJsrOqwCWvUZ5FCgH1Hj++4cdVphAAfhvjosy09oipk4h
+ bBGwlo6+8TsttppnRU0hYI8lvC+V2RZTknFQxmokPSL5xirMJ9us3W5zJm3/KMskSFPb
+ AOiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jeDfu5EycFvl9XFUWjClydY4i9PbIdp0Dl2n2igY378=;
- b=sv+gmoA98uDcdK5kopPddBFn7M4JFQe85gx5GtrGXvrWxOnZVg7BCPA2g4L+vPVJLe
- p/0GDumgfPhhjG5doY8b3XVc4MeRBhJzDOzL1eDCQEtHq21KOz2nBfiZhQiGBRwcRewr
- Z6HFbAWR2n4miE39bIOWCwWcVubGnZ9I+rV2zW/oHIfBi7XbKkaXPBptP9keQw6lpWQV
- H9tWk2uqiitrJQGMfapQBINatzKzZvGk5A2FPuxXuEwrp57qN6eXPT4615TsPz3SpQA9
- 6012Yk+otOq3K1r41jbIcdt7lxPoXcSaJjQe4hISLhLiN1a+AmCAc/iQVd4rGr10Tfzr
- ky8g==
-X-Gm-Message-State: APjAAAUEkujgPSCzb+P6dRPlqrcZxnAbYqbgWocR+carVAsBUkkJByC1
- KPjdDu81U7RVhj95jFTEqFimighY
-X-Google-Smtp-Source: APXvYqwUtt17A6CS7/mLYliXRZawQAJ8FObcwBEz14TJr7/wbkmsQhHg1IETvyNszfUtMR6I/spdYw==
-X-Received: by 2002:a63:9e43:: with SMTP id r3mr21865071pgo.148.1563446423094; 
- Thu, 18 Jul 2019 03:40:23 -0700 (PDT)
+ bh=lteyBjEv79ancuyu48+6RkOCiXixXc/t0skBD9V32vQ=;
+ b=D4c03Xb0jJze3oPqNsknH/RevB8nHQQL2t6nzVRevAJe1+qWEVRA1t70eNj7DKS45m
+ tm7x5ZXQl+WpzdPwx40/XHCAdahR4c7Eee5laywY9hvjeVgyyvrH3TNY3Iwvwdb/tiKg
+ aXae9oj8nY/XWom3dfQ4rrQIOLSvFUKRjHU3160HdBcrKmun05xwiGIJ6RPBSjz7FpqW
+ yU7NnaFt3hliq9zMKhTr+vn22tkKunp4MX02AbfR6rWlsL623Xlx/yWz1JrCiJPZWJBH
+ ppG323GCvuEUcG/QeRkUgDIzqCemb/3sYmtL2o3ZSc0Ll6zRQ6yO4oB9Lxbd59oiAf9L
+ euPA==
+X-Gm-Message-State: APjAAAXWI2EHgolpHCBdFdUJD2e28i/JacGbhkrXVz/fEkYy7i9KoETB
+ YG+4CJxmrctlAFr4NNWxrc1bdRuq
+X-Google-Smtp-Source: APXvYqwsvM882HpPaC8IJLzlJuWwOuOQI3DlFNuwZW+dJykqstq1ueq/aLUA/i5Xr58MQwG37Me+EA==
+X-Received: by 2002:a63:c106:: with SMTP id w6mr47324592pgf.422.1563446428755; 
+ Thu, 18 Jul 2019 03:40:28 -0700 (PDT)
 Received: from bobo.local0.net (61-68-63-89.tpgi.com.au. [61.68.63.89])
- by smtp.gmail.com with ESMTPSA id y10sm28243415pfm.66.2019.07.18.03.40.17
+ by smtp.gmail.com with ESMTPSA id y10sm28243415pfm.66.2019.07.18.03.40.23
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 18 Jul 2019 03:40:22 -0700 (PDT)
+ Thu, 18 Jul 2019 03:40:28 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Thu, 18 Jul 2019 20:39:50 +1000
-Message-Id: <20190718103951.10027-3-npiggin@gmail.com>
+Date: Thu, 18 Jul 2019 20:39:51 +1000
+Message-Id: <20190718103951.10027-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190718103951.10027-1-npiggin@gmail.com>
 References: <20190718103951.10027-1-npiggin@gmail.com>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42d
-Subject: [Qemu-devel] [PATCH 2/3] machine: Add wakeup method to MachineClass
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH 3/3] spapr: Implement ibm,suspend-me
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,80 +85,123 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Nicholas Piggin <npiggin@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Waking from suspend is not logically a machine reset on all machines,
-particularly in the paravirtualized case rather than hardware
-emulated. The ppc spapr machine for example just invokes hypervisor
-to suspend, and expects that call to return with the machine in the
-same state (modulo some possible migration and reconfiguration
-details).
+This has been useful to modify and test the Linux pseries suspend
+code but it requires modification to the guest to call it (due to
+being gated by other unimplemented features). It is not otherwise
+used by Linux yet, but work is slowly progressing there.
 
-Implement a machine ->wakeup method and use that if it exists.
+This allows a (lightly modified) guest kernel to suspend with
+`echo mem > /sys/power/state` and be resumed with system_wakeup
+monitor command.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- include/hw/boards.h |  1 +
- vl.c                | 29 ++++++++++++++++++++++++++++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c         | 11 +++++++++++
+ hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr.h |  3 ++-
+ 3 files changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index a71d1a53a5..915ac3352b 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -180,6 +180,7 @@ struct MachineClass {
- 
-     void (*init)(MachineState *state);
-     void (*reset)(MachineState *state);
-+    void (*wakeup)(MachineState *state);
-     void (*hot_add_cpu)(MachineState *state, const int64_t id, Error **errp);
-     int (*kvm_type)(MachineState *machine, const char *arg);
-     void (*smp_parse)(MachineState *ms, QemuOpts *opts);
-diff --git a/vl.c b/vl.c
-index ef3c7ab8b8..b9e9943458 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1556,6 +1556,33 @@ void qemu_system_reset(ShutdownCause reason)
-     cpu_synchronize_all_post_reset();
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 00f7735a31..c7725d3586 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1701,6 +1701,14 @@ static int spapr_reset_drcs(Object *child, void *opaque)
+     return 0;
  }
  
-+/*
-+ * Wake the VM after suspend.
-+ */
-+static void qemu_system_wakeup(void)
++static void spapr_machine_wakeup(MachineState *machine)
 +{
-+    MachineClass *mc;
-+
-+    mc = current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
-+
-+    if (mc && mc->wakeup) {
-+        mc->wakeup(current_machine);
-+    } else {
-+        /*
-+         * Fall back to old reset wakeup method. Platforms supporting
-+         * wakeup should be converted over to use ->wakeup and this
-+         * fallback code removed.
-+         */
-+        cpu_synchronize_all_states();
-+        if (mc && mc->reset) {
-+            mc->reset(current_machine);
-+        } else {
-+            qemu_devices_reset();
-+        }
-+        cpu_synchronize_all_post_reset();
-+    }
++    /*
++     * Nothing needs to be done to resume a suspended guest because
++     * suspending does not change the machine state.
++     */
 +}
 +
- void qemu_system_guest_panicked(GuestPanicInformation *info)
+ static void spapr_machine_reset(MachineState *machine)
  {
-     qemu_log_mask(LOG_GUEST_ERROR, "Guest crashed");
-@@ -1764,7 +1791,7 @@ static bool main_loop_should_exit(void)
-     }
-     if (qemu_wakeup_requested()) {
-         pause_all_vcpus();
--        qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-+        qemu_system_wakeup();
-         notifier_list_notify(&wakeup_notifiers, &wakeup_reason);
-         wakeup_reason = QEMU_WAKEUP_REASON_NONE;
-         resume_all_vcpus();
+     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
+@@ -3078,6 +3086,8 @@ static void spapr_machine_init(MachineState *machine)
+ 
+     qemu_register_boot_set(spapr_boot_set, spapr);
+ 
++    qemu_register_wakeup_support();
++
+     if (kvm_enabled()) {
+         /* to stop and start vmclock */
+         qemu_add_vm_change_state_handler(cpu_ppc_clock_vm_state_change,
+@@ -4373,6 +4383,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+      */
+     mc->init = spapr_machine_init;
+     mc->reset = spapr_machine_reset;
++    mc->wakeup = spapr_machine_wakeup;
+     mc->block_default_type = IF_SCSI;
+     mc->max_cpus = 1024;
+     mc->no_parallel = 1;
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index a618a2ac0f..87175c1e0a 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -216,6 +216,36 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     qemu_cpu_kick(cs);
+ }
+ 
++static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                           uint32_t token, uint32_t nargs,
++                           target_ulong args,
++                           uint32_t nret, target_ulong rets)
++{
++    CPUState *cs;
++
++    if (nargs != 0 || nret != 1) {
++        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
++        return;
++    }
++
++    CPU_FOREACH(cs) {
++        PowerPCCPU *c = POWERPC_CPU(cs);
++        CPUPPCState *e = &c->env;
++        if (c == cpu) {
++            continue;
++        }
++
++        /* See h_join */
++        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
++            rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
++            return;
++        }
++    }
++
++    qemu_system_suspend_request();
++    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
++}
++
+ static inline int sysparm_st(target_ulong addr, target_ulong len,
+                              const void *val, uint16_t vallen)
+ {
+@@ -483,6 +513,8 @@ static void core_rtas_register_types(void)
+                         rtas_query_cpu_stopped_state);
+     spapr_rtas_register(RTAS_START_CPU, "start-cpu", rtas_start_cpu);
+     spapr_rtas_register(RTAS_STOP_SELF, "stop-self", rtas_stop_self);
++    spapr_rtas_register(RTAS_IBM_SUSPEND_ME, "ibm,suspend-me",
++                        rtas_ibm_suspend_me);
+     spapr_rtas_register(RTAS_IBM_GET_SYSTEM_PARAMETER,
+                         "ibm,get-system-parameter",
+                         rtas_ibm_get_system_parameter);
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 5d36eec9d0..6e8e18b077 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -631,8 +631,9 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
+ #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
+ #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
+ #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
++#define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
+ 
+-#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
++#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
+ 
+ /* RTAS ibm,get-system-parameter token values */
+ #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
 -- 
 2.20.1
 
