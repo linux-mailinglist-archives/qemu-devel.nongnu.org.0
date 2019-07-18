@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7816CFEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 16:35:05 +0200 (CEST)
-Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0372E6CFF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 16:36:24 +0200 (CEST)
+Received: from localhost ([::1]:38662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho7Ut-0003Sf-R6
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 10:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58380)
+	id 1ho7WB-0005bl-6R
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 10:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59093)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1ho7Uf-0002ug-Pm
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:34:51 -0400
+ (envelope-from <rth7680@gmail.com>) id 1ho7Vz-0005Ch-3q
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:36:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1ho7Ue-0005Yb-5u
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:34:49 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35934)
+ (envelope-from <rth7680@gmail.com>) id 1ho7Vy-0006mC-3m
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:36:11 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43886)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1ho7Ud-0005Xe-Ua
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:34:48 -0400
-Received: by mail-wm1-f65.google.com with SMTP id g67so21839781wme.1
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 07:34:46 -0700 (PDT)
+ (Exim 4.71) (envelope-from <rth7680@gmail.com>) id 1ho7Vx-0006kY-Q6
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 10:36:10 -0400
+Received: by mail-pg1-x541.google.com with SMTP id f25so12982713pgv.10
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 07:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pazBJgjXtzPJWC58vHDwmasr6Z9pw0bM09rBWrt7Rws=;
+ b=D5GFIBwz+oamJ4yXCaJIQ7fEokw3RVFTDzgREILiPp47DDa+A0EYSHFXB/Bzg8AJML
+ CEWdV3H/qaZGJMV5AlsjB7ZJsgKNJhR8GoguJPjGj1ZNvgqnaYXs8km7/lM5adHGcTyi
+ umJlP/9Q5Sr2kfdoamjB0YpmjDNFVtaXr67QnH/m56CChMtlG01m/uxd33hyhyPxrnzH
+ 0kixavyo0Rx6E9P0JALULtLbDaXs2NSfKrzbVU0zj6cvJlB9a/gR2ZNLTBTilUDFMGDS
+ qZHmW9ZGBXN/k3ZkzglTZUQ+OVrl5tQVohdI7cLdk86Ec48HVbDthN/xe0lhpvbysMu4
+ nvvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=VVww2PUhz0TYhbHq0wbDlRnenW+BPclid6VB0pJ2fsg=;
- b=BcC4/xj4u3DTUgT1hk7E0U0v4P6xvughN0pkI+ix/9B3Q/3NO/Uz6yzer4cO+PWa5r
- b8z860FZjHHA1+F5u8qpANGLUgqtcU+mOhoOV19MsJqUS7ihborvYgKG8oCV9A1z9AFQ
- y8WOmdLs/O7e3yEimN+KPcN+CA1eicO15KpTlcJZjFat0WjDlKLKZDz1bAnXSKBb51M8
- KAu6HbyL0z+TSDCBSnp9XMATwO56pxyP/QH7VETdvPx4lJzQ6u6mABhciQNKBBXk7tyF
- Ph59+f9FUTT88hUtxlk5U70TjuN5I4LmEzjuOOQ+/cpemUKUdCe1lQiU35db/KaZiMiM
- oN8Q==
-X-Gm-Message-State: APjAAAUEiudTZNEY0NuKxYrpWclIVGHLUFpdFchRl8JMSch2b7M1DYqm
- fHZ4HymNZxvfXRz54XCSd6B12/xFHX4=
-X-Google-Smtp-Source: APXvYqyovrJVstxOsGsXmGvYGcMpXlS9+VDR0y5kr1dvDPeyxgTxVCbumVcMKoDrJOxQCE5kqwaXBg==
-X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr43036206wme.29.1563460485326; 
- Thu, 18 Jul 2019 07:34:45 -0700 (PDT)
-Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
- [83.35.20.18])
- by smtp.gmail.com with ESMTPSA id f204sm36914386wme.18.2019.07.18.07.34.43
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 18 Jul 2019 07:34:44 -0700 (PDT)
-References: <20190701144705.102615-1-slp@redhat.com>
- <20190701144705.102615-5-slp@redhat.com>
- <20190702081733.ff6cboiddln5wmti@sirius.home.kraxel.org>
- <878stgygiu.fsf@redhat.com>
- <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
- <875zokyahg.fsf@redhat.com> <8c3b4619-f779-fb0c-7a53-b67150036a07@redhat.com>
- <8736joxzv4.fsf@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-In-reply-to: <8736joxzv4.fsf@redhat.com>
-Date: Thu, 18 Jul 2019 16:34:42 +0200
-Message-ID: <87ef2ntnr1.fsf@redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+ :autocrypt:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=pazBJgjXtzPJWC58vHDwmasr6Z9pw0bM09rBWrt7Rws=;
+ b=kZ7DIlN+nxDUSFFPmzedAJPvV4SmGvDgyXzeAar1uH0VD+6js3LxzEVKVXcKc56+Bv
+ 6ey5iFi892EEui1aGYrzXAxZ2HH7eNZrzGPCLZZ1xeG7pzLJUQGicG3euTieCGOrfLRa
+ QVAY4eH9p8m6icieQ9MKjG/T2IZ/XJvTewxLuJ5cdBsmFXUBi6EGqJktZGfCYWnxmN2X
+ 2MPg4jGPsl4gK/grZH31wkjqcO3YcqxYq8FG1AYmr34fgKd5gUeSJepnjkU2pzvNT4Ey
+ o9ZlC3Vb/MMgSHUcAFh5Lr/sZofncl8UIodrORKo/BhLGRjZd6txiDc6VR1KCcc4LWdD
+ Gl1g==
+X-Gm-Message-State: APjAAAUL1H44VKi7yJ6XkLGZykTvw0qaIw7ZmaBL/rXE1MBDa7qNiBW5
+ iZ6LtHHBsJUbZqyEhySVO4Y=
+X-Google-Smtp-Source: APXvYqx/5VrQUxvr238FKdbztIoL+eU+2HObm/EMuwWXdd7NisWPqm1nv2MZ+tSGsLfJ4x6+wGqzyg==
+X-Received: by 2002:a17:90a:ab0b:: with SMTP id
+ m11mr52970329pjq.73.1563460567795; 
+ Thu, 18 Jul 2019 07:36:07 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-176-6.tukw.qwest.net. [97.113.176.6])
+ by smtp.googlemail.com with ESMTPSA id t10sm28539635pjr.13.2019.07.18.07.36.06
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Jul 2019 07:36:07 -0700 (PDT)
+To: tony.nguyen@bt.com, qemu-devel@nongnu.org
+References: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
+From: Richard Henderson <rth@twiddle.net>
+Openpgp: preference=signencrypt
+Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
+ mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
+ n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
+ rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
+ Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
+ n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
+ AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
+ CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
+ cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
+ Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
+ eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
+ LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
+ Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
+ 94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
+ 86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
+ I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
+ VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
+ +PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
+ AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
+ Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
+ prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
+ /E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
+ jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
+ VcROBqvtH3ecaIL9iw==
+Message-ID: <a94b8d32-db37-da72-e7cd-0df267c636d1@twiddle.net>
+Date: Thu, 18 Jul 2019 07:36:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
- machine type
+In-Reply-To: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH] configure: Define target access alignment
+ in configure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,186 +108,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- rth@twiddle.net
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+On 7/17/19 11:01 PM, tony.nguyen@bt.com wrote:
+> This patch moves the define of target access alignment earlier from
+> target/foo/cpu.h to configure.
+> 
+> Suggested in Richard Henderson's reply to "[PATCH 1/4] tcg: TCGMemOp is now
+> accelerator independent MemOp"
+> 
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> ---
+>  configure             | 12 ++++++++++--
+>  include/exec/poison.h |  1 +
+>  include/qom/cpu.h     |  2 +-
+>  target/alpha/cpu.h    |  2 --
+>  target/hppa/cpu.h     |  1 -
+>  target/mips/cpu.h     |  2 --
+>  target/sh4/cpu.h      |  2 --
+>  target/sparc/cpu.h    |  2 --
+>  target/xtensa/cpu.h   |  2 --
+>  tcg/tcg.c             |  2 +-
+>  tcg/tcg.h             |  8 +++++---
+>  11 files changed, 18 insertions(+), 18 deletions(-)
+
+Thanks for this.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Sergio Lopez <slp@redhat.com> writes:
-
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->
->> On 02/07/19 12:52, Sergio Lopez wrote:
->>> As I said, I'm also in favor of microvm supporting booting from
->>> firmware in the future, as long we keep the simple mode too.
->>
->> The simple mode adds code to QEMU's x86 target that only exists to
->> support microvm.  It should be motivated by a clear win in boot times.
->
-> OK. When I'm back from my PTO, I'll work on adding the firmware
-> support to microvm. I'll run and share some numbers to see whether the
-> simple mode makes sense or we can just rely on qboot for lower boot
-> times plus SeaBIOS for compatibility.
-
-I've just added support for starting the machine from SeaBIOS (Stefan
-Hajnoczi pointed in another thread that it can be as fast as qboot, and
-given that the latter doesn't support mptables, I just tested this
-one). I tried to keep it as minimalistic as possible, but it still
-required an RTC (mc146818), which dragged in an ISA BUS, and this one a
-KVM PIT.
-
-I ran some numbers using Stefano Garzarella's qemu-boot-time scripts
-[1] on a server with 2xIntel Xeon Silver 4114 2.20GHz, using the
-upstream QEMU (474f3938d79ab36b9231c9ad3b5a9314c2aeacde) built with
-minimal features [2]. The VM boots a minimal kernel [3] without initrd,
-using a kata container image as root via virtio-blk (though this isn't
-really relevant, as we're just taking measurements until the kernel is
-about to exec init).
-
- ---------------------
- | QEMU with SeaBIOS |
- ---------------------
-
-Command line:
-
-./x86_64-softmmu/qemu-system-x86_64 -m 512m -enable-kvm -M microvm,legacy -kernel /root/src/images/vmlinux-5.2 -append "console=hvc0 reboot=k panic=1 root=/dev/vda quiet virtio_mmio.device=512@0xd0000600:15 virtio_mmio.device=512@0xd0000400:14" -smp 1 -nodefaults -no-user-config -chardev pty,id=virtiocon0,server -device virtio-serial-device -device virtconsole,chardev=virtiocon0 -drive id=test,file=/usr/share/kata-containers/kata-containers.img,format=raw,if=none -device virtio-blk-device,drive=test -monitor stdio
-
-Average boot times after 10 consecutive runs:
-
- qemu_init_end: 65.958714
- linux_start_kernel: 77.735803 (+11.777089)
- linux_start_user: 127.360739 (+49.624936)
-
-Exposed I/O ports and MMIOs:
-
- address-space: memory
-  0000000000000000-ffffffffffffffff (prio 0, i/o): system
-    0000000000000000-000000001fffffff (prio 0, i/o): alias ram-below-4g @microvm.ram 0000000000000000-000000001fffffff
-    00000000000e0000-00000000000fffff (prio 1, i/o): alias isa-bios @pc.bios 0000000000000000-000000000001ffff
-    00000000d0000000-00000000d00001ff (prio 0, i/o): virtio-mmio
-    00000000d0000200-00000000d00003ff (prio 0, i/o): virtio-mmio
-    00000000d0000400-00000000d00005ff (prio 0, i/o): virtio-mmio
-    00000000d0000600-00000000d00007ff (prio 0, i/o): virtio-mmio
-    00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
-    00000000fffe0000-00000000ffffffff (prio 0, ram): pc.bios
-
- address-space: I/O
-  0000000000000000-000000000000ffff (prio 0, i/o): io
-    0000000000000020-0000000000000021 (prio 0, i/o): kvm-pic
-    0000000000000040-0000000000000043 (prio 0, i/o): kvm-pit
-    0000000000000070-0000000000000071 (prio 0, i/o): rtc
-      0000000000000070-0000000000000070 (prio 0, i/o): rtc-index
-    000000000000007e-000000000000007f (prio 0, i/o): kvmvapic
-    00000000000000a0-00000000000000a1 (prio 0, i/o): kvm-pic
-    00000000000004d0-00000000000004d0 (prio 0, i/o): kvm-elcr
-    00000000000004d1-00000000000004d1 (prio 0, i/o): kvm-elcr
-    0000000000000510-0000000000000511 (prio 0, i/o): fwcfg
-    0000000000000514-000000000000051b (prio 0, i/o): fwcfg.dma
-
-
- -------------------
- | QEMU direct PVH |
- -------------------
-
-Command line:
-
- ./x86_64-softmmu/qemu-system-x86_64 -m 512m -enable-kvm -M microvm -kernel /root/src/images/vmlinux-5.2 -append "console=hvc0 reboot=k panic=1 root=/dev/vda quiet" -smp 1 -nodefaults -no-user-config -chardev pty,id=virtiocon0,server -device virtio-serial-device -device virtconsole,chardev=virtiocon0 -drive id=test,file=/usr/share/kata-containers/kata-containers.img,format=raw,if=none -device virtio-blk-device,drive=test -monitor stdio
-
-Average boot times after 10 consecutive runs:
-
- qemu_init_end: 64.043264
- linux_start_kernel: 65.481782 (+1.438518)
- linux_start_user: 114.938353 (+49.456571)
-
-Exposed I/O ports and MMIOs:
-
- address-space: memory
-  0000000000000000-ffffffffffffffff (prio 0, i/o): system
-    0000000000000000-000000001fffffff (prio 0, i/o): alias ram-below-4g @microvm.ram 0000000000000000-000000001fffffff
-    00000000d0000000-00000000d00001ff (prio 0, i/o): virtio-mmio
-    00000000d0000200-00000000d00003ff (prio 0, i/o): virtio-mmio
-    00000000d0000400-00000000d00005ff (prio 0, i/o): virtio-mmio
-    00000000d0000600-00000000d00007ff (prio 0, i/o): virtio-mmio
-    00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
-    00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
-
- address-space: I/O
-  0000000000000000-000000000000ffff (prio 0, i/o): io
-    000000000000007e-000000000000007f (prio 0, i/o): kvmvapic
-
-
- --------------
- | Comparison |
- --------------
-
-Average boot time:
-
- * Relying on SeaBIOS, when compared with direct PVH boot, as a total
-   average overhead of ~12ms. The cost of initializing QEMU increases in
-   ~2ms (probably due to need to instantiate more devices), while the
-   other ~10ms is the SeaBIOS overhead.
-
-Exposed I/O ports and MMIOs:
-
- * The following 8 I/O ports are only present in the version relying on SeaBIOS:
-
-    0000000000000020-0000000000000021 (prio 0, i/o): kvm-pic
-    0000000000000040-0000000000000043 (prio 0, i/o): kvm-pit
-    0000000000000070-0000000000000071 (prio 0, i/o): rtc
-      0000000000000070-0000000000000070 (prio 0, i/o): rtc-index
-    00000000000000a0-00000000000000a1 (prio 0, i/o): kvm-pic
-    00000000000004d0-00000000000004d0 (prio 0, i/o): kvm-elcr
-    00000000000004d1-00000000000004d1 (prio 0, i/o): kvm-elcr
-    0000000000000510-0000000000000511 (prio 0, i/o): fwcfg
-    0000000000000514-000000000000051b (prio 0, i/o): fwcfg.dma
-
- * The following MMIO region is only present in the direct boot version:
-
-    00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
-
-
- ---------------
- | Conclusions |
- ---------------
-
-Objectively, the version that boots directly the kernel using PVH is 10%
-faster and has a slightly larger exposed surface. Whether this is enough
-to justify its existence is quite subjective.
-
-In my opinion, not only I think it makes sense to have it, but I also
-think there's little reason to have the firmware reliant version, given
-the nature and purpose of microvm.
-
-Sergio.
-
-[1] https://github.com/stefano-garzarella/qemu-boot-time
-[2] https://paste.fedoraproject.org/paste/YZ9Ok-dJtQrc0xxctFm-nw
-[3] https://paste.fedoraproject.org/paste/sck0jfioAJdMq51HH6wkmA
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0wg4IACgkQ9GknjS8M
-AjXTBhAAjE9PxMC0LIX5WIF0KPCrsPn7+hi+/I+xjESU9WfjSII9unntynxSvyz2
-DyghYU+TFYiqlNGVN1jYM6Rn2YL1uy3MVN6xS3dSByab+9RilsocTKUCMkKMmJwI
-NmjyVByKAwBpL5FhmKs9jECc6on+6Tj3nF3ynKSBAUZMOICaAOxYL4c4UxUsYkP+
-YEn+bpE1fmRjtr8TkCaB+OTwPuuhrutur8UD/vJIupj7tYntKYSoPGaY4HlUCyKG
-KkMQP8Ukmm1a90gLgQvmIj6hdJbV90y2e9W8sbFA1uwTdXwoAW/+VnGSE+G+roU/
-+U8bn0ykieloZ55AUmXgC3/zqMo52BWA5fQGqYy5jYho0Mb0fz4QvO4K6k4YA1Fw
-uLy+0cs9ja5m02+tX8whPKWUAhRixRg9Egfen2pd76EOLhnLn1qlfLgtNlpDZ738
-5cfQz+/FmLgVp6dgQvPBVNY2JcS8Ksedyj9A8Hpi7SjgynzFJzLA6aE9XXxbzD1Z
-B4MgoY+kreXtkG9JGMnZa1PpVI3o/2tmdWjh4zsdukGdMVt363aHNt11R4bOjI0E
-ho8SAbUfUlI4fCJY4UPgIQmp319hCYIJ4PzobGRGMqIOYSO4VhspQxyNUdQvQvEc
-Yb2Ahm1F5nwKAkPbelh+LTMB0QbXqgEod0J3a+TyRw/Fkx62iVg=
-=DMRo
------END PGP SIGNATURE-----
---=-=-=--
+r~
 
