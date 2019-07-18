@@ -2,44 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD9C6C963
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:43:40 +0200 (CEST)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299656C9A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 09:01:58 +0200 (CEST)
+Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho08h-0005Kv-33
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50941)
+	id 1ho0QO-0002hQ-QN
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 03:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1ho08V-0004wY-2u
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:43:27 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1ho0QB-0002GJ-6T
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 03:01:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1ho08U-0003ka-2J
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:43:27 -0400
-Received: from mga06.intel.com ([134.134.136.31]:4794)
+ (envelope-from <tao3.xu@intel.com>) id 1ho0Q9-0004ey-SN
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 03:01:43 -0400
+Received: from mga03.intel.com ([134.134.136.65]:55096)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1ho08T-0003ef-QN
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:43:26 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ho0Q9-0004dN-KP
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 03:01:41 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2019 23:43:23 -0700
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2019 00:01:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,276,1559545200"; d="scan'208";a="169768427"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga007.fm.intel.com with ESMTP; 17 Jul 2019 23:43:23 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 18 Jul 2019 14:42:57 +0800
-Message-Id: <20190718064257.29218-1-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+X-IronPort-AV: E=Sophos;i="5.64,276,1559545200"; d="scan'208";a="343275642"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.101])
+ ([10.239.196.101])
+ by orsmga005.jf.intel.com with ESMTP; 18 Jul 2019 00:01:36 -0700
+To: Xiaoyao Li <xiaoyao.li@intel.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20190717045731.19303-1-tao3.xu@intel.com>
+ <54351c2d-0b8a-6877-6fda-dedec8372d00@intel.com>
+ <20190717183819.GW26800@habkost.net>
+ <c12d950d-87a8-2b7f-266e-e4031f779015@intel.com>
+ <26970152-60d1-f334-2359-9b5b87105565@intel.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <477c52fc-a343-b3e0-b845-5bef1f7fcc77@intel.com>
+Date: Thu, 18 Jul 2019 15:01:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <26970152-60d1-f334-2359-9b5b87105565@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
-Subject: [Qemu-devel] [PATCH] migration: equation is more proper than and to
- check LOADVM_QUIT
+X-Received-From: 134.134.136.65
+Subject: Re: [Qemu-devel] [PATCH v2] target/i386: Introduce Denverton CPU
+ model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,41 +62,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Xiaoyao Li <xiaoyao.li@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LOADVM_QUIT allows a command to quit all layers of nested loadvm loops,
-while current return value check is not that proper even it works now.
+On 7/18/2019 2:16 PM, Xiaoyao Li wrote:
+> On 7/18/2019 9:56 AM, Tao Xu wrote:
+>> On 7/18/2019 2:38 AM, Eduardo Habkost wrote:
+>>> On Wed, Jul 17, 2019 at 01:39:01PM +0800, Tao Xu wrote:
+>>>> Hi Eduardo,
+>>>>
+>>>> Could I ask a question about introducing a old CPU model? Maybe not 
+>>>> so old
+>>>> because it was launched in 2017. It is the former generation (Atom 
+>>>> Server)
+>>>> of Snowridge and if this cpu model be added, qemu may can migrate guest
+>>>> between Denverton CPU and Snowridge CPU.
+>>>>
+>>>> I am wondering which way is more appropriate, because maybe there 
+>>>> are a few
+>>>> Denverton machines using old microcodes:
+>>>>
+>>>> 1. Just like this patch, introduce one version cpu cpu model.
+>>>>
+>>>> 2. Introduce multi versions of cpu model, cover old microcodes, may 
+>>>> be 3
+>>>> versions.
+>>>
+>>> What exactly are the differences between the old and new
+>>> microcodes?  Is it always possible to install a new microcode on
+>>> machines that are not up to date?
+>>>
+>> Denverton Machines with old microcodes didn't have 
+>> CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD on host. But 
+>> user can update their machine follow the links below:
+>>
+>> SSBD:
+>> https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00115.html 
+>>
+>> https://access.redhat.com/articles/3436091
+>>
+>> SPEC_CTRL:
+>> https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00088.html 
+>>
+>> https://access.redhat.com/articles/3436091
+>>
+>>
+>>> Both options look good to me.  I think it's OK to just declare
+>>> old microcode versions as not supported by QEMU, but I won't
+>>> complain if you decide to add multiple versions.
+>>>
+>> Thank you Eduardo, I prefer option 1, just this patch. I think because 
+>> Denverton CPU model will not have compatibility issue and the machines 
+>> with old microcode are very few.
+> 
+> Hi Tao,
+> 
+> This patch also define CPUID_7_0_EDX_ARCH_CAPABILITIES in 
+> features[FEAT_7_0_EDX], but there is no feature defined with 
+> .feature[FEAT_ARCH_CAPABILITIES] in this cpu model.
+> Do you miss some features enumerated by MSR_IA32_ARCH_CAPABILITIES in 
+> this cpu model? Otherwise it can just remove 
+> CPUID_7_0_EDX_ARCH_CAPABILITIES.
+> 
 
-Current return value check "ret & LOADVM_QUIT" would return true if
-bit[0] is 1. This would be true when ret is -1 which is used to indicate
-an error of handling a command.
-
-Since there is only one place return LOADVM_QUIT and no other
-combination of return value, use "ret == LOADVM_QUIT" would be more
-proper.
-
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- migration/savevm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 1a9b1f411e..25fe7ea05a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2429,7 +2429,7 @@ retry:
-         case QEMU_VM_COMMAND:
-             ret = loadvm_process_command(f);
-             trace_qemu_loadvm_state_section_command(ret);
--            if ((ret < 0) || (ret & LOADVM_QUIT)) {
-+            if ((ret < 0) || (ret == LOADVM_QUIT)) {
-                 goto out;
-             }
-             break;
--- 
-2.17.1
+OK, When I RDMSR 0x10a in a Denverton machine with latest microcode, I 
+get 9. So I plan to add "rdctl-no" and "skip-l1dfl-vmentry" in next version.
+>>>>
+>>>> On 7/17/2019 12:57 PM, Tao Xu wrote:
+>>>>> Denverton is the Atom Processor of Intel Harrisonville platform.
+>>>>> +        .features[FEAT_7_0_EDX] =
+>>>>> +            CPUID_7_0_EDX_SPEC_CTRL | 
+>>>>> CPUID_7_0_EDX_ARCH_CAPABILITIES |
+>>>>> +            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
+>>>>> +        /*
+>>>>> +         * Missing: XSAVES (not supported by some Linux versions,
+>>>>> +         * including v4.1 to v4.12).
+>>>>> +         * KVM doesn't yet expose any XSAVES state save component,
+>>>>> +         * and the only one defined in Skylake (processor tracing)
+>>>>> +         * probably will block migration anyway.
+>>>>> +         */
+>>>>> +        .features[FEAT_XSAVE] =
+>>>>> +            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC | 
+>>>>> CPUID_XSAVE_XGETBV1,
+>>>>> +        .features[FEAT_6_EAX] =
+>>>>> +            CPUID_6_EAX_ARAT,
+>>>>> +        .xlevel = 0x80000008,
+>>>>> +        .model_id = "Intel Atom Processor (Denverton)",
+>>>>> +    },
+>>>>>        {
+>>>>>            .name = "SnowRidge-Server",
+>>>>>            .level = 27,
+>>>>> -- 
+>>>>> 2.20.1
+>>>>>
+>>>>>
+>>>>
+>>>
+>>
+>>
 
 
