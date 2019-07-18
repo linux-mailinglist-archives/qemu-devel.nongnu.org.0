@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558146C93F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:25:50 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617E96C967
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:47:54 +0200 (CEST)
+Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnzrR-0007qt-GR
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47244)
+	id 1ho0Cn-0007QT-JV
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51940)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hnzrD-0007S1-Ux
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:25:37 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1ho0CY-0006yk-6m
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:47:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hnzrC-0001oH-RX
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:25:35 -0400
-Received: from mail-wr1-f53.google.com ([209.85.221.53]:37346)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hnzrC-0001nq-LB
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:25:34 -0400
-Received: by mail-wr1-f53.google.com with SMTP id n9so2212833wrr.4
- for <qemu-devel@nongnu.org>; Wed, 17 Jul 2019 23:25:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:openpgp:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=/mcUmga2KFF3MsqVNLM4UQV/kfzUAlAkH6man98BBHM=;
- b=eZ7fjQW7y4F++yHaMFT27avFMLUFo69daR/Cx17cSBHg9ZJmXGgOModLvdm3EHgKMa
- km7M1KkjPbiCmk24+h9A1chqMI8TjICXG7jQgipEtuahmFufrWoRf9JmWPx2buLQ9R07
- P7Is80ripP200HVR96oisMYfcTGBz/5NkpfG1nKXEaWE6cfA0HChNVxQUqQ36c2q7v5u
- AZaJghAcyxmTZNtZZ0iUA42N1hzRg1rbTED5jZSx+mYl0tV9c3bZgS/9i70dCvMDC2uc
- Thu7Po83QkDVmvGxSeI9is7FcgqCzCw0ZdXU6+EJKYUak9FWo4wUbwgn5ta9QBUEwdXp
- BcXQ==
-X-Gm-Message-State: APjAAAWjBu99PNo1svKIynTVfOYQqu1mFfbmOxOTCN1ms3YGotrAUNj5
- g1oAH9JWq561iLOdq91ssb9D5Q==
-X-Google-Smtp-Source: APXvYqx+3XuLvBuwIpKFK0cbglrADTQrpmcvqzvXdC9huN+dQ2F7x/k/AE6n5N/ZPkpym55saUosPQ==
-X-Received: by 2002:adf:f64a:: with SMTP id x10mr46094758wrp.287.1563431133584; 
- Wed, 17 Jul 2019 23:25:33 -0700 (PDT)
-Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id h14sm25037556wrs.66.2019.07.17.23.25.32
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Jul 2019 23:25:33 -0700 (PDT)
-To: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <cb727b5d-683f-115d-f3c0-06f5a6761aea@redhat.com>
-Date: Thu, 18 Jul 2019 08:25:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <dgibson@ozlabs.org>) id 1ho0CW-0005zz-TU
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:47:38 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:33667)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ho0CV-0005yi-Rk; Thu, 18 Jul 2019 02:47:36 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45q4Sh0TLqz9s4Y; Thu, 18 Jul 2019 16:47:31 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563432452;
+ bh=2fP4p9KYjastPEAnUzCbeoSyZsEGKm1XC6fVP4zAnpE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dRxc9KmOwWClhgWG//0bw1KoWD6YdeJQRh6cQyENERWwpojLikpLGnddPonpzXq8E
+ 29gWWxg42opZMMCZ6R0HSf6QMbjVIjbutxb6X1Ig/H3br6VXDP9RHpUWWmmvLfHtlw
+ 70dIadj/L2m4nsWG+/1/8UmWGb5zddGjCzKukyUk=
+Date: Thu, 18 Jul 2019 16:15:38 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Joel Stanley <joel@jms.id.au>
+Message-ID: <20190718061538.GL8468@umbus.fritz.box>
+References: <20190718053236.6721-1-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.53
-Subject: [Qemu-devel] No archives to download from www.qemu.org/download/
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vTUhhhdwRI43FzeR"
+Content-Disposition: inline
+In-Reply-To: <20190718053236.6721-1-joel@jms.id.au>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: Set default ram size to 2GB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +55,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building from the GitHub generated archive
-(https://github.com/qemu/qemu/archive/v4.1.0-rc0.tar.gz)
-we get:
 
----
-$ ./configure
+--vTUhhhdwRI43FzeR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: missing file /tmp/qemu-4.1.0-rc0/ui/keycodemapdb/README
+On Thu, Jul 18, 2019 at 03:02:36PM +0930, Joel Stanley wrote:
+> This makes the powernv machine easier for end users as the default
+> initrd address is now within RAM.
+>=20
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-This is not a GIT checkout but module content appears to
-be missing. Do not use 'git archive' or GitHub download links
-to acquire QEMU source archives. Non-GIT builds are only
-supported with source archives linked from:
+Applied to ppc-for-4.2, thanks.
 
-  https://www.qemu.org/download/
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Developers working with GIT can use scripts/archive-source.sh
-if they need to create valid source archives.
----
+--vTUhhhdwRI43FzeR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Now there are no archive to download at this url...
+-----BEGIN PGP SIGNATURE-----
 
-However from the last mail from Michael Roth, we use:
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0wDogACgkQbDjKyiDZ
+s5J8GQ//blOpcNRXRrQYHdXZXMLOHyFMRJ8ZsHgy5cNV0YVUZjd7qH1xfHW/DiFS
+xB9EtYQyfdxOLYEu9slOhNAcRXU2qkSBtPsFiUtMx5HXu8WTnN8Qtwqhu/u0Fzob
+Wd4LFR3MAOY2jhfXTLPME4pxXzVJ2kzfzG0tyXgD33g/s0TCprn2eadAuWcS8t8t
+vNAynqMk4zBZVVaChFJ4LseJ5FANWDAtgWf7s5jKavVmSXrpYQrf5Q0Hi38bB5r2
+5A6mji3lHjhUDUzLt2DGuAk5UttZoB6bhaAkuhA2LzvmZvYA1ieC+akMspKeWYMI
+re8rYGzZc/kwmbMCjRm81YQKE+uoXFLF9EzyC9vy+XqCqKI6t6iT02I2oHlKrkiD
+SfiKzzglGKJsvRmYyRbWyOUbv7k+XqW5qyB2haEIo8RAYO6S0+3hQNaW0Ivq1wUu
+eDdSbwad/oar1bK7e1WrIe+4/YdkJwwZx13gAtqsoxodn/O/ODB4VS1zZy+mANYM
++VnEz4gv2mClWhoFeCnXg3nSsLGhDYjAF4f6VvLHuSIk3k91tOFQFX0xmrpXWJG5
+cEJ06eVSPIqnZoM0fzAkzPCOhAfUbqaTX2ceFfYflX/JQuD7c0WToxZI3Mv0YB0Y
+zxv9KN33w4HJHNegXd4Q15HKhXN+MbJxmKdV/TgvJPPw4beRf+4=
+=EBnF
+-----END PGP SIGNATURE-----
 
-http://download.qemu-project.org/
-
-Which contains all archives.
-
-Should we update the url display by ./configure?
-Or sync the other website?
-
-Regards,
-
-Phil.
+--vTUhhhdwRI43FzeR--
 
