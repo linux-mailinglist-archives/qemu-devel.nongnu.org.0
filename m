@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940556C8C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 07:33:02 +0200 (CEST)
-Received: from localhost ([::1]:34310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DCB6C903
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:44 +0200 (CEST)
+Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnz2L-00071k-F0
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 01:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34380)
+	id 1hnzV5-0005CK-7g
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41713)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel.stan@gmail.com>) id 1hnz29-0006XC-6S
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 01:32:50 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSt-0006og-Rm
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1hnz28-00007K-50
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 01:32:49 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46472)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1hnz25-0008Vx-VY; Thu, 18 Jul 2019 01:32:46 -0400
-Received: by mail-pg1-x542.google.com with SMTP id i8so12295738pgm.13;
- Wed, 17 Jul 2019 22:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oCGxQMRGIQLS91TMlbVn6ao3mfUogIA+oIr1UHhs44U=;
- b=n56y341fnmqrYkZFpG+9gP5WKp077pVo6Bet2fBEtTZziYA/UKffIA4WhxUIMkhZZ8
- m5u+MwE6eVitbzACX6FRn0UWmIGWIA9kyeE1MMo7wJXqp4U1Kz0YqQWDxlphCfoKA/n7
- 52f4j9EBvQjYHTz0r0Qy6jGzaYGo04YBJbl3KZKxBfet/ciirY8pbLkk4t1NiAwFnDPD
- AT7sqV7glsJm9R3SXkNhDaFH4RRDGC9nI4yYGoUmWrfwPXJsphoDuNIXbUiSloeCrHh1
- QH8Sk9JgXoDWfErlHTybHV2mkdlIUzjGXX3n0VySEPWfTGviMFQ9PFus09hKqly3jSYG
- N3gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=oCGxQMRGIQLS91TMlbVn6ao3mfUogIA+oIr1UHhs44U=;
- b=NQlhKw3dsubNAzDxJHM5RvowWIUfSAYGs6aopOhA3SI+agCJLpt3iafAX5GDt9sEFt
- /+VeVILOygBf6XHZ8i9wnO51KnkXun2P60b2RF8NvWbgt2nKSjnJDDlxzQSDHuUvXv0Q
- hgVzngbjpI/HK3KGnEmj2OLN7T5m6xtB/q1I7bGbVS0TeI8ddnC09zPuXyL/yd9nUz0E
- sGTINn9ZcpfXfQRHUZMlPGQKutdr67a6Pw2YwDnZd7l7tqq3rtAdbN//u1iKE4YCHgDZ
- sJaHC+nK4QS5U8gy1161sc0lMFUW8EZr8OGpEagsizNjCbCPQ8xQmgX76ML7uicho8Kz
- JkKA==
-X-Gm-Message-State: APjAAAWv7gWgPgWVhjYCxEyFd5pdr9h9+sdJl/dw2fdpbKXs2YLxfFx3
- ZkdC1BqGxHOmYbnOsx+zi4c=
-X-Google-Smtp-Source: APXvYqx8Me/ycAtVQKGqWZ02a/TZqsOtOUqIB+in+uZ6MCeW8WoVWJl7klQ4p/8Y6Um1KiMmYPiHhQ==
-X-Received: by 2002:a63:5f95:: with SMTP id
- t143mr44520720pgb.304.1563427963952; 
- Wed, 17 Jul 2019 22:32:43 -0700 (PDT)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id g11sm8512367pgu.11.2019.07.17.22.32.41
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 17 Jul 2019 22:32:43 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 18 Jul 2019 15:02:36 +0930
-Message-Id: <20190718053236.6721-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSs-0004Du-FA
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:27 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40539)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hnzSq-0004CC-RS; Thu, 18 Jul 2019 02:00:26 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45q3Q96GDQz9sNC; Thu, 18 Jul 2019 16:00:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563429617;
+ bh=1X/NmsV4EjPSdjca9icaOm/4RcWjWOcDmnAbmOEMfV4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UW3ot8pnHFbkycl3ZE68pdrDbgL0OnB+/e/klHhGGWvJuEGBxVbJx1f50lvtlROrm
+ zwVetDNAIPG5IcLJFfxDz1/jdFjlJL5bvlllgwzXwB2AO0LKPX8frC9F0JoAbN61yj
+ Ci4ljqE81AdOeA2Y2z6OAgd4Qu11zqLNDF5uFxUw=
+Date: Thu, 18 Jul 2019 13:50:32 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190718035032.GC8468@umbus.fritz.box>
+References: <20190717103550.24657-1-david@redhat.com>
+ <20190717103550.24657-2-david@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
+Content-Disposition: inline
+In-Reply-To: <20190717103550.24657-2-david@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH] ppc/pnv: Set default ram size to 2GB
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v2 1/3] virtio-balloon: fix QEMU
+ crashes on pagesize > BALLOON_PAGE_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,34 +57,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes the powernv machine easier for end users as the default
-initrd address is now within RAM.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
---
-This replaces https://patchwork.ozlabs.org/patch/1132438/
+--69pVuxX8awAiJ7fD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- hw/ppc/pnv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jul 17, 2019 at 12:35:48PM +0200, David Hildenbrand wrote:
+> We are using the wrong functions to set/clear bits, effectively touching
+> multiple bits, writing out of range of the bitmap, resulting in memory
+> corruptions. We have to use set_bit()/clear_bit() instead.
+>=20
+> Can easily be reproduced by starting a qemu guest on hugetlbfs memory,
+> inflating the balloon. QEMU crashes. This never could have worked
+> properly - especially, also pages would have been discarded when the
+> first sub-page would be inflated (the whole bitmap would be set).
+>=20
+> While testing I realized, that on hugetlbfs it is pretty much impossible
+> to discard a page - the guest just frees the 4k sub-pages in random order
+> most of the time. I was only able to discard a hugepage a handful of
+> times - so I hope that now works correctly.
+>=20
+> Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE <
+>                      host page size")
+> Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruption
+>                      with inflates & deflates")
+> Cc: qemu-stable@nongnu.org #v4.0.0
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index bd4531c82260..8cef6d17f111 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1358,7 +1358,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-                                       * storage */
-     mc->no_parallel = 1;
-     mc->default_boot_order = NULL;
--    mc->default_ram_size = 1 * GiB;
-+    mc->default_ram_size = 2 * GiB;
-     xic->icp_get = pnv_icp_get;
-     xic->ics_get = pnv_ics_get;
-     xic->ics_resend = pnv_ics_resend;
--- 
-2.20.1
+Ahem.  You can pass me the brown paper bag now.
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/virtio/virtio-balloon.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index e85d1c0d5c..669067d661 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -94,9 +94,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
+>          balloon->pbp->base =3D host_page_base;
+>      }
+> =20
+> -    bitmap_set(balloon->pbp->bitmap,
+> -               (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> -               subpages);
+> +    set_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> +            balloon->pbp->bitmap);
+> =20
+>      if (bitmap_full(balloon->pbp->bitmap, subpages)) {
+>          /* We've accumulated a full host page, we can actually discard
+> @@ -140,9 +139,8 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+on,
+>           * for a guest to do this in practice, but handle it anyway,
+>           * since getting it wrong could mean discarding memory the
+>           * guest is still using. */
+> -        bitmap_clear(balloon->pbp->bitmap,
+> -                     (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SI=
+ZE,
+> -                     subpages);
+> +        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> +                  balloon->pbp->bitmap);
+> =20
+>          if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
+>              g_free(balloon->pbp);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--69pVuxX8awAiJ7fD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v7IYACgkQbDjKyiDZ
+s5L5BA/9Has+a2twYqQKy9TdljWuVT9hcMKxiwo7z1Vcpsn1VTROYaGQBzXda6SO
+g7wO6pSYv8GVAQBWhDaBqb8q9DeDZ+ot3bsQmr5hdFiJ2ffg8HKntYvw2NYe7ncs
+yj9UgC31UtdwySjNTZsfwZinys1+yhDdNBAz+8XW2/hfx4w3+FdPUdpkWp3NrKbp
+XsWyogQC3Gg9godhkKzl/ilhJjCqJUyT1BiOEgZfsqWK6lMUT+yIcUUNC6dlCDB/
+rv3udphFXqlglF+t237WfOXl7KtXbmeSjZ+IyahcE04pNZmQIihM4BEE5SDfRxwk
+CUHSInA/Pzgsp54H5z2JSBvQOow7JvKX/Jk4agF0zFaiAVcWhXI3+lHfzLWUtExC
+uPLpUmklemrySDikSpFbsrUvHPUIK5KNkOuCgkTZ7G7rE5cbs7zol1zyWaxCNi1q
+6Da/XY6m4D6p9TBCIANtpvPzXnuB5eHZT9u8jwhxjbjv4Ii0E9voKcQHE+9/N1Un
+XbVwVXlGHZfsQyeVAy1mwWGpB+IFzqYxz7t93rM0WP2ydVqz9A7TEv4yZ0OJMmXi
+Bg8J7I+hGgdspCVf/1yQ0Ob9mn/ZcORbO7swc2L1X4ror75y8/nm2KS89JVbeFLK
+/VdGScgcBCLwmZW3p6c4Miv58shkcPq/LQe26ece3OMvZVPLU28=
+=EMPo
+-----END PGP SIGNATURE-----
+
+--69pVuxX8awAiJ7fD--
 
