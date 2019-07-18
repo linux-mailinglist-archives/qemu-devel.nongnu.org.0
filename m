@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CE36CBDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 11:26:55 +0200 (CEST)
-Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C503E6CC14
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 11:41:40 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho2gf-0004dm-B5
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 05:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
+	id 1ho2ux-0004RO-Da
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 05:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45831)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1ho2gR-000485-Gm
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:26:40 -0400
+ (envelope-from <cohuck@redhat.com>) id 1ho2uk-00040x-AH
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:41:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ho2gQ-0005eb-IF
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:26:39 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33089)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ho2gQ-0005eA-BM
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:26:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n9so27939894wru.0
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 02:26:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pIVzjUgReIgEScyxaN4HvPBkTixCGv1NeIuqMxQD6X0=;
- b=h7eZhOXI4nZSadVDjA8qAnxZRYe9+U08hXoh37UbDU/F9m6XBvoVbCYsnWUbgj18wH
- wXJuOcDcp2U9DZOtCymdJkuncxH98eZqCGSg9DkEISki5fWpBXex9enoNP8UzXqq4NOy
- s2bX9NxuWa+/5RYUrlXREsfQ+w4pHgwlU468675aLNHbL0y7burNkb8hpXI3aa6TyaJz
- Pk/sw9KCn08qZfVkcvZIisU5R9D3ZWVHJGu9FhXmfVbT/b5cKI10d8mhBEPWJyA9OhsZ
- LKDAhYxpaXtWKsnJq8ggN+CEHwAQtLcMCqqkUZsS0i5M6FmghfmG/mvSTGnaUVfvDUPJ
- qKbQ==
-X-Gm-Message-State: APjAAAU8wjT/DBrlRrJmgbLObhh2VpZiWhqt99OiBP2NgUbvOnsCKIWA
- r4WWDAmg0FDcHybBZvNJqjQ2Ag==
-X-Google-Smtp-Source: APXvYqzTvp7C8xZhyiw7ieaFCtHF7TwfYEQCduPfbigfKXm5UWLcJXWP+JHuZ1HEwZOdGkM8LYvDng==
-X-Received: by 2002:adf:e442:: with SMTP id t2mr43061758wrm.286.1563441997243; 
- Thu, 18 Jul 2019 02:26:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e427:3beb:1110:dda2?
- ([2001:b07:6468:f312:e427:3beb:1110:dda2])
- by smtp.gmail.com with ESMTPSA id v204sm24513299wma.20.2019.07.18.02.26.36
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 18 Jul 2019 02:26:36 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190718091740.6834-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ac53542f-40c3-8e2e-c8fb-0673183a3504@redhat.com>
-Date: Thu, 18 Jul 2019 11:26:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <cohuck@redhat.com>) id 1ho2ui-0007Fa-DS
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 05:41:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56202)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1ho2ui-0007CY-4y; Thu, 18 Jul 2019 05:41:24 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D35330872DA;
+ Thu, 18 Jul 2019 09:41:20 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03A9E19C5B;
+ Thu, 18 Jul 2019 09:41:15 +0000 (UTC)
+Date: Thu, 18 Jul 2019 11:41:13 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Collin Walling <walling@linux.ibm.com>
+Message-ID: <20190718114113.68da7bca.cohuck@redhat.com>
+In-Reply-To: <60169464-240f-d5e3-209f-9c5371ee3e6f@linux.ibm.com>
+References: <20190708125433.16927-1-cohuck@redhat.com>
+ <20190708125433.16927-2-cohuck@redhat.com>
+ <58b28817-58e5-1cba-6f71-a35093be5cb6@de.ibm.com>
+ <0dd71cfe-a9e9-7ac3-523e-065f05479a57@linux.ibm.com>
+ <20190710102041.6be31940.cohuck@redhat.com>
+ <20190716172002.77863317.cohuck@redhat.com>
+ <f72fb90b-8383-a2f8-b768-b09be5845fb5@linux.ibm.com>
+ <20190717105435.64047ca3.cohuck@redhat.com>
+ <e0bd4df3-4f25-ee02-ecdd-7306b3b14250@de.ibm.com>
+ <60169464-240f-d5e3-209f-9c5371ee3e6f@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20190718091740.6834-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Thu, 18 Jul 2019 09:41:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH-for-4.1] hw/ide/piix: Mark the PIIX IDE
- interfaces as not user_creatable
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH for-4.1 1/2] s390x/pci: add
+ some fallthrough annotations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,61 +66,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/07/19 11:17, Philippe Mathieu-Daudé wrote:
-> The 'piix3-ide' (and 'piix3-ide-xen') devices are part of the
-> PIIX3 chipset modelled as TYPE_PIIX3_PCI_DEVICE (respectivelly
-> TYPE_PIIX3_XEN_DEVICE). The PIIX3 chipset can not be created
-> in part, it has to be created and used as a whole.
+On Wed, 17 Jul 2019 08:52:54 -0400
+Collin Walling <walling@linux.ibm.com> wrote:
+
+> On 7/17/19 5:27 AM, Christian Borntraeger wrote:
+> > 
+> > 
+> > On 17.07.19 10:54, Cornelia Huck wrote:  
+> >> On Tue, 16 Jul 2019 14:34:22 -0400
+> >> Collin Walling <walling@linux.ibm.com> wrote:
+> >>  
+> >>> On 7/16/19 11:20 AM, Cornelia Huck wrote:  
+> >>>> On Wed, 10 Jul 2019 10:20:41 +0200
+> >>>> Cornelia Huck <cohuck@redhat.com> wrote:
+> >>>>      
+> >>>>> On Tue, 9 Jul 2019 18:55:34 -0400
+> >>>>> Collin Walling <walling@linux.ibm.com> wrote:
+> >>>>>     
+> >>>>>> On 7/8/19 9:23 AM, Christian Borntraeger wrote:  
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 08.07.19 14:54, Cornelia Huck wrote:  
+> >>>>>>>> According to the comment, the bits are supposed to accumulate.
+> >>>>>>>>
+> >>>>>>>> Reported-by: Stefan Weil <sw@weilnetz.de>
+> >>>>>>>> Fixes: 5d1abf234462 ("s390x/pci: enforce zPCI state checking")
+> >>>>>>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
+> >>>>>>>
+> >>>>>>> This patch does not change behaviour, so it is certainly not wrong.
+> >>>>>>>
+> >>>>>>> So lets have a look at if the bug report was actually a real bug or
+> >>>>>>> just a missing annotation.
+> >>>>>>>           
+> >>>>>>>> ---
+> >>>>>>>>     hw/s390x/s390-pci-inst.c | 2 ++
+> >>>>>>>>     1 file changed, 2 insertions(+)
+> >>>>>>>>
+> >>>>>>>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> >>>>>>>> index 61f30b8e55d2..00235148bed7 100644
+> >>>>>>>> --- a/hw/s390x/s390-pci-inst.c
+> >>>>>>>> +++ b/hw/s390x/s390-pci-inst.c
+> >>>>>>>> @@ -1209,8 +1209,10 @@ int stpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+> >>>>>>>>          * FH Enabled bit is set to one in states of ENABLED, BLOCKED or ERROR. */
+> >>>>>>>>         case ZPCI_FS_ERROR:
+> >>>>>>>>             fib.fc |= 0x20;
+> >>>>>>>> +        /* fallthrough */  
+> >>>>>>>
+> >>>>>>> This is correct, in case of an error we are also blocked.
+> >>>>>>>           
+> >>>>>>
+> >>>>>> Agreed. This is definitely correct based on our architecture.
+> >>>>>>         
+> >>>>>>>>         case ZPCI_FS_BLOCKED:
+> >>>>>>>>             fib.fc |= 0x40;
+> >>>>>>>> +        /* fallthrough */  
+> >>>>>>>
+> >>>>>>> I think this is also correct, but  it would be good if Collin could verify.
+> >>>>>>>           
+> >>>>>>
+> >>>>>> I failed to find anything to support setting the function control
+> >>>>>> enabled bit when the function state is in error / blocked. I'm
+> >>>>>> assuming this might be some QEMU hack to get things working? I'll have
+> >>>>>> to dive further to understand why this was done this way, as it doesn't
+> >>>>>> align with how the s390x architecture is documented. It's confusing.  
+> >>>>>
+> >>>>> Might this also be a real issue? Not matching the architecture is not a
+> >>>>> good sign...  
+> >>>>
+> >>>> Friendly ping. If we still want to have this patch or a fix in 4.1, we
+> >>>> need to find out soon...
+> >>>>      
+> >>>
+> >>> Let's take it for now.
+> >>>
+> >>> Acked-by: Collin Walling <walling@linux.ibm.com>
+> >>>  
+> >>
+> >> Just to be clear: You think that the current code is correct AFAYCS?  
+> >   
+> > I also looked into this again.
+> > There is a possibility to also be in disabled state.
+> >  From what I can see, it makes sense that blocked and error belong to the enable state
+> > so the patch seems correct.
+> >   
 > 
-> Similarly with the 'piix4-ide' device and the PIIX4 chipset
-> modelled as TYPE_PIIX4_PCI_DEVICE.
-> 
-> Disable the 'user_creatable' flag.
-> 
-> part of TYPE_PIIX3_PCI_DEVICE (TYPE_PIIX3_XEN_DEVICE)
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-This works though:
-
-  qemu-system-x86_64 \
-    -M q35,sata=off -device piix3-ide,addr=1f.2 \
-    -drive if=none,file=freedos.raw,id=hd -device ide-hd,drive=hd
-
-And it is a nice hack to mimic Q35's legacy IDE mode...
-
-Paolo
-
-
-> ---
->  hw/ide/piix.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index b97e555072..c02e768668 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -253,6 +253,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
->      k->device_id = PCI_DEVICE_ID_INTEL_82371SB_1;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> +    dc->user_creatable = false;
->      dc->hotpluggable = false;
->  }
->  
-> @@ -279,6 +280,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
->      k->device_id = PCI_DEVICE_ID_INTEL_82371AB;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> +    dc->user_creatable = false;
->      dc->hotpluggable = false;
->  }
->  
+> Yes I agree. The material I referenced required me to look over a few
+> times and ask around a bit. The patch is good. Apologies for my
+> ambiguous response.
 > 
 
+Ok, thanks for the clarification. Queued now.
 
