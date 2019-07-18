@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315926CE10
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:29:06 +0200 (CEST)
-Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73326CDFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:21:17 +0200 (CEST)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho5Wz-0004Xs-9b
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 08:29:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59517)
+	id 1ho5PQ-0007Mf-CA
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 08:21:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39775)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1ho518-0000WK-VP
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:11 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ho5PC-0006wq-PW
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:21:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ho518-0002om-20
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:10 -0400
-Received: from 9.mo5.mail-out.ovh.net ([178.32.96.204]:35794)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho517-0002n4-Qr
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:09 -0400
-Received: from player778.ha.ovh.net (unknown [10.109.143.109])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 415FC245A41
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:56:08 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id A0EF0801F6C2;
- Thu, 18 Jul 2019 11:56:02 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 18 Jul 2019 13:54:20 +0200
-Message-Id: <20190718115420.19919-18-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
-References: <20190718115420.19919-1-clg@kaod.org>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ho5PB-0007DU-CJ
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:21:02 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:45222)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ho5PB-0007Cu-6s
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:21:01 -0400
+Received: by mail-ot1-x331.google.com with SMTP id x21so28735961otq.12
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 05:21:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZOJH/EM+Tk04eB/8jhZDpK4FyUlykMb5XF5LeaJ/zbo=;
+ b=gh4DhHQlCjl6x156rzRNBzYFJPmJd7ylSDrbVpmSoMAV7hjHTn1O2QyufwG9qdJp0o
+ YB39VX0dTf4XJY5cr4UHrOsCShjT1VvVIa1ELKPax9MjkUAI7U0NQMEIafK+bjTxl+gD
+ eR3QVS2G/Vno1Mca5BmVnvD1mA5SHjOecAuIYNTJPGRL6yM0wkqjuFA35VosTcM5I+2o
+ wc+8i6/qNOtk6rqeGPWBAWJM4/3bOUkbFns85SOohDaMuusCj3KRrHHFObihwJkLi465
+ DAySgN9ig1O4hDjbNkNQM1SwBJ65YmrjoK8aVrfAM4TsVD9dmxx5XTBFahuw7+6KHoM2
+ lLtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZOJH/EM+Tk04eB/8jhZDpK4FyUlykMb5XF5LeaJ/zbo=;
+ b=Byk2Kbdqo+GHOWipYdKyl+mWQvAd4leQzokIISHzeTWHymZVCLWlJhK/utOqc8zfIB
+ y1vIxExoliLiKXKwfW9yArLvG03RQGB8sjuFr1PucOUkvkoRx8YgB2zSu1O0yxlgIrCo
+ CAONp01H2D9cmp0EqaZpcydiY4ooyeODKf3jYB83YXYkaOxIOo2CRNqDE8sXuOCbTW6W
+ 79+kieLkZgV11w+q0oWxdM/mBF4MC1N4k3tOaqGCNYpKxxbs70X+0edQSSnZv0mYEevm
+ qjHmELIJvmVJ8DHybqD8bCP9n8os089DOxHNc0gz/ApfqPx5Z2KJ45mbzYiK2pWGdMhl
+ 0T1Q==
+X-Gm-Message-State: APjAAAURCg0FznI9Z8reihw2omxNQ9bJEjyVYAaKspm0k7WrAhjoB4ah
+ 6WAZMZ1Z1E9+Slx2vA3RbXsD9FQ8r4/WASynPCA=
+X-Google-Smtp-Source: APXvYqxxVJVI1DF91ZwYnugSdDdCsTpyVRYeL2uIuOcmw2NtIBC6vpheyHQabuTW08MelVXgcVWhEvc4WQbUb5rKtd4=
+X-Received: by 2002:a9d:5cc1:: with SMTP id r1mr27187511oti.341.1563452459751; 
+ Thu, 18 Jul 2019 05:20:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6798183639533849574
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+References: <cb727b5d-683f-115d-f3c0-06f5a6761aea@redhat.com>
+ <126a3ec4-f5e3-0590-011a-9c2a10d07b24@redhat.com>
+ <bf5da6c7-74c1-8950-2869-2d94419f1820@redhat.com>
+ <CAL1e-=iLLQfAdfFrKpAT9k48X0sEMevBXFWAmny7PRPwtBMiEQ@mail.gmail.com>
+ <4367860f-5226-ec42-6407-f50dfd96270b@redhat.com>
+ <20190718114352.GE15411@redhat.com>
+In-Reply-To: <20190718114352.GE15411@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 18 Jul 2019 14:20:48 +0200
+Message-ID: <CAL1e-=hXg6HpAjtsxC+qaHMBXKU7-PKHf0QL+3mRKOh8ojNpOA@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::331
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.96.204
-Subject: [Qemu-devel] [PATCH v2 17/17] ppc/pnv: quiesce some XIVE errors
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] No archives to download from www.qemu.org/download/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,56 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dumping the END and NVT tables, the error logging is too noisy.
+On Thu, Jul 18, 2019 at 1:43 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/intc/pnv_xive.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> On Thu, Jul 18, 2019 at 01:29:02PM +0200, Thomas Huth wrote:
+> > On 18/07/2019 12.55, Aleksandar Markovic wrote:
+> > > On Thu, Jul 18, 2019 at 10:58 AM Philippe Mathieu-Daud=C3=A9 <
+> philmd@redhat.com>
+> > > wrote:
+> > >>
+> > >> On 7/18/19 9:10 AM, Thomas Huth wrote:
+> > >>> On 18/07/2019 08.25, Philippe Mathieu-Daud=C3=A9 wrote:
+> > >
+> > >>>> ...
+> > >
+> > >>>> Now there are no archive to download at this url...
+> > >>>
+> > >>> You just have to click on the "Source code" tab ... is that too har=
+d?
+> > >>
+> > >> Argh it has been a rough night, now I feel ashamed. I scrolled but
+> > >> missed that tab. Really sorry for crying wolf here :/
+> > >>
+> > >
+> > > Download QEMU page <https://www.qemu.org/download/>
+> > >
+> > > In all fairness to Philippe, this page could be better in terms of
+> > > human-computer interaction... If one presses 'Download', one
+> > > expects to get to the download links directly or obviously easily.
+> >
+> > I guess we should simply re-arrange the order of the tabs ... the
+> > OS-agnostic source code tab should come first (since this is about what
+> > we provide for download on our site), and then the others with
+> > references to the distros etc.
+>
+> I'm not sure it is clear cut. I think its reasonable to say that users
+> coming to QEMU are best served by using distro provided packages. Only
+> those wishing to actually hack on QEMU, or who need newer than the
+> distro provides, should prefer the source. Building from source has many
+> more potential hurdles / failure points than installing distro packages,
+> which can leave users with a worse first experience of QEMU.
+>
+>
+Yes, Daniel, but here we blend two visitor activities onto a single page:
+download source (and build), and install QEMU (from prebuilt binaries).
+Now wonder a confusion arises.
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index c1501a6b5bce..e7acab0dff51 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -27,7 +27,7 @@
-=20
- #include "pnv_xive_regs.h"
-=20
--#define XIVE_DEBUG
-+#undef XIVE_DEBUG
-=20
- /*
-  * Virtual structures table (VST)
-@@ -172,7 +172,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-     vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-=20
-     if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-         xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
-;
-+#endif
-         return 0;
-     }
-=20
-@@ -193,7 +195,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-         vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-=20
-         if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-             xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
-idx);
-+#endif
-             return 0;
-         }
-=20
---=20
-2.21.0
+Yours,
+Aleksandar
 
 
+
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
