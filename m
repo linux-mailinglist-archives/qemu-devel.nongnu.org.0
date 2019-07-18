@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0116C902
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:41 +0200 (CEST)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308FC6C900
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:11 +0200 (CEST)
+Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnzV2-00055z-7p
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41789)
+	id 1hnzUY-0003Bh-6M
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41770)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSw-0006rj-VI
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSw-0006p2-8r
  for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSv-0004HN-SB
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSv-0004Gt-1D
  for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:30 -0400
-Received: from ozlabs.org ([203.11.71.1]:45809)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:50799 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnzSv-0004Dp-GJ; Thu, 18 Jul 2019 02:00:29 -0400
+ id 1hnzSu-0004Dy-Dp; Thu, 18 Jul 2019 02:00:28 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45q3QC0QQkz9sNg; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
+ id 45q3QC3kXBz9sP2; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563429619;
- bh=tJCyk0mwOIqL3kphIOMwOymlTBe7YfKjRJWZQRx7ez8=;
+ bh=uRbvMadIOUDNc2xjUds8EQdtFeCFH46l0RRHao+iwoY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IiBBx2RL9jFMkSxEQ4mrNHz7gpQyxOzgX38qRmwN28TcPKP9i4T9bEEPnhing28kr
- 8MZgxmnzjCQGggbdO5CvlOI2QnYvyiTxqQpX6RTwJ2PCWfPeCVkBpTMOgEWOafy4or
- rbNrFwjIOWIXPTX8OVbcZGNfVdkH2m4AAAudh9kI=
-Date: Thu, 18 Jul 2019 14:31:00 +1000
+ b=FpoDl4gOKO/hlwcX8GpecFfym9yp+Gq7KrujtXKkl3QjvKz8Ut4FguWaccxDlZSPU
+ uqi64APrWYZEX9iR/eRzXt5kY0uAJ9LBvc4VM+6xvrPju9KpU/NcxozLoffH6j8OGQ
+ MTsxdxOe9hRyleUODXrDPOqdcJEPr+4yY3DELGiM=
+Date: Thu, 18 Jul 2019 14:37:43 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190718043100.GI8468@umbus.fritz.box>
-References: <20190718034214.14948-1-npiggin@gmail.com>
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Message-ID: <20190718043743.GJ8468@umbus.fritz.box>
+References: <20190717205842.17827-1-mdroth@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4BlIp4fARb6QCoOq"
+ protocol="application/pgp-signature"; boundary="zYo4Elh1vtcYNvbq"
 Content-Disposition: inline
-In-Reply-To: <20190718034214.14948-1-npiggin@gmail.com>
+In-Reply-To: <20190717205842.17827-1-mdroth@linux.vnet.ibm.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v6 0/4] spapr: implement dispatch and
- suspend calls
+Subject: Re: [Qemu-devel] [PATCH for-4.2 v2 0/2] spapr: Implement H_TPM_COMM
+ for accessing host TPM device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,22 +55,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: linuxram@us.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4BlIp4fARb6QCoOq
+--zYo4Elh1vtcYNvbq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 18, 2019 at 01:42:10PM +1000, Nicholas Piggin wrote:
-> Lot of good reviews (thanks), several more bug fixes and some good
-> cleanups.
+On Wed, Jul 17, 2019 at 03:58:40PM -0500, Michael Roth wrote:
+> These patches are based on ppc-for-4.2 and are also available at:
+>=20
+>   https://github.com/mdroth/qemu/commits/spapr-tpm-hcall-v2
+>=20
+> This patchset implements the H_TPM_COMM hypercall, which provides a way
+> for an Ultravisor to pass raw TPM commands on to a host's TPM device,
+> either directly or through a TPM Resource Manager (needed to support
+> multiple guests).
+>=20
+> Secure VMs running on an Ultravisor have a symmetric key that is
+> encrypted using a public key that is bound to a trusted host's TPM
+> hardware. This hypercall provides a means to decrypt the symmetric
+> key on behalf of a Secure VMs using the host's TPM hardware.
+>=20
+> More details are provided in the spec summary introduced in patch 1.
 
-Applied to ppc-for-4.2, thanks.
+LGTM, applied to ppc-for-4.2.
+
+>=20
+> Changes since v1:
+>  - use separate hcall table for SVM hcall range (David)
+>  - document reserved hcall range in ppc-spapr-uv-hcalls.txt
+>=20
+> Changes since RFC/v0:
+>  - configure TPM path via -device spapr-tpm-proxy instead of -machine (Da=
+vid)
+>  - return H_FUNCTION (not H_RESOURCE) if TPM has not been configured (Dav=
+id)
+>  - drop use of global for storing TPM FD (David)
+>  - fix checkpatch errors relating to case statement indents, newlines in
+>    error_report(), and lines over 80.
+>  - fix some minor typos in documentation
+>  - rebased on ppc-for-4.2
+>=20
+>  docs/specs/ppc-spapr-uv-hcalls.txt |  76 +++++++++++++++++++++++++++
+>  hw/ppc/Makefile.objs               |   1 +
+>  hw/ppc/spapr.c                     |  33 +++++++++++-
+>  hw/ppc/spapr_hcall.c               |  13 +++++
+>  hw/ppc/spapr_tpm_proxy.c           | 176 +++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++
+>  hw/ppc/trace-events                |   4 ++
+>  include/hw/ppc/spapr.h             |  11 ++++
+>  include/hw/ppc/spapr_tpm_proxy.h   |  31 +++++++++++
+>  8 files changed, 344 insertions(+), 1 deletion(-)
+>=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -78,25 +119,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4BlIp4fARb6QCoOq
+--zYo4Elh1vtcYNvbq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v9gQACgkQbDjKyiDZ
-s5KtpA/+LmRLaV5pQoiBt7sbmSjMt342Sngl75SWnUGZb3XBXsjjCed1KqTWYNv3
-OX/OJf+slu0PUtd/aBvGj8Uz956FcvM1y7T85rHZYIfZxBqa6lp8vnfBBOsnLZ1Q
-fWUAyXGsCa5yDOzjfnfbFfn7/CZgw/XpyA8lD56L2exb4J2+cKdZQtCuWan0ZwEw
-E5hvcGS1lIFU3ppgs1bnNYZZpBJyf5JqLo44PB9fAe+f79+p56RprclXtPHx/B+0
-iUC4l2y/7cEc5lJOAU9F3e8FHaK2ofZwU23l9xtKPP9yDz7kKZGcni/p6r7aMyBF
-MKzaxtAoRg8ttTKOAZeF7y5FOEikrj1FEFSE5b9OtrzoMdbyPrdmgkOWZjiWJstR
-rjNQhFYP/lTHKu4YWBSmNVWHpu5fxiJ+uxB0jUt3mt00+4TGu1V26y9OYNJ9POiy
-Q7EKAo4rWV7J+xA29IEYo2AJ7goYmb3itQ/tBKvj0u+Hjbkq25TJCDxu4FuxGNPF
-74frreo3ykzPDNY/ra88qZMmOcxjP93hpRxSC2mtAo7mg+67ru57/1wzmAB52SBK
-6HuKJ6yTn84+VFseZguNdjDvM0jxjdrG88h6/TZzK2Y56GihxCOusjd561rgQHGS
-PstjrQNbKu/0dgaBMa2kpd69xOZOza7vrLaVcXPdxKEF1Y99wDo=
-=W/EF
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v95cACgkQbDjKyiDZ
+s5Jacw/+PWzg7MhVKJcdzuTDI1EJbxiR+wL9xkfwh3RhFiDCVmxh1Z67LFx3imZg
+SecG31rX0ca36eNvTwEzRvzT9BOV4kEVwURmdYjeJs3e2VTWZuIrTJ9Z5Fab6bD5
+XVOruNi+hfegMBb2DN/H6i9ZRdHFM0AtoNXd1WRe3HRJ24gtl3mWy1cjG3tLPzw/
+W3ZxwjKXHWyhAdNVZHISBugKtxePYUBkjXFwL5n76JARi+Uoadr/9GwhcCzlwDZm
+CsgKSGPMbrWng7zUZQAiIeXo6FKaHlz8V5upMk7LecArgYMMe0B+Mlxibs9xlbET
+Ni0uxoq1NC9D4nP1cB4K11elqy35msk1MUfI2F46qwkNAnJN+9gdb3MEBvtfKgD2
+BQvojRXEuHnhYsXD1gquJMWcqq/imR7Z9Ynoohx0LOC7l/c435KYxxa/vRkLCwql
+IXJMO+tuBbcxmJ3AJwELSxUecVHLvysZaGAaqpU24d9AHd05CSug+HXdGNVCPQCl
+rwIEQNBvdXpArvgym/2XReLHr3Q2zrOiig6DQmYSAa6GR6YnCqPHTt40RvKp7JP3
+L8PW+piXaAgv21AfpJRr9EeBxMKq6qxTnG1wv0u6w+4V//pqbJd1tfZSwHmTGjry
+LxupZkDuhHIhgC3aJY1aTKSwxdFxbIYfdkvJxp7Fs35p3RRwS2c=
+=Tx7G
 -----END PGP SIGNATURE-----
 
---4BlIp4fARb6QCoOq--
+--zYo4Elh1vtcYNvbq--
 
