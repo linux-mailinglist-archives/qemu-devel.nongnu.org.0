@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4D16CF3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 15:56:12 +0200 (CEST)
-Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C536CF2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 15:52:38 +0200 (CEST)
+Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho6tH-0006jO-MD
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 09:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
+	id 1ho6pp-0008B5-V4
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 09:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41463)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1ho6sq-0005Yb-1Y
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:55:47 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1ho6pN-0007Ut-NG
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:52:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ho6sn-0000XL-3q
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:55:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45856)
+ (envelope-from <pbonzini@redhat.com>) id 1ho6pL-0006V9-FU
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:52:09 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33885)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ho6sm-0000TF-N2
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:55:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ho6sh-00080E-36
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:55:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 13ECC2E80C9
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:55:35 +0000 (UTC)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ho6pJ-0006SZ-G2
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 09:52:07 -0400
+Received: by mail-wr1-f67.google.com with SMTP id 31so28839278wrm.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 06:52:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9QAP+zuB4VlhBuAFrMWQBaK/7c9xoMqOvnQXoCtu7J4=;
+ b=ga76ujqryovKGudRANitiuS6whr5wDuwW4LrANAodNtQRiiDCX96/w7XwpD7xyn6D6
+ 9SbOP16AMA+2HqhWRpG/EAuUea5AP9vzKNJ4rQQqkgepLM7GB50S11da9D2OkUDy/Tx8
+ 6eE/G+Z0jFWQKr2x6hqnFVbdsyAhlxDimZDHuSi/w1jgYPhqAbAVTKOuzMiLg6O+0z/J
+ iJrP2IkefVY6DM5w/bcXWkRLvRW7cOHOUz3KgVZHyLI8pDIUhqXw6NSMR82umhW06yNF
+ IfjZFyElzVetqM0qOOtpYA96X3CpzcWp8CKeMQ1Z8uspFC3hyW1+/65BIlpnGU9rDU7E
+ ioAg==
+X-Gm-Message-State: APjAAAUDIwhFndk7w0cCo1MgFpVMIJirUMdbDy7x3zeqFB5ITgo3p2L1
+ ajWUOLqk5f9EIqyP5QgrA027Fg==
+X-Google-Smtp-Source: APXvYqwZS1eBOhfUGcmC1NoDw7IwROg5e1gALVO2PCA3sAWkDXZN2T3zNvIG6J8vSRm7M0dXDoyyYA==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr51028807wrt.84.1563457922730; 
+ Thu, 18 Jul 2019 06:52:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e427:3beb:1110:dda2?
+ ([2001:b07:6468:f312:e427:3beb:1110:dda2])
+ by smtp.gmail.com with ESMTPSA id z6sm23117310wrw.2.2019.07.18.06.52.01
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Jul 2019 06:52:02 -0700 (PDT)
+To: "Denis V. Lunev" <den@openvz.org>, qemu-devel@nongnu.org
+References: <20190718134537.22356-1-den@openvz.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <4620eddd-e500-25d2-a8b2-5c47eefc74ab@redhat.com>
+Date: Thu, 18 Jul 2019 15:52:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 18 Jul 2019 13:46:09 -0000
-From: Andrew Randrianasulu <1837049@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-randrianasulu
-X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
-X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
-Message-Id: <156345756915.8493.13426435768891424211.malonedeb@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 77982ad65f7ccea264dfa56e0737280dd81f9fa6
+In-Reply-To: <20190718134537.22356-1-den@openvz.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1837049] [NEW] qemu-system-ppc segfaults with
- -display sdl
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH 1/1] x86: add CPU flags supported inside
+ libvirt
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,327 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1837049 <1837049@bugs.launchpad.net>
+Cc: Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 18/07/19 15:45, Denis V. Lunev wrote:
+> There are the following flags available in libvirt inside cpu_map.xm
+>     <feature name='cvt16'>
+>       <cpuid function='0x80000001' ecx='0x00040000'/>
+>     </feature>
+>     <feature name='cmt'> <!-- cqm -->
+>       <cpuid eax_in='0x07' ecx_in='0x00' ebx='0x00001000'/>
+>     </feature>
+> We have faced the problem that QEMU does not start once these flags are
+> present in the domain.xml.
+> 
+> This patch just adds proper names into the map.
+> 
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Paolo Bonzini <pbonzini@redhat.com>
+> CC: Richard Henderson <rth@twiddle.net>
+> CC: Eduardo Habkost <ehabkost@redhat.com>
+> CC: Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>
+> CC: Peter Krempa <pkrempa@redhat.com>
+> CC: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  target/i386/cpu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 805ce95247..88ba4dad47 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -870,7 +870,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>              "lahf-lm", "cmp-legacy", "svm", "extapic",
+>              "cr8legacy", "abm", "sse4a", "misalignsse",
+>              "3dnowprefetch", "osvw", "ibs", "xop",
+> -            "skinit", "wdt", NULL, "lwp",
+> +            "skinit", "wdt", "cvt16", "lwp",
+>              "fma4", "tce", NULL, "nodeid-msr",
+>              NULL, "tbm", "topoext", "perfctr-core",
+>              "perfctr-nb", NULL, NULL, NULL,
+> @@ -1044,7 +1044,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>              "fsgsbase", "tsc-adjust", NULL, "bmi1",
+>              "hle", "avx2", NULL, "smep",
+>              "bmi2", "erms", "invpcid", "rtm",
+> -            NULL, NULL, "mpx", NULL,
+> +            "cmt", NULL, "mpx", NULL,
+>              "avx512f", "avx512dq", "rdseed", "adx",
+>              "smap", "avx512ifma", "pcommit", "clflushopt",
+>              "clwb", "intel-pt", "avx512pf", "avx512er",
+> 
 
-Hello.
+Oops, nice catch!  I've queued the patch for 4.1.
 
-I was trying to debug this segfault:
-https://lists.nongnu.org/archive/html/qemu-ppc/2019-07/msg00186.html
-
-I recompiled latest qemu from git (commit 0b18cfb8f1828c905139b54c8644b0d8f=
-4aad879 ), using this configure line:
-./configure --target-list=3Di386-softmmu,x86_64-softmmu,ppc-softmmu --audio=
--drv-list=3Dalsa --disable-werror --extra-cflags=3D"-Og" --enable-debug-tcg
-
-after this I tried original line under gdb, it was still segfaulting:
-
---------------copy-----------------
-gdb ./ppc-softmmu/qemu-system-ppc
-GNU gdb (GDB) 7.11.1
-Copyright (C) 2016 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.htm=
-l>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
-and "show warranty" for details.
-This GDB was configured as "i586-slackware-linux".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/gdb/bugs/>.
-Find the GDB manual and other documentation resources online at:
-<http://www.gnu.org/software/gdb/documentation/>.
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from ./ppc-softmmu/qemu-system-ppc...done.
-warning: File "/dev/shm/qemu/.gdbinit" auto-loading has been declined by yo=
-ur `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
-To enable execution of this file add
-        add-auto-load-safe-path /dev/shm/qemu/.gdbinit
-line to your configuration file "/home/guest/.gdbinit".
-To completely disable this security protection add
-        set auto-load safe-path /
-line to your configuration file "/home/guest/.gdbinit".
-For more information about this security protection see the
-"Auto-loading safe path" section in the GDB manual.  E.g., run from the she=
-ll:
-        info "(gdb)Auto-loading safe path"
-(gdb) run  -M mac99,via=3Dpmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PPC-=
-img/lubuntu-16.04-desktop-powerpc.iso -m 512 -display sdl,gl=3Don -vga std =
--d guest_errors,unimp -boot d -cpu G4 -g 1024x768x24 -device ES1370
-Starting program: /dev/shm/qemu/ppc-softmmu/qemu-system-ppc -M mac99,via=3D=
-pmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-desktop-=
-powerpc.iso -m 512 -display sdl,gl=3Don -vga std -d guest_errors,unimp -boo=
-t d -cpu G4 -g 1024x768x24 -device ES1370
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/libthread_db.so.1".
-[New Thread 0xf560cb40 (LWP 8100)]
-[New Thread 0xf4c1ab40 (LWP 8101)]
-[New Thread 0xec1b7b40 (LWP 8102)]
-[New Thread 0xc5821b40 (LWP 8104)]
-[Thread 0xf4c1ab40 (LWP 8101) exited]
-[New Thread 0xf4c1ab40 (LWP 8119)]
-
-Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-[Switching to Thread 0xec1b7b40 (LWP 8102)]
-0xf26c2e44 in code_gen_buffer ()
-(gdb) bt full
-#0  0xffffffff in code_gen_buffer ()
-#1  0x56710cf6 in cpu_exec (itb=3D<optimized out>, cpu=3D<optimized out>) a=
-t /dev/shm/qemu/accel/tcg/cpu-exec.c:173
-        env =3D <optimized out>
-        ret =3D <optimized out>
-        last_tb =3D <optimized out>
-        tb_exit =3D <optimized out>
-        tb_ptr =3D 0xf26c2cc0 <code_gen_buffer+103976094> "=E2=80=B9]=D1=88=
-=E2=80=A6=D0=AB\017=D0=8A=D0=91\020"
-        ret =3D 0
-        insns_left =3D <optimized out>
-        cflags =3D <optimized out>
-        tb =3D 0x5722fe58
-        last_tb =3D <optimized out>
-        tb_exit =3D <optimized out>
-        cc =3D <optimized out>
-        __func__ =3D "cpu_exec"
-        ret =3D <optimized out>
-        sc =3D <optimized out>
-#2  0x56710cf6 in cpu_exec (tb_exit=3D<synthetic pointer>, last_tb=3D<synth=
-etic pointer>, tb=3D<optimized out>, cpu=3D<optimized out>) at /dev/shm/qem=
-u/accel/tcg/cpu-exec.c:621
-        ret =3D 0
-        insns_left =3D <optimized out>
-        cflags =3D <optimized out>
-        tb =3D 0x5722fe58
-        last_tb =3D <optimized out>
-        tb_exit =3D <optimized out>
-        cc =3D <optimized out>
-        __func__ =3D "cpu_exec"
-        ret =3D <optimized out>
-        sc =3D <optimized out>
-#3  0x56710cf6 in cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/accel/tcg/cp=
-u-exec.c:732
-        cflags =3D <optimized out>
-        tb =3D 0x5722fe58
-        last_tb =3D <optimized out>
-        tb_exit =3D <optimized out>
-        cc =3D <optimized out>
-        __func__ =3D "cpu_exec"
-        ret =3D <optimized out>
-        sc =3D <optimized out>
-#4  0x566cfade in tcg_cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/cpus.c:1=
-435
-        ret =3D <optimized out>
-#5  0x566d1e6d in qemu_tcg_rr_cpu_thread_fn (arg=3D0x573db8f8) at /dev/shm/=
-qemu/cpus.c:1537
-        r =3D <optimized out>
-        cpu =3D 0x573db8f8
-        __PRETTY_FUNCTION__ =3D "qemu_tcg_rr_cpu_thread_fn"
-#6  0x56b56fe0 in qemu_thread_start (args=3D0x57400668) at util/qemu-thread=
--posix.c:502
-        __cancel_buf =3D {__cancel_jmp_buf =3D {{__cancel_jmp_buf =3D {1461=
-911128, 1463813736, 1461911128, -333745816, 247778263, 1392237730}, __mask_=
-was_saved =3D 0}}, __pad =3D {0xec1b70d0, 0x0, 0x0, 0x0}}
-        __cancel_routine =3D 0x56b57040 <qemu_thread_atexit_notify>
-        __not_first_call =3D <optimized out>
-        qemu_thread_args =3D 0x57400668
-        start_routine =3D 0x566d1a30 <qemu_tcg_rr_cpu_thread_fn>
-        arg =3D 0x573db8f8
-        r =3D <optimized out>
-#7  0xffffffff in start_thread () at /lib/libpthread.so.0
-#8  0xffffffff in clone () at /lib/libc.so.6
-(gdb) quit
-A debugging session is active.
-
-        Inferior 1 [process 8096] will be killed.
-
-Quit anyway? (y or n) y
---------------copy end----------
-
-But when I take away -display sdl, or replace it with -display gtk -
-same line was booting to desktop!
-
-Changing cpu to G3 also allowed boot:
-
-./ppc-softmmu/qemu-system-ppc -M mac99,via=3Dpmu -L ../queue-vga/pc-bios
--cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-desktop-powerpc.iso -m 512
--display sdl -vga std -d guest_errors,unimp -boot d -cpu G3 -g
-1024x768x24 -device ES1370
-
-This is 32-bit qemu complied with Slackware's gcc 5.5.0. =
-
-64-bit qemu works fine.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: ppc
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1837049
-
-Title:
-  qemu-system-ppc segfaults with -display sdl
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello.
-
-  I was trying to debug this segfault:
-  https://lists.nongnu.org/archive/html/qemu-ppc/2019-07/msg00186.html
-
-  I recompiled latest qemu from git (commit 0b18cfb8f1828c905139b54c8644b0d=
-8f4aad879 ), using this configure line:
-  ./configure --target-list=3Di386-softmmu,x86_64-softmmu,ppc-softmmu --aud=
-io-drv-list=3Dalsa --disable-werror --extra-cflags=3D"-Og" --enable-debug-t=
-cg
-
-  after this I tried original line under gdb, it was still segfaulting:
-
-  --------------copy-----------------
-  gdb ./ppc-softmmu/qemu-system-ppc
-  GNU gdb (GDB) 7.11.1
-  Copyright (C) 2016 Free Software Foundation, Inc.
-  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.h=
-tml>
-  This is free software: you are free to change and redistribute it.
-  There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
-  and "show warranty" for details.
-  This GDB was configured as "i586-slackware-linux".
-  Type "show configuration" for configuration details.
-  For bug reporting instructions, please see:
-  <http://www.gnu.org/software/gdb/bugs/>.
-  Find the GDB manual and other documentation resources online at:
-  <http://www.gnu.org/software/gdb/documentation/>.
-  For help, type "help".
-  Type "apropos word" to search for commands related to "word"...
-  Reading symbols from ./ppc-softmmu/qemu-system-ppc...done.
-  warning: File "/dev/shm/qemu/.gdbinit" auto-loading has been declined by =
-your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
-  To enable execution of this file add
-          add-auto-load-safe-path /dev/shm/qemu/.gdbinit
-  line to your configuration file "/home/guest/.gdbinit".
-  To completely disable this security protection add
-          set auto-load safe-path /
-  line to your configuration file "/home/guest/.gdbinit".
-  For more information about this security protection see the
-  "Auto-loading safe path" section in the GDB manual.  E.g., run from the s=
-hell:
-          info "(gdb)Auto-loading safe path"
-  (gdb) run  -M mac99,via=3Dpmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PP=
-C-img/lubuntu-16.04-desktop-powerpc.iso -m 512 -display sdl,gl=3Don -vga st=
-d -d guest_errors,unimp -boot d -cpu G4 -g 1024x768x24 -device ES1370
-  Starting program: /dev/shm/qemu/ppc-softmmu/qemu-system-ppc -M mac99,via=
-=3Dpmu -L ../queue-vga/pc-bios -cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-deskt=
-op-powerpc.iso -m 512 -display sdl,gl=3Don -vga std -d guest_errors,unimp -=
-boot d -cpu G4 -g 1024x768x24 -device ES1370
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/libthread_db.so.1".
-  [New Thread 0xf560cb40 (LWP 8100)]
-  [New Thread 0xf4c1ab40 (LWP 8101)]
-  [New Thread 0xec1b7b40 (LWP 8102)]
-  [New Thread 0xc5821b40 (LWP 8104)]
-  [Thread 0xf4c1ab40 (LWP 8101) exited]
-  [New Thread 0xf4c1ab40 (LWP 8119)]
-
-  Thread 4 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-  [Switching to Thread 0xec1b7b40 (LWP 8102)]
-  0xf26c2e44 in code_gen_buffer ()
-  (gdb) bt full
-  #0  0xffffffff in code_gen_buffer ()
-  #1  0x56710cf6 in cpu_exec (itb=3D<optimized out>, cpu=3D<optimized out>)=
- at /dev/shm/qemu/accel/tcg/cpu-exec.c:173
-          env =3D <optimized out>
-          ret =3D <optimized out>
-          last_tb =3D <optimized out>
-          tb_exit =3D <optimized out>
-          tb_ptr =3D 0xf26c2cc0 <code_gen_buffer+103976094> "=E2=80=B9]=D1=
-=88=E2=80=A6=D0=AB\017=D0=8A=D0=91\020"
-          ret =3D 0
-          insns_left =3D <optimized out>
-          cflags =3D <optimized out>
-          tb =3D 0x5722fe58
-          last_tb =3D <optimized out>
-          tb_exit =3D <optimized out>
-          cc =3D <optimized out>
-          __func__ =3D "cpu_exec"
-          ret =3D <optimized out>
-          sc =3D <optimized out>
-  #2  0x56710cf6 in cpu_exec (tb_exit=3D<synthetic pointer>, last_tb=3D<syn=
-thetic pointer>, tb=3D<optimized out>, cpu=3D<optimized out>) at /dev/shm/q=
-emu/accel/tcg/cpu-exec.c:621
-          ret =3D 0
-          insns_left =3D <optimized out>
-          cflags =3D <optimized out>
-          tb =3D 0x5722fe58
-          last_tb =3D <optimized out>
-          tb_exit =3D <optimized out>
-          cc =3D <optimized out>
-          __func__ =3D "cpu_exec"
-          ret =3D <optimized out>
-          sc =3D <optimized out>
-  #3  0x56710cf6 in cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/accel/tcg/=
-cpu-exec.c:732
-          cflags =3D <optimized out>
-          tb =3D 0x5722fe58
-          last_tb =3D <optimized out>
-          tb_exit =3D <optimized out>
-          cc =3D <optimized out>
-          __func__ =3D "cpu_exec"
-          ret =3D <optimized out>
-          sc =3D <optimized out>
-  #4  0x566cfade in tcg_cpu_exec (cpu=3D0x573db8f8) at /dev/shm/qemu/cpus.c=
-:1435
-          ret =3D <optimized out>
-  #5  0x566d1e6d in qemu_tcg_rr_cpu_thread_fn (arg=3D0x573db8f8) at /dev/sh=
-m/qemu/cpus.c:1537
-          r =3D <optimized out>
-          cpu =3D 0x573db8f8
-          __PRETTY_FUNCTION__ =3D "qemu_tcg_rr_cpu_thread_fn"
-  #6  0x56b56fe0 in qemu_thread_start (args=3D0x57400668) at util/qemu-thre=
-ad-posix.c:502
-          __cancel_buf =3D {__cancel_jmp_buf =3D {{__cancel_jmp_buf =3D {14=
-61911128, 1463813736, 1461911128, -333745816, 247778263, 1392237730}, __mas=
-k_was_saved =3D 0}}, __pad =3D {0xec1b70d0, 0x0, 0x0, 0x0}}
-          __cancel_routine =3D 0x56b57040 <qemu_thread_atexit_notify>
-          __not_first_call =3D <optimized out>
-          qemu_thread_args =3D 0x57400668
-          start_routine =3D 0x566d1a30 <qemu_tcg_rr_cpu_thread_fn>
-          arg =3D 0x573db8f8
-          r =3D <optimized out>
-  #7  0xffffffff in start_thread () at /lib/libpthread.so.0
-  #8  0xffffffff in clone () at /lib/libc.so.6
-  (gdb) quit
-  A debugging session is active.
-
-          Inferior 1 [process 8096] will be killed.
-
-  Quit anyway? (y or n) y
-  --------------copy end----------
-
-  But when I take away -display sdl, or replace it with -display gtk -
-  same line was booting to desktop!
-
-  Changing cpu to G3 also allowed boot:
-
-  ./ppc-softmmu/qemu-system-ppc -M mac99,via=3Dpmu -L ../queue-vga/pc-bios
-  -cdrom /mnt/sdb1/PPC-img/lubuntu-16.04-desktop-powerpc.iso -m 512
-  -display sdl -vga std -d guest_errors,unimp -boot d -cpu G3 -g
-  1024x768x24 -device ES1370
-
-  This is 32-bit qemu complied with Slackware's gcc 5.5.0. =
-
-  64-bit qemu works fine.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1837049/+subscriptions
+Paolo
 
