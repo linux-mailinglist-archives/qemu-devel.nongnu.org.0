@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0516CDE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:14:17 +0200 (CEST)
-Received: from localhost ([::1]:37388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA116CE12
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:29:51 +0200 (CEST)
+Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho5If-0001Bh-1g
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 08:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37365)
+	id 1ho518-0000WC-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 07:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58831)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1ho5IQ-0000kV-1J
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:14:03 -0400
+ (envelope-from <clg@kaod.org>) id 1ho501-0004p7-Ii
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ho5IO-0002NE-Cw
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:14:01 -0400
-Resent-Date: Thu, 18 Jul 2019 08:14:01 -0400
-Resent-Message-Id: <E1ho5IO-0002NE-Cw@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21432)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ho5IO-0002MC-50
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:14:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1563452030; cv=none; d=zoho.com; s=zohoarc; 
- b=BxqaBX3Zm5Ygj0Fpj6tCOEKLqvAHyf+WT8gl4or1Euf3CCRYnEv+Geh8dB0y7qitgeJEVuoH+gWEM/KS7juCwtF+JJT10K1qZsTSyrwFlXfXmj7DRvTdhDte9sNzfRo06uJXJSid2eIO/l7OFsvkvj0im7yxzWd/DjaOWO6r/rM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1563452030;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=hfK7N6xeai/BmRxnfB5Di4UhJyrPhIxJcbcnXMIG+sw=; 
- b=kt/kmH22R4yd9ooCuxnPURa/1LxBnIv+npd+AK6gUs1aRdC58rLu31z1uRgiU1eH5tVT2r5OqTZdwHxAxP3AhutUKRPXG2S+aA0nxLKSTyJUoSJQMEzp+P+5XHOCoL04frJxOvbiBO885VhJXq84UTASY24+O6uOWRsWLlfAtD8=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1563452028675157.42015464113967;
- Thu, 18 Jul 2019 05:13:48 -0700 (PDT)
-Message-ID: <156345202774.10055.2743435602890669358@c4a48874b076>
-In-Reply-To: <1563451264-46176-1-git-send-email-pbonzini@redhat.com>
+ (envelope-from <clg@kaod.org>) id 1ho500-0001j5-Ab
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:01 -0400
+Received: from 8.mo1.mail-out.ovh.net ([178.33.110.239]:50118)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho500-0001i0-4z
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:00 -0400
+Received: from player778.ha.ovh.net (unknown [10.108.35.59])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id A664C183803
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:54:56 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player778.ha.ovh.net (Postfix) with ESMTPSA id E27FB801F2EC;
+ Thu, 18 Jul 2019 11:54:50 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Thu, 18 Jul 2019 13:54:07 +0200
+Message-Id: <20190718115420.19919-5-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
+References: <20190718115420.19919-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 18 Jul 2019 05:13:48 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 6777917443433335782
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] curses: assert get_wch return value is okay
+X-Received-From: 178.33.110.239
+Subject: [Qemu-devel] [PATCH v2 04/17] ppc/xive: Provide backlog support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,140 +55,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYzNDUxMjY0LTQ2MTc2LTEt
-Z2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVs
-XSBbUEFUQ0hdIGN1cnNlczogYXNzZXJ0IGdldF93Y2ggcmV0dXJuIHZhbHVlIGlzIG9rYXkKTWVz
-c2FnZS1pZDogMTU2MzQ1MTI2NC00NjE3Ni0xLWdpdC1zZW5kLWVtYWlsLXBib256aW5pQHJlZGhh
-dC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
-ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
-IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
-ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
-Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMTU2
-MzQ1MTI2NC00NjE3Ni0xLWdpdC1zZW5kLWVtYWlsLXBib256aW5pQHJlZGhhdC5jb20gLT4gcGF0
-Y2hldy8xNTYzNDUxMjY0LTQ2MTc2LTEtZ2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNv
-bQpTdWJtb2R1bGUgJ2NhcHN0b25lJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2NhcHN0b25l
-LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnY2Fwc3RvbmUnClN1Ym1vZHVsZSAnZHRjJyAoaHR0
-cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2R0Yy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2R0YycK
-U3VibW9kdWxlICdyb21zL1FlbXVNYWNEcml2ZXJzJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
-L1FlbXVNYWNEcml2ZXJzLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9RZW11TWFjRHJp
-dmVycycKU3VibW9kdWxlICdyb21zL1NMT0YnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvU0xP
-Ri5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvU0xPRicKU3VibW9kdWxlICdyb21zL2Vk
-azInIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvZWRrMi5naXQpIHJlZ2lzdGVyZWQgZm9yIHBh
-dGggJ3JvbXMvZWRrMicKU3VibW9kdWxlICdyb21zL2lweGUnIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQvaXB4ZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvaXB4ZScKU3VibW9kdWxl
-ICdyb21zL29wZW5iaW9zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5iaW9zLmdpdCkg
-cmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9vcGVuYmlvcycKU3VibW9kdWxlICdyb21zL29wZW5o
-YWNrd2FyZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuaGFja3dhcmUuZ2l0KSByZWdp
-c3RlcmVkIGZvciBwYXRoICdyb21zL29wZW5oYWNrd2FyZScKU3VibW9kdWxlICdyb21zL3FlbXUt
-cGFsY29kZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9xZW11LXBhbGNvZGUuZ2l0KSByZWdp
-c3RlcmVkIGZvciBwYXRoICdyb21zL3FlbXUtcGFsY29kZScKU3VibW9kdWxlICdyb21zL3NlYWJp
-b3MnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvc2VhYmlvcy5naXQvKSByZWdpc3RlcmVkIGZv
-ciBwYXRoICdyb21zL3NlYWJpb3MnClN1Ym1vZHVsZSAncm9tcy9zZWFiaW9zLWhwcGEnIChodHRw
-czovL2dpdC5xZW11Lm9yZy9naXQvc2VhYmlvcy1ocHBhLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0
-aCAncm9tcy9zZWFiaW9zLWhwcGEnClN1Ym1vZHVsZSAncm9tcy9zZ2FiaW9zJyAoaHR0cHM6Ly9n
-aXQucWVtdS5vcmcvZ2l0L3NnYWJpb3MuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3Nn
-YWJpb3MnClN1Ym1vZHVsZSAncm9tcy9za2lib290JyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0
-L3NraWJvb3QuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3NraWJvb3QnClN1Ym1vZHVs
-ZSAncm9tcy91LWJvb3QnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvdS1ib290LmdpdCkgcmVn
-aXN0ZXJlZCBmb3IgcGF0aCAncm9tcy91LWJvb3QnClN1Ym1vZHVsZSAncm9tcy91LWJvb3Qtc2Ft
-NDYwZXgnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvdS1ib290LXNhbTQ2MGV4LmdpdCkgcmVn
-aXN0ZXJlZCBmb3IgcGF0aCAncm9tcy91LWJvb3Qtc2FtNDYwZXgnClN1Ym1vZHVsZSAnc2xpcnAn
-IChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvbGlic2xpcnAuZ2l0KSByZWdpc3RlcmVkIGZvciBw
-YXRoICdzbGlycCcKU3VibW9kdWxlICd0ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMycgKGh0
-dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9iZXJrZWxleS1zb2Z0ZmxvYXQtMy5naXQpIHJlZ2lzdGVy
-ZWQgZm9yIHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJwpTdWJtb2R1bGUgJ3Rl
-c3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2Jl
-cmtlbGV5LXRlc3RmbG9hdC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndGVzdHMvZnAvYmVy
-a2VsZXktdGVzdGZsb2F0LTMnClN1Ym1vZHVsZSAndWkva2V5Y29kZW1hcGRiJyAoaHR0cHM6Ly9n
-aXQucWVtdS5vcmcvZ2l0L2tleWNvZGVtYXBkYi5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3Vp
-L2tleWNvZGVtYXBkYicKQ2xvbmluZyBpbnRvICdjYXBzdG9uZScuLi4KU3VibW9kdWxlIHBhdGgg
-J2NhcHN0b25lJzogY2hlY2tlZCBvdXQgJzIyZWFkM2UwYmZkYjg3NTE2NjU2NDUzMzM2MTYwZTBh
-MzdiMDY2YmYnCkNsb25pbmcgaW50byAnZHRjJy4uLgpTdWJtb2R1bGUgcGF0aCAnZHRjJzogY2hl
-Y2tlZCBvdXQgJzg4ZjE4OTA5ZGI3MzFhNjI3NDU2ZjI2ZDc3OTQ0NWY4NGU0NDk1MzYnCkNsb25p
-bmcgaW50byAncm9tcy9RZW11TWFjRHJpdmVycycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvUWVt
-dU1hY0RyaXZlcnMnOiBjaGVja2VkIG91dCAnOTBjNDg4ZDVmNGE0MDczNDIyNDdiOWVhODY5ZGYx
-YzJkOWM4ZTI2NicKQ2xvbmluZyBpbnRvICdyb21zL1NMT0YnLi4uClN1Ym1vZHVsZSBwYXRoICdy
-b21zL1NMT0YnOiBjaGVja2VkIG91dCAnYmExYWIzNjBlZWJlNjMzOGJiOGQ3ZDgzYTkyMjBjY2Y3
-ZTIxM2FmMycKQ2xvbmluZyBpbnRvICdyb21zL2VkazInLi4uClN1Ym1vZHVsZSBwYXRoICdyb21z
-L2VkazInOiBjaGVja2VkIG91dCAnMjBkMmU1YTEyNWUzNGZjODUwMTAyNjYxM2E3MTU0OWIyYTFh
-M2U1NCcKU3VibW9kdWxlICdTb2Z0RmxvYXQnIChodHRwczovL2dpdGh1Yi5jb20vdWNiLWJhci9i
-ZXJrZWxleS1zb2Z0ZmxvYXQtMy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ0FybVBrZy9MaWJy
-YXJ5L0FybVNvZnRGbG9hdExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQtMycKU3VibW9kdWxlICdDcnlw
-dG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wnIChodHRwczovL2dpdGh1Yi5jb20vb3Bl
-bnNzbC9vcGVuc3NsKSByZWdpc3RlcmVkIGZvciBwYXRoICdDcnlwdG9Qa2cvTGlicmFyeS9PcGVu
-c3NsTGliL29wZW5zc2wnCkNsb25pbmcgaW50byAnQXJtUGtnL0xpYnJhcnkvQXJtU29mdEZsb2F0
-TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyL0Fy
-bVBrZy9MaWJyYXJ5L0FybVNvZnRGbG9hdExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQtMyc6IGNoZWNr
-ZWQgb3V0ICdiNjRhZjQxYzMyNzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5Yzg4MDM3JwpDbG9uaW5n
-IGludG8gJ0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbCcuLi4KU3VibW9kdWxl
-IHBhdGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wnOiBj
-aGVja2VkIG91dCAnNTBlYWFjOWYzMzM3NjY3MjU5ZGU3MjU0NTFmMjAxZTc4NDU5OTY4NycKU3Vi
-bW9kdWxlICdib3Jpbmdzc2wnIChodHRwczovL2JvcmluZ3NzbC5nb29nbGVzb3VyY2UuY29tL2Jv
-cmluZ3NzbCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnYm9yaW5nc3NsJwpTdWJtb2R1bGUgJ2tyYjUn
-IChodHRwczovL2dpdGh1Yi5jb20va3JiNS9rcmI1KSByZWdpc3RlcmVkIGZvciBwYXRoICdrcmI1
-JwpTdWJtb2R1bGUgJ3B5Y2EuY3J5cHRvZ3JhcGh5JyAoaHR0cHM6Ly9naXRodWIuY29tL3B5Y2Ev
-Y3J5cHRvZ3JhcGh5LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncHljYS1jcnlwdG9ncmFwaHkn
-CkNsb25pbmcgaW50byAnYm9yaW5nc3NsJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyL0Ny
-eXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbC9ib3Jpbmdzc2wnOiBjaGVja2VkIG91
-dCAnMjA3MGY4YWQ5MTUxZGM4ZjNhNzNiZmZhYTE0NmI1ZTY5MzdhNTgzZicKQ2xvbmluZyBpbnRv
-ICdrcmI1Jy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09w
-ZW5zc2xMaWIvb3BlbnNzbC9rcmI1JzogY2hlY2tlZCBvdXQgJ2I5YWQ2YzQ5NTA1Yzk2YTA4ODMy
-NmI2MmE1MjU2OGUzNDg0ZjIxNjgnCkNsb25pbmcgaW50byAncHljYS1jcnlwdG9ncmFwaHknLi4u
-ClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9v
-cGVuc3NsL3B5Y2EtY3J5cHRvZ3JhcGh5JzogY2hlY2tlZCBvdXQgJzA5NDAzMTAwZGUyZjZmMWNk
-ZDBkNDg0ZGNiOGU2MjBmMWMzMzVjOGYnCkNsb25pbmcgaW50byAncm9tcy9pcHhlJy4uLgpTdWJt
-b2R1bGUgcGF0aCAncm9tcy9pcHhlJzogY2hlY2tlZCBvdXQgJ2RlNDU2NWNiZTc2ZWE5Zjc5MTNh
-MDFmMzMxYmUzZWU5MDFiYjZlMTcnCkNsb25pbmcgaW50byAncm9tcy9vcGVuYmlvcycuLi4KU3Vi
-bW9kdWxlIHBhdGggJ3JvbXMvb3BlbmJpb3MnOiBjaGVja2VkIG91dCAnYzc5ZTBlY2I4NGY0ZjFl
-ZTNmNzNmNTIxNjIyZTI2NGVkZDFiZjE3NCcKQ2xvbmluZyBpbnRvICdyb21zL29wZW5oYWNrd2Fy
-ZScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvb3BlbmhhY2t3YXJlJzogY2hlY2tlZCBvdXQgJ2M1
-NTlkYTdjOGVlYzVlNDVlZjFmNjc5Nzg4MjdhZjZmMGI5NTQ2ZjUnCkNsb25pbmcgaW50byAncm9t
-cy9xZW11LXBhbGNvZGUnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3FlbXUtcGFsY29kZSc6IGNo
-ZWNrZWQgb3V0ICdiZjBlMTM2OTg4NzI0NTAxNjRmYTcwNDBkYTM2YTk1ZDJkNGIzMjZmJwpDbG9u
-aW5nIGludG8gJ3JvbXMvc2VhYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvc2VhYmlvcyc6
-IGNoZWNrZWQgb3V0ICdhNWNhYjU4ZTlhM2ZiNmUxNjhhYmE5MTljNTY2OWJlYTQwNjU3M2I0JwpD
-bG9uaW5nIGludG8gJ3JvbXMvc2VhYmlvcy1ocHBhJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9z
-ZWFiaW9zLWhwcGEnOiBjaGVja2VkIG91dCAnMGY0ZmU4NDY1ODE2NWU5NmNlMzU4NzBmZDE5ZmM2
-MzRlMTgyZTc3YicKQ2xvbmluZyBpbnRvICdyb21zL3NnYWJpb3MnLi4uClN1Ym1vZHVsZSBwYXRo
-ICdyb21zL3NnYWJpb3MnOiBjaGVja2VkIG91dCAnY2JhZWU1MjI4N2U1ZjMyMzczMTgxY2ZmNTBh
-MDBiNmM0YWM5MDE1YScKQ2xvbmluZyBpbnRvICdyb21zL3NraWJvb3QnLi4uClN1Ym1vZHVsZSBw
-YXRoICdyb21zL3NraWJvb3QnOiBjaGVja2VkIG91dCAnMjYxY2E4ZTc3OWU1MTM4ODY5YTQ1ZjE3
-NGNhYTQ5YmU2YTI3NDUwMScKQ2xvbmluZyBpbnRvICdyb21zL3UtYm9vdCcuLi4KU3VibW9kdWxl
-IHBhdGggJ3JvbXMvdS1ib290JzogY2hlY2tlZCBvdXQgJ2QzNjg5MjY3ZjkyYzU5NTZlMDljYzdk
-MWJhYTQ3MDAxNDE2NjJiZmYnCkNsb25pbmcgaW50byAncm9tcy91LWJvb3Qtc2FtNDYwZXgnLi4u
-ClN1Ym1vZHVsZSBwYXRoICdyb21zL3UtYm9vdC1zYW00NjBleCc6IGNoZWNrZWQgb3V0ICc2MGIz
-OTE2ZjMzZTYxN2E4MTU5NzNjNWE2ZGY3NzA1NWIyZTNhNTg4JwpDbG9uaW5nIGludG8gJ3NsaXJw
-Jy4uLgpTdWJtb2R1bGUgcGF0aCAnc2xpcnAnOiBjaGVja2VkIG91dCAnZjBkYTY3MjYyMDdiNzQw
-ZjYxMDEwMjhiMjk5MmY5MTg0NzdhNGIwOCcKQ2xvbmluZyBpbnRvICd0ZXN0cy9mcC9iZXJrZWxl
-eS1zb2Z0ZmxvYXQtMycuLi4KU3VibW9kdWxlIHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRm
-bG9hdC0zJzogY2hlY2tlZCBvdXQgJ2I2NGFmNDFjMzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2Yjlj
-ODgwMzcnCkNsb25pbmcgaW50byAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0LTMnLi4uClN1
-Ym1vZHVsZSBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0
-ICc1YTU5ZGNlYzE5MzI3Mzk2YTAxMWExN2ZkOTI0YWVkNGZlYzQxNmIzJwpDbG9uaW5nIGludG8g
-J3VpL2tleWNvZGVtYXBkYicuLi4KU3VibW9kdWxlIHBhdGggJ3VpL2tleWNvZGVtYXBkYic6IGNo
-ZWNrZWQgb3V0ICc2YjNkNzE2ZTJiNjQ3MmViNzE4OWQzMjIwNTUyMjgwZWYzZDgzMmNlJwpTd2l0
-Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmY4OTk2ZTQgY3Vyc2VzOiBhc3NlcnQgZ2V0X3dj
-aCByZXR1cm4gdmFsdWUgaXMgb2theQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMjM6IEZJTEU6IHVpL2N1cnNlcy5jOjIyOToK
-K15JYWJvcnQoKTskCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDggbGluZXMgY2hlY2tl
-ZAoKQ29tbWl0IGY4OTk2ZTQ4YjhmOSAoY3Vyc2VzOiBhc3NlcnQgZ2V0X3djaCByZXR1cm4gdmFs
-dWUgaXMgb2theSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09
-CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
-bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MzQ1MTI2NC00NjE3Ni0xLWdpdC1z
-ZW5kLWVtYWlsLXBib256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+If backlog is activated ('b' bit) on the END, the pending priority of
+a missed event is recorded in the IPB field of the NVT for a later
+resend.
+
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/intc/xive.c | 77 +++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 48 insertions(+), 29 deletions(-)
+
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 592c0b70f197..1ee5c1fe4534 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1389,46 +1389,22 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+  *
+  * The parameters represent what is sent on the PowerBus
+  */
+-static void xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
++static bool xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
+                                   uint8_t nvt_blk, uint32_t nvt_idx,
+                                   bool cam_ignore, uint8_t priority,
+                                   uint32_t logic_serv)
+ {
+-    XiveNVT nvt;
+     XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+     bool found;
+=20
+-    /* NVT cache lookup */
+-    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: no NVT %x/%x\n",
+-                      nvt_blk, nvt_idx);
+-        return;
+-    }
+-
+-    if (!xive_nvt_is_valid(&nvt)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is invalid\n",
+-                      nvt_blk, nvt_idx);
+-        return;
+-    }
+-
+     found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
+gnore,
+                                  priority, logic_serv, &match);
+     if (found) {
+         ipb_update(&match.tctx->regs[match.ring], priority);
+         xive_tctx_notify(match.tctx, match.ring);
+-        return;
+     }
+=20
+-    /* Record the IPB in the associated NVT structure */
+-    ipb_update((uint8_t *) &nvt.w4, priority);
+-    xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
+-
+-    /*
+-     * If no matching NVT is dispatched on a HW thread :
+-     * - update the NVT structure if backlog is activated
+-     * - escalate (ESe PQ bits and EAS in w4-5) if escalation is
+-     *   activated
+-     */
++    return found;
+ }
+=20
+ /*
+@@ -1442,6 +1418,10 @@ static void xive_router_end_notify(XiveRouter *xrt=
+r, uint8_t end_blk,
+     XiveEND end;
+     uint8_t priority;
+     uint8_t format;
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    XiveNVT nvt;
++    bool found;
+=20
+     /* END cache lookup */
+     if (xive_router_get_end(xrtr, end_blk, end_idx, &end)) {
+@@ -1500,14 +1480,53 @@ static void xive_router_end_notify(XiveRouter *xr=
+tr, uint8_t end_blk,
+     /*
+      * Follows IVPE notification
+      */
+-    xive_presenter_notify(xrtr, format,
+-                          xive_get_field32(END_W6_NVT_BLOCK, end.w6),
+-                          xive_get_field32(END_W6_NVT_INDEX, end.w6),
++    nvt_blk =3D xive_get_field32(END_W6_NVT_BLOCK, end.w6);
++    nvt_idx =3D xive_get_field32(END_W6_NVT_INDEX, end.w6);
++
++    /* NVT cache lookup */
++    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: no NVT %x/%x\n",
++                      nvt_blk, nvt_idx);
++        return;
++    }
++
++    if (!xive_nvt_is_valid(&nvt)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is invalid\n",
++                      nvt_blk, nvt_idx);
++        return;
++    }
++
++    found =3D xive_presenter_notify(xrtr, format, nvt_blk, nvt_idx,
+                           xive_get_field32(END_W7_F0_IGNORE, end.w7),
+                           priority,
+                           xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
+w7));
+=20
+     /* TODO: Auto EOI. */
++
++    if (found) {
++        return;
++    }
++
++    /*
++     * If no matching NVT is dispatched on a HW thread :
++     * - specific VP: update the NVT structure if backlog is activated
++     * - logical server : forward request to IVPE (not supported)
++     */
++    if (xive_end_is_backlog(&end)) {
++        if (format =3D=3D 1) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "XIVE: END %x/%x invalid config: F1 & backlog\=
+n",
++                          end_blk, end_idx);
++            return;
++        }
++        /* Record the IPB in the associated NVT structure */
++        ipb_update((uint8_t *) &nvt.w4, priority);
++        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
++
++        /*
++         * On HW, follows a "Broadcast Backlog" to IVPEs
++         */
++    }
+ }
+=20
+ void xive_router_notify(XiveNotifier *xn, uint32_t lisn)
+--=20
+2.21.0
 
 
