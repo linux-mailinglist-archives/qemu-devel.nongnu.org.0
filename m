@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E246CDB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 13:56:32 +0200 (CEST)
-Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDCD6CDC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 13:57:32 +0200 (CEST)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho51S-0000Zb-OF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 07:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59135)
+	id 1ho52S-00053k-6M
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 07:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59285)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1ho50X-0006yN-Cp
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:34 -0400
+ (envelope-from <clg@kaod.org>) id 1ho50k-0007s2-Un
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ho50V-0002DC-Bv
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:33 -0400
-Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:45689)
+ (envelope-from <clg@kaod.org>) id 1ho50j-0002P8-4R
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:46 -0400
+Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:36211)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho50V-0002CD-5j
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:31 -0400
-Received: from player778.ha.ovh.net (unknown [10.109.143.109])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 97608240EEA
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:55:29 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho50i-0002Nb-UY
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:55:45 -0400
+Received: from player778.ha.ovh.net (unknown [10.109.159.157])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 9D5E5104368
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:55:40 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 16D1B801F502;
- Thu, 18 Jul 2019 11:55:24 +0000 (UTC)
+ by player778.ha.ovh.net (Postfix) with ESMTPSA id 3DF0B801F58C;
+ Thu, 18 Jul 2019 11:55:35 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 18 Jul 2019 13:54:13 +0200
-Message-Id: <20190718115420.19919-11-clg@kaod.org>
+Date: Thu, 18 Jul 2019 13:54:15 +0200
+Message-Id: <20190718115420.19919-13-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
 References: <20190718115420.19919-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6787206114223426534
+X-Ovh-Tracer-Id: 6790302339583020006
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.174.144
-Subject: [Qemu-devel] [PATCH v2 10/17] ppc/xive: Introduce
- xive_tctx_ipb_update()
+X-Received-From: 46.105.72.238
+Subject: [Qemu-devel] [PATCH v2 12/17] ppc/pnv: Remove pnv_xive_vst_size()
+ routine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,75 +61,234 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will use it to resend missed interrupts when a vCPU context is
-pushed a HW thread.
+pnv_xive_vst_size() tries to compute the size of a VSD table from the
+information given by FW. The number of entries of the table are
+deduced from the result and the MMIO regions of the ESBs and the ENDS
+are also resized with the computed value.
+
+But for indirect tables, the result is incorrect. An indirect table is
+an array, typically one page, of VSDs pointing to a page containing
+XIVE virtual structures. The number of first level VSD entries is page
+aligned and the overall computed size of the table is too large. It
+can also be completely wrong when the first VSD entry is not yet
+initialized.
+
+Remove pnv_xive_vst_size() and use a simpler form for direct tables
+only. This is still useful when outputting the XIVE sources on the
+monitor and to resize the ESB MMIO window.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h |  1 +
- hw/intc/xive.c        | 15 +++++++++++----
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ hw/intc/pnv_xive.c | 112 +++++++++++++++++----------------------------
+ 1 file changed, 43 insertions(+), 69 deletions(-)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 206b23ecfab3..51e3c37b7483 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -418,6 +418,7 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr off=
-set, unsigned size);
-=20
- void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
- Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
-+void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
-=20
- static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
- {
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 1b0eccb6df40..be66b1fb3261 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -132,6 +132,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
-_t ring, uint8_t cppr)
-     xive_tctx_notify(tctx, ring);
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index ff1226485983..63243253b736 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -121,36 +121,22 @@ static uint64_t pnv_xive_vst_page_size_allowed(uint=
+32_t page_shift)
+          page_shift =3D=3D 21 || page_shift =3D=3D 24;
  }
 =20
-+void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
-+{
-+    uint8_t *regs =3D &tctx->regs[ring];
-+
-+    regs[TM_IPB] |=3D ipb;
-+    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
-+    xive_tctx_notify(tctx, ring);
-+}
-+
- static inline uint32_t xive_tctx_word2(uint8_t *ring)
+-static uint64_t pnv_xive_vst_size(uint64_t vsd)
+-{
+-    uint64_t vst_tsize =3D 1ull << (GETFIELD(VSD_TSIZE, vsd) + 12);
+-
+-    /*
+-     * Read the first descriptor to get the page size of the indirect
+-     * table.
+-     */
+-    if (VSD_INDIRECT & vsd) {
+-        uint32_t nr_pages =3D vst_tsize / XIVE_VSD_SIZE;
+-        uint32_t page_shift;
+-
+-        vsd =3D ldq_be_dma(&address_space_memory, vsd & VSD_ADDRESS_MASK=
+);
+-        page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
+-
+-        if (!pnv_xive_vst_page_size_allowed(page_shift)) {
+-            return 0;
+-        }
+-
+-        return nr_pages * (1ull << page_shift);
+-    }
+-
+-    return vst_tsize;
+-}
+-
+ static uint64_t pnv_xive_vst_addr_direct(PnvXive *xive, uint32_t type,
+                                          uint64_t vsd, uint32_t idx)
  {
-     return *((uint32_t *) &ring[TM_WORD2]);
-@@ -330,8 +339,7 @@ static void xive_tm_set_os_cppr(XiveTCTX *tctx, hwadd=
-r offset,
- static void xive_tm_set_os_pending(XiveTCTX *tctx, hwaddr offset,
-                                    uint64_t value, unsigned size)
- {
--    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
--    xive_tctx_notify(tctx, TM_QW1_OS);
-+    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff))=
-;
- }
+     const XiveVstInfo *info =3D &vst_infos[type];
+     uint64_t vst_addr =3D vsd & VSD_ADDRESS_MASK;
++    uint64_t vst_tsize =3D 1ull << (GETFIELD(VSD_TSIZE, vsd) + 12);
++    uint32_t idx_max;
++
++    idx_max =3D vst_tsize / info->size - 1;
++    if (idx > idx_max) {
++#ifdef XIVE_DEBUG
++        xive_error(xive, "VST: %s entry %x out of range [ 0 .. %x ] !?",
++                   info->name, idx, idx_max);
++#endif
++        return 0;
++    }
 =20
- static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, hwaddr offset,
-@@ -1445,8 +1453,7 @@ static bool xive_presenter_notify(XiveRouter *xrtr,=
- uint8_t format,
-     found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
-gnore,
-                                  priority, logic_serv, &match);
-     if (found) {
--        ipb_update(&match.tctx->regs[match.ring], priority);
--        xive_tctx_notify(match.tctx, match.ring);
-+        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
-ority));
+     return vst_addr + idx * info->size;
+ }
+@@ -213,7 +199,6 @@ static uint64_t pnv_xive_vst_addr(PnvXive *xive, uint=
+32_t type, uint8_t blk,
+ {
+     const XiveVstInfo *info =3D &vst_infos[type];
+     uint64_t vsd;
+-    uint32_t idx_max;
+=20
+     if (blk >=3D info->max_blocks) {
+         xive_error(xive, "VST: invalid block id %d for VST %s %d !?",
+@@ -230,15 +215,6 @@ static uint64_t pnv_xive_vst_addr(PnvXive *xive, uin=
+t32_t type, uint8_t blk,
+         return xive ? pnv_xive_vst_addr(xive, type, blk, idx) : 0;
      }
 =20
-     return found;
+-    idx_max =3D pnv_xive_vst_size(vsd) / info->size - 1;
+-    if (idx > idx_max) {
+-#ifdef XIVE_DEBUG
+-        xive_error(xive, "VST: %s entry %x/%x out of range [ 0 .. %x ] !=
+?",
+-                   info->name, blk, idx, idx_max);
+-#endif
+-        return 0;
+-    }
+-
+     if (VSD_INDIRECT & vsd) {
+         return pnv_xive_vst_addr_indirect(xive, type, vsd, idx);
+     }
+@@ -451,19 +427,12 @@ static uint64_t pnv_xive_pc_size(PnvXive *xive)
+     return (~xive->regs[CQ_PC_BARM >> 3] + 1) & CQ_PC_BARM_MASK;
+ }
+=20
+-static uint32_t pnv_xive_nr_ipis(PnvXive *xive)
++static uint32_t pnv_xive_nr_ipis(PnvXive *xive, uint8_t blk)
+ {
+-    uint8_t blk =3D xive->chip->chip_id;
+-
+-    return pnv_xive_vst_size(xive->vsds[VST_TSEL_SBE][blk]) * SBE_PER_BY=
+TE;
+-}
+-
+-static uint32_t pnv_xive_nr_ends(PnvXive *xive)
+-{
+-    uint8_t blk =3D xive->chip->chip_id;
++    uint64_t vsd =3D xive->vsds[VST_TSEL_SBE][blk];
++    uint64_t vst_tsize =3D 1ull << (GETFIELD(VSD_TSIZE, vsd) + 12);
+=20
+-    return pnv_xive_vst_size(xive->vsds[VST_TSEL_EQDT][blk])
+-        / vst_infos[VST_TSEL_EQDT].size;
++    return VSD_INDIRECT & vsd ? 0 : vst_tsize * SBE_PER_BYTE;
+ }
+=20
+ /*
+@@ -596,6 +565,7 @@ static void pnv_xive_vst_set_exclusive(PnvXive *xive,=
+ uint8_t type,
+     XiveSource *xsrc =3D &xive->ipi_source;
+     const XiveVstInfo *info =3D &vst_infos[type];
+     uint32_t page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
++    uint64_t vst_tsize =3D 1ull << page_shift;
+     uint64_t vst_addr =3D vsd & VSD_ADDRESS_MASK;
+=20
+     /* Basic checks */
+@@ -631,11 +601,16 @@ static void pnv_xive_vst_set_exclusive(PnvXive *xiv=
+e, uint8_t type,
+=20
+     case VST_TSEL_EQDT:
+         /*
+-         * Backing store pages for the END. Compute the number of ENDs
+-         * provisioned by FW and resize the END ESB window accordingly.
++         * Backing store pages for the END.
++         *
++         * If the table is direct, we can compute the number of PQ
++         * entries provisioned by FW (such as skiboot) and resize the
++         * END ESB window accordingly.
+          */
+-        memory_region_set_size(&end_xsrc->esb_mmio, pnv_xive_nr_ends(xiv=
+e) *
+-                               (1ull << (end_xsrc->esb_shift + 1)));
++        if (!(VSD_INDIRECT & vsd)) {
++            memory_region_set_size(&end_xsrc->esb_mmio, (vst_tsize / inf=
+o->size)
++                                   * (1ull << xsrc->esb_shift));
++        }
+         memory_region_add_subregion(&xive->end_edt_mmio, 0,
+                                     &end_xsrc->esb_mmio);
+         break;
+@@ -644,11 +619,16 @@ static void pnv_xive_vst_set_exclusive(PnvXive *xiv=
+e, uint8_t type,
+         /*
+          * Backing store pages for the source PQ bits. The model does
+          * not use these PQ bits backed in RAM because the XiveSource
+-         * model has its own. Compute the number of IRQs provisioned
+-         * by FW and resize the IPI ESB window accordingly.
++         * model has its own.
++         *
++         * If the table is direct, we can compute the number of PQ
++         * entries provisioned by FW (such as skiboot) and resize the
++         * ESB window accordingly.
+          */
+-        memory_region_set_size(&xsrc->esb_mmio, pnv_xive_nr_ipis(xive) *
+-                               (1ull << xsrc->esb_shift));
++        if (!(VSD_INDIRECT & vsd)) {
++            memory_region_set_size(&xsrc->esb_mmio, vst_tsize * SBE_PER_=
+BYTE
++                                   * (1ull << xsrc->esb_shift));
++        }
+         memory_region_add_subregion(&xive->ipi_edt_mmio, 0, &xsrc->esb_m=
+mio);
+         break;
+=20
+@@ -1565,8 +1545,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+     uint8_t blk =3D xive->chip->chip_id;
+     uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
+-    uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive);
+-    uint32_t nr_ends =3D pnv_xive_nr_ends(xive);
++    uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+     XiveEAS eas;
+     XiveEND end;
+     int i;
+@@ -1586,21 +1565,16 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monit=
+or *mon)
+         }
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] ENDT %08x .. %08x\n", blk, 0, nr_ends =
+- 1);
+-    for (i =3D 0; i < nr_ends; i++) {
+-        if (xive_router_get_end(xrtr, blk, i, &end)) {
+-            break;
+-        }
+-        xive_end_pic_print_info(&end, i, mon);
++    monitor_printf(mon, "XIVE[%x] ENDT\n", blk);
++    i =3D 0;
++    while (!xive_router_get_end(xrtr, blk, i, &end)) {
++        xive_end_pic_print_info(&end, i++, mon);
+     }
+=20
+-    monitor_printf(mon, "XIVE[%x] END Escalation %08x .. %08x\n", blk, 0=
+,
+-                   nr_ends - 1);
+-    for (i =3D 0; i < nr_ends; i++) {
+-        if (xive_router_get_end(xrtr, blk, i, &end)) {
+-            break;
+-        }
+-        xive_end_eas_pic_print_info(&end, i, mon);
++    monitor_printf(mon, "XIVE[%x] END Escalation EAT\n", blk);
++    i =3D 0;
++    while (!xive_router_get_end(xrtr, blk, i, &end)) {
++        xive_end_eas_pic_print_info(&end, i++, mon);
+     }
+ }
+=20
 --=20
 2.21.0
 
