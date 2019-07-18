@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DCB6C903
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:44 +0200 (CEST)
-Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947D66C8F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:01:21 +0200 (CEST)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnzV5-0005CK-7g
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41713)
+	id 1hnzTi-0008HR-Tk
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:01:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSt-0006og-Rm
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:32 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSt-0006oc-AS
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSs-0004Du-FA
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSr-0004DB-SD
  for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:40539)
+Received: from ozlabs.org ([2401:3900:2:1::2]:53819)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnzSq-0004CC-RS; Thu, 18 Jul 2019 02:00:26 -0400
+ id 1hnzSr-0004BM-4Y; Thu, 18 Jul 2019 02:00:25 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45q3Q96GDQz9sNC; Thu, 18 Jul 2019 16:00:17 +1000 (AEST)
+ id 45q3QB0hl0z9sDQ; Thu, 18 Jul 2019 16:00:17 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563429617;
- bh=1X/NmsV4EjPSdjca9icaOm/4RcWjWOcDmnAbmOEMfV4=;
+ d=gibson.dropbear.id.au; s=201602; t=1563429618;
+ bh=OujN5D0Y4qdTDmm+yFd45VAtNtXuGWoNU3UgmNBKaxs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UW3ot8pnHFbkycl3ZE68pdrDbgL0OnB+/e/klHhGGWvJuEGBxVbJx1f50lvtlROrm
- zwVetDNAIPG5IcLJFfxDz1/jdFjlJL5bvlllgwzXwB2AO0LKPX8frC9F0JoAbN61yj
- Ci4ljqE81AdOeA2Y2z6OAgd4Qu11zqLNDF5uFxUw=
-Date: Thu, 18 Jul 2019 13:50:32 +1000
+ b=PMRsPAZzyYpS23/yLvMtnH0spKHSgnoNR+rLrsRq3XmPzNRvnlboH1F5UXCLhEoxk
+ VgQUbIBmrPl4eG+LCaPzRPVPFAbQX9hUn127QGPSybqTibpy07ZotVIhicMVQYQAYP
+ TSSDHM4sYQBRMbefVODockdLyW9F47xKsS+fgLQ4=
+Date: Thu, 18 Jul 2019 13:51:32 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190718035032.GC8468@umbus.fritz.box>
+Message-ID: <20190718035132.GD8468@umbus.fritz.box>
 References: <20190717103550.24657-1-david@redhat.com>
- <20190717103550.24657-2-david@redhat.com>
+ <20190717103550.24657-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
+ protocol="application/pgp-signature"; boundary="5gxpn/Q6ypwruk0T"
 Content-Disposition: inline
-In-Reply-To: <20190717103550.24657-2-david@redhat.com>
+In-Reply-To: <20190717103550.24657-3-david@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH-for-4.1 v2 1/3] virtio-balloon: fix QEMU
- crashes on pagesize > BALLOON_PAGE_SIZE
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v2 2/3] virtio-balloon: fix memory
+ leak on unrealize()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,30 +64,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---69pVuxX8awAiJ7fD
+--5gxpn/Q6ypwruk0T
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 17, 2019 at 12:35:48PM +0200, David Hildenbrand wrote:
-> We are using the wrong functions to set/clear bits, effectively touching
-> multiple bits, writing out of range of the bitmap, resulting in memory
-> corruptions. We have to use set_bit()/clear_bit() instead.
->=20
-> Can easily be reproduced by starting a qemu guest on hugetlbfs memory,
-> inflating the balloon. QEMU crashes. This never could have worked
-> properly - especially, also pages would have been discarded when the
-> first sub-page would be inflated (the whole bitmap would be set).
->=20
-> While testing I realized, that on hugetlbfs it is pretty much impossible
-> to discard a page - the guest just frees the 4k sub-pages in random order
-> most of the time. I was only able to discard a hugepage a handful of
-> times - so I hope that now works correctly.
+On Wed, Jul 17, 2019 at 12:35:49PM +0200, David Hildenbrand wrote:
+> We could have tracking data for a pbp (PartiallyBalloonedPage)
+> allocated. Let's free it.
 >=20
 > Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE <
 >                      host page size")
-> Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruption
->                      with inflates & deflates")
 > Cc: qemu-stable@nongnu.org #v4.0.0
 > Cc: Stefan Hajnoczi <stefanha@redhat.com>
 > Cc: David Gibson <david@gibson.dropbear.id.au>
@@ -95,44 +82,70 @@ On Wed, Jul 17, 2019 at 12:35:48PM +0200, David Hildenbrand wrote:
 > Cc: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Ahem.  You can pass me the brown paper bag now.
-
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/virtio/virtio-balloon.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  hw/virtio/virtio-balloon.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 >=20
 > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index e85d1c0d5c..669067d661 100644
+> index 669067d661..84d01bceb3 100644
 > --- a/hw/virtio/virtio-balloon.c
 > +++ b/hw/virtio/virtio-balloon.c
-> @@ -94,9 +94,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
->          balloon->pbp->base =3D host_page_base;
+> @@ -40,6 +40,12 @@ struct PartiallyBalloonedPage {
+>      unsigned long bitmap[];
+>  };
+> =20
+> +static void virtio_balloon_reset_pbp(VirtIOBalloon *balloon)
+> +{
+> +    g_free(balloon->pbp);
+> +    balloon->pbp =3D NULL;
+> +}
+> +
+>  static void balloon_inflate_page(VirtIOBalloon *balloon,
+>                                   MemoryRegion *mr, hwaddr offset)
+>  {
+> @@ -82,8 +88,7 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
+>          /* We've partially ballooned part of a host page, but now
+>           * we're trying to balloon part of a different one.  Too hard,
+>           * give up on the old partial page */
+> -        g_free(balloon->pbp);
+> -        balloon->pbp =3D NULL;
+> +        virtio_balloon_reset_pbp(balloon);
 >      }
 > =20
-> -    bitmap_set(balloon->pbp->bitmap,
-> -               (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
-> -               subpages);
-> +    set_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
-> +            balloon->pbp->bitmap);
-> =20
->      if (bitmap_full(balloon->pbp->bitmap, subpages)) {
->          /* We've accumulated a full host page, we can actually discard
-> @@ -140,9 +139,8 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+>      if (!balloon->pbp) {
+> @@ -106,8 +111,7 @@ static void balloon_inflate_page(VirtIOBalloon *ballo=
 on,
->           * for a guest to do this in practice, but handle it anyway,
->           * since getting it wrong could mean discarding memory the
->           * guest is still using. */
-> -        bitmap_clear(balloon->pbp->bitmap,
-> -                     (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SI=
-ZE,
-> -                     subpages);
-> +        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
-> +                  balloon->pbp->bitmap);
+>           * has already reported them, and failing to discard a balloon
+>           * page is not fatal */
+> =20
+> -        g_free(balloon->pbp);
+> -        balloon->pbp =3D NULL;
+> +        virtio_balloon_reset_pbp(balloon);
+>      }
+>  }
+> =20
+> @@ -143,8 +147,7 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+on,
+>                    balloon->pbp->bitmap);
 > =20
 >          if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
->              g_free(balloon->pbp);
+> -            g_free(balloon->pbp);
+> -            balloon->pbp =3D NULL;
+> +            virtio_balloon_reset_pbp(balloon);
+>          }
+>      }
+> =20
+> @@ -831,6 +834,7 @@ static void virtio_balloon_device_unrealize(DeviceSta=
+te *dev, Error **errp)
+>          virtio_balloon_free_page_stop(s);
+>          precopy_remove_notifier(&s->free_page_report_notify);
+>      }
+> +    virtio_balloon_reset_pbp(s);
+>      balloon_stats_destroy_timer(s);
+>      qemu_remove_balloon_handler(s);
+>      virtio_cleanup(vdev);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -140,25 +153,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---69pVuxX8awAiJ7fD
+--5gxpn/Q6ypwruk0T
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v7IYACgkQbDjKyiDZ
-s5L5BA/9Has+a2twYqQKy9TdljWuVT9hcMKxiwo7z1Vcpsn1VTROYaGQBzXda6SO
-g7wO6pSYv8GVAQBWhDaBqb8q9DeDZ+ot3bsQmr5hdFiJ2ffg8HKntYvw2NYe7ncs
-yj9UgC31UtdwySjNTZsfwZinys1+yhDdNBAz+8XW2/hfx4w3+FdPUdpkWp3NrKbp
-XsWyogQC3Gg9godhkKzl/ilhJjCqJUyT1BiOEgZfsqWK6lMUT+yIcUUNC6dlCDB/
-rv3udphFXqlglF+t237WfOXl7KtXbmeSjZ+IyahcE04pNZmQIihM4BEE5SDfRxwk
-CUHSInA/Pzgsp54H5z2JSBvQOow7JvKX/Jk4agF0zFaiAVcWhXI3+lHfzLWUtExC
-uPLpUmklemrySDikSpFbsrUvHPUIK5KNkOuCgkTZ7G7rE5cbs7zol1zyWaxCNi1q
-6Da/XY6m4D6p9TBCIANtpvPzXnuB5eHZT9u8jwhxjbjv4Ii0E9voKcQHE+9/N1Un
-XbVwVXlGHZfsQyeVAy1mwWGpB+IFzqYxz7t93rM0WP2ydVqz9A7TEv4yZ0OJMmXi
-Bg8J7I+hGgdspCVf/1yQ0Ob9mn/ZcORbO7swc2L1X4ror75y8/nm2KS89JVbeFLK
-/VdGScgcBCLwmZW3p6c4Miv58shkcPq/LQe26ece3OMvZVPLU28=
-=EMPo
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v7MQACgkQbDjKyiDZ
+s5JN1BAAt1VfOrHIkdDMPJZa3GU7Db6+no1jFXMHAoyNDxB+lZcX7szOSl+W+1xC
++rqIjiGwnSYAC5tNGCKykTWf2FDvqMriB86Z4dxeuieF/x3tWpgIQWUQJFMvcvny
+ZzdQSm//WBy8mkeS1FD3fb3fiQmp8woTdBATUJqVg7lQ04XvxPlvnZXjWFNWDXDQ
+U2m3prQgLGkOOn0lHL032AAWk9shULVWRVrfuo7gGPJ7nsyqF5NGAi1Qtp3U/J86
+7XOpJApOiWKpm0IpAZHqNXglqUxpXcPe6qiEJ8A+k7C7KD1zyHedkU419ib8cCG3
+7aNG+PTXWbdiy6mKiIgOcmPg8qOd3zdbira6KIicSTl1lbjRmJMB8JxrS4PO+Av8
+rgErEjkUvrprymQo9TRi8NkP+NgF/hHjTdvED0giTf0YCrvr54pK59WNBW8N6+ID
+zzC8iKOlcroSWXwX6F9PacPV5sP7TpQFHusil7VF843nIWPctiTtOAoHYRqr8ev0
+rMAD/WmGSCGWW/nmGrPEvF6Vj4fxI/9Oavft9x2aqY/rqzuyDF/ucIIWI5hMa0Qp
+P19WXR1evryaFptlgczBlkjI3i1en/3D3REMdXJw1l617sSqf9YvWIagd86Ym5CZ
+dJSa2Me2TkwylLZ7mPvpzwGbESVX9edDKMc402RGEVR8yPOrfxI=
+=Zdi7
 -----END PGP SIGNATURE-----
 
---69pVuxX8awAiJ7fD--
+--5gxpn/Q6ypwruk0T--
 
