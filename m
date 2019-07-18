@@ -2,49 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF176CDD0
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:05:05 +0200 (CEST)
-Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8302E6CDC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 14:01:29 +0200 (CEST)
+Received: from localhost ([::1]:37282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ho59k-0001pO-6D
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 08:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
+	id 1ho56G-0008Az-G6
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 08:01:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33136)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1ho510-0000VU-9x
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:03 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ho561-0007lu-P9
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ho50y-0002ao-NG
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:01 -0400
-Received: from 2.mo68.mail-out.ovh.net ([46.105.52.162]:57616)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ho50y-0002Y8-Gs
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 07:56:00 -0400
-Received: from player778.ha.ovh.net (unknown [10.108.35.119])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 542B413CE19
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 13:55:57 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 913B3801F61E;
- Thu, 18 Jul 2019 11:55:51 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 18 Jul 2019 13:54:18 +0200
-Message-Id: <20190718115420.19919-16-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
-References: <20190718115420.19919-1-clg@kaod.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6795087416839801830
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrieehgdegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.52.162
-Subject: [Qemu-devel] [PATCH v2 15/17] ppc/pnv: Grab the XiveRouter object
- from XiveTCTX in pnv_xive_get_tctx()
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ho560-0000TY-Q4
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:01:13 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55941)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ho55y-0000Ni-Hq
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 08:01:10 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a15so25305467wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 05:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=rjf4sVTYWwceznA09gU3q1WrdJs4URLDPRg7ZvAEwUQ=;
+ b=bF+aqG+L2/7arp9QZzkuFGKp1jpqu8q1p2MyerSCiA1bnz4+lzhNBSA/5pdvDwtbUg
+ jdB7t1k9IB7YUpC2KuETI9g2s1L0Dsvqm9rnqcj9uxabC6mo4SEdBlwqkOriOV9DOtFY
+ QSH1gOgFG7brhec1Z3RDP0vIur1RC+WHCWdtKM15PuulDZxMGtYoEAnKPSOH7n3A+3WZ
+ GMbOicYyvpmqwy3si6Yc1Q+t3uiJmrHWmpNdKZoDfZSSzbB3oA/3D9ty9cGLgzC3xsdD
+ kt2Xt2I6ZLvlOh8lEn9eL1+J9Bu/C8jjLXgQ3PicTriyeswtDKc1kYnA04Sj9EhyQB+L
+ NIYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=rjf4sVTYWwceznA09gU3q1WrdJs4URLDPRg7ZvAEwUQ=;
+ b=fkrAtM6lijpsvYxQX7ANXU3WOgewSJv3LAUi639ZcIy6aIaR2FtnupVg/jFCqJMnP2
+ 6ZFm2t4lUHbfjbGZ4QT2Lnt//TtWL0A8Xo0l+URHQUvDd2HzWZg3ekIo7SoImutDqY02
+ 7OvNSLpuZ9xrb+wXhusD+5uXHHc3ys5SjvNApFU3RHhExtZDsPPrb75UcoTt1HxGDq3W
+ P5XBSVpe6NRbTJHYt/Yc78y9SHoVKHAtwmFG7f8zjwQn0VN2G+XEUzRa0pcD61zFBCcS
+ ok+b+whMLivc7kblVioFooBXKOD3+OBRGIsY7DzBVm5l4Fv3jInBIq72fEJtVZ960tsD
+ Rrkg==
+X-Gm-Message-State: APjAAAX5NxykMBchZCiCYNke5gEpY8adU4evuzNzWZ7Sf7TEBi+xaW6E
+ lrSm//EFgg1XL8NYqo4sFQqvdXrfG9Q=
+X-Google-Smtp-Source: APXvYqzoXGLwjN+IwV/MwIvM3C16Vpo+hq/Yk4YZ70f7E8LeFL4hlYcE2wV9RlTTyrX3B4LliMiOEw==
+X-Received: by 2002:a1c:c747:: with SMTP id x68mr42247337wmf.138.1563451265717; 
+ Thu, 18 Jul 2019 05:01:05 -0700 (PDT)
+Received: from 640k.localdomain ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id x24sm27239965wmh.5.2019.07.18.05.01.04
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Jul 2019 05:01:05 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 18 Jul 2019 14:01:04 +0200
+Message-Id: <1563451264-46176-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH] curses: assert get_wch return value is okay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,49 +71,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It removes a useless call to pnv_xive_get_ic() which is making some
-assumption on the chip_id format.
+This prevents the compiler from reporting a possible uninitialized use
+of maybe_keycode in function curses_refresh.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/intc/pnv_xive.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ ui/curses.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index a48f6750154e..403e8c8ca5b4 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -370,22 +370,13 @@ static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr=
-, CPUState *cs)
- {
-     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-     XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
--    PnvXive *xive =3D NULL;
-+    PnvXive *xive =3D PNV_XIVE(tctx->xrtr);
-     CPUPPCState *env =3D &cpu->env;
-     int pir =3D env->spr_cb[SPR_PIR].default_value;
-=20
-     /*
-      * Perform an extra check on the HW thread enablement.
--     *
--     * The TIMA is shared among the chips and to identify the chip
--     * from which the access is being done, we extract the chip id
--     * from the PIR.
-      */
--    xive =3D pnv_xive_get_ic((pir >> 8) & 0xf);
--    if (!xive) {
--        return NULL;
--    }
--
-     if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
-         xive_error(PNV_XIVE(xrtr), "IC: CPU %x is not enabled", pir);
+diff --git a/ui/curses.c b/ui/curses.c
+index a6e260e..a3ec9b5 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -225,6 +225,8 @@ static wint_t console_getch(enum maybe_keycode *maybe_keycode)
+     case ERR:
+         ret = -1;
+         break;
++    default:
++	abort();
      }
---=20
-2.21.0
+     return ret;
+ }
+-- 
+1.8.3.1
 
 
