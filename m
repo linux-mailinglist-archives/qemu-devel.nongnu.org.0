@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54A76C901
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:02:12 +0200 (CEST)
-Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B6A6C8FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Jul 2019 08:01:34 +0200 (CEST)
+Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hnzUZ-0003Iu-Ag
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41794)
+	id 1hnzTx-0000n1-9x
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 02:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSx-0006t0-E9
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:32 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hnzSs-0004DR-0U
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSv-0006oz-VB
  for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:31 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:43091)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1hnzSu-0004Gm-RQ
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 02:00:29 -0400
+Received: from ozlabs.org ([203.11.71.1]:32799)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hnzSq-0004BF-S1; Thu, 18 Jul 2019 02:00:25 -0400
+ id 1hnzSu-0004Dj-G1; Thu, 18 Jul 2019 02:00:28 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45q3QB5TVCz9sNH; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
+ id 45q3QB6qvYz9sNf; Thu, 18 Jul 2019 16:00:18 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563429618;
- bh=TGl9aGNMWCj3W7fGG/aGc+knLslW4zzipWE0COgEYgk=;
+ bh=JacP9k4zZK8Q7DRUK2mu0xrWPgKZ4lhc1ATwQnk37kw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JkJI+eCTCgnY5qu5Cz56RZRwP3WI7IBidruFEjYqWJt2Mey8p7EKMmRKHqcIFzQLd
- Q9v0zhlZkYCmSHMFKZmJ702I3EX4lIJFbnQZttwD4JoSUepQlkMckbeKyTMKyhSRQ6
- rT+NyND1zuN4/LMxeG4/ZAvIyTOQgtd0Cpz3ak4k=
-Date: Thu, 18 Jul 2019 14:20:08 +1000
+ b=LuquJNP5wWWBLhJ/WkmAE1m6lCQx2ndStGcXJW43dEKxtkVDpJDpcSf8GiDLJQYF2
+ jo6DXSiMgx0+/AAEBEaN2S0Zem8oEqiTUDtIUo1/OIWDWjonNL8G1Tdu9yjqIBN94b
+ bPBmNXN/EgxLCn+2sq2yxCmkYGweQEp6aMnvk6S0=
+Date: Thu, 18 Jul 2019 14:21:43 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190718042008.GG8468@umbus.fritz.box>
+Message-ID: <20190718042143.GH8468@umbus.fritz.box>
 References: <156335150620.82682.9535735857478533420.stgit@lep8c.aus.stglabs.ibm.com>
- <156335159028.82682.5404622104535818162.stgit@lep8c.aus.stglabs.ibm.com>
+ <156335160761.82682.11912058325777251614.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MrRUTeZlqqNo1jQ9"
+ protocol="application/pgp-signature"; boundary="uJrvpPjGB3z5kYrA"
 Content-Disposition: inline
-In-Reply-To: <156335159028.82682.5404622104535818162.stgit@lep8c.aus.stglabs.ibm.com>
+In-Reply-To: <156335160761.82682.11912058325777251614.stgit@lep8c.aus.stglabs.ibm.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 2/4] ppc: fix memory leak in
- spapr_dt_drc()
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v2 3/4] ppc: fix leak in
+ h_client_architecture_support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,60 +61,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---MrRUTeZlqqNo1jQ9
+--uJrvpPjGB3z5kYrA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 17, 2019 at 03:20:01AM -0500, Shivaprasad G Bhat wrote:
-> Leaking the drc_name while preparing the DT properties.
-> Fixing that.
->=20
-> Also, remove the const qualifier from spapr_drc_name().
+On Wed, Jul 17, 2019 at 03:20:31AM -0500, Shivaprasad G Bhat wrote:
+> Free all SpaprOptionVector local pointers after use.
 >=20
 > Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 
 Applied to ppc-for-4.2, thanks.
 
 > ---
->  hw/ppc/spapr_drc.c |    7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  hw/ppc/spapr_hcall.c |    2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index bacadfcac5..695a0b2285 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -226,7 +226,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
->      return RTAS_OUT_SUCCESS;
->  }
-> =20
-> -static const char *spapr_drc_name(SpaprDrc *drc)
-> +static char *spapr_drc_name(SpaprDrc *drc)
->  {
->      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> =20
-> @@ -827,6 +827,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
-, uint32_t drc_type_mask)
->          Object *obj;
->          SpaprDrc *drc;
->          SpaprDrcClass *drck;
-> +        char *drc_name =3D NULL;
->          uint32_t drc_index, drc_power_domain;
-> =20
->          if (!strstart(prop->type, "link<", NULL)) {
-> @@ -856,8 +857,10 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
-r, uint32_t drc_type_mask)
->          g_array_append_val(drc_power_domains, drc_power_domain);
-> =20
->          /* ibm,drc-names */
-> -        drc_names =3D g_string_append(drc_names, spapr_drc_name(drc));
-> +        drc_name =3D spapr_drc_name(drc);
-> +        drc_names =3D g_string_append(drc_names, drc_name);
->          drc_names =3D g_string_insert_len(drc_names, -1, "\0", 1);
-> +        g_free(drc_name);
-> =20
->          /* ibm,drc-types */
->          drc_types =3D g_string_append(drc_types, drck->typename);
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 6808d4cda8..71cfe7c41d 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1612,6 +1612,7 @@ static target_ulong h_client_architecture_support(P=
+owerPCCPU *cpu,
+>      ov5_updates =3D spapr_ovec_new();
+>      spapr->cas_reboot =3D spapr_ovec_diff(ov5_updates,
+>                                          ov5_cas_old, spapr->ov5_cas);
+> +    spapr_ovec_cleanup(ov5_cas_old);
+>      /* Now that processing is finished, set the radix/hash bit for the
+>       * guest if it requested a valid mode; otherwise terminate the boot.=
+ */
+>      if (guest_radix) {
+> @@ -1629,6 +1630,7 @@ static target_ulong h_client_architecture_support(P=
+owerPCCPU *cpu,
+>      }
+>      spapr->cas_legacy_guest_workaround =3D !spapr_ovec_test(ov1_guest,
+>                                                            OV1_PPC_3_00);
+> +    spapr_ovec_cleanup(ov1_guest);
+>      if (!spapr->cas_reboot) {
+>          /* If spapr_machine_reset() did not set up a HPT but one is nece=
+ssary
+>           * (because the guest isn't going to use radix) then set it up h=
+ere. */
 >=20
 
 --=20
@@ -124,25 +110,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---MrRUTeZlqqNo1jQ9
+--uJrvpPjGB3z5kYrA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v83gACgkQbDjKyiDZ
-s5LXTxAAsB7w6SzOQTZQRYVp8GF2K7Iz+usYbe0r512IKOspRnbF9BEL3Wm92vvB
-SqlGwLZb7O9E4ozOxiwSPSEMLgI1M7AmarJjg+40qMkiHPckbh1giPBd3arwpav/
-L2kSez4kBP8wBYXocIKHZoqQsUzQ/H7G6oKhbJW25MoWnthuJ8r4CJkdCHlXcX9O
-Zprs2VA90U1dZbJyJb217zvNYOIT/m8h3Z9Kb1D4cpJ+9xMEC1KIejA6HmMTUleb
-6NyvrFCKFwydnf/dTcDihu8BGlkpLFc1QKq0LJ8NpocSe/7M37ckZwgXb43j9y2u
-94B8v+b+g1OYQQaZzzvxkvma70Dp9GuUbRODLNy3bTiRukgBHmTa/8S/HCPG0PEI
-tWFQD49aBXt0pQza2oT3HqpLgRDoVUjh91PsxYdVa79RSAo4UrT0NNp0OQQW1w9X
-tRSAdTtsec9cTaYnjHvkmzSb9kDlxGCCPj7uoqZnfKZdoZVZJ3DfJzOV9G7vBdTP
-DglZBqpt+iznfxR46956EXaBjh5W7aB/by0U3ej1MGNzemDWAjEsJ94d9POaCLy/
-RLRoRK9ZiSYhf/Eia/YDcxb8fhx7xmxsh+3ySy3veKD+p3eRWLXzDpGfp2bUrfV4
-Zfkn+Cxjs1fUxOofsnLFat9+vNjY0ieVniXFGuMSLI3LycPiXQA=
-=0eBd
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0v89cACgkQbDjKyiDZ
+s5LazA/9E/l2jxNzlvSBQt1U1bHQiyc4AH9y/vQfxzo7TZ4qiCaK65AnZxZpooOT
+sMP+9v3F93QHhPCTuGxkuyZIHucV1Ucux4K7h4WRUUnICp2F46AJvwCVxQv9YYbK
+tOYsWFkjVG3rnwsNlskKgwTECvoABoJCjgcV9dyZ6YCNNJG1sH6cPIG6ZcazO5XT
+9zRs83lLq/OatbFoyFx2JjHhpHmH2scE9bA/XgA4eACBPJ59vY6mN4V/YY3M8bRQ
+dzj1Noc13Sk+D2toKLy8mV/2HFML3XJPSndqsHULRqLh72jymoLzDk5Y93fRRfj+
+DCrCERC6lX+jaiuAsFWDXGUkb06A5RY10VnL7n1Xi7/NgOpAnyOcAZu4RKNHr+nR
+5GNbRVwlkAw//s0Aw+FQ2/FuYX+bHvUhbe4sCJeXiP30f64DBKcRVD0QzranILTW
+y1yELTnYO3VeKhpw+kSfpAT4hqOpww9yg8Z+kddLBig3Vz5ORBfBw+wAeYOS45Vn
+Y0zKWYnIK4rkr44cqBKFBeFg9FRizYnSSAWdz9D6u71aaZOq4kno2TMH2EBmemuI
+pDdQbwnAaaIIymARMSCa53vTKMsOsNjJbmD8mmRI9ZOHmgLJ8oH3k3uQ+Q7B+mUT
+ck9o35dIKub/VSOffen06whd2hWK2RETK7eyNGJIJwH7hb4v23M=
+=TMdW
 -----END PGP SIGNATURE-----
 
---MrRUTeZlqqNo1jQ9--
+--uJrvpPjGB3z5kYrA--
 
