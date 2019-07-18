@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12486D6C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 00:17:34 +0200 (CEST)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2286F6D6D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 00:28:15 +0200 (CEST)
+Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoD3Y-0005Mm-8i
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 16:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
+	id 1hoEsn-0003KG-Te
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 18:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52803)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hoD2o-0004x8-H2
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 16:30:31 -0400
+ (envelope-from <bounces@canonical.com>) id 1hoEsa-0002tx-J2
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 18:28:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hoD2h-0000OR-PZ
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 16:30:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:7460)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hoD2h-0000OD-K5
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 16:30:19 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D069B3365A;
- Thu, 18 Jul 2019 20:30:16 +0000 (UTC)
-Received: from redhat.com (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with SMTP id 7F4315D71C;
- Thu, 18 Jul 2019 20:30:15 +0000 (UTC)
-Date: Thu, 18 Jul 2019 16:30:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Message-ID: <20190718162958-mutt-send-email-mst@kernel.org>
-References: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
+ (envelope-from <bounces@canonical.com>) id 1hoEsZ-0003UA-Ff
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 18:28:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44914)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hoEsZ-0003Sv-9r
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 18:27:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hoE94-0006YU-JS
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 21:40:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 91DAE2E80C9
+ for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 21:40:58 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 18 Jul 2019 20:30:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 18 Jul 2019 21:32:02 -0000
+From: Thomas Moschny <1828723@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee moschny philmd
+X-Launchpad-Bug-Reporter: Thomas Moschny (moschny)
+X-Launchpad-Bug-Modifier: Thomas Moschny (moschny)
+References: <155766144999.15801.8727893741494500797.malonedeb@wampee.canonical.com>
+Message-Id: <156348552266.29847.1313567678080261029.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 85f65cb22c493b06ea6e6f8eca781d513dae0c05
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] i386/acpi: fix gint overflow in
- crs_range_compare
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828723] Re: [RFE] option to suppress gemu_log()
+ output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,60 +65,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
+Reply-To: Bug 1828723 <1828723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 18, 2019 at 07:14:23PM +0300, Evgeny Yakovlev wrote:
-> When very large regions (32GB sized in our case, PCI pass-through of GPUs)
-> are compared substraction result does not fit into gint.
-> 
-> As a result crs_replace_with_free_ranges does not get sorted ranges and
-> incorrectly computes PCI64 free space regions. Which then makes linux
-> guest complain about device and PCI64 hole intersection and device
-> becomes unusable.
-> 
-> Fix that by returning exactly fitting ranges.
-> 
-> Also fix indentation of an entire crs_replace_with_free_ranges to make
-> checkpatch happy.
-> 
-> Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Indeed I think gemu_log() is the problem here.
 
-queued, thanks a lot!
+-- =
 
-> ---
-> v2:
-> entire crs_replace_with_free_ranges was indented with 5 spaces, including my change.
-> fix that as well
-> 
->  hw/i386/acpi-build.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index d281ffa..e7b756b 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -755,10 +755,16 @@ static void crs_range_set_free(CrsRangeSet *range_set)
->  
->  static gint crs_range_compare(gconstpointer a, gconstpointer b)
->  {
-> -     CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
-> -     CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
-> +    CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
-> +    CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
->  
-> -     return (int64_t)entry_a->base - (int64_t)entry_b->base;
-> +    if (entry_a->base < entry_b->base) {
-> +        return -1;
-> +    } else if (entry_a->base > entry_b->base) {
-> +        return 1;
-> +    } else {
-> +        return 0;
-> +    }
->  }
->  
->  /*
-> -- 
-> 2.7.4
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828723
+
+Title:
+  [RFE] option to suppress gemu_log() output
+
+Status in QEMU:
+  New
+
+Bug description:
+  With user mode emulation, messages from genu_log() are emitted
+  unconditionally to stderr. I didn't find a way to suppress them. It
+  would be nice to have options similar to the -D/-d options to be able
+  to filter and/or redirect the output.
+
+  My use case is chroot/container execution for different architectures
+  via binfmt. In this case it will appear as if the binary in question
+  had emitted messages like "Unsupported setsockopt ..." to stderr while
+  in fact the message came from qemu-*-static.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828723/+subscriptions
 
