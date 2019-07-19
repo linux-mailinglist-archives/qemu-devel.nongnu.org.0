@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AD36E280
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 10:29:02 +0200 (CEST)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1295F6E2E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 10:51:52 +0200 (CEST)
+Received: from localhost ([::1]:43160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoOGD-0001zQ-SH
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 04:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
+	id 1hoOcI-0002Gq-Np
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 04:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hoOF8-00063D-Fl
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:27:55 -0400
+ (envelope-from <sbhat@linux.ibm.com>) id 1hoOc4-0001lK-Kd
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:51:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hoOF6-00043C-CL
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:27:54 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:35460)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hoOF6-00042U-80
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:27:52 -0400
-Received: by mail-qt1-x843.google.com with SMTP id d23so30130192qto.2
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 01:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YeA7POpHAJICOwMJ5+K27gKtRH5vjLL2HbcCnHkwvas=;
- b=ZlZ0TcpQnZQ/PdO4r71znQJ3UKBmb16AIEPMprr+qAsNFUknzp+GBYyQDeX28w5UbS
- /UoUHN00WtjSM+RL8wZl5fuYT+A3dbVPMu+5AXoKuK9ACI6p52G0+bwEqqUzYbbB9XDA
- QMi5xjdWI1Ab1M2CMsqeg6w4LokFjSLGgTHDtBA5i7oI/CkKNPs1NTQUUG+t2iZ+cLWI
- LGr/v44L4dUtcGXC1QKFf649AYnaOOWdVqiO46kyxxhyyxKxNzAoB4s/u71Z7/moGaXV
- WMy8dtCm4/fvjFOKe15ZAmn/hLnA66DkmXmDWRqKjs4VtXb0JJz+g+ghXNot7mj7+1sl
- 7ZGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YeA7POpHAJICOwMJ5+K27gKtRH5vjLL2HbcCnHkwvas=;
- b=aYHzs1HQJ3pZJ6i8asidLPmUy6XTf+10qGf8P/m8OtdV2BdFbEGPjt03MFfXlvtvrM
- kmL3lsDAXMOsaOR+B2AMYOxlUzQNO8aCY7Q68LEMpYrqUD9pqySJOcOHWCAk5pZlaPsI
- 2JdLw1SFqdH7OyPXxIhFCiYCrOfWk1UcY4sjqY3swya26focatR4a+uAuaW0/0DJqZHV
- RU0ys3g0aRiGjxOYBt4HRDaGqj7cM2It1KqKEIiwsdvstCi53hf1io/hpraYokGPzKp2
- tS1lK2Tx1aYnR4foUv4OUSf8YvRm5/tV+wp5KAXTeyjxkIQRCRemn5NnMqxC4Q0QXKWO
- xrEw==
-X-Gm-Message-State: APjAAAWnb923sL+PEkfhr5tzVVAtSNeId7pdw9gxaGslnmUijrCX1Bpn
- +hmpTiDN6pFgM2EyEJikX+kCe3cpFLOw9hyL6wM=
-X-Google-Smtp-Source: APXvYqzk/SYpMJmUQ/9PI8bfP9Buy+fgq+5X/+7ml739xmnai5EixkxrX54UFYUpT3hMSoUTeJ9d8sjUJc/qWFs+z5I=
-X-Received: by 2002:ac8:3a63:: with SMTP id w90mr36015023qte.371.1563524870593; 
- Fri, 19 Jul 2019 01:27:50 -0700 (PDT)
+ (envelope-from <sbhat@linux.ibm.com>) id 1hoOc3-00052i-C6
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:51:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64888
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1hoOc3-00051e-7k
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:51:35 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6J8ksXa066829
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 04:51:33 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tu9tua6yp-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 04:51:33 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <sbhat@linux.ibm.com>;
+ Fri, 19 Jul 2019 09:51:31 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 19 Jul 2019 09:51:28 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6J8pRMS27852838
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Jul 2019 08:51:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C79D1A4066;
+ Fri, 19 Jul 2019 08:51:27 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4EBB7A405C;
+ Fri, 19 Jul 2019 08:51:27 +0000 (GMT)
+Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Jul 2019 08:51:27 +0000 (GMT)
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Date: Fri, 19 Jul 2019 03:51:26 -0500
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-References: <20190712053704.21228-1-mrolnik@gmail.com>
- <CAK4993h_VjHbg-BSbuH469fEZYy9zTz8Uh2o080vySNeopiHQQ@mail.gmail.com>
- <7c7dda7e-0a3a-dfb8-eae1-a4ae36c002cc@redhat.com>
-In-Reply-To: <7c7dda7e-0a3a-dfb8-eae1-a4ae36c002cc@redhat.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Fri, 19 Jul 2019 11:27:14 +0300
-Message-ID: <CAK4993gwAr19jS95mZv3RXMZ7N=hWxrT7DUXZrSSBK-8Qbwc-A@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v26 0/7] QEMU AVR 8 bit cores
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19071908-0020-0000-0000-000003554FFE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071908-0021-0000-0000-000021A92C09
+Message-Id: <156352619712.50279.1247507600735238783.stgit@lep8c.aus.stglabs.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-19_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907190102
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH v4] ppc: make idle_timer a per-cpu variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,50 +88,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil.
+The current code is broken for more than vcpu as
+each thread would overwrite idle_timer and there were
+memory leaks.
 
-Thanks for explaining.
+Make it part of PowerPCCPU so that every thread has a
+separate one. Avoid using the timer_new_ns which is
+not the preferred way to create timers.
 
-Tests are added.
+Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ v3: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04375.html
+ Changes from v3:
+    - Calling timer_del() before timer_deinit()
 
-On Thu, Jul 18, 2019 at 8:19 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
+ target/ppc/cpu.h |    1 +
+ target/ppc/kvm.c |   32 +++++++++++++++++---------------
+ 2 files changed, 18 insertions(+), 15 deletions(-)
 
-> Hi Michael,
->
-> On 7/17/19 5:46 PM, Michael Rolnik wrote:
-> > ping.
->
-> QEMU is currently preparing for the next release (4.1) and we entered
-> the "freezed" period where no new features are accepted.
->
-> This does not mean people are not allowed to post new features to the
-> list, but most volunteering reviewers will focus on bug-fixing patches
-> and testing.
-> (This is why I hadn't reply to your questions on v25).
->
-> You can see the schedule here:
-> https://wiki.qemu.org/Planning/4.1
->
-> Meanwhile, could you have a look at adding a test for your work?
-> (suggested in reply v24 cover).
->
-> Cc'ing Yoshinori which series is in the same case than your.
->
-> Regard,
->
-> Phil.
->
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index c9beba2a5c..521086d91a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1190,6 +1190,7 @@ struct PowerPCCPU {
+     void *machine_data;
+     int32_t node_id; /* NUMA node this CPU belongs to */
+     PPCHash64Options *hash64_opts;
++    QEMUTimer idle_timer;
+ 
+     /* Fields related to migration compatibility hacks */
+     bool pre_2_8_migration;
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 8a06d3171e..52d3292f45 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -87,18 +87,6 @@ static int cap_large_decr;
+ 
+ static uint32_t debug_inst_opcode;
+ 
+-/*
+- * XXX We have a race condition where we actually have a level triggered
+- *     interrupt, but the infrastructure can't expose that yet, so the guest
+- *     takes but ignores it, goes to sleep and never gets notified that there's
+- *     still an interrupt pending.
+- *
+- *     As a quick workaround, let's just wake up again 20 ms after we injected
+- *     an interrupt. That way we can assure that we're always reinjecting
+- *     interrupts in case the guest swallowed them.
+- */
+-static QEMUTimer *idle_timer;
+-
+ static void kvm_kick_cpu(void *opaque)
+ {
+     PowerPCCPU *cpu = opaque;
+@@ -491,7 +479,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         return ret;
+     }
+ 
+-    idle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
++    timer_init_ns(&cpu->idle_timer, QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
+ 
+     switch (cenv->mmu_model) {
+     case POWERPC_MMU_BOOKE206:
+@@ -523,6 +511,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+ int kvm_arch_destroy_vcpu(CPUState *cs)
+ {
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++
++    timer_del(&cpu->idle_timer);
++    timer_deinit(&cpu->idle_timer);
++
+     return 0;
+ }
+ 
+@@ -1379,8 +1372,17 @@ void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
+             printf("cpu %d fail inject %x\n", cs->cpu_index, irq);
+         }
+ 
+-        /* Always wake up soon in case the interrupt was level based */
+-        timer_mod(idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
++        /*
++         * XXX We have a race condition where we actually have a level
++         *     triggered interrupt, but the infrastructure can't expose that
++         *     yet, so the guest takes but ignores it, goes to sleep and
++         *     never gets notified that there's still an interrupt pending.
++         *
++         *     As a quick workaround, let's just wake up again 20 ms after
++         *     we injected an interrupt. That way we can assure that we're
++         *     always reinjecting interrupts in case the guest swallowed them.
++         */
++        timer_mod(&cpu->idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+                        (NANOSECONDS_PER_SECOND / 50));
+     }
+ 
 
 
---=20
-Best Regards,
-Michael Rolnik
