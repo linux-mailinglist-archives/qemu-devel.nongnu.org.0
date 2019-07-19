@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1C6EBE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:05:31 +0200 (CEST)
-Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BDE6EC12
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:29:00 +0200 (CEST)
+Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoa4H-0001if-Kw
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55229)
+	id 1hoa5D-0006O3-9B
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55101)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3b-0008DX-4g
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:47 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3V-0007qF-Lo
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3V-0005Xq-Vp
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:46 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45303)
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3R-0005Vq-Ab
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:40 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38346)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hoa3V-0005DZ-HJ
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:41 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id y8so16176609plr.12
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:55 -0700 (PDT)
+ id 1hoa3R-0005Bo-2u
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:37 -0400
+Received: by mail-pf1-x441.google.com with SMTP id y15so14687201pfn.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=J6T0UaDoHOUvHQdeL0jaxXvQ3BPRU+bqa9M24JR56TM=;
- b=ftX9m6a7amh2lG2VgXdb5c50Tt1CJXPkB8mD6wJYX5ueB8jWKW6W/reQj4CuRd36E/
- JOQDs6uh2kMNVAffEJ1CUzS0KGs+LQIZALSi+zX2Tx/p8W2pW8tCiYfxKXmmb7CJdOF8
- 56+tIHJi5FEUeSMxx597Cw8znF3Y4pNvcLljq2Z3Fpz4hkUfGplHq8xzUX35CgFJyYCC
- Q14IycFqtIt/KA94NiT66poSwOX0CPqnS/xiQx4AHme2u9n4PV0JaJG9KLJP/oGkGx7K
- HWQTIG5Ts1nLq0cOjGjZF0uUmakO2d6GiwMUuumaCIqfghoBIDtZ+cmSHTpTPKmmjU+S
- Jl5A==
+ bh=PI1YJc5YjWIF6+6p2IKRfVxeRzTCt2ZI5L41svkHvyA=;
+ b=fSeP84tgg7Nt0wuBvWuN/KQpTt+NTz1zkjNVBd1d3/FCcB8i9G9LUv5hKmDzTGf+/l
+ M/Ql/nTcf+ezfkbd0nRUkAJKUv7I79M1qIBCiuEYuleNkay0p0g8NrEq6c8zTObCAYxC
+ 9OO0YS+Bo1g4/fr7yinlILJbiM7m78LUc5JpV3WYRixuVke8zZ8rdQPQg/1tiH5oe+AI
+ 8RGrudM75eeY5q/s4UekghhcRqIwMHqXxNdWAQf6oMM3dZxWqYEvGRanhkyfstnRePTo
+ +F0AC23PirmkxNulrOUq6xnlxn8Om/mex1eHfiofKc6LCbBmiaPtUhTR7ciqxZqjW4xS
+ a3rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=J6T0UaDoHOUvHQdeL0jaxXvQ3BPRU+bqa9M24JR56TM=;
- b=QGCa+fTlePJqZxW/jcKd67nLkBZZYPY+KgzRQMKVVPnjwlFJrgvpmSEntonSBQn2uk
- AR1nSewo2ZdV9GsKuCNRwH6zWZvhLmXzBb6tX8SbZUbT7O8Bwd/u7Bhgz9ewTZwC2TQY
- xbHY1rG8mEWJvLlp3GbKJJvIDRwKLmjSd2MriBSlDNwrjOFgpCkwUDm7VChKu7t7YUzK
- Mwohf8hyn2hFChaIHGZ0JKWPpgWdIaT2ab/zUInPMcXaD2vDycXmyZY/74CZLyll/2Ys
- 3YPhgi6kvK2alg4J5KVcjCLkxrme6De2rMI/UY01QsHQ9LGlzWYulkFeL6+jCAwSJJSd
- 4Mfg==
-X-Gm-Message-State: APjAAAX87/56CtN7D6xnfKsmPBFqTEbYNuQIhTTnHdACCYGCzbzMMPno
- LTG+9I4j93ZapS4uQE09zIrpnFMwohc=
-X-Google-Smtp-Source: APXvYqxzmsnaZw3ijVTn3rbk9JgwL58prLpvd6nWfDVpOBmEk9f80jTEp639L3yjIWg7+0lylTe9jw==
-X-Received: by 2002:a17:902:a409:: with SMTP id
- p9mr59748890plq.218.1563570234647; 
- Fri, 19 Jul 2019 14:03:54 -0700 (PDT)
+ bh=PI1YJc5YjWIF6+6p2IKRfVxeRzTCt2ZI5L41svkHvyA=;
+ b=E86ariTWn1uVBbe0coIJlslHXDvEsdJKGwlvwEfgIupN3zyP2xSgBO+CJwoahPkIX5
+ 8Ln9HuQqTLbJcJBQHxobYQF6pK4U34qqn/dAm11ucTuFOEFBmygfvGWFbHb4ZNjVZs19
+ vtL2WxUa7NBbg1rd/Fw4ZBgOdoqMztCOSoQ290YpTMWHyv8VrsN26klLR2AIaoM8ZHpO
+ 3jjR0Qvbmq9qZwEDAhRSd1bJ05/WnClQSEV7XdLyaVu0218H4WoP+5SS/X2OHqRXmTAy
+ X1FyD3vA0grWfswmxjEqGRSMFN/Tr9LCUj6HcZmSa+6+MRzqTQXaPYEdZrK+TO8f0qVP
+ jWHA==
+X-Gm-Message-State: APjAAAW8i6VRxdABUQDLhURSAT4W5/vC1LzbQi+R4PVNqhoPPYnAwvGZ
+ foO9QGn7tRFppMSH0muL6H/DwFowFPU=
+X-Google-Smtp-Source: APXvYqwj1XYa6VYiOtBE5hhhScW1k2Gg7XxT6H4ND3GfGLm6kT+ev2d99uXVZ2lus+7onPtmOJKeOQ==
+X-Received: by 2002:a63:ec03:: with SMTP id j3mr29545532pgh.325.1563570229038; 
+ Fri, 19 Jul 2019 14:03:49 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.53
+ by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 14:03:54 -0700 (PDT)
+ Fri, 19 Jul 2019 14:03:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 14:03:24 -0700
-Message-Id: <20190719210326.15466-23-richard.henderson@linaro.org>
+Date: Fri, 19 Jul 2019 14:03:19 -0700
+Message-Id: <20190719210326.15466-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190719210326.15466-1-richard.henderson@linaro.org>
 References: <20190719210326.15466-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
-Subject: [Qemu-devel] [PATCH for-4.2 22/24] target/arm: Update
- regime_is_user for EL2&0
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH for-4.2 17/24] target/arm: Update arm_mmu_idx
+ for VHE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,23 +80,118 @@ Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This covers initial generation in arm_mmu_idx, and reconstruction
+in core_to_arm_mmu_idx.  As a conseqeuence, we also need a bit in
+TBFLAGS in order to make the latter reliable.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/cpu.h    |  2 ++
+ target/arm/helper.c | 42 +++++++++++++++++++++++++++++++-----------
+ 2 files changed, 33 insertions(+), 11 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 4b537c4613..7310adfd9b 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3158,6 +3158,8 @@ FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)
+ /* Target EL if we take a floating-point-disabled exception */
+ FIELD(TBFLAG_ANY, FPEXC_EL, 24, 2)
+ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
++/* For A profile only, if EL2 is AA64 and HCR_EL2.E2H is set.  */
++FIELD(TBFLAG_ANY, E2H, 22, 1)
+ 
+ /* Bit usage when in AArch32 state: */
+ FIELD(TBFLAG_A32, THUMB, 0, 1)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f06e7bcd77..ae3ec9ea67 100644
+index 2d5658f9e3..54c328b844 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8885,6 +8885,7 @@ static inline bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
+@@ -11250,21 +11250,29 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+ 
+ ARMMMUIdx core_to_arm_mmu_idx(CPUARMState *env, int mmu_idx)
  {
++    bool e2h;
++
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         return mmu_idx | ARM_MMU_IDX_M;
+     }
+ 
+     mmu_idx |= ARM_MMU_IDX_A;
++    if (mmu_idx & ARM_MMU_IDX_S) {
++        return mmu_idx;
++    }
++
++    e2h = (env->cp15.hcr_el2 & HCR_E2H) != 0;
++    if (!arm_el_is_aa64(env, 2)) {
++        e2h = false;
++    }
++
      switch (mmu_idx) {
-     case ARMMMUIdx_SE0:
-+    case ARMMMUIdx_EL20_0:
-     case ARMMMUIdx_Stage1_E0:
-     case ARMMMUIdx_MUser:
-     case ARMMMUIdx_MSUser:
+     case ARMMMUIdx_E0:
+-        return ARMMMUIdx_EL10_0;
++        return e2h ? ARMMMUIdx_EL20_0 : ARMMMUIdx_EL10_0;
+     case ARMMMUIdx_E1:
+         return ARMMMUIdx_EL10_1;
+     case ARMMMUIdx_E2:
+-    case ARMMMUIdx_SE0:
+-    case ARMMMUIdx_SE1:
+-    case ARMMMUIdx_SE3:
+-        return mmu_idx;
++        return e2h ? ARMMMUIdx_EL20_2 : ARMMMUIdx_E2;
+     default:
+         g_assert_not_reached();
+     }
+@@ -11292,24 +11300,28 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+ 
+ ARMMMUIdx arm_mmu_idx(CPUARMState *env)
+ {
++    bool e2h, sec;
+     int el;
+ 
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
+     }
+ 
++    sec = arm_is_secure_below_el3(env);
++    e2h = (env->cp15.hcr_el2 & HCR_E2H) != 0;
++    if (!arm_el_is_aa64(env, 2)) {
++        e2h = false;
++    }
++
+     el = arm_current_el(env);
+     switch (el) {
+     case 0:
+-        /* TODO: ARMv8.1-VHE */
++        return sec ? ARMMMUIdx_SE0 : e2h ? ARMMMUIdx_EL20_0 : ARMMMUIdx_EL10_0;
+     case 1:
+-        return (arm_is_secure_below_el3(env)
+-                ? ARMMMUIdx_SE0 + el
+-                : ARMMMUIdx_EL10_0 + el);
++        return sec ? ARMMMUIdx_SE1 : ARMMMUIdx_EL10_1;
+     case 2:
+-        /* TODO: ARMv8.1-VHE */
+         /* TODO: ARMv8.4-SecEL2 */
+-        return ARMMMUIdx_E2;
++        return e2h ? ARMMMUIdx_EL20_2 : ARMMMUIdx_E2;
+     case 3:
+         return ARMMMUIdx_SE3;
+     default:
+@@ -11421,6 +11433,14 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+ 
+     flags = FIELD_DP32(flags, TBFLAG_ANY, MMUIDX, arm_to_core_mmu_idx(mmu_idx));
+ 
++    /*
++     * Include E2H in TBFLAGS so that core_to_arm_mmu_idx can
++     * reliably determine E1&0 vs E2&0 regimes.
++     */
++    if (arm_el_is_aa64(env, 2) && (env->cp15.hcr_el2 & HCR_E2H)) {
++        flags = FIELD_DP32(flags, TBFLAG_ANY, E2H, 1);
++    }
++
+     /* The SS_ACTIVE and PSTATE_SS bits correspond to the state machine
+      * states defined in the ARM ARM for software singlestep:
+      *  SS_ACTIVE   PSTATE.SS   State
 -- 
 2.17.1
 
