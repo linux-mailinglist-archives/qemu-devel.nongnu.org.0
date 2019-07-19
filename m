@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40BD56E879
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:09:51 +0200 (CEST)
-Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B853B6E889
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:17:11 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVSA-0006nc-F0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39144)
+	id 1hoVZG-00057m-JW
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40756)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hoVRx-0006OH-UP
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:09:38 -0400
+ (envelope-from <david@redhat.com>) id 1hoVZ0-0004ij-Js
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:16:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hoVRk-0000RW-N7
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:09:30 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:33146)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hoVRY-0005b6-TW
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:09:14 -0400
-Received: by mail-qt1-x830.google.com with SMTP id r6so27312403qtt.0
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 09:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h8OAZoEIHAU1ADe79uaXhk7KcXM8lExqdw+R4xOLOzo=;
- b=PFDlrX3x63xpJcBKzvT5DoJnaa5Hftan8id2Ca/BJ6z520ESQ1/hyIhpCgJHqk6rhP
- m3ilTY8AEnD/XpEFzz5OEymQcaIDYF28vBj5IUQKQyl4XjHi2RJwj1vA463J5+YOutIv
- /d6UVVdr7Wzk4wdFtw4ItCDIrlOi/h4i03APKCr//a6sDBALKzdNh3eGgjHzCVM3DUh1
- uvwh4/aGftF4gAXRb2b+dxAdE2AWzWCLjQQgvbEM07JHzYYfk2k6n/XYDmpP4rxugg07
- jOwu7lD2KBGXBkFHwpnhb9MRABE47A4U4l8ya/9ZSWw509J9nZxd2vZ0Pc1qzwIAM6le
- 8Xag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h8OAZoEIHAU1ADe79uaXhk7KcXM8lExqdw+R4xOLOzo=;
- b=bMgC539ImfA26jAyfRwyN19WOeMPAM43P1qLepFWXJF4KlX1dz5V5lAVZEOXbXOUVy
- ghWRYE0nolMkQyRRcsuENxInWZW02yjkpyKwwnSQ6kmcEJ4wHUTqykzmAbSvw/wsXHzK
- ZAd4OW+sUTcpeSOGKrktYiun66kjYlCb8gDzhX6jD92jBvorjLoOvzE8UwhI+9+b05fU
- 0+hShTh/b7Rmh2XkZuy8nb1WLV4gVGOnDLSmrkKx9Oqz2zfmI+XyzDCJkLGAIkRM5c0U
- OyPh6CXsgBGb3cEkTJEeoe5wFDWYW238VAJFS/IxNZtTSZw0xo0TQsL8AyRwbpM67ERD
- 7Ipg==
-X-Gm-Message-State: APjAAAW3EHoczHmSQOKi/XA/ew5l0EqtlZ+yfjL2XdRWfuFcucQbcNXW
- FliHomS7gL8OaGaag+gU0sHSXoGBj6VvmwZ3X/o=
-X-Google-Smtp-Source: APXvYqzXBiXEQ0P0LBMdp087ekdiERGI42y5+hRFs6zvLfpB5gRl0dcuXoRxXyxuBUdYvmq016KJYB9+zmlOvAWavA8=
-X-Received: by 2002:a05:6214:13a1:: with SMTP id
- h1mr36726126qvz.190.1563552283716; 
- Fri, 19 Jul 2019 09:04:43 -0700 (PDT)
+ (envelope-from <david@redhat.com>) id 1hoVYx-0004Wz-5a
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:16:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50036)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1hoVYo-0003Yz-G8
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:16:44 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C0EF530C5859;
+ Fri, 19 Jul 2019 16:01:29 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-220.ams2.redhat.com [10.36.116.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C4281001B02;
+ Fri, 19 Jul 2019 16:01:20 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 18:01:17 +0200
+Message-Id: <20190719160120.26581-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20190719082647.18113-1-mrolnik@gmail.com>
- <20190719082647.18113-8-mrolnik@gmail.com>
- <d144f0f4-1f48-882e-848d-80aabdbdfeef@redhat.com>
-In-Reply-To: <d144f0f4-1f48-882e-848d-80aabdbdfeef@redhat.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Fri, 19 Jul 2019 19:04:30 +0300
-Message-ID: <CAK4993h9ZqDENs6ORuGF8=X=v06FhgcLWdNz8WvrhrKo0MZjcA@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::830
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v27 7/8] target/avr: Register AVR support
- with the rest of QEMU, the build system, and the MAINTAINERS file
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Fri, 19 Jul 2019 16:01:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v1 0/3] virtio-balloon: PartialBalloonedPage
+ rework
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +53,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You're right.
-I did not know what next release was going to be. So I did not change it
+Michael pointed out that stroing and using the address of a RAMBlock
+might not be safe. So let's rework the pbp handling, cleaning up the
+code.
 
-Sent from my cell phone, please ignore typos
+Did a sanity test with hugepage backing on x86.64.
 
-On Fri, Jul 19, 2019, 6:43 PM Eric Blake <eblake@redhat.com> wrote:
+We might want to have this in 4.1. I'll let Michael decide.
 
-> On 7/19/19 3:26 AM, Michael Rolnik wrote:
-> > Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> > ---
->
-> > +++ b/qapi/common.json
-> > @@ -183,11 +183,12 @@
-> >  #        is true even for "qemu-system-x86_64".
-> >  #
-> >  # ppcemb: dropped in 3.1
-> > +# avr: added in 4.1
->
-> Are you trying to get this into 4.1?  rc2 is awfully late to be
-> introducing a new target. I suspect this should be 4.2.
->
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->
->
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+
+David Hildenbrand (3):
+  virtio-balloon: simplify deflate with pbp
+  virtio-balloon: Better names for offset variables in inflate/deflate
+    code
+  virtio-balloon: Rework pbp tracking data
+
+ hw/virtio/virtio-balloon.c         | 90 ++++++++++++++----------------
+ include/hw/virtio/virtio-balloon.h | 15 ++++-
+ 2 files changed, 53 insertions(+), 52 deletions(-)
+
+--=20
+2.21.0
+
+
