@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73166EBC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 22:54:26 +0200 (CEST)
-Received: from localhost ([::1]:48098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0898F6EBDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:04:18 +0200 (CEST)
+Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoZtZ-0006ti-Cg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 16:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53178)
+	id 1hoa36-0005EW-R7
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54877)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hoZtE-0006A9-Di
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 16:54:05 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa2P-0003Eq-AS
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:03:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hoZtD-0000DM-2m
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 16:54:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49202)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hoZtC-0000Ch-Qj
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 16:54:03 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 11675308C418;
- Fri, 19 Jul 2019 20:54:01 +0000 (UTC)
-Received: from localhost (ovpn-116-109.gru2.redhat.com [10.97.116.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B71915C226;
- Fri, 19 Jul 2019 20:53:59 +0000 (UTC)
-Date: Fri, 19 Jul 2019 17:53:58 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>,
- To: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <20190719205358.GB26800@habkost.net>
-References: <20190718134537.22356-1-den@openvz.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190718134537.22356-1-den@openvz.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 19 Jul 2019 20:54:01 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/1] x86: add CPU flags supported inside
- libvirt
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa2N-00055T-Ht
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:03:32 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37904)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hoa2N-00054H-6Z
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:03:31 -0400
+Received: by mail-pg1-x544.google.com with SMTP id f5so6143349pgu.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=6KA+gc1dIKgd05kqZ8UxzAGdqlOGfEAi9ehKvHg8DoQ=;
+ b=NEAYZSK0aJCFjG/tbry43VvaWRqmMzndg4URBM/4qwbWexneungCUeSUoCQwzmCka3
+ R8xTThnfHWe/E5XQ8NOqWZjGLNJ3hPNqcjvevT2njYW+IRgZgwm6ABi6i2kYWE5htTi+
+ 7Wx66YOCbfWwWD3qtUQ+p5RxKOlpuIxQbTunTIRe0u+wk6LlF5MJ0b7orhFOOGXOf7TN
+ AAahMzuxjJtvfvBCT2RD8sdBpkOMZ9S/ASHZL2eixnSQZzMNbWzijaXF9gwP0YhTNfE4
+ Wfew93qiE6RBXCdhDVJPmxBur3PRhCF2ONC62oSLkSEi95bBQbssW1fC8JBRC6Z0xWNK
+ /YIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=6KA+gc1dIKgd05kqZ8UxzAGdqlOGfEAi9ehKvHg8DoQ=;
+ b=Wi/dUitwuDGBC3W0jpmEZ6apsl5rFas9xnGEs88htBmNyyhANQge9ohvmy5xwn+J5m
+ EwlDExGGeK6GUdLuFTI2Gpjfy3CUTqNGJhHn7rcvN2UT/Xcy8DaXuk4VjxrZsRGMX1TN
+ 1FHsan4rXDYxQBBq059q03UvauIH2/jpT5Os0CxZxH4NZjPhbBwPpkw1dJVPW1E5SxDB
+ tizjiiuEq4q7pAp7FNAAW0gMuUbITdj6vY2zO8U4FGynWnaWmcfOcZh2+4P7VgMpvVGX
+ I6Spb7JntgHQVUfE7QkW3EiP7SOSdDqvJTClWNkEBkn2qeKEM4VFdXOQwVbpGDNzDXSX
+ LLqQ==
+X-Gm-Message-State: APjAAAWHAHWQMrdzfXkZlo8FS+DyteS65/FPXpCcnoQgml1v/eBy9gp8
+ xQ68jrSvXtVu1zNI2/DSWtQMZDYK7J0=
+X-Google-Smtp-Source: APXvYqwctYbYbn/AuJOftozT+QWTWFp/BQ69dMEfOVuKa9zjnN/GswSVrt/3dsurLb6KkPTPk3Gy/Q==
+X-Received: by 2002:a63:ec03:: with SMTP id j3mr29544117pgh.325.1563570208269; 
+ Fri, 19 Jul 2019 14:03:28 -0700 (PDT)
+Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
+ [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.27
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 19 Jul 2019 14:03:27 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 14:03:02 -0700
+Message-Id: <20190719210326.15466-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH for-4.2 00/24] target/arm: Implement ARMv8.1-VHE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,90 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 18, 2019 at 04:45:37PM +0300, Denis V. Lunev wrote:
-> There are the following flags available in libvirt inside cpu_map.xm
->     <feature name=3D'cvt16'>
->       <cpuid function=3D'0x80000001' ecx=3D'0x00040000'/>
+About half of this patch set is cleanup of the qemu tlb handling
+leading up to the actual implementation of VHE, and the biggest
+piece of that: The EL2&0 translation regime.
 
-This is bit 18...
-
->     </feature>
->     <feature name=3D'cmt'> <!-- cqm -->
->       <cpuid eax_in=3D'0x07' ecx_in=3D'0x00' ebx=3D'0x00001000'/>
->     </feature>
-> We have faced the problem that QEMU does not start once these flags are
-> present in the domain.xml.
->=20
-> This patch just adds proper names into the map.
->=20
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> CC: Richard Henderson <rth@twiddle.net>
-> CC: Eduardo Habkost <ehabkost@redhat.com>
-> CC: Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>
-> CC: Peter Krempa <pkrempa@redhat.com>
-> CC: Daniel P. Berrang=E9 <berrange@redhat.com>
-> ---
->  target/i386/cpu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 805ce95247..88ba4dad47 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -870,7 +870,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WO=
-RDS] =3D {
->              "lahf-lm", "cmp-legacy", "svm", "extapic",
->              "cr8legacy", "abm", "sse4a", "misalignsse",
->              "3dnowprefetch", "osvw", "ibs", "xop",
-> -            "skinit", "wdt", NULL, "lwp",
-> +            "skinit", "wdt", "cvt16", "lwp",
-
-...this is bit 14.
-
-Anyway, the cvt16 bit was removed on purpose, and was never
-supported.  See:
-http://mid.mail-archive.com/508091FB.1030705@amd.com
-
->              "fma4", "tce", NULL, "nodeid-msr",
->              NULL, "tbm", "topoext", "perfctr-core",
->              "perfctr-nb", NULL, NULL, NULL,
-> @@ -1044,7 +1044,7 @@ static FeatureWordInfo feature_word_info[FEATURE_=
-WORDS] =3D {
->              "fsgsbase", "tsc-adjust", NULL, "bmi1",
->              "hle", "avx2", NULL, "smep",
->              "bmi2", "erms", "invpcid", "rtm",
-> -            NULL, NULL, "mpx", NULL,
-> +            "cmt", NULL, "mpx", NULL,
-
-This is one is named "cqm" on Linux (X86_FEATURE_CQM).  I prefer
-to keep consistency with the name already in use by Linux than
-the one in libvirt that was never used.
-
-You can still add a "cmt" alias property if you think it would be
-useful.
-
-Also, I see no code implementing migration of MSR_IA32_QM_EVTSEL,
-MSR_IA32_QM_CTR, or other RDT-M state.  If the feature is not
-safe for migration yet, you need to explicitly add the feature to
-.unmigratable_flags.
+Testing so far has been limited to booting a debian 9 system with
+a 4.9 kernel, and a fedora 30 system with a 5.1 kernel.  Both have
+KVM enabled, and both report enabling VHE is successful.
 
 
->              "avx512f", "avx512dq", "rdseed", "adx",
->              "smap", "avx512ifma", "pcommit", "clflushopt",
->              "clwb", "intel-pt", "avx512pf", "avx512er",
-> --=20
-> 2.17.1
->=20
+r~
 
---=20
-Eduardo
+
+Richard Henderson (24):
+  cputlb: Add tlb_set_asid_for_mmuidx
+  cputlb: Add tlb_flush_asid_by_mmuidx and friends
+  target/arm: Install ASIDs for long-form from EL1
+  target/arm: Install ASIDs for short-form from EL1
+  target/arm: Install ASIDs for EL2
+  target/arm: Define isar_feature_aa64_vh
+  target/arm: Enable HCR_E2H for VHE
+  target/arm: Add CONTEXTIDR_EL2
+  target/arm: Add TTBR1_EL2
+  target/arm: Update CNTVCT_EL0 for VHE
+  target/arm: Add the hypervisor virtual counter
+  target/arm: Add VHE system register redirection and aliasing
+  target/arm: Split out vae1_tlbmask, vmalle1_tlbmask
+  target/arm: Simplify tlb_force_broadcast alternatives
+  target/arm: Reorganize ARMMMUIdx
+  target/arm: Add regime_has_2_ranges
+  target/arm: Update arm_mmu_idx for VHE
+  target/arm: Update arm_sctlr for VHE
+  target/arm: Install asids for E2&0 translation regime
+  target/arm: Flush tlbs for E2&0 translation regime
+  target/arm: Update arm_phys_excp_target_el for TGE
+  target/arm: Update regime_is_user for EL2&0
+  target/arm: Update {fp,sve}_exception_el for VHE
+  target/arm: Enable ARMv8.1-VHE in -cpu max
+
+ include/exec/cpu-all.h     |  11 +
+ include/exec/cpu-defs.h    |   2 +
+ include/exec/exec-all.h    |  35 ++
+ include/qom/cpu.h          |   1 +
+ target/arm/cpu-qom.h       |   1 +
+ target/arm/cpu.h           | 259 +++++-----
+ target/arm/internals.h     |  62 ++-
+ target/arm/translate.h     |   2 +-
+ accel/tcg/cputlb.c         |  77 +++
+ target/arm/arch_dump.c     |   2 +-
+ target/arm/cpu.c           |   2 +
+ target/arm/cpu64.c         |   1 +
+ target/arm/debug_helper.c  |  50 +-
+ target/arm/helper-a64.c    |   2 +-
+ target/arm/helper.c        | 985 ++++++++++++++++++++++++++-----------
+ target/arm/m_helper.c      |   6 +-
+ target/arm/pauth_helper.c  |   9 +-
+ target/arm/translate-a64.c |  14 +-
+ target/arm/translate.c     |  17 +-
+ 19 files changed, 1058 insertions(+), 480 deletions(-)
+
+-- 
+2.17.1
+
 
