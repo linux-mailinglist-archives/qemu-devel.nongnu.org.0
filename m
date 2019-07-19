@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D35B6E83B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:51:21 +0200 (CEST)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A656E844
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:55:47 +0200 (CEST)
+Received: from localhost ([::1]:46558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVAG-0006bv-DU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35955)
+	id 1hoVEY-0002Ok-8T
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36577)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hoV9y-00065i-Rs
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:51:03 -0400
+ (envelope-from <eblake@redhat.com>) id 1hoVEF-0001zH-VC
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:55:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hoV9j-0007SE-Dv
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:50:51 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36860)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hoV9P-0006cM-KZ
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:50:34 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w7so24568926oic.3
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 08:48:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eKAneQqh9tb5eznJCVBNbLCzAgEfmTbWdzTld/2OAKU=;
- b=g/LnSktLZXAMVkb3lPbupWuH1cqBRIIN7GacfCAQcnGH2l897/5zg2CVfBAh4iZ96F
- Dp3Wq1mRN65fDZmkblwi4eoQWZCA08Ffvd7c7qyAw77qEiXIP+sxmC5pJ7Zh5AGljNoY
- 5dsxsHjkckLsmvFPSAvcYnxSzwM7AULmpWdQq3n3tHpHNtBNy/DxdHlGDMnMFwLWECK8
- Gp39kDxa3H8NrIXLb77Nc46jTeT17ECGvweWvwU6CVNa59EZItOUOt11Gakz+zQ8E56P
- SiEA/HIieWSJe0lo6XGnKHVsgAQ4EHwHHhKR2pRMFkdwApblfeUIPc1Hp0F+BT5IGqnL
- OxHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eKAneQqh9tb5eznJCVBNbLCzAgEfmTbWdzTld/2OAKU=;
- b=ZFn9il7KD6qq2bVjJEkiisnxQbp1vUhSrkAjY7RpmCFN6WbIqlAB73NA+LYRi+LZSk
- wHAzNsQQ7hAYPbv86BwiGTZAY2PkyNvs9rTz5JtX2L0Na6xkPl91psQQTPEmb/yDwE38
- mH5WfQEBBzK1wf2sS4Futo30QafUv/QRXvC1NPUJMnv08yuQsgKmwOhBLd4SOE5j7Q0W
- 7QPU2u8hOHMCZbD1zs1TvWBy9ATS50pBDc/DLf0fo3fcBOEWhJgx7gHOPblk+M8lXQNL
- PkhHTs12esCtKDMbkdQjhnrZbqzDLT3Xo+pP4GMaQCjAGrRBq3psFp3iFPjlGrESTAgH
- 20/g==
-X-Gm-Message-State: APjAAAVfY2CuRNVrm9s0y9wm9Rk/lQFeyKkgp4H9nWU0jnN0FYXp2m6z
- oA6nti68U24XhNXlkaZfzc4lA+0uTcGhLfn695zr1g==
-X-Google-Smtp-Source: APXvYqxJ8eqUXKnsJ1Uu+hAs4xO0OioQI4d0rJZ799a6TqRHaUaTPEa89BpLblob29nIJY/eWIgeLhCI7ZRdHBRJfgI=
-X-Received: by 2002:aca:6185:: with SMTP id
- v127mr27658031oib.163.1563551335547; 
- Fri, 19 Jul 2019 08:48:55 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1hoVDz-0000Zx-Lq
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:55:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:1195)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hoVDL-0006w1-Rz; Fri, 19 Jul 2019 11:54:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3F81B3B72A;
+ Fri, 19 Jul 2019 15:49:44 +0000 (UTC)
+Received: from [10.3.116.46] (ovpn-116-46.phx2.redhat.com [10.3.116.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6B28620BD;
+ Fri, 19 Jul 2019 15:49:31 +0000 (UTC)
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
+ <20190719133530.28688-3-mehta.aaru20@gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <c7da46ad-ae1d-28ba-8208-409b4a605875@redhat.com>
+Date: Fri, 19 Jul 2019 10:49:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190307170440.3113-1-richard.henderson@linaro.org>
- <20190307170440.3113-21-richard.henderson@linaro.org>
-In-Reply-To: <20190307170440.3113-21-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jul 2019 16:48:44 +0100
-Message-ID: <CAFEAcA9R8kDqLxVVFjJFx_tuNFYXJWQDCv2vEyuBdLXtjMETWQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v4 20/22] target/arm: Create a TLB entry
- for tag physical address space
+In-Reply-To: <20190719133530.28688-3-mehta.aaru20@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="o8m0xGw5TFhtsItmc26FnakssPKxrcWul"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 19 Jul 2019 15:49:44 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 02/14] qapi/block-core: add option for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,45 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Mar 2019 at 17:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--o8m0xGw5TFhtsItmc26FnakssPKxrcWul
+Content-Type: multipart/mixed; boundary="UvK0x123djierGr6eu41PfDefuMvBWZ7K";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Sergio Lopez <slp@redhat.com>, saket.sinha89@gmail.com,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefan@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+Message-ID: <c7da46ad-ae1d-28ba-8208-409b4a605875@redhat.com>
+Subject: Re: [PATCH v6 02/14] qapi/block-core: add option for io_uring
+References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
+ <20190719133530.28688-3-mehta.aaru20@gmail.com>
+In-Reply-To: <20190719133530.28688-3-mehta.aaru20@gmail.com>
+
+--UvK0x123djierGr6eu41PfDefuMvBWZ7K
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 7/19/19 8:35 AM, Aarushi Mehta wrote:
+> Only enumerates option for devices that support it
+>=20
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  target/arm/cpu.h    | 45 ++++++++++++++++++++++++++++++++++++++-------
->  target/arm/helper.c | 20 +++++++++++++++++++-
->  2 files changed, 57 insertions(+), 8 deletions(-)
->  /* Return the address space index to use for a memory access */
->  static inline int arm_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
->  {
-> -    return attrs.secure ? ARMASIdx_S : ARMASIdx_NS;
-> +    if (attrs.target_tlb_bit2) {
-> +        return ARMASIdx_TAG;
-> +    } else if (attrs.secure) {
-> +        return ARMASIdx_S;
-> +    } else {
-> +        return ARMASIdx_NS;
-> +    }
->  }
+>  qapi/block-core.json | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0d43d4f37c..0a3d4ae7d2 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2792,11 +2792,13 @@
+>  #
+>  # @threads:     Use qemu's thread pool
+>  # @native:      Use native AIO backend (only Linux and Windows)
+> +# @io_uring:    Use linux io_uring (since 4.1)
 
-Playing around with this series, I have discovered that if
-the board model doesn't create the tag-memory then target/arm/cpu.c
-will not create the 'cpu-tag-memory' AddressSpace. But nothing
-disables the usage of the target_tlb_bit2, and then when
-arm_cpu_tlb_fill() does a tlb_set_page_with_attrs() using
-an attrs with target_tlb_bit2 set then we assert in
-cpu_asidx_from_attrs() because cpu->num_ases is 2 and
-cc->asidx_from_attrs() returned an out of range number (ie 2).
+I know you explained in an earlier revision why you chose 'io_uring'
+instead of the more typical QAPI spelling of 'io-uring' (namely, it
+matches the Linux kernel feature spelling).  That explanation belongs in
+the commit message, rather than just the mailing list archives.
 
-Is the tag-memory mandatory for MTE? If so we should either
-disable MTE if no tag-memory is provided, or else fail
-realize of the CPU; not sure which. If it's not mandatory
-then we need to avoid asserting :-)
+>  #
+>  # Since: 2.9
+>  ##
+>  { 'enum': 'BlockdevAioOptions',
+> -  'data': [ 'threads', 'native' ] }
+> +  'data': [ 'threads', 'native',
+> +            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING=
+)' } ] }
+> =20
+>  ##
+>  # @BlockdevCacheOptions:
+>=20
 
-thanks
--- PMM
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--UvK0x123djierGr6eu41PfDefuMvBWZ7K--
+
+--o8m0xGw5TFhtsItmc26FnakssPKxrcWul
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0x5ooACgkQp6FrSiUn
+Q2rGcQf8DDlyk6lkpEuZcAOb8m24Izuv+NYrx2pFSeQCFElPmIlEQL+clsm9N5Co
+nQYP1PTN29aEXJYIqort7ElaT2k9N8WgdVQ23tJb/r9CAJuAcqpJtNuQVyla9+LN
+NKRiNII7gPDxcB+t6/C+01NrHBJhYSTN7z9bPJCcffWLryKjYFSO7Q6LV00QoJ2D
+AP4SZ9Enjl32LH/h568Ei5y3NSASQOwc9z37/Oc4QOHJW4GDmXHGNuyB0FSaX3Tc
+UPQZo5d09+dikdzwyIoOQ9596mY4RZt6XbGxqLCq/ihj7VdIzcbtT1iXAAbm2FIc
+ltgV9RscZ0xBH9GfLuyUhWxPpfDZ2g==
+=1SeO
+-----END PGP SIGNATURE-----
+
+--o8m0xGw5TFhtsItmc26FnakssPKxrcWul--
 
