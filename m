@@ -2,98 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D946E3CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 12:00:24 +0200 (CEST)
-Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607C86E3F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 12:10:16 +0200 (CEST)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoPgd-0001Xc-Tj
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 06:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46567)
+	id 1hoPqB-00064e-2H
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 06:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48860)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1hoPgO-00011g-Rq
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:10 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hoPpx-0005Wn-SZ
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hoPgN-000231-JO
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60544)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1hoPgN-00021c-AU
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:07 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 329912BE9C;
- Fri, 19 Jul 2019 10:00:06 +0000 (UTC)
-Received: from [10.36.117.221] (ovpn-117-221.ams2.redhat.com [10.36.117.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE1EC620D5;
- Fri, 19 Jul 2019 10:00:02 +0000 (UTC)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190531104432.29379-1-david@redhat.com>
- <CAL1e-=g=8t+rvVisn2bXxir0ezZRZAybAFiNzV6M89Q9qvyRAw@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <ff7dff12-b158-5a3d-dccf-eba0959cab03@redhat.com>
-Date: Fri, 19 Jul 2019 12:00:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <peter.maydell@linaro.org>) id 1hoPpw-0000EJ-NN
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:10:01 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44595)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hoPpw-0000Cp-EK
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:10:00 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p17so31645291wrf.11
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 03:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dgMZNubiO0ugR6ooeWpNIQJoP6KamJlDRCWhG196PwE=;
+ b=wm7aj9VCREcWwusk742W4RJbKZeAiv5h8YpDASo+EopQW7x55ZGDzSfswOzp0WVQ7h
+ vni1uHbrgvs1U+GGo2fznAOlqiMow++P/9Bc5Ru6U6XcVLFXbzTt+ZpVARE5p5sLfJ5T
+ 9wTkVKlwrnoQntUa3ZHpOTO/SInIVOX7UgC+9OUBYgD2qmucXlVaW+JcKPwEjFF7pPRn
+ RTNa/uDgIWv96AUuM2E5fJhEbrE1O+uduU1sp5eQ4o7wap+ulIVi//L5fwzFYXQ04M6r
+ Rh5kkGevIe2sYzjNE0Boxv+kjp4oGqEeMzas9A34PIo26BajCaUAUArIWklb/3/kQQWv
+ Wsvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dgMZNubiO0ugR6ooeWpNIQJoP6KamJlDRCWhG196PwE=;
+ b=YKyHsRbbXmE0NX2ayINqjoCi69OrKV+k8PCeW/vLfJmzKF67/Fb6/rvy70MIWH3eyr
+ STrmEJF4p+HmHsksjmi8usPf8CgHhWL2mpfRP+eHz6xW8Q9My4yqLfgJYJFH992FHmQt
+ 9neR6Y4gCvuw0H86S7vQHBU6yfGtDXpRizCqiSHyhAl/K+oNIgCDrVg1CyKtlnpKDgRE
+ hVVW48JS0b13LAPZYplxofEZnRIjMbOm2AtdudPemaU+e47sQvGswkcdsR67U/4IXR8q
+ QRN5U2pssg3xNg0QhqK4gkBOW1QZQm+bmzXwHKe53hOI3luAZxl944hkAMfnbOEo9OJY
+ X1EQ==
+X-Gm-Message-State: APjAAAWvW42wjiBreJxUVl+Y7mH51a4fjeXPjsIneMO/EFmB82aUOnEJ
+ spQMGw0wr+lFwRl7BYbR2WrQS0WMCd6Rsw==
+X-Google-Smtp-Source: APXvYqzRs1js/LXSnj1okNwzUmUR9pIJWhFO5+X1xXN5VAEGePsUwwKMqx4DUHN1/llSWxREU8/3Pg==
+X-Received: by 2002:a5d:670b:: with SMTP id o11mr55754277wru.311.1563530997900; 
+ Fri, 19 Jul 2019 03:09:57 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y1sm23846751wma.32.2019.07.19.03.09.56
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 19 Jul 2019 03:09:57 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 11:09:55 +0100
+Message-Id: <20190719100955.17180-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=g=8t+rvVisn2bXxir0ezZRZAybAFiNzV6M89Q9qvyRAw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 19 Jul 2019 10:00:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v1 00/23] s390x/tcg: Vector Instruction
- Support Part 4
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH for-4.1] contrib/elf2dmp: Build download.o with
+ CURL_CFLAGS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,60 +76,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Denys Vlasenko <dvlasenk@redhat.com>, qemu-devel@nongnu.org
+Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.07.19 11:51, Aleksandar Markovic wrote:
-> 
-> On May 31, 2019 12:48 PM, "David Hildenbrand" <david@redhat.com
-> <mailto:david@redhat.com>> wrote:
->>
->> This is the final part of vector instruction support for s390x. It is
-> based
->> on part 2, which is will send a pull-request for to Conny soon.
->>
->> Part 1: Vector Support Instructions
->> Part 2: Vector Integer Instructions
->> Part 3: Vector String Instructions
->> Part 4: Vector Floating-Point Instructions
->>
-> 
-> Congratulations on completing this complex task!
-> 
-> I followed your series (even though I did not make any comment), and I
-> salute this addition to QEMU.
+contrib/elf2dmp has a source file which uses curl/curl.h;
+although we link the final executable with CURL_LIBS, we
+forgot to build this source file with CURL_CFLAGS, so if
+the curl header is in a place that's not already on the
+system include path then it will fail to build.
 
-Thanks, glad to hear that this addition might be beneficial for others
-as well!
+Add a line specifying the cflags needed for download.o;
+while we are here, bring the specification of the libs
+into line with this, since using a per-object variable
+setting is preferred over adding them to the final
+executable link line.
 
-> 
-> I would just ask you to provide me and others with the link to the
-> detailed documentation on this matter - I had the hardest time trying to
-> find it online.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+I'm pretty sure this is what's causing the compile
+failure described at:
+https://stackoverflow.com/questions/57102476/qemu-recipe-for-target-contrib-elf2dmp-download-o-failed
+I haven't actually got a setup that reproduces the error,
+though, so this is tested by looking at the command lines
+run on an Ubuntu setup that compiles even without the fix.
 
-So, the s390x architecture (including vector instructions) are described
-in the z/Architecture Principles of Operation. You can find the latest
-publication at [1].
+There's an argument for splitting this into two patches,
+I suppose, one which just fixes the CURL_CFLAGS bug and
+one which tidies the CURL_LIBS handling. But it didn't
+seem worth it to me. Let me know if you'd prefer it split.
+---
+ Makefile                      | 1 -
+ contrib/elf2dmp/Makefile.objs | 3 +++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Regarding TCG internals/vector instruction support ... well, most
-documentation is the code itself/implementing architectures. :)
-
-Please let me know if you need more information.
-
-Cheers!
-
-[1]
-https://www-01.ibm.com/support/docview.wss?uid=isg2b9de5f05a9d57819852571c500428f9a
-
-> 
-> Thanks in advance!
-> 
-> Aleksandar
+diff --git a/Makefile b/Makefile
+index f9791dcb827..27dabb9b1a0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -626,7 +626,6 @@ ifneq ($(EXESUF),)
+ qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
+ endif
+ 
+-elf2dmp$(EXESUF): LIBS += $(CURL_LIBS)
+ elf2dmp$(EXESUF): $(elf2dmp-obj-y)
+ 	$(call LINK, $^)
+ 
+diff --git a/contrib/elf2dmp/Makefile.objs b/contrib/elf2dmp/Makefile.objs
+index e3140f58cf7..15057169160 100644
+--- a/contrib/elf2dmp/Makefile.objs
++++ b/contrib/elf2dmp/Makefile.objs
+@@ -1 +1,4 @@
+ elf2dmp-obj-y = main.o addrspace.o download.o pdb.o qemu_elf.o
++
++download.o-cflags := $(CURL_CFLAGS)
++download.o-libs   := $(CURL_LIBS)
 -- 
+2.20.1
 
-Thanks,
-
-David / dhildenb
 
