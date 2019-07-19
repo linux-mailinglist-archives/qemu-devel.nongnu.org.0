@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496B46E36C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 11:28:18 +0200 (CEST)
-Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE1B6E373
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 11:29:01 +0200 (CEST)
+Received: from localhost ([::1]:43384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoPBY-0008Fz-Tt
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 05:28:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38026)
+	id 1hoPCF-0003ao-Tt
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 05:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hoPAa-00051O-Qb
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:27:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hoPAG-0003a9-GO
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:26:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hoPAZ-0006OP-LQ
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:27:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42570)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hoPAW-0006MD-Tz; Fri, 19 Jul 2019 05:27:13 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3ECC2A3B66;
- Fri, 19 Jul 2019 09:27:12 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C848F51DF6;
- Fri, 19 Jul 2019 09:27:11 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri, 19 Jul 2019 11:26:18 +0200
-Message-Id: <20190719092618.24891-11-mreitz@redhat.com>
-In-Reply-To: <20190719092618.24891-1-mreitz@redhat.com>
-References: <20190719092618.24891-1-mreitz@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hoPAF-00069S-8u
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:26:56 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34252)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hoPAF-00068H-1m
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:26:55 -0400
+Received: by mail-ot1-x343.google.com with SMTP id n5so32122577otk.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 02:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jdNjR34OKI7Ej46Hk3igSxontJpeuY0X73uYU0QCzZ0=;
+ b=Q0tqkDjra/X4Sz9lCX8dhAoGC2BvfFFtm4yWG2YuorjktxxqH0IqY6wh3/PMN3Kmwu
+ MAmGbGJgaWGgLJzY1dSQ3Z/TczFRjL34IFg7FCwlRflcSQXxzDwf5XTY49VIs0Aj02jB
+ PEUm6W4bb3CntFEdGDQxegtWRayq0oeLDnUq9p5QnMpWF10kFdiNGnV5TsLvCIXR+PPa
+ T5Kh0rCi6JApSySimaHq8xwlSp6TFucGa87gm3L270XWu2Fd3NtwNtqf9kg86aFjdOo4
+ DSBjeVw3kqr3YITeLkukz9ki4EWxlJBQrkaEzkkuO5hPTOPS2OYdSzuO1RqZ0bJm0PaJ
+ aGgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jdNjR34OKI7Ej46Hk3igSxontJpeuY0X73uYU0QCzZ0=;
+ b=Ur37TlFBynlhfsOCvsDfaYXGoB/gzdRmsdR3/ge25z1JB4daA/7nxSdPbBIwy5wDvV
+ m9eep+ja5xOc6dGb8eAA7eBtNtarA36ql3duisUigucrxB/Gd3gnvYfXwJzOsM3rsCVA
+ 0fcBZd3nWjSsLWqhVrAp9r7nLZ5nVG0qWDvTPuiXd0tvOugv46bZUhQWILFwNWHfk2KO
+ Uhqp1UO+8uibkKlA3rGGA9jbGQjFHuWRSmyzS3YGd/Nch41nvhwsqVh5v6ZiTnUrR6DS
+ VSy8HtX000NLYPTPYIMQkxo/TeBfk5+gsPat2BwSd39ohXHqyvxf4bDGkT+hD0YGQ9MU
+ 2kKA==
+X-Gm-Message-State: APjAAAWAcyNL1RMCuTUi0i+5Wct7zSlkZhCoOxBk20ysB9O6LuRKKhvU
+ LFzNdg9SJICoIRQGOX9hTGLCg7v6GFO+PrUHv1Jo6w==
+X-Google-Smtp-Source: APXvYqzTb6WXl0w9LyvTMa9WDi+Ia9JvtJAz+c2g7btDvb+jbLFCg1GC8mwgOtyc+25acW+bsGQoqRF6TXJJpv/dn8k=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr36115751otj.97.1563528413284; 
+ Fri, 19 Jul 2019 02:26:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 19 Jul 2019 09:27:12 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 10/10] iotests: Test commit with a filter on
- the chain
+References: <20190719080610.1607-1-laurent@vivier.eu>
+In-Reply-To: <20190719080610.1607-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jul 2019 10:26:42 +0100
+Message-ID: <CAFEAcA-Ht1MCtiQ87TsJ0qY2ktj1d0T9VS5mKZ298Js_jCRPnw@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PULL v2 0/3] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,102 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before the previous patches, the first case resulted in a failed
-assertion (which is noted as qemu receiving a SIGABRT in the test
-output), and the second usually triggered a segmentation fault.
+On Fri, 19 Jul 2019 at 09:07, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit a1a4d49f60d2b899620ee2be4ebb991c4a90a026:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-20190716' into staging (2019-07-16 17:02:44 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+>
+> for you to fetch changes up to 6d5d5dde9adb5acb32e6b8e3dfbf47fff0f308d2:
+>
+>   linux-user: fix to handle variably sized SIOCGSTAMP with new kernels (2019-07-19 09:33:55 +0200)
+>
+> ----------------------------------------------------------------
+> fix access_ok() to allow to run LTP on AARCH64,
+> fix SIOCGSTAMP with 5.2 kernel headers,
+> fix structure target_ucontext for MIPS
+>
+> ----------------------------------------------------------------
+>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/040     | 40 +++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/040.out |  4 ++--
- 2 files changed, 41 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index b81133a474..aa0b1847e3 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -92,9 +92,10 @@ class TestSingleDrive(ImageCommitTestCase):
-=20
-         self.vm.add_device("scsi-hd,id=3Dscsi0,drive=3Ddrive0")
-         self.vm.launch()
-+        self.has_quit =3D False
-=20
-     def tearDown(self):
--        self.vm.shutdown()
-+        self.vm.shutdown(has_quit=3Dself.has_quit)
-         os.remove(test_img)
-         os.remove(mid_img)
-         os.remove(backing_img)
-@@ -109,6 +110,43 @@ class TestSingleDrive(ImageCommitTestCase):
-         self.assertEqual(-1, qemu_io('-f', 'raw', '-c', 'read -P 0xab 0 =
-524288', backing_img).find("verification failed"))
-         self.assertEqual(-1, qemu_io('-f', 'raw', '-c', 'read -P 0xef 52=
-4288 524288', backing_img).find("verification failed"))
-=20
-+    def test_commit_with_filter_and_quit(self):
-+        result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group'=
-, id=3D'tg')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Add a filter outside of the backing chain
-+        result =3D self.vm.qmp('blockdev-add', driver=3D'throttle', node=
-_name=3D'filter', throttle_group=3D'tg', file=3D'mid')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('block-commit', device=3D'drive0')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Quit immediately, thus forcing a simultaneous cancel of the
-+        # block job and a bdrv_drain_all()
-+        result =3D self.vm.qmp('quit')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.has_quit =3D True
-+
-+    # Same as above, but this time we add the filter after starting the =
-job
-+    def test_commit_plus_filter_and_quit(self):
-+        result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group'=
-, id=3D'tg')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('block-commit', device=3D'drive0')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Add a filter outside of the backing chain
-+        result =3D self.vm.qmp('blockdev-add', driver=3D'throttle', node=
-_name=3D'filter', throttle_group=3D'tg', file=3D'mid')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Quit immediately, thus forcing a simultaneous cancel of the
-+        # block job and a bdrv_drain_all()
-+        result =3D self.vm.qmp('quit')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.has_quit =3D True
-+
-     def test_device_not_found(self):
-         result =3D self.vm.qmp('block-commit', device=3D'nonexistent', t=
-op=3D'%s' % mid_img)
-         self.assert_qmp(result, 'error/class', 'DeviceNotFound')
-diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
-index 802ffaa0c0..220a5fa82c 100644
---- a/tests/qemu-iotests/040.out
-+++ b/tests/qemu-iotests/040.out
-@@ -1,5 +1,5 @@
--...........................................
-+...............................................
- ----------------------------------------------------------------------
--Ran 43 tests
-+Ran 47 tests
-=20
- OK
---=20
-2.21.0
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
