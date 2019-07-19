@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5F56EC19
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:32:25 +0200 (CEST)
-Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660986EC33
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:45:34 +0200 (CEST)
+Received: from localhost ([::1]:48253 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoaUK-0008Tv-Bi
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33327)
+	id 1hoa5T-0006kY-Uv
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:06:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hoaU6-000841-O9
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:32:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3j-0000Kw-FY
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hoaU5-0003vd-0l
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:32:09 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33205)
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3h-0005gI-BX
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:54 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39191)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hoaU3-0003s1-TC
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:32:08 -0400
-Received: by mail-pl1-x642.google.com with SMTP id c14so16159264plo.0
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:31:52 -0700 (PDT)
+ id 1hoa3g-0005Cu-DL
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:52 -0400
+Received: by mail-pl1-x641.google.com with SMTP id b7so16204213pls.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bwzHMJBnIyiZ4wlVPVA1APQri3e0iv6//yr1gDM3/V8=;
- b=i+NzBgtaiBlNj0ZnEMhcJpxSpSB+UGX000u19IMMLxM33hQ3v80CRWyaKn7NF4zEig
- 9wMVmv8C/peQZvUw/uhQU8rWY0Tbp49IG7XJBbyU4yZDyQ5HBFReaqsxNnbIR9xZd8xP
- X1rgLj9WDXTAqbHhKQVZDg4/2xyZSBUEJLxFPDrRlCRfbbsvMalpsZkL2ObXF4cvaSAg
- gwxU6lKmT9BiWA+YY1tFFN4eGaZbRaCxKmWKbPWZuY0XP0uWauhhp/3pH7fntRIM7CtD
- 7vfJstWarSHFLC8Eg0zQbiIx258j8GlLsD4PzIszc0WOrLVNDuC+gIzhaaON7EoSxKmm
- J9jg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=u+zufnM9gRgzS4x3zT5MZp9Zbq0icAPgD/z46c/Vn/8=;
+ b=EBVQdbb40qsdrjb1HYN0dW6Lmr0OYmWD72rwDfyQNsyz+PyS+xC6/EpOoV1PtvqEAf
+ Lz9r5xH/zAkYVfzlVhns96lY0X7y+wGakxMP07jJPDbbBFlmFp0h1UmEb/dYu/oAE8Sj
+ JzKg9n1UwD6/EUfNv+w5FdcS2xEMUxMrI+caP4qyFroemVfpwg7ixoHTn0COZ2mzI6AF
+ PNRJbRe2sQUdsAG76Zw563yoskDt3xbfMUUeGugF3JHnjmO3Oq1CmAV9oumnfLjlWRwY
+ 8UTucg21wUX9oWu0MJZv1nZcfat5xTnSv81y2hK8s2zQ22iC6RPGDO12wX8qbjsNp3x6
+ JHXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bwzHMJBnIyiZ4wlVPVA1APQri3e0iv6//yr1gDM3/V8=;
- b=CBepftnf5CB5tWlTacDvVLhvQAriZ3mVBpJ1ndhY/yv+1eTTE//taOUcDt0jPxlEEy
- +QOEI1Ssfyd2r1hHnWEz5gUFkumlITFq3f0xRUOZeV4N1t3vi6L4vDAramAVTvlhcWkX
- aK7IbICAXj7grtrVBBQxQhKHqVdIMCpbqjtnL7+EIvjTZWBUZG+SO9zOTMSNSL9xZVY2
- 7f/XyGe8YW38fmMX6HNzoWhTA2KgOJ/P7EcBJHt8a+n2JzTFAGxe1wuuk8HTQEiV+F5i
- sd+dGErEtezMMy70wNHkL++/IpX5lwzBTBOwUkWYMQoiN8wtAgHCZIM1YZkWB4FOIweL
- aj5A==
-X-Gm-Message-State: APjAAAUAMpQubx4GA81lF7Khjgu2eNnk+tEuKAN/Zm7KHt4oXfSXQzhd
- UkxcXtYbLHFI/pBtxpiWMDgWWxzfRfc=
-X-Google-Smtp-Source: APXvYqwxxmRVRzWtcMSxFxc5Q9muy2TmDZw5EWXvmDzIUGpRwFlseKVlCGwo/Yoozu8p2qD1KvSxjA==
-X-Received: by 2002:a17:902:9a49:: with SMTP id
- x9mr59541052plv.282.1563571911378; 
- Fri, 19 Jul 2019 14:31:51 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id a3sm22758089pfc.70.2019.07.19.14.31.49
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Jul 2019 14:31:50 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190307170440.3113-1-richard.henderson@linaro.org>
- <20190307170440.3113-21-richard.henderson@linaro.org>
- <CAFEAcA9R8kDqLxVVFjJFx_tuNFYXJWQDCv2vEyuBdLXtjMETWQ@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=u+zufnM9gRgzS4x3zT5MZp9Zbq0icAPgD/z46c/Vn/8=;
+ b=pd+VQ9kf1oAh42O8sObhMfXDz6+gDZarQLUQMKqe+MOcpvdM0hDI6B3WGWKRAV0Lb8
+ K8LRacm/6k22MlTdYINUWmX55NncD3apK+genAb5XC4Ynkuhj+UDS1oGZAzDB/X1oVae
+ TZEDNlVM7kC2SL0jv3GxouyAX0uUW7pdEG7qS6aHJDlHc+pDZqbw/Zq9ZtKql9ttq2xE
+ /tRMCF3foxOgUR46S3FDgFg2IS7gEE8s9X6LyBXZGlBEpF31OJDC8nANaZ+B2AwlvUjt
+ vjyKSd/PuDPLj27eSz6qr/N0pB8z+IQml9KaM6TC9jBItPYiTOKQXOMZd03w3uZYxrmv
+ 0oCQ==
+X-Gm-Message-State: APjAAAXJnqt9POyt0c5O1x/fJdKkZTCfHPEEl5ODHDnkFvs8LjHroI56
+ KdV+uGoVXrhJG2w/S+YfgFUY2Vdn1ks=
+X-Google-Smtp-Source: APXvYqx0pUvSlgCRT4udLbBs/ItH2yelyuwQ4tybmUhkNj2Xwls1fD1Nm+Lp9BXK/JPe7qL1/tVTMA==
+X-Received: by 2002:a17:902:9041:: with SMTP id
+ w1mr60290622plz.132.1563570232442; 
+ Fri, 19 Jul 2019 14:03:52 -0700 (PDT)
+Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
+ [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.51
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 19 Jul 2019 14:03:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <8b6a7e87-81d7-503b-80be-6bebdda23b30@linaro.org>
-Date: Fri, 19 Jul 2019 14:31:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9R8kDqLxVVFjJFx_tuNFYXJWQDCv2vEyuBdLXtjMETWQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 14:03:22 -0700
+Message-Id: <20190719210326.15466-21-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190719210326.15466-1-richard.henderson@linaro.org>
+References: <20190719210326.15466-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH v4 20/22] target/arm: Create a TLB entry
- for tag physical address space
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH for-4.2 20/24] target/arm: Flush tlbs for E2&0
+ translation regime
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,33 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/19 8:48 AM, Peter Maydell wrote:
-> Playing around with this series, I have discovered that if
-> the board model doesn't create the tag-memory then target/arm/cpu.c
-> will not create the 'cpu-tag-memory' AddressSpace. But nothing
-> disables the usage of the target_tlb_bit2, and then when
-> arm_cpu_tlb_fill() does a tlb_set_page_with_attrs() using
-> an attrs with target_tlb_bit2 set then we assert in
-> cpu_asidx_from_attrs() because cpu->num_ases is 2 and
-> cc->asidx_from_attrs() returned an out of range number (ie 2).
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 34 ++++++++++++++++++++++++++--------
+ 1 file changed, 26 insertions(+), 8 deletions(-)
 
-Oops.
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 22eb056b27..fe022f51d6 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3915,8 +3915,11 @@ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+ 
+ static int vae1_tlbmask(CPUARMState *env)
+ {
++    /* Since we exclude secure first, we may read HCR_EL2 directly. */
+     if (arm_is_secure_below_el3(env)) {
+         return ARMMMUIdxBit_SE1 | ARMMMUIdxBit_SE0;
++    } else if (env->cp15.hcr_el2 & HCR_E2H) {
++        return ARMMMUIdxBit_E2 | ARMMMUIdxBit_E0;
+     } else {
+         return ARMMMUIdxBit_E1 | ARMMMUIdxBit_E0;
+     }
+@@ -3954,7 +3957,12 @@ static int vmalle1_tlbmask(CPUARMState *env)
+     if (arm_is_secure_below_el3(env)) {
+         return ARMMMUIdxBit_SE1 | ARMMMUIdxBit_SE0;
+     } else if (arm_feature(env, ARM_FEATURE_EL2)) {
+-        return ARMMMUIdxBit_E1 | ARMMMUIdxBit_E0 | ARMMMUIdxBit_Stage2;
++        /* Since we exclude secure first, we may read HCR_EL2 directly. */
++        if (env->cp15.hcr_el2 & HCR_E2H) {
++            return ARMMMUIdxBit_E2 | ARMMMUIdxBit_E0;
++        } else {
++            return ARMMMUIdxBit_E1 | ARMMMUIdxBit_E0 | ARMMMUIdxBit_Stage2;
++        }
+     } else {
+         return ARMMMUIdxBit_E1 | ARMMMUIdxBit_E0;
+     }
+@@ -3969,13 +3977,22 @@ static void tlbi_aa64_alle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     tlb_flush_by_mmuidx(cs, mask);
+ }
+ 
++static int vae2_tlbmask(CPUARMState *env)
++{
++    if (arm_hcr_el2_eff(env) & HCR_E2H) {
++        return ARMMMUIdxBit_E0 | ARMMMUIdxBit_E2;
++    } else {
++        return ARMMMUIdxBit_E2;
++    }
++}
++
+ static void tlbi_aa64_alle2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                   uint64_t value)
+ {
+-    ARMCPU *cpu = env_archcpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
++    int mask = vae2_tlbmask(env);
+ 
+-    tlb_flush_by_mmuidx(cs, ARMMMUIdxBit_E2);
++    tlb_flush_by_mmuidx(cs, mask);
+ }
+ 
+ static void tlbi_aa64_alle3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4000,8 +4017,9 @@ static void tlbi_aa64_alle2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
+ {
+     CPUState *cs = env_cpu(env);
++    int mask = vae2_tlbmask(env);
+ 
+-    tlb_flush_by_mmuidx_all_cpus_synced(cs, ARMMMUIdxBit_E2);
++    tlb_flush_by_mmuidx_all_cpus_synced(cs, mask);
+ }
+ 
+ static void tlbi_aa64_alle3is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4019,11 +4037,11 @@ static void tlbi_aa64_vae2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+      * Currently handles both VAE2 and VALE2, since we don't support
+      * flush-last-level-only.
+      */
+-    ARMCPU *cpu = env_archcpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
++    int mask = vae2_tlbmask(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
+ 
+-    tlb_flush_page_by_mmuidx(cs, pageaddr, ARMMMUIdxBit_E2);
++    tlb_flush_page_by_mmuidx(cs, pageaddr, mask);
+ }
+ 
+ static void tlbi_aa64_vae3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+-- 
+2.17.1
 
-> Is the tag-memory mandatory for MTE? If so we should either
-> disable MTE if no tag-memory is provided, or else fail
-> realize of the CPU; not sure which. If it's not mandatory
-> then we need to avoid asserting :-)
-
-I'm not sure.  I'll need to study the docs again.
-
-There is an MTE support level at which some of the EL0 bits are recognized but
-no tags are supported: ID_AA64PFR0_EL1.MTE == 1.  But that's not quite the same
-as what you're asking.
-
-
-r~
 
