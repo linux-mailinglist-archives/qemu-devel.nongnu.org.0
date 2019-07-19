@@ -2,60 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4775F6EB56
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 21:47:42 +0200 (CEST)
-Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5A06EB52
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 21:46:47 +0200 (CEST)
+Received: from localhost ([::1]:47644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoXp8-0001ZM-W7
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 14:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41442)
+	id 1hoYgT-0007a3-C7
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 15:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42641)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hoXob-0001FK-Rh
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:41:20 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hoYgF-0007BN-QY
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:36:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hoXoS-0007o9-9f
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:41:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51438)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hoXoR-0007i3-PX
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:40:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hoXoI-0004Us-6F
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 18:40:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2E47F2E8070
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 18:40:50 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1hoYgE-0007zU-E0
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:36:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47854)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hoYgD-0007uB-Qu
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:36:34 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C8DB18F91B;
+ Fri, 19 Jul 2019 18:41:31 +0000 (UTC)
+Received: from work-vm (ovpn-117-245.ams2.redhat.com [10.36.117.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F044D4FFDF;
+ Fri, 19 Jul 2019 18:41:30 +0000 (UTC)
+Date: Fri, 19 Jul 2019 19:41:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190719184128.GO3000@work-vm>
+References: <20190718064257.29218-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Jul 2019 18:30:55 -0000
-From: Roman Bolshakov <1818937@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: crash hvf macos
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bwibking cuser2 roolebo
-X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
-X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
-References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156356105528.9330.9881638879450652903.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 0ca76a147b3ff5c212aff690ca090bc0210a9e4a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190718064257.29218-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Fri, 19 Jul 2019 18:41:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1818937] Re: Crash with HV_ERROR on macOS host
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] migration: equation is more proper than
+ and to check LOADVM_QUIT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,88 +57,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm looking into the issue... HV_ERROR is a high-level return value and
-doesn't give enough details about the nature of the error. The error is
-returned from vmexit handler in AppleHV.kext (which implements kernel
-part of Hypervisor.framework). Perhaps we should extract more data from
-the VMCS and print it before aborting the execution.
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> LOADVM_QUIT allows a command to quit all layers of nested loadvm loops,
+> while current return value check is not that proper even it works now.
+> 
+> Current return value check "ret & LOADVM_QUIT" would return true if
+> bit[0] is 1. This would be true when ret is -1 which is used to indicate
+> an error of handling a command.
+> 
+> Since there is only one place return LOADVM_QUIT and no other
+> combination of return value, use "ret == LOADVM_QUIT" would be more
+> proper.
 
--- =
+Yes, when I first wrote this it was more complex with a few flags, and
+they all got removed.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1818937
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 
-Title:
-  Crash with HV_ERROR on macOS host
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Status in QEMU:
-  New
-
-Bug description:
-  On macOS host running Windows 10 guest, qemu crashed with error
-  message: Error: HV_ERROR.
-
-  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
- 4278U.
-  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
-  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
-rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
-
-  thread list
-  Process 56054 stopped
-    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
-nar16 + 970, queue =3D 'com.apple.main-thread'
-    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
-__select + 10
-    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
-__sigwait + 10
-  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
-__pthread_kill + 10, stop reason =3D signal SIGABRT
-    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
-`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
-    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #32: tid =3D 0x300c17, 0x0000000000000000
-    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
-`__psynch_cvwait + 10
-
-  =
-
-  Crashed thread:
-
-  * thread #6, stop reason =3D signal SIGABRT
-    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
-10
-      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
-85
-      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
-      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
-unavailable>) at hvf.c:106 [opt]
-      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
-x00007f8e5283de00) at hvf.c:681 [opt]
-      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
-n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
-      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
-s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
-      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
-126
-      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
- 70
-      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
+> ---
+>  migration/savevm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 1a9b1f411e..25fe7ea05a 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2429,7 +2429,7 @@ retry:
+>          case QEMU_VM_COMMAND:
+>              ret = loadvm_process_command(f);
+>              trace_qemu_loadvm_state_section_command(ret);
+> -            if ((ret < 0) || (ret & LOADVM_QUIT)) {
+> +            if ((ret < 0) || (ret == LOADVM_QUIT)) {
+>                  goto out;
+>              }
+>              break;
+> -- 
+> 2.17.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
