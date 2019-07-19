@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3AF6E645
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:26:16 +0200 (CEST)
-Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0215D6E648
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:26:57 +0200 (CEST)
+Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoStq-0003MI-Vz
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35139)
+	id 1hoSuV-0006EP-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35159)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hoStX-0002wc-Cs
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:25:56 -0400
+ (envelope-from <berrange@redhat.com>) id 1hoStY-0002wj-Q3
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:25:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hoStW-0007uQ-8B
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:25:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38076)
+ (envelope-from <berrange@redhat.com>) id 1hoStW-0007vH-VK
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:25:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48552)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hoStW-0007tg-0l
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hoStW-0007uM-Nm
  for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:25:54 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4E3BA308FE8F
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 13:25:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 129593DBC5;
+ Fri, 19 Jul 2019 13:25:54 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-48.ams2.redhat.com
  [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59F4A5D704;
- Fri, 19 Jul 2019 13:25:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA995D719;
+ Fri, 19 Jul 2019 13:25:52 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 14:25:44 +0100
-Message-Id: <20190719132549.14726-1-berrange@redhat.com>
+Date: Fri, 19 Jul 2019 14:25:45 +0100
+Message-Id: <20190719132549.14726-2-berrange@redhat.com>
+In-Reply-To: <20190719132549.14726-1-berrange@redhat.com>
+References: <20190719132549.14726-1-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 19 Jul 2019 13:25:52 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 19 Jul 2019 13:25:54 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/5] Misc next patches
+Subject: [Qemu-devel] [PULL 1/5] crypto: switch to modern nettle AES APIs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,104 +56,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0274f45bdef73283f2c213610f11d4e5dcba43=
-b6:
+The aes_ctx struct and aes_* functions have been deprecated in nettle
+3.5, in favour of keysize specific functions which were introduced
+first in nettle 3.0.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-p=
-ull-request' into staging (2019-07-19 09:44:43 +0100)
+Switch QEMU code to use the new APIs and add some backcompat defines
+such that it still builds on nettle 2.7
 
-are available in the Git repository at:
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ crypto/cipher-nettle.c | 218 ++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 183 insertions(+), 35 deletions(-)
 
-  https://github.com/berrange/qemu tags/misc-next-pull-request
-
-for you to fetch changes up to b7cbb8741b40b7cd4de9ad6bdb69baae4d6dadcf:
-
-  crypto: Fix LGPL information in the file headers (2019-07-19 14:21:25 +=
-0100)
-
-----------------------------------------------------------------
-
- * Fixes crypto function signatures to be compatible with
-   both old and new versions of nettle
- * Fixes deprecation warnings on new nettle
- * Fixes GPL license header typos
- * Documents security implications of monitor usage
- * Optimize linking of capstone to avoid it in tools
-
-----------------------------------------------------------------
-
-Daniel P. Berrang=C3=A9 (4):
-  crypto: switch to modern nettle AES APIs
-  crypto: fix function signatures for nettle 2.7 vs 3
-  configure: only link capstone to emulation targets
-  doc: document that the monitor console is a privileged control
-    interface
-
-Thomas Huth (1):
-  crypto: Fix LGPL information in the file headers
-
- Makefile.target               |   1 +
- configure                     |   6 +-
- crypto/block-luks.c           |   2 +-
- crypto/block-luks.h           |   2 +-
- crypto/block-qcow.c           |   2 +-
- crypto/block-qcow.h           |   2 +-
- crypto/block.c                |   2 +-
- crypto/blockpriv.h            |   2 +-
- crypto/cipher-builtin.c       |   2 +-
- crypto/cipher-gcrypt.c        |   2 +-
- crypto/cipher-nettle.c        | 220 ++++++++++++++++++++++++++++------
- crypto/cipher.c               |   2 +-
- crypto/hash-gcrypt.c          |   2 +-
- crypto/hash-glib.c            |   2 +-
- crypto/hash-nettle.c          |  14 ++-
- crypto/hash.c                 |   2 +-
- crypto/hmac-nettle.c          |  17 ++-
- crypto/init.c                 |   2 +-
- crypto/ivgen-essiv.c          |   2 +-
- crypto/ivgen-essiv.h          |   2 +-
- crypto/ivgen-plain.c          |   2 +-
- crypto/ivgen-plain.h          |   2 +-
- crypto/ivgen-plain64.c        |   2 +-
- crypto/ivgen-plain64.h        |   2 +-
- crypto/ivgen.c                |   2 +-
- crypto/ivgenpriv.h            |   2 +-
- crypto/pbkdf-gcrypt.c         |   2 +-
- crypto/pbkdf-nettle.c         |   2 +-
- crypto/pbkdf-stub.c           |   2 +-
- crypto/pbkdf.c                |   2 +-
- crypto/random-gcrypt.c        |   2 +-
- crypto/random-gnutls.c        |   2 +-
- crypto/random-platform.c      |   2 +-
- crypto/secret.c               |   2 +-
- crypto/tlscreds.c             |   2 +-
- crypto/tlscredsanon.c         |   2 +-
- crypto/tlscredspriv.h         |   2 +-
- crypto/tlscredspsk.c          |   2 +-
- crypto/tlscredsx509.c         |   2 +-
- crypto/tlssession.c           |   2 +-
- crypto/xts.c                  |   2 +-
- docs/security.texi            |  36 ++++++
- include/crypto/block.h        |   2 +-
- include/crypto/cipher.h       |   2 +-
- include/crypto/hash.h         |   2 +-
- include/crypto/init.h         |   2 +-
- include/crypto/ivgen.h        |   2 +-
- include/crypto/pbkdf.h        |   2 +-
- include/crypto/random.h       |   2 +-
- include/crypto/secret.h       |   2 +-
- include/crypto/tlscreds.h     |   2 +-
- include/crypto/tlscredsanon.h |   2 +-
- include/crypto/tlscredspsk.h  |   2 +-
- include/crypto/tlscredsx509.h |   2 +-
- include/crypto/tlssession.h   |   2 +-
- include/crypto/xts.h          |   2 +-
- 56 files changed, 298 insertions(+), 96 deletions(-)
-
+diff --git a/crypto/cipher-nettle.c b/crypto/cipher-nettle.c
+index 3848cb3b3a..115d16dd7b 100644
+--- a/crypto/cipher-nettle.c
++++ b/crypto/cipher-nettle.c
+@@ -42,29 +42,89 @@ typedef void *       cipher_ctx_t;
+ typedef unsigned     cipher_length_t;
+=20
+ #define cast5_set_key cast128_set_key
++
++#define aes128_ctx aes_ctx
++#define aes192_ctx aes_ctx
++#define aes256_ctx aes_ctx
++#define aes128_set_encrypt_key(c, k) \
++    aes_set_encrypt_key(c, 16, k)
++#define aes192_set_encrypt_key(c, k) \
++    aes_set_encrypt_key(c, 24, k)
++#define aes256_set_encrypt_key(c, k) \
++    aes_set_encrypt_key(c, 32, k)
++#define aes128_set_decrypt_key(c, k) \
++    aes_set_decrypt_key(c, 16, k)
++#define aes192_set_decrypt_key(c, k) \
++    aes_set_decrypt_key(c, 24, k)
++#define aes256_set_decrypt_key(c, k) \
++    aes_set_decrypt_key(c, 32, k)
++#define aes128_encrypt aes_encrypt
++#define aes192_encrypt aes_encrypt
++#define aes256_encrypt aes_encrypt
++#define aes128_decrypt aes_decrypt
++#define aes192_decrypt aes_decrypt
++#define aes256_decrypt aes_decrypt
+ #else
+ typedef nettle_cipher_func * QCryptoCipherNettleFuncNative;
+ typedef const void * cipher_ctx_t;
+ typedef size_t       cipher_length_t;
+ #endif
+=20
+-typedef struct QCryptoNettleAES {
+-    struct aes_ctx enc;
+-    struct aes_ctx dec;
+-} QCryptoNettleAES;
++typedef struct QCryptoNettleAES128 {
++    struct aes128_ctx enc;
++    struct aes128_ctx dec;
++} QCryptoNettleAES128;
++
++typedef struct QCryptoNettleAES192 {
++    struct aes192_ctx enc;
++    struct aes192_ctx dec;
++} QCryptoNettleAES192;
++
++typedef struct QCryptoNettleAES256 {
++    struct aes256_ctx enc;
++    struct aes256_ctx dec;
++} QCryptoNettleAES256;
++
++static void aes128_encrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
++                                  uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES128 *aesctx =3D ctx;
++    aes128_encrypt(&aesctx->enc, length, dst, src);
++}
++
++static void aes128_decrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
++                                  uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES128 *aesctx =3D ctx;
++    aes128_decrypt(&aesctx->dec, length, dst, src);
++}
++
++static void aes192_encrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
++                               uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES192 *aesctx =3D ctx;
++    aes192_encrypt(&aesctx->enc, length, dst, src);
++}
++
++static void aes192_decrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
++                               uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES192 *aesctx =3D ctx;
++    aes192_decrypt(&aesctx->dec, length, dst, src);
++}
+=20
+-static void aes_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
++static void aes256_encrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
+                                uint8_t *dst, const uint8_t *src)
+ {
+-    const QCryptoNettleAES *aesctx =3D ctx;
+-    aes_encrypt(&aesctx->enc, length, dst, src);
++    const QCryptoNettleAES256 *aesctx =3D ctx;
++    aes256_encrypt(&aesctx->enc, length, dst, src);
+ }
+=20
+-static void aes_decrypt_native(cipher_ctx_t ctx, cipher_length_t length,
++static void aes256_decrypt_native(cipher_ctx_t ctx, cipher_length_t leng=
+th,
+                                uint8_t *dst, const uint8_t *src)
+ {
+-    const QCryptoNettleAES *aesctx =3D ctx;
+-    aes_decrypt(&aesctx->dec, length, dst, src);
++    const QCryptoNettleAES256 *aesctx =3D ctx;
++    aes256_decrypt(&aesctx->dec, length, dst, src);
+ }
+=20
+ static void des_encrypt_native(cipher_ctx_t ctx, cipher_length_t length,
+@@ -127,18 +187,46 @@ static void twofish_decrypt_native(cipher_ctx_t ctx=
+, cipher_length_t length,
+     twofish_decrypt(ctx, length, dst, src);
+ }
+=20
+-static void aes_encrypt_wrapper(const void *ctx, size_t length,
++static void aes128_encrypt_wrapper(const void *ctx, size_t length,
++                                uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES128 *aesctx =3D ctx;
++    aes128_encrypt(&aesctx->enc, length, dst, src);
++}
++
++static void aes128_decrypt_wrapper(const void *ctx, size_t length,
+                                 uint8_t *dst, const uint8_t *src)
+ {
+-    const QCryptoNettleAES *aesctx =3D ctx;
+-    aes_encrypt(&aesctx->enc, length, dst, src);
++    const QCryptoNettleAES128 *aesctx =3D ctx;
++    aes128_decrypt(&aesctx->dec, length, dst, src);
+ }
+=20
+-static void aes_decrypt_wrapper(const void *ctx, size_t length,
++static void aes192_encrypt_wrapper(const void *ctx, size_t length,
+                                 uint8_t *dst, const uint8_t *src)
+ {
+-    const QCryptoNettleAES *aesctx =3D ctx;
+-    aes_decrypt(&aesctx->dec, length, dst, src);
++    const QCryptoNettleAES192 *aesctx =3D ctx;
++    aes192_encrypt(&aesctx->enc, length, dst, src);
++}
++
++static void aes192_decrypt_wrapper(const void *ctx, size_t length,
++                                uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES192 *aesctx =3D ctx;
++    aes192_decrypt(&aesctx->dec, length, dst, src);
++}
++
++static void aes256_encrypt_wrapper(const void *ctx, size_t length,
++                                uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES256 *aesctx =3D ctx;
++    aes256_encrypt(&aesctx->enc, length, dst, src);
++}
++
++static void aes256_decrypt_wrapper(const void *ctx, size_t length,
++                                uint8_t *dst, const uint8_t *src)
++{
++    const QCryptoNettleAES256 *aesctx =3D ctx;
++    aes256_decrypt(&aesctx->dec, length, dst, src);
+ }
+=20
+ static void des_encrypt_wrapper(const void *ctx, size_t length,
+@@ -319,34 +407,94 @@ static QCryptoCipherNettle *qcrypto_cipher_ctx_new(=
+QCryptoCipherAlgorithm alg,
+         break;
+=20
+     case QCRYPTO_CIPHER_ALG_AES_128:
++        ctx->ctx =3D g_new0(QCryptoNettleAES128, 1);
++
++        if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
++            ctx->ctx_tweak =3D g_new0(QCryptoNettleAES128, 1);
++
++            nkey /=3D 2;
++            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->d=
+ec,
++                                   key);
++
++            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx_twe=
+ak)->
++                                   enc, key + nkey);
++            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx_twe=
+ak)->
++                                   dec, key + nkey);
++        } else {
++            aes128_set_encrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes128_set_decrypt_key(&((QCryptoNettleAES128 *)ctx->ctx)->d=
+ec,
++                                   key);
++        }
++
++        ctx->alg_encrypt_native =3D aes128_encrypt_native;
++        ctx->alg_decrypt_native =3D aes128_decrypt_native;
++        ctx->alg_encrypt_wrapper =3D aes128_encrypt_wrapper;
++        ctx->alg_decrypt_wrapper =3D aes128_decrypt_wrapper;
++
++        ctx->blocksize =3D AES_BLOCK_SIZE;
++        break;
++
+     case QCRYPTO_CIPHER_ALG_AES_192:
++        ctx->ctx =3D g_new0(QCryptoNettleAES192, 1);
++
++        if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
++            ctx->ctx_tweak =3D g_new0(QCryptoNettleAES192, 1);
++
++            nkey /=3D 2;
++            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->d=
+ec,
++                                   key);
++
++            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx_twe=
+ak)->
++                                   enc, key + nkey);
++            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx_twe=
+ak)->
++                                   dec, key + nkey);
++        } else {
++            aes192_set_encrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes192_set_decrypt_key(&((QCryptoNettleAES192 *)ctx->ctx)->d=
+ec,
++                                   key);
++        }
++
++        ctx->alg_encrypt_native =3D aes192_encrypt_native;
++        ctx->alg_decrypt_native =3D aes192_decrypt_native;
++        ctx->alg_encrypt_wrapper =3D aes192_encrypt_wrapper;
++        ctx->alg_decrypt_wrapper =3D aes192_decrypt_wrapper;
++
++        ctx->blocksize =3D AES_BLOCK_SIZE;
++        break;
++
+     case QCRYPTO_CIPHER_ALG_AES_256:
+-        ctx->ctx =3D g_new0(QCryptoNettleAES, 1);
++        ctx->ctx =3D g_new0(QCryptoNettleAES256, 1);
+=20
+         if (mode =3D=3D QCRYPTO_CIPHER_MODE_XTS) {
+-            ctx->ctx_tweak =3D g_new0(QCryptoNettleAES, 1);
++            ctx->ctx_tweak =3D g_new0(QCryptoNettleAES256, 1);
+=20
+             nkey /=3D 2;
+-            aes_set_encrypt_key(&((QCryptoNettleAES *)ctx->ctx)->enc,
+-                                nkey, key);
+-            aes_set_decrypt_key(&((QCryptoNettleAES *)ctx->ctx)->dec,
+-                                nkey, key);
+-
+-            aes_set_encrypt_key(&((QCryptoNettleAES *)ctx->ctx_tweak)->e=
+nc,
+-                                nkey, key + nkey);
+-            aes_set_decrypt_key(&((QCryptoNettleAES *)ctx->ctx_tweak)->d=
+ec,
+-                                nkey, key + nkey);
++            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->d=
+ec,
++                                   key);
++
++            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx_twe=
+ak)->
++                                   enc, key + nkey);
++            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx_twe=
+ak)->
++                                   dec, key + nkey);
+         } else {
+-            aes_set_encrypt_key(&((QCryptoNettleAES *)ctx->ctx)->enc,
+-                                nkey, key);
+-            aes_set_decrypt_key(&((QCryptoNettleAES *)ctx->ctx)->dec,
+-                                nkey, key);
++            aes256_set_encrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->e=
+nc,
++                                   key);
++            aes256_set_decrypt_key(&((QCryptoNettleAES256 *)ctx->ctx)->d=
+ec,
++                                   key);
+         }
+=20
+-        ctx->alg_encrypt_native =3D aes_encrypt_native;
+-        ctx->alg_decrypt_native =3D aes_decrypt_native;
+-        ctx->alg_encrypt_wrapper =3D aes_encrypt_wrapper;
+-        ctx->alg_decrypt_wrapper =3D aes_decrypt_wrapper;
++        ctx->alg_encrypt_native =3D aes256_encrypt_native;
++        ctx->alg_decrypt_native =3D aes256_decrypt_native;
++        ctx->alg_encrypt_wrapper =3D aes256_encrypt_wrapper;
++        ctx->alg_decrypt_wrapper =3D aes256_decrypt_wrapper;
+=20
+         ctx->blocksize =3D AES_BLOCK_SIZE;
+         break;
 --=20
 2.21.0
 
