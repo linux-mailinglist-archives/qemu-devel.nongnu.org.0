@@ -2,50 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2602C6E8BD
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:25:51 +0200 (CEST)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077436E8D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:32:08 +0200 (CEST)
+Received: from localhost ([::1]:47040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVhe-0004xJ-Br
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:25:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42834)
+	id 1hoVni-0001zt-Ii
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43559)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hoVhT-0004YP-2J
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:25:40 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoVn2-0007vP-8E
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:31:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hoVhL-0000Qu-Dg
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:25:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36970)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoVn0-0003P3-M1
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:31:23 -0400
+Received: from relay.sw.ru ([185.231.240.75]:44218)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hoVhK-0000HJ-Bp
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:25:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9A8F430A8847;
- Fri, 19 Jul 2019 16:25:10 +0000 (UTC)
-Received: from redhat.com (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C229E12A68;
- Fri, 19 Jul 2019 16:25:09 +0000 (UTC)
-Date: Fri, 19 Jul 2019 17:25:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Message-ID: <20190719162506.GG4057@redhat.com>
-References: <20190718195123.13064-1-sw@weilnetz.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190718195123.13064-1-sw@weilnetz.de>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 19 Jul 2019 16:25:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.1] crypto: Fix data type for len
- parameter in two typedefs
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hoVmz-0002sK-Jt; Fri, 19 Jul 2019 12:31:21 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hoVm7-0006pa-UB; Fri, 19 Jul 2019 19:30:28 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Fri, 19 Jul 2019 19:30:10 +0300
+Message-Id: <1563553816-148827-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v5 0/6] Allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,24 +45,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 18, 2019 at 09:51:23PM +0200, Stefan Weil wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->  crypto/hash-nettle.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+In the current implementation of the QEMU bash iotests, only qemu-io
+processes may be run under the Valgrind, which is a useful tool for
+finding memory usage issues. Let's allow the common.rc bash script
+runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
+and qemu-vxhs, under the Valgrind tool.
 
-FYI, A different fix for this problem is now merged.
+v5:
+  01: The patch "block/nbd: NBDReply is used being uninitialized" was detached
+      and taken into account in the patch "nbd: Initialize reply on failure"
+      by Eric Blake.
 
+v4:
+  01: The patch "iotests: Set read-zeroes on in null block driver for Valgrind"
+      was extended with new cases and issued as a separate series.
+  02: The new patch "block/nbd: NBDReply is used being uninitialized" was
+      added to resolve the failure of the iotest 083 run under Valgrind.
 
-Regards,
-Daniel
+v3:
+  01: The new function _casenotrun() was added to the common.rc bash
+      script to notify the user of test cases dropped for some reason.
+      Suggested by Kevin.
+      Particularly, the notification about the nonexistent TMPDIR in
+      the test 051 was added (noticed by Vladimir).
+  02: The timeout in some test cases was extended for Valgrind because
+      it differs when running on the ramdisk.
+  03: Due to the common.nbd script has been changed with the commit
+      b28f582c, the patch "iotests: amend QEMU NBD process synchronization"
+      is actual no more. Note that QEMU_NBD is launched in the bash nested
+      shell in the _qemu_nbd_wrapper() as it was before in common.rc.
+  04: The patch "iotests: new file to suppress Valgrind errors" was dropped
+      due to my superficial understanding of the work of the function
+      blk_pread_unthrottled(). Special thanks to Kevin who shed the light
+      on the null block driver involved. Now, the parameter 'read-zeroes=on'
+      is passed to the null block driver to initialize the buffer in the
+      function guess_disk_lchs() that the Valgrind was complaining to.
+
+v2:
+  01: The patch 2/7 of v1 was merged into the patch 1/7, suggested by Daniel.
+  02: Another patch 7/7 was added to introduce the Valgrind error suppression
+      file into the QEMU project.
+  Discussed in the email thread with the message ID:
+  <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+
+Andrey Shinkevich (6):
+  iotests: allow Valgrind checking all QEMU processes
+  iotests: exclude killed processes from running under  Valgrind
+  iotests: Add casenotrun report to bash tests
+  iotests: Valgrind fails with nonexistent directory
+  iotests: extended timeout under Valgrind
+  iotests: extend sleeping time under Valgrind
+
+ tests/qemu-iotests/028       |  6 +++-
+ tests/qemu-iotests/039       |  5 +++
+ tests/qemu-iotests/039.out   | 30 +++--------------
+ tests/qemu-iotests/051       |  4 +++
+ tests/qemu-iotests/061       |  2 ++
+ tests/qemu-iotests/061.out   | 12 ++-----
+ tests/qemu-iotests/137       |  1 +
+ tests/qemu-iotests/137.out   |  6 +---
+ tests/qemu-iotests/183       |  9 +++++-
+ tests/qemu-iotests/192       |  6 +++-
+ tests/qemu-iotests/247       |  6 +++-
+ tests/qemu-iotests/common.rc | 76 +++++++++++++++++++++++++++++++++-----------
+ 12 files changed, 101 insertions(+), 62 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+1.8.3.1
+
 
