@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DB06E80D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:38:44 +0200 (CEST)
-Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223836E811
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:40:03 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoUy3-0006oz-E1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33905)
+	id 1hoUzJ-0000Uh-Og
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34159)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hoUxq-0006ID-RB
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:38:31 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hoUz1-0008RN-8n
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:39:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hoUxl-0002Mn-Cr
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:38:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38940)
+ (envelope-from <stefanha@redhat.com>) id 1hoUyw-0002jR-0C
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:39:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58186)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hoUxM-0000cc-8u; Fri, 19 Jul 2019 11:38:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hoUyZ-0002BH-GU; Fri, 19 Jul 2019 11:39:21 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0165830BD1CC;
- Fri, 19 Jul 2019 15:34:47 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1814C3172D64;
+ Fri, 19 Jul 2019 15:37:50 +0000 (UTC)
 Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7E3A26E6B;
- Fri, 19 Jul 2019 15:34:41 +0000 (UTC)
-Date: Fri, 19 Jul 2019 16:34:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E58785D978;
+ Fri, 19 Jul 2019 15:37:44 +0000 (UTC)
+Date: Fri, 19 Jul 2019 16:37:43 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190719153440.GB24412@stefanha-x1.localdomain>
+Message-ID: <20190719153743.GE24412@stefanha-x1.localdomain>
 References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
- <20190719133530.28688-5-mehta.aaru20@gmail.com>
+ <20190719133530.28688-10-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
+ protocol="application/pgp-signature"; boundary="+SfteS7bOf3dGlBC"
 Content-Disposition: inline
-In-Reply-To: <20190719133530.28688-5-mehta.aaru20@gmail.com>
+In-Reply-To: <20190719133530.28688-10-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 19 Jul 2019 15:34:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 19 Jul 2019 15:37:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 04/14] block/io_uring: implements
- interfaces for io_uring
+Subject: Re: [Qemu-devel] [PATCH v6 09/14] block: add trace events for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,115 +69,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---3lcZGd9BuhuYXNfi
+--+SfteS7bOf3dGlBC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2019 at 07:05:20PM +0530, Aarushi Mehta wrote:
-> diff --git a/block.c b/block.c
-> index 29e931e217..4aa3500ad8 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -844,6 +844,28 @@ static BlockdevDetectZeroesOptions bdrv_parse_detect=
-_zeroes(QemuOpts *opts,
->      return detect_zeroes;
->  }
-> =20
-> +/**
-> + * Set flags for aio engine
+On Fri, Jul 19, 2019 at 07:05:25PM +0530, Aarushi Mehta wrote:
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> ---
+>  block/io_uring.c   | 22 +++++++++++++++++++---
+>  block/trace-events | 12 ++++++++++++
+>  2 files changed, 31 insertions(+), 3 deletions(-)
 
-Other parse_*() functions are more specific about which type of flags
-are produced:
+Trace events don't need to be a separate patch, but this is okay too.
 
-s/flags/open flags/
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-> + *
-> + * Return 0 on success, -1 if the engine specifies is invalid
-
-s/specifies/specified/
-
-> + */
-> +int bdrv_parse_aio(const char *mode, int *flags)
-> +{
-> +    if (!strcmp(mode, "threads")) {
-> +        /* do nothing, default */
-> +    } else if (!strcmp(mode, "native")) {
-> +        *flags |=3D BDRV_O_NATIVE_AIO;
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    } else if (!strcmp(mode, "io_uring")) {
-> +        *flags |=3D BDRV_O_IO_URING;
-> +#endif
-> +    } else {
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-
-Can you move this change to the patch that uses bdrv_parse_aio()?  I
-don't see any callers in this patch.
-
-> +        if (ret < 0) {
-> +            if (ret =3D=3D -EINTR) {
-> +                luring_resubmit(s, luringcb);
-> +                continue;
-> +            }
-> +        } else if (!luringcb->qiov) {
-> +            goto end;
-> +        } else if (total_bytes =3D=3D luringcb->qiov->size) {
-> +                ret =3D 0;
-
-Indentation is off here.
-
-> +static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *=
-s,
-> +                            uint64_t offset, int type)
-> +{
-> +    struct io_uring_sqe *sqes =3D &luringcb->sqeq;
-> +
-> +    switch (type) {
-> +    case QEMU_AIO_WRITE:
-> +        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
-> +                             luringcb->qiov->niov, offset);
-> +        break;
-> +    case QEMU_AIO_READ:
-> +        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
-> +                            luringcb->qiov->niov, offset);
-> +        break;
-> +    case QEMU_AIO_FLUSH:
-> +        io_uring_prep_fsync(sqes, fd, 0);
-
-In QEMU QEMU_AIO_FLUSH is fdatasync so the IORING_FSYNC_DATASYNC flag
-can be used for a slightly cheaper fsync operation.
-
-> +        break;
-> +    default:
-> +        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\n",
-> +                        __func__, type);
-> +        abort();
-> +    }
-> +    io_uring_sqe_set_data(sqes, luringcb);
-> +
-> +    QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
-
-Now that we use sq_overflow unconditionally it can be renamed to
-submit_queue, making the code easier to understand.
-
---3lcZGd9BuhuYXNfi
+--+SfteS7bOf3dGlBC
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x4xAACgkQnKSrs4Gr
-c8g6wQgAia00NAcMIHGybMrn8RmcEf37QecA3wgxA8Ixawwufy/ViGxJ6cBdshnI
-vfHO5Bh8VAilrX4Urr3LxkPMZ5YpMKAnEMAWdEhU87APboyphDncp0qkf7WxAALp
-0mpOeS+3WKJWLsET89vzVuEiTGcRg9ysCAiSvM3JVl0HbyF1JTCCg8xpuZIkktzY
-W5z4N//YOxb1MOfZwjIwbtubUgL7/Y23TwlFNWWrbyDSaz/ZHM5gv9aTWF2Q1w1q
-KxOwNAIpXQH4XeVLtpR/+aNMt89NEP2tOk3YaMDIbTFmHSZ0+H5P2pB0iKvxC9UK
-gMr76O9ob7CULWZVA4U1fDaUpE9qAQ==
-=v5XU
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x48cACgkQnKSrs4Gr
+c8iM+ggAqKLBnjN+r3OkAX0gUbfURybrIvmqFcvmFJIeEeHAPxqTmmMea6BeyeqL
+dysckZRHomYGgeb8bvI/mvKnnKoyh4iN412tHKYsuH+3wU7f9Josw7lUImC5+DDh
+4XaiCfTVenVoln+nj6DtJ2KoRdzCYVnEfu5Yt0GCqo9Q1S0Yu2eMDElOJNXn+0rg
+I+aTdq+2q5Tb8SdefL2pUmceLWwIHYgbg6y2MhuY56DD74mvZKY8n8bs1QSqEfew
+HEYIUTCsvVXm4q/wO2d/Kzf4uo7KcOyYCsuNImMSay3wPKGF3RxlVW3h1Rn7VGqO
+5eoJx3isGizSdcBqq9OXJLbcYVDjZg==
+=uQds
 -----END PGP SIGNATURE-----
 
---3lcZGd9BuhuYXNfi--
+--+SfteS7bOf3dGlBC--
 
