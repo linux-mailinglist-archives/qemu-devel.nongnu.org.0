@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF1076E6A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:38:51 +0200 (CEST)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62D06E6A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:38:20 +0200 (CEST)
+Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoT62-0006DM-0T
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38107)
+	id 1hoT5X-0003CA-NV
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4Q-0007CY-6r
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:11 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4Y-0007qy-J1
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4P-00089J-9b
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:10 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37383)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4X-0008FB-DS
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:18 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45346)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hoT4P-00088u-3f; Fri, 19 Jul 2019 09:37:09 -0400
-Received: by mail-pg1-x543.google.com with SMTP id i70so3746666pgd.4;
- Fri, 19 Jul 2019 06:37:09 -0700 (PDT)
+ id 1hoT4X-0008EZ-3u; Fri, 19 Jul 2019 09:37:17 -0400
+Received: by mail-pl1-x643.google.com with SMTP id y8so15650929plr.12;
+ Fri, 19 Jul 2019 06:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K0d0PCOxvKT348YcfiEgoxDIJrmae1+DAY9ThSTRtEQ=;
- b=r/QYJuDj0YIXBPsXgJuy9Aw3F1BUydqk4wwADtMiGNE6TLNLV4bR8NHkY53ngd2lzy
- vpe+F0EEvnXPlkKGs3kS4d/TUtWD7iX+29/kPzwvVc81MGjeFjgXdh8s8jvx0MWUpPxP
- uo1z+Amb8KNpFgRQ8WtQbb54M5zoW9xkeCOlFCgRkW9L2Eph0YT6MivRfxabuYrLhW0R
- TQXYg47XPgmPmfkyUGegglb44Y1teUmRS1gnv4ukHoRSVwUypWIxad4xTLKG8vyo/bQV
- +/tl3pL17tlRKsZIT0Yc2ORFlSa6Cfq0m42N4T19MWkwXMEfWmjylNdZecjfb94rjkaW
- q7HA==
+ bh=jzhlY8te3PlNHDmc9x8zhHaloKwuy+F9m+jxMy+Rp1s=;
+ b=SOQdnhvHIuhpKDXnQoFTnbkSwQX81px8IoHFjnbtIPVKdeLC5rtwORFlTNwJog6omH
+ T3Ln0de8V9W/T1kijbghNOKqomb/freI10FvwBb49+Dr3SsOavOM1OeI80QwxwSaADsO
+ cFv6dQms6FtY+BWDSCWhg7ENqWY7fPAizB9Nt+bSfj/VJ9JGKbzM/5Q8rUN7nlVX2pdC
+ TSHcqRcpDD3xBHMCOjcU4Ip2NIJRI9q6Fmg7FeJc9wcuJcKzE7gWlR3zrCwxNF6MBYB/
+ 7hFHjC593RNsqHF4Mzb4DtjZZ36xmYDZZ5Tk1f6SdWZSv/xfNTsHxXcZjfpBdQiSmm3O
+ H/GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K0d0PCOxvKT348YcfiEgoxDIJrmae1+DAY9ThSTRtEQ=;
- b=I4hhh8C7tSIm7T9bHfi1/swozx9HbBbWv8NjiDfZgBU8ZjV3TsoR+r3/U8HLfpVgsy
- VFYwkpYI9KqeuaJtitf2VHxvtGfTyPiFCkbPusbZSRqw/E2bTWgRWZUiutQpDHi3sWz4
- rplofubDW2KxF7e/2/3JIa/UaW53SOTkum9KIdX5V4voXNadHpaRDuId0DC2a/icXldq
- PjK5ePKp56jUVgNfVj9cIWBYybXV8sX1UjbTC3mMVCtcCKfF6GSLwmPPeofI2v0j9RTH
- 4p0qaE9yUGUwvJYdJ+uItlSmdFkXOAb67HZ3h89DxGIT4gR8abtiLy/vPpUFYqHe9wz7
- v2mw==
-X-Gm-Message-State: APjAAAWHghuZK9SMzDiplTJSoBkzCVScm5fLqV/9OMgpRAYjQ2S4E11S
- TJ6EBN1jjnUDYQY5uDqbKjpeIu9go1A=
-X-Google-Smtp-Source: APXvYqzpV8fgokXY1y1thuPBE+F1iSLIIxgoSWFVE5AwUyW1pJTSqG+tOOyZZuiBJV/Bxt9IRc5igw==
-X-Received: by 2002:a17:90a:1c1:: with SMTP id 1mr58096780pjd.72.1563543427845; 
- Fri, 19 Jul 2019 06:37:07 -0700 (PDT)
+ bh=jzhlY8te3PlNHDmc9x8zhHaloKwuy+F9m+jxMy+Rp1s=;
+ b=k8KDpaedlfdnMXpkeYIalU9ofj6OAy33cr8E5hhEjwKT2OAMgUMSCWC5kW6zooH+oS
+ MDJwjWF1dPWIGR6IF7fXUGQiACBU939DrrFV8Cawks/bZnIUlhiesSZUHPhwC/Poth84
+ KrN4LkxQMxzbV6OdRN8TXumttIIolhEHslUyeuRqq3WJhM5C+lgzu+2627hV7JGVCxLD
+ LwWAEDk6PP8v6ZJPYRoOejf6eU7Wj1NkRZ+Gf5VKEy5XbvChuaXnckgdzu7g98umYIA9
+ axM7Wi0C5VpfWm34Eg8AHKXM/A/Pojd3f+/0fq3lO1Pqq+CBJWVslQDQ0vlU10gyAfKW
+ 7X4A==
+X-Gm-Message-State: APjAAAXw1GEd4ZsOxGg521w8+V8XCbIjJqn9saswWr2KUSv/IaElqxy7
+ Qs+i2juHDlqB1Ol16Fwbk1zsODZB9/8=
+X-Google-Smtp-Source: APXvYqzFhnF9adiDSbwGQUyWBVF19V7Y77AaR6br4mVELUBX7Q2ufUjZs0vP8KhL1ZE6G6nKcYiWNg==
+X-Received: by 2002:a17:902:9689:: with SMTP id
+ n9mr57823441plp.241.1563543435867; 
+ Fri, 19 Jul 2019 06:37:15 -0700 (PDT)
 Received: from localhost.localdomain ([2402:3a80:433:31a4:f2fb:dab8:3a89:c056])
- by smtp.gmail.com with ESMTPSA id 11sm31895369pfw.33.2019.07.19.06.37.01
+ by smtp.gmail.com with ESMTPSA id 11sm31895369pfw.33.2019.07.19.06.37.08
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 06:37:07 -0700 (PDT)
+ Fri, 19 Jul 2019 06:37:15 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 19:05:26 +0530
-Message-Id: <20190719133530.28688-11-mehta.aaru20@gmail.com>
+Date: Fri, 19 Jul 2019 19:05:27 +0530
+Message-Id: <20190719133530.28688-12-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190719133530.28688-1-mehta.aaru20@gmail.com>
 References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
@@ -63,9 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v6 10/14] block/io_uring: adds userspace
- completion polling
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v6 11/14] qemu-io: adds option to use aio engine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,46 +87,91 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use -i AIOMODE instead of -k.
+
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 ---
- block/io_uring.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ qemu-io.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index e9c1dc1dc7..de2a037151 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -237,6 +237,21 @@ static void qemu_luring_completion_cb(void *opaque)
-     luring_process_completions_and_submit(s);
- }
- 
-+static bool qemu_luring_poll_cb(void *opaque)
-+{
-+    LuringState *s = opaque;
-+    struct io_uring_cqe *cqes;
-+
-+    if (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
-+        if (cqes) {
-+            luring_process_completions_and_submit(s);
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static void ioq_init(LuringQueue *io_q)
+diff --git a/qemu-io.c b/qemu-io.c
+index f64eca6940..3cee06248e 100644
+--- a/qemu-io.c
++++ b/qemu-io.c
+@@ -130,7 +130,7 @@ static void open_help(void)
+ " -C, -- use copy-on-read\n"
+ " -n, -- disable host cache, short for -t none\n"
+ " -U, -- force shared permissions\n"
+-" -k, -- use kernel AIO implementation (on Linux only)\n"
++" -i, -- use AIO mode (threads, native or io_uring)"
+ " -t, -- use the given cache mode for the image\n"
+ " -d, -- use the given discard mode for the image\n"
+ " -o, -- options to be given to the block driver"
+@@ -187,9 +187,6 @@ static int open_f(BlockBackend *blk, int argc, char **argv)
+         case 'r':
+             readonly = 1;
+             break;
+-        case 'k':
+-            flags |= BDRV_O_NATIVE_AIO;
+-            break;
+         case 't':
+             if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
+                 error_report("Invalid cache option: %s", optarg);
+@@ -204,6 +201,13 @@ static int open_f(BlockBackend *blk, int argc, char **argv)
+                 return -EINVAL;
+             }
+             break;
++        case 'i':
++            if (bdrv_parse_aio(optarg, &flags) < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                qemu_opts_reset(&empty_opts);
++                return -EINVAL;
++            }
++            break;
+         case 'o':
+             if (imageOpts) {
+                 printf("--image-opts and 'open -o' are mutually exclusive\n");
+@@ -291,7 +295,7 @@ static void usage(const char *name)
+ "  -n, --nocache        disable host cache, short for -t none\n"
+ "  -C, --copy-on-read   enable copy-on-read\n"
+ "  -m, --misalign       misalign allocations for O_DIRECT\n"
+-"  -k, --native-aio     use kernel AIO implementation (on Linux only)\n"
++"  -i, --aio=MODE       use AIO mode (threads, native or io_uring)\n"
+ "  -t, --cache=MODE     use the given cache mode for the image\n"
+ "  -d, --discard=MODE   use the given discard mode for the image\n"
+ "  -T, --trace [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
+@@ -489,7 +493,7 @@ static QemuOptsList file_opts = {
+ int main(int argc, char **argv)
  {
-     QSIMPLEQ_INIT(&io_q->sq_overflow);
-@@ -394,7 +409,7 @@ void luring_attach_aio_context(LuringState *s, AioContext *new_context)
-     s->aio_context = new_context;
-     s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
-     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
--                       qemu_luring_completion_cb, NULL, NULL, s);
-+                       qemu_luring_completion_cb, NULL, qemu_luring_poll_cb, s);
- }
- 
- LuringState *luring_init(Error **errp)
+     int readonly = 0;
+-    const char *sopt = "hVc:d:f:rsnCmkt:T:U";
++    const char *sopt = "hVc:d:f:rsnCmit:T:U";
+     const struct option lopt[] = {
+         { "help", no_argument, NULL, 'h' },
+         { "version", no_argument, NULL, 'V' },
+@@ -500,7 +504,7 @@ int main(int argc, char **argv)
+         { "nocache", no_argument, NULL, 'n' },
+         { "copy-on-read", no_argument, NULL, 'C' },
+         { "misalign", no_argument, NULL, 'm' },
+-        { "native-aio", no_argument, NULL, 'k' },
++        { "aio", required_argument, NULL, 'i' },
+         { "discard", required_argument, NULL, 'd' },
+         { "cache", required_argument, NULL, 't' },
+         { "trace", required_argument, NULL, 'T' },
+@@ -565,8 +569,11 @@ int main(int argc, char **argv)
+         case 'm':
+             qemuio_misalign = true;
+             break;
+-        case 'k':
+-            flags |= BDRV_O_NATIVE_AIO;
++        case 'i':
++            if (bdrv_parse_aio(optarg, &flags) < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                exit(1);
++            }
+             break;
+         case 't':
+             if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) < 0) {
 -- 
 2.21.0
 
