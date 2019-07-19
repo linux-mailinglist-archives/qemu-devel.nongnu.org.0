@@ -2,105 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DD56E803
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:34:19 +0200 (CEST)
-Received: from localhost ([::1]:46330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98446E809
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:37:21 +0200 (CEST)
+Received: from localhost ([::1]:46350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoUtm-00024w-OP
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33053)
+	id 1hoUwi-00058M-R4
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33612)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoUtO-0001be-8V
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:33:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1hoUwV-0004jQ-Nz
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:37:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoUtG-0000GZ-5I
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:33:50 -0400
-Received: from mail-eopbgr140098.outbound.protection.outlook.com
- ([40.107.14.98]:13892 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hoUst-0007gl-SU; Fri, 19 Jul 2019 11:33:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VtCOAzExG1Lu6LnGcXocwECHcB4U4IFNv0jpkoI3eEu0AeS22Xg2sKM/36w1VITHemeGu78j7t+jI7qCv+Ji8gPaNnhhlsp8tSG795J3spqf7nxpUZxKjTBIS15ReJQl4L2Xj8W7NwG/D+87QfPwW2S79WbBJ5OHwugHB7pBxAWhH08SHRax9hJkxnwpNz15EVG6LPrIvJNSzeCoacPJXtnvmyPOx71Ui1AbjQ57b7kp6TBTD41+//Q5I5qwC6Yl7uWb29+TcerLa4jCJfpmE5R2LKtwl7Lpfnl1qo7wFjL1lN8YWlDV+Oqa9kCFAC5QA6YQbVm1faR4bjh7QMK8Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/9YtRh4XFdEaEjHZrOoyj+i/zbC+vj40luhF9ZgD888=;
- b=BFAZ0PWxMLEBKaUB7SnQimd5NAt/bBXOWgWzyNCwQwTif5q08mAG41szbohWmY2oSerkimFmTkIApn/3JthjSQodaa4gtoo8B+7MYTDzFnNDmIWHDATGexaVLEDZvkMwYIJnaPhHKw3hVj7bof5wKAGvN3IaNTSW3wyOzbwP2FDofQ+aHpEJKp/eOyPjHNeQoN7uzpn9TVexzYn4sjU3EleJs4pY8ysZq3IEhPQgIkgzuhfb45Fjgw4UcXFbrjJXUKan1eElHHIEK4vMAf69uDIxJB51E5Tsw4/r2HlrwWxRA3/4lL65j0xlYJ9I+moiHbYnBTyFylZU7SUwbe6WOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=virtuozzo.com;dmarc=pass action=none
- header.from=virtuozzo.com;dkim=pass header.d=virtuozzo.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/9YtRh4XFdEaEjHZrOoyj+i/zbC+vj40luhF9ZgD888=;
- b=g2iTFexc/ZhKxSNWtVUfFb56aZwhxCeBJDZQ4DAER9zmGD54MFtuuLgL42Pf9gjTp/OfczhpwnA+VGFFNA1c5PjMvQrXkhauqiU7uYcMKrcIuuzCbu6U5CWSCJ0IJRyX8nsmb4DII2q48PEBjyYniK71PCNPgZGA+uqGZ0micII=
-Received: from VI1PR08MB4399.eurprd08.prod.outlook.com (20.179.28.141) by
- VI1PR08MB3615.eurprd08.prod.outlook.com (20.177.61.78) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.14; Fri, 19 Jul 2019 15:17:01 +0000
-Received: from VI1PR08MB4399.eurprd08.prod.outlook.com
- ([fe80::4c3d:79b3:a884:18c4]) by VI1PR08MB4399.eurprd08.prod.outlook.com
- ([fe80::4c3d:79b3:a884:18c4%3]) with mapi id 15.20.2073.012; Fri, 19 Jul 2019
- 15:17:01 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH] nbd: Initialize reply on failure
-Thread-Index: AQHVPkMcqbEGg55jt0ajtBYbBEe416bSDX6A
-Date: Fri, 19 Jul 2019 15:17:01 +0000
-Message-ID: <3bde6a55-0d6e-01e2-c15b-4eebfb274e5e@virtuozzo.com>
-References: <20190719150313.29198-1-eblake@redhat.com>
-In-Reply-To: <20190719150313.29198-1-eblake@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0402CA0003.eurprd04.prod.outlook.com
- (2603:10a6:3:d0::13) To VI1PR08MB4399.eurprd08.prod.outlook.com
- (2603:10a6:803:102::13)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c2e1bc17-ad64-4ec7-f5ca-08d70c5c261b
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:VI1PR08MB3615; 
-x-ms-traffictypediagnostic: VI1PR08MB3615:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <VI1PR08MB361593D5C0A0FA5A10C3F298F4CB0@VI1PR08MB3615.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:431;
-x-forefront-prvs: 01039C93E4
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(979002)(39850400004)(396003)(366004)(136003)(346002)(376002)(189003)(199004)(6486002)(2906002)(54906003)(66556008)(2616005)(110136005)(66066001)(64756008)(36756003)(66446008)(66476007)(6506007)(316002)(53546011)(386003)(102836004)(6512007)(99286004)(305945005)(486006)(478600001)(68736007)(53936002)(7736002)(31696002)(6436002)(5660300002)(6116002)(66946007)(86362001)(44832011)(26005)(81156014)(71190400001)(71200400001)(8676002)(966005)(186003)(14454004)(31686004)(25786009)(8936002)(229853002)(3846002)(6306002)(446003)(6246003)(2501003)(11346002)(4326008)(256004)(14444005)(52116002)(476003)(76176011)(81166006)(969003)(989001)(999001)(1009001)(1019001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3615;
- H:VI1PR08MB4399.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: C69MHou85BX+HekVdKhacM5paWbrTeyG97e8q3QOQh85L2kqdKv2mHleCvFFmlaJF2v34boCWBIsRNSo91kw6+VxovuRZCHYpY6GRzcIMUeEqJdmJzWXKLWoC/HcJeF8vFLY5OywSZbgDAl2upbQottSMgnJjLgOVFLfnJQs6aET5aCGIg3vSiivQ1n6L8zjUM4JRYkVcIDTrndGBffwUiMUgc1Y10jcTjbiKlqpQKF3MM7dMU8XtX4LYGKg0FjXXUhwmYxUbXhL1OJVJ+sp/rUqtNE608S0jKTXpZs0D7qkf7B7DiGrAUv/nVBtXeRPAC2/mnUDMPXeTM7x7pf8z+0FO0GOmBntqYQ4MUf7J4MHsrbmY8YIwIFtw2oH6ZWV9iYUrlqwGg79zITmr449LDfXrwxMMBudjfNuvjRwbF4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0FC8B436667A77499F2E19CC555A141A@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1hoUwO-0001sh-53
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:37:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48550)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hoUwM-00013B-B5
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:36:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hoUuy-0001ks-28
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 15:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0B04B2E8079
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 15:35:32 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2e1bc17-ad64-4ec7-f5ca-08d70c5c261b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 15:17:01.4104 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3615
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.98
-Subject: Re: [Qemu-devel] [PATCH] nbd: Initialize reply on failure
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Jul 2019 15:28:23 -0000
+From: Alex <1829242@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h nevilad
+X-Launchpad-Bug-Reporter: Alex (nevilad)
+X-Launchpad-Bug-Modifier: Alex (nevilad)
+References: <155792850856.14868.18260779757728395853.malonedeb@gac.canonical.com>
+Message-Id: <156355010347.30608.1795745222291897418.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e57bd49970091941fab09b7f7dcb851d756b3c58
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829242] Re: qemu on windows host exits after
+ savevm command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,36 +64,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1829242 <1829242@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDE5LzA3LzIwMTkgMTg6MDMsIEVyaWMgQmxha2Ugd3JvdGU6DQo+IFdlJ3ZlIGhhZCB0
-d28gc2VwYXJhdGUgcmVwb3J0cyBvZiBhIGNhbGxlciBydW5uaW5nIGludG8gdXNlIG9mDQo+IHVu
-aW5pdGlhbGl6ZWQgZGF0YSBpZiBzLT5xdWl0IGlzIHNldCAob25lIGRldGVjdGVkIGJ5IGdjYyAt
-TzMsIGFub3RoZXINCj4gYnkgdmFsZ3JpbmQpLCBkdWUgdG8gY2hlY2tpbmcgJ25iZF9yZXBseV9p
-c19zaW1wbGUocmVwbHkpIHx8IHMtPnF1aXQnDQo+IGluIHRoZSB3cm9uZyBvcmRlci4gUmF0aGVy
-IHRoYW4gY2hhc2luZyBkb3duIHdoaWNoIGNhbGxlcnMgbmVlZCB0bw0KPiBwcmUtaW5pdGlhbGl6
-ZSByZXBseSwgaXQncyBlYXNpZXIgdG8gZ3VhcmFudGVlIHRoYXQgcmVwbHkgd2lsbCBhbHdheXMN
-Cj4gYmUgc2V0IGJ5IG5iZF9jb19yZWNlaXZlX29uZV9jaHVuaygpIGV2ZW4gb24gZmFpbHVyZS4N
-Cj4gDQo+IFJlcG9ydGVkLWJ5OiBUaG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbT4NCj4gUmVw
-b3J0ZWQtYnk6IEFuZHJleSBTaGlua2V2aWNoIDxhbmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8u
-Y29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBFcmljIEJsYWtlIDxlYmxha2VAcmVkaGF0LmNvbT4NCj4g
-LS0tDQo+IA0KPiBSZXBsYWNlczogaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9x
-ZW11LWRldmVsLzIwMTktMDcvbXNnMDQ0NzcuaHRtbA0KPiBSZXBsYWNlczogaHR0cHM6Ly9saXN0
-cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMTktMDcvbXNnMDM3MTIuaHRtbA0K
-PiANCj4gICBibG9jay9uYmQuYyB8IDEgKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL25iZC5jIGIvYmxvY2svbmJkLmMNCj4gaW5k
-ZXggOGQ1NjVjYzYyNGVjLi5mNzUxYThlNjMzZTUgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrL25iZC5j
-DQo+ICsrKyBiL2Jsb2NrL25iZC5jDQo+IEBAIC02NDAsNiArNjQwLDcgQEAgc3RhdGljIGNvcm91
-dGluZV9mbiBpbnQgbmJkX2NvX3JlY2VpdmVfb25lX2NodW5rKA0KPiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlcXVlc3RfcmV0LCBxaW92LCBwYXlsb2FkLCBl
-cnJwKTsNCj4gDQo+ICAgICAgIGlmIChyZXQgPCAwKSB7DQo+ICsgICAgICAgIG1lbXNldChyZXBs
-eSwgMCwgc2l6ZW9mICpyZXBseSk7DQo+ICAgICAgICAgICBzLT5xdWl0ID0gdHJ1ZTsNCj4gICAg
-ICAgfSBlbHNlIHsNCj4gICAgICAgICAgIC8qIEZvciBhc3NlcnQgYXQgbG9vcCBzdGFydCBpbiBu
-YmRfY29ubmVjdGlvbl9lbnRyeSAqLw0KPiANCg0KUmV2aWV3ZWQtYnk6IEFuZHJleSBTaGlua2V2
-aWNoIDxhbmRyZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPg0KLS0gDQpXaXRoIHRoZSBiZXN0
-IHJlZ2FyZHMsDQpBbmRyZXkgU2hpbmtldmljaA0K
+Running the operation under debugger catches this error:
+Critical error detected c0000374
+(2314.a54): Break instruction exception - code 80000003 (first chance)
+ntdll!RtlIsNonEmptyDirectoryReparsePointAllowed+0x72:
+00007ffe`0780b2d2 cc              int     3
+
+This error means that a heap corruption was detected. To find the place whe=
+re the corruption occured, I've ran qemu under appverifier, which is some k=
+ind of ASAN\MSAN for windows.
+The tool caught an access violation, the callstack seems to be not full, sa=
+ve_snapshot calls qemu_savevm_state_iterate, then a call to ram_save_iterat=
+e, then ram_find_and_save_block. But the address of the exception does not =
+correspond to this function.
+Disassembling qemu and searching for this address, I've found that it proba=
+bly corresponds to this snippet in ram_save_host_page:
+    do {
+        /* Check the pages is dirty and if it is send it */
+        if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+            pss->page++;
+            continue;
+        }
+
+The missing callstack part is probably ram_find_and_save_block calling ram_=
+save_host_page at this place:
+        if (found) {
+            pages =3D ram_save_host_page(rs, &pss, last_stage);
+        }
+
+It seems that the compiler inlined several functions to ram_find_and_save_b=
+lock and that is the reason for the partial stack.
+Since I am still unable to see local variable values during debugging, I ca=
+n't give more info now. =
+
+I think the bug can be found when running qemu on linux with ASAN\MSAN. Whe=
+n this does not find the bug, I do more debugging.
+I want mention that the caught access violation is due to reading an invali=
+d address. The bug found without appverifier is due to writing to an invali=
+d address, so there may be several bugs.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829242
+
+Title:
+  qemu on windows host exits after savevm command
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm running qemu-system-i386.exe 3.1.0 with this command line:
+  "C:\Program Files\qemu\qemu-system-i386.exe"  -L C:\user\qemu\pc-bios\ -n=
+ame win7 -m 4G -uuid 564db62e-e031-b5cf-5f34-a75f8cefa98e -rtc base=3Dlocal=
+time -accel hax -hdd C:\VirtualMachines\Dev\Win10x64_VS17\swap.qcow "C:\Vir=
+tualMachines\qemu\qemu_win7.qcow"
+  Host OS Windows 10 x64, guest OS Wondows 7 x86.
+
+  Wait till the OS loads, go to compat_monitor0 tab and enter command:
+  savevm loaded_win
+  After a few seconds qemu exits, running it another time and entering comm=
+and:
+  info snapshots
+  says "There is no snapshot available". I've tried rinning it with -accel =
+tcg, with same results. I've tried less memory (1G), same results.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829242/+subscriptions
 
