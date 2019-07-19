@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB826E6A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:38:38 +0200 (CEST)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9B16E6B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:41:25 +0200 (CEST)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoT5o-0004uP-R0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38321)
+	id 1hoT8W-0000cx-Hv
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39508)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4u-00017u-Al
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:41 -0400
+ (envelope-from <groeck7@gmail.com>) id 1hoT87-00085y-Oi
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:41:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hoT4t-0008SS-7D
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:37:40 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40282)
+ (envelope-from <groeck7@gmail.com>) id 1hoT86-00022B-Ln
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:40:59 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33952)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hoT4t-0008SC-1c; Fri, 19 Jul 2019 09:37:39 -0400
-Received: by mail-pf1-x430.google.com with SMTP id p184so14199538pfp.7;
- Fri, 19 Jul 2019 06:37:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1hoT80-0001xx-1D; Fri, 19 Jul 2019 09:40:52 -0400
+Received: by mail-pg1-x541.google.com with SMTP id n9so8271851pgc.1;
+ Fri, 19 Jul 2019 06:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KoETR8gbApZFB6Kf1iN1u5XLfMfWWkdp70lAnElXhFE=;
- b=tS4v0DwIrfckzCnKQhKODmlgbm9yI+OnX4k0xAkb9F37S1WciI8RjE54iLsFanH9yz
- v1aeGP8ND5yZ6G52EEEEmiVbyLNlaXfqEJmcyGJQmxoMyBKIGxd6FX1hqk4rjKeGz7WM
- RJx2bgYZs2WV0GbExGJXSj0TEw5A9sr9C8yIrUbeIYKxz8DUvSbVigRX8Mm9DIN9G6ie
- +W78S0wAYZxOmGDYXZSVoJhVMG/YrZwOFaZQh6dWBOMiMRu7VWvT6FZcWDbW+CIsxkH8
- 7mHehJZxosiQtvkDvhT1Zfn4lPItX4ic0cHaK/wy2j4owi1A+3IuYs3Ud1RfNtj6WR99
- CLOA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6dyCplzXwUw8GtWTsKy07/e6mMRhjIeVbz3Ym+eYJ7o=;
+ b=nUJrLX+E8mbBqhE87aseiOzt4TEcDuBFYdWzreDP53UxGwu+FyVRqaPiVwwPosiKYc
+ rorzrq1VTvQfAvkuAV5DbuK7kvguCFLJpR1fzJFWAM5tSOhgDUUhtMcuhkunZoyIapcJ
+ zD6n38xyLRKjQZptOEDtRoDF8vg8Uja8s9Fhc2luqv4lEjWrbB2sPIMx28gYxE2R7kba
+ K+ylqvQTWRv6pNJQmvEkPzJ5mTqAkjSLTZjNN4Pn+4UOVYi5oY9QCr5SkWfj3dZDcGfK
+ iPMT+w6hmH5H1XAwV/Pvf2B3uhSpVXJBcif4tISp+AuymOhGk6Q3DycYr6JRrhxeHilY
+ W0oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KoETR8gbApZFB6Kf1iN1u5XLfMfWWkdp70lAnElXhFE=;
- b=uAg6lKPYiEwAAxL2OKuZE4YJ/BdLgyT+qWdB3V6eUBRXUlwzJA4DRylNMW4R8s8G3C
- 4hm6+Ic166LKcfq7l7+3h89oe4Uw25egleYHxyN0inA/QHk4NF7s0rALQKBvJOiR+UoB
- L2KmOZUByqaDyxslP6O/7NeJDuwdYCY8qGrYsSMX42Iy3gaLsBUcgvhhcpE7kpUyc2wm
- nEslIzKgU6rt3EGrwKd0D0Lo8u03FoQiwpvqERhjl/k2cUsuivKAJ3tZhS/Ssks0D79w
- KF9V0FyE4bpFJ9zQ2WuYzZ1mL+AJT3nY7lGFgLkj1WE2l9t2oTnSuZtqwLHziMIFcIn6
- q79g==
-X-Gm-Message-State: APjAAAXT245hkMg/RFO4KpEJ6NNLnxBIIG+MxeIgnDRSGbo6NsSSnMl+
- zCobag5sW5AFrROoEw/7zbjeesWYioA=
-X-Google-Smtp-Source: APXvYqw5yPGWPRUDnVgNShffPjJypAR5ePskvPixEBVLEKOW8OWXZUwj1glJPxqHYLaaAGgKvXPddw==
-X-Received: by 2002:a17:90b:28f:: with SMTP id
- az15mr57151975pjb.18.1563543457774; 
- Fri, 19 Jul 2019 06:37:37 -0700 (PDT)
-Received: from localhost.localdomain ([2402:3a80:433:31a4:f2fb:dab8:3a89:c056])
- by smtp.gmail.com with ESMTPSA id 11sm31895369pfw.33.2019.07.19.06.37.31
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 06:37:37 -0700 (PDT)
-From: Aarushi Mehta <mehta.aaru20@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 19:05:30 +0530
-Message-Id: <20190719133530.28688-15-mehta.aaru20@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190719133530.28688-1-mehta.aaru20@gmail.com>
-References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=6dyCplzXwUw8GtWTsKy07/e6mMRhjIeVbz3Ym+eYJ7o=;
+ b=MPgoTi6maZZGMaR0NaeBaU11pdkz3yBoarj8l6VYIXoIFJY62wnV/QnkrB+56DzisM
+ WbrRd5MmOCKW+y85+XPFOO7YK0+VxWyjcqElUH6hdG5zmNNjFT70OrCQC9Yqv6c7A9Gj
+ BE9Id5N+v6/prr/enVgW2azQbBJiSprwSWtKqf8CcFwDSywNj+1MYdPbVCpexyG0QGMw
+ oHO4mmYHaFHGie2DrgY44/HC7Mx/uvpOA2GwcipDLzPUfPa95ldu/6eRF0vIZFbjgCKj
+ faohLFu45iKvvrZl8pOGJ1AYUBBUykt0Jj/YQ/bbWmdavlGn+JRdMo7bHyUOni4ejYCH
+ axLw==
+X-Gm-Message-State: APjAAAVCRWSoXvDmGl+mpdTcaETUMgySrbmABG/fpP0PDb176R9ePFY9
+ jeQeB7NA6PksbzO18X8Qwrk=
+X-Google-Smtp-Source: APXvYqwi2529KKBlsVJlA21hlm4yA+/HXdBSEZZnxb+Sl44BLOUlMr42YGRpsrIuRE/75/r//v2t9A==
+X-Received: by 2002:a65:4509:: with SMTP id n9mr1210613pgq.133.1563543650268; 
+ Fri, 19 Jul 2019 06:40:50 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id p65sm30919298pfp.58.2019.07.19.06.40.49
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jul 2019 06:40:49 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Palmer Dabbelt <palmer@sifive.com>
+Date: Fri, 19 Jul 2019 06:40:44 -0700
+Message-Id: <1563543645-20804-2-git-send-email-linux@roeck-us.net>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1563543645-20804-1-git-send-email-linux@roeck-us.net>
+References: <1563543645-20804-1-git-send-email-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::430
-Subject: [Qemu-devel] [PATCH v6 14/14] qemu-iotest: enable testing with
- qemu-io aio options
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 2/3] riscv: sivive_u: Add dummy serial clock
+ and aliases entry for uart
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,107 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
----
- tests/qemu-iotests/check     | 14 +++++++++++++-
- tests/qemu-iotests/common.rc | 10 ++++++++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+The riscv uart needs valid clocks. This requires a refereence
+to the clock node. Since the SOC clock is not emulated by qemu,
+add a reference to a fixed clock instead. The clock-frequency
+entry in the uart node does not seem to be necessary, so drop it.
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index f925606cc5..2bc5bc62e2 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -132,6 +132,7 @@ sortme=false
- expunge=true
- have_test_arg=false
- cachemode=false
-+aiomode=false
+In addition to a reference to the clock, the driver also needs
+an aliases entry for the serial node. Add it as well.
+
+Without this patch, the serial driver fails to instantiate with
+the following error message.
+
+sifive-serial 10013000.uart: unable to find controller clock
+sifive-serial: probe of 10013000.uart failed with error -2
+
+when trying to boot Linux.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ hw/riscv/sifive_u.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 0657046..5a221c6 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -76,6 +76,7 @@ static void *create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     char *nodename;
+     char ethclk_names[] = "pclk\0hclk\0tx_clk";
+     uint32_t plic_phandle, ethclk_phandle, phandle = 1;
++    uint32_t uartclk_phandle;
  
- tmp="${TEST_DIR}"/$$
- rm -f $tmp.list $tmp.tmp $tmp.sed
-@@ -141,6 +142,7 @@ export IMGFMT_GENERIC=true
- export IMGPROTO=file
- export IMGOPTS=""
- export CACHEMODE="writeback"
-+export AIOMODE="threads"
- export QEMU_IO_OPTIONS=""
- export QEMU_IO_OPTIONS_NO_FMT=""
- export CACHEMODE_IS_DEFAULT=true
-@@ -225,6 +227,10 @@ s/ .*//p
-         CACHEMODE_IS_DEFAULT=false
-         cachemode=false
-         continue
-+    elif $aiomode
-+    then
-+        AIOMODE="$r"
-+        aiomode=false
-     fi
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+     if (!fdt) {
+@@ -226,6 +227,17 @@ static void *create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_cells(fdt, nodename, "reg", 0x0);
+     g_free(nodename);
  
-     xpand=true
-@@ -269,6 +275,7 @@ other options
-     -n                  show me, do not run tests
-     -o options          -o options to pass to qemu-img create/convert
-     -c mode             cache mode
-+    -i mode             AIO mode
-     -makecheck          pretty print output for make check
- 
- testlist options
-@@ -433,10 +440,13 @@ testlist options
-             cachemode=true
-             xpand=false
-             ;;
-+        -i)
-+            aiomode=true
-+            xpand=false
-+            ;;
-         -T)        # deprecated timestamp option
-             xpand=false
-             ;;
--
-         -v)
-             verbose=true
-             xpand=false
-@@ -515,6 +525,8 @@ done
- 
- # Set qemu-io cache mode with $CACHEMODE we have
- QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --cache $CACHEMODE"
-+# Set qemu-io aio mode with $AIOMODE we have
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --aio $AIOMODE"
- 
- QEMU_IO_OPTIONS_NO_FMT="$QEMU_IO_OPTIONS"
- if [ "$IMGOPTSSYNTAX" != "true" ]; then
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 5502c3da2f..39c04cc169 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -482,6 +482,16 @@ _supported_cache_modes()
-     _notrun "not suitable for cache mode: $CACHEMODE"
- }
- 
-+_supported_aio_modes()
-+{
-+    for mode; do
-+        if [ "$mode" = "$AIOMODE" ]; then
-+            return
-+        fi
-+    done
-+    _notrun "not suitable for aio mode: $AIOMODE"
-+}
++    uartclk_phandle = phandle++;
++    nodename = g_strdup_printf("/soc/uartclk");
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "fixed-clock");
++    qemu_fdt_setprop_cell(fdt, nodename, "#clock-cells", 0x0);
++    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency", 3686400);
++    qemu_fdt_setprop_cell(fdt, nodename, "phandle", uartclk_phandle);
++    qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", uartclk_phandle);
++    uartclk_phandle = qemu_fdt_get_phandle(fdt, nodename);
++    g_free(nodename);
 +
- _default_cache_mode()
- {
-     if $CACHEMODE_IS_DEFAULT; then
+     nodename = g_strdup_printf("/soc/uart@%lx",
+         (long)memmap[SIFIVE_U_UART0].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+@@ -233,8 +245,7 @@ static void *create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_cells(fdt, nodename, "reg",
+         0x0, memmap[SIFIVE_U_UART0].base,
+         0x0, memmap[SIFIVE_U_UART0].size);
+-    qemu_fdt_setprop_cell(fdt, nodename, "clock-frequency",
+-                          SIFIVE_U_CLOCK_FREQ / 2);
++    qemu_fdt_setprop_cells(fdt, nodename, "clocks", uartclk_phandle);
+     qemu_fdt_setprop_cells(fdt, nodename, "interrupt-parent", plic_phandle);
+     qemu_fdt_setprop_cells(fdt, nodename, "interrupts", SIFIVE_U_UART0_IRQ);
+ 
+@@ -243,6 +254,10 @@ static void *create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     if (cmdline) {
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     }
++
++    qemu_fdt_add_subnode(fdt, "/aliases");
++    qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
++
+     g_free(nodename);
+ 
+     return fdt;
 -- 
-2.21.0
+2.7.4
 
 
