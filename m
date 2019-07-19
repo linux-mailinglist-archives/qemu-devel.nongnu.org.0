@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DC46EBED
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:06:53 +0200 (CEST)
-Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9026EBEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:06:17 +0200 (CEST)
+Received: from localhost ([::1]:48212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoa5c-0006lj-M0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
+	id 1hoa50-000525-9B
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3X-0007zD-LP
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3d-0008Nz-Nx
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3W-0005Xx-2A
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:43 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34089)
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3b-0005bZ-Lz
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:48 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37501)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hoa3V-00057B-NI
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:41 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n9so8750238pgc.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:36 -0700 (PDT)
+ id 1hoa3a-00057i-3H
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:46 -0400
+Received: by mail-pg1-x542.google.com with SMTP id i70so4229534pgd.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7Q+qzJFod9kksrq0MTcu1pbDq266ikI0MizQ0l0Hmw0=;
- b=Q0019gmPK95SO5m+WZ6yD67NmbBwrh6nrkPTGmtXg1r4c8lx+jex+cIF0gXD99R3x0
- OFjNHCGSfDJNvAFsRE0B/IatcEGmKDTgvG/EefeU15CHl8myJzlVmsX+eg+Qc880OYiQ
- 2O+VpgziZGMBO9Vi+eZTLmoJ80BwWoVW6WNTZU+cfBzb/cHthMDBpWZHaOaVb7QSJ+Ze
- FtlwhnGjlEbDJjTN0tVmbbbaz0DCiek8+c2mfnYS8rQpbyszsanfMcOP+IMGqjPo0EwY
- dJctmtvwy6XI2RaH+XCwPIbyUykcRM+ohDi1/q0X1bKEEe9r4bnO8xALLlubUNcgMohs
- IOdQ==
+ bh=q16Z6V/byGstcVAnFkbLcB6CkWJAuthTp/eBqCA8iHY=;
+ b=VGr5Jh50vwbOQDkr3N0O4cPMhzm/QTZ4jFE870g+zk3A+oEfZ2q4Y+7XdOM5Ypn2oy
+ vyqJbk9wOPswHQSsWDG1c5x3uLoWzwJzCwf7e32FKINj6qhN7g31sy3LpbA3vqRa2D9x
+ fYXEhTlSNmdkvKi3QRdB+5vygWE7NkqWxac/OrxR3hBE0qKQP0+YCrgYC3pLcEkV9zHj
+ CqUgpolLc/J3Jb5koy1oKf+aiLTNm4IvlbQe8+tFLIXJe6g0ftiGgLXopVgDGuF2UVsg
+ TcJWwQMCmzrwpD/p8NB7eE7pGfAvOWrXYBwzY6fl13DAcWIBhnPbAA0N/UE99FRyzFti
+ tk+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7Q+qzJFod9kksrq0MTcu1pbDq266ikI0MizQ0l0Hmw0=;
- b=n6KoypwuM8BnC+zIKkiwf7dE9VyavX+A6GgI0w6361N7SCFxbZBB7QbEhhCnRdI9vN
- Jsy4Fzl9C73fdIpIYZvHlGSUkMu1qj3tGF5CXiblLCqR3LzUpezWHYUNFn19AvfW8Gwe
- Bf1gtlqYnQ9dcvrl07KBxIz34IkDTbyW5opsXErnnK6NXnx94gOSbMmF+8bTS42et+8r
- Dv5yfl/YOlOO+P0+RAheFqsF7n2UnRenSEMEdN6fuhZM8enL9TeV8sJE6vpE2XOI/dXj
- IXiWlJAJ29pHo0odv53s6CnsbDn0/Jbiv9XrXPV6dtc89PT4FC7mBqn4NBZQxSWorm12
- V/rQ==
-X-Gm-Message-State: APjAAAVQwlaaC3wZ5+VzzQzfk0erNukwqAOw7DzlC/XvpEAHZG7rg4PZ
- awF4czBeuoN/SppfhRAOxA+RQvrXSkI=
-X-Google-Smtp-Source: APXvYqyhWL6IQXGgVv9+FssQtRNS87jQnlYgc5UqRBsp9xPo9GNYiuIdMt1LwxQtP42jxWXx+LixVA==
-X-Received: by 2002:a63:24c1:: with SMTP id
- k184mr57409828pgk.120.1563570215664; 
- Fri, 19 Jul 2019 14:03:35 -0700 (PDT)
+ bh=q16Z6V/byGstcVAnFkbLcB6CkWJAuthTp/eBqCA8iHY=;
+ b=gVXaug8jJmUZ/QfWgM31HzZHaobrFTcufZTUGMdMAo6ge42eZYBiEm5xDzdZzyMPuM
+ VlYOH28ESV5WVbrj0hJKVXmHR9W7x4LvORil9BwfN4kPFQ+2brvMhQSyrur+d71rNw+V
+ 2J/CFw6Ndl6rcyOptHI4+wTzQSqEIu2VJZY1o8TEogplXw089fnJ7k7qOIarw57yNzLJ
+ 9rZvQfqXzzb5oa/9TZ0zo/dFvT36KOhtsIm17FdoPKFgJRbfo1My46Wg9dWp5ihlZUHG
+ sArIje5vmUyXXWI0OjxsBDodPPKrkVS2/NIaB4S7EdbJ+i/P5ttTZCPTsiZ2mEs6VjJ8
+ S3PQ==
+X-Gm-Message-State: APjAAAXxF/yPlAsHvXL00S1d9Fl00o14leGyDBSMWcrldheBvsX2bmjv
+ bqPcqplTFrI+NuOu+THrFMLzkTagrYc=
+X-Google-Smtp-Source: APXvYqyyUTk3wVZUBhHN6M24LlI8RSCU6LbaA0NSq1JDhmBht0AQkHffLnIK4/6Pi9V2iD9desWw3g==
+X-Received: by 2002:a65:60cd:: with SMTP id r13mr29218513pgv.315.1563570216818; 
+ Fri, 19 Jul 2019 14:03:36 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.34
+ by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.35
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 14:03:35 -0700 (PDT)
+ Fri, 19 Jul 2019 14:03:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 14:03:08 -0700
-Message-Id: <20190719210326.15466-7-richard.henderson@linaro.org>
+Date: Fri, 19 Jul 2019 14:03:09 -0700
+Message-Id: <20190719210326.15466-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190719210326.15466-1-richard.henderson@linaro.org>
 References: <20190719210326.15466-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH for-4.2 06/24] target/arm: Define
- isar_feature_aa64_vh
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH for-4.2 07/24] target/arm: Enable HCR_E2H for
+ VHE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,25 +82,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/cpu.h    | 7 -------
+ target/arm/helper.c | 6 +++++-
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 94c990cddb..e6a76d14c6 100644
+index e6a76d14c6..e37008a4f7 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3573,6 +3573,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
- }
+@@ -1366,13 +1366,6 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_ATA       (1ULL << 56)
+ #define HCR_DCT       (1ULL << 57)
  
-+static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
-+}
-+
- static inline bool isar_feature_aa64_lor(const ARMISARegisters *id)
+-/*
+- * When we actually implement ARMv8.1-VHE we should add HCR_E2H to
+- * HCR_MASK and then clear it again if the feature bit is not set in
+- * hcr_write().
+- */
+-#define HCR_MASK      ((1ULL << 34) - 1)
+-
+ #define SCR_NS                (1U << 0)
+ #define SCR_IRQ               (1U << 1)
+ #define SCR_FIQ               (1U << 2)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 3a9f35bf4b..0a55096770 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4623,7 +4623,8 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
+ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
  {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, LO) != 0;
+     ARMCPU *cpu = env_archcpu(env);
+-    uint64_t valid_mask = HCR_MASK;
++    /* Begin with bits defined in base ARMv8.0.  */
++    uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
+ 
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         valid_mask &= ~HCR_HCD;
+@@ -4637,6 +4638,9 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+          */
+         valid_mask &= ~HCR_TSC;
+     }
++    if (cpu_isar_feature(aa64_vh, cpu)) {
++        valid_mask |= HCR_E2H;
++    }
+     if (cpu_isar_feature(aa64_lor, cpu)) {
+         valid_mask |= HCR_TLOR;
+     }
 -- 
 2.17.1
 
