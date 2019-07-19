@@ -2,73 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B6F6E534
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 13:49:56 +0200 (CEST)
-Received: from localhost ([::1]:44210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3036E53A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 13:51:00 +0200 (CEST)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoROe-000210-0p
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 07:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42235)
+	id 1hoRPf-0004Dh-8z
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 07:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hoROS-0001c9-5P
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 07:49:45 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hoRPJ-0003Oj-He
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 07:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hoROR-0003jP-4G
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 07:49:44 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33028)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hoROQ-0003in-Uj
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 07:49:43 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n9so32041855wru.0
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 04:49:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MDOi0A1HnIsayFtsGLfesWmFa9cOJ4N+w+FQwsbhA7o=;
- b=o34Gct+eecY4Tf2baO+q8pfhDvR86CbD9KxY6Z/ub0bQZY0M4IQ/C/i/YlZcLG9M9f
- FOI9UWlaJCC4rEbhUdOmzxh8cF0BztYq5HD3kcthOH96vXlWrXVGhr4ScR5wVtnNs/gW
- 5Qk/MLS8iBU+yJBrc/wSmhPWsbQuHtPYdHQ60bexMd2uCMSeiaWbaIfFehp7qT2hEfXE
- JM6mCSc5UjNZ5KQhz38cg3xhu6rF+vR5xnH5EFu/T+FKWe/GSJ9O+372hN3xd07OpzoF
- r2g1qDDi1VpUpsLg7LNBQGXjuDbdSO8tS3vcT4rd7UBswi8EOuMjoliUhZbJ+pE7JWAB
- wZSA==
-X-Gm-Message-State: APjAAAWASFMKwsqjiiwiYoSF3r+a41iZnlZrYvMW2kfN2tggAP8PqxWE
- Fgw9SSZVahQOG5DGsd946fP75/lS+4o=
-X-Google-Smtp-Source: APXvYqzNRLvREuwYSSPQl1izKKLq8271NOqnAKyPlL0RjjaSYQJ7u2L1fKDwU8G2utUqHl16D2PlwA==
-X-Received: by 2002:a5d:4cc5:: with SMTP id c5mr7586492wrt.278.1563536981681; 
- Fri, 19 Jul 2019 04:49:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:8501:6b03:f18c:74f8?
- ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id d10sm24915521wrx.34.2019.07.19.04.49.40
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Jul 2019 04:49:41 -0700 (PDT)
-To: Sergio Lopez <slp@redhat.com>
-References: <20190701144705.102615-1-slp@redhat.com>
- <20190701144705.102615-5-slp@redhat.com>
- <20190702081733.ff6cboiddln5wmti@sirius.home.kraxel.org>
- <878stgygiu.fsf@redhat.com>
- <20190702101625.trsg5dnnf2a4woqs@sirius.home.kraxel.org>
- <875zokyahg.fsf@redhat.com> <8c3b4619-f779-fb0c-7a53-b67150036a07@redhat.com>
- <8736joxzv4.fsf@redhat.com> <87ef2ntnr1.fsf@redhat.com>
- <8cc45a56-1d12-838c-e746-e10df8804bc9@redhat.com> <875znypb8s.fsf@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <9bb83ac5-2fc5-732d-772c-ad653c080d58@redhat.com>
-Date: Fri, 19 Jul 2019 13:49:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <cohuck@redhat.com>) id 1hoRPI-0004Sd-JM
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 07:50:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52244)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hoRPI-0004QA-ET; Fri, 19 Jul 2019 07:50:36 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0027988319;
+ Fri, 19 Jul 2019 11:50:34 +0000 (UTC)
+Received: from localhost (dhcp-192-181.str.redhat.com [10.33.192.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FEFD10190D5;
+ Fri, 19 Jul 2019 11:50:33 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jul 2019 13:50:30 +0200
+Message-Id: <20190719115031.16331-1-cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <875znypb8s.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 19 Jul 2019 11:50:34 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] hw/i386: Introduce the microvm
- machine type
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL for-4.1 0/1] one s390x fix/annotation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,30 +52,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, maran.wilson@oracle.com, mst@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- rth@twiddle.net
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/07/19 12:30, Sergio Lopez wrote:
-> If people feel more comfortable keeping QEMU on x86_64 starting on Real
-> Mode and having the firmware writing mptables, I'm fine with taking this
-> approach.
->
-> That said, to avoid confusing users, I think it'd be better to drop the
-> legacy mode for SeaBIOS, and support just qboot. That would mean having
-> to add a binary from the latter to "pc-bios" with some descriptive name
-> ("qboot-microvm.bin"?) and making microvm look for that one by default.
-> 
-> Does this sound like a reasonable plan?
+The following changes since commit 0b18cfb8f1828c905139b54c8644b0d8f4aad8=
+79:
 
-Yes, though I wouldn't call it qboot-microvm.bin but just bios-microvm.bin.
+  Update version for v4.1.0-rc1 release (2019-07-16 18:01:28 +0100)
 
-In the meanwhile, feel free to send a pull request to the qboot project.
- The mptables can be written for all platforms, even those that have
-ACPI (there is always -no-acpi, too).
+are available in the Git repository at:
 
-Paolo
+  https://github.com/cohuck/qemu tags/s390x-20190719
+
+for you to fetch changes up to efac5ae420ca0644db9360861a1bf02d040afd18:
+
+  s390x/pci: add some fallthrough annotations (2019-07-18 11:29:50 +0200)
+
+----------------------------------------------------------------
+Add missing fallthrough annotations.
+
+----------------------------------------------------------------
+
+Cornelia Huck (1):
+  s390x/pci: add some fallthrough annotations
+
+ hw/s390x/s390-pci-inst.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+--=20
+2.20.1
+
 
