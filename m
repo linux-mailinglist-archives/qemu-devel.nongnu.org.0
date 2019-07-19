@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68466E3C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 11:53:20 +0200 (CEST)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC9D6E3CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 12:01:05 +0200 (CEST)
+Received: from localhost ([::1]:43686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoPZo-0006mA-4F
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 05:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44657)
+	id 1hoPhI-0002Qr-2M
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 06:01:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46717)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hoPZb-0006NL-Rl
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:53:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1hoPh2-00021X-6C
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hoPZa-00047s-Vh
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:53:07 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33944)
+ (envelope-from <bounces@canonical.com>) id 1hoPh0-0002v4-D6
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40452)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hoPZa-00047L-PD
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:53:06 -0400
-Received: by mail-wr1-x444.google.com with SMTP id 31so31674003wrm.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 02:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=8+KPqrdd5y+hZ8cy2ZQCNMKykvgbnoxqopZ4QThecp8=;
- b=h0+cBAw76TWVIqk3geVeafL3DpnqZZXufetfCo6amc5N17ybf1sAUTjfagnaYnyNMY
- D5FO9fJ6IoxDTVdh9y+F972FpaPO5aDR9YtBpnlhRlacjxYtFoq/BvD0yc9Uc7CDrmBB
- lpID42uyxnxT0RX0mMV2ztwlhUkGd4l/a8QZG+FGrj9qcTJ+pi3BwN7M0gM3r9J/7XNG
- kV6zUY5ASwFhJ7+bzdUMbUDhm2cWYOW3rsykbDe2fjgi2uffFo8CNGfrRrKxGy6kFzoP
- 6m5x15T+OVRkx4oM1KBFd/w3piE4kSF8nykR/8HOHHaUW869Tzl+Pk79nF3bdXgGMB8c
- EaPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8+KPqrdd5y+hZ8cy2ZQCNMKykvgbnoxqopZ4QThecp8=;
- b=rkF2o5GXVxaU4aAQ9VvTkaMke0iuo8zGp2sjlLd9NImr7gwQwzjKt3L7VS1nY46V0m
- rRveqroPQEg1oMZXv0O7zERW8Ke9AP5bKSKNW6ZQyVS9UZcJVOlw1DqdNaLgOT6EFbL1
- LeDDNdt2UUOwNPsnhpLWA9h6SJul1gQFFmdtq+HQi+olr9gu2yvV1VRtzfWLhCk4v64k
- 9a96rTTqfEWvS3QWigh0e0fb9nNbrVbdri63eIJ5gVEMyVYCFgLz3stMzEYJGyWKSQJG
- ZX1eCcROJJbp0kg4pFJu6DA6K3mWbPVDVfJrjeQBztI93MIUupdjfts1GPZTI87CkvCZ
- hzEA==
-X-Gm-Message-State: APjAAAU3BVx78tXrBA8te5hasQcroEqRBOpIYQ3TePKHvcIkDp9q9zOP
- CcbQ9Jm1lFLS9ra6T13AoZtl2NHewyraUg==
-X-Google-Smtp-Source: APXvYqyJyGmM6cmYUwnJzv7sqmOM4lIdEtUUw1th9d3ShqckJ4wvPILjgAKxAm2OXzkGZtip5JcOSQ==
-X-Received: by 2002:a5d:6ccd:: with SMTP id c13mr51472721wrc.4.1563529985679; 
- Fri, 19 Jul 2019 02:53:05 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id m7sm24910841wrx.65.2019.07.19.02.53.04
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 02:53:04 -0700 (PDT)
-Date: Fri, 19 Jul 2019 10:53:03 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190719095303.GE18585@stefanha-x1.localdomain>
-References: <20190717094728.31006-1-pbonzini@redhat.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hoPh0-0002tW-7D
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 06:00:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hoPgy-0005fk-UR
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 10:00:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E54962E806F
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 10:00:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0QFb0wBpEddLcDHQ"
-Content-Disposition: inline
-In-Reply-To: <20190717094728.31006-1-pbonzini@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH] virtio-scsi: remove unused argument to
- virtio_scsi_common_realize
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Jul 2019 09:47:58 -0000
+From: Stefan Hajnoczi <1836855@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lizhengui stefanha
+X-Launchpad-Bug-Reporter: =?utf-8?b?6LSe6LS15p2OIChsaXpoZW5ndWkp?=
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <156335163555.1137.2433837611161042870.malonedeb@gac.canonical.com>
+Message-Id: <20190719094758.GD18585@stefanha-x1.localdomain>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 77ab42635f65f490e4d6e20577bd46605995ce0c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1836855] [NEW] virtio_scsi_ctx_check failed
+ when detach virtio_scsi disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,44 +64,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1836855 <1836855@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 17, 2019 at 08:20:35AM -0000, =E8=B4=9E=E8=B4=B5=E6=9D=8E wrote:
+> Public bug reported:
+> =
 
---0QFb0wBpEddLcDHQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> I found a problem  that virtio_scsi_ctx_check  failed when detaching
+> virtio_scsi disk.  The  bt is below:
+> =
 
-On Wed, Jul 17, 2019 at 11:47:28AM +0200, Paolo Bonzini wrote:
-> The argument is not used and passing it clutters error propagation in the
-> callers.  So, get rid of it.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/scsi/vhost-scsi.c            | 2 +-
->  hw/scsi/vhost-user-scsi.c       | 2 +-
->  hw/scsi/virtio-scsi.c           | 4 ++--
->  include/hw/virtio/virtio-scsi.h | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
+> (gdb) bt
+> #0  0x0000ffffb02e1bd0 in raise () from /lib64/libc.so.6
+> #1  0x0000ffffb02e2f7c in abort () from /lib64/libc.so.6
+> #2  0x0000ffffb02db124 in __assert_fail_base () from /lib64/libc.so.6
+> #3  0x0000ffffb02db1a4 in __assert_fail () from /lib64/libc.so.6
+> #4  0x00000000004eb9a8 in virtio_scsi_ctx_check (d=3Dd@entry=3D0xc70d790,=
+ s=3D<optimized out>, s=3D<optimized out>)
+>     at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:243
+> #5  0x00000000004ec87c in virtio_scsi_handle_cmd_req_prepare (s=3Ds@entry=
+=3D0xd27a7a0, req=3Dreq@entry=3D0xafc4b90)
+>     at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:553
+> #6  0x00000000004ecc20 in virtio_scsi_handle_cmd_vq (s=3D0xd27a7a0, vq=3D=
+0xd283410)
+>     at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:588
+> #7  0x00000000004eda20 in virtio_scsi_data_plane_handle_cmd (vdev=3D0x0, =
+vq=3D0xffffae7a6f98)
+>     at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi-dataplane.c:57
+> #8  0x0000000000877254 in aio_dispatch (ctx=3D0xac61010) at util/aio-posi=
+x.c:323
+> #9  0x00000000008773ec in aio_poll (ctx=3D0xac61010, blocking=3Dtrue) at =
+util/aio-posix.c:472
+> #10 0x00000000005cd7cc in iothread_run (opaque=3D0xac5e4b0) at iothread.c=
+:49
+> #11 0x000000000087a8b8 in qemu_thread_start (args=3D0xac61360) at util/qe=
+mu-thread-posix.c:495
+> #12 0x00000000008a04e8 in thread_entry_for_hotfix (pthread_cb=3D0x0) at u=
+vp/hotpatch/qemu_hotpatch_helper.c:579
+> #13 0x0000ffffb041c8bc in start_thread () from /lib64/libpthread.so.0
+> #14 0x0000ffffb0382f8c in thread_start () from /lib64/libc.so.6
+> =
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> assert(blk_get_aio_context(d->conf.blk) =3D=3D s->ctx)  failed.
+> =
 
---0QFb0wBpEddLcDHQ
-Content-Type: application/pgp-signature; name="signature.asc"
+> I think this patch
+> (https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Da6f230c8d13a7ff3a0=
+c7f1097412f44bfd9eff0b)
+> introduce this problem.
+> =
 
------BEGIN PGP SIGNATURE-----
+> commit a6f230c8d13a7ff3a0c7f1097412f44bfd9eff0b  move blockbackend back
+> to main AioContext on unplug. It set the AioContext of
+> =
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0xkv8ACgkQnKSrs4Gr
-c8g2OggAtNBFYt+EK5fSvBt4sGhQyZVfiLzAtT6HxoI3hkB4yX2CY6GIiRvTyqod
-bURtmAzIH1QRS29b/3hMTNU7Q593iPeHEfkKx0HoQJM+EJ+lTYvgO3FJaccTdsGO
-rFOYu3kPec9Yj7CND5xZZ1qVykPqZoN3ymAcSOxfEfXVpfWw8gfm/4akIrvmkyCT
-6CFgXvK94oI/5QUOWkAidKlWgoEe+EViqcDTegord8ocauprK9aI+VF5cbHb+7w9
-1GblX72jD9RVgRJi+QGQ2aLDQ/YvDRmIXItzXfvkT4iqhBth5Ps3YrCEu3k4pxL6
-FSSdksee0Eu+rpCxcWx7AzjEWm3VzQ==
-=Fy24
------END PGP SIGNATURE-----
+> SCSIDevice  to the main AioContex, but s->ctx is still the iothread
+> AioContext.  Is this a bug?
 
---0QFb0wBpEddLcDHQ--
+The backtrace shows that virtqueue processing is happening in the
+IOThread.  This is expected so now the question is why the
+BlockBackend's AioContext is the main AioContext.
+
+Can you share steps for reproducing this bug?
+
+Thanks!
+
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+> =
+
+> -- =
+
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1836855
+> =
+
+> Title:
+>   virtio_scsi_ctx_check failed when detach virtio_scsi disk
+> =
+
+> Status in QEMU:
+>   New
+> =
+
+> Bug description:
+>   I found a problem  that virtio_scsi_ctx_check  failed when detaching
+>   virtio_scsi disk.  The  bt is below:
+> =
+
+>   (gdb) bt
+>   #0  0x0000ffffb02e1bd0 in raise () from /lib64/libc.so.6
+>   #1  0x0000ffffb02e2f7c in abort () from /lib64/libc.so.6
+>   #2  0x0000ffffb02db124 in __assert_fail_base () from /lib64/libc.so.6
+>   #3  0x0000ffffb02db1a4 in __assert_fail () from /lib64/libc.so.6
+>   #4  0x00000000004eb9a8 in virtio_scsi_ctx_check (d=3Dd@entry=3D0xc70d79=
+0, s=3D<optimized out>, s=3D<optimized out>)
+>       at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:243
+>   #5  0x00000000004ec87c in virtio_scsi_handle_cmd_req_prepare (s=3Ds@ent=
+ry=3D0xd27a7a0, req=3Dreq@entry=3D0xafc4b90)
+>       at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:553
+>   #6  0x00000000004ecc20 in virtio_scsi_handle_cmd_vq (s=3D0xd27a7a0, vq=
+=3D0xd283410)
+>       at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:588
+>   #7  0x00000000004eda20 in virtio_scsi_data_plane_handle_cmd (vdev=3D0x0=
+, vq=3D0xffffae7a6f98)
+>       at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi-dataplane.c:=
+57
+>   #8  0x0000000000877254 in aio_dispatch (ctx=3D0xac61010) at util/aio-po=
+six.c:323
+>   #9  0x00000000008773ec in aio_poll (ctx=3D0xac61010, blocking=3Dtrue) a=
+t util/aio-posix.c:472
+>   #10 0x00000000005cd7cc in iothread_run (opaque=3D0xac5e4b0) at iothread=
+.c:49
+>   #11 0x000000000087a8b8 in qemu_thread_start (args=3D0xac61360) at util/=
+qemu-thread-posix.c:495
+>   #12 0x00000000008a04e8 in thread_entry_for_hotfix (pthread_cb=3D0x0) at=
+ uvp/hotpatch/qemu_hotpatch_helper.c:579
+>   #13 0x0000ffffb041c8bc in start_thread () from /lib64/libpthread.so.0
+>   #14 0x0000ffffb0382f8c in thread_start () from /lib64/libc.so.6
+> =
+
+>   assert(blk_get_aio_context(d->conf.blk) =3D=3D s->ctx)  failed.
+> =
+
+>   I think this patch
+>   (https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Da6f230c8d13a7ff3=
+a0c7f1097412f44bfd9eff0b)
+>   introduce this problem.
+> =
+
+>   commit a6f230c8d13a7ff3a0c7f1097412f44bfd9eff0b  move blockbackend
+>   back to main AioContext on unplug. It set the AioContext of
+> =
+
+>   SCSIDevice  to the main AioContex, but s->ctx is still the iothread
+>   AioContext.  Is this a bug?
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1836855/+subscriptions
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836855
+
+Title:
+  virtio_scsi_ctx_check failed when detach virtio_scsi disk
+
+Status in QEMU:
+  New
+
+Bug description:
+  I found a problem  that virtio_scsi_ctx_check  failed when detaching
+  virtio_scsi disk.  The  bt is below:
+
+  (gdb) bt
+  #0  0x0000ffffb02e1bd0 in raise () from /lib64/libc.so.6
+  #1  0x0000ffffb02e2f7c in abort () from /lib64/libc.so.6
+  #2  0x0000ffffb02db124 in __assert_fail_base () from /lib64/libc.so.6
+  #3  0x0000ffffb02db1a4 in __assert_fail () from /lib64/libc.so.6
+  #4  0x00000000004eb9a8 in virtio_scsi_ctx_check (d=3Dd@entry=3D0xc70d790,=
+ s=3D<optimized out>, s=3D<optimized out>)
+      at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:243
+  #5  0x00000000004ec87c in virtio_scsi_handle_cmd_req_prepare (s=3Ds@entry=
+=3D0xd27a7a0, req=3Dreq@entry=3D0xafc4b90)
+      at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:553
+  #6  0x00000000004ecc20 in virtio_scsi_handle_cmd_vq (s=3D0xd27a7a0, vq=3D=
+0xd283410)
+      at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi.c:588
+  #7  0x00000000004eda20 in virtio_scsi_data_plane_handle_cmd (vdev=3D0x0, =
+vq=3D0xffffae7a6f98)
+      at /Images/lzg/code/710/qemu-2.8.1/hw/scsi/virtio-scsi-dataplane.c:57
+  #8  0x0000000000877254 in aio_dispatch (ctx=3D0xac61010) at util/aio-posi=
+x.c:323
+  #9  0x00000000008773ec in aio_poll (ctx=3D0xac61010, blocking=3Dtrue) at =
+util/aio-posix.c:472
+  #10 0x00000000005cd7cc in iothread_run (opaque=3D0xac5e4b0) at iothread.c=
+:49
+  #11 0x000000000087a8b8 in qemu_thread_start (args=3D0xac61360) at util/qe=
+mu-thread-posix.c:495
+  #12 0x00000000008a04e8 in thread_entry_for_hotfix (pthread_cb=3D0x0) at u=
+vp/hotpatch/qemu_hotpatch_helper.c:579
+  #13 0x0000ffffb041c8bc in start_thread () from /lib64/libpthread.so.0
+  #14 0x0000ffffb0382f8c in thread_start () from /lib64/libc.so.6
+
+  assert(blk_get_aio_context(d->conf.blk) =3D=3D s->ctx)  failed.
+
+  I think this patch
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Da6f230c8d13a7ff3a0=
+c7f1097412f44bfd9eff0b)
+  introduce this problem.
+
+  commit a6f230c8d13a7ff3a0c7f1097412f44bfd9eff0b  move blockbackend
+  back to main AioContext on unplug. It set the AioContext of
+
+  SCSIDevice  to the main AioContex, but s->ctx is still the iothread
+  AioContext.  Is this a bug?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836855/+subscriptions
 
