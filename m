@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11556E64F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:27:19 +0200 (CEST)
-Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807F46E654
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:27:41 +0200 (CEST)
+Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoSut-0008KX-19
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
+	id 1hoSvE-0001UX-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hoSuG-00063F-Qb
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hoSut-0000Wx-Lf
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:27:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hoSuF-0008Om-BV
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:40 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43425)
+ (envelope-from <peter.maydell@linaro.org>) id 1hoSus-0000hC-Kt
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:27:19 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36179)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hoSuF-0008OB-4Q
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:39 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so32237518wru.10
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 06:26:39 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hoSus-0000gO-Dd
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:27:18 -0400
+Received: by mail-ot1-x343.google.com with SMTP id r6so32728957oti.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 06:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3iJes9TBAmHxPIxu+PzOit8mMntNWTqXpnPXCuxWDJ8=;
+ b=r2PWhrEjm2P9FCPPDTCdkL3+w4DfRn4z/JgvDdVDBBo6M3G5oQrAZEYV6YJmplvhVI
+ KpSNcjZTrUTIlsJ5VDwvQkEHIeCRNss6GRdOLyKtQhHJ4QmaN4G/6uCaG9eiktIyAIby
+ XAbmkyjObBecRjp50ZLhOHJym8jOR8huEXzQF+BM3FXAHaSInAYKyDD7urBCQSQXpvpx
+ l24b4T4vgvtN1TytrW1wHhutYc5n3D9K2T7YCQ2XEXgTmuNHtNEcd6DooisiHCJOynI7
+ Ae4oPq28mxU2Ad1C7qWKjX53bp9IkEVm/DXfzHTSdYr62HmPy+pVq+ucmLzrUp53cMwY
+ D6BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zpvdhbcgNmMV6O50ezlXk3Iu7JYFRd/WhriA3rDTGwo=;
- b=TBISELE9sUSkllg1fWe3nlYGzrUd94AMRUM5c7HsIm3gbmHqDhNEdl1i0oQ/F+nDaN
- q+UwRsTkswqYmbQgqF3ukcjffKSf6yiWtuvHNd6kW1yKgKy+4OVLiAnYIo8O8mvigN9n
- iwbSeHVHNh7M0OsdZcbOdwQTcxG7b3giShihhymjMwAnnvtrGtEzfKcK/BCxbcYvqYb7
- LUdoVlQsnItBJVHFZjv72CbrSyV+0OYHdA33wyUl7qCmAcpnfXuFxkdL2qZ/oKMsopu0
- 6xtJSR9mLJLcqRTjjDxCS8k/urPzptdbin0Os1Q2HlFQzFmOj1p4PRIyjrnfUoQHW+NW
- 45wQ==
-X-Gm-Message-State: APjAAAVfty3Gd4f+0dHhJx+g4OMjee5xSISnGy6B/Hn4SaBc9NGmspK6
- JjK5xK50w5zNMBii++DwtvNHwQ==
-X-Google-Smtp-Source: APXvYqxxvBON0ACltwoueT8Crerwxbr2LS9ZY3yBe9R3G8uo6+Yiaz8L2Y9reSn84h6aBZznGEMIhw==
-X-Received: by 2002:a5d:6a84:: with SMTP id s4mr55658805wru.125.1563542798043; 
- Fri, 19 Jul 2019 06:26:38 -0700 (PDT)
-Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id p12sm24587087wrt.13.2019.07.19.06.26.37
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Jul 2019 06:26:37 -0700 (PDT)
-To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
-References: <20190719082647.18113-1-mrolnik@gmail.com>
- <20190719082647.18113-9-mrolnik@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <da64fd46-c0f0-b6b6-3b8f-d3da9041605d@redhat.com>
-Date: Fri, 19 Jul 2019 15:26:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3iJes9TBAmHxPIxu+PzOit8mMntNWTqXpnPXCuxWDJ8=;
+ b=rKY/mDzBjoAoHz81UYvaygk3ncdF6barkrErtakKCHobwBUGv6sGzVQhPG++JfkWyT
+ IlVRCMJIXN4i8Yeo1HPEBM4SUjaHYZV1Q66WAYmqKVbSfRQU/0m3nLPqTKoNObJoDi0A
+ 4Ru6EXmBX0XHKvaWPlD4GmE57oVNAeZmbltIg+rxwIbNJozxyZzZiO/ZD4XKGM+FXZOt
+ lwJYTTkZy6yK2iejAAcv3bY85qxf4cPJw5tB8yKYOPnHRHQcwTKkC/TrJiueDXGPoJ2+
+ MjRxOIECDcargqKkrmORRJTZ5QVs5N3gTKvzcgoDW2JlNapEHplqVfO4+Gs7S3EkabF8
+ IaPQ==
+X-Gm-Message-State: APjAAAWyiWUPaKF0Xs86AvC09NO9/KyUkRQXot/LoWJ3UxG1YzEpjV7+
+ J5oQhcRBBSS9xygoSG30U/bDGExwDQfJ7gGiqcF8DQ==
+X-Google-Smtp-Source: APXvYqw17AicZXZeb0Qps+ZpCk7n92TNb1aqu+nNpU+WNh7n9UWSnkKWZ8aAcPB7/4h4ALnN32G8JTT3L/LOZiHugjs=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr36901471otj.97.1563542837424; 
+ Fri, 19 Jul 2019 06:27:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190719082647.18113-9-mrolnik@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v27 8/8] target/avr: Add tests
+References: <20190719131425.10835-1-philmd@redhat.com>
+ <20190719131425.10835-3-philmd@redhat.com>
+In-Reply-To: <20190719131425.10835-3-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Jul 2019 14:27:06 +0100
+Message-ID: <CAFEAcA9oa=f4JQ8whrChb_1-6eOBq13PuGoLu41E6fnQUyGFag@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH-for-4.1? 2/7] hw/dma/omap_dma: Move switch
+ 'fall through' comment to correct place
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,147 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, richard.henderson@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Corey Minyard <minyard@acm.org>, Qemu-block <qemu-block@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/19 10:26 AM, Michael Rolnik wrote:
-> 1. Avocado test
->     The test is based on
->     https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
->     demo which, If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out
-
-Note, that test also demonstrates the timer and irq are working :)
-
-Enabling DB_PRINT:
-
-avr_timer16_interrupt: CTC OCRA overflow
-avr_timer16_interrupt: interrupt, cnt = 253
-avr_timer16_interrupt: CTC OCRA overflow
-avr_timer16_interrupt: interrupt, cnt = 269
-avr_timer16_interrupt: CTC OCRA overflow
-avr_timer16_interrupt: interrupt, cnt = 269
-
-(There is also GPIO accesses but you don't implement them yet).
-
-> 
-> 2. Boot serial test
->     Prinit out 'T' through serial port
-
-Excellent!
-
-> 
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+On Fri, 19 Jul 2019 at 14:14, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=3D2:
+>
+>     CC      hw/dma/omap_dma.o
+>   hw/dma/omap_dma.c: In function =E2=80=98omap_dma_write=E2=80=99:
+>   hw/dma/omap_dma.c:1532:12: error: this statement may fall through [-Wer=
+ror=3Dimplicit-fallthrough=3D]
+>    1532 |         if (s->model <=3D omap_dma_3_1)
+>         |            ^
+>   hw/dma/omap_dma.c:1534:5: note: here
+>    1534 |     case 0x400:
+>         |     ^~~~
+>   cc1: all warnings being treated as errors
+>
+> Correctly place the 'fall through' comment.
+>
+> Reported-by: Stefan Weil <sw@weilnetz.de>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/Makefile.include           |  2 ++
->  tests/acceptance/machine_avr6.py | 36 ++++++++++++++++++++++++++++++++
->  tests/boot-serial-test.c         | 12 +++++++++++
->  3 files changed, 50 insertions(+)
->  create mode 100644 tests/acceptance/machine_avr6.py
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index fd7fdb8658..8a186dcc23 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -201,6 +201,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
->  check-qtest-i386-y += tests/numa-test$(EXESUF)
->  check-qtest-x86_64-y += $(check-qtest-i386-y)
->  
-> +check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
-> +
->  check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
->  check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
->  
-> diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-> new file mode 100644
-> index 0000000000..0601080b01
-> --- /dev/null
-> +++ b/tests/acceptance/machine_avr6.py
-> @@ -0,0 +1,36 @@
-> +import logging
-> +import time
-> +import distutils.spawn
-> +
-> +from avocado import skipUnless
-> +from avocado_qemu import Test
-> +from avocado.utils import process
-> +
-> +class AVR6Machine(Test):
-> +    timeout = 5
-> +
-> +    def test_freertos(self):
-> +        """
-> +        :avocado: tags=arch:avr
-> +        :avocado: tags=machine:sample
-> +        """
-> +        """
-> +        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-> +        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-> +        """
-> +        rom_url = 'https://github.com/seharris/qemu-avr-tests'
-> +        rom_url += '/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-> +        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-> +        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
-> +
-> +        self.vm.set_machine('sample')
-> +        self.vm.add_args('-bios', rom_path)
-> +        self.vm.add_args('-nographic')
-> +        self.vm.launch()
-> +
-> +        time.sleep(2)
-> +        self.vm.shutdown()
-> +
-> +        match = 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-> +
-> +        self.assertIn(match, self.vm.get_log())
-> diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-> index 24852d4c7d..73d273b73f 100644
-> --- a/tests/boot-serial-test.c
-> +++ b/tests/boot-serial-test.c
-> @@ -16,6 +16,17 @@
->  #include "qemu/osdep.h"
->  #include "libqtest.h"
->  
-> +static const uint8_t bios_avr[] = {
-> +    0x89, 0xe1,             /* ldi r24, 0x19   */
-> +    0x80, 0x93, 0xc5, 0x00, /* sts 0x00C5, r24 ; set baud rate to 38400 */
+>  hw/dma/omap_dma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/dma/omap_dma.c b/hw/dma/omap_dma.c
+> index eab83c5c3a..6677237d42 100644
+> --- a/hw/dma/omap_dma.c
+> +++ b/hw/dma/omap_dma.c
+> @@ -1531,8 +1531,8 @@ static void omap_dma_write(void *opaque, hwaddr add=
+r,
+>      case 0x404 ... 0x4fe:
+>          if (s->model <=3D omap_dma_3_1)
+>              break;
+> +        /* fall through */
+>      case 0x400:
+> -        /* Fall through. */
+>          if (omap_dma_sys_write(s, addr, value))
+>              break;
+>          return;
+> -
 
-FWIW we can remove the previous two lines, we don't care about the
-baudrate in this test.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> +    0x88, 0xe0,             /* ldi r24, 0x08   */
-> +    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-> +    0x86, 0xe0,             /* ldi r24, 0x06   */
-> +    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
-> +    0x84, 0xe5,             /* ldi r24, 0x54   */
-> +    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
-> +};
-> +
->  static const uint8_t kernel_mcf5208[] = {
->      0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
->      0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
-> @@ -92,6 +103,7 @@ typedef struct testdef {
->  
->  static testdef_t tests[] = {
->      { "alpha", "clipper", "", "PCI:" },
-> +    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
->      { "ppc", "ppce500", "", "U-Boot" },
->      { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
->      { "ppc", "g3beige", "", "PowerPC,750" },
-> 
-
-Testing shows:
-
-  TEST    check-qtest-avr: tests/boot-serial-test
-qemu-system-avr: Unable to load /tmp/qtest-boot-serial-cOndewD as ELF,
-trying again as raw binary
-
-I wonder if this might fail Peter's testing, so Cc'ing Thomas.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Regards,
-
-Phil.
+thanks
+-- PMM
 
