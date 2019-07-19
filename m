@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5536E6C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:46:54 +0200 (CEST)
-Received: from localhost ([::1]:45684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095006E6C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:45:48 +0200 (CEST)
+Received: from localhost ([::1]:45645 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoTDp-0005Jn-Eg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40482)
+	id 1hoTCk-0000x5-GU
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:45:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hoTBH-00044o-Qk
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:16 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hoTBI-00048w-T3
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hoTBG-0003cD-Iz
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53296)
+ (envelope-from <kwolf@redhat.com>) id 1hoTBH-0003dB-HA
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38608)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hoTBB-0003Y0-GW; Fri, 19 Jul 2019 09:44:11 -0400
+ id 1hoTBD-0003Yj-Dr; Fri, 19 Jul 2019 09:44:11 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 16A0237F46;
- Fri, 19 Jul 2019 13:44:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 40852307D96D;
+ Fri, 19 Jul 2019 13:44:09 +0000 (UTC)
 Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD561608A4;
- Fri, 19 Jul 2019 13:44:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57470608A4;
+ Fri, 19 Jul 2019 13:44:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 19 Jul 2019 15:43:41 +0200
-Message-Id: <20190719134345.23526-10-kwolf@redhat.com>
+Date: Fri, 19 Jul 2019 15:43:42 +0200
+Message-Id: <20190719134345.23526-11-kwolf@redhat.com>
 In-Reply-To: <20190719134345.23526-1-kwolf@redhat.com>
 References: <20190719134345.23526-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 19 Jul 2019 13:44:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Fri, 19 Jul 2019 13:44:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/13] block: Loop unsafely in bdrv*drained_end()
+Subject: [Qemu-devel] [PULL 10/13] iotests: Add @has_quit to vm.shutdown()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,57 +61,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-The graph must not change in these loops (or a QLIST_FOREACH_SAFE would
-not even be enough).  We now ensure this by only polling once in the
-root bdrv_drained_end() call, so we can drop the _SAFE suffix.  Doing so
-makes it clear that the graph must not change.
+If a test has issued a quit command already (which may be useful to do
+explicitly because the test wants to show its effects),
+QEMUMachine.shutdown() should not do so again.  Otherwise, the VM may
+well return an ECONNRESET which will lead QEMUMachine.shutdown() to
+killing it, which then turns into a "qemu received signal 9" line.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ python/qemu/machine.py | 5 +++--
+ tests/qemu-iotests/255 | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 8f23cab82e..b89e155d21 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -76,9 +76,9 @@ static void bdrv_parent_drained_end(BlockDriverState *b=
-s, BdrvChild *ignore,
-                                     bool ignore_bds_parents,
-                                     int *drained_end_counter)
- {
--    BdrvChild *c, *next;
-+    BdrvChild *c;
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 49445e675b..128a3d1dc2 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -329,13 +329,14 @@ class QEMUMachine(object):
+         self._load_io_log()
+         self._post_shutdown()
 =20
--    QLIST_FOREACH_SAFE(c, &bs->parents, next_parent, next) {
-+    QLIST_FOREACH(c, &bs->parents, next_parent) {
-         if (c =3D=3D ignore || (ignore_bds_parents && c->role->parent_is=
-_bds)) {
-             continue;
-         }
-@@ -456,7 +456,7 @@ static void bdrv_do_drained_end(BlockDriverState *bs,=
- bool recursive,
-                                 BdrvChild *parent, bool ignore_bds_paren=
-ts,
-                                 int *drained_end_counter)
- {
--    BdrvChild *child, *next;
-+    BdrvChild *child;
-     int old_quiesce_counter;
+-    def shutdown(self):
++    def shutdown(self, has_quit=3DFalse):
+         """
+         Terminate the VM and clean up
+         """
+         if self.is_running():
+             try:
+-                self._qmp.cmd('quit')
++                if not has_quit:
++                    self._qmp.cmd('quit')
+                 self._qmp.close()
+             except:
+                 self._popen.kill()
+diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
+index 49433ec122..3632d507d0 100755
+--- a/tests/qemu-iotests/255
++++ b/tests/qemu-iotests/255
+@@ -132,4 +132,4 @@ with iotests.FilePath('src.qcow2') as src_path, \
+     vm.qmp_log('block-job-cancel', device=3D'job0')
+     vm.qmp_log('quit')
 =20
-     assert(drained_end_counter !=3D NULL);
-@@ -481,7 +481,7 @@ static void bdrv_do_drained_end(BlockDriverState *bs,=
- bool recursive,
-     if (recursive) {
-         assert(!ignore_bds_parents);
-         bs->recursive_quiesce_counter--;
--        QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
-+        QLIST_FOREACH(child, &bs->children, next) {
-             bdrv_do_drained_end(child->bs, true, child, ignore_bds_paren=
-ts,
-                                 drained_end_counter);
-         }
+-    vm.shutdown()
++    vm.shutdown(has_quit=3DTrue)
 --=20
 2.20.1
 
