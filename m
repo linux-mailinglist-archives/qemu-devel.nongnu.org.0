@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F326F6E78A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 16:47:31 +0200 (CEST)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C9E6E7D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:14:13 +0200 (CEST)
+Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoUAV-0003qb-0u
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 10:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
+	id 1hoUaK-0005pI-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hoUAD-0003Kl-GG
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 10:47:17 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hoUa7-0005LB-2Z
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:14:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hoUAA-0005B0-Uj
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 10:47:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52354)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hoUA3-00056R-OL; Fri, 19 Jul 2019 10:47:05 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8B0B5300D1C7;
- Fri, 19 Jul 2019 14:47:01 +0000 (UTC)
-Received: from [10.3.116.46] (ovpn-116-46.phx2.redhat.com [10.3.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E325D97A;
- Fri, 19 Jul 2019 14:46:58 +0000 (UTC)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190716100731.29843-1-marcandre.lureau@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hoUZy-0005hO-0Z
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:13:57 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34867)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hoUZg-000314-V3
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:13:37 -0400
+Received: by mail-wr1-f66.google.com with SMTP id y4so32621017wrm.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 08:09:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MQP9Rz3anRzBB1uA1VpSWxX6fHlvev1rmj3QWg41bWk=;
+ b=eWJfmyqRA7V5JoZFLHPzhlsbixG9ksysjRc5qzkNiaQuGKVSS129uEJMo7oprBRDy8
+ XkFykEUdLUNyR/3jnNi21PwnsnN+cJjBkUVlVTu31ol5PF3oka+wxIaW9+9bwEk0tE5V
+ 1jA76LEaW9kVzPRZ7oeqYWyYJNyU1NouO41iQdWl2XCMlQ+EoIeAeKR9sjaSw/5kBzGk
+ 3hAPqU9KemBx5b1eGr8DFx+xL+fCdW1BKk9mhrJ9DXcD7maGfgRyh0647WwX9j0HUL/s
+ BrS5DEUJT+ZdJAECj/RtdrKXw9n9HW0nhmuWceWFwp6G9zPId0XBsVsvskcPgMAWeFmN
+ UP8Q==
+X-Gm-Message-State: APjAAAUo4578CzJLL1Ro/QXGS/jhGbFb30Z3rKkAwOu0I61YaCtIezsp
+ /Cyw3QchYhrpYEsxpaTnoOpL+Q==
+X-Google-Smtp-Source: APXvYqw0AaMOrPJ70xKUgPQ1qLCMo/pyT96ayDK7mvPSmQ3Z0gUTznQQzRhSzc87mhIaiFJb0qJuuA==
+X-Received: by 2002:adf:c803:: with SMTP id d3mr34249651wrh.130.1563548939102; 
+ Fri, 19 Jul 2019 08:08:59 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:8501:6b03:f18c:74f8?
+ ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
+ by smtp.gmail.com with ESMTPSA id n14sm51459015wra.75.2019.07.19.08.08.58
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jul 2019 08:08:58 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
+ <8c3440d1-7333-5b0c-2271-450c555e9f52@redhat.com>
+ <CAL1e-=hhhcScoKS55MVzuSYsPJ7_v+khm00sChVt9SSmcgfc7g@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <bcad5a90-6588-79c8-1ed1-02b75fa17be6@redhat.com>
-Date: Fri, 19 Jul 2019 09:46:57 -0500
+Message-ID: <2cea713c-ca0c-53ac-675f-f8951de59453@redhat.com>
+Date: Fri, 19 Jul 2019 17:08:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190716100731.29843-1-marcandre.lureau@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="huqZKFto3jaiLbruIxdMHErBnnWn1QV6k"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 19 Jul 2019 14:47:01 +0000 (UTC)
+In-Reply-To: <CAL1e-=hhhcScoKS55MVzuSYsPJ7_v+khm00sChVt9SSmcgfc7g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] nbd: fix uninitialized variable warning
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH] configure: Define target access alignment
+ in configure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,103 +75,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: tony.nguyen@bt.com, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---huqZKFto3jaiLbruIxdMHErBnnWn1QV6k
-Content-Type: multipart/mixed; boundary="hoY9ze68Q2Ebv005dwzddoq1aMsGGUsBW";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
-Message-ID: <bcad5a90-6588-79c8-1ed1-02b75fa17be6@redhat.com>
-Subject: Re: [PATCH v2] nbd: fix uninitialized variable warning
-References: <20190716100731.29843-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20190716100731.29843-1-marcandre.lureau@redhat.com>
+On 19/07/19 11:17, Aleksandar Markovic wrote:
+> 
+> On Jul 18, 2019 11:55 AM, "Paolo Bonzini" <pbonzini@redhat.com
+> <mailto:pbonzini@redhat.com>> wrote:
+>>
+>> On 18/07/19 08:01, tony.nguyen@bt.com <mailto:tony.nguyen@bt.com> wrote:
+>> > This patch moves the define of target access alignment earlier from
+>> > target/foo/cpu.h to configure.
+>> >
+>> > Suggested in Richard Henderson's reply to "[PATCH 1/4] tcg: TCGMemOp
+> is now
+>> > accelerator independent MemOp"
+>> >
+>> > Signed-off-by: Tony Nguyen <tony.nguyen@bt.com
+> <mailto:tony.nguyen@bt.com>>
+>> > ---
+>> >  configure             | 12 ++++++++++--
+>> >  include/exec/poison.h |  1 +
+>> >  include/qom/cpu.h     |  2 +-
+>> >  target/alpha/cpu.h    |  2 --
+>> >  target/hppa/cpu.h     |  1 -
+>> >  target/mips/cpu.h     |  2 --
+>> >  target/sh4/cpu.h      |  2 --
+>> >  target/sparc/cpu.h    |  2 --
+>> >  target/xtensa/cpu.h   |  2 --
+>> >  tcg/tcg.c             |  2 +-
+>> >  tcg/tcg.h             |  8 +++++---
+>> >  11 files changed, 18 insertions(+), 18 deletions(-)
+>> >
+>> > diff --git a/configure b/configure
+>> > index eb635c3b9a..c07687c656 100755
+>> > --- a/configure
+>> > +++ b/configure
+>> > @@ -7424,11 +7424,16 @@ for target in $target_list; do
+>> >  target_dir="$target"
+>> >  config_target_mak=$target_dir/config-target.mak
+>> >  target_name=$(echo $target | cut -d '-' -f 1)
+>> > +target_aligned_only="no"
+>> > +case "$target_name" in
+>> > + 
+> alpha|hppa|mips64el|mips64|mipsel|mips|mipsn32|mipsn32el|sh4|sh4eb|sparc|sparc64|sparc32plus|xtensa|xtensaeb)
+>> > +  target_aligned_only="yes"
+>> > +  ;;
+>> > +esac
+>> >  target_bigendian="no"
+>> > -
+>> >  case "$target_name" in
+>> >   
+> armeb|aarch64_be|hppa|lm32|m68k|microblaze|mips|mipsn32|mips64|moxie|or1k|ppc|ppc64|ppc64abi32|s390x|sh4eb|sparc|sparc64|sparc32plus|xtensaeb)
+>> > -  target_bigendian=yes
+>> > +  target_bigendian="yes"
+>> >    ;;
+>> >  esac
+>> >  target_softmmu="no"
+>> > @@ -7710,6 +7715,9 @@ fi
+>> >  if supported_whpx_target $target; then
+>> >      echo "CONFIG_WHPX=y" >> $config_target_mak
+>> >  fi
+>> > +if test "$target_aligned_only" = "yes" ; then
+>> > +  echo "TARGET_ALIGNED_ONLY=y" >> $config_target_mak
+>> > +fi
+>> >  if test "$target_bigendian" = "yes" ; then
+>> >    echo "TARGET_WORDS_BIGENDIAN=y" >> $config_target_mak
+>> >  fi
+>> > diff --git a/include/exec/poison.h b/include/exec/poison.h
+>> > index b862320fa6..955eb863ab 100644
+>> > --- a/include/exec/poison.h
+>> > +++ b/include/exec/poison.h
+>> > @@ -35,6 +35,7 @@
+>> >  #pragma GCC poison TARGET_UNICORE32
+>> >  #pragma GCC poison TARGET_XTENSA
+>> > 
+>> > +#pragma GCC poison TARGET_ALIGNED_ONLY
+>> >  #pragma GCC poison TARGET_HAS_BFLT
+>> >  #pragma GCC poison TARGET_NAME
+>> >  #pragma GCC poison TARGET_SUPPORTS_MTTCG
+>> > diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+>> > index 5ee0046b62..9b50b73339 100644
+>> > --- a/include/qom/cpu.h
+>> > +++ b/include/qom/cpu.h
+>> > @@ -89,7 +89,7 @@ struct TranslationBlock;
+>> >   * @do_unassigned_access: Callback for unassigned access handling.
+>> >   * (this is deprecated: new targets should use
+> do_transaction_failed instead)
+>> >   * @do_unaligned_access: Callback for unaligned access handling, if
+>> > - * the target defines #ALIGNED_ONLY.
+>> > + * the target defines #TARGET_ALIGNED_ONLY.
+>> >   * @do_transaction_failed: Callback for handling failed memory
+> transactions
+>> >   * (ie bus faults or external aborts; not MMU faults)
+>> >   * @virtio_is_big_endian: Callback to return %true if a CPU which
+> supports
+>> > diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+>> > index b3e8a823e1..16eb8047cf 100644
+>> > --- a/target/alpha/cpu.h
+>> > +++ b/target/alpha/cpu.h
+>> > @@ -23,8 +23,6 @@
+>> >  #include "cpu-qom.h"
+>> >  #include "exec/cpu-defs.h"
+>> > 
+>> > -#define ALIGNED_ONLY
+>> > -
+>> >  /* Alpha processors have a weak memory model */
+>> >  #define TCG_GUEST_DEFAULT_MO      (0)
+>> > 
+>> > diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+>> > index aab251bc4b..2be67c289a 100644
+>> > --- a/target/hppa/cpu.h
+>> > +++ b/target/hppa/cpu.h
+>> > @@ -30,7 +30,6 @@
+>> >     basis.  It's probably easier to fall back to a strong memory
+> model.  */
+>> >  #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
+>> > 
+>> > -#define ALIGNED_ONLY
+>> >  #define MMU_KERNEL_IDX   0
+>> >  #define MMU_USER_IDX     3
+>> >  #define MMU_PHYS_IDX     4
+>> > diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+>> > index 21c0615e02..c13cd4eb31 100644
+>> > --- a/target/mips/cpu.h
+>> > +++ b/target/mips/cpu.h
+>> > @@ -1,8 +1,6 @@
+>> >  #ifndef MIPS_CPU_H
+>> >  #define MIPS_CPU_H
+>> > 
+>> > -#define ALIGNED_ONLY
+>> > -
+>> >  #include "cpu-qom.h"
+>> >  #include "exec/cpu-defs.h"
+>> >  #include "fpu/softfloat.h"
+>> > diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+>> > index aee733eaaa..ecaa7a18a9 100644
+>> > --- a/target/sh4/cpu.h
+>> > +++ b/target/sh4/cpu.h
+>> > @@ -23,8 +23,6 @@
+>> >  #include "cpu-qom.h"
+>> >  #include "exec/cpu-defs.h"
+>> > 
+>> > -#define ALIGNED_ONLY
+>> > -
+>> >  /* CPU Subtypes */
+>> >  #define SH_CPU_SH7750  (1 << 0)
+>> >  #define SH_CPU_SH7750S (1 << 1)
+>> > diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+>> > index 8ed2250cd0..1406f0ba2e 100644
+>> > --- a/target/sparc/cpu.h
+>> > +++ b/target/sparc/cpu.h
+>> > @@ -5,8 +5,6 @@
+>> >  #include "cpu-qom.h"
+>> >  #include "exec/cpu-defs.h"
+>> > 
+>> > -#define ALIGNED_ONLY
+>> > -
+>> >  #if !defined(TARGET_SPARC64)
+>> >  #define TARGET_DPREGS 16
+>> >  #else
+>> > diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+>> > index 2c277134f1..0459243e6b 100644
+>> > --- a/target/xtensa/cpu.h
+>> > +++ b/target/xtensa/cpu.h
+>> > @@ -32,8 +32,6 @@
+>> >  #include "exec/cpu-defs.h"
+>> >  #include "xtensa-isa.h"
+>> > 
+>> > -#define ALIGNED_ONLY
+>> > -
+>> >  /* Xtensa processors have a weak memory model */
+>> >  #define TCG_GUEST_DEFAULT_MO      (0)
+>> > 
+>> > diff --git a/tcg/tcg.c b/tcg/tcg.c
+>> > index be2c33c400..8d23fb0592 100644
+>> > --- a/tcg/tcg.c
+>> > +++ b/tcg/tcg.c
+>> > @@ -1926,7 +1926,7 @@ static const char * const ldst_name[] =
+>> >  };
+>> > 
+>> >  static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) +
+> 1] = {
+>> > -#ifdef ALIGNED_ONLY
+>> > +#ifdef TARGET_ALIGNED_ONLY
+>> >      [MO_UNALN >> MO_ASHIFT]    = "un+",
+>> >      [MO_ALIGN >> MO_ASHIFT]    = "",
+>> >  #else
+>> > diff --git a/tcg/tcg.h b/tcg/tcg.h
+>> > index b411e17a28..529acb2ed8 100644
+>> > --- a/tcg/tcg.h
+>> > +++ b/tcg/tcg.h
+>> > @@ -333,10 +333,12 @@ typedef enum TCGMemOp {
+>> >      MO_TE    = MO_LE,
+>> >  #endif
+>> > 
+>> > -    /* MO_UNALN accesses are never checked for alignment.
+>> > +    /*
+>> > +     * MO_UNALN accesses are never checked for alignment.
+>> >       * MO_ALIGN accesses will result in a call to the CPU's
+>> >       * do_unaligned_access hook if the guest address is not aligned.
+>> > -     * The default depends on whether the target CPU defines
+> ALIGNED_ONLY.
+>> > +     * The default depends on whether the target CPU defines
+>> > +     * TARGET_ALIGNED_ONLY.
+>> >       *
+>> >       * Some architectures (e.g. ARMv8) need the address which is
+> aligned
+>> >       * to a size more than the size of the memory access.
+>> > @@ -353,7 +355,7 @@ typedef enum TCGMemOp {
+>> >       */
+>> >      MO_ASHIFT = 4,
+>> >      MO_AMASK = 7 << MO_ASHIFT,
+>> > -#ifdef ALIGNED_ONLY
+>> > +#ifdef TARGET_ALIGNED_ONLY
+>> >      MO_ALIGN = 0,
+>> >      MO_UNALN = MO_AMASK,
+>> >  #else
+>> >
+>>
+>> Queued for 4.2, thanks.
+>>
+> 
+> Paolo, your queueing was premature, just hours after the submission,
+> practically not allowing review to happen.
+> 
+> Please have some time cushion, and especially for the changes that
+> affect multiple targets.
 
---hoY9ze68Q2Ebv005dwzddoq1aMsGGUsBW
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+It's for 4.2, so there's weeks before the queuing transforms into a pull
+request.
 
-On 7/16/19 5:07 AM, Marc-Andr=C3=A9 Lureau wrote:
-> ../block/nbd.c: In function 'nbd_co_request':
-> ../block/nbd.c:745:8: error: 'local_reply.type' may be used uninitializ=
-ed in this function [-Werror=3Dmaybe-uninitialized]
->      if (chunk->type =3D=3D NBD_REPLY_TYPE_NONE) {
->         ^
-> ../block/nbd.c:710:14: note: 'local_reply.type' was declared here
->      NBDReply local_reply;
->               ^~~~~~~~~~~
-> ../block/nbd.c:710:14: error: 'local_reply.flags' may be used uninitial=
-ized in this function [-Werror=3Dmaybe-uninitialized]
-> ../block/nbd.c:738:8: error: 'local_reply.<U4be0>.magic' may be used un=
-initialized in this function [-Werror=3Dmaybe-uninitialized]
->      if (nbd_reply_is_simple(reply) || s->quit) {
->         ^
-> ../block/nbd.c:710:14: note: 'local_reply.<U4be0>.magic' was declared h=
-ere
->      NBDReply local_reply;
->               ^~~~~~~~~~~
-> cc1: all warnings being treated as errors
->=20
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  block/nbd.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Paolo
 
-Actually, since this patch didn't fix all the cases of use of an uninit
-variable, I'm wondering if this one-liner would be a better patch for
-the issue (that is, fix it so that nbd_co_receive_one_chunk never leaves
-reply uninit, rather than chasing down which callers might need init),
-and with a perk of not relying on a gcc extension:
-
-diff --git i/block/nbd.c w/block/nbd.c
-index 8d565cc624ec..f751a8e633e5 100644
---- i/block/nbd.c
-+++ w/block/nbd.c
-@@ -640,6 +640,7 @@ static coroutine_fn int nbd_co_receive_one_chunk(
-                                           request_ret, qiov, payload,
-errp);
-
-     if (ret < 0) {
-+        memset(reply, 0, sizeof *reply);
-         s->quit =3D true;
-     } else {
-         /* For assert at loop start in nbd_connection_entry */
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---hoY9ze68Q2Ebv005dwzddoq1aMsGGUsBW--
-
---huqZKFto3jaiLbruIxdMHErBnnWn1QV6k
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0x1+EACgkQp6FrSiUn
-Q2rcbQf/UM/msUNIH992F/evK0MyO7iDxJDhue39H9HrRxawFIIx6m8jnL1mLDZw
-ARL9IauaZaeTabzuFxpVlaOiBUrY6DnSRdlYQDxYfxlDDMAfySea611kfNwyE497
-z+pUFaiMuO5KEWbJNPrEg9iO/JmiaJwJFOeOmBbesBk9rihIxB7uqP9/xxhfCucb
-nvghx7fo3lBoWg0wCbrDUhRlSDLaBOnmGxqeH4lw802qApcxqvYJhfdkvYBEvkQP
-GAnlos+zeu+ufalObdunBEA5jvXtp6HtsLwbw6DajW4zm12VsanhYYyJ8tfVbMqZ
-mGahSOhnCjJLWrQYyh2AVyQlwDbyrA==
-=O2A2
------END PGP SIGNATURE-----
-
---huqZKFto3jaiLbruIxdMHErBnnWn1QV6k--
 
