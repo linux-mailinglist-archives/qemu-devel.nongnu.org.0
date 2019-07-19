@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970DD6EB30
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 21:41:40 +0200 (CEST)
-Received: from localhost ([::1]:47724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C666EB2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 21:41:17 +0200 (CEST)
+Received: from localhost ([::1]:47708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoYl9-0003Dc-P4
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 15:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
+	id 1hoYkl-0001eE-RW
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 15:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43629)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1hoYki-0001sl-Bi
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:41:13 -0400
+ (envelope-from <alxndr@bu.edu>) id 1hoYkQ-0000XT-2M
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:40:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1hoYkh-0002FC-7D
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:41:12 -0400
+ (envelope-from <alxndr@bu.edu>) id 1hoYkO-00021p-Gv
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:40:53 -0400
 Received: from mail-eopbgr790101.outbound.protection.outlook.com
  ([40.107.79.101]:1152 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1hoYkg-0001aE-Qs
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:41:11 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1hoYkN-0001aE-Q0
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 15:40:52 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e8A3qH+I5c3+2Sr1h55/iCQKVJTnluVclZZk6EfGG/jfPJcPRT3ul9nO1Dd0aKYpqMxSKeBKFcfdq2zAZ6dBSSzpMHjM8zmMKuBUVUaas+LHA899AK8ts65jG9DP4g7jS2ArQn/a9U1YQikHbLx5RjmyTGrusXzzPZevuHZz7wvBm3t3YT5n9oaoHjCu1/vkMKNKAFGnCoRvKf82aO81tv2kZGpn/dFiix3ZswkLI79h/z/Q4ZMiKyuo42t3XYUZuMt4YnTd48X1iqYBDRkY1CT4r1HwPTw4CI/Ej0Hg5uSC70HQA3RBpQ9PTjKSrP9w9hDyd81SBlcSGtX9HuN/1A==
+ b=X3HrNqB7U4xBG9QDOg3kYiE/z/1Sj5QRDZTMQWW9AM7T34fsz9Kt0WvyiClWUUmwpY7IJSraHuuSnqWzjm6JjQwaKupL3sQknShyaKhOGPDCoypautSXV/eGWsveihyfTtlTLeHzbBnq4TKyK8aIaFkdmlrRf1x/agIVguf+qiUei0gwuv654ds2hRgrWmB5FnE3v+DPiM6Ta2259AikNHPiwtFTEAyUx5Ba/cXmb5wL670HHYhwO9dqVbOKz6vlTePKT3wRjbH1S51aCbHB9X+Ug1E7bocVGn6sDnEjAP5Ig8YLlzaYbTHJG1fnHrOtNa8v8IN5Ag7dWlokuz8QdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5gCfJz1RTLIUJ/stkNepwKeXe/2g8xkUVOv7RKcByM0=;
- b=OE82DksVaGjlZ1jfad1qExpqEVQ6CcXV0KkLCF/hyxEOqCWsID9lwidwKsrTlx0heA8mK46anO43dVd8w//K2ecG+ZtMHgj4k5ZHR7uPdPivbLDXyoFIkQ0lxSRZ6sFQY7Yqtc/fMACEqnTrbHD7j9nAgnXSH1hqifgN2b7OGRJi9IrrjOzDKBy2hcIJhl1eG2NCKZaItskKKjEDvygMewc4auNgc+n+9/UF3x6MiQB77q+pkXemdLI7Mh6ysseF7fiyzdXA6gGbpGID7X+W4Sus2bD79AWZ0IEzIMxdJuJDl+BW5DNyWJ0QqoV3u6RFNpukXf6XzwYTxHXntKb4fw==
+ bh=ok+eCycc9CSSwvwyMltlEx3Nn6KUMUUqeqv64dBoap0=;
+ b=Xzis7XKbf/jf3leQEZNIWajn0caEHx1s0IM31cH734lBEow1t8J5QplnkOBYDO1dorVmpnwImWlhVoIqnvop9axx/Fbh9ru0u1hG24JjmjPRozEDMPwljFhc3orVZTBWghP3zMxydkWq1XrQu1f4/VyGvhsczh9q6WR9Kkcqd6qgRyhtjZy2+JOX5QIqgTGfwFnY743cpfwlROH5moq4SkaQiPKI1VgAKQOZilY9RrwU77dVdeMjxQLLioWjhJCTgrLuWZAQfN36bGcpW+2qCDhEJ54LXOE0g3VzRj1Tfc+cQ2gh/oPGe+g28bcKQlOBHgDg4E4L1b7bKHHiAULTCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5gCfJz1RTLIUJ/stkNepwKeXe/2g8xkUVOv7RKcByM0=;
- b=S4Hjv74CYvB9l2Ad0RQho4BtVwUTwRbevyR/uVTgLMeO89R0ww2DfgqMHHGdZnIc3jeNhiKwtovM23ieQdZ6E3unpx5tUWVzy8lVq7WMJ0kEiMJGAynTtDNe2aGio+w+TBo+aPHKvW4iSPW1mvrRsMyeKX8idzDLezmwjEZOBPo=
+ bh=ok+eCycc9CSSwvwyMltlEx3Nn6KUMUUqeqv64dBoap0=;
+ b=eGsFZzUcJIc00U2BskceGwR9XFUyciKHVuIDXpYdRQ+ogug32SY3/Pw41Yof6Bk3aJLLaDuu6RND9l32gT6pmfm3qzHgAbrafFdiUT9EPfXG3nqjd9iQbUe2F/w+STyhH5QDv1n2U4NfkchZx494ezUoF0hwCC5tjqt6Zmgx9yQ=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2743.namprd03.prod.outlook.com (10.173.38.9) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.14; Fri, 19 Jul 2019 18:52:24 +0000
+ 15.20.2073.14; Fri, 19 Jul 2019 18:52:30 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::25e1:d1e3:2ad8:e6b5]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::25e1:d1e3:2ad8:e6b5%5]) with mapi id 15.20.2073.012; Fri, 19 Jul 2019
- 18:52:24 +0000
+ 18:52:30 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH 1/2] net: assert that tx packets have nonzero size
-Thread-Index: AQHVPmMaGztodEr+U0+u+pXte5FK9A==
-Date: Fri, 19 Jul 2019 18:52:24 +0000
-Message-ID: <20190719185158.20316-2-alxndr@bu.edu>
+Thread-Topic: [PATCH 2/2] virtio-net: check that tx packet has positive size
+Thread-Index: AQHVPmMeO1Tw3DLTS0qwu0faMxYPBQ==
+Date: Fri, 19 Jul 2019 18:52:30 +0000
+Message-ID: <20190719185158.20316-3-alxndr@bu.edu>
 References: <20190719185158.20316-1-alxndr@bu.edu>
 In-Reply-To: <20190719185158.20316-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,29 +64,29 @@ x-clientproxiedby: MN2PR20CA0006.namprd20.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9e0d0734-3b03-40f7-115c-08d70c7a3cfc
+x-ms-office365-filtering-correlation-id: 2fe2fa7f-2b12-49d8-4e90-08d70c7a408a
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2743; 
 x-ms-traffictypediagnostic: CY4PR03MB2743:
-x-microsoft-antispam-prvs: <CY4PR03MB274384C36DC6B12C13DD1218BACB0@CY4PR03MB2743.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-microsoft-antispam-prvs: <CY4PR03MB27436FFFB4886A3FB575527BBACB0@CY4PR03MB2743.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
 x-forefront-prvs: 01039C93E4
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(199004)(189003)(8676002)(88552002)(2906002)(102836004)(99286004)(305945005)(76176011)(6506007)(7736002)(8936002)(6512007)(386003)(66556008)(81166006)(6486002)(4744005)(75432002)(5660300002)(2501003)(52116002)(71200400001)(478600001)(71190400001)(5640700003)(81156014)(66066001)(53936002)(6916009)(1076003)(25786009)(2616005)(36756003)(486006)(64756008)(6116002)(66946007)(26005)(66446008)(86362001)(3846002)(68736007)(66476007)(2351001)(6436002)(316002)(50226002)(476003)(446003)(54906003)(4326008)(186003)(786003)(11346002)(256004)(14454004)(42522002);
+ SFS:(10019020)(4636009)(39860400002)(396003)(376002)(346002)(366004)(136003)(199004)(189003)(8676002)(88552002)(2906002)(102836004)(99286004)(305945005)(76176011)(6506007)(7736002)(8936002)(6512007)(386003)(66556008)(81166006)(6486002)(75432002)(5660300002)(2501003)(52116002)(71200400001)(478600001)(71190400001)(5640700003)(81156014)(66066001)(53936002)(6916009)(1076003)(25786009)(2616005)(36756003)(486006)(64756008)(6116002)(66946007)(26005)(66446008)(86362001)(3846002)(68736007)(66476007)(2351001)(6436002)(316002)(50226002)(476003)(446003)(54906003)(4326008)(186003)(786003)(11346002)(14444005)(256004)(14454004)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2743;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7MmK8zxr9qbatyAwkCCz9i02Ouptj/Itiz37Ch5kR/zIjKUERAEIGVTlVkPmLRwZ0aJaFHKuGD4L3yRx/Cct161yiX4jauVrs06oCY5U5b+mIGbOALGWufFBq/vtSJ+mDzbTxTM1VY1pSJzVuSKv+kMfrL5eEwz5qz1xbjjYS8LxeZePNP3y9y1Zm5PclagKV0NyFJN5Kj6a+NQ7DkMU/FCXC2hGocL5znx099kExki9fnCLvSTENjONI1gvmTkb5ZR6hGbb2138zC2ULDdQCAL57scZd9jCTBKNuw6nxixMy8BtZyWI2Jvu2gym8ldVE3A2KnEJzeHc8X+7G9Ki9SJVoGdzd3TutHB5oc9ThlhBrwsvBQiPycry9IT8OMI6k2hg6UrJdGMz0rBmWFvKJ3GkAO8VqKFeO0IIwMBx8I8=
+x-microsoft-antispam-message-info: l8WS4rQ5/wkPoFP1oOWCbcE6yUYRqZuWD2BC9q4MxcGWVJk7cUgKaHSYj3VOnOEW1QY308DyliAflK9gek8GHVt7rsPhlQgj1cmSSMwv5L/dgPg28tOU+ASYLgRdff0cNgWOjmWAUEKZ0EnAPBErFojMQTOBTC7T4+a297tIgSm3UXd8qeqe7Y9bMzgCmHghna/k+mQoW2G3jl7bHTcb4gApXegqU/YvOW1AuS9VNssH94Pecn33WcVd1vs4w9F7omw5e0BOx/VeYZ3OR+XSBcoTBj2VZL9euVfnXzxjyws33/BwcgIbFCC4ZtUxYpVN4CtSIZd6TGulUCx0rQKHH2UmizxvQTxc1mt1jtF1fpC5E9XLZIgmYDayDryBaZMkk7Y5UnhJlsjQcL1eq0jJX3bJSHD6cVacsauRss1ja4A=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e0d0734-3b03-40f7-115c-08d70c7a3cfc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 18:52:24.7269 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fe2fa7f-2b12-49d8-4e90-08d70c7a408a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 18:52:30.5913 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -94,8 +94,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2743
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.79.101
-Subject: [Qemu-devel] [PATCH 1/2] net: assert that tx packets have nonzero
- size
+Subject: [Qemu-devel] [PATCH 2/2] virtio-net: check that tx packet has
+ positive size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,35 +107,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "Oleinik, 
- Alexander" <alxndr@bu.edu>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Virtual devices should not try to send zero-sized packets. The caller
-should check the size prior to calling qemu_sendv_packet_async.
+virtio_net_flush_tx does not check that the packet size is nonzero,
+which causes q->aysnc_tx.elem to be set. Then, when the device is reset, th=
+ere
+is an assertion failure since q->aysnc_tx.elem must be flushed/cleared.
+Zero-sized packets are unsupported - check packet size, prior to
+sending.
+
+Found while fuzzing virtio-net. The relevant stack-trace:
+ #8 in __assert_fail (libc.so.6+0x30101)
+ #9 in virtio_net_reset virtio-net.c:520:13
+ #10 in virtio_reset virtio.c:1214:9
+ #11 in virtio_pci_reset virtio-pci.c:1810:5
+ #12 in qdev_reset_one qdev.c:259:5
+ #13 in qdev_walk_children qdev.c:575:15
+ #14 in qbus_walk_children bus.c:52:15
+ #15 in qdev_walk_children qdev.c:567:15
+ #16 in qbus_walk_children bus.c:52:15
+ #17 in qemu_devices_reset reset.c:69:9
+ #18 in pc_machine_reset pc.c:2628:5
+ #19 in qemu_system_reset vl.c:1621:9
+ #20 in LLVMFuzzerTestOneInput fuzz.c:184:4
 
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- net/net.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/net/virtio-net.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/net/net.c b/net/net.c
-index 7d4098254f..fad20bc611 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -741,6 +741,9 @@ ssize_t qemu_sendv_packet_async(NetClientState *sender,
-     size_t size =3D iov_size(iov, iovcnt);
-     int ret;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index b9e1cd71cf..743f1c827c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2074,12 +2074,15 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *=
+q)
+             out_sg =3D sg;
+         }
 =20
-+    /* 0-sized packets are unsupported. Check size in the caller */
-+    assert(size);
-+
-     if (size > NET_BUFSIZE) {
-         return size;
-     }
+-        ret =3D qemu_sendv_packet_async(qemu_get_subqueue(n->nic, queue_in=
+dex),
+-                                      out_sg, out_num, virtio_net_tx_compl=
+ete);
+-        if (ret =3D=3D 0) {
+-            virtio_queue_set_notification(q->tx_vq, 0);
+-            q->async_tx.elem =3D elem;
+-            return -EBUSY;
++        /* Do not try to send 0-sized packets */
++        if (iov_size(out_sg, out_num)) {
++            ret =3D qemu_sendv_packet_async(qemu_get_subqueue(n->nic,
++                        queue_index), out_sg, out_num, virtio_net_tx_compl=
+ete);
++            if (ret =3D=3D 0) {
++                virtio_queue_set_notification(q->tx_vq, 0);
++                q->async_tx.elem =3D elem;
++                return -EBUSY;
++            }
+         }
+=20
+ drop:
 --=20
 2.20.1
 
