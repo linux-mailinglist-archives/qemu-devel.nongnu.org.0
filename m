@@ -2,130 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E4F6D820
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:04:09 +0200 (CEST)
-Received: from localhost ([::1]:41698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DAF6D862
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:30:02 +0200 (CEST)
+Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoHJf-0004Pz-VO
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:04:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45085)
+	id 1hoHij-000342-8h
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52387)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hoHJS-0003xP-EM
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:03:55 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hoHiU-0002ec-C2
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:29:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hoHJR-0002mm-Bb
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:03:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54170)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hoHiR-00011l-Bg
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:29:46 -0400
+Received: from mga18.intel.com ([134.134.136.126]:23076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hoHJP-0002l7-4b; Thu, 18 Jul 2019 21:03:51 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 34D7781DE5;
- Fri, 19 Jul 2019 01:03:50 +0000 (UTC)
-Received: from [10.18.17.203] (dhcp-17-203.bos.redhat.com [10.18.17.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 242696402D;
- Fri, 19 Jul 2019 01:03:44 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190718091740.6834-1-philmd@redhat.com>
- <ac53542f-40c3-8e2e-c8fb-0673183a3504@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <9a67117a-e506-b775-558e-1a6c8a4e1619@redhat.com>
-Date: Thu, 18 Jul 2019 21:03:44 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hoHiQ-0000x6-0l
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:29:42 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2019 18:29:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,280,1559545200"; d="scan'208";a="170759359"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga003.jf.intel.com with ESMTP; 18 Jul 2019 18:29:30 -0700
+Date: Thu, 18 Jul 2019 21:23:28 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190719012328.GF8912@joy-OptiPlex-7040>
+References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
+ <20190711025524.GB9176@joy-OptiPlex-7040>
+ <20190711105012.GI3971@work-vm>
+ <20190711114715.GC9176@joy-OptiPlex-7040>
+ <20190711162315.GP3971@work-vm>
+ <2dd65778-8661-929d-392f-4db25cf7162b@nvidia.com>
+ <20190712003201.GE9176@joy-OptiPlex-7040>
+ <f368b367-e355-cf04-2824-3384f4ea6e33@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <ac53542f-40c3-8e2e-c8fb-0673183a3504@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 19 Jul 2019 01:03:50 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.1] hw/ide/piix: Mark the PIIX IDE
- interfaces as not user_creatable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f368b367-e355-cf04-2824-3384f4ea6e33@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.126
+Subject: Re: [Qemu-devel] [PATCH v7 00/13] Add migration support for VFIO
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,46 +65,363 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 19, 2019 at 02:32:33AM +0800, Kirti Wankhede wrote:
+> 
+> On 7/12/2019 6:02 AM, Yan Zhao wrote:
+> > On Fri, Jul 12, 2019 at 03:08:31AM +0800, Kirti Wankhede wrote:
+> >>
+> >>
+> >> On 7/11/2019 9:53 PM, Dr. David Alan Gilbert wrote:
+> >>> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> >>>> On Thu, Jul 11, 2019 at 06:50:12PM +0800, Dr. David Alan Gilbert wrote:
+> >>>>> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> >>>>>> Hi Kirti,
+> >>>>>> There are still unaddressed comments to your patches v4.
+> >>>>>> Would you mind addressing them?
+> >>>>>>
+> >>>>>> 1. should we register two migration interfaces simultaneously
+> >>>>>> (https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04750.html)
+> >>>>>
+> >>>>> Please don't do this.
+> >>>>> As far as I'm aware we currently only have one device that does that
+> >>>>> (vmxnet3) and a patch has just been posted that fixes/removes that.
+> >>>>>
+> >>>>> Dave
+> >>>>>
+> >>>> hi Dave,
+> >>>> Thanks for notifying this. but if we want to support postcopy in future,
+> >>>> after device stops, what interface could we use to transfer data of
+> >>>> device state only?
+> >>>> for postcopy, when source device stops, we need to transfer only
+> >>>> necessary device state to target vm before target vm starts, and we
+> >>>> don't want to transfer device memory as we'll do that after target vm
+> >>>> resuming.
+> >>>
+> >>> Hmm ok, lets see; that's got to happen in the call to:
+> >>>     qemu_savevm_state_complete_precopy(fb, false, false);
+> >>> that's made from postcopy_start.
+> >>>  (the false's are iterable_only and inactivate_disks)
+> >>>
+> >>> and at that time I believe the state is POSTCOPY_ACTIVE, so in_postcopy
+> >>> is true.
+> >>>
+> >>> If you're doing postcopy, then you'll probably define a has_postcopy()
+> >>> function, so qemu_savevm_state_complete_precopy will skip the
+> >>> save_live_complete_precopy call from it's loop for at least two of the
+> >>> reasons in it's big if.
+> >>>
+> >>> So you're right; you need the VMSD for this to happen in the second
+> >>> loop in qemu_savevm_state_complete_precopy.  Hmm.
+> >>>
+> >>> Now, what worries me, and I don't know the answer, is how the section
+> >>> header for the vmstate and the section header for an iteration look
+> >>> on the stream; how are they different?
+> >>>
+> >>
+> >> I don't have way to test postcopy migration - is one of the major reason
+> >> I had not included postcopy support in this patchset and clearly called
+> >> out in cover letter.
+> >> This patchset is thoroughly tested for precopy migration.
+> >> If anyone have hardware that supports fault, then I would prefer to add
+> >> postcopy support as incremental change later which can be tested before
+> >> submitting.
+> >>
+> >> Just a suggestion, instead of using VMSD, is it possible to have some
+> >> additional check to call save_live_complete_precopy from
+> >> qemu_savevm_state_complete_precopy?
+> >>
+> >>
+> >>>>
+> >>>>>> 2. in each save iteration, how much data is to be saved
+> >>>>>> (https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04683.html)
+> >>
+> >>> how big is the data_size ?
+> >>> if this size is too big, it may take too much time and block others.
+> >>
+> >> I do had mentioned this in the comment about the structure in vfio.h
+> >> header. data_size will be provided by vendor driver and obviously will
+> >> not be greater that migration region size. Vendor driver should be
+> >> responsible to keep its solution optimized.
+> >>
+> > if the data_size is no big than migration region size, and each
+> > iteration only saves data of data_size, i'm afraid it will cause
+> > prolonged down time. after all, the migration region size cannot be very
+> > big.
+> 
+> As I mentioned above, its vendor driver responsibility to keep its
+> solution optimized.
+> A good behaving vendor driver should not cause unnecessary prolonged
+> down time.
+>
+I think vendor data can determine the data_size, but qemu has to decide
+how much data to transmit according to the actual transmitting time (or
+transmitting speed). when transmitting speed is high, transmit more data
+a iteration, and low speed small data a iteration. This transmitting
+time knowledge is not available to vendor driver, and even it has this
+knowledge, can it dynamically change data region size?
+maybe you can say vendor driver can register a big enough region and
+dynamically use part of it, but what is big enough and it really costs
+memory.
 
+> > Also, if vendor driver determines how much data to save in each
+> > iteration alone, and no checks in qemu, it may cause other devices'
+> > migration time be squeezed.
+> > 
+> 
+> Sorry, how will that squeeze other device's migration time?
+> 
+if a vendor driver has extremely big data to transmit, other devices
+have to wait until it finishes to transmit their own data. In a given
+time period, it can be considered as their time slot being squeezed.
+not sure whether it's a good practice.
 
-On 7/18/19 5:26 AM, Paolo Bonzini wrote:
-> On 18/07/19 11:17, Philippe Mathieu-Daud=C3=A9 wrote:
->> The 'piix3-ide' (and 'piix3-ide-xen') devices are part of the
->> PIIX3 chipset modelled as TYPE_PIIX3_PCI_DEVICE (respectivelly
->> TYPE_PIIX3_XEN_DEVICE). The PIIX3 chipset can not be created
->> in part, it has to be created and used as a whole.
->>
->> Similarly with the 'piix4-ide' device and the PIIX4 chipset
->> modelled as TYPE_PIIX4_PCI_DEVICE.
->>
->> Disable the 'user_creatable' flag.
->>
->> part of TYPE_PIIX3_PCI_DEVICE (TYPE_PIIX3_XEN_DEVICE)
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> This works though:
->=20
->   qemu-system-x86_64 \
->     -M q35,sata=3Doff -device piix3-ide,addr=3D1f.2 \
->     -drive if=3Dnone,file=3Dfreedos.raw,id=3Dhd -device ide-hd,drive=3D=
-hd
->=20
-> And it is a nice hack to mimic Q35's legacy IDE mode...
->=20
-> Paolo
->=20
+> >>
+> >>>>>> 3. do we need extra interface to get data for device state only
+> >>>>>> (https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04812.html)
+> >>
+> >> I don't think so. Opaque Device data from vendor driver can include
+> >> device state and device memory. Vendor driver who is managing his device
+> >> can decide how to place data over the stream.
+> >>
+> > I know current design is opaque device data. then to support postcopy,
+> > we may have to add extra device state like in-postcopy. but postcopy is
+> > more like a qemu state and is not a device state.
+> 
+> One bit from device_state can be used to inform vendor driver about
+> postcopy, when postcopy support will be added.
+>
+ok. if you insist on that, one bit in devie_state is also good, as long
+as everyone agrees on it:)
 
-Right. I never modeled the "right" way to do legacy IDE because I think
-it would involve some deeper surgery to the IDE code, and it was hard to
-justify the time spent.
+> > to address it elegantly, may we add an extra interface besides
+> > vfio_save_buffer() to get data for device state only?
+> > 
+> 
+> When in postcopy state, based on device_state flag, vendor driver can
+> copy device state first in migration region, I still think there is no
+> need to separate device state and device memory.
+>
+it's the difference between more device_state flags and more interfaces.
 
-Why do we want to disable these devices, exactly?
+> >>>>>> 4. definition of dirty page copied_pfn
+> >>>>>> (https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05592.html)
+> >>>>>>
+> >>
+> >> This was inline to discussion going with Alex. I addressed the concern
+> >> there. Please check current patchset, which addresses the concerns raised.
+> >>
+> > ok. I saw you also updated the flow in the part. please check my comment
+> > in that patch for detail. but as a suggestion, I think processed_pfns is
+> > a better name compared to copied_pfns :)
+> > 
+> 
+> Vendor driver can process total_pfns, but can copy only some pfns bitmap
+> to migration region. One of the reason could be the size of migration
+> region is not able to accommodate bitmap of total_pfns size. So it could
+> be like: 0 < copied_pfns < total_pfns. That's why the name
+> 'copied_pfns'. I'll continue with 'copied_pfns'.
+>
+so it's bitmap's pfn count, right? 
+besides VFIO_DEVICE_DIRTY_PFNS_NONE, and VFIO_DEVICE_DIRTY_PFNS_ALL to
+indicate no dirty and all dirty in total_pfns, why not add two more
+flags, e.g.
+VFIO_DEVICE_DIRTY_PFNS_ONE_ITERATION,
+VFIO_DEVICE_DIRTY_PFNS_ALL_ONE_ITERATION, to skip copying bitmap from
+kernel if the copied bitmap in one iteration is all 0 or all 1?
 
---js
+Thanks
+Yan
+> 
+> >>>>>> Also, I'm glad to see that you updated code by following my comments below,
+> >>>>>> but please don't forget to reply my comments next time:)
+> >>
+> >> I tried to reply top of threads and addressed common concerns raised in
+> >> that. Sorry If I missed any, I'll make sure to point you to my replies
+> >> going ahead.
+> >>
+> > ok. let's cooperate:)
+> > 
+> > Thanks
+> > Yan
+> > 
+> >> Thanks,
+> >> Kirti
+> >>
+> >>>>>> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05357.html
+> >>>>>> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06454.html
+> >>>>>>
+> >>>>>> Thanks
+> >>>>>> Yan
+> >>>>>>
+> >>>>>> On Tue, Jul 09, 2019 at 05:49:07PM +0800, Kirti Wankhede wrote:
+> >>>>>>> Add migration support for VFIO device
+> >>>>>>>
+> >>>>>>> This Patch set include patches as below:
+> >>>>>>> - Define KABI for VFIO device for migration support.
+> >>>>>>> - Added save and restore functions for PCI configuration space
+> >>>>>>> - Generic migration functionality for VFIO device.
+> >>>>>>>   * This patch set adds functionality only for PCI devices, but can be
+> >>>>>>>     extended to other VFIO devices.
+> >>>>>>>   * Added all the basic functions required for pre-copy, stop-and-copy and
+> >>>>>>>     resume phases of migration.
+> >>>>>>>   * Added state change notifier and from that notifier function, VFIO
+> >>>>>>>     device's state changed is conveyed to VFIO device driver.
+> >>>>>>>   * During save setup phase and resume/load setup phase, migration region
+> >>>>>>>     is queried and is used to read/write VFIO device data.
+> >>>>>>>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+> >>>>>>>     functionality of iteration during pre-copy phase.
+> >>>>>>>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
+> >>>>>>>     iteration to read data from VFIO device driver is implemented till pending
+> >>>>>>>     bytes returned by driver are not zero.
+> >>>>>>>   * Added function to get dirty pages bitmap for the pages which are used by
+> >>>>>>>     driver.
+> >>>>>>> - Add vfio_listerner_log_sync to mark dirty pages.
+> >>>>>>> - Make VFIO PCI device migration capable. If migration region is not provided by
+> >>>>>>>   driver, migration is blocked.
+> >>>>>>>
+> >>>>>>> Below is the flow of state change for live migration where states in brackets
+> >>>>>>> represent VM state, migration state and VFIO device state as:
+> >>>>>>>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+> >>>>>>>
+> >>>>>>> Live migration save path:
+> >>>>>>>         QEMU normal running state
+> >>>>>>>         (RUNNING, _NONE, _RUNNING)
+> >>>>>>>                         |
+> >>>>>>>     migrate_init spawns migration_thread.
+> >>>>>>>     (RUNNING, _SETUP, _RUNNING|_SAVING)
+> >>>>>>>     Migration thread then calls each device's .save_setup()
+> >>>>>>>                         |
+> >>>>>>>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+> >>>>>>>     If device is active, get pending bytes by .save_live_pending()
+> >>>>>>>     if pending bytes >= threshold_size,  call save_live_iterate()
+> >>>>>>>     Data of VFIO device for pre-copy phase is copied.
+> >>>>>>>     Iterate till pending bytes converge and are less than threshold
+> >>>>>>>                         |
+> >>>>>>>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
+> >>>>>>>     for each active device. VFIO device is then transitioned in
+> >>>>>>>      _SAVING state.
+> >>>>>>>     (FINISH_MIGRATE, _DEVICE, _SAVING)
+> >>>>>>>     For VFIO device, iterate in  .save_live_complete_precopy  until
+> >>>>>>>     pending data is 0.
+> >>>>>>>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
+> >>>>>>>                         |
+> >>>>>>>     (FINISH_MIGRATE, _COMPLETED, STOPPED)
+> >>>>>>>     Migraton thread schedule cleanup bottom half and exit
+> >>>>>>>
+> >>>>>>> Live migration resume path:
+> >>>>>>>     Incomming migration calls .load_setup for each device
+> >>>>>>>     (RESTORE_VM, _ACTIVE, STOPPED)
+> >>>>>>>                         |
+> >>>>>>>     For each device, .load_state is called for that device section data
+> >>>>>>>                         |
+> >>>>>>>     At the end, called .load_cleanup for each device and vCPUs are started.
+> >>>>>>>                         |
+> >>>>>>>         (RUNNING, _NONE, _RUNNING)
+> >>>>>>>
+> >>>>>>> Note that:
+> >>>>>>> - Migration post copy is not supported.
+> >>>>>>>
+> >>>>>>> v6 -> v7:
+> >>>>>>> - Fix build failures.
+> >>>>>>>
+> >>>>>>> v5 -> v6:
+> >>>>>>> - Fix build failure.
+> >>>>>>>
+> >>>>>>> v4 -> v5:
+> >>>>>>> - Added decriptive comment about the sequence of access of members of structure
+> >>>>>>>   vfio_device_migration_info to be followed based on Alex's suggestion
+> >>>>>>> - Updated get dirty pages sequence.
+> >>>>>>> - As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+> >>>>>>>   get_object, save_config and load_config.
+> >>>>>>> - Fixed multiple nit picks.
+> >>>>>>> - Tested live migration with multiple vfio device assigned to a VM.
+> >>>>>>>
+> >>>>>>> v3 -> v4:
+> >>>>>>> - Added one more bit for _RESUMING flag to be set explicitly.
+> >>>>>>> - data_offset field is read-only for user space application.
+> >>>>>>> - data_size is read for every iteration before reading data from migration, that
+> >>>>>>>   is removed assumption that data will be till end of migration region.
+> >>>>>>> - If vendor driver supports mappable sparsed region, map those region during
+> >>>>>>>   setup state of save/load, similarly unmap those from cleanup routines.
+> >>>>>>> - Handles race condition that causes data corruption in migration region during
+> >>>>>>>   save device state by adding mutex and serialiaing save_buffer and
+> >>>>>>>   get_dirty_pages routines.
+> >>>>>>> - Skip called get_dirty_pages routine for mapped MMIO region of device.
+> >>>>>>> - Added trace events.
+> >>>>>>> - Splitted into multiple functional patches.
+> >>>>>>>
+> >>>>>>> v2 -> v3:
+> >>>>>>> - Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+> >>>>>>> - Re-structured vfio_device_migration_info to keep it minimal and defined action
+> >>>>>>>   on read and write access on its members.
+> >>>>>>>
+> >>>>>>> v1 -> v2:
+> >>>>>>> - Defined MIGRATION region type and sub-type which should be used with region
+> >>>>>>>   type capability.
+> >>>>>>> - Re-structured vfio_device_migration_info. This structure will be placed at 0th
+> >>>>>>>   offset of migration region.
+> >>>>>>> - Replaced ioctl with read/write for trapped part of migration region.
+> >>>>>>> - Added both type of access support, trapped or mmapped, for data section of the
+> >>>>>>>   region.
+> >>>>>>> - Moved PCI device functions to pci file.
+> >>>>>>> - Added iteration to get dirty page bitmap until bitmap for all requested pages
+> >>>>>>>   are copied.
+> >>>>>>>
+> >>>>>>> Thanks,
+> >>>>>>> Kirti
+> >>>>>>>
+> >>>>>>> Kirti Wankhede (13):
+> >>>>>>>   vfio: KABI for migration interface
+> >>>>>>>   vfio: Add function to unmap VFIO region
+> >>>>>>>   vfio: Add vfio_get_object callback to VFIODeviceOps
+> >>>>>>>   vfio: Add save and load functions for VFIO PCI devices
+> >>>>>>>   vfio: Add migration region initialization and finalize function
+> >>>>>>>   vfio: Add VM state change handler to know state of VM
+> >>>>>>>   vfio: Add migration state change notifier
+> >>>>>>>   vfio: Register SaveVMHandlers for VFIO device
+> >>>>>>>   vfio: Add save state functions to SaveVMHandlers
+> >>>>>>>   vfio: Add load state functions to SaveVMHandlers
+> >>>>>>>   vfio: Add function to get dirty page list
+> >>>>>>>   vfio: Add vfio_listerner_log_sync to mark dirty pages
+> >>>>>>>   vfio: Make vfio-pci device migration capable.
+> >>>>>>>
+> >>>>>>>  hw/vfio/Makefile.objs         |   2 +-
+> >>>>>>>  hw/vfio/common.c              |  55 +++
+> >>>>>>>  hw/vfio/migration.c           | 874 ++++++++++++++++++++++++++++++++++++++++++
+> >>>>>>>  hw/vfio/pci.c                 | 137 ++++++-
+> >>>>>>>  hw/vfio/trace-events          |  19 +
+> >>>>>>>  include/hw/vfio/vfio-common.h |  25 ++
+> >>>>>>>  linux-headers/linux/vfio.h    | 166 ++++++++
+> >>>>>>>  7 files changed, 1271 insertions(+), 7 deletions(-)
+> >>>>>>>  create mode 100644 hw/vfio/migration.c
+> >>>>>>>
+> >>>>>>> -- 
+> >>>>>>> 2.7.0
+> >>>>>>>
+> >>>>> --
+> >>>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>> --
+> >>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >>>
+> > 
 
