@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9290A6E1E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 09:43:36 +0200 (CEST)
-Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2A86E23C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 10:07:35 +0200 (CEST)
+Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoNYF-0005wA-PL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 03:43:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38179)
+	id 1hoNvS-0007Wt-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 04:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hoNY3-0005R3-T8
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 03:43:24 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hoNul-0005F2-Lp
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:06:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hoNY2-0001HL-Th
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 03:43:23 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33544)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hoNY0-0001Ei-NN; Fri, 19 Jul 2019 03:43:20 -0400
-Received: by mail-oi1-x242.google.com with SMTP id u15so23619539oiv.0;
- Fri, 19 Jul 2019 00:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=ZEhjQqYWJlC1PXZc+ba2fnfuvQnzfPZPJBfzLHYeKVU=;
- b=EjVYtrbeYjNMRIXoQxqrF8N+6yDhWxLToEY/ctQJFZHl6/PbVvByuWG4c0Nm04kFom
- qqrMYy69K6zkErJb2DTf17XP88v4QpkFz3WtXO5NpF98C8+Cpa2uWyhGzZ2LpMgt2SoX
- +yMAEevHrN3dhmhQFOYmBnryCAZSaMgYkhW1YqtkxoFZcA/x2NH3Hyzi7h+JjXV4ffQl
- lg6nTbH4HGb/afFOseGudVZFiVcrbJSWM9VVD8QgCvKsu0koJKVU6NRNgCcm1nY2AuZr
- Uz1Tn4xpR9rpK/YTWmPW8SqwuBlYYZOgJHf8kW4v+BxLYA4N9HPo2PBYF8fp8xkbRoWp
- oY/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=ZEhjQqYWJlC1PXZc+ba2fnfuvQnzfPZPJBfzLHYeKVU=;
- b=K0H+brCFmJ/LsPT9ZcowDoaijApVfpK7ZD2KsVyIJmg/0d5vQkYmXYsiD3mXRxpcQk
- GBMpgJb4injWlz+3O4Z1ixaEhGCsKIMIjnmc80cLVe0R7SSjDFXTrecDKcZ6OeJoq4M8
- nzeWPFukaSB1VBjDCqP7gCm4DU5TkDWqrTYtOD3sKvdubwziXPCj0La9hziMsPtvc0Sb
- 8hX28gwPIaCvVMDi4PRuSfHWs4E8JK/dLpR7mGFGkHZtPW7sTqrfVH2T5ckDd9YV7k3c
- wA14Ag/TNoX0pI5KOVw1CgRAUZUreFS3FBVAzMAXaGgky71FJwI2d8g0nw5yHEzqa/L/
- yazg==
-X-Gm-Message-State: APjAAAXuqTXPbYZ3kRCCLPAulFYSixO10Pd7TpkGxVc0T7CxvI0KlAmU
- Xf71q7Qmbtdq3rg71PgpWyFTlAZsZhDKdcx/jnM=
-X-Google-Smtp-Source: APXvYqyDgIXcyylHtkArMTjKUJCy+I6XVWvIhExG3e4rgXQlPoEWG7yj5hLJj47gxXnlo5V5oGAONTooKSdviXQSbmo=
-X-Received: by 2002:aca:4083:: with SMTP id
- n125mr25055633oia.106.1563522199050; 
- Fri, 19 Jul 2019 00:43:19 -0700 (PDT)
+ (envelope-from <laurent@vivier.eu>) id 1hoNuk-0004an-Mh
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:06:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:56359)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hoNuk-0004ZR-EC
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 04:06:50 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MaHOX-1htUY107M5-00WDxt; Fri, 19 Jul 2019 10:06:16 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 10:06:07 +0200
+Message-Id: <20190719080610.1607-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Fri, 19 Jul 2019 00:43:18
- -0700 (PDT)
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Fri, 19 Jul 2019 00:43:18
- -0700 (PDT)
-In-Reply-To: <6241fd95-789f-f560-2170-0544cded1720@redhat.com>
-References: <20190718193441.12490-1-sw@weilnetz.de>
- <6241fd95-789f-f560-2170-0544cded1720@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 19 Jul 2019 09:43:18 +0200
-Message-ID: <CAL1e-=h01=ouAuTiPK7mGqCJVX4C-WQUEVZngFBG5nthDQ936g@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] audio: Add missing fall through comments
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XQL9R2KuY6oW5tyo/jS10QVwixwYQtRO/1srz6YTH0lgagkTDg4
+ yeCngXn3qvS3xKv10/GTpbwxIdcKKRLEyUS9RlN4l1tZ2TB7XTlLUgkqXa7hDdz+fL6TE8Y
+ VWKxrunBPkmxaiDI/qPQN1wAcmpf5f2e6Sihq1AciEGLjM7RpPadwhXyy4pX6xAHIgCsOJZ
+ czo6rdUf+zAzX+ookJzFg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nZ4q4vsL4+4=:iFpIvblrH8hniGKpaKZcUG
+ mRUXZdA7kthoWRZsmcBdqaPpVRcKinbmFMBMHHz084erb13hKosvW49oIC9n8qSSXzFmVUXsH
+ I7CCFQClGMvDLCRJH80nPYdrwKjPHtpULhhBRq2DflvsGaB0SRb7gqjW7MKcDj6Ds8038Q/bH
+ ZwP9gzWZGWIdRugAQ87t6DVy2L5JdwgM2j12eAt7L2WysnBCkuIehHCr0K5DG2+EiWU08w0ko
+ aTqRcfaIj9KpLptR/3dAQeB490UKak991rrYHJD8n+JFdEQ+qZicL/Lyh7LeOZe2yxLOqPzZb
+ YZVk7WawjhKP/IHOT9TcQBHOiihfRrV/QvSclGdLSa9DpkURDjn4wyl1HeiRVDe4zD/Kez5Ak
+ sbLxQGW5LAiTU5zJlPKVRhirsr/c1wIqcbSILYWwZ92h12q3abf2bhJCEMqe+zP7P2U9hbj3X
+ CLMIN8bSvVhZTSVMOKrX9VmKzEcDDf5AUFcgRCpT5ExNOWPJZeM/YCVzBfRROYNafGWCj4K5K
+ 2hMkhKLwpcieIqoq1mU3F0z6bTg4rSG0pl0sNVuAkZ4DNRmxIPOo2DMcdX8d66dSdJVBx9WQ+
+ Km8Q3DVEI8uzUsV/CkNpn96W5sl0w1b4XmOFDR+t70BE8HxhaENIHFahnSzR2XYiI27fydtRd
+ KyaQhYWny9R57VyLX3HQl7YbE0MfDfDRUfhWCVIgvxPZZwQUJ7S6riBkj5LQbntHiEeiS2MKQ
+ 0VGCQBsoxI8cnQE+dDH3pPTUvSk9IeeAFuVVFiPpkwy7Yi6xsFC1I3zKVfY=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.133
+Subject: [Qemu-devel] [PULL v2 0/3] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,50 +61,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 19, 2019 9:30 AM, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> =
-wrote:
->
-> On 7/18/19 9:34 PM, Stefan Weil wrote:
-> > Signed-off-by: Stefan Weil <sw@weilnetz.de>
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
+The following changes since commit a1a4d49f60d2b899620ee2be4ebb991c4a90a026:
 
-Philippe, how do you test these comments?
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-20190716' into staging (2019-07-16 17:02:44 +0100)
 
-Yours, Aleksandar
+are available in the Git repository at:
 
-> > ---
-> >  audio/audio.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/audio/audio.c b/audio/audio.c
-> > index 5fd9a58a80..a7a13e900a 100644
-> > --- a/audio/audio.c
-> > +++ b/audio/audio.c
-> > @@ -304,6 +304,7 @@ void audio_pcm_init_info (struct audio_pcm_info
-*info, struct audsettings *as)
-> >
-> >      case AUDIO_FORMAT_S16:
-> >          sign =3D 1;
-> > +        /* fall through */
-> >      case AUDIO_FORMAT_U16:
-> >          bits =3D 16;
-> >          shift =3D 1;
-> > @@ -311,6 +312,7 @@ void audio_pcm_init_info (struct audio_pcm_info
-*info, struct audsettings *as)
-> >
-> >      case AUDIO_FORMAT_S32:
-> >          sign =3D 1;
-> > +        /* fall through */
-> >      case AUDIO_FORMAT_U32:
-> >          bits =3D 32;
-> >          shift =3D 2;
-> >
->
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+
+for you to fetch changes up to 6d5d5dde9adb5acb32e6b8e3dfbf47fff0f308d2:
+
+  linux-user: fix to handle variably sized SIOCGSTAMP with new kernels (2019-07-19 09:33:55 +0200)
+
+----------------------------------------------------------------
+fix access_ok() to allow to run LTP on AARCH64,
+fix SIOCGSTAMP with 5.2 kernel headers,
+fix structure target_ucontext for MIPS
+
+----------------------------------------------------------------
+
+Aleksandar Markovic (1):
+  linux-user: Fix structure target_ucontext for MIPS
+
+Daniel P. Berrangé (1):
+  linux-user: fix to handle variably sized SIOCGSTAMP with new kernels
+
+Rémi Denis-Courmont (1):
+  linux-user: check valid address in access_ok()
+
+ include/exec/cpu_ldst.h    |   4 ++
+ linux-user/ioctls.h        |  21 +++++-
+ linux-user/mips/signal.c   |   5 +-
+ linux-user/qemu.h          |   4 +-
+ linux-user/syscall.c       | 140 +++++++++++++++++++++++++++++--------
+ linux-user/syscall_defs.h  |  30 +++++++-
+ linux-user/syscall_types.h |   6 --
+ 7 files changed, 168 insertions(+), 42 deletions(-)
+
+-- 
+2.21.0
+
+
