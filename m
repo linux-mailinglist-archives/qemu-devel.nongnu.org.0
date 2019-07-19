@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516416EBEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:06:08 +0200 (CEST)
-Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB1C6EBE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 23:05:31 +0200 (CEST)
+Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoa4s-0004MP-RT
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55195)
+	id 1hoa4H-0001if-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 17:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55229)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3a-00088Y-9T
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3b-0008DX-4g
  for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hoa3X-0005Yb-56
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:44 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34092)
+ (envelope-from <richard.henderson@linaro.org>) id 1hoa3V-0005Xq-Vp
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:46 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:45303)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hoa3W-0005CR-I0
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:42 -0400
-Received: by mail-pg1-x544.google.com with SMTP id n9so8750472pgc.1
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:52 -0700 (PDT)
+ id 1hoa3V-0005DZ-HJ
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 17:04:41 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id y8so16176609plr.12
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 14:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GHJ3UWi076gcoHxg1DQBmNZO36QuD3aqqu+CJJcjV+8=;
- b=UI0M0X5duZMFsvuhBKChZV8Q3IonwiWAvOKRQ0Zetrx3KdqfFTWFMvrb/GUXs6gTSP
- EJyKZrpz2Txv9Prlf3TLzTKim9DwpUXm72h8g5B39M6yWVqCoL0cpJA/1h5sQen/Q24I
- YHbi66ttPl5iR+r89O/R/IXLYjZFhbI3oErz75Jn5QaQRPcjzXIvr162ErZL8fJI04tG
- Qcjey2zEWw+G+nR+YVLT682IIf6xTNFRt2pJ3pYh5jGdrC8A9M0af4UzelwlinfSKtAt
- 6292CfGkz3RpCHAuarBJmHBBcfpeFAlKzZX4bcJSH0rodErlzpmCv6+qjUejenzTVw6C
- A+vQ==
+ bh=J6T0UaDoHOUvHQdeL0jaxXvQ3BPRU+bqa9M24JR56TM=;
+ b=ftX9m6a7amh2lG2VgXdb5c50Tt1CJXPkB8mD6wJYX5ueB8jWKW6W/reQj4CuRd36E/
+ JOQDs6uh2kMNVAffEJ1CUzS0KGs+LQIZALSi+zX2Tx/p8W2pW8tCiYfxKXmmb7CJdOF8
+ 56+tIHJi5FEUeSMxx597Cw8znF3Y4pNvcLljq2Z3Fpz4hkUfGplHq8xzUX35CgFJyYCC
+ Q14IycFqtIt/KA94NiT66poSwOX0CPqnS/xiQx4AHme2u9n4PV0JaJG9KLJP/oGkGx7K
+ HWQTIG5Ts1nLq0cOjGjZF0uUmakO2d6GiwMUuumaCIqfghoBIDtZ+cmSHTpTPKmmjU+S
+ Jl5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GHJ3UWi076gcoHxg1DQBmNZO36QuD3aqqu+CJJcjV+8=;
- b=nfqTe1xcJbD0NiXkQdZBj24ZyIMZyTBSqBasvhzwvcgiFuhcnVUlynAbN8uuW5+zRU
- uUO8XgXP9cj5KC8PXfcD7LNPqqUNLYUV6tKgDJ5sCnTrGOxm67u2C83aH/dYHKuh5+7t
- yi0anfOBzLR+VnbDTJrTiT4Taphj39vrSoe2d4G86HXk1nQgvgep+6nJ7vKPGA/VhAhy
- Gw7/DbnPmSiCKOsnJ8c6kvyZhgw1LxkRY9MFMTQswwyE+Wu25obU8gOneA9d7RYdc20Y
- 9JjRaJi6uKYpG/C0cI9R/da9ANXn6chwtL01aNKBuDJFbjY5uTA0lVGKi/p3pDXEsKyX
- PtPg==
-X-Gm-Message-State: APjAAAW4UOVNws6d40IHGo5dXVDdvOfNwz4bfj1La2vUrt4LLsFYb9b+
- wEeUMvqYnAkU7kn/A3iLY/lSttr09JE=
-X-Google-Smtp-Source: APXvYqwVrsEqJSOGHoXP/CE81jLbFWWioMzlQxvPpGQQjlk019aPX/509MfuwBdNds12CtXAG7QKPw==
-X-Received: by 2002:a63:89c7:: with SMTP id
- v190mr54263084pgd.299.1563570231150; 
- Fri, 19 Jul 2019 14:03:51 -0700 (PDT)
+ bh=J6T0UaDoHOUvHQdeL0jaxXvQ3BPRU+bqa9M24JR56TM=;
+ b=QGCa+fTlePJqZxW/jcKd67nLkBZZYPY+KgzRQMKVVPnjwlFJrgvpmSEntonSBQn2uk
+ AR1nSewo2ZdV9GsKuCNRwH6zWZvhLmXzBb6tX8SbZUbT7O8Bwd/u7Bhgz9ewTZwC2TQY
+ xbHY1rG8mEWJvLlp3GbKJJvIDRwKLmjSd2MriBSlDNwrjOFgpCkwUDm7VChKu7t7YUzK
+ Mwohf8hyn2hFChaIHGZ0JKWPpgWdIaT2ab/zUInPMcXaD2vDycXmyZY/74CZLyll/2Ys
+ 3YPhgi6kvK2alg4J5KVcjCLkxrme6De2rMI/UY01QsHQ9LGlzWYulkFeL6+jCAwSJJSd
+ 4Mfg==
+X-Gm-Message-State: APjAAAX87/56CtN7D6xnfKsmPBFqTEbYNuQIhTTnHdACCYGCzbzMMPno
+ LTG+9I4j93ZapS4uQE09zIrpnFMwohc=
+X-Google-Smtp-Source: APXvYqxzmsnaZw3ijVTn3rbk9JgwL58prLpvd6nWfDVpOBmEk9f80jTEp639L3yjIWg7+0lylTe9jw==
+X-Received: by 2002:a17:902:a409:: with SMTP id
+ p9mr59748890plq.218.1563570234647; 
+ Fri, 19 Jul 2019 14:03:54 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.50
+ by smtp.gmail.com with ESMTPSA id i6sm32724751pgi.40.2019.07.19.14.03.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 14:03:50 -0700 (PDT)
+ Fri, 19 Jul 2019 14:03:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 14:03:21 -0700
-Message-Id: <20190719210326.15466-20-richard.henderson@linaro.org>
+Date: Fri, 19 Jul 2019 14:03:24 -0700
+Message-Id: <20190719210326.15466-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190719210326.15466-1-richard.henderson@linaro.org>
 References: <20190719210326.15466-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH for-4.2 19/24] target/arm: Install asids for
- E2&0 translation regime
+X-Received-From: 2607:f8b0:4864:20::62a
+Subject: [Qemu-devel] [PATCH for-4.2 22/24] target/arm: Update
+ regime_is_user for EL2&0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,85 +81,23 @@ Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When clearing HCR_E2H, this involves re-installing the E1&0 asid.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 37 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 32 insertions(+), 5 deletions(-)
+ target/arm/helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index db13a8f9c0..22eb056b27 100644
+index f06e7bcd77..ae3ec9ea67 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -3516,12 +3516,28 @@ static void vmsa_ttbr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     }
- }
- 
-+static void update_el2_asid(CPUARMState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+    uint64_t ttbr0, ttbr1, ttcr;
-+    int asid, idxmask;
-+
-+    ttbr0 = env->cp15.ttbr0_el[2];
-+    ttbr1 = env->cp15.ttbr1_el[2];
-+    ttcr = env->cp15.tcr_el[2].raw_tcr;
-+    idxmask = ARMMMUIdxBit_E2 | ARMMMUIdxBit_E0;
-+    asid = extract64(ttcr & TTBCR_A1 ? ttbr1 : ttbr0, 48, 16);
-+
-+    tlb_set_asid_for_mmuidx(cs, asid, idxmask, 0);
-+}
-+
- static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                                     uint64_t value)
+@@ -8885,6 +8885,7 @@ static inline bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
  {
-     raw_write(env, ri, value);
-     if (arm_hcr_el2_eff(env) & HCR_E2H) {
--        /* The ASID field is active.  */
-+        /* We are running with EL2&0 regime and the ASID is active.  */
-+        update_el2_asid(env);
-     }
- }
- 
-@@ -4652,6 +4668,7 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-     ARMCPU *cpu = env_archcpu(env);
-     /* Begin with bits defined in base ARMv8.0.  */
-     uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
-+    uint64_t old_value;
- 
-     if (arm_feature(env, ARM_FEATURE_EL3)) {
-         valid_mask &= ~HCR_HCD;
-@@ -4678,15 +4695,25 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-     /* Clear RES0 bits.  */
-     value &= valid_mask;
- 
--    /* These bits change the MMU setup:
-+    old_value = env->cp15.hcr_el2;
-+    env->cp15.hcr_el2 = value;
-+
-+    /*
-+     * These bits change the MMU setup:
-      * HCR_VM enables stage 2 translation
-      * HCR_PTW forbids certain page-table setups
--     * HCR_DC Disables stage1 and enables stage2 translation
-+     * HCR_DC disables stage1 and enables stage2 translation
-+     * HCR_E2H enables E2&0 translation regime.
-      */
--    if ((env->cp15.hcr_el2 ^ value) & (HCR_VM | HCR_PTW | HCR_DC)) {
-+    if ((old_value ^ value) & (HCR_VM | HCR_PTW | HCR_DC | HCR_E2H)) {
-         tlb_flush(CPU(cpu));
-+        /* Also install the correct ASID for the regime.  */
-+        if (value & HCR_E2H) {
-+            update_el2_asid(env);
-+        } else {
-+            update_lpae_el1_asid(env, false);
-+        }
-     }
--    env->cp15.hcr_el2 = value;
- 
-     /*
-      * Updates to VI and VF require us to update the status of
+     switch (mmu_idx) {
+     case ARMMMUIdx_SE0:
++    case ARMMMUIdx_EL20_0:
+     case ARMMMUIdx_Stage1_E0:
+     case ARMMMUIdx_MUser:
+     case ARMMMUIdx_MSUser:
 -- 
 2.17.1
 
