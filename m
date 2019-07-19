@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2766E6B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:44:52 +0200 (CEST)
-Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210236E6C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:45:16 +0200 (CEST)
+Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoTBr-0005dM-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
+	id 1hoTCE-0007MW-Os
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40293)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hoTB5-0003Bg-JP
+ (envelope-from <kwolf@redhat.com>) id 1hoTB6-0003Er-AW
  for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hoTB4-0003TY-4S
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39418)
+ (envelope-from <kwolf@redhat.com>) id 1hoTB5-0003U7-0t
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:44:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42502)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hoTB1-0003Qx-0M; Fri, 19 Jul 2019 09:43:59 -0400
+ id 1hoTB2-0003Rq-5L; Fri, 19 Jul 2019 09:44:00 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4E6EB30C34CF;
- Fri, 19 Jul 2019 13:43:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7A62A3091754;
+ Fri, 19 Jul 2019 13:43:59 +0000 (UTC)
 Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
  [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66448608A4;
- Fri, 19 Jul 2019 13:43:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91987608A4;
+ Fri, 19 Jul 2019 13:43:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 19 Jul 2019 15:43:34 +0200
-Message-Id: <20190719134345.23526-3-kwolf@redhat.com>
+Date: Fri, 19 Jul 2019 15:43:35 +0200
+Message-Id: <20190719134345.23526-4-kwolf@redhat.com>
 In-Reply-To: <20190719134345.23526-1-kwolf@redhat.com>
 References: <20190719134345.23526-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 19 Jul 2019 13:43:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 19 Jul 2019 13:43:59 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/13] block: Introduce
- BdrvChild.parent_quiesce_counter
+Subject: [Qemu-devel] [PULL 03/13] tests: Add job commit by drained_end test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,191 +61,154 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Commit 5cb2737e925042e6c7cd3fb0b01313950b03cddf laid out why
-bdrv_do_drained_end() must decrement the quiesce_counter after
-bdrv_drain_invoke().  It did not give a very good reason why it has to
-happen after bdrv_parent_drained_end(), instead only claiming symmetry
-to bdrv_do_drained_begin().
-
-It turns out that delaying it for so long is wrong.
-
-Situation: We have an active commit job (i.e. a mirror job) from top to
-base for the following graph:
-
-                  filter
-                    |
-                  [file]
-                    |
-                    v
-top --[backing]--> base
-
-Now the VM is closed, which results in the job being cancelled and a
-bdrv_drain_all() happening pretty much simultaneously.
-
-Beginning the drain means the job is paused once whenever one of its
-nodes is quiesced.  This is reversed when the drain ends.
-
-With how the code currently is, after base's drain ends (which means
-that it will have unpaused the job once), its quiesce_counter remains at
-1 while it goes to undrain its parents (bdrv_parent_drained_end()).  For
-some reason or another, undraining filter causes the job to be kicked
-and enter mirror_exit_common(), where it proceeds to invoke
-block_job_remove_all_bdrv().
-
-Now base will be detached from the job.  Because its quiesce_counter is
-still 1, it will unpause the job once more.  So in total, undraining
-base will unpause the job twice.  Eventually, this will lead to the
-job's pause_count going negative -- well, it would, were there not an
-assertion against this, which crashes qemu.
-
-The general problem is that if in bdrv_parent_drained_end() we undrain
-parent A, and then undrain parent B, which then leads to A detaching the
-child, bdrv_replace_child_noperm() will undrain A as if we had not done
-so yet; that is, one time too many.
-
-It follows that we cannot decrement the quiesce_counter after invoking
-bdrv_parent_drained_end().
-
-Unfortunately, decrementing it before bdrv_parent_drained_end() would be
-wrong, too.  Imagine the above situation in reverse: Undraining A leads
-to B detaching the child.  If we had already decremented the
-quiesce_counter by that point, bdrv_replace_child_noperm() would undrain
-B one time too little; because it expects bdrv_parent_drained_end() to
-issue this undrain.  But bdrv_parent_drained_end() won't do that,
-because B is no longer a parent.
-
-Therefore, we have to do something else.  This patch opts for
-introducing a second quiesce_counter that counts how many times a
-child's parent has been quiesced (though c->role->drained_*).  With
-that, bdrv_replace_child_noperm() just has to undrain the parent exactly
-that many times when removing a child, and it will always be right.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block.h     |  7 +++++++
- include/block/block_int.h |  9 +++++++++
- block.c                   | 15 +++++----------
- block/io.c                | 14 +++++++++++---
- 4 files changed, 32 insertions(+), 13 deletions(-)
+ tests/test-bdrv-drain.c | 119 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 734c9d2f76..bff3317696 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -617,6 +617,13 @@ void bdrv_parent_drained_begin(BlockDriverState *bs,=
- BdrvChild *ignore,
-  */
- void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll);
-=20
-+/**
-+ * bdrv_parent_drained_end_single:
-+ *
-+ * End a quiesced section for the parent of @c.
-+ */
-+void bdrv_parent_drained_end_single(BdrvChild *c);
-+
- /**
-  * bdrv_parent_drained_end:
-  *
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 50902531b7..f5b044fcdb 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -729,6 +729,15 @@ struct BdrvChild {
-      */
-     bool frozen;
-=20
-+    /*
-+     * How many times the parent of this child has been drained
-+     * (through role->drained_*).
-+     * Usually, this is equal to bs->quiesce_counter (potentially
-+     * reduced by bdrv_drain_all_count).  It may differ while the
-+     * child is entering or leaving a drained section.
-+     */
-+    int parent_quiesce_counter;
-+
-     QLIST_ENTRY(BdrvChild) next;
-     QLIST_ENTRY(BdrvChild) next_parent;
- };
-diff --git a/block.c b/block.c
-index 29e931e217..8440712ca0 100644
---- a/block.c
-+++ b/block.c
-@@ -2251,24 +2251,19 @@ static void bdrv_replace_child_noperm(BdrvChild *=
-child,
-         if (child->role->detach) {
-             child->role->detach(child);
-         }
--        if (old_bs->quiesce_counter && child->role->drained_end) {
--            int num =3D old_bs->quiesce_counter;
--            if (child->role->parent_is_bds) {
--                num -=3D bdrv_drain_all_count;
--            }
--            assert(num >=3D 0);
--            for (i =3D 0; i < num; i++) {
--                child->role->drained_end(child);
--            }
-+        while (child->parent_quiesce_counter) {
-+            bdrv_parent_drained_end_single(child);
-         }
-         QLIST_REMOVE(child, next_parent);
-+    } else {
-+        assert(child->parent_quiesce_counter =3D=3D 0);
-     }
-=20
-     child->bs =3D new_bs;
-=20
-     if (new_bs) {
-         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
--        if (new_bs->quiesce_counter && child->role->drained_begin) {
-+        if (new_bs->quiesce_counter) {
-             int num =3D new_bs->quiesce_counter;
-             if (child->role->parent_is_bds) {
-                 num -=3D bdrv_drain_all_count;
-diff --git a/block/io.c b/block/io.c
-index 24a18759fd..1e618f9a37 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -55,6 +55,15 @@ void bdrv_parent_drained_begin(BlockDriverState *bs, B=
-drvChild *ignore,
-     }
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index 12e2ecf517..3503ce3b69 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -1527,6 +1527,122 @@ static void test_set_aio_context(void)
+     iothread_join(b);
  }
 =20
-+void bdrv_parent_drained_end_single(BdrvChild *c)
++
++typedef struct TestDropBackingBlockJob {
++    BlockJob common;
++    bool should_complete;
++    bool *did_complete;
++} TestDropBackingBlockJob;
++
++static int coroutine_fn test_drop_backing_job_run(Job *job, Error **errp=
+)
 +{
-+    assert(c->parent_quiesce_counter > 0);
-+    c->parent_quiesce_counter--;
-+    if (c->role->drained_end) {
-+        c->role->drained_end(c);
++    TestDropBackingBlockJob *s =3D
++        container_of(job, TestDropBackingBlockJob, common.job);
++
++    while (!s->should_complete) {
++        job_sleep_ns(job, 0);
 +    }
++
++    return 0;
 +}
 +
- void bdrv_parent_drained_end(BlockDriverState *bs, BdrvChild *ignore,
-                              bool ignore_bds_parents)
++static void test_drop_backing_job_commit(Job *job)
++{
++    TestDropBackingBlockJob *s =3D
++        container_of(job, TestDropBackingBlockJob, common.job);
++
++    bdrv_set_backing_hd(blk_bs(s->common.blk), NULL, &error_abort);
++
++    *s->did_complete =3D true;
++}
++
++static const BlockJobDriver test_drop_backing_job_driver =3D {
++    .job_driver =3D {
++        .instance_size  =3D sizeof(TestDropBackingBlockJob),
++        .free           =3D block_job_free,
++        .user_resume    =3D block_job_user_resume,
++        .drain          =3D block_job_drain,
++        .run            =3D test_drop_backing_job_run,
++        .commit         =3D test_drop_backing_job_commit,
++    }
++};
++
++/**
++ * Creates a child node with three parent nodes on it, and then runs a
++ * block job on the final one, parent-node-2.
++ *
++ * (TODO: parent-node-0 currently serves no purpose, but will as of a
++ * follow-up patch.)
++ *
++ * The job is then asked to complete before a section where the child
++ * is drained.
++ *
++ * Ending this section will undrain the child's parents, first
++ * parent-node-2, then parent-node-1, then parent-node-0 -- the parent
++ * list is in reverse order of how they were added.  Ending the drain
++ * on parent-node-2 will resume the job, thus completing it and
++ * scheduling job_exit().
++ *
++ * Ending the drain on parent-node-1 will poll the AioContext, which
++ * lets job_exit() and thus test_drop_backing_job_commit() run.  That
++ * function removes the child as parent-node-2's backing file.
++ *
++ * In old (and buggy) implementations, there are two problems with
++ * that:
++ * (A) bdrv_drain_invoke() polls for every node that leaves the
++ *     drained section.  This means that job_exit() is scheduled
++ *     before the child has left the drained section.  Its
++ *     quiesce_counter is therefore still 1 when it is removed from
++ *     parent-node-2.
++ *
++ * (B) bdrv_replace_child_noperm() calls drained_end() on the old
++ *     child's parents as many times as the child is quiesced.  This
++ *     means it will call drained_end() on parent-node-2 once.
++ *     Because parent-node-2 is no longer quiesced at this point, this
++ *     will fail.
++ *
++ * bdrv_replace_child_noperm() therefore must call drained_end() on
++ * the parent only if it really is still drained because the child is
++ * drained.
++ */
++static void test_blockjob_commit_by_drained_end(void)
++{
++    BlockDriverState *bs_child, *bs_parents[3];
++    TestDropBackingBlockJob *job;
++    bool job_has_completed =3D false;
++    int i;
++
++    bs_child =3D bdrv_new_open_driver(&bdrv_test, "child-node", BDRV_O_R=
+DWR,
++                                    &error_abort);
++
++    for (i =3D 0; i < 3; i++) {
++        char name[32];
++        snprintf(name, sizeof(name), "parent-node-%i", i);
++        bs_parents[i] =3D bdrv_new_open_driver(&bdrv_test, name, BDRV_O_=
+RDWR,
++                                             &error_abort);
++        bdrv_set_backing_hd(bs_parents[i], bs_child, &error_abort);
++    }
++
++    job =3D block_job_create("job", &test_drop_backing_job_driver, NULL,
++                           bs_parents[2], 0, BLK_PERM_ALL, 0, 0, NULL, N=
+ULL,
++                           &error_abort);
++
++    job->did_complete =3D &job_has_completed;
++
++    job_start(&job->common.job);
++
++    job->should_complete =3D true;
++    bdrv_drained_begin(bs_child);
++    g_assert(!job_has_completed);
++    bdrv_drained_end(bs_child);
++    g_assert(job_has_completed);
++
++    bdrv_unref(bs_parents[0]);
++    bdrv_unref(bs_parents[1]);
++    bdrv_unref(bs_parents[2]);
++    bdrv_unref(bs_child);
++}
++
+ int main(int argc, char **argv)
  {
-@@ -64,9 +73,7 @@ void bdrv_parent_drained_end(BlockDriverState *bs, Bdrv=
-Child *ignore,
-         if (c =3D=3D ignore || (ignore_bds_parents && c->role->parent_is=
-_bds)) {
-             continue;
-         }
--        if (c->role->drained_end) {
--            c->role->drained_end(c);
--        }
-+        bdrv_parent_drained_end_single(c);
-     }
- }
+     int ret;
+@@ -1610,6 +1726,9 @@ int main(int argc, char **argv)
 =20
-@@ -96,6 +103,7 @@ static bool bdrv_parent_drained_poll(BlockDriverState =
-*bs, BdrvChild *ignore,
+     g_test_add_func("/bdrv-drain/set_aio_context", test_set_aio_context)=
+;
 =20
- void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
- {
-+    c->parent_quiesce_counter++;
-     if (c->role->drained_begin) {
-         c->role->drained_begin(c);
-     }
++    g_test_add_func("/bdrv-drain/blockjob/commit_by_drained_end",
++                    test_blockjob_commit_by_drained_end);
++
+     ret =3D g_test_run();
+     qemu_event_destroy(&done_event);
+     return ret;
 --=20
 2.20.1
 
