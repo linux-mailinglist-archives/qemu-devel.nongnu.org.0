@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EC76E817
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:42:14 +0200 (CEST)
-Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4364D6E81C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:43:25 +0200 (CEST)
+Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoV1S-0004B8-1y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34483)
+	id 1hoV2a-0005D0-D1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34677)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hoV1F-0003lc-89
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:42:02 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hoV2N-0004lZ-I4
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:43:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hoV17-0003UR-9x
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:41:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38738)
+ (envelope-from <stefanha@redhat.com>) id 1hoV2J-0003wl-Cl
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:43:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49218)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hoV0m-0002pq-Tx; Fri, 19 Jul 2019 11:41:34 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hoV1u-0003Gv-8E; Fri, 19 Jul 2019 11:42:46 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 340D57FDE5;
- Fri, 19 Jul 2019 15:40:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DAC992EED0A;
+ Fri, 19 Jul 2019 15:41:22 +0000 (UTC)
 Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6874608AB;
- Fri, 19 Jul 2019 15:39:54 +0000 (UTC)
-Date: Fri, 19 Jul 2019 16:39:54 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF5116A233;
+ Fri, 19 Jul 2019 15:41:16 +0000 (UTC)
+Date: Fri, 19 Jul 2019 16:41:15 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190719153954.GF24412@stefanha-x1.localdomain>
+Message-ID: <20190719154115.GG24412@stefanha-x1.localdomain>
 References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
- <20190719133530.28688-11-mehta.aaru20@gmail.com>
+ <20190719133530.28688-12-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bqc0IY4JZZt50bUr"
+ protocol="application/pgp-signature"; boundary="BzCohdixPhurzSK4"
 Content-Disposition: inline
-In-Reply-To: <20190719133530.28688-11-mehta.aaru20@gmail.com>
+In-Reply-To: <20190719133530.28688-12-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 19 Jul 2019 15:40:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 19 Jul 2019 15:41:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 10/14] block/io_uring: adds userspace
- completion polling
+Subject: Re: [Qemu-devel] [PATCH v6 11/14] qemu-io: adds option to use aio
+ engine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,32 +69,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Bqc0IY4JZZt50bUr
+--BzCohdixPhurzSK4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2019 at 07:05:26PM +0530, Aarushi Mehta wrote:
+On Fri, Jul 19, 2019 at 07:05:27PM +0530, Aarushi Mehta wrote:
+> Use -i AIOMODE instead of -k.
+>=20
 > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 > ---
->  block/io_uring.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+>  qemu-io.c | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/qemu-io.c b/qemu-io.c
+> index f64eca6940..3cee06248e 100644
+> --- a/qemu-io.c
+> +++ b/qemu-io.c
+> @@ -130,7 +130,7 @@ static void open_help(void)
+>  " -C, -- use copy-on-read\n"
+>  " -n, -- disable host cache, short for -t none\n"
+>  " -U, -- force shared permissions\n"
+> -" -k, -- use kernel AIO implementation (on Linux only)\n"
+> +" -i, -- use AIO mode (threads, native or io_uring)"
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Please keep the existing option for backwards compatibility.  Existing
+command-lines must continue to work so we don't inconvenience users.
 
---Bqc0IY4JZZt50bUr
+--BzCohdixPhurzSK4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x5EkACgkQnKSrs4Gr
-c8ir/AgAkBwJ+hM/Ff7AW8i402CA5CG1FoV0CtwFM5Zsjqe8wAnMNNmHgqGB7iy5
-EFwHNwNkcQMoAUgrG8oqrSw2wtgvm7K7rDSBRwwVZwMqsVQqTcPgLK5eC0VZHkvV
-UeBna8n46pbP8GSoG/bxO0hLBKdsJDugvjSUPPHgMVQHHA5kLj+uwOoIOlRm7147
-S9X3CNW7QKyrEiP/WTCeYt0WU7ZlGIwbbKGUKstUWwS871qQxnW4f5eeqVzhwFnM
-1Obkvejn8F4GfYiS2PxXdhcwTvYC/9o6JDBb/ktSq2AqkZXtlHN137UZEvMf8Kx3
-Bt+qO12pBYHa8sMDrM6/o/yv90R9tQ==
-=V8Jq
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x5JsACgkQnKSrs4Gr
+c8jjaQgAo7Sqrhd/UzLtdqKJThIgSK5Ejk3s38hx7ASal0mQPWsqtvukDn1r41sN
+nPFf9FYpO1YWaNZ/xCm7Y5RkIxAXMjGES+2M5yLbTpYl0PMm0yq278xH9dNNk4rG
+/9Lj/qm0Ctx/R3TWPkhCB5qKnQ7WWTY2fAtv0cYAF2RbBVrZAwvxrIVdb+L2MQUC
+2zOa7Uo4hIwGN+8yDY17rbIcRuKlMMW3mT+eAwmwljBM3xq+4xkUT/hrOOP9WgOE
+CJdJ63lFvJK2i42XEiV6+2NRJPDVg7PszgpgFCvNYRvKZqTq3Q0Mf/t3Mhf5cMty
+3Z/pjPBuT86e+lV/cJPo/n45QmJAZA==
+=3D9G
 -----END PGP SIGNATURE-----
 
---Bqc0IY4JZZt50bUr--
+--BzCohdixPhurzSK4--
 
