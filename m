@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C186E815
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:40:21 +0200 (CEST)
-Received: from localhost ([::1]:46392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EC76E817
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:42:14 +0200 (CEST)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoUzc-0001z0-L1
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34203)
+	id 1hoV1S-0004B8-1y
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:42:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34483)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hoUzA-0000YQ-Pw
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:39:53 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hoV1F-0003lc-89
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:42:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hoUz6-0002mk-O8
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:39:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44006)
+ (envelope-from <stefanha@redhat.com>) id 1hoV17-0003UR-9x
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38738)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hoUyv-0001jV-Rd; Fri, 19 Jul 2019 11:39:38 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hoV0m-0002pq-Tx; Fri, 19 Jul 2019 11:41:34 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 26DEE3092651;
- Fri, 19 Jul 2019 15:36:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 340D57FDE5;
+ Fri, 19 Jul 2019 15:40:01 +0000 (UTC)
 Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE98F60BF3;
- Fri, 19 Jul 2019 15:36:52 +0000 (UTC)
-Date: Fri, 19 Jul 2019 16:36:38 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6874608AB;
+ Fri, 19 Jul 2019 15:39:54 +0000 (UTC)
+Date: Fri, 19 Jul 2019 16:39:54 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190719153638.GD24412@stefanha-x1.localdomain>
+Message-ID: <20190719153954.GF24412@stefanha-x1.localdomain>
 References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
- <20190719133530.28688-8-mehta.aaru20@gmail.com>
+ <20190719133530.28688-11-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PHCdUe6m4AxPMzOu"
+ protocol="application/pgp-signature"; boundary="Bqc0IY4JZZt50bUr"
 Content-Disposition: inline
-In-Reply-To: <20190719133530.28688-8-mehta.aaru20@gmail.com>
+In-Reply-To: <20190719133530.28688-11-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 19 Jul 2019 15:36:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Fri, 19 Jul 2019 15:40:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 07/14] blockdev: accept io_uring as
- option
+Subject: Re: [Qemu-devel] [PATCH v6 10/14] block/io_uring: adds userspace
+ completion polling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,32 +69,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---PHCdUe6m4AxPMzOu
+--Bqc0IY4JZZt50bUr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Jul 19, 2019 at 07:05:23PM +0530, Aarushi Mehta wrote:
+On Fri, Jul 19, 2019 at 07:05:26PM +0530, Aarushi Mehta wrote:
 > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 > ---
->  blockdev.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+>  block/io_uring.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---PHCdUe6m4AxPMzOu
+--Bqc0IY4JZZt50bUr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x44YACgkQnKSrs4Gr
-c8gLmwgAyWboxTpevgBSfw/bP1F50u0uMqD9PKJaNpfylvnTdzrb5SrYxP/RsmiB
-lXz0vw6aGR6OMT5FKVYQ7/aMeQxeU2R8qQHI5gy41EsdQ9H4GEI6cV5e/w07EOg4
-8mu72Qqz8xjgd2taugG9bIlAJAZ+IcqH/dqL4XToPD6zZAUFwYW1O600SUgQWFpT
-BNRef89Ic3ufS+H2XnhhmbLFGTtmLlT9Ez/d+uKZUIfbIEW44b3G0ed4Arixii4i
-MmBKsU6Z0Pch2Sg8y1skhWgsR/cGQGYGzqN1hP+vNFJSi1cp29eaDGjStZT1/o+6
-j1BnOk29nR1LaSfsDOiNUi8yil2yag==
-=0skM
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x5EkACgkQnKSrs4Gr
+c8ir/AgAkBwJ+hM/Ff7AW8i402CA5CG1FoV0CtwFM5Zsjqe8wAnMNNmHgqGB7iy5
+EFwHNwNkcQMoAUgrG8oqrSw2wtgvm7K7rDSBRwwVZwMqsVQqTcPgLK5eC0VZHkvV
+UeBna8n46pbP8GSoG/bxO0hLBKdsJDugvjSUPPHgMVQHHA5kLj+uwOoIOlRm7147
+S9X3CNW7QKyrEiP/WTCeYt0WU7ZlGIwbbKGUKstUWwS871qQxnW4f5eeqVzhwFnM
+1Obkvejn8F4GfYiS2PxXdhcwTvYC/9o6JDBb/ktSq2AqkZXtlHN137UZEvMf8Kx3
+Bt+qO12pBYHa8sMDrM6/o/yv90R9tQ==
+=V8Jq
 -----END PGP SIGNATURE-----
 
---PHCdUe6m4AxPMzOu--
+--Bqc0IY4JZZt50bUr--
 
