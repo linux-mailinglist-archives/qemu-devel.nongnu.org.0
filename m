@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378AA6E656
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:27:59 +0200 (CEST)
-Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11556E64F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 15:27:19 +0200 (CEST)
+Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoSvW-0002oi-2i
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35313)
+	id 1hoSut-0008KX-19
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 09:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hoStw-0004ZU-KO
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:21 -0400
+ (envelope-from <philmd@redhat.com>) id 1hoSuG-00063F-Qb
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hoStv-0008CI-Km
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:10478)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hoStt-00089F-Nq; Fri, 19 Jul 2019 09:26:17 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1768D80F6D;
- Fri, 19 Jul 2019 13:26:17 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 497901001B03;
- Fri, 19 Jul 2019 13:26:14 +0000 (UTC)
-Date: Fri, 19 Jul 2019 15:26:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190719132612.GB5036@dhcp-200-226.str.redhat.com>
-References: <20190612220839.1374-1-mreitz@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hoSuF-0008Om-BV
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:40 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43425)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hoSuF-0008OB-4Q
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 09:26:39 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p13so32237518wru.10
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 06:26:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zpvdhbcgNmMV6O50ezlXk3Iu7JYFRd/WhriA3rDTGwo=;
+ b=TBISELE9sUSkllg1fWe3nlYGzrUd94AMRUM5c7HsIm3gbmHqDhNEdl1i0oQ/F+nDaN
+ q+UwRsTkswqYmbQgqF3ukcjffKSf6yiWtuvHNd6kW1yKgKy+4OVLiAnYIo8O8mvigN9n
+ iwbSeHVHNh7M0OsdZcbOdwQTcxG7b3giShihhymjMwAnnvtrGtEzfKcK/BCxbcYvqYb7
+ LUdoVlQsnItBJVHFZjv72CbrSyV+0OYHdA33wyUl7qCmAcpnfXuFxkdL2qZ/oKMsopu0
+ 6xtJSR9mLJLcqRTjjDxCS8k/urPzptdbin0Os1Q2HlFQzFmOj1p4PRIyjrnfUoQHW+NW
+ 45wQ==
+X-Gm-Message-State: APjAAAVfty3Gd4f+0dHhJx+g4OMjee5xSISnGy6B/Hn4SaBc9NGmspK6
+ JjK5xK50w5zNMBii++DwtvNHwQ==
+X-Google-Smtp-Source: APXvYqxxvBON0ACltwoueT8Crerwxbr2LS9ZY3yBe9R3G8uo6+Yiaz8L2Y9reSn84h6aBZznGEMIhw==
+X-Received: by 2002:a5d:6a84:: with SMTP id s4mr55658805wru.125.1563542798043; 
+ Fri, 19 Jul 2019 06:26:38 -0700 (PDT)
+Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id p12sm24587087wrt.13.2019.07.19.06.26.37
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jul 2019 06:26:37 -0700 (PDT)
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20190719082647.18113-1-mrolnik@gmail.com>
+ <20190719082647.18113-9-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <da64fd46-c0f0-b6b6-3b8f-d3da9041605d@redhat.com>
+Date: Fri, 19 Jul 2019 15:26:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190612220839.1374-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 19 Jul 2019 13:26:17 +0000 (UTC)
+In-Reply-To: <20190719082647.18113-9-mrolnik@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] vl: Drain before (block) job cancel
- when quitting
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v27 8/8] target/avr: Add tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,28 +74,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.06.2019 um 00:08 hat Max Reitz geschrieben:
-> Quitting qemu should lead to qemu exiting pretty much immediately.  That
-> means if you have a block job running on a throttled block node, the
-> node should ignore its throttling and the job should be cancelled
-> immediately.
-> 
-> Unfortunately, that is not what happens.  Currently, the node will be
-> drained (with a bdrv_drain_all()), and then again unquiesced (because
-> bdrv_drain_all() ends).  Then, the block job is cancelled; but at this
-> point, the node is no longer drained, so it will block, as it befits a
-> throttling node.
-> 
-> To fix this issue, we have to keep all nodes drained while we cancel all
-> block jobs when quitting qemu.  This will make the throttle node ignore
-> its throttling and thus let the block job cancel immediately.
+On 7/19/19 10:26 AM, Michael Rolnik wrote:
+> 1. Avocado test
+>     The test is based on
+>     https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
+>     demo which, If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out
 
-Thanks, applied to the block branch.
+Note, that test also demonstrates the timer and irq are working :)
 
-Kevin
+Enabling DB_PRINT:
+
+avr_timer16_interrupt: CTC OCRA overflow
+avr_timer16_interrupt: interrupt, cnt = 253
+avr_timer16_interrupt: CTC OCRA overflow
+avr_timer16_interrupt: interrupt, cnt = 269
+avr_timer16_interrupt: CTC OCRA overflow
+avr_timer16_interrupt: interrupt, cnt = 269
+
+(There is also GPIO accesses but you don't implement them yet).
+
+> 
+> 2. Boot serial test
+>     Prinit out 'T' through serial port
+
+Excellent!
+
+> 
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> ---
+>  tests/Makefile.include           |  2 ++
+>  tests/acceptance/machine_avr6.py | 36 ++++++++++++++++++++++++++++++++
+>  tests/boot-serial-test.c         | 12 +++++++++++
+>  3 files changed, 50 insertions(+)
+>  create mode 100644 tests/acceptance/machine_avr6.py
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index fd7fdb8658..8a186dcc23 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -201,6 +201,8 @@ check-qtest-i386-y += tests/test-x86-cpuid-compat$(EXESUF)
+>  check-qtest-i386-y += tests/numa-test$(EXESUF)
+>  check-qtest-x86_64-y += $(check-qtest-i386-y)
+>  
+> +check-qtest-avr-y += tests/boot-serial-test$(EXESUF)
+> +
+>  check-qtest-alpha-y += tests/boot-serial-test$(EXESUF)
+>  check-qtest-alpha-$(CONFIG_VGA) += tests/display-vga-test$(EXESUF)
+>  
+> diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
+> new file mode 100644
+> index 0000000000..0601080b01
+> --- /dev/null
+> +++ b/tests/acceptance/machine_avr6.py
+> @@ -0,0 +1,36 @@
+> +import logging
+> +import time
+> +import distutils.spawn
+> +
+> +from avocado import skipUnless
+> +from avocado_qemu import Test
+> +from avocado.utils import process
+> +
+> +class AVR6Machine(Test):
+> +    timeout = 5
+> +
+> +    def test_freertos(self):
+> +        """
+> +        :avocado: tags=arch:avr
+> +        :avocado: tags=machine:sample
+> +        """
+> +        """
+> +        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
+> +        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
+> +        """
+> +        rom_url = 'https://github.com/seharris/qemu-avr-tests'
+> +        rom_url += '/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
+> +        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
+> +        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
+> +
+> +        self.vm.set_machine('sample')
+> +        self.vm.add_args('-bios', rom_path)
+> +        self.vm.add_args('-nographic')
+> +        self.vm.launch()
+> +
+> +        time.sleep(2)
+> +        self.vm.shutdown()
+> +
+> +        match = 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
+> +
+> +        self.assertIn(match, self.vm.get_log())
+> diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
+> index 24852d4c7d..73d273b73f 100644
+> --- a/tests/boot-serial-test.c
+> +++ b/tests/boot-serial-test.c
+> @@ -16,6 +16,17 @@
+>  #include "qemu/osdep.h"
+>  #include "libqtest.h"
+>  
+> +static const uint8_t bios_avr[] = {
+> +    0x89, 0xe1,             /* ldi r24, 0x19   */
+> +    0x80, 0x93, 0xc5, 0x00, /* sts 0x00C5, r24 ; set baud rate to 38400 */
+
+FWIW we can remove the previous two lines, we don't care about the
+baudrate in this test.
+
+> +    0x88, 0xe0,             /* ldi r24, 0x08   */
+> +    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
+> +    0x86, 0xe0,             /* ldi r24, 0x06   */
+> +    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
+> +    0x84, 0xe5,             /* ldi r24, 0x54   */
+> +    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
+> +};
+> +
+>  static const uint8_t kernel_mcf5208[] = {
+>      0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+>      0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+> @@ -92,6 +103,7 @@ typedef struct testdef {
+>  
+>  static testdef_t tests[] = {
+>      { "alpha", "clipper", "", "PCI:" },
+> +    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
+>      { "ppc", "ppce500", "", "U-Boot" },
+>      { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+>      { "ppc", "g3beige", "", "PowerPC,750" },
+> 
+
+Testing shows:
+
+  TEST    check-qtest-avr: tests/boot-serial-test
+qemu-system-avr: Unable to load /tmp/qtest-boot-serial-cOndewD as ELF,
+trying again as raw binary
+
+I wonder if this might fail Peter's testing, so Cc'ing Thomas.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Regards,
+
+Phil.
 
