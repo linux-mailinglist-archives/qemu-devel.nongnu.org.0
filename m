@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC9B6E885
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:15:46 +0200 (CEST)
-Received: from localhost ([::1]:46922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614986E894
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:21:23 +0200 (CEST)
+Received: from localhost ([::1]:46958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVXt-0004E7-Hi
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
+	id 1hoVdK-0000xf-Js
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41599)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hoVXg-0003pP-HW
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:15:33 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hoVd6-0000UU-HJ
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hoVXd-0003xT-1g
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:15:31 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:41404)
+ (envelope-from <alistair23@gmail.com>) id 1hoVcs-0006M7-R3
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:00 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:35451)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hoVXb-0003uC-79
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:15:28 -0400
-Received: by mail-oi1-x231.google.com with SMTP id g7so24663581oia.8
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 09:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hoVcp-0005lb-Mr; Fri, 19 Jul 2019 12:20:52 -0400
+Received: by mail-lj1-x235.google.com with SMTP id x25so31364749ljh.2;
+ Fri, 19 Jul 2019 09:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1UeMxkq7t8QRKwKpCfqvz9Kzp5g1GEHGFFjvidCOKXQ=;
- b=BWi6fyS3fXkmRZ5zJT/oCT3tMmG6NjeVeIhUs08MnUhnKQSDE+FcIHFBz4RWZBHwsv
- 2WyqoPdak2ub3qmWWIUYjaxFbo0F23EPwbsEPY1oK2lq36UGLxTjpfTOwyfaR8pOQhJL
- O1kgquggc4BPGHmEO1pty9grVT46i0H76I4fJYGVY3UzkZXsrtD47qNfECN+Ueqa62jM
- 1IUJtsKLLaC9/nZxk5lLPuhOZ4H51dWBc8zAi8B2G1j6VeOdLiEMR/Ad4ld/K6x+hwOl
- SahntkDLem29Qn/EvddKHfcfOXvYflAdZnG+UZUoOaeyEODUjuq6WDjRwz6M3XszLNZ9
- nKyg==
+ :cc; bh=fFo+CuEPeHwBPOBeb8KPru+ObIIM6iFnpGufu0nSdZU=;
+ b=s0dbBfiylTYR8n2kcx9hjS7Smb4V0pqNmjI+SvjPlqyDK6eSOqmPP7q+RJfTJS3S38
+ bfD9V2lOLaDeuoJm4/FuFnsCJMAu7odEniUrH+BKSe6zjN3WnAOpM5XWHJTy6XxHzPpL
+ 5Qz/5wOwW1uX19H0GhuvkuEnekTsMi78mDGZY5+k4UPRtQLbt8OnlBifxq2BPllQ0eAs
+ e5rASm62zuuoW5o5H0WRY+uoDOiFXlYs03rBkUJslDcHWoUo13MKFBbP+6At8LrNjqcb
+ x5Bu49fFjGNOq+7wHCEvEkyj/0uNqsfC0rR2S4JMO9E7DtxSg5nF8Gb+3HZsN60Al0he
+ srrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1UeMxkq7t8QRKwKpCfqvz9Kzp5g1GEHGFFjvidCOKXQ=;
- b=F2U7bQ8/hJB0sbIoBL28UF93yEgYpx/dM2QzhsqL8lPIQ58JM5LY90RK3Fz+5ADVXl
- /mOINrbDMI3VUfwYlfbsaERxPqPiCJsrwVi9CSzKn5C6HntDHWGrotWERjS0a9H8VwrX
- Kw+ay9jbmLY1h1PmMt/NQQ1G+Zw5VEgn7o+Zn+6+5OxMFFAsOZ5m38rVwTAna+Da12MI
- DkZr3JH+qXSOq+BBzp0zijVjIQ+oDDcM6pykKEMNpnUs4L+WRi7iofT74bFfQ7bl2LTC
- 1Y2tnQKFMRKrmSUExUouKg4kB7rA9vJEM3QcoFx5Qcy0/6y+5+kj/cSKgwl/8BWKohjX
- v9mw==
-X-Gm-Message-State: APjAAAVqMt6GmAuBUkXGLEsPNAsqelaFPd+W6X2BDegDIaG1XOK4Psed
- WCC2CslkAiaCXIoMU8txWNlFowQn/fYBoWBmvOHDmQ==
-X-Google-Smtp-Source: APXvYqw/qhB4Pk1RBXFg7o+ZtCqOx0bB9pzYifsGVtCTYyvXK+14GkAOVjxAQxefqLZcLJWDmJbvPwB7H78d3K/+Cz8=
-X-Received: by 2002:a05:6808:8c2:: with SMTP id
- k2mr26106671oij.98.1563552919444; 
- Fri, 19 Jul 2019 09:15:19 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=fFo+CuEPeHwBPOBeb8KPru+ObIIM6iFnpGufu0nSdZU=;
+ b=i14gMqHGcoHwu2xa9IjEbinsT0PPFVwgC9vGpdVFGW/hLhk2jspvYCnbU/uFUPFY3+
+ AJNuwLWpFNg/hRCILhzbWi2SiUZBCsE+SSq73NWSDn8mDgLPJgfVTp3Lo+9KTgh8z6P/
+ ez8LtSxqtySFST8LwGInM8W5MLu6WZUQ5XUY4iTWx+JPG7bShCNj+0ty7KG9qreuB+l1
+ InQBZRfCFK/4KAavyntu80t1608UlVty/L5OBpORradQzhyZhaXfEwVfBlCIIsnvyptV
+ +2QH1yvg7CQkiSUre36ZpHa+5sWaRxIvvCXnoU8GWfs0qTEzrOO2PBsaDay9y8cthykl
+ kxOg==
+X-Gm-Message-State: APjAAAWnaDp2w4k89DUUHJf6m8QjWN43Q9Cc0KcBW/y+6yyajq9NGB98
+ TyopM5/hv69rzpghFSn7J9q2Xcb9rrIIYozv/tU=
+X-Google-Smtp-Source: APXvYqz5vJecAc5SBh2jhX+5BLONEwHwYP8EQgGgh9KUSN/yA3QLgL2ukpA8MjdYY5927Z4Tvfoscpb46L2DkNgOfug=
+X-Received: by 2002:a2e:b4c9:: with SMTP id r9mr28051885ljm.196.1563553177618; 
+ Fri, 19 Jul 2019 09:19:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1563264677-39718-1-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Jul 2019 17:15:08 +0100
-Message-ID: <CAFEAcA-Q6siS3gTRdq7+f0vx-Vd7-DmX1rW6+cS1yR7OqLHYyw@mail.gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20190719015811.14776-1-palmer@sifive.com>
+ <CAFEAcA_MGz=EvH67twNoM-SMXZ8_pE6FhO+JuLN=0Z1H6sfRnw@mail.gmail.com>
+ <CAFEAcA9mR5XxV9ghSzt4PbANKZJW1xKMGF1a9+ak+m6OyZ-YZQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9mR5XxV9ghSzt4PbANKZJW1xKMGF1a9+ak+m6OyZ-YZQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 19 Jul 2019 09:16:15 -0700
+Message-ID: <CAKmqyKMFfm+zGNLcHp3yf98wNH4+D8k6oFqOxp25rWmFMYF-Lg@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::231
-Subject: Re: [Qemu-devel] [PULL 00/19] Bugfix/cleanup patches for 2019-07-16
+X-Received-From: 2a00:1450:4864:20::235
+Subject: Re: [Qemu-devel] [PULL] RISC-V Patches for 4.2-rc2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,68 +72,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julio Montes <julio.montes@intel.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Jul 2019 at 09:11, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, Jul 19, 2019 at 4:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The following changes since commit 46cd24e7ed38191b5ab5c40a836d6c5b6b604f=
-8a:
+> On Fri, 19 Jul 2019 at 12:03, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > This passes the 'make check' tests but it prints out a lot
+> > of warnings as it does so:
+> >
+> > qemu-system-riscv64: warning: No -bios option specified. Not loading a firmware.
+> > qemu-system-riscv64: warning: This default will change in QEMU 4.3.
+> > Please use the -bios option to aviod breakages when this happens.
+> > qemu-system-riscv64: warning: See QEMU's deprecation documentation for details
+> >
+> > (repeated 7 or 8 times during the course of a test run)
+> >
+> > Can we make the tests not trigger warnings, please?
+> > (I have a filter where I search through for strings like
+> > "warning" because warnings that shouldn't happen often don't
+> > actually cause the tests to fail.)
 >
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into stagi=
-ng (2019-07-12 17:34:13 +0100)
->
-> are available in the git repository at:
->
->
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 45d8bc3adedeceaf449d758aee1810bfbe6feff4:
->
->   vl: make sure char-pty message displayed by moving setbuf to the beginn=
-ing (2019-07-16 09:27:16 +0200)
->
-> ----------------------------------------------------------------
-> * VFIO bugfix for AMD SEV (Alex)
-> * Kconfig improvements (Julio, Philippe)
-> * MemoryRegion reference counting bugfix (King Wang)
-> * Build system cleanups (Marc-Andr=C3=A9, myself)
-> * rdmacm-mux off-by-one (Marc-Andr=C3=A9)
-> * ZBC passthrough fixes (Shinichiro, myself)
-> * WHPX build fix (Stefan)
-> * char-pty fix (Wei Yang)
+> Forgot to mention, but a common way to do this is to say
+> "don't print the warnings about bios image loading if
+> qtest_enabled(), because with qtest we never execute any
+> guest code anyway". That will probably fix the warnings here.
 
-Hi Paolo -- it looks like this may have broken the
-travis config "--without-default-devices":
+Testing my patch now, I'll send it out today.
 
-Here's a sample failing build:
-https://travis-ci.org/qemu/qemu/jobs/559509325
+>
+> > Also, I notice that you have a typo: "aviod" should be "avoid".
 
-minikconf barfs with "contradiction between clauses"
+Fixed.
 
-Traceback (most recent call last):
-  File "/home/travis/build/qemu/qemu/scripts/minikconf.py", line 703,
-in <module>
-    config =3D data.compute_config()
-  File "/home/travis/build/qemu/qemu/scripts/minikconf.py", line 253,
-in compute_config
-    clause.process()
-  File "/home/travis/build/qemu/qemu/scripts/minikconf.py", line 188, in pr=
-ocess
-    self.dest.set_value(False, self)
-  File "/home/travis/build/qemu/qemu/scripts/minikconf.py", line 118,
-in set_value
-    raise KconfigDataError('contradiction between clauses when setting
-%s' % self)
-__main__.KconfigDataError: contradiction between clauses when setting VMMOU=
-SE
+>
+> Also also, the warning message mentions "QEMU 4.3", but our
+> versioning system bumps the major version every year, so
+> the pending release is 4.1, the next one will be 4.2, and
+> then the release after that will be 5.0 because it will be the
+> first release in 2020.
 
+I just dropped the version number in the warning message.
 
-I guess this is Julio's commit 97fd1ea8c10658?
+Alistair
 
-thanks
--- PMM
+>
+> (Plus, your merge commit message says this pullreq is
+> for 4.2-rc2, which is a typo for 4.1-rc2 I assume.)
+>
+> Since this pullreq does pass the tests, and rc2 is not far off
+> now (Tuesday), I think my suggestion is that I'll apply this
+> as-is, and we should fix up the issues with the warning messages
+> as a followup patch. I think that's better than holding this
+> out of master and making it risk missing rc2.
+>
+> thanks
+> -- PMM
 
