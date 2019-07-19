@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D90A6EA80
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 20:08:58 +0200 (CEST)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8356EA74
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 20:06:08 +0200 (CEST)
+Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoXJR-0007je-9O
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 14:08:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
+	id 1hoXGh-0004nx-RI
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 14:06:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32901)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=096e82a51=alistair.francis@wdc.com>)
- id 1hoXJE-0007Ix-M1
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:08:45 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hoXGV-0004K8-QZ
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:05:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=096e82a51=alistair.francis@wdc.com>)
- id 1hoXJD-0003wN-Ka
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:08:44 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:4819)
+ (envelope-from <dgilbert@redhat.com>) id 1hoXGT-0002KJ-KS
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:05:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36138)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=096e82a51=alistair.francis@wdc.com>)
- id 1hoXJC-0003tZ-41; Fri, 19 Jul 2019 14:08:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1563559722; x=1595095722;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xtFywvRRIClsTpWeq36BflPxyuFui3oV/7Cz2HmrsIY=;
- b=mrS2QswYaur/7OQScc8rICdm5m/OKOOaHilII+iEPK1GQyBpo7cB85DK
- wR04ricLTVBHJ45H1ZcbJB2YCV0NT3Ur9XydJRdM8oug/oC4/lFNwLAGI
- u3yKdg+hGAslmnhLS+ADsa0N70xB/5Oqxz4URUHvavZ28jpDrVBv87kYj
- lQpDWGNW0ZM3lTyAd754Du0dVYVE4+WQIgaEc1PsFYlIZdyv++UJGyMFh
- Yr/638miQr5NBT6HRZaBRq/v3Ir8ivnwNhn4lAUyOPk16JzlHJDW/UZJj
- 5s0Ll58ZauYXMlr0wxFgW9jw+1SMSiiNdLL7iFg/USHXSl9Sup6Ll322H A==;
-IronPort-SDR: CI57Xl+IINeFQe0sDResv3kNS25/YPyt+nOZSfGm+6liG0Z/+j/d65ZAuqv7Dz01UB7AhqYF5q
- vcb8Jp7p7k53ZkYXjnImH46MkSaxZ7jv7g7prreD2pDnfc9oTwx0xKMbdaVZSyd6gyMYltlU9a
- 6NVi6cMMchLZitiIKWwMkfgzFv6tan6Fbv1g9xJVmDJmPaHnjx+UqLiuSzVydS2h++gLYrUK08
- 95ptZAEV4mJowhtFiVWwatpPhevZQRFgb4QzwRnpOK2F+MFmlafc+teOMbAJrcG2F7oaDjmhGe
- O5U=
-X-IronPort-AV: E=Sophos;i="5.64,283,1559491200"; d="scan'208";a="118287673"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jul 2019 02:08:36 +0800
-IronPort-SDR: BuENbZHmGHhQgYfRieY+w9yrEuFDORsWbXxM24gza1FAQ73XSjncPUDbK5SMhTHkz6Q+R6iwf1
- IydXC95YgRIllckhNpr2Q+2fLYVxCdWNr44kRKpFlXB+l9GLTa0MthzLtfKeCp4V3M7r1iU4kf
- 7asXs9wCDwQ6i+J+SItSXiSE5P7AG6gkPTewPBJJWTNGh4+OXpmP2qqlCGGxun5fCAM74CxJba
- N/voTc2didr+oodAoXNtLRUMQ63ob0oJnkZivI6qCythgjN8igqSEfPDge7HhN1B7J0sCOVr3X
- BJXMAGQ2p5WvxSAEkKMrEAfq
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP; 19 Jul 2019 11:07:00 -0700
-IronPort-SDR: 68oeJgRsn7cwYWvoVNtxk5NwDq/7pyc27yab1v8uqNo9phRzNDuaRDshiH6/OSK25NftH3aV8Z
- mN4MsJ1wueu9OhJB4Y40C8ASxffn0gHhSxtnXWsw245+pBN4+lwOqed6P29sOppqeB7S5zOgnm
- 2qHqNHdqOvzdywldaxzl1GpKptJB7VoxIor//7a02qfM1rrgWWVruIH/A3VKmMHCIl1MG5O/jF
- ooZuBUsoIfyP7tMnh3aT/QLPJHmJ2F9yQOLByPdwldneGRev2JkY7t5atFimAd3HrFw5wTVfWk
- QyE=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip01.wdc.com with ESMTP; 19 Jul 2019 11:08:36 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Fri, 19 Jul 2019 11:05:40 -0700
-Message-Id: <edd3c94d357207e3862d1f5fec7e7346e70831f4.1563559494.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hoXGS-0002Gr-6G
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 14:05:52 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 47AED30BAC4D;
+ Fri, 19 Jul 2019 18:05:48 +0000 (UTC)
+Received: from work-vm (ovpn-117-245.ams2.redhat.com [10.36.117.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A82062667;
+ Fri, 19 Jul 2019 18:05:47 +0000 (UTC)
+Date: Fri, 19 Jul 2019 19:05:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190719180544.GL3000@work-vm>
+References: <20190402003106.17614-1-richardw.yang@linux.intel.com>
+ <20190611082520.GA11125@richard> <87zhmottba.fsf@trasno.org>
+ <20190717011459.GB14233@richard>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v1 1/1] riscv/boot: Fixup the RISC-V firmware
- warning
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190717011459.GB14233@richard>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Fri, 19 Jul 2019 18:05:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] migration: remove unused field bytes_xfer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,50 +58,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a typo in the warning message displayed to users, don't print the
-message when running inside qtest and don't mention a specific QEMU
-version for the deprecation.
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> On Tue, Jun 11, 2019 at 10:33:29AM +0200, Juan Quintela wrote:
+> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+> >> On Tue, Apr 02, 2019 at 08:31:06AM +0800, Wei Yang wrote:
+> >>>MigrationState->bytes_xfer is only set to 0 in migrate_init().
+> >>>
+> >>>Remove this unnecessary field.
+> >>>
+> >>>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> >>
+> >> Hi, David
+> >
+> >Hi
+> >
+> >I am on duty this week, will get it.
+> >
+> 
+> Hi, Juan
+> 
+> Sounds we lost this one and the one above this :-)
+> 
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/boot.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+We're in freeze at the moment; we'll pick it up as soon
+as it opens up again; I've got quite a list of your clean-up patches!
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 5dee63011b..4b32ab1d26 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -26,6 +26,7 @@
- #include "hw/riscv/boot.h"
- #include "hw/boards.h"
- #include "elf.h"
-+#include "sysemu/qtest.h"
- 
- #if defined(TARGET_RISCV32)
- # define KERNEL_BOOT_ADDRESS 0x80400000
-@@ -46,10 +47,13 @@ void riscv_find_and_load_firmware(MachineState *machine,
-          * In the future this defaul will change to loading the prebuilt
-          * OpenSBI firmware. Let's warn the user and then continue.
-         */
--        warn_report("No -bios option specified. Not loading a firmware.");
--        warn_report("This default will change in QEMU 4.3. Please use the " \
--                    "-bios option to aviod breakages when this happens.");
--        warn_report("See QEMU's deprecation documentation for details");
-+        if (!qtest_enabled()) {
-+            warn_report("No -bios option specified. Not loading a firmware.");
-+            warn_report("This default will change in a future QEMU release. " \
-+                        "Please use the -bios option to avoid breakages when "\
-+                        "this happens.");
-+            warn_report("See QEMU's deprecation documentation for details");
-+        }
-         return;
-     }
- 
--- 
-2.22.0
+Dave
 
+> -- 
+> Wei Yang
+> Help you, Help me
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
