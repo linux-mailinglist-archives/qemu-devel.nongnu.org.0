@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3726E804
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:34:30 +0200 (CEST)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DB06E80D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:38:44 +0200 (CEST)
+Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoUtx-000366-Me
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
+	id 1hoUy3-0006oz-E1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33905)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hoUtU-0001qm-8H
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:34:01 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hoUxq-0006ID-RB
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:38:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hoUtN-0000KP-Uw
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:33:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60590)
+ (envelope-from <stefanha@redhat.com>) id 1hoUxl-0002Mn-Cr
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:38:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38940)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hoUt0-0007Ul-9w; Fri, 19 Jul 2019 11:33:31 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hoUxM-0000cc-8u; Fri, 19 Jul 2019 11:38:00 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 24000DF26;
- Fri, 19 Jul 2019 15:31:47 +0000 (UTC)
-Received: from [10.3.116.46] (ovpn-116-46.phx2.redhat.com [10.3.116.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B15F810190C8;
- Fri, 19 Jul 2019 15:31:40 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-2-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <4f37ed84-c903-ed4d-8ed1-8085cdd96273@redhat.com>
-Date: Fri, 19 Jul 2019 10:31:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 0165830BD1CC;
+ Fri, 19 Jul 2019 15:34:47 +0000 (UTC)
+Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7E3A26E6B;
+ Fri, 19 Jul 2019 15:34:41 +0000 (UTC)
+Date: Fri, 19 Jul 2019 16:34:40 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>
+Message-ID: <20190719153440.GB24412@stefanha-x1.localdomain>
+References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
+ <20190719133530.28688-5-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190719131425.10835-2-philmd@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VXE49yeQo3o9BATBKez5RMoMFDEDguaoi"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
+Content-Disposition: inline
+In-Reply-To: <20190719133530.28688-5-mehta.aaru20@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 19 Jul 2019 15:31:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 19 Jul 2019 15:34:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH-for-4.1? 1/7] json: Move switch 'fall
- through' comment to correct place
+Subject: Re: [Qemu-devel] [PATCH v6 04/14] block/io_uring: implements
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,88 +59,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Corey Minyard <minyard@acm.org>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Maxim Levitsky <mlevitsk@redhat.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, saket.sinha89@gmail.com,
+ Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefan@redhat.com>,
+ Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VXE49yeQo3o9BATBKez5RMoMFDEDguaoi
-Content-Type: multipart/mixed; boundary="xnOqt4pSHiZMBW3DS9AF3Z6QqJVkO0P1K";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Michael Tokarev <mjt@tls.msk.ru>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <4f37ed84-c903-ed4d-8ed1-8085cdd96273@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH-for-4.1? 1/7] json: Move switch 'fall
- through' comment to correct place
-References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-2-philmd@redhat.com>
-In-Reply-To: <20190719131425.10835-2-philmd@redhat.com>
 
---xnOqt4pSHiZMBW3DS9AF3Z6QqJVkO0P1K
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--3lcZGd9BuhuYXNfi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 7/19/19 8:14 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=3D2:
->=20
->   qobject/json-parser.c: In function =E2=80=98parse_literal=E2=80=99:
->   qobject/json-parser.c:492:24: error: this statement may fall through =
-[-Werror=3Dimplicit-fallthrough=3D]
->     492 |     case JSON_INTEGER: {
->         |                        ^
->   qobject/json-parser.c:524:5: note: here
->     524 |     case JSON_FLOAT:
->         |     ^~~~
->=20
-> Correctly place the 'fall through' comment.
->=20
-> Reported-by: Stefan Weil <sw@weilnetz.de>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  qobject/json-parser.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Jul 19, 2019 at 07:05:20PM +0530, Aarushi Mehta wrote:
+> diff --git a/block.c b/block.c
+> index 29e931e217..4aa3500ad8 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -844,6 +844,28 @@ static BlockdevDetectZeroesOptions bdrv_parse_detect=
+_zeroes(QemuOpts *opts,
+>      return detect_zeroes;
+>  }
+> =20
+> +/**
+> + * Set flags for aio engine
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Other parse_*() functions are more specific about which type of flags
+are produced:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+s/flags/open flags/
 
+> + *
+> + * Return 0 on success, -1 if the engine specifies is invalid
 
---xnOqt4pSHiZMBW3DS9AF3Z6QqJVkO0P1K--
+s/specifies/specified/
 
---VXE49yeQo3o9BATBKez5RMoMFDEDguaoi
+> + */
+> +int bdrv_parse_aio(const char *mode, int *flags)
+> +{
+> +    if (!strcmp(mode, "threads")) {
+> +        /* do nothing, default */
+> +    } else if (!strcmp(mode, "native")) {
+> +        *flags |=3D BDRV_O_NATIVE_AIO;
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    } else if (!strcmp(mode, "io_uring")) {
+> +        *flags |=3D BDRV_O_IO_URING;
+> +#endif
+> +    } else {
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+
+Can you move this change to the patch that uses bdrv_parse_aio()?  I
+don't see any callers in this patch.
+
+> +        if (ret < 0) {
+> +            if (ret =3D=3D -EINTR) {
+> +                luring_resubmit(s, luringcb);
+> +                continue;
+> +            }
+> +        } else if (!luringcb->qiov) {
+> +            goto end;
+> +        } else if (total_bytes =3D=3D luringcb->qiov->size) {
+> +                ret =3D 0;
+
+Indentation is off here.
+
+> +static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *=
+s,
+> +                            uint64_t offset, int type)
+> +{
+> +    struct io_uring_sqe *sqes =3D &luringcb->sqeq;
+> +
+> +    switch (type) {
+> +    case QEMU_AIO_WRITE:
+> +        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
+> +                             luringcb->qiov->niov, offset);
+> +        break;
+> +    case QEMU_AIO_READ:
+> +        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
+> +                            luringcb->qiov->niov, offset);
+> +        break;
+> +    case QEMU_AIO_FLUSH:
+> +        io_uring_prep_fsync(sqes, fd, 0);
+
+In QEMU QEMU_AIO_FLUSH is fdatasync so the IORING_FSYNC_DATASYNC flag
+can be used for a slightly cheaper fsync operation.
+
+> +        break;
+> +    default:
+> +        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\n",
+> +                        __func__, type);
+> +        abort();
+> +    }
+> +    io_uring_sqe_set_data(sqes, luringcb);
+> +
+> +    QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
+
+Now that we use sq_overflow unconditionally it can be renamed to
+submit_queue, making the code easier to understand.
+
+--3lcZGd9BuhuYXNfi
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0x4lsACgkQp6FrSiUn
-Q2pQSAf9H7Fc9TMPVRFykyFJq4yDUOM/pd8MFLCScU65UXH81DlxpZ6MzlNn5kCo
-Sdhbfv4ervPzNIbXiGkXlrm0RYvuRkZrtH4H67mrKtp/sL5wUVYSxet6ufPjpYiy
-GpzAe9z/EyOt3hEu8eMTF/Ev3qKukWRCCLhLMnw/fERogmnoC/md/xP2dAadSe0H
-7G5Eb2QfBgQUQWgZgCmZ68nFYMFypBi7XyrY0FXg+ZCv2jctbHEBFD8X4fTq9Qte
-Pkg7Fj6YDXKJE7FAPLSCAG4O1LfIyVj9Tns34fSNI7jZZCkYsb2PLtN3Wely3iMp
-xVg5abcMNz9xNt0VsT34EJVR7wpL5Q==
-=D/ge
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x4xAACgkQnKSrs4Gr
+c8g6wQgAia00NAcMIHGybMrn8RmcEf37QecA3wgxA8Ixawwufy/ViGxJ6cBdshnI
+vfHO5Bh8VAilrX4Urr3LxkPMZ5YpMKAnEMAWdEhU87APboyphDncp0qkf7WxAALp
+0mpOeS+3WKJWLsET89vzVuEiTGcRg9ysCAiSvM3JVl0HbyF1JTCCg8xpuZIkktzY
+W5z4N//YOxb1MOfZwjIwbtubUgL7/Y23TwlFNWWrbyDSaz/ZHM5gv9aTWF2Q1w1q
+KxOwNAIpXQH4XeVLtpR/+aNMt89NEP2tOk3YaMDIbTFmHSZ0+H5P2pB0iKvxC9UK
+gMr76O9ob7CULWZVA4U1fDaUpE9qAQ==
+=v5XU
 -----END PGP SIGNATURE-----
 
---VXE49yeQo3o9BATBKez5RMoMFDEDguaoi--
+--3lcZGd9BuhuYXNfi--
 
