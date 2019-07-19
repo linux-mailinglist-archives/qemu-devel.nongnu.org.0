@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3FF6EF95
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 16:08:25 +0200 (CEST)
-Received: from localhost ([::1]:51328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943266EF94
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 16:08:13 +0200 (CEST)
+Received: from localhost ([::1]:51322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoq2C-0000q0-NP
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 10:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53767)
+	id 1hoq20-0008MZ-8C
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 10:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53765)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hoq1g-0007Sl-RX
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 10:07:54 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hoq1g-0007Sk-QY
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 10:07:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hoq1f-0002hd-KZ
+ (envelope-from <dgibson@ozlabs.org>) id 1hoq1f-0002hj-Kx
  for qemu-devel@nongnu.org; Sat, 20 Jul 2019 10:07:52 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55119 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37337 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hoq1c-0002Yk-7U; Sat, 20 Jul 2019 10:07:49 -0400
+ id 1hoq1b-0002Yf-TR; Sat, 20 Jul 2019 10:07:49 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45rV7Z1347z9sND; Sun, 21 Jul 2019 00:07:38 +1000 (AEST)
+ id 45rV7Z1lSnz9sNC; Sun, 21 Jul 2019 00:07:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563631658;
- bh=h5M4InZyFVSUm5hrtlnO0lyZF/37ZLdE0Icb09Gw9wg=;
+ bh=GIs8XKwl06uRHQ/l1PcTQRA8mzVA6skBTsqI/zdaF8M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WjId3KOlfDiee67qxTNAsw1mv/rmdkBLu4LRsvHAXfaiZmjXQ0aWhiYQg3/o5H7Uf
- i7yF7FkyQ8tgKtTsBU/WkU9A5a6eqfoi4ZpTUckK/zF6g9WP7uj8yzVxnVWqSQwmI8
- SN1zKM+8MeCUusIYuMdGAt6W6H8peWZONer/aodk=
-Date: Sat, 20 Jul 2019 00:20:13 +1000
+ b=FPvLmmmHZBlLaaXgusaUwse8JwUp2mxihgxR3ziSHYwABH5eyezdzlDumW0NzWqpW
+ pcp2RJBCFgxcEXhdx6RqDnvvhUe1lrS5VVY4sa1aXTjtLxsK3GlWoW+VI1CcT0Z+he
+ RRGbzMmQPyAsck+B8wAIfZe8RQD9bNxKJ0Ha8Bpo=
+Date: Sat, 20 Jul 2019 00:20:38 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190719142013.GA4174@umbus.fritz.box>
+Message-ID: <20190719142038.GB4174@umbus.fritz.box>
 References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-6-philmd@redhat.com>
+ <20190719131425.10835-8-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+ protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
 Content-Disposition: inline
-In-Reply-To: <20190719131425.10835-6-philmd@redhat.com>
+In-Reply-To: <20190719131425.10835-8-philmd@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH-for-4.1? 5/7] target/ppc: Rewrite a fall
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH-for-4.1? 7/7] spapr_events: Rewrite a fall
  through comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,23 +67,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---BOKacYhQ+x31HxR3
+--3uo+9/B/ebqu+fSQ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2019 at 03:14:23PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
+On Fri, Jul 19, 2019 at 03:14:25PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
 > GCC9 is confused by this comment when building with CFLAG
 > -Wimplicit-fallthrough=3D2:
 >=20
->   target/ppc/mmu_helper.c: In function =E2=80=98dump_mmu=E2=80=99:
->   target/ppc/mmu_helper.c:1349:12: error: this statement may fall through=
- [-Werror=3Dimplicit-fallthrough=3D]
->    1349 |         if (ppc64_v3_radix(env_archcpu(env))) {
+>     CC      ppc64-softmmu/hw/ppc/spapr_rtc.o
+>   hw/ppc/spapr_events.c: In function =E2=80=98rtas_event_log_to_source=E2=
+=80=99:
+>   hw/ppc/spapr_events.c:312:12: error: this statement may fall through [-=
+Werror=3Dimplicit-fallthrough=3D]
+>     312 |         if (spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT)) {
 >         |            ^
->   target/ppc/mmu_helper.c:1356:5: note: here
->    1356 |     default:
->         |     ^~~~~~~
+>   hw/ppc/spapr_events.c:317:5: note: here
+>     317 |     case RTAS_LOG_TYPE_EPOW:
+>         |     ^~~~
 >   cc1: all warnings being treated as errors
 >=20
 > Rewrite the comment using 'fall through' which is recognized by
@@ -96,42 +97,24 @@ On Fri, Jul 19, 2019 at 03:14:23PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/mmu_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/ppc/spapr_events.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index 261a8fe707..862824b073 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -98,7 +98,7 @@ static int pp_check(int key, int pp, int nx)
->          case 0x1:
->          case 0x2:
->              access |=3D PAGE_WRITE;
-> -            /* No break here */
-> +            /* fall through */
->          case 0x3:
->              access |=3D PAGE_READ;
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index ae0f093f59..0a98894ad6 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -313,7 +313,7 @@ rtas_event_log_to_source(SpaprMachineState *spapr, in=
+t log_type)
+>              g_assert(source->enabled);
 >              break;
-> @@ -706,7 +706,7 @@ static int mmu40x_get_physical_address(CPUPPCState *e=
-nv, mmu_ctx_t *ctx,
->              if (pr !=3D 0) {
->                  goto check_perms;
->              }
-> -            /* No break here */
-> +            /* fall through */
->          case 0x3:
->              /* All accesses granted */
->              ctx->prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> @@ -720,7 +720,7 @@ static int mmu40x_get_physical_address(CPUPPCState *e=
-nv, mmu_ctx_t *ctx,
->                  ret =3D -2;
->                  break;
->              }
-> -            /* No break here */
-> +            /* fall through */
->          case 0x1:
->          check_perms:
->              /* Check from TLB entry */
+>          }
+> -        /* fall back to epow for legacy hotplug interrupt source */
+> +        /* fall through back to epow for legacy hotplug interrupt source=
+ */
+>      case RTAS_LOG_TYPE_EPOW:
+>          source =3D spapr_event_sources_get_source(spapr->event_sources,
+>                                                  EVENT_CLASS_EPOW);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -139,25 +122,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---BOKacYhQ+x31HxR3
+--3uo+9/B/ebqu+fSQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0x0ZsACgkQbDjKyiDZ
-s5KbeA//eNhI6t5lEAiabvUksdMjLfEN2Wfj0pCqo8uqOsZXrtx8z/zuMTtn47MS
-2PaBZrNI0iZepxb8j8Atw3zTKxj8QWmKhJWvMYRiWh3eVGgZcY8re3fw1irGzxIB
-lWMxE7eU63aekd/pRhXV67MxSZ+eNlPnsuN1LJ33rVfdRrlCOjhFdfsO4YxdGXU7
-8WobfNztR1Zi6Jhcy8R7RBeM9Inc5LvxFLoAUNCqN/WPhVqNUuIBn3XR1AHQ85tS
-I5lEk5lUQ2nRUzP0lTOPUn9vLid3HrsjankXvE6k0aRwtkdLi5TfTrbzNYPJcwmN
-ey7MKdB7rW4tUnc/Yupa1RfBBTtGRAwSncQBPg3Xqk8Jntc9Bae6JlN7JJvbHJ79
-iy8XhyCXMMq5dpZHRrYCL91iMiwwIvD/erc9JMtWincjPpesj2AMtOrHVY9KNg4H
-37RSw1jFGo3ZiNA/dE/My07h4T1+sOMpJzWhefX1psrreDFoapfrqxNYJAYxRCYp
-gz5X5sxM3flGY3x8BCnigAIMDSB6JiQYgrfWKE2dhzpIk8SWEYY+f0uKDZFYpYq2
-6RgtYHY7YcgBoWwIaC/kNh9ZcYnL5QQkv0LVDq4a/5eiulI4uERyA8nuridXZWpu
-/2sMO//j0xiS5X7sqHV7z5oE3X/STLstZqPCB8ep2JB0mlfJjD0=
-=PRvI
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0x0bYACgkQbDjKyiDZ
+s5I9vxAA0lXp2UY09O/eG6yHIgCAcvXl11ODbYnTahJ3Wu5LGLfj2UeOrj/wg+9+
+CVd90uAGBr4qglgwtf8uIDYPgfCvLpr/Gj8RbnoYtOW4yZXI4dpbM7km/HWqHfxk
+tumdLZTCEwWYHExhSalWcAroFyPwH04hqgrt9CXijyjfrgQttf4l8qJ7xXbJnuh4
++MTSUuSfTscfpXWUa/yBhNfzdHXLEs0EE6v1+jIbXGnuxxQwwMZ0VDUBL5uqpcPs
+FeYQ94FHNnARf3wapU8T4U+Onkqf9AJESXYNGmJR9/rENRI47g3DmLg/EYqIf83G
+2wwFxF07goup9Hc8eM2Zj8tO7Pg9CO8G++yTe1t9BTcXCgf+3xyz0UlAVGRNXRUT
+OkfTHl2PsMowATemj0fZ6qdyCT/dbySUYTKbO6kNAt6KJcMVV5spKpH3nDTMuYKw
+CghZorlnUImR+/QsNLqNaJlQi9eW0LuJdS2NYvRVOo4R4E4Baf3rKG1CKLISE2xF
+HydYrUYTNYgZIeaAZK1U+ZMJRPtWnyTmNdqA3aOmVbfUA9D352d+K6k1HbEeWQRh
+IR366wn4QRdAbdXPAu+F7UsrtVCkMwnrAu0Hrm6Vqn/xL9fEhli0krx9rciwwi7m
+2tbq7Km4XdCoH6VTbuUi7R63GuofwTAeDhubO1nBQvOLwBamV+M=
+=TTyo
 -----END PGP SIGNATURE-----
 
---BOKacYhQ+x31HxR3--
+--3uo+9/B/ebqu+fSQ--
 
