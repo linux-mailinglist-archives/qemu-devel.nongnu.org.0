@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2728D6E85E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:02:15 +0200 (CEST)
-Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E5B6E869
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:04:32 +0200 (CEST)
+Received: from localhost ([::1]:46840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVKn-0000QO-VA
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
+	id 1hoVN1-00032T-KI
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:04:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38125)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hoVKZ-0008Pk-H6
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:02:00 -0400
+ (envelope-from <david@redhat.com>) id 1hoVMn-0002bC-G8
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hoVKQ-0003pU-Ig
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:01:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60626)
+ (envelope-from <david@redhat.com>) id 1hoVMe-00058P-Q5
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:04:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43156)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hoVK7-0001Om-QV
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:01:35 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1hoVMX-0003Z7-Nh
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:04:05 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7347730A5A6F;
- Fri, 19 Jul 2019 15:56:56 +0000 (UTC)
-Received: from work-vm (ovpn-117-245.ams2.redhat.com [10.36.117.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AC7417F88;
- Fri, 19 Jul 2019 15:56:55 +0000 (UTC)
-Date: Fri, 19 Jul 2019 16:56:53 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190719155653.GE3000@work-vm>
-References: <20190710050814.31344-1-richardw.yang@linux.intel.com>
- <20190710050814.31344-3-richardw.yang@linux.intel.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 9B54B317915D;
+ Fri, 19 Jul 2019 16:01:31 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-220.ams2.redhat.com [10.36.116.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1441F1001B02;
+ Fri, 19 Jul 2019 16:01:29 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 19 Jul 2019 18:01:18 +0200
+Message-Id: <20190719160120.26581-2-david@redhat.com>
+In-Reply-To: <20190719160120.26581-1-david@redhat.com>
+References: <20190719160120.26581-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190710050814.31344-3-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 19 Jul 2019 15:56:56 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 19 Jul 2019 16:01:31 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] migration/postcopy: do_fixup is true
- when host_offset is non-zero
+Subject: [Qemu-devel] [PATCH v1 1/3] virtio-balloon: simplify deflate with
+ pbp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,62 +55,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> This means it is not necessary to spare an extra variable to hold this
-> condition. Use host_offset directly is fine.
-> 
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Let's simplify this - the case we are optimizing for is very hard to
+trigger and not worth the effort. If we're switching from inflation to
+deflation, let's reset the pbp.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/virtio-balloon.c | 24 ++++--------------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
-> ---
->  migration/ram.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index c4dc36e525..b0ca0059c4 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2873,7 +2873,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
->      }
->  
->      while (run_start < pages) {
-> -        bool do_fixup = false;
->          unsigned long fixup_start_addr;
->          unsigned long host_offset;
->  
-> @@ -2883,7 +2882,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
->           */
->          host_offset = run_start % host_ratio;
->          if (host_offset) {
-> -            do_fixup = true;
->              fixup_start_addr = run_start - host_offset;
->              /*
->               * This host page has gone, the next loop iteration starts
-> @@ -2905,7 +2903,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
->               */
->              host_offset = run_end % host_ratio;
->              if (host_offset) {
-> -                do_fixup = true;
->                  fixup_start_addr = run_end - host_offset;
->                  /*
->                   * This host page has gone, the next loop iteration starts
-> @@ -2921,7 +2918,7 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, bool unsent_pass,
->              }
->          }
->  
-> -        if (do_fixup) {
-> +        if (host_offset) {
->              unsigned long page;
->  
->              /* Tell the destination to discard this page */
-> -- 
-> 2.17.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 9de3c030bf..287d5d4c97 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -121,7 +121,7 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+on,
+     void *addr =3D memory_region_get_ram_ptr(mr) + offset;
+     RAMBlock *rb;
+     size_t rb_page_size;
+-    ram_addr_t ram_offset, host_page_base;
++    ram_addr_t ram_offset;
+     void *host_addr;
+     int ret;
+=20
+@@ -129,26 +129,10 @@ static void balloon_deflate_page(VirtIOBalloon *bal=
+loon,
+      * host address? */
+     rb =3D qemu_ram_block_from_host(addr, false, &ram_offset);
+     rb_page_size =3D qemu_ram_pagesize(rb);
+-    host_page_base =3D ram_offset & ~(rb_page_size - 1);
+-
+-    if (balloon->pbp
+-        && rb =3D=3D balloon->pbp->rb
+-        && host_page_base =3D=3D balloon->pbp->base) {
+-        int subpages =3D rb_page_size / BALLOON_PAGE_SIZE;
+=20
+-        /*
+-         * This means the guest has asked to discard some of the 4kiB
+-         * subpages of a host page, but then changed its mind and
+-         * asked to keep them after all.  It's exceedingly unlikely
+-         * for a guest to do this in practice, but handle it anyway,
+-         * since getting it wrong could mean discarding memory the
+-         * guest is still using. */
+-        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+-                  balloon->pbp->bitmap);
+-
+-        if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
+-            virtio_balloon_reset_pbp(balloon);
+-        }
++    if (balloon->pbp) {
++        /* Let's play safe and always reset the pbp on deflation request=
+s. */
++        virtio_balloon_reset_pbp(balloon);
+     }
+=20
+     host_addr =3D (void *)((uintptr_t)addr & ~(rb_page_size - 1));
+--=20
+2.21.0
+
 
