@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614986E894
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:21:23 +0200 (CEST)
-Received: from localhost ([::1]:46958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49706E896
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 18:21:39 +0200 (CEST)
+Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoVdK-0000xf-Js
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41599)
+	id 1hoVdb-0001o5-1w
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 12:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hoVd6-0000UU-HJ
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:09 -0400
+ (envelope-from <philmd@redhat.com>) id 1hoVdO-0001Om-06
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hoVcs-0006M7-R3
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:00 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:35451)
+ (envelope-from <philmd@redhat.com>) id 1hoVdK-0006aO-Ms
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:24 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35789)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hoVcp-0005lb-Mr; Fri, 19 Jul 2019 12:20:52 -0400
-Received: by mail-lj1-x235.google.com with SMTP id x25so31364749ljh.2;
- Fri, 19 Jul 2019 09:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fFo+CuEPeHwBPOBeb8KPru+ObIIM6iFnpGufu0nSdZU=;
- b=s0dbBfiylTYR8n2kcx9hjS7Smb4V0pqNmjI+SvjPlqyDK6eSOqmPP7q+RJfTJS3S38
- bfD9V2lOLaDeuoJm4/FuFnsCJMAu7odEniUrH+BKSe6zjN3WnAOpM5XWHJTy6XxHzPpL
- 5Qz/5wOwW1uX19H0GhuvkuEnekTsMi78mDGZY5+k4UPRtQLbt8OnlBifxq2BPllQ0eAs
- e5rASm62zuuoW5o5H0WRY+uoDOiFXlYs03rBkUJslDcHWoUo13MKFBbP+6At8LrNjqcb
- x5Bu49fFjGNOq+7wHCEvEkyj/0uNqsfC0rR2S4JMO9E7DtxSg5nF8Gb+3HZsN60Al0he
- srrw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hoVdH-0005os-Hc
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 12:21:20 -0400
+Received: by mail-wm1-f65.google.com with SMTP id l2so29559515wmg.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 09:19:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fFo+CuEPeHwBPOBeb8KPru+ObIIM6iFnpGufu0nSdZU=;
- b=i14gMqHGcoHwu2xa9IjEbinsT0PPFVwgC9vGpdVFGW/hLhk2jspvYCnbU/uFUPFY3+
- AJNuwLWpFNg/hRCILhzbWi2SiUZBCsE+SSq73NWSDn8mDgLPJgfVTp3Lo+9KTgh8z6P/
- ez8LtSxqtySFST8LwGInM8W5MLu6WZUQ5XUY4iTWx+JPG7bShCNj+0ty7KG9qreuB+l1
- InQBZRfCFK/4KAavyntu80t1608UlVty/L5OBpORradQzhyZhaXfEwVfBlCIIsnvyptV
- +2QH1yvg7CQkiSUre36ZpHa+5sWaRxIvvCXnoU8GWfs0qTEzrOO2PBsaDay9y8cthykl
- kxOg==
-X-Gm-Message-State: APjAAAWnaDp2w4k89DUUHJf6m8QjWN43Q9Cc0KcBW/y+6yyajq9NGB98
- TyopM5/hv69rzpghFSn7J9q2Xcb9rrIIYozv/tU=
-X-Google-Smtp-Source: APXvYqz5vJecAc5SBh2jhX+5BLONEwHwYP8EQgGgh9KUSN/yA3QLgL2ukpA8MjdYY5927Z4Tvfoscpb46L2DkNgOfug=
-X-Received: by 2002:a2e:b4c9:: with SMTP id r9mr28051885ljm.196.1563553177618; 
- Fri, 19 Jul 2019 09:19:37 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lMLEHYq1lF3SL7S4vH9R5InFtmF70xVFRidgXaJJYis=;
+ b=b7/yQYM5xfHkuTVlac88bMao0KhUHt9OnMOeheCyMqjX/3jx2zIUkPkwBk4PKBLdd9
+ X+Un15vdudb/t42VhJrtAQftLKdQnDQ8+d6RaIu2VzprRYw8X95q0g6LOBq4h5NDvh7N
+ VShHMe8BkAfP4FABKDGDNgNVUV0hp2Jw7zk4VFNCN+ueuizFqJeHOr4WLbAdsZhowQ02
+ O9NEZzDsHlnsrSWzM8bPSngfuBpY186a4u2Sc1BdInJ1+YEpoICSl+eE35vpTkzdc9ig
+ TVAiCE30Grtzow9jXM+Mlnx+Q9dIGGGMPrduhF8WsDFv0rVR+KICLnM+uAJlLb3kx/DU
+ iGMQ==
+X-Gm-Message-State: APjAAAU3raAJdNbQakmqlbnnLD7vqS+HM+8+NSS7lgxF3jKYdEvpxG8B
+ vVSm/pRwhGYqGh/XQCy3LCwCVA==
+X-Google-Smtp-Source: APXvYqyjowYxnKUSoqjt3PS/TZrbJhh78u6ts/QUE3yriokFBKORoq30vlOJ5t7R6RdkJMYnb2VK6Q==
+X-Received: by 2002:a1c:c706:: with SMTP id x6mr47911107wmf.162.1563553184044; 
+ Fri, 19 Jul 2019 09:19:44 -0700 (PDT)
+Received: from [192.168.1.37] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id v16sm10141824wrn.28.2019.07.19.09.19.43
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jul 2019 09:19:43 -0700 (PDT)
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20190718104837.13905-1-philmd@redhat.com>
+ <20190718104837.13905-2-philmd@redhat.com>
+ <5e6b8a67-8f8a-3e3b-4f42-db2a31c03ad1@redhat.com>
+ <d4d20337-b504-0610-8aaf-c8b0b13f0953@redhat.com>
+ <053eeafe-4e93-aa96-f544-ea0606e244b6@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <689b75f8-ae47-621f-44a5-f3ad07fe2661@redhat.com>
+Date: Fri, 19 Jul 2019 18:19:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190719015811.14776-1-palmer@sifive.com>
- <CAFEAcA_MGz=EvH67twNoM-SMXZ8_pE6FhO+JuLN=0Z1H6sfRnw@mail.gmail.com>
- <CAFEAcA9mR5XxV9ghSzt4PbANKZJW1xKMGF1a9+ak+m6OyZ-YZQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA9mR5XxV9ghSzt4PbANKZJW1xKMGF1a9+ak+m6OyZ-YZQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 19 Jul 2019 09:16:15 -0700
-Message-ID: <CAKmqyKMFfm+zGNLcHp3yf98wNH4+D8k6oFqOxp25rWmFMYF-Lg@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::235
-Subject: Re: [Qemu-devel] [PULL] RISC-V Patches for 4.2-rc2
+In-Reply-To: <053eeafe-4e93-aa96-f544-ea0606e244b6@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v7 1/1] hw/block/pflash_cfi01: Add
+ missing DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,63 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 19, 2019 at 4:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 19 Jul 2019 at 12:03, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > This passes the 'make check' tests but it prints out a lot
-> > of warnings as it does so:
-> >
-> > qemu-system-riscv64: warning: No -bios option specified. Not loading a firmware.
-> > qemu-system-riscv64: warning: This default will change in QEMU 4.3.
-> > Please use the -bios option to aviod breakages when this happens.
-> > qemu-system-riscv64: warning: See QEMU's deprecation documentation for details
-> >
-> > (repeated 7 or 8 times during the course of a test run)
-> >
-> > Can we make the tests not trigger warnings, please?
-> > (I have a filter where I search through for strings like
-> > "warning" because warnings that shouldn't happen often don't
-> > actually cause the tests to fail.)
->
-> Forgot to mention, but a common way to do this is to say
-> "don't print the warnings about bios image loading if
-> qtest_enabled(), because with qtest we never execute any
-> guest code anyway". That will probably fix the warnings here.
+Hi Laszlo,
 
-Testing my patch now, I'll send it out today.
+On 7/18/19 9:35 PM, Philippe Mathieu-Daudé wrote:
+> On 7/18/19 8:38 PM, Laszlo Ersek wrote:
+>> On 07/18/19 17:03, Laszlo Ersek wrote:
+>>> On 07/18/19 12:48, Philippe Mathieu-Daudé wrote:
+>>>> To avoid incoherent states when the machine resets (see but report
+[...]>>> (3) Using OVMF IA32X64 (including the edk2 SMM stack), I've
+>>> regression-tested this patch, on top of v4.1.0-rc1, with KVM. As follows:
+>>>
+>>> (3a) Normal reboot from the UEFI shell ("reset -c" command)
+>>>
+>>> (3b) Normal reboot from the Linux guest prompt ("reboot" command)
+>>>
+>>> (3c1) Reset as part of ACPI S3 suspend/resume
+>>> (3c2) then use "efibootmgr -n / -N" to write to pflash (by virtue of
+>>> setting / deleting the standardized BootNext UEFI variable)
+>>>
+>>> (3d1) Boot to setup TUI with SB enabled
+>>> (3d2) erase Platform Key in setup TUI (disables SB)
+>>> (3d3) reboot from within setup TUI
+>>> (3d4) proceed to UEFI shell
+>>> (3d5) enable SB with EnrollDefaultKeys.efi
+>>> (3d6) reboot from UEFI shell
+>>> (3d7) proceeed to Linux guest
+>>> (3d8) verify SB enablement (dmesg, "mokutil --sb-state")
+>>>
+>>> (As an added exercise, step (3d4) triggered an "FTW" (fault tolerant
+>>> write) "reclaim" (basically a defragmentation of the journaled
+>>> "filesystem" that the firmware keeps in the flash, as a logical "middle
+>>> layer"), and that worked fine too.)
+>>>
+>>> Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
+>>>
+>>>
+>>> (4) I plan to provide R-t-b in the evening from aarch64 KVM too, using
+>>> the edk2 ArmVirtQemu firmware. Only the first two steps from (3) will be
+>>> covered (no ACPI S3, no SB).
+>>
+>> Regression-tested-by: Laszlo Ersek <lersek@redhat.com>
 
->
-> > Also, I notice that you have a typo: "aviod" should be "avoid".
+Patchwork doesn't recognize your R-t-b tag:
 
-Fixed.
+https://patchwork.ozlabs.org/patch/1133671/
 
->
-> Also also, the warning message mentions "QEMU 4.3", but our
-> versioning system bumps the major version every year, so
-> the pending release is 4.1, the next one will be 4.2, and
-> then the release after that will be 5.0 because it will be the
-> first release in 2020.
+Should I change it for a Tested-by, or add as it?
 
-I just dropped the version number in the warning message.
+Thanks,
 
-Alistair
+Phil.
 
->
-> (Plus, your merge commit message says this pullreq is
-> for 4.2-rc2, which is a typo for 4.1-rc2 I assume.)
->
-> Since this pullreq does pass the tests, and rc2 is not far off
-> now (Tuesday), I think my suggestion is that I'll apply this
-> as-is, and we should fix up the issues with the warning messages
-> as a followup patch. I think that's better than holding this
-> out of master and making it risk missing rc2.
->
-> thanks
-> -- PMM
+> Thank you a lot again for all your testing, I also noted your steps and
+> will try to automate them.
+> 
+> Best regards,
+> 
+> Phil.
+> 
 
