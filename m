@@ -2,79 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620D06D859
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:24:15 +0200 (CEST)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC81F6D867
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:31:24 +0200 (CEST)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoHd8-0001mr-4i
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50742)
+	id 1hoHk4-0004BA-1H
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52733)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aik@ozlabs.ru>) id 1hoHcu-0001I9-1F
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:24:02 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hoHjl-0003jF-Jp
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:31:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1hoHcs-000674-On
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:23:59 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33320)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1hoHcs-00065L-9J
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:23:58 -0400
-Received: by mail-pg1-x543.google.com with SMTP id f20so4452964pgj.0
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 18:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qeox4bKzV5gxE9dMe33nfFYK+aoKO+4Q9N7ATVZrcbc=;
- b=vqeyhdo5zsKS6/JfapfM+Fxz9oyC0bnlUsy1jMn+wMrL4f8ZWr2JRnx0Hn+RqlU85c
- +SEcOHG0p5yQLNQM+EA+xUbnXQnqNqjzvcUsSGFL7PmmnPht5ej4CEq6QUeRM53wX0aT
- Hr/AcAab/JTZocqRWYmNeY3N7cNv0L/zXvynKyM0SA8iND2KisC5h/JoFqT5tlaANeVA
- VO5YgLG80ODTouQVcCoXzRDYeN3vRd4zol+1o3ePHdbmnV+vGXR+Jet2GbLgRzP3OQ0d
- vsU+34ZOX9PqfhkDVqf5NlyCbDi1UURLItGePQ1LPWE0tjbeV2bovr9dP2S5rmVbYFi8
- vlNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qeox4bKzV5gxE9dMe33nfFYK+aoKO+4Q9N7ATVZrcbc=;
- b=HO4530v+EhDKLGwLz4NiY5aJcKV5naICZgEW2Smivdte+24djw34rL7nFfFMEdHYFW
- K0XHjNiFAJQPgBvW70dndCn04omDKPbcxUFHd0wHPJ56g4kUIoxOTf3stZQA+zp0QoAJ
- SF993bjoi/EFT5auVbM+nxzoQFB/Yn3iHH4gwWlrODgUwjukx8kCKyZVHB7zJDptr5iK
- pqxYPNNvmMxVgytb88hcDfndlbju5uXUGiRKxBhxXLd8EIQGPkW6ctq92vimWfWasOiT
- MZ06TpomO7eJaZGMuJnWMSUQpkICCQq4/fcPmAjkD4jDDWEkb634Kt8kQ9wAuVmHgvZ9
- BlCQ==
-X-Gm-Message-State: APjAAAVAoCqfv1kcB87iPMi8lcu9WgJLuPf4Fw4TMz5Rpe/9fu/cBEPF
- YxKk8LXtf27fEyz1PdlozNU=
-X-Google-Smtp-Source: APXvYqxGUSYXWuQCMY6wd5FgWwrb01V3BlTLTT5e4UGOXDsi/6HGGf8NApBsfqrmk4KAYiN9uAbdMg==
-X-Received: by 2002:a65:4841:: with SMTP id i1mr50656317pgs.316.1563499435964; 
- Thu, 18 Jul 2019 18:23:55 -0700 (PDT)
-Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id 143sm45374927pgc.6.2019.07.18.18.23.53
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 18 Jul 2019 18:23:55 -0700 (PDT)
-To: Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>
-References: <20190716053522.78813-1-aik@ozlabs.ru>
- <8b727864-1634-0a5d-c557-fcaa52c49434@redhat.com>
- <9587706e-d53c-5490-cb4a-4c89eadfc497@ozlabs.ru>
- <20190718124042.4dd7b132@bahia.lab.toulouse-stg.fr.ibm.com>
- <8ed62115-29a2-c742-f309-0eb92a159803@redhat.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <32ff3964-977e-8023-9a3b-529710ae054b@ozlabs.ru>
-Date: Fri, 19 Jul 2019 11:23:51 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <yan.y.zhao@intel.com>) id 1hoHjk-0001wy-3r
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:31:05 -0400
+Received: from mga09.intel.com ([134.134.136.24]:65119)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hoHjj-0001wL-RS
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:31:04 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2019 18:31:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,280,1559545200"; d="scan'208";a="343552153"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga005.jf.intel.com with ESMTP; 18 Jul 2019 18:30:58 -0700
+Date: Thu, 18 Jul 2019 21:24:56 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190719012456.GG8912@joy-OptiPlex-7040>
+References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
+ <1562665760-26158-12-git-send-email-kwankhede@nvidia.com>
+ <20190712003328.GF9176@joy-OptiPlex-7040>
+ <70fd135d-4719-e39c-09fe-d5a012520ea8@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <8ed62115-29a2-c742-f309-0eb92a159803@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70fd135d-4719-e39c-09fe-d5a012520ea8@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [Qemu-ppc] [RFC PATCH qemu] spapr: Stop providing
- RTAS blob
+X-Received-From: 134.134.136.24
+Subject: Re: [Qemu-devel] [PATCH v7 11/13] vfio: Add function to get dirty
+ page list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,65 +60,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 18/07/2019 20:49, Thomas Huth wrote:
-> On 18/07/2019 12.40, Greg Kurz wrote:
->> On Thu, 18 Jul 2019 17:55:12 +1000
->> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->>
->>>
->>>
->>> On 18/07/2019 17:20, Thomas Huth wrote:
->>>> On 16/07/2019 07.35, Alexey Kardashevskiy wrote:
->>>>> SLOF implements one itself so let's remove it from QEMU. It is one less
->>>>> image and simpler setup as the RTAS blob never stays in its initial place
->>>>> anyway as the guest OS always decides where to put it.
->>>>>
->>>>> This totally depends on https://patchwork.ozlabs.org/patch/1132440/ ,
->>>>> hence RFC.
->>>>
->>>> Patch looks basically fine for me, but I wonder whether we should wait
->>>> for one or two releases until we really remove it from QEMU, so that it
->>>> is still possible to test the latest QEMU with older SLOF releases for a
->>>> while (which is sometimes useful when hunting bugs). Or should this
->>>> maybe even go through the official deprecation process (i.e. with an
->>>> entry in qemu-deprecated.texi)?
->>>
->>> I worry more about slof being distributed as a separate package in RHEL,
->>> easy enough to get qemu/slof out of sync.
->>>
->>
->> Then it seems to call for keeping the code around in QEMU in case RHEL's
->> slof doesn't implement the RTAS blob. Following the official deprecation
->> process looks like a good option IMHO.
+On Fri, Jul 19, 2019 at 02:39:10AM +0800, Kirti Wankhede wrote:
 > 
-> We can of course make the qemu rpm depend on the new SLOF rpm, so that
-> you can not install an older SLOF with a newer QEMU.
+> 
+> On 7/12/2019 6:03 AM, Yan Zhao wrote:
+> > On Tue, Jul 09, 2019 at 05:49:18PM +0800, Kirti Wankhede wrote:
+> >> Dirty page tracking (.log_sync) is part of RAM copying state, where
+> >> vendor driver provides the bitmap of pages which are dirtied by vendor
+> >> driver through migration region and as part of RAM copy, those pages
+> >> gets copied to file stream.
+> >>
+> >> To get dirty page bitmap:
+> >> - write start address, page_size and pfn count.
+> >> - read count of pfns copied.
+> >>     - Vendor driver should return 0 if driver doesn't have any page to
+> >>       report dirty in given range.
+> >>     - Vendor driver should return -1 to mark all pages dirty for given range.
+> >> - read data_offset, where vendor driver has written bitmap.
+> >> - read bitmap from the region or mmaped part of the region.
+> >> - Iterate above steps till page bitmap for all requested pfns are copied.
+> >>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >> ---
+> >>  hw/vfio/migration.c           | 123 ++++++++++++++++++++++++++++++++++++++++++
+> >>  hw/vfio/trace-events          |   1 +
+> >>  include/hw/vfio/vfio-common.h |   2 +
+> >>  3 files changed, 126 insertions(+)
+> >>
+> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >> index 5fb4c5329ede..ca1a8c0f5f1f 100644
+> >> --- a/hw/vfio/migration.c
+> >> +++ b/hw/vfio/migration.c
+> >> @@ -269,6 +269,129 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+> >>      return qemu_file_get_error(f);
+> >>  }
+> >>  
+> >> +void vfio_get_dirty_page_list(VFIODevice *vbasedev,
+> >> +                              uint64_t start_pfn,
+> >> +                              uint64_t pfn_count,
+> >> +                              uint64_t page_size)
+> >> +{
+> >> +    VFIOMigration *migration = vbasedev->migration;
+> >> +    VFIORegion *region = &migration->region.buffer;
+> >> +    uint64_t count = 0;
+> >> +    int64_t copied_pfns = 0;
+> >> +    int64_t total_pfns = pfn_count;
+> >> +    int ret;
+> >> +
+> >> +    qemu_mutex_lock(&migration->lock);
+> >> +
+> >> +    while (total_pfns > 0) {
+> >> +        uint64_t bitmap_size, data_offset = 0;
+> >> +        uint64_t start = start_pfn + count;
+> >> +        void *buf = NULL;
+> >> +        bool buffer_mmaped = false;
+> >> +
+> >> +        ret = pwrite(vbasedev->fd, &start, sizeof(start),
+> >> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                              start_pfn));
+> >> +        if (ret < 0) {
+> >> +            error_report("%s: Failed to set dirty pages start address %d %s",
+> >> +                         vbasedev->name, ret, strerror(errno));
+> >> +            goto dpl_unlock;
+> >> +        }
+> >> +
+> >> +        ret = pwrite(vbasedev->fd, &page_size, sizeof(page_size),
+> >> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                              page_size));
+> >> +        if (ret < 0) {
+> >> +            error_report("%s: Failed to set dirty page size %d %s",
+> >> +                         vbasedev->name, ret, strerror(errno));
+> >> +            goto dpl_unlock;
+> >> +        }
+> >> +
+> >> +        ret = pwrite(vbasedev->fd, &total_pfns, sizeof(total_pfns),
+> >> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                              total_pfns));
+> >> +        if (ret < 0) {
+> >> +            error_report("%s: Failed to set dirty page total pfns %d %s",
+> >> +                         vbasedev->name, ret, strerror(errno));
+> >> +            goto dpl_unlock;
+> >> +        }
+> >> +
+> >> +        /* Read copied dirty pfns */
+> >> +        ret = pread(vbasedev->fd, &copied_pfns, sizeof(copied_pfns),
+> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                             copied_pfns));
+> >> +        if (ret < 0) {
+> >> +            error_report("%s: Failed to get dirty pages bitmap count %d %s",
+> >> +                         vbasedev->name, ret, strerror(errno));
+> >> +            goto dpl_unlock;
+> >> +        }
+> >> +
+> >> +        if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_NONE) {
+> >> +            /*
+> >> +             * copied_pfns could be 0 if driver doesn't have any page to
+> >> +             * report dirty in given range
+> >> +             */
+> >> +            break;
+> >> +        } else if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_ALL) {
+> >> +            /* Mark all pages dirty for this range */
+> >> +            cpu_physical_memory_set_dirty_range(start_pfn * page_size,
+> >> +                                                pfn_count * page_size,
+> >> +                                                DIRTY_MEMORY_MIGRATION);
+> > seesm pfn_count here is not right
+> 
+> Changing it to total_pfns in next version
+>
+if it's total_pfns, then it cannot be in the loop, right?
 
-Cool, let's do that.
+Thanks
+Yan
 
-> But anyway, to avoid confusion and ease debugging,
-
-There is a little confusion ("why did the guest stop after Device tree 
-struct  0x000000000aff0000 -> 0x000000000b000000") and what will make 
-the debugging harder if we drop rtas from qemu now? I think I should 
-have known the answer by now but I do not :)
-
-> I'd also rather vote
-> for the official deprecation process here, and remove the RTAS blob from
-> QEMU after the official deprecation period.
-
-We won't be able to enjoy one less binary for another year and we 
-already have bugs fixes for which would benefit from not having rtas blob.
-
-
-
--- 
-Alexey
+> Thanks,
+> Kirti
+> 
+> >> +            break;
+> >> +        }
+> >> +
+> >> +        bitmap_size = (BITS_TO_LONGS(copied_pfns) + 1) * sizeof(unsigned long);
+> >> +
+> >> +        ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                             data_offset));
+> >> +        if (ret != sizeof(data_offset)) {
+> >> +            error_report("%s: Failed to get migration buffer data offset %d",
+> >> +                         vbasedev->name, ret);
+> >> +            goto dpl_unlock;
+> >> +        }
+> >> +
+> >> +        if (region->mmaps) {
+> >> +            buf = find_data_region(region, data_offset, bitmap_size);
+> >> +        }
+> >> +
+> >> +        buffer_mmaped = (buf != NULL) ? true : false;
+> >> +
+> >> +        if (!buffer_mmaped) {
+> >> +            buf = g_try_malloc0(bitmap_size);
+> >> +            if (!buf) {
+> >> +                error_report("%s: Error allocating buffer ", __func__);
+> >> +                goto dpl_unlock;
+> >> +            }
+> >> +
+> >> +            ret = pread(vbasedev->fd, buf, bitmap_size,
+> >> +                        region->fd_offset + data_offset);
+> >> +            if (ret != bitmap_size) {
+> >> +                error_report("%s: Failed to get dirty pages bitmap %d",
+> >> +                             vbasedev->name, ret);
+> >> +                g_free(buf);
+> >> +                goto dpl_unlock;
+> >> +            }
+> >> +        }
+> >> +
+> >> +        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
+> >> +                                               (start_pfn + count) * page_size,
+> >> +                                                copied_pfns);
+> >> +        count      += copied_pfns;
+> >> +        total_pfns -= copied_pfns;
+> >> +
+> >> +        if (!buffer_mmaped) {
+> >> +            g_free(buf);
+> >> +        }
+> >> +    }
+> >> +
+> >> +    trace_vfio_get_dirty_page_list(vbasedev->name, start_pfn, pfn_count,
+> >> +                                   page_size);
+> >> +
+> >> +dpl_unlock:
+> >> +    qemu_mutex_unlock(&migration->lock);
+> >> +}
+> >> +
+> >>  /* ---------------------------------------------------------------------- */
+> >>  
+> >>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> >> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> >> index ac065b559f4e..414a5e69ec5e 100644
+> >> --- a/hw/vfio/trace-events
+> >> +++ b/hw/vfio/trace-events
+> >> @@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
+> >>  vfio_load_device_config_state(char *name) " (%s)"
+> >>  vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+> >>  vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+> >> +vfio_get_dirty_page_list(char *name, uint64_t start, uint64_t pfn_count, uint64_t page_size) " (%s) start 0x%"PRIx64" pfn_count 0x%"PRIx64 " page size 0x%"PRIx64
+> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> >> index a022484d2636..dc1b83a0b4ef 100644
+> >> --- a/include/hw/vfio/vfio-common.h
+> >> +++ b/include/hw/vfio/vfio-common.h
+> >> @@ -222,5 +222,7 @@ int vfio_spapr_remove_window(VFIOContainer *container,
+> >>  
+> >>  int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
+> >>  void vfio_migration_finalize(VFIODevice *vbasedev);
+> >> +void vfio_get_dirty_page_list(VFIODevice *vbasedev, uint64_t start_pfn,
+> >> +                               uint64_t pfn_count, uint64_t page_size);
+> >>  
+> >>  #endif /* HW_VFIO_VFIO_COMMON_H */
+> >> -- 
+> >> 2.7.0
+> >>
 
