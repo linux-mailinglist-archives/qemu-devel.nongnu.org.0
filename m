@@ -2,70 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396656E37F
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 11:32:14 +0200 (CEST)
-Received: from localhost ([::1]:43406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2C26E3A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 11:42:13 +0200 (CEST)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoPFN-0006FU-Cj
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 05:32:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
+	id 1hoPP2-0008Uq-6p
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 05:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41245)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hoPF7-0005qK-OG
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:31:59 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoPND-0000PZ-OA
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:40:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hoPF5-0001FI-IG
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:31:57 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46900)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hoPF5-0001EK-BX
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:31:55 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 65so23763074oid.13
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 02:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=EzINUK66tlroIwwm6xjGb2i5VKI8QnhuJw+QW+oi4QM=;
- b=FdPAQPnSK3DsxE77OCjna4qBFTh/zUaiiFEAb6fzDvnlvMK/TH5z/bP78HNyw+j9/J
- lsBTH5jMeHJyflYdOpJkmHHFfVFX0CYuGOHHH74nRroPaEBsDFbzahzfF7AkcPjhSfbe
- 4uxP4a5OXYkH8Jpk6BY1GuHxDIkZ6bLjRsXlmoLUz83T3zmWhrulXgwstCeqNmvTdNj+
- YzM5EUuXXXtBXUceBaFFcEzcUcmQWDDoDG/xAFI4U8j1X4pLIvk3i/7f8yJYuS12fCCj
- dMU2Az6a0MtxPNismPhr5YgGzX9zMHzbce/ll8DuDL5eXvRnPKV6T1UY63hglvfFKyi9
- mZ0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=EzINUK66tlroIwwm6xjGb2i5VKI8QnhuJw+QW+oi4QM=;
- b=STFX84pCudK7cpjg9RSaMCELwL2XD4QjBlXFzTJfLwOBBWIlmmhtdKk0s256K75SFL
- eYiOMk0BuP1UO5SjmFN/Yd/rs/DZ6nGd+7Kscxvz3dsX6toN0lTUwIKN+TnT4bDpnaWt
- Y8TrZ0U0XC0mxVYC9sgN99VldZ13x5g6sQ2z6mMwMjAYDAaWn/orYEPC8OTX6IZIevsi
- lP+zwkMuhj5bR7J7ExU5dResX6b1NBG+Y8T2vU965IBYTnyNNJFQLEDSyjRBV5Vr+MGq
- rkaE+WxUF6Z76nplJE+ow/FNYTAI67yhZJQSnrEpD44uYTQiUJL5iCrGOZeQs5qqj851
- StJg==
-X-Gm-Message-State: APjAAAXBohoLF7k9LNpHODPfwxS6Xz8cjhktbtNIj5zBq+OK3LCzz5RV
- OUWHw1MfkN402HSP88eyczdMjoKCofy/vxf9MSs=
-X-Google-Smtp-Source: APXvYqzh7hyjgPXO0NxIaXtAcI+2fKTwbsPzfyJDtmvuU6np4RL59EHJ1I0/Y+Wj5VUa7x1dkV2wx1j0gKFjqljFR6Q=
-X-Received: by 2002:aca:4588:: with SMTP id s130mr25028835oia.79.1563528714082; 
- Fri, 19 Jul 2019 02:31:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Fri, 19 Jul 2019 02:31:53
- -0700 (PDT)
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Fri, 19 Jul 2019 02:31:53
- -0700 (PDT)
-In-Reply-To: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
-References: <11e818d38ebc40e986cfa62dd7d0afdc@tpw09926dag18e.domain1.systemhost.net>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 19 Jul 2019 11:31:53 +0200
-Message-ID: <CAL1e-=gaZaZjP31oNfQOcT5G1uDtor_f51H2ryp-t+VKnkmbdQ@mail.gmail.com>
-To: tony.nguyen@bt.com
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] configure: Define target access alignment
- in configure
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hoPNC-00085g-Ce
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 05:40:19 -0400
+Received: from relay.sw.ru ([185.231.240.75]:57164)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hoPNA-0007vg-Bl; Fri, 19 Jul 2019 05:40:18 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hoPN4-0004GH-JB; Fri, 19 Jul 2019 12:40:10 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Fri, 19 Jul 2019 12:39:57 +0300
+Message-Id: <1563529204-3368-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v4 0/7] Allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,228 +45,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 18, 2019 8:02 AM, <tony.nguyen@bt.com> wrote:
->
-> This patch moves the define of target access alignment earlier from
-> target/foo/cpu.h to configure.
->
-> Suggested in Richard Henderson's reply to "[PATCH 1/4] tcg: TCGMemOp is
-now
-> accelerator independent MemOp"
->
-> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
-> ---
+In the current implementation of the QEMU bash iotests, only qemu-io
+processes may be run under the Valgrind, which is a useful tool for
+finding memory usage issues. Let's allow the common.rc bash script
+runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
+and qemu-vxhs, under the Valgrind tool.
 
-Hi, Tony.
+v4:
+  01: The patch "iotests: Set read-zeroes on in null block driver for Valgrind"
+      was extended with new cases and issued as a separate series.
+  02: The new patch "block/nbd: NBDReply is used being uninitialized" was
+      added to resolve the failure of the iotest 083 run under Valgrind.
 
-In this patch you considered ALIGNED_ONLY, and proposed improvement. Do you
-see in the related code other preprocessor constants that should be treated
-in a similar way? If yes, perhaps we should do the same for them. Please
-analyse a little more.
+v3:
+  01: The new function _casenotrun() was added to the common.rc bash
+      script to notify the user of test cases dropped for some reason.
+      Suggested by Kevin.
+      Particularly, the notification about the nonexistent TMPDIR in
+      the test 051 was added (noticed by Vladimir).
+  02: The timeout in some test cases was extended for Valgrind because
+      it differs when running on the ramdisk.
+  03: Due to the common.nbd script has been changed with the commit
+      b28f582c, the patch "iotests: amend QEMU NBD process synchronization"
+      is actual no more. Note that QEMU_NBD is launched in the bash nested
+      shell in the _qemu_nbd_wrapper() as it was before in common.rc.
+  04: The patch "iotests: new file to suppress Valgrind errors" was dropped
+      due to my superficial understanding of the work of the function
+      blk_pread_unthrottled(). Special thanks to Kevin who shed the light
+      on the null block driver involved. Now, the parameter 'read-zeroes=on'
+      is passed to the null block driver to initialize the buffer in the
+      function guess_disk_lchs() that the Valgrind was complaining to.
 
-Yours, Aleksandar
+v2:
+  01: The patch 2/7 of v1 was merged into the patch 1/7, suggested by Daniel.
+  02: Another patch 7/7 was added to introduce the Valgrind error suppression
+      file into the QEMU project.
+  Discussed in the email thread with the message ID:
+  <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
->  configure             | 12 ++++++++++--
->  include/exec/poison.h |  1 +
->  include/qom/cpu.h     |  2 +-
->  target/alpha/cpu.h    |  2 --
->  target/hppa/cpu.h     |  1 -
->  target/mips/cpu.h     |  2 --
->  target/sh4/cpu.h      |  2 --
->  target/sparc/cpu.h    |  2 --
->  target/xtensa/cpu.h   |  2 --
->  tcg/tcg.c             |  2 +-
->  tcg/tcg.h             |  8 +++++---
->  11 files changed, 18 insertions(+), 18 deletions(-)
->
-> diff --git a/configure b/configure
-> index eb635c3b9a..c07687c656 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7424,11 +7424,16 @@ for target in $target_list; do
->  target_dir="$target"
->  config_target_mak=$target_dir/config-target.mak
->  target_name=$(echo $target | cut -d '-' -f 1)
-> +target_aligned_only="no"
-> +case "$target_name" in
-> +
-alpha|hppa|mips64el|mips64|mipsel|mips|mipsn32|mipsn32el|sh4|sh4eb|sparc|sparc64|sparc32plus|xtensa|xtensaeb)
-> +  target_aligned_only="yes"
-> +  ;;
-> +esac
->  target_bigendian="no"
-> -
->  case "$target_name" in
->
- armeb|aarch64_be|hppa|lm32|m68k|microblaze|mips|mipsn32|mips64|moxie|or1k|ppc|ppc64|ppc64abi32|s390x|sh4eb|sparc|sparc64|sparc32plus|xtensaeb)
-> -  target_bigendian=yes
-> +  target_bigendian="yes"
->    ;;
->  esac
->  target_softmmu="no"
-> @@ -7710,6 +7715,9 @@ fi
->  if supported_whpx_target $target; then
->      echo "CONFIG_WHPX=y" >> $config_target_mak
->  fi
-> +if test "$target_aligned_only" = "yes" ; then
-> +  echo "TARGET_ALIGNED_ONLY=y" >> $config_target_mak
-> +fi
->  if test "$target_bigendian" = "yes" ; then
->    echo "TARGET_WORDS_BIGENDIAN=y" >> $config_target_mak
->  fi
-> diff --git a/include/exec/poison.h b/include/exec/poison.h
-> index b862320fa6..955eb863ab 100644
-> --- a/include/exec/poison.h
-> +++ b/include/exec/poison.h
-> @@ -35,6 +35,7 @@
->  #pragma GCC poison TARGET_UNICORE32
->  #pragma GCC poison TARGET_XTENSA
->
-> +#pragma GCC poison TARGET_ALIGNED_ONLY
->  #pragma GCC poison TARGET_HAS_BFLT
->  #pragma GCC poison TARGET_NAME
->  #pragma GCC poison TARGET_SUPPORTS_MTTCG
-> diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-> index 5ee0046b62..9b50b73339 100644
-> --- a/include/qom/cpu.h
-> +++ b/include/qom/cpu.h
-> @@ -89,7 +89,7 @@ struct TranslationBlock;
->   * @do_unassigned_access: Callback for unassigned access handling.
->   * (this is deprecated: new targets should use do_transaction_failed
-instead)
->   * @do_unaligned_access: Callback for unaligned access handling, if
-> - * the target defines #ALIGNED_ONLY.
-> + * the target defines #TARGET_ALIGNED_ONLY.
->   * @do_transaction_failed: Callback for handling failed memory
-transactions
->   * (ie bus faults or external aborts; not MMU faults)
->   * @virtio_is_big_endian: Callback to return %true if a CPU which
-supports
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index b3e8a823e1..16eb8047cf 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -23,8 +23,6 @@
->  #include "cpu-qom.h"
->  #include "exec/cpu-defs.h"
->
-> -#define ALIGNED_ONLY
-> -
->  /* Alpha processors have a weak memory model */
->  #define TCG_GUEST_DEFAULT_MO      (0)
->
-> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-> index aab251bc4b..2be67c289a 100644
-> --- a/target/hppa/cpu.h
-> +++ b/target/hppa/cpu.h
-> @@ -30,7 +30,6 @@
->     basis.  It's probably easier to fall back to a strong memory model.
-*/
->  #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
->
-> -#define ALIGNED_ONLY
->  #define MMU_KERNEL_IDX   0
->  #define MMU_USER_IDX     3
->  #define MMU_PHYS_IDX     4
-> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-> index 21c0615e02..c13cd4eb31 100644
-> --- a/target/mips/cpu.h
-> +++ b/target/mips/cpu.h
-> @@ -1,8 +1,6 @@
->  #ifndef MIPS_CPU_H
->  #define MIPS_CPU_H
->
-> -#define ALIGNED_ONLY
-> -
->  #include "cpu-qom.h"
->  #include "exec/cpu-defs.h"
->  #include "fpu/softfloat.h"
-> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-> index aee733eaaa..ecaa7a18a9 100644
-> --- a/target/sh4/cpu.h
-> +++ b/target/sh4/cpu.h
-> @@ -23,8 +23,6 @@
->  #include "cpu-qom.h"
->  #include "exec/cpu-defs.h"
->
-> -#define ALIGNED_ONLY
-> -
->  /* CPU Subtypes */
->  #define SH_CPU_SH7750  (1 << 0)
->  #define SH_CPU_SH7750S (1 << 1)
-> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-> index 8ed2250cd0..1406f0ba2e 100644
-> --- a/target/sparc/cpu.h
-> +++ b/target/sparc/cpu.h
-> @@ -5,8 +5,6 @@
->  #include "cpu-qom.h"
->  #include "exec/cpu-defs.h"
->
-> -#define ALIGNED_ONLY
-> -
->  #if !defined(TARGET_SPARC64)
->  #define TARGET_DPREGS 16
->  #else
-> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-> index 2c277134f1..0459243e6b 100644
-> --- a/target/xtensa/cpu.h
-> +++ b/target/xtensa/cpu.h
-> @@ -32,8 +32,6 @@
->  #include "exec/cpu-defs.h"
->  #include "xtensa-isa.h"
->
-> -#define ALIGNED_ONLY
-> -
->  /* Xtensa processors have a weak memory model */
->  #define TCG_GUEST_DEFAULT_MO      (0)
->
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index be2c33c400..8d23fb0592 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1926,7 +1926,7 @@ static const char * const ldst_name[] =
->  };
->
->  static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) + 1] = {
-> -#ifdef ALIGNED_ONLY
-> +#ifdef TARGET_ALIGNED_ONLY
->      [MO_UNALN >> MO_ASHIFT]    = "un+",
->      [MO_ALIGN >> MO_ASHIFT]    = "",
->  #else
-> diff --git a/tcg/tcg.h b/tcg/tcg.h
-> index b411e17a28..529acb2ed8 100644
-> --- a/tcg/tcg.h
-> +++ b/tcg/tcg.h
-> @@ -333,10 +333,12 @@ typedef enum TCGMemOp {
->      MO_TE    = MO_LE,
->  #endif
->
-> -    /* MO_UNALN accesses are never checked for alignment.
-> +    /*
-> +     * MO_UNALN accesses are never checked for alignment.
->       * MO_ALIGN accesses will result in a call to the CPU's
->       * do_unaligned_access hook if the guest address is not aligned.
-> -     * The default depends on whether the target CPU defines
-ALIGNED_ONLY.
-> +     * The default depends on whether the target CPU defines
-> +     * TARGET_ALIGNED_ONLY.
->       *
->       * Some architectures (e.g. ARMv8) need the address which is aligned
->       * to a size more than the size of the memory access.
-> @@ -353,7 +355,7 @@ typedef enum TCGMemOp {
->       */
->      MO_ASHIFT = 4,
->      MO_AMASK = 7 << MO_ASHIFT,
-> -#ifdef ALIGNED_ONLY
-> +#ifdef TARGET_ALIGNED_ONLY
->      MO_ALIGN = 0,
->      MO_UNALN = MO_AMASK,
->  #else
-> --
-> 2.17.2
->
->
+Andrey Shinkevich (7):
+  iotests: allow Valgrind checking all QEMU processes
+  iotests: exclude killed processes from running under Valgrind
+  iotests: Add casenotrun report to bash tests
+  iotests: Valgrind fails with nonexistent directory
+  iotests: extended timeout under Valgrind
+  iotests: extend sleeping time under Valgrind
+  block/nbd: NBDReply is used being uninitialized
+
+ block/nbd.c                  |  2 +-
+ tests/qemu-iotests/028       |  6 +++-
+ tests/qemu-iotests/039       |  5 +++
+ tests/qemu-iotests/039.out   | 30 +++--------------
+ tests/qemu-iotests/051       |  4 +++
+ tests/qemu-iotests/061       |  2 ++
+ tests/qemu-iotests/061.out   | 12 ++-----
+ tests/qemu-iotests/137       |  1 +
+ tests/qemu-iotests/137.out   |  6 +---
+ tests/qemu-iotests/183       |  9 +++++-
+ tests/qemu-iotests/192       |  6 +++-
+ tests/qemu-iotests/247       |  6 +++-
+ tests/qemu-iotests/common.rc | 76 +++++++++++++++++++++++++++++++++-----------
+ 13 files changed, 102 insertions(+), 63 deletions(-)
+
+-- 
+1.8.3.1
+
+
