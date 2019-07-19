@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3AB6E821
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:45:25 +0200 (CEST)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E3A6E82F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 17:47:37 +0200 (CEST)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoV4W-0007oS-RF
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:45:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35109)
+	id 1hoV6f-0001Zo-16
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 11:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35449)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hoV4I-0007Ml-Q2
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:45:11 -0400
+ (envelope-from <eblake@redhat.com>) id 1hoV6Q-000190-Ld
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:47:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hoV46-0004dA-Nz
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:45:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24618)
+ (envelope-from <eblake@redhat.com>) id 1hoV6J-0005sS-Fa
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:47:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42788)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hoV3c-00047h-92; Fri, 19 Jul 2019 11:44:31 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hoV60-000498-RH
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 11:47:03 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1424A30832D3;
- Fri, 19 Jul 2019 15:43:39 +0000 (UTC)
-Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1991C619BB;
- Fri, 19 Jul 2019 15:43:32 +0000 (UTC)
-Date: Fri, 19 Jul 2019 16:43:31 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190719154331.GI24412@stefanha-x1.localdomain>
-References: <20190719133530.28688-1-mehta.aaru20@gmail.com>
- <20190719133530.28688-14-mehta.aaru20@gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 093FB30A7C5E;
+ Fri, 19 Jul 2019 15:43:44 +0000 (UTC)
+Received: from [10.3.116.46] (ovpn-116-46.phx2.redhat.com [10.3.116.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FB335798D;
+ Fri, 19 Jul 2019 15:43:40 +0000 (UTC)
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20190719082647.18113-1-mrolnik@gmail.com>
+ <20190719082647.18113-8-mrolnik@gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <d144f0f4-1f48-882e-848d-80aabdbdfeef@redhat.com>
+Date: Fri, 19 Jul 2019 10:43:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190719082647.18113-8-mrolnik@gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uJWb33pM2TcUAXIl"
-Content-Disposition: inline
-In-Reply-To: <20190719133530.28688-14-mehta.aaru20@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ protocol="application/pgp-signature";
+ boundary="SaW1wyF8Qhsm4Fiwhpnml0CBhn6wGBRi6"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 19 Jul 2019 15:43:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 19 Jul 2019 15:43:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 13/14] qemu-nbd: adds option for aio
- engines
+Subject: Re: [Qemu-devel] [PATCH v27 7/8] target/avr: Register AVR support
+ with the rest of QEMU, the build system, and the MAINTAINERS file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,42 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Maxim Levitsky <mlevitsk@redhat.com>,
- qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, saket.sinha89@gmail.com,
- Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefan@redhat.com>,
- Julia Suvorova <jusual@mail.ru>
+Cc: richard.henderson@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SaW1wyF8Qhsm4Fiwhpnml0CBhn6wGBRi6
+Content-Type: multipart/mixed; boundary="EQN2FlJ7Tex21iXw6FysYQgtYnQNxwsGM";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+Cc: philmd@redhat.com, richard.henderson@linaro.org
+Message-ID: <d144f0f4-1f48-882e-848d-80aabdbdfeef@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v27 7/8] target/avr: Register AVR support
+ with the rest of QEMU, the build system, and the MAINTAINERS file
+References: <20190719082647.18113-1-mrolnik@gmail.com>
+ <20190719082647.18113-8-mrolnik@gmail.com>
+In-Reply-To: <20190719082647.18113-8-mrolnik@gmail.com>
 
---uJWb33pM2TcUAXIl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--EQN2FlJ7Tex21iXw6FysYQgtYnQNxwsGM
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2019 at 07:05:29PM +0530, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+On 7/19/19 3:26 AM, Michael Rolnik wrote:
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 > ---
->  qemu-nbd.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> +++ b/qapi/common.json
+> @@ -183,11 +183,12 @@
+>  #        is true even for "qemu-system-x86_64".
+>  #
+>  # ppcemb: dropped in 3.1
+> +# avr: added in 4.1
 
---uJWb33pM2TcUAXIl
+Are you trying to get this into 4.1?  rc2 is awfully late to be
+introducing a new target. I suspect this should be 4.2.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--EQN2FlJ7Tex21iXw6FysYQgtYnQNxwsGM--
+
+--SaW1wyF8Qhsm4Fiwhpnml0CBhn6wGBRi6
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0x5SMACgkQnKSrs4Gr
-c8jlEAgAwbQqDTx9DGViYugOZZIg5euntu7tz7//qLGkolSs95VIqsUK6uNOU7Rf
-Cz5lDcCoQjzmCfK82Dbso/9Ee6wM38KZbAo1AwizvUTWjk3P2GDZes4s7Adm2MUF
-u688rafxVIdLNn+wH4a4UlQfe3C5WFAFq8C5zQRgitZCoPqiXnFFGDlnTdmU4+KB
-fHgjdB8wKyMb6u7erwE0IIzzzDQEKRf7qVhsqoYbi/it1bFyXwmK9MyVuD2G+1qJ
-FATCHLVJqfG3UjhcuxdAkax9B1aqGAkpqaY0pjBXBz9ubpCGwk+DqqjPIT+cEahA
-BRHcJb8+M9pVVUIs25R6kma2JEaZQg==
-=UGPg
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0x5SsACgkQp6FrSiUn
+Q2quzAf+KjchvKdeb1HFoQvdi1p9RpQbMwuA4EWFwj5TH32N8yY0qnW2gui86T8t
+4XoOv2N4l0DlMCpKqeWdUd5nSaZ8mHQj3Mn3cyofJJgeYtbjtP6L3zgfGHwFi/z8
+k8S9GC29jpqTlMXFzIAeLwZQVACEdxDafq0i0D+2HKvYzWL/hxWDFnhJyNB0JqvF
+jsN/0h09UZGFP5t+IfBCZI0Vg+Kz9McNejrCSfE2EuJ15MBDoeCrXi0S4p5kI53E
+EyfDD0uFw4iqZlL5UPqHN2UJfcJ1+BTjeN6Z0rqSpuOkenxe30ZbjwmaIZkoADnS
+SQvq/yBwUZwEtRhFv4iuCafuR97lOA==
+=aH6G
 -----END PGP SIGNATURE-----
 
---uJWb33pM2TcUAXIl--
+--SaW1wyF8Qhsm4Fiwhpnml0CBhn6wGBRi6--
 
