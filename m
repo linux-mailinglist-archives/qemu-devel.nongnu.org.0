@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D53A6D8A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:59:21 +0200 (CEST)
-Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423876D91A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 04:35:48 +0200 (CEST)
+Received: from localhost ([::1]:42042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoIB6-0001Ih-9c
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60617)
+	id 1hoIkM-0003Eo-Uc
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 22:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40673)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hoIAl-0000AF-JG
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:59:01 -0400
+ (envelope-from <oscar.zhangbo@huawei.com>) id 1hoIk9-0002lF-Ip
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 22:35:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hoIAk-00045b-30
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:58:59 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34398)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hoIAj-00044s-Sp
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:58:58 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b13so13449696pfo.1
- for <qemu-devel@nongnu.org>; Thu, 18 Jul 2019 18:58:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=fIpkuDV33u/zTIlEnXKY+GvXC8kJ3wvTZ0jaMQOvNzE=;
- b=pfFTxehkwbDti/IOn+AOCN11I5gqj6ftxg5DJFjgIzVy79i7HbGebngkpBcmpomYr/
- zjh5UGx3Doy2RAYh1i+7WALliRtUWUXQg+dPU4T/4QfN9AFXMmx6zfs3NlPSR2ZNkJ0X
- NpQ9zl9px1A36TFrDJsWtYDDS5rpDZ4DzPFbxDz/xm/EDRK5ed6qvB4YhgPItgfrPZC5
- n+mOVx9jWvCovEj8rMJ/xevPZjiVGr2HGdra6ju2iRgr9LgU+b2BTlD1pehflsLZ0/+0
- goFcLwLCEINf4FbYedyCt1Ge6MLiYOUtO+u9YbhKUDPiBuGk6mf1i5CWSp59rntjSlGt
- 3gfA==
-X-Gm-Message-State: APjAAAXQGGu5ZQyt58V/QVDPW7JjxQrRukzzKsDID63U3JjYPNa9sIEf
- AJ5uH21yUOSjWtlb7iOUZ7OlwuvV
-X-Google-Smtp-Source: APXvYqx2tIXEC+FfWqzEPM7TjZ5I8NmEr71Q31JHbr/mxoeYAhwFIdBf+7yyowHYSQmt3NJGxyy1gw==
-X-Received: by 2002:a17:90a:9a95:: with SMTP id
- e21mr53214788pjp.98.1563501536351; 
- Thu, 18 Jul 2019 18:58:56 -0700 (PDT)
-Received: from localhost ([12.206.222.5])
- by smtp.gmail.com with ESMTPSA id 2sm52092741pgm.39.2019.07.18.18.58.55
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 18 Jul 2019 18:58:55 -0700 (PDT)
-Date: Thu, 18 Jul 2019 18:58:11 -0700
-Message-Id: <20190719015811.14776-3-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190719015811.14776-1-palmer@sifive.com>
-References: <20190719015811.14776-1-palmer@sifive.com>
+ (envelope-from <oscar.zhangbo@huawei.com>) id 1hoIk8-00073D-EM
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 22:35:33 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2048 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <oscar.zhangbo@huawei.com>)
+ id 1hoIk6-0006vY-6D; Thu, 18 Jul 2019 22:35:30 -0400
+Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.57])
+ by Forcepoint Email with ESMTP id 50EB4CAF12F6956C0995;
+ Fri, 19 Jul 2019 10:35:22 +0800 (CST)
+Received: from DGGEML423-HUB.china.huawei.com (10.1.199.40) by
+ DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 19 Jul 2019 10:35:21 +0800
+Received: from DGGEML529-MBS.china.huawei.com ([169.254.5.192]) by
+ dggeml423-hub.china.huawei.com ([10.1.199.40]) with mapi id 14.03.0439.000;
+ Fri, 19 Jul 2019 10:35:15 +0800
+From: "Zhangbo (Oscar)" <oscar.zhangbo@huawei.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>, "mst@redhat.com" <mst@redhat.com>
+Thread-Topic: Discussion: redundant process during hotplug and missed
+ process during unplug
+Thread-Index: AdU92onP9moK68IvQMmxmVoIyEEGrQ==
+Date: Fri, 19 Jul 2019 02:35:14 +0000
+Message-ID: <0259E1C966E8C54AA93AA2B1240828E672DE0920@DGGEML529-MBS.china.huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.177.17.158]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.195
-Subject: [Qemu-devel] [PULL 2/2] hw/riscv: Load OpenSBI as the default
- firmware
+X-Received-From: 45.249.212.189
+Subject: [Qemu-devel] Discussion: redundant process during hotplug and
+ missed process during unplug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,204 +61,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Palmer Dabbelt <palmer@sifive.com>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: fangying <fangying1@huawei.com>, Jiangyifei <jiangyifei@huawei.com>,
+ "limingwang \(A\)" <limingwang@huawei.com>,
+ "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
-
-If the user hasn't specified a firmware to load (with -bios) or
-specified no bios (with -bios none) then load OpenSBI by default. This
-allows users to boot a RISC-V kernel with just -kernel.
-
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- hw/riscv/boot.c         | 54 +++++++++++++++++++++++++++++++++++++++++
- hw/riscv/sifive_u.c     |  7 +++---
- hw/riscv/virt.c         | 11 ++++++---
- include/hw/riscv/boot.h |  3 +++
- qemu-deprecated.texi    | 20 +++++++++++++++
- 5 files changed, 89 insertions(+), 6 deletions(-)
-
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index ff023f42d01d..5dee63011b43 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "exec/cpu-defs.h"
-@@ -32,6 +33,59 @@
- # define KERNEL_BOOT_ADDRESS 0x80200000
- #endif
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr)
-+{
-+    char *firmware_filename;
-+
-+    if (!machine->firmware) {
-+        /*
-+         * The user didn't specify -bios.
-+         * At the moment we default to loading nothing when this hapens.
-+         * In the future this defaul will change to loading the prebuilt
-+         * OpenSBI firmware. Let's warn the user and then continue.
-+        */
-+        warn_report("No -bios option specified. Not loading a firmware.");
-+        warn_report("This default will change in QEMU 4.3. Please use the " \
-+                    "-bios option to aviod breakages when this happens.");
-+        warn_report("See QEMU's deprecation documentation for details");
-+        return;
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        /*
-+         * The user has specified "-bios default". That means we are going to
-+         * load the OpenSBI binary included in the QEMU source.
-+         *
-+         * We can't load the binary by default as it will break existing users
-+         * as users are already loading their own firmware.
-+         *
-+         * Let's try to get everyone to specify the -bios option at all times,
-+         * so then in the future we can make "-bios default" the default option
-+         * if no -bios option is set without breaking anything.
-+         */
-+        firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
-+                                           default_machine_firmware);
-+        if (firmware_filename == NULL) {
-+            error_report("Unable to load the default RISC-V firmware \"%s\"",
-+                         default_machine_firmware);
-+            exit(1);
-+        }
-+    } else {
-+        firmware_filename = machine->firmware;
-+    }
-+
-+    if (strcmp(firmware_filename, "none")) {
-+        /* If not "none" load the firmware */
-+        riscv_load_firmware(firmware_filename, firmware_load_addr);
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        g_free(firmware_filename);
-+    }
-+}
-+
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr)
- {
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index ca53a9290db9..71b8083c05ed 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -49,6 +49,8 @@
- 
- #include <libfdt.h>
- 
-+#define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -269,9 +271,8 @@ static void riscv_sifive_u_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[SIFIVE_U_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[SIFIVE_U_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ecdc77d7281f..25faf3b4178c 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -44,6 +44,12 @@
- 
- #include <libfdt.h>
- 
-+#if defined(TARGET_RISCV32)
-+# define BIOS_FILENAME "opensbi-riscv32-virt-fw_jump.bin"
-+#else
-+# define BIOS_FILENAME "opensbi-riscv64-virt-fw_jump.bin"
-+#endif
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -399,9 +405,8 @@ static void riscv_virt_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[VIRT_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[VIRT_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename);
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index daa179b600f4..d56f2ae3eb5d 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -20,6 +20,9 @@
- #ifndef RISCV_BOOT_H
- #define RISCV_BOOT_H
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_kernel(const char *kernel_filename);
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index c90b08d553a6..fff07bb2a319 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -121,6 +121,26 @@ the backing storage specified with @option{-mem-path} can actually provide
- the guest RAM configured with @option{-m} and QEMU will fail to start up if
- RAM allocation is unsuccessful.
- 
-+@subsection RISC-V -bios (since 4.1)
-+
-+QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
-+RISC-V virt machine and sifive_u machine.
-+
-+QEMU 4.1 has no changes to the default behaviour to avoid breakages. This
-+default will change in a future QEMU release, so please prepare now. All users
-+of the virt or sifive_u machine must change their command line usage.
-+
-+QEMU 4.1 has three options, please migrate to one of these three:
-+ 1. ``-bios none`` - This is the current default behavior if no -bios option
-+      is included. QEMU will not automatically load any firmware. It is up
-+      to the user to load all the images they need.
-+ 2. ``-bios default`` - In a future QEMU release this will become the default
-+      behaviour if no -bios option is specified. This option will load the
-+      default OpenSBI firmware automatically. The firmware is included with
-+      the QEMU release and no user interaction is required. All a user needs
-+      to do is specify the kernel they want to boot with the -kernel option
-+ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
--- 
-2.21.0
-
+SGkgQWxsOg0KSSBoYXZlIDIgcXVlc3Rpb25zIGFib3V0ICh1bilob3RwbHVnIG9uIHBjaWUtcm9v
+dC1wb3J0Lg0KRmlyc3QgUXVlc3Rpb24gKGhvdHBsdWcgZmFpbHVyZSBiZWNhdXNlIG9mIHJlZHVu
+ZGFudCBQQ0lfRVhQX0xOS1NUQV9ETExMQSBiaXQgc2V0KToNCiAgICBkdXJpbmcgVk0gYm9vdCwg
+cWVtdSBzZXRzIFBDSV9FWFBfTE5LU1RBX0RMTExBIGFjY29yZGluZyB0byB0aGlzIHByb2Nlc3M6
+DQogICAgICAgIHBjaWVfY2FwX2luaXQoKSAtPiBwY2llX2NhcF92MV9maWxsKCksIA0KICAgIGV2
+ZW4gaWYgdGhlcmUncyBubyBwY2llIGRldmljZSBhZGRlZCB0byB0aGUgVk0uDQogICAgSSBub3Rp
+Y2VkIHRoYXQgZHVyaW5nIGhvdHBsdWcsIHFlbXUgYWxzbyBzZXRzIFBDSV9FWFBfTE5LU1RBX0RM
+TExBIGluIHBjaWVfY2FwX3Nsb3RfaG90cGx1Z19jYigpLg0KICAgIEl0IG1lYW5zIHRoYXQgdGhl
+IGJpdCBQQ0lfRVhQX0xOS1NUQV9ETExMQSBpcyBzZXQgVFdJQ0UuDQogICAgd2h5IHNldCB0aGlz
+IGJpdCBkdXJpbmcgaW5pdGlhbGl6aW5nIHBjaWUtcm9vdC1wb3J0PyBJdCBzZWVtcyB1bm5lY2Vz
+c2FyeS4NCiAgICBUaGUgYmFkIHNpZGUgb2YgdGhpcyBpcyBpdCBjYXVzZXMgSE9UUExVRyBGQUlM
+VVJFIGlmIHdlIGJvb3QgdGhlIFZNIGFuZCBob3RwbHVnIGEgcGNpZSBkZXZpY2UgYXQgdGhlIHNh
+bWUgdGltZToNCglJbiBWTSBrZXJuZWzvvIxhY2NvcmRpbmcgdG8gdGhpcyBiaXQgc2V0LCBpdCBz
+ZW5zZXMgYSBQREMgZXZlbnQsIHRoZSBwcm9jZXNzIGlzOiANCiAgICAgICAgcGNpZWhwX3Byb2Jl
+IC0+IHBjaWVfaW5pdCAtPiBwY2llX2luaXRfc2xvdCAtPiBwY2llaHBfcXVldWVfcHVzaGJ1dHRv
+bl93b3JrLiANCiAgICBJZiB0aGUgMiBQREMgZXZlbnRzIGdldCB0b28gY2xvc2UsIHRoZSBWTSBr
+ZXJuZWwgd2lsbCB3cm9uZ2x5IHVucGx1ZyB0aGUgZGV2aWNlLg0KU3VnZ2VzdGlvbiB0byB0aGUg
+MXN0IHByb2JsZW06DQoJQ2FuIEkgcmVtb3ZlIHRoZSBQQ0lfRVhQX0xOS1NUQV9ETExMQSBiaXQg
+c2V0IHByb2Nlc3MgZHVyaW5nIHBjaWVfY2FwX2luaXQoKS4NCg0KU2Vjb25kIFF1ZXN0aW9uICh0
+aW1lIGNvc3QgdG9vIG11Y2ggZHVyaW5nIHBjaWUgZGV2aWNlIHVucGx1Zyk6DQogICAgcWVtdSBv
+bmx5IHNlbmQgQUJQIGV2ZW50IHRvIFZNIGtlcm5lbCBkdXJpbmcgdW5wbHVnaW5nIHBjaWUgZGV2
+aWNlcywgVk0ga2VybmVsIHJlY2VpdmVzIHRoZQ0KICAgIEFCUCBldmVudCB0aGVuIHNsZWVwIDVz
+IHRvIGV4cGVjdCBhIFBEQyBldmVudCwgd2hpY2ggY2F1c2VzIHVucGx1Z2luZyBkZXZpY2VzIHRh
+a2VzIHRvbyBsb25nLiANClN1Z2dlc3Rpb24gdG8gdGhlIDJuZCBwcm9ibGVtOg0KCUNhbiBJIHNl
+bmQgQUJQIGFuZCAqUERDKiBldmVudHMgdG8ga2VybmV0IHdoZW4gdW5wbHVnIGRldmljZXMuDQo=
 
