@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17B06D895
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:49:55 +0200 (CEST)
-Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB1A6D8A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Jul 2019 03:58:42 +0200 (CEST)
+Received: from localhost ([::1]:41934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoI1y-00014z-Up
-	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57912)
+	id 1hoIAT-00086W-C7
+	for lists+qemu-devel@lfdr.de; Thu, 18 Jul 2019 21:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60403)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <guoheyi@huawei.com>) id 1hoI1m-0000bM-0B
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:49:43 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hoIAE-0007ag-2a
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:58:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1hoI1k-0006fD-NG
- for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:49:41 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:58568 helo=huawei.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1hoIAC-0003qC-Le
+ for qemu-devel@nongnu.org; Thu, 18 Jul 2019 21:58:26 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53953 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1hoI1h-0006Wv-O1; Thu, 18 Jul 2019 21:49:38 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 946D830309C0A785A41F;
- Fri, 19 Jul 2019 09:49:28 +0800 (CST)
-Received: from [127.0.0.1] (10.133.216.73) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Fri, 19 Jul 2019
- 09:49:22 +0800
-To: Dave Martin <Dave.Martin@arm.com>, Mark Rutland <mark.rutland@arm.com>
-References: <1b0aa6b2-80b1-a72e-6849-7323c3b9c6bc@huawei.com>
- <20190715134059.GJ2790@e103592.cambridge.arm.com>
- <20190715134848.GI56232@lakrids.cambridge.arm.com>
- <4daefb19-6c15-f82c-31e9-1ae035d45bd5@arm.com>
- <20190715144446.GK56232@lakrids.cambridge.arm.com>
- <20190716084734.GL2790@e103592.cambridge.arm.com>
-From: Guoheyi <guoheyi@huawei.com>
-Message-ID: <287f566e-7697-3763-56b8-eb4821bd8347@huawei.com>
-Date: Fri, 19 Jul 2019 09:49:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hoIAB-0003mx-Cj; Thu, 18 Jul 2019 21:58:24 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45qZ0P0ZPMz9s4Y; Fri, 19 Jul 2019 11:58:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563501493;
+ bh=/KiWScIChoOQv3z6MT3HXkiDpCYFtK/R75OMVaH48W0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DDNh2c+MBADPedvCLN4Air+WYFAnu/V9+mqaehWwwaRJRTeZI8bA5lviZ63uriowM
+ csTzPVlKPrGTG1gIvQ9l75mCsqHfxvZKxp1zNhtM9P5Uaz+yaNccS6rP10RKlLhHOT
+ VsdizZGuB6ti4+KTLaJYXivGEH38LYBJxS3gZI88=
+Date: Fri, 19 Jul 2019 11:34:13 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Ivan Warren <ivan@vmfacility.fr>
+Message-ID: <20190719013413.GO8468@umbus.fritz.box>
+References: <c3466869-e259-fe38-c974-b3ccd349345f@vmfacility.fr>
+ <20190718191911.3dcb39cb@bahia.lab.toulouse-stg.fr.ibm.com>
+ <58ace4b9-3ed0-2658-a914-6a2cacb52fa9@vmfacility.fr>
 MIME-Version: 1.0
-In-Reply-To: <20190716084734.GL2790@e103592.cambridge.arm.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.216.73]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+wSiqF7c0ySQ2tNi"
+Content-Disposition: inline
+In-Reply-To: <58ace4b9-3ed0-2658-a914-6a2cacb52fa9@vmfacility.fr>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.32
-Subject: Re: [Qemu-devel] [RFC] Add virtual SDEI support in qemu
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] Allow bit 15 to be set to 1 on
+ slbmfee and slbmfev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,82 +57,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <marc.zyngier@arm.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, James Morse <james.morse@arm.com>,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for all your comments. I'm going to write a simple demo to go 
-through the whole workflow first, and then adjust the policies following 
-the conclusions of our discussion.
 
-Heyi
+--+wSiqF7c0ySQ2tNi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jul 18, 2019 at 10:15:52PM +0200, Ivan Warren wrote:
+>=20
+> Le 7/18/2019 =C3=A0 7:19 PM, Greg Kurz a =C3=A9crit=C2=A0:
+> > We usually mention the subsystem name in the subject, ie.
+> >=20
+> > target/ppc: Allow bit 15 to be set to 1 on slbmfee and slbmfev
+> Gotcha ! Still learning the process as I go. Next time I submit something,
+> I'll follow the guidelines more accurately.
+> >=20
+> > On Thu, 18 Jul 2019 14:44:49 +0200
+> > Ivan Warren <ivan@vmfacility.fr> wrote:
+> >=20
+> > > Allow bit 15 to be 1 in the slbmfee and slbmfev in TCG
+> > > as per Power ISA 3.0B (Power 9) Book III pages 1029 and 1030.
+> > > Per this specification, bit 15 is implementation specific
+> > > so it may be 1, but can probably ne safely ignored.
+>=20
+> Another typo from me !
+>=20
+> s/ne safely/be safely/
+>=20
+> > >=20
+> > > Power ISA 2.07B (Power 7/Power 8) indicates the bit is
+> > > reserved but some none Linux operating systems do set
+> > s/none Linux/non-Linux
+> Thanks ! Sorry for the typo !
+> >=20
+> > > this bit to 1 when entering the debugger.
+> > > So it is likely it is implemented on those systems
+> > > but wasn't yet documented.
+> > >=20
+> > ISA describes things that are common to several processor types,
+> > but each implementation may do some extra stuff... like giving
+> > a special meaning to an invalid instruction form for example (see
+> > commit fa200c95f7f99ce14b8af25ea0be478c722d3cec). This is supposed
+> > to be documented in the user manual.
+> >=20
+> > Maybe something similar was done with the reserved bit 15, even if I
+> > could fine no trace of that in the Power8 UM... of course. I'll try
+> > to find clues within IBM.
+> >=20
+> > https://openpowerfoundation.org/?resource_lib=3Dpower8-processor-users-=
+manual
+> >=20
+> > but it is indeed mentioned in the Power9 UM:
+> >=20
+> > https://openpowerfoundation.org/?resource_lib=3Dpower-processor-users-m=
+anual
+> >=20
+> > 4.10.7.2 SLB Management Instructions
+> >=20
+> > The POWER9 core implements the SLB management instructions as defined i=
+n the
+> > Power ISA (Version 3.0B). Specifically, the following instruction detai=
+ls are
+> > noteworthy:
+> > =E2=80=A2 The slbmfee and slbmfev instructions can read any SLB entry w=
+hen UPRT =3D =E2=80=981=E2=80=99,
+> >    if the L-bit in the instruction image is set to a =E2=80=981=E2=80=
+=99. This is an
+> >    implementation-specific feature that will only be used in the future=
+ if and
+> >    when the POWER9 processor core supports UPRT =3D =E2=80=981=E2=80=99=
+ for HPT translation.
+> >=20
+> > Not sure if we support that in TCG, but it doesn't hurt to relax the ch=
+eck
+> > if that's enough to make AIX's debugger happy.
+> Yep !
+> >=20
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > > Signed-off-by: Ivan Warren <ivan@vmfacility.fr>
+> > > ---
+> > >=20
+> > > The original creator of the patch is "Zhuowei Zhang"
+> > > (https://twitter.com/zhuowei) but I couldn't find any e-mail address.
+> > >=20
+> > This is the original patch, correct ?
+> >=20
+> > https://github.com/zhuowei/qemu/commit/c5f305c5d0cd336b2bb31cab8a70f90b=
+72905a1e
+> Indeed !
+> >=20
+> > After speaking with some QEMU folks on irc, it is okay to ignore the la=
+ck
+> > of S-o-b because the patch is trivial. But the general rule is to always
+> > require an S-o-b when posting someone else's patch.
+>=20
+> Is it good practice to add a S-o-b without the original author's consent
+> and/or without an e-mail address ?
+
+Absolutely not.
+
+> Although I would very much doubt he would
+> have complained.
+>=20
+> Anyway, thanks for reviewing and for the tips ! (and sorry for all the
+> noise).
+>=20
+> >=20
+> > >   =C2=A0target/ppc/translate.c | 4 ++--
+> > >   =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > > index 4a5de28036..85f8b147ba 100644
+> > > --- a/target/ppc/translate.c
+> > > +++ b/target/ppc/translate.c
+> > > @@ -7064,8 +7064,8 @@ GEN_HANDLER2(mtsr_64b, "mtsr", 0x1F, 0x12, 0x06,
+> > > 0x0010F801, PPC_SEGMENT_64B),
+> > >   =C2=A0GEN_HANDLER2(mtsrin_64b, "mtsrin", 0x1F, 0x12, 0x07, 0x001F00=
+01,
+> > >   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 PPC_SEGMENT_64B),
+> > >   =C2=A0GEN_HANDLER2(slbmte, "slbmte", 0x1F, 0x12, 0x0C, 0x001F0001,
+> > > PPC_SEGMENT_64B),
+> > > -GEN_HANDLER2(slbmfee, "slbmfee", 0x1F, 0x13, 0x1C, 0x001F0001,
+> > > PPC_SEGMENT_64B),
+> > > -GEN_HANDLER2(slbmfev, "slbmfev", 0x1F, 0x13, 0x1A, 0x001F0001,
+> > > PPC_SEGMENT_64B),
+> > > +GEN_HANDLER2(slbmfee, "slbmfee", 0x1F, 0x13, 0x1C, 0x001E0001,
+> > > PPC_SEGMENT_64B),
+> > > +GEN_HANDLER2(slbmfev, "slbmfev", 0x1F, 0x13, 0x1A, 0x001E0001,
+> > > PPC_SEGMENT_64B),
+> > >   =C2=A0GEN_HANDLER2(slbfee_, "slbfee.", 0x1F, 0x13, 0x1E, 0x001F0000,
+> > > PPC_SEGMENT_64B),
+> > >   =C2=A0#endif
+> > >   =C2=A0GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBI=
+A),
+>=20
 
 
-On 2019/7/16 16:47, Dave Martin wrote:
-> On Mon, Jul 15, 2019 at 03:44:46PM +0100, Mark Rutland wrote:
->> On Mon, Jul 15, 2019 at 03:26:39PM +0100, James Morse wrote:
->>> On 15/07/2019 14:48, Mark Rutland wrote:
->>>> On Mon, Jul 15, 2019 at 02:41:00PM +0100, Dave Martin wrote:
->>>>> One option (suggested to me by James Morse) would be to allow userspace
->>>>> to disable in the in-kernel PSCI implementation and provide its own
->>>>> PSCI to the guest via SMC -- in which case userspace that wants to
->>>>> implement SDEI would have to implement PSCI as well.
->>>> I think this would be the best approach, since it puts userspace in
->>>> charge of everything.
->>>>
->>>> However, this interacts poorly with FW-based mitigations that we
->>>> implement in hyp. I suspect we'd probably need a mechanism to delegate
->>>> that responsibility back to the kernel, and figure out if that has any
->>>> interaction with thigns that got punted to userspace...
->>> This has come up before:
->>> https://lore.kernel.org/r/59C139D0.3040507@arm.com
->>>
->>> I agree Qemu should opt-in to this, it needs to be a feature that is enabled.
->>>
->>> I had an early version of something like this for testing SDEI before
->>> there was firmware available. The review feedback from Christoffer was
->>> that it should include HVC and SMC, their immediates, and shouldn't be
->>> tied to SMC-CC ranges.
->>>
->>> I think this should be a catch-all as Heyi describes to deliver
->>> 'unhandled SMC/HVC' to user-space as hypercall exits. We should
->>> include the immediate in the struct.
->>>
->>> We can allow Qemu to disable the in-kernel PSCI implementation, which
->>> would let it be done in user-space via this catch-all mechanism. (PSCI
->>> in user-space has come up on another thread recently). The in-kernel
->>> PSCI needs to be default-on for backwards compatibility.
->>>
->>> As Mark points out, the piece that's left is the 'arch workaround'
->>> stuff. We always need to handle these in the kernel. I don't think
->>> these should be routed-back, they should be un-obtainable by
->>> user-space.
->> Sure; I meant that those should be handled in the kernel rather than
->> going to host userspace and back.
->>
->> I was suggesting was that userspace would opt into taking ownership of
->> all HVC calls, then explicitly opt-in to the kernel handling specific
->> (sets of) calls.
-> The most logical thing to do would be to have userspace handle all
-> calls, but add an ioctl to forward a call to KVM.  This puts userspace
-> in charge of the SMCCC interface, with KVM handling only those things
-> that userspace can't do for itself, on request.
->
-> If the performance overhead is unacceptable for certain calls, we could
-> have a way to delegate specific function IDs to KVM.  I suspect that
-> will be the exception rather than the rule.
->
->> There are probably issues with that, but I suspect defining "all
->> undandled calls" will be problematic otherwise.
-> Agreed: the set of calls not handled by KVM will mutate over time.
->
-> Cheers
-> ---Dave
->
-> .
->
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--+wSiqF7c0ySQ2tNi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0xHhMACgkQbDjKyiDZ
+s5IU9BAAm8BcB/zUjvF5f83AlZsvQrkfbAXGMZQr2AxKF3AZ1nMbbiPC6R2pFxgQ
+hXs0+a1QIgQljro9jTc+WIVmfR9Hf0uIStz0haoLV5gPDwu6Qfbio/JcI8kZTIeo
+0JtjejLojDiufWHBlai18M/SXqlcWCUtVatu2ROta5zUXOIeTXGOOhXaf/sbBy/r
+hmAvQkSdkgncrAhMcQOXSmbv2MH63nl9nb27unZOr93HekXs3/VFYt7nB3G9Byhd
+8QqE+LCP+BK55JaWQXcojBVH+nBAYrpBk33SgIwDKh9gdI15Nk35Er18Mr+l/jG3
+ha5QEgYmmQ40v13oBRuW9GmnDFcdmTOWGpztVAAB60Q+CL7zoB6/UTNiBvbaWdFZ
+4xqURFpiExleJEil2UuOPg0FsY3ZpVpSzfptQioNMaXeAOxUiizda1CAPYFzQ4rf
+S4EfK+ZTHoV4CopeZBy+wEOPesJD/fAV7zhTwy1lQjiyFcpzRUhKESXcwyoqivfU
+8j1gzqSvyflLWcLIdtqZ7wa0Ap7Q21z+g1AyZg9sJYmTSQ+IFbsXRSdhDb6u111S
+dsPEd6Qg721otPw5uh6YDnUeGME1CuaqcM/EOF5rESQyc7TXtGsINpG6Oa23m3K+
+lL4wD1ijyp1Wl4JjJZfoU4tkB+R7z2LgDlQp2Wj7ADlVLlPEnwI=
+=2fmB
+-----END PGP SIGNATURE-----
+
+--+wSiqF7c0ySQ2tNi--
 
