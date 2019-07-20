@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E296EFD9
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:20:56 +0200 (CEST)
-Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781376EFD6
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:20:24 +0200 (CEST)
+Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1horAN-0005DV-JH
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39833)
+	id 1hor9q-0002SU-Re
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8R-0005rg-Uc
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:56 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8S-0005wR-Vu
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8R-00086T-12
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:55 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39314)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8R-00087S-SP
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:56 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42934)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8Q-00085h-RF
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:54 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id u25so21150873wmc.4
- for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:54 -0700 (PDT)
+ id 1hor8R-00086d-Lh
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:55 -0400
+Received: by mail-wr1-x431.google.com with SMTP id x1so20022821wrr.9
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cnx1rgP4vCPMdBzxOJnmvGYzuuFVyS3iImpvp8s2dHs=;
- b=rvUDObsAW+sIc0IuEYdvyWt5rcPzKGlCc7pv0Hky6ZWUIxx1+INH/4strtkendaZPk
- jPcwuFoPVBGMUGkhK/F6hV7+DJGoiXtazpU8ICbWzV8q46VlaCvD0pvrllQ4cfpvDHXJ
- 6fFVsMdZvx0k9PuP2sBfD038ZYJ2XjObIEz6E/Lw625SgNLr+9xQ9i8Z/gfL/ioztzsN
- 5wWm9xrHkVLWwQT3rJYVsXlMrdfulHSFnT4++WqBAz4vDY/HJMQ5+bEtZLdeLC6nVIsO
- 0PBqTal79T9G/MdU15BbJjgRHozc9lQNTZTUo8P1Qx3AbhbjjREBJMUNxHEmBJRemO9M
- NXsg==
+ bh=gEyNtMZO6zjfyzbu3zzmhWKRQ42+siiVg/LlDUHOq+c=;
+ b=j+mvkvVCSTi0ypnxPSjFFSFtm5hSzfk7JxmV91Q9Dk77VcLQuL6ULdGpyDQdCJWbTQ
+ LQLDAJMafu0QbAcmWdUwLkma3fmGPVrRTg5NMoDh8cl5+83TLfxaw7WSG/HoJhAUKWM4
+ vu71CwwvbgJiDAINDRsrPfhZ2VK/OwTez+wGON3E3WyDQ7ZiVU9PaidjmtcjYhZwLh4V
+ d4G4ccsSG5eN0MplgHgIefjzIEn5lrhSmcDyk2Cj1NVplghxNdqRdkErdT2/Sd66L5DZ
+ pU5EYwccDbfqle7OY1KU9hziZiwKERLd476QiSqi1U04FQvUnxLERYj8bmagR4KC8G4R
+ 30iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Cnx1rgP4vCPMdBzxOJnmvGYzuuFVyS3iImpvp8s2dHs=;
- b=VDepK2F9MS9Bf+cUPvkmxN92w+CrsoMGt4sHAbAZGXoF3II8/jJcHWNL0O/TDQ0RYV
- dPt8z7xpDKR/eRrigmH4yVEfZxelWVI1efsKL03/N1ASG0R/LFifnmkAS71NzvdP9Rvj
- eZ2hgrOCPdv5cYPMwNQjAhV/2gH+S6FcQwLiS6inCH9Kq8zOC8+UqIj4cfoUYDIucFuh
- ZJnnkETGBwpJE5oPYPyRrcRNcZYG7R6HLb14HzjIPSnrAaf30CAEXQVg10PtflcpMA8t
- 4gGEBeO/a8i/e/FybIY8/Dh5RohozUDYehHYcS/YKaE9Q89FpdtT7QroXtoFBfT+WUUH
- s1zQ==
-X-Gm-Message-State: APjAAAXOS6vFv0OHsDsDM12jSJ216pmLDYx8lZIrWfYWtZSCTFWgQCaB
- iRBXPOzhY2uFkH29lP9R5NxmO95XOno=
-X-Google-Smtp-Source: APXvYqycAWAn+LX1DKOCIGLO0wHaJO3PfY8NQy5ODe34D6+dF1yqrREXUwu6yO3E2IQLi0jSB6DdKQ==
-X-Received: by 2002:a1c:7e90:: with SMTP id
- z138mr51983855wmc.128.1563635933613; 
- Sat, 20 Jul 2019 08:18:53 -0700 (PDT)
+ bh=gEyNtMZO6zjfyzbu3zzmhWKRQ42+siiVg/LlDUHOq+c=;
+ b=l4TqYU8A9C6t2EJSHVR+m7Bo6P4wdWKSWDm/Qa48VuT1+nXUMIvpZM9bFAQ2VHtGRS
+ WA1vzfD7HIyVod0sBqboBdlnc0VN/bQnEpeOdREzRztidW04WYHJVJGU4PncORebmHvd
+ 4RI2V0X2fA0YZ5UN98bY7eY4GE5c293ct+Bj4EZudcnP8Hr2/jtQNrhqQlpbk9dAP344
+ 3tRjhUdQk6G/ImMLquptSyulZb/FtBZ7Tfq5qre47xlLc6S0b/xDRZgd3hA3azd8s9PY
+ z6VkLljqiACVzMAmeXQ4KJwMF/xhCUomGfP9Ma/4CcpuHZl55uj4dni0bAoERZbth4cd
+ 93nQ==
+X-Gm-Message-State: APjAAAWRjf3rKKOxepgiY4JtzbCy1EJQ3gG44/Jc2CfR/MUIGAh4J5fi
+ PhBmxiNV5WmKn3rlAi4wYKZeOLP+hzw=
+X-Google-Smtp-Source: APXvYqzqY/Uk/1g0Q98sK4OuEgomBt5kEe/JS9CtMdDYUI/esmTanpqv/kYCNSdrhsqADNt+02j9bA==
+X-Received: by 2002:adf:aac8:: with SMTP id i8mr18862560wrc.56.1563635934464; 
+ Sat, 20 Jul 2019 08:18:54 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.52
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Sat, 20 Jul 2019 08:18:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:38 +0200
-Message-Id: <20190720151846.7450-5-pbonzini@redhat.com>
+Date: Sat, 20 Jul 2019 17:18:39 +0200
+Message-Id: <20190720151846.7450-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
 References: <20190720151846.7450-1-pbonzini@redhat.com>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PULL 04/12] vhost-scsi: Call
+X-Received-From: 2a00:1450:4864:20::431
+Subject: [Qemu-devel] [PULL 05/12] vhost-user-scsi: Call
  virtio_scsi_common_unrealize() when device realize failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,34 +87,50 @@ From: Xie Yongji <xieyongji@baidu.com>
 This avoids memory leak when device hotplug is failed.
 
 Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-Message-Id: <20190717004606.12444-1-xieyongji@baidu.com>
+Message-Id: <20190717004606.12444-2-xieyongji@baidu.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/vhost-scsi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/scsi/vhost-user-scsi.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index 76bb875..343ca8b 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -210,7 +210,7 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-         if (err) {
-             error_propagate(errp, err);
-             error_free(vsc->migration_blocker);
--            goto close_fd;
-+            goto free_virtio;
-         }
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index a0b69fb..fcee67d 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -87,7 +87,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
      }
  
-@@ -240,6 +240,8 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-         migrate_del_blocker(vsc->migration_blocker);
+     if (!vhost_user_init(&s->vhost_user, &vs->conf.chardev, errp)) {
+-        return;
++        goto free_virtio;
      }
-     g_free(vsc->dev.vqs);
-+ free_virtio:
+ 
+     vsc->dev.nvqs = 2 + vs->conf.num_queues;
+@@ -101,15 +101,21 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
+     if (ret < 0) {
+         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
+                    strerror(-ret));
+-        vhost_user_cleanup(&s->vhost_user);
+-        g_free(vqs);
+-        return;
++        goto free_vhost;
+     }
+ 
+     /* Channel and lun both are 0 for bootable vhost-user-scsi disk */
+     vsc->channel = 0;
+     vsc->lun = 0;
+     vsc->target = vs->conf.boot_tpgt;
++
++    return;
++
++free_vhost:
++    vhost_user_cleanup(&s->vhost_user);
++    g_free(vqs);
++free_virtio:
 +    virtio_scsi_common_unrealize(dev);
-  close_fd:
-     close(vhostfd);
-     return;
+ }
+ 
+ static void vhost_user_scsi_unrealize(DeviceState *dev, Error **errp)
 -- 
 1.8.3.1
 
