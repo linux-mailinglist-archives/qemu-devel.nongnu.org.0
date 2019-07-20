@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990986EFD2
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:19:43 +0200 (CEST)
-Received: from localhost ([::1]:51598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B416EFD4
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:20:15 +0200 (CEST)
+Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hor9B-0007z9-Vr
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
+	id 1hor9h-0001nD-OM
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8U-00061I-1X
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:59 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8Q-0005n2-IB
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8S-00088H-SM
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:57 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38907)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8P-00084y-4Z
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:54 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36376)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8S-00087f-LY
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:56 -0400
-Received: by mail-wm1-x341.google.com with SMTP id s15so10148286wmj.3
- for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:56 -0700 (PDT)
+ id 1hor8O-00084W-UP
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:53 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g67so27401685wme.1
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gj1dzVnsDBAhFX864QFCDoNoirTM3GNCZ/rXgc7TqQ8=;
- b=BRWkQsYh5UjdBwmJmtyzBJuul/vu9LtLCtYntBXNp3blYAyact2pYhqP1i5tCO9fgq
- E9dneQTEZO7ew4SHJ1ubL6X76OHGzvs9/pF9qoD2wXr22UUHIb0DKKQc/50Zueuw5D93
- 8LcJ1eN5RLyIP1QbNGbvizIaMKxP7IzCzTe/ZgFXwd7a+QkKS4AdG3guD1pO3rFOinrk
- qFt07XmXpW6i8e5SYo3rw4bqafghgymf6hfZVrt8eRd5h9WtlYwiYy0e/sOUa01tzSqs
- zOx82vsyCEJG0YJGKxSQxN6mYfmH/yH0S7WhYG0bQBKeVb7aUvXmQredu0QVdUktQGRW
- XWgw==
+ bh=Arm9ZHazdpD84Li58k4dV1gofBpEGq70Z3WCUo90whY=;
+ b=b3uMLfT5BbE9Ky2kA4f993N5IyqstzcRm5aTa3ilU2F0anVRGJCbKxRYTWa9VtXq1z
+ Kw8/acwP2O5mFWyuc16F1T3IEVgQ3H48ViJe/sb91xg+Wtz3yo+Ln00gAw/UTsS4zUOS
+ d7XWEbM/+PYq8rdin3UCkjgxSKbQh0Elc/gM9SVDX9cXxPZMztAq6VFRDilvg/lbYFyL
+ P7LtHXA7AUprXBP/Be8JnnMjnUzPBhePgZnwBEe1/Ywy/iGyQAw2m4XjnkPQXIcmcxSX
+ ElkaE8RuI/BlGonIQlpuvlRIrYXm5D6MHfBw7OqioYxDtmjInP7ctHCO5bPA/8DbEwfO
+ CBvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gj1dzVnsDBAhFX864QFCDoNoirTM3GNCZ/rXgc7TqQ8=;
- b=qnY1mSzRK/R+YS9VhVw+Ao+PUwoVbwmru67ERlsMam8oCzFJR5Acet4VKp6FZcZCZB
- mWMqdwnmBhDvLE//kXaGzc52SYuMlq/Fkku9dJj7KbFm+bIk1Nt4oVLlIwo8a6SUdk/0
- mda+LD9zssO3O60zyI9OEvx3YkkS01LQxsqIFRftei7Knn4//ajrTSJA2BCVhuTcSclv
- GKhYLdIrJMjHMLLMTjFrxnb0olZGiKm82eD/ttA3+oIOk0FC0+ag2zF3tTphUZKzt0BT
- BEgdjQVfDwIm2igCtoChdRc2jAh9EjxlO1UaUeGYIFsjTPRDZzRtNaVNsrYJq49nOvTD
- S7Gg==
-X-Gm-Message-State: APjAAAW/M6DwiyJg+u+W/v7s4Pu1xI++QA/IR65soJqZCd6r67S7jqsK
- MG7PW4bJDsuyHFsC9vWwmfBpf2HFv48=
-X-Google-Smtp-Source: APXvYqxb1/nRGycAEQnyHsE2l4l+SfshJdkzW2stlOm5vCZKaaqV4N+uE4ykL6tIDAa13Efdrmix1w==
-X-Received: by 2002:a1c:5f09:: with SMTP id t9mr56460259wmb.112.1563635935411; 
- Sat, 20 Jul 2019 08:18:55 -0700 (PDT)
+ bh=Arm9ZHazdpD84Li58k4dV1gofBpEGq70Z3WCUo90whY=;
+ b=n39b5ze9I8+ygdXB2p6urJWFdTT/VHhO/zQPGB+TE6aUwcFfL+cKvMnT4QTuLVSB8x
+ cwQa8wrRysm5WZoalyBDw2XQ1QZJVfJqQWxodbzY74Udx0vxu9UzoNW1C2OTKwz/CK54
+ V5DDuqdJ3RYO2RlFvF/BS2AHzqo+hVp7StM306QYsIiP7qTXKKKF+MgM9LJlBUrW3ZwS
+ daTMdvSo5H2s9ar+rD53/tRr3XuNb2UHRjW2USeDiDcZcT5vZxXStJBpCYSaVurG/HcP
+ 0hpjT5qDDuDRCqCloWBoZIHjB/KNswRit/cCPr8OXChoTAvj1x6k76LedFwRnuofiAPF
+ HUVA==
+X-Gm-Message-State: APjAAAU4OR71fasDX4PQTnfTG/i4mt3WwvbWNj8uxtJk3P1wlPL0+WFJ
+ IPOuFlLkoHI1RbO1kI3+excAanq4oSA=
+X-Google-Smtp-Source: APXvYqyLEuoTihZrzSCOGFXsIdar8OD2sXowEbZ1dQqj/Fs7FC65BmRrmq1MBGWkuh1+1BSRawe9yg==
+X-Received: by 2002:a1c:3:: with SMTP id 3mr54334214wma.6.1563635931703;
+ Sat, 20 Jul 2019 08:18:51 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.54
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.50
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 08:18:54 -0700 (PDT)
+ Sat, 20 Jul 2019 08:18:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:40 +0200
-Message-Id: <20190720151846.7450-7-pbonzini@redhat.com>
+Date: Sat, 20 Jul 2019 17:18:36 +0200
+Message-Id: <20190720151846.7450-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
 References: <20190720151846.7450-1-pbonzini@redhat.com>
@@ -64,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 06/12] scsi-generic: Check sense key before
- request snooping and patching
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL 02/12] target/i386: skip
+ KVM_GET/SET_NESTED_STATE if VMX disabled, or for SVM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,80 +79,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+Do not allocate env->nested_state unless we later need to migrate the
+nested virtualization state.
 
-When READ CAPACITY command completes, scsi_read_complete() function
-snoops the command result and updates SCSIDevice members blocksize and
-max_lba . However, this update is executed even when READ CAPACITY
-command indicates an error in sense data. This causes unexpected
-blocksize update with zero value for SCSI devices without
-READ CAPACITY(10) command support and eventually results in a divide
-by zero. An emulated device by TCMU-runner is an example of a device
-that doesn't support READ CAPACITY(10) command.
+With this change, nested_state_needed() will return false if the
+VMX flag is not included in the virtual machine.  KVM_GET/SET_NESTED_STATE
+is also disabled for SVM which is safer (we know that at least the NPT
+root and paging mode have to be saved/loaded), and thus the corresponding
+subsection can go away as well.
 
-To avoid the unexpected update, add sense key check in
-scsi_read_complete() function. The function already checks the sense key
-for VPD Block Limits emulation. Do the scsi_parse_sense_buf() call for
-all requests rather than just for VPD Block Limits emulation, so that
-blocksize and max_lba are only updated if READ CAPACITY returns zero
-sense key.
+Inspired by a patch from Liran Alon.
 
-Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-[Extend the check to all requests, not just READ CAPACITY]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-generic.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ target/i386/kvm.c     | 16 ++++++++--------
+ target/i386/machine.c | 21 +--------------------
+ 2 files changed, 9 insertions(+), 28 deletions(-)
 
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index f07891b..c11a0c9 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -254,24 +254,28 @@ static void scsi_read_complete(void * opaque, int ret)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4542f0f..ada89d2 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1711,15 +1711,15 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     max_nested_state_len = kvm_max_nested_state_length();
+     if (max_nested_state_len > 0) {
+         assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
+-        env->nested_state = g_malloc0(max_nested_state_len);
  
-     r->len = -1;
+-        env->nested_state->size = max_nested_state_len;
+-
+-        if (IS_INTEL_CPU(env)) {
+-            struct kvm_vmx_nested_state_hdr *vmx_hdr =
+-                &env->nested_state->hdr.vmx;
++        if (cpu_has_vmx(env)) {
++            struct kvm_vmx_nested_state_hdr *vmx_hdr;
  
--    /*
--     * Check if this is a VPD Block Limits request that
--     * resulted in sense error but would need emulation.
--     * In this case, emulate a valid VPD response.
--     */
--    if (s->needs_vpd_bl_emulation && ret == 0 &&
--        (r->io_header.driver_status & SG_ERR_DRIVER_SENSE) &&
--        r->req.cmd.buf[0] == INQUIRY &&
--        (r->req.cmd.buf[1] & 0x01) &&
--        r->req.cmd.buf[2] == 0xb0) {
-+    if (r->io_header.driver_status & SG_ERR_DRIVER_SENSE) {
-         SCSISense sense =
-             scsi_parse_sense_buf(r->req.sense, r->io_header.sb_len_wr);
--        if (sense.key == ILLEGAL_REQUEST) {
++            env->nested_state = g_malloc0(max_nested_state_len);
++            env->nested_state->size = max_nested_state_len;
+             env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
 +
-+        /*
-+         * Check if this is a VPD Block Limits request that
-+         * resulted in sense error but would need emulation.
-+         * In this case, emulate a valid VPD response.
-+         */
-+        if (sense.key == ILLEGAL_REQUEST &&
-+            s->needs_vpd_bl_emulation &&
-+            r->req.cmd.buf[0] == INQUIRY &&
-+            (r->req.cmd.buf[1] & 0x01) &&
-+            r->req.cmd.buf[2] == 0xb0) {
-             len = scsi_generic_emulate_block_limits(r, s);
-             /*
--             * No need to let scsi_read_complete go on and handle an
-+             * It's okay to jup to req_complete: no need to
-+             * let scsi_handle_inquiry_reply handle an
-              * INQUIRY VPD BL request we created manually.
-              */
-+        }
-+        if (sense.key) {
-             goto req_complete;
++            vmx_hdr = &env->nested_state->hdr.vmx;
+             vmx_hdr->vmxon_pa = -1ull;
+             vmx_hdr->vmcs12_pa = -1ull;
          }
+@@ -3515,7 +3515,7 @@ static int kvm_put_nested_state(X86CPU *cpu)
+     CPUX86State *env = &cpu->env;
+     int max_nested_state_len = kvm_max_nested_state_length();
+ 
+-    if (max_nested_state_len <= 0) {
++    if (!env->nested_state) {
+         return 0;
      }
+ 
+@@ -3529,7 +3529,7 @@ static int kvm_get_nested_state(X86CPU *cpu)
+     int max_nested_state_len = kvm_max_nested_state_length();
+     int ret;
+ 
+-    if (max_nested_state_len <= 0) {
++    if (!env->nested_state) {
+         return 0;
+     }
+ 
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index ac2d1d1..b114609 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1035,31 +1035,13 @@ static const VMStateDescription vmstate_vmx_nested_state = {
+     }
+ };
+ 
+-static bool svm_nested_state_needed(void *opaque)
+-{
+-    struct kvm_nested_state *nested_state = opaque;
+-
+-    return (nested_state->format == KVM_STATE_NESTED_FORMAT_SVM);
+-}
+-
+-static const VMStateDescription vmstate_svm_nested_state = {
+-    .name = "cpu/kvm_nested_state/svm",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .needed = svm_nested_state_needed,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+ static bool nested_state_needed(void *opaque)
+ {
+     X86CPU *cpu = opaque;
+     CPUX86State *env = &cpu->env;
+ 
+     return (env->nested_state &&
+-            (vmx_nested_state_needed(env->nested_state) ||
+-             svm_nested_state_needed(env->nested_state)));
++            vmx_nested_state_needed(env->nested_state));
+ }
+ 
+ static int nested_state_post_load(void *opaque, int version_id)
+@@ -1121,7 +1103,6 @@ static const VMStateDescription vmstate_kvm_nested_state = {
+     },
+     .subsections = (const VMStateDescription*[]) {
+         &vmstate_vmx_nested_state,
+-        &vmstate_svm_nested_state,
+         NULL
+     }
+ };
 -- 
 1.8.3.1
 
