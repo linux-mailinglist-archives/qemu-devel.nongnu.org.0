@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DBF6EFDA
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:21:04 +0200 (CEST)
-Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411446F044
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 19:50:58 +0200 (CEST)
+Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1horAV-0005mz-3T
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39934)
+	id 1hotVY-0005xM-Uk
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 13:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43949)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8Z-0006PD-Fb
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hotVF-00056I-Jy
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 13:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8Y-0008D6-Dj
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:03 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44985)
+ (envelope-from <richard.henderson@linaro.org>) id 1hotVE-0000oN-Qe
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 13:50:37 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41599)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8Y-0008Ck-7G; Sat, 20 Jul 2019 11:19:02 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id p17so34986216wrf.11;
- Sat, 20 Jul 2019 08:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l+J1eu/SZQQm+GtTAYitv1nWk4WmFZ80tCb3ExUS/1Q=;
- b=FYGEZ9ThezjDxFUfIwLnLQTbwI+Iha0ngGZGTgzYGPmrsm4Vp4iL/hH12/Kh+kt+Us
- iMlw4OeFTw8NeLSEmAVytBoVh5gVG23zYn/puXnTdIv/HJj8TIGZo3HXXZF0lKUkN3VW
- bJJws3yGrQONjEJ2HrqQf64rkVppHkcXrPY+bmsINyLibanKR/k5rhhPaZzyHNMYPjOk
- YQO9iQ54g7Pn2zdoWBSsi2qtNjPTIGzaWqlGMny1PE30yrWOseeGBw7uPPY5tHUXJOQV
- 7iFNmkIA37Lgep05eO/sMX+MLoWzOE8aHFJYUixfyq6GbJWc2zxmz4RVWgLMytsLU1S2
- /Aag==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hotVE-0000mv-3M
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 13:50:36 -0400
+Received: by mail-pg1-x544.google.com with SMTP id x15so5456960pgg.8
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 10:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RA3TfexPT02l1811xIc91OI3FOh+/3tQKs/o4UiDLhU=;
+ b=i0R84YIm4TLSBq9sjS9InoZhRl1IvJHVb4oWjkGgkdbJAiuFV2dR1+Meewj6PvF+Pw
+ XhOwJ6ZxeXiSvNXJ+9fhlOz4JxAf7EqL0cSAMC1lgYoHW4hMiZvKVOitACUOIij3Tv23
+ 47/E9VztAKAgjf0lGhnFilfmwDDrWDKCCgmorI7wIMUi5UeBp7hlZ136hoLjqcyxMve/
+ 4IklXfSHBdvnDB3alr8AWiTneVcIKl+yZVEIIVihXHXlx5BKRWoxN8F2B9vWnc4SRXGE
+ +NtzQkohmApjlfQOaleL7onfBYHamHYC+CwY2nz22I+046kjcJ4c4lqQx+wD1i17LRUD
+ 0wsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=l+J1eu/SZQQm+GtTAYitv1nWk4WmFZ80tCb3ExUS/1Q=;
- b=oYswCxFxb0FNecx2b+a3FNHnQXfdOtgu3XbcN2EE5KAtluQmazdhUctnzwZr1mvU/k
- QEznrYSPXjNM06XEjDQKjqz4qL8Z/7lKeroT6H6SX5u3Iq9+MyYATFG0t66U+IJ2BMA5
- 2iidJ0ohPsN7Xttj7gpLj0fsED9gUzmlnB/KH0v4FIwDbb0/ZHLnruM9w2Oivux3cSIk
- mhv1OqOmAXNn+CgT7MiA3SngQttvRviTyKX2nOsqnlOvUsYLuqk3l4hIak/H9+smUn4a
- 6SPfwkmyXato7wn8XRfoQHD7htjmi3KV3/4XyhUEUV38OxmbU9wRyPPgf4FIuLABtoDI
- l4Yw==
-X-Gm-Message-State: APjAAAVdoO9YviUuYftPaYFbMCyIcYZ5Vw1zpBddDb6KC+yXoRb/Wal7
- qH0x/Tjw6i78iBlE2dy3Nzsw15vZXrQ=
-X-Google-Smtp-Source: APXvYqyLorEFJb1XdL9hYBkyye3rCs1M602bzfRclHmBwjNUXZR7LmJNRHH9HLeMmv18IRdBzcPTKQ==
-X-Received: by 2002:adf:df8b:: with SMTP id z11mr7993398wrl.62.1563635940958; 
- Sat, 20 Jul 2019 08:19:00 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.59
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 08:19:00 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:46 +0200
-Message-Id: <20190720151846.7450-13-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
-References: <20190720151846.7450-1-pbonzini@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RA3TfexPT02l1811xIc91OI3FOh+/3tQKs/o4UiDLhU=;
+ b=kv+VwIQHCsxJnWMMHcP26N63wDukYNjdwCBnFUiOis4wLaqO4Yw/kJ4PrHHQtXtdv/
+ 7l8XF5c/lzVpytBiFDb4h9nrCaVScaBp+TICZaGawGkBIAq00v2saG0JybORRe0Uri6w
+ tutFxF+MtEeCrboTZM5ndXeuis1JL6VNJT757gQi1ajBfgB56+sS4u9Ip/3vmK0sBBYM
+ 4xSUW5zN0Tl17NHbTeGA2Y8VI8/EuHAnwV8TC8eXcYjOwirCu9iLluMi4yvHvst8vvc+
+ KBPP/5gDs/WrQegjrtDwPFihaVvOmOsgwKyktHavmbtDu81PNvE7qcQMuvbu1X6wg7Pj
+ JuGw==
+X-Gm-Message-State: APjAAAW6aZ8KyqImPrDo95hhPmA0ZTIkapw9R81GZCa7Rlg+Sji+3I2z
+ T8Aht19SkzUn8lQxrMgbBbRfyg==
+X-Google-Smtp-Source: APXvYqxfasx6yypF2sy0f1c/gtYtPj4J22anDlYO2OpGEci6sJ84Vb3k5VY7QKsQtlpUBi/4rEXVyQ==
+X-Received: by 2002:a63:7b4d:: with SMTP id k13mr59692249pgn.182.1563645034918; 
+ Sat, 20 Jul 2019 10:50:34 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id q36sm29852232pgl.23.2019.07.20.10.50.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 20 Jul 2019 10:50:33 -0700 (PDT)
+To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
+References: <20190711223300.6061-1-jan.bobek@gmail.com>
+ <20190711223300.6061-12-jan.bobek@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <39b692ff-5bda-d812-efcd-fa3190909ae2@linaro.org>
+Date: Sat, 20 Jul 2019 10:50:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190711223300.6061-12-jan.bobek@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PULL 12/12] target/i386: sev: fix failed message typos
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [RISU PATCH v3 11/18] x86.risu: add SSE
+ instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,56 +84,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-trivial@nongnu.org, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiri Slaby <jslaby@suse.cz>
+On 7/11/19 3:32 PM, Jan Bobek wrote:
+> +# NP 0F F7 /r: MASKMOVQ mm1, mm2
+> +MASKMOVQ SSE 00001111 11110111 \
+> +  !constraints { modrm($_); $_->{modrm}{reg} &= 0b111; $_->{modrm}{reg2} &= 0b111 if defined $_->{modrm}{reg2}; defined $_->{modrm}{reg2} } \
+> +  !memory { load(size => 8, base => REG_RDI, rollback => 1); }
 
-In these multiline messages, there were typos. Fix them -- add a missing
-space and remove a superfluous apostrophe.
+This one is a store.
 
-Inspired by Tom's patch.
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Jiri Slaby <jslaby@suse.cz>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: qemu-trivial@nongnu.org
-Cc: Brijesh Singh <brijesh.singh@amd.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>
-Message-Id: <20190719104118.17735-1-jslaby@suse.cz>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/sev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 5ba1384..f1423cb 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -763,7 +763,7 @@ sev_guest_init(const char *id)
-                                         "reduced-phys-bits", NULL);
-     if (s->reduced_phys_bits < 1) {
-         error_report("%s: reduced_phys_bits check failed, it should be >=1,"
--                     "' requested '%d'", __func__, s->reduced_phys_bits);
-+                     " requested '%d'", __func__, s->reduced_phys_bits);
-         goto err;
-     }
- 
-@@ -783,7 +783,7 @@ sev_guest_init(const char *id)
-     ret = sev_platform_ioctl(s->sev_fd, SEV_PLATFORM_STATUS, &status,
-                              &fw_error);
-     if (ret) {
--        error_report("%s: failed to get platform status ret=%d"
-+        error_report("%s: failed to get platform status ret=%d "
-                      "fw_error='%d: %s'", __func__, ret, fw_error,
-                      fw_error_to_str(fw_error));
-         goto err;
--- 
-1.8.3.1
-
+r~
 
