@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943266EF94
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 16:08:13 +0200 (CEST)
-Received: from localhost ([::1]:51322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684096EFCF
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:19:26 +0200 (CEST)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hoq20-0008MZ-8C
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 10:08:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53765)
+	id 1hor8u-0006oU-Ol
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39769)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hoq1g-0007Sk-QY
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 10:07:53 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8O-0005mv-EC
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hoq1f-0002hj-Kx
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 10:07:52 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37337 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hoq1b-0002Yf-TR; Sat, 20 Jul 2019 10:07:49 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45rV7Z1lSnz9sNC; Sun, 21 Jul 2019 00:07:38 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563631658;
- bh=GIs8XKwl06uRHQ/l1PcTQRA8mzVA6skBTsqI/zdaF8M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FPvLmmmHZBlLaaXgusaUwse8JwUp2mxihgxR3ziSHYwABH5eyezdzlDumW0NzWqpW
- pcp2RJBCFgxcEXhdx6RqDnvvhUe1lrS5VVY4sa1aXTjtLxsK3GlWoW+VI1CcT0Z+he
- RRGbzMmQPyAsck+B8wAIfZe8RQD9bNxKJ0Ha8Bpo=
-Date: Sat, 20 Jul 2019 00:20:38 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190719142038.GB4174@umbus.fritz.box>
-References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-8-philmd@redhat.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8N-000848-Fe
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:52 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50764)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1hor8N-00083F-93
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:51 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id v15so31296195wml.0
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WW02gQBRxKT7Sw/HkVE689NY0nvHbjG/H4EWAQJR7Gw=;
+ b=WFtay8JvKaBEr168GvFSC9x9JqZaysrhgFwangjOL75TYrXdD22p1WlaGV9jkCel9P
+ wOm6TrVltO8Xd365egoOtft3tpP+JeihEzDjR5mYjpSnxfw8vi1hYbEl8bEHCwTrN3oo
+ Ly1xGjtD23l73ouERVtT4mSuqtAt35ySn2wGEaygS2XZJSgRr5cEdstboZLZ+KPbXkd/
+ KFwFEe7PlRiQv9UkvvVlQkj095p0YyiIukrJgAMs7iAWv7fnJpNnf/86ZQXPZqIUqZ64
+ Ovg864yBK2jONxQlg4GrF56kpWvSkx0/IDsuTi5nokkyzhkNil54XJGLDvr/Uyd8L6XW
+ SPtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=WW02gQBRxKT7Sw/HkVE689NY0nvHbjG/H4EWAQJR7Gw=;
+ b=KvHkiuqrLL61XPIDxmnG1H9yvsgpYO9wqUtIIzMF98PRUUKEA0dM6l/tYyrKwroI0B
+ JuRI2l4ii+hSWzEjDVec9wByNxW/vQqzzRHE+3X25fpbeTPZtWl9j0nFQb803lv5Ejlq
+ 7a/UZQeRhayuHmeaTnmKJ6ZMMQpc9ut45F4GhebaeT2P3pBw1PzyiqX55AV8jFCZp91y
+ 5yt9HqMzv5Cb6qvb7v4kdzPR2wwHT9OrNwz54ETb5dEF1isuBWQ/z8GQS9hQ+cCL5sq/
+ 4bGJR5NUZqu5oi3cixbT7SNZxzkyH2P2/9gan4wG0euDkjdgeBjdWNcxQiIsMKp+Q2VN
+ ku1g==
+X-Gm-Message-State: APjAAAWMOUEYO18eUjwL2wgLrvWdc9Ow11Cz7Cw3FLRr24Bvtxr8NkE9
+ sTsgBLu3ErOrRAsh2WCjwK1PbAyRvhE=
+X-Google-Smtp-Source: APXvYqzRt0zQohoEvfaCRjPgMJgj+hyBOIcTR9MvBpABdXKRDjWlQY2TWKVafIOTodn2ydQcbM1tQA==
+X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr52362004wmj.94.1563635928903; 
+ Sat, 20 Jul 2019 08:18:48 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.48
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sat, 20 Jul 2019 08:18:48 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Sat, 20 Jul 2019 17:18:34 +0200
+Message-Id: <20190720151846.7450-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
-Content-Disposition: inline
-In-Reply-To: <20190719131425.10835-8-philmd@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH-for-4.1? 7/7] spapr_events: Rewrite a fall
- through comment
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PULL 00/12] Misc patches for QEMU 4.0-rc2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,91 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Corey Minyard <minyard@acm.org>,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit e2b47666fe1544959c89bd3ed159e9e37cc9fc73:
 
---3uo+9/B/ebqu+fSQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/berrange/tags/misc-next-pull-request' into staging (2019-07-19 14:29:13 +0100)
 
-On Fri, Jul 19, 2019 at 03:14:25PM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
-> GCC9 is confused by this comment when building with CFLAG
-> -Wimplicit-fallthrough=3D2:
->=20
->     CC      ppc64-softmmu/hw/ppc/spapr_rtc.o
->   hw/ppc/spapr_events.c: In function =E2=80=98rtas_event_log_to_source=E2=
-=80=99:
->   hw/ppc/spapr_events.c:312:12: error: this statement may fall through [-=
-Werror=3Dimplicit-fallthrough=3D]
->     312 |         if (spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT)) {
->         |            ^
->   hw/ppc/spapr_events.c:317:5: note: here
->     317 |     case RTAS_LOG_TYPE_EPOW:
->         |     ^~~~
->   cc1: all warnings being treated as errors
->=20
-> Rewrite the comment using 'fall through' which is recognized by
-> GCC and static analyzers.
->=20
-> Reported-by: Stefan Weil <sw@weilnetz.de>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+are available in the git repository at:
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-> ---
->  hw/ppc/spapr_events.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093f59..0a98894ad6 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -313,7 +313,7 @@ rtas_event_log_to_source(SpaprMachineState *spapr, in=
-t log_type)
->              g_assert(source->enabled);
->              break;
->          }
-> -        /* fall back to epow for legacy hotplug interrupt source */
-> +        /* fall through back to epow for legacy hotplug interrupt source=
- */
->      case RTAS_LOG_TYPE_EPOW:
->          source =3D spapr_event_sources_get_source(spapr->event_sources,
->                                                  EVENT_CLASS_EPOW);
+  git://github.com/bonzini/qemu.git tags/for-upstream
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+for you to fetch changes up to d4b976c0a81dc625ccd05e2b3075f353170669d4:
 
---3uo+9/B/ebqu+fSQ
-Content-Type: application/pgp-signature; name="signature.asc"
+  target/i386: sev: fix failed message typos (2019-07-19 23:45:28 +0200)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Mostly bugfixes, plus a patch to mark accelerator MemoryRegions in "info
+mtree" that has been lingering for too long.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0x0bYACgkQbDjKyiDZ
-s5I9vxAA0lXp2UY09O/eG6yHIgCAcvXl11ODbYnTahJ3Wu5LGLfj2UeOrj/wg+9+
-CVd90uAGBr4qglgwtf8uIDYPgfCvLpr/Gj8RbnoYtOW4yZXI4dpbM7km/HWqHfxk
-tumdLZTCEwWYHExhSalWcAroFyPwH04hqgrt9CXijyjfrgQttf4l8qJ7xXbJnuh4
-+MTSUuSfTscfpXWUa/yBhNfzdHXLEs0EE6v1+jIbXGnuxxQwwMZ0VDUBL5uqpcPs
-FeYQ94FHNnARf3wapU8T4U+Onkqf9AJESXYNGmJR9/rENRI47g3DmLg/EYqIf83G
-2wwFxF07goup9Hc8eM2Zj8tO7Pg9CO8G++yTe1t9BTcXCgf+3xyz0UlAVGRNXRUT
-OkfTHl2PsMowATemj0fZ6qdyCT/dbySUYTKbO6kNAt6KJcMVV5spKpH3nDTMuYKw
-CghZorlnUImR+/QsNLqNaJlQi9eW0LuJdS2NYvRVOo4R4E4Baf3rKG1CKLISE2xF
-HydYrUYTNYgZIeaAZK1U+ZMJRPtWnyTmNdqA3aOmVbfUA9D352d+K6k1HbEeWQRh
-IR366wn4QRdAbdXPAu+F7UsrtVCkMwnrAu0Hrm6Vqn/xL9fEhli0krx9rciwwi7m
-2tbq7Km4XdCoH6VTbuUi7R63GuofwTAeDhubO1nBQvOLwBamV+M=
-=TTyo
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      hmp: Print if memory section is registered with an accelerator
 
---3uo+9/B/ebqu+fSQ--
+Denis V. Lunev (1):
+      i386: indicate that 'pconfig' feature was removed intentionally
+
+Jiri Slaby (1):
+      target/i386: sev: fix failed message typos
+
+Liran Alon (1):
+      target/i386: kvm: Demand nested migration kernel capabilities only when vCPU may have enabled VMX
+
+Marc-André Lureau (1):
+      build-sys: do no support modules on Windows
+
+Nicholas Piggin (1):
+      qmp: don't emit the RESET event on wakeup
+
+Paolo Bonzini (2):
+      target/i386: skip KVM_GET/SET_NESTED_STATE if VMX disabled, or for SVM
+      virtio-scsi: remove unused argument to virtio_scsi_common_realize
+
+Shin'ichiro Kawasaki (1):
+      scsi-generic: Check sense key before request snooping and patching
+
+Wei Yang (1):
+      test-bitmap: add test for bitmap_set
+
+Xie Yongji (2):
+      vhost-scsi: Call virtio_scsi_common_unrealize() when device realize failed
+      vhost-user-scsi: Call virtio_scsi_common_unrealize() when device realize failed
+
+ accel/kvm/kvm-all.c             | 38 ++++++++++++++++++++++++++++
+ configure                       |  7 +++++-
+ hw/scsi/scsi-generic.c          | 28 ++++++++++++---------
+ hw/scsi/vhost-scsi.c            |  6 +++--
+ hw/scsi/vhost-user-scsi.c       | 16 ++++++++----
+ hw/scsi/virtio-scsi.c           |  4 +--
+ include/hw/virtio/virtio-scsi.h |  2 +-
+ include/sysemu/accel.h          |  3 +++
+ memory.c                        | 22 +++++++++++++++++
+ target/i386/cpu.c               |  2 +-
+ target/i386/cpu.h               | 22 +++++++++++++++++
+ target/i386/kvm.c               | 42 +++++++++++--------------------
+ target/i386/kvm_i386.h          |  1 +
+ target/i386/machine.c           | 45 ++++++++++++++++-----------------
+ target/i386/sev.c               |  4 +--
+ tests/test-bitmap.c             | 55 +++++++++++++++++++++++++++++++++++++++++
+ vl.c                            |  2 +-
+ 17 files changed, 220 insertions(+), 79 deletions(-)
+-- 
+1.8.3.1
+
 
