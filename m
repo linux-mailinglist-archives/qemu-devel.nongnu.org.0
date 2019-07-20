@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F46ED17
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 03:04:40 +0200 (CEST)
-Received: from localhost ([::1]:49040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43336ED14
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 03:04:17 +0200 (CEST)
+Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hodnj-0002mx-Bb
-	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 21:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40021)
+	id 1hodnM-0000Tu-PW
+	for lists+qemu-devel@lfdr.de; Fri, 19 Jul 2019 21:04:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vandersonmr2@gmail.com>) id 1hodmY-0006kF-MH
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:28 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hodmc-0006yy-AN
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1hodmX-0006Jk-7l
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:26 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:42422)
+ (envelope-from <vandersonmr2@gmail.com>) id 1hodma-0006L7-7s
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:30 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:37219)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1hodmX-0006JT-3K
- for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:25 -0400
-Received: by mail-qk1-x741.google.com with SMTP id 201so24604925qkm.9
- for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 18:03:25 -0700 (PDT)
+ id 1hodma-0006Ku-3O
+ for qemu-devel@nongnu.org; Fri, 19 Jul 2019 21:03:28 -0400
+Received: by mail-qt1-x843.google.com with SMTP id y26so32960139qto.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Jul 2019 18:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sdpQWCV7Cjpv4flMehmz5yUQ3sapqz2tfzkJtrHP/nw=;
- b=vY6O1zORLccmcWX+l+NYIFZZ1BmfDB8uDywhu3lqVnpWFjMvSHnwVN0OTryQwTOQ/G
- BerpLkahUVd3hRQfS9G8Dp0JJbwEmZWWyZUj8M17SyiLx2FNSP9BGNEo1nxYKey+uwto
- gghniSiohZE0arw0Tex3gYZ+MGVxfX+r3UDY/F7qyPBPD7iteJtxxWHhuDhgv0waJR/6
- JhnCj420MlFU+duWeqKbmqo6QJZb5fLeAbY0tXX12xF1z8NsNrILBsibqoH6T6Vt/xme
- azzdtEiTA1HZsw0Tl3N152/V7XtZYAhz6a7uK16XQ5fVv9fJKBx3tU7PcKYU4t+RMBFh
- zB5A==
+ bh=jGbHahYOnfICsEzwQqgwSq7n9jZvhlLuJDCHxmfZRx4=;
+ b=NEDvB4oqIoJxiISTY7DQLwKUuyXug89uLPnaz3edaaDAgktUh9uwQopIiitqWFVoyN
+ W6Y6riXve0UWFUksnkiq7CG9a9c2RXoa/yWJwOP8Wa2dVxV55WhocQVLQ6SpwnPb/zvT
+ vEJ9LJo+yuQ+6yyWWWvA0l3ROTBLAqwqGayWgL/LyY7kFeU/1nwRxcONRQ3hOiS8QIVA
+ kaV6VrPhIUlc4frJhYmU+NB8E8yNFpZpeqY9IC90D2+VBDg82zFBJvAf22Jn7oErrR89
+ mQ8N5hBw+7uijRlQjsTGjFZZHZLrTEJVTQyPonzrBEQKCZlLVuwjVS3xG+X76RIscNVD
+ CafQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sdpQWCV7Cjpv4flMehmz5yUQ3sapqz2tfzkJtrHP/nw=;
- b=hSKdGowjojoIt9nj2n7qPUOO14io5a4qqjX8AD0W1EOYvKlbhHF2Ygka9FbiOS1BId
- 1gwq7zP2/O1tTR6dfmfci8BM6uxrI747UoGkl01TQFz0XlBj3NpL/eiNTJxAOR3Sv360
- NAgnqFpoAP6NARYRPubf/wG2E36QTYE+R8h6ML2MEydfVWQc4kyp0Uhs8lTma6K9ZpiG
- H2pn9FaEUiQcKl/lWCH6uLOgEABliOU+7lz2QNALCEv8JIouqUL1J4njeOvl52xerbim
- /ATdYkeieRQkawyNPZIU0u/Jft7shJRaZmTBvJekCVom1Qy/PHZMo4OMn861At14r1dh
- LvDA==
-X-Gm-Message-State: APjAAAXFgBlfKgWKof7IB7kMFgsU2CJeA96AVaBuC8yFPzDOQkpWCHzd
- tYvQsBSnaD4i6Lsv+IDYIiQ5YCDJfQY=
-X-Google-Smtp-Source: APXvYqyep1CXhaUdyJPKovQVOcj8L6PSxngVBC+hQwXlmTjwusB/cCR2/Ss2qRCy3NDwCxNIBgHpeQ==
-X-Received: by 2002:a05:620a:232:: with SMTP id
- u18mr36157372qkm.131.1563584604239; 
- Fri, 19 Jul 2019 18:03:24 -0700 (PDT)
+ bh=jGbHahYOnfICsEzwQqgwSq7n9jZvhlLuJDCHxmfZRx4=;
+ b=eEaL4ugcy+F4UAK4fRrKgT/Cm3huYN9f2rJSObV4o48pfXllqPK05bHOubuKF1N0xl
+ I+xNgbm3XdLj5vqZ25HuRNL6Jh16y6md5s0ZZS+Y3i1fwWO1sT552mb3GjNyh8XF5fn9
+ A/BbL0B9D7U/sloQxqzwNymAHFnzUSHFQo4YLxHFERDm/zMWzadWKGL0TzRSRjZ0C2TY
+ bnoDF7SLw4XINeaf0kHiWA/H+J69UhuXAULWSnZMuqLPoH8yyDreZg9U5kXMi/xkzKbf
+ z8EWd4pWHavnm6DPgtFxf8l2W+blbhKJnzLJ2UC3X7Ljr677VQMwLdcUWolXD7lOPQDC
+ eyFA==
+X-Gm-Message-State: APjAAAWfOTnneaBGlgC+voFG4tJB7D+CKzGb5jAScvELQYtCkPKBM6O7
+ +guTgemLWqWqh6eqja9hkc61mvR/anA=
+X-Google-Smtp-Source: APXvYqwAsSghj2yBYLO/cBnDkLwjA78SN/r4ZHuNhMsIscq5un6vsLrhMbBRwyPGk3foD5xdwr5hGg==
+X-Received: by 2002:ac8:285c:: with SMTP id 28mr40780545qtr.186.1563584607194; 
+ Fri, 19 Jul 2019 18:03:27 -0700 (PDT)
 Received: from vanderson-lmcad.domain.name ([177.137.96.41])
- by smtp.googlemail.com with ESMTPSA id g10sm13405115qki.37.2019.07.19.18.03.22
+ by smtp.googlemail.com with ESMTPSA id g10sm13405115qki.37.2019.07.19.18.03.24
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 19 Jul 2019 18:03:23 -0700 (PDT)
+ Fri, 19 Jul 2019 18:03:26 -0700 (PDT)
 From: vandersonmr <vandersonmr2@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 19 Jul 2019 22:02:34 -0300
-Message-Id: <20190720010235.32444-7-vandersonmr2@gmail.com>
+Date: Fri, 19 Jul 2019 22:02:35 -0300
+Message-Id: <20190720010235.32444-8-vandersonmr2@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190720010235.32444-1-vandersonmr2@gmail.com>
 References: <20190720010235.32444-1-vandersonmr2@gmail.com>
@@ -65,8 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-Subject: [Qemu-devel] [PATCH v4 6/7] monitor: adding tb_stats hmp command
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: [Qemu-devel] [PATCH v4 7/7] monitor: adding info tbs, tb,
+ and coverset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,273 +78,582 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
+Cc: vandersonmr <vandersonmr2@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding tb_stats [start|pause|stop|filter] command to hmp.
-This allows controlling the collection of statistics.
-It is also possible to set the level of collection:
-all, jit, or exec.
+Adding info [tbs|tb|coverset] commands to HMP.
+These commands allow the exploration of TBs
+generated by the TCG. Understand which one
+hotter, with more guest/host instructions...
+and examine their guest, host and IR code.
 
 The goal of this command is to allow the dynamic exploration
-of the TCG behavior and quality. Therefore, for now, a
+of TCG behavior and code quality. Therefore, for now, a
 corresponding QMP command is not worthwhile.
 
-Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+Signed-off-by: vandersonmr <vandersonmr2@gmail.com>
 ---
- accel/tcg/tb-stats.c    | 107 ++++++++++++++++++++++++++++++++++++++++
- hmp-commands.hx         |  17 +++++++
- include/exec/tb-stats.h |  13 +++++
- include/qemu/log.h      |   1 +
- monitor/misc.c          |  40 +++++++++++++++
- 5 files changed, 178 insertions(+)
+ accel/tcg/tb-stats.c         | 275 +++++++++++++++++++++++++++++++++++
+ hmp-commands-info.hx         |  23 +++
+ include/exec/tb-stats.h      |  37 +++++
+ include/qemu/log-for-trace.h |   2 +
+ include/qemu/log.h           |   1 +
+ linux-user/exit.c            |   4 +
+ monitor/misc.c               |  71 +++++++++
+ util/log.c                   |  26 +++-
+ 8 files changed, 431 insertions(+), 8 deletions(-)
 
 diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-index 44497d4f9b..6c330e1b02 100644
+index 6c330e1b02..85a16cd563 100644
 --- a/accel/tcg/tb-stats.c
 +++ b/accel/tcg/tb-stats.c
-@@ -6,6 +6,9 @@
- 
- #include "qemu/qemu-print.h"
- 
-+/* only accessed in safe work */
-+static GList *last_search;
-+
- struct jit_profile_info {
-     uint64_t translations;
-     uint64_t aborted;
-@@ -104,4 +107,108 @@ void dump_jit_profile_info(TCGProfile *s)
-     }
+@@ -212,3 +212,278 @@ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
+     g_free(cmdinfo);
  }
  
-+static void dessaloc_tbstats(void *p, uint32_t hash, void *userp)
++static void collect_tb_stats(void *p, uint32_t hash, void *userp)
 +{
-+    g_free(p);
++    last_search = g_list_prepend(last_search, p);
 +}
 +
-+void clean_tbstats(void)
++static void dump_tb_header(TBStatistics *tbs)
 +{
-+    /* remove all tb_stats */
-+    qht_iter(&tb_ctx.tb_stats, dessaloc_tbstats, NULL);
-+    qht_destroy(&tb_ctx.tb_stats);
++    unsigned g = tbs->translations.total ?
++        tbs->code.num_guest_inst / tbs->translations.total : 0;
++    unsigned ops = tbs->translations.total ?
++        tbs->code.num_tcg_ops / tbs->translations.total : 0;
++    unsigned ops_opt = tbs->translations.total ?
++        tbs->code.num_tcg_ops_opt / tbs->translations.total : 0;
++    unsigned h = tbs->translations.total ?
++        tbs->code.num_host_inst / tbs->translations.total : 0;
++    unsigned spills = tbs->translations.total ?
++        tbs->code.spills / tbs->translations.total : 0;
++
++    float guest_host_prop = g ? ((float) h / g) : 0;
++
++    qemu_log("TB%d: phys:0x"TB_PAGE_ADDR_FMT" virt:0x"TARGET_FMT_lx
++             " flags:%#08x (trans:%lu uncached:%lu exec:%lu ints: g:%u op:%u op_opt:%u h:%u h/g:%.2f spills:%d)\n",
++             tbs->display_id,
++             tbs->phys_pc, tbs->pc, tbs->flags,
++             tbs->translations.total, tbs->translations.uncached,
++             tbs->executions.total, g, ops, ops_opt, h, guest_host_prop,
++             spills);
 +}
 +
-+static void reset_tbstats_flag(void *p, uint32_t hash, void *userp)
++static gint
++inverse_sort_tbs(gconstpointer p1, gconstpointer p2, gpointer psort_by)
 +{
-+    uint32_t flag = *((int *)userp);
-+    TBStatistics *tbs = p;
-+    tbs->stats_enabled = flag;
-+}
++    const TBStatistics *tbs1 = (TBStatistics *) p1;
++    const TBStatistics *tbs2 = (TBStatistics *) p2;
++    int sort_by = *((int *) psort_by);
++    unsigned long c1 = 0;
++    unsigned long c2 = 0;
 +
-+void set_tbstats_flags(uint32_t flag)
-+{
-+    /* iterate over tbstats setting their flag as TB_NOTHING */
-+    qht_iter(&tb_ctx.tb_stats, reset_tbstats_flag, &flag);
-+}
-+
-+void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
-+{
-+    struct TbstatsCommand *cmdinfo = icmd.host_ptr;
-+    int cmd = cmdinfo->cmd;
-+    uint32_t level = cmdinfo->level;
-+
-+    /* for safe, always pause TB generation while running this commands */
-+    mmap_lock();
-+
-+    switch (cmd) {
-+    case START:
-+        if (tb_stats_collection_paused()) {
-+            set_tbstats_flags(level);
-+        } else {
-+            if (tb_stats_collection_enabled()) {
-+                qemu_printf("TB information already being recorded");
-+                return;
-+            }
-+            qht_init(&tb_ctx.tb_stats, tb_stats_cmp, CODE_GEN_HTABLE_SIZE,
-+                        QHT_MODE_AUTO_RESIZE);
++    if (likely(sort_by == SORT_BY_SPILLS)) {
++        c1 = tbs1->code.spills;
++        c2 = tbs2->code.spills;
++    } else if (likely(sort_by == SORT_BY_HOTNESS)) {
++        c1 = tbs1->executions.total;
++        c2 = tbs2->executions.total;
++    } else if (likely(sort_by == SORT_BY_HG)) {
++        if (tbs1->code.num_guest_inst == 0) {
++            return -1;
++        }
++        if (tbs2->code.num_guest_inst == 0) {
++            return 1;
 +        }
 +
-+        set_default_tbstats_flag(level);
-+        enable_collect_tb_stats();
-+        tb_flush(cpu);
-+        break;
-+    case PAUSE:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+
-+        /* Continue to create TBStatistic structures but stop collecting statistics */
-+        pause_collect_tb_stats();
-+        tb_flush(cpu);
-+        set_default_tbstats_flag(TB_NOTHING);
-+        set_tbstats_flags(TB_PAUSED);
-+        break;
-+    case STOP:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+
-+        /* Dissalloc all TBStatistics structures and stop creating new ones */
-+        disable_collect_tb_stats();
-+        tb_flush(cpu);
-+        clean_tbstats();
-+        break;
-+    case FILTER:
-+        if (!tb_stats_collection_enabled()) {
-+            qemu_printf("TB information not being recorded");
-+            return;
-+        }
-+        if (!last_search) {
-+            qemu_printf("no search on record! execute info tbs before filtering!");
-+            return;
-+        }
-+
-+        tb_flush(cpu);
-+        set_default_tbstats_flag(TB_NOTHING);
-+
-+        /* Set all tbstats as paused, then return only the ones from last_search */
-+        pause_collect_tb_stats();
-+        set_tbstats_flags(TB_PAUSED);
-+
-+        for (GList *iter = last_search; iter; iter = g_list_next(iter)) {
-+            TBStatistics *tbs = iter->data;
-+            tbs->stats_enabled = level;
-+        }
-+
-+        break;
-+    default: /* INVALID */
-+        break;
++        float a = (float) tbs1->code.num_host_inst / tbs1->code.num_guest_inst;
++        float b = (float) tbs2->code.num_host_inst / tbs2->code.num_guest_inst;
++        c1 = a <= b ? 0 : 1;
++        c2 = a <= b ? 1 : 0;
 +    }
 +
-+    mmap_unlock();
-+    g_free(cmdinfo);
++    return c1 < c2 ? 1 : c1 == c2 ? 0 : -1;
 +}
- 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index bfa5681dd2..419898751e 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1885,6 +1885,23 @@ STEXI
- @findex qemu-io
- Executes a qemu-io command on the given block device.
- 
-+ETEXI
-+#if defined(CONFIG_TCG)
-+    {
-+        .name       = "tb_stats",
-+        .args_type  = "command:s,level:s?",
-+        .params     = "command [stats_level]",
-+        .help       = "Control tb statistics collection:"
-+                        "tb_stats (start|pause|stop|filter) [all|jit_stats|exec_stats]",
-+        .cmd        = hmp_tbstats,
-+    },
-+#endif
 +
-+STEXI
-+@item tb_stats
-+@findex
-+Control recording tb statistics
++static void do_dump_coverset_info(int percentage)
++{
++    uint64_t total_exec_count = 0;
++    uint64_t covered_exec_count = 0;
++    unsigned coverset_size = 0;
++    int id = 1;
++    GList *i;
 +
- ETEXI
- 
-     {
-diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-index 7d775f2c0d..d1debd3262 100644
---- a/include/exec/tb-stats.h
-+++ b/include/exec/tb-stats.h
-@@ -6,6 +6,9 @@
- #include "exec/tb-context.h"
- #include "tcg.h"
- 
-+enum SortBy { SORT_BY_HOTNESS, SORT_BY_HG /* Host/Guest */, SORT_BY_SPILLS };
-+enum TbstatsCmd { START, PAUSE, STOP, FILTER };
++    g_list_free(last_search);
++    last_search = NULL;
 +
- #define tb_stats_enabled(tb, JIT_STATS) \
-     (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
- 
-@@ -60,4 +63,14 @@ bool tb_stats_cmp(const void *ap, const void *bp);
- 
- void dump_jit_profile_info(TCGProfile *s);
- 
-+void set_tbstats_flags(uint32_t flags);
-+void clean_tbstats(void);
++    qht_iter(&tb_ctx.tb_stats, collect_tb_stats, NULL);
 +
-+struct TbstatsCommand {
-+    enum TbstatsCmd cmd;
-+    uint32_t level;
++    int sort_by = SORT_BY_HOTNESS;
++    last_search = g_list_sort_with_data(last_search, inverse_sort_tbs, &sort_by);
++
++    if (!last_search) {
++        qemu_log("No data collected yet\n");
++        return;
++    }
++
++    /* Compute total execution count for all tbs */
++    for (i = last_search; i; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        total_exec_count += tbs->executions.total * tbs->code.num_guest_inst;
++    }
++
++    for (i = last_search; i; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        covered_exec_count += tbs->executions.total * tbs->code.num_guest_inst;
++        tbs->display_id = id++;
++        coverset_size++;
++        dump_tb_header(tbs);
++
++        /* Iterate and display tbs until reach the percentage count cover */
++        if (((double) covered_exec_count / total_exec_count) >
++                ((double) percentage / 100)) {
++            break;
++        }
++    }
++
++    qemu_log("\n------------------------------\n");
++    qemu_log("# of TBs to reach %d%% of the total of guest insts exec: %u\t",
++                percentage, coverset_size);
++    qemu_log("Total of guest insts exec: %lu\n", total_exec_count);
++    qemu_log("\n------------------------------\n");
++
++    /* free the unused bits */
++    if (i) {
++        if (i->next) {
++            i->next->prev = NULL;
++        }
++        g_list_free(i->next);
++        i->next = NULL;
++    }
++}
++
++static void do_dump_tbs_info(int count, int sort_by)
++{
++    int id = 1;
++    GList *i;
++
++    g_list_free(last_search);
++    last_search = NULL;
++
++    qht_iter(&tb_ctx.tb_stats, collect_tb_stats, NULL);
++
++    last_search = g_list_sort_with_data(last_search, inverse_sort_tbs,
++                                        &sort_by);
++
++    if (!last_search) {
++        qemu_printf("No data collected yet!\n");
++        return;
++    }
++
++    for (i = last_search; i && count--; i = i->next) {
++        TBStatistics *tbs = (TBStatistics *) i->data;
++        tbs->display_id = id++;
++        dump_tb_header(tbs);
++    }
++
++    /* free the unused bits */
++    if (i) {
++        if (i->next) {
++            i->next->prev = NULL;
++        }
++        g_list_free(i->next);
++        i->next = NULL;
++    }
++}
++
++static void
++do_dump_coverset_info_safe(CPUState *cpu, run_on_cpu_data percentage)
++{
++    qemu_log_to_monitor(true);
++    do_dump_coverset_info(percentage.host_int);
++    qemu_log_to_monitor(false);
++}
++
++struct tbs_dump_info {
++    int count;
++    int sort_by;
 +};
 +
-+void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
++static void do_dump_tbs_info_safe(CPUState *cpu, run_on_cpu_data tbdi)
++{
++    struct tbs_dump_info *info = tbdi.host_ptr;
++    qemu_log_to_monitor(true);
++    do_dump_tbs_info(info->count, info->sort_by);
++    qemu_log_to_monitor(false);
++    g_free(info);
++}
++
++/*
++ * When we dump_tbs_info on a live system via the HMP we want to
++ * ensure the system is quiessent before we start outputting stuff.
++ * Otherwise we could pollute the output with other logging output.
++ */
++void dump_coverset_info(int percentage, bool use_monitor)
++{
++    if (use_monitor) {
++        async_safe_run_on_cpu(first_cpu, do_dump_coverset_info_safe,
++                              RUN_ON_CPU_HOST_INT(percentage));
++    } else {
++        do_dump_coverset_info(percentage);
++    }
++}
++
++void dump_tbs_info(int count, int sort_by, bool use_monitor)
++{
++    if (use_monitor) {
++        struct tbs_dump_info *tbdi = g_new(struct tbs_dump_info, 1);
++        tbdi->count = count;
++        tbdi->sort_by = sort_by;
++        async_safe_run_on_cpu(first_cpu, do_dump_tbs_info_safe,
++                              RUN_ON_CPU_HOST_PTR(tbdi));
++    } else {
++        do_dump_tbs_info(count, sort_by);
++    }
++}
++
++static void do_tb_dump_with_statistics(TBStatistics *tbs, int log_flags)
++{
++    CPUState *cpu = current_cpu;
++    uint32_t cflags = curr_cflags() | CF_NOCACHE;
++    int old_log_flags = qemu_loglevel;
++    TranslationBlock *tb = NULL;
++
++    qemu_set_log(log_flags);
++
++    qemu_log("\n------------------------------\n");
++    dump_tb_header(tbs);
++
++    if (sigsetjmp(cpu->jmp_env, 0) == 0) {
++        mmap_lock();
++        tb = tb_gen_code(cpu, tbs->pc, tbs->cs_base, tbs->flags, cflags);
++        tb_phys_invalidate(tb, -1);
++        mmap_unlock();
++    } else {
++        /*
++         * The mmap_lock is dropped by tb_gen_code if it runs out of
++         * memory.
++         */
++        fprintf(stderr, "%s: dbg failed!\n", __func__);
++        assert_no_pages_locked();
++    }
++
++    qemu_set_log(old_log_flags);
++
++    tcg_tb_remove(tb);
++}
++
++struct tb_dump_info {
++    int id;
++    int log_flags;
++    bool use_monitor;
++};
++
++static void do_dump_tb_info_safe(CPUState *cpu, run_on_cpu_data info)
++{
++    struct tb_dump_info *tbdi = (struct tb_dump_info *) info.host_ptr;
++    GList *iter;
++
++    if (!last_search) {
++        qemu_printf("no search on record");
++        return;
++    }
++    qemu_log_to_monitor(tbdi->use_monitor);
++
++    for (iter = last_search; iter; iter = g_list_next(iter)) {
++        TBStatistics *tbs = iter->data;
++        if (tbs->display_id == tbdi->id) {
++            do_tb_dump_with_statistics(tbs, tbdi->log_flags);
++            break;
++        }
++    }
++    qemu_log_to_monitor(false);
++    g_free(tbdi);
++}
++
++void dump_tb_info(int id, int log_mask, bool use_monitor)
++{
++    struct tb_dump_info *tbdi = g_new(struct tb_dump_info, 1);
++
++    tbdi->id = id;
++    tbdi->log_flags = log_mask;
++    tbdi->use_monitor = use_monitor;
++
++    async_safe_run_on_cpu(first_cpu, do_dump_tb_info_safe,
++                          RUN_ON_CPU_HOST_PTR(tbdi));
++
++    /* tbdi free'd by do_dump_tb_info_safe */
++}
++
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index c59444c461..761c76619b 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -289,6 +289,29 @@ ETEXI
+         .help       = "show dynamic compiler info",
+         .cmd        = hmp_info_jit,
+     },
++    {
++        .name       = "tbs",
++        .args_type  = "number:i?,sortedby:s?",
++        .params     = "[number sortedby]",
++        .help       = "show a [number] translated blocks sorted by [sortedby]"
++                      "sortedby opts: hotness hg",
++        .cmd        = hmp_info_tbs,
++    },
++    {
++        .name       = "tb",
++        .args_type  = "id:i,flags:s?",
++        .params     = "id [log1[,...] flags]",
++        .help       = "show information about one translated block by id",
++        .cmd        = hmp_info_tb,
++    },
++    {
++        .name       = "coverset",
++        .args_type  = "number:i?",
++        .params     = "[number]",
++        .help       = "show hottest translated blocks neccesary to cover"
++                      "[number]% of the execution count",
++        .cmd        = hmp_info_coverset,
++    },
+ #endif
+ 
+ STEXI
+diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
+index d1debd3262..e2ab1068c3 100644
+--- a/include/exec/tb-stats.h
++++ b/include/exec/tb-stats.h
+@@ -57,6 +57,9 @@ struct TBStatistics {
+         unsigned long uncached;
+         unsigned long spanning;
+     } translations;
++
++    /* HMP information - used for referring to previous search */
++    int display_id;
+ };
+ 
+ bool tb_stats_cmp(const void *ap, const void *bp);
+@@ -73,4 +76,38 @@ struct TbstatsCommand {
+ 
+ void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
+ 
++/**
++ * dump_coverset_info: report the hottest blocks to cover n% of execution
++ *
++ * @percentage: cover set percentage
++ * @use_monitor: redirect output to monitor
++ *
++ * Report the hottest blocks to either the log or monitor
++ */
++void dump_coverset_info(int percentage, bool use_monitor);
++
++
++/**
++ * dump_tbs_info: report the hottest blocks
++ *
++ * @count: the limit of hotblocks
++ * @sort_by: property in which the dump will be sorted
++ * @use_monitor: redirect output to monitor
++ *
++ * Report the hottest blocks to either the log or monitor
++ */
++void dump_tbs_info(int count, int sort_by, bool use_monitor);
++
++/**
++ * dump_tb_info: dump information about one TB
++ *
++ * @id: the display id of the block (from previous search)
++ * @mask: the temporary logging mask
++ * @Use_monitor: redirect output to monitor
++ *
++ * Re-run a translation of a block at addr for the purposes of debug output
++ */
++void dump_tb_info(int id, int log_mask, bool use_monitor);
++
 +
  #endif
+diff --git a/include/qemu/log-for-trace.h b/include/qemu/log-for-trace.h
+index 2f0a5b080e..d65eb83037 100644
+--- a/include/qemu/log-for-trace.h
++++ b/include/qemu/log-for-trace.h
+@@ -21,6 +21,8 @@
+ /* Private global variable, don't use */
+ extern int qemu_loglevel;
+ 
++extern int32_t max_num_hot_tbs_to_dump;
++
+ #define LOG_TRACE          (1 << 15)
+ 
+ /* Returns true if a bit is set in the current loglevel mask */
 diff --git a/include/qemu/log.h b/include/qemu/log.h
-index 93642603e5..47071d72c7 100644
+index 47071d72c7..27ba267faa 100644
 --- a/include/qemu/log.h
 +++ b/include/qemu/log.h
-@@ -133,6 +133,7 @@ void qemu_log_close(void);
- #define TB_NOTHING    0
- #define TB_EXEC_STATS (1 << 1)
- #define TB_JIT_STATS  (1 << 2)
-+#define TB_PAUSED     (1 << 3)
+@@ -114,6 +114,7 @@ typedef struct QEMULogItem {
+ extern const QEMULogItem qemu_log_items[];
  
- void enable_collect_tb_stats(void);
- void disable_collect_tb_stats(void);
+ void qemu_set_log(int log_flags);
++void qemu_log_to_monitor(bool enable);
+ void qemu_log_needs_buffers(void);
+ void qemu_set_log_filename(const char *filename, Error **errp);
+ void qemu_set_dfilter_ranges(const char *ranges, Error **errp);
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index bdda720553..7226104959 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -28,6 +28,10 @@ extern void __gcov_dump(void);
+ 
+ void preexit_cleanup(CPUArchState *env, int code)
+ {
++    if (tb_stats_collection_enabled()) {
++        dump_tbs_info(max_num_hot_tbs_to_dump, SORT_BY_HOTNESS, false);
++    }
++
+ #ifdef TARGET_GPROF
+         _mcleanup();
+ #endif
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 00338c002a..aea9b0db4f 100644
+index aea9b0db4f..78ada8aa0e 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -459,6 +459,46 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+@@ -499,6 +499,77 @@ static void hmp_tbstats(Monitor *mon, const QDict *qdict)
+ 
  }
  
- #ifdef CONFIG_TCG
-+static void hmp_tbstats(Monitor *mon, const QDict *qdict)
++static void hmp_info_tbs(Monitor *mon, const QDict *qdict)
 +{
++    int n;
++    const char *s = NULL;
++    if (!tcg_enabled()) {
++        error_report("TB information is only available with accel=tcg");
++        return;
++    }
++    if (!tb_ctx.tb_stats.map) {
++        error_report("no TB information recorded");
++        return;
++    }
++
++    n = qdict_get_try_int(qdict, "number", 10);
++    s = qdict_get_try_str(qdict, "sortedby");
++
++    int sortedby = 0;
++    if (s == NULL || strcmp(s, "hotness") == 0) {
++        sortedby = SORT_BY_HOTNESS;
++    } else if (strcmp(s, "hg") == 0) {
++        sortedby = SORT_BY_HG;
++    } else if (strcmp(s, "spills") == 0) {
++        sortedby = SORT_BY_SPILLS;
++    }
++
++    dump_tbs_info(n, sortedby, true);
++}
++
++static void hmp_info_tb(Monitor *mon, const QDict *qdict)
++{
++    const int id = qdict_get_int(qdict, "id");
++    const char *flags = qdict_get_try_str(qdict, "flags");
++    int mask;
++
 +    if (!tcg_enabled()) {
 +        error_report("TB information is only available with accel=tcg");
 +        return;
 +    }
 +
-+    char *cmd = (char *) qdict_get_try_str(qdict, "command");
-+    enum TbstatsCmd icmd = -1;
++    mask = flags ? qemu_str_to_log_mask(flags) : CPU_LOG_TB_IN_ASM;
 +
-+    if (strcmp(cmd, "start") == 0) {
-+        icmd = START;
-+    } else if (strcmp(cmd, "pause") == 0) {
-+        icmd = PAUSE;
-+    } else if (strcmp(cmd, "stop") == 0) {
-+        icmd = STOP;
-+    } else if (strcmp(cmd, "filter") == 0) {
-+        icmd = FILTER;
-+    } else {
-+        error_report("invalid command!");
++    if (!mask) {
++        help_cmd(mon, "log");
++        return;
 +    }
 +
-+    char *slevel = (char *) qdict_get_try_str(qdict, "level");
-+    uint32_t level = TB_EXEC_STATS | TB_JIT_STATS;
-+    if (slevel) {
-+        if (strcmp(slevel, "jit_stats") == 0) {
-+            level = TB_JIT_STATS;
-+        } else if (strcmp(slevel, "exec_stats") == 0) {
-+            level = TB_EXEC_STATS;
-+        }
++    dump_tb_info(id, mask, true);
++}
++
++static void hmp_info_coverset(Monitor *mon, const QDict *qdict)
++{
++    int n;
++    if (!tcg_enabled()) {
++        error_report("TB information is only available with accel=tcg");
++        return;
++    }
++    if (!tb_stats_collection_enabled()) {
++        error_report("TB information not being recorded");
++        return;
 +    }
 +
-+    struct TbstatsCommand *tbscommand = g_new0(struct TbstatsCommand, 1);
-+    tbscommand->cmd = icmd;
-+    tbscommand->level = level;
-+    async_safe_run_on_cpu(first_cpu, do_hmp_tbstats_safe,
-+                          RUN_ON_CPU_HOST_PTR(tbscommand));
++    n = qdict_get_try_int(qdict, "number", 90);
 +
++    if (n < 0 || n > 100) {
++        error_report("Coverset percentage should be between 0 and 100");
++        return;
++    }
++
++    dump_coverset_info(n, true);
 +}
 +
  static void hmp_info_jit(Monitor *mon, const QDict *qdict)
  {
      if (!tcg_enabled()) {
+diff --git a/util/log.c b/util/log.c
+index 8109d19afb..7bfcbe3703 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -19,6 +19,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "qemu/qemu-print.h"
+ #include "qemu/range.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+@@ -31,25 +32,34 @@ int qemu_loglevel;
+ static int log_append = 0;
+ static GArray *debug_regions;
+ int32_t max_num_hot_tbs_to_dump;
++static bool to_monitor;
+ 
+ /* Return the number of characters emitted.  */
+ int qemu_log(const char *fmt, ...)
+ {
+     int ret = 0;
+-    if (qemu_logfile) {
+-        va_list ap;
+-        va_start(ap, fmt);
++    va_list ap;
++    va_start(ap, fmt);
++
++    if (to_monitor) {
++        ret = qemu_vprintf(fmt, ap);
++    } else if (qemu_logfile) {
+         ret = vfprintf(qemu_logfile, fmt, ap);
+-        va_end(ap);
++    }
++    va_end(ap);
+ 
+-        /* Don't pass back error results.  */
+-        if (ret < 0) {
+-            ret = 0;
+-        }
++    /* Don't pass back error results.  */
++    if (ret < 0) {
++        ret = 0;
+     }
+     return ret;
+ }
+ 
++void qemu_log_to_monitor(bool enable)
++{
++    to_monitor = enable;
++}
++
+ static bool log_uses_own_buffers;
+ 
+ /* enable or disable low levels log */
 -- 
 2.22.0
 
