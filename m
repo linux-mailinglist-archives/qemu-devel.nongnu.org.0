@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781376EFD6
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:20:24 +0200 (CEST)
-Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3306F6EFDC
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:21:27 +0200 (CEST)
+Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hor9q-0002SU-Re
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
+	id 1horAs-0007bM-6r
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8S-0005wR-Vu
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:57 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8U-00065A-Sh
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8R-00087S-SP
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:56 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42934)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8T-00088g-LX
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:58 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33209)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8R-00086d-Lh
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id x1so20022821wrr.9
- for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:55 -0700 (PDT)
+ id 1hor8T-00088N-Ey
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:57 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id h19so25664324wme.0
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gEyNtMZO6zjfyzbu3zzmhWKRQ42+siiVg/LlDUHOq+c=;
- b=j+mvkvVCSTi0ypnxPSjFFSFtm5hSzfk7JxmV91Q9Dk77VcLQuL6ULdGpyDQdCJWbTQ
- LQLDAJMafu0QbAcmWdUwLkma3fmGPVrRTg5NMoDh8cl5+83TLfxaw7WSG/HoJhAUKWM4
- vu71CwwvbgJiDAINDRsrPfhZ2VK/OwTez+wGON3E3WyDQ7ZiVU9PaidjmtcjYhZwLh4V
- d4G4ccsSG5eN0MplgHgIefjzIEn5lrhSmcDyk2Cj1NVplghxNdqRdkErdT2/Sd66L5DZ
- pU5EYwccDbfqle7OY1KU9hziZiwKERLd476QiSqi1U04FQvUnxLERYj8bmagR4KC8G4R
- 30iw==
+ bh=CvisqMqCgktfbG7D7mGm20gBvrSkT0GKy3tcYKFSGT4=;
+ b=jJE+zQmrTqMiagwWgm8Djh9E/IlRskjc2TCv4LLSHPHb0rV+g9Hlo0Hq5ma/ilM520
+ CGXFlSyg7c9gjqVbUIR/4FI1jydzkfqIM1uoJZCuLDVwGiqgMEAMUrC3RajeUDoGdB8s
+ B9Y91eEojg3eQPBohIe8xNSB5psu5FxG1GTHmeAsWYOLyu2yVEDCZkt5KK4uYz1Meutu
+ i4qxRrWis5wAs01ljLRCFYsLlHqs/zqA+vovdQD6BL+ln6iXJH2+x4F7f4sTs0VMz24C
+ T6M3ckADIzDh5LsuRI0fJwBuPPdbFBy37M49krTBPxkCsGIi4oWocI6WXVK7cN7JPXL7
+ vT2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gEyNtMZO6zjfyzbu3zzmhWKRQ42+siiVg/LlDUHOq+c=;
- b=l4TqYU8A9C6t2EJSHVR+m7Bo6P4wdWKSWDm/Qa48VuT1+nXUMIvpZM9bFAQ2VHtGRS
- WA1vzfD7HIyVod0sBqboBdlnc0VN/bQnEpeOdREzRztidW04WYHJVJGU4PncORebmHvd
- 4RI2V0X2fA0YZ5UN98bY7eY4GE5c293ct+Bj4EZudcnP8Hr2/jtQNrhqQlpbk9dAP344
- 3tRjhUdQk6G/ImMLquptSyulZb/FtBZ7Tfq5qre47xlLc6S0b/xDRZgd3hA3azd8s9PY
- z6VkLljqiACVzMAmeXQ4KJwMF/xhCUomGfP9Ma/4CcpuHZl55uj4dni0bAoERZbth4cd
- 93nQ==
-X-Gm-Message-State: APjAAAWRjf3rKKOxepgiY4JtzbCy1EJQ3gG44/Jc2CfR/MUIGAh4J5fi
- PhBmxiNV5WmKn3rlAi4wYKZeOLP+hzw=
-X-Google-Smtp-Source: APXvYqzqY/Uk/1g0Q98sK4OuEgomBt5kEe/JS9CtMdDYUI/esmTanpqv/kYCNSdrhsqADNt+02j9bA==
-X-Received: by 2002:adf:aac8:: with SMTP id i8mr18862560wrc.56.1563635934464; 
- Sat, 20 Jul 2019 08:18:54 -0700 (PDT)
+ bh=CvisqMqCgktfbG7D7mGm20gBvrSkT0GKy3tcYKFSGT4=;
+ b=Xx/zH7cMMWPTwfUZM0AH4BooJmGvGxCUp5/SpnQ1xPhj202OB576cPi088PT8kaszF
+ V9ghVkhw3ThvqRglwZXY+hOqjNEpi9MrcozpIk6bGWR00WjT1nxxYYDriFyZ6OZsQhY9
+ OE3KBBt/BhQ9NAb2wsuaq9occEHKrbT7xZbJOLlrx81k6eBrnB2U9zCHFnLDko5i5HUG
+ 980gOCY1tRsRQyZFpBZxpx0vw8F/cZrxxralL3mv+rGkxkGsV/6II975wWMT1RMcq332
+ K+8WFgDChOg3KRQvK2rr8TtgTKrYo5DOaFCIKVfxrAZRiffhO9VGv44HJ+OJfl1ocgFT
+ HZDg==
+X-Gm-Message-State: APjAAAXNeQ6cReYPQJlRdUWGJkNBWANAZTndEKW7JitNbTuxMPq6Xpp4
+ 1UiPoCHF6kdnt/vQrnQVOwkeiFzpR7M=
+X-Google-Smtp-Source: APXvYqz2sL8pfratX9X1MZN5NaAwN6k+T9Y25BYTWkgz30OZR0aO7GuSHXSDlzAAPVVMApPaLkIsGQ==
+X-Received: by 2002:a1c:d10c:: with SMTP id i12mr53885997wmg.152.1563635936322; 
+ Sat, 20 Jul 2019 08:18:56 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.53
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.55
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 08:18:53 -0700 (PDT)
+ Sat, 20 Jul 2019 08:18:55 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:39 +0200
-Message-Id: <20190720151846.7450-6-pbonzini@redhat.com>
+Date: Sat, 20 Jul 2019 17:18:41 +0200
+Message-Id: <20190720151846.7450-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
 References: <20190720151846.7450-1-pbonzini@redhat.com>
@@ -64,9 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
-Subject: [Qemu-devel] [PULL 05/12] vhost-user-scsi: Call
- virtio_scsi_common_unrealize() when device realize failed
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PULL 07/12] test-bitmap: add test for bitmap_set
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xie Yongji <xieyongji@baidu.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@baidu.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-This avoids memory leak when device hotplug is failed.
+Add a test for bitmap_set. There are three cases:
 
-Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-Message-Id: <20190717004606.12444-2-xieyongji@baidu.com>
+  * Both start and end is BITS_PER_LONG aligned
+  * Only start is BITS_PER_LONG aligned
+  * Only end is BITS_PER_LONG aligned
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190718010456.4234-3-richardw.yang@linux.intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/vhost-user-scsi.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ tests/test-bitmap.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index a0b69fb..fcee67d 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -87,7 +87,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     }
- 
-     if (!vhost_user_init(&s->vhost_user, &vs->conf.chardev, errp)) {
--        return;
-+        goto free_virtio;
-     }
- 
-     vsc->dev.nvqs = 2 + vs->conf.num_queues;
-@@ -101,15 +101,21 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     if (ret < 0) {
-         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
-                    strerror(-ret));
--        vhost_user_cleanup(&s->vhost_user);
--        g_free(vqs);
--        return;
-+        goto free_vhost;
-     }
- 
-     /* Channel and lun both are 0 for bootable vhost-user-scsi disk */
-     vsc->channel = 0;
-     vsc->lun = 0;
-     vsc->target = vs->conf.boot_tpgt;
-+
-+    return;
-+
-+free_vhost:
-+    vhost_user_cleanup(&s->vhost_user);
-+    g_free(vqs);
-+free_virtio:
-+    virtio_scsi_common_unrealize(dev);
+diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
+index cb7c5e4..18aa584 100644
+--- a/tests/test-bitmap.c
++++ b/tests/test-bitmap.c
+@@ -59,12 +59,67 @@ static void check_bitmap_copy_with_offset(void)
+     g_free(bmap3);
  }
  
- static void vhost_user_scsi_unrealize(DeviceState *dev, Error **errp)
++typedef void (*bmap_set_func)(unsigned long *map, long i, long len);
++static void bitmap_set_case(bmap_set_func set_func)
++{
++    unsigned long *bmap;
++    int offset;
++
++    bmap = bitmap_new(BMAP_SIZE);
++
++    /* Both Aligned, set bits [BITS_PER_LONG, 3*BITS_PER_LONG] */
++    set_func(bmap, BITS_PER_LONG, 2 * BITS_PER_LONG);
++    g_assert_cmpuint(bmap[1], ==, -1ul);
++    g_assert_cmpuint(bmap[2], ==, -1ul);
++    g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG), ==, BITS_PER_LONG);
++    g_assert_cmpint(find_next_zero_bit(bmap, 3 * BITS_PER_LONG, BITS_PER_LONG),
++                    ==, 3 * BITS_PER_LONG);
++
++    for (offset = 0; offset <= BITS_PER_LONG; offset++) {
++        bitmap_clear(bmap, 0, BMAP_SIZE);
++        /* End Aligned, set bits [BITS_PER_LONG - offset, 3*BITS_PER_LONG] */
++        set_func(bmap, BITS_PER_LONG - offset, 2 * BITS_PER_LONG + offset);
++        g_assert_cmpuint(bmap[1], ==, -1ul);
++        g_assert_cmpuint(bmap[2], ==, -1ul);
++        g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG),
++                        ==, BITS_PER_LONG - offset);
++        g_assert_cmpint(find_next_zero_bit(bmap,
++                                           3 * BITS_PER_LONG,
++                                           BITS_PER_LONG - offset),
++                        ==, 3 * BITS_PER_LONG);
++    }
++
++    for (offset = 0; offset <= BITS_PER_LONG; offset++) {
++        bitmap_clear(bmap, 0, BMAP_SIZE);
++        /* Start Aligned, set bits [BITS_PER_LONG, 3*BITS_PER_LONG + offset] */
++        set_func(bmap, BITS_PER_LONG, 2 * BITS_PER_LONG + offset);
++        g_assert_cmpuint(bmap[1], ==, -1ul);
++        g_assert_cmpuint(bmap[2], ==, -1ul);
++        g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG),
++                        ==, BITS_PER_LONG);
++        g_assert_cmpint(find_next_zero_bit(bmap,
++                                           3 * BITS_PER_LONG + offset,
++                                           BITS_PER_LONG),
++                        ==, 3 * BITS_PER_LONG + offset);
++    }
++
++    g_free(bmap);
++}
++
++static void check_bitmap_set(void)
++{
++    bitmap_set_case(bitmap_set);
++    bitmap_set_case(bitmap_set_atomic);
++}
++
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+ 
+     g_test_add_func("/bitmap/bitmap_copy_with_offset",
+                     check_bitmap_copy_with_offset);
++    g_test_add_func("/bitmap/bitmap_set",
++                    check_bitmap_set);
+ 
+     g_test_run();
+ 
 -- 
 1.8.3.1
 
