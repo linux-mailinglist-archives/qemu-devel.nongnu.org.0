@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA8D6EFDD
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:21:28 +0200 (CEST)
-Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B43C6EFDB
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:21:06 +0200 (CEST)
+Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1horAt-0007sh-W3
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:21:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39917)
+	id 1horAW-0005th-IE
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39922)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8Y-0006Gi-Ho
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:04 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8Y-0006KJ-Hx
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8W-0008Bl-FP
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:01 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34069)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8X-0008Ce-A4
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:02 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44981)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8W-00089n-8x
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:00 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id 31so35071197wrm.1
- for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:19:00 -0700 (PDT)
+ id 1hor8X-0008Bp-2t
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:01 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p17so34986183wrf.11
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2jXZXn8D0C4OSjVChn2Rnr8HsT29F+x6ytM6XlvQE38=;
- b=c4NGI7ON9/d4x/xi6Sl/EIwYaTZA94XoqpbiNdE5DtLM743R+zBIqYLiYtCD/OKUcz
- OyoOlBt7NpnIUxPVAwBrRc0o8dO+LJGwiNb7caWnLUDxdEFUQ/Oj8axb1d7LIrP+nrI0
- 9rhkBjUuUrovWW6EaZ0DQFaTAfbADT0lHZ119XPnEVVSbyKtjQT59ZYSvNJ88QIsdqWp
- jvnrUGtwEPc9ZnBt2bvpw79XnGdKGovi/wavCXsT84UHZaHJ3Ff6HMoCbQ+a/caeZDEf
- 6k61tBjLFbtQgayNR/fTbSpjO8BbnwHtSdXHua+4V02558silM24pFXDO1JU6jToVeTU
- hdMA==
+ bh=v8dpyNBhtLVCL3x1WrV5A15VpIlNKEu8CU2xcQnGtNs=;
+ b=KHrWALR9QKdOmEKqRPGwJWplCLF+xTAG0/cj83BL90uw+Q9O/abxFBYSfM8xqNztB8
+ dzRvLhC2JTgOfapaEsxaaCDy6gw9zTDm4jg6HdTdh1PtrFQioxuoYexG1Gk6afdVc7HG
+ //81V4aCFrEsNGyobnj2MMGAP7wrZw90EqegliQBfctM6GxU0xQ2V2E7qKrR6pp802uf
+ A39gd7+lqit5oaPQjixzXgkKnXJDAVJwW0VTjjv5qYJzDo675ehkKG3nHOBxn5Ptd+P3
+ sPT45Mc1O8FhYPD0hD61FKdeuJ3qauzyb/wA+GulPDk5Y72fJ6MxCz2DeDWFZRhuj4ZT
+ nzbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2jXZXn8D0C4OSjVChn2Rnr8HsT29F+x6ytM6XlvQE38=;
- b=Crn7h9c5bpi2QcHMaUNL8r9wiji6VJTDKyEpl5uRb1Lu02raaaBff+w2VNM3/f5EJt
- 5UsbV0azKkVrJxz/ReMV9jqtfJPNp1RG7lRh2/St6wxvBakD2OH+Qr98F1SwfQDGNwnZ
- KybsncOiRi+wh9GV1w1rnPSSjMrlVw0j2Hn0DpNx1GZR5rCX3P+tbN+TDC0n4QDhgEIv
- vnR8ym3Pc/giJ0bWsb0Yju6Nh5drjih0GirNbFp1uecD5uyvC1HD33f9UZYL9/TH+gFa
- yacwnP/e5WhsTlU3g51PzFrK0L4FZr0d2SL+tRYL310UKPvZ5TYSUvT3PZCvdSI5k4PW
- k+Yg==
-X-Gm-Message-State: APjAAAUALYWtrDDQArJesq0aCHck3Oy8q11xST0eEMnqRGPGRbrhVpPc
- Ocmy8VsLqKjYumXNVPxKNu97kw7r2NE=
-X-Google-Smtp-Source: APXvYqz9s6lYir+VZbY9LbmB4TG32+jvQ9irvM6UMPs/nBCIkX3mDpo899b4Z8gxd1JvcidgbgIMNg==
-X-Received: by 2002:a5d:4101:: with SMTP id l1mr7062821wrp.202.1563635939034; 
+ bh=v8dpyNBhtLVCL3x1WrV5A15VpIlNKEu8CU2xcQnGtNs=;
+ b=Z2lO7TEaNrtFaYphLmgOHm95ogheepBYBpGLQUMh4252NpiFUPzPP2sP6A6pRJyI6h
+ aNt09Pdx2oiccgfsym5PhbwI1bFmPvm8sTaMsLkBG61ggLyTRSKYrOC/tKIb8gaGS05A
+ //niy09GyNF2uUvYf2YFKzD1uyInEqBufVWeyxLdiHRuy51V/iULla6Cgwf9GtbKi9T9
+ MnjtFLhZEAVgLnU1RukNNtSMmnjVDd4TywIzTrgzbAnoZ4ifn+G53rrgKTMCcbrbqcmh
+ 2xkjJDs05VpoFq1J8uCdn6XPclKAz7YmavSub7vLDdmMQBtk5pcSJ5sY12FfsBsCJDzj
+ X15A==
+X-Gm-Message-State: APjAAAU0htSQgQqdh0qmpPMNwEfE52y/LZ3qY5HTjsqmv3D+09tjgxJn
+ HZ3FwIKZZdsVlcF25gBBIdPosnkSGpA=
+X-Google-Smtp-Source: APXvYqxVzjBkj4vMkIXcUTFPYYb6yU+oIUxVX6+oqdEfGcfIHASAjLhc+EDSdAht7ZCd1jW9+7ey8g==
+X-Received: by 2002:a5d:6b11:: with SMTP id v17mr13847516wrw.323.1563635939904; 
  Sat, 20 Jul 2019 08:18:59 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.58
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.59
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 08:18:58 -0700 (PDT)
+ Sat, 20 Jul 2019 08:18:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:44 +0200
-Message-Id: <20190720151846.7450-11-pbonzini@redhat.com>
+Date: Sat, 20 Jul 2019 17:18:45 +0200
+Message-Id: <20190720151846.7450-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
 References: <20190720151846.7450-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
-Subject: [Qemu-devel] [PULL 10/12] build-sys: do no support modules on
- Windows
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 11/12] i386: indicate that 'pconfig' feature was
+ removed intentionally
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,54 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: "Denis V. Lunev" <den@openvz.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: "Denis V. Lunev" <den@openvz.org>
 
-Our module system does not support Windows, because it relies on
-resolving symbols from the main executable.
+pconfig feature was added in 5131dc433df and removed in 712f807e196.
+This patch mark this feature as known to QEMU and removed by
+intentinally. This follows the convention of 9ccb9784b57 and f1a23522b03
+dealing with 'osxsave' and 'ospke'.
 
-If there is enough interest in supporting modules on Windows, we could
-generate an import library for the executable and link with it:
-https://stackoverflow.com/questions/15454968/dll-plugin-that-uses-functions-defined-in-the-main-executable
-
-However, there is a small chicken egg problem, since the executable
-link and exports extra symbols needed by the library...
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20190718120413.27678-1-marcandre.lureau@redhat.com>
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Richard Henderson <rth@twiddle.net>
+CC: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20190719111222.14943-1-den@openvz.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 99c64be..7be0e68 100755
---- a/configure
-+++ b/configure
-@@ -1752,7 +1752,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   guest-agent     build the QEMU Guest Agent
-   guest-agent-msi build guest agent Windows MSI installation package
-   pie             Position Independent Executables
--  modules         modules support
-+  modules         modules support (non-Windows)
-   debug-tcg       TCG debugging (default is disabled)
-   debug-info      debugging information
-   sparse          sparse checker
-@@ -2007,6 +2007,11 @@ else
-   QEMU_CFLAGS="$QEMU_CFLAGS -Wno-missing-braces"
- fi
- 
-+# Our module code doesn't support Windows
-+if test "$modules" = "yes" && test "$mingw32" = "yes" ; then
-+  error_exit "Modules are not available for Windows"
-+fi
-+
- # Static linking is not possible with modules or PIE
- if test "$static" = "yes" ; then
-   if test "$modules" = "yes" ; then
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 805ce95..e3320f5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1083,7 +1083,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, "md-clear", NULL,
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL /* pconfig */, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, "spec-ctrl", "stibp",
+             NULL, "arch-capabilities", "core-capability", "ssbd",
 -- 
 1.8.3.1
 
