@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3306F6EFDC
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:21:27 +0200 (CEST)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32E86EFD7
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Jul 2019 17:20:33 +0200 (CEST)
+Received: from localhost ([::1]:51627 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1horAs-0007bM-6r
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1horA0-00031E-5J
+	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 11:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39890)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8U-00065A-Sh
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:59 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8W-0006A6-0h
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:19:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hor8T-00088g-LX
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:58 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33209)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hor8U-00089F-Jf
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:59 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37447)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hor8T-00088N-Ey
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:57 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id h19so25664324wme.0
- for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:57 -0700 (PDT)
+ id 1hor8U-00088o-Ci
+ for qemu-devel@nongnu.org; Sat, 20 Jul 2019 11:18:58 -0400
+Received: by mail-wm1-x333.google.com with SMTP id f17so31488909wme.2
+ for <qemu-devel@nongnu.org>; Sat, 20 Jul 2019 08:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CvisqMqCgktfbG7D7mGm20gBvrSkT0GKy3tcYKFSGT4=;
- b=jJE+zQmrTqMiagwWgm8Djh9E/IlRskjc2TCv4LLSHPHb0rV+g9Hlo0Hq5ma/ilM520
- CGXFlSyg7c9gjqVbUIR/4FI1jydzkfqIM1uoJZCuLDVwGiqgMEAMUrC3RajeUDoGdB8s
- B9Y91eEojg3eQPBohIe8xNSB5psu5FxG1GTHmeAsWYOLyu2yVEDCZkt5KK4uYz1Meutu
- i4qxRrWis5wAs01ljLRCFYsLlHqs/zqA+vovdQD6BL+ln6iXJH2+x4F7f4sTs0VMz24C
- T6M3ckADIzDh5LsuRI0fJwBuPPdbFBy37M49krTBPxkCsGIi4oWocI6WXVK7cN7JPXL7
- vT2Q==
+ bh=VBJk++nebu5jmHNwt1imGPj0wqleJbW5DLRUX54D6/4=;
+ b=OgJMV5cvE/QkBaY2XX7+62GD5t7UB7FUCxYP0kWVg9NbinL0+TIBiaE8UVN9eYhUkV
+ 4Ta3Zrz/qXbGIcpUeOrW05dyT7I1F9AHcaml8DMOipAQ/+0dLfzgoFkeu1xglcKqO2cp
+ hAzM9gtF7QCVWUaCtka1xyj6gNZs+oGRmBMZKTio5TK9PhusQuFor/NZ7GKGyVI+hHXC
+ j0vBeVRQkyJL8sqRqHeq8ubMG07r7k7U3oj2uj0SwjMm9zcW4zVBHE3vPTV0KdVTNceM
+ 39r1qrJ/Z4QlZEVellJvAxBj4T6e85G2sXP4P64o6T8h0Pn1IDWNCzVYPiKo9BmvXhkZ
+ Ea9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CvisqMqCgktfbG7D7mGm20gBvrSkT0GKy3tcYKFSGT4=;
- b=Xx/zH7cMMWPTwfUZM0AH4BooJmGvGxCUp5/SpnQ1xPhj202OB576cPi088PT8kaszF
- V9ghVkhw3ThvqRglwZXY+hOqjNEpi9MrcozpIk6bGWR00WjT1nxxYYDriFyZ6OZsQhY9
- OE3KBBt/BhQ9NAb2wsuaq9occEHKrbT7xZbJOLlrx81k6eBrnB2U9zCHFnLDko5i5HUG
- 980gOCY1tRsRQyZFpBZxpx0vw8F/cZrxxralL3mv+rGkxkGsV/6II975wWMT1RMcq332
- K+8WFgDChOg3KRQvK2rr8TtgTKrYo5DOaFCIKVfxrAZRiffhO9VGv44HJ+OJfl1ocgFT
- HZDg==
-X-Gm-Message-State: APjAAAXNeQ6cReYPQJlRdUWGJkNBWANAZTndEKW7JitNbTuxMPq6Xpp4
- 1UiPoCHF6kdnt/vQrnQVOwkeiFzpR7M=
-X-Google-Smtp-Source: APXvYqz2sL8pfratX9X1MZN5NaAwN6k+T9Y25BYTWkgz30OZR0aO7GuSHXSDlzAAPVVMApPaLkIsGQ==
-X-Received: by 2002:a1c:d10c:: with SMTP id i12mr53885997wmg.152.1563635936322; 
- Sat, 20 Jul 2019 08:18:56 -0700 (PDT)
+ bh=VBJk++nebu5jmHNwt1imGPj0wqleJbW5DLRUX54D6/4=;
+ b=LvS8ZOhEuw+QEKS4G+t9w645SKpzivpK5Iiy6lbE6boS/WVT453SGaHsGAgRlCahiM
+ UtueXJvOhtSD3DJOVdyy5IetDImwgWxBM+XvgW7G79aJT3zchjWAzuDv39OKZi3gQ6g2
+ mE7V1qURNiQ6ncWIll3YzeUJU5y4jsL8NCscMVoPgALgkzmJPj2n2PKks3o5iCAMVYqn
+ tMNFVdJpYIEwCTW59Pn7kY/+ih0x98wPNT0vK0n+wnWDZlWmiPnlC5tnpV5ol2W5eD4S
+ t/c7exn1mP4XWJVjuukDlgNP7O8cJa6nqiri7t/71I+GXJO1NkFXODCZYT9tUoydDWSg
+ F9nw==
+X-Gm-Message-State: APjAAAXOkuuM+oIfGOCHggkD6gQv8C8nq+geX5ZiPWzi+dYQG62D3Acj
+ iW0spmYTBC3IWrWqrIPsl8Q0TYUYTBQ=
+X-Google-Smtp-Source: APXvYqzsMBRceFO+BYko5tFiBxrsKzibpORqR8dUU5fsi6eJygF2HVaJdtqSefMKM60C3njSFKts8Q==
+X-Received: by 2002:a05:600c:1008:: with SMTP id
+ c8mr54303524wmc.133.1563635937141; 
+ Sat, 20 Jul 2019 08:18:57 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:8501:6b03:f18c:74f8])
- by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.55
+ by smtp.gmail.com with ESMTPSA id 4sm77517291wro.78.2019.07.20.08.18.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 08:18:55 -0700 (PDT)
+ Sat, 20 Jul 2019 08:18:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 20 Jul 2019 17:18:41 +0200
-Message-Id: <20190720151846.7450-8-pbonzini@redhat.com>
+Date: Sat, 20 Jul 2019 17:18:42 +0200
+Message-Id: <20190720151846.7450-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190720151846.7450-1-pbonzini@redhat.com>
 References: <20190720151846.7450-1-pbonzini@redhat.com>
@@ -64,8 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
-Subject: [Qemu-devel] [PULL 07/12] test-bitmap: add test for bitmap_set
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PULL 08/12] hmp: Print if memory section is
+ registered with an accelerator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,98 +79,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>, Peter Xu <peterx@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Add a test for bitmap_set. There are three cases:
+This adds an accelerator name to the "into mtree -f" to tell the user if
+a particular memory section is registered with the accelerator;
+the primary user for this is KVM and such information is useful
+for debugging purposes.
 
-  * Both start and end is BITS_PER_LONG aligned
-  * Only start is BITS_PER_LONG aligned
-  * Only end is BITS_PER_LONG aligned
+This adds a has_memory() callback to the accelerator class allowing any
+accelerator to have a label in that memory tree dump.
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190718010456.4234-3-richardw.yang@linux.intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Since memory sections are passed to memory listeners and get registered
+in accelerators (rather than memory regions), this only prints new labels
+for flatviews attached to the system address space.
+
+An example:
+ Root memory region: system
+  0000000000000000-0000002fffffffff (prio 0, ram): /objects/mem0 kvm
+  0000003000000000-0000005fffffffff (prio 0, ram): /objects/mem1 kvm
+  0000200000000020-000020000000003f (prio 1, i/o): virtio-pci
+  0000200080000000-000020008000003f (prio 0, i/o): capabilities
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20190614015237.82463-1-aik@ozlabs.ru>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/test-bitmap.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ accel/kvm/kvm-all.c    | 38 ++++++++++++++++++++++++++++++++++++++
+ include/sysemu/accel.h |  3 +++
+ memory.c               | 22 ++++++++++++++++++++++
+ 3 files changed, 63 insertions(+)
 
-diff --git a/tests/test-bitmap.c b/tests/test-bitmap.c
-index cb7c5e4..18aa584 100644
---- a/tests/test-bitmap.c
-+++ b/tests/test-bitmap.c
-@@ -59,12 +59,67 @@ static void check_bitmap_copy_with_offset(void)
-     g_free(bmap3);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 35ea3cb..f450f25 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -111,6 +111,13 @@ struct KVMState
+     /* memory encryption */
+     void *memcrypt_handle;
+     int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t len);
++
++    /* For "info mtree -f" to tell if an MR is registered in KVM */
++    int nr_as;
++    struct KVMAs {
++        KVMMemoryListener *ml;
++        AddressSpace *as;
++    } *as;
+ };
+ 
+ KVMState *kvm_state;
+@@ -1159,6 +1166,14 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+     kml->listener.priority = 10;
+ 
+     memory_listener_register(&kml->listener, as);
++
++    for (i = 0; i < s->nr_as; ++i) {
++        if (!s->as[i].as) {
++            s->as[i].as = as;
++            s->as[i].ml = kml;
++            break;
++        }
++    }
  }
  
-+typedef void (*bmap_set_func)(unsigned long *map, long i, long len);
-+static void bitmap_set_case(bmap_set_func set_func)
+ static MemoryListener kvm_io_listener = {
+@@ -1809,6 +1824,12 @@ static int kvm_init(MachineState *ms)
+         s->nr_slots = 32;
+     }
+ 
++    s->nr_as = kvm_check_extension(s, KVM_CAP_MULTI_ADDRESS_SPACE);
++    if (s->nr_as <= 1) {
++        s->nr_as = 1;
++    }
++    s->as = g_new0(struct KVMAs, s->nr_as);
++
+     kvm_type = qemu_opt_get(qemu_get_machine_opts(), "kvm-type");
+     if (mc->kvm_type) {
+         type = mc->kvm_type(ms, kvm_type);
+@@ -2828,11 +2849,28 @@ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target)
+     return r;
+ }
+ 
++static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
++                                 hwaddr start_addr, hwaddr size)
 +{
-+    unsigned long *bmap;
-+    int offset;
++    KVMState *kvm = KVM_STATE(ms->accelerator);
++    int i;
 +
-+    bmap = bitmap_new(BMAP_SIZE);
-+
-+    /* Both Aligned, set bits [BITS_PER_LONG, 3*BITS_PER_LONG] */
-+    set_func(bmap, BITS_PER_LONG, 2 * BITS_PER_LONG);
-+    g_assert_cmpuint(bmap[1], ==, -1ul);
-+    g_assert_cmpuint(bmap[2], ==, -1ul);
-+    g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG), ==, BITS_PER_LONG);
-+    g_assert_cmpint(find_next_zero_bit(bmap, 3 * BITS_PER_LONG, BITS_PER_LONG),
-+                    ==, 3 * BITS_PER_LONG);
-+
-+    for (offset = 0; offset <= BITS_PER_LONG; offset++) {
-+        bitmap_clear(bmap, 0, BMAP_SIZE);
-+        /* End Aligned, set bits [BITS_PER_LONG - offset, 3*BITS_PER_LONG] */
-+        set_func(bmap, BITS_PER_LONG - offset, 2 * BITS_PER_LONG + offset);
-+        g_assert_cmpuint(bmap[1], ==, -1ul);
-+        g_assert_cmpuint(bmap[2], ==, -1ul);
-+        g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG),
-+                        ==, BITS_PER_LONG - offset);
-+        g_assert_cmpint(find_next_zero_bit(bmap,
-+                                           3 * BITS_PER_LONG,
-+                                           BITS_PER_LONG - offset),
-+                        ==, 3 * BITS_PER_LONG);
++    for (i = 0; i < kvm->nr_as; ++i) {
++        if (kvm->as[i].as == as && kvm->as[i].ml) {
++            return NULL != kvm_lookup_matching_slot(kvm->as[i].ml,
++                                                    start_addr, size);
++        }
 +    }
 +
-+    for (offset = 0; offset <= BITS_PER_LONG; offset++) {
-+        bitmap_clear(bmap, 0, BMAP_SIZE);
-+        /* Start Aligned, set bits [BITS_PER_LONG, 3*BITS_PER_LONG + offset] */
-+        set_func(bmap, BITS_PER_LONG, 2 * BITS_PER_LONG + offset);
-+        g_assert_cmpuint(bmap[1], ==, -1ul);
-+        g_assert_cmpuint(bmap[2], ==, -1ul);
-+        g_assert_cmpint(find_first_bit(bmap, BITS_PER_LONG),
-+                        ==, BITS_PER_LONG);
-+        g_assert_cmpint(find_next_zero_bit(bmap,
-+                                           3 * BITS_PER_LONG + offset,
-+                                           BITS_PER_LONG),
-+                        ==, 3 * BITS_PER_LONG + offset);
-+    }
-+
-+    g_free(bmap);
++    return false;
 +}
 +
-+static void check_bitmap_set(void)
-+{
-+    bitmap_set_case(bitmap_set);
-+    bitmap_set_case(bitmap_set_atomic);
-+}
-+
- int main(int argc, char **argv)
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
  {
-     g_test_init(&argc, &argv, NULL);
+     AccelClass *ac = ACCEL_CLASS(oc);
+     ac->name = "KVM";
+     ac->init_machine = kvm_init;
++    ac->has_memory = kvm_accel_has_memory;
+     ac->allowed = &kvm_allowed;
+ }
  
-     g_test_add_func("/bitmap/bitmap_copy_with_offset",
-                     check_bitmap_copy_with_offset);
-+    g_test_add_func("/bitmap/bitmap_set",
-+                    check_bitmap_set);
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index 81293cd..89ce57e 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -25,6 +25,7 @@
  
-     g_test_run();
+ #include "qom/object.h"
+ #include "hw/qdev-properties.h"
++#include "exec/hwaddr.h"
  
+ typedef struct AccelState {
+     /*< private >*/
+@@ -39,6 +40,8 @@ typedef struct AccelClass {
+     const char *name;
+     int (*init_machine)(MachineState *ms);
+     void (*setup_post)(MachineState *ms, AccelState *accel);
++    bool (*has_memory)(MachineState *ms, AddressSpace *as,
++                       hwaddr start_addr, hwaddr size);
+     bool *allowed;
+     /*
+      * Array of global properties that would be applied when specific
+diff --git a/memory.c b/memory.c
+index d4579bb..5d8c9a9 100644
+--- a/memory.c
++++ b/memory.c
+@@ -30,7 +30,9 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
++#include "sysemu/accel.h"
+ #include "hw/qdev-properties.h"
++#include "hw/boards.h"
+ #include "migration/vmstate.h"
+ 
+ //#define DEBUG_UNASSIGNED
+@@ -2999,6 +3001,8 @@ struct FlatViewInfo {
+     int counter;
+     bool dispatch_tree;
+     bool owner;
++    AccelClass *ac;
++    const char *ac_name;
+ };
+ 
+ static void mtree_print_flatview(gpointer key, gpointer value,
+@@ -3061,6 +3065,17 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+         if (fvi->owner) {
+             mtree_print_mr_owner(mr);
+         }
++
++        if (fvi->ac) {
++            for (i = 0; i < fv_address_spaces->len; ++i) {
++                as = g_array_index(fv_address_spaces, AddressSpace*, i);
++                if (fvi->ac->has_memory(current_machine, as,
++                                        int128_get64(range->addr.start),
++                                        MR_SIZE(range->addr.size) + 1)) {
++                    qemu_printf(" %s", fvi->ac_name);
++                }
++            }
++        }
+         qemu_printf("\n");
+         range++;
+     }
+@@ -3101,6 +3116,13 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
+         };
+         GArray *fv_address_spaces;
+         GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
++        AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
++
++        if (ac->has_memory) {
++            fvi.ac = ac;
++            fvi.ac_name = current_machine->accel ? current_machine->accel :
++                object_class_get_name(OBJECT_CLASS(ac));
++        }
+ 
+         /* Gather all FVs in one table */
+         QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
 -- 
 1.8.3.1
 
