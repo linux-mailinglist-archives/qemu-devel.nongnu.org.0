@@ -2,78 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB836F13A
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jul 2019 04:11:08 +0200 (CEST)
-Received: from localhost ([::1]:54254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0826F221
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jul 2019 09:16:28 +0200 (CEST)
+Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hp1Jc-0005xB-1n
-	for lists+qemu-devel@lfdr.de; Sat, 20 Jul 2019 22:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60483)
+	id 1hp655-0002yI-EQ
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jul 2019 03:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41229)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tcminyard@gmail.com>) id 1hp1JK-0005Yj-UE
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 22:10:56 -0400
+ (envelope-from <lizhengui@huawei.com>) id 1hp64r-0002Vd-Dt
+ for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:16:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hp1JF-0005uL-7b
- for qemu-devel@nongnu.org; Sat, 20 Jul 2019 22:10:50 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41287)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>)
- id 1hp1J5-0005lV-H2; Sat, 20 Jul 2019 22:10:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id o101so36671336ota.8;
- Sat, 20 Jul 2019 19:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=+bovzgwNIaowu/9If/S9UV/uafetSfX0BxgWeCFHE/c=;
- b=oZJaxUrszvGOLkisheXp6/Ygzlg/jDaxg2mt84g/DZf9+m+dEDcSC47i/CA649Q5Vt
- n3RN5aLSHM2YUL5lggX9EmXczhOo+n6OtAsIdIIP0rxirbk/60CjD9VVTPh4wawSSVYc
- LC+0lAsL9mj4YdnytcXut+rxRz3P+CF+3sE8vmf+/35+bTu3+/69K4daVzWgcrnFV6+/
- lvpRZIgZC8AsX91Jqminkm3Hh+CnAaRF8bev2zlnWEHlm+xk8ZFSAQ5v+xcPyGnZJU4E
- TBRCaM1SHNr1CzjI5gV0BI9EQdjWAG5Yd2KkfeZaguJg94QtQFriEECgrfXkdA6GxTxS
- RIHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=+bovzgwNIaowu/9If/S9UV/uafetSfX0BxgWeCFHE/c=;
- b=rtC30dbqadJqrrZuGrtJSnN+jXJhmZ7qOVlO17V7o18eybVJHCIADGJUYwBIqLkCxj
- Z9x3hftVgnfBFlB7y9f5OuSCSM2YtAzOn/Aa+kn4v9Ldg8XSdXAYtekqfv+TudIaVTEb
- kFVPEG2E97ZYDmXt123JQRH+SjHAgDi4vqseUUXVGXi0US+UYWbH87rJmH89ymRDlZto
- vnZugAgs+Uy4OX/i9TyMJT21DPy8UwgNfSf19gyEy3peM13LjCrahHYpz+qpN8Mf5WPO
- FsMxdBjGFIYWWgTE95JqPqb5cbCYZSRG/brRe3XaaufLjhPyuQ6WiWuydAD9EL5bme6S
- QrDg==
-X-Gm-Message-State: APjAAAXNmuY78VlfGTsqnCT/DJNWoPKJ3yfJuVauGyY/NWzSpcKPAddd
- buTbs05YYoXdXdUYbNh/hA==
-X-Google-Smtp-Source: APXvYqwO6q2eHI9DweGOcy6aCzokg194JKLixQMGyNqN4/RPG/2EG7UnVGYOfZUh53VIkpa4Lk6TaA==
-X-Received: by 2002:a9d:27c3:: with SMTP id c61mr43800996otb.291.1563675034351; 
- Sat, 20 Jul 2019 19:10:34 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.134.43])
- by smtp.gmail.com with ESMTPSA id f84sm12359350oig.43.2019.07.20.19.10.33
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 19:10:33 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:dda3:f567:355c:6b0])
- by serve.minyard.net (Postfix) with ESMTPSA id 3C5DF1800CD;
- Sun, 21 Jul 2019 02:10:33 +0000 (UTC)
-Date: Sat, 20 Jul 2019 21:10:16 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Message-ID: <20190721021016.GG3066@minyard.net>
-References: <20190719131425.10835-1-philmd@redhat.com>
- <20190719131425.10835-5-philmd@redhat.com>
+ (envelope-from <lizhengui@huawei.com>) id 1hp64q-0007ab-AW
+ for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:16:13 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:59770 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lizhengui@huawei.com>)
+ id 1hp64n-0007Ax-Lj; Sun, 21 Jul 2019 03:16:09 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1EFBDB7F0E40565C1B36;
+ Sun, 21 Jul 2019 15:15:53 +0800 (CST)
+Received: from HGHY1l002846723.china.huawei.com (10.177.251.193) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.439.0; Sun, 21 Jul 2019 15:15:46 +0800
+From: l00284672 <lizhengui@huawei.com>
+To: <pbonzini@redhat.com>, <kwolf@redhat.com>
+Date: Sun, 21 Jul 2019 15:12:58 +0800
+Message-ID: <1563693178-23328-1-git-send-email-lizhengui@huawei.com>
+X-Mailer: git-send-email 2.7.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190719131425.10835-5-philmd@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH-for-4.1? 4/7] hw/ipmi: Rewrite a fall
- through comment
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.177.251.193]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.35
+Subject: [Qemu-devel] [PATCH] virtio-scsi: fixed virtio_scsi_ctx_check
+ failed when detaching scsi disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,59 +51,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lizhengui@huawei.com, qemu-block@nongnu.org, eric.fangyi@huawei.com,
+ qemu-devel@nongnu.org, jiangyiwen@huawei.com, wangjie88@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 19, 2019 at 03:14:22PM +0200, Philippe Mathieu-Daudé wrote:
-> GCC9 is confused by this comment when building with CFLAG
-> -Wimplicit-fallthrough=2:
-> 
->   hw/ipmi/ipmi_bmc_extern.c: In function ‘addchar’:
->   hw/ipmi/ipmi_bmc_extern.c:178:12: error: this statement may fall through [-Werror=implicit-fallthrough=]
->     178 |         ch |= 0x10;
->         |         ~~~^~~~~~~
->   hw/ipmi/ipmi_bmc_extern.c:181:5: note: here
->     181 |     default:
->         |     ^~~~~~~
->   cc1: all warnings being treated as errors
->   make: *** [rules.mak:69: hw/ipmi/ipmi_bmc_extern.o] Error 1
-> 
-> Rewrite the comment using 'fall through' which is recognized by
-> GCC and static analyzers.
-> 
-> Reported-by: Stefan Weil <sw@weilnetz.de>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/ipmi/ipmi_bmc_extern.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-> index c0a8dac346..d4cbd210c4 100644
-> --- a/hw/ipmi/ipmi_bmc_extern.c
-> +++ b/hw/ipmi/ipmi_bmc_extern.c
-> @@ -176,8 +176,7 @@ static void addchar(IPMIBmcExtern *ibe, unsigned char ch)
->          ibe->outbuf[ibe->outlen] = VM_ESCAPE_CHAR;
->          ibe->outlen++;
->          ch |= 0x10;
-> -        /* No break */
-> -
-> +        /* fall through */
->      default:
->          ibe->outbuf[ibe->outlen] = ch;
->          ibe->outlen++;
-> -- 
-> 2.20.1
-> 
+commit a6f230c move blockbackend back to main AioContext on unplug. It se=
+t the AioContext of
+SCSIDevice to the main AioContex, but s->ctx is still the iothread AioCon=
+tex=EF=BC=88if the scsi controller
+is configure with iothread=EF=BC=89. So if there are having in-flight req=
+uests during unplug, a failing assertion
+happend. The bt is below:
+(gdb) bt
+#0  0x0000ffff86aacbd0 in raise () from /lib64/libc.so.6
+#1  0x0000ffff86aadf7c in abort () from /lib64/libc.so.6
+#2  0x0000ffff86aa6124 in __assert_fail_base () from /lib64/libc.so.6
+#3  0x0000ffff86aa61a4 in __assert_fail () from /lib64/libc.so.6
+#4  0x0000000000529118 in virtio_scsi_ctx_check (d=3D<optimized out>, s=3D=
+<optimized out>, s=3D<optimized out>) at /home/qemu-4.0.0/hw/scsi/virtio-=
+scsi.c:246
+#5  0x0000000000529ec4 in virtio_scsi_handle_cmd_req_prepare (s=3D0x2779e=
+c00, req=3D0xffff740397d0) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:559
+#6  0x000000000052a228 in virtio_scsi_handle_cmd_vq (s=3D0x2779ec00, vq=3D=
+0xffff7c6d7110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:603
+#7  0x000000000052afa8 in virtio_scsi_data_plane_handle_cmd (vdev=3D<opti=
+mized out>, vq=3D0xffff7c6d7110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi-=
+dataplane.c:59
+#8  0x000000000054d94c in virtio_queue_host_notifier_aio_poll (opaque=3D<=
+optimized out>) at /home/qemu-4.0.0/hw/virtio/virtio.c:2452
 
-Well, whatever, this is fine.
+assert(blk_get_aio_context(d->conf.blk) =3D=3D s->ctx) failed.
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+To avoid assertion failed,  moving the "if" after qdev_simple_device_unpl=
+ug_cb.
+
+In addition, to avoid another qemu crash below, add aio_disable_external =
+before
+qdev_simple_device_unplug_cb, which disable the further processing of ext=
+ernal clients
+when doing qdev_simple_device_unplug_cb.
+(gdb) bt
+#0  scsi_req_unref (req=3D0xffff6802c6f0) at hw/scsi/scsi-bus.c:1283
+#1  0x00000000005294a4 in virtio_scsi_handle_cmd_req_submit (req=3D<optim=
+ized out>,
+    s=3D<optimized out>) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:589
+#2  0x000000000052a2a8 in virtio_scsi_handle_cmd_vq (s=3Ds@entry=3D0x9c90=
+e90,
+    vq=3Dvq@entry=3D0xffff7c05f110) at /home/qemu-4.0.0/hw/scsi/virtio-sc=
+si.c:625
+#3  0x000000000052afd8 in virtio_scsi_data_plane_handle_cmd (vdev=3D<opti=
+mized out>,
+    vq=3D0xffff7c05f110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi-dataplan=
+e.c:60
+#4  0x000000000054d97c in virtio_queue_host_notifier_aio_poll (opaque=3D<=
+optimized out>)
+    at /home/qemu-4.0.0/hw/virtio/virtio.c:2447
+#5  0x00000000009b204c in run_poll_handlers_once (ctx=3Dctx@entry=3D0x6ef=
+ea40,
+    timeout=3Dtimeout@entry=3D0xffff7d7f7308) at util/aio-posix.c:521
+#6  0x00000000009b2b64 in run_poll_handlers (ctx=3Dctx@entry=3D0x6efea40,
+    max_ns=3Dmax_ns@entry=3D4000, timeout=3Dtimeout@entry=3D0xffff7d7f730=
+8) at util/aio-posix.c:559
+#7  0x00000000009b2ca0 in try_poll_mode (ctx=3Dctx@entry=3D0x6efea40, tim=
+eout=3D0xffff7d7f7308,
+    timeout@entry=3D0xffff7d7f7348) at util/aio-posix.c:594
+#8  0x00000000009b31b8 in aio_poll (ctx=3D0x6efea40, blocking=3Dblocking@=
+entry=3Dtrue)
+    at util/aio-posix.c:636
+#9  0x00000000006973cc in iothread_run (opaque=3D0x6ebd800) at iothread.c=
+:75
+#10 0x00000000009b592c in qemu_thread_start (args=3D0x6efef60) at util/qe=
+mu-thread-posix.c:502
+#11 0x0000ffff8057f8bc in start_thread () from /lib64/libpthread.so.0
+#12 0x0000ffff804e5f8c in thread_start () from /lib64/libc.so.6
+(gdb) p bus
+$1 =3D (SCSIBus *) 0x0
+---
+ hw/scsi/virtio-scsi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 839f120..79e555f 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -837,13 +837,15 @@ static void virtio_scsi_hotunplug(HotplugHandler *h=
+otplug_dev, DeviceState *dev,
+         virtio_scsi_release(s);
+     }
+=20
++    aio_disable_external(s->ctx);
++    qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
++    aio_enable_external(s->ctx);
++
+     if (s->ctx) {
+         virtio_scsi_acquire(s);
+         blk_set_aio_context(sd->conf.blk, qemu_get_aio_context());
+         virtio_scsi_release(s);
+     }
+-
+-    qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
+ }
+=20
+ static struct SCSIBusInfo virtio_scsi_scsi_info =3D {
+--=20
+2.7.2.windows.1
+
+
 
