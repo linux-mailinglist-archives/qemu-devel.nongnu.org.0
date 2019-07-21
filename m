@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225BB6F21B
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jul 2019 09:14:07 +0200 (CEST)
-Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3156F226
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Jul 2019 09:23:08 +0200 (CEST)
+Received: from localhost ([::1]:54898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hp62n-0001hU-Pw
-	for lists+qemu-devel@lfdr.de; Sun, 21 Jul 2019 03:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
+	id 1hp6BX-0004SS-8L
+	for lists+qemu-devel@lfdr.de; Sun, 21 Jul 2019 03:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <thuth@redhat.com>) id 1hp62b-0001JJ-9D
- for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:13:54 -0400
+ (envelope-from <thuth@redhat.com>) id 1hp6BK-00043w-Aj
+ for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:22:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hp62a-0004s5-AD
- for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:13:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50682)
+ (envelope-from <thuth@redhat.com>) id 1hp6BJ-00053e-14
+ for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:22:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54422)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hp62a-0004pg-2X
- for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:13:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hp6BI-000534-Oe
+ for qemu-devel@nongnu.org; Sun, 21 Jul 2019 03:22:52 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6108759455;
- Sun, 21 Jul 2019 07:13:50 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D97FA8535C;
+ Sun, 21 Jul 2019 07:22:51 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-51.ams2.redhat.com [10.36.116.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 419535F7C0;
- Sun, 21 Jul 2019 07:13:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81A0B5D9D3;
+ Sun, 21 Jul 2019 07:22:45 +0000 (UTC)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
-References: <20190719082647.18113-1-mrolnik@gmail.com>
- <20190719082647.18113-9-mrolnik@gmail.com>
- <da64fd46-c0f0-b6b6-3b8f-d3da9041605d@redhat.com>
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <87y30t43cp.fsf@dusky.pond.sub.org>
+ <316ea157-4c44-5d75-e4f4-7977d2e13345@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -79,21 +78,21 @@ Autocrypt: addr=thuth@redhat.com; keydata=
  rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
  WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <aa9f5be1-3451-7f58-a868-bd31bf2af236@redhat.com>
-Date: Sun, 21 Jul 2019 09:13:45 +0200
+Message-ID: <663f4f5b-bf45-ed0d-1140-e7baa9cc5578@redhat.com>
+Date: Sun, 21 Jul 2019 09:22:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <da64fd46-c0f0-b6b6-3b8f-d3da9041605d@redhat.com>
+In-Reply-To: <316ea157-4c44-5d75-e4f4-7977d2e13345@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Sun, 21 Jul 2019 07:13:50 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Sun, 21 Jul 2019 07:22:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v27 8/8] target/avr: Add tests
+Subject: Re: [Qemu-devel] Use of TARGET_FMT_plx in hw/tpm/trace-events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,62 +104,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/07/2019 15.26, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 7/19/19 10:26 AM, Michael Rolnik wrote:
-[...]
->> diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
->> index 24852d4c7d..73d273b73f 100644
->> --- a/tests/boot-serial-test.c
->> +++ b/tests/boot-serial-test.c
->> @@ -16,6 +16,17 @@
->>  #include "qemu/osdep.h"
->>  #include "libqtest.h"
->> =20
->> +static const uint8_t bios_avr[] =3D {
->> +    0x89, 0xe1,             /* ldi r24, 0x19   */
->> +    0x80, 0x93, 0xc5, 0x00, /* sts 0x00C5, r24 ; set baud rate to 384=
-00 */
->=20
-> FWIW we can remove the previous two lines, we don't care about the
-> baudrate in this test.
->=20
->> +    0x88, 0xe0,             /* ldi r24, 0x08   */
->> +    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
->> +    0x86, 0xe0,             /* ldi r24, 0x06   */
->> +    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to=
- 8 */
->> +    0x84, 0xe5,             /* ldi r24, 0x54   */
->> +    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
->> +};
->> +
->>  static const uint8_t kernel_mcf5208[] =3D {
->>      0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
->>      0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
->> @@ -92,6 +103,7 @@ typedef struct testdef {
->> =20
->>  static testdef_t tests[] =3D {
->>      { "alpha", "clipper", "", "PCI:" },
->> +    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
->>      { "ppc", "ppce500", "", "U-Boot" },
->>      { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
->>      { "ppc", "g3beige", "", "PowerPC,750" },
+On 20/07/2019 11.42, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 7/20/19 8:39 AM, Markus Armbruster wrote:
+>> Consider hw/tpm/trace-events
+>>
+>>     # tpm_crb.c
+>>     tpm_crb_mmio_read(uint64_t addr, unsigned size, uint32_t val) "CRB=
+ read 0x" TARGET_FMT_plx " len:%u val: 0x%" PRIx32
+>>     tpm_crb_mmio_write(uint64_t addr, unsigned size, uint32_t val) "CR=
+B write 0x" TARGET_FMT_plx " len:%u val: 0x%" PRIx32
+>>
+>> Format is TARGET_FMT_plx formats a hwaddr, but the parameter type is
+>> uint64_t.  They happen to be the same.  Is this kosher?
 >>
 >=20
-> Testing shows:
+> Missed when converting from DPRINTF() to trace-events:
+> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dec427498;hp=3D8cb=
+340c613
 >=20
->   TEST    check-qtest-avr: tests/boot-serial-test
-> qemu-system-avr: Unable to load /tmp/qtest-boot-serial-cOndewD as ELF,
-> trying again as raw binary
+> PRIx64 certainly makes sense here.
 >=20
-> I wonder if this might fail Peter's testing, so Cc'ing Thomas.
+> Since it is the single use, once updated we can remote this hunk from
+> scripts/tracetool/format/log_stap.py:
+>=20
+>     if macro =3D=3D "TARGET_FMT_plx":
+>         return "%016x"
+>=20
+> I guess remember a thread with Thomas talking about TARGET_FMT_plx but =
+I
+> can't find it, maybe I dreamed about it...
 
-Such messages are quite a bit anoying during "make check", indeed. Could
-you please fence the message with qtest_enabled() ?
+That was:
 
- Thanks,
-   Thomas
+ https://patchwork.kernel.org/patch/10930327/
+
+... I think we should rename it to HWADDR_PRI0x or so.
+
+ Thomas
 
