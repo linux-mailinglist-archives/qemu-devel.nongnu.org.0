@@ -2,151 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C8C70161
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 15:43:16 +0200 (CEST)
-Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111AE70169
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 15:43:45 +0200 (CEST)
+Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpYax-0006oT-Qg
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 09:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54845)
+	id 1hpYbP-0008SJ-4A
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 09:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55587)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hpYZM-0008JK-2f
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:41:37 -0400
+ (envelope-from <arikalo@wavecomp.com>) id 1hpYb5-0007aO-Pi
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:43:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hpYZK-0005PE-Uz
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:41:35 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37250)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hpYZK-0005Nb-N2
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:41:34 -0400
-Received: by mail-ot1-x344.google.com with SMTP id s20so40218950otp.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 06:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=n7qcthL4nGkUtzxUB4TCi9vj2TOzPlBAN/P39sHrxik=;
- b=nmDcbSjscmW+594WH8vIlt8gq7YzbKSRxdVrhQr5zBK+BlhgVbHffo0ksbfTSB0S+e
- l1tCtckrOAhuKxkx56rQ0cdRcgHzK03j5Ij8TFfjTKxC1b4g8fbshckvGZXhnz+zdQjh
- vzvJ8xg4sPbrJhfbBNj6+xQBjWzZnNYrEQi+2rVYtBpx7F/GhagVSGC8ubkNVjSS06Us
- IGblMLK2Qrcbxm/5LfYBD3DtnVcEwjieUaz1BHiRjOYWWwtx+P+GSTOc5urk08dJkV3Q
- aY6cOMb7MP5AaVnn/prxUXlVRTPgKTYlIDukNEc3joRQ8ye0Jxa3OkqXEpVAc8kodC22
- EHJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to;
- bh=n7qcthL4nGkUtzxUB4TCi9vj2TOzPlBAN/P39sHrxik=;
- b=MMqQKNwXyVPxH96CakITy88CYlwUr/BT/Btueqo/JuXV5dfK0qOjcwj2yVhLyYjHs/
- LFQfhQtXP3fNkJXxNQal8JyFAR5f+j1ZPQ8ERDhBfarCLFX+tKGH7THfpkxKPh51l8KA
- xRfOG4UKKdpD5ZssGg/ihr+DFbLbEAaZukMN4Uag/K1NtaQuQ0/YIvN1dH+sBywJq6lM
- 1LfCEPI1Z+BTI1JJ9XKkqV6zELNij8hwvyDjhCkX4pU66y5DPfW6rtsZbE/3tdaefx+e
- cirGNnjIlJfIXZheCt5TNgLMLiR01mTgKumaHjiuJXa1590+HZWhhjelsgzYN2RDH7jx
- mAoQ==
-X-Gm-Message-State: APjAAAWBpnwnUMeAWYPmMakF8coEoLlQIsTOgG/ithGKv/KhnUnqUZIg
- ih2vD/sNYBviUUrNe83yYyQ=
-X-Google-Smtp-Source: APXvYqzOMNy8Ee18zJ71Ili8+wJgRwAdp5rNoElKjo2whWEudZQ2y3gZFQV8mJYK7djgXOEl/ZKJeg==
-X-Received: by 2002:a05:6830:14e:: with SMTP id j14mr4062otp.246.1563802893189; 
- Mon, 22 Jul 2019 06:41:33 -0700 (PDT)
-Received: from [192.168.1.96] (69-222-133-165.lightspeed.tukrga.sbcglobal.net.
- [69.222.133.165])
- by smtp.googlemail.com with ESMTPSA id s1sm13833922otq.28.2019.07.22.06.41.32
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Jul 2019 06:41:32 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190711223300.6061-1-jan.bobek@gmail.com>
- <20190711223300.6061-5-jan.bobek@gmail.com>
- <aae968d1-acbd-9b9c-56ff-3cca13b8abce@linaro.org>
-From: Jan Bobek <jan.bobek@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jan.bobek@gmail.com; prefer-encrypt=mutual; keydata=
- mQINBFbeakcBEACzYOxOXdeT3Ns+5fdSqZFODAb3VXBKQ9DL7ooxLQRhvAx6rKXP/ZkBD7eg
- q8DJuvx6FbH227wpX+JZQawtolRJO+BTOuyU4ANPn3LGQHNtI78VhjafK7/Geb/9J6mTLl+P
- iS1EpLjKFbaLQboOaVVCPOHfLJOMNm5Ks9iHVKPQcUWUnroZdm55MIWjRw+wYGpmLD/R+FK/
- Cm1fS3j+tu9VYFoEFZmwW//PYzmEtYHpwXA6dOWEd12cu2208/JcEHYBl0Z6Oga0xAk2OxU5
- BOELuewGLuSiWik4z594GLVleC2NMnr3gUPl1y8ADrKzQwYmPgytIdsQ0tkV5rK9R1XTk03e
- ZLViYWJt5dgea+jGWcHPKPfLln53V4nCbwklGFLJQDMo8hL82bjJ7x9bsXoAnkPxJgYHgsM0
- LCLewqEIN6khniNv/1vOAKnwoXywlIKsWrx/pFz4xXNLVHoLlkRUl1DeWWzuaha2xEsm0yfe
- QkntqMrHC0CkBFzM1/ZE8fj8JBMjMG8me93RK9mr03TV4aROgQfi4Pjy55VKal/WpVkD4tKo
- nTN0nHkPVsHfx+htN/+A3nnUFyfesE1wWdCxhqhIn8d/Aw9KqraYmbyTzRErXLadA4O0UmZZ
- yPyNWQhTgGfJ9r66S+CifsiHkHlzJ/9i9AcHeh6+rXs9gjk4YwARAQABtB9KYW4gQm9iZWsg
- PGphbi5ib2Jla0BnbWFpbC5jb20+iQJRBBMBAgA7AhsDAh4BAheAAhkBFiEETAzi4j5xV5X9
- nNm0vpyriGq+2b4FAlwy32MFCwkIBwIGFQoJCAsCBBYCAwEACgkQvpyriGq+2b6NPw/9Fi+N
- vmxMd81Oh3hHUZlh8fNqcvXmHqnKHslJJG9M8CXkWcd1cF+sWX+lhi2Pvi4KA2Ng++NEpi6p
- sPrY9ZSPb4gAQYFgq6aXonnsrNSHeBMZI0E2mbK1YW4lYYJuMpqotBKqpgpoP9Fd8QbBR9vA
- Dm18fcDQFJP0vBmLY2TWo2tdqUH1X3z1xpdADpdjMZeQ+LrQ823Vi8ib0aanaR+gJ+20w7tn
- M+iTAGSz9jj+IAjDvrt6dpgwKaN+sFpqQFr0ClItDgtWWChIOEo7AVxK35jEHZnRpAbSvX3q
- WxETfA/1/UiDD67FQ5mwzTm95oYw+bN6jYpQgv9BkWeOhvVi63bcQ212B5w/YJ/WysriD2tp
- j/cTbVBgW2Al29fbeKyqdCr43yqR0ZyZcKuOKpwEtkF4xo3Z4ZR6x4uZewCjNirlwKDSI9sE
- w137DWzREIk7sd2kZrMnFAjVOTVic8fs+jCeohuy6Eq7l+lMCWsyJTcXSY3HHmXAgoQu8HRE
- uwQB0H5rTWn4Hz/2OtWlYHxHcqGwcUP3bdxqch001JwycoYJFnqM27whPussfxRK3i6d0CiX
- 8N1lwBb4ukIH8y5ZFmdhMA960aTGVpeew5fnzRveZj2Fn6kPZX7Z5t0eXpdl0sYyKvxPy/rP
- 9atlD0qdA7LSBksLIoSQ5EE+rfhAvSO5Ag0EVt5qRwEQAL1zSWDNDk5M7kPTRuonvez0WbBq
- Sl36BBKMSsAVT7L5TTksQH0T/5N7+vTIXlOTefP2KN+8uITUR7Ld2grjdcLIpx86ff4gVmuv
- P7Xc0wKd/dmDPVqEtBKbCPCtnHznZWUWe/zJNru9aE2RwumMjMzAqXX8VEzy+XSqToneX1a2
- +k6+4ZRWvrJ5Kb+5vs+ccw5hQlWyF7vruUNLLVO9LgPD4BbIKyyhosuVp8PtJqdsz27eb3y0
- oh4ThSwx+S7lYucUB30HUtqBWJ9gMiqmXDLEhx+3v5wxCWm0oko9nnwk0PstRkZ39WAawnix
- gpQ+3Gw32yFZaDOEbfbob2+Tyc3/NA7aTnllvK1ihXaHr7dzwbE96XSEsz1RPOl/Cn2cZ0gY
- 1/kMzUesBqrlyBIGl9TY/QLu3z2B/INwc/ZlN3oEIJRXhS0KvtUA8tT4NSXVz8yLLO7tQv/g
- tSP0B2jsZRhm3QReCJT/cNmlOJ3O7b835Vpd+QbFoyCbKRcT6dVHl+Ay5UZykihg45HXDwtl
- FRgYUh7xJuxHnF8SDMlPcFqdOocPXq/fgfbxDFhLOFIj/qzEI892wu5lxfDGn9u8KCZ8p55N
- YSlcLOYlvDfCr5/syBWqO928XMOXdmQqhUFsP2aV0L3pL35qh7kfsAdSN4S0KgdQq4DUe8Mf
- +GXaHyIVABEBAAGJAjwEGAECACYCGwwWIQRMDOLiPnFXlf2c2bS+nKuIar7ZvgUCXGyXZwUJ
- By12uwAKCRC+nKuIar7Zvj4mEACW5/tViY+6MMv4Qh7zCXTmyNOepFjaSdbeBXpgL6IHbO3y
- kH5K90vCGl8rgQvIxOnX5cj/o1/y8NnfJ+lv94Hlqg9DkDHt4V2Zu570gIs81dlhxOqjZh/h
- 14LLigmx699j6ZfpRksuGKS07/3ZomrBBsMTzK+44+BXX1zLBqSamwD038TAq8n9DwILAVma
- 5C814/i1OciQz2HhK6QH8hMFMtX/8E//B6Q5oy9GPjrznYy+Wq52cmrwX7asqTkJ8q+oryaO
- I/popEdiE2boPz2KTa2fti2otyhU7Qc1iTdvIoUxyXZtQP7bI5RspvGHk6IP+5ksOdBjG6D6
- IifJ1gw7cHip1mxz75uFb52jscIjkdSDhveAiSqnwAlMBy/UD2QVwTTL2o34jXwofkK+I20S
- J5kDhUuqYrsD4zMGHX/PWa7w7oeUU3cHejj0KI6MrN6LdvYPckycglZbS2AKUd82m6XES8gA
- 2pVPSjTH8BQKQ/Bbdgt7X416igU0nfpuj5aXe3NuLSO1sJbYRGFERTkUgxZm/RpRytGL4SPt
- PQUBJBl8uNYwyN5Y19lwsghGFPeYeTgcPsaEf6YsLVwozZBId4WNDAaVgnxibxH4Xjb6JkwJ
- 2W9jjN3tvmY+O0w1rnvRIJ99Btq6Qls7Nj+tdDDEKhufxpRrHTmwBUuLN+zZ9LkCDQRcbJZM
- ARAAvczli16jbnLXksVpMj0Z8JRiIdJvE23xofalA4R+Y5oKrK+mcpTUcb+XIdkArrQNQQtq
- pgPHLI5Dn4urmgs4E9KlBe+4fQBIzP0jyx8wH1MjhGak9QQXpLL5Z6evUdhjuyIoAb5rUgOb
- yl+wu9vmIYsJD4HzYul+nQkx/RxTZ3/OUN5JamL7AoAL5dHKOSpEUqRHq7ZoNqn6OGDxRInX
- dgnSs0SDYVAKVK7B8iFhEmdFXN25jOXLAtwtAh9cVGISfjEQftlvnoLQ6g+UbJ0XMWr6Y8pf
- mfOXPEoP9takIlhoZqxFiJ98lHtbkJ2u0hDTuAYe+HxBZT16bcCsucSITC6h3qQJTMxJgQ0C
- 5fA23ZUA9l4RszA7Lb6/wxIzko2jzZDbMaK8tsX5hHn7pJoPA34w3sY9hocMn707PWcxVVYf
- zl9YL3cAqcbD3hMTi3v+ukw7ArQ8sKaSYMBBC9GH54ePmiLpJ3wOsgNxxeIVvnCjVwMms8Br
- fLfnV+kuB0GABOOCsVXLkS73VjpouDzZ9k7SuZ+wVPZbJfgqLIHOT/j2nyVYVQCmzZ733E2c
- 1/Qywe2hUfZz5NWg4fFiFywBGqcHCoeMjDuZgJ6VRMxtfAQhC3FWoLrcQYhY3l1MvNToIm6M
- 4quvsQcJ6CMnVxpu1ULAhSkpmTvsH0BCjWeYLBEAEQEAAYkEcgQYAQoAJgIbAhYhBEwM4uI+
- cVeV/ZzZtL6cq4hqvtm+BQJcbJqwBQkBn0q2AkDBdCAEGQEKAB0WIQRI9g6q0xHepFmsS61l
- 6DaV2uM2zwUCXGyWTAAKCRBl6DaV2uM2z0m3D/9ebunqJVHvk1pIiJ29GfzXqUIVCyG3aXyG
- T0RwXrQ9mKil+6/zLvAWh9NeksSIqKFDCQkC55WTUd1jL/lpDdipLo32BBLG+N0L40Nab1dM
- QldolDWocwmJuD99bWJmd0bkmVGCLDiXVgOyec8BFggixnqVEvrz7Sh0lP9tnsb4BE7v63Q0
- q8uFt+n3swBvMnbjbNs2uGCyRz4f0tasF3Dd3R+08LZydrarJ15C0Smqghjald8UmJNi7uvI
- ZVwcEHSt6imp9gd4uAtcis8ebXkwAkWhW/n5DCpNVlZ8ve3haA767SJCuf4eIcPLIwW9KcgE
- nZ3zQPqclkd9TEmttIxk7C/MoRjxNC+gkyAMQXksxPIDVutythS8JVacMSaDshFtO0RiZ/mH
- e4oGdsBcRhThM923M9iMZAM1XLQpd5Pe+VhDsDN3+QXwkDH88t7tocamj/Ew5UT8qmZy7BJt
- vtDPeybOgxgiVDTlvEARUHK20UiLa7l8HEnJNInlSjakch6MF6axI1Ye81Ahc/snl5PP1gYl
- lmoQkJlRPTYgH/NLtRqcECff5pjOtUEoWWXrxRSKc0QRsTT5DhC4Z2CX3p6k0RDeMvZJnbyV
- geYWFyT5YBPvZBf0meL541JsfvTpOhcfdk//2RvMsyxNaGeemvWQEJKg/C/fTH3So3pEmPkE
- GwkQvpyriGq+2b6xKw//ToIcWJv1S+COsfuCZLTPL0f80pIr7yFYGcOcEfhbkdoZHAcWZP/X
- 50NeUuSOYGoT6+pU6a6lvycB7JTuAHuSIHo8HpIPF+sju14FN47Yd1n9akW89HLeSzR5paw3
- g9FD1TbK9uFmK+bxMREAj1Gtd7qcummK6ArpjkEdOjwPXBz9n1iVo/Jgq11Mbhg8TYCP8WRw
- 8Lv+znH/cTSTgDxM92S79wDuFoO50zhlWzPa/g2prrUIxJxs74uBEGYy8LulRv25MfdQJVAY
- YE6+HYAJL6S/ko2m6XCr3hLsnD0kXamzvpJtDhbgBcXDd05XDjEFurZTOWv+thwVb+BAedhP
- XrH9DQ7/VUQBHnXz1ts5NYMjBI5NC1d16DYPtkCY0N9Jcv+fyJlAYpS7PHlZsyZmK7uUbm6p
- xRARxxjf+U86NTBAtdnDIO/NYxhX587vXuTm2pA2pnkKYTK74QLc/ys6rO3Cwo2QSFkxx3UZ
- uD1PmEfcmmfqPmuv037Dzpe5hYj5csGsdNLMLSK1WZqaAhBAtCnh3Rme71Je7f+eObRAHHGZ
- sftsaIi3kpdIyUnKybZhViIlXs8Cde5O2HCI0NhHnaDnxKdmHaIZVlH1hX3koaRrWCeGjts1
- WWOVGHwSUSJ3lpUXEBHBicrX3bH/vUVTNTnwzGLSf/23VC9WYAe69II=
-Message-ID: <838129d6-6c44-49f0-020b-ca5574a787ee@gmail.com>
-Date: Mon, 22 Jul 2019 09:41:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <arikalo@wavecomp.com>) id 1hpYb2-0007HR-Me
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:43:23 -0400
+Received: from mail-eopbgr690092.outbound.protection.outlook.com
+ ([40.107.69.92]:29269 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
+ id 1hpYb2-0007Dg-9A
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:43:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nDLH1tf5kmyGIlA7tdOgHRVlpjHm1AuhAoVnt83SBc41nN8NQw8NL/63QHdalXyNyDsgrvtMDXYyoPx4V05eeQt97nHvpTFULBZIFOQwuDxrT5a9auwTYjNFEA2V9QKqkDOlgEAgZYrdGbobPjjeRp4BTqCGX7qvWXw7SoLhsKGEIoY+phrIIz4QSigaQtJQZocugbKb46Srm3AELBLhYOAKYn8UB6spqFoNi4jdqQMegdg7b1gpFbeRYm3tIyCQyzxquo7ZVonvS6hpeukMq2EJgmfbXuNfNlSvxazmQXFXAbYeCYgNXJKFKB9/VuSLWe7T/Be6aiVMevLQTMF2OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zuHv8dWK2jwS4I/YFWDj5iwGyMw67Bh+pFgcpLTmS2Q=;
+ b=j/mIFn6udygzQaVHpvst4pglh2PAatBxHbWI0nPPcxAFXJhW/F9bbbxfZFaB3PQGI6xIFutjUm+h4y7ecVRDrX+0ybjslms5a8JJw2q6TD/Pnn3kt26jD3sYsNru0EU6WLz7RFHXvTxuNE5F3omWXI0WYOXeV0ZCERBKXXkweoXrUIpHiN0tS2wlPusuvpXYKAfY+9zo0QCvNXk7S1vbE9OwRYvOtK5K5vhrsSfXLqGbGDHExKbGrTR2dpjQWP0YBIK1yn+CYp/igA/9k950BvdAc/wumg9L0LIgrR3reji99KNowBoZUqWRnbOgVLA/U5XMrxXmQiXUU2BiDVwuJQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=wavecomp.com;dmarc=pass action=none
+ header.from=wavecomp.com;dkim=pass header.d=wavecomp.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=wavesemi.onmicrosoft.com; s=selector2-wavesemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zuHv8dWK2jwS4I/YFWDj5iwGyMw67Bh+pFgcpLTmS2Q=;
+ b=uknd7OnbetSdP8+gt8BhMW2hLYkaWKqWPckOI59ikTCreoPHuk8vP88jCO63yujAjhw/kIInsFCWpKE0u3z8ikWMWrNRSBVsPDFqUrynT4axGzTBJ296op4yoeozLsDSuqkT+JhBaS+1Q8EngtemFPFuSvDisLGlGTx8hGmHOmY=
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
+ DM5PR22MB0316.namprd22.prod.outlook.com (10.173.170.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.16; Mon, 22 Jul 2019 13:43:15 +0000
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::447b:e0b5:5b86:985b]) by DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::447b:e0b5:5b86:985b%7]) with mapi id 15.20.2073.012; Mon, 22 Jul 2019
+ 13:43:15 +0000
+From: Aleksandar Rikalo <arikalo@wavecomp.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH for 4.1 v4 5/5] target/mips: Fix emulation of MSA pack
+ instructions on big endian hosts
+Thread-Index: AQHVO0gJ09CtK9UB5Uy4T/kGZCD/6qbWr76Q
+Date: Mon, 22 Jul 2019 13:43:14 +0000
+Message-ID: <DM5PR22MB1658727F0297DA356C56EE8CD2C40@DM5PR22MB1658.namprd22.prod.outlook.com>
+References: <1563220847-14630-1-git-send-email-aleksandar.markovic@rt-rk.com>,
+ <1563220847-14630-6-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1563220847-14630-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=arikalo@wavecomp.com; 
+x-originating-ip: [82.117.201.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 910b42e9-1cbc-490a-177a-08d70eaa8c01
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:DM5PR22MB0316; 
+x-ms-traffictypediagnostic: DM5PR22MB0316:
+x-microsoft-antispam-prvs: <DM5PR22MB0316F845DD24419750D11515D2C40@DM5PR22MB0316.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1850;
+x-forefront-prvs: 01068D0A20
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(39840400004)(396003)(346002)(376002)(366004)(189003)(199004)(68736007)(52536014)(64756008)(66556008)(66946007)(107886003)(102836004)(66476007)(6246003)(7736002)(14454004)(2906002)(53546011)(6506007)(55236004)(86362001)(3846002)(5660300002)(99286004)(486006)(76116006)(91956017)(66066001)(66446008)(6116002)(256004)(2501003)(110136005)(55016002)(316002)(54896002)(33656002)(478600001)(19627405001)(6436002)(76176011)(53936002)(7696005)(54906003)(11346002)(6606003)(71200400001)(71190400001)(8936002)(74316002)(229853002)(4326008)(476003)(25786009)(9686003)(186003)(81166006)(81156014)(8676002)(26005)(446003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0316;
+ H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 1g4PTlS6zihsI3ZEyD2BsLrC9qwvvsJmdpKMO1oJxKpYSJAocgNNfrb92YgLZQMtZ82Hq58myaWEaExurwbwzhCm77Z/1GYSe/yxeKYtE4qyBWELF7uPx0gzZ9dqQ3aj999KHVvjUU6VuVKYbOu9B2cHVEpjo8iiW1JrJXmu85q7+IIHfRkSu53m05XkSeldj0pcdZXmpBdYQcUgzE3qoC9kidmi/fY1GQQtafVMW/LyzHt5DzwEzJ8b/ggB+WV5qbD3/2DqYg3iguwOC9wlaWdslldr5lz2xPbhVSWgCqoaKVcwYAk0AOvUWlOAmAGiAvlbknhXbvvumSBp8FkDg9d7CYvNiEyM1aOPd0a1DNKpR1M8t+lMv5z5zlifW1Tw89OBKynql5DIlVNl/cbEPvVvY/X7myKztM7oUGuOP0o=
 MIME-Version: 1.0
-In-Reply-To: <aae968d1-acbd-9b9c-56ff-3cca13b8abce@linaro.org>
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature";
- boundary="OjgvbhRqtIthyDvv4wtHKANyWnc6RUk5l"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [RISU PATCH v3 04/18] risugen_x86_constraints: add
- module
+X-OriginatorOrg: wavecomp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 910b42e9-1cbc-490a-177a-08d70eaa8c01
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2019 13:43:14.9866 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: arikalo@wavecomp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0316
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.69.92
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH for 4.1 v4 5/5] target/mips: Fix emulation
+ of MSA pack instructions on big endian hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -158,115 +108,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "sw@weilnetz.de" <sw@weilnetz.de>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OjgvbhRqtIthyDvv4wtHKANyWnc6RUk5l
-Content-Type: multipart/mixed; boundary="088Ak3iwam6SCZDc14efCQYofniaP4eTu";
- protected-headers="v1"
-From: Jan Bobek <jan.bobek@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Message-ID: <838129d6-6c44-49f0-020b-ca5574a787ee@gmail.com>
-Subject: Re: [RISU PATCH v3 04/18] risugen_x86_constraints: add module
-References: <20190711223300.6061-1-jan.bobek@gmail.com>
- <20190711223300.6061-5-jan.bobek@gmail.com>
- <aae968d1-acbd-9b9c-56ff-3cca13b8abce@linaro.org>
-In-Reply-To: <aae968d1-acbd-9b9c-56ff-3cca13b8abce@linaro.org>
+> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+> Sent: Monday, July 15, 2019 10:00 PM
+> To: qemu-devel@nongnu.org
+> Cc: sw@weilnetz.de; Aleksandar Markovic; Aleksandar Rikalo
+> Subject: [PATCH for 4.1 v4 5/5] target/mips: Fix emulation of MSA pack in=
+structions on big endian hosts
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> Fix emulation of MSA pack instructions on big endian hosts.
+>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> ---
+>  target/mips/msa_helper.c | 74 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 74 insertions(+)
+>
+> diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+> index a383c40..27560ac 100644
+> --- a/target/mips/msa_helper.c
+> +++ b/target/mips/msa_helper.c
+> @@ -2113,6 +2113,24 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32=
+_t df, uint32_t wd,
+>
+>      switch (df) {
+>      case DF_BYTE:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->b[8]  =3D pws->b[9];
+> +        pwd->b[10] =3D pws->b[13];
+> +        pwd->b[12] =3D pws->b[1];
+> +        pwd->b[14] =3D pws->b[5];
+> +        pwd->b[0]  =3D pwt->b[9];
+> +        pwd->b[2]  =3D pwt->b[13];
+> +        pwd->b[4]  =3D pwt->b[1];
+> +        pwd->b[6]  =3D pwt->b[5];
+> +        pwd->b[9]  =3D pws->b[11];
+> +        pwd->b[13] =3D pws->b[3];
+> +        pwd->b[1]  =3D pwt->b[11];
+> +        pwd->b[5]  =3D pwt->b[3];
+> +        pwd->b[11] =3D pws->b[15];
+> +        pwd->b[3]  =3D pwt->b[15];
+> +        pwd->b[15] =3D pws->b[7];
+> +        pwd->b[7]  =3D pwt->b[7];
+> +#else
+>          pwd->b[15] =3D pws->b[14];
+>          pwd->b[13] =3D pws->b[10];
+>          pwd->b[11] =3D pws->b[6];
+> @@ -2129,8 +2147,19 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32=
+_t df, uint32_t wd,
+>          pwd->b[4]  =3D pwt->b[8];
+>          pwd->b[8]  =3D pws->b[0];
+>          pwd->b[0]  =3D pwt->b[0];
+> +#endif
+>          break;
+>      case DF_HALF:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->h[4] =3D pws->h[5];
+> +        pwd->h[6] =3D pws->h[1];
+> +        pwd->h[0] =3D pwt->h[5];
+> +        pwd->h[2] =3D pwt->h[1];
+> +        pwd->h[5] =3D pws->h[7];
+> +        pwd->h[1] =3D pwt->h[7];
+> +        pwd->h[7] =3D pws->h[3];
+> +        pwd->h[3] =3D pwt->h[3];
+> +#else
+>          pwd->h[7] =3D pws->h[6];
+>          pwd->h[5] =3D pws->h[2];
+>          pwd->h[3] =3D pwt->h[6];
+> @@ -2139,12 +2168,20 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint3=
+2_t df, uint32_t wd,
+>          pwd->h[2] =3D pwt->h[4];
+>          pwd->h[4] =3D pws->h[0];
+>          pwd->h[0] =3D pwt->h[0];
+> +#endif
+>          break;
+>      case DF_WORD:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->w[2] =3D pws->w[3];
+> +        pwd->w[0] =3D pwt->w[3];
+> +        pwd->w[3] =3D pws->w[1];
+> +        pwd->w[1] =3D pwt->w[1];
+> +#else
+>          pwd->w[3] =3D pws->w[2];
+>          pwd->w[1] =3D pwt->w[2];
+>          pwd->w[2] =3D pws->w[0];
+>          pwd->w[0] =3D pwt->w[0];
+> +#endif
+>          break;
+>      case DF_DOUBLE:
+>          pwd->d[1] =3D pws->d[0];
+> @@ -2164,6 +2201,24 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32=
+_t df, uint32_t wd,
+>
+>      switch (df) {
+>      case DF_BYTE:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->b[7]  =3D pws->b[6];
+> +        pwd->b[5]  =3D pws->b[2];
+> +        pwd->b[3]  =3D pws->b[14];
+> +        pwd->b[1]  =3D pws->b[10];
+> +        pwd->b[15] =3D pwt->b[6];
+> +        pwd->b[13] =3D pwt->b[2];
+> +        pwd->b[11] =3D pwt->b[14];
+> +        pwd->b[9]  =3D pwt->b[10];
+> +        pwd->b[6]  =3D pws->b[4];
+> +        pwd->b[2]  =3D pws->b[12];
+> +        pwd->b[14] =3D pwt->b[4];
+> +        pwd->b[10] =3D pwt->b[12];
+> +        pwd->b[4]  =3D pws->b[0];
+> +        pwd->b[12] =3D pwt->b[0];
+> +        pwd->b[0]  =3D pws->b[8];
+> +        pwd->b[8]  =3D pwt->b[8];
+> +#else
+>          pwd->b[0]  =3D pwt->b[1];
+>          pwd->b[2]  =3D pwt->b[5];
+>          pwd->b[4]  =3D pwt->b[9];
+> @@ -2180,8 +2235,19 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32=
+_t df, uint32_t wd,
+>          pwd->b[11] =3D pws->b[7];
+>          pwd->b[7]  =3D pwt->b[15];
+>          pwd->b[15] =3D pws->b[15];
+> +#endif
+>          break;
+>      case DF_HALF:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->h[3] =3D pws->h[2];
+> +        pwd->h[1] =3D pws->h[6];
+> +        pwd->h[7] =3D pwt->h[2];
+> +        pwd->h[5] =3D pwt->h[6];
+> +        pwd->h[2] =3D pws->h[0];
+> +        pwd->h[6] =3D pwt->h[0];
+> +        pwd->h[0] =3D pws->h[4];
+> +        pwd->h[4] =3D pwt->h[4];
+> +#else
+>          pwd->h[0] =3D pwt->h[1];
+>          pwd->h[2] =3D pwt->h[5];
+>          pwd->h[4] =3D pws->h[1];
+> @@ -2190,12 +2256,20 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint3=
+2_t df, uint32_t wd,
+>          pwd->h[5] =3D pws->h[3];
+>          pwd->h[3] =3D pwt->h[7];
+>          pwd->h[7] =3D pws->h[7];
+> +#endif
+>          break;
+>      case DF_WORD:
+> +#if defined(HOST_WORDS_BIGENDIAN)
+> +        pwd->w[1] =3D pws->w[0];
+> +        pwd->w[3] =3D pwt->w[0];
+> +        pwd->w[0] =3D pws->w[2];
+> +        pwd->w[2] =3D pwt->w[2];
+> +#else
+>          pwd->w[0] =3D pwt->w[1];
+>          pwd->w[2] =3D pws->w[1];
+>          pwd->w[1] =3D pwt->w[3];
+>          pwd->w[3] =3D pws->w[3];
+> +#endif
+>          break;
+>      case DF_DOUBLE:
+>          pwd->d[0] =3D pwt->d[1];
+> --
+> 2.7.4
 
---088Ak3iwam6SCZDc14efCQYofniaP4eTu
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 7/20/19 9:54 PM, Richard Henderson wrote:
-> On 7/11/19 3:32 PM, Jan Bobek wrote:
->> +sub data16($%)
->> +{
->> +    my ($insn, %data16) =3D @_;
->> +    $insn->{data16} =3D \%data16;
->> +}
->> +
->> +sub rep($%)
->> +{
->> +    my ($insn, %rep) =3D @_;
->> +    $insn->{rep} =3D \%rep;
->> +}
->> +
->> +sub repne($%)
->> +{
->> +    my ($insn, %repne) =3D @_;
->> +    $insn->{repne} =3D \%repne;
->> +}
->=20
-> What do you think of replacing these with p($_, 0x66), etc?
->=20
-> It kinda matches up with the "p =3D> 0x66" within vex(), and it is easi=
-er for the
-> eye to match up with the comments before each pattern.
-
-Good idea!
-
->> +sub modrm($%)
->> +{
->> +    my ($insn, %args) =3D @_;
->> +    modrm_($insn, indexk =3D> 'index', %args);
->> +}
->> +
->> +sub modrm_vsib($%)
->> +{
->> +    my ($insn, %args) =3D @_;
->> +    modrm_($insn, indexk =3D> 'vindex', %args);
->> +}
->=20
-> I'm thinking of adding a few more exports for very common patterns:
->=20
-> modrm_reg    -- force use of register.
-> modrm_mem    -- force use of memory.
-> modrm_mmx_1  -- crop reg1 to 0-7 for mm register.
-> modrm_mmx_2  -- crop reg2 to 0-7 if in use.
-> modrm_mmx_12 -- crop both reg1 and reg2.
->=20
-> I think these would significantly shorten some of the !constraints.
-
-I agree. I thought of something similar when I was preparing the v3
-series; I didn't include it only because it would have further delayed
-getting the v3 out.
-
-> I'm willing to do these changes myself; for the GSoC project I'd rather=
- you
-> continue to the next phase instead of iterating on risugen further.
-
-Of course, and thank you!
-
--Jan
-
-
---088Ak3iwam6SCZDc14efCQYofniaP4eTu--
-
---OjgvbhRqtIthyDvv4wtHKANyWnc6RUk5l
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEESPYOqtMR3qRZrEutZeg2ldrjNs8FAl01vQcACgkQZeg2ldrj
-Ns/kLxAAsc8MPYtOrd12vvQod70CRXqgn6QObtysd516QSmz92uEMGlyW4CAuZAj
-9BBdqtONVAWiTZxsT0ZL+omUqa7kNjS7MdWCZ1O4LM29l4SM6m6gbMoC2mpTv3on
-Aj8aF6V+blzATOzyjwQLSFenNY6Gook+uTRHCW0um6qRmPjGZErLBemDj7NL4ZoF
-iwdiWDQthRplKe6O9WNzNVV7GqOEkOjW6lLdS0Oc95/Fr+SPvz3QaayPUZnQl0Ip
-RSvPJsxYSFNQhGvAUQ5VugvWKezKhWn61JFJs2hUfa/c6AtQLFEZACsAUL/G2YgG
-vhx9bp2q1ULCWpCkWis+cjoAd2DT5huRYum4gYsXm985W931itdUSr4RYTr3nBx0
-TZkaGtCTGBtwldZ2kowtOlCnB9NZSrR2u0GebI1nY/0Oe3Zod1IkpnTC/824lJGj
-H5vXO70kse4XEYxdFuxtTjOr/zTJ1g2uerNFZycQtCbMFWA/p1WCy2aqhFnyOFu7
-KyGBEp7Ae1+qbWkV8HGbERpxj4GgJcVeFpaYnvZj8wslKREATT4NjrwEf4hWQFUm
-4ORfNjz84N87i/csrs2uiB9/opp5JEqjC7ifuqosyM4O6baQ3oMDBROBb31D8d5S
-11JXiTgJ5Tf5HlFZ240ZsfI2n7mcCTPqSo9ltiIOdYjDTqRLydc=
-=Qu9v
------END PGP SIGNATURE-----
-
---OjgvbhRqtIthyDvv4wtHKANyWnc6RUk5l--
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 
