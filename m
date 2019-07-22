@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE696FF32
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 14:06:59 +0200 (CEST)
-Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125956FF90
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 14:26:10 +0200 (CEST)
+Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpX5m-0005hy-Tb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 08:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58715)
+	id 1hpXOK-0002wT-VA
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 08:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hpX5Z-0005HQ-7r
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:06:46 -0400
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1hpXO8-0002Wn-UA
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hpX5Y-0003g8-7L
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:06:45 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hpX5Y-0003dD-0T
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:06:44 -0400
-Received: by mail-oi1-x243.google.com with SMTP id 65so29347159oid.13
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 05:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K1X1yXAbotw8Asih028UQ+9mbBQKJXZru9lYiZgqWg4=;
- b=e2ykFDRMJJEI39kOOjHRDdu50mfkl1HMx9fWDZxhPKO3mYCqgdJ6RVDlw2i4KbeMJm
- mjcxrVO6yRfFEJK4ixKeUP1JdWLgjYSuzTVBvErb4wt9LQNIUbZ4rBUxrswHnPkU7B85
- NaE4YHIlGpWML8yqZjQBMmdvNG0CiT+2HcyeiJtwcSZGemBvDYNI0i5AHIxpHo59Disa
- bt0hwc1Uc1TJUh3PJ8iwKLd8s+h/tYgRM14E7UXziJmYrjc0ySfQF1N3WUXaLA7Nj+CY
- 8stS+6tkZ/KZuQ+FNEmlWcxBBxGgxrozCicYPCIXV0UddaVIiKYMeDVHWIaOeqZkQ7RQ
- ejsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K1X1yXAbotw8Asih028UQ+9mbBQKJXZru9lYiZgqWg4=;
- b=jl3eg63YYIJ8X3n4L33/MVCFJsagIbbaqS9Mv6nuM1SRTFY1FB2JavIDEgXFda5hIF
- B3OFQ5IH2/d/1+gIxrOyOvTFXHtetVx5gDGnsyrQ9GvSuoIjIgzrjCPiDcvaPNrZMIzt
- +hTFU35hOVutUCHLW4/+UGkmh5eHys7K7FZHYpCcxh6rxC3FkF8I5sU84P3GCt5QQKV6
- u6L5dS9Uew45uVVsfztTY2D6r70smBqHAHIO1Y9QziWfe5aou7vWZI5VmhLs5l/lG2Qp
- H6lXA/3nv4BPmqBhO74BeV0wFwIEpgYtITWY7XScAI0IPCbna1wn+AHyQuKcuFAeQumo
- zFzA==
-X-Gm-Message-State: APjAAAXxRJWXRsUdL1BOG7w/Pmg1a9LMrlzpOOELO7cmT3KKV6UASfNq
- OmB8Ye5OFk2dsKAF6VyanLUuOfVnB+ELfTsG3YkmIQ==
-X-Google-Smtp-Source: APXvYqzEgQ5hruz+VjVezZHWO1N41XX6ZtcaPz8CLUrF6GLeVIJfAqN7chhf78ezLJq17h7ccFwT6NRrQhJCDSg+6+0=
-X-Received: by 2002:aca:5cd7:: with SMTP id
- q206mr30982543oib.146.1563797202635; 
- Mon, 22 Jul 2019 05:06:42 -0700 (PDT)
+ (envelope-from <f.gruenbichler@proxmox.com>) id 1hpXO7-0003ZY-0W
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:25:56 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:50798)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <f.gruenbichler@proxmox.com>)
+ id 1hpXO2-0003TU-52; Mon, 22 Jul 2019 08:25:50 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 6656543146;
+ Mon, 22 Jul 2019 14:17:57 +0200 (CEST)
+Date: Mon, 22 Jul 2019 14:17:55 +0200
+From: Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190722121755.xpx2qni53e6pha7t@nora.maurer-it.com>
+References: <20190709232550.10724-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20190719100955.17180-1-peter.maydell@linaro.org>
- <CAJ+F1CJU5iUDa_W2Vj0WMBEht3eVJ9xsUWt4nCE4-eC14ei4hA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJU5iUDa_W2Vj0WMBEht3eVJ9xsUWt4nCE4-eC14ei4hA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Jul 2019 13:06:31 +0100
-Message-ID: <CAFEAcA8LtjAEp8BKPatdFEjcjzjsrThguUxCXB3D5j3VyakFUQ@mail.gmail.com>
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH for-4.1] contrib/elf2dmp: Build download.o
- with CURL_CFLAGS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190709232550.10724-1-jsnow@redhat.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.186.127.180
+Subject: Re: [Qemu-devel] [PATCH v4 00/18] bitmaps: introduce 'bitmap' sync
+ mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,38 +48,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jul 2019 at 11:18, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Fri, Jul 19, 2019 at 2:10 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >
-> > contrib/elf2dmp has a source file which uses curl/curl.h;
-> > although we link the final executable with CURL_LIBS, we
-> > forgot to build this source file with CURL_CFLAGS, so if
-> > the curl header is in a place that's not already on the
-> > system include path then it will fail to build.
-> >
-> > Add a line specifying the cflags needed for download.o;
-> > while we are here, bring the specification of the libs
-> > into line with this, since using a per-object variable
-> > setting is preferred over adding them to the final
-> > executable link line.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Tue, Jul 09, 2019 at 07:25:32PM -0400, John Snow wrote:
+> This series adds a new "BITMAP" sync mode that is meant to replace the
+> existing "INCREMENTAL" sync mode.
+> 
+> This mode can have its behavior modified by issuing any of three bitmap sync
+> modes, passed as arguments to the job.
+> 
+> The three bitmap sync modes are:
+> - ON-SUCCESS: This is an alias for the old incremental mode. The bitmap is
+>               conditionally synchronized based on the return code of the job
+>               upon completion.
+> - NEVER: This is, effectively, the differential backup mode. It never clears
+>          the bitmap, as the name suggests.
+> - ALWAYS: Here is the new, exciting thing. The bitmap is always synchronized,
+>           even on failure. On success, this is identical to incremental, but
+>           on failure it clears only the bits that were copied successfully.
+>           This can be used to "resume" incremental backups from later points
+>           in times.
+> 
+> I wrote this series by accident on my way to implement incremental mode
+> for mirror, but this happened first -- the problem is that Mirror mode
+> uses its existing modes in a very particular way; and this was the best
+> way to add bitmap support into the mirror job properly.
+> 
+> [...]
+> 
+> Future work:
+> [..]
+>  - Add these modes to Mirror. (Done*, but needs tests.)
 
-Thanks. Since we don't have an obvious route for elf2dmp patches
-to go into master I'll just put this in via the arm pullreq
-I'm putting together for rc2.
+are these mirror patches available somehwere for testing in combination
+with this series? your bitmaps branch does not seem to contain them ;)
 
--- PMM
+we've been experimenting with Ma Haocong's patch (v4 from February) to add
+"incremental"/differential sync to drive-mirror recently with positive
+results so far, and this sounds like it is another attempt at getting
+this properly integrated into Qemu.
+
 
