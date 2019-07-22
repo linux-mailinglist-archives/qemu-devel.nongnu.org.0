@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F66670379
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:18:52 +0200 (CEST)
-Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6C37037C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:18:57 +0200 (CEST)
+Received: from localhost ([::1]:34470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpa5S-0003ty-TM
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46765)
+	id 1hpa5Y-0004AX-7a
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46799)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hpa4o-0002hv-FY
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4p-0002hx-HQ
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hpa4n-00023G-AT
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:10 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35935)
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4n-00023n-Vu
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46649)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hpa4n-00022A-1L
+ id 1hpa4n-00022p-QE
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:09 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n4so39913882wrs.3
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 08:18:08 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id z1so39811622wru.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 08:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OYBMZusYqESde0qHUOjc4d/ttVAW59Cu3YSqerf0Vp0=;
- b=BYAkNYV/IKOanaijq53MZGBHOwjZxQ+QrPknvcXKF1JZrvOoF3xLjGRjSv+AOSGWWr
- 3wLEJvLq83zDi3Tr8DYh0kP6legijgYfAJ5pic8mCSgAodAS6hbCPfYrbOLQihe6mUf6
- MIShX/Qg7GRlEYWKZt+LLOugBAxF25tAVs5nrVUg8VOFth7YlXqYduETHvOREtxDPe0P
- n4lqU/hFR4Y/kp6XQDjnOjjegGATmq7/Hokrx9zDtu8zkY6/zaSbsTU9O7BHi+omt/gU
- 9ntK94Dc+SyGsCmyvxiGABsFDTE5cD8LNcWcqXUGiUH06LI2jlKf6BetGmbtRTqIWNXZ
- 7ToA==
+ bh=/NdFL2eE2NyzoRO+IY8mz8AvTFGhq77kL34oQBTviGk=;
+ b=BrRpNOVkaPV255ZFUuGNIc2CvIAdZCFUs1NNvj1jxSUbQ0L+t2VIuxoeRs6RKbnyrB
+ agA3oOzPSv5R8XrpJobB9Lt/M9Ket+8LXU785yh8e9ZPaBWPlydBv++PV3rX6EggIIog
+ SVkE6/aVoe5v8UEybIAu0dXDICHnTg+pg/aaRV+C1Xq/ByCgdKpS6qFbLhmFuo+HPh+i
+ yEPEwK3EP4uKymXXCnrXCdXwbURS6t8a9/+nIS6hVZqGXxiudm8Z8n9JJFiwoD0A27pV
+ K0xP1O0ZMvBMCwxsGOyCQSSj6LkZU71FlwZ6lC1JePC72Pasfhv8vBLEkz2jxFimIl5j
+ A4uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OYBMZusYqESde0qHUOjc4d/ttVAW59Cu3YSqerf0Vp0=;
- b=iBTuvid7wHSfczpIKFQbsYUJhHTftDllbkFBQUECRPDD3g/nv0p62+EJUKbQzQTwav
- qW1a5ixFiSw2+H/CoMkeWVnWEqMlh0szbx1r3SFFbCBtg39ZFvMtB1GPKXJB4aKjmf/3
- UP7ifk9Imos0jkzp0k64T/SMnNSWiI1ck594yiJX8cJ1jIAQ+WDLYUWiiQ93W9sLVKHB
- Hg0Fns4eahZmtTrutq/5kgEDJMfEtW13BGwRw2QXk5pDUR/Gecf3Cs22hWGQDJP2SjxY
- ncEuARFCiHqbE0RJtg/uxerX/GHuUnTPhxkXbTB6fQTVzyR5FsUR96tRAcIRghQPo8DZ
- SIMw==
-X-Gm-Message-State: APjAAAVbuSW/ZpObmhNQaaxSwZ5pqyxW5/JdOMB3Ut9Qa++lfqb5yh9l
- Rw5AglC/Js6oP5B5RqVFvBR3SA==
-X-Google-Smtp-Source: APXvYqzI7GuB3dzapSKMxvcq6p07C0pinijWXYUGOuzarnssPvIEHv05EXyBFkdFeu/hct0qtVoP6Q==
-X-Received: by 2002:adf:dd51:: with SMTP id u17mr72073092wrm.218.1563808687889; 
- Mon, 22 Jul 2019 08:18:07 -0700 (PDT)
+ bh=/NdFL2eE2NyzoRO+IY8mz8AvTFGhq77kL34oQBTviGk=;
+ b=GxdwxDX6C6Z9vCvG0hnP0iTWIB4CaPvwujV0dtQYgZxmr9pFVETTUNLea2LbR9EqaM
+ CptoKI4rvLJFoZyRJF3FNgK4gg9kHjz/NpSSlDqceSxyNC1+Cy/imXxgotqyZnIW0gJH
+ ET/zqpk3q8fgXsatmuzy61wZskomYPekkiEmLie4SyM+3EMe8EVySWp95CBiIqCsyA6O
+ Ru3KvmBXdFbmI5SF1zuvbVchwaIoQnxSl1l1Ds0i251Sv/GWC0el1I0bMz/tEHwEGtGM
+ ENhnCSWcOErWDqyPi5R7y2vzzg1iyhHYyK8Iwf6zdyBFidjXpCAb62XNiA+U1g2ayPdE
+ UmGg==
+X-Gm-Message-State: APjAAAWiAHdPR/b9HD3zbrcpU6qUk0/YnSfS+fb1vT7I2drYbI/D/Mvl
+ /vl3iW2uehgbTpoYyB3Phe9022Qi7VyiaQ==
+X-Google-Smtp-Source: APXvYqwJvxv6dXZvZP7m1xe9A1XM8IcJwxYY9IpJpzkPjMcVs79hnDduLcsOptywnU0xePwl9HWtXQ==
+X-Received: by 2002:a5d:4a46:: with SMTP id v6mr75043000wrs.105.1563808688874; 
+ Mon, 22 Jul 2019 08:18:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s15sm23163990wrw.21.2019.07.22.08.18.06
+ by smtp.gmail.com with ESMTPSA id s15sm23163990wrw.21.2019.07.22.08.18.07
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 08:18:07 -0700 (PDT)
+ Mon, 22 Jul 2019 08:18:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 16:18:03 +0100
-Message-Id: <20190722151804.25467-2-peter.maydell@linaro.org>
+Date: Mon, 22 Jul 2019 16:18:04 +0100
+Message-Id: <20190722151804.25467-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190722151804.25467-1-peter.maydell@linaro.org>
 References: <20190722151804.25467-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH for-4.1? 1/2] hw/arm/boot: Rename elf_{low,
- high}_addr to image_{low, high}_addr
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH for-4.1? 2/2] hw/arm/boot: Further improve
+ initrd positioning code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,63 +84,94 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename the elf_low_addr and elf_high_addr variables to image_low_addr
-and image_high_addr -- in the next commit we will extend them to
-be set for other kinds of image file and not just ELF files.
+In commit e6b2b20d9735d4ef we made the boot loader code try to avoid
+putting the initrd on top of the kernel.  However the expression used
+to calculate the start of the initrd:
 
+    info->initrd_start = info->loader_start +
+        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
+
+incorrectly uses 'kernel_size' as the offset within RAM of the
+highest address to avoid.  This is incorrect because the kernel
+doesn't start at address 0, but slightly higher than that.  This
+means that we can still incorrectly end up overlaying the initrd on
+the kernel in some cases, for example:
+
+* The kernel's image_size is 0x0a7a8000
+* The kernel was loaded at   0x40080000
+* The end of the kernel is   0x4A828000
+* The DTB was loaded at      0x4a800000
+
+To get this right we need to track the actual highest address used
+by the kernel and use that rather than kernel_size. We already
+set image_low_addr and image_high_addr for ELF images; set them
+also for the various other image types we support, and then use
+image_high_addr as the lowest allowed address for the initrd.
+(We don't use image_low_addr, but we set it for consistency
+with the existing code path for ELF files.)
+
+Fixes: e6b2b20d9735d4ef
+Reported-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/boot.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ hw/arm/boot.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 1fb24fbef27..b7b31753aca 100644
+index b7b31753aca..c2b89b3bb9b 100644
 --- a/hw/arm/boot.c
 +++ b/hw/arm/boot.c
-@@ -986,7 +986,9 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-     int kernel_size;
-     int initrd_size;
+@@ -988,7 +988,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
      int is_linux = 0;
--    uint64_t elf_entry, elf_low_addr, elf_high_addr;
-+    uint64_t elf_entry;
-+    /* Addresses of first byte used and first byte not used by the image */
-+    uint64_t image_low_addr, image_high_addr;
+     uint64_t elf_entry;
+     /* Addresses of first byte used and first byte not used by the image */
+-    uint64_t image_low_addr, image_high_addr;
++    uint64_t image_low_addr = 0, image_high_addr = 0;
      int elf_machine;
      hwaddr entry;
      static const ARMInsnFixup *primary_loader;
-@@ -1014,24 +1016,24 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-         info->nb_cpus = 1;
- 
-     /* Assume that raw images are linux kernels, and ELF images are not.  */
--    kernel_size = arm_load_elf(info, &elf_entry, &elf_low_addr,
--                               &elf_high_addr, elf_machine, as);
-+    kernel_size = arm_load_elf(info, &elf_entry, &image_low_addr,
-+                               &image_high_addr, elf_machine, as);
-     if (kernel_size > 0 && have_dtb(info)) {
-         /*
-          * If there is still some room left at the base of RAM, try and put
-          * the DTB there like we do for images loaded with -bios or -pflash.
-          */
--        if (elf_low_addr > info->loader_start
--            || elf_high_addr < info->loader_start) {
-+        if (image_low_addr > info->loader_start
-+            || image_high_addr < info->loader_start) {
-             /*
--             * Set elf_low_addr as address limit for arm_load_dtb if it may be
-+             * Set image_low_addr as address limit for arm_load_dtb if it may be
-              * pointing into RAM, otherwise pass '0' (no limit)
-              */
--            if (elf_low_addr < info->loader_start) {
--                elf_low_addr = 0;
-+            if (image_low_addr < info->loader_start) {
-+                image_low_addr = 0;
-             }
-             info->dtb_start = info->loader_start;
--            info->dtb_limit = elf_low_addr;
-+            info->dtb_limit = image_low_addr;
-         }
+@@ -1041,17 +1041,29 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+         uint64_t loadaddr = info->loader_start + KERNEL_NOLOAD_ADDR;
+         kernel_size = load_uimage_as(info->kernel_filename, &entry, &loadaddr,
+                                      &is_linux, NULL, NULL, as);
++        if (kernel_size >= 0) {
++            image_low_addr = loadaddr;
++            image_high_addr = image_low_addr + kernel_size;
++        }
      }
-     entry = elf_entry;
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64) && kernel_size < 0) {
+         kernel_size = load_aarch64_image(info->kernel_filename,
+                                          info->loader_start, &entry, as);
+         is_linux = 1;
++        if (kernel_size >= 0) {
++            image_low_addr = entry;
++            image_high_addr = image_low_addr + kernel_size;
++        }
+     } else if (kernel_size < 0) {
+         /* 32-bit ARM */
+         entry = info->loader_start + KERNEL_LOAD_ADDR;
+         kernel_size = load_image_targphys_as(info->kernel_filename, entry,
+                                              ram_end - KERNEL_LOAD_ADDR, as);
+         is_linux = 1;
++        if (kernel_size >= 0) {
++            image_low_addr = entry;
++            image_high_addr = image_low_addr + kernel_size;
++        }
+     }
+     if (kernel_size < 0) {
+         error_report("could not load kernel '%s'", info->kernel_filename);
+@@ -1083,7 +1095,10 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+      * we might still make a bad choice here.
+      */
+     info->initrd_start = info->loader_start +
+-        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
++        MIN(info->ram_size / 2, 128 * 1024 * 1024);
++    if (image_high_addr) {
++        info->initrd_start = MAX(info->initrd_start, image_high_addr);
++    }
+     info->initrd_start = TARGET_PAGE_ALIGN(info->initrd_start);
+ 
+     if (is_linux) {
 -- 
 2.20.1
 
