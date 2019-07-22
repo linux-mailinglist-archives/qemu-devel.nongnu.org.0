@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11E66FB92
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 10:46:29 +0200 (CEST)
-Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05866FBB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 11:00:13 +0200 (CEST)
+Received: from localhost ([::1]:59785 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpTxk-0007uH-TI
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 04:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56745)
+	id 1hpUB2-0003Ha-N8
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 05:00:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33341)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yan.y.zhao@intel.com>) id 1hpTxN-0007SH-Pj
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 04:46:07 -0400
+ (envelope-from <mst@redhat.com>) id 1hpUAp-0002se-C6
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 05:00:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1hpTxM-0001dJ-DA
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 04:46:05 -0400
-Received: from mga18.intel.com ([134.134.136.126]:32095)
+ (envelope-from <mst@redhat.com>) id 1hpUAo-0006KA-CP
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 04:59:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52502)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1hpTxM-0001cC-4s
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 04:46:04 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2019 01:45:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,294,1559545200"; d="scan'208";a="180335247"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.9])
- by orsmga002.jf.intel.com with ESMTP; 22 Jul 2019 01:45:15 -0700
-Date: Mon, 22 Jul 2019 04:39:11 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <20190722083911.GO8912@joy-OptiPlex-7040>
-References: <1562665760-26158-1-git-send-email-kwankhede@nvidia.com>
- <1562665760-26158-12-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hpUAo-0006Jk-74
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 04:59:58 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3EE402D1CE;
+ Mon, 22 Jul 2019 08:59:57 +0000 (UTC)
+Received: from redhat.com (ovpn-120-233.rdu2.redhat.com [10.10.120.233])
+ by smtp.corp.redhat.com (Postfix) with SMTP id 285F960C05;
+ Mon, 22 Jul 2019 08:59:49 +0000 (UTC)
+Date: Mon, 22 Jul 2019 04:59:48 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Oleinik, Alexander" <alxndr@bu.edu>
+Message-ID: <20190722045944-mutt-send-email-mst@kernel.org>
+References: <20190719151920.22586-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1562665760-26158-12-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.126
-Subject: Re: [Qemu-devel] [PATCH v7 11/13] vfio: Add function to get dirty
- page list
+In-Reply-To: <20190719151920.22586-1-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Mon, 22 Jul 2019 08:59:57 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] virtio-net: Always check for guest
+ header length
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,214 +56,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "bsd@redhat.com" <bsd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 09, 2019 at 05:49:18PM +0800, Kirti Wankhede wrote:
-> Dirty page tracking (.log_sync) is part of RAM copying state, where
-> vendor driver provides the bitmap of pages which are dirtied by vendor
-> driver through migration region and as part of RAM copy, those pages
-> gets copied to file stream.
+On Fri, Jul 19, 2019 at 03:21:15PM +0000, Oleinik, Alexander wrote:
+> While fuzzing the virtio-net tx vq, I ran into an assertion failure due
+> to iov_copy offsets larger than the total iov size. Though there is
+> a check to cover this, it does not execute when !n->has_vnet_hdr. This
+> change always copies the guest header into the mhdr buffer and checks its
+> length, even if mhdr is not needed.
 > 
-> To get dirty page bitmap:
-> - write start address, page_size and pfn count.
-> - read count of pfns copied.
->     - Vendor driver should return 0 if driver doesn't have any page to
->       report dirty in given range.
->     - Vendor driver should return -1 to mark all pages dirty for given range.
-> - read data_offset, where vendor driver has written bitmap.
-> - read bitmap from the region or mmaped part of the region.
-> - Iterate above steps till page bitmap for all requested pfns are copied.
+> The call stack for the assertion failure:
 > 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>  #8 in __assert_fail (libc.so.6+0x300f1)
+>  #9 in iov_copy iov.c:266:5
+>  #10 in virtio_net_flush_tx virtio-net.c:2073:23
+>  #11 in virtio_net_tx_bh virtio-net.c:2197:11
+>  #12 in aio_bh_poll async.c:118:13
+>  #13 in aio_dispatch aio-posix.c:460:5
+>  #14 in aio_ctx_dispatch async.c:261:5
+>  #15 in g_main_context_dispatch (libglib-2.0.so.0+0x4df2d)
+>  #16 in glib_pollfds_poll main-loop.c:213:9
+>  #17 in os_host_main_loop_wait main-loop.c:236
+>  #18 in main_loop_wait main-loop.c:512
+>  #19 in virtio_net_tx_fuzz virtio-net-fuzz.c:160:3
+> 
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
 > ---
->  hw/vfio/migration.c           | 123 ++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events          |   1 +
->  include/hw/vfio/vfio-common.h |   2 +
->  3 files changed, 126 insertions(+)
+>  hw/net/virtio-net.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
 > 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index 5fb4c5329ede..ca1a8c0f5f1f 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -269,6 +269,129 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
->  }
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index b9e1cd71cf..003436b53c 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -2035,14 +2035,19 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+>              return -EINVAL;
+>          }
 >  
-> +void vfio_get_dirty_page_list(VFIODevice *vbasedev,
-> +                              uint64_t start_pfn,
-> +                              uint64_t pfn_count,
-> +                              uint64_t page_size)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    VFIORegion *region = &migration->region.buffer;
-> +    uint64_t count = 0;
-> +    int64_t copied_pfns = 0;
-> +    int64_t total_pfns = pfn_count;
-> +    int ret;
-> +
-> +    qemu_mutex_lock(&migration->lock);
-> +
-> +    while (total_pfns > 0) {
-> +        uint64_t bitmap_size, data_offset = 0;
-> +        uint64_t start = start_pfn + count;
-> +        void *buf = NULL;
-> +        bool buffer_mmaped = false;
-> +
-> +        ret = pwrite(vbasedev->fd, &start, sizeof(start),
-> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                              start_pfn));
-> +        if (ret < 0) {
-> +            error_report("%s: Failed to set dirty pages start address %d %s",
-> +                         vbasedev->name, ret, strerror(errno));
-> +            goto dpl_unlock;
+> -        if (n->has_vnet_hdr) {
+> -            if (iov_to_buf(out_sg, out_num, 0, &mhdr, n->guest_hdr_len) <
+> +        /*
+> +         * Even if !n->has_vnet_hdr and we dont need mhdr, we still need this
+> +         * to check that out_sg contains at least guest_hdr_len bytes
+> +         */
+> +        if (iov_to_buf(out_sg, out_num, 0, &mhdr, n->guest_hdr_len) <
+>                  n->guest_hdr_len) {
+> -                virtio_error(vdev, "virtio-net header incorrect");
+> -                virtqueue_detach_element(q->tx_vq, elem, 0);
+> -                g_free(elem);
+> -                return -EINVAL;
+> -            }
+> +            virtio_error(vdev, "virtio-net header incorrect");
+> +            virtqueue_detach_element(q->tx_vq, elem, 0);
+> +            g_free(elem);
+> +            return -EINVAL;
 > +        }
 > +
-> +        ret = pwrite(vbasedev->fd, &page_size, sizeof(page_size),
-> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                              page_size));
-> +        if (ret < 0) {
-> +            error_report("%s: Failed to set dirty page size %d %s",
-> +                         vbasedev->name, ret, strerror(errno));
-> +            goto dpl_unlock;
-> +        }
-> +
-> +        ret = pwrite(vbasedev->fd, &total_pfns, sizeof(total_pfns),
-> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                              total_pfns));
-> +        if (ret < 0) {
-> +            error_report("%s: Failed to set dirty page total pfns %d %s",
-> +                         vbasedev->name, ret, strerror(errno));
-> +            goto dpl_unlock;
-> +        }
-> +
-> +        /* Read copied dirty pfns */
-> +        ret = pread(vbasedev->fd, &copied_pfns, sizeof(copied_pfns),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             copied_pfns));
-> +        if (ret < 0) {
-> +            error_report("%s: Failed to get dirty pages bitmap count %d %s",
-> +                         vbasedev->name, ret, strerror(errno));
-> +            goto dpl_unlock;
-> +        }
-> +
-> +        if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_NONE) {
-> +            /*
-> +             * copied_pfns could be 0 if driver doesn't have any page to
-> +             * report dirty in given range
-> +             */
-> +            break;
-> +        } else if (copied_pfns == VFIO_DEVICE_DIRTY_PFNS_ALL) {
-> +            /* Mark all pages dirty for this range */
-> +            cpu_physical_memory_set_dirty_range(start_pfn * page_size,
-> +                                                pfn_count * page_size,
-> +                                                DIRTY_MEMORY_MIGRATION);
-> +            break;
-> +        }
-> +
-> +        bitmap_size = (BITS_TO_LONGS(copied_pfns) + 1) * sizeof(unsigned long);
-hi Kirti
-
-why bitmap_size is 
-(BITS_TO_LONGS(copied_pfns) + 1) * sizeof(unsigned long).
-why it's not
-BITS_TO_LONGS(copied_pfns) * sizeof(unsigned long) ?
-
-Thanks
-Yan
-
-> +        ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             data_offset));
-> +        if (ret != sizeof(data_offset)) {
-> +            error_report("%s: Failed to get migration buffer data offset %d",
-> +                         vbasedev->name, ret);
-> +            goto dpl_unlock;
-> +        }
-> +
-> +        if (region->mmaps) {
-> +            buf = find_data_region(region, data_offset, bitmap_size);
-> +        }
-> +
-> +        buffer_mmaped = (buf != NULL) ? true : false;
-> +
-> +        if (!buffer_mmaped) {
-> +            buf = g_try_malloc0(bitmap_size);
-> +            if (!buf) {
-> +                error_report("%s: Error allocating buffer ", __func__);
-> +                goto dpl_unlock;
-> +            }
-> +
-> +            ret = pread(vbasedev->fd, buf, bitmap_size,
-> +                        region->fd_offset + data_offset);
-> +            if (ret != bitmap_size) {
-> +                error_report("%s: Failed to get dirty pages bitmap %d",
-> +                             vbasedev->name, ret);
-> +                g_free(buf);
-> +                goto dpl_unlock;
-> +            }
-> +        }
-> +
-> +        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
-> +                                               (start_pfn + count) * page_size,
-> +                                                copied_pfns);
-> +        count      += copied_pfns;
-> +        total_pfns -= copied_pfns;
-> +
-> +        if (!buffer_mmaped) {
-> +            g_free(buf);
-> +        }
-> +    }
-> +
-> +    trace_vfio_get_dirty_page_list(vbasedev->name, start_pfn, pfn_count,
-> +                                   page_size);
-> +
-> +dpl_unlock:
-> +    qemu_mutex_unlock(&migration->lock);
-> +}
-> +
->  /* ---------------------------------------------------------------------- */
->  
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index ac065b559f4e..414a5e69ec5e 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -160,3 +160,4 @@ vfio_save_complete_precopy(char *name) " (%s)"
->  vfio_load_device_config_state(char *name) " (%s)"
->  vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
->  vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> +vfio_get_dirty_page_list(char *name, uint64_t start, uint64_t pfn_count, uint64_t page_size) " (%s) start 0x%"PRIx64" pfn_count 0x%"PRIx64 " page size 0x%"PRIx64
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index a022484d2636..dc1b83a0b4ef 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -222,5 +222,7 @@ int vfio_spapr_remove_window(VFIOContainer *container,
->  
->  int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
->  void vfio_migration_finalize(VFIODevice *vbasedev);
-> +void vfio_get_dirty_page_list(VFIODevice *vbasedev, uint64_t start_pfn,
-> +                               uint64_t pfn_count, uint64_t page_size);
->  
->  #endif /* HW_VFIO_VFIO_COMMON_H */
+> +        if (n->has_vnet_hdr) {
+>              if (n->needs_vnet_hdr_swap) {
+>                  virtio_net_hdr_swap(vdev, (void *) &mhdr);
+>                  sg2[0].iov_base = &mhdr;
 > -- 
-> 2.7.0
-> 
+> 2.20.1
 
