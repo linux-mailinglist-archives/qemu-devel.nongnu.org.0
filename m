@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339326FE37
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:58:44 +0200 (CEST)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DABF6FE35
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:58:12 +0200 (CEST)
+Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpW1j-0007qf-1H
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40875)
+	id 1hpW1D-0005C1-8s
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40816)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW0C-0001YM-8m
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW0A-0001XH-33
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW0A-0007Xo-O6
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:08 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56513)
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW08-0007UQ-PE
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:56663)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpW09-0007TT-WE; Mon, 22 Jul 2019 06:57:06 -0400
+ id 1hpW06-0007NH-7r; Mon, 22 Jul 2019 06:57:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45sdpg2gWbz9sML; Mon, 22 Jul 2019 20:56:59 +1000 (AEST)
+ id 45sdpg24Wvz9sMQ; Mon, 22 Jul 2019 20:56:59 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563793019;
- bh=Gxfsa3E6zMDwPC6CcPhWp4WScliBPHthV1UVsaUrs3w=;
+ bh=g/4VldMbHDdoF+MiUuvuqAj1tI7uXe0eTkx6KJV+HZI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PKz+RbTkrUeJxtGmUAy8dR3jCd5w3tlskeFAypN0NjciN8EKCfOHePviWlvRYFF+2
- UHDTJdrT2iE0qi7GX76xYV+ImPr4xLS3n7eftzaRZEKqVEYlpPGePVugFrIumD+tPk
- L0w6+NvPyKy4nCNl6UFvKPpTD+3MtemO/CL3QTAE=
-Date: Mon, 22 Jul 2019 18:38:40 +1000
+ b=PcbLPXwmerQ84rriHxBeZs7GU3pLdpMle579eLgmsFuZqmGlPNxgPS/ivnMtcuqF7
+ OJXvHwHfCZb2eFVmI0sLIxzx1clOhfOFfyhBzdko3PqT/mN0KU7SBvUpKYt8BeWmSZ
+ 5x6PSw+jVX5AlCmgD1b98aab+vJlkbA/6YBxby3A=
+Date: Mon, 22 Jul 2019 18:38:55 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Message-ID: <20190722083840.GD25073@umbus.fritz.box>
-References: <20190722053215.20808-1-npiggin@gmail.com>
- <20190722053215.20808-2-npiggin@gmail.com>
+Message-ID: <20190722083855.GE25073@umbus.fritz.box>
+References: <20190722061752.22114-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bajzpZikUji1w+G9"
+ protocol="application/pgp-signature"; boundary="qFgkTsE6LiHkLPZw"
 Content-Disposition: inline
-In-Reply-To: <20190722053215.20808-2-npiggin@gmail.com>
+In-Reply-To: <20190722061752.22114-1-npiggin@gmail.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] machine: Add wakeup method to
- MachineClass
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v2 2/3] i386: use machine class ->wakeup
+ method
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,88 +55,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Jinsong <jinsong.liu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Luiz Capitulino <lcapitulino@redhat.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Liu, Jinsong" <jinsong.liu@intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Luiz Capitulino <lcapitulino@redhat.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---bajzpZikUji1w+G9
+--qFgkTsE6LiHkLPZw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 22, 2019 at 03:32:13PM +1000, Nicholas Piggin wrote:
-> Waking from suspend is not logically a machine reset on all machines,
-> particularly in the paravirtualized case rather than hardware
-> emulated. The ppc spapr machine for example just invokes hypervisor
-> to suspend, and expects that call to return with the machine in the
-> same state (modulo some possible migration and reconfiguration
-> details).
->=20
-> Implement a machine ->wakeup method and use that if it exists.
+On Mon, Jul 22, 2019 at 04:17:51PM +1000, Nicholas Piggin wrote:
+> Move the i386 suspend_wakeup logic out of the fallback path, and into
+> the new ->wakeup method.
 >=20
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  include/hw/boards.h |  1 +
->  vl.c                | 18 +++++++++++++++++-
->  2 files changed, 18 insertions(+), 1 deletion(-)
+>  hw/i386/pc.c | 8 ++++++++
+>  vl.c         | 2 --
+>  2 files changed, 8 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index a71d1a53a5..915ac3352b 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -180,6 +180,7 @@ struct MachineClass {
-> =20
->      void (*init)(MachineState *state);
->      void (*reset)(MachineState *state);
-> +    void (*wakeup)(MachineState *state);
->      void (*hot_add_cpu)(MachineState *state, const int64_t id, Error **e=
-rrp);
->      int (*kvm_type)(MachineState *machine, const char *arg);
->      void (*smp_parse)(MachineState *ms, QemuOpts *opts);
-> diff --git a/vl.c b/vl.c
-> index cefe5a3968..45ea034410 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -1556,6 +1556,22 @@ void qemu_system_reset(ShutdownCause reason)
->      cpu_synchronize_all_post_reset();
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 549c437050..78c03d7f9d 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -2828,6 +2828,13 @@ static void pc_machine_reset(MachineState *machine)
+>      }
 >  }
 > =20
-> +/*
-> + * Wake the VM after suspend.
-> + */
-> +static void qemu_system_wakeup(void)
+> +static void pc_machine_wakeup(MachineState *machine)
 > +{
-> +    MachineClass *mc;
-> +
-> +    mc =3D current_machine ? MACHINE_GET_CLASS(current_machine) : NULL;
-> +
-> +    if (mc && mc->wakeup) {
-> +        mc->wakeup(current_machine);
-> +    } else {
-> +        qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-> +    }
+> +    cpu_synchronize_all_states();
+> +    pc_machine_reset(machine);
+> +    cpu_synchronize_all_post_reset();
 > +}
 > +
->  void qemu_system_guest_panicked(GuestPanicInformation *info)
+>  static CpuInstanceProperties
+>  pc_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
 >  {
->      qemu_log_mask(LOG_GUEST_ERROR, "Guest crashed");
-> @@ -1764,7 +1780,7 @@ static bool main_loop_should_exit(void)
->      }
->      if (qemu_wakeup_requested()) {
->          pause_all_vcpus();
+> @@ -2940,6 +2947,7 @@ static void pc_machine_class_init(ObjectClass *oc, =
+void *data)
+>      mc->block_default_type =3D IF_IDE;
+>      mc->max_cpus =3D 255;
+>      mc->reset =3D pc_machine_reset;
+> +    mc->wakeup =3D pc_machine_wakeup;
+>      hc->pre_plug =3D pc_machine_device_pre_plug_cb;
+>      hc->plug =3D pc_machine_device_plug_cb;
+>      hc->unplug_request =3D pc_machine_device_unplug_request_cb;
+> diff --git a/vl.c b/vl.c
+> index 45ea034410..3f50dd685b 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -1567,8 +1567,6 @@ static void qemu_system_wakeup(void)
+> =20
+>      if (mc && mc->wakeup) {
+>          mc->wakeup(current_machine);
+> -    } else {
 > -        qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-> +        qemu_system_wakeup();
->          notifier_list_notify(&wakeup_notifiers, &wakeup_reason);
->          wakeup_reason =3D QEMU_WAKEUP_REASON_NONE;
->          resume_all_vcpus();
+>      }
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -146,25 +129,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---bajzpZikUji1w+G9
+--qFgkTsE6LiHkLPZw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01dhAACgkQbDjKyiDZ
-s5IWcBAAxwjss4wVtCqPEXyFB92T3wZeKlopDgWQ/tlGDqtda3VxeFOM5v8DXT8O
-pSh9RcP3+OPK+J4nInciglIUEBO3kVCpJa10GRuCwLOM6CTm40Kx2ZEuoUiMzt2T
-BPLfLRjhyag98GZhv+NSlzwRPxprvaTaOlL6huaj+TFNQ6n3gz9JQpGc6MhXOTT1
-qupE1Rx9KDmDXFutNPZZj3r90NO7x8N+nUV0hLMfuRDVox2RSRMFI24NkIFm14MA
-pRo65fUNyFk0qEtyzmkpEDhtz0aI47ZgaVm78USK8kKchG/gzVzksk3jl6T8mIIc
-Q6Oiz8wnH0S3eM0ylGPIZ2560DSj+GxofUY8gsxiGfqOClqKT9pqGpNmSH16yZsL
-guSYdObRWVSb2alcFzuRvg3CxJTPj9qXhBVpGZz36VPD4PhBtbpm/9PlLRw4SvGF
-eYYOjXDeQDzgE2g2EHrUOPLDstsys9SUwfA2TfUxcwM2GdyXuUZA8hnbVnozjZkh
-2UAEcOFugj5eXWac9yvoKjVjyDKdXIApHkhQBdBUOWtGrlpAd2cAX4FSypHljszz
-IZvHLOsnXHflbbe+7a9XEieNU/KUpSlIMIx+uB7CEr6XBeXE9g1Qcv1zxN/Adatr
-gbLvzIirNbwKn7S28FuSR5pVwaiPSHD/0PPBfYaJOjoOfunOcbo=
-=kN52
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01dh8ACgkQbDjKyiDZ
+s5Ljag//as6bEUGoZr5QZnb67Iabeqf2t4xhhyTiTl2saIPG28eLGPQJNYKNjaeK
+5XTfAM1ilAwc7Hz9aoq2M5fpEGIBugLIY3PS9iMfUuIjZKElGBbTRBiiRBEunyIs
+G/oA3AdeENO64HaMY+ItxcJCx7AWsE1JYn3BTNpXnm2EuHi/zk4q5Ua0TvpOa5AS
+zitxbWkSxY1W2ch9S5ZLt9Ehw6YZ8kBhMrZT/HkOiIv+75+NFCF/zvM42kHNfOjE
+pTVMghBm6GcCAffshCwF2eK89104zC05SVDaXyi/WG+MvNcEVjT+MXg3yq6ewUgO
+qeXEu8s+cjXi2wpWPuZA0asb2e+WaAbpqsqdsChpAUd6q0qskz4pMeG44MITKIEO
+osAQNdUEkZEaKjUQxaD2/51rc27P0tGxhBYlCXLYR7stZ/0P4jptxwda1zbg6tCN
+PFP6XFtcOgb5W18RiY90fgJYmfG1fWDWMS3vHvZpikTN2Y5SiV/Cxj8FI7tw0Glp
+WTqG1ZMQHIqqwa2oEIrpmPXEUW+iF+6XeFg2GgqxupOyvLRK66GF5np3HqTb+az6
+3VxdbxI0nn/C3lVfOUDIZdRdKhVUfBWN+5jZe+d68gxj4TStq2XE/3oSu+V2v/Ur
+HoCiYDmG+i5GT2dvXFQOYXfQYJuAdy2sMBkPPpiFwsmUxGcvVvc=
+=fTv2
 -----END PGP SIGNATURE-----
 
---bajzpZikUji1w+G9--
+--qFgkTsE6LiHkLPZw--
 
