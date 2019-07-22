@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03897053B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 18:17:34 +0200 (CEST)
-Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DC670550
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 18:22:20 +0200 (CEST)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpb0H-0005uC-E3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 12:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
+	id 1hpb4t-0008O5-QW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 12:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35083)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hpazm-0004dv-4W
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:03 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hpb4g-0007qN-Ia
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:22:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hpazk-0006RA-VV
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:02 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34649)
+ (envelope-from <pbonzini@redhat.com>) id 1hpb4f-000361-Hw
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:22:06 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52130)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hpazk-0006PL-O6
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:00 -0400
-Received: by mail-wm1-x331.google.com with SMTP id w9so29130390wmd.1
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 09:17:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AdVUU+R8Ux7jmIt6GoFxhTDhy7zQnJVp6dVmD0rp2YU=;
- b=fKbsioali0XnQrJd9t8tVedx3xe8rCU7kp0nWaH3Qe9PD8WK+ntsc2jOkYyb8N9N1N
- mj6Wmh4zor5b6bdLxDHut5YhTyxpaMXzaCholy4OFxvfCL8ehUhaqX3jzCNO3u42GWiM
- fHOnW1rGAwyROL1MOyejV5QlYFL1Vc46KBb3Nnhtncdy82YaH5Wsv3zjJO+VK4Mq74Gk
- W8PtVmz1Kp0viX6x6s5BlxnC797spfzqJStXEwHrHjWPRGW6iL5oL57HRlCHyJma8WCE
- wx36ztIunIi2JintIkyq55Bcg4iomldYnBQ1rIfbaJo67SbULo9D097oFXLc4QMcsJeK
- cmuA==
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hpb4f-00034m-9N
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:22:05 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 207so35821682wma.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 09:22:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AdVUU+R8Ux7jmIt6GoFxhTDhy7zQnJVp6dVmD0rp2YU=;
- b=S0UbsE3WsubpYQ6NiT27scJ44rj6AI2Cx5yeRc4xkJFB3M5c/nVeFE11nctSXbERIa
- 06MmiQBfqedRR1CYpSeDzp1sINLAxibca7fNG+ULYtebrP9bXjTGITGEIZn9dxEIAq8b
- IXispyNPColrPya9WpoipXXrK3T1pJkRMWLKfTZVLjcklZuuzT+VsO1f+a7FNA6HGNXf
- BVHxJ9OtFtYXA+ETTSHPHRTENQzAHPbfj35uh6frMzYwxbVBfkE38sZjA2fW+C003Of/
- eWTkzA2tSityRJdKgapGFl2ykTCqWavhEXjO/CeZiGkfqY+wXl9Ksf2d9t5kvHMf7+Lk
- HBXQ==
-X-Gm-Message-State: APjAAAU9Erm8lwN+4cUnj0z7bZcctvDVCIImXDwE8iB3vWjGNrGyuSxV
- eU4ljmR6kxNMTF5/9kw+Ll3OzNPQBPs=
-X-Google-Smtp-Source: APXvYqyTmqxZbsjocdoMcwCqim69VqmiT6iiRxoUS2pnEfsbBcdr6UEFX8kkbvRKLzR4Lx9CHd5+uA==
-X-Received: by 2002:a7b:ce18:: with SMTP id m24mr62460427wmc.126.1563812219411; 
- Mon, 22 Jul 2019 09:16:59 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:10f7:67c8:abb4:8512])
- by smtp.gmail.com with ESMTPSA id o6sm77717501wra.27.2019.07.22.09.16.58
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 09:16:58 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PwkBfELRJL91fx59DzQCj2IthEohyTfywm5LOq0HTjY=;
+ b=U4G5ME7ISZBb0BK8sZ3vYjqb1E64suEXZu8GjNRtsYhHY4+67Tu0gag6fuwQ/Sx3dn
+ G9jubANlSyblAu51YyN5n6DShujehPzxF9vBRjRX4y5BRLlcJmNSrfE1A9XgmrjfpM7W
+ 4KHW0GRdfaBPoN8WI8vTScR6jAci/aaWeSvi/tz5PmAIegyguw2VRXTIkr3gbOSk5fdD
+ r1EvoSl5L6FhdJNx80CU1xnXDvkjjCvcrURhm3ovzB5Ja5By3DhdjI+WQqJSnMNc5kZg
+ TsInVwY6E6w0gjrO/2n/21usIrZXdAF4jMbs0QIpB4hMwKblIxywEegVV2l8xhN4dZw/
+ MChg==
+X-Gm-Message-State: APjAAAUrjGu02Z65CoZzfAC/ZEb9UGrKtaNb8yxMlRTDBz5VXLMM7ERe
+ nUVW4CBU+mSKuEE/LnDxORxnMQ==
+X-Google-Smtp-Source: APXvYqzVbN/9qCk6k12I+RjtFvuKLRQtqZx/TDS8NdgVZpmyecLuZkaVi7Cbh9ECVCmB8l7vkuwOjw==
+X-Received: by 2002:a1c:5f55:: with SMTP id t82mr63522468wmb.111.1563812524125; 
+ Mon, 22 Jul 2019 09:22:04 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:10f7:67c8:abb4:8512?
+ ([2001:b07:6468:f312:10f7:67c8:abb4:8512])
+ by smtp.gmail.com with ESMTPSA id t185sm33448143wma.11.2019.07.22.09.22.02
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Jul 2019 09:22:03 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, tony.nguyen@bt.com,
+ qemu-devel@nongnu.org
+References: <e9c6e5310b1a4863be45d45bf087fc3d@tpw09926dag18e.domain1.systemhost.net>
+ <2b6eb033-4b6e-4d64-c57e-a3257088d0dd@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 18:16:57 +0200
-Message-Id: <20190722161657.8188-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190722161657.8188-1-pbonzini@redhat.com>
-References: <20190722161657.8188-1-pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d6726b14-96e6-4a96-41b2-598c90289b88@redhat.com>
+Date: Mon, 22 Jul 2019 18:22:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: [Qemu-devel] [PULL 2/2] i386/kvm: Do not sync nested state during
- runtime
+In-Reply-To: <2b6eb033-4b6e-4d64-c57e-a3257088d0dd@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v2 00/20] Invert Endian bit in SPARCv9 MMU
+ TTE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,47 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Cc: peter.maydell@linaro.org, walling@linux.ibm.com, mst@redhat.com,
+ palmer@sifive.com, mark.cave-ayland@ilande.co.uk, Alistair.Francis@wdc.com,
+ arikalo@wavecomp.com, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, rth@twiddle.net, atar4qemu@gmail.com,
+ ehabkost@redhat.com, sw@weilnetz.de, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, david@gibson.dropbear.id.au, qemu-riscv@nongnu.org,
+ cohuck@redhat.com, claudio.fontana@huawei.com, alex.williamson@redhat.com,
+ qemu-ppc@nongnu.org, amarkovic@wavecomp.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jan Kiszka <jan.kiszka@siemens.com>
+On 22/07/19 17:59, Richard Henderson wrote:
+> On 7/22/19 8:34 AM, tony.nguyen@bt.com wrote:
+>> Tony Nguyen (20):
+>>   tcg: Replace MO_8 with MO_UB alias
+>>   tcg: Replace MO_16 with MO_UW alias
+>>   tcg: Replace MO_32 with MO_UL alias
+>>   tcg: Replace MO_64 with MO_UQ alias
+>>   tcg: Move size+sign+endian from TCGMemOp to MemOp
+> I don't like any of these first 5 patches.
+> I don't understand your motivation here.  Why?
 
-Writing the nested state e.g. after a vmport access can invalidate
-important parts of the kernel-internal state, and it is not needed as
-well. So leave this out from KVM_PUT_RUNTIME_STATE.
+He wants to avoid namespace collisions between MemOp and TCGMemOp, I think.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Message-Id: <bdd53f40-4e60-f3ae-7ec6-162198214953@siemens.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/kvm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index ada89d27cc..dbbb13772a 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -3563,12 +3563,12 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
- 
-     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
- 
--    ret = kvm_put_nested_state(x86_cpu);
--    if (ret < 0) {
--        return ret;
--    }
--
-     if (level >= KVM_PUT_RESET_STATE) {
-+        ret = kvm_put_nested_state(x86_cpu);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-         ret = kvm_put_msr_feature_control(x86_cpu);
-         if (ret < 0) {
-             return ret;
--- 
-2.21.0
-
+Paolo
 
