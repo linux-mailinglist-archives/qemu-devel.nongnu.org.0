@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07133700B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 15:15:19 +0200 (CEST)
-Received: from localhost ([::1]:33408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E9B700B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 15:15:24 +0200 (CEST)
+Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpY9t-0000LY-5v
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 09:15:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47603)
+	id 1hpY9y-0000j8-UU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 09:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47632)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hpY9B-0007Ny-H3
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hpY9D-0007OC-3N
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hpY9A-00034f-H6
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:33 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54279)
+ (envelope-from <peter.maydell@linaro.org>) id 1hpY9B-000362-Qv
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:35 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52004)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hpY9A-00033z-BA
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:32 -0400
-Received: by mail-wm1-x336.google.com with SMTP id p74so35118453wme.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 06:14:32 -0700 (PDT)
+ id 1hpY9B-000358-KA
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:33 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 207so35145051wma.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 06:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GzeCjbtXLdqWVGSKySjABkNnwqpyaiVuNILnUkbYPsw=;
- b=yRijLWEG7gpaqi6/bGZUuADYOKXuwlIG5GTnp/YPnmHFlULLz2p6q5oES24a/UiNDo
- z8wvN79LI8wWOBmstyjFBqDo5YCN5JlJZLJvlE2k4YyoX6e53uR68AMN9AnpWxKTCtnI
- C2iqwQ+hpw5CD4LTvCJ8uSH+AHDqWdo8QtpLjVNOpLJrnY0WDmd35Z6cygKxsnlKIIII
- ef08ZWukToD6q+86XyY7W9Fdt6G0/u2LGHkRFrX4H3DORtzUJFMPht3tX7iG+rTfBYsS
- qXwviHJpuQz59aoWJqhy6rrA24mB0t6KPlVHo8OQt8aH9E7JD2VDY58sFn26T5nhwg8l
- rhaQ==
+ bh=l5k8gNjzcUVX6OXyFMM4mDjUBLlyPFiurmFGH7h+8m8=;
+ b=UK2fS7UYYw+TzEarLn+wyi1DN4JuoZGYkROeZKGn3ItsmGi6VastmbnbZrusZg8ErG
+ X0PIjrDmtKwl6uqxwWa93AU+z62o2RBeHoC/eRo3CArrMOFPlkcA9IpgqGsaEd5WV4ff
+ Xc6GQOuDUwlLEp9BF9YNXg8WqObqFrhJagMElLq/+G4rxVlG707Qg+OxorYqpBj/OUim
+ w6RJETvBSpn8q/Mw7qnOvGubc3NnSt/fBjqnvousmuGm0O+eIg9RHhCdrou18ZkNQCT2
+ XSDFpsSyugw3Wwwg3QeM4cLnsRxglAbXZ/JDNA2bwy2gdCLg7VaDBCAyVnpEporbtuP2
+ Dfew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GzeCjbtXLdqWVGSKySjABkNnwqpyaiVuNILnUkbYPsw=;
- b=HGYbpkqxe5qS103JRpibgkaQ33+rF3x9akTqQSrHOTiZrmU40LDisKz6N5AQcRQaU3
- nYKxWMK3XRbJtKV1lS5RpSovcKLjK7/yYL79UautjtYSDoel1w/jCf1JsW/kqZHDlWz3
- apq2uIFaALBoMpbG8HbzXB/VmMNH1IeVIuIMhGimlHVGPbyynFxbe68vw+Ri1KlZnstl
- chMfU3si7EhuaDO5LpEEPGKsI9Q0e/sATulrbX2VQP8f1opbDfLYfGrE3Iorw+sjwmZv
- 89HP5BHsnmlpRRon9Jx8iU80SEDd0Azz1U5AsCPSFz0tZYxQenddDr41FdyG+TlZKxFK
- fNmw==
-X-Gm-Message-State: APjAAAVefrhva69toxQScj/Nnzz0vxf5Vu7I0FJNxW/AUJp17pbZb1gk
- HAfwXmEKhVnJri3BwhtRx0yWpHhm7N54yg==
-X-Google-Smtp-Source: APXvYqzFewCPsLWBZ4vxLH6AdAMWX4Ou4foab2QGEXLCZ/xZAdzQ0r8QtUHB2jZ1E6EufzUIv4Cy2Q==
-X-Received: by 2002:a1c:c188:: with SMTP id r130mr60520677wmf.73.1563801270907; 
- Mon, 22 Jul 2019 06:14:30 -0700 (PDT)
+ bh=l5k8gNjzcUVX6OXyFMM4mDjUBLlyPFiurmFGH7h+8m8=;
+ b=J8/ZqZhmFyoZ81WOx0CjEhiUYmNkKVAD3RO/ImPAEhqCIGjkpMARSA0j9YWYCDdpTs
+ pm7U6qLs9kug3DiPDm39rLG9Kz5ZkeYomkQNxhQ1/ISc1CGQahFFDIYPoBIBvLTmDyX5
+ pXCf0V8QdhzpSkrK8tPKG0z9mVEXJuw/zOwPJkErvWmh/XHoU9LKaYG1cvpwi129qiYD
+ 9hhfnY2VGKuzyugJ19cJ0Q0r1ligImiZ/8UVJmMz34xOAv8EMQOti9y/YAQXIW1LKgmT
+ MIYmlAb+XX+zZ1DUlMT3Bgd39ZAQXjzZCvfbvyfu6NcOhaEPUG9l+Yv00hRn26y2jLow
+ RzNQ==
+X-Gm-Message-State: APjAAAV+8c3evraclFYp3+8tw5dcx9uJLODqIiQf0lEruuSGtTzovzBx
+ KunbJMj7bIDNUTBo3pCP8g5LBHfA8oXK5Q==
+X-Google-Smtp-Source: APXvYqy9y+qqTy8W6eZat68QDU0fZ+fI2SiLETlIDe8mchLun6rsMt6ILoKDya+l3jE0FZs7y0DH9w==
+X-Received: by 2002:a7b:ce88:: with SMTP id q8mr64471414wmj.89.1563801272399; 
+ Mon, 22 Jul 2019 06:14:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id f12sm42207217wrg.5.2019.07.22.06.14.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 06:14:30 -0700 (PDT)
+ Mon, 22 Jul 2019 06:14:31 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 14:14:23 +0100
-Message-Id: <20190722131427.2669-2-peter.maydell@linaro.org>
+Date: Mon, 22 Jul 2019 14:14:24 +0100
+Message-Id: <20190722131427.2669-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190722131427.2669-1-peter.maydell@linaro.org>
 References: <20190722131427.2669-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: [Qemu-devel] [PULL 1/5] target/arm: Add missing break statement for
- Hypervisor Trap Exception
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 2/5] hw/arm/fsl-imx6ul.c: Remove dead
+ SMP-related code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,41 +83,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+The i.MX6UL always has a single Cortex-A7 CPU (we set FSL_IMX6UL_NUM_CPUS
+to 1 in line with this). This means that all the code in fsl-imx6ul.c to
+handle multiple CPUs is dead code, and Coverity is now complaining that
+it is unreachable (CID 1403008, 1403011).
 
-Reported by GCC9 when building with  -Wimplicit-fallthrough=2:
+Remove the unreachable code and the only-executes-once loops,
+and replace the single-entry cpu[] array in the FSLIMX6ULState
+with a simple cpu member.
 
-  target/arm/helper.c: In function ‘arm_cpu_do_interrupt_aarch32_hyp’:
-  target/arm/helper.c:7958:14: error: this statement may fall through [-Werror=implicit-fallthrough=]
-   7958 |         addr = 0x14;
-        |         ~~~~~^~~~~~
-  target/arm/helper.c:7959:5: note: here
-   7959 |     default:
-        |     ^~~~~~~
-  cc1: all warnings being treated as errors
-
-Fixes: b9bc21ff9f9
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20190719111451.12406-1-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190712115030.26895-1-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/arm/fsl-imx6ul.h |  2 +-
+ hw/arm/fsl-imx6ul.c         | 62 +++++++++++--------------------------
+ hw/arm/mcimx6ul-evk.c       |  2 +-
+ 3 files changed, 20 insertions(+), 46 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 20f8728be11..b74c23a9bc0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7956,6 +7956,7 @@ static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
-         break;
-     case EXCP_HYP_TRAP:
-         addr = 0x14;
-+        break;
-     default:
-         cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 9e94e98f8ee..eda389aec7d 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -61,7 +61,7 @@ typedef struct FslIMX6ULState {
+     DeviceState    parent_obj;
+ 
+     /*< public >*/
+-    ARMCPU             cpu[FSL_IMX6UL_NUM_CPUS];
++    ARMCPU             cpu;
+     A15MPPrivState     a7mpcore;
+     IMXGPTState        gpt[FSL_IMX6UL_NUM_GPTS];
+     IMXEPITState       epit[FSL_IMX6UL_NUM_EPITS];
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index f8601654388..b074177a71d 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -29,16 +29,12 @@
+ 
+ static void fsl_imx6ul_init(Object *obj)
+ {
+-    MachineState *ms = MACHINE(qdev_get_machine());
+     FslIMX6ULState *s = FSL_IMX6UL(obj);
+     char name[NAME_SIZE];
+     int i;
+ 
+-    for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX6UL_NUM_CPUS); i++) {
+-        snprintf(name, NAME_SIZE, "cpu%d", i);
+-        object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i]),
+-                                "cortex-a7-" TYPE_ARM_CPU, &error_abort, NULL);
+-    }
++    object_initialize_child(obj, "cpu0", &s->cpu, sizeof(s->cpu),
++                            "cortex-a7-" TYPE_ARM_CPU, &error_abort, NULL);
+ 
+     /*
+      * A7MPCORE
+@@ -161,42 +157,25 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     FslIMX6ULState *s = FSL_IMX6UL(dev);
+     int i;
+-    qemu_irq irq;
+     char name[NAME_SIZE];
+-    unsigned int smp_cpus = ms->smp.cpus;
++    SysBusDevice *sbd;
++    DeviceState *d;
+ 
+-    if (smp_cpus > FSL_IMX6UL_NUM_CPUS) {
+-        error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
+-                   TYPE_FSL_IMX6UL, FSL_IMX6UL_NUM_CPUS, smp_cpus);
++    if (ms->smp.cpus > 1) {
++        error_setg(errp, "%s: Only a single CPU is supported (%d requested)",
++                   TYPE_FSL_IMX6UL, ms->smp.cpus);
+         return;
      }
+ 
+-    for (i = 0; i < smp_cpus; i++) {
+-        Object *o = OBJECT(&s->cpu[i]);
+-
+-        object_property_set_int(o, QEMU_PSCI_CONDUIT_SMC,
+-                                "psci-conduit", &error_abort);
+-
+-        /* On uniprocessor, the CBAR is set to 0 */
+-        if (smp_cpus > 1) {
+-            object_property_set_int(o, FSL_IMX6UL_A7MPCORE_ADDR,
+-                                    "reset-cbar", &error_abort);
+-        }
+-
+-        if (i) {
+-            /* Secondary CPUs start in PSCI powered-down state */
+-            object_property_set_bool(o, true,
+-                                     "start-powered-off", &error_abort);
+-        }
+-
+-        object_property_set_bool(o, true, "realized", &error_abort);
+-    }
++    object_property_set_int(OBJECT(&s->cpu), QEMU_PSCI_CONDUIT_SMC,
++                            "psci-conduit", &error_abort);
++    object_property_set_bool(OBJECT(&s->cpu), true,
++                             "realized", &error_abort);
+ 
+     /*
+      * A7MPCORE
+      */
+-    object_property_set_int(OBJECT(&s->a7mpcore), smp_cpus, "num-cpu",
+-                            &error_abort);
++    object_property_set_int(OBJECT(&s->a7mpcore), 1, "num-cpu", &error_abort);
+     object_property_set_int(OBJECT(&s->a7mpcore),
+                             FSL_IMX6UL_MAX_IRQ + GIC_INTERNAL,
+                             "num-irq", &error_abort);
+@@ -204,18 +183,13 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+                              &error_abort);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->a7mpcore), 0, FSL_IMX6UL_A7MPCORE_ADDR);
+ 
+-    for (i = 0; i < smp_cpus; i++) {
+-        SysBusDevice *sbd = SYS_BUS_DEVICE(&s->a7mpcore);
+-        DeviceState  *d   = DEVICE(qemu_get_cpu(i));
++    sbd = SYS_BUS_DEVICE(&s->a7mpcore);
++    d = DEVICE(&s->cpu);
+ 
+-        irq = qdev_get_gpio_in(d, ARM_CPU_IRQ);
+-        sysbus_connect_irq(sbd, i, irq);
+-        sysbus_connect_irq(sbd, i + smp_cpus, qdev_get_gpio_in(d, ARM_CPU_FIQ));
+-        sysbus_connect_irq(sbd, i + 2 * smp_cpus,
+-                           qdev_get_gpio_in(d, ARM_CPU_VIRQ));
+-        sysbus_connect_irq(sbd, i + 3 * smp_cpus,
+-                           qdev_get_gpio_in(d, ARM_CPU_VFIQ));
+-    }
++    sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(d, ARM_CPU_IRQ));
++    sysbus_connect_irq(sbd, 1, qdev_get_gpio_in(d, ARM_CPU_FIQ));
++    sysbus_connect_irq(sbd, 2, qdev_get_gpio_in(d, ARM_CPU_VIRQ));
++    sysbus_connect_irq(sbd, 3, qdev_get_gpio_in(d, ARM_CPU_VFIQ));
+ 
+     /*
+      * A7MPCORE DAP
+diff --git a/hw/arm/mcimx6ul-evk.c b/hw/arm/mcimx6ul-evk.c
+index bbffb11c2a8..1f6f4aed97c 100644
+--- a/hw/arm/mcimx6ul-evk.c
++++ b/hw/arm/mcimx6ul-evk.c
+@@ -71,7 +71,7 @@ static void mcimx6ul_evk_init(MachineState *machine)
+     }
+ 
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu[0], &boot_info);
++        arm_load_kernel(&s->soc.cpu, &boot_info);
+     }
+ }
+ 
 -- 
 2.20.1
 
