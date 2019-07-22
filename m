@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25067047A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:50:07 +0200 (CEST)
-Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31987047E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:50:55 +0200 (CEST)
+Received: from localhost ([::1]:35180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpaZi-0007kd-En
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
+	id 1hpaaT-0002J2-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54367)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hpaZN-0007Dh-Bg
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:49:47 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hpaa0-0000xW-QN
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:50:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hpaZK-0000HC-P1
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:49:45 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.77]:3202)
+ (envelope-from <tony.nguyen@bt.com>) id 1hpaZz-0000lu-Ki
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:50:24 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.78]:11597)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hpaZ2-0008H7-Ey; Mon, 22 Jul 2019 11:49:24 -0400
-Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
- BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
+ id 1hpaZe-0000QF-8y; Mon, 22 Jul 2019 11:50:02 -0400
+Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
+ BWP09926083.bt.com (10.36.82.114) with Microsoft SMTP Server (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Mon, 22
- Jul 2019 16:49:21 +0100
+ Jul 2019 16:50:00 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Mon, 22 Jul 2019 16:49:22 +0100
+ tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Mon, 22 Jul 2019 16:50:00 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Mon, 22 Jul
- 2019 16:49:21 +0100
+ 2019 16:50:00 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v2 13/20] exec: Access MemoryRegion with
+Thread-Topic: [Qemu-devel] [PATCH v2 14/20] cputlb: Access MemoryRegion with
  MemOp
-Thread-Index: AQHVQKUHXZphlpC32U+r70UVQuqlvQ==
-Date: Mon, 22 Jul 2019 15:49:21 +0000
-Message-ID: <1563810561191.16853@bt.com>
+Thread-Index: AQHVQKUeD/kggExhOkCZQT6SsUL58w==
+Date: Mon, 22 Jul 2019 15:50:00 +0000
+Message-ID: <1563810600056.6763@bt.com>
 References: <e9c6e5310b1a4863be45d45bf087fc3d@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <e9c6e5310b1a4863be45d45bf087fc3d@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -48,11 +48,11 @@ x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.37]
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.77
+X-Received-From: 213.121.35.78
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v2 13/20] exec: Access MemoryRegion with MemOp
+Subject: [Qemu-devel] [PATCH v2 14/20] cputlb: Access MemoryRegion with MemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,139 +78,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- exec.c            |  6 ++++--
- memory_ldst.inc.c | 18 +++++++++---------
- 2 files changed, 13 insertions(+), 11 deletions(-)
+ accel/tcg/cputlb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index 3e78de3..5013864 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3334,7 +3334,8 @@ static MemTxResult flatview_write_continue(FlatView *=
-fv, hwaddr addr,
-             /* XXX: could force current_cpu to NULL to avoid
-                potential bugs */
-             val =3D ldn_p(buf, l);
--            result |=3D memory_region_dispatch_write(mr, addr1, val, l, at=
-trs);
-+            result |=3D memory_region_dispatch_write(mr, addr1, val,
-+                                                   SIZE_MEMOP(l), attrs);
-         } else {
-             /* RAM case */
-             ptr =3D qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-@@ -3395,7 +3396,8 @@ MemTxResult flatview_read_continue(FlatView *fv, hwad=
-dr addr,
-             /* I/O case */
-             release_lock |=3D prepare_mmio_access(mr);
-             l =3D memory_access_size(mr, l, addr1);
--            result |=3D memory_region_dispatch_read(mr, addr1, &val, l, at=
-trs);
-+            result |=3D memory_region_dispatch_read(mr, addr1, &val,
-+                                                  SIZE_MEMOP(l), attrs);
-             stn_p(buf, l, val);
-         } else {
-             /* RAM case */
-diff --git a/memory_ldst.inc.c b/memory_ldst.inc.c
-index acf865b..e073cf9 100644
---- a/memory_ldst.inc.c
-+++ b/memory_ldst.inc.c
-@@ -38,7 +38,7 @@ static inline uint32_t glue(address_space_ldl_internal, S=
-UFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
-
-         /* I/O case */
--        r =3D memory_region_dispatch_read(mr, addr1, &val, 4, attrs);
-+        r =3D memory_region_dispatch_read(mr, addr1, &val, SIZE_MEMOP(4), =
-attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
-             val =3D bswap32(val);
-@@ -114,7 +114,7 @@ static inline uint64_t glue(address_space_ldq_internal,=
- SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
-
-         /* I/O case */
--        r =3D memory_region_dispatch_read(mr, addr1, &val, 8, attrs);
-+        r =3D memory_region_dispatch_read(mr, addr1, &val, SIZE_MEMOP(8), =
-attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
-             val =3D bswap64(val);
-@@ -188,7 +188,7 @@ uint32_t glue(address_space_ldub, SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
-
-         /* I/O case */
--        r =3D memory_region_dispatch_read(mr, addr1, &val, 1, attrs);
-+        r =3D memory_region_dispatch_read(mr, addr1, &val, SIZE_MEMOP(1), =
-attrs);
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -224,7 +224,7 @@ static inline uint32_t glue(address_space_lduw_internal=
-, SUFFIX)(ARG1_DECL,
-         release_lock |=3D prepare_mmio_access(mr);
-
-         /* I/O case */
--        r =3D memory_region_dispatch_read(mr, addr1, &val, 2, attrs);
-+        r =3D memory_region_dispatch_read(mr, addr1, &val, SIZE_MEMOP(2), =
-attrs);
- #if defined(TARGET_WORDS_BIGENDIAN)
-         if (endian =3D=3D DEVICE_LITTLE_ENDIAN) {
-             val =3D bswap16(val);
-@@ -300,7 +300,7 @@ void glue(address_space_stl_notdirty, SUFFIX)(ARG1_DECL=
-,
-     if (l < 4 || !memory_access_is_direct(mr, true)) {
-         release_lock |=3D prepare_mmio_access(mr);
-
--        r =3D memory_region_dispatch_write(mr, addr1, val, 4, attrs);
-+        r =3D memory_region_dispatch_write(mr, addr1, val, SIZE_MEMOP(4), =
-attrs);
-     } else {
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-         stl_p(ptr, val);
-@@ -346,7 +346,7 @@ static inline void glue(address_space_stl_internal, SUF=
-FIX)(ARG1_DECL,
-             val =3D bswap32(val);
-         }
- #endif
--        r =3D memory_region_dispatch_write(mr, addr1, val, 4, attrs);
-+        r =3D memory_region_dispatch_write(mr, addr1, val, SIZE_MEMOP(4), =
-attrs);
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -408,7 +408,7 @@ void glue(address_space_stb, SUFFIX)(ARG1_DECL,
-     mr =3D TRANSLATE(addr, &addr1, &l, true, attrs);
-     if (!memory_access_is_direct(mr, true)) {
-         release_lock |=3D prepare_mmio_access(mr);
--        r =3D memory_region_dispatch_write(mr, addr1, val, 1, attrs);
-+        r =3D memory_region_dispatch_write(mr, addr1, val, SIZE_MEMOP(1), =
-attrs);
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -451,7 +451,7 @@ static inline void glue(address_space_stw_internal, SUF=
-FIX)(ARG1_DECL,
-             val =3D bswap16(val);
-         }
- #endif
--        r =3D memory_region_dispatch_write(mr, addr1, val, 2, attrs);
-+        r =3D memory_region_dispatch_write(mr, addr1, val, SIZE_MEMOP(2), =
-attrs);
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -524,7 +524,7 @@ static void glue(address_space_stq_internal, SUFFIX)(AR=
-G1_DECL,
-             val =3D bswap64(val);
-         }
- #endif
--        r =3D memory_region_dispatch_write(mr, addr1, val, 8, attrs);
-+        r =3D memory_region_dispatch_write(mr, addr1, val, SIZE_MEMOP(8), =
-attrs);
-     } else {
-         /* RAM case */
-         ptr =3D qemu_map_ram_ptr(mr->ram_block, addr1);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 184fc54..97d7a64 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -906,8 +906,8 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEnt=
+ry *iotlbentry,
+         qemu_mutex_lock_iothread();
+         locked =3D true;
+     }
+-    r =3D memory_region_dispatch_read(mr, mr_offset,
+-                                    &val, size, iotlbentry->attrs);
++    r =3D memory_region_dispatch_read(mr, mr_offset, &val, SIZE_MEMOP(size=
+),
++                                    iotlbentry->attrs);
+     if (r !=3D MEMTX_OK) {
+         hwaddr physaddr =3D mr_offset +
+             section->offset_within_address_space -
+@@ -947,8 +947,8 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry =
+*iotlbentry,
+         qemu_mutex_lock_iothread();
+         locked =3D true;
+     }
+-    r =3D memory_region_dispatch_write(mr, mr_offset,
+-                                     val, size, iotlbentry->attrs);
++    r =3D memory_region_dispatch_write(mr, mr_offset, val, SIZE_MEMOP(size=
+),
++                                    iotlbentry->attrs);
+     if (r !=3D MEMTX_OK) {
+         hwaddr physaddr =3D mr_offset +
+             section->offset_within_address_space -
 --
 1.8.3.1
 
