@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1041970329
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:11:09 +0200 (CEST)
-Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9627037B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:18:55 +0200 (CEST)
+Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpZy0-0000sR-6I
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45437)
+	id 1hpa5W-00042X-Br
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hpZxm-0000Ti-JG
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:10:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4o-0002hs-CS
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hpZxl-00053P-IC
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:10:54 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35482)
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4n-00022y-8z
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:10 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36055)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hpZxl-000521-AB
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:10:53 -0400
-Received: by mail-pg1-x543.google.com with SMTP id s1so11493282pgr.2
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 08:10:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hpa4n-00021j-1K
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:09 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g67so31624865wme.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 08:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dKApOhgG1EBIWzsnGrV3Z40G86FWh4A1HF4cDTS2cR4=;
- b=Fsa4h5s0UsQzi6NT/Bbtpt0xLtZTTz4nhFZtgbkLeycIDMu12IFUW38c7r+TvwaKl3
- jlLDstac37OaY7HfRDEnXlJic/DLm4GcRjGNemG48r7W/f1bAVfN7bGRslgmcscMNggb
- 1GkmCG3oidExrRp1d8waxI3bl3c1Y+AQmqrPGj2tBuX4RHlfEDSFaRC1gfa2GMAoEuo7
- ztVqrhcxPk7xTTm8vGC0HHLUlMw+ruYlqpu9wdfd9YzjlmRlTG8DiFLgVjIavkAmQdNc
- 8ekOrB3CoEBXZNL0kcnNyLEExjXo8Q81BZrtb9aIFaRLrWs+Ido2Hz1R2FE36DvTi/fF
- L94Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7NuZl7Nb2dd8ZP9m/KLdrWknEwI2f29c5aTVGOoUdS0=;
+ b=v846qUMWCBksoBHVeIdglUUh1NWQtNQ1JPjcWHdknQ44a8oLT9U1IxE5RI3qGPUUS5
+ fovw3cYbzeMQ97TMxFDDkJpnSvO7vG6AJgfbXy38mc+gE+iooRcbEo7lrn3/MZc+EkFu
+ f+5YhY47qNiZlxWupvzdGFqoQkGn1wOtECS/F88gphpemzk/vb334SwrEL9Lxj+JZQew
+ TrQhwOty43CCHw10icp/JSdb6MCfDmvTw1zypgQE6OLX9Oit6qfRDvIgNWKGdgnmRip1
+ n2kJwGYmVPmwyf1ZTmIZbZsHM0ZoFK5NSvXJ9y4FFB5X76wgd6YrpA4Zhh+5xnIEE7Km
+ gMfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dKApOhgG1EBIWzsnGrV3Z40G86FWh4A1HF4cDTS2cR4=;
- b=DQqTXyvUi+xcMYEqr2ZwGO4Rl2H7toMhlXG64crKBXpRnAvXvbUbXYqxU+3Y6MT1Ju
- ciqeh2mKdkt3cbqy4+KA8kBSS86OmQHWma4/hxTHxLhtd6upgiI6RKZzTB5MVqmQTGOM
- C/lld4oeAq/YaE5VyUskkwVHI0YOIiQyUp3cUUfqY8tntFdjSUxAEo8+kZJ83i0e9go2
- 3dLoL32fHuTk1d/warFzfbiQnzYxkBZZYYfw4p+ekc2feMSMINAnX5pBfTdY9WZ163NV
- 4RA5VT6OMuNdJ7dQ66oKkp0UJERMWTucrNCEWBqODyEw2jqrTuQOMNMx3Kk/vivODSa5
- qHLA==
-X-Gm-Message-State: APjAAAVVIPw97DEsjiPlCvrd0/PchADBLI9lb39QFGLByBtRpc3VPqjM
- ubhttUPSWog40qrBIKBDIjs93g==
-X-Google-Smtp-Source: APXvYqwu7OthObJLx94cgNkzSyIhI/dt5Ogd37ajHCoS0YTX/D+FX2qd6RuABmfejjzfatVla1Wl1A==
-X-Received: by 2002:a63:6904:: with SMTP id e4mr11589082pgc.321.1563808251239; 
- Mon, 22 Jul 2019 08:10:51 -0700 (PDT)
-Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id t29sm48408241pfq.156.2019.07.22.08.10.50
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Jul 2019 08:10:50 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190719210326.15466-1-richard.henderson@linaro.org>
- <87k1cajzix.fsf@linaro.org> <87pnm2v28j.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <99bee3ae-be28-06af-a4f5-cbfb73e6c9fb@linaro.org>
-Date: Mon, 22 Jul 2019 08:10:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ bh=7NuZl7Nb2dd8ZP9m/KLdrWknEwI2f29c5aTVGOoUdS0=;
+ b=fTyalCPgL3NcTPzoQdEVVVRn2xSr4PeJt+e7XjseEizxkgQGGF0K+JnwDsut7My8Du
+ VB4GrBwq370LP1+9hN+kRLZF1wG0ua0yPdizQXppiB0JP5IO1Zikw3spT1WOA/usIuIZ
+ rpnP91XopEdx597k8NZIXYeQY/+Sl1wlthGr/HTkuK9HgfP84A6E/vJVVyCjZrTDGlFH
+ Kkaqu7yV3MgQeYuADnG5iRhPuFEUUZn5hKZXQRWwKV93dpBRhPkvKCsQeYmGE4E+V3gS
+ CFjM/A3LM8QARd8dgsCJrdXYUCVNWhH9CwJWulGY+tGydupn/vvPGlg4DhkW5I7/+tVE
+ hWzA==
+X-Gm-Message-State: APjAAAWOklzZwzm28ygivBlosTHU9OgTM0KQOTUUpStHw+D9mTzQUasH
+ lzNONdYDwehJiI14a0c78Fqheg==
+X-Google-Smtp-Source: APXvYqyCbm/Xdz3t0kY55iRE/S2Mc6DA33PFfvq+TfywB6WQpEp4cmfrrQ+IOz+DNGPCPV74gWB43g==
+X-Received: by 2002:a1c:cfc7:: with SMTP id f190mr61139905wmg.85.1563808686810; 
+ Mon, 22 Jul 2019 08:18:06 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s15sm23163990wrw.21.2019.07.22.08.18.05
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 22 Jul 2019 08:18:06 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon, 22 Jul 2019 16:18:02 +0100
+Message-Id: <20190722151804.25467-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87pnm2v28j.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH for-4.2 00/24] target/arm: Implement
- ARMv8.1-VHE
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH for-4.1? 0/2] arm: further improve initrd
+ positioning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,26 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/22/19 2:37 AM, Alex Bennée wrote:
->>> Testing so far has been limited to booting a debian 9 system with
->>> a 4.9 kernel, and a fedora 30 system with a 5.1 kernel.  Both have
->>> KVM enabled, and both report enabling VHE is successful.
->>
->> check-tcg is throwing up errors for ARM:
->>
->> ERROR:/home/alex/lsrc/qemu.git/target/arm/helper.c:5353:define_arm_vh_e2h_redirects_aliases:assertion
->> failed: (src_reg != NULL)
-> 
-> I'm going to go out on a limb and say this is because the aliases
-> registers are SoftMMU only. Do we even want to handle any re-directs for
-> linux-user?
+In commit e6b2b20d9735d4ef we made the boot loader code try to avoid
+putting the initrd on top of the kernel.  However the expression used
+to calculate the start of the initrd:
 
-Ah, no.  Thanks for the inspection.
+    info->initrd_start = info->loader_start +
+        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
 
+incorrectly uses 'kernel_size' as the offset within RAM of the
+highest address to avoid.  This is incorrect because the kernel
+doesn't start at address 0, but slightly higher than that.  This
+means that we can still incorrectly end up overlaying the initrd on
+the kernel in some cases, for example:
 
-r~
+* The kernel's image_size is 0x0a7a8000
+* The kernel was loaded at   0x40080000
+* The end of the kernel is   0x4A828000
+* The DTB was loaded at      0x4a800000
+
+To get this right we need to track the actual highest address used
+by the kernel and use that rather than kernel_size. We already
+trace the low_addr and high_addr for ELF images; set them
+also for the various other image types we support, and then use
+high_addr as the lowest allowed address for the initrd.
+
+Patch 1 just does a preliminary variable rename; patch 2 is the meat.
+
+Only very lightly tested...
+
+Marked as 'maybe for 4.1' because it is a bug fix and to code which
+is new in 4.1. OTOH cases that fail now would have failed with 4.0
+so it is not a regression strictly speaking. And we're getting
+steadily closer to release and I haven't very heavily tested this
+patch. I incline towards including it, overall.
+
+thanks
+-- PMM
+
+Peter Maydell (2):
+  hw/arm/boot: Rename elf_{low,high}_addr to image_{low,high}_addr
+  hw/arm/boot: Further improve initrd positioning code
+
+ hw/arm/boot.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
+
+-- 
+2.20.1
+
 
