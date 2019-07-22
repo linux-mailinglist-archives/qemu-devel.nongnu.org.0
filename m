@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F1A6FF20
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 13:59:29 +0200 (CEST)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EA16FF4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 14:10:07 +0200 (CEST)
+Received: from localhost ([::1]:32992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpWyW-0002aU-QJ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 07:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56561)
+	id 1hpX8o-0006yQ-Q5
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 08:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hpWyI-000268-GF
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:59:15 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hpX8Z-0006U3-Ta
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:09:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hpWyH-0002MC-4E
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:59:14 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43444)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hpWyG-0002Lo-TO
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:59:13 -0400
-Received: by mail-ot1-x341.google.com with SMTP id j11so15636664otp.10
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 04:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CqKQ7cXKJ1z7FTKs4TehgVkv9/3MjuQ1pzUNh98uYSc=;
- b=ezZQpMQxrTtc+6pnxh/RFQAAvu4DbBbNg8hEap23CfdzNJ7R2rD6mcnxlqaPrVnqmW
- hC66ZF8cDIAmYKYsRaGVHnIyIeipTuWWro6FOGh1OhEqnB2DrFMs4c5wnL4yz0Pt2LaG
- sBcVpIXgLQr3Fn7AyeCywsYYcCjDePEIjBwX0bHRVu0lqKLNhUMln8OfP1h/BoDAXOvN
- N7LQQ/j6cLottztJuYwbhiNGkb2KVg4J/wWw9A7jBBm1qeNT449wL7Fgg1GV1ftSDmEM
- eiTFYdyAC6w9zgDJS9nYH1uO5xBiTtwnt3fxwFnwAqywoq0TlbbYej8SZchD7c+eLsUc
- kudQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CqKQ7cXKJ1z7FTKs4TehgVkv9/3MjuQ1pzUNh98uYSc=;
- b=rQXsAX7x+aNGH83Zti0sjolAoK3vr/4dHXAbrqzwM7U4AzLKRMmVoFeiQQD2VEZgPN
- OHsHI/EEL/QuLJdpGdtecF2jfCnZaFfyQNQYKB+YlxXRVGdMySvvrolR1xxUTb7MEMRT
- oy4XVvK4ymrUexFEsquIenh3cCrIjdjaBWZxGywd7Qd0rQkZtz7kQIHplFhRJH1QhIhw
- X5j6dArLzpATDqy6zjaPIEc2aHrVpjRc3shUlh0FEmJLnApDEVzHKi9MfoW2ZjPROPVa
- EBbWnZAng+JY8P33AuQ81hj9bENBVy3h/9KVeIN/4GUoTUe6JptjOrk1YGzM1V76M0NN
- Mi7Q==
-X-Gm-Message-State: APjAAAU+05G5I7SrfVTDQdYw5RVqvEuW4SNoikXUJhavL9F2QAm4IDox
- pEL1MTjMVzq5ZfSTCd7fgOsaobEw/E3IOHezLKKEpw==
-X-Google-Smtp-Source: APXvYqzjvJLaZJo0LQc+f8ttzUY66WbnnehRMD2sc5keOAQrnM55DOyZBk43fcC5Dpr8ILC71b9thZ8Nmqi2/HUtkp0=
-X-Received: by 2002:a05:6830:1653:: with SMTP id
- h19mr44391642otr.232.1563796752009; 
- Mon, 22 Jul 2019 04:59:12 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1hpX8X-00050R-Vg
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:09:51 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43907 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hpX8U-0004a7-7f; Mon, 22 Jul 2019 08:09:48 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45sgQX1GvXz9sBZ; Mon, 22 Jul 2019 22:09:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563797380;
+ bh=dXyVDnMxFrKL98/xC3t8+affOBdD0Qd7h0bY2iS9dsw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AeocdkuZLSQg7O+e4jhyct3uUqbAzCtS9HkybC2eUwNqmOKTcqWlBZgsKxVfRBCGt
+ BZYkRa1eLuznQESBq+NwgYuyWjshxbkuqh7q2tLmkpVsoiSMvaWhuKciqZEu6AK9rE
+ 9hZ+57zXEYwfKmSG0vzNOvM9kfauC2OYeBwJiJJg=
+Date: Mon, 22 Jul 2019 21:42:03 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190722114203.GI25073@umbus.fritz.box>
+References: <20190722053215.20808-1-npiggin@gmail.com>
+ <20190722083939.GG25073@umbus.fritz.box>
+ <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
 MIME-Version: 1.0
-References: <20190516144733.32399-1-peter.maydell@linaro.org>
- <20190516144733.32399-4-peter.maydell@linaro.org>
- <20190719164729.GA22520@lakrids.cambridge.arm.com>
-In-Reply-To: <20190719164729.GA22520@lakrids.cambridge.arm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Jul 2019 12:59:01 +0100
-Message-ID: <CAFEAcA_i_0=xAp86RJVSpurAdWfT5KDfgoh6Y51-mwBJa=_QTQ@mail.gmail.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a7XSrSxqzVsaECgU"
+Content-Disposition: inline
+In-Reply-To: <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v2 3/4] hw/arm/boot: Avoid placing the
- initrd on top of the kernel
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2 0/3] Series to implement suspend for
+ ppc/spapr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,109 +58,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Liu Jinsong <jinsong.liu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Luiz Capitulino <lcapitulino@redhat.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Jul 2019 at 17:47, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> Hi Peter,
->
-> I've just been testing on QEMU v4.1.0-rc1, and found a case where the
-> DTB overlapped the end of the kernel, and I think there's a bug in this
-> patch -- explanation below.
->
-> On Thu, May 16, 2019 at 03:47:32PM +0100, Peter Maydell wrote:
-> > We currently put the initrd at the smaller of:
-> >  * 128MB into RAM
-> >  * halfway into the RAM
-> > (with the dtb following it).
-> >
-> > However for large kernels this might mean that the kernel
-> > overlaps the initrd. For some kinds of kernel (self-decompressing
-> > 32-bit kernels, and ELF images with a BSS section at the end)
-> > we don't know the exact size, but even there we have a
-> > minimum size. Put the initrd at least further into RAM than
-> > that. For image formats that can give us an exact kernel size, this
-> > will mean that we definitely avoid overlaying kernel and initrd.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/arm/boot.c | 34 ++++++++++++++++++++--------------
-> >  1 file changed, 20 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> > index 935be3b92a5..e441393fdf5 100644
-> > --- a/hw/arm/boot.c
-> > +++ b/hw/arm/boot.c
-> > @@ -999,20 +999,6 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-> >      if (info->nb_cpus == 0)
-> >          info->nb_cpus = 1;
-> >
-> > -    /*
-> > -     * We want to put the initrd far enough into RAM that when the
-> > -     * kernel is uncompressed it will not clobber the initrd. However
-> > -     * on boards without much RAM we must ensure that we still leave
-> > -     * enough room for a decent sized initrd, and on boards with large
-> > -     * amounts of RAM we must avoid the initrd being so far up in RAM
-> > -     * that it is outside lowmem and inaccessible to the kernel.
-> > -     * So for boards with less  than 256MB of RAM we put the initrd
-> > -     * halfway into RAM, and for boards with 256MB of RAM or more we put
-> > -     * the initrd at 128MB.
-> > -     */
-> > -    info->initrd_start = info->loader_start +
-> > -        MIN(info->ram_size / 2, 128 * 1024 * 1024);
-> > -
-> >      /* Assume that raw images are linux kernels, and ELF images are not.  */
-> >      kernel_size = arm_load_elf(info, &elf_entry, &elf_low_addr,
-> >                                 &elf_high_addr, elf_machine, as);
-> > @@ -1064,6 +1050,26 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-> >      }
-> >
-> >      info->entry = entry;
->
-> Note: this is the start of the kernel image...
 
-It's the entry point, which isn't quite the same thing as
-the start of the image (if we just loaded an ELF file then
-'entry' is whatever the ELF file said the entrypoint is, which
-could be a long way into the image).
+--a7XSrSxqzVsaECgU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +
-> > +    /*
-> > +     * We want to put the initrd far enough into RAM that when the
-> > +     * kernel is uncompressed it will not clobber the initrd. However
-> > +     * on boards without much RAM we must ensure that we still leave
-> > +     * enough room for a decent sized initrd, and on boards with large
-> > +     * amounts of RAM we must avoid the initrd being so far up in RAM
-> > +     * that it is outside lowmem and inaccessible to the kernel.
-> > +     * So for boards with less  than 256MB of RAM we put the initrd
-> > +     * halfway into RAM, and for boards with 256MB of RAM or more we put
-> > +     * the initrd at 128MB.
-> > +     * We also refuse to put the initrd somewhere that will definitely
-> > +     * overlay the kernel we just loaded, though for kernel formats which
-> > +     * don't tell us their exact size (eg self-decompressing 32-bit kernels)
-> > +     * we might still make a bad choice here.
-> > +     */
-> > +    info->initrd_start = info->loader_start +
-> > +        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
->
-> ... but here we add kernel_size to the start of the loader, which is
-> below the kernel. Should that be info->entry?
+On Mon, Jul 22, 2019 at 01:20:08PM +0200, Paolo Bonzini wrote:
+> On 22/07/19 10:39, David Gibson wrote:
+> > On Mon, Jul 22, 2019 at 03:32:12PM +1000, Nicholas Piggin wrote:
+> >> Hi, this series is rebased on top of the qmp event fix, and takes
+> >> Paolo's suggestion to implement ->wakeup for i386 before adding
+> >> ppc, which makes it much nicer.
+> >>
+> >> If the first two patches can be agreed on initially and merged, I
+> >> can take the third patch through the ppc list after that.
+> >=20
+> > LGTM.  Now, what tree(s) do we merge this through?
+>=20
+> I have just spotted a volunteer!
 
-loader_start here really means "base of RAM". I think what
-we want here is something like
+Well, merging an i386 patch through the ppc tree is kinda weird, but
+yeah, I can do that.
+>=20
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>=20
+> Paolo
+>=20
+> >>
+> >> Thanks,
+> >> Nick
+> >>
+> >> Nicholas Piggin (3):
+> >>   machine: Add wakeup method to MachineClass
+> >>   i386: use machine class ->wakeup method
+> >>   spapr: Implement ibm,suspend-me
+> >>
+> >>  hw/i386/pc.c           |  8 ++++++++
+> >>  hw/ppc/spapr.c         |  7 +++++++
+> >>  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
+> >>  include/hw/boards.h    |  1 +
+> >>  include/hw/ppc/spapr.h |  3 ++-
+> >>  vl.c                   | 16 +++++++++++++++-
+> >>  6 files changed, 65 insertions(+), 2 deletions(-)
+> >>
+> >=20
+>=20
 
-  info->initrd_start = info->loader_start + MIN(info->ram_size / 2,
-128 * 1024 * 1024);
-  info->initrd_start = MAX(info->initrd_start, kernel_end);
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-where kernel_end is just past whatever the highest addr of the kernel
-is, which is not something that's totally trivial to calculate
-with the variables we have to hand at this point.
+--a7XSrSxqzVsaECgU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-thanks
--- PMM
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01oQkACgkQbDjKyiDZ
+s5Iv3Q/+Kiw5ybmXHr/NcSDyuZt725VYbQUEwVxJFnPBNqBJluINsIsbqBP04Bd3
+y9D6nx8BQb9S3+Od8RSLG5W9UKTvatxQbYR4NgINibwbn17M6G8ODXrfG0Tb0Out
+DCDRSdlk64Im7sNnRlG8qajSpxzgEtS3HK0q5bTVFAYfLjT8Rj/39+QVVSzpoHCp
+f/7yXHXQIkhx4Uwtim9KihcACEkHmWbFe9NewTzsNssi2X+rN2hw1wr1O5byEECt
+l8qGcE0MMVzIj89WSwjPfmXB2yGDZgFwYF/3hHBKWxcaT9vrIAkkhaz1g+vP8kCD
+nrI3Iggrzl6TUA8JDlJHhJsn6siB/b8tEDi4QGkC7HYyNJe3AQj67owo/yw5Ooh9
+LoOhs1OZheDH8EDDgCj/euGJpBtXs2tIsdB0bNtRfS6Rq+vYxwwUdWhZkhfLW1pe
+SjCR7ToeopCPlFE/UQDqb5HFTh6oy0sNtno5Zq8MuR6dBjXqMasd85CfR53BEytA
+6lVRAt6/9yqMbVWvlAlIDfWjrp47BjKcjEed5pmz9j2D4jctMzNic4Yf8ylmMTYs
+kmRlkMlS/z55pqoXhamh7EYGIlN90nEoyTbDPtYUFzv46ceFW4Z3DlkJuZoUQThV
+TlXgIypWBvvuJ+6sOnLagzo+07otFIDV4YxJ/wvwaug5YjbEfr0=
+=vS3E
+-----END PGP SIGNATURE-----
+
+--a7XSrSxqzVsaECgU--
 
