@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC1670894
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 20:29:36 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA58708CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 20:39:13 +0200 (CEST)
+Received: from localhost ([::1]:36694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpd43-0004To-DX
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 14:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1hpdDN-0006Po-0j
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 14:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44619)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hpd3s-00045S-CE
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:29:25 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1hpdD9-00061O-J3
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:39:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hpd3f-00045Y-8h
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:29:13 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39651)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hpd3f-000446-0e
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:29:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x4so40399715wrt.6
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 11:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=VOk8330Yr7xHInb63RLoT14O7DD76ScChxM+wEjcarM=;
- b=idqWg7QNn4Yq14367gajaH171lMQTB18QKqoUifPqMACxVy4aSzno2Bmp+11CuNE5J
- 8dqHHEbRTlBy0+K9+VknwqNFuddD8zqIZW6Wn7HrJUErmttowqYuai6px9cHTcwVyjOA
- oQMvFN9TmsNKdkCAkTQiEcxlhgTvvtwF9abA5ryWikXwNOsu4WLN7MQa2yvE8dLZ9OtW
- 0r7KHhvVWJpbOYDy38xX8JWlowPdkm59Ubj6gIbWjS31zmG1yK54NRbEpKQDgA+paR/2
- ZQzU5cO8UP2mM8d0BotlCRs/Pt44/bFcvP6JRlOXH7cmQFq7pJooRrunRbLeGH1aVM8o
- 04NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=VOk8330Yr7xHInb63RLoT14O7DD76ScChxM+wEjcarM=;
- b=NnVF/sxt8wJSgLf4t6tdY/UXXBHC3J92xlLzMUt3XH2H+LvryJTuNmx1dwt2fwZUWQ
- PQfa2B7X1bs5XX89ul17V2hwqNSKB3o/wjfj4gZvMALcOi9ghB2t8BGo0Q+Dh6Ul3QK+
- BkjpZDvb6CnLoeiHJJUZgktnoo2uFnHGjR01kgeDHt4HUi5XPlOKYEqVfB3JSeDmB++U
- lRFB4tMvJ1xstbLJfO/VWY/2IfqQufdfkMKkV5wVrBnZ53kyhfs7KNXXrT9tLDMW7jD2
- MntihLyf8UChHvye0qYk9i62uPFPztylEuGSzWhDqty2Hi6eIyw4aXqxJakCZuXUPOrG
- ClcQ==
-X-Gm-Message-State: APjAAAXV16uts6SpO+z6TE792gAxTM3gheay8U4MA/WU1qCXLr7IKE2j
- Zyhm06D/yMvki+babSdabf3arw==
-X-Google-Smtp-Source: APXvYqwO8qBY1GNGVDEgXwMmzzVbDqp1Vr0vutZ+7RH2qVCLomMFN+vwyrNxbpZW2qsw+xB4WlxPFA==
-X-Received: by 2002:a05:6000:2:: with SMTP id h2mr25930439wrx.90.1563820149321; 
- Mon, 22 Jul 2019 11:29:09 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id f17sm35635488wmf.27.2019.07.22.11.29.08
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 11:29:08 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 527A01FF87;
- Mon, 22 Jul 2019 19:29:08 +0100 (BST)
-References: <20190717134335.15351-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.3.3; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190717134335.15351-1-alex.bennee@linaro.org>
-Date: Mon, 22 Jul 2019 19:29:08 +0100
-Message-ID: <87muh52aa3.fsf@linaro.org>
+ (envelope-from <chen.zhang@intel.com>) id 1hpdD8-0000Yq-JM
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:38:59 -0400
+Received: from mga11.intel.com ([192.55.52.93]:60646)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1hpdD8-0000Wm-BY
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 14:38:58 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2019 11:38:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,296,1559545200"; d="scan'208";a="163255112"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by orsmga008.jf.intel.com with ESMTP; 22 Jul 2019 11:38:54 -0700
+Received: from fmsmsx116.amr.corp.intel.com (10.18.116.20) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 22 Jul 2019 11:38:53 -0700
+Received: from shsmsx104.ccr.corp.intel.com (10.239.4.70) by
+ fmsmsx116.amr.corp.intel.com (10.18.116.20) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 22 Jul 2019 11:38:53 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.3]) by
+ SHSMSX104.ccr.corp.intel.com ([169.254.5.110]) with mapi id 14.03.0439.000;
+ Tue, 23 Jul 2019 02:38:51 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Thread-Topic: [PATCH V5] net/colo-compare.c: Fix memory leak and code style
+ issue.
+Thread-Index: AQHVQLJBW57R7XLKhU2qIxRloMr28KbWXTyAgACY8UA=
+Date: Mon, 22 Jul 2019 18:38:51 +0000
+Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D78061D67D3@shsmsx102.ccr.corp.intel.com>
+References: <20190722171828.11322-1-chen.zhang@intel.com>
+ <CAFEAcA8==zAupCx=3sZt2tNUQH4OKza7FGhkwuCyxHpguTMGTA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8==zAupCx=3sZt2tNUQH4OKza7FGhkwuCyxHpguTMGTA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNzA0MzAzZWUtZTVmZS00NDIwLWI0MWEtYmExZjcxNjVmZTkzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZlJiOVdHVlo3elozeUxBczAyYnNZQ3pCZmNreVRFYkpcLzR4NGZETjByYzlCOUJyWDA3NTBaXC9PSXplREhiNUtpIn0=
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH  v2 00/23] testing/next for 4.1-rc2 (win,
- travis, iotests)
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH V5] net/colo-compare.c: Fix memory leak and
+ code style issue.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,20 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> Hi,
->
-> This is my current queue for testing/next which I shall submit a PR
-> for on Tuesday in time for rc2. This update adds:
-
-Ping, any more comments or reviews before I tag up a PR?
-
---
-Alex Benn=C3=A9e
+DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxs
+IFttYWlsdG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUdWVzZGF5LCBKdWx5
+IDIzLCAyMDE5IDE6MjUgQU0NCj4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNv
+bT4NCj4gQ2M6IExpIFpoaWppYW4gPGxpemhpamlhbkBjbi5mdWppdHN1LmNvbT47IEphc29uIFdh
+bmcgPGphc293YW5nQHJlZGhhdC5jb20+Ow0KPiBxZW11LWRldiA8cWVtdS1kZXZlbEBub25nbnUu
+b3JnPjsgWmhhbmcgQ2hlbiA8emhhbmdja2lkQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQ
+QVRDSCBWNV0gbmV0L2NvbG8tY29tcGFyZS5jOiBGaXggbWVtb3J5IGxlYWsgYW5kIGNvZGUgc3R5
+bGUNCj4gaXNzdWUuDQo+IA0KPiBPbiBNb24sIDIyIEp1bCAyMDE5IGF0IDE4OjIzLCBaaGFuZyBD
+aGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBaaGFuZyBD
+aGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gPg0KPiA+IFRoaXMgcGF0Y2ggdG8gZml4IHRo
+ZSBvcmlnaW4gImNoYXIgKmRhdGEiIG1lbW9yeSBsZWFrLCBjb2RlIHN0eWxlDQo+ID4gaXNzdWUg
+YW5kIGFkZCBuZWNlc3NhcnkgY2hlY2sgaGVyZS4NCj4gPiBSZXBvcnRlZC1ieTogQ292ZXJpdHkg
+KENJRCAxNDAyNzg1KQ0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWmhhbmcgQ2hlbiA8Y2hlbi56
+aGFuZ0BpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gIG5ldC9jb2xvLWNvbXBhcmUuYyB8IDI3ICsr
+KysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0
+aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gDQo+IFJldmlld2VkLWJ5OiBQZXRlciBNYXlkZWxs
+IDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0aWVu
+Y2UgaW4gc2VuZGluZyBvdXQgYWxsIHRoZXNlIHZlcnNpb25zIGFzIHdlIHdvcmtlZA0KPiB0aHJv
+dWdoIHRoZSBjb2RlIHJldmlldyBwcm9jZXNzLg0KDQpUaGFuayB5b3UgdG9vfg0KTWF5YmUgeW91
+IG9yIEphc29uIGNhbiBwaWNrIHVwIHRoaXMgcGF0Y2g/DQoNClRoYW5rcw0KWmhhbmcgQ2hlbg0K
+DQo+IA0KPiB0aGFua3MNCj4gLS0gUE1NDQo=
 
