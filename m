@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21CA70057
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 14:58:57 +0200 (CEST)
-Received: from localhost ([::1]:33290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B9B700B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 15:15:19 +0200 (CEST)
+Received: from localhost ([::1]:33410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpXu4-0003Ub-Vl
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 08:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43200)
+	id 1hpY9t-0000Qk-ED
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 09:15:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <thuth@redhat.com>) id 1hpXtq-00031u-Iq
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:58:43 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hpY9B-0007Nx-6U
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hpXtp-00045P-M8
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 08:58:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54474)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hpXtl-0003yg-Ax; Mon, 22 Jul 2019 08:58:37 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 60EA28E233;
- Mon, 22 Jul 2019 12:58:36 +0000 (UTC)
-Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29CB65D72E;
- Mon, 22 Jul 2019 12:58:35 +0000 (UTC)
-To: Qemu-block <qemu-block@nongnu.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
- 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
-Organization: Red Hat
-Message-ID: <c293e99d-331a-f3aa-eecb-d562554350f9@redhat.com>
-Date: Mon, 22 Jul 2019 14:58:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <peter.maydell@linaro.org>) id 1hpY9A-00034K-2K
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:33 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44516)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hpY99-00033H-RQ
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 09:14:32 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p17so39341871wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 06:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFDAqPQkZPRu7uzWO2+Dyf2rR9xqez/uX3of0Oc36D4=;
+ b=kSO2Xwhf6bcEwaJ/WUWedgC1YRUnVIwTC49BVYN60DnEeYHZ4iMX92biHgevt71O4m
+ 2Xd8wyFnPHWiD/EeM+dn2v3ztblQbjHwsf7ABex6iblFVrkRlh3kJ0Qs7KyAJI7cXjWH
+ /WOyl/ALRP0T6W0j3E4X1bpRCnJ0nUtnEbr/QkBpaEYFqYOml2EmiFYJJAWTd+XbYQl2
+ mCJne2FAYdVmuwlMaJvU2/YNpcPXWxQJN/zCqA44yEBod0vomOsES8eSrfgfaczIgnGC
+ bY5trNVWnptg4Yk42sR6o9RbxQKw+f2CsYkoq6cyCyT7aplg6TPOSGP/Hc9ADfWry3Y0
+ eoRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JFDAqPQkZPRu7uzWO2+Dyf2rR9xqez/uX3of0Oc36D4=;
+ b=VuP+LEw8hcSQ/esT2G4U4vfzMWmihDWS6uT8famFhk8msimTbjrH/wzkih6u1vu6nN
+ 36u/VwgNrdPOqSC3FUVIC/ultzimK0uX/0gA8gxVzbhzFVaDc9zcQ4uJdJMkkWBdwvXi
+ QHp5cy4SPBpbpBWzzQpQsEhCOWicRHtUibXrk4G8OuA2e5098K3SLBjq4cgduRIUMc2J
+ IScAYUI2vrsAbG8HgRd2ExfHTNQMffQb9R0J81A6RP0Np8I89irn3XeBnl6vaaLPBqI7
+ BUaCFk9JxOU2jR0UJ4CrNdeoP14TVphi0SCM9Ee+YuhebXClGvZ+jY1XzErnaRutFJAY
+ DT5Q==
+X-Gm-Message-State: APjAAAWMSqaH3hEU6Vkip1rmRZVTavTjjD3sMG6BnctAA6/URuHV/bUY
+ DWzjD4H4Vp1MI0BoYRPBaiu7uKnK8VcPhg==
+X-Google-Smtp-Source: APXvYqxAjphPrLvnZEXOV5iFs2ydeGYAu5sgpyubaErFeDU0Xe0ZaIAstBGmprY1DtGz7m8T7JyOXg==
+X-Received: by 2002:adf:de8b:: with SMTP id w11mr75206447wrl.134.1563801269988; 
+ Mon, 22 Jul 2019 06:14:29 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id f12sm42207217wrg.5.2019.07.22.06.14.29
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 22 Jul 2019 06:14:29 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon, 22 Jul 2019 14:14:22 +0100
+Message-Id: <20190722131427.2669-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 22 Jul 2019 12:58:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] qemu-iotest 059 fails with vmdk
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 0/5] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,33 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Sam Eiderman <shmuel.eiderman@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not sure if it has been reported before, but test 059 currently fails:
+target-arm queue for rc2. This has 3 Arm related bug fixes,
+and a couple of non-arm patches which don't have an obviously
+better route into the tree.
 
-059      fail       [14:55:21] [14:55:26]                    output
-mismatch (see 059.out.bad)
---- /home/thuth/devel/qemu/tests/qemu-iotests/059.out	2019-07-19
-10:19:18.000000000 +0200
-+++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/059.out.bad	2019-07-22
-14:55:26.000000000 +0200
-@@ -27,7 +27,7 @@
- image: TEST_DIR/t.vmdk
- file format: vmdk
- virtual size: 0.977 TiB (1073741824000 bytes)
--disk size: 16 KiB
-+disk size: 517 KiB
- Format specific information:
-     cid: XXXXXXXX
-     parent cid: XXXXXXXX
-Failures: 059
-Failed 1 of 1 tests
+thanks
+-- PMM
 
-... I think this was working fine for me a couple of weeks ago, so I
-assume this is a rather new bug?
+The following changes since commit b9e02bb3f98174209dbd5c96858e65a31723221b:
 
- Thomas
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2019-07-19' into staging (2019-07-22 10:11:28 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190722
+
+for you to fetch changes up to ddb45afbfbc639365d6c934e4e29f6de5e5e2a0e:
+
+  contrib/elf2dmp: Build download.o with CURL_CFLAGS (2019-07-22 14:07:39 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * target/arm: Add missing break statement for Hypervisor Trap Exception
+   (fixes handling of SMC insn taken to AArch32 Hyp mode via HCR.TSC)
+ * hw/arm/fsl-imx6ul.c: Remove dead SMP-related code
+ * target/arm: Limit ID register assertions to TCG
+ * configure: Clarify URL to source downloads
+ * contrib/elf2dmp: Build download.o with CURL_CFLAGS
+
+----------------------------------------------------------------
+Peter Maydell (4):
+      hw/arm/fsl-imx6ul.c: Remove dead SMP-related code
+      target/arm: Limit ID register assertions to TCG
+      configure: Clarify URL to source downloads
+      contrib/elf2dmp: Build download.o with CURL_CFLAGS
+
+Philippe Mathieu-Daudé (1):
+      target/arm: Add missing break statement for Hypervisor Trap Exception
+
+ configure                     |  2 +-
+ Makefile                      |  1 -
+ contrib/elf2dmp/Makefile.objs |  3 +++
+ include/hw/arm/fsl-imx6ul.h   |  2 +-
+ hw/arm/fsl-imx6ul.c           | 62 +++++++++++++------------------------------
+ hw/arm/mcimx6ul-evk.c         |  2 +-
+ target/arm/cpu.c              |  7 +++--
+ target/arm/helper.c           |  1 +
+ 8 files changed, 30 insertions(+), 50 deletions(-)
 
