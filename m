@@ -2,44 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21ACC70297
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 16:44:57 +0200 (CEST)
-Received: from localhost ([::1]:34223 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A4C70292
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 16:44:22 +0200 (CEST)
+Received: from localhost ([::1]:34210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpZYd-00020D-GG
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 10:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40235)
+	id 1hpZY5-0000MD-L6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 10:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY8-0000my-Kw
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:25 -0400
+ (envelope-from <armbru@redhat.com>) id 1hpZXs-0008NP-Hb
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY7-0000h5-Fm
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:24 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:35074 helo=mail.rt-rk.com)
+ (envelope-from <armbru@redhat.com>) id 1hpZXr-0000Vs-FL
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49354)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hpZY7-0007wW-52
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:23 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 24A881A2053;
- Mon, 22 Jul 2019 16:43:13 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 03CBC1A20B7;
- Mon, 22 Jul 2019 16:43:13 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 16:43:04 +0200
-Message-Id: <1563806584-25975-3-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1563806584-25975-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1563806584-25975-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.1 v5 2/2] target/mips: Fix emulation of
- MSA pack instructions on big endian hosts
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hpZXr-0000VO-AH
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 999784627A;
+ Mon, 22 Jul 2019 14:44:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-244.ams2.redhat.com
+ [10.36.117.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BA3E5C221;
+ Mon, 22 Jul 2019 14:43:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 09A8D113865F; Mon, 22 Jul 2019 16:43:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <87y30t43cp.fsf@dusky.pond.sub.org>
+ <316ea157-4c44-5d75-e4f4-7977d2e13345@redhat.com>
+Date: Mon, 22 Jul 2019 16:43:57 +0200
+In-Reply-To: <316ea157-4c44-5d75-e4f4-7977d2e13345@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Sat, 20 Jul 2019 11:42:07
+ +0200")
+Message-ID: <87d0i2yvrm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Mon, 22 Jul 2019 14:44:06 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Use of TARGET_FMT_plx in hw/tpm/trace-events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,157 +62,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, sw@weilnetz.de, amarkovic@wavecomp.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Fix emulation of MSA pack instructions on big endian hosts.
+> On 7/20/19 8:39 AM, Markus Armbruster wrote:
+>> Consider hw/tpm/trace-events
+>>=20
+>>     # tpm_crb.c
+>>     tpm_crb_mmio_read(uint64_t addr, unsigned size, uint32_t val) "CRB r=
+ead 0x" TARGET_FMT_plx " len:%u val: 0x%" PRIx32
+>>     tpm_crb_mmio_write(uint64_t addr, unsigned size, uint32_t val) "CRB =
+write 0x" TARGET_FMT_plx " len:%u val: 0x%" PRIx32
+>>=20
+>> Format is TARGET_FMT_plx formats a hwaddr, but the parameter type is
+>> uint64_t.  They happen to be the same.  Is this kosher?
+>>=20
+>
+> Missed when converting from DPRINTF() to trace-events:
+> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dec427498;hp=3D8cb34=
+0c613
+>
+> PRIx64 certainly makes sense here.
+>
+> Since it is the single use, once updated we can remote this hunk from
+> scripts/tracetool/format/log_stap.py:
+>
+>     if macro =3D=3D "TARGET_FMT_plx":
+>         return "%016x"
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
----
- target/mips/msa_helper.c | 74 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
+Good point, thanks!
 
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index a383c40..a5a8657 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -2113,6 +2113,24 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->b[8]  = pws->b[9];
-+        pwd->b[10] = pws->b[13];
-+        pwd->b[12] = pws->b[1];
-+        pwd->b[14] = pws->b[5];
-+        pwd->b[0]  = pwt->b[9];
-+        pwd->b[2]  = pwt->b[13];
-+        pwd->b[4]  = pwt->b[1];
-+        pwd->b[6]  = pwt->b[5];
-+        pwd->b[9]  = pws->b[11];
-+        pwd->b[13] = pws->b[3];
-+        pwd->b[1]  = pwt->b[11];
-+        pwd->b[5]  = pwt->b[3];
-+        pwd->b[11] = pws->b[15];
-+        pwd->b[3]  = pwt->b[15];
-+        pwd->b[15] = pws->b[7];
-+        pwd->b[7]  = pwt->b[7];
-+#else
-         pwd->b[15] = pws->b[14];
-         pwd->b[13] = pws->b[10];
-         pwd->b[11] = pws->b[6];
-@@ -2129,8 +2147,19 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->b[4]  = pwt->b[8];
-         pwd->b[8]  = pws->b[0];
-         pwd->b[0]  = pwt->b[0];
-+#endif
-         break;
-     case DF_HALF:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->h[4] = pws->h[5];
-+        pwd->h[6] = pws->h[1];
-+        pwd->h[0] = pwt->h[5];
-+        pwd->h[2] = pwt->h[1];
-+        pwd->h[5] = pws->h[7];
-+        pwd->h[1] = pwt->h[7];
-+        pwd->h[7] = pws->h[3];
-+        pwd->h[3] = pwt->h[3];
-+#else
-         pwd->h[7] = pws->h[6];
-         pwd->h[5] = pws->h[2];
-         pwd->h[3] = pwt->h[6];
-@@ -2139,12 +2168,20 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->h[2] = pwt->h[4];
-         pwd->h[4] = pws->h[0];
-         pwd->h[0] = pwt->h[0];
-+#endif
-         break;
-     case DF_WORD:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->w[2] = pws->w[3];
-+        pwd->w[0] = pwt->w[3];
-+        pwd->w[3] = pws->w[1];
-+        pwd->w[1] = pwt->w[1];
-+#else
-         pwd->w[3] = pws->w[2];
-         pwd->w[1] = pwt->w[2];
-         pwd->w[2] = pws->w[0];
-         pwd->w[0] = pwt->w[0];
-+#endif
-         break;
-     case DF_DOUBLE:
-         pwd->d[1] = pws->d[0];
-@@ -2164,6 +2201,24 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->b[7]  = pwt->b[6];
-+        pwd->b[5]  = pwt->b[2];
-+        pwd->b[3]  = pwt->b[14];
-+        pwd->b[1]  = pwt->b[10];
-+        pwd->b[15] = pws->b[6];
-+        pwd->b[13] = pws->b[2];
-+        pwd->b[11] = pws->b[14];
-+        pwd->b[9]  = pws->b[10];
-+        pwd->b[6]  = pwt->b[4];
-+        pwd->b[2]  = pwt->b[12];
-+        pwd->b[14] = pws->b[4];
-+        pwd->b[10] = pws->b[12];
-+        pwd->b[4]  = pwt->b[0];
-+        pwd->b[12] = pws->b[0];
-+        pwd->b[0]  = pwt->b[8];
-+        pwd->b[8]  = pws->b[8];
-+#else
-         pwd->b[0]  = pwt->b[1];
-         pwd->b[2]  = pwt->b[5];
-         pwd->b[4]  = pwt->b[9];
-@@ -2180,8 +2235,19 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->b[11] = pws->b[7];
-         pwd->b[7]  = pwt->b[15];
-         pwd->b[15] = pws->b[15];
-+#endif
-         break;
-     case DF_HALF:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->h[3] = pwt->h[2];
-+        pwd->h[1] = pwt->h[6];
-+        pwd->h[7] = pws->h[2];
-+        pwd->h[5] = pws->h[6];
-+        pwd->h[2] = pwt->h[0];
-+        pwd->h[6] = pws->h[0];
-+        pwd->h[0] = pwt->h[4];
-+        pwd->h[4] = pws->h[4];
-+#else
-         pwd->h[0] = pwt->h[1];
-         pwd->h[2] = pwt->h[5];
-         pwd->h[4] = pws->h[1];
-@@ -2190,12 +2256,20 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->h[5] = pws->h[3];
-         pwd->h[3] = pwt->h[7];
-         pwd->h[7] = pws->h[7];
-+#endif
-         break;
-     case DF_WORD:
-+#if defined(HOST_WORDS_BIGENDIAN)
-+        pwd->w[1] = pwt->w[0];
-+        pwd->w[3] = pws->w[0];
-+        pwd->w[0] = pwt->w[2];
-+        pwd->w[2] = pws->w[2];
-+#else
-         pwd->w[0] = pwt->w[1];
-         pwd->w[2] = pws->w[1];
-         pwd->w[1] = pwt->w[3];
-         pwd->w[3] = pws->w[3];
-+#endif
-         break;
-     case DF_DOUBLE:
-         pwd->d[0] = pwt->d[1];
--- 
-2.7.4
-
+[...]
 
