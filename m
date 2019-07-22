@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF7F6FE2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:57:35 +0200 (CEST)
-Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C836E6FE33
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:57:48 +0200 (CEST)
+Received: from localhost ([::1]:60418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpW0c-0002eX-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
+	id 1hpW0p-0003Qg-Hx
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW09-0001XD-7n
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:06 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW0A-0001XI-6Y
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW07-0007Sw-R1
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:05 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:55471)
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW08-0007UC-NU
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:55627)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpW06-0007MI-Aw; Mon, 22 Jul 2019 06:57:03 -0400
+ id 1hpW06-0007Mq-Ai; Mon, 22 Jul 2019 06:57:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45sdpf6YdYz9sBF; Mon, 22 Jul 2019 20:56:58 +1000 (AEST)
+ id 45sdpg0mBnz9sDQ; Mon, 22 Jul 2019 20:56:58 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563793018;
- bh=gLx+WM88l15EyGyPTo+NgYD0U1Jz2gZ2dZW0I+1ZJfE=;
+ d=gibson.dropbear.id.au; s=201602; t=1563793019;
+ bh=RxvRnDstaFgz5WELluwRQvpPMCDIp+Tsw2zH5hmOlNU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lUiLQAzECII+NRbY0gtlgWn9AIjnDbVRRvSGuBoUrAZVUAn0y6l5RC+NmN+FwVcnF
- qolTz/C4ehzBJue1vlM92PydCgA74sISY7uHqdYfxLFAQnKU6t3BTTaLfv+FiL9b6p
- oSS0y5sKVO1Ndb3CnfSZUOLgqVTVHCv66Zu0mhVo=
-Date: Mon, 22 Jul 2019 18:27:06 +1000
+ b=hK10radaWnN4c4iGAVuXX8bC29P1h98UqyAnUxjhx4JjbBNEiq65EBMyRe436jTJN
+ 5s8rBZGaDvBIE+1Eb0cVbMgq8BRLQ1PxVs3VW5J2tAOhtkm6TxIzcJmLuDDHPl5i7r
+ FwgOJuNXt+J76yP/FZX1NPQ2SLjYxWf2efcza2Jo=
+Date: Mon, 22 Jul 2019 18:29:11 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190722082706.GA25073@umbus.fritz.box>
+Message-ID: <20190722082911.GB25073@umbus.fritz.box>
 References: <20190718115420.19919-1-clg@kaod.org>
- <20190718115420.19919-8-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+ protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
 Content-Disposition: inline
-In-Reply-To: <20190718115420.19919-8-clg@kaod.org>
+In-Reply-To: <20190718115420.19919-1-clg@kaod.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 07/17] ppc/xive: Provide silent
- escalation support
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v2 00/17] ppc/pnv: add XIVE support for KVM
+ guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,69 +60,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---OXfL5xGRrasGEqWY
+--E39vaYmALEf/7YXx
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 18, 2019 at 01:54:10PM +0200, C=E9dric Le Goater wrote:
-> When the 's' bit is set the escalation is said to be 'silent' or
-> 'silent/gather'. In such configuration, the notification sequence is
-> skipped and only the escalation sequence is performed. This is used to
-> configure all the EQs of a vCPU to escalate on a single EQ which will
-> then target the hypervisor.
+On Thu, Jul 18, 2019 at 01:54:03PM +0200, C=E9dric Le Goater wrote:
+> Hello,
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  include/hw/ppc/xive_regs.h | 2 ++
->  hw/intc/xive.c             | 8 ++++++++
->  2 files changed, 10 insertions(+)
+> The QEMU PowerNV machine emulates a baremetal OpenPOWER system and
+> acts as an hypervisor (L0). Supporting emulation of KVM to run guests
+> (L1) requires a few more extensions, among which guest support for the
+> XIVE interrupt controller on POWER9 processor.
 >=20
-> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-> index 5d02ccfeff16..69af326ebf2c 100644
-> --- a/include/hw/ppc/xive_regs.h
-> +++ b/include/hw/ppc/xive_regs.h
-> @@ -209,6 +209,8 @@ typedef struct XiveEND {
->  #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
-ATE_CTL)
->  #define xive_end_is_uncond_escalation(end)              \
->      (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
-> +#define xive_end_is_silent_escalation(end)              \
-> +    (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
-> =20
->  static inline uint64_t xive_end_qaddr(XiveEND *end)
->  {
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index c2e7e2d4c9a9..8ea97ac231a4 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -1463,6 +1463,13 @@ static void xive_router_end_notify(XiveRouter *xrt=
-r, uint8_t end_blk,
->          xive_router_write_end(xrtr, end_blk, end_idx, &end, 1);
->      }
-> =20
-> +    /*
-> +     * When the END is silent, we skip the notification part.
-> +     */
-> +    if (xive_end_is_silent_escalation(&end)) {
-> +        goto do_escalation;
+> The following changes include some fixes for the PowerNV machine and
+> provide support for XIVE escalations and interrupt resend. This
+> mechanism is used by XIVE to notify the hypervisor that a vCPU is not
+> dispatched on a HW thread. Tested on a QEMU PowerNV machine and a
+> simple QEMU pseries guest doing network on a local bridge.
+>=20
+> The XIVE interrupt controller offers a way to increase the XIVE
+> resources per chip by configuring multiple XIVE blocks on a chip. This
+> is not currently supported by the model. However, some configurations,
+> such as OPAL/skiboot, use one block-per-chip configuration with some
+> optimizations. One of them is to override the hardwired chip ID by the
+> block id in the PowerBUS operations and for CAM compares. This
+> patchset improves the support for this setup. Tested with 4 chips.
+>=20
+> A series from Suraj adding guest support in the Radix MMU model of the
+> QEMU PowerNV machine is still required and will be send later. The
+> whole patchset can be found under :
+>=20
+>   https://github.com/legoater/qemu/tree/powernv-4.1
 
-I don't love this use of goto, but I'll take it for now.
+I've applied 1-8 to ppc-for-4.2, still looking at the rest.
 
-> +    }
-> +
->      /*
->       * The W7 format depends on the F bit in W6. It defines the type
->       * of the notification :
-> @@ -1542,6 +1549,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
-, uint8_t end_blk,
->           */
->      }
-> =20
-> +do_escalation:
->      /*
->       * If activated, escalate notification using the ESe PQ bits and
->       * the EAS in w4-5
+>=20
+> Thanks,
+>=20
+> C.
+>=20
+> Changes since v1:
+>=20
+>  - minor extra fixes=20
+>  - split the escalation support in different patches
+>  - kept the XiveRouter type for XiveTCTX back pointer (will address
+>    this in P10)
+>  - removed pnv_xive_vst_size(). Really broken on indirect tables.
+>  - improved the dump of the NVT table
+>  - introduce pnv_xive_get_block_id()
+>=20
+>=20
+> C=E9dric Le Goater (17):
+>   ppc/xive: use an abstract type for XiveNotifier
+>   ppc/pnv: add more dummy XSCOM addresses for the P9 CAPP
+>   ppc/xive: Implement TM_PULL_OS_CTX special command
+>   ppc/xive: Provide backlog support
+>   ppc/xive: Provide escalation support
+>   ppc/xive: Provide unconditional escalation support
+>   ppc/xive: Provide silent escalation support
+>   ppc/xive: Improve 'info pic' support
+>   ppc/xive: Extend XiveTCTX with a XiveRouter pointer
+>   ppc/xive: Introduce xive_tctx_ipb_update()
+>   ppc/xive: Synthesize interrupt from the saved IPB in the NVT
+>   ppc/pnv: Remove pnv_xive_vst_size() routine
+>   ppc/pnv: Dump the XIVE NVT table
+>   ppc/pnv: Skip empty slots of the XIVE NVT table
+>   ppc/pnv: Grab the XiveRouter object from XiveTCTX in
+>     pnv_xive_get_tctx()
+>   ppc/pnv: Introduce a pnv_xive_get_block_id() interface to XiveRouter
+>   ppc/pnv: quiesce some XIVE errors
+>=20
+>  include/hw/ppc/pnv_xive.h  |   3 -
+>  include/hw/ppc/xive.h      |  21 +--
+>  include/hw/ppc/xive_regs.h |  34 +++++
+>  hw/intc/pnv_xive.c         | 210 +++++++++++++------------
+>  hw/intc/spapr_xive.c       |   7 +-
+>  hw/intc/xive.c             | 304 ++++++++++++++++++++++++++++++-------
+>  hw/ppc/pnv_xscom.c         |  20 +++
+>  7 files changed, 428 insertions(+), 171 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -132,25 +147,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---OXfL5xGRrasGEqWY
+--E39vaYmALEf/7YXx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01c1cACgkQbDjKyiDZ
-s5ImrRAAmZODugaTihvRWBC02Uy/PkKAUOIHcAv/bfctqATKakSj34OJt3HUInXj
-c4p+F+mYuAS40yR2pz7tui6k/5b1RV3NI6kGqFrCxtllC4iAovgbEaMMuQ9yakpu
-iNwvI5WrcihLpSZWha3TxUtsNZEp3hhGsRVcdNx0wzx5MzznF/3rDxfOzpAM4B35
-oiViLKKmORgYDaWBiWvTmKQzOMx90xqD3OFRe7ozKK7ypH7O7siPuz48o0E9n3KO
-ocLOhEvGCoJi5bAlgCOl5x2lpVxRc2Rozt9RIqHAjVyFmuCDsLk0QGXOR63GXisP
-N4EjNjBgbzzuKrupy525qGinQONoGEC7nrQfKUZI8USnHOcp0XcOxnriPqCB8AMt
-zMCBzh2tXaIWslSWNl4cpN98nTi4k4xPlztBcJ2yDYGxLccRr0kQN1llIm/7FEQR
-Akq9m1b60JxiWi5p3vpC5t0Dg4pKZYkg7TqrSSzW/dV6DRcpGJmmIqO8OxxpMEjD
-hsQUa8CEMGdY2jqRe7g37P/z5ZtVgUQ4C9gnkqFFgvv6CwbHNlISUICT+5rFWgWf
-MD9VF8CW3QNOfJVyLrkeQfUzeQm2u2KPFKQGcLrGjufzUQokyCjsgDFROWX2k0HQ
-iRtQJ1dnM76k0xzHMGY49vAchtsJcKlKENNFHBA4yfKMreBMIVQ=
-=yNoL
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01c9cACgkQbDjKyiDZ
+s5J0fhAAwZiFuJrhf4BK9cifeoQrFCO8DjVOb+nr0heFJnkHPoUeIQVhaZZcWfak
+5FqFrYhYj4zxerGqURfcN9cvVD0Ll06VqINaAAxt6UdkZmuTgv+gRJQiMLO1cWa0
+mRQlvGueGIbPFwHhxn9nFqbAR56oxONUiZwJQq1XE+Mm1/OIw1sEaVGoXMcxh1WK
+ut473dip8oDWIeWjRtv/eeyn8RvbKYbqY7OY36wgMEbMbYUGrSHob5U7+x11RSat
+CN6FldtszLriq4Gkco/iHzzmq5UxEEfEVfLLGdRxwSfE26nG0C2mtVmiONEKet59
+Bdal50Y8tmok/qscOrO3WtBatzRappTlrIiMzNcd9tLwGwSzp5wmHP3N/xGnL/4b
+TaoGOXaWGD+XvWQBjNputAaqxv5d2TdgqLEhnIXwf6MSTXs9lDnlc6X2rtANAB6K
+qdOxiStRTBdPgGAXWknJ6WsXk7ABwpbP6J9Lrt9/pjEffEjjOUGgHVc1uk06jj4J
+XEF8ciM4QFeNEwOsaMwiMuYcuAa/3QIu5W5zAWRJ6T149taNDnrFwvwytEYMAQvm
+T/x7/uZbW3ZA91g0PzexdR5gPDXv/eiGIIqZNYGv62/Kq4Id8sX7UTyN2303UKtW
+xjf/a6QdfxY7ip7OsdkbbEZWeo2yHl2cjewom902RTmY0NtRbws=
+=TJX2
 -----END PGP SIGNATURE-----
 
---OXfL5xGRrasGEqWY--
+--E39vaYmALEf/7YXx--
 
