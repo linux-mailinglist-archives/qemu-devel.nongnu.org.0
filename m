@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9627037B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:18:55 +0200 (CEST)
-Received: from localhost ([::1]:34468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F66670379
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 17:18:52 +0200 (CEST)
+Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpa5W-00042X-Br
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:18:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46760)
+	id 1hpa5S-0003ty-TM
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 11:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46765)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hpa4o-0002hs-CS
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4o-0002hv-FY
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hpa4n-00022y-8z
+ (envelope-from <peter.maydell@linaro.org>) id 1hpa4n-00023G-AT
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36055)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35935)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hpa4n-00021j-1K
+ id 1hpa4n-00022A-1L
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 11:18:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g67so31624865wme.1
+Received: by mail-wr1-x442.google.com with SMTP id n4so39913882wrs.3
  for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 08:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7NuZl7Nb2dd8ZP9m/KLdrWknEwI2f29c5aTVGOoUdS0=;
- b=v846qUMWCBksoBHVeIdglUUh1NWQtNQ1JPjcWHdknQ44a8oLT9U1IxE5RI3qGPUUS5
- fovw3cYbzeMQ97TMxFDDkJpnSvO7vG6AJgfbXy38mc+gE+iooRcbEo7lrn3/MZc+EkFu
- f+5YhY47qNiZlxWupvzdGFqoQkGn1wOtECS/F88gphpemzk/vb334SwrEL9Lxj+JZQew
- TrQhwOty43CCHw10icp/JSdb6MCfDmvTw1zypgQE6OLX9Oit6qfRDvIgNWKGdgnmRip1
- n2kJwGYmVPmwyf1ZTmIZbZsHM0ZoFK5NSvXJ9y4FFB5X76wgd6YrpA4Zhh+5xnIEE7Km
- gMfA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OYBMZusYqESde0qHUOjc4d/ttVAW59Cu3YSqerf0Vp0=;
+ b=BYAkNYV/IKOanaijq53MZGBHOwjZxQ+QrPknvcXKF1JZrvOoF3xLjGRjSv+AOSGWWr
+ 3wLEJvLq83zDi3Tr8DYh0kP6legijgYfAJ5pic8mCSgAodAS6hbCPfYrbOLQihe6mUf6
+ MIShX/Qg7GRlEYWKZt+LLOugBAxF25tAVs5nrVUg8VOFth7YlXqYduETHvOREtxDPe0P
+ n4lqU/hFR4Y/kp6XQDjnOjjegGATmq7/Hokrx9zDtu8zkY6/zaSbsTU9O7BHi+omt/gU
+ 9ntK94Dc+SyGsCmyvxiGABsFDTE5cD8LNcWcqXUGiUH06LI2jlKf6BetGmbtRTqIWNXZ
+ 7ToA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7NuZl7Nb2dd8ZP9m/KLdrWknEwI2f29c5aTVGOoUdS0=;
- b=fTyalCPgL3NcTPzoQdEVVVRn2xSr4PeJt+e7XjseEizxkgQGGF0K+JnwDsut7My8Du
- VB4GrBwq370LP1+9hN+kRLZF1wG0ua0yPdizQXppiB0JP5IO1Zikw3spT1WOA/usIuIZ
- rpnP91XopEdx597k8NZIXYeQY/+Sl1wlthGr/HTkuK9HgfP84A6E/vJVVyCjZrTDGlFH
- Kkaqu7yV3MgQeYuADnG5iRhPuFEUUZn5hKZXQRWwKV93dpBRhPkvKCsQeYmGE4E+V3gS
- CFjM/A3LM8QARd8dgsCJrdXYUCVNWhH9CwJWulGY+tGydupn/vvPGlg4DhkW5I7/+tVE
- hWzA==
-X-Gm-Message-State: APjAAAWOklzZwzm28ygivBlosTHU9OgTM0KQOTUUpStHw+D9mTzQUasH
- lzNONdYDwehJiI14a0c78Fqheg==
-X-Google-Smtp-Source: APXvYqyCbm/Xdz3t0kY55iRE/S2Mc6DA33PFfvq+TfywB6WQpEp4cmfrrQ+IOz+DNGPCPV74gWB43g==
-X-Received: by 2002:a1c:cfc7:: with SMTP id f190mr61139905wmg.85.1563808686810; 
- Mon, 22 Jul 2019 08:18:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OYBMZusYqESde0qHUOjc4d/ttVAW59Cu3YSqerf0Vp0=;
+ b=iBTuvid7wHSfczpIKFQbsYUJhHTftDllbkFBQUECRPDD3g/nv0p62+EJUKbQzQTwav
+ qW1a5ixFiSw2+H/CoMkeWVnWEqMlh0szbx1r3SFFbCBtg39ZFvMtB1GPKXJB4aKjmf/3
+ UP7ifk9Imos0jkzp0k64T/SMnNSWiI1ck594yiJX8cJ1jIAQ+WDLYUWiiQ93W9sLVKHB
+ Hg0Fns4eahZmtTrutq/5kgEDJMfEtW13BGwRw2QXk5pDUR/Gecf3Cs22hWGQDJP2SjxY
+ ncEuARFCiHqbE0RJtg/uxerX/GHuUnTPhxkXbTB6fQTVzyR5FsUR96tRAcIRghQPo8DZ
+ SIMw==
+X-Gm-Message-State: APjAAAVbuSW/ZpObmhNQaaxSwZ5pqyxW5/JdOMB3Ut9Qa++lfqb5yh9l
+ Rw5AglC/Js6oP5B5RqVFvBR3SA==
+X-Google-Smtp-Source: APXvYqzI7GuB3dzapSKMxvcq6p07C0pinijWXYUGOuzarnssPvIEHv05EXyBFkdFeu/hct0qtVoP6Q==
+X-Received: by 2002:adf:dd51:: with SMTP id u17mr72073092wrm.218.1563808687889; 
+ Mon, 22 Jul 2019 08:18:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s15sm23163990wrw.21.2019.07.22.08.18.05
+ by smtp.gmail.com with ESMTPSA id s15sm23163990wrw.21.2019.07.22.08.18.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 08:18:06 -0700 (PDT)
+ Mon, 22 Jul 2019 08:18:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 16:18:02 +0100
-Message-Id: <20190722151804.25467-1-peter.maydell@linaro.org>
+Date: Mon, 22 Jul 2019 16:18:03 +0100
+Message-Id: <20190722151804.25467-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190722151804.25467-1-peter.maydell@linaro.org>
+References: <20190722151804.25467-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH for-4.1? 0/2] arm: further improve initrd
- positioning
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH for-4.1? 1/2] hw/arm/boot: Rename elf_{low,
+ high}_addr to image_{low, high}_addr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,50 +84,63 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit e6b2b20d9735d4ef we made the boot loader code try to avoid
-putting the initrd on top of the kernel.  However the expression used
-to calculate the start of the initrd:
+Rename the elf_low_addr and elf_high_addr variables to image_low_addr
+and image_high_addr -- in the next commit we will extend them to
+be set for other kinds of image file and not just ELF files.
 
-    info->initrd_start = info->loader_start +
-        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/boot.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-incorrectly uses 'kernel_size' as the offset within RAM of the
-highest address to avoid.  This is incorrect because the kernel
-doesn't start at address 0, but slightly higher than that.  This
-means that we can still incorrectly end up overlaying the initrd on
-the kernel in some cases, for example:
-
-* The kernel's image_size is 0x0a7a8000
-* The kernel was loaded at   0x40080000
-* The end of the kernel is   0x4A828000
-* The DTB was loaded at      0x4a800000
-
-To get this right we need to track the actual highest address used
-by the kernel and use that rather than kernel_size. We already
-trace the low_addr and high_addr for ELF images; set them
-also for the various other image types we support, and then use
-high_addr as the lowest allowed address for the initrd.
-
-Patch 1 just does a preliminary variable rename; patch 2 is the meat.
-
-Only very lightly tested...
-
-Marked as 'maybe for 4.1' because it is a bug fix and to code which
-is new in 4.1. OTOH cases that fail now would have failed with 4.0
-so it is not a regression strictly speaking. And we're getting
-steadily closer to release and I haven't very heavily tested this
-patch. I incline towards including it, overall.
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  hw/arm/boot: Rename elf_{low,high}_addr to image_{low,high}_addr
-  hw/arm/boot: Further improve initrd positioning code
-
- hw/arm/boot.c | 37 +++++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
-
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 1fb24fbef27..b7b31753aca 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -986,7 +986,9 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+     int kernel_size;
+     int initrd_size;
+     int is_linux = 0;
+-    uint64_t elf_entry, elf_low_addr, elf_high_addr;
++    uint64_t elf_entry;
++    /* Addresses of first byte used and first byte not used by the image */
++    uint64_t image_low_addr, image_high_addr;
+     int elf_machine;
+     hwaddr entry;
+     static const ARMInsnFixup *primary_loader;
+@@ -1014,24 +1016,24 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+         info->nb_cpus = 1;
+ 
+     /* Assume that raw images are linux kernels, and ELF images are not.  */
+-    kernel_size = arm_load_elf(info, &elf_entry, &elf_low_addr,
+-                               &elf_high_addr, elf_machine, as);
++    kernel_size = arm_load_elf(info, &elf_entry, &image_low_addr,
++                               &image_high_addr, elf_machine, as);
+     if (kernel_size > 0 && have_dtb(info)) {
+         /*
+          * If there is still some room left at the base of RAM, try and put
+          * the DTB there like we do for images loaded with -bios or -pflash.
+          */
+-        if (elf_low_addr > info->loader_start
+-            || elf_high_addr < info->loader_start) {
++        if (image_low_addr > info->loader_start
++            || image_high_addr < info->loader_start) {
+             /*
+-             * Set elf_low_addr as address limit for arm_load_dtb if it may be
++             * Set image_low_addr as address limit for arm_load_dtb if it may be
+              * pointing into RAM, otherwise pass '0' (no limit)
+              */
+-            if (elf_low_addr < info->loader_start) {
+-                elf_low_addr = 0;
++            if (image_low_addr < info->loader_start) {
++                image_low_addr = 0;
+             }
+             info->dtb_start = info->loader_start;
+-            info->dtb_limit = elf_low_addr;
++            info->dtb_limit = image_low_addr;
+         }
+     }
+     entry = elf_entry;
 -- 
 2.20.1
 
