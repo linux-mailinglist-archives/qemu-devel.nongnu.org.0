@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124296FE13
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:47:52 +0200 (CEST)
-Received: from localhost ([::1]:60375 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF7F6FE2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:57:35 +0200 (CEST)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpVrD-0007iR-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
+	id 1hpW0c-0002eX-Rp
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:57:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40786)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hpVqz-0007HW-2a
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:47:38 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW09-0001XD-7n
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hpVqx-0003Dr-VX
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:47:37 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54613)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hpVqx-0003Ck-PN
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:47:35 -0400
-Received: by mail-wm1-f66.google.com with SMTP id p74so34631982wme.4
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 03:47:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=krefzyTfc6K8Du0u612V9fpyYpCQbPMpB44pGU/3HcQ=;
- b=fEawCx4CiKgkCcU2SafAQfViM4I92snJNnVuocAeLlwhFTSwFkUGUeo9yERw5Bo/gR
- scRD3st/Gf6klQ27uTuo1PBXKLWgfGvil4S2IZ0QPEQg9QdgmaL4GL2/ZNebTJ3hj1ZQ
- 1yoVNy6wiZkq38QO3sPolEaz/5jjuMK/VY6yCbsfG0lYnGWRIN31pJ/Y4PUeipiU9pDN
- +NyNZvU8wWmCJthLvyCMuRHS3ARhTIiKsusWem+92GFKHhKwbPaEkC6KvSQ3DRhSRLx4
- z+yOirrAUTTKeEQ4YX0VWRM3774E+0tCulFkUNPyWAN9x3k7dySYYHQRQTGiM7xC0A7/
- zAmQ==
-X-Gm-Message-State: APjAAAWy1wPkDJUKmSljQ3njl2KR2/0PTxiX7vuXbidp+/Oa6484PDN+
- X6UoCnKx+5xo0jl8emIWZNiqpw==
-X-Google-Smtp-Source: APXvYqyKwV0HS4MYMKug+lAS5jADYn0d+k1qNUmj7WLm/jONYHYmt9YM5yMtzqm3MQtM5Jyd1jEmog==
-X-Received: by 2002:a1c:a7ca:: with SMTP id
- q193mr67441417wme.150.1563792454045; 
- Mon, 22 Jul 2019 03:47:34 -0700 (PDT)
-Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
- [83.42.61.62])
- by smtp.gmail.com with ESMTPSA id u18sm32183387wmd.19.2019.07.22.03.47.33
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Jul 2019 03:47:33 -0700 (PDT)
-To: qemu-devel@nongnu.org, no-reply@patchew.org, alxndr@bu.edu,
- stefanha@redhat.com
-References: <156358440084.15703.2910927682706007476@c4a48874b076>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <187cb20d-e6ee-4598-b2d7-db97eb2db1ec@redhat.com>
-Date: Mon, 22 Jul 2019 12:47:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <dgibson@ozlabs.org>) id 1hpW07-0007Sw-R1
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:05 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:55471)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hpW06-0007MI-Aw; Mon, 22 Jul 2019 06:57:03 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45sdpf6YdYz9sBF; Mon, 22 Jul 2019 20:56:58 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563793018;
+ bh=gLx+WM88l15EyGyPTo+NgYD0U1Jz2gZ2dZW0I+1ZJfE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lUiLQAzECII+NRbY0gtlgWn9AIjnDbVRRvSGuBoUrAZVUAn0y6l5RC+NmN+FwVcnF
+ qolTz/C4ehzBJue1vlM92PydCgA74sISY7uHqdYfxLFAQnKU6t3BTTaLfv+FiL9b6p
+ oSS0y5sKVO1Ndb3CnfSZUOLgqVTVHCv66Zu0mhVo=
+Date: Mon, 22 Jul 2019 18:27:06 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190722082706.GA25073@umbus.fritz.box>
+References: <20190718115420.19919-1-clg@kaod.org>
+ <20190718115420.19919-8-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <156358440084.15703.2910927682706007476@c4a48874b076>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH 0/2] Avoid sending zero-size packets
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
+Content-Disposition: inline
+In-Reply-To: <20190718115420.19919-8-clg@kaod.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2 07/17] ppc/xive: Provide silent
+ escalation support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,33 +57,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, bsd@redhat.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/19 3:00 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20190719185158.20316-1-alxndr@bu.edu/
-> 
-> PASS 18 test-bdrv-drain /bdrv-drain/iothread/drain_all
-> =================================================================
-> ==8150==ERROR: AddressSanitizer: heap-use-after-free on address 0x6120000306f0 at pc 0x556fc74a74b6 bp 0x7f662dab7680 sp 0x7f662dab7678
-> WRITE of size 1 at 0x6120000306f0 thread T11
-> PASS 2 ahci-test /x86_64/ahci/pci_spec
-> ==8165==WARNING: ASan doesn't fully support makecontext/swapcontext functions and may produce false positives in some cases!
->     #0 0x556fc74a74b5 in aio_notify /tmp/qemu-test/src/util/async.c:351:9
->     #1 0x556fc74a90eb in qemu_bh_schedule /tmp/qemu-test/src/util/async.c:167:9
->     #2 0x556fc74ac2f0 in aio_co_schedule /tmp/qemu-test/src/util/async.c:464:5
+
+--OXfL5xGRrasGEqWY
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jul 18, 2019 at 01:54:10PM +0200, C=E9dric Le Goater wrote:
+> When the 's' bit is set the escalation is said to be 'silent' or
+> 'silent/gather'. In such configuration, the notification sequence is
+> skipped and only the escalation sequence is performed. This is used to
+> configure all the EQs of a vCPU to escalate on a single EQ which will
+> then target the hypervisor.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->   Right alloca redzone:    cb
->   Shadow gap:              cc
+>  include/hw/ppc/xive_regs.h | 2 ++
+>  hw/intc/xive.c             | 8 ++++++++
+>  2 files changed, 10 insertions(+)
+>=20
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index 5d02ccfeff16..69af326ebf2c 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -209,6 +209,8 @@ typedef struct XiveEND {
+>  #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
+ATE_CTL)
+>  #define xive_end_is_uncond_escalation(end)              \
+>      (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
+> +#define xive_end_is_silent_escalation(end)              \
+> +    (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
+> =20
+>  static inline uint64_t xive_end_qaddr(XiveEND *end)
+>  {
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index c2e7e2d4c9a9..8ea97ac231a4 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1463,6 +1463,13 @@ static void xive_router_end_notify(XiveRouter *xrt=
+r, uint8_t end_blk,
+>          xive_router_write_end(xrtr, end_blk, end_idx, &end, 1);
+>      }
+> =20
+> +    /*
+> +     * When the END is silent, we skip the notification part.
+> +     */
+> +    if (xive_end_is_silent_escalation(&end)) {
+> +        goto do_escalation;
 
-Stefan, another hit.
+I don't love this use of goto, but I'll take it for now.
 
-> ==8150==ABORTING
-> ERROR - too few tests run (expected 39, got 18)
-> make: *** [/tmp/qemu-test/src/tests/Makefile.include:904: check-unit] Error 1
-> make: *** Waiting for unfinished jobs....
-> 
-> The full log is available at
-> http://patchew.org/logs/20190719185158.20316-1-alxndr@bu.edu/testing.asan/?type=message.
+> +    }
+> +
+>      /*
+>       * The W7 format depends on the F bit in W6. It defines the type
+>       * of the notification :
+> @@ -1542,6 +1549,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+>           */
+>      }
+> =20
+> +do_escalation:
+>      /*
+>       * If activated, escalate notification using the ESe PQ bits and
+>       * the EAS in w4-5
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--OXfL5xGRrasGEqWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01c1cACgkQbDjKyiDZ
+s5ImrRAAmZODugaTihvRWBC02Uy/PkKAUOIHcAv/bfctqATKakSj34OJt3HUInXj
+c4p+F+mYuAS40yR2pz7tui6k/5b1RV3NI6kGqFrCxtllC4iAovgbEaMMuQ9yakpu
+iNwvI5WrcihLpSZWha3TxUtsNZEp3hhGsRVcdNx0wzx5MzznF/3rDxfOzpAM4B35
+oiViLKKmORgYDaWBiWvTmKQzOMx90xqD3OFRe7ozKK7ypH7O7siPuz48o0E9n3KO
+ocLOhEvGCoJi5bAlgCOl5x2lpVxRc2Rozt9RIqHAjVyFmuCDsLk0QGXOR63GXisP
+N4EjNjBgbzzuKrupy525qGinQONoGEC7nrQfKUZI8USnHOcp0XcOxnriPqCB8AMt
+zMCBzh2tXaIWslSWNl4cpN98nTi4k4xPlztBcJ2yDYGxLccRr0kQN1llIm/7FEQR
+Akq9m1b60JxiWi5p3vpC5t0Dg4pKZYkg7TqrSSzW/dV6DRcpGJmmIqO8OxxpMEjD
+hsQUa8CEMGdY2jqRe7g37P/z5ZtVgUQ4C9gnkqFFgvv6CwbHNlISUICT+5rFWgWf
+MD9VF8CW3QNOfJVyLrkeQfUzeQm2u2KPFKQGcLrGjufzUQokyCjsgDFROWX2k0HQ
+iRtQJ1dnM76k0xzHMGY49vAchtsJcKlKENNFHBA4yfKMreBMIVQ=
+=yNoL
+-----END PGP SIGNATURE-----
+
+--OXfL5xGRrasGEqWY--
 
