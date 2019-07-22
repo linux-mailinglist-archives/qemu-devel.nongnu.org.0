@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8318670298
+	by mail.lfdr.de (Postfix) with ESMTPS id 21ACC70297
 	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 16:44:57 +0200 (CEST)
-Received: from localhost ([::1]:34224 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34223 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpZYe-00023G-5A
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 10:44:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
+	id 1hpZYd-00020D-GG
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 10:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40235)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY8-0000mx-BY
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY8-0000my-Kw
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY7-0000gw-Eb
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hpZY7-0000h5-Fm
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:24 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:35076 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:35074 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hpZY7-0007wY-7A
+ id 1hpZY7-0007wW-52
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 10:44:23 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 140CC1A1FC4;
+ by mail.rt-rk.com (Postfix) with ESMTP id 24A881A2053;
  Mon, 22 Jul 2019 16:43:13 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id EE7931A20A5;
- Mon, 22 Jul 2019 16:43:12 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 03CBC1A20B7;
+ Mon, 22 Jul 2019 16:43:13 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 16:43:03 +0200
-Message-Id: <1563806584-25975-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 22 Jul 2019 16:43:04 +0200
+Message-Id: <1563806584-25975-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1563806584-25975-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1563806584-25975-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.1 v5 1/2] target/mips: Add 'fall through'
- comments for handling nanoMips' SHXS, SWXS
+Subject: [Qemu-devel] [PATCH for 4.1 v5 2/2] target/mips: Fix emulation of
+ MSA pack instructions on big endian hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,33 +57,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-This was found by GCC 8.3 static analysis.
+Fix emulation of MSA pack instructions on big endian hosts.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 ---
- target/mips/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/mips/msa_helper.c | 74 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 3575eff..ca62800 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -20141,12 +20141,14 @@ static void gen_p_lsx(DisasContext *ctx, int rd, int rs, int rt)
-         switch (extract32(ctx->opcode, 7, 4)) {
-         case NM_SHXS:
-             check_nms(ctx);
-+            /* fall through */
-         case NM_LHXS:
-         case NM_LHUXS:
-             tcg_gen_shli_tl(t0, t0, 1);
-             break;
-         case NM_SWXS:
-             check_nms(ctx);
-+            /* fall through */
-         case NM_LWXS:
-         case NM_LWC1XS:
-         case NM_SWC1XS:
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index a383c40..a5a8657 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -2113,6 +2113,24 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+ 
+     switch (df) {
+     case DF_BYTE:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->b[8]  = pws->b[9];
++        pwd->b[10] = pws->b[13];
++        pwd->b[12] = pws->b[1];
++        pwd->b[14] = pws->b[5];
++        pwd->b[0]  = pwt->b[9];
++        pwd->b[2]  = pwt->b[13];
++        pwd->b[4]  = pwt->b[1];
++        pwd->b[6]  = pwt->b[5];
++        pwd->b[9]  = pws->b[11];
++        pwd->b[13] = pws->b[3];
++        pwd->b[1]  = pwt->b[11];
++        pwd->b[5]  = pwt->b[3];
++        pwd->b[11] = pws->b[15];
++        pwd->b[3]  = pwt->b[15];
++        pwd->b[15] = pws->b[7];
++        pwd->b[7]  = pwt->b[7];
++#else
+         pwd->b[15] = pws->b[14];
+         pwd->b[13] = pws->b[10];
+         pwd->b[11] = pws->b[6];
+@@ -2129,8 +2147,19 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+         pwd->b[4]  = pwt->b[8];
+         pwd->b[8]  = pws->b[0];
+         pwd->b[0]  = pwt->b[0];
++#endif
+         break;
+     case DF_HALF:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->h[4] = pws->h[5];
++        pwd->h[6] = pws->h[1];
++        pwd->h[0] = pwt->h[5];
++        pwd->h[2] = pwt->h[1];
++        pwd->h[5] = pws->h[7];
++        pwd->h[1] = pwt->h[7];
++        pwd->h[7] = pws->h[3];
++        pwd->h[3] = pwt->h[3];
++#else
+         pwd->h[7] = pws->h[6];
+         pwd->h[5] = pws->h[2];
+         pwd->h[3] = pwt->h[6];
+@@ -2139,12 +2168,20 @@ void helper_msa_pckev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+         pwd->h[2] = pwt->h[4];
+         pwd->h[4] = pws->h[0];
+         pwd->h[0] = pwt->h[0];
++#endif
+         break;
+     case DF_WORD:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->w[2] = pws->w[3];
++        pwd->w[0] = pwt->w[3];
++        pwd->w[3] = pws->w[1];
++        pwd->w[1] = pwt->w[1];
++#else
+         pwd->w[3] = pws->w[2];
+         pwd->w[1] = pwt->w[2];
+         pwd->w[2] = pws->w[0];
+         pwd->w[0] = pwt->w[0];
++#endif
+         break;
+     case DF_DOUBLE:
+         pwd->d[1] = pws->d[0];
+@@ -2164,6 +2201,24 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+ 
+     switch (df) {
+     case DF_BYTE:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->b[7]  = pwt->b[6];
++        pwd->b[5]  = pwt->b[2];
++        pwd->b[3]  = pwt->b[14];
++        pwd->b[1]  = pwt->b[10];
++        pwd->b[15] = pws->b[6];
++        pwd->b[13] = pws->b[2];
++        pwd->b[11] = pws->b[14];
++        pwd->b[9]  = pws->b[10];
++        pwd->b[6]  = pwt->b[4];
++        pwd->b[2]  = pwt->b[12];
++        pwd->b[14] = pws->b[4];
++        pwd->b[10] = pws->b[12];
++        pwd->b[4]  = pwt->b[0];
++        pwd->b[12] = pws->b[0];
++        pwd->b[0]  = pwt->b[8];
++        pwd->b[8]  = pws->b[8];
++#else
+         pwd->b[0]  = pwt->b[1];
+         pwd->b[2]  = pwt->b[5];
+         pwd->b[4]  = pwt->b[9];
+@@ -2180,8 +2235,19 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+         pwd->b[11] = pws->b[7];
+         pwd->b[7]  = pwt->b[15];
+         pwd->b[15] = pws->b[15];
++#endif
+         break;
+     case DF_HALF:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->h[3] = pwt->h[2];
++        pwd->h[1] = pwt->h[6];
++        pwd->h[7] = pws->h[2];
++        pwd->h[5] = pws->h[6];
++        pwd->h[2] = pwt->h[0];
++        pwd->h[6] = pws->h[0];
++        pwd->h[0] = pwt->h[4];
++        pwd->h[4] = pws->h[4];
++#else
+         pwd->h[0] = pwt->h[1];
+         pwd->h[2] = pwt->h[5];
+         pwd->h[4] = pws->h[1];
+@@ -2190,12 +2256,20 @@ void helper_msa_pckod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+         pwd->h[5] = pws->h[3];
+         pwd->h[3] = pwt->h[7];
+         pwd->h[7] = pws->h[7];
++#endif
+         break;
+     case DF_WORD:
++#if defined(HOST_WORDS_BIGENDIAN)
++        pwd->w[1] = pwt->w[0];
++        pwd->w[3] = pws->w[0];
++        pwd->w[0] = pwt->w[2];
++        pwd->w[2] = pws->w[2];
++#else
+         pwd->w[0] = pwt->w[1];
+         pwd->w[2] = pws->w[1];
+         pwd->w[1] = pwt->w[3];
+         pwd->w[3] = pws->w[3];
++#endif
+         break;
+     case DF_DOUBLE:
+         pwd->d[0] = pwt->d[1];
 -- 
 2.7.4
 
