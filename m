@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665AE706A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 19:18:54 +0200 (CEST)
-Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A726706B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 19:23:57 +0200 (CEST)
+Received: from localhost ([::1]:36248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpbxd-0003aA-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 13:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48867)
+	id 1hpc2W-0006qB-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 13:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49957)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hpbxO-0003Be-HJ
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 13:18:39 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1hpc2K-0006Rs-8I
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 13:23:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hpbxM-0006Id-76
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 13:18:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46608)
+ (envelope-from <chen.zhang@intel.com>) id 1hpc2J-0002SW-AS
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 13:23:44 -0400
+Received: from mga05.intel.com ([192.55.52.43]:26061)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hpbxI-0006G6-3u; Mon, 22 Jul 2019 13:18:32 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D3F9D60CC;
- Mon, 22 Jul 2019 17:18:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7E225D721;
- Mon, 22 Jul 2019 17:18:23 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190722133054.21781-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5f89c6ba-b049-db87-23ec-0317c53e978f@redhat.com>
-Date: Mon, 22 Jul 2019 19:18:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190722133054.21781-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dIKXItK6DzrbiKh7BiQb4eoCKI3XECdGJ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 22 Jul 2019 17:18:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1 0/2] block: bdrv_drained_end()
- changes fallout
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1hpc2I-0002OI-W8
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 13:23:43 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2019 10:23:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,295,1559545200"; d="scan'208";a="320745645"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga004.jf.intel.com with ESMTP; 22 Jul 2019 10:23:34 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Date: Tue, 23 Jul 2019 01:18:28 +0800
+Message-Id: <20190722171828.11322-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.GIT
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+Subject: [Qemu-devel] [PATCH V5] net/colo-compare.c: Fix memory leak and
+ code style issue.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,198 +53,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dIKXItK6DzrbiKh7BiQb4eoCKI3XECdGJ
-Content-Type: multipart/mixed; boundary="c6pYDuu9QfrtDlXR6Y5VIP9f9Uqm2E7Ok";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <5f89c6ba-b049-db87-23ec-0317c53e978f@redhat.com>
-Subject: Re: [PATCH for-4.1 0/2] block: bdrv_drained_end() changes fallout
-References: <20190722133054.21781-1-mreitz@redhat.com>
-In-Reply-To: <20190722133054.21781-1-mreitz@redhat.com>
+From: Zhang Chen <chen.zhang@intel.com>
 
---c6pYDuu9QfrtDlXR6Y5VIP9f9Uqm2E7Ok
-Content-Type: multipart/mixed;
- boundary="------------A83A1C022BEBD4A03CF73243"
-Content-Language: en-US
+This patch to fix the origin "char *data" memory leak, code style issue
+and add necessary check here.
+Reported-by: Coverity (CID 1402785)
 
-This is a multi-part message in MIME format.
---------------A83A1C022BEBD4A03CF73243
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ net/colo-compare.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-On 22.07.19 15:30, Max Reitz wrote:
-> Hi,
->=20
-> I noted that test-bdrv-drain sometimgs hangs (very rarely, though), and=
-
-> tried to write a test that triggers the issue.  I failed to do so (ther=
-e
-> is a good reason for that, see patch 1), but on my way I noticed that
-> calling bdrv_set_aio_context_ignore() from any AioContext but the main
-> one is a bad idea.  Hence patch 2.
->=20
-> Anyway, I found the problem, which is fixed by patch 1 -- I think it=E2=
-=80=99s
-> rather obvious.  There is no dedicated test because I don=E2=80=99t thi=
-nk it=E2=80=99s
-> possible to write one, as I explain there.
->=20
->=20
-> Max Reitz (2):
->   block: Dec. drained_end_counter before bdrv_wakeup
->   block: Only the main loop can change AioContexts
->=20
->  include/block/block.h |  8 +++-----
->  block.c               | 13 ++++++++-----
->  block/io.c            |  5 ++---
->  3 files changed, 13 insertions(+), 13 deletions(-)
-
-Sorry, applied to my block branch.
-
-
-=E2=80=9CSorry=E2=80=9D obviously because I didn=E2=80=99t really give mu=
-ch time to review this
-series.  My justification is:
-
-- rc2=E2=80=99s tomorrow.  I know the current code is broken, so I=E2=80=99=
-d rather take
-  the chance to have a fixed rc2 than to know it to be broken and force
-  an rc4 by sending this for rc3.
-
-- Patch 1 looks really obvious and simple to me.  It makes sense to
-  decrement the drained_end_counter exactly where .done is set to true.
-
-- Patch 2 is not so obvious.  But the only dangerous change it
-  introduces is an assertion that bdrv_set_aio_context_ignore() is
-  called from the main loop.  Right now, if it is called from anywhere
-  but the main loop, we *will* run into assertions elsewhere:
-  - bdrv_drained_begin() does a BDRV_POLL_WHILE(bs, ...).  This only
-    works from the main context or bs's context.
-  - bdrv_drained_end() does the same, but now bs's context has changed.
-  Ergo, right now (on master), you can run bdrv_set_aio_context_ignore()
-  only from the main loop anyway.  The new assertion only makes that
-  fact more explicit.
-
-Now this makes it look like before e037c09c78520, you could run
-bdrv_set_aio_context_ignore() from the old context (like the comment
-therein said).  But that=E2=80=99s wrong.  Even before e037c09c78520,
-bdrv_drained_end() didn=E2=80=99t work for mixed-context trees unless you=
- call
-it from the main context: It schedules the drained_end callbacks in the
-respective node's context, but then it polls them from the original
-context.  So if you modify e.g. test_set_aio_context() in
-test-bdrv-drain to run bdrv_try_set_aio_context() from a BH in the old
-context, you will see a failed assertion in bdrv_drain_invoke()'s
-BDRV_POLL_WHILE.  (I=E2=80=99ve attached a diff for use on e037c09c78520^=
-=2E)
-
-Therefore, I=E2=80=99m confident this series doesn=E2=80=99t make things =
-worse, which is
-why I=E2=80=99m taking it without reviews.
-
-Max
-
---------------A83A1C022BEBD4A03CF73243
-Content-Type: text/x-patch;
- name="test-bdrv-drain.diff"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="test-bdrv-drain.diff"
-
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index 3503ce3b69..cf1194754e 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -1497,6 +1497,19 @@ static void test_append_to_drained(void)
-     blk_unref(blk);
- }
-=20
-+typedef struct BHParams {
-+    BlockDriverState *bs;
-+    AioContext *target;
-+    bool done;
-+} BHParams;
-+
-+static void bh_fun(void *opaque)
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 909dd6c6eb..7489840bde 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -127,6 +127,17 @@ static int compare_chr_send(CompareState *s,
+                             uint32_t vnet_hdr_len,
+                             bool notify_remote_frame);
+ 
++static bool packet_matches_str(const char *str,
++                               const uint8_t *buf,
++                               uint32_t packet_len)
 +{
-+    BHParams *bhp =3D opaque;
-+    bdrv_try_set_aio_context(bhp->bs, bhp->target, &error_abort);
-+    bhp->done =3D true;
++    if (packet_len != strlen(str)) {
++        return false;
++    }
++
++    return !memcmp(str, buf, strlen(str));
 +}
 +
- static void test_set_aio_context(void)
+ static void notify_remote_frame(CompareState *s)
  {
-     BlockDriverState *bs;
-@@ -1504,22 +1517,38 @@ static void test_set_aio_context(void)
-     IOThread *b =3D iothread_new();
-     AioContext *ctx_a =3D iothread_get_aio_context(a);
-     AioContext *ctx_b =3D iothread_get_aio_context(b);
-+    BHParams bhp;
-=20
-     bs =3D bdrv_new_open_driver(&bdrv_test, "test-node", BDRV_O_RDWR,
-                               &error_abort);
-=20
-     bdrv_drained_begin(bs);
--    bdrv_try_set_aio_context(bs, ctx_a, &error_abort);
-+    bhp =3D (BHParams){ bs, ctx_a };
-+    aio_bh_schedule_oneshot(qemu_get_aio_context(), bh_fun, &bhp);
-+    while (!bhp.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-=20
-     aio_context_acquire(ctx_a);
-     bdrv_drained_end(bs);
-=20
-     bdrv_drained_begin(bs);
--    bdrv_try_set_aio_context(bs, ctx_b, &error_abort);
-+
-+    bhp =3D (BHParams){ bs, ctx_b };
-+    aio_bh_schedule_oneshot(ctx_a, bh_fun, &bhp);
-     aio_context_release(ctx_a);
-+    while (!bhp.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-+
-     aio_context_acquire(ctx_b);
--    bdrv_try_set_aio_context(bs, qemu_get_aio_context(), &error_abort);
-+    bhp =3D (BHParams){ bs, qemu_get_aio_context() };
-+    aio_bh_schedule_oneshot(ctx_b, bh_fun, &bhp);
-     aio_context_release(ctx_b);
-+    while (!bhp.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-+
-     bdrv_drained_end(bs);
-=20
-     bdrv_unref(bs);
+     char msg[] = "DO_CHECKPOINT";
+@@ -1008,21 +1019,23 @@ static void compare_notify_rs_finalize(SocketReadState *notify_rs)
+ {
+     CompareState *s = container_of(notify_rs, CompareState, notify_rs);
+ 
+-    /* Get Xen colo-frame's notify and handle the message */
+-    char *data = g_memdup(notify_rs->buf, notify_rs->packet_len);
+-    char msg[] = "COLO_COMPARE_GET_XEN_INIT";
++    const char msg[] = "COLO_COMPARE_GET_XEN_INIT";
+     int ret;
+ 
+-    if (!strcmp(data, "COLO_USERSPACE_PROXY_INIT")) {
++    if (packet_matches_str("COLO_USERSPACE_PROXY_INIT",
++                           notify_rs->buf,
++                           notify_rs->packet_len)) {
+         ret = compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
+         if (ret < 0) {
+             error_report("Notify Xen COLO-frame INIT failed");
+         }
+-    }
+-
+-    if (!strcmp(data, "COLO_CHECKPOINT")) {
++    } else if (packet_matches_str("COLO_CHECKPOINT",
++                                  notify_rs->buf,
++                                  notify_rs->packet_len)) {
+         /* colo-compare do checkpoint, flush pri packet and remove sec packet */
+         g_queue_foreach(&s->conn_list, colo_flush_packets, s);
++    } else {
++        error_report("COLO compare got unsupported instruction");
+     }
+ }
+ 
+-- 
+2.17.GIT
 
---------------A83A1C022BEBD4A03CF73243--
-
---c6pYDuu9QfrtDlXR6Y5VIP9f9Uqm2E7Ok--
-
---dIKXItK6DzrbiKh7BiQb4eoCKI3XECdGJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0179wACgkQ9AfbAGHV
-z0DKuwf+LS8AqstoTdQH76VShA7tLBHowe/pK6UqEAWH5y9fHKBB/n4PvRr94Sq4
-sWsxglk9Ckq5SDRmF61o2KslGjDJqTVOb1kZP0RU1WGR8amauReV323IIUkIeEYE
-hhyCo+cqtbzxRFtkAA7C6pYDe2I7HScRmrTrQC0MN6OcFCLz19CL3DSm5oR5tfRo
-/V4Y7JcrXtmcOyzVhUFJO7wKQ36wf7Y/dh3DPXQx+6Y34HYOAdh3Fptc+3Pioz8b
-lFyM5xnF0V8Fm8jQTjKidEacxUUz/JSJZCiYw3MMFPfRwUTjKtr3EhbQ/0TUH8Kl
-h8m5JYiWxGPWKzQiopSRMhd6WG9fPA==
-=ddfR
------END PGP SIGNATURE-----
-
---dIKXItK6DzrbiKh7BiQb4eoCKI3XECdGJ--
 
