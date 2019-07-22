@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717706FEA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 13:23:42 +0200 (CEST)
-Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC5D6FEB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 13:29:38 +0200 (CEST)
+Received: from localhost ([::1]:60612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpWPt-0007s3-J3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 07:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47841)
+	id 1hpWVd-0000xr-H6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 07:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49063)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hpWPg-0007Ta-SL
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:23:29 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hpWVR-0000ZG-Sg
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:29:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hpWPf-0001Jm-Im
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:23:28 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53913)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hpWPf-0001Ih-Br
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:23:27 -0400
-Received: by mail-wm1-f66.google.com with SMTP id x15so34762094wmj.3
- for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 04:23:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EqA8OpmMGRl3R9snNLkuHrEKYu19gzTmZJ3XTRU9D70=;
- b=FC/wF6RNZtgSRnSzfPuQrug+cT41DTJFmxIxvK4C4/n80CaTVDHz7EI0bB+Orq7JGQ
- q6IpiM3PXo6UOGzH1mFO5LUTRov96DIV7lMynVa/TzaCpeyQuQEQyVNDHC9g0uYhJ3ax
- S1Q0SK+TF+tYMJBy2KbbIl6KjtTBbP6XAVTDXGIm56IZb+lYGhbxHLrVxtZprikuK9ty
- o8O/Xh/VPpqxjxT6nb7zk1cgcspeHq0Qd9bwaT7LYLca/M117ceO1clQlE6xBUooVY5l
- /jjEbHb5z0bH6i/BSc6AyRaqOvSRz4oWr1X06MVSL0G+VWPBx01fpUJu3zD/ZLuJB86e
- WnEw==
-X-Gm-Message-State: APjAAAXiaC4Wdllm8CZWzB1+DCRNlefiSOTp6TgOZw8KkYQnls0gi8XJ
- G/QzkuidII8iPSiIEWcbvlDCfsnhSi4=
-X-Google-Smtp-Source: APXvYqx0RBmLelTo/RCmkMVTA8SirF4WkJI1IUs/lhUWIrztP0ESnqwaavLk/wIUVjfwtPJVYIV3PQ==
-X-Received: by 2002:a1c:720e:: with SMTP id n14mr63212553wmc.53.1563794605327; 
- Mon, 22 Jul 2019 04:23:25 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:10f7:67c8:abb4:8512?
- ([2001:b07:6468:f312:10f7:67c8:abb4:8512])
- by smtp.gmail.com with ESMTPSA id x8sm33356364wmc.5.2019.07.22.04.23.24
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 22 Jul 2019 04:23:24 -0700 (PDT)
-To: Jan Kiszka <jan.kiszka@siemens.com>, Liran Alon <liran.alon@oracle.com>
-References: <bdd53f40-4e60-f3ae-7ec6-162198214953@siemens.com>
- <A9036EC6-848A-4D42-95AF-42E2302EEC0B@oracle.com>
- <0972ccd9-386d-b618-f055-e8ae0181b64e@siemens.com>
- <AD612128-FB18-4E98-954D-BCF77954666B@oracle.com>
- <a0689914-e043-1ba7-dc50-15c7ad2b9cea@siemens.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <45845ea9-300a-6c01-4858-777d2be49207@redhat.com>
-Date: Mon, 22 Jul 2019 13:23:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <kwolf@redhat.com>) id 1hpWVQ-0006bv-Vk
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:29:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59209)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hpWVQ-0006aI-Qc
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 07:29:24 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D65A03084248
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 11:29:23 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-117-81.ams2.redhat.com
+ [10.36.117.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A004600C4;
+ Mon, 22 Jul 2019 11:29:22 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 22 Jul 2019 13:29:15 +0200
+Message-Id: <20190722112915.27819-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a0689914-e043-1ba7-dc50-15c7ad2b9cea@siemens.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Mon, 22 Jul 2019 11:29:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH] i386/kvm: Do not sync nested state during
- runtime
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/multiboot: Fix load address of test
+ kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,27 +54,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/19 12:43, Jan Kiszka wrote:
->> Currently QEMU writes to userspace maintained nested-state only at kvm_arch_init_vcpu() and
->> when loading vmstate_nested_state vmstate subsection.
->> kvm_arch_reset_vcpu() do not modify userspace maintained nested-state.
-> Hmm, then we probably achieve that effect by clearing the related bit in CR4.
+While older toolchains produced binaries where the physical load address
+of ELF segments was the same as the virtual address, newer versions seem
+to choose a different physical address if it isn't specified explicitly.
+The means that the test kernel doesn't use the right addresses to access
+e.g. format strings any more and the whole output disappears, causing
+all test cases to fail.
 
-Almost: by clearing the VMX enable bit in MSR_IA32_FEATURE_CONTROL.
-Actually I think you contributed that. :)
+Fix this by specifying the physical load address of sections explicitly.
 
-I think we could in principle skip that MSR write if env->nested_state
-!= NULL, but it doesn't hurt either, and it makes sense that nested virt
-state goes together with MSR_IA32_FEATURE_CONTROL since the latter is
-indede nested virtualization related.
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/multiboot/link.ld | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Paolo
+diff --git a/tests/multiboot/link.ld b/tests/multiboot/link.ld
+index 3d49b58c60..2eafcffc4f 100644
+--- a/tests/multiboot/link.ld
++++ b/tests/multiboot/link.ld
+@@ -3,14 +3,14 @@ ENTRY(_start)
+ SECTIONS
+ {
+     . =3D 0x100000;
+-    .text : {
++    .text : AT(ADDR(.text)) {
+         *(multiboot)
+         *(.text)
+     }
+-    .data ALIGN(4096) : {
++    .data ALIGN(4096) : AT(ADDR(.data)) {
+         *(.data)
+     }
+-    .rodata ALIGN(4096) : {
++    .rodata ALIGN(4096) : AT(ADDR(.rodata)) {
+         *(.rodata)
+     }
+     .bss ALIGN(4096) : {
+--=20
+2.20.1
 
-> If doing that implies an invalidation of the nested state by KVM, we
-> are fine. Otherwise, I would expect userspace to reset the state to
-> VMCLEAR and purge any traces of prior use.
 
