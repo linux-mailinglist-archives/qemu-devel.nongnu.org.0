@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060C070539
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 18:17:27 +0200 (CEST)
-Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE38A7053C
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 18:17:47 +0200 (CEST)
+Received: from localhost ([::1]:35700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpb09-0005Ov-8o
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 12:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1hpb0V-0006xQ-1w
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 12:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33496)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hpazk-0004de-Os
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:01 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hpazl-0004di-7u
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hpazj-0006Ok-Ou
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:00 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34290)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hpazj-0006P6-TY
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:17:01 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40104)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hpazj-0006Mr-GD
+ id 1hpazj-0006Ni-MH
  for qemu-devel@nongnu.org; Mon, 22 Jul 2019 12:16:59 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 31so40091905wrm.1
+Received: by mail-wr1-x432.google.com with SMTP id r1so40042676wrl.7
  for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 09:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xlqBr8P9Gl3u7pZYDuzWptS0KZ5a7pEirokHb9KS5ak=;
- b=T/ty1LAHWrH/ydaWUpn24F4AEfxaQ/EUL4j483pS831hMVud6sNhRMTebfdd/ZIYGN
- BTJ60Csdy4olW1oFPu3EfDzZx20fcz30YzHj9LSG13LgGV3bWtwhOwr0YcR2WG03fvZg
- bGbT8SxxgmiJbPmg11JmCN+FmI/m4IX7u0ej4c/26TP7DGd6IwMQKqRsEGiIXETV+dlE
- S7+kTfL19IER+EMEGtXravaM2aPzixeQCB/BQJIqV/uWMelzXBIh+/fbBuCU08jS9vBQ
- eZ98yTJ5RxkLx3Vh69uY3xy5cF3bOhtbswoUeQsXMN8Ga0/dwzKueh9l687kMpwxcNCj
- gf0w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sfTY8XQYwydUBik6pz+sOsPpf+J/3/G7lA07pOd4fqU=;
+ b=fUfFs+wfU88pwlAac2ZSQcbJ3+3yBnxY16nFTAO3XTNH/xfKDc4/wqFu1XIkl4ZdJT
+ 3y/Ms1kPohW2l+zHIeyhppAUHGzXmFNJBv02YnEB0PysD/cSF+BLENO1mt/B7VEBGr8J
+ vmAIMuu2HlWvMI8WmjdZFN3YYwGgw/d5M8wXLzsITv5ef4lG3s7dFfA52JhgOPskytF1
+ I2YShBIBjKi9yapeu3x2DSeqFvEUpJSA/Y/YKAaVF3P0RVDWpcl2aNKk6dSdnl6dzFNO
+ TxNQmKugZor/VDegrZe2WRNYZW/RRn4rHlkdQTASW0QcuQ559oECfJ//jyKaLm/qLGHf
+ BZ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xlqBr8P9Gl3u7pZYDuzWptS0KZ5a7pEirokHb9KS5ak=;
- b=gR4gLCBZpFPw4NmNnVZYVky+5w0/CgJmTSw6kgDRVmlAvFpc8sNXYjO2CaRed9SdoK
- kazC+XA0etxXmb7XPn8dsRZ4rRktx35zQMVq/eKG9S0qrw8syjSOcxxh6kxhbmloGMgI
- dre5ObKQsYJVMuEPZ5OqqW7qwBExv5gxFT1dEfIdRm2gqvCWUMPkpArOMvTZAuHJCoH5
- kxtC+YcVSrYhUHiFJJ/UTz0JMdxpYb8gUWQFWrLKD2VNlHlt1byaSys43puCjCkCU2ut
- VhYCmYft0+JlEnXo55oaN5a+/QZz7WRFWR7aXsGACXLBOf3iXfygWPo37LS3wD+PbkzV
- 38xQ==
-X-Gm-Message-State: APjAAAVUF4ySwvILJlvV7+Li+5VG2VLB/gkKlcCPpi0rGIGLOMp9vhe4
- ZqkfRyI/u7XX2M5t/0BD8lbEcm316jM=
-X-Google-Smtp-Source: APXvYqzlqPZcvh2d6PimTZR4qh6pRK1YCKjBf1IZ//OUsQ1f/Gtv132bZhsan/WxogUGIq444ypmpg==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr37144042wrr.5.1563812217469;
- Mon, 22 Jul 2019 09:16:57 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=sfTY8XQYwydUBik6pz+sOsPpf+J/3/G7lA07pOd4fqU=;
+ b=Igy5NjBysmuMp4XJtp23twB+GprghJ67EYr7Yyk4Jd8wTtqYT/E4RhSqwFICcfm8bW
+ 84PaSBEiOJRzBAEesTWJQKcrNEM3D/wTwLcz+iYzXMq60ev0C75u7015syRvWSL2Kjwi
+ NA3VzJvoIP4g6urUqXxqA8mwh/tfY3v0k0fQKb+9ijmjWoXejb5GBKxj+1v+P1ZlljYO
+ lIBYLnZUM9XxBxLp0iDvZpvKrmhuXaBjya3plIBfHs2XPnNTXmC8wBaVPKbjwwBRidEZ
+ o1Wo/B8GRcBMK/nycrwzYrlsMoxT4NmqQfFY2jruEZAvwMwv6PXEqz2xgZ786BoDU2+P
+ vkQQ==
+X-Gm-Message-State: APjAAAX0C2QZ9xvofNNCZHa/LDu9rWqsLGQXi1CBZY4kWXTXbi2Khw8v
+ CTP08NJxlS71Udgfmh34/z+aA+FBZBg=
+X-Google-Smtp-Source: APXvYqyoJqCDcBN+GuXPu4/ITHhUNzEq3QjbfVuZ5aYlXp+RxkAhxR1MXz4Dtx8DGY7Hnv6IDeUV+w==
+X-Received: by 2002:a05:6000:11c6:: with SMTP id
+ i6mr69385575wrx.193.1563812218361; 
+ Mon, 22 Jul 2019 09:16:58 -0700 (PDT)
 Received: from donizetti.lan ([2001:b07:6468:f312:10f7:67c8:abb4:8512])
- by smtp.gmail.com with ESMTPSA id o6sm77717501wra.27.2019.07.22.09.16.56
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id o6sm77717501wra.27.2019.07.22.09.16.57
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 22 Jul 2019 09:16:56 -0700 (PDT)
+ Mon, 22 Jul 2019 09:16:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 22 Jul 2019 18:16:55 +0200
-Message-Id: <20190722161657.8188-1-pbonzini@redhat.com>
+Date: Mon, 22 Jul 2019 18:16:56 +0200
+Message-Id: <20190722161657.8188-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190722161657.8188-1-pbonzini@redhat.com>
+References: <20190722161657.8188-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 0/2] More fixes for QEMU 4.1.0-rc2
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL 1/2] virtio-scsi: fixed virtio_scsi_ctx_check
+ failed when detaching scsi disk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,35 +80,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zhengui li <lizhengui@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 23da9e297b4120ca9702cabec91599a44255fe96:
+From: Zhengui li <lizhengui@huawei.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190722' into staging (2019-07-22 15:16:48 +0100)
+commit a6f230c move blockbackend back to main AioContext on unplug. It set the AioContext of
+SCSIDevice to the main AioContex, but s->ctx is still the iothread AioContexï¼ˆif the scsi controller
+is configure with iothreadï¼‰. So if there are having in-flight requests during unplug, a failing assertion
+happend. The bt is below:
+(gdb) bt
+#0  0x0000ffff86aacbd0 in raise () from /lib64/libc.so.6
+#1  0x0000ffff86aadf7c in abort () from /lib64/libc.so.6
+#2  0x0000ffff86aa6124 in __assert_fail_base () from /lib64/libc.so.6
+#3  0x0000ffff86aa61a4 in __assert_fail () from /lib64/libc.so.6
+#4  0x0000000000529118 in virtio_scsi_ctx_check (d=<optimized out>, s=<optimized out>, s=<optimized out>) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:246
+#5  0x0000000000529ec4 in virtio_scsi_handle_cmd_req_prepare (s=0x2779ec00, req=0xffff740397d0) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:559
+#6  0x000000000052a228 in virtio_scsi_handle_cmd_vq (s=0x2779ec00, vq=0xffff7c6d7110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:603
+#7  0x000000000052afa8 in virtio_scsi_data_plane_handle_cmd (vdev=<optimized out>, vq=0xffff7c6d7110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi-dataplane.c:59
+#8  0x000000000054d94c in virtio_queue_host_notifier_aio_poll (opaque=<optimized out>) at /home/qemu-4.0.0/hw/virtio/virtio.c:2452
 
-are available in the Git repository at:
+assert(blk_get_aio_context(d->conf.blk) == s->ctx) failed.
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+To avoid assertion failed,  moving the "if" after qdev_simple_device_unplug_cb.
 
-for you to fetch changes up to 20b25d239ab7a94bb8bff3d0f13a9527ee75cf10:
+In addition, to avoid another qemu crash below, add aio_disable_external before
+qdev_simple_device_unplug_cb, which disable the further processing of external clients
+when doing qdev_simple_device_unplug_cb.
+(gdb) bt
+#0  scsi_req_unref (req=0xffff6802c6f0) at hw/scsi/scsi-bus.c:1283
+#1  0x00000000005294a4 in virtio_scsi_handle_cmd_req_submit (req=<optimized out>,
+    s=<optimized out>) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:589
+#2  0x000000000052a2a8 in virtio_scsi_handle_cmd_vq (s=s@entry=0x9c90e90,
+    vq=vq@entry=0xffff7c05f110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi.c:625
+#3  0x000000000052afd8 in virtio_scsi_data_plane_handle_cmd (vdev=<optimized out>,
+    vq=0xffff7c05f110) at /home/qemu-4.0.0/hw/scsi/virtio-scsi-dataplane.c:60
+#4  0x000000000054d97c in virtio_queue_host_notifier_aio_poll (opaque=<optimized out>)
+    at /home/qemu-4.0.0/hw/virtio/virtio.c:2447
+#5  0x00000000009b204c in run_poll_handlers_once (ctx=ctx@entry=0x6efea40,
+    timeout=timeout@entry=0xffff7d7f7308) at util/aio-posix.c:521
+#6  0x00000000009b2b64 in run_poll_handlers (ctx=ctx@entry=0x6efea40,
+    max_ns=max_ns@entry=4000, timeout=timeout@entry=0xffff7d7f7308) at util/aio-posix.c:559
+#7  0x00000000009b2ca0 in try_poll_mode (ctx=ctx@entry=0x6efea40, timeout=0xffff7d7f7308,
+    timeout@entry=0xffff7d7f7348) at util/aio-posix.c:594
+#8  0x00000000009b31b8 in aio_poll (ctx=0x6efea40, blocking=blocking@entry=true)
+    at util/aio-posix.c:636
+#9  0x00000000006973cc in iothread_run (opaque=0x6ebd800) at iothread.c:75
+#10 0x00000000009b592c in qemu_thread_start (args=0x6efef60) at util/qemu-thread-posix.c:502
+#11 0x0000ffff8057f8bc in start_thread () from /lib64/libpthread.so.0
+#12 0x0000ffff804e5f8c in thread_start () from /lib64/libc.so.6
+(gdb) p bus
+$1 = (SCSIBus *) 0x0
 
-  i386/kvm: Do not sync nested state during runtime (2019-07-22 18:16:05 +0200)
+Signed-off-by: Zhengui li <lizhengui@huawei.com>
+Message-Id: <1563696502-7972-1-git-send-email-lizhengui@huawei.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/scsi/virtio-scsi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-----------------------------------------------------------------
-Two more bugfix patches that came in over the weekend.
-
-----------------------------------------------------------------
-Jan Kiszka (1):
-      i386/kvm: Do not sync nested state during runtime
-
-Zhengui li (1):
-      virtio-scsi: fixed virtio_scsi_ctx_check failed when detaching scsi disk
-
- hw/scsi/virtio-scsi.c |  6 ++++--
- target/i386/kvm.c     | 10 +++++-----
- 2 files changed, 9 insertions(+), 7 deletions(-)
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index d0bdbff090..aa33819d59 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -841,14 +841,16 @@ static void virtio_scsi_hotunplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+         virtio_scsi_release(s);
+     }
+ 
++    aio_disable_external(s->ctx);
++    qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
++    aio_enable_external(s->ctx);
++
+     if (s->ctx) {
+         virtio_scsi_acquire(s);
+         /* If other users keep the BlockBackend in the iothread, that's ok */
+         blk_set_aio_context(sd->conf.blk, qemu_get_aio_context(), NULL);
+         virtio_scsi_release(s);
+     }
+-
+-    qdev_simple_device_unplug_cb(hotplug_dev, dev, errp);
+ }
+ 
+ static struct SCSIBusInfo virtio_scsi_scsi_info = {
 -- 
 2.21.0
+
 
 
