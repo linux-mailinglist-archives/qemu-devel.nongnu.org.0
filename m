@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69BA6FE36
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:58:21 +0200 (CEST)
-Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761126FE27
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Jul 2019 12:55:10 +0200 (CEST)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpW1M-00060a-KI
-	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40879)
+	id 1hpVyH-0000th-Lo
+	for lists+qemu-devel@lfdr.de; Mon, 22 Jul 2019 06:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40047)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW0C-0001Yz-CI
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hpVy4-0000V0-CA
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:54:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpW0A-0007Y6-SM
- for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:57:08 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52383)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpW0A-0007TY-4P; Mon, 22 Jul 2019 06:57:06 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45sdpg4D3xz9sMr; Mon, 22 Jul 2019 20:56:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1563793019;
- bh=UMwEnAbgMQypAm28tuilIPRkZKJGuIjAUcFyRi+fnFg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FwmBrqw1Vl8kp3Mgxw4JGzGUkKrSgtrlvFadnU/XcN9BFYjjkDRdmfa/l+GGx21gw
- yvTqFxiyX5LYPh9DwIDlC2FzBe5LFB/FIsstMl3wCAIVRKE7BhdOh9ZjDq6y5D1Id+
- Je0fzmgIn1h0IvzF1Eq2ISTmBkGC9rS+4Ps4qq2M=
-Date: Mon, 22 Jul 2019 18:44:24 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190722084424.GH25073@umbus.fritz.box>
-References: <156352619712.50279.1247507600735238783.stgit@lep8c.aus.stglabs.ibm.com>
+ (envelope-from <philmd@redhat.com>) id 1hpVy2-0004Tl-Or
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:54:56 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54406)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hpVy2-0004Qe-Ii
+ for qemu-devel@nongnu.org; Mon, 22 Jul 2019 06:54:54 -0400
+Received: by mail-wm1-f68.google.com with SMTP id p74so34653852wme.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Jul 2019 03:54:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fQqxjV+l1Pqp9zwnUYJQ4oSZxSq/X2V8mtZ17kFoJag=;
+ b=QBpDpL2y9Oo5nIUe3YyM9Fc8F63nUur5/g8je6SZmgvtguSJlVw+bzgi1HhU0qNHFl
+ Tr6Gr1/cirhUWd9V/vXNrdwtXRUMP+OdUIqr8ECT4ug/79i2hx1nlkyCJtMJgoRGcs7D
+ 7uWr5bGw1BqCj4vW+f3eHt5CNFApPm1eS0td31PKmrdyguWSg6OLrmGEPAmCYLlkUv2q
+ 3oNi82vQi6dFYg5LdfBsXVwTz3KIm0n7LmUMNSSTajsUuBLJi+r5W7HPE6nFhO97MGBx
+ 5e01bUEKOCmCTz7+PT6b/6cScoNF6vPZ2+70gULObjEubo4rAg9YpIg2y+OcIyUMf05k
+ 6vug==
+X-Gm-Message-State: APjAAAXYNI5MT70VKoIcUz41kLZZg94FcKgh4B8E2ExdF//+lgpsCys+
+ yivrsYL76pvpdQJXMAj457cIHA==
+X-Google-Smtp-Source: APXvYqwABhgSx7UVruFGegCcrO+vAJp77lmhTxWpuWvy0lylxDE3iu54+vrZLXg4l3261MkfY9uEmw==
+X-Received: by 2002:a05:600c:da:: with SMTP id
+ u26mr61364556wmm.108.1563792893582; 
+ Mon, 22 Jul 2019 03:54:53 -0700 (PDT)
+Received: from [192.168.1.38] (62.red-83-42-61.dynamicip.rima-tde.net.
+ [83.42.61.62])
+ by smtp.gmail.com with ESMTPSA id c7sm31708437wro.70.2019.07.22.03.54.52
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Jul 2019 03:54:53 -0700 (PDT)
+To: tony.nguyen@bt.com, qemu-devel@nongnu.org
+References: <945056df7ff54ce6b272dce64721d916@tpw09926dag18e.domain1.systemhost.net>
+ <1563766040903.29641@bt.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <dd8f07ab-82e8-e5fb-7f5a-dbce8b260964@redhat.com>
+Date: Mon, 22 Jul 2019 12:54:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QDd5rp1wjxlDmy9q"
-Content-Disposition: inline
-In-Reply-To: <156352619712.50279.1247507600735238783.stgit@lep8c.aus.stglabs.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v4] ppc: make idle_timer a per-cpu variable
+In-Reply-To: <1563766040903.29641@bt.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] configure: Define target access
+ alignment in configure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,159 +76,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, arikalo@wavecomp.com, mark.cave-ayland@ilande.co.uk,
+ jcmvbkbc@gmail.com, atar4qemu@gmail.com, amarkovic@wavecomp.com,
+ aurelien@aurel32.net, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Tony,
 
---QDd5rp1wjxlDmy9q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/22/19 5:27 AM, tony.nguyen@bt.com wrote:
+> Move the define of target access alignment earlier from
+> target/foo/cpu.h to configure.
+> 
 
-On Fri, Jul 19, 2019 at 03:51:26AM -0500, Shivaprasad G Bhat wrote:
-> The current code is broken for more than vcpu as
-> each thread would overwrite idle_timer and there were
-> memory leaks.
->=20
-> Make it part of PowerPCCPU so that every thread has a
-> separate one. Avoid using the timer_new_ns which is
-> not the preferred way to create timers.
->=20
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+You missed:
 
-So, this looks correct, but..
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 
-=2E.the whole idle_timer logic is used only in the case that we're
-running with a KVM that doesn't support KVM_CAP_PPC_IRQ_LEVEL.  That
-support appears to have been in since around v2.6.36 some 9 years
-ago.  We could probably just drop support for such old kernels in qemu
-instead.
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+
+The single change from your v1 is:
+
+-  target_bigendian=yes
++  target_bigendian="yes"
+
+So you can keep the tag from the reviewers who already checked your
+patch, so they don't have to look at it again:
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Anyway this patch is already queued by Paolo.
+
+Regards,
+
+Phil.
 
 > ---
->  v3: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04375.html
->  Changes from v3:
->     - Calling timer_del() before timer_deinit()
->=20
->  target/ppc/cpu.h |    1 +
->  target/ppc/kvm.c |   32 +++++++++++++++++---------------
->  2 files changed, 18 insertions(+), 15 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index c9beba2a5c..521086d91a 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1190,6 +1190,7 @@ struct PowerPCCPU {
->      void *machine_data;
->      int32_t node_id; /* NUMA node this CPU belongs to */
->      PPCHash64Options *hash64_opts;
-> +    QEMUTimer idle_timer;
-> =20
->      /* Fields related to migration compatibility hacks */
->      bool pre_2_8_migration;
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8a06d3171e..52d3292f45 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -87,18 +87,6 @@ static int cap_large_decr;
-> =20
->  static uint32_t debug_inst_opcode;
-> =20
-> -/*
-> - * XXX We have a race condition where we actually have a level triggered
-> - *     interrupt, but the infrastructure can't expose that yet, so the g=
-uest
-> - *     takes but ignores it, goes to sleep and never gets notified that =
-there's
-> - *     still an interrupt pending.
-> - *
-> - *     As a quick workaround, let's just wake up again 20 ms after we in=
-jected
-> - *     an interrupt. That way we can assure that we're always reinjecting
-> - *     interrupts in case the guest swallowed them.
-> - */
-> -static QEMUTimer *idle_timer;
+>  configure             | 10 +++++++++-
+>  include/exec/poison.h |  1 +
+>  include/qom/cpu.h     |  2 +-
+>  target/alpha/cpu.h    |  2 --
+>  target/hppa/cpu.h     |  1 -
+>  target/mips/cpu.h     |  2 --
+>  target/sh4/cpu.h      |  2 --
+>  target/sparc/cpu.h    |  2 --
+>  target/xtensa/cpu.h   |  2 --
+>  tcg/tcg.c             |  2 +-
+>  tcg/tcg.h             |  8 +++++---
+>  11 files changed, 17 insertions(+), 17 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index eb635c3..8316a16 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7424,8 +7424,13 @@ for target in $target_list; do
+>  target_dir="$target"
+>  config_target_mak=$target_dir/config-target.mak
+>  target_name=$(echo $target | cut -d '-' -f 1)
+> +target_aligned_only="no"
+> +case "$target_name" in
+> +  alpha|hppa|mips64el|mips64|mipsel|mips|mipsn32|mipsn32el|sh4|sh4eb|sparc|sparc64|sparc32plus|xtensa|xtensaeb)
+> +  target_aligned_only="yes"
+> +  ;;
+> +esac
+>  target_bigendian="no"
 > -
->  static void kvm_kick_cpu(void *opaque)
->  {
->      PowerPCCPU *cpu =3D opaque;
-> @@ -491,7 +479,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          return ret;
->      }
-> =20
-> -    idle_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
-> +    timer_init_ns(&cpu->idle_timer, QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cp=
-u);
-> =20
->      switch (cenv->mmu_model) {
->      case POWERPC_MMU_BOOKE206:
-> @@ -523,6 +511,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
-> =20
->  int kvm_arch_destroy_vcpu(CPUState *cs)
->  {
-> +    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +
-> +    timer_del(&cpu->idle_timer);
-> +    timer_deinit(&cpu->idle_timer);
-> +
->      return 0;
->  }
-> =20
-> @@ -1379,8 +1372,17 @@ void kvm_arch_pre_run(CPUState *cs, struct kvm_run=
- *run)
->              printf("cpu %d fail inject %x\n", cs->cpu_index, irq);
->          }
-> =20
-> -        /* Always wake up soon in case the interrupt was level based */
-> -        timer_mod(idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> +        /*
-> +         * XXX We have a race condition where we actually have a level
-> +         *     triggered interrupt, but the infrastructure can't expose =
-that
-> +         *     yet, so the guest takes but ignores it, goes to sleep and
-> +         *     never gets notified that there's still an interrupt pendi=
-ng.
-> +         *
-> +         *     As a quick workaround, let's just wake up again 20 ms aft=
-er
-> +         *     we injected an interrupt. That way we can assure that we'=
-re
-> +         *     always reinjecting interrupts in case the guest swallowed=
- them.
-> +         */
-> +        timer_mod(&cpu->idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL=
-) +
->                         (NANOSECONDS_PER_SECOND / 50));
->      }
-> =20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---QDd5rp1wjxlDmy9q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl01d2gACgkQbDjKyiDZ
-s5K4JxAAn/DN9zRQ5I1uDeud4OeGaBXEPLay/Fhx+sSDPw3YOoFnG+rs3hF4cVRD
-KLGtegTU2TuKzlbfUJPJrrj/4RyJ667vnpW1KZyY4ZNSJKkCznE0ELg432eacNFZ
-5LpUTeszXuArzHb3m7+GyaoUmowfOjh8QLyV9Cnri0QI91B5iRRrXwwCy5Nb+3NF
-oif5ckjlOiG5Pb3hLoFICk+zl7ftvpKYShC4rQsZZsChapNjYtaa5ryouAuEH4tC
-+DMLGdtRFKCWgd28+wMhS/PnEWXyLRivlJLcSZcGCG2Qq2X8gzRtSkdGaE3aCNj9
-4K2GSo3LLwj9yMNy7weeBLbPr8d/9Faqye9jlUP+o/HJqlHQgAe67OQvMZ5xSP9e
-7ye/FyExUrUg2yHHnwnq4ixpL3g22ccMFDGiJzA2dZP0pMC6V0MaSUlWUhIBMXCN
-38s4Vn0q8V/4wv8LpfifAIWKNjRUPnH2G3l6/KVbqO/aKuhFB6yA5e8y5bFvbIKY
-rb8OeR3Pej9SZnaFOH2/IcikTSn4cFnC9iow4mLtLdJszPNDZQQ7CDWSX8L7PWMK
-L4l8snUbEpFPhEelZzMHkSiZcLcwqszK3lqt03ESBoq1rDjquX3XVRzDimbs5UD9
-PInQvAGEehbY29teAbwXWyDWMb+/l5pzXjFlLPXXhSWVj0WlYl4=
-=pZNU
------END PGP SIGNATURE-----
-
---QDd5rp1wjxlDmy9q--
+>  case "$target_name" in
+>    armeb|aarch64_be|hppa|lm32|m68k|microblaze|mips|mipsn32|mips64|moxie|or1k|ppc|ppc64|ppc64abi32|s390x|sh4eb|sparc|sparc64|sparc32plus|xtensaeb)
+>    target_bigendian=yes
+> @@ -7710,6 +7715,9 @@ fi
+>  if supported_whpx_target $target; then
+>      echo "CONFIG_WHPX=y" >> $config_target_mak
+>  fi
+> +if test "$target_aligned_only" = "yes" ; then
+> +  echo "TARGET_ALIGNED_ONLY=y" >> $config_target_mak
+> +fi
+>  if test "$target_bigendian" = "yes" ; then
+>    echo "TARGET_WORDS_BIGENDIAN=y" >> $config_target_mak
+>  fi
+> diff --git a/include/exec/poison.h b/include/exec/poison.h
+> index b862320..955eb86 100644
+> --- a/include/exec/poison.h
+> +++ b/include/exec/poison.h
+> @@ -35,6 +35,7 @@
+>  #pragma GCC poison TARGET_UNICORE32
+>  #pragma GCC poison TARGET_XTENSA
+>  
+> +#pragma GCC poison TARGET_ALIGNED_ONLY
+>  #pragma GCC poison TARGET_HAS_BFLT
+>  #pragma GCC poison TARGET_NAME
+>  #pragma GCC poison TARGET_SUPPORTS_MTTCG
+> diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+> index 5ee0046..9b50b73 100644
+> --- a/include/qom/cpu.h
+> +++ b/include/qom/cpu.h
+> @@ -89,7 +89,7 @@ struct TranslationBlock;
+>   * @do_unassigned_access: Callback for unassigned access handling.
+>   * (this is deprecated: new targets should use do_transaction_failed instead)
+>   * @do_unaligned_access: Callback for unaligned access handling, if
+> - * the target defines #ALIGNED_ONLY.
+> + * the target defines #TARGET_ALIGNED_ONLY.
+>   * @do_transaction_failed: Callback for handling failed memory transactions
+>   * (ie bus faults or external aborts; not MMU faults)
+>   * @virtio_is_big_endian: Callback to return %true if a CPU which supports
+> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+> index b3e8a82..16eb804 100644
+> --- a/target/alpha/cpu.h
+> +++ b/target/alpha/cpu.h
+> @@ -23,8 +23,6 @@
+>  #include "cpu-qom.h"
+>  #include "exec/cpu-defs.h"
+>  
+> -#define ALIGNED_ONLY
+> -
+>  /* Alpha processors have a weak memory model */
+>  #define TCG_GUEST_DEFAULT_MO      (0)
+>  
+> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+> index aab251b..2be67c2 100644
+> --- a/target/hppa/cpu.h
+> +++ b/target/hppa/cpu.h
+> @@ -30,7 +30,6 @@
+>     basis.  It's probably easier to fall back to a strong memory model.  */
+>  #define TCG_GUEST_DEFAULT_MO        TCG_MO_ALL
+>  
+> -#define ALIGNED_ONLY
+>  #define MMU_KERNEL_IDX   0
+>  #define MMU_USER_IDX     3
+>  #define MMU_PHYS_IDX     4
+> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> index 21c0615..c13cd4e 100644
+> --- a/target/mips/cpu.h
+> +++ b/target/mips/cpu.h
+> @@ -1,8 +1,6 @@
+>  #ifndef MIPS_CPU_H
+>  #define MIPS_CPU_H
+>  
+> -#define ALIGNED_ONLY
+> -
+>  #include "cpu-qom.h"
+>  #include "exec/cpu-defs.h"
+>  #include "fpu/softfloat.h"
+> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> index aee733e..ecaa7a1 100644
+> --- a/target/sh4/cpu.h
+> +++ b/target/sh4/cpu.h
+> @@ -23,8 +23,6 @@
+>  #include "cpu-qom.h"
+>  #include "exec/cpu-defs.h"
+>  
+> -#define ALIGNED_ONLY
+> -
+>  /* CPU Subtypes */
+>  #define SH_CPU_SH7750  (1 << 0)
+>  #define SH_CPU_SH7750S (1 << 1)
+> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+> index 8ed2250..1406f0b 100644
+> --- a/target/sparc/cpu.h
+> +++ b/target/sparc/cpu.h
+> @@ -5,8 +5,6 @@
+>  #include "cpu-qom.h"
+>  #include "exec/cpu-defs.h"
+>  
+> -#define ALIGNED_ONLY
+> -
+>  #if !defined(TARGET_SPARC64)
+>  #define TARGET_DPREGS 16
+>  #else
+> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+> index 2c27713..0459243 100644
+> --- a/target/xtensa/cpu.h
+> +++ b/target/xtensa/cpu.h
+> @@ -32,8 +32,6 @@
+>  #include "exec/cpu-defs.h"
+>  #include "xtensa-isa.h"
+>  
+> -#define ALIGNED_ONLY
+> -
+>  /* Xtensa processors have a weak memory model */
+>  #define TCG_GUEST_DEFAULT_MO      (0)
+>  
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index be2c33c..8d23fb0 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1926,7 +1926,7 @@ static const char * const ldst_name[] =
+>  };
+>  
+>  static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) + 1] = {
+> -#ifdef ALIGNED_ONLY
+> +#ifdef TARGET_ALIGNED_ONLY
+>      [MO_UNALN >> MO_ASHIFT]    = "un+",
+>      [MO_ALIGN >> MO_ASHIFT]    = "",
+>  #else
+> diff --git a/tcg/tcg.h b/tcg/tcg.h
+> index b411e17..529acb2 100644
+> --- a/tcg/tcg.h
+> +++ b/tcg/tcg.h
+> @@ -333,10 +333,12 @@ typedef enum TCGMemOp {
+>      MO_TE    = MO_LE,
+>  #endif
+>  
+> -    /* MO_UNALN accesses are never checked for alignment.
+> +    /*
+> +     * MO_UNALN accesses are never checked for alignment.
+>       * MO_ALIGN accesses will result in a call to the CPU's
+>       * do_unaligned_access hook if the guest address is not aligned.
+> -     * The default depends on whether the target CPU defines ALIGNED_ONLY.
+> +     * The default depends on whether the target CPU defines
+> +     * TARGET_ALIGNED_ONLY.
+>       *
+>       * Some architectures (e.g. ARMv8) need the address which is aligned
+>       * to a size more than the size of the memory access.
+> @@ -353,7 +355,7 @@ typedef enum TCGMemOp {
+>       */
+>      MO_ASHIFT = 4,
+>      MO_AMASK = 7 << MO_ASHIFT,
+> -#ifdef ALIGNED_ONLY
+> +#ifdef TARGET_ALIGNED_ONLY
+>      MO_ALIGN = 0,
+>      MO_UNALN = MO_AMASK,
+>  #else
+> 
 
