@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6856F71DE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:41:08 +0200 (CEST)
-Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CF271DE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:40:23 +0200 (CEST)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyIQ-0001Qf-9y
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43539)
+	id 1hpyIP-00016d-Ga
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43221)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBl-00010V-NG
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:59 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBE-0007Tb-Aj
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBi-0006YL-6a
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:56 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51234
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-00063B-8r
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63086
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyBY-00064K-68; Tue, 23 Jul 2019 13:02:47 -0400
+ id 1hpyBA-0005lJ-7P
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:22 -0400
 Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NH23HI077495; Tue, 23 Jul 2019 13:02:14 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60r8nrr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:02:13 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NH2BWa078279;
- Tue, 23 Jul 2019 13:02:11 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60r8myv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:02:11 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0KRQ029969;
- Tue, 23 Jul 2019 17:01:28 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01wdc.us.ibm.com with ESMTP id 2tx61mr2et-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 17:01:28 +0000
+ x6NH24Ef077587
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:07 -0400
+Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60r8n1p-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:02 -0400
+Received: from localhost
+ by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
+ Tue, 23 Jul 2019 18:01:31 +0100
+Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
+ by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 23 Jul 2019 18:01:29 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1RFn51642666
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1SNH26149202
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:27 GMT
+ Tue, 23 Jul 2019 17:01:28 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 87D33BE05A;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BDC48BE051;
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B23CBE051;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B1ACEBE05B;
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:32 -0500
-Message-Id: <20190723170104.4327-5-mdroth@linux.vnet.ibm.com>
+Date: Tue, 23 Jul 2019 12:00:35 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
+x-cbid: 19072317-0004-0000-0000-0000152DB9B4
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:31
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19072317-0005-0000-0000-00008C9463D1
+Message-Id: <20190723170104.4327-8-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=881 adultscore=0 classifier=spam adjust=0 reason=mlx
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id x6NH24Ef077587
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 04/36] pcie: set link state inactive/active
- after hot unplug/plug
+Subject: [Qemu-devel] [PATCH 07/36] linux-user: make pwrite64/pread64(fd,
+ NULL, 0, offset) return 0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,113 +98,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wang Haibin <wanghaibin.wang@huawei.com>,
- Zheng Xiang <zhengxiang9@huawei.com>, Zheng Xiang <xiang.zheng@linaro.org>,
- qemu-stable@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zheng Xiang <zhengxiang9@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-When VM boots from the latest version of linux kernel, after
-hot-unpluging virtio-blk disks which are hotplugged into
-pcie-root-port, the VM's dmesg log shows:
+Linux returns success if pwrite64() or pread64() are called with a
+zero length NULL buffer, but QEMU was returning -TARGET_EFAULT.
 
-[  151.046242] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0001 from Slot Status
-[  151.046365] pciehp 0000:00:05.0:pcie004: Slot(0-3): Attention button pressed
-[  151.046369] pciehp 0000:00:05.0:pcie004: Slot(0-3): Powering off due to button press
-[  151.046420] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  151.046425] pciehp 0000:00:05.0:pcie004: pciehp_green_led_blink: SLOTCTRL a8 write cmd 200
-[  151.046464] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  151.046468] pciehp 0000:00:05.0:pcie004: pciehp_set_attention_status: SLOTCTRL a8 write cmd c0
-[  156.163421] pciehp 0000:00:05.0:pcie004: pciehp_get_power_status: SLOTCTRL a8 value read 2f1
-[  156.163427] pciehp 0000:00:05.0:pcie004: pciehp_unconfigure_device: domain:bus:dev = 0000:06:00
-[  156.198736] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  156.198772] pciehp 0000:00:05.0:pcie004: pciehp_power_off_slot: SLOTCTRL a8 write cmd 400
-[  157.224124] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0018 from Slot Status
-[  157.224194] pciehp 0000:00:05.0:pcie004: pciehp_green_led_off: SLOTCTRL a8 write cmd 300
-[  157.224220] pciehp 0000:00:05.0:pcie004: pciehp_check_link_active: lnk_status = 2011
-[  157.224223] pciehp 0000:00:05.0:pcie004: Slot(0-3): Link Up
-[  157.224233] pciehp 0000:00:05.0:pcie004: pciehp_get_power_status: SLOTCTRL a8 value read 7f1
-[  157.224281] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  157.224285] pciehp 0000:00:05.0:pcie004: pciehp_power_on_slot: SLOTCTRL a8 write cmd 0
-[  157.224300] pciehp 0000:00:05.0:pcie004: __pciehp_link_set: lnk_ctrl = 0
-[  157.224336] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  157.224339] pciehp 0000:00:05.0:pcie004: pciehp_green_led_blink: SLOTCTRL a8 write cmd 200
-[  159.739294] pci 0000:06:00.0 id reading try 50 times with interval 20 ms to get ffffffff
-[  159.739315] pciehp 0000:00:05.0:pcie004: pciehp_check_link_status: lnk_status = 2011
-[  159.739318] pciehp 0000:00:05.0:pcie004: Failed to check link status
-[  159.739371] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  159.739394] pciehp 0000:00:05.0:pcie004: pciehp_power_off_slot: SLOTCTRL a8 write cmd 400
-[  160.771426] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  160.771452] pciehp 0000:00:05.0:pcie004: pciehp_green_led_off: SLOTCTRL a8 write cmd 300
-[  160.771495] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  160.771499] pciehp 0000:00:05.0:pcie004: pciehp_set_attention_status: SLOTCTRL a8 write cmd 40
-[  160.771535] pciehp 0000:00:05.0:pcie004: pending interrupts 0x0010 from Slot Status
-[  160.771539] pciehp 0000:00:05.0:pcie004: pciehp_green_led_off: SLOTCTRL a8 write cmd 300
+This is the same bug that we fixed in commit 58cfa6c2e6eb51b23cc9
+for the write syscall, and long before that in 38d840e6790c29f59
+for the read syscall.
 
-After analyzing the log information, it seems that qemu doesn't
-change the Link Status from active to inactive after hot-unplug.
-This results in the abnormal log after the linux kernel commit
-d331710ea78fea merged.
+Fixes: https://bugs.launchpad.net/qemu/+bug/1810433
 
-Furthermore, If I hotplug the same virtio-blk disk after hot-unplug,
-the virtio-blk would turn on and then back off.
-
-So this patch set the Link Status inactive after hot-unplug and
-active after hot-plug.
-
-Signed-off-by: Zheng Xiang <zhengxiang9@huawei.com>
-Signed-off-by: Zheng Xiang <xiang.zheng@linaro.org>
-Cc: Wang Haibin <wanghaibin.wang@huawei.com>
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 2f2b18f60bf17453b4c01197a9316615a3c1f1de)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190108184900.9654-1-peter.maydell@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+(cherry picked from commit 2bd3f8998e1e7dcd9afc29fab252fb9936f9e956)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/pci/pcie.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ linux-user/syscall.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 6c91bd44a0..66b73b87c8 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -345,6 +345,10 @@ void pcie_cap_slot_hotplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-     if (!dev->hotplugged) {
-         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
-                                    PCI_EXP_SLTSTA_PDS);
-+        if (pci_dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
-+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_LNKSTA,
-+                                       PCI_EXP_LNKSTA_DLLLA);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 280137da8c..b13a170e52 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9677,8 +9677,15 @@ static abi_long do_syscall1(void *cpu_env, int num=
+, abi_long arg1,
+             arg4 =3D arg5;
+             arg5 =3D arg6;
+         }
+-        if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
+-            return -TARGET_EFAULT;
++        if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
++            /* Special-case NULL buffer and zero length, which should su=
+cceed */
++            p =3D 0;
++        } else {
++            p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0);
++            if (!p) {
++                return -TARGET_EFAULT;
++            }
 +        }
-         return;
-     }
- 
-@@ -355,6 +359,10 @@ void pcie_cap_slot_hotplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-     if (pci_get_function_0(pci_dev)) {
-         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
-                                    PCI_EXP_SLTSTA_PDS);
-+        if (pci_dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
-+            pci_word_test_and_set_mask(exp_cap + PCI_EXP_LNKSTA,
-+                                       PCI_EXP_LNKSTA_DLLLA);
+         ret =3D get_errno(pread64(arg1, p, arg3, target_offset64(arg4, a=
+rg5)));
+         unlock_user(p, arg2, ret);
+         return ret;
+@@ -9687,8 +9694,15 @@ static abi_long do_syscall1(void *cpu_env, int num=
+, abi_long arg1,
+             arg4 =3D arg5;
+             arg5 =3D arg6;
+         }
+-        if (!(p =3D lock_user(VERIFY_READ, arg2, arg3, 1)))
+-            return -TARGET_EFAULT;
++        if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
++            /* Special-case NULL buffer and zero length, which should su=
+cceed */
++            p =3D 0;
++        } else {
++            p =3D lock_user(VERIFY_READ, arg2, arg3, 1);
++            if (!p) {
++                return -TARGET_EFAULT;
++            }
 +        }
-         pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
-                             PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
-     }
-@@ -531,6 +539,10 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
- 
-         pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
-                                      PCI_EXP_SLTSTA_PDS);
-+        if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
-+            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
-+                                         PCI_EXP_LNKSTA_DLLLA);
-+        }
-         pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
-                                        PCI_EXP_SLTSTA_PDC);
-     }
--- 
+         ret =3D get_errno(pwrite64(arg1, p, arg3, target_offset64(arg4, =
+arg5)));
+         unlock_user(p, arg2, 0);
+         return ret;
+--=20
 2.17.1
 
 
