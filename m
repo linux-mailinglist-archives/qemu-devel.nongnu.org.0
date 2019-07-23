@@ -2,69 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D952C71474
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 10:56:16 +0200 (CEST)
-Received: from localhost ([::1]:40192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB3C71479
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 10:58:43 +0200 (CEST)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpqam-0004ni-3a
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 04:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38005)
+	id 1hpqd8-00070V-To
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 04:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38997)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hpqaX-0004OY-8P
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:56:04 -0400
+ (envelope-from <thuth@redhat.com>) id 1hpqcw-0006c8-OH
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:58:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yury-kotov@yandex-team.ru>) id 1hpqaU-0001WY-AE
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:56:01 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:38428)
+ (envelope-from <thuth@redhat.com>) id 1hpqcv-0003Bc-Az
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:58:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
- id 1hpqZ3-0000aS-Hw
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:55:58 -0400
-Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
- [IPv6:2a02:6b8:0:1a2d::301])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id A8C192E144B;
- Tue, 23 Jul 2019 11:54:24 +0300 (MSK)
-Received: from localhost (localhost [::1])
- by mxbackcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
- kIsKj4cieE-sOB83uS8; Tue, 23 Jul 2019 11:54:24 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1563872064; bh=eJsPd7AVmUrcwV2KbQwRdANG+y5de9OYqTYT7uK51ZM=;
- h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
- b=jJ2KxCtxianoPSepE7ZroypRhVuJSHFr5yr0R5hYXDKC7i0zunIUUOPtWwUe2JNDc
- 8OsRCDHvJ3su4g74oJyAm+6teMcqDmpJZE3jSAN+dF5V39v1pMgP4uTTfj4kmOmVhD
- 5ssghBTPdG7ZD0KBBw40NNLLhJhc8inukJ0UbHIk=
-Authentication-Results: mxbackcorp1o.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000071945
-X-Yandex-Avir: 1
-Received: from mxbackcorp1g.mail.yandex.net (localhost [::1])
- by mxbackcorp1g.mail.yandex.net with LMTP id 6xTSBP0uVc-r2lCf8G5
- for <yury-kotov@yandex-team.ru>; Tue, 23 Jul 2019 11:54:13 +0300
-Received: by myt5-bd00a25f9194.qloud-c.yandex.net with HTTP;
- Tue, 23 Jul 2019 11:54:13 +0300
-From: Yury Kotov <yury-kotov@yandex-team.ru>
-To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-In-Reply-To: <20190722173525.GF3035@work-vm>
-References: <20190718091726.9874-1-yury-kotov@yandex-team.ru>
- <20190718091726.9874-4-yury-kotov@yandex-team.ru>
- <20190722173525.GF3035@work-vm>
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hpqcv-0003BB-1M
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 04:58:29 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2FE5AC057EC6;
+ Tue, 23 Jul 2019 08:58:28 +0000 (UTC)
+Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A7F852FC0;
+ Tue, 23 Jul 2019 08:58:22 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Brad Smith <brad@comstyle.com>
+References: <20190717134335.15351-1-alex.bennee@linaro.org>
+ <20190717134335.15351-23-alex.bennee@linaro.org>
+ <1e1ae24a-bed3-2acc-7727-16cfb7d877bc@redhat.com>
+ <adc633ad-9c58-78ef-c5b0-7044f5053573@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+ xsFNBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
+ yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
+ 4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
+ tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
+ 0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
+ O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
+ 0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
+ gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
+ 3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
+ zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABzRxUaG9tYXMgSHV0
+ aCA8dGguaHV0aEBnbXguZGU+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIX
+ gAUCUfuWKwIZAQAKCRAu2dd0/nAttbe/EACb9hafyOb2FmhUqeAiBORSsUifFacQ7laVjcgR
+ I4um8CSHvxijYftpkM2EdAtmXIKgbNDpQoXcWLXB9lu9mLgTO4DVT00TRR65ikn3FCWcyT74
+ ENTOzRKyKLsDCjhXKPblTPIQbYAUCOWElcyAPm0ERd62fA/rKNxgIiNo/l4UODOMoOJm2/Ox
+ ZoTckW68Eqv7k9L7m7j+Hn3hoDTjAmcCBJt+j7pOhzWvCbqoNOIH8C8qvPaNlrba+R/K6jkO
+ 6jZkTbYQpGIofEQJ/TNn38IsNGpI1ALTHWFtoMxp3j2Imz0REO6dRE2fHRN8sVlHgkoeGhmY
+ NbDsDE1jFQOEObFnu0euk//7BXU7tGOHckVAZ8T1smiRPHfQU7UEH2a/grndxJ+PNeM5w7n2
+ l+FN3cf2KgPotCK2s9MjSdZA7C5e3rFYO8lqiqTJKvc62vqp3e7B0Kjyy5/QtzSOejBij2QL
+ xkKSFNtxIz4MtuxN8e3IDQNxsKry3nF7R4MDvouXlMo6wP9KuyNWb+vFJt9GtbgfDMIFVamp
+ ZfhEWzWRJH4VgksENA4K/BzjEHCcbTUb1TFsiB1VRnBPJ0SqlvifnfKk6HcpkDk6Pg8Q5FOJ
+ gbNHrdgXsm+m/9GF2zUUr+rOlhVbK23TUqKqPfwnD7uxjpakVcJnsVCFqJpZi1F/ga9IN87B
+ TQRR+3lMARAAtp831HniPHb9AuKq3wj83ujZK8lH5RLrfVsB4X1wi47bwo56BqhXpR/zxPTR
+ eOFT0gnbw9UkphVc7uk/alnXMDEmgvnuxv89PwIQX6k3qLABeV7ykJQG/WT5HQ6+2DdGtVw3
+ 2vjYAPiWQeETsgWRRQMDR0/hwp8s8tL/UodwYCScH6Vxx9pdy353L1fK4Bb9G73a+9FPjp9l
+ x+WwKTsltVqSBuSjyZQ3c3EE8qbTidXZxB38JwARH8yN3TX+t65cbBqLl/zRUUUTapHQpUEd
+ yoAsHIml32e4q+3xdLtTdlLi7FgPBItSazcqZPjEcYW73UAuLcmQmfJlQ5PkDiuqcitn+KzH
+ /1pqsTU7QFZjbmSMJyXY0TDErOFuMOjf20b6arcpEqse1V3IKrb+nqqA2azboRm3pEANLAJw
+ iVTwK3qwGRgK5ut6N/Znv20VEHkFUsRAZoOusrIRfR5HFDxlXguAdEz8M/hxXFYYXqOoaCYy
+ 6pJxTjy0Y/tIfmS/g9Bnp8qg9wsrsnk0+XRnDVPak++G3Uq9tJPwpJbyO0vcqEI3vAXkAB7X
+ VXLzvFwi66RrsPUoDkuzj+aCNumtOePDOCpXQGPpKl+l1aYRMN/+lNSk3+1sVuc2C07WnYyE
+ gV/cbEVklPmKrNwu6DeUyD0qI/bVzKMWZAiB1r56hsGeyYcAEQEAAcLBXwQYAQIACQUCUft5
+ TAIbDAAKCRAu2dd0/nAttYTwEACLAS/THRqXRKb17PQmKwZHerUvZm2klo+lwQ3wNQBHUJAT
+ p2R9ULexyXrJPqjUpy7+voz+FcKiuQBTKyieiIxO46oMxsbXGZ70o3gxjxdYdgimUD6U8PPd
+ JH8tfAL4BR5FZNjspcnscN2jgbF4OrpDeOLyBaj6HPmElNPtECHWCaf1xbIFsZxSDGMA6cUh
+ 0uX3Q8VI7JN1AR2cfiIRY7NrIlWYucJxyKjO3ivWm69nCtsHiJ0wcF8KlVo7F2eLaufo0K8A
+ ynL8SHMF3VEyxsXOP2f1UR9T2Ur30MXcTBpjUxml1TX3RWY5uH89Js/jlIugBwuAmacJ7JYh
+ lTg6sF/GNc4nPb4kk2yktNWTade+TzsllYlJPaorD2Qe8qX0iFUhFC6y9+O6mP4ZvWoYapp9
+ ezYNuebMgEr93ob1+4sFg3812wNP01WqsGtWCJHnPv/JoonFdMzD/bIkXGEJMk6ks2kxQQZq
+ g6Ik/s/vxOfao/xCn8nHt7GwvVy41795hzK6tbSl+BuyCRp0vfPRP34OnK7+jR2nvQpJu/pU
+ rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
+ WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
+Organization: Red Hat
+Message-ID: <f87967a6-af89-f673-48fa-63c5b6c772bb@redhat.com>
+Date: Tue, 23 Jul 2019 10:58:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 23 Jul 2019 11:54:23 +0300
-Message-Id: <483241563872053@myt5-bd00a25f9194.qloud-c.yandex.net>
+In-Reply-To: <adc633ad-9c58-78ef-c5b0-7044f5053573@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 23 Jul 2019 08:58:28 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
-Subject: Re: [Qemu-devel] [PATCH v3 3/3] tests/migration: Add a test for
- auto converge
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] make vm-build-openbsd (was: Re: [PATCH v2 22/23]
+ tests: Run the iotests during "make check" again)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,219 +108,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Crosthwaite <crosthwaite.peter@gmail.com>,
- Stefan Weil <sw@weilnetz.de>, Juan Quintela <quintela@redhat.com>,
- "open list:Overall" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.07.2019, 20:35, "Dr. David Alan Gilbert" <dgilbert@redhat.com>:
-> * Yury Kotov (yury-kotov@yandex-team.ru) wrote:
->> =C2=A0Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
->
-> This looks OK to me, but have you tried it on a really really overloade=
-d
-> host?
-> I worry that you might skip some of the percentage steps or not hit the
-> bandwidth on the small overloaded VMs we get in CI.
+On 23/07/2019 09.20, Thomas Huth wrote:
+> On 22/07/2019 21.53, Philippe Mathieu-Daud=C3=A9 wrote:
+> [...]
+>> Since Gerd updated the OpenBSD image, do you know if we can run vm-tes=
+t
+>> again?
+>=20
+> I just tried it, but the OpenBSD build seems to be completely broken ri=
+ght now:
+>=20
+> $ nice make vm-build-openbsd=20
+>     VM-IMAGE openbsd=20
+> ### Downloading install iso ...
+> --2019-07-23 08:52:46--  https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/=
+install65.iso
+> Resolving cdn.openbsd.org (cdn.openbsd.org)... 151.101.38.217
+> Connecting to cdn.openbsd.org (cdn.openbsd.org)|151.101.38.217|:443... =
+connected.
+> HTTP request sent, awaiting response... 200 OK
+> Length: 407169024 (388M) [application/octet-stream]
+> Saving to: =E2=80=98/home/thuth/.cache/qemu-vm/download/54ac74c2128d6c2=
+d3ede38756576fe89c08476bd.download=E2=80=99
+>=20
+> 100%[=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>=
+] 407.169.024 8,55MB/s   in 39s   =20
+>=20
+> 2019-07-23 08:53:25 (9,98 MB/s) - =E2=80=98/home/thuth/.cache/qemu-vm/d=
+ownload/54ac74c2128d6c2d3ede38756576fe89c08476bd.download=E2=80=99 saved =
+[407169024/407169024]
+>=20
+> ### Preparing iso and disk image ...
+> Formatting '/home/thuth/.cache/qemu-vm/images/openbsd.img.tmp', fmt=3Dq=
+cow2 size=3D21474836480 cluster_size=3D65536 lazy_refcounts=3Doff refcoun=
+t_bits=3D16
+> ### Booting installer ...
+> console: *** read timeout ***
+> console: waiting for: 'timezone'
+> console: line buffer:
+>=20
+> con recv: Which disk is the root disk? ('?' for details) [sd0]
+>=20
+> Failed to prepare guest environment
+> Traceback (most recent call last):
+>   File "/home/thuth/devel/qemu/tests/vm/basevm.py", line 353, in main
+>     return vm.build_image(args.image)
+>   File "/home/thuth/devel/qemu/tests/vm/openbsd", line 118, in build_im=
+age
+>     self.console_wait_send("timezone",                "UTC\n")
+>   File "/home/thuth/devel/qemu/tests/vm/basevm.py", line 253, in consol=
+e_wait_send
+>     self.console_wait(wait)
+>   File "/home/thuth/devel/qemu/tests/vm/basevm.py", line 215, in consol=
+e_wait
+>     chars =3D vm.console_socket.recv(1)
+> socket.timeout: timed out
+> make: *** [/home/thuth/.cache/qemu-vm/images/openbsd.img] Error 2
+>=20
+> I even tried to delete the ~/.cache/qemu-vm folder, but that also did
+> not help, I'm always getting that time-out now. Does it still work for
+> you?
 
-No, I haven't tried. I saw patchew's logs and you're absolutely right - s=
-uch
-problem exists. Now I'm looking for a way to fix it.
+FWIW, it works again with this hack:
 
->
-> Dave
->
->> =C2=A0---
->> =C2=A0=C2=A0tests/migration-test.c | 119 +++++++++++++++++++++++++++++=
-++++++++----
->> =C2=A0=C2=A01 file changed, 108 insertions(+), 11 deletions(-)
->>
->> =C2=A0diff --git a/tests/migration-test.c b/tests/migration-test.c
->> =C2=A0index a4feb9545d..bb69517fc8 100644
->> =C2=A0--- a/tests/migration-test.c
->> =C2=A0+++ b/tests/migration-test.c
->> =C2=A0@@ -241,6 +241,17 @@ static int64_t read_ram_property_int(QTestS=
-tate *who, const char *property)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return result;
->> =C2=A0=C2=A0}
->>
->> =C2=A0+static int64_t read_migrate_property_int(QTestState *who, const=
- char *property)
->> =C2=A0+{
->> =C2=A0+ QDict *rsp_return;
->> =C2=A0+ int64_t result;
->> =C2=A0+
->> =C2=A0+ rsp_return =3D migrate_query(who);
->> =C2=A0+ result =3D qdict_get_try_int(rsp_return, property, 0);
->> =C2=A0+ qobject_unref(rsp_return);
->> =C2=A0+ return result;
->> =C2=A0+}
->> =C2=A0+
->> =C2=A0=C2=A0static uint64_t get_migration_pass(QTestState *who)
->> =C2=A0=C2=A0{
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return read_ram_property_int(who, =
-"dirty-sync-count");
->> =C2=A0@@ -255,20 +266,22 @@ static void read_blocktime(QTestState *who=
-)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qobject_unref(rsp_return);
->> =C2=A0=C2=A0}
->>
->> =C2=A0+static bool check_migration_status(QTestState *who, const char =
-*status)
->> =C2=A0+{
->> =C2=A0+ bool completed;
->> =C2=A0+ char *current_status;
->> =C2=A0+
->> =C2=A0+ current_status =3D migrate_query_status(who);
->> =C2=A0+ completed =3D strcmp(current_status, status) =3D=3D 0;
->> =C2=A0+ g_assert_cmpstr(current_status, !=3D, "failed");
->> =C2=A0+ g_free(current_status);
->> =C2=A0+ return completed;
->> =C2=A0+}
->> =C2=A0+
->> =C2=A0=C2=A0static void wait_for_migration_status(QTestState *who,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0const char *goal)
->> =C2=A0=C2=A0{
->> =C2=A0- while (true) {
->> =C2=A0- bool completed;
->> =C2=A0- char *status;
->> =C2=A0-
->> =C2=A0- status =3D migrate_query_status(who);
->> =C2=A0- completed =3D strcmp(status, goal) =3D=3D 0;
->> =C2=A0- g_assert_cmpstr(status, !=3D, "failed");
->> =C2=A0- g_free(status);
->> =C2=A0- if (completed) {
->> =C2=A0- return;
->> =C2=A0- }
->> =C2=A0+ while (!check_migration_status(who, goal)) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0usleep(100=
-0);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
->> =C2=A0=C2=A0}
->> =C2=A0@@ -1121,6 +1134,89 @@ static void test_migrate_fd_proto(void)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0test_migrate_end(from, to, true);
->> =C2=A0=C2=A0}
->>
->> =C2=A0+static void test_migrate_auto_converge(void)
->> =C2=A0+{
->> =C2=A0+ char *uri =3D g_strdup_printf("unix:%s/migsocket", tmpfs);
->> =C2=A0+ QTestState *from, *to;
->> =C2=A0+ int i;
->> =C2=A0+ int64_t remaining, downtime;
->> =C2=A0+
->> =C2=A0+ /*
->> =C2=A0+ * We want the test to be fast enough, but stable.
->> =C2=A0+ * Throttle percentages are chosen to cover all cases (init, in=
-crement, max)
->> =C2=A0+ */
->> =C2=A0+ static const int64_t expected_pcts[] =3D { 0, 1, 51, 98 };
->> =C2=A0+ const int64_t max_bandwidth =3D 200000000; /* ~200Mb/s */
->> =C2=A0+ const int64_t downtime_limit =3D 50; /* 50ms */
->> =C2=A0+ /*
->> =C2=A0+ * We migrate through unix-socket (> 500Mb/s).
->> =C2=A0+ * Thus, expected migration speed ~=3D bandwidth limit (< 500Mb=
-/s).
->> =C2=A0+ * So, we can predict expected_threshold
->> =C2=A0+ */
->> =C2=A0+ const int64_t expected_threshold =3D max_bandwidth * downtime_=
-limit / 1000;
->> =C2=A0+
->> =C2=A0+ if (test_migrate_start(&from, &to, uri, false, false)) {
->> =C2=A0+ return;
->> =C2=A0+ }
->> =C2=A0+
->> =C2=A0+ migrate_set_capability(from, "auto-converge", true);
->> =C2=A0+ migrate_set_parameter_int(from, "cpu-throttle-initial", expect=
-ed_pcts[1]);
->> =C2=A0+ migrate_set_parameter_int(from, "cpu-throttle-increment",
->> =C2=A0+ expected_pcts[2] - expected_pcts[1]);
->> =C2=A0+ migrate_set_parameter_int(from, "max-cpu-throttle", expected_p=
-cts[3]);
->> =C2=A0+
->> =C2=A0+ migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth=
-);
->> =C2=A0+ migrate_set_parameter_int(from, "downtime-limit", downtime_lim=
-it);
->> =C2=A0+
->> =C2=A0+ /* To check remaining size after precopy */
->> =C2=A0+ migrate_set_capability(from, "pause-before-switchover", true);
->> =C2=A0+
->> =C2=A0+ /* Wait for the first serial output from the source */
->> =C2=A0+ wait_for_serial("src_serial");
->> =C2=A0+
->> =C2=A0+ migrate(from, uri, "{}");
->> =C2=A0+
->> =C2=A0+ for (i =3D 0; i < ARRAY_SIZE(expected_pcts); i++) {
->> =C2=A0+ int64_t pct;
->> =C2=A0+ pct =3D read_migrate_property_int(from, "cpu-throttle-percenta=
-ge");
->> =C2=A0+ g_assert_cmpint(pct, =3D=3D, expected_pcts[i]);
->> =C2=A0+ while (pct =3D=3D expected_pcts[i] && !got_stop) {
->> =C2=A0+ usleep(1000);
->> =C2=A0+ pct =3D read_migrate_property_int(from, "cpu-throttle-percenta=
-ge");
->> =C2=A0+ }
->> =C2=A0+ /* We break out of this loop only in paused state */
->> =C2=A0+ if (got_stop || i + 1 =3D=3D ARRAY_SIZE(expected_pcts)) {
->> =C2=A0+ /* Check unexpected throttle percentage change */
->> =C2=A0+ g_assert_true(got_stop);
->> =C2=A0+ /* Check unexpected converge */
->> =C2=A0+ g_assert_cmpint(i + 1, =3D=3D, ARRAY_SIZE(expected_pcts));
->> =C2=A0+ g_assert_true(check_migration_status(from, "pre-switchover"));
->> =C2=A0+ }
->> =C2=A0+ }
->> =C2=A0+
->> =C2=A0+ remaining =3D read_ram_property_int(from, "remaining");
->> =C2=A0+ g_assert_cmpint(remaining, <, expected_threshold);
->> =C2=A0+
->> =C2=A0+ wait_command(from, "{ 'execute': 'migrate-continue' , 'argumen=
-ts':"
->> =C2=A0+ " { 'state': 'pre-switchover' } }");
->> =C2=A0+
->> =C2=A0+ qtest_qmp_eventwait(to, "RESUME");
->> =C2=A0+
->> =C2=A0+ wait_for_serial("dest_serial");
->> =C2=A0+ wait_for_migration_complete(from);
->> =C2=A0+
->> =C2=A0+ downtime =3D read_migrate_property_int(from, "downtime");
->> =C2=A0+ /*
->> =C2=A0+ * Actual downtime may be greater than downtime limit,
->> =C2=A0+ * but the difference should be small enough (~20ms)
->> =C2=A0+ */
->> =C2=A0+ g_assert_cmpint(downtime, <, downtime_limit + 20);
->> =C2=A0+
->> =C2=A0+ g_free(uri);
->> =C2=A0+
->> =C2=A0+ test_migrate_end(from, to, true);
->> =C2=A0+}
->> =C2=A0+
->> =C2=A0=C2=A0int main(int argc, char **argv)
->> =C2=A0=C2=A0{
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0char template[] =3D "/tmp/migratio=
-n-test-XXXXXX";
->> =C2=A0@@ -1176,6 +1272,7 @@ int main(int argc, char **argv)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* qtest_add_func("/migration/igno=
-re_shared", test_ignore_shared); */
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qtest_add_func("/migration/xbzrle/=
-unix", test_xbzrle_unix);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0qtest_add_func("/migration/fd_prot=
-o", test_migrate_fd_proto);
->> =C2=A0+ qtest_add_func("/migration/auto_converge", test_migrate_auto_c=
-onverge);
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D g_test_run();
->>
->> =C2=A0--
->> =C2=A02.22.0
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff a/tests/vm/openbsd b/tests/vm/openbsd
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -115,7 +115,7 @@ class OpenBSDVM(basevm.BaseVM):
+         self.console_send("%s\n" % self.GUEST_PASS)
 
-Regards,
-Yury
+         self.console_wait_send("Allow root ssh login",    "yes\n")
+-        self.console_wait_send("timezone",                "UTC\n")
++        self.console_send("UTC\n")
+         self.console_wait_send("root disk",               "\n")
+         self.console_wait_send("(W)hole disk",            "\n")
+         self.console_wait_send("(A)uto layout",           "\n")
+
+=C2=AF\_(=E3=83=84)_/=C2=AF
+
+ Thomas
 
