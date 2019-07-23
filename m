@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EEE7164F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:39:06 +0200 (CEST)
-Received: from localhost ([::1]:41048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D7871661
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:43:22 +0200 (CEST)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsCI-0000ci-6L
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37911)
+	id 1hpsGO-0007Qw-LX
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39708)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9h-0006CZ-UA
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:26 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsF6-0002YO-7j
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:42:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9g-0007TJ-OJ
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:25 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34062)
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsF4-0004Eg-1i
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:59 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44023)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hps9g-0007Sj-I9
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:24 -0400
-Received: by mail-wr1-x436.google.com with SMTP id 31so42646348wrm.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:24 -0700 (PDT)
+ id 1hpsF2-0004Bf-Tz
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:57 -0400
+Received: by mail-wr1-x432.google.com with SMTP id p13so42587674wru.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JMKdIh2g4fFAozN08FjAe0WwG5ZoXRsvCwFyQU3g99o=;
- b=G/WCn/oKpEsorjpZxDmSZANa7D5EWf/oJ9P2BTlyDKQkQI3/bINkUTlhgVAqfgSGOy
- nIkLUMG+wNQeEjaz5wS5TL8D8HZickanwUGOG6+hEDHrDhtDPPwpcVPktMhhiQVRl9H6
- wDsHPBheeIU0I6U3CUR1Li8L4jmqWTpQqun/mrYk6aWZodwXAgNuslXa+tCBZRaj/a1v
- SzQssTdKZ9/D8ZgYBh8LQggcmKL6XizQEMuWvlJicm0LokphrlTyhvcA1Yh1Q6jOhEC4
- PRju+v1WQDJHXDCvviJwrMXcQbkj2M6R3t3h1OIs2zET7qVT3xKhf80QaVS0U837qH1C
- geRw==
+ bh=VX71v+EX2x4zItmkCNQGjdxkkRKOaBoiHBHmU5C8mmY=;
+ b=vQQcc/RH9uoNJcNUwJC/l2/wO450WSwrjbpzrwGju6XSPLaxKU0Jg2niKIzhBJ1j+i
+ k9kl9qhv2tYOd9aoQ2z7PbtXL4lSrH5UgwxUAGyYJw/QJ2b6whbLKS7gC0sokML7QIN8
+ LQxIS3VAdIUw71CJRZGaDUzcoAUrItg909WuDWeu6A4qibXuLLivDfMTeW7m54bwyALp
+ FCveFbx5IKDrkc32g8UEIJPMR+Kp+Ksnv/dmCLjxf7y48uZEbVzsKLrOiY0QpxKjM5Al
+ e/qf1TpA+L+nf1oHDCPqFH0/UdqYxri7KKoYhx0f3+hYLnxAcXECsB1U4B2CyJ0fonqO
+ /giw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JMKdIh2g4fFAozN08FjAe0WwG5ZoXRsvCwFyQU3g99o=;
- b=AmwZc5hfWKSqoQ43CUXto6owJiNNB5RF4WRPY/Qo2JU/OvhO1dFOeGdS26Ja7r9RfL
- QT7F+XpCEqxgnzJG8Ax8kJm0t+5+TJjl+l1lCXtOP1QzMVdxFV6i47/2Iz2vTW5I0vZC
- MyMaVlt+x2VNBV42gohUJkQ7YVGxz5QIQBEKS/+CjRqBOXb3rDx0m/P7J3b2QLb/hdAS
- JhRu/+yAJ4KkKI9QgGw0nE/PO1aeeWI3xZ6n6e4YzoaxRQYY9oEEUkZvxf7wIFqSSshy
- nckFiJU8OubRNnZX1+ov3/vS1NuR6eyI+lBxTf+hgWzU74yGZwZ4gKDnAFzZj6/N1y0w
- NObQ==
-X-Gm-Message-State: APjAAAWVS1SFr+1aNRKOI1m+8KjfXCaWMzeVWiKWZpBlPdrrOiNck9rA
- 2Dy0HyRClg39N69QpuMhcyslCvuKnrs=
-X-Google-Smtp-Source: APXvYqzFS1yjcde51rFi1gvEpgsWSqHCX/XC1LdH+iCmsA8l2WeCqW9vNvzGquu/BL1NHws2zaiiig==
-X-Received: by 2002:a5d:56c7:: with SMTP id m7mr4985394wrw.64.1563878183343;
- Tue, 23 Jul 2019 03:36:23 -0700 (PDT)
+ bh=VX71v+EX2x4zItmkCNQGjdxkkRKOaBoiHBHmU5C8mmY=;
+ b=i3htd9NMsn7KLo1tJuWL4+4gUGVp+8BiZLQS4JFDJjGfWDwwC3DZUy2oAMqw6b3kX/
+ BhoxVXFKEUop7NmyLuudkhBXmsgkXvDm2jGDE0KwR3sG388XdLPTJixu3ntwbPFAaZQB
+ u71jHEnlNj0glsxqNU8q1Fb5/17vHlG9rSr0clOGDkqcUhEz/1vH5Kf4FdLG+vEFobYX
+ +nwAl/tpKoCwT2mvfyusFIs2kcZNGpL6tjChfnc4P+tZxcJMzOAbsKcTwO3WCoGtyfyP
+ tMReETiOS2iILaMymRsNo5q9YVZ40R0hUkl+qvZ5EUAgw8ZC/Ik9tRaHJiZjn2uTBehH
+ YkHA==
+X-Gm-Message-State: APjAAAXeQL0XnxTUTdRObpvTBNiBoe/73AEgnOOLFvcqBpvm+Ex5CB4s
+ omoGHXEGpxst8SxIDhZvQz0MkA==
+X-Google-Smtp-Source: APXvYqxU8cfErnlEv2PdIo7q5mrqH+mVqIPChfEGpJApAVOrxQjlNhZpZzSKcApwzSA+jDnBIbPB3w==
+X-Received: by 2002:a5d:4206:: with SMTP id n6mr13766419wrq.110.1563878514687; 
+ Tue, 23 Jul 2019 03:41:54 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s63sm35358934wme.17.2019.07.23.03.36.17
+ by smtp.gmail.com with ESMTPSA id x11sm30365330wmi.26.2019.07.23.03.41.50
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 03:36:22 -0700 (PDT)
+ Tue, 23 Jul 2019 03:41:52 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6200F1FFAB;
- Tue, 23 Jul 2019 11:36:14 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 8419C1FF9D;
+ Tue, 23 Jul 2019 11:36:13 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:36:12 +0100
-Message-Id: <20190723103612.5600-24-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:36:02 +0100
+Message-Id: <20190723103612.5600-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PULL 23/23] gitlab-ci: Remove qcow2 tests that are
- handled by "make check" already
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL 13/23] buildsys: The NSIS Windows build requires
+ the documentation installed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,45 +82,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since most iotests are now run during "make check" already, we do not
-need to test them explicitly from the gitlab-ci.yml script anymore.
-And while we're at it, add some of the new non-auto tests >= 246 instead.
+This fixes:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190717111947.30356-5-thuth@redhat.com>
+  $ make installer
+  [...]
+  (cd /tmp/qemu-nsis; \
+           for i in qemu-system-*.exe; do \
+             arch=${i%.exe}; \
+             arch=${arch#qemu-system-}; \
+             echo Section \"$arch\" Section_$arch; \
+             echo SetOutPath \"\$INSTDIR\"; \
+             echo File \"\${BINDIR}\\$i\"; \
+             echo SectionEnd; \
+           done \
+          ) >/tmp/qemu-nsis/system-emulations.nsh
+  makensis -V2 -NOCD \
+                   \
+                  -DCONFIG_GTK="y" \
+                  -DBINDIR="/tmp/qemu-nsis" \
+                   \
+                  -DSRCDIR="/source/qemu" \
+                  -DOUTFILE="qemu-setup-4.0.90.exe" \
+                  -DDISPLAYVERSION="4.0.90" \
+                  /source/qemu/qemu.nsi
+  File: "/tmp/qemu-nsis\qemu-doc.html" -> no files found.
+  Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] |
+     /oname=outfile one_file_only)
+  Error in script "/source/qemu/qemu.nsi" on line 173 -- aborting creation process
+  make: *** [Makefile:1080: qemu-setup-4.0.90.exe] Error 1
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190715174817.18981-7-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index c63bf2f8225..cd4c03372b8 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -45,15 +45,10 @@ build-tcg-disabled:
-  - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
-             052 063 077 086 101 104 106 113 147 148 150 151 152 157 159 160
-             163 170 171 183 184 192 194 197 205 208 215 221 222 226 227 236
-- - ./check -qcow2 001 002 003 004 005 007 008 009 010 011 012 013 017 018 019
--            020 021 022 024 025 027 028 029 031 032 033 034 035 036 037 038
--            039 040 042 043 046 047 048 049 050 051 052 053 054 056 057 058
--            060 061 062 063 065 066 067 068 069 071 072 073 074 079 080 082
--            085 086 089 090 091 095 096 097 098 099 102 103 104 105 107 108
--            110 111 114 117 120 122 124 126 127 129 130 132 133 134 137 138
--            139 140 141 142 143 144 145 147 150 151 152 154 155 156 157 158
--            161 165 170 172 174 176 177 179 184 186 187 190 192 194 195 196
--            197 200 202 203 205 208 209 214 215 216 217 218 222 226 227 229 234
-+ - ./check -qcow2 028 040 051 056 057 058 065 067 068 082 085 091 095 096 102
-+            122 124 127 129 132 139 142 144 145 147 151 152 155 157 165 194
-+            196 197 200 202 203 205 208 209 215 216 218 222 227 234 246 247
-+            248 250 254 255 256
+diff --git a/Makefile b/Makefile
+index ecb788b2ce3..b3357691cad 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1077,7 +1077,7 @@ installer: $(INSTALLER)
  
- build-user:
-  script:
+ INSTDIR=/tmp/qemu-nsis
+ 
+-$(INSTALLER): $(SRC_PATH)/qemu.nsi
++$(INSTALLER): install-doc $(SRC_PATH)/qemu.nsi
+ 	$(MAKE) install prefix=${INSTDIR}
+ ifdef SIGNCODE
+ 	(cd ${INSTDIR}; \
 -- 
 2.20.1
 
