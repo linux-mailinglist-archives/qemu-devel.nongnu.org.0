@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA32671D5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:07:32 +0200 (CEST)
-Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B198571D5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:07:06 +0200 (CEST)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyGB-0007VL-6r
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42713)
+	id 1hpyFl-0005ZE-95
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42840)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAX-0004wW-3W
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:42 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAe-0005NW-J9
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAU-0005Mx-1P
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16636)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAd-0005Vd-49
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37264)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAS-0005BX-SK
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:37 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1hpyAc-0005BB-R4; Tue, 23 Jul 2019 13:01:47 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkgvk127106
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:25 -0400
-Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rgmv9-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:25 -0400
-Received: from localhost
- by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:25 +0100
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
- by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:22 +0100
+ x6NGkhL3053226; Tue, 23 Jul 2019 13:01:25 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8mw9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 13:01:25 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NGlvev056531;
+ Tue, 23 Jul 2019 13:01:24 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8mvk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 13:01:24 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0K34000806;
+ Tue, 23 Jul 2019 17:01:23 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 2tx61n02ja-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 17:01:23 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1LvS49480174
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1McP21561630
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jul 2019 17:01:22 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E01BBBE05D;
- Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4B00CBE056;
+ Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C7BE1BE05B;
- Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 3BC03BE053;
+ Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:53 -0500
+Date: Tue, 23 Jul 2019 12:00:54 -0500
+Message-Id: <20190723170104.4327-27-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-8235-0000-0000-00000EBD2AA5
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:24
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-8236-0000-0000-0000468424BA
-Message-Id: <20190723170104.4327-26-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=734 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id x6NGkhL3053226
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 25/36] usb-mtp: use O_NOFOLLOW and O_CLOEXEC.
+Subject: [Qemu-devel] [PATCH 26/36] qemu-img: fix error reporting for -object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,88 +93,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bandan Das <bsd@redhat.com>, Prasad J Pandit <ppandit@redhat.com>,
- qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Open files and directories with O_NOFOLLOW to avoid symlinks attacks.
-While being at it also add O_CLOEXEC.
+Error reporting for user_creatable_add_opts_foreach was changed so that
+it no longer called 'error_report_err' in:
 
-usb-mtp only handles regular files and directories and ignores
-everything else, so users should not see a difference.
+  commit 7e1e0c11127bde81cff260fc6859690435c509d6
+  Author: Markus Armbruster <armbru@redhat.com>
+  Date:   Wed Oct 17 10:26:43 2018 +0200
 
-Because qemu ignores symlinks, carrying out a successful symlink attack
-requires swapping an existing file or directory below rootdir for a
-symlink and winning the race against the inotify notification to qemu.
+    qom: Clean up error reporting in user_creatable_add_opts_foreach()
 
-Fixes: CVE-2018-16872
-Cc: Prasad J Pandit <ppandit@redhat.com>
-Cc: Bandan Das <bsd@redhat.com>
-Reported-by: Michael Hanselmann <public@hansmi.ch>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Michael Hanselmann <public@hansmi.ch>
-Message-id: 20181213122511.13853-1-kraxel@redhat.com
-(cherry picked from commit bab9df35ce73d1c8e19a37e2737717ea1c984dc1)
+Some callers were updated to pass in "&error_fatal" but all the ones in
+qemu-img were left passing NULL. As a result all errors went to
+/dev/null instead of being reported to the user.
+
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+(cherry picked from commit 334c43e2c342e878311c66b4e62343f0a7c2c6be)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/usb/dev-mtp.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ qemu-img.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 100b7171f4..36c43b8c20 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -653,13 +653,18 @@ static void usb_mtp_object_readdir(MTPState *s, MTPObject *o)
- {
-     struct dirent *entry;
-     DIR *dir;
-+    int fd;
- 
-     if (o->have_children) {
-         return;
+diff --git a/qemu-img.c b/qemu-img.c
+index ad04f59565..8b4a371ed5 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -503,7 +503,7 @@ static int img_create(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         goto fail;
      }
-     o->have_children = true;
- 
--    dir = opendir(o->path);
-+    fd = open(o->path, O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
-+    if (fd < 0) {
-+        return;
-+    }
-+    dir = fdopendir(fd);
-     if (!dir) {
-         return;
+=20
+@@ -753,7 +753,7 @@ static int img_check(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
      }
-@@ -1007,7 +1012,7 @@ static MTPData *usb_mtp_get_object(MTPState *s, MTPControl *c,
- 
-     trace_usb_mtp_op_get_object(s->dev.addr, o->handle, o->path);
- 
--    d->fd = open(o->path, O_RDONLY);
-+    d->fd = open(o->path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
-     if (d->fd == -1) {
-         usb_mtp_data_free(d);
-         return NULL;
-@@ -1031,7 +1036,7 @@ static MTPData *usb_mtp_get_partial_object(MTPState *s, MTPControl *c,
-                                         c->argv[1], c->argv[2]);
- 
-     d = usb_mtp_data_alloc(c);
--    d->fd = open(o->path, O_RDONLY);
-+    d->fd = open(o->path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
-     if (d->fd == -1) {
-         usb_mtp_data_free(d);
-         return NULL;
-@@ -1658,7 +1663,7 @@ static void usb_mtp_write_data(MTPState *s)
-                                  0, 0, 0, 0);
-             goto done;
-         }
--        d->fd = open(path, O_CREAT | O_WRONLY, mask);
-+        d->fd = open(path, O_CREAT | O_WRONLY | O_CLOEXEC | O_NOFOLLOW, mask);
-         if (d->fd == -1) {
-             usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
-                                  0, 0, 0, 0);
--- 
+=20
+@@ -966,7 +966,7 @@ static int img_commit(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -1349,7 +1349,7 @@ static int img_compare(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         ret =3D 2;
+         goto out4;
+     }
+@@ -2159,7 +2159,7 @@ static int img_convert(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         goto fail_getopt;
+     }
+=20
+@@ -2713,7 +2713,7 @@ static int img_info(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -2932,7 +2932,7 @@ static int img_map(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -3081,7 +3081,7 @@ static int img_snapshot(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -3241,7 +3241,7 @@ static int img_rebase(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -3621,7 +3621,7 @@ static int img_resize(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         return 1;
+     }
+=20
+@@ -3865,7 +3865,7 @@ static int img_amend(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         ret =3D -1;
+         goto out_no_progress;
+     }
+@@ -4509,7 +4509,7 @@ static int img_dd(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         ret =3D -1;
+         goto out;
+     }
+@@ -4786,7 +4786,7 @@ static int img_measure(int argc, char **argv)
+=20
+     if (qemu_opts_foreach(&qemu_object_opts,
+                           user_creatable_add_opts_foreach,
+-                          NULL, NULL)) {
++                          NULL, &error_fatal)) {
+         goto out;
+     }
+=20
+--=20
 2.17.1
 
 
