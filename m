@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08582719AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 15:47:24 +0200 (CEST)
-Received: from localhost ([::1]:42618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D90A719D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 15:58:29 +0200 (CEST)
+Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpv8V-0004cc-3u
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 09:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35585)
+	id 1hpvJD-0004bS-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 09:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hpv8E-0004CH-TS
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 09:47:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1hprbS-0005aQ-IF
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hpv8D-0000LD-0B
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 09:47:06 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33633)
+ (envelope-from <bounces@canonical.com>) id 1hprbQ-0001Lx-Qj
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43328)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hpv8C-0000Iv-Nt
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 09:47:04 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n9so43336588wru.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 06:47:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8yruLZQFK4FrxWvdT+DeGAXd//UVlze4sM62cEnyljU=;
- b=Vug9O9rMgZ7HhRwo/k6+jdJaHTPc4C05H5YwL7thQwr+lPIHu/IQdXkhjrHDvw+6s+
- NL/Cluh8Ar6eo1K7zfERa1DzpWMrk8amUP+Fa+9T2QOAIp85ka6CzI5Zas5iN9fZWFl/
- cnKd7mW31rZUvEbnbhbzAgxRT5pzFv9DsoYzEZ7FYg6ISZWqUU4WDO6sG4ofLPp5bXC4
- CapdWK6gt0Lha/QXf1ScT8g+CLt9QhDqTbEWMVudCDYJq25ye7+QNEu7XfmCwDXGm82y
- i6BUPsTbnCqHA9qeCFexwNnFi7+VO30sLwv4bPqcP9nVKF3iJ/bYWOYQ6npSH9I1Sono
- hzAw==
-X-Gm-Message-State: APjAAAXP4sSegaIFSuv0phF74hKLOEUf8Q8/WsO83gprIbuB5z5klWus
- xWgWZcStiutPHDZcO+0sMGZIw+tk2vo=
-X-Google-Smtp-Source: APXvYqzx05IeaSS34bciBdx+XHv8jDfKtbbXfaet4GvFtqS+8+jBwTbb3VKODBiiBfJ5oZ/W0wdy8g==
-X-Received: by 2002:a5d:6949:: with SMTP id r9mr77108914wrw.73.1563889623468; 
- Tue, 23 Jul 2019 06:47:03 -0700 (PDT)
-Received: from [192.168.1.38] (190.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.190])
- by smtp.gmail.com with ESMTPSA id w25sm40730285wmk.18.2019.07.23.06.47.02
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jul 2019 06:47:02 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190723103612.5600-1-alex.bennee@linaro.org>
- <CAFEAcA_P_Bk0bNGCW+TwhQGCeqM-XZd3OudKZ4tu0fNThFH5ww@mail.gmail.com>
- <87imrt0y9a.fsf@linaro.org>
- <CAFEAcA-EyEWotUfDcN6TTGapBpBzwaRNUatZDj2tA4kW1aL=xw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <498f8871-8ba9-6971-ecb3-c08389f17d91@redhat.com>
-Date: Tue, 23 Jul 2019 15:47:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hprbQ-0001EH-Ha
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hprbG-0004no-Er
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3801F2E80CC
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:00:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EyEWotUfDcN6TTGapBpBzwaRNUatZDj2tA4kW1aL=xw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Jul 2019 09:50:41 -0000
+From: "lentilwallop@hotmail.com" <lentilwallop@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: sparc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: atar4qemu lentilwallop michal-nowak-b
+X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
+X-Launchpad-Bug-Modifier: lentilwallop@hotmail.com (lentilwallop)
+References: <20170305181803.7371.53021.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156387544140.30092.7976366092643205327.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 2be8b05bcc859528f04dbd5af4c1423ef3ebaa66
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PULL for 4.1-rc2 00/23] testing updates (green
- CI!)
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Tue, 23 Jul 2019 09:58:03 -0400
+Subject: [Qemu-devel] [Bug 1670170] Re: `qemu-system-sparc64 -M Niagara`
+ Aborted (core dumped)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,86 +67,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1670170 <1670170@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/19 3:33 PM, Peter Maydell wrote:
-> On Tue, 23 Jul 2019 at 12:46, Alex Bennée <alex.bennee@linaro.org> wrote:
->> Odd. Does:
->>
->>   make docker-image-debian10 V=1
->>
->> fail for you?
-> 
-> Yes. The files apt tries to download do not appear to be
-> on the mirror:
-> e104462:bionic:all-linux-static$ make docker-image-debian10 V=1
-> /home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py build
-> qemu:debian10 /home/petmay01/linaro/qemu-for-merges/tests/docker/dockerfiles/debian10.docker
->   --add-current-user
-> Sending build context to Docker daemon  3.072kB
-> Step 1/7 : FROM debian:buster-slim
->  ---> 7e86f6dc8410
-> Step 2/7 : RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >>
-> /etc/apt/sources.list
->  ---> Using cache
->  ---> a16e81a24df9
-> Step 3/7 : RUN apt update
->  ---> Using cache
->  ---> 272778d384a0
-> Step 4/7 : RUN DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata
->  ---> Using cache
->  ---> 0113e60b5abe
-> Step 5/7 : RUN DEBIAN_FRONTEND=noninteractive eatmydata     apt
-> install -y --no-install-recommends         bison
-> build-essential         ca-certificates         clang         flex
->     gettext         git         pkg-config         psmisc
-> python         python3-sphinx         texinfo         $(apt-get -s
-> build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
->  ---> Running in 9f66f5f38684
-> 
-> WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
-> [...]
-> After this operation, 791 MB of additional disk space will be used.
-> Err:1 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> perl-base amd64 5.28.1-4
->   404  Not Found [IP: 151.101.16.204 80]
-> Err:2 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> libsystemd0 amd64 240-5
->   404  Not Found [IP: 151.101.16.204 80]
-> Err:3 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> gcc-8-base amd64 8.2.0-16
->   404  Not Found [IP: 151.101.16.204 80]
-> Err:4 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> libgcc1 amd64 1:8.2.0-16
->   404  Not Found [IP: 151.101.16.204 80]
-> Err:5 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> libstdc++6 amd64 8.2.0-16
->   404  Not Found [IP: 151.101.16.204 80]
-> Err:6 http://cdn-fastly.deb.debian.org/debian buster/main amd64 libc6
-> amd64 2.28-6
->   404  Not Found [IP: 151.101.16.204 80]
-> 
-> though some are present, eg
-> 
-> Get:210 http://cdn-fastly.deb.debian.org/debian buster/main amd64
-> libatk1.0-data all 2.30.0-2 [145 kB]
-> 
->> Can you retry with:
->>
->>   make docker-image-debian10 V=1 NOCACHE=1
-> 
-> Yes, this works. It looks like docker is caching the
-> result of the "apt update" state, when it really needs
-> to rerun this every time because the state on the servers
-> may have changed.
+not to pester anyone but it's back.
 
-Yeah, I fixed Ubuntu here:
 
-https://git.qemu.org/?p=qemu.git;a=commitdiff;h=beac6a98f6eb271f2520a329ca051313afd70a69
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -version
+QEMU emulator version 4.0.91
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
-But failed to explain this reason while trying to fix Debian:
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom 'nvram1': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
 
-https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg02081.html
+moo-PowerEdge-R710 Downloads # strace qemu-system-sparc64 -machine niagara
+... ... ...
+access("nvram1", R_OK)                  =3D -1 ENOENT (No such file or dire=
+ctory)
+access("/usr/local/share/qemu-firmware/nvram1", R_OK) =3D -1 ENOENT (No suc=
+h file or directory)
+access("/usr/local/share/qemu/nvram1", R_OK) =3D -1 ENOENT (No such file or=
+ directory)
+open("nvram1", O_RDONLY)                =3D -1 ENOENT (No such file or dire=
+ctory)
+fstat(2, {st_mode=3DS_IFCHR|0620, st_rdev=3Dmakedev(136, 1), ...}) =3D 0
+write(2, "Could not open option rom 'nvram"..., 62Could not open option rom=
+ 'nvram1': No such file or directory
+) =3D 62
+write(2, "qemu-system-sparc64: Unable to l"..., 62qemu-system-sparc64: Unab=
+le to load a firmware for -M niagara
+) =3D 62
+exit_group(1)                           =3D ?
++++ exited with 1 +++
+
+
+nvram1  isnt on my system, but i can do this to see what else isnt there:
+
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/nvram1
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom '1up-md.bin': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/1up-md.bin
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom '1up-hv.bin': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/1up-hv.bin
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom 'reset.bin': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/reset.bin
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom 'q.bin': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/q.bin
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+Could not open option rom 'openboot.bin': No such file or directory
+qemu-system-sparc64: Unable to load a firmware for -M niagara
+moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/openboot.bin
+moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
+qemu: fatal: Trap 0x0010 while trap level (6) >=3D MAXTL (6), Error state
+pc: 000000fff0000020  npc: 000000fff0000024
+%g0-3: 0000000000000000 0000000000000000 0000000008000000 0000000000000000
+%g4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%o0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%o4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%l0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%l4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%i0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%i4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
+
+%f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+%f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+pstate: 00000034 ccr: 00 (icc: ---- xcc: ----) asi: 00 tl: 6 pil: 0 gl: 2
+tbr: 0000000000000000 hpstate: 0000000000000004 htba: 0000000000000000
+cansave: 0 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 0 cwp: 7
+fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000000
+
+Aborted
+moo-PowerEdge-R710 Downloads #
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1670170
+
+Title:
+  `qemu-system-sparc64 -M Niagara` Aborted (core dumped)
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  > qemu-system-sparc64 -M Niagara
+  qemu: fatal: Trap 0x0064 while trap level (6) >=3D MAXTL (6), Error state
+  pc: 0000000000004c80  npc: 0000000000004c84
+  %g0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %g4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %o0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %o4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %l0-3: 0000000007f00000 000001ff00000000 000001fff0080000 000000000000000=
+0 =
+
+  %l4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %i0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %i4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
+0 =
+
+  %f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  %f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+  pstate: 00000414 ccr: 44 (icc: -Z-- xcc: -Z--) asi: 00 tl: 6 pil: 0
+  cansave: 6 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 6 cwp: 7
+  fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000000
+
+  Aborted (core dumped)
+
+  > qemu-system-sparc64 -M help
+  Supported machines are:
+  Niagara              Sun4v platform, Niagara
+  none                 empty machine
+  sun4u                Sun4u platform (default)
+  sun4v                Sun4v platform
+
+  > qemu-system-sparc64 -version
+  QEMU emulator version 2.8.0(Virtualization:Staging / SLE_12_SP2)
+
+  from
+  https://build.opensuse.org/package/show/Virtualization:Staging/qemu on
+  openSUSE Leap 42.2.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1670170/+subscriptions
 
