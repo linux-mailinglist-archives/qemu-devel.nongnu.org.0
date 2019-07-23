@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54AD7110E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:19:47 +0200 (CEST)
-Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6289F7110D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:19:43 +0200 (CEST)
+Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpnDG-0002LY-AT
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39679)
+	id 1hpnDB-0001x1-C3
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCd-0000s2-Dl
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCd-0000s1-DY
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCc-0003md-8k
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCc-0003mT-86
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:07 -0400
-Received: from ozlabs.org ([203.11.71.1]:45271)
+Received: from ozlabs.org ([2401:3900:2:1::2]:36561)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpnCb-0003gF-3y; Tue, 23 Jul 2019 01:19:06 -0400
+ id 1hpnCb-0003gH-2l; Tue, 23 Jul 2019 01:19:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45t6G803H0z9s4Y; Tue, 23 Jul 2019 15:18:55 +1000 (AEST)
+ id 45t6G82Vydz9sDQ; Tue, 23 Jul 2019 15:18:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563859136;
- bh=1GTfoq2Oz2gqu5zFMFVZlz46m1QTfYuJE8w+fyDYVo4=;
+ bh=W4HwjTJ1FXqL/lEQe4qRTNCbItb8cWlxKRm6Nhe3RBg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PaH4imCwK9QuuHCyJpRIllLYaay34GHBUNhgkCcj5v2zrAJ7cj34JgJ6eT9EBmkc6
- OqpJIWhcFL6cgKD0eHUH+lOWuY1eEOcyRXSnAso7Ocr0kt+sGNWbkpOZp4wOv/kgVP
- AKK/ITqYGxW312BnLnSBRcne1mn9znm+TEzpRDp8=
-Date: Tue, 23 Jul 2019 12:27:40 +1000
+ b=UVMSyb6DJfQ9WFGoXyUjxrOZ+iUlLFMZ5FnxGllUcAXM9EUCoEpEyVV2yMcLsE4/1
+ YmKoRzeqj7/Kw0t1+UbGs15T5sMiFIpXt2YFFY4YNyiiaGnLhIWLgviDx53qPQt0CA
+ 3JUT1ne3Hv3E/MTvc9f57Gatw5Xjq8PjgAksf9Fg=
+Date: Tue, 23 Jul 2019 13:40:41 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190723022740.GK25073@umbus.fritz.box>
-References: <20190722134108.22151-1-david@redhat.com>
- <20190722134108.22151-2-david@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190723034041.GN25073@umbus.fritz.box>
+References: <20190722053215.20808-1-npiggin@gmail.com>
+ <20190722083939.GG25073@umbus.fritz.box>
+ <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kswDJesP0akhmDn8"
+ protocol="application/pgp-signature"; boundary="4Y142/9l9nQlBiaj"
 Content-Disposition: inline
-In-Reply-To: <20190722134108.22151-2-david@redhat.com>
+In-Reply-To: <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH-for-4.1 v3 1/6] virtio-balloon: Fix wrong
- sign extension of PFNs
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v2 0/3] Series to implement suspend for
+ ppc/spapr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,52 +58,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Liu Jinsong <jinsong.liu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Luiz Capitulino <lcapitulino@redhat.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kswDJesP0akhmDn8
+--4Y142/9l9nQlBiaj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 22, 2019 at 03:41:03PM +0200, David Hildenbrand wrote:
-> If we directly cast from int to uint64_t, we will first sign-extend to
-> an int64_t, which is wrong. We actually want to treat the PFNs like
-> unsigned values.
+On Mon, Jul 22, 2019 at 01:20:08PM +0200, Paolo Bonzini wrote:
+> On 22/07/19 10:39, David Gibson wrote:
+> > On Mon, Jul 22, 2019 at 03:32:12PM +1000, Nicholas Piggin wrote:
+> >> Hi, this series is rebased on top of the qmp event fix, and takes
+> >> Paolo's suggestion to implement ->wakeup for i386 before adding
+> >> ppc, which makes it much nicer.
+> >>
+> >> If the first two patches can be agreed on initially and merged, I
+> >> can take the third patch through the ppc list after that.
+> >=20
+> > LGTM.  Now, what tree(s) do we merge this through?
 >=20
-> As far as I can see, this dates back to the initial virtio-balloon
-> commit, but wasn't triggered as fairly big guests would be required.
+> I have just spotted a volunteer!
 >=20
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+I've put this in the ppc-for-4.2 tree.
 
-> ---
->  hw/virtio/virtio-balloon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index e85d1c0d5c..515abf6553 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -343,8 +343,8 @@ static void virtio_balloon_handle_output(VirtIODevice=
- *vdev, VirtQueue *vq)
->          }
-> =20
->          while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, 4) =
-=3D=3D 4) {
-> +            unsigned int p =3D virtio_ldl_p(vdev, &pfn);
->              hwaddr pa;
-> -            int p =3D virtio_ldl_p(vdev, &pfn);
-> =20
->              pa =3D (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
->              offset +=3D 4;
+> Paolo
+>=20
+> >>
+> >> Thanks,
+> >> Nick
+> >>
+> >> Nicholas Piggin (3):
+> >>   machine: Add wakeup method to MachineClass
+> >>   i386: use machine class ->wakeup method
+> >>   spapr: Implement ibm,suspend-me
+> >>
+> >>  hw/i386/pc.c           |  8 ++++++++
+> >>  hw/ppc/spapr.c         |  7 +++++++
+> >>  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
+> >>  include/hw/boards.h    |  1 +
+> >>  include/hw/ppc/spapr.h |  3 ++-
+> >>  vl.c                   | 16 +++++++++++++++-
+> >>  6 files changed, 65 insertions(+), 2 deletions(-)
+> >>
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -109,25 +119,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kswDJesP0akhmDn8
+--4Y142/9l9nQlBiaj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02cJsACgkQbDjKyiDZ
-s5IbyhAAjLgtLSQIQByIPApKQegvhBkuC2ZVJCCQGVsC4sntRSfKwuxXjV6feecX
-uHymLrloPQldSLCWe/K9byiWouLbo2YzBny26RZl6X+he8CM89MpkyluNGC7nzoQ
-2ItE4nbXF6DSy88h0zryEcULDmvCX9NdLrFojaGr5s7uHkvoiVSeJZv+F76x71wg
-g94mzOKXcezvxzIVPS8nzIMO1LBnGfMwcqLdN+aoJHzrovANbQX1h/8+ES9E0Fl+
-uzEYHnz0XdscBk5csmv+kh+A2GSq1fZ+mSrzs7e31627xyrFALeloelOnrJpkWvo
-q3pnyAt7r/Y/8AQOHzbq6a1fCj7I0+3U/oy5cGcV/zOabztnsDX5hwAxCLlKdKGg
-+Xw0hWh9dvi546+rEEVlVu5/UrpsSgyPpPtHP8NvnZAu3AnYbuaN1MeVDezmmPwe
-AmgUZ4sDldKdbQKHGOfLuZbp+gaq/aXCahebpsfcJ3z42HrquhP9b2kBmwGFsm9p
-wxfmiKi0EaSRamqpeSoTz00H8M5IY4WefO0X1M1zU4i7MlLRSIbSOKSfqJY1OFRg
-G5LOkTNDCHDe+C9XqpnAKMFPoB3Ek/tQhD7kRMTvZctP4s3HQg01hFEoIWUitSHa
-9AnWpZ39ThmxSubDUyCWGR4EJoRz4izq5RY5qtR1Hp9yMQm2sls=
-=APJ1
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02gbcACgkQbDjKyiDZ
+s5KdPhAA0Gqf8MFmfbyb4RNUsNrXwGT3ullt0IHlC7rp+Lxf3TKj3DzXObUSCrcL
+eEokmKAx4GBDriHxACDY1zSrIPC++y3wSDFAldk7Z72KKiOFHyJA7ZbDyHwRNg9H
+GeIy7IRTMe5nAvvFAOWilRdF8yAAUtwtHaSf/w1OECF+uxvVUmKpteZ9Fq+cgqaz
+bgzLpz8S9u2XCH0um2+aIOU4qSY3Qge6nBuvZ6Kni6GIXgsHmbAL6e8om6WirCM7
+21uD7LHcMhD/sVuFMGpFb03y/kl51Jiil5Cx57xzr+96ZcxKzA1/dDCS20QFRNZN
+w331NSriYtHp1FTqy4kSbJIP1xpHBIncVIfH2R/6BoI9MCQzA6DtOyy89QAC/JXN
+sKXQeDDNfGIbIeUvC/a1UvF0p9IA5jTomskgs7OkE4FlnSo5dC1k58an08NZL3lS
+io597JHPzYc488cPwuUaszoCLP7W97AI2/AHWBkkYXk7spySAKRqaAdQ3t7c+g4V
+peqdQ9pXYbc2BFedbNUohqXYehAOXr6J/FtXoWWnY4XZ43Wu+zwuo710KpuBaH4I
+t2dg+vZqn9f4IDGLx5bUBYMPlOgaij85vEqcVxB/aEfmMCLYaemQZwcWwZf/ZHPI
+UK/wJB25rIOQteaz8yT61dYvZBW9P20VhMJ/J5iwlYXxD8rfH44=
+=nnv/
 -----END PGP SIGNATURE-----
 
---kswDJesP0akhmDn8--
+--4Y142/9l9nQlBiaj--
 
