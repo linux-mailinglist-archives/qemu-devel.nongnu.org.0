@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7908772242
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 00:20:41 +0200 (CEST)
-Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C1172246
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 00:20:59 +0200 (CEST)
+Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hq39E-0001af-Bd
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 18:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44411)
+	id 1hq39W-00038L-Nr
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 18:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44426)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38Q-0007PQ-0W
+ id 1hq38Q-0007PS-EZ
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 18:19:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38O-0001DN-PE
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 18:19:49 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21398)
+ id 1hq38O-0001DS-Pk
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 18:19:50 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21394)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38O-0001Bd-HQ; Tue, 23 Jul 2019 18:19:48 -0400
+ id 1hq38O-0001AZ-Hm; Tue, 23 Jul 2019 18:19:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1563920389; x=1595456389;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7tzlz4nS/NDt/He6kF5q4UiaEdfHTksSd4cZbWW1HH0=;
- b=i3fFuUlz1zTN8wWkfaem2V2LJ+U+15M4fd4u+D8RfjFXR0G26pa++n9f
- AGzM4yA76VWjBUvdKZExi8fE8K+4tRW3IFW0BEvqBIXLHEjBwCduGHhDs
- P2kUoUVmx+pXOGzIkHdVVFQg0nHiV+N0/eUC5fMxn0Eu+IlnFb8wDxP89
- p7AqcDbeBNYUJ1L6ZAhZ3dsJnAuMi7l1QqcBozHlI5xhnLrEVKTuErEbf
- 9076cHHQtNExJZxtbqVWLJTO5z0oT1AMDzwv/TtFM25oi48XqEBGPsv9k
- MgTL6sDdaPvRw5VBCtaYmadDwRquvkd77jcaacpH940xlCO1YIu/pDTTr g==;
-IronPort-SDR: k9/wLCFVBpJTfl9Eks+CWkdLYj7jBU0xMcjMZsz6Xsz0JURzK+VtBHdx31EsMdukOJyWEwfDja
- BmjfXqY5m+YLvGbxZznbOQNzVyMAPJxgg2ALMmfkLaqjOTi5ElC2Jaz9DD2LHrewviUtwW89p2
- dfROq1Y1eOSqngwkyryfxJUZOzMfuQDewyZZmLbgCkEBjw/0AyDuIKRdOoV+7/3zOnEF1/iYo9
- XB2Vr7MSieoxsyR2m3MQankYRxlnxLwpc2KzhoZEW0OJKH2Y2Avm4CJbMTYoTdpw1i7HWAJKCo
- rlg=
-X-IronPort-AV: E=Sophos;i="5.64,300,1559491200"; d="scan'208";a="113843257"
+ bh=MhJpWEfDEuC+iblFD4CMKkboTq+c8XmTlRNIMN/AG54=;
+ b=msa0SpA0g6WaxJt2gK27zqC84x/WLbjlm1Yvwztt4swmt3CwdxwYWCTT
+ 8l9H+2Wr+HkAplFATWwJZztdRlzkOGqA1YtpQ4Bhah4pzECIuyBA3wGyX
+ U3GGDyA8I7OFfi3MEunruqRYW+cSG/SUNcfocuQQVgawKACI+Ja2qWIPl
+ F1jDtr+QBwzl9rx7p7OM99aC5GOspJ5L6HEbCtk4sytr/oUgxByCKUPz0
+ e59qo7JJ91fPYKEBbTVmMkMjI8aHeAtawrC4U4FyDmgHLOCm+sTm394dh
+ H0P6b8N+d0erTCmL50Vyzpp45UqGorTEKZUYscuIal2zDSrsluo482zS1 A==;
+IronPort-SDR: t4yLiTT7GJbRz+D0Hqyqg0LVVFD6tZgL6MpuSE9yI9fqG4YqmI4F9A6ykd63ch4RykW8QuXrRU
+ SK5V7Hb/mupSPuUSXxQ093xzb41qZEl8kLtW06PXXEOpa3EpeVe8a9uicK8ZhfEJVNTodSG/NM
+ le73D1ZvKzjhu3SCRt/OZr1yw+ODlEKWZVJK61F6KTDM+YdEZoQUXeSp4JRGgAf+jhxfJoF3ca
+ QBfa2zrclkFJk/YYH7wcVWOawrs6ThhgmKninAqvqdep1MwOjcAW5BhBJZ64aNIni8LiINlvGr
+ 8GI=
+X-IronPort-AV: E=Sophos;i="5.64,300,1559491200"; d="scan'208";a="113843262"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2019 06:19:43 +0800
-IronPort-SDR: guTssZCIutR7dLUQEYg5O9kggP9e5rz0nym/Okw2EzOz1ITBHArD7mEiqIIkLDcSuJsDVQEvvM
- 2PVPIFRIU0V/AIHTGsNXX8ZxyNpmpnvi1DTQeADADyhbFFt0465ZnOn5pp8FXBILkgkwbOvLDw
- Wnty+aKgNUpfz3Qy+91M74NVVNb/02HiG9nGQnQHD0YmirjZ5KGtQxTCt6zd5r5/1vJGsQnnk4
- U3SL2QYyNQTkTeR8d5AM8zBkX5c+guhJRhN+8xJ8yBRd2uOkCkbNTQ1ex1Sv/zLTftOzvVbHI2
- nu1vUz+tcbLF8xd9OWqveFom
+ by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2019 06:19:46 +0800
+IronPort-SDR: 5WJivhTvRCs8j4+9ktQuCj8OfOjD6OZTWGtqeSsIWUWUH3V5ROKLlbqbMeWvodkbeRkCoGlnii
+ 0cFmtM40CEdLMBvTLVLjvOVevFpb+tqk2no+zr4AJRzI8TO4WCunqLBpFmMB8PJKumqDmMgCv4
+ 6zpisBOhLGnlulqzaUteXTnGr2qfOYEBNjhbxP9M5zS/2Gnbq72DUSo4pROBbRWSh8Mt/XQiAx
+ XR2YZRXGTo2sSr3HSFwbjW7bGHt6/qzfu1/ajUk1GSYfLDw8dmsEPQZNgDpzcAuNUlWngNuYqY
+ +4fvZpOeIOnTpXKk4Ly7eMpY
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 23 Jul 2019 15:17:57 -0700
-IronPort-SDR: 0dE3py2Mv2Uv4cO2LZaPSlYX2bzrbdf31e2hiqVyb0R+fKqLu2dRG9+vhJ0dxcap9ArzY8IBCs
- uOpiUWdXZbGPKxWw272WDkmIMjQJ608IVvZPByQJXjCOwbm/KQ3Y3skA0DERqVcmoXcZty8YO/
- je6fT/9cllXOIG4UnA1ZpYM6YsymzMJKvhy8qZ0rA4FAqJKh7EUo3Xnf3SYh5LAfyI6ezA26Ph
- OYkakKmYgnbYEHhWuuYJ3DWHyd/p7QgTWbsLLJZrHBoTTsMBq/lOIPLTcQD46khQ66+/tnrNo5
- VPw=
+ by uls-op-cesaep02.wdc.com with ESMTP; 23 Jul 2019 15:17:59 -0700
+IronPort-SDR: wVZ3V9paXqvdqPGwaYtaXqdFsLK7KNa33Gjs9HD6Wfo5Cs+PeUtPzmmUYQfEdnfyb24EoLKqbC
+ ODMVp1XmjopeGpVQ3sYINLYWj7EYN0zLZeSyWC2qIwCRDAqBFb9QWtH8BhKocMmdlOt56IzU8y
+ JGi8jEjLgoJM4A2ITzQLB4uJn7ZL7/+TXTi67wfRpMXpQapZdZdwHISKER0xk3KjpR8PFV3CsF
+ LDesmyZW/FhTnlIGAe8oaxbN0dlvlnjPj1NVfp71KL45fgUu7Xl17vOXUcK7LfKtfEesc61SV5
+ fVw=
 Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Jul 2019 15:19:43 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Jul 2019 15:19:44 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue, 23 Jul 2019 18:19:38 -0400
-Message-Id: <20190723221940.25585-3-dmitry.fomichev@wdc.com>
+Date: Tue, 23 Jul 2019 18:19:39 -0400
+Message-Id: <20190723221940.25585-4-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190723221940.25585-1-dmitry.fomichev@wdc.com>
 References: <20190723221940.25585-1-dmitry.fomichev@wdc.com>
@@ -69,7 +69,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [PATCH v3 2/4] raw: Recognize zoned backing devices
+Subject: [Qemu-devel] [PATCH v3 3/4] block/ide/scsi: Set
+ BLK_PERM_SUPPORT_ZONED
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,189 +82,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <keith.busch@intel.com>, Paul Durrant <paul.durrant@citrix.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The purpose of this patch is to recognize a zoned block device (ZBD)
-when it is opened as a raw file. The new code initializes the zoned
-model propery introduced by the previous commit.
+Added a new boolean argument to blkconf_apply_backend_options()
+to let the common block code know whether the chosen block
+backend can handle zoned block devices or not.
 
-This commit is Linux-specific as it gets the Zoned Block Device Model
-value (none/host-managed/host-aware) from sysfs on the host.
-
-In order to avoid code duplication in file-posix.c, a common helper
-function is added to read values of sysfs entries under
-/sys/block/<dev>/queue. This way, the existing function that reads
-the value of "max_segments" entry and the the new function that reads
-"zoned" value both share the same helper code.
+blkconf_apply_backend_options() then sets BLK_PERM_SUPPORT_ZONED
+permission accordingly. The raw code can then use this permission
+to allow or deny opening a zone device by a particular block driver.
 
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Acked-by: Paul Durrant <paul.durrant@citrix.com>
 ---
- block/file-posix.c | 74 ++++++++++++++++++++++++++++++++++++++--------
- block/raw-format.c |  8 +++++
- 2 files changed, 70 insertions(+), 12 deletions(-)
+ hw/block/block.c         |  8 ++++++--
+ hw/block/fdc.c           |  4 ++--
+ hw/block/nvme.c          |  2 +-
+ hw/block/virtio-blk.c    |  2 +-
+ hw/block/xen-block.c     |  2 +-
+ hw/ide/qdev.c            |  2 +-
+ hw/scsi/scsi-disk.c      | 13 +++++++------
+ hw/scsi/scsi-generic.c   |  2 +-
+ hw/usb/dev-storage.c     |  2 +-
+ include/hw/block/block.h |  3 ++-
+ 10 files changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..e307cab7a4 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1053,15 +1053,13 @@ static int sg_get_max_transfer_length(int fd)
- #endif
+diff --git a/hw/block/block.c b/hw/block/block.c
+index bf56c7612b..23fbe4d567 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -86,7 +86,8 @@ void blkconf_blocksizes(BlockConf *conf)
  }
  
--static int sg_get_max_segments(int fd)
-+static int hdev_read_blk_queue_entry(int fd, const char *key,
-+    char *buf, int buf_len)
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+-                                   bool resizable, Error **errp)
++                                   bool resizable, bool zoned_support,
++                                   Error **errp)
  {
- #ifdef CONFIG_LINUX
--    char buf[32];
--    const char *end;
-     char *sysfspath = NULL;
-     int ret;
-     int sysfd = -1;
--    long max_segments;
-     struct stat st;
- 
-     if (fstat(fd, &st)) {
-@@ -1069,23 +1067,45 @@ static int sg_get_max_segments(int fd)
-         goto out;
+     BlockBackend *blk = conf->blk;
+     BlockdevOnError rerror, werror;
+@@ -98,9 +99,12 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+     if (!readonly) {
+         perm |= BLK_PERM_WRITE;
      }
- 
--    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
--                                major(st.st_rdev), minor(st.st_rdev));
-+    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
-+                                major(st.st_rdev), minor(st.st_rdev), key);
-     sysfd = open(sysfspath, O_RDONLY);
-     if (sysfd == -1) {
-         ret = -errno;
-         goto out;
-     }
-     do {
--        ret = read(sysfd, buf, sizeof(buf) - 1);
-+        ret = read(sysfd, buf, buf_len - 1);
-     } while (ret == -1 && errno == EINTR);
-     if (ret < 0) {
-         ret = -errno;
--        goto out;
-     } else if (ret == 0) {
-         ret = -EIO;
++    if (zoned_support) {
++        perm |= BLK_PERM_SUPPORT_ZONED;
 +    }
-+out:
-+    if (sysfd != -1) {
-+        close(sysfd);
-+    }
-+    g_free(sysfspath);
-+    return ret;
-+#else
-+    return -ENOTSUP;
-+#endif
-+}
-+
-+static int sg_get_max_segments(int fd)
-+{
-+#ifdef CONFIG_LINUX
-+    char buf[32];
-+    const char *end;
-+    int ret;
-+    long max_segments;
-+
-+    ret = hdev_read_blk_queue_entry(fd, "max_segments", buf, sizeof(buf));
-+    if (ret < 0) {
-         goto out;
+ 
+     shared_perm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
+-                  BLK_PERM_GRAPH_MOD;
++                  BLK_PERM_GRAPH_MOD | BLK_PERM_SUPPORT_ZONED;
+     if (resizable) {
+         shared_perm |= BLK_PERM_RESIZE;
      }
-+
-     buf[ret] = 0;
-     /* The file is ended with '\n', pass 'end' to accept that. */
-     ret = qemu_strtol(buf, &end, 10, &max_segments);
-@@ -1094,10 +1114,33 @@ static int sg_get_max_segments(int fd)
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 77af9979de..85efc80992 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -474,7 +474,7 @@ static void fd_change_cb(void *opaque, bool load, Error **errp)
+     } else {
+         if (!blkconf_apply_backend_options(drive->conf,
+                                            blk_is_read_only(drive->blk), false,
+-                                           errp)) {
++                                           false, errp)) {
+             return;
+         }
      }
+@@ -561,7 +561,7 @@ static void floppy_drive_realize(DeviceState *qdev, Error **errp)
+ 
+     if (!blkconf_apply_backend_options(&dev->conf,
+                                        blk_is_read_only(dev->conf.blk),
+-                                       false, errp)) {
++                                       false, false, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 36d6a8bb3a..71b35bf4e7 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1333,7 +1333,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     }
+     blkconf_blocksizes(&n->conf);
+     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+-                                       false, errp)) {
++                                       false, false, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index cbb3729158..8894bdbb0c 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1123,7 +1123,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+ 
+     if (!blkconf_apply_backend_options(&conf->conf,
+                                        blk_is_read_only(conf->conf.blk), true,
+-                                       errp)) {
++                                       false, errp)) {
+         return;
+     }
+     s->original_wce = blk_enable_write_cache(conf->conf.blk);
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 69d73196e2..8ed5e9d832 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -228,7 +228,7 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
+     }
+ 
+     if (!blkconf_apply_backend_options(conf, blockdev->info & VDISK_READONLY,
+-                                       true, errp)) {
++                                       true, false, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 9d8502785d..c0b4a445e4 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -197,7 +197,7 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
+         }
+     }
+     if (!blkconf_apply_backend_options(&dev->conf, kind == IDE_CD,
+-                                       kind != IDE_CD, errp)) {
++                                       kind != IDE_CD, false, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 8e95e3e38d..f20815b1d7 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2315,7 +2315,7 @@ static void scsi_disk_unit_attention_reported(SCSIDevice *dev)
+     }
+ }
+ 
+-static void scsi_realize(SCSIDevice *dev, Error **errp)
++static void scsi_realize(SCSIDevice *dev, bool zoned_support, Error **errp)
+ {
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+ 
+@@ -2353,7 +2353,8 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
+     }
+     if (!blkconf_apply_backend_options(&dev->conf,
+                                        blk_is_read_only(s->qdev.conf.blk),
+-                                       dev->type == TYPE_DISK, errp)) {
++                                       dev->type == TYPE_DISK, zoned_support,
++                                       errp)) {
+         return;
+     }
+ 
+@@ -2412,7 +2413,7 @@ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+     if (!s->product) {
+         s->product = g_strdup("QEMU HARDDISK");
+     }
+-    scsi_realize(&s->qdev, errp);
++    scsi_realize(&s->qdev, false, errp);
+     if (ctx) {
+         aio_context_release(ctx);
+     }
+@@ -2440,7 +2441,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
+     if (!s->product) {
+         s->product = g_strdup("QEMU CD-ROM");
+     }
+-    scsi_realize(&s->qdev, errp);
++    scsi_realize(&s->qdev, false, errp);
+     aio_context_release(ctx);
+ }
+ 
+@@ -2450,7 +2451,7 @@ static void scsi_disk_realize(SCSIDevice *dev, Error **errp)
+     Error *local_err = NULL;
+ 
+     if (!dev->conf.blk) {
+-        scsi_realize(dev, &local_err);
++        scsi_realize(dev, false, &local_err);
+         assert(local_err);
+         error_propagate(errp, local_err);
+         return;
+@@ -2643,7 +2644,7 @@ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
+      */
+     s->features |= (1 << SCSI_DISK_F_NO_REMOVABLE_DEVOPS);
+ 
+-    scsi_realize(&s->qdev, errp);
++    scsi_realize(&s->qdev, true, errp);
+     scsi_generic_read_device_inquiry(&s->qdev);
  
  out:
--    if (sysfd != -1) {
--        close(sysfd);
-+    return ret;
-+#else
-+    return -ENOTSUP;
-+#endif
-+}
-+
-+static int hdev_get_zoned_model(int fd)
-+{
-+#ifdef CONFIG_LINUX
-+    char buf[32];
-+    int ret;
-+
-+    ret = hdev_read_blk_queue_entry(fd, "zoned", buf, sizeof(buf));
-+    if (ret < 0) {
-+        ret = BLK_ZONED_MODEL_NONE;
-+        goto out;
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index c11a0c9a84..50b30e9541 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -690,7 +690,7 @@ static void scsi_generic_realize(SCSIDevice *s, Error **errp)
      }
--    g_free(sysfspath);
-+
-+    buf[ret - 1] = 0;
-+    ret = BLK_ZONED_MODEL_NONE;
-+    if (strcmp(buf, "host-managed") == 0) {
-+        ret = BLK_ZONED_MODEL_HM;
-+    } else if (strcmp(buf, "host-aware") == 0) {
-+        ret = BLK_ZONED_MODEL_HA;
-+    }
-+
-+out:
-     return ret;
- #else
-     return -ENOTSUP;
-@@ -1107,9 +1150,10 @@ out:
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     BDRVRawState *s = bs->opaque;
-+    int ret;
- 
-     if (bs->sg) {
--        int ret = sg_get_max_transfer_length(s->fd);
-+        ret = sg_get_max_transfer_length(s->fd);
- 
-         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-             bs->bl.max_transfer = pow2floor(ret);
-@@ -1119,6 +1163,12 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-         if (ret > 0) {
-             bs->bl.max_transfer = MIN(bs->bl.max_transfer, ret * getpagesize());
-         }
-+
-+    }
-+
-+    ret = hdev_get_zoned_model(s->fd);
-+    if (ret >= 0) {
-+        bs->bl.zoned_model = ret;
+     if (!blkconf_apply_backend_options(&s->conf,
+                                        blk_is_read_only(s->conf.blk),
+-                                       true, errp)) {
++                                       true, true, errp)) {
+         return;
      }
  
-     raw_probe_alignment(bs, s->fd, errp);
-diff --git a/block/raw-format.c b/block/raw-format.c
-index bffd424dd0..12c2a3f95d 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -369,6 +369,13 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-     }
- }
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 9ffb88ea5b..60d6a92ce1 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -601,7 +601,7 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
  
-+static void raw_get_zoned_info(BlockDriverState *bs)
-+{
-+    if (!bs->probed) {
-+        bs->bl.zoned_model = bs->file->bs->bl.zoned_model;
-+    }
-+}
-+
- static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
-                                         PreallocMode prealloc, Error **errp)
- {
-@@ -572,6 +579,7 @@ BlockDriver bdrv_raw = {
-     .bdrv_co_ioctl        = &raw_co_ioctl,
-     .create_opts          = &raw_create_opts,
-     .bdrv_has_zero_init   = &raw_has_zero_init,
-+    .bdrv_get_zoned_info  = &raw_get_zoned_info,
-     .strong_runtime_opts  = raw_strong_runtime_opts,
-     .mutable_opts         = mutable_opts,
- };
+     blkconf_blocksizes(&s->conf);
+     if (!blkconf_apply_backend_options(&s->conf, blk_is_read_only(blk), true,
+-                                       errp)) {
++                                       false, errp)) {
+         return;
+     }
+ 
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index 607539057a..f988edc87e 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -85,7 +85,8 @@ bool blkconf_geometry(BlockConf *conf, int *trans,
+                       Error **errp);
+ void blkconf_blocksizes(BlockConf *conf);
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+-                                   bool resizable, Error **errp);
++                                   bool resizable, bool zoned_support,
++                                   Error **errp);
+ 
+ /* Hard disk geometry */
+ 
 -- 
 2.21.0
 
