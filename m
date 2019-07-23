@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AC671D5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:07:29 +0200 (CEST)
-Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E0671D6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:09:16 +0200 (CEST)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyG8-0007FL-BS
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:07:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42714)
+	id 1hpyHr-0006Y7-6p
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42771)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAX-0004wX-3P
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:42 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAY-00051V-Er
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAU-0005NC-9f
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2664
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAX-0005PP-5W
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40854)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAU-0005Da-0n
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:38 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkhO1009059
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:26 -0400
-Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx61fgh80-1
+ id 1hpyAW-0005F9-Tt
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:41 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NGkgW5069261
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:27 -0400
+Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rrmsg-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:26 -0400
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:27 -0400
 Received: from localhost
- by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:25 +0100
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
- by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway: Authorized
+ Tue, 23 Jul 2019 18:01:26 +0100
+Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
+ by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized
  Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:23 +0100
+ Tue, 23 Jul 2019 18:01:24 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1M2O29360464
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1NQJ57999704
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:22 GMT
+ Tue, 23 Jul 2019 17:01:23 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1849BE04F;
- Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1CC36BE053;
+ Tue, 23 Jul 2019 17:01:23 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9BBFDBE054;
- Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 06EE2BE04F;
+ Tue, 23 Jul 2019 17:01:23 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
  Tue, 23 Jul 2019 17:01:22 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:55 -0500
+Date: Tue, 23 Jul 2019 12:00:56 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0004-0000-0000-0000152DB9AF
+x-cbid: 19072317-0012-0000-0000-000017557614
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:25
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:26
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0005-0000-0000-00008C9463BE
-Message-Id: <20190723170104.4327-28-mdroth@linux.vnet.ibm.com>
+x-cbparentid: 19072317-0013-0000-0000-0000582F9649
+Message-Id: <20190723170104.4327-29-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=956 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 27/36] qcow2: Avoid COW during metadata
- preallocation
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 28/36] cutils: Fix size_to_str() on 32-bit
+ platforms
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,48 +96,38 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 
-Limiting the allocation to INT_MAX bytes isn't particularly clever
-because it means that the final cluster will be a partial cluster which
-will be completed through a COW operation. This results in unnecessary
-data read and write requests which lead to an unwanted non-sparse
-filesystem block for metadata preallocation.
+When extracting a human-readable size formatter, we changed 'uint64_t
+div' pre-patch to 'unsigned long div' post-patch. Which breaks on
+32-bit platforms, resulting in 'inf' instead of intended values larger
+than 999GB.
 
-Align the maximum allocation size down to the cluster size to avoid this
-situation.
-
-Cc: qemu-stable@nongnu.org
+Fixes: 22951aaa
+CC: qemu-stable@nongnu.org
+Reported-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-(cherry picked from commit f29fbf7c6b1c9a84f6931c1c222716fbe073e6e4)
-*modified to avoid functional dependency on 93e32b3e
+(cherry picked from commit 754da86714d550c3f995f11a2587395081362e0a)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/qcow2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ util/cutils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 991d6ac91b..6ddaf9a1f8 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2590,6 +2590,7 @@ static int qcow2_set_up_encryption(BlockDriverState *bs,
- static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-                                        uint64_t new_length)
+diff --git a/util/cutils.c b/util/cutils.c
+index 698bd315bd..e8c726a141 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -754,7 +754,7 @@ const char *qemu_ether_ntoa(const MACAddr *mac)
+ char *size_to_str(uint64_t val)
  {
-+    BDRVQcow2State *s = bs->opaque;
-     uint64_t bytes;
-     uint64_t host_offset = 0;
-     unsigned int cur_bytes;
-@@ -2600,7 +2601,7 @@ static int coroutine_fn preallocate_co(BlockDriverState *bs, uint64_t offset,
-     bytes = new_length - offset;
+     static const char *suffixes[] = { "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei" };
+-    unsigned long div;
++    uint64_t div;
+     int i;
  
-     while (bytes) {
--        cur_bytes = MIN(bytes, INT_MAX);
-+        cur_bytes = MIN(bytes, QEMU_ALIGN_DOWN(INT_MAX, s->cluster_size));
-         ret = qcow2_alloc_cluster_offset(bs, offset, &cur_bytes,
-                                          &host_offset, &meta);
-         if (ret < 0) {
+     /*
 -- 
 2.17.1
 
