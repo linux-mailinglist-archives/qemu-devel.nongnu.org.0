@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED94371643
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:02 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35AD7164D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:59 +0200 (CEST)
+Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsBA-0003GL-7H
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37867)
+	id 1hpsCA-0008Gk-L3
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9f-00062l-Li
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9h-00069P-53
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9e-0007Qe-EW
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:23 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51654)
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9g-0007Sp-0B
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:24 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hps9e-0007Ps-6M
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:22 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 207so37997938wma.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:22 -0700 (PDT)
+ id 1hps9f-0007Rd-QA
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:23 -0400
+Received: by mail-wm1-x332.google.com with SMTP id l2so38017599wmg.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HQyqOz02G3bFziBv9m62IDtJiMAsZS66su/354KrNr8=;
- b=eH2WthkLzyGU16o9xEWncuRO4tvUzNNBDoLToReS6mv5R8SiGxMd7WitV8HyWr8dt6
- tF8vIsmgcPs65EERTAHBrBRyMwSG1TCj9yfMyaVEi0uxVJuD536Ehi3r/oCxChyWi3Kh
- 4HfnF3FhhRUPo1sHJaliaDfCjvvDa8y94WgHIEhWoBmlePvoZH/zcsN3ilezH2+ciTAY
- NUeJKwAsTcwyB7SH/Z5vO+7OapuyGrfNCR/DERBpUtKZ+Vd4+f+oOb4OOlhCL+p6+Pr7
- p0LSQHmnTVpbZWMZ8z6vp+Mt6XoWduSrdxeJX2jm7h2UiRxUv56ZqAAGWx5c1wCta9gH
- 0Sqg==
+ bh=c6E9BddK89xMbl9F10ybA11PGnEiUFETjL7X7/hYQAI=;
+ b=mkJ8avNuFPrS7/mSRnN1lYprKD+kSvsejyVMs5szGduYgIgyUUvjWnf2Qju+B3wn1W
+ RtImk9iGRf5xrz9SOdZSL4clXXh0cNDVh94piScbrB9u5BUp7aqlWzkcC+ud43wHjFgW
+ kI+lROGOhR3cHytrTEauZMfYg2/Ocoblq/9dN3rQpTj+7m3ZVuKTPPojJdWhfjUg8/gy
+ OkUJVyOn96sHjRvTnL180PlrOhoHZq06VsCB0uvUVfiTiRJg55o1kZhVov3iZx3UWySe
+ BgqHY0uequD2WQjqXCnzp1n8Sa1h/L4XDPu5FlhXVuUlEC8HoOICfr9hedbf6p5agMVM
+ vBSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HQyqOz02G3bFziBv9m62IDtJiMAsZS66su/354KrNr8=;
- b=azvYwQ5dSsOGy+Em5PO/1Sm6xGlpjHl7yjppVlwBEt2imBbE5WOhI085pbZK6JU/qd
- JPOrN6qUpLo7RWpIsOjzGfNRia067loXPZ8iwAtxKk0yK7EA77JYLix9tOv6LwctcYef
- SCwGP7vmPDnWPJ+2vAphjGXuEmfjkCt+gfyBZ1dFVQMXLgcWqdPaDflla9es3O020Vzr
- AqKbH/HPW13aMYbFr2ZbYx/Fbyk6cSbY2MI+zNlSYBTfC9a49HloAccoaoIz3E61Fh1M
- tu9sZq1gjViAxdPgVSfYqptHuOBjaog5iL4qZZIyJqEQj1i2QPqDeBYg76s7NsOFWEdp
- fNZA==
-X-Gm-Message-State: APjAAAWJowbNq56SCA57Cfs0UOghslq8A/KcLI2LmxoZEgzXobrADvDe
- 2UJpEW98eZN20IhiBtDkKgepIg==
-X-Google-Smtp-Source: APXvYqxQZRpr8Jq2Xf256NV9rIMBni3Dfqih0egDcFY8nA0ce9bMujLCQUit46ziOsXFmwypLrrBDQ==
-X-Received: by 2002:a05:600c:230c:: with SMTP id
- 12mr66522064wmo.166.1563878181134; 
- Tue, 23 Jul 2019 03:36:21 -0700 (PDT)
+ bh=c6E9BddK89xMbl9F10ybA11PGnEiUFETjL7X7/hYQAI=;
+ b=VEESpC0U/Rq2WBLSNZgGA0fpq9Nf/dl1YNskaWFrGS5VAtBL08SIqdUrPKc/oQz+uh
+ vvc/FcpGocp060nJEeahU6+bETJUJjUUO6H8aK3n3b4MTZiv+oqwzwvLu4VlyDVAcoys
+ nZ1XVPmQ7b0Xp2+hh2givYlyyH6hUCa7C3AUHEG2WifUEz+n1l1d/fOyQL5fA1hta9qz
+ JLkT9qUvVHiFHBq7sAXUBeWZ8hTkmJTPV5REShCV2xqqN7SiSjEvClU9ICTi5KdODv2k
+ pROo6jcwP+6psfW4ILzygduXhbVkg+3adWPec7lcNDXUGOr43zqSsaq1+ZPBHjsHd4u+
+ xspg==
+X-Gm-Message-State: APjAAAWDaDQ6r4gB6PM+h8kH7vE3v6qv2idMPYJW9UZ4HqbqMwgF8zis
+ s9tUsL26p9p8F8eUYtaIyiGpcQ==
+X-Google-Smtp-Source: APXvYqx1QSxN6ReV0NaHwWHL+PyjqZMv8MsYzecIxsaMinsYaZL+V7GiikYMZFmb+oBOmB3XsWZUxA==
+X-Received: by 2002:a05:600c:291:: with SMTP id
+ 17mr67071325wmk.32.1563878182638; 
+ Tue, 23 Jul 2019 03:36:22 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x83sm43239980wmb.42.2019.07.23.03.36.16
+ by smtp.gmail.com with ESMTPSA id v204sm42941386wma.20.2019.07.23.03.36.16
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 23 Jul 2019 03:36:19 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B2261FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 6FBA01FF9C;
  Tue, 23 Jul 2019 11:36:13 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:36:00 +0100
-Message-Id: <20190723103612.5600-12-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:36:01 +0100
+Message-Id: <20190723103612.5600-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 11/23] tests/docker: Set the correct
- cross-PKG_CONFIG_PATH in the MXE images
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PULL 12/23] tests/docker: Install texinfo in the
+ Fedora image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,54 +92,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This silents a bunch of warnings while compiling the Slirp objects:
-
- $ make
- [...]
-   CC      slirp/src/tftp.o
- Package glib-2.0 was not found in the pkg-config search path.
- Perhaps you should add the directory containing `glib-2.0.pc'
- to the PKG_CONFIG_PATH environment variable
- No package 'glib-2.0' found
-   CC      slirp/src/udp6.o
- Package glib-2.0 was not found in the pkg-config search path.
- Perhaps you should add the directory containing `glib-2.0.pc'
- to the PKG_CONFIG_PATH environment variable
- No package 'glib-2.0' found
- [...]
+The 'makeinfo' is required to generate the documentation from
+the 'html' Makefile rule (called by 'install-doc').
+The NSIS installer uses these files.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190715174817.18981-5-philmd@redhat.com>
+Message-Id: <20190715174817.18981-6-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/docker/dockerfiles/debian-win32-cross.docker
-index 77f5cc45e92..dc74ce7e0e0 100644
---- a/tests/docker/dockerfiles/debian-win32-cross.docker
-+++ b/tests/docker/dockerfiles/debian-win32-cross.docker
-@@ -11,6 +11,9 @@ ENV TARGET i686
- 
- ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
- 
-+ENV PKG_CONFIG_PATH \
-+    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
-+
- RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt-get install -y --no-install-recommends \
-         mxe-$TARGET-w64-mingw32.shared-bzip2 \
-diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
-index 3908c5abc42..df7bfce7eab 100644
---- a/tests/docker/dockerfiles/debian-win64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-win64-cross.docker
-@@ -11,6 +11,9 @@ ENV TARGET x86-64
- 
- ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
- 
-+ENV PKG_CONFIG_PATH \
-+    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
-+
- RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt-get install -y --no-install-recommends \
-         mxe-$TARGET-w64-mingw32.shared-bzip2 \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 226ac1026fa..4ddc7dd112a 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -87,6 +87,7 @@ ENV PACKAGES \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
++    texinfo \
+     usbredir-devel \
+     virglrenderer-devel \
+     vte291-devel \
 -- 
 2.20.1
 
