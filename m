@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A187223D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 00:20:16 +0200 (CEST)
-Received: from localhost ([::1]:47588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75D872244
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 00:20:42 +0200 (CEST)
+Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hq38p-0008Ls-CI
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 18:20:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44395)
+	id 1hq39F-0001kq-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 18:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44399)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38P-0007PN-IQ
+ id 1hq38P-0007PP-L9
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 18:19:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38O-0001Cn-8r
+ id 1hq38O-0001Ci-8Q
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 18:19:49 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21394)
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21398)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=100e7d3fb=dmitry.fomichev@wdc.com>)
- id 1hq38N-0001AZ-KO; Tue, 23 Jul 2019 18:19:48 -0400
+ id 1hq38N-0001Bd-Ib; Tue, 23 Jul 2019 18:19:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1563920388; x=1595456388;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=+XAdquywPqf67bvtg6BKG4c1lJyMCOwj3hjtBjUHYdY=;
- b=U5/SsNH3c87bpuHdRRM1G0AvxJ5L7+PhdFK6m5w9z4h/samS0hjbnmmE
- Sgq6b6IiOfxtLnQBjmMG0fb37Agz1Y2Nsfs9P09OtxnZhdjt+xqIlNbSe
- zSCZZ3AFWbmI5JMdRh6QahCUojJP5A7QZ9fJijmDYG+zX848YzZ1SR2cl
- HnlHtMfiJmfmodxC7t/h3zhGsyghQ/0qqSqIk6CKGiMoSYPJk8YeguTRk
- ap/Jzg1TBxbZL/zMch4+ADB/QlMeX4BEDm43eC2Zzcjr+pkfwzxFK5XBg
- TyV5Uu8LD+DDusjaaNyL7Snw6/MVDO0thtcDjxHT6NnHW/4YEk6wbvFPb w==;
-IronPort-SDR: q0WFCjWkTPwRhv4QLoDh+V9e0pEMzVGRj1p6Ec60LWztjimzQXIe6LKAY7PEuJUKon8i3WMJsZ
- Ep80xsTONkhW5uwo/BvkTEgcSmVLdbVD+Q+8ow2QzlbOF9M9CfdPtOEUzWblOWPUdGhsfMYTaF
- bK7YVk5XvbHHwJDWP5yaRFUuAsPDNMMtPJjG2z5yLHq5gI/Pm2GxzWm4iipTw1obh7EKlCwzuE
- PztlotpAHsReZOIxGdyki1j4cYtwhbSQkIRk7L033dU6cb0U326rzjnoSQ9PLfTahecsFN4OXw
- w3U=
-X-IronPort-AV: E=Sophos;i="5.64,300,1559491200"; d="scan'208";a="113843254"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wHUoBrvdnxfgY6XIw8VsCJ56j8G8QwCLTjvAkjw0wis=;
+ b=okhlSLJodN+eIlbYAw3GIItLKPH+hzkxfDFpDE94vEC74woIGCAAEARX
+ LvHIAsf1z1V9iNgOuMsHdhoEGWfSDnxXHYdirQar76IKOMruCViVnpuAY
+ DwlCrihT7ouEzkHQwqpzUQbj/eiQtH42bJiPKTv9PuKdHufBHAvK60oIH
+ WzmgFAM+q/WE1ERmfH9Ohva6k9Xsx4zlLPC1TejGLKaIukTfBmA0yKaIN
+ cR08O9faYIf2GnaP34TxB5L+k9/RJxph/YoZa2seZmoTpwh5wZo15W6z5
+ unw1z6ke/r2h/U+nSoeiTw1CNDhtapBH0ipVZ4Idq6Jd4/hkKBksbHnIW A==;
+IronPort-SDR: YwqsYGvLmB/BZEoooCWbikWPdECbobHFWWV7+VEU5cYZ3E/UzVsnZJA3f9Dmfj3QD0loN3sxL1
+ HknX4zSOCDS9p/tvhbwIowGONGItzZsMVIuQaV0qAC+4cpEF1m5VaC+31Wb03jrpenyi3y0yCA
+ TPoEa8ftQMAoK04SN/TKcIA3EoboWbhkP5kk4rwjI7C2pSJk9qSM5JnZ3Qz/YU0keNmDYgIh66
+ 1RMuyDyEf+2EYoLBj+n6V7d4REB7jsDm8cJeZh0FBvgkfBVKtH811KREA8iB/fEZfqBVyeihLU
+ eZA=
+X-IronPort-AV: E=Sophos;i="5.64,300,1559491200"; d="scan'208";a="113843255"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2019 06:19:42 +0800
-IronPort-SDR: nHj/pmlB/B9Wz3f+rPzOb2iYOQsK0BVMHp3HIjpNF5GrYoLmjXo2vIcwZ80ODNoHGEswNjqa7v
- eqlGn4S6REYz29v3Yi4MhCM8YtXk+up5U+ghjGU093qiYuPPU30TMqZg7Qr+EPxmME5tx9qW7q
- VcWPn2bDI6iXmgF4VZN2YCCdcTiFDhyHdMAkoJFne1kxu4AHMZkJKv3xkAkACsWAxEF0yqneRF
- vYfBIY69Vq9pCYDSXuhqJXbUSd60jGQBXeIEFq/SGXqrOM9zrU17BDK6rM4R9KjMuB3wj0c7pG
- N3b9aMJCeCDP168phUh1Qy7j
+ by ob1.hgst.iphmx.com with ESMTP; 24 Jul 2019 06:19:43 +0800
+IronPort-SDR: XhHC08IZnBrGCmUJVy6u4Sonb/lzfwXVDuzsDyP8Az832eoIrU3k9P7WlPs2+B+yKgKcwoaRV3
+ d9eHDfXuy539BlpBiKIOrDjVFt8YGtE9QMpo796PMyeb+PWnW7Oml1kOze1/45t54qQgHUxr20
+ W8qyJyPnGH3WcDgWJDUbUWcGrcm0axmdLsMceoG8fGuklCZVoN3jjVNF3SYDuR/dmWwn72rw/K
+ xvzzXSsx6BIMz3XxPfnpoPgmwv54mUX+ey6G9NRceLAgBqRc/aLbrvxkh2skaYvZencGR7RBk8
+ 8ad98UsOJ5UQ944OfkZStyfI
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 23 Jul 2019 15:17:55 -0700
-IronPort-SDR: 1Rdrf6b5yQMFAdJiAb+Df5SksF0I77Kvey1caWk9xxkNyrd66+KIEC2sAMMKEBLsjkvgthiVBY
- FUdkt+1LhFeeIMn04LZ/uV880YczN86JPW1RTUHTyVZFgbIHrBurG7pAW6gy0lOeIrxmmHwSai
- 3axg2tEF2M0CR3B+0WrcRda2fZAQ8xuHFWJnHMcfdxcoaehT7797p8vDs/yMSZpAA5QuQ+3Owv
- qpDa67gGPqZHFWiXEGXM19GbTNUVHSvSZ4HM/nAbBIBQM1A5bOhG52E/GMTfAhZdbvJFjavgAh
- eVU=
+ by uls-op-cesaep02.wdc.com with ESMTP; 23 Jul 2019 15:17:56 -0700
+IronPort-SDR: z7HNxL1F2oXVhQAwvhjD5BRW28X9VX0PF9MHG/Mwyj3L0Bu4ktuHDYotoFhQqFxH2DIwDQUUK7
+ 7WSJuj9JwPw6pO765cUg+aoa4A2nk1ExbdnSySGr2cghQkUoY20yW4YqaibRB6kIcmNpabK518
+ EvqOb90a2GdcSNhBxa0qSWbwTar/eDEQ9bc5bo03Z3NxW4dA5YVoEKH8kL1ydhQyWcqwTwTXY6
+ +S43m5M7dh15BDFiZ8ydOllmlRHqLERmGEDtTDv9CSsFTos1gTBYBIyeuRsSCEF9nH0Wfi2pXP
+ nos=
 Received: from dhcp-10-88-173-43.hgst.com ([10.88.173.43])
  by uls-op-cesaip02.wdc.com with ESMTP; 23 Jul 2019 15:19:42 -0700
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue, 23 Jul 2019 18:19:36 -0400
-Message-Id: <20190723221940.25585-1-dmitry.fomichev@wdc.com>
+Date: Tue, 23 Jul 2019 18:19:37 -0400
+Message-Id: <20190723221940.25585-2-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190723221940.25585-1-dmitry.fomichev@wdc.com>
+References: <20190723221940.25585-1-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [PATCH v3 0/4] virtio/block: handle zoned backing
- devices
+Subject: [Qemu-devel] [PATCH v3 1/4] block: Add zoned device model property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,88 +81,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, attaching zoned block devices (i.e., storage devices
-compliant to ZAC/ZBC standards) using several virtio methods doesn't
-work properly as zoned devices appear as regular block devices at the
-guest. This may cause unexpected i/o errors and, potentially, some
-data corruption.
+This commit adds Zoned Device Model (as defined in T10 ZBC and
+T13 ZAC standards) as a block driver property, along with some
+useful access functions.
 
-To be more precise, attaching a zoned device via virtio-pci-blk,
-virtio-scsi-pci/scsi-disk or virtio-scsi-pci/scsi-hd demonstrates the
-above behavior. The virtio-scsi-pci/scsi-block method works with a
-recent patch. The virtio-scsi-pci/scsi-generic method also appears to
-handle zoned devices without problems.
+A new backend driver permission, BLK_PERM_SUPPORT_ZONED, is also
+introduced. Only the drivers having this permission will be allowed
+to open zoned block devices.
 
-This patch set adds code to check if the backing device that is being
-opened is a zoned Host Managed device. If this is the case, the patch
-prohibits attaching such device for all use cases lacking proper
-zoned support.
+No code is added yet to initialize or check the value of this new
+property, therefore this commit doesn't change any functionality.
 
-Host Aware zoned block devices are designed to work as regular block
-devices at a guest system that does not support ZBD. Therefore, this
-patch set doesn't prohibit attachment of Host Aware devices.
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+---
+ block.c                   | 19 +++++++++++++++++++
+ include/block/block.h     | 21 ++++++++++++++++++++-
+ include/block/block_int.h |  4 ++++
+ 3 files changed, 43 insertions(+), 1 deletion(-)
 
-Considering that there is still a couple of different working ways
-to attach a ZBD, this patch set provides a reasonable short-term
-solution for this problem. What about long term?
-
-It appears to be beneficial to add proper ZBD support to virtio-blk.
-In order to support this use case properly, some virtio-blk protocol
-changes will be necessary. They are needed to allow the host code to
-propagate some ZBD properties that are required for virtio guest
-driver to configure the guest block device as ZBD, such as zoned
-device model, zone size and the total number of zones. Further, some
-support needs to be added for REPORT ZONES command as well as for zone
-operations, such as OPEN ZONE, CLOSE ZONE, FINISH ZONE and RESET ZONE.
-
-These additions to the protocol are relatively straightforward, but
-they need to be approved by the virtio TC and the whole process may
-take some time.
-
-ZBD support for virtio-scsi-pci/scsi-disk and virtio-scsi-pci/scsi-hd
-does not seem as necessary. Users will be expected to attach zoned
-block devices via virtio-scsi-pci/scsi-block instead.
-
-This patch set contains some Linux-specific code. This code is
-necessary to obtain Zoned Block Device model value from Linux sysfs.
-
-History:
-
-v1 -> v2:
-- rework the code to be permission-based
-- always allow Host Aware devices to be attached
-- add fix for Host Aware attachments aka RCAP output snoop
-
-v2 -> v3:
-- drop the patch for RCAP output snoop - merged separately
-
-
-Dmitry Fomichev (4):
-  block: Add zoned device model property
-  raw: Recognize zoned backing devices
-  block/ide/scsi: Set BLK_PERM_SUPPORT_ZONED
-  raw: Don't open ZBDs if backend can't handle them
-
- block.c                   | 19 +++++++++
- block/file-posix.c        | 88 +++++++++++++++++++++++++++++++++------
- block/raw-format.c        |  8 ++++
- hw/block/block.c          |  8 +++-
- hw/block/fdc.c            |  4 +-
- hw/block/nvme.c           |  2 +-
- hw/block/virtio-blk.c     |  2 +-
- hw/block/xen-block.c      |  2 +-
- hw/ide/qdev.c             |  2 +-
- hw/scsi/scsi-disk.c       | 13 +++---
- hw/scsi/scsi-generic.c    |  2 +-
- hw/usb/dev-storage.c      |  2 +-
- include/block/block.h     | 21 +++++++++-
- include/block/block_int.h |  4 ++
- include/hw/block/block.h  |  3 +-
- 15 files changed, 150 insertions(+), 30 deletions(-)
-
+diff --git a/block.c b/block.c
+index cbd8da5f3b..c717c4d6f5 100644
+--- a/block.c
++++ b/block.c
+@@ -4667,6 +4667,25 @@ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr)
+     *nb_sectors_ptr = nb_sectors < 0 ? 0 : nb_sectors;
+ }
+ 
++uint8_t bdrv_get_zoned_model(BlockDriverState *bs)
++{
++    if (bs->drv->bdrv_get_zoned_info) {
++        bs->drv->bdrv_get_zoned_info(bs);
++    }
++
++    return bs->bl.zoned_model;
++}
++
++uint8_t bdrv_is_zoned(BlockDriverState *bs)
++{
++    /*
++     * Host Aware zone devices are supposed to be able to work
++     * just like regular block devices. Thus, we only consider
++     * Host Managed devices to be zoned here.
++     */
++    return bdrv_get_zoned_model(bs) == BLK_ZONED_MODEL_HM;
++}
++
+ bool bdrv_is_sg(BlockDriverState *bs)
+ {
+     return bs->sg;
+diff --git a/include/block/block.h b/include/block/block.h
+index 50a07c1c33..bd98933f67 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -266,18 +266,35 @@ enum {
+      */
+     BLK_PERM_GRAPH_MOD          = 0x10,
+ 
++    /** This permission is required to open zoned block devices. */
++    BLK_PERM_SUPPORT_ZONED      = 0x20,
++
+     BLK_PERM_ALL                = 0x1f,
+ 
+     DEFAULT_PERM_PASSTHROUGH    = BLK_PERM_CONSISTENT_READ
+                                  | BLK_PERM_WRITE
+                                  | BLK_PERM_WRITE_UNCHANGED
+-                                 | BLK_PERM_RESIZE,
++                                 | BLK_PERM_RESIZE
++                                 | BLK_PERM_SUPPORT_ZONED,
+ 
+     DEFAULT_PERM_UNCHANGED      = BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHROUGH,
+ };
+ 
+ char *bdrv_perm_names(uint64_t perm);
+ 
++/*
++ * Known zoned device models.
++ *
++ * TODO For a Linux host, it could be preferrable to include
++ * /usr/include/linux/blkzoned.h instead of defining ZBD-specific
++ * values here.
++ */
++enum blk_zoned_model {
++    BLK_ZONED_MODEL_NONE, /* Regular block device */
++    BLK_ZONED_MODEL_HA,   /* Host-aware zoned block device */
++    BLK_ZONED_MODEL_HM,   /* Host-managed zoned block device */
++};
++
+ /* disk I/O throttling */
+ void bdrv_init(void);
+ void bdrv_init_with_whitelist(void);
+@@ -354,6 +371,8 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs);
+ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+                                BlockDriverState *in_bs, Error **errp);
+ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
++uint8_t bdrv_get_zoned_model(BlockDriverState *bs);
++uint8_t bdrv_is_zoned(BlockDriverState *bs);
+ void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
+ int bdrv_commit(BlockDriverState *bs);
+ int bdrv_change_backing_file(BlockDriverState *bs,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 3aa1e832a8..52c5758a9d 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -416,6 +416,7 @@ struct BlockDriver {
+     bool (*bdrv_debug_is_suspended)(BlockDriverState *bs, const char *tag);
+ 
+     void (*bdrv_refresh_limits)(BlockDriverState *bs, Error **errp);
++    void (*bdrv_get_zoned_info)(BlockDriverState *bs);
+ 
+     /*
+      * Returns 1 if newly created images are guaranteed to contain only
+@@ -614,6 +615,9 @@ typedef struct BlockLimits {
+ 
+     /* maximum number of iovec elements */
+     int max_iov;
++
++    /* Zoned device model. Zero value indicates a regular block device */
++    uint8_t zoned_model;
+ } BlockLimits;
+ 
+ typedef struct BdrvOpBlocker BdrvOpBlocker;
 -- 
 2.21.0
 
