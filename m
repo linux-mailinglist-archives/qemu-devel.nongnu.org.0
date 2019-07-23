@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5F471757
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 13:46:48 +0200 (CEST)
-Received: from localhost ([::1]:41498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BB371762
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 13:48:01 +0200 (CEST)
+Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptFn-0001Ww-Oo
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 07:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1hptGy-0003Qa-VX
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 07:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hptFZ-00018S-9L
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:46:34 -0400
+ (envelope-from <lersek@redhat.com>) id 1hptGW-00023K-F9
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:47:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hptFX-00026V-FG
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:46:33 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40218)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hptFT-00024e-Rk
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:46:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id r1so42825906wrl.7
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 04:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rovnfAxNV8PWwia368imxazla7nTuGksM0xB+nyWTR0=;
- b=IJyooZh1i+qNHMm2o8RAKk1a8XwXfBaV6ZR7EdUNejExsJc3htAEgwNdVZSyoRoV9M
- YzzdiYBcuJ2ox6hC1OF6j43ab7yLOnZ2rG4qfvAk+yB6R8G+soRy/eDq+Ye5oW9U0Xi5
- eo1hqrvvJJtQrpwP1pavq77vJldTA2uIRVQx7JJr8YV0hhtO0bHdZU7HEim9KeSeO4bX
- vympQjgdFL+h5e2pOEbat/xFf+6XgxZX8LRvVgH3Jw0n/dBTTfMsbh+mTVsMH/knnB93
- /mK5Je4DPijmJ1ksthz0NjUQbjpF3UoC4MSu+MVUnyYBeMoDhm6UPRfk51uZpZJGYjFs
- qHgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rovnfAxNV8PWwia368imxazla7nTuGksM0xB+nyWTR0=;
- b=GErasqTIjkiuVDPJKHBUlbgcwMuAkwW+zjSQ1fGLCbJlOe9Yn74Had/Gor0M98c2JH
- Yir6z4/Ml7rbiRUUx8yA5lqY8Oz9X2IdF0UIJISoE/A/VoqJXFvTrC+KTw1dkOj5LlG5
- Tn68Lr0HxhHSziFscjwbdrJKmiBWKG4S+xTh0+bztAE5XYnyGIAm8FK5EI6On5oE79IN
- MMpu5W1LVbvarEHqq5eP16+X5RnecK1E+xQJuZCFnA98uuiRLo7yoefuJFG0UtqUmN+U
- dY9Ps4Be7ZWqhxbtXORkOAcWtZdvGdxBzasGSqdHueaciZvtzqf1ckHdKBGX+hM/2fbF
- +7xg==
-X-Gm-Message-State: APjAAAXDboMYWPKcS8Y3iLSJebbxIoBJxZ2frtm5GojTSpBYtiv8DR+U
- 7jFVoG+ifHzwAYFFdrStXAll/g==
-X-Google-Smtp-Source: APXvYqyVRjIoJqawT0zYN8S36IgGLIup5R6EXL632nNkz6aPffhL6VxDX3uvgea6hUpcMzVUBIYrUA==
-X-Received: by 2002:adf:dfc4:: with SMTP id q4mr79437441wrn.54.1563882386235; 
- Tue, 23 Jul 2019 04:46:26 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j189sm47994691wmb.48.2019.07.23.04.46.25
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 04:46:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 46D6E1FF87;
- Tue, 23 Jul 2019 12:46:25 +0100 (BST)
-References: <20190723103612.5600-1-alex.bennee@linaro.org>
- <CAFEAcA_P_Bk0bNGCW+TwhQGCeqM-XZd3OudKZ4tu0fNThFH5ww@mail.gmail.com>
-User-agent: mu4e 1.3.3; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA_P_Bk0bNGCW+TwhQGCeqM-XZd3OudKZ4tu0fNThFH5ww@mail.gmail.com>
-Date: Tue, 23 Jul 2019 12:46:25 +0100
-Message-ID: <87imrt0y9a.fsf@linaro.org>
+ (envelope-from <lersek@redhat.com>) id 1hptGV-0003sb-7R
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:47:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52628)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>)
+ id 1hptGS-0003q3-CX; Tue, 23 Jul 2019 07:47:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4B20AC04D946;
+ Tue, 23 Jul 2019 11:47:27 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-52.ams2.redhat.com
+ [10.36.117.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE4CD60852;
+ Tue, 23 Jul 2019 11:47:17 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190723093558.13700-1-philmd@redhat.com>
+ <20190723093558.13700-2-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <dc3a5f1d-8a8c-30c3-1a54-f37f00d44d21@redhat.com>
+Date: Tue, 23 Jul 2019 13:47:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <20190723093558.13700-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 23 Jul 2019 11:47:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PULL for 4.1-rc2 00/23] testing updates (green
- CI!)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL v2 1/2] hw/block/pflash_cfi01: Add missing
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,152 +62,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 07/23/19 11:35, Philippe Mathieu-Daud=C3=A9 wrote:
+> To avoid incoherent states when the machine resets (see bug report
+> below), add the device reset callback.
+>=20
+> A "system reset" sets the device state machine in READ_ARRAY mode
+> and, after some delay, set the SR.7 READY bit.
+>=20
+> Since we do not model timings, we set the SR.7 bit directly.
+>=20
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
+> Reported-by: Laszlo Ersek <lersek@redhat.com>
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> Tested-by: Laszlo Ersek <lersek@redhat.com>
+> [Laszlo Ersek: Regression tested EDK2 OVMF IA32X64, ArmVirtQemu Aarch64
+>  https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04373.html]
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Nice, thanks! :)
+Laszlo
 
-> On Tue, 23 Jul 2019 at 11:36, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 23da9e297b4120ca9702cabec91599a44255f=
-e96:
->>
->>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20=
-190722' into staging (2019-07-22 15:16:48 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-230719-1
->>
->> for you to fetch changes up to 2e3b8743cd66f1d0fbc83051b0b6b072a97460cc:
->>
->>   gitlab-ci: Remove qcow2 tests that are handled by "make check" already=
- (2019-07-23 11:33:15 +0100)
->>
->> ----------------------------------------------------------------
->> Final testing updates:
->>
->>   - docker sphinx updates
->>   - windows build re-enabled in CI
->>   - travis_retry for make check
->>   - quick iotests enabled for make check
->>   - build fixes
->>
->> ----------------------------------------------------------------
->
-> 'make check-tcg' fails (x86-64 host):
->
-> make: Entering directory
-> '/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
->   BUILD   debian10
-> The command '/bin/sh -c DEBIAN_FRONTEND=3Dnoninteractive eatmydata
-> apt install -y --no-install-recommends         bison
-> build-essential         ca-certificates         clang         flex
->     gettext         git         pkg-config         psmisc
-> python         python3-sphinx         texinfo         $(apt-get -s
-> build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)' returned
-> a non-zero code: 100
-> Traceback (most recent call last):
->   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
-> line 615, in <module>
->     sys.exit(main())
->   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
-> line 611, in main
->     return args.cmdobj.run(args, argv)
->   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
-> line 413, in run
->     extra_files_cksum=3Dcksum)
->   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
-> line 280, in build_image
->     quiet=3Dquiet)
->   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
-> line 207, in _do_check
->     return subprocess.check_call(self._command + cmd, **kwargs)
->   File "/usr/lib/python2.7/subprocess.py", line 190, in check_call
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['docker', 'build', '-t',
-> 'qemu:debian10', '-f', '/tmp/docker_buildBgZdCD/tmp6MJLiZ.docker',
-> '/tmp/docker_buildBgZdCD']' returned non-zero exit status 100
-> /home/petmay01/linaro/qemu-for-merges/tests/docker/Makefile.include:53:
-> recipe for target 'docker-image-debian10' failed
-> make: *** [docker-image-debian10] Error 1
-> make: Leaving directory
-> '/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
+> Message-Id: <20190718104837.13905-2-philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/block/pflash_cfi01.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>=20
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 435be1e35c..a1ec1faae5 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -865,6 +865,24 @@ static void pflash_cfi01_realize(DeviceState *dev,=
+ Error **errp)
+>      pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
+>  }
+> =20
+> +static void pflash_cfi01_system_reset(DeviceState *dev)
+> +{
+> +    PFlashCFI01 *pfl =3D PFLASH_CFI01(dev);
+> +
+> +    /*
+> +     * The command 0x00 is not assigned by the CFI open standard,
+> +     * but QEMU historically uses it for the READ_ARRAY command (0xff)=
+.
+> +     */
+> +    pfl->cmd =3D 0x00;
+> +    pfl->wcycle =3D 0;
+> +    memory_region_rom_device_set_romd(&pfl->mem, true);
+> +    /*
+> +     * The WSM ready timer occurs at most 150ns after system reset.
+> +     * This model deliberately ignores this delay.
+> +     */
+> +    pfl->status =3D 0x80;
+> +}
+> +
+>  static Property pflash_cfi01_properties[] =3D {
+>      DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
+>      /* num-blocks is the number of blocks actually visible to the gues=
+t,
+> @@ -909,6 +927,7 @@ static void pflash_cfi01_class_init(ObjectClass *kl=
+ass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> =20
+> +    dc->reset =3D pflash_cfi01_system_reset;
+>      dc->realize =3D pflash_cfi01_realize;
+>      dc->props =3D pflash_cfi01_properties;
+>      dc->vmsd =3D &vmstate_pflash;
+>=20
 
-Odd. Does:
-
-  make docker-image-debian10 V=3D1
-
-fail for you? Can you retry with:
-
-  make docker-image-debian10 V=3D1 NOCACHE=3D1
-
->
-> I also got a failure with openbsd which seems to be when
-> the tests run check-block.sh:
->
-> /home/qemu/qemu-test.Dy1Aj3/src/tests/check-block.sh
->   TEST    iotest-qcow2: 001
->   TEST    iotest-qcow2: 002
->   TEST    iotest-qcow2: 003
->   TEST    iotest-qcow2: 004
->   TEST    iotest-qcow2: 005 [not run]
->   TEST    iotest-qcow2: 007 [fail]
-> QEMU          --
-> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../aarch64-softm=
-mu/qemu-system-aarch64"
-> -nodefaults -machine virt,accel=3Dqtest
-> QEMU_IMG      --
-> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-img"
-> QEMU_IO       --
-> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-io"
-> --cache writeback -f qcow2
-> QEMU_NBD      --
-> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-nbd"
-> IMGFMT        -- qcow2 (compat=3D1.1)
-> IMGPROTO      -- file
-> PLATFORM      -- OpenBSD/amd64 openbsd 6.5
-> TEST_DIR      -- /home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/scr=
-atch
-> SOCKET_SCM_HELPER --
->
-> --- /home/qemu/qemu-test.Dy1Aj3/src/tests/qemu-iotests/007.out  Tue
-> Jul 23 10:49:15 2019
-> +++ /home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/007.out.bad
->  Tue Jul 23 11:10:21 2019
-> @@ -2,16 +2,7 @@
->
->  creating image
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
-> -savevm 1
-> -savevm 2
-> -savevm 3
-> -savevm 4
-> -savevm 5
-> -savevm 6
-> -savevm 7
-> -savevm 8
-> -savevm 9
-> -savevm 10
-> +./007: line 51: seq: command not found
->
-> [and some other failures]
->
-> I see Thomas Huth has a patch on-list for that, but this
-> didn't manifest as a problem before this pullreq.
-
-OK, I'll add it and rebuild the PR.
-
-Have you noticed any issues with check-acceptance?
-
->
-> thanks
-> -- PMM
-
-
---
-Alex Benn=C3=A9e
 
