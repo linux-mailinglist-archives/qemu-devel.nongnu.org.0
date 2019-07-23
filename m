@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CF371658
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:42:34 +0200 (CEST)
-Received: from localhost ([::1]:41081 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB3271664
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:43:43 +0200 (CEST)
+Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsFd-0003qn-33
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
+	id 1hpsGk-0001IV-HF
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39669)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hpsF1-0002FG-PS
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsF4-0002PA-0u
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hpsEz-0004AO-Jw
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:55 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33987)
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsF1-0004CV-SN
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:57 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35986)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hpsEx-00047b-Ih
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:51 -0400
-Received: by mail-wm1-x331.google.com with SMTP id w9so30816838wmd.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:41:50 -0700 (PDT)
+ id 1hpsEz-00049f-Mr
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:55 -0400
+Received: by mail-wr1-x430.google.com with SMTP id n4so42696076wrs.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:41:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7RSktaeaWh29DL6iluSfOCe01Qn4jt3vtBzbthVHEtE=;
- b=eskZnw92VtmI5Tp2DTPFIm+GO7posbdhjfIINzDzDm3MWZzqLLWjkKU2W6QgBZKeg+
- xq0iwgAFuQ4wHqEhGoTp5hgjlOKhRf+i/AsQ4AixF2vKx4v76UhN1cYUQmYk5JlFkweB
- d9DgueNWkg+FjxDMKNqW3VQtBWDEO9cf+Dm+YEtPoS+qsV4HkYfnCYHROGQaVTxAG2At
- fWX+rXM4KvuvDO0wZaw/J/K/yvRBP3q30N/T5wFwLUANNKmbJrlot1YeoCF2gqIJO/Qn
- kEHUT5plXTnCN54w9buYu7SkWIerQgPV9wprRl/SZdPPqd/kSFic3G8JHzvW7wCp6sEx
- 5dtQ==
+ bh=P+AkiWgOwKZ1xCT/g5RPhLJYhV52/2n2S8V90CRgCWk=;
+ b=MSqoa7a6+VitNCJNIkf8ZJ79pdMB/vcNY7xmw9y/32OFTLNECUTfhhbv2Fk/IL0s54
+ p06+NG0OxcdK0PS9u8OjUJGehII8senthBre4JblKVOzRS+TSQhWqqABLcAZatmsAa7A
+ w9+bqoFP1JRjcyJOmz81x3HiOkPQa1tvUAM+G03NYGyNamkGr2tg7TstOYJg3T4b858R
+ 8KyImdDKtrwPg5ZHAISY/2AwrjGxz/v4hy4BJJ9/ccDyyxAd8G0INZ0wtYDmlQWB8Qab
+ s+pmblIVjccsVIzFzVq/qyy3I7HroxkLY4WQ+LUgA0AeqOuI82Eq2sXGwRLM+ftAIgBK
+ Z3vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7RSktaeaWh29DL6iluSfOCe01Qn4jt3vtBzbthVHEtE=;
- b=I1ERg73OvBkq6Jh0ja38c+CJTZpZDDAHuEujyRAI8tGpb/eo5Hnw9SUejJncFGUPdd
- wIHer2mgSzxtnMeTyV1GLvbC8YxYd/VxPt2NrQe5dHnr1qJJcQPanHreWgqP/zUKarud
- Z4XvBYTAAFsCxlPbgWV5f3R59THZfvQBtfLNJ7VV3ZZrmR2W2rWP5PUUqkX4MmUFwflV
- K9S/wrjqYLq+MPThI1wVDIkRzXSjUHJKUoDjfnrAaFzulgcUQ2LaW+puZEGwM7BaxijK
- 9xNrvOYIE2lRJwGy8z+4I1oPtdKbH1VG6Ky73EmKoZ6MKPO7qVwZpNsC/9OM7jPbrHCt
- HUHw==
-X-Gm-Message-State: APjAAAUthMLN5AEApO7Z4cRsqIvN6VtITnL3tfvW63Um9PbGEXwpn7X3
- JMZsLGF9Fyxx2+s3SCwrUfgpyA==
-X-Google-Smtp-Source: APXvYqx77HTL7vEk/a7YwX4FQKcykS0nW6RrUehgEuAqhsL5JlgAw5MGLM9t0RH/I3Rn78WYzCTa+A==
-X-Received: by 2002:a05:600c:1008:: with SMTP id
- c8mr69167327wmc.133.1563878509418; 
- Tue, 23 Jul 2019 03:41:49 -0700 (PDT)
+ bh=P+AkiWgOwKZ1xCT/g5RPhLJYhV52/2n2S8V90CRgCWk=;
+ b=PRraOXNcKRKB6fEZr0PooulKPzi7TUdTFpDXNVy1zNygyKG7jpQtuDzeKY7ayKQVdX
+ yKjZRpp0a/lOYpzl+Kmaiglvj1Jo2B0F7H2Qoy0Xu+0N5EbI0IVs7tUpGfSY1Gaz/Tx1
+ 1B60yLOXmOR7zFDu7M/hmDZ8dyD6UK5u0k/Po9JQ+LTJ7/2x5imTr+VhBtlF2W8plOpC
+ GJlDICuXVnNNfVmdH50gRx4BXUykpug7eXfeU5SNEM5tQPD1RWypuVIJtjI0Zd1va0Av
+ T5yDKgmDGSatmsW8JgkcisIFb2WFJMdiVxgpKfnvq9KcbyPpYqShSpx4XoTuVLWcQsXD
+ InKg==
+X-Gm-Message-State: APjAAAXZY7RwT6+KnaSufkmWXNqbhAnWhocuW5HP/j3ILzeTCQGDHaEu
+ MblOVUwbdTxUSmDf6BwyMouU9A==
+X-Google-Smtp-Source: APXvYqxRQ8h0alpbfTy4fFmQnDta2Ofg1zguGWL/Jyc0pEZdStH0RM5jKHdZ4J//qbBjQmBpQ6N9ng==
+X-Received: by 2002:adf:ef49:: with SMTP id c9mr4642277wrp.188.1563878512123; 
+ Tue, 23 Jul 2019 03:41:52 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id t140sm38037897wmt.0.2019.07.23.03.41.48
+ by smtp.gmail.com with ESMTPSA id t13sm52112246wrr.0.2019.07.23.03.41.48
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 23 Jul 2019 03:41:48 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 35E631FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 4DA8D1FFAA;
  Tue, 23 Jul 2019 11:36:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:36:10 +0100
-Message-Id: <20190723103612.5600-22-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:36:11 +0100
+Message-Id: <20190723103612.5600-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: [Qemu-devel] [PULL 21/23] tests/qemu-iotests/group: Remove some
- more tests from the "auto" group
+X-Received-From: 2a00:1450:4864:20::430
+Subject: [Qemu-devel] [PULL 22/23] tests: Run the iotests during "make
+ check" again
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,297 +82,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Remove some more tests from the "auto" group that either have issues
-in certain environments (like macOS or FreeBSD, or on certain file systems
-like ZFS or tmpfs), do not work with the qcow2 format, or that are simply
-taking too much time.
+People often forget to run the iotests before submitting patches or pull
+requests - this is likely due to the fact that we do not run the tests
+during our mandatory "make check" tests yet. Now that we've got a proper
+"auto" group of iotests that should be fine to run in every environment,
+we can enable the iotests during "make check" again by running the "auto"
+tests by default from the check-block.sh script.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Some cases still need to be checked first, though: iotests need bash and
+GNU sed (otherwise they fail), and if gprof is enabled, it spoils the
+output of some test cases causing them to fail. So if we detect that one
+of the required programs is missing or that gprof is enabled, we still
+have to skip the iotests to avoid failures.
+
+And finally, since we are using check-block.sh now again, this patch also
+removes the qemu-iotests-quick.sh script since we do not need that anymore
+(and having two shell wrapper scripts around the block tests seems rather
+confusing than helpful).
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190717111947.30356-3-thuth@redhat.com>
+[AJB: -makecheck to check-block.sh, move check-block to start and gate it]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20190717111947.30356-4-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index b34c8e3c0c6..f13e5f2e234 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -14,7 +14,9 @@
- #   runnable in any case. That means they should run with every QEMU binary
- #   (also non-x86), with every QEMU configuration (i.e. must not fail if
- #   an optional feature is not compiled in - but reporting a "skip" is ok),
--#   and work all kind of host filesystems and users (e.g. "nobody" or "root").
-+#   work at least with the qcow2 file format, work with all kind of host
-+#   filesystems and users (e.g. "nobody" or "root") and must not take too
-+#   much memory and disk space (since CI pipelines tend to fail otherwise).
- #
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index fd7fdb86586..6f02dfcc019 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -142,7 +142,7 @@ check-unit-y += tests/test-uuid$(EXESUF)
+ check-unit-y += tests/ptimer-test$(EXESUF)
+ check-unit-y += tests/test-qapi-util$(EXESUF)
  
- #
-@@ -33,8 +35,8 @@
- 011 rw auto quick
- 012 auto quick
- 013 rw auto
--014 rw auto
--015 rw snapshot auto
-+014 rw
-+015 rw snapshot
- # 016 was removed, do not reuse
- 017 rw backing auto quick
- 018 rw backing auto quick
-@@ -42,7 +44,7 @@
- 020 rw backing auto quick
- 021 io auto quick
- 022 rw snapshot auto
--023 rw auto
-+023 rw
- 024 rw backing auto quick
- 025 rw auto quick
- 026 rw blkdbg
-@@ -78,94 +80,94 @@
- 056 rw backing
- 057 rw
- 058 rw quick
--059 rw auto quick
-+059 rw quick
- 060 rw auto quick
- 061 rw auto
- 062 rw auto quick
- 063 rw auto quick
--064 rw auto quick
-+064 rw quick
- 065 rw quick
- 066 rw auto quick
- 067 rw quick
- 068 rw quick
- 069 rw auto quick
--070 rw auto quick
-+070 rw quick
- 071 rw auto quick
- 072 rw auto quick
- 073 rw auto quick
- 074 rw auto quick
--075 rw auto quick
--076 auto
--077 rw auto quick
--078 rw auto quick
-+075 rw quick
-+076 io
-+077 rw quick
-+078 rw quick
- 079 rw auto
- 080 rw auto
--081 rw auto quick
--082 rw auto quick
--083 rw auto
--084 img auto quick
-+081 rw quick
-+082 rw quick
-+083 rw
-+084 img quick
- 085 rw
- 086 rw auto quick
- 087 rw quick
--088 rw auto quick
-+088 rw quick
- 089 rw auto quick
- 090 rw auto quick
--091 rw auto migration
--092 rw auto quick
-+091 rw migration
-+092 rw quick
- 093 throttle
--094 rw auto quick
-+094 rw quick
- 095 rw quick
- 096 rw quick
- 097 rw auto backing
- 098 rw auto backing quick
- 099 rw auto quick
- # 100 was removed, do not reuse
--101 rw auto quick
--102 rw auto quick
-+101 rw quick
-+102 rw quick
- 103 rw auto quick
- 104 rw auto
- 105 rw auto quick
--106 rw auto quick
-+106 rw quick
- 107 rw auto quick
- 108 rw auto quick
--109 rw auto
-+109 rw
- 110 rw auto backing quick
- 111 rw auto quick
- 112 rw
--113 rw auto quick
-+113 rw quick
- 114 rw auto quick
- 115 rw
--116 rw auto quick
-+116 rw quick
- 117 rw auto
- 118 rw
--119 rw auto quick
-+119 rw quick
- 120 rw auto quick
- 121 rw
--122 rw auto
--123 rw auto quick
-+122 rw
-+123 rw quick
- 124 rw backing
- 125 rw
- 126 rw auto backing
- 127 rw backing quick
--128 rw auto quick
-+128 rw quick
- 129 rw quick
- 130 rw auto quick
--131 rw auto quick
-+131 rw quick
- 132 rw quick
- 133 auto quick
- 134 rw auto quick
--135 rw auto
-+135 rw
- 136 rw
- 137 rw auto
- 138 rw auto quick
- 139 rw quick
- 140 rw auto quick
- 141 rw auto quick
--142 auto
-+142
- 143 auto quick
- 144 rw quick
- 145 quick
--146 auto quick
-+146 quick
- 147 img
- 148 rw quick
- 149 rw sudo
-@@ -179,23 +181,23 @@
- 157 quick
- 158 rw auto quick
- 159 rw auto quick
--160 rw auto quick
-+160 rw quick
- 161 rw auto quick
- 162 quick
- 163 rw
- 165 rw quick
- 169 rw quick migration
- 170 rw auto quick
--171 rw auto quick
-+171 rw quick
- 172 auto
--173 rw auto
-+173 rw
- 174 auto
--175 auto quick
-+175 quick
- 176 rw auto backing
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw auto migration
-+181 rw migration
- 182 rw quick
- 183 rw migration
- 184 rw auto quick
-@@ -210,62 +212,62 @@
- 194 rw migration quick
- 195 rw auto quick
- 196 rw quick migration
--197 rw auto quick
-+197 rw quick
- 198 rw
- 199 rw migration
- 200 rw
--201 rw auto migration
-+201 rw migration
- 202 rw quick
- 203 rw migration
- 204 rw quick
- 205 rw quick
- 206 rw
--207 rw auto
-+207 rw
- 208 rw quick
- 209 rw quick
--210 rw auto
--211 rw auto quick
--212 rw auto quick
--213 rw auto quick
-+210 rw
-+211 rw quick
-+212 rw quick
-+213 rw quick
- 214 rw auto
--215 rw auto quick
-+215 rw quick
- 216 rw quick
- 217 rw auto quick
- 218 rw quick
- 219 rw
- 220 rw auto
--221 rw auto quick
-+221 rw quick
- 222 rw quick
- 223 rw quick
- 224 rw quick
--225 rw auto quick
-+225 rw quick
- 226 auto quick
- 227 quick
- 228 rw quick
- 229 auto quick
--231 auto quick
-+231 quick
- 232 quick
--233 auto quick
-+233 quick
- 234 quick migration
- 235 quick
- 236 quick
--237 rw auto quick
-+237 rw quick
- 238 quick
--239 rw auto quick
-+239 rw quick
- 240 quick
--241 rw auto quick
-+241 rw quick
- 242 rw quick
--243 rw auto quick
-+243 rw quick
- 244 rw auto quick
- 245 rw
- 246 rw quick
- 247 rw quick
- 248 rw quick
- 249 rw auto quick
--250 rw auto quick
-+250 rw quick
- 251 rw auto quick
- 252 rw auto backing quick
--253 rw auto quick
--254 rw auto backing quick
--255 rw auto quick
--256 rw auto quick
-+253 rw quick
-+254 rw backing quick
-+255 rw quick
-+256 rw quick
+-check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
++check-block-$(call land,$(CONFIG_POSIX),$(CONFIG_SOFTMMU)) += tests/check-block.sh
+ 
+ # All QTests for now are POSIX-only, but the dependencies are
+ # really in libqtest, not in the testcases themselves.
+@@ -1092,8 +1092,10 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ 
+ QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
+ 
+-.PHONY: check-tests/qemu-iotests-quick.sh
+-check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
++.PHONY: check-tests/check-block.sh
++check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) \
++		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
++		$(patsubst %,%/all,$(filter %-softmmu,$(TARGET_DIRS)))
+ 	$<
+ 
+ .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
+@@ -1167,7 +1169,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
+ check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-tests/qapi-schema/doc-good.texi
+ check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
+ check-block: $(patsubst %,check-%, $(check-block-y))
+-check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
++check: check-block check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
+ check-clean:
+ 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
+ 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index f3d12fd602d..c8b6cec3f68 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -1,24 +1,48 @@
+ #!/bin/sh
+ 
+-FORMAT_LIST="raw qcow2 qed vmdk vpc"
++# Honor the SPEED environment variable, just like we do it for the qtests.
++if [ "$SPEED" = "slow" ]; then
++    format_list="raw qcow2"
++    group=
++elif [ "$SPEED" = "thorough" ]; then
++    format_list="raw qcow2 qed vmdk vpc"
++    group=
++else
++    format_list=qcow2
++    group="-g auto"
++fi
++
+ if [ "$#" -ne 0 ]; then
+-    FORMAT_LIST="$@"
++    format_list="$@"
++fi
++
++if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
++    echo "GPROF is enabled ==> Not running the qemu-iotests."
++    exit 0
+ fi
+ 
+-export QEMU_PROG="$PWD/x86_64-softmmu/qemu-system-x86_64"
+-export QEMU_IMG_PROG="$PWD/qemu-img"
+-export QEMU_IO_PROG="$PWD/qemu-io"
++if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
++    echo "No qemu-system binary available ==> Not running the qemu-iotests."
++    exit 0
++fi
++
++if ! command -v bash >/dev/null 2>&1 ; then
++    echo "bash not available ==> Not running the qemu-iotests."
++    exit 0
++fi
+ 
+-if [ ! -x $QEMU_PROG ]; then
+-    echo "'make check-block' requires qemu-system-x86_64"
+-    exit 1
++if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
++    if ! command -v gsed >/dev/null 2>&1; then
++        echo "GNU sed not available ==> Not running the qemu-iotests."
++        exit 0
++    fi
+ fi
+ 
+ cd tests/qemu-iotests
+ 
+ ret=0
+-for FMT in $FORMAT_LIST ; do
+-    ./check -T -nocache -$FMT || ret=1
++for fmt in $format_list ; do
++    ./check -makecheck -$fmt $group || ret=1
+ done
+ 
+ exit $ret
+diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
+deleted file mode 100755
+index 0e554bb9724..00000000000
+--- a/tests/qemu-iotests-quick.sh
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#!/bin/sh
+-
+-cd tests/qemu-iotests
+-
+-ret=0
+-TEST_DIR=${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g quick || ret=1
+-
+-exit $ret
 -- 
 2.20.1
 
