@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4340A71113
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:20:37 +0200 (CEST)
-Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE31371115
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:20:59 +0200 (CEST)
+Received: from localhost ([::1]:39214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpnE4-0006Yk-70
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
+	id 1hpnEQ-0008CH-TB
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39763)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCh-00013U-V0
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCh-00013T-Uv
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCg-0003qR-08
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCg-0003qS-0N
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:11 -0400
-Received: from ozlabs.org ([203.11.71.1]:51577)
+Received: from ozlabs.org ([203.11.71.1]:45851)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpnCe-0003nC-8V; Tue, 23 Jul 2019 01:19:09 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hpnCe-0003nD-9I
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45t6G84RnVz9sNf; Tue, 23 Jul 2019 15:18:56 +1000 (AEST)
+ id 45t6G86368z9sNj; Tue, 23 Jul 2019 15:18:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563859136;
- bh=w8zJ9KNYwObe4DAU4jdOfBJlXQFGD0J+0OxOeh4LdTY=;
+ bh=LVElsxlEjj9eAHx9QwFBDQHB2x3EWkcADiMOuLqBkbc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CSZP5ZNUKi4vrsHWCYUlIpHJMot8hkx0YvUkWNfWX7z4bpB5BESPHy294jKf1lfst
- a2f+12Nz/InQ+SDVUXPOsBD+dphNaYaxwUipPCugWngdxlQeDJekQpMkGthtrm0vTz
- Lpyfut2k5P0MHFUXOytt3P3VW/1BSbr7Jwarsn7A=
-Date: Tue, 23 Jul 2019 13:52:29 +1000
+ b=hQRQK7RNhoYojwH1rk+tC54GBEyqOisNgPXPCTLBy00p1UAk5vK26F4a3h/y6kc29
+ J+mwuivdT8sAqB+8T6990OVqd3mu01gUUhPlpHXdneUL3TxLxdTMDRG5suBNUzwfIE
+ 0DeB10jreTXvvT9O8RA1kMOsz2qF3icMMcoq2rmM=
+Date: Tue, 23 Jul 2019 13:57:41 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190723035229.GP25073@umbus.fritz.box>
-References: <20190720012850.14369-1-aik@ozlabs.ru>
- <20190720012850.14369-3-aik@ozlabs.ru>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Message-ID: <20190723035741.GR25073@umbus.fritz.box>
+References: <1562324511-2910-1-git-send-email-yi.l.liu@intel.com>
+ <1562324511-2910-6-git-send-email-yi.l.liu@intel.com>
+ <20190715025519.GE3440@umbus.fritz.box>
+ <A2975661238FB949B60364EF0F2C25743A00D8BB@SHSMSX104.ccr.corp.intel.com>
+ <20190717030640.GG9123@umbus.fritz.box>
+ <A2975661238FB949B60364EF0F2C25743A0140E0@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+W7ryvxEk4RRyt+P"
+ protocol="application/pgp-signature"; boundary="YttKMwf6abDJOSyE"
 Content-Disposition: inline
-In-Reply-To: <20190720012850.14369-3-aik@ozlabs.ru>
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A0140E0@SHSMSX104.ccr.corp.intel.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH qemu RFC 2/4] spapr: Allow bios-less
- configuration
+Subject: Re: [Qemu-devel] [RFC v1 05/18] vfio/pci: add pasid alloc/free
+ implementation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,170 +60,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Mackerras <paulus@ozlabs.org>, Michael Ellerman <mpe@ellerman.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---+W7ryvxEk4RRyt+P
+--YttKMwf6abDJOSyE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 20, 2019 at 11:28:48AM +1000, Alexey Kardashevskiy wrote:
-> The pseries kernel can do either usual prom-init boot or kexec style boot.
-> We always did the prom-init which relies on the completeness of
-> the device tree (for example, PCI BARs have to be assigned beforehand) and
-> the client interface; the system firmware (SLOF) implements this.
+On Mon, Jul 22, 2019 at 07:02:51AM +0000, Liu, Yi L wrote:
+> > From: kvm-owner@vger.kernel.org [mailto:kvm-owner@vger.kernel.org] On B=
+ehalf
+> > Of David Gibson
+> > Sent: Wednesday, July 17, 2019 11:07 AM
+> > To: Liu, Yi L <yi.l.liu@intel.com>
+> > Subject: Re: [RFC v1 05/18] vfio/pci: add pasid alloc/free implementati=
+on
+> >=20
+> > On Tue, Jul 16, 2019 at 10:25:55AM +0000, Liu, Yi L wrote:
+> > > > From: kvm-owner@vger.kernel.org [mailto:kvm-owner@vger.kernel.org] =
+On
+> > Behalf
+> > > > Of David Gibson
+> > > > Sent: Monday, July 15, 2019 10:55 AM
+> > > > To: Liu, Yi L <yi.l.liu@intel.com>
+> > > > Subject: Re: [RFC v1 05/18] vfio/pci: add pasid alloc/free implemen=
+tation
+> > > >
+> > > > On Fri, Jul 05, 2019 at 07:01:38PM +0800, Liu Yi L wrote:
+> > > > > This patch adds vfio implementation PCIPASIDOps.alloc_pasid/free_=
+pasid().
+> > > > > These two functions are used to propagate guest pasid allocation =
+and
+> > > > > free requests to host via vfio container ioctl.
+> > > >
+> > > > As I said in an earlier comment, I think doing this on the device is
+> > > > conceptually incorrect.  I think we need an explcit notion of an SVM
+> > > > context (i.e. the namespace in which all the PASIDs live) - which w=
+ill
+> > > > IIUC usually be shared amongst multiple devices.  The create and fr=
+ee
+> > > > PASID requests should be on that object.
+> > >
+> > > Actually, the allocation is not doing on this device. System wide, it=
+ is
+> > > done on a container. So not sure if it is the API interface gives you=
+ a
+> > > sense that this is done on device.
+> >=20
+> > Sorry, I should have been clearer.  I can see that at the VFIO level
+> > it is done on the container.  However the function here takes a bus
+> > and devfn, so this qemu internal interface is per-device, which
+> > doesn't really make sense.
 >=20
-> However we can use the kexec style boot as well. To do that, we can skip
-> loading SLOF and jump straight to the kernel. GPR5=3D=3D0 (the client
-> interface entry point, SLOF passes a valid pointer there) tells Linux to
-> do the kexec boot rather than prom_init so it can proceed to the initramf=
-s.
-> With few PCI fixes in the guest kernel, it can boot from PCI (via
-> petitboot, for example).
+> Got it. The reason here is to pass the bus and devfn info, so that VFIO
+> can figure out a container for the operation. So far in QEMU, there is
+> no good way to connect the vIOMMU emulator and VFIO regards to
+> SVM.
+
+Right, and I think that's an indication that we're not modelling
+something in qemu that we should be.
+
+> hw/pci layer is a choice based on some previous discussion. But
+> yes, I agree with you that we may need to have an explicit notion for
+> SVM. Do you think it is good to introduce a new abstract layer for SVM
+> (may name as SVMContext).
+
+I think so, yes.
+
+If nothing else, I expect we'll need this concept if we ever want to
+be able to implement SVM for emulated devices (which could be useful
+for debugging, even if it's not something you'd do in production).
+
+> The idea would be that vIOMMU maintain
+> the SVMContext instances and expose explicit interface for VFIO to get
+> it. Then VFIO register notifiers on to the SVMContext. When vIOMMU
+> emulator wants to do PASID alloc/free, it fires the corresponding
+> notifier. After call into VFIO, the notifier function itself figure out t=
+he
+> container it is bound. In this way, it's the duty of vIOMMU emulator to
+> figure out a proper notifier to fire. From interface point of view, it is=
+ no
+> longer per-device.
+
+Exactly.
+
+> Also, it leaves the PASID management details to
+> vIOMMU emulator as it can be vendor specific. Does it make sense?
+> Also, I'd like to know if you have any other idea on it. That would
+> surely be helpful. :-)
 >=20
-> This adds a "bios" machine option which controls whether QEMU loads SLOF
-> or jumps directly to the kernel. When bios=3D=3Doff, this does not copy S=
-LOF
-> and RTAS into the guest RAM and sets RTAS properties to 0 to bypass
-> the kexec user space tool which checks for their presence (not for
-> the values though).
-
-BIOS is sometimes used to refer to any machine's firmware, but it's
-also used to refer specifically to PC style BIOS.  I think it would be
-clearer to be explicit here and call the options "slof" rather than
-"bios".
-
+> > > Also, curious on the SVM context
+> > > concept, do you mean it a per-VM context or a per-SVM usage context?
+> > > May you elaborate a little more. :-)
+> >=20
+> > Sorry, I'm struggling to find a good term for this.  By "context" I
+> > mean a namespace containing a bunch of PASID address spaces, those
+> > PASIDs are then visible to some group of devices.
 >=20
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->  include/hw/ppc/spapr.h |  1 +
->  hw/ppc/spapr.c         | 58 ++++++++++++++++++++++++++++++++----------
->  2 files changed, 45 insertions(+), 14 deletions(-)
+> I see. May be the SVMContext instance above can include multiple PASID
+> address spaces. And again, I think this relationship should be maintained
+> in vIOMMU emulator.
 >=20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index ff82bb8554e1..7f5d7a70d27e 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -160,6 +160,7 @@ struct SpaprMachineState {
->      long kernel_size;
->      bool kernel_le;
->      uint64_t kernel_addr;
-> +    bool bios_enabled;
->      uint32_t initrd_base;
->      long initrd_size;
->      uint64_t rtc_offset; /* Now used only during incoming migration */
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6d13d65d8996..81ad6a6f28de 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1116,6 +1116,10 @@ static void spapr_dt_rtas(SpaprMachineState *spapr=
-, void *fdt)
->      _FDT(fdt_setprop(fdt, rtas, "ibm,lrdr-capacity",
->                       lrdr_capacity, sizeof(lrdr_capacity)));
-> =20
-> +    /* These are to make kexec-lite happy */
-> +    _FDT(fdt_setprop_cell(fdt, rtas, "linux,rtas-base", 0));
-> +    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", 0));
-
-What exactly is kexec-lite and what does it need here?
-
->      spapr_dt_rtas_tokens(fdt, rtas);
->  }
-> =20
-> @@ -1814,7 +1818,11 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
->      spapr->fdt_blob =3D fdt;
-> =20
->      /* Set up the entry state */
-> -    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, fdt_addr=
+> Thanks,
+> Yi Liu
+>=20
+> >=20
+> > >
+> > > Thanks,
+> > > Yi Liu
+> > >
+> > > > >
+> > > > > Cc: Kevin Tian <kevin.tian@intel.com>
+> > > > > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > > > Cc: Peter Xu <peterx@redhat.com>
+> > > > > Cc: Eric Auger <eric.auger@redhat.com>
+> > > > > Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> > > > > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > > > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > > > > Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
+> > > > > ---
+> > > > >  hw/vfio/pci.c | 61
+> > > > +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > > >  1 file changed, 61 insertions(+)
+> > > > >
+> > > > > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> > > > > index ce3fe96..ab184ad 100644
+> > > > > --- a/hw/vfio/pci.c
+> > > > > +++ b/hw/vfio/pci.c
+> > > > > @@ -2690,6 +2690,65 @@ static void
+> > vfio_unregister_req_notifier(VFIOPCIDevice
+> > > > *vdev)
+> > > > >      vdev->req_enabled =3D false;
+> > > > >  }
+> > > > >
+> > > > > +static int vfio_pci_device_request_pasid_alloc(PCIBus *bus,
+> > > > > +                                               int32_t devfn,
+> > > > > +                                               uint32_t min_pasi=
+d,
+> > > > > +                                               uint32_t max_pasi=
+d)
+> > > > > +{
+> > > > > +    PCIDevice *pdev =3D bus->devices[devfn];
+> > > > > +    VFIOPCIDevice *vdev =3D DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+> > > > > +    VFIOContainer *container =3D vdev->vbasedev.group->container;
+> > > > > +    struct vfio_iommu_type1_pasid_request req;
+> > > > > +    unsigned long argsz;
+> > > > > +    int pasid;
+> > > > > +
+> > > > > +    argsz =3D sizeof(req);
+> > > > > +    req.argsz =3D argsz;
+> > > > > +    req.flag =3D VFIO_IOMMU_PASID_ALLOC;
+> > > > > +    req.min_pasid =3D min_pasid;
+> > > > > +    req.max_pasid =3D max_pasid;
+> > > > > +
+> > > > > +    rcu_read_lock();
+> > > > > +    pasid =3D ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &re=
+q);
+> > > > > +    if (pasid < 0) {
+> > > > > +        error_report("vfio_pci_device_request_pasid_alloc:"
+> > > > > +                     " request failed, contanier: %p", container=
 );
-> +    if (!spapr->bios_enabled) {
-> +        spapr_cpu_set_entry_state(first_ppc_cpu, spapr->kernel_addr, fdt=
-_addr);
-> +    } else {
-> +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, fdt_=
-addr);
-> +    }
->      first_ppc_cpu->env.gpr[5] =3D 0;
-> =20
->      spapr->cas_reboot =3D false;
-> @@ -3031,20 +3039,22 @@ static void spapr_machine_init(MachineState *mach=
-ine)
->          }
->      }
-> =20
-> -    if (bios_name =3D=3D NULL) {
-> -        bios_name =3D FW_FILE_NAME;
-> +    if (spapr->bios_enabled) {
-> +        if (bios_name =3D=3D NULL) {
-> +            bios_name =3D FW_FILE_NAME;
-> +        }
-> +        filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-> +        if (!filename) {
-> +            error_report("Could not find LPAR firmware '%s'", bios_name);
-> +            exit(1);
-> +        }
-> +        fw_size =3D load_image_targphys(filename, 0, FW_MAX_SIZE);
-> +        if (fw_size <=3D 0) {
-> +            error_report("Could not load LPAR firmware '%s'", filename);
-> +            exit(1);
-> +        }
-> +        g_free(filename);
->      }
-> -    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-> -    if (!filename) {
-> -        error_report("Could not find LPAR firmware '%s'", bios_name);
-> -        exit(1);
-> -    }
-> -    fw_size =3D load_image_targphys(filename, 0, FW_MAX_SIZE);
-> -    if (fw_size <=3D 0) {
-> -        error_report("Could not load LPAR firmware '%s'", filename);
-> -        exit(1);
-> -    }
-> -    g_free(filename);
-> =20
->      /* FIXME: Should register things through the MachineState's qdev
->       * interface, this is a legacy from the sPAPREnvironment structure
-> @@ -3266,6 +3276,20 @@ static void spapr_set_kernel_addr(Object *obj, Vis=
-itor *v, const char *name,
->      visit_type_uint64(v, name, (uint64_t *)opaque, errp);
->  }
-> =20
-> +static bool spapr_get_bios_enabled(Object *obj, Error **errp)
-> +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-> +
-> +    return spapr->bios_enabled;
-> +}
-> +
-> +static void spapr_set_bios_enabled(Object *obj, bool value, Error **errp)
-> +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-> +
-> +    spapr->bios_enabled =3D value;
-> +}
-> +
->  static char *spapr_get_ic_mode(Object *obj, Error **errp)
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
-> @@ -3379,6 +3403,12 @@ static void spapr_instance_init(Object *obj)
->                                      " for -kernel is the default",
->                                      NULL);
->      spapr->kernel_addr =3D KERNEL_LOAD_ADDR;
-> +    object_property_add_bool(obj, "bios", spapr_get_bios_enabled,
-> +                            spapr_set_bios_enabled, NULL);
-> +    object_property_set_description(obj, "bios", "Conrols whether to loa=
-d bios",
-> +                                    NULL);
-> +    spapr->bios_enabled =3D true;
-> +
->      /* The machine class defines the default interrupt controller mode */
->      spapr->irq =3D smc->irq;
->      object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
+> > > > > +    }
+> > > > > +    rcu_read_unlock();
+> > > > > +    return pasid;
+> > > > > +}
+> > > > > +
+> > > > > +static int vfio_pci_device_request_pasid_free(PCIBus *bus,
+> > > > > +                                              int32_t devfn,
+> > > > > +                                              uint32_t pasid)
+> > > > > +{
+> > > > > +    PCIDevice *pdev =3D bus->devices[devfn];
+> > > > > +    VFIOPCIDevice *vdev =3D DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+> > > > > +    VFIOContainer *container =3D vdev->vbasedev.group->container;
+> > > > > +    struct vfio_iommu_type1_pasid_request req;
+> > > > > +    unsigned long argsz;
+> > > > > +    int ret =3D 0;
+> > > > > +
+> > > > > +    argsz =3D sizeof(req);
+> > > > > +    req.argsz =3D argsz;
+> > > > > +    req.flag =3D VFIO_IOMMU_PASID_FREE;
+> > > > > +    req.pasid =3D pasid;
+> > > > > +
+> > > > > +    rcu_read_lock();
+> > > > > +    ret =3D ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
+> > > > > +    if (ret !=3D 0) {
+> > > > > +        error_report("vfio_pci_device_request_pasid_free:"
+> > > > > +                     " request failed, contanier: %p", container=
+);
+> > > > > +    }
+> > > > > +    rcu_read_unlock();
+> > > > > +    return ret;
+> > > > > +}
+> > > > > +
+> > > > > +static PCIPASIDOps vfio_pci_pasid_ops =3D {
+> > > > > +    .alloc_pasid =3D vfio_pci_device_request_pasid_alloc,
+> > > > > +    .free_pasid =3D vfio_pci_device_request_pasid_free,
+> > > > > +};
+> > > > > +
+> > > > >  static void vfio_realize(PCIDevice *pdev, Error **errp)
+> > > > >  {
+> > > > >      VFIOPCIDevice *vdev =3D PCI_VFIO(pdev);
+> > > > > @@ -2991,6 +3050,8 @@ static void vfio_realize(PCIDevice *pdev, E=
+rror
+> > **errp)
+> > > > >      vfio_register_req_notifier(vdev);
+> > > > >      vfio_setup_resetfn_quirk(vdev);
+> > > > >
+> > > > > +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+> > > > > +
+> > > > >      return;
+> > > > >
+> > > > >  out_teardown:
+> > > >
+> > >
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -227,25 +293,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---+W7ryvxEk4RRyt+P
+--YttKMwf6abDJOSyE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02hH0ACgkQbDjKyiDZ
-s5Jzeg//dQ37hWD9Pvw/mSBZ7fVmpSU3SHHCcCBeK6r9cER+d/XVprQBJKqAE49B
-F1yb1wre5plogcsmGZdt1pGTMadkhqsKY5MWzu4NRV5UTmZBtJTp27rd9OVdBCOF
-+INLGXfNWRDP7w2VdkH8oLUvh3ZSWd+61zlAm7rs5zYtynw+J9vxI6bLxzJBY3HD
-L5sK2FWtr4O284T4k1UPvHTRYEPpyMpojSufQIcyUoWAuxhmEgwpRgWAgfmmcEv3
-bDIWbZbAceTJMsh4TauoTyXXk22IwGYivGzC62ImXF46W+LJb9P4CMmBKZ7gPL0a
-andCNQPtGRnitVzm3f7NlNQ1zHFUiBr5YX3C7iK9bs4nT0bmDkWumCF2zkdwSm41
-d+t1KM2obPiw4J3YrYtsf//GVXPNwAeyvC+oBmyBcX59OPsnz4r4fgY4ymcV4Vvc
-PHzILc2H9fClxiK70zo7EaCHKeRF7vH6zMRoruySeUoKbq++ANdFwslHNbr2Et9m
-JCyxaG2oKneLbGzCiIwCMSXjV0LyJmsGyr41qWMuP+e0czm1YxwIx21gYYNDMNpp
-fuZGv7jF1Vj/i3J7zAkSEQh/lZNf9ihHO0xljBhb4t+m/YTYcnCCxd5fqCIuF6oj
-YLWsGnZ3s8F+2WU5mgP8IJDZuHgsfqoLNcJaSd88JjhlDWYlo78=
-=P+MP
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02hbUACgkQbDjKyiDZ
+s5LSWBAAwQ5upHdyGvRP2wAh73heUVk9nDRZemvfdJzIt9XKNspTs8U5HQifgTAE
+uUeG/0zuykWzmfkdblvD22LCE5+PKFWSA2RQpJm7g/XqmWPt6EkFwViX7QkVKgJu
++RCHRtAbw4LS0x5Rav1ginzsKeeAsO8GDJlOupNILe0/fpcHq+DKCZPcJX7HanYH
+12yfQLcP0KfaRO0O962kQZ0yekPokvAVHej78Jr0hLRJSTvLtVVmY68/Vz0fZK/y
+EoaCgp7r3uBvCa2EAEYXmGONK8IAC7+fier4/BeM6upYQqsh5Ek8LPJiP3LwC1T5
+Gw2KLG6sN0NH0mhsDwIOz6c0e9z9pEi5BRVnEFSDCAdR7Ax9XgdQ00salYTfFTgX
+qZm4URcpVOc7JRf/yJoJCOzE/jap7zAx+P/4+SLA3odVlftUUtqCFiA7Uz3JjGRc
+YgrrJOOiawp3atgmDGw6ne6+AbKKBAbXTcwbX9/VIEwZFViOzH3OZDohKHBBPgmN
+gOD9Zy/0GVJpwf5B8TirLEQj2jh9XVCH/D41ly3X8tP/dcGQT4FO6tEEZWEurwLz
+hHqyRiBTBhyvIGH/rKZanKH4YSwI5usnpynoGwS4vtadviMUzMJMfB/ee+hUn8rp
+OLQ9b43yGIhqSoknxl5SgkBOp8OBRGZkez36JRmX9Xl7HcK0I7M=
+=sNH7
 -----END PGP SIGNATURE-----
 
---+W7ryvxEk4RRyt+P--
+--YttKMwf6abDJOSyE--
 
