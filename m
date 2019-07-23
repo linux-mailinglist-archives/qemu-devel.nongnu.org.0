@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9C671D53
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:05:25 +0200 (CEST)
-Received: from localhost ([::1]:45876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771AB71D45
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:02:33 +0200 (CEST)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyE7-00081i-Ur
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:05:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
+	id 1hpyBL-0006fZ-7p
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAI-00044R-GT
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:27 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAK-0004Br-KI
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAG-0005Ab-Ij
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13952)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAJ-0005Dl-3u
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15938
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAG-00058z-87
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:24 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkm5A053520
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:23 -0400
+ id 1hpyAI-0005Cd-TR
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:27 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NGkhOs067046
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:26 -0400
 Received: from e35.co.us.ibm.com (e35.co.us.ibm.com [32.97.110.153])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8mup-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6110k4b-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:23 -0400
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:01:26 -0400
 Received: from localhost
  by e35.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:22 +0100
-Received: from b03cxnp08027.gho.boulder.ibm.com (9.17.130.19)
+ Tue, 23 Jul 2019 18:01:25 +0100
+Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
  by e35.co.us.ibm.com (192.168.1.135) with IBM ESMTP SMTP Gateway: Authorized
  Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:20 +0100
+ Tue, 23 Jul 2019 18:01:22 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1JZu28115386
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1LfZ50856204
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:19 GMT
+ Tue, 23 Jul 2019 17:01:21 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 87CF2BE059;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5941CBE061;
+ Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6BFA0BE04F;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4A30FBE053;
+ Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:48 -0500
+Date: Tue, 23 Jul 2019 12:00:49 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0012-0000-0000-00001755760C
+x-cbid: 19072317-0012-0000-0000-00001755760F
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:21
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:23
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0013-0000-0000-0000582F9636
-Message-Id: <20190723170104.4327-21-mdroth@linux.vnet.ibm.com>
+x-cbparentid: 19072317-0013-0000-0000-0000582F963C
+Message-Id: <20190723170104.4327-22-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -79,13 +78,9 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x6NGkm5A053520
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 20/36] qga-win: include glib when building VSS
- DLL
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH 21/36] configure: improve usbfs check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,61 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-stable@nongnu.org
+Cc: qemu-stable@nongnu.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 3ebee3b191e defined assert() as g_assert(), but when we build
-the VSS DLL component of QGA (to handle fsfreeze) we do not include
-glib, which results in breakage when building with VSS support enabled.
+From: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 
-Fix this by including glib (along with the -lintl and -lws2_32
-dependencies it brings).
+The current check to test if usbfs support should be compiled or not
+solely relies on the presence of <linux/usbdevice_fs.h>, without
+actually checking that all definition used by Qemu are provided by
+this header file.
 
-Since the VSS DLL is built statically, this introduces an additional
-dependency on static glib and supporting libs for the mingw environment
-(possibly why we didn't include glib originally), but VSS support
-already has very specific prerequisites so it shouldn't affect too many
-build environments.
+With sufficiently old kernel headers, <linux/usbdevice_fs.h> may be
+present, but some of the definitions needed by Qemu may not be
+available.
 
-Since the VSS DLL code does use qemu/osdep.h, this should also help
-avoid future breakages and possibly allow for some clean ups in current
-VSS code.
+This commit improves the check by building a small program that
+actually tests whether the necessary definitions are available.
 
-Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-(cherry picked from commit 82a58d270c6fbbe2f2381224946340fd3814a273)
+In addition, it fixes a bug where have_usbfs was set to "yes"
+regardless of the result of the test.
+
+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190213211827.20300-1-thomas.petazzoni@bootlin.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+(cherry picked from commit 96566d09aa105ee04cbc1c9539cf8a9a40e8e422)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- qga/vss-win32/Makefile.objs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/qga/vss-win32/Makefile.objs b/qga/vss-win32/Makefile.objs
-index 23d08da225..dad9d1b0ba 100644
---- a/qga/vss-win32/Makefile.objs
-+++ b/qga/vss-win32/Makefile.objs
-@@ -5,7 +5,7 @@ qga-vss-dll-obj-y +=3D requester.o provider.o install.o
- obj-qga-vss-dll-obj-y =3D $(addprefix $(obj)/, $(qga-vss-dll-obj-y))
- $(obj-qga-vss-dll-obj-y): QEMU_CXXFLAGS =3D $(filter-out -Wstrict-protot=
-ypes -Wmissing-prototypes -Wnested-externs -Wold-style-declaration -Wold-=
-style-definition -Wredundant-decls -fstack-protector-all -fstack-protecto=
-r-strong, $(QEMU_CFLAGS)) -Wno-unknown-pragmas -Wno-delete-non-virtual-dt=
-or
-=20
--$(obj)/qga-vss.dll: LDFLAGS =3D -shared -Wl,--add-stdcall-alias,--enable=
--stdcall-fixup -lole32 -loleaut32 -lshlwapi -luuid -static
-+$(obj)/qga-vss.dll: LDFLAGS =3D -shared -Wl,--add-stdcall-alias,--enable=
--stdcall-fixup -lglib-2.0 -lole32 -loleaut32 -lshlwapi -luuid -lintl -lws=
-2_32 -static
- $(obj)/qga-vss.dll: $(obj-qga-vss-dll-obj-y) $(SRC_PATH)/$(obj)/qga-vss.=
-def
- 	$(call quiet-command,$(CXX) -o $@ $(qga-vss-dll-obj-y) $(SRC_PATH)/qga/=
-vss-win32/qga-vss.def $(CXXFLAGS) $(LDFLAGS),"LINK","$(TARGET_DIR)$@")
-=20
---=20
+diff --git a/configure b/configure
+index 0a3c6a72c3..85263e6b76 100755
+--- a/configure
++++ b/configure
+@@ -4203,10 +4203,25 @@ fi
+ # check for usbfs
+ have_usbfs=no
+ if test "$linux_user" = "yes"; then
+-  if check_include linux/usbdevice_fs.h; then
++  cat > $TMPC << EOF
++#include <linux/usbdevice_fs.h>
++
++#ifndef USBDEVFS_GET_CAPABILITIES
++#error "USBDEVFS_GET_CAPABILITIES undefined"
++#endif
++
++#ifndef USBDEVFS_DISCONNECT_CLAIM
++#error "USBDEVFS_DISCONNECT_CLAIM undefined"
++#endif
++
++int main(void)
++{
++    return 0;
++}
++EOF
++  if compile_prog "" ""; then
+     have_usbfs=yes
+   fi
+-  have_usbfs=yes
+ fi
+ 
+ # check for fallocate
+-- 
 2.17.1
 
 
