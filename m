@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6034771D48
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:03:23 +0200 (CEST)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1301F71D56
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:05:32 +0200 (CEST)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyC9-0000vw-Ra
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42468)
+	id 1hpyEE-0008WK-NA
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAG-00042B-JA
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAG-00042W-Oq
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAF-00058h-Aa
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAE-000589-TR
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36618
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4106)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAE-00057q-W1; Tue, 23 Jul 2019 13:01:23 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkhC2133400; Tue, 23 Jul 2019 13:01:20 -0400
+ id 1hpyAE-00056R-Gw; Tue, 23 Jul 2019 13:01:22 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NGkjmx033095; Tue, 23 Jul 2019 13:01:21 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60rrnh6-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60xgj9u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:20 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NGlVeV135636;
- Tue, 23 Jul 2019 13:01:20 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60rrngr-1
+ Tue, 23 Jul 2019 13:01:21 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NGlYOX039738;
+ Tue, 23 Jul 2019 13:01:21 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60xgj95-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:20 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0KWI029966;
- Tue, 23 Jul 2019 17:01:19 GMT
+ Tue, 23 Jul 2019 13:01:21 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0LI2012882;
+ Tue, 23 Jul 2019 17:01:20 GMT
 Received: from b03cxnp08026.gho.boulder.ibm.com
  (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 2tx61mr2dd-1
+ by ppma01dal.us.ibm.com with ESMTP id 2tx61n02ft-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 17:01:19 +0000
+ Tue, 23 Jul 2019 17:01:20 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
  by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1Ibk33882550
+ x6NH1IT543450774
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jul 2019 17:01:18 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4BB7DBE05F;
+ by IMSVA (Postfix) with ESMTP id B574DBE04F;
  Tue, 23 Jul 2019 17:01:18 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3BC95BE05B;
+ by IMSVA (Postfix) with ESMTP id 9EDBDBE05A;
  Tue, 23 Jul 2019 17:01:18 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
  Tue, 23 Jul 2019 17:01:18 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:45 -0500
-Message-Id: <20190723170104.4327-18-mdroth@linux.vnet.ibm.com>
+Date: Tue, 23 Jul 2019 12:00:46 -0500
+Message-Id: <20190723170104.4327-19-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
@@ -72,13 +71,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 17/36] i386: remove the new CPUID 'PCONFIG'
- from Icelake-Server CPU model
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 18/36] i386: remove the 'INTEL_PT' CPUID bit
+ from named CPU models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,41 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org,
- Robert Hoo <robert.hu@linux.intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Hoo <robert.hu@linux.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-PCONFIG is not available to guests; it must be specifically enabled
-using the PCONFIG_ENABLE execution control.  Disable it, because
-no one can ever use it.
+Processor tracing is not yet implemented for KVM and it will be an
+opt in feature requiring a special module parameter.
+Disable it, because it is wrong to enable it by default and
+it is impossible that no one has ever used it.
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Message-Id: <1545227081-213696-2-git-send-email-robert.hu@linux.intel.com>
 Cc: qemu-stable@nongnu.org
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-(cherry picked from commit 76e5a4d58357b9d077afccf7f7c82e17f733b722)
+(cherry picked from commit 4c257911dcc7c4189768e9651755c849ce9db4e8)
+*drop context dependency on ecb85fe48
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- target/i386/cpu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/i386/cpu.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f81d35e1f9..83152204b5 100644
+index 83152204b5..40814719bb 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -2613,8 +2613,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-             CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57,
-         .features[FEAT_7_0_EDX] =
--            CPUID_7_0_EDX_PCONFIG | CPUID_7_0_EDX_SPEC_CTRL |
--            CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-+            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-         /* Missing: XSAVES (not supported by some Linux versions,
-                 * including v4.1 to v4.12).
-                 * KVM doesn't yet expose any XSAVES state save component,
+@@ -2493,8 +2493,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_CLWB |
+             CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
+             CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
+-            CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT |
+-            CPUID_7_0_EBX_INTEL_PT,
++            CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
+         .features[FEAT_7_0_ECX] =
+             CPUID_7_0_ECX_PKU | CPUID_7_0_ECX_OSPKE |
+             CPUID_7_0_ECX_AVX512VNNI,
+@@ -2546,7 +2545,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
+             CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID |
+             CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
+-            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_INTEL_PT,
++            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_MPX,
+         .features[FEAT_7_0_ECX] =
+             CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+             CPUID_7_0_ECX_OSPKE | CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
+@@ -2604,8 +2603,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_CLWB |
+             CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
+             CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512CD |
+-            CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT |
+-            CPUID_7_0_EBX_INTEL_PT,
++            CPUID_7_0_EBX_AVX512VL | CPUID_7_0_EBX_CLFLUSHOPT,
+         .features[FEAT_7_0_ECX] =
+             CPUID_7_0_ECX_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
+             CPUID_7_0_ECX_OSPKE | CPUID_7_0_ECX_VBMI2 | CPUID_7_0_ECX_GFNI |
 -- 
 2.17.1
 
