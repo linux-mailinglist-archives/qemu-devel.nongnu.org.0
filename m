@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570C871D66
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:08:32 +0200 (CEST)
-Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0255971D64
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:08:20 +0200 (CEST)
+Received: from localhost ([::1]:45980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyH9-0003Wk-2m
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
+	id 1hpyGv-0002bA-K1
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBE-0007TU-A7
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:25 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBN-000820-Q7
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-000636-8e
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1934
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBM-0006FI-EC
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23904
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyBA-0005m9-68
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:22 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NH27fU109375
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:07 -0400
-Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60s8n8v-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:06 -0400
-Received: from localhost
- by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:29 +0100
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
- by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:27 +0100
+ id 1hpyBM-0005qQ-7o; Tue, 23 Jul 2019 13:02:32 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NH20Nm111583; Tue, 23 Jul 2019 13:02:10 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6110kwj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 13:02:09 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NH27eQ112194;
+ Tue, 23 Jul 2019 13:02:07 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6110k6j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 13:02:07 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0KHM032278;
+ Tue, 23 Jul 2019 17:01:28 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 2tx61mr2gx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 17:01:28 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
  by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1QFT64684438
+ x6NH1R1m54264078
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:26 GMT
+ Tue, 23 Jul 2019 17:01:27 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F7E1BE05B;
+ by IMSVA (Postfix) with ESMTP id BD84FBE054;
  Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 58D7DBE056;
+ by IMSVA (Postfix) with ESMTP id B1212BE063;
  Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
  Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:01:03 -0500
+Date: Tue, 23 Jul 2019 12:01:04 -0500
+Message-Id: <20190723170104.4327-37-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0004-0000-0000-0000152DB9B2
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:29
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0005-0000-0000-00008C9463CB
-Message-Id: <20190723170104.4327-36-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 35/36] iotests: Test unaligned raw images with
- O_DIRECT
+Subject: [Qemu-devel] [PATCH 36/36] vhost: fix vhost_log size overflow
+ during migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,178 +90,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Li Hangjing <lihangjing@baidu.com>, qemu-stable@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+From: Li Hangjing <lihangjing@baidu.com>
 
-We already have 221 for accesses through the page cache, but it is
-better to create a new file for O_DIRECT instead of integrating those
-test cases into 221.  This way, we can make use of
-_supported_cache_modes (and _default_cache_mode) so the test is
-automatically skipped on filesystems that do not support O_DIRECT.
+When a guest which doesn't support multiqueue is migrated with a multi queues
+vhost-user-blk deivce, a crash will occur like:
 
-As part of the split, add _supported_cache_modes to 221.  With that, it
-no longer fails when run with -c none or -c directsync.
+0 qemu_memfd_alloc (name=<value optimized out>, size=562949953421312, seals=<value optimized out>, fd=0x7f87171fe8b4, errp=0x7f87171fe8a8) at util/memfd.c:153
+1 0x00007f883559d7cf in vhost_log_alloc (size=70368744177664, share=true) at hw/virtio/vhost.c:186
+2 0x00007f88355a0758 in vhost_log_get (listener=0x7f8838bd7940, enable=1) at qemu-2-12/hw/virtio/vhost.c:211
+3 vhost_dev_log_resize (listener=0x7f8838bd7940, enable=1) at hw/virtio/vhost.c:263
+4 vhost_migration_log (listener=0x7f8838bd7940, enable=1) at hw/virtio/vhost.c:787
+5 0x00007f88355463d6 in memory_global_dirty_log_start () at memory.c:2503
+6 0x00007f8835550577 in ram_init_bitmaps (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2173
+7 ram_init_all (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2192
+8 ram_save_setup (f=0x7f88384ce600, opaque=0x7f8836024098) at migration/ram.c:2219
+9 0x00007f88357a419d in qemu_savevm_state_setup (f=0x7f88384ce600) at migration/savevm.c:1002
+10 0x00007f883579fc3e in migration_thread (opaque=0x7f8837530400) at migration/migration.c:2382
+11 0x00007f8832447893 in start_thread () from /lib64/libpthread.so.0
+12 0x00007f8832178bfd in clone () from /lib64/libc.so.6
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 2fab30c80b33cdc6157c7efe6207e54b6835cf92)
-*remove context dependencies on iotests not in 3.1
+This is because vhost_get_log_size() returns a overflowed vhost-log size.
+In this function, it uses the uninitialized variable vqs->used_phys and
+vqs->used_size to get the vhost-log size.
+
+Signed-off-by: Li Hangjing <lihangjing@baidu.com>
+Reviewed-by: Xie Yongji <xieyongji@baidu.com>
+Reviewed-by: Chai Wen <chaiwen@baidu.com>
+Message-Id: <20190603061524.24076-1-lihangjing@baidu.com>
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+(cherry picked from commit 240e647a14df9677b3a501f7b8b870e40aac3fd5)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- tests/qemu-iotests/221     |  4 ++
- tests/qemu-iotests/253     | 84 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/253.out | 14 +++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 103 insertions(+)
- create mode 100755 tests/qemu-iotests/253
- create mode 100644 tests/qemu-iotests/253.out
+ hw/virtio/vhost.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/tests/qemu-iotests/221 b/tests/qemu-iotests/221
-index 06f48f1f23..66d7546e35 100755
---- a/tests/qemu-iotests/221
-+++ b/tests/qemu-iotests/221
-@@ -1,6 +1,7 @@
- #!/bin/bash
- #
- # Test qemu-img vs. unaligned images
-+# (See also 253, which is the O_DIRECT version)
- #
- # Copyright (C) 2018 Red Hat, Inc.
- #
-@@ -37,6 +38,9 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
- 
-+_default_cache_mode writeback
-+_supported_cache_modes writeback writethrough unsafe
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 569c4053ea..be38b39242 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -131,6 +131,11 @@ static int vhost_sync_dirty_bitmap(struct vhost_dev *dev,
+     }
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_virtqueue *vq = dev->vqs + i;
 +
- echo
- echo "=== Check mapping of unaligned raw image ==="
- echo
-diff --git a/tests/qemu-iotests/253 b/tests/qemu-iotests/253
-new file mode 100755
-index 0000000000..d88d5afa45
---- /dev/null
-+++ b/tests/qemu-iotests/253
-@@ -0,0 +1,84 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img vs. unaligned images; O_DIRECT version
-+# (Originates from 221)
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
++        if (!vq->used_phys && !vq->used_size) {
++            continue;
++        }
 +
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
+         vhost_dev_sync_region(dev, section, start_addr, end_addr, vq->used_phys,
+                               range_get_last(vq->used_phys, vq->used_size));
+     }
+@@ -168,6 +173,11 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
+     }
+     for (i = 0; i < dev->nvqs; ++i) {
+         struct vhost_virtqueue *vq = dev->vqs + i;
 +
-+status=1 # failure is the default!
++        if (!vq->used_phys && !vq->used_size) {
++            continue;
++        }
 +
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt raw
-+_supported_proto file
-+_supported_os Linux
-+
-+_default_cache_mode none
-+_supported_cache_modes none directsync
-+
-+echo
-+echo "=== Check mapping of unaligned raw image ==="
-+echo
-+
-+# We do not know how large a physical sector is, but it is certainly
-+# going to be a factor of 1 MB
-+size=$((1 * 1024 * 1024 - 1))
-+
-+# qemu-img create rounds size up to BDRV_SECTOR_SIZE
-+_make_test_img $size
-+$QEMU_IMG map --output=json --image-opts \
-+    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
-+    | _filter_qemu_img_map
-+
-+# so we resize it and check again
-+truncate --size=$size "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
-+    | _filter_qemu_img_map
-+
-+# qemu-io with O_DIRECT always writes whole physical sectors.  Again,
-+# we do not know how large a physical sector is, so we just start
-+# writing from a 64 kB boundary, which should always be aligned.
-+offset=$((1 * 1024 * 1024 - 64 * 1024))
-+$QEMU_IO -c "w $offset $((size - offset))" "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG map --output=json --image-opts \
-+    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
-+    | _filter_qemu_img_map
-+
-+# Resize it and check again -- contrary to 221, we may not get partial
-+# sectors here, so there should be only two areas (one zero, one
-+# data).
-+truncate --size=$size "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
-+    | _filter_qemu_img_map
-+
-+# success, all done
-+echo '*** done'
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/253.out b/tests/qemu-iotests/253.out
-new file mode 100644
-index 0000000000..607c0baa0b
---- /dev/null
-+++ b/tests/qemu-iotests/253.out
-@@ -0,0 +1,14 @@
-+QA output created by 253
-+
-+=== Check mapping of unaligned raw image ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048575
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+wrote 65535/65535 bytes at offset 983040
-+63.999 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+{ "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+{ "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 61a6d98ebd..c90889fac2 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -233,3 +233,4 @@
- 233 auto quick
- 234 auto quick migration
- 235 auto quick
-+253 rw auto quick
+         uint64_t last = vq->used_phys + vq->used_size - 1;
+         log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+     }
 -- 
 2.17.1
 
