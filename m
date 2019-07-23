@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE8C719D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 15:58:29 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9412719CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 15:53:42 +0200 (CEST)
+Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpvJD-0004cK-E8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 09:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39385)
+	id 1hpvEc-0006az-4i
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 09:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40175)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hpsE2-0001j3-TG
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:56 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hpvEP-0006CA-LH
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 09:53:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hpsE1-0003TQ-LG
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48934)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hpsE1-0003Ss-CA
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hpsE0-0000It-8K
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:40:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3D8972E80C7
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:40:52 +0000 (UTC)
+ (envelope-from <ehabkost@redhat.com>) id 1hpvEO-000695-Lw
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 09:53:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57882)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+ id 1hpvEO-00068W-Ga; Tue, 23 Jul 2019 09:53:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 30C4E30BA078;
+ Tue, 23 Jul 2019 13:53:27 +0000 (UTC)
+Received: from localhost (ovpn-116-40.gru2.redhat.com [10.97.116.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7C91024804;
+ Tue, 23 Jul 2019 13:53:25 +0000 (UTC)
+Date: Tue, 23 Jul 2019 10:53:24 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Message-ID: <20190723135324.GG11469@habkost.net>
+References: <20190712134307.31112-1-sw@weilnetz.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190712134307.31112-1-sw@weilnetz.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Tue, 23 Jul 2019 13:53:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jul 2019 10:30:49 -0000
-From: "lentilwallop@hotmail.com" <lentilwallop@hotmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: sparc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: atar4qemu lentilwallop michal-nowak-b
-X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
-X-Launchpad-Bug-Modifier: lentilwallop@hotmail.com (lentilwallop)
-References: <20170305181803.7371.53021.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156387784923.30009.27491983100646267.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 5d6cec54d48527486f699633687be9ac4433934d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Tue, 23 Jul 2019 09:58:03 -0400
-Subject: [Qemu-devel] [Bug 1670170] Re: `qemu-system-sparc64 -M Niagara`
- Aborted (core dumped)
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] Remove old global variables max_cpus
+ and smp_cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,85 +57,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1670170 <1670170@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Like Xu <like.xu@linux.intel.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-S10image directory in this archive holds the rom images in case anyone
-is looking....
+On Fri, Jul 12, 2019 at 03:43:07PM +0200, Stefan Weil wrote:
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+> v2: Remove also max_cpus (merci =E0 Laurent Vivier <laurent@vivier.eu>)
+>=20
+>  include/sysemu/sysemu.h | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 984c439ac9..e70edf7c1c 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -103,8 +103,6 @@ extern const char *keyboard_layout;
+>  extern int win2k_install_hack;
+>  extern int alt_grab;
+>  extern int ctrl_grab;
+> -extern int smp_cpus;
+> -extern unsigned int max_cpus;
+>  extern int cursor_hide;
+>  extern int graphic_rotate;
+>  extern int no_quit;
+> --=20
+> 2.20.1
+>=20
 
-http://download.oracle.com/technetwork/systems/opensparc/OpenSPARCT1_Arch.1=
-.5.tar.bz2
+Queued for 4.2, thanks!
 
-not that it really helps for qemu-4.1.0-rc1
-
-moo-PowerEdge-R710 qemu-4.1.0-rc1 # qemu-system-sparc64 -machine niagara
-qemu: fatal: Trap 0x0032 while trap level (6) >=3D MAXTL (6), Error state
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1670170
-
-Title:
-  `qemu-system-sparc64 -M Niagara` Aborted (core dumped)
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  > qemu-system-sparc64 -M Niagara
-  qemu: fatal: Trap 0x0064 while trap level (6) >=3D MAXTL (6), Error state
-  pc: 0000000000004c80  npc: 0000000000004c84
-  %g0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %g4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %o0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %o4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %l0-3: 0000000007f00000 000001ff00000000 000001fff0080000 000000000000000=
-0 =
-
-  %l4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %i0-3: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %i4-7: 0000000000000000 0000000000000000 0000000000000000 000000000000000=
-0 =
-
-  %f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  %f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-  pstate: 00000414 ccr: 44 (icc: -Z-- xcc: -Z--) asi: 00 tl: 6 pil: 0
-  cansave: 6 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 6 cwp: 7
-  fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000000
-
-  Aborted (core dumped)
-
-  > qemu-system-sparc64 -M help
-  Supported machines are:
-  Niagara              Sun4v platform, Niagara
-  none                 empty machine
-  sun4u                Sun4u platform (default)
-  sun4v                Sun4v platform
-
-  > qemu-system-sparc64 -version
-  QEMU emulator version 2.8.0(Virtualization:Staging / SLE_12_SP2)
-
-  from
-  https://build.opensuse.org/package/show/Virtualization:Staging/qemu on
-  openSUSE Leap 42.2.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1670170/+subscriptions
+--=20
+Eduardo
 
