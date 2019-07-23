@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1534471D6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:09:18 +0200 (CEST)
-Received: from localhost ([::1]:46016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CA471D68
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:09:07 +0200 (CEST)
+Received: from localhost ([::1]:46010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyHs-0006nQ-L8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43281)
+	id 1hpyHh-0005yp-Ik
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBJ-0007mI-Qr
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:30 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAy-0006W9-OT
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBI-000683-3a
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65230)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAx-0005lZ-9e
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyBE-00062M-7M
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:26 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1hpyAx-0005kv-1g
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:07 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NH2Jb7094458
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:21 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8n1v-1
+ x6NH26AL023145
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:06 -0400
+Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rgn1g-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:19 -0400
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:05 -0400
 Received: from localhost
- by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:31 +0100
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
- by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
+ Tue, 23 Jul 2019 18:01:32 +0100
+Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
+ by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
  Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:28 +0100
+ Tue, 23 Jul 2019 18:01:29 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1R5s47055180
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1Sok60228020
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:27 GMT
+ Tue, 23 Jul 2019 17:01:28 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 29A2DBE059;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5EC0CBE056;
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 138FABE053;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 46083BE053;
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:28 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:31 -0500
+Date: Tue, 23 Jul 2019 12:00:34 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0036-0000-0000-00000ADD79F8
+x-cbid: 19072317-0016-0000-0000-000009D376CA
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:29
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:31
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0037-0000-0000-00004CB75716
-Message-Id: <20190723170104.4327-4-mdroth@linux.vnet.ibm.com>
+x-cbparentid: 19072317-0017-0000-0000-000044227E32
+Message-Id: <20190723170104.4327-7-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -79,8 +79,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 03/36] Changes requirement for "vsubsbs"
- instruction
+Subject: [Qemu-devel] [PATCH 06/36] hw/s390x: Fix bad mask in time2tod()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,39 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
- Leonardo Bras <leonardo@linux.vnet.ibm.com>, "Paul A. Clarke" <pc@us.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Paul A. Clarke" <pc@us.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Changes requirement for "vsubsbs" instruction, which has been supported
-since ISA 2.03. (Please see section 5.9.1.2 of ISA 2.03)
+Since "s390x/tcg: avoid overflows in time2tod/tod2time", the
+time2tod() function tries to deal with the 9 uppermost bits in the
+time value, but uses the wrong mask for this: 0xff80000000000000 should
+be used instead of 0xff10000000000000 here.
 
-Reported-by: Paul A. Clarke <pc@us.ibm.com>
-Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
-Signed-off-by: Leonardo Bras <leonardo@linux.vnet.ibm.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-(cherry picked from commit fcfbc18d00b10335310c9665edd6e04f2d152be8)
+Fixes: 14055ce53c2d901d826ffad7fb7d6bb8ab46bdfd
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <1544792887-14575-1-git-send-email-thuth@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+[CH: tweaked commit message]
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+(cherry picked from commit aba7a5a2de3dba5917024df25441f715b9249e31)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- target/ppc/translate/vmx-ops.inc.c | 2 +-
+ include/hw/s390x/tod.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
-index 139f80cb24..84e05fb827 100644
---- a/target/ppc/translate/vmx-ops.inc.c
-+++ b/target/ppc/translate/vmx-ops.inc.c
-@@ -143,7 +143,7 @@ GEN_VXFORM(vaddsws, 0, 14),
- GEN_VXFORM_DUAL(vsububs, bcdadd, 0, 24, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM_DUAL(vsubuhs, bcdsub, 0, 25, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM(vsubuws, 0, 26),
--GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_NONE, PPC2_ISA300),
-+GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
- GEN_VXFORM(vsubshs, 0, 29),
- GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
- GEN_VXFORM_207(vadduqm, 0, 4),
+diff --git a/include/hw/s390x/tod.h b/include/hw/s390x/tod.h
+index 413c0d7c02..442f45b2f5 100644
+--- a/include/hw/s390x/tod.h
++++ b/include/hw/s390x/tod.h
+@@ -50,7 +50,7 @@ typedef struct S390TODClass {
+ /* Converts ns to s390's clock format */
+ static inline uint64_t time2tod(uint64_t ns)
+ {
+-    return (ns << 9) / 125 + (((ns & 0xff10000000000000ull) / 125) << 9);
++    return (ns << 9) / 125 + (((ns & 0xff80000000000000ull) / 125) << 9);
+ }
+ 
+ /* Converts s390's clock format to ns */
 -- 
 2.17.1
 
