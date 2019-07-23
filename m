@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89EB771D5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:06:33 +0200 (CEST)
-Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570C871D66
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:08:32 +0200 (CEST)
+Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyFD-0003q8-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43217)
+	id 1hpyH9-0003Wk-2m
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43216)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBE-0007TZ-AS
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBE-0007TU-A7
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-00062R-5s
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-000636-8e
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16318
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1934
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyBA-0005ob-4C
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:20 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NH25VM048740
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:08 -0400
+ id 1hpyBA-0005m9-68
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:22 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NH27fU109375
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:07 -0400
 Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx61fghbd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60s8n8v-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
  for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:06 -0400
 Received: from localhost
@@ -43,33 +43,33 @@ Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
  by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1QuV60555624
+ x6NH1QFT64684438
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jul 2019 17:01:26 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0DCECBE062;
+ by IMSVA (Postfix) with ESMTP id 6F7E1BE05B;
  Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E8D50BE058;
- Tue, 23 Jul 2019 17:01:25 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 58D7DBE056;
+ Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:25 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:26 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:01:02 -0500
+Date: Tue, 23 Jul 2019 12:01:03 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0004-0000-0000-0000152DB9B3
+x-cbid: 19072317-0004-0000-0000-0000152DB9B2
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
  MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:29
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0005-0000-0000-00008C9463C7
-Message-Id: <20190723170104.4327-35-mdroth@linux.vnet.ibm.com>
+x-cbparentid: 19072317-0005-0000-0000-00008C9463CB
+Message-Id: <20190723170104.4327-36-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -80,8 +80,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 34/36] block/file-posix: Unaligned O_DIRECT
- block-status
+Subject: [Qemu-devel] [PATCH 35/36] iotests: Test unaligned raw images with
+ O_DIRECT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,86 +100,171 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Currently, qemu crashes whenever someone queries the block status of an
-unaligned image tail of an O_DIRECT image:
-$ echo > foo
-$ qemu-img map --image-opts driver=file,filename=foo,cache.direct=on
-Offset          Length          Mapped to       File
-qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
-QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
-failed.
+We already have 221 for accesses through the page cache, but it is
+better to create a new file for O_DIRECT instead of integrating those
+test cases into 221.  This way, we can make use of
+_supported_cache_modes (and _default_cache_mode) so the test is
+automatically skipped on filesystems that do not support O_DIRECT.
 
-This is because bdrv_co_block_status() checks that the result returned
-by the driver's implementation is aligned to the request_alignment, but
-file-posix can fail to do so, which is actually mentioned in a comment
-there: "[...] possibly including a partial sector at EOF".
+As part of the split, add _supported_cache_modes to 221.  With that, it
+no longer fails when run with -c none or -c directsync.
 
-Fix this by rounding up those partial sectors.
-
-There are two possible alternative fixes:
-(1) We could refuse to open unaligned image files with O_DIRECT
-    altogether.  That sounds reasonable until you realize that qcow2
-    does necessarily not fill up its metadata clusters, and that nobody
-    runs qemu-img create with O_DIRECT.  Therefore, unpreallocated qcow2
-    files usually have an unaligned image tail.
-
-(2) bdrv_co_block_status() could ignore unaligned tails.  It actually
-    throws away everything past the EOF already, so that sounds
-    reasonable.
-    Unfortunately, the block layer knows file lengths only with a
-    granularity of BDRV_SECTOR_SIZE, so bdrv_co_block_status() usually
-    would have to guess whether its file length information is inexact
-    or whether the driver is broken.
-
-Fixing what raw_co_block_status() returns is the safest thing to do.
-
-There seems to be no other block driver that sets request_alignment and
-does not make sure that it always returns aligned values.
-
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-(cherry picked from commit 9c3db310ff0b7473272ae8dce5e04e2f8a825390)
+(cherry picked from commit 2fab30c80b33cdc6157c7efe6207e54b6835cf92)
+*remove context dependencies on iotests not in 3.1
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- block/file-posix.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ tests/qemu-iotests/221     |  4 ++
+ tests/qemu-iotests/253     | 84 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/253.out | 14 +++++++
+ tests/qemu-iotests/group   |  1 +
+ 4 files changed, 103 insertions(+)
+ create mode 100755 tests/qemu-iotests/253
+ create mode 100644 tests/qemu-iotests/253.out
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 07bbdab953..df467f510b 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2461,6 +2461,8 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-     off_t data = 0, hole = 0;
-     int ret;
+diff --git a/tests/qemu-iotests/221 b/tests/qemu-iotests/221
+index 06f48f1f23..66d7546e35 100755
+--- a/tests/qemu-iotests/221
++++ b/tests/qemu-iotests/221
+@@ -1,6 +1,7 @@
+ #!/bin/bash
+ #
+ # Test qemu-img vs. unaligned images
++# (See also 253, which is the O_DIRECT version)
+ #
+ # Copyright (C) 2018 Red Hat, Inc.
+ #
+@@ -37,6 +38,9 @@ _supported_fmt raw
+ _supported_proto file
+ _supported_os Linux
  
-+    assert(QEMU_IS_ALIGNED(offset | bytes, bs->bl.request_alignment));
++_default_cache_mode writeback
++_supported_cache_modes writeback writethrough unsafe
 +
-     ret = fd_open(bs);
-     if (ret < 0) {
-         return ret;
-@@ -2486,6 +2488,20 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
-         /* On a data extent, compute bytes to the end of the extent,
-          * possibly including a partial sector at EOF. */
-         *pnum = MIN(bytes, hole - offset);
+ echo
+ echo "=== Check mapping of unaligned raw image ==="
+ echo
+diff --git a/tests/qemu-iotests/253 b/tests/qemu-iotests/253
+new file mode 100755
+index 0000000000..d88d5afa45
+--- /dev/null
++++ b/tests/qemu-iotests/253
+@@ -0,0 +1,84 @@
++#!/usr/bin/env bash
++#
++# Test qemu-img vs. unaligned images; O_DIRECT version
++# (Originates from 221)
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+        /*
-+         * We are not allowed to return partial sectors, though, so
-+         * round up if necessary.
-+         */
-+        if (!QEMU_IS_ALIGNED(*pnum, bs->bl.request_alignment)) {
-+            int64_t file_length = raw_getlength(bs);
-+            if (file_length > 0) {
-+                /* Ignore errors, this is just a safeguard */
-+                assert(hole == file_length);
-+            }
-+            *pnum = ROUND_UP(*pnum, bs->bl.request_alignment);
-+        }
++seq="$(basename $0)"
++echo "QA output created by $seq"
 +
-         ret = BDRV_BLOCK_DATA;
-     } else {
-         /* On a hole, compute bytes to the beginning of the next extent.  */
++status=1 # failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt raw
++_supported_proto file
++_supported_os Linux
++
++_default_cache_mode none
++_supported_cache_modes none directsync
++
++echo
++echo "=== Check mapping of unaligned raw image ==="
++echo
++
++# We do not know how large a physical sector is, but it is certainly
++# going to be a factor of 1 MB
++size=$((1 * 1024 * 1024 - 1))
++
++# qemu-img create rounds size up to BDRV_SECTOR_SIZE
++_make_test_img $size
++$QEMU_IMG map --output=json --image-opts \
++    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
++    | _filter_qemu_img_map
++
++# so we resize it and check again
++truncate --size=$size "$TEST_IMG"
++$QEMU_IMG map --output=json --image-opts \
++    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
++    | _filter_qemu_img_map
++
++# qemu-io with O_DIRECT always writes whole physical sectors.  Again,
++# we do not know how large a physical sector is, so we just start
++# writing from a 64 kB boundary, which should always be aligned.
++offset=$((1 * 1024 * 1024 - 64 * 1024))
++$QEMU_IO -c "w $offset $((size - offset))" "$TEST_IMG" | _filter_qemu_io
++$QEMU_IMG map --output=json --image-opts \
++    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
++    | _filter_qemu_img_map
++
++# Resize it and check again -- contrary to 221, we may not get partial
++# sectors here, so there should be only two areas (one zero, one
++# data).
++truncate --size=$size "$TEST_IMG"
++$QEMU_IMG map --output=json --image-opts \
++    "driver=$IMGFMT,file.driver=file,file.filename=$TEST_IMG,cache.direct=on" \
++    | _filter_qemu_img_map
++
++# success, all done
++echo '*** done'
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/253.out b/tests/qemu-iotests/253.out
+new file mode 100644
+index 0000000000..607c0baa0b
+--- /dev/null
++++ b/tests/qemu-iotests/253.out
+@@ -0,0 +1,14 @@
++QA output created by 253
++
++=== Check mapping of unaligned raw image ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048575
++[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
++[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
++wrote 65535/65535 bytes at offset 983040
++63.999 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
++{ "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++[{ "start": 0, "length": 983040, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
++{ "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 61a6d98ebd..c90889fac2 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -233,3 +233,4 @@
+ 233 auto quick
+ 234 auto quick migration
+ 235 auto quick
++253 rw auto quick
 -- 
 2.17.1
 
