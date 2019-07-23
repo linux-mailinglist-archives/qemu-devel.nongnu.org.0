@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C66E71F88
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 20:45:46 +0200 (CEST)
-Received: from localhost ([::1]:46606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CCA71FA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 20:52:48 +0200 (CEST)
+Received: from localhost ([::1]:46628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpznD-0002pq-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 14:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44786)
+	id 1hpzu3-0005oN-Oo
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 14:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46059)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hpzmy-0002Rb-P3
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 14:45:30 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpzth-0004mk-BH
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 14:52:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hpzmx-0003hk-5F
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 14:45:28 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:44920)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hpzmx-0003hV-0R
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 14:45:27 -0400
-Received: by mail-ua1-f66.google.com with SMTP id 8so17366770uaz.11
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 11:45:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7T9e4+O4PScsYDo6bcb/grrpBI7D/vlvkLnUDUTm6Y4=;
- b=UrjtufImtIjFvr/JsYBnntNHOPBLu8koArUgVumJr/c/ceS0DUjVjzsZpqvX6GHmWG
- /B8LNiSzFDzmMfKC/ofF3/TaEr/fPCtzpDWpHW5sCpUewW04wSse3iwwORkjNpZjx8pW
- k9sA9ManZNauW0f8cAthTMZ90OUfzYMFndGpsV3w9DOVv0Tw+PgjbcgI2k9g5tH68/jD
- lgcs644UB3DjsQQIyTI97zaXj1GpxdyQ0ip5tahEEqedVtfO0FXajBZj7Ce4qIz+kC1C
- 69nGlBvqWE7lynlKXdW2kJN83Ct4wfskfwpZtdenBoie/7XVPYhl4v7xgdJ7CfpQVd5L
- 7BRA==
-X-Gm-Message-State: APjAAAUItqpXaHe6hnhyu5BXnXuInZci/i5lIAm9+zJWKTy75kj4CmjG
- 6/aMpN7yj459VammmNIuYfna1A==
-X-Google-Smtp-Source: APXvYqwy1ukb/k3Vovmvl1aH6VUSq0KMVuP2osYo4B0/B12811dwLLfj4gwfe7kSVkOljvb8Y2nPHg==
-X-Received: by 2002:a9f:3f4d:: with SMTP id i13mr3445660uaj.54.1563907526243; 
- Tue, 23 Jul 2019 11:45:26 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
- by smtp.gmail.com with ESMTPSA id
- e128sm14520281vkh.10.2019.07.23.11.45.22
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 11:45:25 -0700 (PDT)
-Date: Tue, 23 Jul 2019 14:45:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Message-ID: <20190723144417-mutt-send-email-mst@kernel.org>
-References: <155364082689.15803.7062874513041742278.stgit@gimli.home>
- <20190329104904.450fefef@x1.home>
- <dbe614f5-47c8-b05d-dd73-2fbcd1579ae3@amd.com>
- <20190723112618.0efafa8d@x1.home>
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpztg-0006hM-11
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 14:52:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21110
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
+ id 1hpztc-0006et-U7; Tue, 23 Jul 2019 14:52:21 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NIqJLF133226; Tue, 23 Jul 2019 14:52:20 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6114ns4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 14:52:19 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NIo4mJ022553;
+ Tue, 23 Jul 2019 18:52:15 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 2tx61n0m66-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Jul 2019 18:52:15 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NIqERa44564912
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Jul 2019 18:52:14 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82298124055;
+ Tue, 23 Jul 2019 18:52:14 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 653B4124052;
+ Tue, 23 Jul 2019 18:52:14 +0000 (GMT)
+Received: from localhost (unknown [9.53.179.212])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 23 Jul 2019 18:52:14 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723112618.0efafa8d@x1.home>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.66
-Subject: Re: [Qemu-devel] [RFC PATCH] pci: Use PCI aliases when determining
- device IOMMU address space
+Content-Transfer-Encoding: quoted-printable
+To: qemu-devel@nongnu.org
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
+References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
+Message-ID: <156390781777.16169.2703233729883705323@sif>
+User-Agent: alot/0.7
+Date: Tue, 23 Jul 2019 13:50:17 -0500
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-23_08:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907230190
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [Qemu-stable] [PATCH 00/36] Patch Round-up for
+ stable 3.1.1, freeze on 2019-07-29
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,173 +85,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Singh, Brijesh" <brijesh.singh@amd.com>, "Suthikulpanit,
- Suravee" <Suravee.Suthikulpanit@amd.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 23, 2019 at 11:26:18AM -0600, Alex Williamson wrote:
-> On Mon, 1 Apr 2019 13:41:39 +0000
-> "Singh, Brijesh" <brijesh.singh@amd.com> wrote:
-> 
-> > Thanks for adding Alex.
-> > 
-> > Adding Suravee.
-> > 
-> > 
-> > On 3/29/19 11:49 AM, Alex Williamson wrote:
-> > > [Cc +Brijesh]
-> > > 
-> > > Hi Brijesh, will the change below require the IVRS to be updated to
-> > > include aliases for all BDF ranges behind a conventional bridge?  I
-> > > think the Linux code handles this regardless of the firmware provided
-> > > aliases, but is it required per spec for the ACPI tables to include
-> > > bridge aliases?  Thanks,
-> > >   
-> > 
-> > We do need to includes aliases in ACPI table. We need to populate the
-> > IVHD type 0x43 and 0x4 for alias range start and end. I believe host
-> > IVRS would contain similar information.
-> > 
-> > Suravee, please correct me if I am missing something?
-> 
-> I finally found some time to investigate this a little further, yes the
-> types mentioned are correct for defining start and end of an alias
-> range.  The challenge here is that these entries require a DeviceID,
-> which is defined as a BDF, AIUI.  The IVRS is created in QEMU, but bus
-> numbers are defined by the guest firmware, and potentially redefined by
-> the guest OS.  This makes it non-trivial to insert a few IVHDs into the
-> IVRS to describe alias ranges.  I'm wondering if the solution here is
-> to define a new linker-loader command that would instruct the guest to
-> write a bus number byte to a given offset for a described device.
-> These commands would be inserted before the checksum command, such that
-> these bus number updates are calculated as part of the checksum.
-> 
-> I'm imagining the command format would need to be able to distinguish
-> between the actual bus number of a described device, the secondary bus
-> number of the device, and the subordinate bus number of the device.
-> For describing the device, I'm envisioning stealing from the DMAR
-> definition, which already includes a bus number invariant mechanism to
-> describe a device, starting with a segment and root bus, follow a chain
-> of devfns to get to the target device.  Therefore the guest firmware
-> would follow the path to the described device, pick the desired bus
-> number, and write it to the indicated table offset.
-> 
-> Does this seem like a reasonable approach?  Better ideas?  I'm not
-> thrilled with the increased scope demanded by IVRS support, but so long
-> as we have an AMD IOMMU model, I don't see how to avoid it.  Thanks,
-> 
-> Alex
+Quoting Michael Roth (2019-07-23 12:00:28)
+> Hi everyone,                                                             =
+                                 =
 
-We generally just got the bus #s as programmed into virtual
-bridges/devices and had qemu program them into acpi
-tables.
+> =
 
-If guest os changes bus#s it's responsible for updating acpi
-tables :)
+> The following new patches are queued for QEMU stable v3.1.1:
+> =
+
+>   https://github.com/mdroth/qemu/commits/stable-3.1-staging
+> =
+
+> The release is planned for 2019-08-01:
+> =
+
+>   https://wiki.qemu.org/Planning/3.1
+> =
+
+> Please respond here or CC qemu-stable@nongnu.org on any patches you
+> think should be included in the release.
+> =
+
+> Note that this update falls outside the normal stable release support
+> window (~1 development cycle), but is being released now since it was
+> delayed from its intended release date.
+> =
+
+> Thanks!
+> =
 
 
-> > > On Tue, 26 Mar 2019 16:55:19 -0600
-> > > Alex Williamson <alex.williamson@redhat.com> wrote:
-> > >   
-> > >> Conventional PCI buses pre-date requester IDs.  An IOMMU cannot
-> > >> distinguish by devfn & bus between devices in a conventional PCI
-> > >> topology and therefore we cannot assign them separate AddressSpaces.
-> > >> By taking this requester ID aliasing into account, QEMU better matches
-> > >> the bare metal behavior and restrictions, and enables shared
-> > >> AddressSpace configurations that are otherwise not possible with
-> > >> guest IOMMU support.
-> > >>
-> > >> For the latter case, given any example where an IOMMU group on the
-> > >> host includes multiple devices:
-> > >>
-> > >>    $ ls  /sys/kernel/iommu_groups/1/devices/
-> > >>    0000:00:01.0  0000:01:00.0  0000:01:00.1
-> > >>
-> > >> If we incorporate a vIOMMU into the VM configuration, we're restricted
-> > >> that we can only assign one of the endpoints to the guest because a
-> > >> second endpoint will attempt to use a different AddressSpace.  VFIO
-> > >> only supports IOMMU group level granularity at the container level,
-> > >> preventing this second endpoint from being assigned:
-> > >>
-> > >> qemu-system-x86_64 -machine q35... \
-> > >>    -device intel-iommu,intremap=on \
-> > >>    -device pcie-root-port,addr=1e.0,id=pcie.1 \
-> > >>    -device vfio-pci,host=1:00.0,bus=pcie.1,addr=0.0,multifunction=on \
-> > >>    -device vfio-pci,host=1:00.1,bus=pcie.1,addr=0.1
-> > >>
-> > >> qemu-system-x86_64: -device vfio-pci,host=1:00.1,bus=pcie.1,addr=0.1: vfio \
-> > >> 0000:01:00.1: group 1 used in multiple address spaces
-> > >>
-> > >> However, when QEMU incorporates proper aliasing, we can make use of a
-> > >> PCIe-to-PCI bridge to mask the requester ID, resulting in a hack that
-> > >> provides the downstream devices with the same AddressSpace, ex:
-> > >>
-> > >> qemu-system-x86_64 -machine q35... \
-> > >>    -device intel-iommu,intremap=on \
-> > >>    -device pcie-pci-bridge,addr=1e.0,id=pci.1 \
-> > >>    -device vfio-pci,host=1:00.0,bus=pci.1,addr=1.0,multifunction=on \
-> > >>    -device vfio-pci,host=1:00.1,bus=pci.1,addr=1.1
-> > >>
-> > >> While the utility of this hack may be limited, this AddressSpace
-> > >> aliasing is the correct behavior for QEMU to emulate bare metal.
-> > >>
-> > >> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> > >> ---
-> > >>   hw/pci/pci.c |   33 +++++++++++++++++++++++++++++++--
-> > >>   1 file changed, 31 insertions(+), 2 deletions(-)
-> > >>
-> > >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > >> index 35451c1e9987..38467e676f1f 100644
-> > >> --- a/hw/pci/pci.c
-> > >> +++ b/hw/pci/pci.c
-> > >> @@ -2594,12 +2594,41 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
-> > >>   {
-> > >>       PCIBus *bus = pci_get_bus(dev);
-> > >>       PCIBus *iommu_bus = bus;
-> > >> +    uint8_t devfn = dev->devfn;
-> > >>   
-> > >>       while(iommu_bus && !iommu_bus->iommu_fn && iommu_bus->parent_dev) {
-> > >> -        iommu_bus = pci_get_bus(iommu_bus->parent_dev);
-> > >> +        PCIBus *parent_bus = pci_get_bus(iommu_bus->parent_dev);
-> > >> +
-> > >> +        /*
-> > >> +         * Determine which requester ID alias should be used for the device
-> > >> +         * based on the PCI topology.  There are no requester IDs on convetional
-> > >> +         * PCI buses, therefore we push the alias up to the parent on each non-
-> > >> +         * express bus.  Which alias we use depends on whether this is a legacy
-> > >> +         * PCI bridge or PCIe-to-PCI/X bridge as in chapter 2.3 of the PCIe-to-
-> > >> +         * PCI bridge spec.  Note that we cannot use pci_requester_id() here
-> > >> +         * because the resulting BDF depends on the secondary bridge register
-> > >> +         * programming.  We also cannot lookup the PCIBus from the bus number
-> > >> +         * at this point for the iommu_fn.  Also, requester_id_cache is the
-> > >> +         * alias to the root bus, which is usually, but not necessarily always
-> > >> +         * where we'll find our iommu_fn.
-> > >> +         */
-> > >> +        if (!pci_bus_is_express(iommu_bus)) {
-> > >> +            PCIDevice *parent = iommu_bus->parent_dev;
-> > >> +
-> > >> +            if (pci_is_express(parent) &&
-> > >> +                pcie_cap_get_type(parent) == PCI_EXP_TYPE_PCI_BRIDGE) {
-> > >> +                devfn = PCI_DEVFN(0, 0);
-> > >> +                bus = iommu_bus;
-> > >> +            } else {
-> > >> +                devfn = parent->devfn;
-> > >> +                bus = parent_bus;
-> > >> +            }
-> > >> +        }
-> > >> +
-> > >> +        iommu_bus = parent_bus;
-> > >>       }
-> > >>       if (iommu_bus && iommu_bus->iommu_fn) {
-> > >> -        return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, dev->devfn);
-> > >> +        return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
-> > >>       }
-> > >>       return &address_space_memory;
-> > >>   }
-> > >>  
-> > >   
+Forgot to include the usual patch list:
+
+----------------------------------------------------------------
+BALATON Zoltan (1):
+      i2c: Move typedef of bitbang_i2c_interface to i2c.h
+
+Christian Borntraeger (2):
+      iotests: make 235 work on s390 (and others)
+      s390x/cpumodel: ignore csske for expansion
+
+Christophe Fergeau (1):
+      json: Fix % handling when not interpolating
+
+Corey Minyard (1):
+      pc:piix4: Update smbus I/O space after a migration
+
+Cornelia Huck (1):
+      vfio-ap: flag as compatible with balloon
+
+Dan Streetman (1):
+      do not call vhost_net_cleanup() on running net from char user event
+
+Daniel Henrique Barboza (1):
+      qga: update docs with systemd suspend support info
+
+Daniel P. Berrang=C3=A9 (1):
+      qemu-img: fix error reporting for -object
+
+Eric Blake (1):
+      cutils: Fix size_to_str() on 32-bit platforms
+
+Gerd Hoffmann (1):
+      usb-mtp: use O_NOFOLLOW and O_CLOEXEC.
+
+Janosch Frank (1):
+      s390x: Return specification exception for unimplemented diag 308 subc=
+odes
+
+Kevin Wolf (3):
+      block: Fix invalidate_cache error path for parent activation
+      qcow2: Avoid COW during metadata preallocation
+      block: Fix AioContext switch for bs->drv =3D=3D NULL
+
+Li Hangjing (1):
+      vhost: fix vhost_log size overflow during migration
+
+Liam Merwick (1):
+      tpm_tis: fix loop that cancels any seizure by a lower locality
+
+Marcel Apfelbaum (1):
+      hw/rdma: another clang compilation fix
+
+Mark Cave-Ayland (2):
+      mac_oldworld: use node name instead of alias name for hd device in FW=
+PathProvider
+      mac_newworld: use node name instead of alias name for hd device in FW=
+PathProvider
+
+Max Reitz (3):
+      iotests: Filter second BLOCK_JOB_ERROR from 229
+      block/file-posix: Unaligned O_DIRECT block-status
+      iotests: Test unaligned raw images with O_DIRECT
+
+Michael Roth (1):
+      qga-win: include glib when building VSS DLL
+
+Paolo Bonzini (1):
+      i386: remove the 'INTEL_PT' CPUID bit from named CPU models
+
+Paul A. Clarke (1):
+      Changes requirement for "vsubsbs" instruction
+
+Peter Lieven (1):
+      megasas: fix mapped frame size
+
+Peter Maydell (2):
+      linux-user: make pwrite64/pread64(fd, NULL, 0, offset) return 0
+      exec.c: Don't reallocate IOMMUNotifiers that are in use
+
+Robert Hoo (1):
+      i386: remove the new CPUID 'PCONFIG' from Icelake-Server CPU model
+
+Stefan Berger (2):
+      tpm: Make sure new locality passed to tpm_tis_prep_abort() is valid
+      tpm: Make sure the locality received from backend is valid
+
+Thomas Huth (1):
+      hw/s390x: Fix bad mask in time2tod()
+
+Thomas Petazzoni (1):
+      configure: improve usbfs check
+
+William Bowling (1):
+      slirp: check sscanf result when emulating ident
+
+Zheng Xiang (1):
+      pcie: set link state inactive/active after hot unplug/plug
+
+ block.c                            | 13 +++----------
+ block/file-posix.c                 | 16 ++++++++++++++++
+ block/qcow2.c                      |  3 ++-
+ configure                          | 19 +++++++++++++++++--
+ exec.c                             | 10 ++++++----
+ hw/acpi/piix4.c                    |  1 +
+ hw/i2c/bitbang_i2c.h               |  2 --
+ hw/pci/pcie.c                      | 12 ++++++++++++
+ hw/ppc/mac_newworld.c              |  4 ++--
+ hw/ppc/mac_oldworld.c              |  4 ++--
+ hw/rdma/rdma_rm_defs.h             |  4 ++--
+ hw/scsi/megasas.c                  |  2 +-
+ hw/tpm/tpm_tis.c                   |  8 ++++++--
+ hw/usb/dev-mtp.c                   | 13 +++++++++----
+ hw/vfio/ap.c                       |  8 ++++++++
+ hw/virtio/vhost.c                  | 10 ++++++++++
+ include/hw/i2c/i2c.h               |  2 ++
+ include/hw/i2c/ppc4xx_i2c.h        |  3 ---
+ include/hw/s390x/tod.h             |  2 +-
+ linux-user/syscall.c               | 22 ++++++++++++++++++----
+ net/vhost-user.c                   |  1 -
+ qemu-img.c                         | 26 +++++++++++++-------------
+ qga/qapi-schema.json               | 25 ++++++++++++++-----------
+ qga/vss-win32/Makefile.objs        |  2 +-
+ qobject/json-parser.c              | 10 ++++++----
+ slirp/tcp_subr.c                   | 10 +++++-----
+ target/i386/cpu.c                  | 11 ++++-------
+ target/ppc/translate/vmx-ops.inc.c |  2 +-
+ target/s390x/cpu_models.c          |  2 ++
+ target/s390x/diag.c                |  2 +-
+ tests/check-qjson.c                |  5 +++++
+ tests/qemu-iotests/221             |  4 ++++
+ tests/qemu-iotests/229             |  6 +++++-
+ tests/qemu-iotests/229.out         |  1 -
+ tests/qemu-iotests/235             |  4 +++-
+ tests/qemu-iotests/253             | 84 ++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/253.out         | 14 ++++++++++++++
+ tests/qemu-iotests/group           |  1 +
+ util/cutils.c                      |  2 +-
+ 39 files changed, 282 insertions(+), 88 deletions(-)
+ create mode 100755 tests/qemu-iotests/253
+ create mode 100644 tests/qemu-iotests/253.out
+
 
