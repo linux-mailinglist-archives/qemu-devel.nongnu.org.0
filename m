@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5710D717EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:17:24 +0200 (CEST)
-Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E624D717D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:10:19 +0200 (CEST)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptjP-0000ip-AV
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38199)
+	id 1hptcZ-0003kG-5d
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:10:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36613)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hptiu-0008I8-80
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:53 -0400
+ (envelope-from <philmd@redhat.com>) id 1hptcM-0003GZ-3u
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:10:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hptit-0000hp-4V
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42174)
+ (envelope-from <philmd@redhat.com>) id 1hptcL-0004F1-6H
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:10:06 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38892)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hptis-0000gc-UX
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hptiq-0003k0-JF
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 12:16:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6ADC72E80E5
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 12:16:47 +0000 (UTC)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hptcL-0004EZ-0R
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:10:05 -0400
+Received: by mail-wr1-f68.google.com with SMTP id g17so42928958wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 05:10:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9Fs+L3zQ36qNQqurrKY8Sw6wxRxzt6se4+Z7sHZi4OM=;
+ b=EdNrikhIklkXOUkUuZKXQC5/yTA1s0c5uNy69nXFmZMAdw3VJgmwVsp2tvVV24Y/Fo
+ H7WGaPoGl4Rx1FJ+i8Ff+jpjE3LhJiZ7XzQBZnYTXgIq5chSOYXJc91OPJUzt9oS77jW
+ nhyqCMgwZmVWJa2JSuMq2xIFL6TZ1GuZicdUDxHWhkFAnS1TlPdog3QXKIzh3lzmnTYX
+ bpFdWF2kj9Dm98mftLjz8LzgSGkI35bI4UQCM4O5a0tTH9vue+Uwlq2tfQ63ALWF/Nyq
+ QCluTkIZCCm/ovAqa/wk5qX5/4HWpShcBdQbIXYcORc+7rxqABzAHw7nt3q7ZjCXqG/5
+ U9AQ==
+X-Gm-Message-State: APjAAAWoUskVgGusyVCBzHTFiN5orYXyAcboDCdhWhOuwOFGpoqCW9e8
+ h6yG3cEnrsRmxGk8Q8mzVLtfuQ==
+X-Google-Smtp-Source: APXvYqzb8b9nD5hlHPjnkzQMKwZEHF8/5qoICM9Wcbu19tjOLPD1rXqOXKWE9txEFPyBK/sNBLHSaA==
+X-Received: by 2002:a05:6000:4b:: with SMTP id
+ k11mr78311930wrx.82.1563883803965; 
+ Tue, 23 Jul 2019 05:10:03 -0700 (PDT)
+Received: from [192.168.1.38] (190.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.190])
+ by smtp.gmail.com with ESMTPSA id e3sm38653999wrt.93.2019.07.23.05.10.03
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 23 Jul 2019 05:10:03 -0700 (PDT)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190723120804.29565-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <56e9a1bd-33f5-ce22-1aef-bbd49e4252ed@redhat.com>
+Date: Tue, 23 Jul 2019 14:10:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jul 2019 12:07:27 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: edward-vielmetti pawel-moll pmaydell will-newton
-X-Launchpad-Bug-Reporter: Will Newton (will-newton)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <149693268144.10005.16353270944603688746.malonedeb@wampee.canonical.com>
-Message-Id: <156388364772.30250.5237561659046684597.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1a04cdf62a7f890015d8ef27d1c5aee1c0cd0c49
+In-Reply-To: <20190723120804.29565-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1696773] Re: golang calls to exec crash user
- emulation
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH] docs: correct kconfig option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,37 +75,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1696773 <1696773@bugs.launchpad.net>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'qemucrash' test case from this bug still crashes as of current
-head-of-git (4.1 rc1).
+On 7/23/19 2:08 PM, Marc-André Lureau wrote:
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/devel/kconfig.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+> index d6f8eb0977..b7bca44704 100644
+> --- a/docs/devel/kconfig.rst
+> +++ b/docs/devel/kconfig.rst
+> @@ -267,7 +267,7 @@ the default configuration by uncommenting lines in the first group,
+>  or commenting out lines in the second group.
+>  
+>  It is also possible to run QEMU's configure script with the
+> -``--with-default-devices`` option.  When this is done, everything defaults
+> +``--without-default-devices`` option.  When this is done, everything defaults
+>  to ``n`` unless it is ``select``ed or explicitly switched on in the
+>  ``.mak`` files.  In other words, ``default`` and ``imply`` directives
+>  are disabled.  When QEMU is built with this option, the user will probably
+> 
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1696773
-
-Title:
-  golang calls to exec crash user emulation
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  An example program can be found here:
-
-  https://github.com/willnewton/qemucrash
-
-  This code starts a goroutine (thread) and calls exec repeatedly. This
-  works ok natively but when run under ARM user emulation it segfaults
-  (usually, there are occasionally other failures).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1696773/+subscriptions
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
