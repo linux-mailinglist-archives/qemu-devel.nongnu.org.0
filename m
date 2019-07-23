@@ -2,52 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBB771DCD
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:35:10 +0200 (CEST)
-Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC0D71DDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:37:46 +0200 (CEST)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpygv-00028h-KO
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
+	id 1hpyjR-0003p3-QI
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54643)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hpygg-0001gQ-GN
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:34:55 -0400
+ (envelope-from <julio.montes@intel.com>) id 1hpyjE-0003PC-FP
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:37:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hpygf-00067U-65
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:34:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58072)
+ (envelope-from <julio.montes@intel.com>) id 1hpyjD-00082A-AJ
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:37:32 -0400
+Received: from mga17.intel.com ([192.55.52.151]:49133)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hpyge-000670-Tu
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:34:53 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 369C380F6D;
- Tue, 23 Jul 2019 17:34:52 +0000 (UTC)
-Received: from work-vm (ovpn-117-202.ams2.redhat.com [10.36.117.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C7BD19C78;
- Tue, 23 Jul 2019 17:34:50 +0000 (UTC)
-Date: Tue, 23 Jul 2019 18:34:47 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yury Kotov <yury-kotov@yandex-team.ru>
-Message-ID: <20190723173447.GC2760@work-vm>
-References: <20190723134215.25095-1-yury-kotov@yandex-team.ru>
- <20190723134215.25095-4-yury-kotov@yandex-team.ru>
- <20190723173419.GQ2719@work-vm>
+ (Exim 4.71) (envelope-from <julio.montes@intel.com>)
+ id 1hpyjC-0007ud-Sm
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:37:31 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2019 10:37:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,299,1559545200"; d="scan'208";a="368952638"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2019 10:37:20 -0700
+Received: from fmsmsx115.amr.corp.intel.com (10.18.116.19) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 23 Jul 2019 10:37:19 -0700
+Received: from fmsmsx104.amr.corp.intel.com ([169.254.3.206]) by
+ fmsmsx115.amr.corp.intel.com ([169.254.4.134]) with mapi id 14.03.0439.000;
+ Tue, 23 Jul 2019 10:37:19 -0700
+From: "Montes, Julio" <julio.montes@intel.com>
+To: "sgarzare@redhat.com" <sgarzare@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH v2 0/2] pc: mmap kernel (ELF image) and initrd
+Thread-Index: AQHVQV+knRdUYEW73kipO69Yq/lGUabY7R2A
+Date: Tue, 23 Jul 2019 17:37:18 +0000
+Message-ID: <4d2967a1637b3ab93ff79fa016fd4a42f5638204.camel@intel.com>
+References: <20190723140445.12748-1-sgarzare@redhat.com>
+In-Reply-To: <20190723140445.12748-1-sgarzare@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.251.156.125]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2906C5AB0AA35A4E8C4FFFAF92D05B5D@intel.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190723173419.GQ2719@work-vm>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Tue, 23 Jul 2019 17:34:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 3/3] tests/migration: Add a test for
- auto converge
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.151
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] pc: mmap kernel (ELF image) and
+ initrd
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,173 +70,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Peter Crosthwaite <crosthwaite.peter@gmail.com>,
- "open list:Overall" <qemu-devel@nongnu.org>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "slp@redhat.com" <slp@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Yury Kotov (yury-kotov@yandex-team.ru) wrote:
-> > Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-> 
-> OK, I think that's worth a go; lets see how it does in heavy CI systems/
-> 
-> Dave
-
-and I meant:
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> > ---
-> >  tests/migration-test.c | 103 ++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 92 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/tests/migration-test.c b/tests/migration-test.c
-> > index a4feb9545d..b783ae47b3 100644
-> > --- a/tests/migration-test.c
-> > +++ b/tests/migration-test.c
-> > @@ -241,6 +241,17 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
-> >      return result;
-> >  }
-> >  
-> > +static int64_t read_migrate_property_int(QTestState *who, const char *property)
-> > +{
-> > +    QDict *rsp_return;
-> > +    int64_t result;
-> > +
-> > +    rsp_return = migrate_query(who);
-> > +    result = qdict_get_try_int(rsp_return, property, 0);
-> > +    qobject_unref(rsp_return);
-> > +    return result;
-> > +}
-> > +
-> >  static uint64_t get_migration_pass(QTestState *who)
-> >  {
-> >      return read_ram_property_int(who, "dirty-sync-count");
-> > @@ -255,20 +266,22 @@ static void read_blocktime(QTestState *who)
-> >      qobject_unref(rsp_return);
-> >  }
-> >  
-> > +static bool check_migration_status(QTestState *who, const char *status)
-> > +{
-> > +    bool completed;
-> > +    char *current_status;
-> > +
-> > +    current_status = migrate_query_status(who);
-> > +    completed = strcmp(current_status, status) == 0;
-> > +    g_assert_cmpstr(current_status, !=, "failed");
-> > +    g_free(current_status);
-> > +    return completed;
-> > +}
-> > +
-> >  static void wait_for_migration_status(QTestState *who,
-> >                                        const char *goal)
-> >  {
-> > -    while (true) {
-> > -        bool completed;
-> > -        char *status;
-> > -
-> > -        status = migrate_query_status(who);
-> > -        completed = strcmp(status, goal) == 0;
-> > -        g_assert_cmpstr(status, !=,  "failed");
-> > -        g_free(status);
-> > -        if (completed) {
-> > -            return;
-> > -        }
-> > +    while (!check_migration_status(who, goal)) {
-> >          usleep(1000);
-> >      }
-> >  }
-> > @@ -1121,6 +1134,73 @@ static void test_migrate_fd_proto(void)
-> >      test_migrate_end(from, to, true);
-> >  }
-> >  
-> > +static void test_migrate_auto_converge(void)
-> > +{
-> > +    char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-> > +    QTestState *from, *to;
-> > +    int64_t remaining, percentage;
-> > +
-> > +    /*
-> > +     * We want the test to be fast enough, but stable.
-> > +     * Throttle percentages are chosen to cover all cases (init, increment, max)
-> > +     */
-> > +    static const int64_t expected_pcts[] = { 0, 1, 51, 98 };
-> > +    const int64_t max_bandwidth = 200000000; /* ~200Mb/s */
-> > +    const int64_t downtime_limit = 50; /* 50ms */
-> > +    /*
-> > +     * We migrate through unix-socket (> 500Mb/s).
-> > +     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
-> > +     * So, we can predict expected_threshold
-> > +     */
-> > +    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
-> > +
-> > +    if (test_migrate_start(&from, &to, uri, false, false)) {
-> > +        return;
-> > +    }
-> > +
-> > +    migrate_set_capability(from, "auto-converge", true);
-> > +    migrate_set_parameter_int(from, "cpu-throttle-initial", expected_pcts[1]);
-> > +    migrate_set_parameter_int(from, "cpu-throttle-increment",
-> > +                              expected_pcts[2] - expected_pcts[1]);
-> > +    migrate_set_parameter_int(from, "max-cpu-throttle", expected_pcts[3]);
-> > +
-> > +    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-> > +    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
-> > +
-> > +    /* To check remaining size after precopy */
-> > +    migrate_set_capability(from, "pause-before-switchover", true);
-> > +
-> > +    /* Wait for the first serial output from the source */
-> > +    wait_for_serial("src_serial");
-> > +
-> > +    migrate(from, uri, "{}");
-> > +
-> > +    /*
-> > +     * Wait for pre-switchover status to check last throttle percentage
-> > +     * and remaining. These values will be zeroed later
-> > +     */
-> > +    wait_for_migration_status(from, "pre-switchover");
-> > +
-> > +    /* We expect that migration can't converge without throttling */
-> > +    percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
-> > +    g_assert_cmpint(percentage, >, 0);
-> > +
-> > +    remaining = read_ram_property_int(from, "remaining");
-> > +    g_assert_cmpint(remaining, <, expected_threshold);
-> > +
-> > +    wait_command(from, "{ 'execute': 'migrate-continue' , 'arguments':"
-> > +                       "  { 'state': 'pre-switchover' } }");
-> > +
-> > +    qtest_qmp_eventwait(to, "RESUME");
-> > +
-> > +    wait_for_serial("dest_serial");
-> > +    wait_for_migration_complete(from);
-> > +
-> > +    g_free(uri);
-> > +
-> > +    test_migrate_end(from, to, true);
-> > +}
-> > +
-> >  int main(int argc, char **argv)
-> >  {
-> >      char template[] = "/tmp/migration-test-XXXXXX";
-> > @@ -1176,6 +1256,7 @@ int main(int argc, char **argv)
-> >      /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
-> >      qtest_add_func("/migration/xbzrle/unix", test_xbzrle_unix);
-> >      qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
-> > +    qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
-> >  
-> >      ret = g_test_run();
-> >  
-> > -- 
-> > 2.22.0
-> > 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+U3RlZmFubywgQnJpbGxpYW50IGpvYiENCg0KSSBjYW4gY29uZmlybSB0aGF0IHdpdGggdGhlc2Ug
+cGF0Y2hlcyB0aGUgbWVtb3J5IGZvb3RwcmludCBpcyBzbWFsbGVyDQphbmQgdGhlIGJvb3QgdGlt
+ZSBpcyB0aGUgc2FtZSBmb3Iga2F0YQ0KDQpIZXJlIHRoZSByZXN1bHRzIHVzaW5nIGthdGEgbWV0
+cmljcw0KDQpodHRwczovL3Bhc3RlYm9hcmQuY28vSXBsMDZRMC5wbmcNCmh0dHBzOi8vcGFzdGVi
+b2FyZC5jby9JcGwzcDRkLnBuZw0KDQpUaGFua3MNCg0KLQ0KSnVsaW8NCg0KDQpPbiBUdWUsIDIw
+MTktMDctMjMgYXQgMTY6MDQgKzAyMDAsIFN0ZWZhbm8gR2FyemFyZWxsYSB3cm90ZToNCj4gSW4g
+b3JkZXIgdG8gcmVkdWNlIHRoZSBtZW1vcnkgZm9vdHByaW50IHdoZW4gUFZIIGtlcm5lbCBhbmQg
+aW5pdHJkDQo+IGFyZSB1c2VkLCB3ZSBtYXAgdGhlbSBpbnRvIG1lbW9yeSBpbnN0ZWFkIG9mIHJl
+YWRpbmcgdGhlbS4NCj4gSW4gdGhpcyB3YXkgd2UgY2FuIHNoYXJlIHRoZW0gYmV0d2VlbiBtdWx0
+aXBsZSBpbnN0YW5jZXMgb2YgUUVNVS4NCj4gDQo+IHYyOg0KPiAtIFBhdGNoIDE6IHVzZWQgZ19t
+YXBwZWRfZmlsZV9uZXdfZnJvbV9mZCgpIHdpdGggJ3dyaXRlYmxlJyBzZXQgdG8NCj4gJ3RydWUn
+LA0KPiAgICAgICAgICAgIHNpbmNlIHdlIGNhbiBtb2RpZnkgdGhlIG1hcHBlZCBidWZmZXIuIFtQ
+YW9sbywgUGV0ZXJdDQo+IA0KPiBUaGVzZSBhcmUgdGhlIHJlc3VsdHMgdXNpbmcgYSBQVkgga2Vy
+bmVsIGFuZCBpbml0cmQgKGNwaW8pOg0KPiAtIG1lbW9yeSBmb290cHJpbnQgKHVzaW5nIHNtZW0p
+IFtNQl0NCj4gICAgICAgICBRRU1VICAgICAgICAgICAgICBiZWZvcmUgICAgICAgICAgICAgICAg
+ICAgbm93DQo+ICAgICAjIGluc3RhbmNlcyAgICAgICAgVVNTICAgICAgUFNTICAgICAgICAgICAg
+VVNTICAgICAgUFNTDQo+ICAgICAgICAgIDEgICAgICAgICAgIDEwMi4wTSAgIDEwNS44TSAgICAg
+ICAgIDEwMi4zTSAgIDEwNi4yTQ0KPiAgICAgICAgICAyICAgICAgICAgICAgOTQuNk0gICAxMDEu
+Mk0gICAgICAgICAgNzIuM00gICAgOTAuMU0NCj4gICAgICAgICAgNCAgICAgICAgICAgIDk0LjFN
+ICAgIDk4LjBNICAgICAgICAgIDcyLjBNICAgIDgxLjVNDQo+ICAgICAgICAgIDggICAgICAgICAg
+ICA5NC4wTSAgICA5Ni4yTSAgICAgICAgICA3MS44TSAgICA3Ni45TQ0KPiAgICAgICAgIDE2ICAg
+ICAgICAgICAgOTMuOU0gICAgOTUuMU0gICAgICAgICAgNzEuNk0gICAgNzQuM00NCj4gDQo+ICAg
+ICBJbml0cmQgc2l6ZTogMy4wTQ0KPiAgICAgS2VybmVsDQo+ICAgICAgICAgaW1hZ2Ugc2l6ZTog
+MjhNDQo+ICAgICAgICAgc2VjdGlvbnMgc2l6ZSBbc2l6ZSAtQSAtZCB2bWxpbnV4XTogIDE4LjlN
+DQo+IA0KPiAtIGJvb3QgdGltZSBbbXNdDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgYmVm
+b3JlICAgICAgICAgICAgICAgICAgIG5vdw0KPiAgcWVtdV9pbml0X2VuZDogICAgICAgICAgIDYz
+Ljg1ICAgICAgICAgICAgICAgICAgIDU1LjkxDQo+ICBsaW51eF9zdGFydF9rZXJuZWw6ICAgICAg
+ODIuMTEgKCsxOC4yNikgICAgICAgICAgNzQuNTEgKCsxOC42MCkNCj4gIGxpbnV4X3N0YXJ0X3Vz
+ZXI6ICAgICAgIDE2OS45NCAoKzg3LjgzKSAgICAgICAgIDE1OS4wNiAoKzg0LjU2KQ0KPiANCj4g
+UUVNVSBjb21tYW5kIHVzZWQ6DQo+IC4vcWVtdS1zeXN0ZW0teDg2XzY0IC1iaW9zIC9wYXRoL3Rv
+L3NlYWJpb3Mvb3V0L2Jpb3MuYmluIC1uby1ocGV0IFwNCj4gICAgIC1tYWNoaW5lDQo+IHEzNSxh
+Y2NlbD1rdm0sa2VybmVsX2lycWNoaXAsbnZkaW1tLHNhdGE9b2ZmLHNtYnVzPW9mZix2bXBvcnQ9
+b2ZmIFwNCj4gICAgIC1jcHUgaG9zdCAtbSAxRyAtc21wIDEgLXZnYSBub25lIC1kaXNwbGF5IG5v
+bmUgLW5vLXVzZXItY29uZmlnDQo+IC1ub2RlZmF1bHRzIFwNCj4gICAgIC1rZXJuZWwgL3BhdGgv
+dG8vdm1saW51eCAtaW5pdHJkIC9wYXRoL3RvL3Jvb3Rmcy5jcGlvIFwNCj4gICAgIC1hcHBlbmQg
+J3Jvb3Q9L2Rldi9tZW0wIHJvIGNvbnNvbGU9aHZjMCBwY2k9bGFzdGJ1cz0wIG5vc21hcCcNCj4g
+DQo+IFN0ZWZhbm8gR2FyemFyZWxsYSAoMik6DQo+ICAgZWxmLW9wcy5oOiBNYXAgaW50byBtZW1v
+cnkgdGhlIEVMRiB0byBsb2FkDQo+ICAgaHcvaTM4Ni9wYzogTWFwIGludG8gbWVtb3J5IHRoZSBp
+bml0cmQNCj4gDQo+ICBody9pMzg2L3BjLmMgICAgICAgICB8IDE1ICsrKysrKysrLS0tDQo+ICBp
+bmNsdWRlL2h3L2VsZl9vcHMuaCB8IDY0ICsrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0t
+LS0tLS0tLS0NCj4gLS0tLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspLCAz
+MyBkZWxldGlvbnMoLSkNCj4gDQo=
 
