@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2ACE71645
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:32 +0200 (CEST)
-Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED94371643
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:02 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsBj-0005wU-My
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37891)
+	id 1hpsBA-0003GL-7H
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37867)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9g-00067V-LN
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:25 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9f-0007SD-Dq
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9f-00062l-Li
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:24 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35929)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9e-0007Qe-EW
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:23 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51654)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hps9f-0007Qw-6C
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:23 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id g67so33921748wme.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:23 -0700 (PDT)
+ id 1hps9e-0007Ps-6M
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:22 -0400
+Received: by mail-wm1-x334.google.com with SMTP id 207so37997938wma.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JxhRJPthXwD0jkNCvy1f0oAonRtBCJFL3sFbTnWENEg=;
- b=qwZQC+jD3WCCDZp/CtYaOfnQcywI7fF7tjPXRv03YTpOsiEU61iRDuiXJP41oC9P2E
- en1ubnSWOGvK0rhuzydoECUPrwtMGcYDk9NIr5TS9ozbfG59cfL4mam01XE7F0nfaL9+
- oTGHa9OBIomRR39h+HSGpJ6vvnn4bVqQ4ZRvmQoJzdfvchijSryk0jHULWdbczXRfkhI
- AXp2U5M0pmDd+/nUiLJJIxCUpJDj81xZi/X56T3lz4YBKtw9EWb5Fsck+E6su+h5mOWR
- /iOEMyqLom7m860Fj5ROmp04+gFX2GLxEGyUWEQPdwdu7S7qNy+N/g0MHwnB6BvQXpli
- VTVA==
+ bh=HQyqOz02G3bFziBv9m62IDtJiMAsZS66su/354KrNr8=;
+ b=eH2WthkLzyGU16o9xEWncuRO4tvUzNNBDoLToReS6mv5R8SiGxMd7WitV8HyWr8dt6
+ tF8vIsmgcPs65EERTAHBrBRyMwSG1TCj9yfMyaVEi0uxVJuD536Ehi3r/oCxChyWi3Kh
+ 4HfnF3FhhRUPo1sHJaliaDfCjvvDa8y94WgHIEhWoBmlePvoZH/zcsN3ilezH2+ciTAY
+ NUeJKwAsTcwyB7SH/Z5vO+7OapuyGrfNCR/DERBpUtKZ+Vd4+f+oOb4OOlhCL+p6+Pr7
+ p0LSQHmnTVpbZWMZ8z6vp+Mt6XoWduSrdxeJX2jm7h2UiRxUv56ZqAAGWx5c1wCta9gH
+ 0Sqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JxhRJPthXwD0jkNCvy1f0oAonRtBCJFL3sFbTnWENEg=;
- b=W4p/jwOahZSfLT3n8tTMbmwxmYqTm/Gsvbing+GLZTLl6vAqTji3Lp+xaqFrK0y1I/
- naKOEnj2+7p/rS0Z0SBBxsgtIHBiJO56LMAXECBDcj8q0OOroxncTmowYFID2z05caeE
- 9MNqnQgsVnowYtp5ILW/OQzkeKo4fmj2+JOt8334i1xlDylYUJKdkig/GJr9swgdG+Qh
- BkK+TIyWMp/0rw1urJZAisBOXJ5wtyAsYAHbzqo0uHcB+JQHBKeuZRyYrN76Lp+XmVtH
- YjZmAAAXjH4F9o8e/PI2ZcAzWT9jEo/oMR6XbLrbQhf4JumT4kdddiLOlamddPaueLaU
- yAHw==
-X-Gm-Message-State: APjAAAXTDyJC5OUzswkEYSaqqTfgfIIZ71nM5wkeZpp5w20IB8QS9nUv
- xeu7GIr1ewL0QAiSZgk4aBVZKg==
-X-Google-Smtp-Source: APXvYqxG2zCzCVPQsNcxcPRcmgh1J1rYaB8ys7yyBVxLoapTcElt+BOaTxiAs9EG+7NJGFoGwBHj0Q==
-X-Received: by 2002:a1c:a7c6:: with SMTP id
- q189mr69553043wme.146.1563878182086; 
- Tue, 23 Jul 2019 03:36:22 -0700 (PDT)
+ bh=HQyqOz02G3bFziBv9m62IDtJiMAsZS66su/354KrNr8=;
+ b=azvYwQ5dSsOGy+Em5PO/1Sm6xGlpjHl7yjppVlwBEt2imBbE5WOhI085pbZK6JU/qd
+ JPOrN6qUpLo7RWpIsOjzGfNRia067loXPZ8iwAtxKk0yK7EA77JYLix9tOv6LwctcYef
+ SCwGP7vmPDnWPJ+2vAphjGXuEmfjkCt+gfyBZ1dFVQMXLgcWqdPaDflla9es3O020Vzr
+ AqKbH/HPW13aMYbFr2ZbYx/Fbyk6cSbY2MI+zNlSYBTfC9a49HloAccoaoIz3E61Fh1M
+ tu9sZq1gjViAxdPgVSfYqptHuOBjaog5iL4qZZIyJqEQj1i2QPqDeBYg76s7NsOFWEdp
+ fNZA==
+X-Gm-Message-State: APjAAAWJowbNq56SCA57Cfs0UOghslq8A/KcLI2LmxoZEgzXobrADvDe
+ 2UJpEW98eZN20IhiBtDkKgepIg==
+X-Google-Smtp-Source: APXvYqxQZRpr8Jq2Xf256NV9rIMBni3Dfqih0egDcFY8nA0ce9bMujLCQUit46ziOsXFmwypLrrBDQ==
+X-Received: by 2002:a05:600c:230c:: with SMTP id
+ 12mr66522064wmo.166.1563878181134; 
+ Tue, 23 Jul 2019 03:36:21 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id k9sm30856009wmi.33.2019.07.23.03.36.15
+ by smtp.gmail.com with ESMTPSA id x83sm43239980wmb.42.2019.07.23.03.36.16
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 23 Jul 2019 03:36:19 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 468861FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 5B2261FF9B;
  Tue, 23 Jul 2019 11:36:13 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:35:59 +0100
-Message-Id: <20190723103612.5600-11-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:36:00 +0100
+Message-Id: <20190723103612.5600-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 10/23] tests/docker: Install the NSIS tools in
- the MinGW capable images
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 11/23] tests/docker: Set the correct
+ cross-PKG_CONFIG_PATH in the MXE images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,91 +92,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This fixes:
+This silents a bunch of warnings while compiling the Slirp objects:
 
-  $ make installer
-  (cd /tmp/qemu-nsis; \
-           for i in qemu-system-*.exe; do \
-             arch=${i%.exe}; \
-             arch=${arch#qemu-system-}; \
-             echo Section \"$arch\" Section_$arch; \
-             echo SetOutPath \"\$INSTDIR\"; \
-             echo File \"\${BINDIR}\\$i\"; \
-             echo SectionEnd; \
-           done \
-          ) >/tmp/qemu-nsis/system-emulations.nsh
-  makensis -V2 -NOCD \
-                  -DCONFIG_DOCUMENTATION="y" \
-                   \
-                  -DBINDIR="/tmp/qemu-nsis" \
-                   \
-                  -DSRCDIR="/home/phil/source/qemu" \
-                  -DOUTFILE="qemu-setup-4.0.90.exe" \
-                  -DDISPLAYVERSION="4.0.90" \
-                  /home/phil/source/qemu/qemu.nsi
-  /bin/sh: 1: makensis: not found
-  Makefile:1077: recipe for target 'qemu-setup-4.0.90.exe' failed
-  make: *** [qemu-setup-4.0.90.exe] Error 127
+ $ make
+ [...]
+   CC      slirp/src/tftp.o
+ Package glib-2.0 was not found in the pkg-config search path.
+ Perhaps you should add the directory containing `glib-2.0.pc'
+ to the PKG_CONFIG_PATH environment variable
+ No package 'glib-2.0' found
+   CC      slirp/src/udp6.o
+ Package glib-2.0 was not found in the pkg-config search path.
+ Perhaps you should add the directory containing `glib-2.0.pc'
+ to the PKG_CONFIG_PATH environment variable
+ No package 'glib-2.0' found
+ [...]
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190715174817.18981-4-philmd@redhat.com>
+Message-Id: <20190715174817.18981-5-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/tests/docker/dockerfiles/debian-win32-cross.docker b/tests/docker/dockerfiles/debian-win32-cross.docker
-index c787e432454..77f5cc45e92 100644
+index 77f5cc45e92..dc74ce7e0e0 100644
 --- a/tests/docker/dockerfiles/debian-win32-cross.docker
 +++ b/tests/docker/dockerfiles/debian-win32-cross.docker
-@@ -9,6 +9,8 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+@@ -11,6 +11,9 @@ ENV TARGET i686
  
- ENV TARGET i686
+ ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
  
-+ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
++ENV PKG_CONFIG_PATH \
++    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
 +
  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
      apt-get install -y --no-install-recommends \
          mxe-$TARGET-w64-mingw32.shared-bzip2 \
-@@ -19,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-         mxe-$TARGET-w64-mingw32.shared-lzo \
-         mxe-$TARGET-w64-mingw32.shared-nettle \
-         mxe-$TARGET-w64-mingw32.shared-ncurses \
-+        mxe-$TARGET-w64-mingw32.shared-nsis \
-         mxe-$TARGET-w64-mingw32.shared-pixman \
-         mxe-$TARGET-w64-mingw32.shared-pkgconf \
-         mxe-$TARGET-w64-mingw32.shared-pthreads \
 diff --git a/tests/docker/dockerfiles/debian-win64-cross.docker b/tests/docker/dockerfiles/debian-win64-cross.docker
-index a7068ed6ac6..3908c5abc42 100644
+index 3908c5abc42..df7bfce7eab 100644
 --- a/tests/docker/dockerfiles/debian-win64-cross.docker
 +++ b/tests/docker/dockerfiles/debian-win64-cross.docker
-@@ -9,6 +9,8 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+@@ -11,6 +11,9 @@ ENV TARGET x86-64
  
- ENV TARGET x86-64
+ ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
  
-+ENV PATH $PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/bin
++ENV PKG_CONFIG_PATH \
++    $PKG_CONFIG_PATH:/usr/lib/mxe/usr/$TARGET-w64-mingw32.shared/lib/pkgconfig
 +
  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
      apt-get install -y --no-install-recommends \
          mxe-$TARGET-w64-mingw32.shared-bzip2 \
-@@ -19,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-         mxe-$TARGET-w64-mingw32.shared-lzo \
-         mxe-$TARGET-w64-mingw32.shared-nettle \
-         mxe-$TARGET-w64-mingw32.shared-ncurses \
-+        mxe-$TARGET-w64-mingw32.shared-nsis \
-         mxe-$TARGET-w64-mingw32.shared-pixman \
-         mxe-$TARGET-w64-mingw32.shared-pkgconf \
-         mxe-$TARGET-w64-mingw32.shared-pthreads \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 2350d494d9a..226ac1026fa 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -52,6 +52,7 @@ ENV PACKAGES \
-     mingw32-libpng \
-     mingw32-libtasn1 \
-     mingw32-nettle \
-+    mingw32-nsis \
-     mingw32-pixman \
-     mingw32-pkg-config \
-     mingw32-SDL2 \
 -- 
 2.20.1
 
