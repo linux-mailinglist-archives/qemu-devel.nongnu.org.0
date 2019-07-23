@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB14E71D57
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:05:42 +0200 (CEST)
-Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1534471D6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:09:18 +0200 (CEST)
+Received: from localhost ([::1]:46016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyEP-0000lY-Ey
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:05:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42937)
+	id 1hpyHs-0006nQ-L8
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43281)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAj-0005fe-D6
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:54 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBJ-0007mI-Qr
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAi-0005ZV-4K
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:53 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8530
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBI-000683-3a
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAh-0005Hu-RB; Tue, 23 Jul 2019 13:01:51 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1hpyBE-00062M-7M
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:26 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkgoj009188; Tue, 23 Jul 2019 13:01:22 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rgmsm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:22 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NGlIO6011010;
- Tue, 23 Jul 2019 13:01:22 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rgmsa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:22 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0KWL029966;
- Tue, 23 Jul 2019 17:01:21 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01wdc.us.ibm.com with ESMTP id 2tx61mr2ds-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 17:01:21 +0000
+ x6NH2Jb7094458
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:21 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8n1v-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:19 -0400
+Received: from localhost
+ by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
+ Tue, 23 Jul 2019 18:01:31 +0100
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+ by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 23 Jul 2019 18:01:28 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1KvN47055268
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1R5s47055180
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:20 GMT
+ Tue, 23 Jul 2019 17:01:27 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF5ADBE06D;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 29A2DBE059;
+ Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D50A6BE053;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 138FABE053;
+ Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:19 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:29 -0500
-Message-Id: <20190723170104.4327-2-mdroth@linux.vnet.ibm.com>
+Date: Tue, 23 Jul 2019 12:00:31 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
+x-cbid: 19072317-0036-0000-0000-00000ADD79F8
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:29
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19072317-0037-0000-0000-00004CB75716
+Message-Id: <20190723170104.4327-4-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -76,14 +76,11 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id x6NGkgoj009188
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 01/36] i2c: Move typedef of
- bitbang_i2c_interface to i2c.h
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 03/36] Changes requirement for "vsubsbs"
+ instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,72 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-stable@nongnu.org
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
+ Leonardo Bras <leonardo@linux.vnet.ibm.com>, "Paul A. Clarke" <pc@us.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: "Paul A. Clarke" <pc@us.ibm.com>
 
-Clang 3.4 considers duplicate typedef in ppc4xx_i2c.h and
-bitbang_i2c.h an error even if they are identical. Move it to a common
-place to allow building with this clang version.
+Changes requirement for "vsubsbs" instruction, which has been supported
+since ISA 2.03. (Please see section 5.9.1.2 of ISA 2.03)
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-(cherry picked from commit 2b4c1125ac3db2734222ff43c25388a16aca4a99)
+Reported-by: Paul A. Clarke <pc@us.ibm.com>
+Signed-off-by: Paul A. Clarke <pc@us.ibm.com>
+Signed-off-by: Leonardo Bras <leonardo@linux.vnet.ibm.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+(cherry picked from commit fcfbc18d00b10335310c9665edd6e04f2d152be8)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/i2c/bitbang_i2c.h        | 2 --
- include/hw/i2c/i2c.h        | 2 ++
- include/hw/i2c/ppc4xx_i2c.h | 3 ---
- 3 files changed, 2 insertions(+), 5 deletions(-)
+ target/ppc/translate/vmx-ops.inc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i2c/bitbang_i2c.h b/hw/i2c/bitbang_i2c.h
-index 3a7126d5de..9443021710 100644
---- a/hw/i2c/bitbang_i2c.h
-+++ b/hw/i2c/bitbang_i2c.h
-@@ -3,8 +3,6 @@
-=20
- #include "hw/i2c/i2c.h"
-=20
--typedef struct bitbang_i2c_interface bitbang_i2c_interface;
--
- #define BITBANG_I2C_SDA 0
- #define BITBANG_I2C_SCL 1
-=20
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 5dc166158b..cf4c45a98f 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -82,6 +82,8 @@ int i2c_recv(I2CBus *bus);
-=20
- DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
-r);
-=20
-+typedef struct bitbang_i2c_interface bitbang_i2c_interface;
-+
- /* lm832x.c */
- void lm832x_key_event(DeviceState *dev, int key, int state);
-=20
-diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
-index 0891a9c948..b3450bacf7 100644
---- a/include/hw/i2c/ppc4xx_i2c.h
-+++ b/include/hw/i2c/ppc4xx_i2c.h
-@@ -31,9 +31,6 @@
- #include "hw/sysbus.h"
- #include "hw/i2c/i2c.h"
-=20
--/* from hw/i2c/bitbang_i2c.h */
--typedef struct bitbang_i2c_interface bitbang_i2c_interface;
--
- #define TYPE_PPC4xx_I2C "ppc4xx-i2c"
- #define PPC4xx_I2C(obj) OBJECT_CHECK(PPC4xxI2CState, (obj), TYPE_PPC4xx_=
-I2C)
-=20
---=20
+diff --git a/target/ppc/translate/vmx-ops.inc.c b/target/ppc/translate/vmx-ops.inc.c
+index 139f80cb24..84e05fb827 100644
+--- a/target/ppc/translate/vmx-ops.inc.c
++++ b/target/ppc/translate/vmx-ops.inc.c
+@@ -143,7 +143,7 @@ GEN_VXFORM(vaddsws, 0, 14),
+ GEN_VXFORM_DUAL(vsububs, bcdadd, 0, 24, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM_DUAL(vsubuhs, bcdsub, 0, 25, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM(vsubuws, 0, 26),
+-GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_NONE, PPC2_ISA300),
++GEN_VXFORM_DUAL(vsubsbs, bcdtrunc, 0, 28, PPC_ALTIVEC, PPC2_ISA300),
+ GEN_VXFORM(vsubshs, 0, 29),
+ GEN_VXFORM_DUAL(vsubsws, xpnd04_2, 0, 30, PPC_ALTIVEC, PPC_NONE),
+ GEN_VXFORM_207(vadduqm, 0, 4),
+-- 
 2.17.1
 
 
