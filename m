@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A5571D62
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:08:08 +0200 (CEST)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC0971D6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:10:06 +0200 (CEST)
+Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyGl-0001dp-9k
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42991)
+	id 1hpyIe-0001wZ-OM
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42992)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAl-0005mw-L6
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAl-0005n0-Lx
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAk-0005bk-E7
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAk-0005bq-GV
  for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31364
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31452
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAh-0005Hi-Sn; Tue, 23 Jul 2019 13:01:52 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ id 1hpyAh-0005Hk-Tj; Tue, 23 Jul 2019 13:01:52 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkiRU037246; Tue, 23 Jul 2019 13:01:23 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx60r8mtw-1
+ x6NGkhZt009057; Tue, 23 Jul 2019 13:01:25 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tx61fgh5s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:23 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0M7O000831;
+ Tue, 23 Jul 2019 13:01:24 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0LYv032290;
  Tue, 23 Jul 2019 17:01:22 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma03dal.us.ibm.com with ESMTP id 2tx61n02j3-1
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04dal.us.ibm.com with ESMTP id 2tx61mr2g5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 23 Jul 2019 17:01:22 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1Ln760096916
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1LjO49086836
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 23 Jul 2019 17:01:21 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C04DCBE05A;
- Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 268EDBE05F;
+ Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A9DB2BE06F;
- Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0FC95BE058;
+ Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:20 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:21 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:50 -0500
-Message-Id: <20190723170104.4327-23-mdroth@linux.vnet.ibm.com>
+Date: Tue, 23 Jul 2019 12:00:51 -0500
+Message-Id: <20190723170104.4327-24-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
@@ -70,7 +70,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 22/36] mac_oldworld: use node name instead of
+Subject: [Qemu-devel] [PATCH 23/36] mac_newworld: use node name instead of
  alias name for hd device in FWPathProvider
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +90,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-When using -drive to configure the hd drive for the Old World machine, the node
+When using -drive to configure the hd drive for the New World machine, the node
 name "disk" should be used instead of the "hd" alias.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20190307212058.4890-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20190307212058.4890-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-(cherry picked from commit 484d366e02732c8de6f92e53e2ee9bb93dd4ca23)
+(cherry picked from commit 31bc6fa7fa8124ff8fb08373f9402985c806919f)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/ppc/mac_oldworld.c | 4 ++--
+ hw/ppc/mac_newworld.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 9891c325a9..a8c8ec77bc 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -404,11 +404,11 @@ static char *heathrow_fw_dev_path(FWPathProvider *p, BusState *bus,
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 14273a123e..cc7626ce6a 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -553,11 +553,11 @@ static char *core99_fw_dev_path(FWPathProvider *p, BusState *bus,
              return g_strdup("cdrom");
          }
  
