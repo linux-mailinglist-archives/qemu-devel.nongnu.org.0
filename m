@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B9471844
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:30:36 +0200 (CEST)
-Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7997184C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:32:18 +0200 (CEST)
+Received: from localhost ([::1]:42086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptwB-0004Vf-RC
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:30:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41536)
+	id 1hptxp-0005TS-8f
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42252)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hptvy-00044r-Nf
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:30:23 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hptxZ-00051z-AC
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:32:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hptvx-0002ZY-HA
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:30:22 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44179)
+ (envelope-from <peter.maydell@linaro.org>) id 1hptxY-0003lG-CB
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:32:01 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:42264)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hptvx-0002Yw-9K
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:30:21 -0400
-Received: by mail-ot1-x344.google.com with SMTP id b7so5358845otl.11
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 05:30:21 -0700 (PDT)
+ id 1hptxY-0003kt-6e
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:32:00 -0400
+Received: by mail-ot1-x333.google.com with SMTP id l15so43816372otn.9
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 05:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W7uBXEfK6ARp4sMsNPa1XXXwnZGZ4gLJ45QXd0vwzVo=;
- b=mBOtMHWn5QxKIVF2nfFIijQKNms+zB46okakzUitGyBcZP/zY9z1cCgfy8RiUX+JD6
- LgW3P39NuWEe8VYyI+CC5gMzfUl081l2NPvPdZooe72r8xGblQmVjhwWyLs1OtGAYCXC
- hNnfbNtWKFEb7A9SWCxduRBiyjd/eWboxkI+WsATLOitoVIn6N21MiQVs9NauybquyqH
- pphbFXiqbZ/P/fSb/MXpear9cBuqkgiFHdQ9r5+Alo69PBIPaOR0PyPlYv14kyssSeIb
- r/3fdayS3IsA/Y0Ybxb3KiJ3aIJBIOmmmnVU9hA92ocGh/Pq5QHuX2txUUXULVcaTIe8
- cDbw==
+ :cc:content-transfer-encoding;
+ bh=+hVIsywVHcXRy/zryTkqRU+DcXCSqGNH4wADdlwhEP4=;
+ b=rIPjaJvvxFiqJ/QNZlgQCQPRzzsCHer2rtH6AJNoVywRNBXUxpaFkhzJugVgmVrFX4
+ dTwByhJLaGimPqFRcDWwbQZfJZZmoyZtH2zMwXLv4W76VXx/XnKQPamVqDnCBjY2UMSt
+ pm5C0RCJuNXHXtUYd00z0AXojOTsxkR1/DS34BFe7ayhZEpkHh+/QGo17cQM5trGzoIg
+ bQnDQGWX4DtzamzHlAwF3KvrHcHC84+3Sw0/AKk8Jdv6GST0flbRgv1XP8TqoRnQpNWu
+ WutXJmA+LiB8mjjv28VzuCKjMb4ufQ8jtHMFUT/jysZdz6awxawbmbwSTB27FMzU4iHk
+ 49mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W7uBXEfK6ARp4sMsNPa1XXXwnZGZ4gLJ45QXd0vwzVo=;
- b=Kfrk5fDrElx2nlReEkxryGjRcUsbDBrVivJE+vXfiWtiP8Y77Mz/wt/tFCCXz9x7FQ
- 881cR0YMjGHmOQ/p1D5kp+PZgtKVItoid77m76cpO4L1W/cry8T/997aced9LqYZVznM
- D2OB2gicYiDL6WOZMteFnsfyDjIqYMrdT2sTSExGc3HzMn980YYwcWPsXIi5PvKfOq/x
- LwJFT7hiCkXme7NTAHAR/V3RX0WB6z+tsNwSa8v0erjm0fJ9FJNi6Zb/izlmLm9dbpvz
- RP75iv4GImw78jtREgsbb+QzMDwey6YcYpGL/0pjh6ynRAXSGfroxCsmxIJqlUmhVKnj
- 9PhA==
-X-Gm-Message-State: APjAAAWxEBQJjVqQHX2kH/Ovwj7mMzswuySuwkG/qfGrV0HM6vW5GGST
- 4D7wkltAwQ506NnwYPrvROaXo1p2gqgjYSZstE63+g==
-X-Google-Smtp-Source: APXvYqwtKog+6vUcb5g1leeTKIBNCM0lC++9WOCfXsD2fm0vgfLXSpnOtUTAHNqbNhRvHUOWrq56mgspWSSHCkEimfM=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr20052613oti.91.1563885020214; 
- Tue, 23 Jul 2019 05:30:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+hVIsywVHcXRy/zryTkqRU+DcXCSqGNH4wADdlwhEP4=;
+ b=uj/gCBDo3u7YaoJJDmRK3OqGIFDrboe3D5E10T2znFF7R7c/kawzPx0RJh12uu2LDx
+ QWvNDmf79NGqujlx7CwiHQHfOH7ZJzjcUlli0ztandOOF6n1GC/99Uuu2ABN9qkmcM0R
+ hiUDvOKz0pvhyXKohOlIDzmAPamDYkrRAZRppSaherXcsIzLpRGBX0SCHgnGq2RqU00H
+ smSXrlPI7ZfCXsFSnHCrfBtKcJDecZMnsva6obcKlEKJnLecGGOSlbICJp8MKtOKMhAU
+ cMnuLLzUl2/31haoCiOaekD7wB+MXbL+bh0vXJXdYkPWyEgZoTrwn0XbJ9Spwc3/JFtX
+ y0Hg==
+X-Gm-Message-State: APjAAAVZ3rVJH3zW+wN5Y1l/k7koOnJiXUgMbMpIpl7OuhVC5R258p71
+ mXvbroFAa1fx/yZHVbGDuamzZpueIUJ/FafQ6WRuCg==
+X-Google-Smtp-Source: APXvYqx+Sq9D5ZIyzAmtTszcOmXKnJ+LFDh30vXAIyJpemQIQaL52li4Z+OBhp8qOPYr3PiQk/+KinmLJHYatIUacnc=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr52795805otj.97.1563885119460; 
+ Tue, 23 Jul 2019 05:31:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563877107-5486-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1563877107-5486-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <20190723103612.5600-1-alex.bennee@linaro.org>
+ <CAFEAcA_P_Bk0bNGCW+TwhQGCeqM-XZd3OudKZ4tu0fNThFH5ww@mail.gmail.com>
+ <87imrt0y9a.fsf@linaro.org> <451b91c6-3a4d-afb4-30f1-595fcc7e5f65@redhat.com>
+In-Reply-To: <451b91c6-3a4d-afb4-30f1-595fcc7e5f65@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Jul 2019 13:30:09 +0100
-Message-ID: <CAFEAcA94D0E9HkQ2-UiqPX6x3M2pCKJdtxUtQND=N+X6b52DGg@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Date: Tue, 23 Jul 2019 13:31:48 +0100
+Message-ID: <CAFEAcA_O4kegKUsSfzQhBp_AnV_uD1S=F4pm0V0nG6XQ2Dyseg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PULL 0/2] MIPS queue for July 23rd, 2019
+X-Received-From: 2607:f8b0:4864:20::333
+Subject: Re: [Qemu-devel] [PULL for 4.1-rc2 00/23] testing updates (green
+ CI!)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +76,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Jul 2019 at 11:18, Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
+On Tue, 23 Jul 2019 at 13:16, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> On 7/23/19 1:46 PM, Alex Benn=C3=A9e wrote:
+> >> I see Thomas Huth has a patch on-list for that, but this
+> >> didn't manifest as a problem before this pullreq.
+> >
+> > OK, I'll add it and rebuild the PR.
 >
-> The following changes since commit 23da9e297b4120ca9702cabec91599a44255fe96:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190722' into staging (2019-07-22 15:16:48 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu-2 tags/mips-queue-jul-23-2019
->
-> for you to fetch changes up to 51229582583a4b64e93f2655153d905e4d8583d2:
->
->   target/mips: Fix emulation of MSA pack instructions on big endian hosts (2019-07-22 19:33:09 +0200)
->
-> ----------------------------------------------------------------
-> MIPS queue for July 23rd, 2019
->
-> Highlights:
->
->   - a '/* fall thourgh */' patch
->   - fix for MSA pack emulation on big endian hosts
->
-> ----------------------------------------------------------------
+> But Thomas got another error later...
 
+If we're not sure what all the needed fixes are we
+should probably just drop the change that starts
+running the iotests under 'make check'. Otherwise this
+pullreq is going to miss rc2, and it's too big to go into rc3.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
