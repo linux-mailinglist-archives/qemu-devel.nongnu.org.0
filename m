@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A23471D7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:17:17 +0200 (CEST)
-Received: from localhost ([::1]:46052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4062F71D71
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:11:00 +0200 (CEST)
+Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyIU-0001nU-PN
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43253)
+	id 1hpyJX-0005vM-Fu
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43172)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBI-0007jU-BV
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:32 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-0007LK-Cy
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBC-000630-8k
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37212
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBA-000606-76
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26556
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyBA-0005nP-6T
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:22 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1hpyB9-0005lG-Ia
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:20 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NH2687109332
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:07 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60s8n9f-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ x6NH22kv051745
  for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:06 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60rgmx4-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 13:02:02 -0400
 Received: from localhost
- by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Tue, 23 Jul 2019 18:01:30 +0100
-Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
- by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
+ Tue, 23 Jul 2019 18:01:28 +0100
+Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
+ by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
  Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 23 Jul 2019 18:01:28 +0100
+ Tue, 23 Jul 2019 18:01:25 +0100
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1SkT61473174
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1O7M13304150
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:28 GMT
+ Tue, 23 Jul 2019 17:01:25 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E25DFBE051;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id B6783BE04F;
+ Tue, 23 Jul 2019 17:01:24 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CFF25BE053;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 9DDB9BE053;
+ Tue, 23 Jul 2019 17:01:24 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:27 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:24 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:33 -0500
+Date: Tue, 23 Jul 2019 12:00:59 -0500
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19072317-0016-0000-0000-000009D376C9
+x-cbid: 19072317-0036-0000-0000-00000ADD79F5
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011482; HX=3.00000242; KW=3.00000007;
  PH=3.00000004; SC=3.00000287; SDB=6.01236375; UDB=6.00651638; IPR=6.01017731; 
- MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:30
+ MB=3.00027856; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-23 17:01:27
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072317-0017-0000-0000-000044227E31
-Message-Id: <20190723170104.4327-6-mdroth@linux.vnet.ibm.com>
+x-cbparentid: 19072317-0037-0000-0000-00004CB75704
+Message-Id: <20190723170104.4327-32-mdroth@linux.vnet.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -80,8 +80,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 05/36] pc:piix4: Update smbus I/O space after a
- migration
+Subject: [Qemu-devel] [PATCH 31/36] s390x/cpumodel: ignore csske for
+ expansion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,38 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-stable@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Corey Minyard <cminyard@mvista.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Otherwise it won't be set up correctly and won't work after
-miigration.
+csske will be removed in a future machine. Ignore it for expanding the
+cpu model. Otherwise qemu falls back to z9.
 
-Signed-off-by: Corey Minyard <cminyard@mvista.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Cc: qemu-stable@nongnu.org
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 2b4e573c7c7b9a698ba6931ba456bbd8d3d8c84c)
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20190429090250.7648-3-borntraeger@de.ibm.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+(cherry picked from commit eaf6f642abf1d4d24791b70728d4068428fc4658)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- hw/acpi/piix4.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/s390x/cpu_models.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index e330f24c71..2f4dd03b83 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -173,6 +173,7 @@ static int vmstate_acpi_post_load(void *opaque, int version_id)
-     PIIX4PMState *s = opaque;
- 
-     pm_io_space_update(s);
-+    smbus_io_space_update(s);
-     return 0;
- }
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 7c253ff308..d4464a2ea6 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -1297,6 +1297,8 @@ static void init_ignored_base_feat(void)
+          S390_FEAT_KM_TDEA_192,
+          S390_FEAT_KIMD_SHA_1,
+          S390_FEAT_KLMD_SHA_1,
++         /* CSSKE is deprecated on newer generations */
++         S390_FEAT_CONDITIONAL_SSKE,
+     };
+     int i;
  
 -- 
 2.17.1
