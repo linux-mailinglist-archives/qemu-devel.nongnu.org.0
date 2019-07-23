@@ -2,52 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEDD717C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:09:04 +0200 (CEST)
-Received: from localhost ([::1]:41978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178D8717EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:17:24 +0200 (CEST)
+Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptbL-00026b-Cy
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36353)
+	id 1hptjO-0000cc-VN
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hptaq-0000aq-0d
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:08:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1hptit-0008I3-Cz
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hptao-0003Ar-Ah
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:08:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50588)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hptao-0003AD-0n; Tue, 23 Jul 2019 08:08:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2E5753082128;
- Tue, 23 Jul 2019 12:08:29 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-56.brq.redhat.com [10.40.204.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10A7D60497;
- Tue, 23 Jul 2019 12:08:26 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 14:08:16 +0200
-Message-Id: <20190723120816.1361-3-philmd@redhat.com>
-In-Reply-To: <20190723120816.1361-1-philmd@redhat.com>
-References: <20190723120816.1361-1-philmd@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hptir-0000gg-Vs
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42036)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hptir-0000cI-Pn
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hptio-0003PG-Oq
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 12:16:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 688032E80E6
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 12:16:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 23 Jul 2019 12:08:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Jul 2019 12:01:06 -0000
+From: Gergely Kis <1818937@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: crash hvf macos
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bwibking cuser2 kisg roolebo
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Gergely Kis (kisg)
+References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156388326692.29739.9366226749214462145.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 67da89ffe04d3496d0f6ec297766c7c140aa71bf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.2 2/2] target/riscv/pmp: Convert
- qemu_log_mask(LOG_TRACE) to trace events
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1818937] Re: Crash with HV_ERROR on macOS host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,130 +64,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the always-compiled trace events, remove the now unused
-RISCV_DEBUG_PMP definition.
+Hi Roman,
 
-Note pmpaddr_csr_read() could previously do out-of-bound accesses
-passing addr_index >=3D MAX_RISCV_PMPS.
+thanks for the patch, we were able to reproduce this issue with our
+custom Android Cuttlefish based d VM (running 4.14 kernel):
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- target/riscv/pmp.c        | 31 ++++++++++---------------------
- target/riscv/trace-events |  6 ++++++
- 2 files changed, 16 insertions(+), 21 deletions(-)
+2019-07-23T11:36:37.180753Z qemu-system-x86_64: warning: host doesn't suppo=
+rt requested feature: CPUID.80000001H:ECX.svm [bit 2]
+2019-07-23T11:36:37.182517Z qemu-system-x86_64: warning: host doesn't suppo=
+rt requested feature: CPUID.80000001H:ECX.svm [bit 2]
+2019-07-23T11:37:54.647855Z qemu-system-x86_64: hv_vcpu_run failed
+2019-07-23T11:37:54.650737Z qemu-system-x86_64: exit reason:            0x0=
+000000000000030
+2019-07-23T11:37:54.661753Z qemu-system-x86_64: exit qualification:     0x0=
+000000000000981
+2019-07-23T11:37:54.661769Z qemu-system-x86_64: instruction error:      0x0=
+000000000000007
+2019-07-23T11:37:54.661780Z qemu-system-x86_64: pri proc based ctls:    0x0=
+000000095206dfa
+2019-07-23T11:37:54.661790Z qemu-system-x86_64: sec proc based ctls:    0x0=
+0000000000000a3
+2019-07-23T11:37:54.661799Z qemu-system-x86_64: eptp:                   0x0=
+00000000000003f
+2019-07-23T11:37:54.661810Z qemu-system-x86_64: gpa:                    0x0=
+00000007fd05004
+2019-07-23T11:37:54.661820Z qemu-system-x86_64: gla:                    0xf=
+ffffe000002f004
+2019-07-23T11:37:54.661828Z qemu-system-x86_64: Error: HV_ERROR
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index d836288cb4..d4f1007109 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -27,14 +27,7 @@
- #include "qemu/log.h"
- #include "qapi/error.h"
- #include "cpu.h"
--
--#define RISCV_DEBUG_PMP 0
--#define PMP_DEBUG(fmt, ...)                                             =
-       \
--    do {                                                                =
-       \
--        if (RISCV_DEBUG_PMP) {                                          =
-       \
--            qemu_log_mask(LOG_TRACE, "%s: " fmt "\n", __func__, ##__VA_A=
-RGS__);\
--        }                                                               =
-       \
--    } while (0)
-+#include "trace.h"
-=20
- static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
-     uint8_t val);
-@@ -302,8 +295,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t re=
-g_index,
-     int i;
-     uint8_t cfg_val;
-=20
--    PMP_DEBUG("hart " TARGET_FMT_ld ": reg%d, val: 0x" TARGET_FMT_lx,
--        env->mhartid, reg_index, val);
-+    trace_pmpcfg_csr_write(env->mhartid, reg_index, val);
-=20
-     if ((reg_index & 1) && (sizeof(target_ulong) =3D=3D 8)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-@@ -332,9 +324,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint=
-32_t reg_index)
-         val =3D pmp_read_cfg(env, (reg_index * sizeof(target_ulong)) + i=
-);
-         cfg_val |=3D (val << (i * 8));
-     }
--
--    PMP_DEBUG("hart " TARGET_FMT_ld ": reg%d, val: 0x" TARGET_FMT_lx,
--        env->mhartid, reg_index, cfg_val);
-+    trace_pmpcfg_csr_read(env->mhartid, reg_index, cfg_val);
-=20
-     return cfg_val;
- }
-@@ -346,9 +336,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint=
-32_t reg_index)
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
-     target_ulong val)
- {
--    PMP_DEBUG("hart " TARGET_FMT_ld ": addr%d, val: 0x" TARGET_FMT_lx,
--        env->mhartid, addr_index, val);
--
-+    trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
-     if (addr_index < MAX_RISCV_PMPS) {
-         if (!pmp_is_locked(env, addr_index)) {
-             env->pmp_state.pmp[addr_index].addr_reg =3D val;
-@@ -369,14 +357,15 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t=
- addr_index,
-  */
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
- {
--    PMP_DEBUG("hart " TARGET_FMT_ld ": addr%d, val: 0x" TARGET_FMT_lx,
--        env->mhartid, addr_index,
--        env->pmp_state.pmp[addr_index].addr_reg);
-+    target_ulong val =3D 0;
-+
-     if (addr_index < MAX_RISCV_PMPS) {
--        return env->pmp_state.pmp[addr_index].addr_reg;
-+        val =3D env->pmp_state.pmp[addr_index].addr_reg;
-+        trace_pmpaddr_csr_read(env->mhartid, addr_index, val);
-     } else {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "ignoring pmpaddr read - out of bounds\n");
--        return 0;
-     }
-+
-+    return val;
- }
-diff --git a/target/riscv/trace-events b/target/riscv/trace-events
-index 48af0373df..4b6c652ae9 100644
---- a/target/riscv/trace-events
-+++ b/target/riscv/trace-events
-@@ -1,2 +1,8 @@
- # target/riscv/cpu_helper.c
- riscv_trap(uint64_t hartid, bool async, uint64_t cause, uint64_t epc, ui=
-nt64_t tval, const char *desc) "hart:%"PRId64", async:%d, cause:%"PRId64"=
-, epc:0x%"PRIx64", tval:0x%"PRIx64", desc=3D%s"
-+
-+# pmp.c
-+pmpcfg_csr_read(uint64_t mhartid, uint32_t reg_index, uint64_t val) "har=
-t %" PRIu64 ": read reg%" PRIu32", val: 0x%" PRIx64
-+pmpcfg_csr_write(uint64_t mhartid, uint32_t reg_index, uint64_t val) "ha=
-rt %" PRIu64 ": write reg%" PRIu32", val: 0x%" PRIx64
-+pmpaddr_csr_read(uint64_t mhartid, uint32_t addr_index, uint64_t val) "h=
-art %" PRIu64 ": read addr%" PRIu32", val: 0x%" PRIx64
-+pmpaddr_csr_write(uint64_t mhartid, uint32_t addr_index, uint64_t val) "=
-hart %" PRIu64 ": write addr%" PRIu32", val: 0x%" PRIx64
---=20
-2.20.1
+The error happened right at startup, after multiple tries.
 
+Thank you,
+Gergely
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1818937
+
+Title:
+  Crash with HV_ERROR on macOS host
+
+Status in QEMU:
+  New
+
+Bug description:
+  On macOS host running Windows 10 guest, qemu crashed with error
+  message: Error: HV_ERROR.
+
+  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
+ 4278U.
+  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
+  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
+rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
+
+  thread list
+  Process 56054 stopped
+    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
+nar16 + 970, queue =3D 'com.apple.main-thread'
+    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
+__select + 10
+    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
+__sigwait + 10
+  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
+__pthread_kill + 10, stop reason =3D signal SIGABRT
+    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
+`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
+    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #32: tid =3D 0x300c17, 0x0000000000000000
+    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
+`__psynch_cvwait + 10
+
+  =
+
+  Crashed thread:
+
+  * thread #6, stop reason =3D signal SIGABRT
+    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
+10
+      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
+85
+      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
+      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
+unavailable>) at hvf.c:106 [opt]
+      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
+x00007f8e5283de00) at hvf.c:681 [opt]
+      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
+n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
+      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
+s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
+      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
+126
+      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
+ 70
+      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
 
