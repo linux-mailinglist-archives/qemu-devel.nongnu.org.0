@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6289F7110D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:19:43 +0200 (CEST)
-Received: from localhost ([::1]:39156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F01571110
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 07:19:56 +0200 (CEST)
+Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpnDB-0001x1-C3
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
+	id 1hpnDP-0002wO-2q
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 01:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCd-0000s1-DY
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:08 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCh-00013B-TU
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hpnCc-0003mT-86
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:07 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36561)
+ (envelope-from <dgibson@ozlabs.org>) id 1hpnCg-0003qa-0P
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 01:19:11 -0400
+Received: from ozlabs.org ([203.11.71.1]:55431)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hpnCb-0003gH-2l; Tue, 23 Jul 2019 01:19:06 -0400
+ id 1hpnCe-0003nE-AQ; Tue, 23 Jul 2019 01:19:09 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45t6G82Vydz9sDQ; Tue, 23 Jul 2019 15:18:56 +1000 (AEST)
+ id 45t6G855gMz9sNg; Tue, 23 Jul 2019 15:18:56 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1563859136;
- bh=W4HwjTJ1FXqL/lEQe4qRTNCbItb8cWlxKRm6Nhe3RBg=;
+ bh=rsKNIvyPw46XVjWvSvB7xTAQ4fbRffos1wo6N4SvcdA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UVMSyb6DJfQ9WFGoXyUjxrOZ+iUlLFMZ5FnxGllUcAXM9EUCoEpEyVV2yMcLsE4/1
- YmKoRzeqj7/Kw0t1+UbGs15T5sMiFIpXt2YFFY4YNyiiaGnLhIWLgviDx53qPQt0CA
- 3JUT1ne3Hv3E/MTvc9f57Gatw5Xjq8PjgAksf9Fg=
-Date: Tue, 23 Jul 2019 13:40:41 +1000
+ b=acrqoIQgRaJ9KPuzOmK3wzSvdAfwSm8SAIoGzBcVSez/sx4/PperLampiMwh8outI
+ PmfZvlZvVqrvbV6lcGBcEv9Q1F0ze0xp+pReWC+PkbYrO4h0iO+jtaanWRd/9TqLV+
+ Iz3akY0jfMz/HZB/scyETyJ60tr7SZRO9B662PBs=
+Date: Tue, 23 Jul 2019 13:53:30 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190723034041.GN25073@umbus.fritz.box>
-References: <20190722053215.20808-1-npiggin@gmail.com>
- <20190722083939.GG25073@umbus.fritz.box>
- <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <20190723035330.GQ25073@umbus.fritz.box>
+References: <20190720012850.14369-1-aik@ozlabs.ru>
+ <20190720012850.14369-4-aik@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4Y142/9l9nQlBiaj"
+ protocol="application/pgp-signature"; boundary="5AmtYbcgdBTTPS58"
 Content-Disposition: inline
-In-Reply-To: <585a8a2b-6ed2-dd44-bc38-7669f0357528@redhat.com>
+In-Reply-To: <20190720012850.14369-4-aik@ozlabs.ru>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] Series to implement suspend for
- ppc/spapr
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH qemu RFC 3/4] spapr: Advertise H_RTAS to
+ the guest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,60 +56,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Jinsong <jinsong.liu@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, Luiz Capitulino <lcapitulino@redhat.com>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Paul Mackerras <paulus@ozlabs.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4Y142/9l9nQlBiaj
+--5AmtYbcgdBTTPS58
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 22, 2019 at 01:20:08PM +0200, Paolo Bonzini wrote:
-> On 22/07/19 10:39, David Gibson wrote:
-> > On Mon, Jul 22, 2019 at 03:32:12PM +1000, Nicholas Piggin wrote:
-> >> Hi, this series is rebased on top of the qmp event fix, and takes
-> >> Paolo's suggestion to implement ->wakeup for i386 before adding
-> >> ppc, which makes it much nicer.
-> >>
-> >> If the first two patches can be agreed on initially and merged, I
-> >> can take the third patch through the ppc list after that.
-> >=20
-> > LGTM.  Now, what tree(s) do we merge this through?
+On Sat, Jul 20, 2019 at 11:28:49AM +1000, Alexey Kardashevskiy wrote:
+> Since day 1 QEMU implemented RTAS as a custom hypercall wrapped into
+> a small 20 bytes blob which guest would call to enter RTAS. Although
+> it works fine, it is still a separate binary image which requires signing
+> at no additional benefit.
 >=20
-> I have just spotted a volunteer!
+> This adds a flag into /chosen to tell a modified guest that if the flag
+> is there, it can call H_RTAS directly and avoid calling into the RTAS
+> blob.
 >=20
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+>  hw/ppc/spapr.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 81ad6a6f28de..b097a99951f1 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1230,6 +1230,9 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
+r, void *fdt)
+>          _FDT(fdt_setprop_cell(fdt, chosen, "linux,pci-probe-only", 0));
+>      }
+> =20
+> +    /* We always implemented RTAS as hcall, tell guests to call it direc=
+tly */
+> +    _FDT(fdt_setprop_cell(fdt, chosen, "qemu,h_rtas", 1));
 
-I've put this in the ppc-for-4.2 tree.
+Rather than creating a new property for this we could use the
+qemu,hypertas-functions property which is already used to advertise
+some KVM specific hcalls.
 
->=20
-> Paolo
->=20
-> >>
-> >> Thanks,
-> >> Nick
-> >>
-> >> Nicholas Piggin (3):
-> >>   machine: Add wakeup method to MachineClass
-> >>   i386: use machine class ->wakeup method
-> >>   spapr: Implement ibm,suspend-me
-> >>
-> >>  hw/i386/pc.c           |  8 ++++++++
-> >>  hw/ppc/spapr.c         |  7 +++++++
-> >>  hw/ppc/spapr_rtas.c    | 32 ++++++++++++++++++++++++++++++++
-> >>  include/hw/boards.h    |  1 +
-> >>  include/hw/ppc/spapr.h |  3 ++-
-> >>  vl.c                   | 16 +++++++++++++++-
-> >>  6 files changed, 65 insertions(+), 2 deletions(-)
-> >>
-> >=20
->=20
+>      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+> =20
+>      g_free(stdout_path);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -119,25 +109,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4Y142/9l9nQlBiaj
+--5AmtYbcgdBTTPS58
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02gbcACgkQbDjKyiDZ
-s5KdPhAA0Gqf8MFmfbyb4RNUsNrXwGT3ullt0IHlC7rp+Lxf3TKj3DzXObUSCrcL
-eEokmKAx4GBDriHxACDY1zSrIPC++y3wSDFAldk7Z72KKiOFHyJA7ZbDyHwRNg9H
-GeIy7IRTMe5nAvvFAOWilRdF8yAAUtwtHaSf/w1OECF+uxvVUmKpteZ9Fq+cgqaz
-bgzLpz8S9u2XCH0um2+aIOU4qSY3Qge6nBuvZ6Kni6GIXgsHmbAL6e8om6WirCM7
-21uD7LHcMhD/sVuFMGpFb03y/kl51Jiil5Cx57xzr+96ZcxKzA1/dDCS20QFRNZN
-w331NSriYtHp1FTqy4kSbJIP1xpHBIncVIfH2R/6BoI9MCQzA6DtOyy89QAC/JXN
-sKXQeDDNfGIbIeUvC/a1UvF0p9IA5jTomskgs7OkE4FlnSo5dC1k58an08NZL3lS
-io597JHPzYc488cPwuUaszoCLP7W97AI2/AHWBkkYXk7spySAKRqaAdQ3t7c+g4V
-peqdQ9pXYbc2BFedbNUohqXYehAOXr6J/FtXoWWnY4XZ43Wu+zwuo710KpuBaH4I
-t2dg+vZqn9f4IDGLx5bUBYMPlOgaij85vEqcVxB/aEfmMCLYaemQZwcWwZf/ZHPI
-UK/wJB25rIOQteaz8yT61dYvZBW9P20VhMJ/J5iwlYXxD8rfH44=
-=nnv/
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl02hLoACgkQbDjKyiDZ
+s5LqSRAAsRaSwJYaTAEhLRRFq5567JUmhyUb8RjhK27kilpWObhLVj1Fm3wJUY9H
+NNlwdLB5Um7tZTJ2taIUvwjXJJz0nGEP96m2Vb+7Y0qgM3hZOKv0Vf8wmZFSKlJ6
+vQEVRAmVJfjmdauOEoVq1A6elnuz8RHyQJPgsGZ97aYpmfB2R7G1PjAiRyUCPpRW
+e6+PFUhgc0Xm9v35Lfowp3Y3G0NGeV6iGGsCkGLwEH/U3jtKwUcY86bh5ZSzZvC7
++6ctIiKEgw0g7F0BNrcdaxElOSFwTMN1Vi5ma2xfMyuOWkKx+PdFVXbVeXKu6hjJ
+EhbYugZ8GVkZb7GwEvT0ruo2pQMeA1tPXKKyuWoKC2HIGaEngcOv/XF/jaEEjVSf
++FG8eO+IJGPc5hjvpznT2g8XwqOptTdP6lIgXg0o+o6ovCT5TVzTMlU8pfCpZBTd
+ufmqeGPzv2+noPgnuIf1qECpHllRZv3FtpCcTCe9Gf8wEPvJCqAOvLKy9qTbzPnm
+XC3y+2yyL7ScVVnalKo2cOnOR2pZudGayBJ/CUs+VQ1cnPUzWapnaqFZ126/TF1t
+oip2lCN7o1FI1SVadLgvPPHU5PpZpkonBuYczK1u82RzOWlDo8Y8l9CRhIvbfncB
+0CctZqzwYzY1StUOLoVvb1u31u24MHsOHS75NCWJCoZKoM7GS20=
+=0Qz7
 -----END PGP SIGNATURE-----
 
---4Y142/9l9nQlBiaj--
+--5AmtYbcgdBTTPS58--
 
