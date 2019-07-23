@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D90A719D4
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE8C719D3
 	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 15:58:29 +0200 (CEST)
-Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpvJD-0004bS-Oc
+	id 1hpvJD-0004cK-E8
 	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 09:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39385)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hprbS-0005aQ-IF
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:04 -0400
+ (envelope-from <bounces@canonical.com>) id 1hpsE2-0001j3-TG
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hprbQ-0001Lx-Qj
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43328)
+ (envelope-from <bounces@canonical.com>) id 1hpsE1-0003TQ-LG
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48934)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hprbQ-0001EH-Ha
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:01:00 -0400
+ id 1hpsE1-0003Ss-CA
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:40:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hprbG-0004no-Er
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:00:50 +0000
+ id 1hpsE0-0000It-8K
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:40:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3801F2E80CC
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:00:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3D8972E80C7
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 10:40:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Jul 2019 09:50:41 -0000
+Date: Tue, 23 Jul 2019 10:30:49 -0000
 From: "lentilwallop@hotmail.com" <lentilwallop@hotmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,13 +45,13 @@ X-Launchpad-Bug-Commenters: atar4qemu lentilwallop michal-nowak-b
 X-Launchpad-Bug-Reporter: Michal Nowak (michal-nowak-b)
 X-Launchpad-Bug-Modifier: lentilwallop@hotmail.com (lentilwallop)
 References: <20170305181803.7371.53021.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156387544140.30092.7976366092643205327.malone@soybean.canonical.com>
+Message-Id: <156387784923.30009.27491983100646267.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19010";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 2be8b05bcc859528f04dbd5af4c1423ef3ebaa66
+X-Launchpad-Hash: 5d6cec54d48527486f699633687be9ac4433934d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-Mailman-Approved-At: Tue, 23 Jul 2019 09:58:03 -0400
@@ -71,93 +71,16 @@ Reply-To: Bug 1670170 <1670170@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-not to pester anyone but it's back.
+S10image directory in this archive holds the rom images in case anyone
+is looking....
 
+http://download.oracle.com/technetwork/systems/opensparc/OpenSPARCT1_Arch.1=
+.5.tar.bz2
 
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -version
-QEMU emulator version 4.0.91
-Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+not that it really helps for qemu-4.1.0-rc1
 
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom 'nvram1': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-
-moo-PowerEdge-R710 Downloads # strace qemu-system-sparc64 -machine niagara
-... ... ...
-access("nvram1", R_OK)                  =3D -1 ENOENT (No such file or dire=
-ctory)
-access("/usr/local/share/qemu-firmware/nvram1", R_OK) =3D -1 ENOENT (No suc=
-h file or directory)
-access("/usr/local/share/qemu/nvram1", R_OK) =3D -1 ENOENT (No such file or=
- directory)
-open("nvram1", O_RDONLY)                =3D -1 ENOENT (No such file or dire=
-ctory)
-fstat(2, {st_mode=3DS_IFCHR|0620, st_rdev=3Dmakedev(136, 1), ...}) =3D 0
-write(2, "Could not open option rom 'nvram"..., 62Could not open option rom=
- 'nvram1': No such file or directory
-) =3D 62
-write(2, "qemu-system-sparc64: Unable to l"..., 62qemu-system-sparc64: Unab=
-le to load a firmware for -M niagara
-) =3D 62
-exit_group(1)                           =3D ?
-+++ exited with 1 +++
-
-
-nvram1  isnt on my system, but i can do this to see what else isnt there:
-
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/nvram1
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom '1up-md.bin': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/1up-md.bin
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom '1up-hv.bin': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/1up-hv.bin
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom 'reset.bin': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/reset.bin
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom 'q.bin': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/q.bin
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-Could not open option rom 'openboot.bin': No such file or directory
-qemu-system-sparc64: Unable to load a firmware for -M niagara
-moo-PowerEdge-R710 Downloads # touch /usr/local/share/qemu/openboot.bin
-moo-PowerEdge-R710 Downloads # qemu-system-sparc64 -machine niagara
-qemu: fatal: Trap 0x0010 while trap level (6) >=3D MAXTL (6), Error state
-pc: 000000fff0000020  npc: 000000fff0000024
-%g0-3: 0000000000000000 0000000000000000 0000000008000000 0000000000000000
-%g4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%o0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%o4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%l0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%l4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%i0-3: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%i4-7: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 =
-
-%f00:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f08:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f16:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f24:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f32:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f40:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f48:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-%f56:  0000000000000000 0000000000000000 0000000000000000 0000000000000000
-pstate: 00000034 ccr: 00 (icc: ---- xcc: ----) asi: 00 tl: 6 pil: 0 gl: 2
-tbr: 0000000000000000 hpstate: 0000000000000004 htba: 0000000000000000
-cansave: 0 canrestore: 0 otherwin: 0 wstate: 0 cleanwin: 0 cwp: 7
-fsr: 0000000000000000 y: 0000000000000000 fprs: 0000000000000000
-
-Aborted
-moo-PowerEdge-R710 Downloads #
+moo-PowerEdge-R710 qemu-4.1.0-rc1 # qemu-system-sparc64 -machine niagara
+qemu: fatal: Trap 0x0032 while trap level (6) >=3D MAXTL (6), Error state
 
 -- =
 
