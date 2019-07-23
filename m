@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAAC71634
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:36:46 +0200 (CEST)
-Received: from localhost ([::1]:40968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F437163C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:37:23 +0200 (CEST)
+Received: from localhost ([::1]:40992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsA0-0006jC-Ri
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37723)
+	id 1hpsAc-0000zB-Kj
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37761)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9Y-0005e2-Nc
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:17 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9a-0005gc-QR
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9X-0007Jv-Ig
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:16 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37955)
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9Y-0007LG-Ng
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:18 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35932)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hps9X-0007JG-A1
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:15 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g17so42618508wrr.5
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:15 -0700 (PDT)
+ id 1hps9Y-0007KG-Ef
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:16 -0400
+Received: by mail-wm1-x333.google.com with SMTP id g67so33921453wme.1
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=15XBOc0K5qrNi75fMYOmlumdevbJac2m4Bpn4CypPlo=;
- b=B2DSqrpzzF0HRMUDsahhhPa6Bolw2/eucsbP25fQ2Yia0RuQkfY9+vJNNzH5gb9929
- KlQ5MAEx4kUy/4SlrNBVu+OrLG4JpMQF7XWwMI3dCqf4OcZ13zsfjs+z1Ou8tGZPwpC/
- WBggFNrJNODTmexZCvOXtX416sGnGu5SMEAcp4dYq5xehml8Ezs7nRcKZpO9RKImtGdD
- DbMY5zSky1QUhMML7n+ph/0Vlz2XweuYpJ8l9dw/RCzXRCYw8z0QeEm+PUQ3tHDXzetV
- 2Oc1UfEobRRd5aKvBwLsqH9CmR4vmafxARNTsICWo87YLtuPlmfwSdr+Kt0Nclo631ep
- 3rQQ==
+ bh=B9rJQfX4dfIeOXpLw4etOZ1Y3ebTwSMBV28SJO0g0Qs=;
+ b=MEZZm5RDAZYwHHIwchdgk/m8qQZeNYT2vZrG2TE+cizCLVHLZQqih6dKNXdhKaGTae
+ pkG1naK6ALClWdNon2zW80yjMFjxbcIxJezPdSAK324E8ePNGzXyt1ffTrizNRFzU2q4
+ gmVPUiBEHoEYoNdkizI+wGgb3SIcSs5tuW1lZUHSDQTU82FzkUzXkusw0gHlv+H4vuNL
+ DPSgU9YkoaoonU79YirIAvpgWQawVHOmgKGGgCLStRx6RW9wsiBkANhAldoWv6smMZS+
+ H1hG+xUlaeuLSlVkNBt204494uVflljEwJhMuoMathf0HhXgpWwwZKnPDc6n9yfChn+t
+ h5Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=15XBOc0K5qrNi75fMYOmlumdevbJac2m4Bpn4CypPlo=;
- b=DhpZ6Oc+jV8Beozl1f1KkaE0prVxop9xOrbWjgVsSVL2+2gEkTN0M5cDr4YYsRbbOm
- iVLuFHhmk7hRrayYg5GEGTay+DoLTLa+Cdwbpo+lckGMAs7FUZnUr/MgcD8Vuumjo0wy
- 6yhqr0cXl0oLt2VbQ5Lug/cRPmhiQr4SxluAUI3pu4AWatgEsHykr0lZJjpKN4ent8YR
- XRRfw//1wwrRoLsRXklfoeE7XydnkCWN2buJ7nuLeR4yftTqlV35RcHQjPkdl7jkp2Vs
- j2N0+pg0CiOmmg1qHnhxaEQNxJv5DJlIHU+sxttmqbyr2BMIZ6PYaajnVUIOcvC5bZo+
- HlFQ==
-X-Gm-Message-State: APjAAAUhR5HJK+pgCsrI20+KTrv3vXn8uTQqYIpCSRN5tiV1j2P7slyq
- 1R/mdqxgHHaIlHm0DES/3w1ADg==
-X-Google-Smtp-Source: APXvYqxZbNEIsRPZ1Fo1qfCDus3WEQz9uzH0bOJRagMefAx0i1q7fCZ139Vsv7RS8TZyviRAo31SSQ==
-X-Received: by 2002:a05:6000:1203:: with SMTP id
- e3mr4909090wrx.300.1563878173575; 
- Tue, 23 Jul 2019 03:36:13 -0700 (PDT)
+ bh=B9rJQfX4dfIeOXpLw4etOZ1Y3ebTwSMBV28SJO0g0Qs=;
+ b=tfd/AXXmFpAb2i3dd44vUnvaieaTrmrW5MzQ8UwAakGRK9S2RbbJXCLQD8chyEYn5N
+ JeJA9vIhaCnNyTXFBBfRWobNqu2Phw9nwDHoQjNek7iDIuRDwGwIhIiJMzxWJigMUOHR
+ ZCzwluhMt84sCQXi+ypd8nOGTOjT1fpgRYNoyIE6CdpaxAhymQPkIPJRP1ETym01BIUL
+ JTB/qCZ5Y5vZeIlz+iesIEtR7ixwM6jFGN8T6yXH2mD1XZF1Y5/VPXWVYsD0m+c40wpV
+ 4NYlHSqW2FhEY2gsFrJ3XrVHhU0tsT4qj5nhIgH2D0XyimK9YAMTB7Lx+AEZSX/ujAIu
+ aYDg==
+X-Gm-Message-State: APjAAAVME5iqOYlTjqpLZQFqGrBqf0h7fYHSbV6beIHpXvHJ0OPCwKH2
+ UaWIIpHsmoHclAEsHtRB+chDDw==
+X-Google-Smtp-Source: APXvYqzfkJOPu9J/GFCihxyu6sn2+kSNWlW6QhkXibgDCbfTQBH/RmlgVMDKfxf3Gf6piLpLN5rZXQ==
+X-Received: by 2002:a1c:b155:: with SMTP id a82mr18652324wmf.35.1563878175256; 
+ Tue, 23 Jul 2019 03:36:15 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j6sm62376070wrx.46.2019.07.23.03.36.12
+ by smtp.gmail.com with ESMTPSA id u13sm50534835wrq.62.2019.07.23.03.36.12
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 03:36:12 -0700 (PDT)
+ Tue, 23 Jul 2019 03:36:14 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7153E1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 8657C1FF8F;
  Tue, 23 Jul 2019 11:36:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:35:50 +0100
-Message-Id: <20190723103612.5600-2-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:35:51 +0100
+Message-Id: <20190723103612.5600-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
-Subject: [Qemu-devel] [PULL 01/23] archive-source: also create a stash for
- submodules
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PULL 02/23] tests/docker: add test-misc for building
+ tools & docs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Add yet another test type so we cna quickly exercise the miscellaneous
+build products of the build system under various docer configurations.
 
-"git archive" fails when a submodule has a modification, because "git
-stash create" doesn't handle submodules. Let's teach our
-archive-source.sh to handle modifications in submodules the same way
-as qemu tree, by creating a stash.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20190708200250.12017-1-marcandre.lureau@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index ca94e49978f..fb5d6b3918d 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -39,14 +39,16 @@ function cleanup() {
- }
- trap "cleanup" 0 1 2 3 15
- 
--if git diff-index --quiet HEAD -- &>/dev/null
--then
--    HEAD=HEAD
--else
--    HEAD=$(git stash create)
--fi
-+function tree_ish() {
-+    local retval='HEAD'
-+    if ! git diff-index --quiet --ignore-submodules=all HEAD -- &>/dev/null
-+    then
-+        retval=$(git stash create)
-+    fi
-+    echo "$retval"
-+}
- 
--git archive --format tar $HEAD > "$tar_file"
-+git archive --format tar "$(tree_ish)" > "$tar_file"
- test $? -ne 0 && error "failed to archive qemu"
- for sm in $submodules; do
-     status="$(git submodule status "$sm")"
-@@ -62,7 +64,7 @@ for sm in $submodules; do
-             echo "WARNING: submodule $sm is out of sync"
-             ;;
-     esac
--    (cd $sm; git archive --format tar --prefix "$sm/" $smhash) > "$sub_file"
-+    (cd $sm; git archive --format tar --prefix "$sm/" $(tree_ish)) > "$sub_file"
-     test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-     tar --concatenate --file "$tar_file" "$sub_file"
-     test $? -ne 0 && error "failed append submodule $sm to $tar_file"
+diff --git a/tests/docker/test-misc b/tests/docker/test-misc
+new file mode 100755
+index 00000000000..d480afedca7
+--- /dev/null
++++ b/tests/docker/test-misc
+@@ -0,0 +1,22 @@
++#!/bin/bash -e
++#
++# Build the miscellaneous components
++#
++# Copyright (c) 2019 Linaro Ltd.
++#
++# Authors:
++#  Alex Bennée <alex.bennee@linaro.org>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++. common.rc
++
++cd "$BUILD_DIR"
++
++# build everything else but QEMU
++configure_qemu --disable-user --disable-system --enable-docs --enable-tools
++build_qemu
++install_qemu
 -- 
 2.20.1
 
