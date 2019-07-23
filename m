@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7771271642
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:01 +0200 (CEST)
-Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B315871646
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:38:35 +0200 (CEST)
+Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsBE-0003RD-66
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37769)
+	id 1hpsBm-00069k-Cv
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37801)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9b-0005h1-5w
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:20 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9c-0005nZ-Fk
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hps9a-0007Mi-2W
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:19 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33102)
+ (envelope-from <alex.bennee@linaro.org>) id 1hps9b-0007O2-B7
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:20 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hps9Z-0007Lr-RP
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:17 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n9so42682764wru.0
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:17 -0700 (PDT)
+ id 1hps9b-0007N7-4F
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:36:19 -0400
+Received: by mail-wr1-x433.google.com with SMTP id g17so42618745wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VwUrgi4jKAJRQEbP+c7m0Efau+IX+/w4l0nX2BCVIts=;
- b=v5IqGYvbNGfWLemlqlBmR66aY5OU5yYyrPniSCbJq04emT/eGUfkYVZCa1FlDg6G0y
- ybDOz6H8EkeYJFe6VXmPzRfvJ3e40H+W26oLFkhxwrwBK/hTelOJHYvYfZD2rwTTl2mL
- dNJ6PmIRaEBy3JXL29m18w4rS3/m+w/MZxzYDRiIehnGWidEbOSAouDvA1901ijZ4PnM
- SSqh++MgAxCtof6C6mmj8PazPlCjgX1gKPfp6IlOi3rX3uDhE3YvsATSWaYoHjPXR8XE
- 8ILKFQCy90j+B/yfHTfoVC4uhTiPjwhQu7b1g6/Bvg28fRDnhK4dA/tY0FZ+1hU68zG0
- Lnkg==
+ bh=1aB6CS66id195EEgwuQ7Hg3FMvOUuzvHx6tDmNmk8yg=;
+ b=RVy5HDBx8clvfTk+OSqIJLjBqNHGrHLwDUU/Z68nry9MeCD6iJvyb6iGDi12MKEHk3
+ KgfUUIBzM5wlUKXailBbLSjU1cdJ03NsJSCfg1sWoRpagzihYFI4fm3OcBa5zAqRsMcV
+ XxcvTrJaLLVZbOegToBSBnY7VYm0aii2Gxvamp8Tb1vhW6JhbhuR+82BfRrLaZ14JbN9
+ rVXKAqPCWzcp5dqCFBR9V3EPjKBo2s8kue/1jCuDFsRcejl1KvyNa2sM8fMFE/w/BwDG
+ UxrQotFQRMp9fp4JiLv8wMbKNaEP+FJnQmGWDSXvUlf/Rek7/E1O1lmgKgvPkEZ+Wkcs
+ sVwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VwUrgi4jKAJRQEbP+c7m0Efau+IX+/w4l0nX2BCVIts=;
- b=nSeWSp/gspao5nAYqpcFej9NPcRjbvthFf2ShwgIJRgDZPJT0wJe82o2SxwJ10/YfC
- LuqDKPOULDYTOPgElx5xn/dmVTal6iQqjcfsek9QenQs5NTiKbVZleWXq//rqH5WEfn+
- bamT3gEGA8loiqvJ19NIPpkUvqY1Dxj7lVosoqQIZ+F77veLrtNtRiQ910ZplIZWQM17
- 1JMnVP6wyOev4wVI4lpjA7DCH/Au4trvc4BxnEnNcfLbV8mYvwqK+css0OG56IV4Gr5V
- oupGi9BAHvfEtpnm74PE4KNA14VIebWg48Ez5VuMFX1sNtK3qgLFO2QT3J00FAFvc+sW
- qZGQ==
-X-Gm-Message-State: APjAAAUAxLfiZmzH60owMMrFI6H8siEn4rSGNiAMBbxQ7jX4YkxN06Wx
- YOzB7qbIoSyRwaWfRCwyg9U1dg==
-X-Google-Smtp-Source: APXvYqygi8aMINVCRwUB14xSCFrQE3xHEFtQXACLJ7buohaLT8Clj67uxilzHy25pucPSkJvdonezg==
-X-Received: by 2002:adf:b1d1:: with SMTP id r17mr81247141wra.273.1563878176623; 
- Tue, 23 Jul 2019 03:36:16 -0700 (PDT)
+ bh=1aB6CS66id195EEgwuQ7Hg3FMvOUuzvHx6tDmNmk8yg=;
+ b=gZxFIWXNFgJbs1bjwib0u9DTAT81Rr89eQc0VD9yabxiMXkwcSByUstcTqfEbITHLr
+ 4eliNmN+0rqlcBnARZixXu391ImIIDTmwIMcKduFinhDzbPJdfs8N5YvfhFTWfl52pCw
+ E0mIbLio5EH/UFsRva4wobaK72P6vCv4I1VmWthFjt0RcKxwkw7uFmrZsaSZL7YMakpq
+ jPudt3il0Iwuk770CMJtNQep4S5oFmNCDKq88NiCk4ZDkLmMkf+kRhXZWPdVv/L8yl8O
+ SIyCBJt+C6kwoDGkkq7T2guyTxxVBXW+0+ldgXIiyj3eTeXDeZ0UTHe63QdDcJUA6Bcz
+ Z9dA==
+X-Gm-Message-State: APjAAAV3Pazzey6+FJR3bAylAYvAmqyEvrDSo2zXzZL7Jz1p2ZyjyTHL
+ 7Eq1XtV2jCDvq0BsJ4K9rdnKIw==
+X-Google-Smtp-Source: APXvYqyNWWVLGgOS6JnGCgT2MBDlwsmt0E5FcuueYkE2IGESKH1xOGxYCwJLWexxq1Mzhxzu+Cx/Yw==
+X-Received: by 2002:a5d:56d0:: with SMTP id m16mr77613211wrw.276.1563878178022; 
+ Tue, 23 Jul 2019 03:36:18 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c65sm39811216wma.44.2019.07.23.03.36.12
+ by smtp.gmail.com with ESMTPSA id r12sm50472704wrt.95.2019.07.23.03.36.13
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 23 Jul 2019 03:36:14 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B03E81FF91;
+ by zen.linaroharston (Postfix) with ESMTP id C65861FF92;
  Tue, 23 Jul 2019 11:36:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:35:53 +0100
-Message-Id: <20190723103612.5600-5-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:35:54 +0100
+Message-Id: <20190723103612.5600-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -69,8 +69,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::433
-Subject: [Qemu-devel] [PULL 04/23] tests/docker: Install Sphinx in the
- Fedora image
+Subject: [Qemu-devel] [PULL 05/23] tests/docker: Install Ubuntu images
+ noninteractively
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,41 +91,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since commit 5f71eac06e the Sphinx tool is required
-to build the rST documentation.
+We correctly use the DEBIAN_FRONTEND environment variable on
+the Debian images, but forgot the Ubuntu ones are based on it.
+
+Since building docker images is not interactive, we need to
+inform the APT tools about it using the DEBIAN_FRONTEND
+environment variable (we already use it on our Debian images).
 
 This fixes:
 
- $ ./configure --enable-docs
+  $ make docker-image-ubuntu V=1
+  [...]
+  Setting up tzdata (2019b-0ubuntu0.19.04) ...
+  debconf: unable to initialize frontend: Dialog
+  debconf: (TERM is not set, so the dialog frontend is not usable.)
+  debconf: falling back to frontend: Readline
+  Configuring tzdata
+  ------------------
 
- ERROR: User requested feature docs
-        configure was not able to find it.
-        Install texinfo, Perl/perl-podlators and python-sphinx
+  Please select the geographic area in which you live. Subsequent configuration
+  questions will narrow this down by presenting a list of cities, representing
+  the time zones in which they are located.
+
+    1. Africa      4. Australia  7. Atlantic  10. Pacific  13. Etc
+    2. America     5. Arctic     8. Europe    11. SystemV
+    3. Antarctica  6. Asia       9. Indian    12. US
+  Geographic area: 12
+  [HANG]
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190711102710.2263-1-philmd@redhat.com>
-[AJB: also add /usr/libexec/python3-sphinx/ to PATH]
+Message-Id: <20190711124805.26476-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 619d1b5656d..2350d494d9a 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -76,6 +76,7 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     pixman-devel \
-     python3 \
-+    python3-sphinx \
-     PyYAML \
-     rdma-core-devel \
-     SDL2-devel \
-@@ -95,4 +96,5 @@ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
- 
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
-+ENV PATH $PATH:/usr/libexec/python3-sphinx/
- ENV FEATURES mingw clang pyyaml asan
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index 2500ec84b6f..a4f601395c8 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -66,6 +66,6 @@ ENV PACKAGES flex bison \
+     texinfo \
+     xfslibs-dev
+ RUN apt-get update && \
+-    apt-get -y install $PACKAGES
++    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+ ENV FEATURES clang pyyaml sdl2
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 0bb8088658d..44bbf0f77ae 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -53,6 +53,6 @@ ENV PACKAGES flex bison \
+     texinfo \
+     xfslibs-dev
+ RUN apt-get update && \
+-    apt-get -y install $PACKAGES
++    DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+ ENV FEATURES clang pyyaml sdl2
 -- 
 2.20.1
 
