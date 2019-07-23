@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A25B7165E
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:43:10 +0200 (CEST)
-Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978C571657
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 12:42:20 +0200 (CEST)
+Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpsGC-0006TN-WB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39710)
+	id 1hpsFP-0002rF-25
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 06:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hpsF6-0002YT-Ar
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:42:01 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsEz-0002Cs-LY
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hpsF3-0004ED-Vd
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:59 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:47014)
+ (envelope-from <alex.bennee@linaro.org>) id 1hpsEx-000494-M4
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:53 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33145)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hpsF1-0004B9-OT
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:57 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z1so42591982wru.13
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:41:54 -0700 (PDT)
+ id 1hpsEx-00047w-Dp
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 06:41:51 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n9so42701142wru.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 03:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qyLKSdPX2WPchYG7C+FRJEUvyrp1wUDqLHouafCL0pQ=;
- b=LnzpAX7uTmvpTDwvsUkh7U2Skevlqy17jKtsJTpvbEN4feDkVM0u0tQg5RWTwyowhD
- RcfiFVFUKa65W4cTcl98OKMC0K9NuV3HYrlOfCW65iCaBZ1ObddIh2RWgF31c7gRBD23
- VYXiQXBunVYp58/l0KeILaXwaTO8a8V94gOYyOy4K3xNDAJU0M2GQO81OnErSgMRvzFR
- wpNraVej598AdNlWipkhH59Cb8TDYXIhoZwYAuznWW5Xl0y3+wvzqcg2+sVmfbvz8Kdu
- FwPRNnT4RuJT0COhdKcy2fuXk4pfiPB0xsXcJkUmpm5dJlhMHhLU7ZQMbIt2Qo7JBk4q
- qmbA==
+ bh=xaoZEvLN4IL9Dt8w+scYYy+PugidW1l4kvvMHsOXzQw=;
+ b=X3RIdHG5aIpTTYg8zSKcH8ADDJ/41HKij53VpMtS+vv49SxNYelzSh3yMLGdYqcGu1
+ FUnEZVMIXxPNTUK7r3cXdfgVSejp4Le6E7g5iYJU2MRPagO+neFMf04RRI7RQJZW2/RR
+ OMvfXPpXfu3UEo5mwdN+SdHDUjGoBts3YD1m1vyWvfZIX9kPLV73XE4iamrLAfg8SHsZ
+ r8lZ492t6eVl0FGf773Tqsm3PK7haGyYCC+1P3s+zWmeDklu/Uvrne4ZpatSSJSGtBw0
+ 2qKUCjWw1r7Gd7ygTagW4pxOIt/VGNxYF/PYmUGuk1OzaUhtfVTxJkSCZ1vWT+l0Mb+X
+ F6tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qyLKSdPX2WPchYG7C+FRJEUvyrp1wUDqLHouafCL0pQ=;
- b=WoAbE8gWRDSQNUJZ59MV1HHNDYuSEUy7DrhUvOYEqYePW1fKYon0bJTTeuRIuq2Fpr
- fzEjgz4KPBtp0OODey6TkUkH6FQr45Ue4oCUd9gBbm3nvu3f6PujX1lIYvxcsHGNtgHR
- AwY4Ir+5C5Kg/JLn1gSlm2dzBAUbwiceTu+IfcMV8WCjE6X3cSrc+v07NjMyKWH0Envv
- 8e+WCPpTtL9pUjVObJkTgOdVFmsBxKy7NbMX8YDKQk9GSQPU1zPft+TbYzH4ryOLk07R
- B7siIz/FFJ0CtWrBt9qWI9tfRTfltK9d39JWzzo42G6TR/gu7no4OjEXAvIBjX8J+woj
- DXyQ==
-X-Gm-Message-State: APjAAAU7McqC51YRgWk8MKFMXp0jhreVjYG5dX2sM2y0AeHeV754vW8l
- kzTBomObpdJ4KH0XEDez6rFmGQ==
-X-Google-Smtp-Source: APXvYqxnIuFHyDF//HFoO6AevKmrFE3OzFU0nQs9rGKufnSHcOvpWKzvqPMxucPYqaRW1ISWTF4Rbw==
-X-Received: by 2002:adf:91c2:: with SMTP id 60mr23838509wri.334.1563878513884; 
- Tue, 23 Jul 2019 03:41:53 -0700 (PDT)
+ bh=xaoZEvLN4IL9Dt8w+scYYy+PugidW1l4kvvMHsOXzQw=;
+ b=Z0U+jG4P89OyWKuOhnits1a7MBGUumlLVwSfM5ITc0o3tGyk4WLwvhvK55X6/jskuq
+ GIFCP83L/aBigLNtrAc6r6vP9/P9fo7Dzfj5L4m1MZAOrq7YQnSiV67wqoPykJ46JdhE
+ HHHLVYw7CfwPugvB7x6OAs62+yO113LXGHNAw3R3ToiE5v6xQ+FdIa6lCVt8kWALpMYk
+ kAstVfprujBNzNxzDQc7Y9wZhY3U/ETLR7844aRJrruVNDu5UbFGGBwPI+6G+uYhuTz/
+ ZwMiEm+25QNfnA6ZYlgDzL9y4Gd4UD3xADOm+SwTZDBqlEqVYPhqwCCobqQwUzKltqtU
+ rFdA==
+X-Gm-Message-State: APjAAAUlh2yucgO+4zqwqPybOUJjcvSh5nG2WLUt/qouxjaG0Mhgpx5l
+ dVl47Q/sRyRiwKSVWywzr9g74Q==
+X-Google-Smtp-Source: APXvYqybKFBkovfNGhqFus8btkfytxp4yFmoxjvyykXv3BuB5RokgXotirVMWaOxrdwF1iu9bGTUHA==
+X-Received: by 2002:adf:b612:: with SMTP id f18mr70121603wre.97.1563878509818; 
+ Tue, 23 Jul 2019 03:41:49 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id g2sm37766623wmh.0.2019.07.23.03.41.50
+ by smtp.gmail.com with ESMTPSA id c7sm35490750wro.70.2019.07.23.03.41.48
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 03:41:52 -0700 (PDT)
+ Tue, 23 Jul 2019 03:41:48 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EFC111FFA5;
- Tue, 23 Jul 2019 11:36:13 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0E9671FFA6;
+ Tue, 23 Jul 2019 11:36:14 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Tue, 23 Jul 2019 11:36:07 +0100
-Message-Id: <20190723103612.5600-19-alex.bennee@linaro.org>
+Date: Tue, 23 Jul 2019 11:36:08 +0100
+Message-Id: <20190723103612.5600-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190723103612.5600-1-alex.bennee@linaro.org>
 References: <20190723103612.5600-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PULL 18/23] travis: enable travis_retry for check
- phase
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PULL 19/23] tests/docker: invoke the DEBUG shell with
+ --noprofile/--norc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,26 +88,35 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have some flaky tests and usually the test passes on a retry.
-Enable travis_retry for the test phase and see if that helps keep
-things green.
+It's very confusing when things work in the debug shell because the
+environment is different from what the test is running. Fix this by
+ensuring we only have the inherited environment from the run shell.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/.travis.yml b/.travis.yml
-index 5d3d6ee1d32..caf0a1f8faf 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -75,7 +75,7 @@ before_script:
-   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
- script:
--  - make -j3 && ${TEST_CMD}
-+  - make -j3 && travis_retry ${TEST_CMD}
+diff --git a/tests/docker/run b/tests/docker/run
+index 7aebf4b5698..1014871fec0 100755
+--- a/tests/docker/run
++++ b/tests/docker/run
+@@ -62,7 +62,7 @@ echo "* Prepared to run command:"
+ echo "  $CMD"
+ echo "* Hit Ctrl-D to continue, or type 'exit 1' to abort"
+ echo
+-$SHELL
++$SHELL --noprofile --norc
  
- 
- matrix:
+ if "$CMD"; then
+     exit 0
+@@ -72,7 +72,7 @@ elif test -n "$DEBUG"; then
+     echo "* Hit Ctrl-D to exit"
+     echo
+     # Force error after shell exits
+-    $SHELL && exit 1
++    $SHELL --noprofile --norc && exit 1
+ else
+     exit 1
+ fi
 -- 
 2.20.1
 
