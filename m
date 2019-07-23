@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1399F717E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:16:49 +0200 (CEST)
-Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7786D717EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:17:41 +0200 (CEST)
+Received: from localhost ([::1]:42050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptiq-0007bO-1v
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
+	id 1hptjg-0001ww-IF
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38311)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hptiM-0006Mi-9m
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:19 -0400
+ (envelope-from <yang.zhong@intel.com>) id 1hptjJ-000167-01
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:17:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hptiK-0000An-RG
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34318)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hptiK-00009Y-6R
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:16:16 -0400
-Received: by mail-wm1-f65.google.com with SMTP id w9so30993247wmd.1
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 05:16:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DlOYqzW0k3BUVnMxhodAYKxDtUvQAseHKHTg4GjOCas=;
- b=GtSVve19Y0w3asheY0NoRAUOVrqCCI2fZMTaMCws0jazUEcKq7zkCuoqmF4WMixXZt
- emAyuYYJuV8VgsxOEMgrQBdUWCQdix5NYSQhHEgvVPBQkgUqYYe6zSLeJ1L1y4js2/+s
- LOC6bQqxdLF5mqhSEwtzJrCjvcCa2+suCK9yDgt2yumvn39xCPiXAk/9zRXqISoxDcyc
- cOrHN5kOz1imovkPUd6Ll3U1ir5Cz4Vy+zJZThfXTYz8sC2QNhjz/5mH9oOOWy7N7GSK
- z9t54d1x0kXL+XqM/K5hXFadvj/ANVw34F2gTEdkgPbUiWWaR34agXQbvPavPKnfdXzO
- Aqrg==
-X-Gm-Message-State: APjAAAVHvKUELkVI9ntDbYPdpcUFnQF9t7HQ9p5gtsvjXqaVF1OQcsDn
- Qcdih3Ld3eNSk7AkynCRi8XG+16R5ZY=
-X-Google-Smtp-Source: APXvYqzejRUleLJqVxl/shySFplGqQs6A/7gxUBT6PLWhPiW7Bydkpu9/r19F+o6oKSACq3/Ej7iUQ==
-X-Received: by 2002:a7b:c40c:: with SMTP id k12mr64007658wmi.122.1563884174929; 
- Tue, 23 Jul 2019 05:16:14 -0700 (PDT)
-Received: from [192.168.1.38] (190.red-81-40-121.staticip.rima-tde.net.
- [81.40.121.190])
- by smtp.gmail.com with ESMTPSA id j6sm62871990wrx.46.2019.07.23.05.16.14
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jul 2019 05:16:14 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20190723103612.5600-1-alex.bennee@linaro.org>
- <CAFEAcA_P_Bk0bNGCW+TwhQGCeqM-XZd3OudKZ4tu0fNThFH5ww@mail.gmail.com>
- <87imrt0y9a.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <451b91c6-3a4d-afb4-30f1-595fcc7e5f65@redhat.com>
-Date: Tue, 23 Jul 2019 14:16:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <87imrt0y9a.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <yang.zhong@intel.com>) id 1hptjF-00012M-LS
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:17:14 -0400
+Received: from mga03.intel.com ([134.134.136.65]:54748)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yang.zhong@intel.com>)
+ id 1hptjF-0000x6-CG
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:17:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2019 05:17:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,299,1559545200"; d="scan'208";a="368843842"
+Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
+ by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2019 05:17:04 -0700
+Received: from fmsmsx158.amr.corp.intel.com (10.18.116.75) by
+ FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 23 Jul 2019 05:17:04 -0700
+Received: from shsmsx153.ccr.corp.intel.com (10.239.6.53) by
+ fmsmsx158.amr.corp.intel.com (10.18.116.75) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 23 Jul 2019 05:17:04 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.3]) by
+ SHSMSX153.ccr.corp.intel.com ([169.254.12.60]) with mapi id 14.03.0439.000;
+ Tue, 23 Jul 2019 20:17:02 +0800
+From: "Zhong, Yang" <yang.zhong@intel.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: The WCE issue in guest when i enable WCE in Qemu side.
+Thread-Index: AdVBTuOdEgVuX2g+RsaI8qz+FhVG9w==
+Date: Tue, 23 Jul 2019 12:17:02 +0000
+Message-ID: <7A85DF989CAE8F42902CF7B31A7D94A1487D6D13@shsmsx102.ccr.corp.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PULL for 4.1-rc2 00/23] testing updates (green
- CI!)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYjc4NWU3MTktZjZjNy00OTQzLWI0ZWMtMTJhYzlmYTYyNTMxIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSXluV1J2ZURYVE4xS1FkUzF1d21oNlB0UVVjWnVwdEJIQXBoSTlSTG8yMkpmK0hiSGFsQW5JeGZDRmczbDJESyJ9
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.65
+Subject: [Qemu-devel] The WCE issue in guest when i enable WCE in Qemu side.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,172 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/23/19 1:46 PM, Alex Bennée wrote:
-> 
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Tue, 23 Jul 2019 at 11:36, Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> The following changes since commit 23da9e297b4120ca9702cabec91599a44255fe96:
->>>
->>>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190722' into staging (2019-07-22 15:16:48 +0100)
->>>
->>> are available in the Git repository at:
->>>
->>>   https://github.com/stsquad/qemu.git tags/pull-testing-230719-1
->>>
->>> for you to fetch changes up to 2e3b8743cd66f1d0fbc83051b0b6b072a97460cc:
->>>
->>>   gitlab-ci: Remove qcow2 tests that are handled by "make check" already (2019-07-23 11:33:15 +0100)
->>>
->>> ----------------------------------------------------------------
->>> Final testing updates:
->>>
->>>   - docker sphinx updates
->>>   - windows build re-enabled in CI
->>>   - travis_retry for make check
->>>   - quick iotests enabled for make check
->>>   - build fixes
->>>
->>> ----------------------------------------------------------------
->>
->> 'make check-tcg' fails (x86-64 host):
->>
->> make: Entering directory
->> '/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
->>   BUILD   debian10
->> The command '/bin/sh -c DEBIAN_FRONTEND=noninteractive eatmydata
->> apt install -y --no-install-recommends         bison
->> build-essential         ca-certificates         clang         flex
->>     gettext         git         pkg-config         psmisc
->> python         python3-sphinx         texinfo         $(apt-get -s
->> build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)' returned
->> a non-zero code: 100
->> Traceback (most recent call last):
->>   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
->> line 615, in <module>
->>     sys.exit(main())
->>   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
->> line 611, in main
->>     return args.cmdobj.run(args, argv)
->>   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
->> line 413, in run
->>     extra_files_cksum=cksum)
->>   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
->> line 280, in build_image
->>     quiet=quiet)
->>   File "/home/petmay01/linaro/qemu-for-merges/tests/docker/docker.py",
->> line 207, in _do_check
->>     return subprocess.check_call(self._command + cmd, **kwargs)
->>   File "/usr/lib/python2.7/subprocess.py", line 190, in check_call
->>     raise CalledProcessError(retcode, cmd)
->> subprocess.CalledProcessError: Command '['docker', 'build', '-t',
->> 'qemu:debian10', '-f', '/tmp/docker_buildBgZdCD/tmp6MJLiZ.docker',
->> '/tmp/docker_buildBgZdCD']' returned non-zero exit status 100
->> /home/petmay01/linaro/qemu-for-merges/tests/docker/Makefile.include:53:
->> recipe for target 'docker-image-debian10' failed
+Hello all,
 
-Yes, we should definitively improve this error report.
+I am using the Qemu/SPDK to do vhost-user-blk verification, and the qemu co=
+mmand as below:
 
->> make: *** [docker-image-debian10] Error 1
->> make: Leaving directory
->> '/home/petmay01/linaro/qemu-for-merges/build/all-linux-static'
-> 
-> Odd. Does:
-> 
->   make docker-image-debian10 V=1
-> 
-> fail for you? Can you retry with:
-> 
->   make docker-image-debian10 V=1 NOCACHE=1
+./qemu-system-x86_64 \
+    -machine q35,accel=3Dkvm \
+    -cpu host -m 1024,maxmem=3D20G,slots=3D2 -smp 6 \
+    -kernel  ./../linux-stable/arch/x86/boot/bzImage \
+    -append 'root=3D/dev/vdb3 rw rootfstype=3Dext4 data=3Dordered rcupdate.=
+rcu_expedited=3D1 pci=3Dlastbus=3D0 tsc=3Dreliable no_timer_check reboot=3D=
+t noapictimer console=3Dhvc0' \
+    -no-user-config -nodefaults \
+    -drive file=3D/home/chen/project/clear-18080-kvm.img,if=3Dvirtio,format=
+=3Draw -nographic -monitor pty \
+    -device virtio-serial-pci,id=3Dvirtio-serial0,disable-modern \
+    -chardev stdio,id=3Dcharconsole0 \
+    -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole \
+    -chardev socket,id=3Dchar0,path=3D/var/tmp/vhost.1 \
+    -device vhost-user-blk-pci,chardev=3Dchar0,num-queues=3D1,bootindex=3D2=
+,config-wce=3Dtrue \
+    -object memory-backend-file,id=3Dmem1,size=3D1G,mem-path=3D/dev/hugepag=
+es,share=3Don \
+    -numa node,memdev=3Dmem1
 
-Should we use a stable tag for the stable release? Such:
+When I set config-wce=3Dtrue or false, the below value never change
+ root@unicorn ~ # cat /sys/block/vda/cache_type
+write back
+root@unicorn ~ # cat /sys/block/vda/device/features
+0010 0010 0110 0110 0000 0000 0000 1000 1000 0000 0000 0000 0000 0000 0000 =
+0000=20
+From left to right, bit 11=3D0, which show there is no WCE feature in vhost=
+-user-blk device.
 
--- >8 --
-diff --git a/tests/docker/dockerfiles/debian10.docker
-b/tests/docker/dockerfiles/debian10.docker
-index aeeb151b52..0f2800377d 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -7,7 +7,7 @@
- # On its own you can't build much but the docker-foo-cross targets
- # build on top of the base debian image.
- #
--FROM debian:buster-slim
-+FROM debian:buster-20190708-slim
+I also did one simple patch to add config_wce value into s->blkcfg.wce, but=
+ the result is same.
 
- # Duplicate deb line as deb-src
----
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 9cb61336a6..0e3f490c82 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -447,6 +447,9 @@ reconnect:
+         s->blkcfg.num_queues =3D s->num_queues;
+     }
 
->>
->> I also got a failure with openbsd which seems to be when
->> the tests run check-block.sh:
->>
->> /home/qemu/qemu-test.Dy1Aj3/src/tests/check-block.sh
->>   TEST    iotest-qcow2: 001
->>   TEST    iotest-qcow2: 002
->>   TEST    iotest-qcow2: 003
->>   TEST    iotest-qcow2: 004
->>   TEST    iotest-qcow2: 005 [not run]
->>   TEST    iotest-qcow2: 007 [fail]
->> QEMU          --
->> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../aarch64-softmmu/qemu-system-aarch64"
->> -nodefaults -machine virt,accel=qtest
->> QEMU_IMG      --
->> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-img"
->> QEMU_IO       --
->> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-io"
->> --cache writeback -f qcow2
->> QEMU_NBD      --
->> "/home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/../../qemu-nbd"
->> IMGFMT        -- qcow2 (compat=1.1)
->> IMGPROTO      -- file
->> PLATFORM      -- OpenBSD/amd64 openbsd 6.5
->> TEST_DIR      -- /home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/scratch
->> SOCKET_SCM_HELPER --
->>
->> --- /home/qemu/qemu-test.Dy1Aj3/src/tests/qemu-iotests/007.out  Tue
->> Jul 23 10:49:15 2019
->> +++ /home/qemu/qemu-test.Dy1Aj3/build/tests/qemu-iotests/007.out.bad
->>  Tue Jul 23 11:10:21 2019
->> @@ -2,16 +2,7 @@
->>
->>  creating image
->>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
->> -savevm 1
->> -savevm 2
->> -savevm 3
->> -savevm 4
->> -savevm 5
->> -savevm 6
->> -savevm 7
->> -savevm 8
->> -savevm 9
->> -savevm 10
->> +./007: line 51: seq: command not found
->>
->> [and some other failures]
->>
->> I see Thomas Huth has a patch on-list for that, but this
->> didn't manifest as a problem before this pullreq.
-> 
-> OK, I'll add it and rebuild the PR.
++    if (s->blkcfg.wce !=3D s->config_wce) {
++        s->blkcfg.wce =3D s->config_wce;
++    }
+     return;
 
-But Thomas got another error later...
+It seems the config-wce property setting in Qemu is not working, and I am n=
+ot sure if this is a bug or vhost-user-blk only support write back mode ?
+Thanks a lot!
 
-> 
-> Have you noticed any issues with check-acceptance?
-> 
->>
->> thanks
->> -- PMM
-> 
-> 
-> --
-> Alex Bennée
-> 
+Regards,
+
+Yang
+
+
+
+
 
