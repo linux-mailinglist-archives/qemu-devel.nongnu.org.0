@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D3A7175F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 13:47:47 +0200 (CEST)
-Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300CD717BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 14:08:27 +0200 (CEST)
+Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hptGk-0002bW-G6
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 07:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58425)
+	id 1hptaj-00008X-Tg
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 08:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36249)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hptGU-00022B-Ue
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:47:31 -0400
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hptaY-0008C6-S6
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:08:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hptGT-0003rE-RT
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:47:30 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43119)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hptGT-0003qr-MA
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 07:47:29 -0400
-Received: by mail-oi1-x241.google.com with SMTP id w79so32082222oif.10
- for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 04:47:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fz9eaAluHIdQpvsypCntyI9q7SgqRMnI4BQquledjgY=;
- b=hrvgrQXCUkVsiVVWHOkdbQ2/e3KlV3YhYnwlR0j83Y4V28wx+NuxPUjYDNdFsOZzDP
- FVnLD5aBApWa6m5DMP6rv2Av70SNhRxSDfVV7ZspG7oAX40ofXuIbqwdVkC/Cs+HBkiv
- DREG9MYPK/vrBkbZYeU9AFsPOtHYnmMOAlUaXOIgSfghtkZ3EaypRpt9cbiqJoJdHNEB
- db6cEOyGLfms93Zgl6yfaNDBupo0cupqMSNXfHjkkGCoGbC7gW8qtWqEN+cbTDEU0amk
- ijZgg12JKsxa2o/QeGevdavwRXqztKW/yo7aGocL6A+K99OrxDlarIAL2SZgzKnD/A8d
- hSoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fz9eaAluHIdQpvsypCntyI9q7SgqRMnI4BQquledjgY=;
- b=IG3lUF/hWFtENZ5SRPmjYQp+Ig5teE5LG5soAccM0KjfDwy7RL0eANm/maGud8K94T
- 21oExmnjZpNsBubV8gsxpVX9SEZIsdgLiKmtL29DCOrfDcri8OwxWR65az7LVh0V7USI
- xTjRettisUjp1zgL79DoGuLiKTUtfpyKANdIAvfU/SKslKUnA2EkZouFECoHTbjobu6+
- z1CtDvGhhDcXVRkP9Q0D3N6FtVx8PSsPKV+6iA8UXrNKLSifbqMthbryPAzT9OSMAyha
- VTG69VkAIOlK5AM68lf025zYutUQRVSm6htfDTp9hvZ7OvM4X+zxRVFg/ksLSXXGtckU
- 6AkA==
-X-Gm-Message-State: APjAAAX5c2nZiNChwnFDJwA7LwGsLuU/oNVAEzWT1zZOSZ6FNxvBsXnr
- FMi4HfPfpBYDCkoecU0RTjiPY8KVo5MsnZXAKzLxgQ==
-X-Google-Smtp-Source: APXvYqy8p4uetYE2MjVqQWIWzOIP3MWFzXARcHl+pnKIY0Fn9YOsdDbu/++kmxrjwTSRrOaxo5Hp7TjigLMq2Uyj7CU=
-X-Received: by 2002:aca:5cd7:: with SMTP id
- q206mr33770929oib.146.1563882448703; 
- Tue, 23 Jul 2019 04:47:28 -0700 (PDT)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1hptaX-0002xv-Tm
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:08:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50488)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1hptaX-0002wd-Oj
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 08:08:13 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 096913082120
+ for <qemu-devel@nongnu.org>; Tue, 23 Jul 2019 12:08:12 +0000 (UTC)
+Received: from localhost (ovpn-112-36.ams2.redhat.com [10.36.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88E1C5C221;
+ Tue, 23 Jul 2019 12:08:08 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 23 Jul 2019 16:08:04 +0400
+Message-Id: <20190723120804.29565-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20190723113301.16867-1-alex.bennee@linaro.org>
-In-Reply-To: <20190723113301.16867-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Jul 2019 12:47:17 +0100
-Message-ID: <CAFEAcA9CP0cUkDR4qOKVgM1b2U1KNot=A-5OPEAOKu3=KpMyuw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Tue, 23 Jul 2019 12:08:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH for 4.2] target/arm: generate a custom MIDR
- for -cpu max
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] docs: correct kconfig option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,93 +54,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Jul 2019 at 12:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> While most features are now detected by probing the ID_* registers
-> kernels can (and do) use MIDR_EL1 for working out of they have to
-> apply errata. This can trip up warnings in the kernel as it tries to
-> work out if it should apply workarounds to features that don't
-> actually exist in the reported CPU type.
->
-> Avoid this problem by synthesising our own MIDR value using the
-> reserved value of 0 for the implementer and telling kernels the ID
-> registers should tell them everything they need to know.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> ---
-> v2
->   - don't leak QEMU version into ID reg
-> ---
->  target/arm/cpu.h   | 6 ++++++
->  target/arm/cpu64.c | 6 ++++++
->  2 files changed, 12 insertions(+)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 7efbb488d9d..61eaef924e4 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1605,6 +1605,12 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
->  /*
->   * System register ID fields.
->   */
-> +FIELD(MIDR_EL1, REVISION, 0, 4)
-> +FIELD(MIDR_EL1, PARTNUM, 4, 12)
-> +FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
-> +FIELD(MIDR_EL1, VARIENT, 20, 4)
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ docs/devel/kconfig.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-"VARIANT".
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index d6f8eb0977..b7bca44704 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -267,7 +267,7 @@ the default configuration by uncommenting lines in th=
+e first group,
+ or commenting out lines in the second group.
+=20
+ It is also possible to run QEMU's configure script with the
+-``--with-default-devices`` option.  When this is done, everything defaul=
+ts
++``--without-default-devices`` option.  When this is done, everything def=
+aults
+ to ``n`` unless it is ``select``ed or explicitly switched on in the
+ ``.mak`` files.  In other words, ``default`` and ``imply`` directives
+ are disabled.  When QEMU is built with this option, the user will probab=
+ly
+--=20
+2.22.0.545.g9c9b961d7e
 
-> +FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
-> +
->  FIELD(ID_ISAR0, SWAP, 0, 4)
->  FIELD(ID_ISAR0, BITCOUNT, 4, 4)
->  FIELD(ID_ISAR0, BITFIELD, 8, 4)
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index b1bb394c6dd..e88aadfd2fd 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -296,6 +296,12 @@ static void aarch64_max_initfn(Object *obj)
->          uint32_t u;
->          aarch64_a57_initfn(obj);
->
-> +        /* reset MIDR so our franken-max-cpu type isn't mistaken for a r=
-eal one */
-> +        t =3D FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0); /* Reserved for S=
-W */
-> +        t =3D FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf); /* See ID_* fo=
-r details */
-> +        /* the rest is enigmatically empty lest kernels assume it means =
-something */
-> +        cpu->midr =3D t;
-
-I think this would be easier to read if you used one big block
-comment rather than being extremely terse so as to fit the
-comments on the end of the lines:
-
- /*
-  * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
-  * one and try to apply errata workarounds or use impdef features we
-  * don't provide.
-  * An IMPLEMENTER field of 0 means "reserved for software use";
-  * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
-  * to see which features are present";
-  * the VARIANT, PARTNUM and REVISION fields are all implementation
-  * defined and we choose to leave them all at zero.
-  */
-
-It's also a bit inconsistent to do an explicit deposit of 0
-for the IMPLEMENTER field but not for the VARIANT/PARTNUM/REVISION.
-
-I wonder if we should put 0x51 (ascii 'Q') in the PARTNUM field;
-then if somebody really needs to distinguish QEMU from random
-other software-models they have a way to do it.
-
-thanks
--- PMM
 
