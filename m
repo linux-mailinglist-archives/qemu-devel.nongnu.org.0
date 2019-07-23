@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEED671D52
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:04:45 +0200 (CEST)
-Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B0071D60
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Jul 2019 19:07:34 +0200 (CEST)
+Received: from localhost ([::1]:45948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hpyDU-0005mW-8R
-	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42867)
+	id 1hpyGD-0007fH-4V
+	for lists+qemu-devel@lfdr.de; Tue, 23 Jul 2019 13:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43291)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAf-0005SS-PL
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:50 -0400
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBK-0007pf-Aj
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyAe-0005Wn-Eo
- for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:01:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25038
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hpyBJ-0006AX-6X
+ for qemu-devel@nongnu.org; Tue, 23 Jul 2019 13:02:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hpyAe-0005FH-9x; Tue, 23 Jul 2019 13:01:48 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6NGkivh067112; Tue, 23 Jul 2019 13:01:26 -0400
+ id 1hpyBI-00068s-S5; Tue, 23 Jul 2019 13:02:29 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6NH2H2F094396; Tue, 23 Jul 2019 13:02:19 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6110k4w-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8nrs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:26 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NGlAC3068033;
- Tue, 23 Jul 2019 13:01:26 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tx6110k43-1
+ Tue, 23 Jul 2019 13:02:18 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6NH2H5Y094363;
+ Tue, 23 Jul 2019 13:02:17 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tx60v8my9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 13:01:25 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0MGK032297;
- Tue, 23 Jul 2019 17:01:25 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 2tx61mr2gf-1
+ Tue, 23 Jul 2019 13:02:17 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6NH0KSD012875;
+ Tue, 23 Jul 2019 17:01:27 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 2tx61n02gq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 23 Jul 2019 17:01:25 +0000
+ Tue, 23 Jul 2019 17:01:27 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6NH1NJ934079122
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6NH1Png49217832
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Jul 2019 17:01:23 GMT
+ Tue, 23 Jul 2019 17:01:25 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D3BE3BE04F;
- Tue, 23 Jul 2019 17:01:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2BCE3BE04F;
+ Tue, 23 Jul 2019 17:01:25 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB01FBE05F;
- Tue, 23 Jul 2019 17:01:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 130B8BE051;
+ Tue, 23 Jul 2019 17:01:25 +0000 (GMT)
 Received: from localhost (unknown [9.53.179.212])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 23 Jul 2019 17:01:23 +0000 (GMT)
+ Tue, 23 Jul 2019 17:01:25 +0000 (GMT)
 From: Michael Roth <mdroth@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 23 Jul 2019 12:00:58 -0500
-Message-Id: <20190723170104.4327-31-mdroth@linux.vnet.ibm.com>
+Date: Tue, 23 Jul 2019 12:01:00 -0500
+Message-Id: <20190723170104.4327-33-mdroth@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
 References: <20190723170104.4327-1-mdroth@linux.vnet.ibm.com>
@@ -71,14 +70,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-23_07:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907230169
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907230170
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 30/36] do not call vhost_net_cleanup() on
- running net from char user event
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 32/36] megasas: fix mapped frame size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,48 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Streetman <ddstreet@canonical.com>, qemu-stable@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Peter Lieven <pl@kamp.de>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dan Streetman <ddstreet@canonical.com>
+From: Peter Lieven <pl@kamp.de>
 
-Buglink: https://launchpad.net/bugs/1823458
+the current value of 1024 bytes (16 * MFI_FRAME_SIZE) we map is not enough to hold
+the maximum number of scatter gather elements we advertise. We actually need a
+maximum of 2048 bytes. This is 128 max sg elements * 16 bytes (sizeof (union mfi_sgl)).
 
-Currently, a user CHR_EVENT_CLOSED event will cause net_vhost_user_event()
-to call vhost_user_cleanup(), which calls vhost_net_cleanup() for all
-its queues.  However, vhost_net_cleanup() must never be called like
-this for fully-initialized nets; when other code later calls
-vhost_net_stop() - such as from virtio_net_vhost_status() - it will try
-to access the already-cleaned-up fields and fail with assertion errors
-or segfaults.
-
-The vhost_net_cleanup() will eventually be called from
-qemu_cleanup_net_client().
-
-Signed-off-by: Dan Streetman <ddstreet@canonical.com>
-Message-Id: <20190416184624.15397-3-dan.streetman@canonical.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-(cherry picked from commit 6ab79a20af3a7b3bf610ba9aebb446a9f0b05930)
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Peter Lieven <pl@kamp.de>
+Message-Id: <20190404121015.28634-1-pl@kamp.de>
+Reviewed-by: Hannes Reinecke <hare@suse.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+(cherry picked from commit 2e56fbc87f6ec3cd56c37b01d313abd502b80d61)
 Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
 ---
- net/vhost-user.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/scsi/megasas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index a39f9c9974..afb5697acf 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -223,7 +223,6 @@ static void chr_closed_bh(void *opaque)
-     s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index a56317e026..5ad762de23 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -477,7 +477,7 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
+ {
+     PCIDevice *pcid = PCI_DEVICE(s);
+     MegasasCmd *cmd = NULL;
+-    int frame_size = MFI_FRAME_SIZE * 16;
++    int frame_size = MEGASAS_MAX_SGE * sizeof(union mfi_sgl);
+     hwaddr frame_size_p = frame_size;
+     unsigned long index;
  
-     qmp_set_link(name, false, &err);
--    vhost_user_stop(queues, ncs);
- 
-     qemu_chr_fe_set_handlers(&s->chr, NULL, NULL, net_vhost_user_event,
-                              NULL, opaque, NULL, true);
 -- 
 2.17.1
 
