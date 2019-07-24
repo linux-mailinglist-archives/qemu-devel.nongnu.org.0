@@ -2,51 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF9772E52
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 13:59:22 +0200 (CEST)
-Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB68472E61
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 14:05:59 +0200 (CEST)
+Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqFvV-0000Cu-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 07:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36625)
+	id 1hqG1v-0002XZ-0I
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 08:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38778)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hqFui-0005dp-Ql
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 07:58:33 -0400
+ (envelope-from <jing2.liu@linux.intel.com>) id 1hqG1h-00029N-W9
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 08:05:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hqFuh-0004ei-PB
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 07:58:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47564)
+ (envelope-from <jing2.liu@linux.intel.com>) id 1hqG1g-0000yy-Ua
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 08:05:45 -0400
+Received: from mga02.intel.com ([134.134.136.20]:65209)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hqFuh-0004dO-K5
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 07:58:31 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EC6053086272;
- Wed, 24 Jul 2019 11:58:30 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-166.ams2.redhat.com
- [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D281600D1;
- Wed, 24 Jul 2019 11:58:29 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	pbonzini@redhat.com,
-	pavel.dovgaluk@ispras.ru
-Date: Wed, 24 Jul 2019 12:58:23 +0100
-Message-Id: <20190724115823.4199-5-dgilbert@redhat.com>
-In-Reply-To: <20190724115823.4199-1-dgilbert@redhat.com>
-References: <20190724115823.4199-1-dgilbert@redhat.com>
+ (Exim 4.71) (envelope-from <jing2.liu@linux.intel.com>)
+ id 1hqG1g-0000xY-Kj
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 08:05:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2019 05:05:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,302,1559545200"; d="scan'208";a="174864086"
+Received: from liujing-mobl.ccr.corp.intel.com (HELO [10.238.129.22])
+ ([10.238.129.22])
+ by orsmga006.jf.intel.com with ESMTP; 24 Jul 2019 05:05:40 -0700
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1562823509-13072-1-git-send-email-jing2.liu@linux.intel.com>
+ <c572cdd2-d0f4-2e06-99f8-302b798a04dd@linux.intel.com>
+ <0f9763fe-af69-e057-9fb1-00527e636fe4@redhat.com>
+ <0ffa32db-3615-16e0-71bf-a8c552c2fcfb@linux.intel.com>
+ <757b193f-90c6-0516-9372-74463ec4d117@redhat.com>
+ <4e381ae0-78d5-afb6-9a4d-b58d0daa60ba@linux.intel.com>
+ <3bc3b6f0-a6f8-39a7-b7d4-39b18916cc44@redhat.com>
+From: Jing Liu <jing2.liu@linux.intel.com>
+Message-ID: <85ea4a12-0aa3-5433-f1c1-97406b7836ef@linux.intel.com>
+Date: Wed, 24 Jul 2019 20:05:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Wed, 24 Jul 2019 11:58:31 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [for 4.2 PATCH v2 4/4] timer: last,
- remove last bits of last
+In-Reply-To: <3bc3b6f0-a6f8-39a7-b7d4-39b18916cc44@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
+Subject: Re: [Qemu-devel] [PATCH v1] x86: Intel AVX512_BF16 feature enabling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,103 +67,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-The reset notifiers kept a 'last' counter to notice jumps;
-now that we've remove the notifier we don't need to keep 'last'.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- include/qemu/timer.h | 13 -------------
- util/qemu-timer.c    | 22 +---------------------
- 2 files changed, 1 insertion(+), 34 deletions(-)
+On 7/22/2019 7:50 PM, Paolo Bonzini wrote:
+> On 22/07/19 04:59, Jing Liu wrote:
+>>
+>>
+>> On 7/19/2019 4:10 PM, Paolo Bonzini wrote:
+>>> On 19/07/19 09:20, Jing Liu wrote:
+>>>>> Then CPUID[7,0].EAX is set automatically to 0 or 1 depending on whether
+>>>>> BF16 is enabled or not.
+>>>>
+>>>> Could I ask why don't we directly check BF16 enabling when
+>>>> cpu_x86_cpuid(env, 7, 0, ...) during kvm_arch_init_vcpu ?
+>>>
+>>> Because the code for setting CPUID is common for all accelerators (there
+>>> are five supported: KVM, HAX, HVF, TCG, WHPX).
+>>>
+>>>> What is the use of the two new properties? Are they used for users
+>>>> setting parameters when boot up guest, and why we need users setting
+>>>> func7 level?
+>>>
+>>> For example to test guests with CPUID[7,0].EAX==1, even if the host does
+>>> not have BF16.
+>>
+>> Thanks. :)
+>>>
+>>>
+>>>> @@ -5075,6 +5101,10 @@ static void x86_cpu_expand_features(X86CPU *cpu,
+>>>> Error **errp)
+>>>>            x86_cpu_adjust_feat_level(cpu, FEAT_SVM);
+>>>>            x86_cpu_adjust_feat_level(cpu, FEAT_XSAVE);
+>>>>
+>>>> +       if ((env->features[FEAT_7_1_EAX] & CPUID_7_1_EAX_AVX512_BF16) &&
+>>>> +            kvm_enabled()) {
+>>>
+>>> No need to check KVM.  You could also do just
+>>> x86_cpu_adjust_feat_level(cpu, FEAT_7_1_EAX) and set
+>>> cpu->min_level_func7 in x86_cpu_adjust_feat_level with something like
+>>>
+>>>       if (eax == 7) {
+>>>           x86_cpu_adjust_level(cpu, &env->cpu_min_level_func7,
+>>>                                fi->cpuid.ecx);
+>>>       }
+>>>
+>>
+>> Got it. One question I'm wondering is, is it possible for users setting
+>> an invalid property like level-func7=2? Do we need some protection?
+> 
+> No, it's still not found in Intel silicon, but in principle you could
+> have higher indices than 1.  So it's okay, if something breaks it's the
+> fault of whoever set the option!
+> 
 
-diff --git a/include/qemu/timer.h b/include/qemu/timer.h
-index 6817c78ef4..5bcab935f6 100644
---- a/include/qemu/timer.h
-+++ b/include/qemu/timer.h
-@@ -248,19 +248,6 @@ bool qemu_clock_run_timers(QEMUClockType type);
-  */
- bool qemu_clock_run_all_timers(void);
-=20
--/**
-- * qemu_clock_get_last:
-- *
-- * Returns last clock query time.
-- */
--uint64_t qemu_clock_get_last(QEMUClockType type);
--/**
-- * qemu_clock_set_last:
-- *
-- * Sets last clock query time.
-- */
--void qemu_clock_set_last(QEMUClockType type, uint64_t last);
--
-=20
- /*
-  * QEMUTimerList
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index 2faaaf9926..b73041df4e 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -48,8 +48,6 @@ typedef struct QEMUClock {
-     /* We rely on BQL to protect the timerlists */
-     QLIST_HEAD(, QEMUTimerList) timerlists;
-=20
--    int64_t last;
--
-     QEMUClockType type;
-     bool enabled;
- } QEMUClock;
-@@ -130,7 +128,6 @@ static void qemu_clock_init(QEMUClockType type, QEMUT=
-imerListNotifyCB *notify_cb
-=20
-     clock->type =3D type;
-     clock->enabled =3D (type =3D=3D QEMU_CLOCK_VIRTUAL ? false : true);
--    clock->last =3D INT64_MIN;
-     QLIST_INIT(&clock->timerlists);
-     main_loop_tlg.tl[type] =3D timerlist_new(type, notify_cb, NULL);
- }
-@@ -628,9 +625,6 @@ int64_t timerlistgroup_deadline_ns(QEMUTimerListGroup=
- *tlg)
-=20
- int64_t qemu_clock_get_ns(QEMUClockType type)
- {
--    int64_t now;
--    QEMUClock *clock =3D qemu_clock_ptr(type);
--
-     switch (type) {
-     case QEMU_CLOCK_REALTIME:
-         return get_clock();
-@@ -642,26 +636,12 @@ int64_t qemu_clock_get_ns(QEMUClockType type)
-             return cpu_get_clock();
-         }
-     case QEMU_CLOCK_HOST:
--        now =3D REPLAY_CLOCK(REPLAY_CLOCK_HOST, get_clock_realtime());
--        clock->last =3D now;
--        return now;
-+        return REPLAY_CLOCK(REPLAY_CLOCK_HOST, get_clock_realtime());
-     case QEMU_CLOCK_VIRTUAL_RT:
-         return REPLAY_CLOCK(REPLAY_CLOCK_VIRTUAL_RT, cpu_get_clock());
-     }
- }
-=20
--uint64_t qemu_clock_get_last(QEMUClockType type)
--{
--    QEMUClock *clock =3D qemu_clock_ptr(type);
--    return clock->last;
--}
--
--void qemu_clock_set_last(QEMUClockType type, uint64_t last)
--{
--    QEMUClock *clock =3D qemu_clock_ptr(type);
--    clock->last =3D last;
--}
--
- void init_clocks(QEMUTimerListNotifyCB *notify_cb)
- {
-     QEMUClockType type;
---=20
-2.21.0
+Thanks very much. So would you like me to update the patch with v2 now?
+
+Jing
 
 
