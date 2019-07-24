@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733BA72BDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 11:56:28 +0200 (CEST)
-Received: from localhost ([::1]:50180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317FB72BDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 11:56:12 +0200 (CEST)
+Received: from localhost ([::1]:50168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqE0Z-0007Oh-BX
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 05:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
+	id 1hqE0I-0005zC-Qp
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 05:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53967)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hqDzt-0004zO-V3
+ (envelope-from <quintela@redhat.com>) id 1hqDzu-000525-H5
  for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hqDzs-0004O8-MM
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52572)
+ (envelope-from <quintela@redhat.com>) id 1hqDzt-0004Oo-3J
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53200)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hqDzr-0004M7-7S
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hqDzs-0004Mi-Rx
  for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:44 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 302C859465;
- Wed, 24 Jul 2019 09:55:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C367180F7C;
+ Wed, 24 Jul 2019 09:55:41 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-189.ams2.redhat.com
  [10.36.116.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEC0160BEC;
- Wed, 24 Jul 2019 09:55:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8705960BF3;
+ Wed, 24 Jul 2019 09:55:39 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 11:55:20 +0200
-Message-Id: <20190724095523.1527-2-quintela@redhat.com>
+Date: Wed, 24 Jul 2019 11:55:21 +0200
+Message-Id: <20190724095523.1527-3-quintela@redhat.com>
 In-Reply-To: <20190724095523.1527-1-quintela@redhat.com>
 References: <20190724095523.1527-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Wed, 24 Jul 2019 09:55:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Wed, 24 Jul 2019 09:55:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/4] migration: fix migrate_cancel leads
- live_migration thread endless loop
+Subject: [Qemu-devel] [PATCH 2/4] migration: fix migrate_cancel leads
+ live_migration thread hung forever
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,143 +67,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Ivan Ren <renyime@gmail.com>
 
 When we 'migrate_cancel' a multifd migration, live_migration thread may
-go into endless loop in multifd_send_pages functions.
-
-Reproduce steps:
-
-(qemu) migrate_set_capability multifd on
-(qemu) migrate -d url
-(qemu) [wait a while]
-(qemu) migrate_cancel
-
-Then may get live_migration 100% cpu usage in following stack:
-
-pthread_mutex_lock
-qemu_mutex_lock_impl
-multifd_send_pages
-multifd_queue_page
-ram_save_multifd_page
-ram_save_target_page
-ram_save_host_page
-ram_find_and_save_block
-ram_find_and_save_block
-ram_save_iterate
-qemu_savevm_state_iterate
-migration_iteration_run
-migration_thread
-qemu_thread_start
-start_thread
-clone
+hung forever at some points, because of multifd_send_thread has already
+exit for socket error:
+1. multifd_send_pages may hung at qemu_sem_wait(&multifd_send_state->
+   channels_ready)
+2. multifd_send_sync_main my hung at qemu_sem_wait(&multifd_send_state->
+   sem_sync)
 
 Signed-off-by: Ivan Ren <ivanren@tencent.com>
-Message-Id: <1561468699-9819-2-git-send-email-ivanren@tencent.com>
+Message-Id: <1561468699-9819-3-git-send-email-ivanren@tencent.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+
 ---
- migration/ram.c | 36 +++++++++++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 7 deletions(-)
+
+Remove spurious not needed bits
+---
+ migration/ram.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 2b0774c2bf..52a2d498e4 100644
+index 52a2d498e4..87bb7da8e2 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -920,7 +920,7 @@ struct {
-  * false.
-  */
-=20
--static void multifd_send_pages(void)
-+static int multifd_send_pages(void)
+@@ -1097,7 +1097,8 @@ static void *multifd_send_thread(void *opaque)
  {
-     int i;
-     static int next_channel;
-@@ -933,6 +933,11 @@ static void multifd_send_pages(void)
-         p =3D &multifd_send_state->params[i];
+     MultiFDSendParams *p =3D opaque;
+     Error *local_err =3D NULL;
+-    int ret;
++    int ret =3D 0;
++    uint32_t flags =3D 0;
 =20
-         qemu_mutex_lock(&p->mutex);
-+        if (p->quit) {
-+            error_report("%s: channel %d has already quit!", __func__, i=
-);
-+            qemu_mutex_unlock(&p->mutex);
-+            return -1;
+     trace_multifd_send_thread_start(p->id);
+     rcu_register_thread();
+@@ -1115,7 +1116,7 @@ static void *multifd_send_thread(void *opaque)
+         if (p->pending_job) {
+             uint32_t used =3D p->pages->used;
+             uint64_t packet_num =3D p->packet_num;
+-            uint32_t flags =3D p->flags;
++            flags =3D p->flags;
+=20
+             p->next_packet_size =3D used * qemu_target_page_size();
+             multifd_send_fill_packet(p);
+@@ -1164,6 +1165,17 @@ out:
+         multifd_send_terminate_threads(local_err);
+     }
+=20
++    /*
++     * Error happen, I will exit, but I can't just leave, tell
++     * who pay attention to me.
++     */
++    if (ret !=3D 0) {
++        if (flags & MULTIFD_FLAG_SYNC) {
++            qemu_sem_post(&multifd_send_state->sem_sync);
 +        }
-         if (!p->pending_job) {
-             p->pending_job++;
-             next_channel =3D (i + 1) % migrate_multifd_channels();
-@@ -951,9 +956,11 @@ static void multifd_send_pages(void)
-     ram_counters.transferred +=3D transferred;;
++        qemu_sem_post(&multifd_send_state->channels_ready);
++    }
++
+     qemu_mutex_lock(&p->mutex);
+     p->running =3D false;
      qemu_mutex_unlock(&p->mutex);
-     qemu_sem_post(&p->sem);
-+
-+    return 1;
- }
-=20
--static void multifd_queue_page(RAMBlock *block, ram_addr_t offset)
-+static int multifd_queue_page(RAMBlock *block, ram_addr_t offset)
- {
-     MultiFDPages_t *pages =3D multifd_send_state->pages;
-=20
-@@ -968,15 +975,19 @@ static void multifd_queue_page(RAMBlock *block, ram=
-_addr_t offset)
-         pages->used++;
-=20
-         if (pages->used < pages->allocated) {
--            return;
-+            return 1;
-         }
-     }
-=20
--    multifd_send_pages();
-+    if (multifd_send_pages() < 0) {
-+        return -1;
-+    }
-=20
-     if (pages->block !=3D block) {
--        multifd_queue_page(block, offset);
-+        return  multifd_queue_page(block, offset);
-     }
-+
-+    return 1;
- }
-=20
- static void multifd_send_terminate_threads(Error *err)
-@@ -1049,7 +1060,10 @@ static void multifd_send_sync_main(void)
-         return;
-     }
-     if (multifd_send_state->pages->used) {
--        multifd_send_pages();
-+        if (multifd_send_pages() < 0) {
-+            error_report("%s: multifd_send_pages fail", __func__);
-+            return;
-+        }
-     }
-     for (i =3D 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p =3D &multifd_send_state->params[i];
-@@ -1058,6 +1072,12 @@ static void multifd_send_sync_main(void)
-=20
-         qemu_mutex_lock(&p->mutex);
-=20
-+        if (p->quit) {
-+            error_report("%s: channel %d has already quit", __func__, i)=
-;
-+            qemu_mutex_unlock(&p->mutex);
-+            return;
-+        }
-+
-         p->packet_num =3D multifd_send_state->packet_num++;
-         p->flags |=3D MULTIFD_FLAG_SYNC;
-         p->pending_job++;
-@@ -2033,7 +2053,9 @@ static int ram_save_page(RAMState *rs, PageSearchSt=
-atus *pss, bool last_stage)
- static int ram_save_multifd_page(RAMState *rs, RAMBlock *block,
-                                  ram_addr_t offset)
- {
--    multifd_queue_page(block, offset);
-+    if (multifd_queue_page(block, offset) < 0) {
-+        return -1;
-+    }
-     ram_counters.normal++;
-=20
-     return 1;
 --=20
 2.21.0
 
