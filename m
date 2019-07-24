@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D837872AF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 11:01:26 +0200 (CEST)
-Received: from localhost ([::1]:49920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346FA72B31
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 11:12:14 +0200 (CEST)
+Received: from localhost ([::1]:49974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqD9K-00044n-0G
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 05:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38777)
+	id 1hqDJl-0007b1-3w
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 05:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41182)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hqD96-0003gX-Ej
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:01:13 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hqDJL-0006SM-9q
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:11:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hqD95-0006xT-CI
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:01:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58990)
+ (envelope-from <dgibson@ozlabs.org>) id 1hqDJJ-0005QT-QK
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:11:47 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37639 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hqD95-0006wd-3v
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:01:11 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2447F307D85B;
- Wed, 24 Jul 2019 09:01:10 +0000 (UTC)
-Received: from redhat.com (ovpn-116-17.ams2.redhat.com [10.36.116.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5B37608A5;
- Wed, 24 Jul 2019 09:01:09 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Ivan Ren <renyime@gmail.com>
-In-Reply-To: <1561468699-9819-4-git-send-email-ivanren@tencent.com> (Ivan
- Ren's message of "Tue, 25 Jun 2019 21:18:19 +0800")
-References: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
- <1561468699-9819-4-git-send-email-ivanren@tencent.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Wed, 24 Jul 2019 11:01:07 +0200
-Message-ID: <878ssn957w.fsf@trasno.org>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hqDJH-0005JL-DJ; Wed, 24 Jul 2019 05:11:45 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45tqN54stKz9sBZ; Wed, 24 Jul 2019 19:11:33 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1563959493;
+ bh=92HWcZORDfbkP27pWiKi5mvpP6gj0X6yUhBb0vrQ904=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z4p/V18BEN25EZ9SzXfQXvk0DrF/322Pa0rXDqzjz7lXzFGEbT7WrfkcurjWxvNSD
+ CJ5GK5/BUHCsa3t111nLbtAxkc8Dh1olCN0I54G4GgpJwo2XOfbFpk/d29BJTAK1Ff
+ y8h6F7NLULwgkCcD6OEsBlgfFxXez1QYcp06IlC0=
+Date: Wed, 24 Jul 2019 18:56:50 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Message-ID: <20190724085650.GW25073@umbus.fritz.box>
+References: <156395684219.48058.9459603098282979575.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 24 Jul 2019 09:01:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] migration: fix migrate_cancel multifd
- migration leads destination hung forever
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lQcP9vuZCkvmDKre"
+Content-Disposition: inline
+In-Reply-To: <156395684219.48058.9459603098282979575.stgit@lep8c.aus.stglabs.ibm.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH v5] ppc: remove the idle_timer logic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,101 +55,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ivan Ren <renyime@gmail.com> wrote:
-> When migrate_cancel a multifd migration, if run sequence like this:
->
->         [source]                              [destination]
->
-> multifd_send_sync_main[finish]
->                                     multifd_recv_thread wait &p->sem_sync
-> shutdown to_dst_file
->                                     detect error from_src_file
-> send  RAM_SAVE_FLAG_EOS[fail]       [no chance to run multifd_recv_sync_main]
->                                     multifd_load_cleanup
->                                     join multifd receive thread forever
->
-> will lead destination qemu hung at following stack:
->
-> pthread_join
-> qemu_thread_join
-> multifd_load_cleanup
-> process_incoming_migration_co
-> coroutine_trampoline
->
-> Signed-off-by: Ivan Ren <ivanren@tencent.com>
 
-I think this one is not enough.  We need to set some error code, or
-disable the running bit at that point.
+--lQcP9vuZCkvmDKre
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 24, 2019 at 03:28:28AM -0500, Shivaprasad G Bhat wrote:
+> The KVM_CAP_PPC_IRQ_LEVEL is part of the kernel now since 2.6.37.
+> Drop the redundant logic which is not excercised on new the kernels anymo=
+re.
+>=20
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+
+I don't think we want to support such ancient kernels any more, but it
+would be good to print a useful error message just in case someoone
+does.  So I'd suggest..
 
 > ---
->  migration/ram.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/migration/ram.c b/migration/ram.c
-> index e4eb9c441f..504c8ccb03 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1291,6 +1291,11 @@ int multifd_load_cleanup(Error **errp)
->          MultiFDRecvParams *p = &multifd_recv_state->params[i];
->  
->          if (p->running) {
-> +            /*
-> +             * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
-> +             * however try to wakeup it without harm in cleanup phase.
-> +             */
-> +            qemu_sem_post(&p->sem_sync);
->              qemu_thread_join(&p->thread);
->          }
->          object_unref(OBJECT(p->c));
+>  v4: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04456.html
+>  Changes from v4:
+>    - it was discussed to drop the idle_timer logic instead of fixing the
+>      leak and keeping the redundant logic around. So, the patch does that.
+>=20
+>  target/ppc/kvm.c |   74 +-----------------------------------------------=
+------
+>  1 file changed, 2 insertions(+), 72 deletions(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 8a06d3171e..1c8f2319a0 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -56,7 +56,6 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[=
+] =3D {
+>  };
+> =20
+>  static int cap_interrupt_unset;
+> -static int cap_interrupt_level;
+>  static int cap_segstate;
+>  static int cap_booke_sregs;
+>  static int cap_ppc_smt;
+> @@ -87,25 +86,6 @@ static int cap_large_decr;
+> =20
+>  static uint32_t debug_inst_opcode;
+> =20
+> -/*
+> - * XXX We have a race condition where we actually have a level triggered
+> - *     interrupt, but the infrastructure can't expose that yet, so the g=
+uest
+> - *     takes but ignores it, goes to sleep and never gets notified that =
+there's
+> - *     still an interrupt pending.
+> - *
+> - *     As a quick workaround, let's just wake up again 20 ms after we in=
+jected
+> - *     an interrupt. That way we can assure that we're always reinjecting
+> - *     interrupts in case the guest swallowed them.
+> - */
+> -static QEMUTimer *idle_timer;
+> -
+> -static void kvm_kick_cpu(void *opaque)
+> -{
+> -    PowerPCCPU *cpu =3D opaque;
+> -
+> -    qemu_cpu_kick(CPU(cpu));
+> -}
+> -
+>  /*
+>   * Check whether we are running with KVM-PR (instead of KVM-HV).  This
+>   * should only be used for fallback tests - generally we should use
+> @@ -125,7 +105,6 @@ static int kvmppc_get_dec_bits(void);
+>  int kvm_arch_init(MachineState *ms, KVMState *s)
+>  {
+>      cap_interrupt_unset =3D kvm_check_extension(s, KVM_CAP_PPC_UNSET_IRQ=
+);
+> -    cap_interrupt_level =3D kvm_check_extension(s, KVM_CAP_PPC_IRQ_LEVEL=
+);
+>      cap_segstate =3D kvm_check_extension(s, KVM_CAP_PPC_SEGSTATE);
+>      cap_booke_sregs =3D kvm_check_extension(s, KVM_CAP_PPC_BOOKE_SREGS);
+>      cap_ppc_smt_possible =3D kvm_vm_check_extension(s, KVM_CAP_PPC_SMT_P=
+OSSIBLE);
+> @@ -161,11 +140,6 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>       */
+>      cap_ppc_pvr_compat =3D false;
+> =20
+> -    if (!cap_interrupt_level) {
+> -        fprintf(stderr, "KVM: Couldn't find level irq capability. Expect=
+ the "
+> -                        "VM to stall at times!\n");
+> -    }
+> -
 
-Let's see where we wait for p->sem_sync:
+=2E.changing this to print such an error and exit(1) if the extension
+isn't found.
 
+>      kvm_ppc_register_host_cpu_type(ms);
+> =20
+>      return 0;
+> @@ -491,8 +465,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>          return ret;
+>      }
+> =20
+> -    idle_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
+> -
+>      switch (cenv->mmu_model) {
+>      case POWERPC_MMU_BOOKE206:
+>          /* This target supports access to KVM's guest TLB */
+> @@ -1332,7 +1304,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, =
+int level)
+>          return 0;
+>      }
+> =20
+> -    if (!kvm_enabled() || !cap_interrupt_unset || !cap_interrupt_level) {
+> +    if (!kvm_enabled() || !cap_interrupt_unset) {
+>          return 0;
+>      }
+> =20
+> @@ -1349,49 +1321,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq,=
+ int level)
+> =20
+>  void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
+>  {
+> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -    CPUPPCState *env =3D &cpu->env;
+> -    int r;
+> -    unsigned irq;
+> -
+> -    qemu_mutex_lock_iothread();
+> -
+> -    /*
+> -     * PowerPC QEMU tracks the various core input pins (interrupt,
+> -     * critical interrupt, reset, etc) in PPC-specific
+> -     * env->irq_input_state.
+> -     */
+> -    if (!cap_interrupt_level &&
+> -        run->ready_for_interrupt_injection &&
+> -        (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
+> -        (env->irq_input_state & (1 << PPC_INPUT_INT)))
+> -    {
+> -        /*
+> -         * For now KVM disregards the 'irq' argument. However, in the
+> -         * future KVM could cache it in-kernel to avoid a heavyweight
+> -         * exit when reading the UIC.
+> -         */
+> -        irq =3D KVM_INTERRUPT_SET;
+> -
+> -        trace_kvm_injected_interrupt(irq);
+> -        r =3D kvm_vcpu_ioctl(cs, KVM_INTERRUPT, &irq);
+> -        if (r < 0) {
+> -            printf("cpu %d fail inject %x\n", cs->cpu_index, irq);
+> -        }
+> -
+> -        /* Always wake up soon in case the interrupt was level based */
+> -        timer_mod(idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> -                       (NANOSECONDS_PER_SECOND / 50));
+> -    }
+> -
+> -    /*
+> -     * We don't know if there are more interrupts pending after
+> -     * this. However, the guest will return to userspace in the course
+> -     * of handling this one anyways, so we will get a chance to
+> -     * deliver the rest.
+> -     */
+> -
+> -    qemu_mutex_unlock_iothread();
+> +    return;
+>  }
+> =20
+>  MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+>=20
 
-static void *multifd_recv_thread(void *opaque)
-{
-    ....
-    while (true) {
-        uint32_t used;
-        uint32_t flags;
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-        ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
-                                       p->packet_len, &local_err);
-        .....
+--lQcP9vuZCkvmDKre
+Content-Type: application/pgp-signature; name="signature.asc"
 
-        if (flags & MULTIFD_FLAG_SYNC) {
-            qemu_sem_post(&multifd_recv_state->sem_sync);
-            qemu_sem_wait(&p->sem_sync);
-        }
-    }
-    if (local_err) {
-        multifd_recv_terminate_threads(local_err);
-    }
-    qemu_mutex_lock(&p->mutex);
-    p->running = false;
-    qemu_mutex_unlock(&p->mutex);
+-----BEGIN PGP SIGNATURE-----
 
-    rcu_unregister_thread();
-    trace_multifd_recv_thread_end(p->id, p->num_packets, p->num_pages);
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl04HVAACgkQbDjKyiDZ
+s5K/hw/9HI4sFDJ2P98UwCswL+zgnpl2jQblul4Fc2az5L4JfpOFW6BfMzmSUTqJ
+gpVrq5MKs7r/sEAaaZxHG2tDeqiM38MsDusGkAmN16fjL2pmxf7iJquzPouftpIf
+TmEzogAQouUAth6tKbLTEbuXifIMX4YOkJd6Yk27kpDbFR6OSRKgi9HY086QJmDi
+vRKd0BqTR0cbMPhCdHfdjHYgqytoDytpwVM7M+r36r4e8AbXxMJ7umZ/B5KH4PIo
+kLa0M67cWUfxqZdY/JCncTK0hi9ai8K5ziKSf7kbXUv+eunfeGD6iVNmgfMbi23L
+8uC2fXcCLYRFIwug5SUN5wBXO+zTogm8kV4MXh03vShdXJY9+I7YOLZf7YqblgMS
+QbCRkoOgTy9pUX9JcMCM3y62h+AncWA2hA5SnKZjJu6HTu1j987ZNUiwo7q3SDOZ
+DXHVaUuLwgZ4RKhPdm1J0eG0A1d0LpqoOruHcKQ/GmLpo8Ho3mODVqfC9V1x9ZNx
+03EHN4fqq0MODgqe9i4IjJ7/C0g7MVzCAHnxyPoHV5H5pBlXP3uwlB3Kp22sUpZI
+yx2AmNeonz7Jrb40C354J0rSpi2ElWoFi1VL2S3tq19c1E5vjHgwPziOaR8ctXL2
+prkOPRHAvO0KUKnrku4cS3Di9UhnBGfdEXoB9o6cZhn+F2eh0a0=
+=khKn
+-----END PGP SIGNATURE-----
 
-    return NULL;
-}
-
-If we just post it there, we get out of the wait (that bit is ok), but
-then we go back to the beggining of the bucle, we (probably) got one
-error on the qui_channel_read_all_eof(), and we go back to
-multifd_recv_terminate_threads(), or wait there.
-
-I think that it is better to *also* set an p->quit variable there, and
-not even try to receive anything for that channel?
-
-I will send a patch later.
-
-Good catch.
-
-Later, Juan.
+--lQcP9vuZCkvmDKre--
 
