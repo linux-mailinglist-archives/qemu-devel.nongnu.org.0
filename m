@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3E972A54
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:43:42 +0200 (CEST)
-Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D6572A55
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:43:56 +0200 (CEST)
+Received: from localhost ([::1]:49724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqCs9-0002Be-CV
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33803)
+	id 1hqCsN-000338-00
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCrq-0001QJ-1t
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:23 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCrv-0001pH-Gg
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCrp-0001WZ-1g
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:21 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:58774)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCru-0001aw-JZ
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:27 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:58796)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCro-0001WG-On
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:20 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCru-0001aZ-Bs
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:26 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id DE9D454006A;
- Wed, 24 Jul 2019 11:43:19 +0300 (MSK)
+ by mail.ispras.ru (Postfix) with ESMTPSA id 81DA054006A;
+ Wed, 24 Jul 2019 11:43:25 +0300 (MSK)
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 11:43:14 +0300
-Message-ID: <156395779468.510.5523165981170975777.stgit@pasha-Precision-3630-Tower>
+Date: Wed, 24 Jul 2019 11:43:25 +0300
+Message-ID: <156395780533.510.15015784076229983598.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
 References: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -35,8 +35,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.2 01/14] replay: add missing fix for
- internal function
+Subject: [Qemu-devel] [PATCH for-4.2 02/14] block: implement
+ bdrv_snapshot_goto for blkreplay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,29 +58,44 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: pbonzini@redhat.com <pbonzini@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 
-This is a fix which was missed by patch
-74c0b816adfc6aa1b01b4426fdf385e32e35cbac, which added current_step
-parameter to the replay_advance_current_step function.
+This patch enables making snapshots with blkreplay used in
+block devices.
+This function is required to make bdrv_snapshot_goto without
+calling .bdrv_open which is not implemented.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Acked-by: Kevin Wolf <kwolf@redhat.com>
 ---
- replay/replay-internal.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/blkreplay.c |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/replay/replay-internal.c b/replay/replay-internal.c
-index 9e41ed1dcf..979f3a0b39 100644
---- a/replay/replay-internal.c
-+++ b/replay/replay-internal.c
-@@ -228,7 +228,7 @@ void replay_mutex_unlock(void)
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index 2b7931b940..c96ac8f4bc 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -126,6 +126,12 @@ static int coroutine_fn blkreplay_co_flush(BlockDriverState *bs)
+     return ret;
+ }
  
- void replay_advance_current_step(uint64_t current_step)
- {
--    int diff = (int)(replay_get_current_step() - replay_state.current_step);
-+    int diff = (int)(current_step - replay_state.current_step);
++static int blkreplay_snapshot_goto(BlockDriverState *bs,
++                                   const char *snapshot_id)
++{
++    return bdrv_snapshot_goto(bs->file->bs, snapshot_id, NULL);
++}
++
+ static BlockDriver bdrv_blkreplay = {
+     .format_name            = "blkreplay",
+     .instance_size          = 0,
+@@ -140,6 +146,8 @@ static BlockDriver bdrv_blkreplay = {
+     .bdrv_co_pwrite_zeroes  = blkreplay_co_pwrite_zeroes,
+     .bdrv_co_pdiscard       = blkreplay_co_pdiscard,
+     .bdrv_co_flush          = blkreplay_co_flush,
++
++    .bdrv_snapshot_goto     = blkreplay_snapshot_goto,
+ };
  
-     /* Time can only go forward */
-     assert(diff >= 0);
+ static void bdrv_blkreplay_init(void)
 
 
