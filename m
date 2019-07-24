@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E455F72BDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 11:56:26 +0200 (CEST)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99E872C00
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 12:04:11 +0200 (CEST)
+Received: from localhost ([::1]:50210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqE0X-0007Mg-PP
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 05:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54021)
+	id 1hqE83-0001gc-25
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 06:04:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56031)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hqE07-0005wp-D8
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:56:00 -0400
+ (envelope-from <zhexu@redhat.com>) id 1hqE7o-0001Fr-58
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 06:03:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hqE05-0004SY-9T
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59152)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hqE05-0004SN-4B
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 05:55:57 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6CB268CB4B;
- Wed, 24 Jul 2019 09:55:56 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-189.ams2.redhat.com
- [10.36.116.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C18360BEC;
- Wed, 24 Jul 2019 09:55:44 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 11:55:23 +0200
-Message-Id: <20190724095523.1527-5-quintela@redhat.com>
-In-Reply-To: <20190724095523.1527-1-quintela@redhat.com>
-References: <20190724095523.1527-1-quintela@redhat.com>
+ (envelope-from <zhexu@redhat.com>) id 1hqE7m-0008F9-TM
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 06:03:56 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:42616)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <zhexu@redhat.com>) id 1hqE7m-0008Ea-ND
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 06:03:54 -0400
+Received: by mail-pl1-f194.google.com with SMTP id ay6so21838289plb.9
+ for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 03:03:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=EyYz+DbsQQN3oAVpJpHuHdTuEQaEneK6+IhZDJIzA1A=;
+ b=D9Ob6E70h2SK3ZLO5/GmzSWQzGBd/WavSxii5wX3K6qzokW+MonsiaUHEY6JEKZvH1
+ khcpf4TrVMjOsK2e09W5cKOtv267APwNO+ay6J+8GfqGUe/tj7tjVyC/x5oBzLMAnna4
+ jFE2euBHiXG/PsFX7IC7NI3N1kvNi5/j718fdg6x5WjoTGa+92p5TNWthwvlAjE9TFxM
+ 6ZmdnzdmHP+KENfkaOTsGY+vFAMbyoswgNaTwjKTEk/wki0hdiIuizNFZExbQkSaRjey
+ Wdr7ZDpRJZzbrRTOdP/1OM7/QhSOzWOFfdwFxLqxsp9Ii/cCBhBtT9abaaM9ndjOQqf1
+ f74Q==
+X-Gm-Message-State: APjAAAWvfdjjlGaarC9eOcaBbMla2ylfiRyE/vsDl8QsIF/kdnrMFjki
+ oqiKlAQM5k72c9bm6jSUu+EBuw==
+X-Google-Smtp-Source: APXvYqyrtUeWv4bTYCeCg1f/GbT2qC7FxdQ4dVVNaQBboZxKbBtxga3sV9fUHvDs4cj+xdArhiD+4w==
+X-Received: by 2002:a17:902:788f:: with SMTP id
+ q15mr86538658pll.236.1563962633500; 
+ Wed, 24 Jul 2019 03:03:53 -0700 (PDT)
+Received: from xz-x1 ([2409:8900:1d40:ee00:2db6:3c13:8375:7f91])
+ by smtp.gmail.com with ESMTPSA id j128sm39606686pfg.28.2019.07.24.03.03.42
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 24 Jul 2019 03:03:52 -0700 (PDT)
+From: Peter Xu <zhexu@redhat.com>
+X-Google-Original-From: Peter Xu <peterx@redhat.com>
+Date: Wed, 24 Jul 2019 18:03:31 +0800
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190724100331.GA14454@xz-x1>
+References: <155364082689.15803.7062874513041742278.stgit@gimli.home>
+ <20190329104904.450fefef@x1.home>
+ <dbe614f5-47c8-b05d-dd73-2fbcd1579ae3@amd.com>
+ <20190723112618.0efafa8d@x1.home> <20190724071439.GB18771@xz-x1>
+ <20190724040837-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 24 Jul 2019 09:55:56 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190724040837-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] migration: fix migrate_cancel multifd
- migration leads destination hung forever
+ [fuzzy]
+X-Received-From: 209.85.214.194
+Subject: Re: [Qemu-devel] [RFC PATCH] pci: Use PCI aliases when determining
+ device IOMMU address space
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,63 +74,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Ivan Ren <renyime@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ivan Ren <ivanren@tencent.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Singh, Brijesh" <brijesh.singh@amd.com>, "Suthikulpanit,
+ Suravee" <Suravee.Suthikulpanit@amd.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <zhexu@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ivan Ren <renyime@gmail.com>
+On Wed, Jul 24, 2019 at 05:39:22AM -0400, Michael S. Tsirkin wrote:
+> On Wed, Jul 24, 2019 at 03:14:39PM +0800, Peter Xu wrote:
+> > On Tue, Jul 23, 2019 at 11:26:18AM -0600, Alex Williamson wrote:
+> > > > On 3/29/19 11:49 AM, Alex Williamson wrote:
+> > > > > [Cc +Brijesh]
+> > > > > 
+> > > > > Hi Brijesh, will the change below require the IVRS to be updated to
+> > > > > include aliases for all BDF ranges behind a conventional bridge?  I
+> > > > > think the Linux code handles this regardless of the firmware provided
+> > > > > aliases, but is it required per spec for the ACPI tables to include
+> > > > > bridge aliases?  Thanks,
+> > > > >   
+> > > > 
+> > > > We do need to includes aliases in ACPI table. We need to populate the
+> > > > IVHD type 0x43 and 0x4 for alias range start and end. I believe host
+> > > > IVRS would contain similar information.
+> > > > 
+> > > > Suravee, please correct me if I am missing something?
+> > > 
+> > > I finally found some time to investigate this a little further, yes the
+> > > types mentioned are correct for defining start and end of an alias
+> > > range.  The challenge here is that these entries require a DeviceID,
+> > > which is defined as a BDF, AIUI.  The IVRS is created in QEMU, but bus
+> > > numbers are defined by the guest firmware, and potentially redefined by
+> > > the guest OS.  This makes it non-trivial to insert a few IVHDs into the
+> > > IVRS to describe alias ranges.  I'm wondering if the solution here is
+> > > to define a new linker-loader command that would instruct the guest to
+> > > write a bus number byte to a given offset for a described device.
+> > > These commands would be inserted before the checksum command, such that
+> > > these bus number updates are calculated as part of the checksum.
+> > > 
+> > > I'm imagining the command format would need to be able to distinguish
+> > > between the actual bus number of a described device, the secondary bus
+> > > number of the device, and the subordinate bus number of the device.
+> > > For describing the device, I'm envisioning stealing from the DMAR
+> > > definition, which already includes a bus number invariant mechanism to
+> > > describe a device, starting with a segment and root bus, follow a chain
+> > > of devfns to get to the target device.  Therefore the guest firmware
+> > > would follow the path to the described device, pick the desired bus
+> > > number, and write it to the indicated table offset.
+> > > 
+> > > Does this seem like a reasonable approach?  Better ideas?  I'm not
+> > > thrilled with the increased scope demanded by IVRS support, but so long
+> > > as we have an AMD IOMMU model, I don't see how to avoid it.  Thanks,
+> > 
+> > I don't have a better idea yet, but just want to say that accidentally
+> > I was trying to look into this as well starting from this week and I'd
+> > say that's mostly what I thought about too (I was still reading a bit
+> > seabios when I saw this email)... so at least this idea makes sense to
+> > me.
+> > 
+> > Would the guest OS still change the PCI bus number even after the
+> > firmware (BIOS/UEFI)?  Could I ask in what case would that happen?
+> > 
+> > Thanks,
+> 
+> Guest OSes can in theory rebalance resources. Changing bus numbers
+> would be useful if new bridges are added by hotplug.
+> In practice at least Linux doesn't do the rebalancing.
+> I think that if we start reporting PNP OS support in BIOS then windows
+> might start doing that more aggressively.
 
-When migrate_cancel a multifd migration, if run sequence like this:
+It's surprising me a bit...  IMHO if we allow the bus number to change
+then at least many scripts can even fail which might work before.
+E.g. , a very common script can run "lspci-like" program to list each
+device and then do "lspci-like -vvv" again upon the BDF it fetched
+from previous commands.  Any kind of BDF caching would be invalid
+since that from either userspace or kernel.
 
-        [source]                              [destination]
+Also, obviously the data to be stored in IVRS is closely bound to how
+bus number is defined.  Even if we can add a new linker-loader command
+to all the open firmwares like seabios or OVMF but still we can't do
+that to Windows (or, could we?...).
 
-multifd_send_sync_main[finish]
-                                    multifd_recv_thread wait &p->sem_sync
-shutdown to_dst_file
-                                    detect error from_src_file
-send  RAM_SAVE_FLAG_EOS[fail]       [no chance to run multifd_recv_sync_m=
-ain]
-                                    multifd_load_cleanup
-                                    join multifd receive thread forever
+Now one step back, I'm also curious on the reason behind on why AMD
+spec required the IVRS with BDF information, rather than the scope
+information like what Intel DMAR spec was asking for.
 
-will lead destination qemu hung at following stack:
+Thanks,
 
-pthread_join
-qemu_thread_join
-multifd_load_cleanup
-process_incoming_migration_co
-coroutine_trampoline
-
-Signed-off-by: Ivan Ren <ivanren@tencent.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <1561468699-9819-4-git-send-email-ivanren@tencent.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index eb6716710e..889148dd84 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1292,6 +1292,11 @@ int multifd_load_cleanup(Error **errp)
-=20
-         if (p->running) {
-             p->quit =3D true;
-+            /*
-+             * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle =
-code,
-+             * however try to wakeup it without harm in cleanup phase.
-+             */
-+            qemu_sem_post(&p->sem_sync);
-             qemu_thread_join(&p->thread);
-         }
-         object_unref(OBJECT(p->c));
---=20
-2.21.0
-
+-- 
+Peter Xu
 
