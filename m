@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5223726A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 06:31:01 +0200 (CEST)
-Received: from localhost ([::1]:48520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A64726A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 06:30:40 +0200 (CEST)
+Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hq8vd-0007Os-1K
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 00:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56620)
+	id 1hq8vH-0006Qb-Db
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 00:30:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56577)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hq8vM-0006zm-KY
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:45 -0400
+ (envelope-from <bounces@canonical.com>) id 1hq8uy-0005tI-0N
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hq8vK-0006jQ-So
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47136)
+ (envelope-from <bounces@canonical.com>) id 1hq8uw-0006WG-Ql
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46090)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hq8vK-0006iG-Mo
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:42 -0400
+ id 1hq8uw-0006Vp-Lc
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:18 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hq8vJ-0007CD-6G
- for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:41 +0000
+ id 1hq8uv-0006ie-4Y
+ for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:17 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 27CA02E80C7
- for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 18F202E806E
+ for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Jul 2019 04:17:37 -0000
-From: Launchpad Bug Tracker <599958@bugs.launchpad.net>
+Date: Wed, 24 Jul 2019 04:17:40 -0000
+From: Launchpad Bug Tracker <1585971@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 8-roothorick-gmail-com andcycle-launchpad-net
- anthony-codemonkey janitor lmr th-huth
-X-Launchpad-Bug-Reporter: Lucas Meneghel Rodrigues (lmr)
+X-Launchpad-Bug-Commenters: antonios-dimtsoudis janitor th-huth
+X-Launchpad-Bug-Reporter: TuniTunes (antonios-dimtsoudis)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20100629211802.16137.10587.malonedeb@soybean.canonical.com>
-Message-Id: <156394185725.19185.5884143965764649343.malone@loganberry.canonical.com>
+References: <20160526095955.26642.69942.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156394186091.19185.4265967821136341888.malone@loganberry.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19010";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: e12e4347903431db273eb176eb7c5dde252d80fb
+X-Launchpad-Hash: 169bc67d6780951c4c2bebedd2f11701d914b638
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 599958] Re: Timedrift problems with Win7: hpet
- missing time drift fixups
+Subject: [Qemu-devel] [Bug 1585971] Re: Host system crashes on qemu with DMA
+ remapping
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -66,7 +65,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 599958 <599958@bugs.launchpad.net>
+Reply-To: Bug 1585971 <1585971@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -79,61 +78,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/599958
+https://bugs.launchpad.net/bugs/1585971
 
 Title:
-  Timedrift problems with Win7: hpet missing time drift fixups
+  Host system crashes on qemu with DMA remapping
 
 Status in QEMU:
   Expired
 
 Bug description:
-  We've been finding timedrift issues witth Win7 under qemu-kvm on our
-  daily testing
+  Hy,
 
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_load	FAIL	1	Time drift too l=
-arge after rest period: 38.63%
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_reboot	FAIL	1	Time drift too=
- large at iteration 1: 17.77 seconds
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_migration	FAIL	1	Time drift =
-too large at iteration 2: 3.08 seconds
+  the host system crashes completely, when i try to pass an physical
+  device without boot option intel_iommu=3Don set. In older kernel
+  versions you didn't have to pass that option.
 
-  Steps to reproduce:
+  I wonder if this can be easily checked by asking iommu state, avoiding
+  a crash of the complete system.
 
-  timedrift.with_load
+  My data:
+  cpu model: Intel(R) Core(TM) i7 CPU
+  qemu version: 2.4.1-r2
+  kernel version: 4.1.2 x86_64
+  command line: =
 
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Run load on the guest and host.
-  4) Take a second time reading.
-  5) Stop the load and rest for a while.
-  6) Take a third time reading.
-  7) If the drift immediately after load is higher than a user-
-      specified value (in %), fail.
-      If the drift after the rest period is higher than a user-specified va=
-lue,
-      fail.
+  qemu-system-x86_64 -enable-kvm -drive file=3D/vms/prod/fw/fw.iso,if=3Dvir=
+tio,format=3Draw -drive file=3D/vms/prod/fw/swap,if=3Dvirtio,format=3Draw -=
+drive file=3D/vms/prod/fw/fwdata.iso,if=3Dvirtio,format=3Draw -m 512 -nogra=
+phic -kernel /data/kernels/vmlinuz-2.6.36-gentoo-r8 -append "root=3D/dev/vd=
+a console=3DttyS0 earlyprintk=3Dserial" -net nic,model=3Dvirtio,macaddr=3DD=
+E:AD:BE:EF:2D:AD -net tap,ifname=3Dtapfw0,script=3D/etc/qemu/qemu-ifup -dev=
+ice pci-assign,host=3D03:00.0
 
-  timedrift.with_migration
+  There are also more detailed informations (if needed) here:
+  https://forums.gentoo.org/viewtopic-p-7923976.html
 
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Migrate the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  timedrift.with_reboot
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Reboot the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  This bug is to register those issues and keep an eye on them.
-
-  Attached, some logs from the autotest tests executed on the guest
+  Thanks,
+  Antonios.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/599958/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1585971/+subscriptions
 
