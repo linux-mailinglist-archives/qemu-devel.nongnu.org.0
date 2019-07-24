@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F75C72A65
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:46:36 +0200 (CEST)
-Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCF172A5C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:45:18 +0200 (CEST)
+Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqCux-0005nZ-54
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34359)
+	id 1hqCth-0000Co-5E
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCsp-0005xj-Ot
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:24 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCsy-0006di-RL
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCso-0002Xz-Ls
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:23 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:59052)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCsw-0002dU-TR
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:32 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:59078)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCso-0002Xh-Ef
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:22 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCsw-0002c0-IG
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:44:30 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 90F5054006A;
- Wed, 24 Jul 2019 11:44:21 +0300 (MSK)
+ by mail.ispras.ru (Postfix) with ESMTPSA id 30E8754006A;
+ Wed, 24 Jul 2019 11:44:27 +0300 (MSK)
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 11:44:21 +0300
-Message-ID: <156395786137.510.11135678145835158746.stgit@pasha-Precision-3630-Tower>
+Date: Wed, 24 Jul 2019 11:44:27 +0300
+Message-ID: <156395786700.510.11133540400113889902.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
 References: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -35,7 +35,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.2 12/14] replay: refine replay-time module
+Subject: [Qemu-devel] [PATCH for-4.2 13/14] replay: rename step-related
+ variables and functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,72 +60,228 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch removes refactoring artifacts from the replay/replay-time.c
+This patch renames replay_get_current_step() and related variables
+to make these names consistent with existing 'icount' command line
+option and future record/replay hmp/qmp commands.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- replay/replay-time.c |   36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ include/sysemu/replay.h  |    2 +-
+ replay/replay-events.c   |    4 ++--
+ replay/replay-internal.c |   10 +++++-----
+ replay/replay-internal.h |   10 +++++-----
+ replay/replay-snapshot.c |    6 +++---
+ replay/replay-time.c     |    2 +-
+ replay/replay.c          |   22 +++++++++++-----------
+ 7 files changed, 28 insertions(+), 28 deletions(-)
 
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index 503bb6258d..6ed4322447 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -77,7 +77,7 @@ const char *replay_get_filename(void);
+ /* Processing the instructions */
+ 
+ /*! Returns number of executed instructions. */
+-uint64_t replay_get_current_step(void);
++uint64_t replay_get_current_icount(void);
+ /*! Returns number of instructions to execute in replay mode. */
+ int replay_get_instructions(void);
+ /*! Updates instructions counter in replay mode. */
+diff --git a/replay/replay-events.c b/replay/replay-events.c
+index e5bf1bc2e6..302b84043a 100644
+--- a/replay/replay-events.c
++++ b/replay/replay-events.c
+@@ -127,7 +127,7 @@ void replay_add_event(ReplayAsyncEventKind event_kind,
+ void replay_bh_schedule_event(QEMUBH *bh)
+ {
+     if (events_enabled) {
+-        uint64_t id = replay_get_current_step();
++        uint64_t id = replay_get_current_icount();
+         replay_add_event(REPLAY_ASYNC_EVENT_BH, bh, NULL, id);
+     } else {
+         qemu_bh_schedule(bh);
+@@ -138,7 +138,7 @@ void replay_bh_schedule_oneshot_event(AioContext *ctx,
+     QEMUBHFunc *cb, void *opaque)
+ {
+     if (events_enabled) {
+-        uint64_t id = replay_get_current_step();
++        uint64_t id = replay_get_current_icount();
+         replay_add_event(REPLAY_ASYNC_EVENT_BH_ONESHOT, cb, opaque, id);
+     } else {
+         aio_bh_schedule_oneshot(ctx, cb, opaque);
+diff --git a/replay/replay-internal.c b/replay/replay-internal.c
+index 979f3a0b39..ac6c9017fc 100644
+--- a/replay/replay-internal.c
++++ b/replay/replay-internal.c
+@@ -172,7 +172,7 @@ void replay_fetch_data_kind(void)
+         if (!replay_state.has_unread_data) {
+             replay_state.data_kind = replay_get_byte();
+             if (replay_state.data_kind == EVENT_INSTRUCTION) {
+-                replay_state.instructions_count = replay_get_dword();
++                replay_state.instruction_count = replay_get_dword();
+             }
+             replay_check_error();
+             replay_state.has_unread_data = 1;
+@@ -226,9 +226,9 @@ void replay_mutex_unlock(void)
+     }
+ }
+ 
+-void replay_advance_current_step(uint64_t current_step)
++void replay_advance_current_icount(uint64_t current_icount)
+ {
+-    int diff = (int)(current_step - replay_state.current_step);
++    int diff = (int)(current_icount - replay_state.current_icount);
+ 
+     /* Time can only go forward */
+     assert(diff >= 0);
+@@ -236,7 +236,7 @@ void replay_advance_current_step(uint64_t current_step)
+     if (diff > 0) {
+         replay_put_event(EVENT_INSTRUCTION);
+         replay_put_dword(diff);
+-        replay_state.current_step += diff;
++        replay_state.current_icount += diff;
+     }
+ }
+ 
+@@ -245,6 +245,6 @@ void replay_save_instructions(void)
+ {
+     if (replay_file && replay_mode == REPLAY_MODE_RECORD) {
+         g_assert(replay_mutex_locked());
+-        replay_advance_current_step(replay_get_current_step());
++        replay_advance_current_icount(replay_get_current_icount());
+     }
+ }
+diff --git a/replay/replay-internal.h b/replay/replay-internal.h
+index f3cdcfd93e..55fca1ac6b 100644
+--- a/replay/replay-internal.h
++++ b/replay/replay-internal.h
+@@ -65,10 +65,10 @@ typedef enum ReplayAsyncEventKind ReplayAsyncEventKind;
+ typedef struct ReplayState {
+     /*! Cached clock values. */
+     int64_t cached_clock[REPLAY_CLOCK_COUNT];
+-    /*! Current step - number of processed instructions and timer events. */
+-    uint64_t current_step;
++    /*! Current icount - number of processed instructions. */
++    uint64_t current_icount;
+     /*! Number of instructions to be executed before other events happen. */
+-    int instructions_count;
++    int instruction_count;
+     /*! Type of the currently executed event. */
+     unsigned int data_kind;
+     /*! Flag which indicates that event is not processed yet. */
+@@ -123,8 +123,8 @@ void replay_finish_event(void);
+     data_kind variable. */
+ void replay_fetch_data_kind(void);
+ 
+-/*! Advance replay_state.current_step to the specified value. */
+-void replay_advance_current_step(uint64_t current_step);
++/*! Advance replay_state.current_icount to the specified value. */
++void replay_advance_current_icount(uint64_t current_icount);
+ /*! Saves queued events (like instructions and sound). */
+ void replay_save_instructions(void);
+ 
+diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
+index 756f48bc02..97d026af30 100644
+--- a/replay/replay-snapshot.c
++++ b/replay/replay-snapshot.c
+@@ -41,7 +41,7 @@ static int replay_post_load(void *opaque, int version_id)
+     } else if (replay_mode == REPLAY_MODE_RECORD) {
+         /* This is only useful for loading the initial state.
+            Therefore reset all the counters. */
+-        state->instructions_count = 0;
++        state->instruction_count = 0;
+         state->block_request_id = 0;
+     }
+ 
+@@ -56,8 +56,8 @@ static const VMStateDescription vmstate_replay = {
+     .post_load = replay_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_INT64_ARRAY(cached_clock, ReplayState, REPLAY_CLOCK_COUNT),
+-        VMSTATE_UINT64(current_step, ReplayState),
+-        VMSTATE_INT32(instructions_count, ReplayState),
++        VMSTATE_UINT64(current_icount, ReplayState),
++        VMSTATE_INT32(instruction_count, ReplayState),
+         VMSTATE_UINT32(data_kind, ReplayState),
+         VMSTATE_UINT32(has_unread_data, ReplayState),
+         VMSTATE_UINT64(file_offset, ReplayState),
 diff --git a/replay/replay-time.c b/replay/replay-time.c
-index 5154cb0ce9..49c9e5d8b2 100644
+index 49c9e5d8b2..43357c9f24 100644
 --- a/replay/replay-time.c
 +++ b/replay/replay-time.c
-@@ -14,18 +14,19 @@
- #include "replay-internal.h"
- #include "qemu/error-report.h"
+@@ -24,7 +24,7 @@ int64_t replay_save_clock(ReplayClockKind kind, int64_t clock,
+      * Due to the caller's locking requirements we get the icount from it
+      * instead of using replay_save_instructions().
+      */
+-    replay_advance_current_step(raw_icount);
++    replay_advance_current_icount(raw_icount);
+     replay_put_event(EVENT_CLOCK + kind);
+     replay_put_qword(clock);
  
--int64_t replay_save_clock(ReplayClockKind kind, int64_t clock, int64_t raw_icount)
-+int64_t replay_save_clock(ReplayClockKind kind, int64_t clock,
-+                          int64_t raw_icount)
- {
--    if (replay_file) {
--        g_assert(replay_mutex_locked());
-+    g_assert(replay_file);
-+    g_assert(replay_mutex_locked());
+diff --git a/replay/replay.c b/replay/replay.c
+index 73c5d4e207..14ee2c4144 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -39,7 +39,7 @@ bool replay_next_event_is(int event)
+     bool res = false;
  
--        /* Due to the caller's locking requirements we get the icount from it
--         * instead of using replay_save_instructions().
--         */
--        replay_advance_current_step(raw_icount);
--        replay_put_event(EVENT_CLOCK + kind);
--        replay_put_qword(clock);
--    }
-+    /*
-+     * Due to the caller's locking requirements we get the icount from it
-+     * instead of using replay_save_instructions().
-+     */
-+    replay_advance_current_step(raw_icount);
-+    replay_put_event(EVENT_CLOCK + kind);
-+    replay_put_qword(clock);
- 
-     return clock;
- }
-@@ -47,20 +48,15 @@ void replay_read_next_clock(ReplayClockKind kind)
- /*! Reads next clock event from the input. */
- int64_t replay_read_clock(ReplayClockKind kind)
- {
-+    int64_t ret;
-     g_assert(replay_file && replay_mutex_locked());
- 
-     replay_account_executed_instructions();
- 
--    if (replay_file) {
--        int64_t ret;
--        if (replay_next_event_is(EVENT_CLOCK + kind)) {
--            replay_read_next_clock(kind);
--        }
--        ret = replay_state.cached_clock[kind];
--
--        return ret;
-+    if (replay_next_event_is(EVENT_CLOCK + kind)) {
-+        replay_read_next_clock(kind);
+     /* nothing to skip - not all instructions used */
+-    if (replay_state.instructions_count != 0) {
++    if (replay_state.instruction_count != 0) {
+         assert(replay_state.data_kind == EVENT_INSTRUCTION);
+         return event == EVENT_INSTRUCTION;
      }
-+    ret = replay_state.cached_clock[kind];
- 
--    error_report("REPLAY INTERNAL ERROR %d", __LINE__);
--    exit(1);
-+    return ret;
+@@ -62,7 +62,7 @@ bool replay_next_event_is(int event)
+     return res;
  }
+ 
+-uint64_t replay_get_current_step(void)
++uint64_t replay_get_current_icount(void)
+ {
+     return cpu_get_icount_raw();
+ }
+@@ -72,7 +72,7 @@ int replay_get_instructions(void)
+     int res = 0;
+     replay_mutex_lock();
+     if (replay_next_event_is(EVENT_INSTRUCTION)) {
+-        res = replay_state.instructions_count;
++        res = replay_state.instruction_count;
+     }
+     replay_mutex_unlock();
+     return res;
+@@ -82,16 +82,16 @@ void replay_account_executed_instructions(void)
+ {
+     if (replay_mode == REPLAY_MODE_PLAY) {
+         g_assert(replay_mutex_locked());
+-        if (replay_state.instructions_count > 0) {
+-            int count = (int)(replay_get_current_step()
+-                              - replay_state.current_step);
++        if (replay_state.instruction_count > 0) {
++            int count = (int)(replay_get_current_icount()
++                              - replay_state.current_icount);
+ 
+             /* Time can only go forward */
+             assert(count >= 0);
+ 
+-            replay_state.instructions_count -= count;
+-            replay_state.current_step += count;
+-            if (replay_state.instructions_count == 0) {
++            replay_state.instruction_count -= count;
++            replay_state.current_icount += count;
++            if (replay_state.instruction_count == 0) {
+                 assert(replay_state.data_kind == EVENT_INSTRUCTION);
+                 replay_finish_event();
+                 /* Wake up iothread. This is required because
+@@ -273,8 +273,8 @@ static void replay_enable(const char *fname, int mode)
+     replay_mutex_init();
+ 
+     replay_state.data_kind = -1;
+-    replay_state.instructions_count = 0;
+-    replay_state.current_step = 0;
++    replay_state.instruction_count = 0;
++    replay_state.current_icount = 0;
+     replay_state.has_unread_data = 0;
+ 
+     /* skip file header for RECORD and check it for PLAY */
 
 
