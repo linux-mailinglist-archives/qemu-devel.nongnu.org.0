@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DA6734CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:15:15 +0200 (CEST)
-Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2A1734CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:14:36 +0200 (CEST)
+Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqKrB-00042O-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49763)
+	id 1hqKqY-0001Kb-Gc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:14:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49815)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hqKpF-0004x1-Vq
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:15 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hqKpJ-0005EE-Py
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hqKpE-0005yQ-Pl
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54412)
+ (envelope-from <mreitz@redhat.com>) id 1hqKpI-0006AS-Gw
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41850)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hqKpB-0005kZ-Mm; Wed, 24 Jul 2019 13:13:09 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hqKpG-0005xZ-3M; Wed, 24 Jul 2019 13:13:14 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BE3913A98;
- Wed, 24 Jul 2019 17:13:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E5D930B1AD1;
+ Wed, 24 Jul 2019 17:13:12 +0000 (UTC)
 Received: from localhost (ovpn-204-115.brq.redhat.com [10.40.204.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17AF319C70;
- Wed, 24 Jul 2019 17:13:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA62760BEC;
+ Wed, 24 Jul 2019 17:13:11 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 24 Jul 2019 19:12:36 +0200
-Message-Id: <20190724171239.8764-9-mreitz@redhat.com>
+Date: Wed, 24 Jul 2019 19:12:37 +0200
+Message-Id: <20190724171239.8764-10-mreitz@redhat.com>
 In-Reply-To: <20190724171239.8764-1-mreitz@redhat.com>
 References: <20190724171239.8764-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Wed, 24 Jul 2019 17:13:09 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Wed, 24 Jul 2019 17:13:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 08/11] vhdx: Fix .bdrv_has_zero_init()
+Subject: [Qemu-devel] [PATCH v2 09/11] iotests: Convert to preallocated
+ encrypted qcow2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,61 +60,77 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed VHDX images cannot guarantee to be zero-initialized.  If the image
-has the "fixed" subformat, forward the call to the underlying storage
-node.
+Add a test case for converting an empty image (which only returns zeroes
+when read) to a preallocated encrypted qcow2 image.
+qcow2_has_zero_init() should return 0 then, thus forcing qemu-img
+convert to create zero clusters.
 
-Reported-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Acked-by: Stefano Garzarella <sgarzare@redhat.com>
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- block/vhdx.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/188     | 20 +++++++++++++++++++-
+ tests/qemu-iotests/188.out |  4 ++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/block/vhdx.c b/block/vhdx.c
-index a02d1c99a7..6a09d0a55c 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -2075,6 +2075,30 @@ static int coroutine_fn vhdx_co_check(BlockDriverS=
-tate *bs,
-     return 0;
- }
+diff --git a/tests/qemu-iotests/188 b/tests/qemu-iotests/188
+index be7278aa65..afca44df54 100755
+--- a/tests/qemu-iotests/188
++++ b/tests/qemu-iotests/188
+@@ -48,7 +48,7 @@ SECRETALT=3D"secret,id=3Dsec0,data=3Dplatypus"
 =20
-+static int vhdx_has_zero_init(BlockDriverState *bs)
-+{
-+    BDRVVHDXState *s =3D bs->opaque;
-+    int state;
-+
-+    /*
-+     * Check the subformat: Fixed images have all BAT entries present,
-+     * dynamic images have none (right after creation).  It is
-+     * therefore enough to check the first BAT entry.
-+     */
-+    if (!s->bat_entries) {
-+        return 1;
-+    }
-+
-+    state =3D s->bat[0] & VHDX_BAT_STATE_BIT_MASK;
-+    if (state =3D=3D PAYLOAD_BLOCK_FULLY_PRESENT) {
-+        /* Fixed subformat */
-+        return bdrv_has_zero_init(bs->file->bs);
-+    }
-+
-+    /* Dynamic subformat */
-+    return 1;
-+}
-+
- static QemuOptsList vhdx_create_opts =3D {
-     .name =3D "vhdx-create-opts",
-     .head =3D QTAILQ_HEAD_INITIALIZER(vhdx_create_opts.head),
-@@ -2128,7 +2152,7 @@ static BlockDriver bdrv_vhdx =3D {
-     .bdrv_co_create_opts    =3D vhdx_co_create_opts,
-     .bdrv_get_info          =3D vhdx_get_info,
-     .bdrv_co_check          =3D vhdx_co_check,
--    .bdrv_has_zero_init     =3D bdrv_has_zero_init_1,
-+    .bdrv_has_zero_init     =3D vhdx_has_zero_init,
+ _make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-se=
+cret=3Dsec0,encrypt.iter-time=3D10" $size
 =20
-     .create_opts            =3D &vhdx_create_opts,
- };
+-IMGSPEC=3D"driver=3D$IMGFMT,file.filename=3D$TEST_IMG,encrypt.key-secret=
+=3Dsec0"
++IMGSPEC=3D"driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
+EST_IMG"
+=20
+ QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
+=20
+@@ -68,6 +68,24 @@ echo
+ echo "=3D=3D verify open failure with wrong password =3D=3D"
+ $QEMU_IO --object $SECRETALT -c "read -P 0xa 0 $size" --image-opts $IMGS=
+PEC | _filter_qemu_io | _filter_testdir
+=20
++_cleanup_test_img
++
++echo
++echo "=3D=3D verify that has_zero_init returns false when preallocating =
+=3D=3D"
++
++# Empty source file
++if [ -n "$TEST_IMG_FILE" ]; then
++    TEST_IMG_FILE=3D"${TEST_IMG_FILE}.orig" _make_test_img $size
++else
++    TEST_IMG=3D"${TEST_IMG}.orig" _make_test_img $size
++fi
++
++$QEMU_IMG convert -O "$IMGFMT" --object $SECRET \
++    -o "encrypt.format=3Dluks,encrypt.key-secret=3Dsec0,encrypt.iter-tim=
+e=3D10,preallocation=3Dmetadata" \
++    "${TEST_IMG}.orig" "$TEST_IMG"
++
++$QEMU_IMG compare --object $SECRET --image-opts "${IMGSPEC}.orig" "$IMGS=
+PEC"
++
+=20
+ # success, all done
+ echo "*** done"
+diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
+index 97b1402671..c568ef3701 100644
+--- a/tests/qemu-iotests/188.out
++++ b/tests/qemu-iotests/188.out
+@@ -15,4 +15,8 @@ read 16777216/16777216 bytes at offset 0
+=20
+ =3D=3D verify open failure with wrong password =3D=3D
+ qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++=3D=3D verify that has_zero_init returns false when preallocating =3D=3D
++Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D16777216
++Images are identical.
+ *** done
 --=20
 2.21.0
 
