@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56560731C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 16:36:31 +0200 (CEST)
-Received: from localhost ([::1]:52244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CF3731D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 16:37:54 +0200 (CEST)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqINa-0003RX-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 10:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60455)
+	id 1hqIOv-0004K0-Dh
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 10:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60974)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hqINL-0002x3-6K
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 10:36:16 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hqIOg-0003vl-Fs
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 10:37:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hqINK-0008Nz-45
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 10:36:15 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:44366)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hqINH-0008Jp-C1; Wed, 24 Jul 2019 10:36:11 -0400
-Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 11EFB96F51;
- Wed, 24 Jul 2019 14:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1563978968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=KUurv/KQaHtXORkxGqb0dU1d7NJ5+71uYGLwWNlG2hI=;
- b=Y+3i/bif+o99Uor3vTkcEH7yR9iWCWLrUjYaQAeYq0L0fd2vlDQX0xtWpV9cXa/TFYmf6l
- w+ypNuzmqq6IMUV+2tVJ4IiJtTf0SbgH4Kitukm6b0/OBm+tShRCidTsJXYNEpnMnzS7hT
- Xk8oqeuEpjY8xMNcHQiMahISyl2mxdo=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 16:35:53 +0200
-Message-Id: <20190724143553.21557-1-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <pbonzini@redhat.com>) id 1hqIOf-00010q-5I
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 10:37:38 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53905)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hqIOW-0000uj-A6
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 10:37:30 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so42071483wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 07:37:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yLaf5lBCiiBPlylKP5yFhx3hq1CXGj9apo/ZNRVP9iw=;
+ b=BhK4Eg2jTliWukkpzO0dhsrz1OmScMKt+uFHvCCC6ftq7eoEQri1lUvcWHh7XG/61Q
+ PCOuSWlFnhNp5M+7AFe25YpekI75vCarsWo+8FUbVaO+kvMUVSj5ditQGtRMedhUuzfB
+ LRCmQXgZOxh9eBmuV1Qtgja6GqmTxHxbGRYRhW/1iB2ug9yz6j6sxxH4P2xli/NGpY+c
+ mQv9Q9MjmUEtxtmPh7ipdm7uA3XhC83iwPL/ZFgwrCvUSKvoSfGijmiHJs2KWVb/+LSY
+ CviWSKgrUipbHESgRbBSxr8moFafV+ofamk5h0v7+KTHSSYpYVlyPbNPzEHq+3M1J5Sf
+ HaNg==
+X-Gm-Message-State: APjAAAVtvz7mKZY186sLYuo2s2+Sl2ynbcbiPx59ifuz5cpjymy8gAZG
+ 1coQuJ1ZT1HWwaAJNEsfNDbB2A==
+X-Google-Smtp-Source: APXvYqyAq2PADuogJSvgYchRFM8uVEfvoMvlIbPK36hsnnxOLgp15xDjUg3lG7YtvsNEupqexis1rg==
+X-Received: by 2002:a1c:3:: with SMTP id 3mr75618891wma.6.1563979039477;
+ Wed, 24 Jul 2019 07:37:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:10f7:67c8:abb4:8512?
+ ([2001:b07:6468:f312:10f7:67c8:abb4:8512])
+ by smtp.gmail.com with ESMTPSA id f70sm55259475wme.22.2019.07.24.07.37.18
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 24 Jul 2019 07:37:18 -0700 (PDT)
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20190724143105.307042-1-sgarzare@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <8a03b88f-db64-1873-04e0-397aa0fdd78f@redhat.com>
+Date: Wed, 24 Jul 2019 16:37:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1563978968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=KUurv/KQaHtXORkxGqb0dU1d7NJ5+71uYGLwWNlG2hI=;
- b=4wpMEr021XD0hMVbulDG6wTO+FlpLQVrxdJ94hueM2/mTsASn7pQYSYoKoeYWoJvHb6v/p
- lzWEiPsamiN6fHXe8CNT94m6UUhmtVp7eLm0T8IySZEfAjInGzwt+vkUZolk9LRQh5DPO+
- kAhWhIHshrKPIlf/aqUgREfzhI8v00w=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1563978968; a=rsa-sha256; cv=none;
- b=ic1ek3cXPpEdtxhEagFf9PbCZYG3bOhv/BvA2RYQwHK3j07IyJXznAKIBTPTQkDyj77PXE
- LrucliYHki1kH3lhVtFmaN16qfHef5NqHB2NwaNvtlfg/YOl1afw1825VrYdvsOa2fuZ5A
- wMMiUfqqd/ymyNJBDqWZ4HCkXKyHj1U=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190724143105.307042-1-sgarzare@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH for 4.1?] pl330: fix vmstate description
+ [fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] pc: mmap kernel (ELF image) and
+ initrd
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,80 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the pl330 main and queue vmstate description.
-There were missing POINTER flags causing crashes during
-incoming migration because:
-+ PL330State chan field is a pointer to an array
-+ PL330Queue queue field is a pointer to an array
+On 24/07/19 16:31, Stefano Garzarella wrote:
+> In order to reduce the memory footprint when PVH kernel and initrd
+> are used, we map them into memory instead of reading them.
+> In this way we can share them between multiple instances of QEMU.
+> 
+> v4:
+>   - Patch 1: fix the rom_add_elf_program() comment [Paolo]
+>   - Patch 2:
+>     ~ fix the missing of g_mapped_file_unref() in the success case [Paolo]
+>     ~ fix the rom_add_elf_program() comment [Paolo]
+> 
+> v3: https://patchew.org/QEMU/20190724112531.232260-1-sgarzare@redhat.com/
+> v2: https://patchew.org/QEMU/20190723140445.12748-1-sgarzare@redhat.com/
+> 
+> These are the results using a PVH kernel and initrd (cpio):
+> - memory footprint (using smem) [MB]
+>         QEMU              before                   now
+>     # instances        USS      PSS            USS      PSS
+>          1           102.0M   105.8M         102.3M   106.2M
+>          2            94.6M   101.2M          72.3M    90.1M
+>          4            94.1M    98.0M          72.0M    81.5M
+>          8            94.0M    96.2M          71.8M    76.9M
+>         16            93.9M    95.1M          71.6M    74.3M
+> 
+>     Initrd size: 3.0M
+>     Kernel
+>         image size: 28M
+>         sections size [size -A -d vmlinux]:  18.9M
+> 
+> - boot time [ms]
+>                           before                   now
+>  qemu_init_end:           63.85                   55.91
+>  linux_start_kernel:      82.11 (+18.26)          74.51 (+18.60)
+>  linux_start_user:       169.94 (+87.83)         159.06 (+84.56)
+> 
+> QEMU command used:
+> ./qemu-system-x86_64 -bios /path/to/seabios/out/bios.bin -no-hpet \
+>     -machine q35,accel=kvm,kernel_irqchip,nvdimm,sata=off,smbus=off,vmport=off \
+>     -cpu host -m 1G -smp 1 -vga none -display none -no-user-config -nodefaults \
+>     -kernel /path/to/vmlinux -initrd /path/to/rootfs.cpio \
+>     -append 'root=/dev/mem0 ro console=hvc0 pci=lastbus=0 nosmap'
+> 
+> Stefano Garzarella (3):
+>   loader: Handle memory-mapped ELFs
+>   elf-ops.h: Map into memory the ELF to load
+>   hw/i386/pc: Map into memory the initrd
+> 
+>  hw/core/loader.c     | 38 +++++++++++++++++++-----
+>  hw/i386/pc.c         | 17 ++++++++---
+>  include/hw/elf_ops.h | 71 ++++++++++++++++++++++++++------------------
+>  include/hw/i386/pc.h |  1 +
+>  include/hw/loader.h  |  5 ++--
+>  5 files changed, 89 insertions(+), 43 deletions(-)
+> 
 
-Also bump corresponding vmsd version numbers.
+Queued, thanks.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
-
-I found this while working on reset with xilinx-zynq machine.
-
-I'm not sure what's the vmsd version policy in such cases (for
-backward compatibility). I've simply bumped them since migration
-was not working anyway (vmstate_load_state was erasing critical part
-of PL330State and causing segfaults while loading following fields).
-
-Tested doing migration with the xilinx-zynq-a9 machine.
-
----
- hw/dma/pl330.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-index 58df965a46..a56a3e7771 100644
---- a/hw/dma/pl330.c
-+++ b/hw/dma/pl330.c
-@@ -218,11 +218,12 @@ typedef struct PL330Queue {
-=20
- static const VMStateDescription vmstate_pl330_queue =3D {
-     .name =3D "pl330_queue",
--    .version_id =3D 1,
--    .minimum_version_id =3D 1,
-+    .version_id =3D 2,
-+    .minimum_version_id =3D 2,
-     .fields =3D (VMStateField[]) {
--        VMSTATE_STRUCT_VARRAY_UINT32(queue, PL330Queue, queue_size, 1,
--                                 vmstate_pl330_queue_entry, PL330QueueEn=
-try),
-+        VMSTATE_STRUCT_VARRAY_POINTER_UINT32(queue, PL330Queue, queue_si=
-ze,
-+                                             vmstate_pl330_queue_entry,
-+                                             PL330QueueEntry),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -278,12 +279,12 @@ struct PL330State {
-=20
- static const VMStateDescription vmstate_pl330 =3D {
-     .name =3D "pl330",
--    .version_id =3D 1,
--    .minimum_version_id =3D 1,
-+    .version_id =3D 2,
-+    .minimum_version_id =3D 2,
-     .fields =3D (VMStateField[]) {
-         VMSTATE_STRUCT(manager, PL330State, 0, vmstate_pl330_chan, PL330=
-Chan),
--        VMSTATE_STRUCT_VARRAY_UINT32(chan, PL330State, num_chnls, 0,
--                                     vmstate_pl330_chan, PL330Chan),
-+        VMSTATE_STRUCT_VARRAY_POINTER_UINT32(chan, PL330State, num_chnls=
-,
-+                                             vmstate_pl330_chan, PL330Ch=
-an),
-         VMSTATE_VBUFFER_UINT32(lo_seqn, PL330State, 1, NULL, num_chnls),
-         VMSTATE_VBUFFER_UINT32(hi_seqn, PL330State, 1, NULL, num_chnls),
-         VMSTATE_STRUCT(fifo, PL330State, 0, vmstate_pl330_fifo, PL330Fif=
-o),
---=20
-2.22.0
-
+Paolo
 
