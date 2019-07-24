@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2A1734CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:14:36 +0200 (CEST)
-Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EC5734CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:15:23 +0200 (CEST)
+Received: from localhost ([::1]:53672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqKqY-0001Kb-Gc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49815)
+	id 1hqKrK-0004hq-DA
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49831)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hqKpJ-0005EE-Py
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:18 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hqKpM-0005Q6-DP
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hqKpI-0006AS-Gw
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41850)
+ (envelope-from <mreitz@redhat.com>) id 1hqKpK-0006FK-A2
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:27234)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hqKpG-0005xZ-3M; Wed, 24 Jul 2019 13:13:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hqKpH-00067D-TH; Wed, 24 Jul 2019 13:13:16 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5E5D930B1AD1;
- Wed, 24 Jul 2019 17:13:12 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3869781F10;
+ Wed, 24 Jul 2019 17:13:15 +0000 (UTC)
 Received: from localhost (ovpn-204-115.brq.redhat.com [10.40.204.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA62760BEC;
- Wed, 24 Jul 2019 17:13:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4B1A60A35;
+ Wed, 24 Jul 2019 17:13:14 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 24 Jul 2019 19:12:37 +0200
-Message-Id: <20190724171239.8764-10-mreitz@redhat.com>
+Date: Wed, 24 Jul 2019 19:12:38 +0200
+Message-Id: <20190724171239.8764-11-mreitz@redhat.com>
 In-Reply-To: <20190724171239.8764-1-mreitz@redhat.com>
 References: <20190724171239.8764-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 24 Jul 2019 17:13:12 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Wed, 24 Jul 2019 17:13:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 09/11] iotests: Convert to preallocated
- encrypted qcow2
+Subject: [Qemu-devel] [PATCH v2 10/11] iotests: Test convert -n to
+ pre-filled image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,75 +60,59 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a test case for converting an empty image (which only returns zeroes
-when read) to a preallocated encrypted qcow2 image.
-qcow2_has_zero_init() should return 0 then, thus forcing qemu-img
-convert to create zero clusters.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Acked-by: Stefano Garzarella <sgarzare@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- tests/qemu-iotests/188     | 20 +++++++++++++++++++-
- tests/qemu-iotests/188.out |  4 ++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/122     | 17 +++++++++++++++++
+ tests/qemu-iotests/122.out |  8 ++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/tests/qemu-iotests/188 b/tests/qemu-iotests/188
-index be7278aa65..afca44df54 100755
---- a/tests/qemu-iotests/188
-+++ b/tests/qemu-iotests/188
-@@ -48,7 +48,7 @@ SECRETALT=3D"secret,id=3Dsec0,data=3Dplatypus"
+diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
+index 85c3a8d047..059011ebb1 100755
+--- a/tests/qemu-iotests/122
++++ b/tests/qemu-iotests/122
+@@ -257,6 +257,23 @@ for min_sparse in 4k 8k; do
+     $QEMU_IMG map --output=3Djson "$TEST_IMG".orig | _filter_qemu_img_ma=
+p
+ done
 =20
- _make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-se=
-cret=3Dsec0,encrypt.iter-time=3D10" $size
-=20
--IMGSPEC=3D"driver=3D$IMGFMT,file.filename=3D$TEST_IMG,encrypt.key-secret=
-=3Dsec0"
-+IMGSPEC=3D"driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D$T=
-EST_IMG"
-=20
- QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-=20
-@@ -68,6 +68,24 @@ echo
- echo "=3D=3D verify open failure with wrong password =3D=3D"
- $QEMU_IO --object $SECRETALT -c "read -P 0xa 0 $size" --image-opts $IMGS=
-PEC | _filter_qemu_io | _filter_testdir
-=20
-+_cleanup_test_img
 +
 +echo
-+echo "=3D=3D verify that has_zero_init returns false when preallocating =
-=3D=3D"
++echo '=3D=3D=3D -n to a non-zero image =3D=3D=3D'
++echo
 +
-+# Empty source file
-+if [ -n "$TEST_IMG_FILE" ]; then
-+    TEST_IMG_FILE=3D"${TEST_IMG_FILE}.orig" _make_test_img $size
-+else
-+    TEST_IMG=3D"${TEST_IMG}.orig" _make_test_img $size
-+fi
++# Keep source zero
++_make_test_img 64M
 +
-+$QEMU_IMG convert -O "$IMGFMT" --object $SECRET \
-+    -o "encrypt.format=3Dluks,encrypt.key-secret=3Dsec0,encrypt.iter-tim=
-e=3D10,preallocation=3Dmetadata" \
-+    "${TEST_IMG}.orig" "$TEST_IMG"
++# Output is not zero, but has bdrv_has_zero_init() =3D=3D 1
++TEST_IMG=3D"$TEST_IMG".orig _make_test_img 64M
++$QEMU_IO -c "write -P 42 0 64k" "$TEST_IMG".orig | _filter_qemu_io
 +
-+$QEMU_IMG compare --object $SECRET --image-opts "${IMGSPEC}.orig" "$IMGS=
-PEC"
++# Convert with -n, which should not assume that the target is zeroed
++$QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG".orig
 +
-=20
++$QEMU_IMG compare "$TEST_IMG" "$TEST_IMG".orig
++
  # success, all done
- echo "*** done"
-diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
-index 97b1402671..c568ef3701 100644
---- a/tests/qemu-iotests/188.out
-+++ b/tests/qemu-iotests/188.out
-@@ -15,4 +15,8 @@ read 16777216/16777216 bytes at offset 0
-=20
- =3D=3D verify open failure with wrong password =3D=3D
- qemu-io: can't open: Invalid password, cannot unlock any keyslot
+ echo '*** done'
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
+index c576705284..849b6cc2ef 100644
+--- a/tests/qemu-iotests/122.out
++++ b/tests/qemu-iotests/122.out
+@@ -220,4 +220,12 @@ convert -c -S 8k
+ { "start": 9216, "length": 8192, "depth": 0, "zero": true, "data": false=
+},
+ { "start": 17408, "length": 1024, "depth": 0, "zero": false, "data": tru=
+e},
+ { "start": 18432, "length": 67090432, "depth": 0, "zero": true, "data": =
+false}]
 +
-+=3D=3D verify that has_zero_init returns false when preallocating =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D16777216
++=3D=3D=3D -n to a non-zero image =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
++Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D67108864
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 +Images are identical.
  *** done
 --=20
