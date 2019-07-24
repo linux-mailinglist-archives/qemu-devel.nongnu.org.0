@@ -2,41 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE13372A56
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:44:04 +0200 (CEST)
-Received: from localhost ([::1]:49730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5288D72A58
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 10:44:30 +0200 (CEST)
+Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqCsV-0003ep-K1
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
+	id 1hqCsu-0005Oi-MK
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 04:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33947)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCs1-0002GC-B2
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:34 -0400
+ (envelope-from <quintela@redhat.com>) id 1hqCs6-0002cK-9W
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCs0-0001jN-61
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:33 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:58824)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqCrz-0001j6-Tp
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:32 -0400
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 16FEC54006A;
- Wed, 24 Jul 2019 11:43:31 +0300 (MSK)
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 24 Jul 2019 11:43:30 +0300
-Message-ID: <156395781091.510.11391851999381257435.stgit@pasha-Precision-3630-Tower>
-In-Reply-To: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
-References: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
-User-Agent: StGit/0.17.1-dirty
+ (envelope-from <quintela@redhat.com>) id 1hqCs5-0001oL-4i
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36288)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hqCs4-0001nG-Ur
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 04:43:37 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 466E78F921;
+ Wed, 24 Jul 2019 08:43:35 +0000 (UTC)
+Received: from redhat.com (ovpn-116-17.ams2.redhat.com [10.36.116.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE46F60A9F;
+ Wed, 24 Jul 2019 08:43:34 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Ivan Ren <renyime@gmail.com>
+In-Reply-To: <1561468699-9819-2-git-send-email-ivanren@tencent.com> (Ivan
+ Ren's message of "Tue, 25 Jun 2019 21:18:17 +0800")
+References: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
+ <1561468699-9819-2-git-send-email-ivanren@tencent.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Wed, 24 Jul 2019 10:43:32 +0200
+Message-ID: <87o91j9617.fsf@trasno.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.2 03/14] replay: disable default snapshot
- for record/replay
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Wed, 24 Jul 2019 08:43:35 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/3] migration: fix migrate_cancel leads
+ live_migration thread endless loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,55 +58,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
- pbonzini@redhat.com, quintela@redhat.com, ciro.santilli@gmail.com,
- jasowang@redhat.com, crosthwaite.peter@gmail.com, armbru@redhat.com,
- mreitz@redhat.com, alex.bennee@linaro.org, maria.klimushenkova@ispras.ru,
- mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
- thomas.dullien@googlemail.com, dovgaluk@ispras.ru, artem.k.pisarenko@gmail.com,
- dgilbert@redhat.com, rth@twiddle.net
+Reply-To: quintela@redhat.com
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Ivan Ren <renyime@gmail.com> wrote:
+> When we 'migrate_cancel' a multifd migration, live_migration thread may
+> go into endless loop in multifd_send_pages functions.
+>
+> Reproduce steps:
+>
+> (qemu) migrate_set_capability multifd on
+> (qemu) migrate -d url
+> (qemu) [wait a while]
+> (qemu) migrate_cancel
+>
+> Then may get live_migration 100% cpu usage in following stack:
+>
+> pthread_mutex_lock
+> qemu_mutex_lock_impl
+> multifd_send_pages
+> multifd_queue_page
+> ram_save_multifd_page
+> ram_save_target_page
+> ram_save_host_page
+> ram_find_and_save_block
+> ram_find_and_save_block
+> ram_save_iterate
+> qemu_savevm_state_iterate
+> migration_iteration_run
+> migration_thread
+> qemu_thread_start
+> start_thread
+> clone
+>
+> Signed-off-by: Ivan Ren <ivanren@tencent.com>
 
-This patch disables setting '-snapshot' option on by default
-in record/replay mode. This is needed for creating vmstates in record
-and replay modes.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Acked-by: Kevin Wolf <kwolf@redhat.com>
----
- vl.c |   10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/vl.c b/vl.c
-index b426b32134..b73fd078a8 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1202,7 +1202,7 @@ static void configure_blockdev(BlockdevOptionsQueue *bdo_queue,
-         qapi_free_BlockdevOptions(bdo->bdo);
-         g_free(bdo);
-     }
--    if (snapshot || replay_mode != REPLAY_MODE_NONE) {
-+    if (snapshot) {
-         qemu_opts_foreach(qemu_find_opts("drive"), drive_enable_snapshot,
-                           NULL, NULL);
-     }
-@@ -3051,7 +3051,13 @@ int main(int argc, char **argv, char **envp)
-                 drive_add(IF_PFLASH, -1, optarg, PFLASH_OPTS);
-                 break;
-             case QEMU_OPTION_snapshot:
--                snapshot = 1;
-+                {
-+                    Error *blocker = NULL;
-+                    snapshot = 1;
-+                    error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
-+                               "-snapshot");
-+                    replay_add_blocker(blocker);
-+                }
-                 break;
-             case QEMU_OPTION_numa:
-                 opts = qemu_opts_parse_noisily(qemu_find_opts("numa"),
-
+Will sent for rc3.
 
