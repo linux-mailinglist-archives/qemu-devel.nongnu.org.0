@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31B0734D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:15:37 +0200 (CEST)
-Received: from localhost ([::1]:53676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340FB734C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 19:14:28 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqKrY-0005d2-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:15:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
+	id 1hqKqQ-0000ah-Vd
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 13:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49635)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hqKp6-0004FU-C6
+ (envelope-from <mreitz@redhat.com>) id 1hqKp7-0004Mr-Sh
  for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hqKp5-0005Pf-De
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52878)
+ (envelope-from <mreitz@redhat.com>) id 1hqKp6-0005Up-N9
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 13:13:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54318)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hqKp2-00052C-As; Wed, 24 Jul 2019 13:13:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hqKp4-0005Hm-8i; Wed, 24 Jul 2019 13:13:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8FC2630A7C69;
- Wed, 24 Jul 2019 17:12:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 994F9C03D478;
+ Wed, 24 Jul 2019 17:13:01 +0000 (UTC)
 Received: from localhost (ovpn-204-115.brq.redhat.com [10.40.204.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00CEB1001DD7;
- Wed, 24 Jul 2019 17:12:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13AD919C70;
+ Wed, 24 Jul 2019 17:13:00 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 24 Jul 2019 19:12:33 +0200
-Message-Id: <20190724171239.8764-6-mreitz@redhat.com>
+Date: Wed, 24 Jul 2019 19:12:34 +0200
+Message-Id: <20190724171239.8764-7-mreitz@redhat.com>
 In-Reply-To: <20190724171239.8764-1-mreitz@redhat.com>
 References: <20190724171239.8764-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Wed, 24 Jul 2019 17:12:58 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 24 Jul 2019 17:13:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 05/11] block: Use
- bdrv_has_zero_init_truncate()
+Subject: [Qemu-devel] [PATCH v2 06/11] qcow2: Fix .bdrv_has_zero_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,42 +59,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If a qcow2 file is preallocated, it can no longer guarantee that it
+initially appears as filled with zeroes.
+
+So implement .bdrv_has_zero_init() by checking whether the file is
+preallocated; if so, forward the call to the underlying storage node,
+except for when it is encrypted: Encrypted preallocated images always
+return effectively random data, so .bdrv_has_zero_init() must always
+return 0 for them.
+
+.bdrv_has_zero_init_truncate() can remain bdrv_has_zero_init_1(),
+because it presupposes PREALLOC_MODE_OFF.
+
+Reported-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/parallels.c | 2 +-
- block/vhdx.c      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/qcow2.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 00fae125d1..7cd2714b69 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -835,7 +835,7 @@ static int parallels_open(BlockDriverState *bs, QDict=
- *options, int flags,
-         goto fail_options;
-     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 5c40f54d64..b4e73aa443 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4631,6 +4631,33 @@ static ImageInfoSpecific *qcow2_get_specific_info(=
+BlockDriverState *bs,
+     return spec_info;
+ }
 =20
--    if (!bdrv_has_zero_init(bs->file->bs)) {
-+    if (!bdrv_has_zero_init_truncate(bs->file->bs)) {
-         s->prealloc_mode =3D PRL_PREALLOC_MODE_FALLOCATE;
-     }
++static int qcow2_has_zero_init(BlockDriverState *bs)
++{
++    BDRVQcow2State *s =3D bs->opaque;
++    bool preallocated;
++
++    if (qemu_in_coroutine()) {
++        qemu_co_mutex_lock(&s->lock);
++    }
++    /*
++     * Check preallocation status: Preallocated images have all L2
++     * tables allocated, nonpreallocated images have none.  It is
++     * therefore enough to check the first one.
++     */
++    preallocated =3D s->l1_size > 0 && s->l1_table[0] !=3D 0;
++    if (qemu_in_coroutine()) {
++        qemu_co_mutex_unlock(&s->lock);
++    }
++
++    if (!preallocated) {
++        return 1;
++    } else if (bs->encrypted) {
++        return 0;
++    } else {
++        return bdrv_has_zero_init(s->data_file->bs);
++    }
++}
++
+ static int qcow2_save_vmstate(BlockDriverState *bs, QEMUIOVector *qiov,
+                               int64_t pos)
+ {
+@@ -5186,7 +5213,7 @@ BlockDriver bdrv_qcow2 =3D {
+     .bdrv_child_perm      =3D bdrv_format_default_perms,
+     .bdrv_co_create_opts  =3D qcow2_co_create_opts,
+     .bdrv_co_create       =3D qcow2_co_create,
+-    .bdrv_has_zero_init =3D bdrv_has_zero_init_1,
++    .bdrv_has_zero_init   =3D qcow2_has_zero_init,
+     .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
+     .bdrv_co_block_status =3D qcow2_co_block_status,
 =20
-diff --git a/block/vhdx.c b/block/vhdx.c
-index d6070b6fa8..a02d1c99a7 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1282,7 +1282,7 @@ static coroutine_fn int vhdx_co_writev(BlockDriverS=
-tate *bs, int64_t sector_num,
-                 /* Queue another write of zero buffers if the underlying=
- file
-                  * does not zero-fill on file extension */
-=20
--                if (bdrv_has_zero_init(bs->file->bs) =3D=3D 0) {
-+                if (bdrv_has_zero_init_truncate(bs->file->bs) =3D=3D 0) =
-{
-                     use_zero_buffers =3D true;
-=20
-                     /* zero fill the front, if any */
 --=20
 2.21.0
 
