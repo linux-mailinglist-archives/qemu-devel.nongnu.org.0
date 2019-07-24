@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A64726A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 06:30:40 +0200 (CEST)
-Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED45726E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Jul 2019 06:48:10 +0200 (CEST)
+Received: from localhost ([::1]:48564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hq8vH-0006Qb-Db
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 00:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56577)
+	id 1hq9CD-0002F8-QX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 00:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hq8uy-0005tI-0N
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:21 -0400
+ (envelope-from <armbru@redhat.com>) id 1hq9C0-0001iy-Iq
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:47:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hq8uw-0006WG-Ql
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:19 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46090)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hq8uw-0006Vp-Lc
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:30:18 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hq8uv-0006ie-4Y
- for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:17 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 18F202E806E
- for <qemu-devel@nongnu.org>; Wed, 24 Jul 2019 04:30:17 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1hq9Bz-0005Ud-DM
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 00:47:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49452)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hq9Bw-0005Rv-St; Wed, 24 Jul 2019 00:47:53 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3CF223086262;
+ Wed, 24 Jul 2019 04:47:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-30.ams2.redhat.com
+ [10.36.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0807219C58;
+ Wed, 24 Jul 2019 04:47:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7610E113865F; Wed, 24 Jul 2019 06:47:44 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+References: <20190717173937.18747-1-jsnow@redhat.com>
+Date: Wed, 24 Jul 2019 06:47:44 +0200
+In-Reply-To: <20190717173937.18747-1-jsnow@redhat.com> (John Snow's message of
+ "Wed, 17 Jul 2019 13:39:37 -0400")
+Message-ID: <87imrsqbrj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Jul 2019 04:17:40 -0000
-From: Launchpad Bug Tracker <1585971@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: antonios-dimtsoudis janitor th-huth
-X-Launchpad-Bug-Reporter: TuniTunes (antonios-dimtsoudis)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160526095955.26642.69942.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156394186091.19185.4265967821136341888.malone@loganberry.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 169bc67d6780951c4c2bebedd2f11701d914b638
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Wed, 24 Jul 2019 04:47:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1585971] Re: Host system crashes on qemu with DMA
- remapping
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3] qapi: add dirty-bitmaps to
+ query-named-block-nodes result
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,57 +60,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1585971 <1585971@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+John Snow <jsnow@redhat.com> writes:
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+> Let's add a possibility to query dirty-bitmaps not only on root nodes.
+> It is useful when dealing both with snapshots and incremental backups.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> [Added deprecation information. --js]
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  block/qapi.c         |  5 +++++
+>  qapi/block-core.json |  6 +++++-
+>  qemu-deprecated.texi | 12 ++++++++++++
+>  3 files changed, 22 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/qapi.c b/block/qapi.c
+> index 917435f022..15f1030264 100644
+> --- a/block/qapi.c
+> +++ b/block/qapi.c
+> @@ -79,6 +79,11 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+>          info->backing_file = g_strdup(bs->backing_file);
+>      }
+>  
+> +    if (!QLIST_EMPTY(&bs->dirty_bitmaps)) {
+> +        info->has_dirty_bitmaps = true;
+> +        info->dirty_bitmaps = bdrv_query_dirty_bitmaps(bs);
+> +    }
+> +
+>      info->detect_zeroes = bs->detect_zeroes;
+>  
+>      if (blk && blk_get_public(blk)->throttle_group_member.throttle_state) {
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0d43d4f37c..9210ae233d 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -360,6 +360,9 @@
+>  # @write_threshold: configured write threshold for the device.
+>  #                   0 if disabled. (Since 2.3)
+>  #
+> +# @dirty-bitmaps: dirty bitmaps information (only present if node
+> +#                 has one or more dirty bitmaps) (Since 4.2)
+> +#
+>  # Since: 0.14.0
+>  #
+>  ##
+> @@ -378,7 +381,7 @@
+>              '*bps_wr_max_length': 'int', '*iops_max_length': 'int',
+>              '*iops_rd_max_length': 'int', '*iops_wr_max_length': 'int',
+>              '*iops_size': 'int', '*group': 'str', 'cache': 'BlockdevCacheInfo',
+> -            'write_threshold': 'int' } }
+> +            'write_threshold': 'int', '*dirty-bitmaps': ['BlockDirtyInfo'] } }
+>  
+>  ##
+>  # @BlockDeviceIoStatus:
+> @@ -656,6 +659,7 @@
+>  #
+>  # @dirty-bitmaps: dirty bitmaps information (only present if the
+>  #                 driver has one or more dirty bitmaps) (Since 2.0)
+> +#                 Deprecated in 4.2; see BlockDirtyInfo instead.
+>  #
+>  # @io-status: @BlockDeviceIoStatus. Only present if the device
+>  #             supports it and the VM is configured to stop on errors
+> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> index c90b08d553..6374b66546 100644
+> --- a/qemu-deprecated.texi
+> +++ b/qemu-deprecated.texi
+> @@ -134,6 +134,18 @@ The ``status'' field of the ``BlockDirtyInfo'' structure, returned by
+>  the query-block command is deprecated. Two new boolean fields,
+>  ``recording'' and ``busy'' effectively replace it.
+>  
+> +@subsection query-block result field dirty-bitmaps (Since 4.2)
+> +
+> +The ``dirty-bitmaps`` field of the ``BlockInfo`` structure, returned by
+> +the query-block command is itself now deprecated. The ``dirty-bitmaps``
+> +field of the ``BlockDeviceInfo`` struct should be used instead, which is the
+> +type of the ``inserted`` field in query-block replies, as well as the
+> +type of array items in query-named-block-nodes.
 
--- =
+Would the text be clearer if it talked only about commands, not about
+types?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1585971
+Here's my (laconic) try:
 
-Title:
-  Host system crashes on qemu with DMA remapping
+   @subsection query-block result field dirty-bitmaps (Since 4.2)
 
-Status in QEMU:
-  Expired
+   In the result of query-block, member ``dirty-bitmaps'' has been moved
+   into member ``inserted''.
 
-Bug description:
-  Hy,
+Aside: same for existing @subsection query-block result field
+dirty-bitmaps[i].status (since 4.0).
 
-  the host system crashes completely, when i try to pass an physical
-  device without boot option intel_iommu=3Don set. In older kernel
-  versions you didn't have to pass that option.
+> +Since the ``dirty-bitmaps`` field is optionally present in both the old and
+> +new locations, clients must use introspection to learn where to anticipate
+> +the field if/when it does appear in command output.
+> +
 
-  I wonder if this can be easily checked by asking iommu state, avoiding
-  a crash of the complete system.
+I find this hint a bit confusing.  Do we need it?
 
-  My data:
-  cpu model: Intel(R) Core(TM) i7 CPU
-  qemu version: 2.4.1-r2
-  kernel version: 4.1.2 x86_64
-  command line: =
+If yes, laconic me again:
 
-  qemu-system-x86_64 -enable-kvm -drive file=3D/vms/prod/fw/fw.iso,if=3Dvir=
-tio,format=3Draw -drive file=3D/vms/prod/fw/swap,if=3Dvirtio,format=3Draw -=
-drive file=3D/vms/prod/fw/fwdata.iso,if=3Dvirtio,format=3Draw -m 512 -nogra=
-phic -kernel /data/kernels/vmlinuz-2.6.36-gentoo-r8 -append "root=3D/dev/vd=
-a console=3DttyS0 earlyprintk=3Dserial" -net nic,model=3Dvirtio,macaddr=3DD=
-E:AD:BE:EF:2D:AD -net tap,ifname=3Dtapfw0,script=3D/etc/qemu/qemu-ifup -dev=
-ice pci-assign,host=3D03:00.0
+   Clients should use introspection to learn whether ``dirty-bitmaps'' is
+   in the new location.
 
-  There are also more detailed informations (if needed) here:
-  https://forums.gentoo.org/viewtopic-p-7923976.html
-
-  Thanks,
-  Antonios.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1585971/+subscriptions
+>  @subsection query-cpus (since 2.12.0)
+>  
+>  The ``query-cpus'' command is replaced by the ``query-cpus-fast'' command.
 
