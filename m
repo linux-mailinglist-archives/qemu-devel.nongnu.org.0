@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A941474E78
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 14:47:44 +0200 (CEST)
-Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907EE74EEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 15:15:37 +0200 (CEST)
+Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqd9r-0001Ed-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 08:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38287)
+	id 1hqdap-0003de-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 09:15:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32937)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hqd9V-0000W2-TR
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 08:47:22 -0400
+ (envelope-from <wangxiongfeng2@huawei.com>) id 1hqYQA-0004yx-Bo
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 03:44:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hqd9U-0001zw-KR
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 08:47:21 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:44153)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqd9O-0001u1-Sz
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 08:47:18 -0400
-Received: by mail-qt1-f195.google.com with SMTP id 44so17869220qtg.11
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 05:47:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=T7gWq3B02kUPS45YxI+GpzRV5Vn5G3JzwdvL3XD/xMg=;
- b=CZ14KGm49rwIdenQPJyDXk/HA3OQd3YnoUKD4sYzyCQVWeHyW1lt4PUbSmZzKsN8yb
- PQPW1vtMst2CwJbgq/f8+1/2IfT77XXEpdGDDkE/rKzYcwQyGXK9Opn/DVTAX4UXrFo5
- 7dxmW2OWOIU1enUqR/rqPaziK2UgegF6tpWRlHh9pnUV8hFWyurohWZS8WxmoXu0kCd8
- R7Qq4Aj1uEtAA6LVyKAe8vY3E8fWnVMzwh4847LHHqHOMJTLQRHwmFhpixXjEytRV+AC
- aRc9ssrbQ3ygLx5HhPhRs3i6jxqqaF1+gFFw3q7Ct5VTu8YiEXzXSUZp/vqFWMg90Jwi
- zrhw==
-X-Gm-Message-State: APjAAAVH9rOsBc6wOVCi1U/mj83QgqtLGe/fSN30nE8dJjiHumhR5JsF
- UHzpbuL7lxnMdUrPfbLVKl87P3aHIrrfoA==
-X-Google-Smtp-Source: APXvYqzpTHTzxwMPSBH7PyRvYc0tOezFWEAtOsO5vSiGOXCGD0T43YBFVs2czjLydmUgOzkPv+TFuw==
-X-Received: by 2002:a05:6214:1312:: with SMTP id
- a18mr63006055qvv.241.1564058829284; 
- Thu, 25 Jul 2019 05:47:09 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
- by smtp.gmail.com with ESMTPSA id
- d12sm20560301qtj.50.2019.07.25.05.47.06
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 25 Jul 2019 05:47:08 -0700 (PDT)
-Date: Thu, 25 Jul 2019 08:47:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190725124632.29009-1-mst@redhat.com>
+ (envelope-from <wangxiongfeng2@huawei.com>) id 1hqYQ9-0001Mg-2l
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 03:44:14 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2177 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wangxiongfeng2@huawei.com>)
+ id 1hqYQ8-0001Ig-NP
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 03:44:13 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 99377D247FDFEC012AAD;
+ Thu, 25 Jul 2019 15:43:58 +0800 (CST)
+Received: from [127.0.0.1] (10.184.52.56) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Thu, 25 Jul 2019
+ 15:43:51 +0800
+To: "Zhangbo (Oscar)" <oscar.zhangbo@huawei.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <0259E1C966E8C54AA93AA2B1240828E672DF606C@dggeml509-mbx.china.huawei.com>
+From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Message-ID: <78b73d10-3c7c-daf5-9342-cc10029417cc@huawei.com>
+Date: Thu, 25 Jul 2019 15:43:50 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
+In-Reply-To: <0259E1C966E8C54AA93AA2B1240828E672DF606C@dggeml509-mbx.china.huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.184.52.56]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.195
-Subject: [Qemu-devel] [PATCH v2] virtio-balloon: free pbp more aggressively
+X-Received-From: 45.249.212.190
+X-Mailman-Approved-At: Thu, 25 Jul 2019 09:14:59 -0400
+Subject: Re: [Qemu-devel] CC wangxiongfeng. : RE: [PATCH] pcie: fix device
+ hotplug failure at the meantime of VM boot
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,126 +58,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: fangying <fangying1@huawei.com>, "limingwang \(A\)" <limingwang@huawei.com>,
+ "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patches switched to a temporary pbp but that does not go far
-enough: after device uses a buffer, guest is free to reuse it, so
-tracking the page and freeing it later is wrong.
 
-Free and reset the pbp after we push each element.
 
-Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE < host page size")
-Cc: qemu-stable@nongnu.org #v4.0.0
-Cc: David Hildenbrand <david@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
+On 2019/7/25 11:19, Zhangbo (Oscar) wrote:
+>>> If the PCI_EXP_LNKSTA_DLLLA capability is set by default, linux kernel will send
+>>> PDC event to detect whether there is a device in pcie slot. If a device is pluged
+>>> in the pcie-root-port at the same time, hot-plug device will send ABP + PDC
+>>> events to the kernel. The VM kernel will wrongly unplug the device if two PDC
+>>> events get too close. Thus we'd better set the PCI_EXP_LNKSTA_DLLLA
+>>> capability only in hotplug callback.
+>>
+>> Could you please describe a reproducer in a bit more detail?
+>>
+> Step1: start a VM with qemu, the VM boots up within 500ms.
+>   /path/to/qemu-2.8.1/aarch64-softmmu/qemu-system-aarch64 \
+>   -name test-c65961652639ccf9ce0b8476a325421811d4fdc873e90c27168497bc9e204776 \
+>   -uuid a8ed4a86-3f49-45a3-a8ce-28d61b2f2914 \
+>   -machine virt,usb=off,accel=kvm,gic-version=3 \
+>   -cpu host \
+>   -m 2048M,slots=10,maxmem=239477M \
+>   -qmp unix:/var/run/qmp.sock,server,nowait \
+>   -device pcie-root-port,port=0x8,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x1 \
+>   -device pcie-root-port,port=0x9,chassis=2,id=pci.2,bus=pcie.0,addr=0x1.0x1 \
+>   -device pcie-root-port,port=0xa,chassis=3,id=pci.3,bus=pcie.0,addr=0x1.0x2 \
+>   -device pcie-root-port,port=0xb,chassis=4,id=pci.4,bus=pcie.0,addr=0x1.0x3 \
+>   -device pcie-root-port,port=0xc,chassis=5,id=pci.5,bus=pcie.0,addr=0x1.0x4 \
+>   -device pcie-root-port,port=0xd,chassis=6,id=pci.6,bus=pcie.0,addr=0x1.0x5 \
+>   -device pcie-root-port,port=0xe,chassis=7,id=pci.7,bus=pcie.0,addr=0x1.0x6 \
+>   -device pcie-pci-bridge,id=pci.8,bus=pci.1,addr=0x0 \
+>   -device pcie-root-port,port=0xf,chassis=9,id=pci.9,bus=pcie.0,addr=0x1.0x7 \
+>   .......
+>   
+> Step2: Immediately hotplug a pcie device:
+>   qmp_msg='{ "execute": "qmp_capabilities" }
+> {"arguments":{"addr":"0x0","bus":"pci.4","driver":"virtio-net-pci","id":"virtio-e1356802-4b9f-44bb-b8f0-5f98bf765823","mac":"02:42:20:6e:a2:59"},"execute":"device_del"}
+> {"arguments":{"id":"netport_test_1","ifname":"nfs_tap"},"execute":"netdev_del"}'
+> 
+>   echo $qmp_msg | nc -U /var/run/qmp.sock
+> 
+> Result expected:  hotplug successful, the pcie device could be seen inside the VM
+> 
+> Result in fact: we found a "hotplug" and "unplug" message inside the VM, it failed in hotplug.
+> 
 
-changes from v1: moved pbp on stack
+I think it's because the device is plugged into the system before the pciehp modules  is loaded.
+When pciehp module is being loaded, it will firstly check whether the device is present in pciehp_probe()->pciehp_check_presence().
+In our situation, the link is active, so the device is emumerated and added into the system.
+But the slot may not be powered on yet.
+After pciehp interrupt is initialized, an ABP event is received and the device is plugged out.
 
- hw/virtio/virtio-balloon.c | 33 ++++++++++++++-------------------
- 1 file changed, 14 insertions(+), 19 deletions(-)
+>>
+>>>
+>>> By the way, we should clean up the PCI_EXP_LNKSTA_DLLLA capability during
+>>> unplug to avoid VM restart or migration failure which will enter the same
+>>> abnormal scenario as above.
+>>>
+>>> Signed-off-by: limingwang@huawei.com
+>>> Signed-off-by: fangying1@huawei.com
+>>> Signed-off-by: oscar.zhangbo@huawei.com
+>>
+>> So looking at linux I see:
+>>
+>> * pciehp_card_present_or_link_active() - whether given slot is occupied
+>> * @ctrl: PCIe hotplug controller
+>> *
+>> * Unlike pciehp_card_present(), which determines presence solely from the
+>> * Presence Detect State bit, this helper also returns true if the Link Active
+>> * bit is set.  This is a concession to broken hotplug ports which hardwire
+>> * Presence Detect State to zero, such as Wilocity's [1ae9:0200].
+>>
+>> so it looks like linux actually looks at presence detect state,
+>> but we have a bug just like Wilocity's and keeping
+>> link active up fixes that. Can't we fix the bug instead?
+>>
+> @wangxiongfeng 
+>>> ---
+>>>  hw/pci/pcie.c | 9 +++++----
+>>>  1 file changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+>>> index a6beb56..174f392 100644
+>>> --- a/hw/pci/pcie.c
+>>> +++ b/hw/pci/pcie.c
+>>> @@ -75,10 +75,6 @@ pcie_cap_v1_fill(PCIDevice *dev, uint8_t port, uint8_t
+>> type, uint8_t version)
+>>>
+>> QEMU_PCI_EXP_LNKSTA_NLW(QEMU_PCI_EXP_LNK_X1) |
+>>>
+>> QEMU_PCI_EXP_LNKSTA_CLS(QEMU_PCI_EXP_LNK_2_5GT));
+>>>
+>>> -    if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
+>>> -        pci_word_test_and_set_mask(exp_cap + PCI_EXP_LNKSTA,
+>>> -                                   PCI_EXP_LNKSTA_DLLLA);
+>>> -    }
+>>>
+>>>      /* We changed link status bits over time, and changing them across
+>>>       * migrations is generally fine as hardware changes them too.
+>>
+>> Does this actually change anything?
+>>
+>> I don't know why do we bother setting it here but we do
+>> set it later in pcie_cap_slot_plug_cb, correct?
+>>
+>> I'd like to understand whether this is part of fix or
+>> just a cleanup.
+>>
+>>
+>>> @@ -484,6 +480,11 @@ void
+>> pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+>>>          return;
+>>>      }
+>>>
+>>> +    if (pci_dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
+>>> +        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
+>>> +                                     PCI_EXP_LNKSTA_DLLLA);
+>>> +    }
+>>> +
+>>>      pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
+>>>  }
+>>
+>> So this reports data link inactive immediately after
+>> unplug request. Seems a bit questionable: guest did not
+>> respond yet. I'd like to see a comment explaining why
+>> this makes sense.
+>>
+>>
+>>> --
+>>> 1.8.3.1
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index fe9664e42c..b72ed68794 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -41,22 +41,19 @@ typedef struct PartiallyBalloonedPage {
- 
- static void virtio_balloon_pbp_free(PartiallyBalloonedPage *pbp)
- {
--    if (!pbp) {
-+    if (!pbp->bitmap) {
-         return;
-     }
-     g_free(pbp->bitmap);
--    g_free(pbp);
-+    pbp->bitmap = NULL;
- }
- 
--static PartiallyBalloonedPage *virtio_balloon_pbp_alloc(ram_addr_t base_gpa,
--                                                        long subpages)
-+static void virtio_balloon_pbp_alloc(PartiallyBalloonedPage *pbp,
-+                                     ram_addr_t base_gpa,
-+                                     long subpages)
- {
--    PartiallyBalloonedPage *pbp = g_new0(PartiallyBalloonedPage, 1);
--
-     pbp->base_gpa = base_gpa;
-     pbp->bitmap = bitmap_new(subpages);
--
--    return pbp;
- }
- 
- static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
-@@ -67,7 +64,7 @@ static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
- 
- static void balloon_inflate_page(VirtIOBalloon *balloon,
-                                  MemoryRegion *mr, hwaddr mr_offset,
--                                 PartiallyBalloonedPage **pbp)
-+                                 PartiallyBalloonedPage *pbp)
- {
-     void *addr = memory_region_get_ram_ptr(mr) + mr_offset;
-     ram_addr_t rb_offset, rb_aligned_offset, base_gpa;
-@@ -104,16 +101,15 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-     base_gpa = memory_region_get_ram_addr(mr) + mr_offset -
-                (rb_offset - rb_aligned_offset);
- 
--    if (*pbp && !virtio_balloon_pbp_matches(*pbp, base_gpa)) {
-+    if (pbp->bitmap && !virtio_balloon_pbp_matches(pbp, base_gpa)) {
-         /* We've partially ballooned part of a host page, but now
-          * we're trying to balloon part of a different one.  Too hard,
-          * give up on the old partial page */
--        virtio_balloon_pbp_free(*pbp);
--        *pbp = NULL;
-+        virtio_balloon_pbp_free(pbp);
-     }
- 
--    if (!*pbp) {
--        *pbp = virtio_balloon_pbp_alloc(base_gpa, subpages);
-+    if (!pbp->bitmap) {
-+        virtio_balloon_pbp_alloc(pbp, base_gpa, subpages);
-     }
- 
-     set_bit((rb_offset - rb_aligned_offset) / BALLOON_PAGE_SIZE,
-@@ -127,8 +123,7 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-         /* We ignore errors from ram_block_discard_range(), because it
-          * has already reported them, and failing to discard a balloon
-          * page is not fatal */
--        virtio_balloon_pbp_free(*pbp);
--        *pbp = NULL;
-+        virtio_balloon_pbp_free(pbp);
-     }
- }
- 
-@@ -328,13 +323,14 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
- static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
- {
-     VirtIOBalloon *s = VIRTIO_BALLOON(vdev);
--    PartiallyBalloonedPage *pbp = NULL;
-     VirtQueueElement *elem;
-     MemoryRegionSection section;
- 
-     for (;;) {
-+        PartiallyBalloonedPage pbp = {};
-         size_t offset = 0;
-         uint32_t pfn;
-+
-         elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
-         if (!elem) {
-             break;
-@@ -379,9 +375,8 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-         virtqueue_push(vq, elem, offset);
-         virtio_notify(vdev, vq);
-         g_free(elem);
-+        virtio_balloon_pbp_free(&pbp);
-     }
--
--    virtio_balloon_pbp_free(pbp);
- }
- 
- static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
--- 
-MST
 
