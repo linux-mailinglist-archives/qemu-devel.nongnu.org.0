@@ -2,38 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8E075405
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 18:28:39 +0200 (CEST)
-Received: from localhost ([::1]:33844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6D47541F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 18:34:40 +0200 (CEST)
+Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqgbe-0007s8-MV
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 12:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36961)
+	id 1hqghT-0002qz-0t
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 12:34:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44950)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hqgaX-0003k9-Ik
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 12:27:30 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hqghC-0002Ca-RE
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 12:34:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hqgaV-0003wa-Aj
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 12:27:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41112)
+ (envelope-from <mreitz@redhat.com>) id 1hqghB-0003xG-CZ
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 12:34:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45616)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hqgaQ-0003rd-4a; Thu, 25 Jul 2019 12:27:22 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hqgh8-0003qk-60; Thu, 25 Jul 2019 12:34:18 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5DE0C302246C;
- Thu, 25 Jul 2019 16:27:21 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B9A5A30A884C;
+ Thu, 25 Jul 2019 16:34:16 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
  [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 915F15DE8E;
- Thu, 25 Jul 2019 16:27:19 +0000 (UTC)
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20190724171239.8764-1-mreitz@redhat.com>
- <20190724171239.8764-10-mreitz@redhat.com>
- <70f1dff28165e6e2ae4443730f66ec36769c0394.camel@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFE8917B0E;
+ Thu, 25 Jul 2019 16:34:14 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-31-mreitz@redhat.com>
+ <5fb4108f-eb50-d076-4e1a-d59de96ef3a7@virtuozzo.com>
+ <9a90cab8-6738-5e20-8350-12965e240c5a@redhat.com>
+ <d086a736-6a4d-754d-74a4-f244a577d848@virtuozzo.com>
+ <650837b5-1fb8-3995-348c-77ab55020585@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -60,22 +64,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <668f5e60-6eaa-4f32-0446-7f41885483b3@redhat.com>
-Date: Thu, 25 Jul 2019 18:27:17 +0200
+Message-ID: <6ab14c4a-5460-12f4-da65-ef55511a2e44@redhat.com>
+Date: Thu, 25 Jul 2019 18:34:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <70f1dff28165e6e2ae4443730f66ec36769c0394.camel@redhat.com>
+In-Reply-To: <650837b5-1fb8-3995-348c-77ab55020585@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="zFiVQjZBUrqAgHgHOW2dULL7Usi9KLUXh"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ boundary="Rx0Cl8KuScvW4b2WgoghhwFMcEw2xkN6J"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 25 Jul 2019 16:27:21 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 25 Jul 2019 16:34:16 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 09/11] iotests: Convert to preallocated
- encrypted qcow2
+Subject: Re: [Qemu-devel] [PATCH v5 30/42] qemu-img: Use child access
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,154 +91,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zFiVQjZBUrqAgHgHOW2dULL7Usi9KLUXh
-Content-Type: multipart/mixed; boundary="oTTH8ugUQNplM9pApXr69uGAIvoRmG8Z0";
+--Rx0Cl8KuScvW4b2WgoghhwFMcEw2xkN6J
+Content-Type: multipart/mixed; boundary="jFKmQZew5IfcmMqopK9IGD5Gkx9kjIQBT";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- qemu-devel@nongnu.org
-Message-ID: <668f5e60-6eaa-4f32-0446-7f41885483b3@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2 09/11] iotests: Convert to preallocated
- encrypted qcow2
-References: <20190724171239.8764-1-mreitz@redhat.com>
- <20190724171239.8764-10-mreitz@redhat.com>
- <70f1dff28165e6e2ae4443730f66ec36769c0394.camel@redhat.com>
-In-Reply-To: <70f1dff28165e6e2ae4443730f66ec36769c0394.camel@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <6ab14c4a-5460-12f4-da65-ef55511a2e44@redhat.com>
+Subject: Re: [PATCH v5 30/42] qemu-img: Use child access functions
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-31-mreitz@redhat.com>
+ <5fb4108f-eb50-d076-4e1a-d59de96ef3a7@virtuozzo.com>
+ <9a90cab8-6738-5e20-8350-12965e240c5a@redhat.com>
+ <d086a736-6a4d-754d-74a4-f244a577d848@virtuozzo.com>
+ <650837b5-1fb8-3995-348c-77ab55020585@virtuozzo.com>
+In-Reply-To: <650837b5-1fb8-3995-348c-77ab55020585@virtuozzo.com>
 
---oTTH8ugUQNplM9pApXr69uGAIvoRmG8Z0
+--jFKmQZew5IfcmMqopK9IGD5Gkx9kjIQBT
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 25.07.19 17:30, Maxim Levitsky wrote:
-> On Wed, 2019-07-24 at 19:12 +0200, Max Reitz wrote:
->> Add a test case for converting an empty image (which only returns zero=
-es
->> when read) to a preallocated encrypted qcow2 image.
->> qcow2_has_zero_init() should return 0 then, thus forcing qemu-img
->> convert to create zero clusters.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> Acked-by: Stefano Garzarella <sgarzare@redhat.com>
->> Tested-by: Stefano Garzarella <sgarzare@redhat.com>
->> ---
->>  tests/qemu-iotests/188     | 20 +++++++++++++++++++-
->>  tests/qemu-iotests/188.out |  4 ++++
->>  2 files changed, 23 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/qemu-iotests/188 b/tests/qemu-iotests/188
->> index be7278aa65..afca44df54 100755
->> --- a/tests/qemu-iotests/188
->> +++ b/tests/qemu-iotests/188
->> @@ -48,7 +48,7 @@ SECRETALT=3D"secret,id=3Dsec0,data=3Dplatypus"
->> =20
->>  _make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key=
--secret=3Dsec0,encrypt.iter-time=3D10" $size
->> =20
->> -IMGSPEC=3D"driver=3D$IMGFMT,file.filename=3D$TEST_IMG,encrypt.key-sec=
-ret=3Dsec0"
->> +IMGSPEC=3D"driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D=
-$TEST_IMG"
-> This change I think doesn't change anything
->=20
->> =20
->>  QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
->> =20
->> @@ -68,6 +68,24 @@ echo
->>  echo "=3D=3D verify open failure with wrong password =3D=3D"
->>  $QEMU_IO --object $SECRETALT -c "read -P 0xa 0 $size" --image-opts $I=
-MGSPEC | _filter_qemu_io | _filter_testdir
->> =20
->> +_cleanup_test_img
->> +
->> +echo
->> +echo "=3D=3D verify that has_zero_init returns false when preallocati=
-ng =3D=3D"
->> +
->> +# Empty source file
->> +if [ -n "$TEST_IMG_FILE" ]; then
->> +    TEST_IMG_FILE=3D"${TEST_IMG_FILE}.orig" _make_test_img $size
->> +else
->> +    TEST_IMG=3D"${TEST_IMG}.orig" _make_test_img $size
->> +fi
->=20
-> I wonder why do we have TEST_IMG_FILE and TEST_IMG, I don't know iotest=
-s well enough
-> From the quick look at the code, the TEST_IMG_FILE is an actual file, w=
-hile TEST_IMG can
-> be various URL like address.
+On 24.07.19 11:54, Vladimir Sementsov-Ogievskiy wrote:
+> 21.06.2019 16:15, Vladimir Sementsov-Ogievskiy wrote:
+>> 19.06.2019 18:49, Max Reitz wrote:
+>>> On 19.06.19 11:18, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 13.06.2019 1:09, Max Reitz wrote:
+>>>>> This changes iotest 204's output, because blkdebug on top of a COW =
+node
+>>>>> used to make qemu-img map disregard the rest of the backing chain (=
+the
+>>>>> backing chain was broken by the filter).=C2=A0 With this patch, the=
 
-In theory, $TEST_IMG is what you give to the various qemu commands for
-what you want to test.  It can be a URL, a plain path, or even in option
-syntax (think file.filename=3D$TEST_IMG_FILE).  $TEST_IMG_FILE points to
-the actual file on the local filesystem.
+>>>>> allocation in the base image is reported correctly.
+>>>>>
+>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>>> ---
+>>>>> =C2=A0=C2=A0 qemu-img.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 36 ++++++++++++++++=
+++++----------------
+>>>>> =C2=A0=C2=A0 tests/qemu-iotests/204.out |=C2=A0 1 +
+>>>>> =C2=A0=C2=A0 2 files changed, 21 insertions(+), 16 deletions(-)
+>>>>>
+>>>>> diff --git a/qemu-img.c b/qemu-img.c
+>>>>> index 07b6e2a808..7bfa6e5d40 100644
+>>>>> --- a/qemu-img.c
+>>>>> +++ b/qemu-img.c
+>>>>> @@ -992,7 +992,7 @@ static int img_commit(int argc, char **argv)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!blk) {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
+ 1;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>> -=C2=A0=C2=A0=C2=A0 bs =3D blk_bs(blk);
+>>>>> +=C2=A0=C2=A0=C2=A0 bs =3D bdrv_skip_implicit_filters(blk_bs(blk));=
 
-In practice, $TEST_IMG_FILE can be empty and then you only have
-$TEST_IMG to work with.  Also, many tests only support the file protocol
-anyway, which is exactly one such case, so they just use $TEST_IMG all
-the time.
+>>>>
+>>>> if filename is json, describing explicit filter over normal node, bs=
+ will be
+>>>> explicit filter ...
+>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_progress_init(progress, 1=
+=2Ef);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_progress_print(0.f, 100);=
+
+>>>>> @@ -1009,7 +1009,7 @@ static int img_commit(int argc, char **argv)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Thi=
+s is different from QMP, which by default uses the deepest file in
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+* the backing chain (i.e., the very base); however, the traditional
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+* behavior of qemu-img commit is using the immediate backing file. */
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base_bs =3D backing_bs(=
+bs);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 base_bs =3D bdrv_filter=
+ed_cow_bs(bs);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!b=
+ase_bs) {
+>>>>
+>>>> and here we'll fail.
+>>>
+>>> Right, will change to bdrv_backing_chain_next().
+>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 error_setg(&local_err, "Image does not have a backing fil=
+e");
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 goto done;
+>>>>> @@ -1626,19 +1626,18 @@ static int convert_iteration_sectors(ImgCon=
+vertState *s, int64_t sector_num)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->sector_next_status <=3D=
+ sector_num) {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_=
+t count =3D n * BDRV_SECTOR_SIZE;
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *src_b=
+s =3D blk_bs(s->src[src_cur]);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockDriverState *base;=
+
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s-=
+>target_has_backing) {
+>>>>> -
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ret =3D bdrv_block_status(blk_bs(s->src[src_cur]),
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (se=
+ctor_num - src_cur_offset) *
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDR=
+V_SECTOR_SIZE,
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cou=
+nt, &count, NULL, NULL);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ base =3D bdrv_backing_chain_next(src_bs);
+>>>>
+>>>> As you described in another patch, will not we here get allocated in=
+ base as allocated, because of
+>>>> counting filters above base?
+>>>
+>>> Damn, yes.=C2=A0 So
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 base =3D bdrv_filtered_cow_bs(bdrv_skip_rw_f=
+ilters(src_bs));
+>>>
+>>> I suppose.
+>>>
+>>>> Hmm. I now think, why filters don't report everything as unallocated=
+, would not it be more correct
+>>>> than fallthrough to child?
+>>>
+>>> I don=E2=80=99t know, actually.=C2=A0 Maybe, maybe not.
+>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else=
+ {
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ret =3D bdrv_block_status_above(blk_bs(s->src[src_cur]), NULL,
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (sector_num - src_cur_offset) *
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDRV_SECTOR_SIZE,
+>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 count, &count, NULL, NULL);
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ base =3D NULL;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bdrv_block_stat=
+us_above(src_bs, base,
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (sector_num - src_cur_offset) *
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 BDRV_SECTOR_SIZE,
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 count, &count, NULL, NULL);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (re=
+t < 0) {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 error_report("error while reading block status of sector =
+%" PRId64
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ": %s", sector_num, strerror(-ret));
+>>>
+>>> [...]
+>>>
+>>>>> @@ -2949,7 +2950,7 @@ static int img_map(int argc, char **argv)
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!blk) {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return=
+ 1;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>> -=C2=A0=C2=A0=C2=A0 bs =3D blk_bs(blk);
+>>>>> +=C2=A0=C2=A0=C2=A0 bs =3D bdrv_skip_implicit_filters(blk_bs(blk));=
+
+>>>>
+>>>> Hmm, another thought about implicit filters, how they could be here =
+in qemu-img?
+>>>
+>>> Hm, I don=E2=80=99t think they can.
+>>>
+>>>> If implicit are only
+>>>> job filters. Do you prepared it for implicit COR? But we discussed w=
+ith Kevin that we'd better deprecate
+>>>> copy-on-read option..
+>>>>
+>>>> So, if implicit filters are for compatibility, we'll have them only =
+in block-jobs. So, seems no reason to support
+>>>> them in qemu-img.
+>>>
+>>> Seems reasonable, yes.
+>>>
+>>>> Also, in block-jobs, we can abandon creating implicit filters above =
+any filter nodes, as well as abandon creating any
+>>>> filter nodes above implicit filters. This will still support old sce=
+narios, but gives very simple and well defined scope
+>>>> of using implicit filters and how to work with them. What do you thi=
+nk?
+>>>
+>>> Hm, in what way would that make things simpler?
+>>>
+>>
+>> This question was in my mind while I've finishing this paragraph) At l=
+east such restriction answer the question, where
+>> should new filters be added: below or under implicit filters.. With su=
+ch restriction we always can have only one implicit filter
+>> over non-filter node, and above it should be explicit filter or non-fi=
+lter node. But this need huge work to be done with small
+>> benefit, so, forget it)
+
+OK.  I should have read the last part first, then I could have replied
+sooner. :-)
+
+> Strange, I have this mail automatically returned back. Did you receive =
+it?
+
+No, I didn=E2=80=99t.  (Nor any of the other mails you resent.)  Weird.
+
+Also, welcome back, congratulations, and all the best to your family! :-)=
+
 
 Max
 
->> +
->> +$QEMU_IMG convert -O "$IMGFMT" --object $SECRET \
->> +    -o "encrypt.format=3Dluks,encrypt.key-secret=3Dsec0,encrypt.iter-=
-time=3D10,preallocation=3Dmetadata" \
->> +    "${TEST_IMG}.orig" "$TEST_IMG"
->> +
->> +$QEMU_IMG compare --object $SECRET --image-opts "${IMGSPEC}.orig" "$I=
-MGSPEC"
->> +
->> =20
->>  # success, all done
->>  echo "*** done"
->> diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
->> index 97b1402671..c568ef3701 100644
->> --- a/tests/qemu-iotests/188.out
->> +++ b/tests/qemu-iotests/188.out
->> @@ -15,4 +15,8 @@ read 16777216/16777216 bytes at offset 0
->> =20
->>  =3D=3D verify open failure with wrong password =3D=3D
->>  qemu-io: can't open: Invalid password, cannot unlock any keyslot
->> +
->> +=3D=3D verify that has_zero_init returns false when preallocating =3D=
-=3D
->> +Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D16777216
->> +Images are identical.
->>  *** done
->=20
-> Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-> Best regards,
-> 	Maxim Levitsky
->=20
 
+--jFKmQZew5IfcmMqopK9IGD5Gkx9kjIQBT--
 
-
---oTTH8ugUQNplM9pApXr69uGAIvoRmG8Z0--
-
---zFiVQjZBUrqAgHgHOW2dULL7Usi9KLUXh
+--Rx0Cl8KuScvW4b2WgoghhwFMcEw2xkN6J
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl052GUACgkQ9AfbAGHV
-z0DcKAf/RfFBbsrQp9rCGkPgQhvF1Q/XSvNc5X03By/TKusShhLOH2oU4BRNAuu/
-e/2pLee9koySpU0n6uRHD8NuUw3/Uy2NP8uxKE8iBHIJjejp7IvkBAWSzZxa7Uxz
-Yz2Ar07sPGZ1QrohQQ64tGu0+d+wMm2GgQo55kfA+fJjOSSZfmGlO5Uj9onXXru8
-k6x5LtT4fqij0cji/oXPlffdrOWF1p7/F8pw/y1wpC84y4Gf2gyNbUqL/tYZkDb0
-DWWec6VrpaU9v294bR73mO6cV1W7UJ/DGQMEZvAJcylT/5oeu58wucPc5o20t8jU
-ItucgtvBIHbJcs2AjcdPQ/8EevgvDg==
-=Gk9O
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl052gQACgkQ9AfbAGHV
+z0BTpQf+NDwHq2HZMjxRU9siTiLtf/QvJbmHl1RKJwgStgYbTzOc+cGEb9+uhzKe
+B7uoZQGom7XzdvEgazmQVD0dsI4Urz1kaAU8Pr8jq8YT6qhuWV3mfGQIzex2JmPf
+VipVGoMSJXLwBHKVhouFqyrDbOIX0aFChdgOYdZuChsBRLpyjDckjcueIWRgLPzD
+FLzfZriHrxA7elv1rtCn4uVw8wyWUzJYq3BuUbyaXx3X1rKW4rooYUtmSBj3VpWS
+4MGmbvzm/KMZa9vs7lPJkl6ndP+x7/M1qXgs40UDCf8K6lR/ZSOQ87fb24YRT5kS
+yXweNdHg5R0Mwu04Nbgxq+5+8ke6SQ==
+=jCjt
 -----END PGP SIGNATURE-----
 
---zFiVQjZBUrqAgHgHOW2dULL7Usi9KLUXh--
+--Rx0Cl8KuScvW4b2WgoghhwFMcEw2xkN6J--
 
