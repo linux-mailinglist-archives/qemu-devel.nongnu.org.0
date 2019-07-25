@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C50743F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 05:27:30 +0200 (CEST)
-Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46970743F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 05:28:16 +0200 (CEST)
+Received: from localhost ([::1]:55562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqUPh-00015f-FW
-	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 23:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
+	id 1hqUQR-0004B5-G5
+	for lists+qemu-devel@lfdr.de; Wed, 24 Jul 2019 23:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40343)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1hqUMM-0004eW-U5
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:04 -0400
+ (envelope-from <alxndr@bu.edu>) id 1hqUMO-0004lj-Mt
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1hqUML-0001t0-F5
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:02 -0400
-Received: from mail-eopbgr780120.outbound.protection.outlook.com
- ([40.107.78.120]:46306 helo=NAM03-BY2-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1hqUMN-0001tl-0F
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:04 -0400
+Received: from mail-eopbgr780098.outbound.protection.outlook.com
+ ([40.107.78.98]:31872 helo=NAM03-BY2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1hqUML-0001sD-6I
- for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:01 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1hqUMM-0001tF-NL
+ for qemu-devel@nongnu.org; Wed, 24 Jul 2019 23:24:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B9m/1Xi6taRAkWJApnqMB9Kzsonl2bQB9c0OxrBT5bMCkXZQxRo+hZ9Lv25Ad22MXBzQ3zDL2+C9O76VAmVLnXZkfaJn+TRjNII828e2khn0GqfCKeP+exv7UpFc7b+JipydR35sZSZpU9DtrvQ86z1xOPb/U5kSyh/GB+jfJ2BoZU0c31wOsmDTw+PFXLV9JFeEkobHYANJD90c0MOuS+HFmTtYpXiEE/UcFdb8z4kcqfkm9hGl4QbCFhp4131LnaRUE4MTyh7pimGbbW35IGEEiPtfqj3x+3KzoflkA5KnNzUZp8HzK2449VaLf5zoGkBZI+BZETIkVl0ab9QKMg==
+ b=hAlgI4K5eejMxtRY04v3BXl1OVw+bicptuTHFv/m8SgOBRvTl8/JUB4uhMKH0OyqqOfSlo7DaMn47U8VYXBMJ20LL3EJEQ9ySuGR91qt53VqGN8uLNemvXss1oXWrB1/coblXdM0dkzWDj33I6eY+CtYSkMsvhmCyLnASjcY2F0Y1BDNQPPtJxO49hPcJLqgmyBjj20I1kTrPx/x4/S/eCXE5O0p+yIPtGQZsV6q7/PyIxWkbKFH1Mp6fEYSsB9uJl12lfrQtpyGStrzZ++Nyna1I7Ah7D2yr/kXm1NUjXYeDwEosso9wFG99v3kLw+xCme477leLmqppQ0sjUpVTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+SWXcHWVfKdcmb4IWwTCBQT4CkyklLLX4omf0ABGBD8=;
- b=MMmlhkZUnokhhca5vP+kWa8Dprpah0YNwAtVHGoMkIbCE1WDuP1+4ljkYzK/BfKiO4o0GzVn1z/zdg7Z3K5TyOCdG3s7eZlGhCaN9MmbSKIuQX9a2hXt0r8SKdF8VfhkKRf07F9tv1/rbQHpoj+M+EDfyPKAqxKpMx9Y73lhbfQOmmHATfuC0T09M57215jGwSp8Xb0IWY5Mvxgo9izcwwMasf6nIwYeAUdPVw1mk972XuNHNUQFMMBcWem7PsHZ246DGuGZv1d72kruSmYzBoqCLQtkfllyFhbe4+AgELaiWw+9Qx5qZOcbeUnSKkTWi4Gpv6s/U456I2Fg9teTFA==
+ bh=FdhwTAejz65AruqHk5MKVedvgmVs4JiMcSYl5KaHrpw=;
+ b=eVT8VVZMp8EacTQkI8JF/lGAS37QCVqhrtw5jAxtQeoBEtdDp/bXLjpN4P2TjYGE+5WC9W8K0U3e69gwvaIFe7VQLn8u5NX30bLFMiCXjOoAAkmf8X35CV7zcro88XST2wB737XrMOuDAAyiVEN5W/eVLhWgOwOdiwZkakCDsl5EW5LASvUmasGLRiNHxmzhtgLEERyNmjuOHOKrcrNYM9WG3VPR3lcCGsbMSXzy5/aM8bx+Fa8VbjPJLlFZdgParSUuWGC2C9YF2I/LoSM4P71n0dZkG9kfKiYZ3xKRnplJb8sjGPYHzkKRmyo/E5g0QRivHRbyxKcHU5GFHJyi5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+SWXcHWVfKdcmb4IWwTCBQT4CkyklLLX4omf0ABGBD8=;
- b=LNmxO85owpfpCHRMsWpCZS7CnSjC9VFQ5Pq4cCe4WpkjQPGQU72RGM8oT3+bJqpOox4r+51WSJDNQSr77RZVWFxYsQThMJRR04GJce9YZfnshg6zJBmVF1f1ZPbc9dW74pD/X0y6ncXM1O0CmvF2UOG0fMVmsByWYSBUraoWy00=
+ bh=FdhwTAejz65AruqHk5MKVedvgmVs4JiMcSYl5KaHrpw=;
+ b=bcFsCVo4Q/fZqeFj+/d4lzOyUXCSivzEDZ2WcyUVUgAghbggJH95EkIMbSHdh2QlGcgt6QMzrWLX06z+svf7z/GNjKDwZ+9iQmw+bNx+B8YYNyechzLs3Y6spoUrJ6hR0NiRgO/0GuB9qz8/2GWQ5QfACmdJqtBHQaTnA2ghMD8=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2534.namprd03.prod.outlook.com (10.168.165.22) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2094.16; Thu, 25 Jul 2019 03:24:00 +0000
+ 15.20.2094.16; Thu, 25 Jul 2019 03:24:01 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::25e1:d1e3:2ad8:e6b5]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::25e1:d1e3:2ad8:e6b5%5]) with mapi id 15.20.2094.013; Thu, 25 Jul 2019
- 03:24:00 +0000
+ 03:24:01 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC 18/19] fuzz: Add virtio-net tx and ctrl fuzz targets
-Thread-Index: AQHVQphm7/AFCMvx8kuoRvQC6K9ySA==
+Thread-Topic: [RFC 19/19] fuzz: Add documentation about the fuzzer to docs/
+Thread-Index: AQHVQphndssS1QYbsUiIR1Bu+bdplA==
 Date: Thu, 25 Jul 2019 03:24:00 +0000
-Message-ID: <20190725032321.12721-19-alxndr@bu.edu>
+Message-ID: <20190725032321.12721-20-alxndr@bu.edu>
 References: <20190725032321.12721-1-alxndr@bu.edu>
 In-Reply-To: <20190725032321.12721-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,38 +64,38 @@ x-clientproxiedby: BL0PR02CA0039.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3225a18c-4acd-4bee-f14b-08d710af88f5
+x-ms-office365-filtering-correlation-id: 600a7588-6c7f-416f-dae1-08d710af8972
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2534; 
 x-ms-traffictypediagnostic: CY4PR03MB2534:
-x-microsoft-antispam-prvs: <CY4PR03MB25345995CD60AC1312E7C1ADBAC10@CY4PR03MB2534.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:56;
+x-microsoft-antispam-prvs: <CY4PR03MB2534B9F25AB79CA86FDB2BA5BAC10@CY4PR03MB2534.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-forefront-prvs: 0109D382B0
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(189003)(199004)(446003)(2501003)(186003)(86362001)(2906002)(26005)(2616005)(3846002)(6512007)(6116002)(256004)(476003)(53936002)(4326008)(11346002)(76176011)(81156014)(102836004)(75432002)(6916009)(52116002)(88552002)(386003)(81166006)(6506007)(2351001)(14454004)(25786009)(478600001)(36756003)(8936002)(316002)(486006)(66476007)(54906003)(71190400001)(1076003)(66066001)(5640700003)(50226002)(99286004)(6486002)(305945005)(5660300002)(64756008)(7736002)(786003)(8676002)(66446008)(66556008)(66946007)(68736007)(6436002)(71200400001)(42522002);
+ SFS:(10019020)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(189003)(199004)(446003)(2501003)(186003)(86362001)(14444005)(2906002)(26005)(2616005)(3846002)(6512007)(6116002)(256004)(476003)(53936002)(4326008)(11346002)(76176011)(45080400002)(81156014)(102836004)(75432002)(6916009)(52116002)(88552002)(386003)(81166006)(6506007)(2351001)(14454004)(25786009)(478600001)(36756003)(8936002)(316002)(486006)(66476007)(54906003)(71190400001)(1076003)(66066001)(5640700003)(50226002)(99286004)(6486002)(305945005)(5660300002)(64756008)(7736002)(786003)(8676002)(66446008)(66556008)(66946007)(68736007)(6436002)(71200400001)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2534;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7qtWVgvCJ7+s8l6GFClrQzBH1tLr4GUeElR54AJDX4Ybizk6A4LpuTtGJ/wCDuKoCYggXA6DeBnEGeggRShl/RxLjSD2hIbNCjR7uge/2C6rG4vK9SZRF4VraOdxWqWuvBU21XkR9UE0jqzMpwSBFKreU//Qx5j16IAAgr73h6xJJUSSNlXrwhYZiENRgkNDyC3AjM/G2cRdf+Gx6Zx8k+fFLAyYVmdQmu0DyTeVlUMDOn2x5RD6VX8TMNRmEkTkNZfDBGjcRig+zm1iAy3qeUnmbhPPno7HALOs9VUwiUvoGpA8pwSO6tpKMXPJqKb40fsQ70H8gSDp7KS8Vh+dGZje/zlnw2V94pxSBUrYD/gyK4f6KQ8jmegKocwofI/0Wasiga+0xv1HI4ed7DKCm9oQpFMLEJw0wo4uAVYTpNo=
+x-microsoft-antispam-message-info: 4/HFt+ghzHZIMPRNKUDC+bWEfmGa7UexNYRV83VDKt36z3XP8RQzc1XzH00NSgeqRS/RNTbatI4o5VAI51cye2CiriFFFUKKQzhgJXKYebtslWJIDcfQwASsmnq2OtvPhX1YspfO35as/ylJZkUk8M2yK7rVfbgYTwwoGf38o3bKlTOs6rFtgxLCUQPBoVRWomJ59+sMVSv8WXshtiFi6s7XKrI/z2Hc9cZXUS5fawNXVN8Kpd87pGkQRfZCy/Gvq7utOhN4Ao+cktdTrLp+U2ssMaAEAMn/I7MdTIXLViXJaUs6LVe75WBoMxfKc+eKOqmJB23+zg1amsZKl00davRAQppdqEoTKPinFeZWaM8S55IPUOrm6fgHCGmW8bKkNvA5mrKUxfAYfMmtbZ6gqpFV3O5iQucGw63w4Fa1Lgg=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3225a18c-4acd-4bee-f14b-08d710af88f5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2019 03:24:00.1074 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 600a7588-6c7f-416f-dae1-08d710af8972
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2019 03:24:00.9550 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2534
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.78.120
-Subject: [Qemu-devel] [RFC 18/19] fuzz: Add virtio-net tx and ctrl fuzz
- targets
+X-Received-From: 40.107.78.98
+Subject: [Qemu-devel] [RFC 19/19] fuzz: Add documentation about the fuzzer
+ to docs/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,259 +115,203 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These virtio-net fuzz targets use libqos abstractions to virtio-net
-virtqueues.
-
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- tests/fuzz/virtio-net-fuzz.c | 226 +++++++++++++++++++++++++++++++++++
- 1 file changed, 226 insertions(+)
- create mode 100644 tests/fuzz/virtio-net-fuzz.c
+ docs/devel/fuzzing.txt | 145 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 145 insertions(+)
+ create mode 100644 docs/devel/fuzzing.txt
 
-diff --git a/tests/fuzz/virtio-net-fuzz.c b/tests/fuzz/virtio-net-fuzz.c
+diff --git a/docs/devel/fuzzing.txt b/docs/devel/fuzzing.txt
 new file mode 100644
-index 0000000000..4b6c788498
+index 0000000000..321e005e8c
 --- /dev/null
-+++ b/tests/fuzz/virtio-net-fuzz.c
-@@ -0,0 +1,226 @@
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "qemu-common.h"
-+#include "exec/memory.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/main-loop.h"
++++ b/docs/devel/fuzzing.txt
+@@ -0,0 +1,145 @@
++=3D Fuzzing =3D
 +
-+#include "hw/virtio/virtio-net.h"
-+#include "hw/virtio/virtio.h"
-+#include "tests/libqos/virtio-net.h"
-+#include "fuzzer_hooks.h"
++=3D=3D Introduction =3D=3D
 +
-+#include "fuzz.h"
-+#include "qos_fuzz.h"
++This document describes the fuzzing infrastructure in QEMU and how to use =
+it
++to add additional fuzzing targets.
 +
-+typedef struct vq_action {
-+    uint8_t queue;
-+    uint8_t length;
-+    uint8_t write;
-+    uint8_t next;
-+    bool kick;
-+} vq_action;
++=3D=3D Basics =3D=3D
 +
-+static void virtio_net_ctrl_fuzz(const unsigned char *Data, size_t Size)
-+{
-+    uint64_t req_addr[10];
-+    int reqi =3D0;
-+    uint32_t free_head;
++Fuzzing operates by passing inputs to an entry point/target function. The
++fuzzer tracks the code coverage triggered by the input. Based on these
++findings, the fuzzer mutates the input and repeats the fuzzing.=20
 +
-+    QGuestAllocator *t_alloc =3D qos_alloc;
++To fuzz QEMU, we rely on libfuzzer. Unlike other fuzzers such as AFL, libf=
+uzzer
++is an _in-process_ fuzzer. For the developer, this means that it is their
++responsibility to ensure that state is reset between fuzzing-runs.
 +
-+    QVirtioNet *net_if =3D qos_obj;
-+    QVirtioDevice *dev =3D net_if->vdev;
-+    QVirtQueue *q;
-+    vq_action vqa;
-+    int iters=3D0;
-+    while(true) {
-+        if(Size < sizeof(vqa)) {
-+            break;
-+        }
-+        vqa =3D *((vq_action*)Data);
-+        Data +=3D sizeof(vqa);
-+        Size -=3D sizeof(vqa);
++libfuzzer provides its own main() and expects the developer to implement t=
+he
++entrypoint "LLVMFuzzerTestOneInput".
 +
-+        q =3D net_if->queues[2];
++Currently, Fuzz targets are built out to fuzz virtual-devices from guests.=
+ The
++fuzz targets can use qtest and qos functions to pass inputs to virtual dev=
+ices.
 +
-+        vqa.length =3D vqa.length >=3D Size ? Size :  vqa.length;
++=3D=3D Main Modifications required for Fuzzing =3D=3D
 +
-+        req_addr[reqi] =3D guest_alloc(t_alloc, vqa.length);
-+        memwrite(req_addr[reqi], Data, vqa.length);
-+        if(iters =3D=3D 0)
-+            free_head =3D qvirtqueue_add(q, req_addr[reqi], vqa.length, vq=
-a.write , vqa.next) ;
-+        else
-+            qvirtqueue_add(q, req_addr[reqi], vqa.length, vqa.write , vqa.=
-next) ;
-+        iters++;
-+        reqi++;
-+        if(iters=3D=3D10)
-+            break;
-+        Data +=3D vqa.length;
-+        Size -=3D vqa.length;
-+    }
-+    if(iters){
-+        qvirtqueue_kick(dev, q, free_head);
-+        qtest_clock_step_next(s);
-+        main_loop_wait(false);
-+        for(int i =3D0; i<reqi; i++)
-+            guest_free(t_alloc, req_addr[i]);
-+    }
-+    qtest_clear_rxbuf(s);
-+    qos_object_queue_destroy(qos_obj);
-+}
++Fuzzing is enabled with the -enable-fuzzing flag, which adds the needed cf=
+lags
++to enable Libfuzzer and AddressSanitizer. In the code, most of the changes=
+ to
++existing qemu source are surrounded by #ifdef CONFIG_FUZZ statements. Here=
+ are
++the key areas that are changed:
 +
-+static void virtio_net_ctrl_fuzz_multi(const unsigned char *Data, size_t S=
-ize)
-+{
-+    uint64_t req_addr[10];
-+    int reqi =3D0;
-+    uint32_t free_head;
++=3D=3D=3D General Changes =3D=3D=3D
 +
-+    QGuestAllocator *t_alloc =3D qos_alloc;
++vl.c:main renamed to real_main to avoid conflicts when libfuzzer is linked=
+ in.
++Also, real_main returns where it would normally call main_loop.=20
 +
-+    QVirtioNet *net_if =3D qos_obj;
-+    QVirtioDevice *dev =3D net_if->vdev;
-+    QVirtQueue *q;
-+    vq_action vqa;
-+    int iters=3D0;
-+    while(Size >=3D sizeof(vqa)) {
-+        vqa =3D *((vq_action*)Data);
-+        Data +=3D sizeof(vqa);
-+        Size -=3D sizeof(vqa);
-+        if(vqa.kick && free_head)
-+        {
-+            qvirtqueue_kick(dev, q, free_head);
-+            qtest_clock_step_next(s);
-+            main_loop_wait(false);
-+            for(int i =3D0; i<reqi; i++)
-+                guest_free(t_alloc, req_addr[i]);
-+            reqi =3D 0;
-+        }
-+        else {
-+            q =3D net_if->queues[2];
++The fuzzer adds an accelerator. The accelerator does not do anything, much
++like the qtest accelerator.
 +
-+            vqa.length =3D vqa.length >=3D Size ? Size :  vqa.length;
++=3D=3D=3D Changes to SaveVM =3D=3D=3D
 +
-+            req_addr[reqi] =3D guest_alloc(t_alloc, vqa.length);
-+            memwrite(req_addr[reqi], Data, vqa.length);
-+            if(iters =3D=3D 0)
-+                free_head =3D qvirtqueue_add(q, req_addr[reqi], vqa.length=
-, vqa.write , vqa.next) ;
-+            else
-+                qvirtqueue_add(q, req_addr[reqi], vqa.length, vqa.write , =
-vqa.next) ;
-+            iters++;
-+            reqi++;
-+            if(iters=3D=3D10)
-+                break;
-+            Data +=3D vqa.length;
-+            Size -=3D vqa.length;
-+        }
-+    }
-+    qtest_clear_rxbuf(s);
-+    qos_object_queue_destroy(qos_obj);
-+}
++There aren't any particular changes to SaveVM, but the fuzzer adds a type
++of file "ramfile" implemented in test/fuzz/ramfile.c which allocates a buf=
+fer
++on the heap to which it saves the vmstate.
 +
-+int *sv;
-+static void virtio_net_tx_fuzz(const unsigned char *Data, size_t Size)
-+{
-+    uint64_t req_addr[10];
-+    int reqi =3D0;
-+    uint32_t free_head;
++=3D=3D=3D Changes to QTest =3D=3D=3D
 +
-+    QGuestAllocator *t_alloc =3D qos_alloc;
++QEMU-fuzz modifies the qtest server(qtest.c) and qtest client
++(tests/libqtest.c) so that they communicate within the same QEMU process. =
+In
++the qtest server, there is a qtest_init_fuzz function to initialize the
++QTestState. Normally, qtest commands are passed to socket_send which
++communicates the command to the server/QEMU process over a socket. The fuz=
+zer,
++instead, directly calls the qtest server recieve function with the the com=
+mand
++string as an argument. The server usually responds to commands with an "OK=
+"
++command. To support this, there is an added qtest_client_recv function in
++libqtest.c, which the server calls directly.
 +
-+    QVirtioNet *net_if =3D qos_obj;
-+    QVirtioDevice *dev =3D net_if->vdev;
-+    QVirtQueue *q;
-+    vq_action vqa;
-+    int iters=3D0;
-+    while(true) {
-+        if(Size < sizeof(vqa)) {
-+            break;
-+        }
-+        vqa =3D *((vq_action*)Data);
-+        Data +=3D sizeof(vqa);
-+        Size -=3D sizeof(vqa);
++At the moment, qtest's qmp wrapper functions are not supported.
 +
-+        q =3D net_if->queues[1];
++=3D=3D=3D Chages to QOS =3D=3D=3D
 +
-+        vqa.length =3D vqa.length >=3D Size ? Size :  vqa.length;
++QOS tests are usually linked against the compiled tests/qos-test.c. The ma=
+in
++function in this file initializes the QOS graph and uses some QMP commands=
+ to
++query the qtest server for the available devices. It also registers the te=
+sts
++implemented in all of the linked qos test-case files. Then it uses a DFS w=
+alker
++to iterate over QOS graph and determine the required QEMU devices/argument=
+s and
++device initialization functions to perform each test.
 +
-+        req_addr[reqi] =3D guest_alloc(t_alloc, vqa.length);
-+        memwrite(req_addr[reqi], Data, vqa.length);
-+        if(iters =3D=3D 0)
-+            free_head =3D qvirtqueue_add(q, req_addr[reqi], vqa.length, vq=
-a.write , vqa.next) ;
-+        else
-+            qvirtqueue_add(q, req_addr[reqi], vqa.length, vqa.write , vqa.=
-next) ;
-+        iters++;
-+        reqi++;
-+        if(iters=3D=3D10)
-+            break;
-+        Data +=3D vqa.length;
-+        Size -=3D vqa.length;
-+    }
-+    if(iters){
-+        qvirtqueue_kick(dev, q, free_head);
-+        qtest_clock_step_next(s);
-+        main_loop_wait(false);
-+        for(int i =3D0; i<reqi; i++)
-+            guest_free(t_alloc, req_addr[i]);
-+    }
-+    qtest_clear_rxbuf(s);
-+    qos_object_queue_destroy(qos_obj);
-+}
++The fuzzer doesn't link against qos-test, but re-uses most of the function=
+ality
++in test/fuzz/qos_helpers.c The major changes are that the walker simply sa=
+ves
++the last QGraph path for later use in the fuzzer. The
++qos_set_machines_devices_available function is changed to directly used qm=
+p_*
++commands. Note that to populate the QGraph, the fuzzer still needs to be l=
+inked
++against the devices described in test/libqos/*.o
 +
-+static void *virtio_net_test_setup_socket(GString *cmd_line, void *arg)
-+{
-+    if(!sv){
-+        sv =3D g_new(int, 2);
-+        int ret =3D socketpair(PF_UNIX, SOCK_STREAM, 0, sv);
-+        fcntl(sv[0], F_SETFL, O_NONBLOCK);
-+        g_assert_cmpint(ret, !=3D, -1);
-+    }
-+    g_string_append_printf(cmd_line, " -netdev socket,fd=3D%d,id=3Dhs0 ", =
-sv[1]);
-+    return arg;
-+}
++=3D=3D The Fuzzer's Lifecycle =3D=3D
 +
-+static void fuzz_fork(const unsigned char *Data, size_t Size){
-+    if (fork() =3D=3D 0) {
-+        virtio_net_ctrl_fuzz(Data, Size);
-+        counter_shm_store();
-+        _Exit(0);
-+    }=20
-+    else {
-+        wait(NULL);
-+        counter_shm_load();
-+    }
-+}
++The fuzzer has two entrypoints that libfuzzer calls.
 +
-+static void fork_pre_main(void) {
-+    qos_setup();
-+    counter_shm_init();
-+}
++LLVMFuzzerInitialize: called prior to fuzzing. Used to initialize all of t=
+he
++necessary state
 +
-+static void register_virtio_net_fuzz_targets(void)
-+{
-+    QOSGraphTestOptions opts =3D {
-+        .before =3D virtio_net_test_setup_socket,
-+    };
-+    fuzz_add_qos_target("virtio-net-ctrl-fuzz", "virtio-net ctrl virtqueue=
- fuzzer",
-+            "virtio-net", &opts, &qos_setup, NULL, NULL, &reboot,
-+            &qos_init_path, &virtio_net_ctrl_fuzz, NULL);
++LLVMFuzzerTestOneInput: called for each fuzzing run. Processes the input a=
+nd
++resets the state at the end of each run.
 +
-+    fuzz_add_qos_target("virtio-net-ctrl-multi-fuzz", "virtio-net ctrl vir=
-tqueue \
-+            fuzzer with multiple kicks",
-+            "virtio-net", &opts, &qos_setup, NULL, NULL, &reboot,
-+            &qos_init_path, &virtio_net_ctrl_fuzz_multi, NULL);
++In more detail:
 +
-+    fuzz_add_qos_target("virtio-net-tx-fuzz", "virtio-net tx virtqueue fuz=
-zer",
-+            "virtio-net", &opts, &qos_setup, NULL, NULL, &reboot,
-+            &qos_init_path, &virtio_net_tx_fuzz, NULL);
++LLVMFuzzerInitialize parses the arguments to the fuzzer (must start with t=
+wo
++dashes, so they are ignored by libfuzzer main()). Currently, the arguments
++select the fuzz target. Then, the qtest client is initialized. If the targ=
+et
++requires qos, qgraph is set up and the QOM/LIBQOS modules are initailized.
++Then the QGraph is walked and the QEMU cmd_line is determined and saved.
 +
-+    // TODO: This doesn't work. Possibly due to threading..
-+    fuzz_add_qos_target("virtio-net-fork", "virtio-net tx virtqueue",
-+            "virtio-net", &opts, &fork_pre_main, &qos_init_path, NULL, NUL=
-L,
-+            NULL, &fuzz_fork, NULL);
-+}
++After this, the vl.c:real_main is called to set up the guest. After this, =
+the
++fuzzer saves the initial vm/device state to ram, after which the initiliza=
+tion
++is complete.
 +
-+fuzz_target_init(register_virtio_net_fuzz_targets);
++LLVMFuzzerTestOneInput: Uses qtest/qos functions to act based on the fuzz
++input. It is also responsible for manually calling the main loop/main_loop=
+_wait
++to ensure that bottom halves are executed. Finally, it calls reset() which
++restores state from the ramfile and/or resets the guest.
++
++
++Since the same process is reused for many fuzzing runs, QEMU state needs t=
+o
++be reset at the end of each run. There are currently three implemented
++options for resetting state:=20
++1. Reboot the guest between runs.
++   Pros: Straightforward and fast for simple fuzz targets.=20
++   Cons: Depending on the device, does not reset all device state. If the
++   device requires some initialization prior to being ready for fuzzing
++   (common for QOS-based targets), this initialization needs to be done af=
+ter
++   each reboot.
++   Example target: --virtio-net-ctrl-fuzz
++2. vmsave the state to RAM, once, and restore it after each run.
++   Alternatively only save the device state(savevm.c:qemu_save_device_stat=
+e)
++   Pros: Do not need to initialize devices prior to each run.
++   VMStateDescriptions often specify more state the device resetting
++   functions called during reboots.
++   Cons: Restoring state is often slower than rebooting. There is
++   currently no way to save the QOS object state, so the objects usually
++   needs to be re-allocated, defeating the purpose of one-time device
++   initialization.
++   Example target: --qtest-fuzz
++3. Run each test case in a separate forked process and copy the coverage
++   information back to the parent. This is fairly similar to AFL's "deferr=
+ed"
++   fork-server mode [3]
++   Pros: Relatively fast. Devices only need to be initialized once. No nee=
+d
++   to do slow reboots or vmloads.
++   Cons: Not officially supported by libfuzzer and the implementation is v=
+ery
++   flimsy. Does not work well for devices that rely on dedicated threads.
++   Example target: --qtest-fork-fuzz
++
++=3D=3D Adding new Targets =3D=3D
++1. Create a file : tests/fuzz/[file].c
++2. Add target registration function and fuzz_target_init(FUNC) at the bott=
+om of
++the file.
++3. In the registration function, register targets using fuzz_add_qos_targe=
+t or
++fuzz_add_target. The arguments to thes function specify the resetting meth=
+od
++and QOS path.
++4. These functions refererence a fuzz function which should be a:
++static void func(const unsigned char* Data, size_t Size)
++Inside the fuzz function, translate the "Data" into qtest actions.
++5. Add [file].o to target/i386/Makefile.objs
++
++tests/fuzz/qtest_fuzz.c and tests/fuzz/virtio-net-fuzz.c both contain exam=
+ples
++of fuzz targets that follow this structure.
 --=20
 2.20.1
 
