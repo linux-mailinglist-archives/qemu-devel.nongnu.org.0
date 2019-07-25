@@ -2,70 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9492B74B0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 12:05:32 +0200 (CEST)
-Received: from localhost ([::1]:58296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FDC74B13
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 12:06:32 +0200 (CEST)
+Received: from localhost ([::1]:58312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqact-00055O-Po
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 06:05:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49099)
+	id 1hqadq-0006gD-VS
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 06:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49305)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hqacf-0004cH-ST
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:05:18 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqadN-0005WI-RY
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:06:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hqacf-000674-12
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:05:17 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33478)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hqace-000670-QS
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:05:16 -0400
-Received: by mail-oi1-x242.google.com with SMTP id u15so37284453oiv.0
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 03:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hcjGhjKlKRW0Z1DdWtVulmkGeH6J26zfkR+bG+7xcG4=;
- b=E1N3Mjmvl7AzmWH9HF02ej39uGElQ1eyauQtihj0VCZ1aoEaqckI7EWDfESfXUlZ0W
- 4aaDm+ubN/MsllD/3TqOIGRfb6FWJO3WWvgSxdF2y05elWxlzcd20dlWadF1iOc5GYwB
- D9gXIRjUgZIm0bTPvW/1jcfFvsafrfvhtTNa2Zx/GGRInfC6buwvo8Qdjs5LXcijtdLf
- l/aoq/D3V2oCr06LDSULPktwFUFkF1ai8HmEGqQbb2DuMyC5JuOM31IHfSj7Zl46UeYq
- jzxPd7QLwLIH9gLSC4JXbvmxMFYmGYa1mfLSkoMjDUIhlRHCxjyjKzBZyXPzpDPY1nCf
- fdcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hcjGhjKlKRW0Z1DdWtVulmkGeH6J26zfkR+bG+7xcG4=;
- b=Qd8qFG+oWheqILLs4h+Aq+ynSUORk6EOJcO0LRL2sWPRAh1Py88g+1swd0+3RsaPzI
- aXCLZlgPi5f0wm1V/DNoS2zGm6JViFNPpAwrrwi2mx7v4gN/C//lYVjWvw54kwd8VvYQ
- J2ozUGUs340oeTR5iAmSsqyaYbdIbGRCUUi/5JT2BuU6jct2t83z+gVOtCinrkSkH9KV
- XGr7gpNGc2a/OAKMIadCYzycrx6AE96bIwQAx7Qas548X55KJYxOJABklkCqyohPTCLO
- J7IvcwgNs0U1dtTTeOAjEE6nf/lFBImqv8HQmHRRpJtdB4P6HbTfOhX496sLiN8UCOct
- fLFA==
-X-Gm-Message-State: APjAAAVy1aUk0GLPGpasCbzsdIOXRAQHvOeLATLnfqNTbuCMMp8/aI4j
- dCD89w49hCotUSubLcOPT7QyLK2SUXwVJ3jkvDhKLqcL8oE=
-X-Google-Smtp-Source: APXvYqzGbu6dKz8Sj3YQ7CPMjjmCYxq8lBcZ/ck70VucXcwbAlKmvf8LDGn0uxdb3qr2O7s8Kwq7q5yA1vJMuMg8j40=
-X-Received: by 2002:aca:6185:: with SMTP id
- v127mr44370100oib.163.1564049116206; 
- Thu, 25 Jul 2019 03:05:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190702121106.28374-1-slp@redhat.com>
- <CAFEAcA-k76t9_TJnYSF_kocgba9dYMyf=Q6OBY2VVuhiWsbqrw@mail.gmail.com>
- <87a7dwnxwj.fsf@redhat.com>
- <CAFEAcA_XfRS1b-4ANmR5WLL=19Md6Dp7+M_FAK8pQAJn2MaCOA@mail.gmail.com>
- <20190702220400.GA13923@localhost>
- <20190725055908-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20190725055908-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 25 Jul 2019 11:05:05 +0100
-Message-ID: <CAFEAcA-uDtTFOyTwMY5KtWeqvirxDejQdvnx5OCZ8pyUhKhE+w@mail.gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqadJ-0006Q7-Mc
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:05:59 -0400
+Received: from relay.sw.ru ([185.231.240.75]:45728)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hqadI-0006O3-89; Thu, 25 Jul 2019 06:05:57 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hqadC-0001mQ-Om; Thu, 25 Jul 2019 13:05:50 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Thu, 25 Jul 2019 13:05:47 +0300
+Message-Id: <20190725100550.33801-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v3 for-4.2 0/3] block: BDRV_REQ_PREFETCH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,20 +44,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- maran.wilson@oracle.com, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Jul 2019 at 10:59, Michael S. Tsirkin <mst@redhat.com> wrote:
-> OK so please start with adding virtio 1 support. Guest bits
-> have been ready for years now.
+Hi all!
 
-I'd still rather we just used pci virtio. If pci isn't
-fast enough at startup, do something to make it faster...
+Here is small new read flag: BDRV_REQ_PREFETCH, which in combination with
+BDRV_REQ_COPY_ON_READ does copy-on-read without
+extra buffer for read data. This means that only parts that needs COR
+will be actually read and only corresponding buffers allocated, no more.
 
-thanks
--- PMM
+This allows to improve a bit block-stream and NBD_CMD_CACHE
+
+v3: rebase 02 on master, fix commit message of 03.
+
+v2: change interface to be just one flag BDRV_REQ_PREFETCH
+
+v1 was "[PATCH 0/3] block: blk_co_pcache"
+   https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01047.html
+
+Vladimir Sementsov-Ogievskiy (3):
+  block: implement BDRV_REQ_PREFETCH
+  block/stream: use BDRV_REQ_PREFETCH
+  nbd: improve CMD_CACHE: use BDRV_REQ_PREFETCH
+
+ include/block/block.h |  8 +++++++-
+ block/io.c            | 18 ++++++++++++------
+ block/stream.c        | 20 +++++++-------------
+ nbd/server.c          | 43 +++++++++++++++++++++++++++++++++++--------
+ 4 files changed, 61 insertions(+), 28 deletions(-)
+
+-- 
+2.18.0
+
 
