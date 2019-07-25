@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8776875FDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:31:05 +0200 (CEST)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3613A75FDB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:30:35 +0200 (CEST)
+Received: from localhost ([::1]:37010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqugw-0004g9-34
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37727)
+	id 1hqugU-0002jo-1F
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38048)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hqufa-0000dM-1v
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hquff-0000e9-18
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hqufX-00054L-Hj
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:37 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:60505)
+ (envelope-from <dgibson@ozlabs.org>) id 1hqufb-0005JH-T3
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:40 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:57821)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hqufW-0004Ye-Qz; Fri, 26 Jul 2019 03:29:35 -0400
+ id 1hqufV-0004YD-O7; Fri, 26 Jul 2019 03:29:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45w11J1DyBz9s3l; Fri, 26 Jul 2019 17:29:24 +1000 (AEST)
+ id 45w11J1rBVz9sBZ; Fri, 26 Jul 2019 17:29:24 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1564126164;
- bh=gwdM3HACaL/zyCLDGufOukHRIgTremEbI+0AuvciFZ0=;
+ bh=Pzy0vgp7asCKngwZxuCI/GX0nFz5gexF168CIHS12QY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C6Jp+4dP+KbIHM4VeNDXA2KZB3njktis2sDQD6VM/QM4Lae9uR7oQUws3VJGIsZ5B
- KcA5gt0YP5bKI1Gfk7QSnRSJZgCThm1EFC9dOMuaoWiTqZIiZ0RoapdvHTREEhvf0t
- hulBtfPfzoCYikOIRL6jgyoegHuyW5eYZEa4Y0l8=
-Date: Thu, 25 Jul 2019 13:27:23 +1000
+ b=cM3cEF3kSx4cIt5EdGv0JEujelGn0qn2+GWRCIGLIzFUaVQzS067m0Xt26WEL/3H4
+ q2ePNxshd4E5vZmqpVoCmi0eRnvg3cmFl98VgXzH9czLWjN1k9GYgqkyUQGxi8s6k0
+ urybRMKo5oOdWa7fAvU4dCq9Jyf15eeYi/zrJfNo=
+Date: Thu, 25 Jul 2019 13:31:45 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190725032723.GB28601@umbus>
-References: <20190722182347.25075-1-clg@kaod.org>
- <20190723013808.GJ25073@umbus.fritz.box>
- <177076c3-b418-fb52-74c9-ee98f5fe4694@kaod.org>
- <20190723063730.GT25073@umbus.fritz.box>
- <9dcb77c1-ff45-921a-6b98-6f1c3b67b89a@kaod.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190725033145.GC28601@umbus>
+References: <20190724103524.20916-1-cohuck@redhat.com>
+ <20190724135017.GK11469@habkost.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RASg3xLB4tUQ4RcS"
+ protocol="application/pgp-signature"; boundary="pAwQNkOnpTn9IO2O"
 Content-Disposition: inline
-In-Reply-To: <9dcb77c1-ff45-921a-6b98-6f1c3b67b89a@kaod.org>
+In-Reply-To: <20190724135017.GK11469@habkost.net>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: Introduce PowerNV machines with
- fixed CPU models
+Subject: Re: [Qemu-devel] [PATCH for-4.2] hw: add compat machines for 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,79 +56,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---RASg3xLB4tUQ4RcS
-Content-Type: text/plain; charset=iso-8859-1
+--pAwQNkOnpTn9IO2O
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 24, 2019 at 11:32:00AM +0200, C=E9dric Le Goater wrote:
-> On 23/07/2019 08:37, David Gibson wrote:
-> > On Tue, Jul 23, 2019 at 08:00:27AM +0200, C=E9dric Le Goater wrote:
-> >> On 23/07/2019 03:38, David Gibson wrote:
-> >>> On Mon, Jul 22, 2019 at 08:23:47PM +0200, C=E9dric Le Goater wrote:
-> >>>> Make the current "powernv" machine an abstract type and derive from =
-it
-> >>>> new machines with specific CPU models: power8, power8e, power8nvl,
-> >>>> power9.
-> >>>>
-> >>>> The "powernv" machine is now an alias on the "powernv9" machine.
-> >>>>
-> >>>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> >>>
-> >>> Ah, sorry, I wasn't clear here.  I don't think we need a different
-> >>> machine type for every cpu model, I just think we should have powernv8
-> >>> and powernv9.  POWER8E and POWER8NVL don't significantly change the
-> >>> system design (IIUC) so they can still be done with "-machine powernv8
-> >>> -cpu POWER8E" or whatever.  I expect the same will be true for POWER9'
-> >>> when that comes along
-> >>
-> >> I understand but I am afraid we will to have one machine per CPU famil=
-y=20
-> >> because POWER8E and POWER8NVL already have their own PnvChip :=20
-> >>
-> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8, pnv_chip_power8_class_=
-init),
-> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8E, pnv_chip_power8e_clas=
-s_init),
-> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8NVL,
-> >>                           pnv_chip_power8nvl_class_init),
+On Wed, Jul 24, 2019 at 10:50:17AM -0300, Eduardo Habkost wrote:
+> On Wed, Jul 24, 2019 at 12:35:24PM +0200, Cornelia Huck wrote:
+> > Add 4.2 machine types for arm/i440fx/q35/s390x/spapr.
 > >=20
-> > Hrm.  Is there an actual reason we need different chip classes for
-> > these? =20
-> The POWER8 (8E, 8, 8NVL) chips differ by the core :=20
+> > For i440fx and q35, unversioned cpu models are still translated
+> > to -v1, as 0788a56bd1ae ("i386: Make unversioned CPU models be
+> > aliases") states this should only transition to the latest cpu
+> > model version in 4.3 (or later).
+> >=20
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 >=20
->     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8E_BASE       =3D 0x004B=
-0000,
->     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8_BASE        =3D 0x004D=
-0000,
->     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8NVL_BASE     =3D 0x004C=
-0000,
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 >=20
-> The chip model is different :
->=20
->     k->chip_cfam_id =3D 0x221ef04980000000ull; /* P8 Murano DD2.1 */
->     k->chip_cfam_id =3D 0x220ea04980000000ull; /* P8 Venice DD2.0 */
->     k->chip_cfam_id =3D 0x120d304980000000ull; /* P8 Naples DD1.0 */
-> =20
-> The chiplets are different also. NVL has a NPU and a different LPC bus wh=
-ich
-> is modeled. There are different number of PHBs.
+> I plan to queue it for 4.2, but I think it's OK to queue this in
+> parallel through other trees if necessary (so patches that depend
+> on the new machine types can be queued too).
 
-Ah, ok.  That seems like enough reason.
+Yeah, I've put it into my ppc-for-4.2 tree, expecting to resolve a
+minor conflict once the 4.2 tree opens.
 
->=20
-> > Even if there is, I don't see an inherent reason that implies separate
-> > machine classes as well.=20
->=20
-> I will see if we can have a single powernv8 machine.
->=20
-> C.
->=20
+Oh, and, ppc parts
+
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -140,25 +102,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---RASg3xLB4tUQ4RcS
+--pAwQNkOnpTn9IO2O
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl05IZsACgkQbDjKyiDZ
-s5ICHw//UFch0CquR50qxhq9So+c2DHSUZOLXx63R2GTueMfU7Oe2arRv9Aldt/g
-rK6ik6rrGadG9xZ+agc7K6JnsCorHgxJwPlc7r6jy1huJfBQ29mbHuw4KtxaUBkC
-cBnrAG0KkQtzUg3QwH7TT20INIE0JXxaLVORZpEtpUm7yBrk/A2EYqdo8RXvu0ke
-5OlApMig9khdCnKr/MtzB5iEDlE1VdNsm9pZl1qgGQUJ5zBNHz3qmc6tBGp+zqxx
-nV0YJXxiOcq6vkMuJJErAZ5ZwXAW8Z1SBaTK4Bw2LlUB0I983vvKTKKnpi3VMIC3
-VzOV/LuMk2IJPuuqNHBkABUwIJmaEG5YYjll/6gBu/BSkAjv5u6/QYB/u7uuyfZA
-q029Lg0na6hTOFkIB1HyYn6n5mpzXxlE69Sr3s+s80uK4985xZzg89Hl8hj4JdkR
-NNW4wjzyiQDtiVoRyQM6me6a++fvJT8McpxXvOvlhFCzbBxYexhQh4Qqs2m4o1gd
-s9AbBa7mvEd99PBSat6q1Fmi2MPR7Wzpmlk/s7doLxYvy9guXg+S+FmVvmIbTwJJ
-P8Jc5aB+/yPIOolLfMsQPbFO+Y8GMsI7VrymSTiljBsvzgaU8om/PWV1hzoaHBaL
-MmKFAIquCq75jmyYa4J6u90M/CnPgaSa/WQ2x9V+q9vi4uAG/3I=
-=ENMT
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl05IqEACgkQbDjKyiDZ
+s5K5ExAAhRGVya8wcftc9LiL/mNmXmFUYSmGnNwyXUJtRFYrsgu3Plv4ADd1x7tA
+kQiARmhTeuRwoSRKEXMWnL3dbJQXpOcc0+vjac2MOkI2DwPkTIvbiU3InlieTeBu
+GS4jgaZ30lx8q4Yjsye8G21mciHPyC6p5vjeWG/1+wU5fmtFtiHNI/4I77B00z5R
+s+N7JRKNySdXIkcFDOY0dxxPxwjcfowgL5enQo9JGJ/iPqzibJZKep3qRHAwfQOa
+uzUMvyHlfpuePUng7mzO0ZwOBxa7mkyIvyfajAU5GBQinT7hU2dD0sxuDZFKtI8y
+YiV3BySga09ROdTdAQEfqmqf9det+9uGPVaTrcKuvyODGxqS8w52afWPpQ9lzvvM
+5j8anj6ml/qbd6epCdGfHredbvPw1HEECnAgIjK5Df0RfSoR4O8bzLaMW3fszLFb
+L/dpGPYy3VyeiaQS2qqSQc3Y+1RdKdudifjFBD47pRMi2Dedl3eBiAV3l4FS6ggi
+RcbMbdJ/03nb0ucgSGNDtgyOXtasvEqm1Slo7sAtJ0n7fKHeSuFCj4UcNHoeXlTD
+N+3uIpFMnlhe5k6vWZIjYjj5agvLYOrb7im4Ck9sl6ZPYFJqennoRrJWhgPhUkC+
+hpxsvQarGmnOF5Bcgu0Iwfwgo/G1T84qovP1VpL8/FRMk3aNW3w=
+=H05V
 -----END PGP SIGNATURE-----
 
---RASg3xLB4tUQ4RcS--
+--pAwQNkOnpTn9IO2O--
 
