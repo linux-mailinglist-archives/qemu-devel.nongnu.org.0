@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C21749B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 11:19:56 +0200 (CEST)
-Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE5A749C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 11:21:22 +0200 (CEST)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqZul-0000bj-6P
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 05:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35755)
+	id 1hqZw9-0007gd-MD
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 05:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqZtz-0007SK-HW
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:19:08 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqZtz-0007SR-Lf
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:19:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqZty-00044m-1L
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqZtx-00044Y-VN
  for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:19:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44250)
+Received: from relay.sw.ru ([185.231.240.75]:44230)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqZtx-00042q-NJ; Thu, 25 Jul 2019 05:19:05 -0400
+ id 1hqZtx-00041c-MN; Thu, 25 Jul 2019 05:19:05 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqZtw-0001bs-Ca; Thu, 25 Jul 2019 12:19:04 +0300
+ id 1hqZtt-0001bs-EN; Thu, 25 Jul 2019 12:19:01 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu, 25 Jul 2019 12:19:00 +0300
-Message-Id: <20190725091900.30542-10-vsementsov@virtuozzo.com>
+Date: Thu, 25 Jul 2019 12:18:52 +0300
+Message-Id: <20190725091900.30542-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190725091900.30542-1-vsementsov@virtuozzo.com>
 References: <20190725091900.30542-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 9/9] qcow2-bitmap: move bitmap reopen-rw
- code to qcow2_reopen_prepare
+Subject: [Qemu-devel] [PATCH v3 1/9] block: add
+ .bdrv_need_rw_file_child_during_reopen_rw handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,106 +52,240 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we have used .bdrv_need_rw_file_child_during_reopen_rw handler,
-and have write access to file child in reopen-prepare, and we prepared
-qcow2_reopen_bitmaps_rw to be called from reopening rw -> rw, we now
-can simple move qcow2_reopen_bitmaps_rw() call to
-qcow2_reopen_prepare() and handle errors as befits.
+On reopen to rw parent may need rw access to child in .prepare, for
+example qcow2 needs to write IN_USE flags into stored bitmaps
+(currently it is done in a hacky way after commit and don't work).
+So, let's introduce such logic.
 
-Hacky handler .bdrv_reopen_bitmaps_rw is not needed more and therefore
-dropped.
+The drawback is that in worst case bdrv_reopen_set_read_only may finish
+with error and in some intermediate state: some nodes reopened RW and
+some are not. But this is a way to fix bug around reopening qcow2
+bitmaps in the following commits.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h |  6 ------
- block.c                   | 19 -------------------
- block/qcow2.c             |  6 +++++-
- 3 files changed, 5 insertions(+), 26 deletions(-)
+ include/block/block_int.h |   2 +
+ block.c                   | 144 ++++++++++++++++++++++++++++++++++----
+ 2 files changed, 133 insertions(+), 13 deletions(-)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 7bd6fd68dd..5077b26561 100644
+index 3aa1e832a8..7bd6fd68dd 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -533,12 +533,6 @@ struct BlockDriver {
+@@ -531,6 +531,8 @@ struct BlockDriver {
+                              uint64_t parent_perm, uint64_t parent_shared,
+                              uint64_t *nperm, uint64_t *nshared);
  
-      bool (*bdrv_need_rw_file_child_during_reopen_rw)(BlockDriverState *bs);
- 
--    /**
--     * Bitmaps should be marked as 'IN_USE' in the image on reopening image
--     * as rw. This handler should realize it. It also should unset readonly
--     * field of BlockDirtyBitmap's in case of success.
--     */
--    int (*bdrv_reopen_bitmaps_rw)(BlockDriverState *bs, Error **errp);
-     bool (*bdrv_can_store_new_dirty_bitmap)(BlockDriverState *bs,
-                                             const char *name,
-                                             uint32_t granularity,
++     bool (*bdrv_need_rw_file_child_during_reopen_rw)(BlockDriverState *bs);
++
+     /**
+      * Bitmaps should be marked as 'IN_USE' in the image on reopening image
+      * as rw. This handler should realize it. It also should unset readonly
 diff --git a/block.c b/block.c
-index 3c8e1c59b4..71b4f9961c 100644
+index cbd8da5f3b..3c8e1c59b4 100644
 --- a/block.c
 +++ b/block.c
-@@ -4037,16 +4037,12 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-     BlockDriver *drv;
-     BlockDriverState *bs;
-     BdrvChild *child;
--    bool old_can_write, new_can_write;
+@@ -1715,10 +1715,12 @@ static void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *perm,
+                                      uint64_t *shared_perm);
  
-     assert(reopen_state != NULL);
-     bs = reopen_state->bs;
-     drv = bs->drv;
-     assert(drv != NULL);
- 
--    old_can_write =
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE);
--
-     /* If there are any driver level actions to take */
-     if (drv->bdrv_reopen_commit) {
-         drv->bdrv_reopen_commit(reopen_state);
-@@ -4090,21 +4086,6 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-     }
- 
-     bdrv_refresh_limits(bs, NULL);
--
--    new_can_write =
--        !bdrv_is_read_only(bs) && !(bdrv_get_flags(bs) & BDRV_O_INACTIVE);
--    if (!old_can_write && new_can_write && drv->bdrv_reopen_bitmaps_rw) {
--        Error *local_err = NULL;
--        if (drv->bdrv_reopen_bitmaps_rw(bs, &local_err) < 0) {
--            /* This is not fatal, bitmaps just left read-only, so all following
--             * writes will fail. User can remove read-only bitmaps to unblock
--             * writes.
--             */
--            error_reportf_err(local_err,
--                              "%s: Failed to make dirty bitmaps writable: ",
--                              bdrv_get_node_name(bs));
--        }
--    }
- }
+ typedef struct BlockReopenQueueEntry {
+-     bool prepared;
+-     bool perms_checked;
+-     BDRVReopenState state;
+-     QSIMPLEQ_ENTRY(BlockReopenQueueEntry) entry;
++    bool reopened_file_child_rw;
++    bool changed_file_child_perm_rw;
++    bool prepared;
++    bool perms_checked;
++    BDRVReopenState state;
++    QSIMPLEQ_ENTRY(BlockReopenQueueEntry) entry;
+ } BlockReopenQueueEntry;
  
  /*
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 1d9fb3ae98..1ef71c1f1f 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1815,6 +1815,11 @@ static int qcow2_reopen_prepare(BDRVReopenState *state,
-         if (ret < 0) {
-             goto fail;
-         }
-+    } else {
-+        ret = qcow2_reopen_bitmaps_rw(state->bs, errp);
+@@ -3421,6 +3423,105 @@ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+                                    keep_old_opts);
+ }
+ 
++static int bdrv_reopen_set_read_only_drained(BlockDriverState *bs,
++                                             bool read_only,
++                                             Error **errp)
++{
++    BlockReopenQueue *queue;
++    QDict *opts = qdict_new();
++
++    qdict_put_bool(opts, BDRV_OPT_READ_ONLY, read_only);
++
++    queue = bdrv_reopen_queue(NULL, bs, opts, true);
++
++    return bdrv_reopen_multiple(queue, errp);
++}
++
++/*
++ * handle_recursive_reopens
++ *
++ * On fail it needs rollback_recursive_reopens to be called.
++ */
++static int handle_recursive_reopens(BlockReopenQueueEntry *current,
++                                    Error **errp)
++{
++    int ret;
++    BlockDriverState *bs = current->state.bs;
++
++    /*
++     * We use the fact that in reopen-queue children are always following
++     * parents.
++     * TODO: Switch BlockReopenQueue to be QTAILQ and use
++     *       QTAILQ_FOREACH_REVERSE.
++     */
++    if (QSIMPLEQ_NEXT(current, entry)) {
++        ret = handle_recursive_reopens(QSIMPLEQ_NEXT(current, entry), errp);
 +        if (ret < 0) {
-+            goto fail;
++            return ret;
 +        }
++    }
++
++    if ((current->state.flags & BDRV_O_RDWR) && bs->file && bs->drv &&
++        bs->drv->bdrv_need_rw_file_child_during_reopen_rw &&
++        bs->drv->bdrv_need_rw_file_child_during_reopen_rw(bs))
++    {
++        if (!bdrv_is_writable(bs->file->bs)) {
++            ret = bdrv_reopen_set_read_only_drained(bs->file->bs, false, errp);
++            if (ret < 0) {
++                return ret;
++            }
++            current->reopened_file_child_rw = true;
++        }
++
++        if (!(bs->file->perm & BLK_PERM_WRITE)) {
++            ret = bdrv_child_try_set_perm(bs->file,
++                                          bs->file->perm | BLK_PERM_WRITE,
++                                          bs->file->shared_perm, errp);
++            if (ret < 0) {
++                return ret;
++            }
++            current->changed_file_child_perm_rw = true;
++        }
++    }
++
++    return 0;
++}
++
++static int rollback_recursive_reopens(BlockReopenQueue *bs_queue,
++                                      Error **errp)
++{
++    int ret;
++    BlockReopenQueueEntry *bs_entry;
++
++    /*
++     * We use the fact that in reopen-queue children are always following
++     * parents.
++     */
++    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
++        BlockDriverState *bs = bs_entry->state.bs;
++
++        if (bs_entry->changed_file_child_perm_rw) {
++            ret = bdrv_child_try_set_perm(bs->file,
++                                          bs->file->perm & ~BLK_PERM_WRITE,
++                                          bs->file->shared_perm, errp);
++
++            if (ret < 0) {
++                return ret;
++            }
++        }
++
++        if (bs_entry->reopened_file_child_rw) {
++            ret = bdrv_reopen_set_read_only_drained(bs, true, errp);
++
++            if (ret < 0) {
++                return ret;
++            }
++        }
++    }
++
++    return 0;
++}
++
+ /*
+  * Reopen multiple BlockDriverStates atomically & transactionally.
+  *
+@@ -3440,11 +3541,18 @@ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+  */
+ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+ {
+-    int ret = -1;
++    int ret;
+     BlockReopenQueueEntry *bs_entry, *next;
+ 
+     assert(bs_queue != NULL);
+ 
++    ret = handle_recursive_reopens(QSIMPLEQ_FIRST(bs_queue), errp);
++    if (ret < 0) {
++        goto rollback_recursion;
++    }
++
++    ret = -1;
++
+     QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
+         assert(bs_entry->state.bs->quiesce_counter > 0);
+         if (bdrv_reopen_prepare(&bs_entry->state, bs_queue, errp)) {
+@@ -3485,7 +3593,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+ 
+     ret = 0;
+ cleanup_perm:
+-    QSIMPLEQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
+         BDRVReopenState *state = &bs_entry->state;
+ 
+         if (!bs_entry->perms_checked) {
+@@ -3502,7 +3610,7 @@ cleanup_perm:
+         }
      }
+ cleanup:
+-    QSIMPLEQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++    QSIMPLEQ_FOREACH(bs_entry, bs_queue, entry) {
+         if (ret) {
+             if (bs_entry->prepared) {
+                 bdrv_reopen_abort(&bs_entry->state);
+@@ -3513,8 +3621,23 @@ cleanup:
+         if (bs_entry->state.new_backing_bs) {
+             bdrv_unref(bs_entry->state.new_backing_bs);
+         }
++    }
++
++rollback_recursion:
++    if (ret) {
++        Error *local_err = NULL;
++        int ret2 = rollback_recursive_reopens(bs_queue, &local_err);
++
++        if (ret2 < 0) {
++            error_reportf_err(local_err, "Failed to rollback partially "
++                              "succeeded reopen to RW: ");
++        }
++    }
++
++    QSIMPLEQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+         g_free(bs_entry);
+     }
++
+     g_free(bs_queue);
  
-     return 0;
-@@ -5229,7 +5234,6 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_detach_aio_context  = qcow2_detach_aio_context,
-     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
+     return ret;
+@@ -3524,14 +3647,9 @@ int bdrv_reopen_set_read_only(BlockDriverState *bs, bool read_only,
+                               Error **errp)
+ {
+     int ret;
+-    BlockReopenQueue *queue;
+-    QDict *opts = qdict_new();
+-
+-    qdict_put_bool(opts, BDRV_OPT_READ_ONLY, read_only);
  
--    .bdrv_reopen_bitmaps_rw = qcow2_reopen_bitmaps_rw,
-     .bdrv_can_store_new_dirty_bitmap = qcow2_can_store_new_dirty_bitmap,
-     .bdrv_remove_persistent_dirty_bitmap = qcow2_remove_persistent_dirty_bitmap,
-     .bdrv_need_rw_file_child_during_reopen_rw = qcow2_has_bitmaps,
+     bdrv_subtree_drained_begin(bs);
+-    queue = bdrv_reopen_queue(NULL, bs, opts, true);
+-    ret = bdrv_reopen_multiple(queue, errp);
++    ret = bdrv_reopen_set_read_only_drained(bs, read_only, errp);
+     bdrv_subtree_drained_end(bs);
+ 
+     return ret;
 -- 
 2.18.0
 
