@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B0474C56
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 12:59:23 +0200 (CEST)
-Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A454774C5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 13:00:03 +0200 (CEST)
+Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqbSz-0003vv-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 06:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41589)
+	id 1hqbTe-0006eL-NE
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 07:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1hqbSd-00030W-Lx
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:59:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1hqbTQ-00063e-B8
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:59:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.vnet.ibm.com>) id 1hqbSb-0007Jp-QI
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:58:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19404
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1hqbSa-0007DC-Oo
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:58:57 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6PAvLvZ041689
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 06:58:49 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ty9g8vcwd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 06:58:48 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6PAvVlQ042158
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 06:58:48 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2ty9g8vcvy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jul 2019 06:58:48 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6PAt8cr014236;
- Thu, 25 Jul 2019 10:58:47 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01dal.us.ibm.com with ESMTP id 2tx61ndxk7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 25 Jul 2019 10:58:47 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6PAwjwX57147802
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Jul 2019 10:58:45 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE9966A047;
- Thu, 25 Jul 2019 10:58:45 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5F47E6A051;
- Thu, 25 Jul 2019 10:58:45 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 25 Jul 2019 10:58:45 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 25 Jul 2019 06:58:42 -0400
-Message-Id: <20190725105842.872625-3-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190725105842.872625-1-stefanb@linux.vnet.ibm.com>
-References: <20190725105842.872625-1-stefanb@linux.vnet.ibm.com>
+ (envelope-from <philmd@redhat.com>) id 1hqbTP-0007mH-6f
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:59:48 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53850)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hqbTO-0007jy-VQ
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:59:47 -0400
+Received: by mail-wm1-f68.google.com with SMTP id x15so44571078wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 03:59:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=soIWWHrLvhZt3MjKgXrRXvRwi32B3m+Tq+Pj6WkIRsQ=;
+ b=dNwcfrF1zHJVVpviyUY6UfGzyTXJ0526ppeuIJFlix6bNin9MQojc1kfiP9gsYeTrX
+ 1ccB80q5DJCkrVVuEOvDLNQohRT6pB8YoEjSdDwJ2AOP1/5gawJ03fejS5WRhxtOyOSf
+ kjtInnq/WofF2l/frSHe4uKxOHY3HZOv939ks8MW1nD7zLI3DJciNl7VEC+HKfS5oCh9
+ OUleaBl16JeCGGl5nIFWUa9xWTSrQPkfYCDJOYoLDbIp5xHMJeO5szAzOKZ9YqpMQIJR
+ +2jSvSroTt4ILfP4CzPmtUsUwkYCWQaxGsIwPbCmmJoYZxX9PJHYBIxep4tYi+n1u2l3
+ x7CA==
+X-Gm-Message-State: APjAAAWVA5f5omG/GVglBv+JhFGlG6dWLoFA+KK8hXz6gcAM9pOwZC5u
+ DF55gIWO511nN/HgzSmgPSN2LA==
+X-Google-Smtp-Source: APXvYqz2Zc7xgRdAXv8q0ApOTaM99s7PbHV5qfyyGNApEPl2wfconyDw+SLIDXQOS5flnkIQqKLWxw==
+X-Received: by 2002:a1c:f90f:: with SMTP id x15mr2510391wmh.69.1564052385886; 
+ Thu, 25 Jul 2019 03:59:45 -0700 (PDT)
+Received: from [192.168.1.37] (190.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.190])
+ by smtp.gmail.com with ESMTPSA id g131sm34155252wmf.37.2019.07.25.03.59.44
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Jul 2019 03:59:45 -0700 (PDT)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20190719131425.10835-1-philmd@redhat.com>
+ <20190719131425.10835-4-philmd@redhat.com>
+ <6ff431d9-36bd-27a1-077b-b2cb1331750d@redhat.com>
+ <bc3dc756-23a8-48a3-02ca-abaae6d0db96@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <bc3713cf-0e5c-52ed-c00c-fe4e24be608d@redhat.com>
+Date: Thu, 25 Jul 2019 12:59:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <bc3dc756-23a8-48a3-02ca-abaae6d0db96@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-25_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907250132
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 2/2] tpm_emulator: Translate TPM error codes to
- strings
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH-for-4.1 3/7]
+ hw/block/pflash_cfi02: Rewrite a fall through comment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,131 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>, marcandre.lureau@gmail.com,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <minyard@acm.org>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Markus Armbruster <armbru@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement a function to translate TPM error codes to strings so that
-at least the most common error codes can be translated to human
-readable strings.
+On 7/25/19 2:27 AM, John Snow wrote:
+> On 7/22/19 7:43 AM, Philippe Mathieu-Daudé wrote:
+>> On 7/19/19 3:14 PM, Philippe Mathieu-Daudé wrote:
+>>> GCC9 is confused by this comment when building with CFLAG
+>>> -Wimplicit-fallthrough=2:
+>>>
+>>>   hw/block/pflash_cfi02.c: In function ‘pflash_write’:
+>>>   hw/block/pflash_cfi02.c:574:16: error: this statement may fall through [-Werror=implicit-fallthrough=]
+>>>     574 |             if (boff == 0x55 && cmd == 0x98) {
+>>>         |                ^
+>>>   hw/block/pflash_cfi02.c:581:9: note: here
+>>>     581 |         default:
+>>>         |         ^~~~~~~
+>>>   cc1: all warnings being treated as errors
+>>>
+>>> Rewrite the comment using 'fall through' which is recognized by
+>>> GCC and static analyzers.
+>>>
+>>> Reported-by: Stefan Weil <sw@weilnetz.de>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>  hw/block/pflash_cfi02.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+>>> index f68837a449..42886f6af5 100644
+>>> --- a/hw/block/pflash_cfi02.c
+>>> +++ b/hw/block/pflash_cfi02.c
+>>> @@ -577,7 +577,7 @@ static void pflash_write(void *opaque, hwaddr offset, uint64_t value,
+>>>                  pfl->cmd = 0x98;
+>>>                  return;
+>>>              }
+>>> -            /* No break here */
+>>> +            /* fall through */
+>>>          default:
+>>>              DPRINTF("%s: invalid write for command %02x\n",
+>>>                      __func__, pfl->cmd);
+>>>
+>>
+>> Queued to pflash/next, thanks.
+>>
+> 
+> Are you queueing everything or just this one patch? It would be a little
+> inconvenient to split a series up like that.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- hw/tpm/tpm_emulator.c | 50 ++++++++++++++++++++++++++++++++++---------
- 1 file changed, 40 insertions(+), 10 deletions(-)
+Oops I simply queued this particular one.
 
-diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
-index 1288cbcb8d..186dde0838 100644
---- a/hw/tpm/tpm_emulator.c
-+++ b/hw/tpm/tpm_emulator.c
-@@ -82,6 +82,30 @@ typedef struct TPMEmulator {
-     TPMBlobBuffers state_blobs;
- } TPMEmulator;
- 
-+struct tpm_error {
-+    uint32_t tpm_result;
-+    const char *string;
-+};
-+
-+static const struct tpm_error tpm_errors[] = {
-+    {  9 , "operation failed" },
-+    {  32, "encryption error" },
-+    {  33, "decryption error" },
-+    /* TPM 2 codes */
-+    { 0x101, "operation failed" },
-+};
-+
-+static const char *tpm_emulator_strerror(uint32_t tpm_result)
-+{
-+    size_t i;
-+
-+    for (i = 0; i < ARRAY_SIZE(tpm_errors); i++) {
-+        if (tpm_errors[i].tpm_result == tpm_result) {
-+            return tpm_errors[i].string;
-+        }
-+    }
-+    return "";
-+}
- 
- static int tpm_emulator_ctrlcmd(TPMEmulator *tpm, unsigned long cmd, void *msg,
-                                 size_t msg_len_in, size_t msg_len_out)
-@@ -264,7 +288,8 @@ static int tpm_emulator_stop_tpm(TPMBackend *tb)
- 
-     res = be32_to_cpu(res);
-     if (res) {
--        error_report("tpm-emulator: TPM result for CMD_STOP: 0x%x", res);
-+        error_report("tpm-emulator: TPM result for CMD_STOP: 0x%x %s", res,
-+                     tpm_emulator_strerror(res));
-         return -1;
-     }
- 
-@@ -293,8 +318,9 @@ static int tpm_emulator_set_buffer_size(TPMBackend *tb,
- 
-     psbs.u.resp.tpm_result = be32_to_cpu(psbs.u.resp.tpm_result);
-     if (psbs.u.resp.tpm_result != 0) {
--        error_report("tpm-emulator: TPM result for set buffer size : 0x%x",
--                     psbs.u.resp.tpm_result);
-+        error_report("tpm-emulator: TPM result for set buffer size : 0x%x %s",
-+                     psbs.u.resp.tpm_result,
-+                     tpm_emulator_strerror(psbs.u.resp.tpm_result));
-         return -1;
-     }
- 
-@@ -339,7 +365,8 @@ static int tpm_emulator_startup_tpm_resume(TPMBackend *tb, size_t buffersize,
- 
-     res = be32_to_cpu(init.u.resp.tpm_result);
-     if (res) {
--        error_report("tpm-emulator: TPM result for CMD_INIT: 0x%x", res);
-+        error_report("tpm-emulator: TPM result for CMD_INIT: 0x%x %s", res,
-+                     tpm_emulator_strerror(res));
-         goto err_exit;
-     }
-     return 0;
-@@ -399,8 +426,9 @@ static int tpm_emulator_reset_tpm_established_flag(TPMBackend *tb,
- 
-     res = be32_to_cpu(reset_est.u.resp.tpm_result);
-     if (res) {
--        error_report("tpm-emulator: TPM result for rest establixhed flag: 0x%x",
--                     res);
-+        error_report(
-+            "tpm-emulator: TPM result for rest establixhed flag: 0x%x %s",
-+            res, tpm_emulator_strerror(res));
-         return -1;
-     }
- 
-@@ -638,7 +666,8 @@ static int tpm_emulator_get_state_blob(TPMEmulator *tpm_emu,
-     res = be32_to_cpu(pgs.u.resp.tpm_result);
-     if (res != 0 && (res & 0x800) == 0) {
-         error_report("tpm-emulator: Getting the stateblob (type %d) failed "
--                     "with a TPM error 0x%x", type, res);
-+                     "with a TPM error 0x%x %s", type, res,
-+                     tpm_emulator_strerror(res));
-         return -1;
-     }
- 
-@@ -758,7 +787,8 @@ static int tpm_emulator_set_state_blob(TPMEmulator *tpm_emu,
-     tpm_result = be32_to_cpu(pss.u.resp.tpm_result);
-     if (tpm_result != 0) {
-         error_report("tpm-emulator: Setting the stateblob (type %d) failed "
--                     "with a TPM error 0x%x", type, tpm_result);
-+                     "with a TPM error 0x%x %s", type, tpm_result,
-+                     tpm_emulator_strerror(tpm_result));
-         return -1;
-     }
- 
-@@ -888,8 +918,8 @@ static void tpm_emulator_shutdown(TPMEmulator *tpm_emu)
-         error_report("tpm-emulator: Could not cleanly shutdown the TPM: %s",
-                      strerror(errno));
-     } else if (res != 0) {
--        error_report("tpm-emulator: TPM result for sutdown: 0x%x",
--                     be32_to_cpu(res));
-+        error_report("tpm-emulator: TPM result for shutdown: 0x%x %s",
-+                     be32_to_cpu(res), tpm_emulator_strerror(be32_to_cpu(res)));
-     }
- }
- 
--- 
-2.20.1
+> (Most other maintainers will, I believe, expect that with an "ACK" or
+> similar that someone else will stage the series.)
 
+I thought these are not critical bugfixes for 4.1, but since I had to do
+a pull request for pflash, I could include it. (I already noticed
+maintainers queueing particular patches from cleanup series).
+
+Next time I'll ping/wait.
+
+Regards,
+
+Phil.
 
