@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A28751AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:45:57 +0200 (CEST)
-Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09E775178
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:42:41 +0200 (CEST)
+Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqf0F-0006A5-LY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38667)
+	id 1hqex5-00027S-K2
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hqezu-0005F4-N7
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:35 -0400
+ (envelope-from <mst@redhat.com>) id 1hqews-0001im-3R
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:42:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hqezt-0001Ny-FV
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45454)
+ (envelope-from <mst@redhat.com>) id 1hqewr-00061Y-7s
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:42:26 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43507)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hqezt-0001LZ-9l
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hqezr-0001IQ-Uh
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:45:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C92152E80CC
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:45:31 +0000 (UTC)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqewr-00061D-45
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:42:25 -0400
+Received: by mail-qt1-f194.google.com with SMTP id w17so4977069qto.10
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 07:42:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tWj9lHT2quf4xVRDpOVqU4hyVOauLdD76qXV3ZKsQUk=;
+ b=k/0KvOhGFkTOvYKetNI/jPxxD1FY1Uh9y8bjwymGhbNKt0Ir+HsF6PWlqLESF8QXqI
+ WgjNFRIhUDUyhVo9Ne0eh1RVT1Ch13LFObpdqEEjnjEXl/hFSl9IZPe3QgFYIPPNUdX/
+ p0XeQkRil9uYbdsnCcjKUrw3eNvn+l7WWl0Y2kLvUU+K+HxJ0Ag4Ls0ov//1uVBid4ic
+ 0mkZHoqr7i4PxFnGWT3KTuCOLKBTS58MgugCuyDw8jx4ufkt2rOaXEodEiJuIvOEit3O
+ aNjUJyAf8xaqz2WolTg3RcOyaUooKs7N8SF/v8jM+RMi/yWKCj5uUsrKjQcy+PW7Hc3i
+ t09A==
+X-Gm-Message-State: APjAAAWhdcW6yYh/IZqMUUVEBhXvme/wFA6vwa8MJBqi8GE6k4fgKno1
+ REVbkBgnYrmeM749tfn1YdFemw==
+X-Google-Smtp-Source: APXvYqz++3ITpRGeNySS4XB6ESOhAgLBvKtUVx4DY4TzVN4wxwpFhlvvTTxJjn5YB6CjIHDtdk8ZvQ==
+X-Received: by 2002:a0c:ad07:: with SMTP id u7mr61834415qvc.2.1564065744584;
+ Thu, 25 Jul 2019 07:42:24 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
+ by smtp.gmail.com with ESMTPSA id
+ f26sm28329866qtf.44.2019.07.25.07.42.20
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 25 Jul 2019 07:42:23 -0700 (PDT)
+Date: Thu, 25 Jul 2019 10:42:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190725103636-mutt-send-email-mst@kernel.org>
+References: <20190725055908-mutt-send-email-mst@kernel.org>
+ <CAFEAcA-uDtTFOyTwMY5KtWeqvirxDejQdvnx5OCZ8pyUhKhE+w@mail.gmail.com>
+ <87pnlymm47.fsf@redhat.com>
+ <d48da49f-c8d8-00f7-1634-569e8d924b8a@redhat.com>
+ <CAJSP0QUJCh-SaZ9NQ+Wr8vr7R+gBsfhYmBrx45B4z2G9v9L=1A@mail.gmail.com>
+ <20190725080556-mutt-send-email-mst@kernel.org>
+ <CAJSP0QVvnXV8Ha0yaO84qLL6unVroV5GqcuL-x9ruB7o_24WBA@mail.gmail.com>
+ <ddc31318-dc52-b9f2-5a9d-bd1fc650df5b@redhat.com>
+ <20190725094837-mutt-send-email-mst@kernel.org>
+ <dd20e05b-b8f0-c9dd-fdfe-3a3804b90d95@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Jul 2019 14:36:57 -0000
-From: elmarco <marcandre.lureau@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crobinso marcandre-lureau
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
-X-Launchpad-Bug-Modifier: elmarco (marcandre-lureau)
-References: <156406441263.18058.18411127090440261548.malonedeb@gac.canonical.com>
-Message-Id: <156406541803.17681.2502459833725209168.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: fd036c3443f26b4e31f70c254fa8891d50e98d47
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd20e05b-b8f0-c9dd-fdfe-3a3804b90d95@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1837909] Re: test-char fails if host has no
- network interfaces
+ [fuzzy]
+X-Received-From: 209.85.160.194
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,70 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1837909 <1837909@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Maran Wilson <maran.wilson@oracle.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should be addressed by:
-https://patchew.org/QEMU/20190713143311.17620-1-marcandre.lureau@redhat.com/
+On Thu, Jul 25, 2019 at 04:13:13PM +0200, Paolo Bonzini wrote:
+> On 25/07/19 15:54, Michael S. Tsirkin wrote:
+> >> FWIW the "PCI tax" seems to be ~10 ms in QEMU, ~10 ms in the firmware(*)
+> >> and ~25 ms in the kernel.
+> > How did you measure the qemu time btw?
+> > 
+> 
+> It's QEMU startup, but not QEMU altogether.  For example the time spent
+> in memory.c when a BAR is programmed is not part of those 10 ms.
+> 
+> So I just computed q35 qemu startup - microvm qemu startup, it's 65 vs
+> 65 ms.
+> 
+> Paolo
 
--- =
+Oh so it could be eventfd or whatever, just as well.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1837909
+I actually wonder whether we spend much time within
+synchronize_* calls. eventfd triggers this a  lot of times.
 
-Title:
-  test-char fails if host has no network interfaces
-
-Status in QEMU:
-  New
-
-Bug description:
-  # ./tests/test-char =
-
-  # random seed: R02S8602535bf831a74bca571d8c416d8161
-  1..34
-  # Start of char tests
-  ...
-  ok 12 /char/websocket
-  # Start of stdio tests
-  # End of stdio tests
-  # Start of socket tests
-  # Start of server tests
-  # Start of mainloop tests
-  Unexpected error in inet_parse_connect_saddr() at util/qemu-sockets.c:421:
-  # =
-
-  # address resolution failed for 127.0.0.1:42275: Name or service not known
-  # =
+How about ioeventfd=off? Does this speed up things?
 
 
-  Aborted (core dumped)
 
-  =
-
-  # ip a
-  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group=
- default qlen 1000
-      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-      inet 127.0.0.1/8 scope host lo
-         valid_lft forever preferred_lft forever
-      inet6 ::1/128 scope host =
-
-         valid_lft forever preferred_lft forever
-
-  =
-
-  This seems to be related to use of AI_ADDRCONFIG in qemu-sockets.c inet_p=
-arse_connect_saddr, dropping it fixes the test. 'man getaddrinfo' makes it =
-sound like AI_ADDRCONFIG requires the host to have a non-loopback ipv4 or i=
-pv6 address available
-
-  This host setup may seem niche, but it is what the 'mock' RPM build
-  tool has by default. In Fedora we run the test suite during the RPM
-  build, so the failing test causes a bit of pain for certain workflows
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1837909/+subscriptions
+-- 
+MST
 
