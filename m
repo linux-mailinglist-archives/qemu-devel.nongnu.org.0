@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D0475100
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:25:57 +0200 (CEST)
-Received: from localhost ([::1]:60632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C29750EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:24:33 +0200 (CEST)
+Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqegt-0007jt-Ow
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33953)
+	id 1hqefY-0005zh-E9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hqegZ-0006mB-45
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:25:36 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hqefK-0005Zw-IL
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:24:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hqegX-00059V-Ok
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:25:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34440)
+ (envelope-from <richard.henderson@linaro.org>) id 1hqefJ-0004ZJ-IV
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:24:18 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38804)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hqegX-00059B-IX
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:25:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hqegW-000540-CR
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:25:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 231F12E80D2
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:25:32 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hqefJ-0004Yf-BB
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:24:17 -0400
+Received: by mail-pf1-x442.google.com with SMTP id y15so22850788pfn.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 07:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=I1vrAVacngQsTErWMGlOtAHGVrLVOAcU9r0B41wXqhk=;
+ b=DdiG16GkPcWkWSR3QBjL0L8YKQp41W8hyAfYZ04O4d6gHretFczYQ/TBwWec6JHMD8
+ sj3Y1IiU0LNGlzIHDutXpAWVuiLEWUULZy3acleMjyh9s/HToKccKiSst6y94xAicROL
+ 0AK3vPgrClw5QnnTq/vk1tf2UzpveqRa8qLzoIseZAOramN6DjhJlMnzxcY0T+8ezhAF
+ +h77Zd521ITMO5p8iOnj87s2yabzE5YXpyFtK/vMQ2HI8gmWI2yoHYfwfqoAB7BzQkb+
+ 196Uw3yKtb6Kc7mrmN8CrfGhAvr5MFv5j9HZncKprl+oT3PSo0TeUz56qbH+q1LZdvwS
+ KUHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I1vrAVacngQsTErWMGlOtAHGVrLVOAcU9r0B41wXqhk=;
+ b=D1QxEmnyfz89CeXjKiLSVmLgl4TMtvJUMCrOYo4NynhkHVo5AGoEB1IkGi+NyuxBOI
+ uLxgWUSZgRumiLXNJIrGZ/Y5WlVfEmD1Dz7kGjO6yhdSiimTObjVTIg9YWDPyb0F5vmO
+ vXja+x0f2cx3uPBw3GMXAYAPxhFqoOxXiwEMW+qfxMQC1EjYk/LjCUHJ855re2DQRNQC
+ LQbBUwnsjFyR8WUQfRGlHcJYMWaYrRCM016NhRP5rZptNHNkA1YzJE7AbYWxLKHTLLNm
+ vK76LRHKQmF1Yhop6c2dCMPe/x8/gBqt+yZmzQJtn6dOrRWCvtsara7rGC4BXUBbuLmW
+ OlsQ==
+X-Gm-Message-State: APjAAAXfnCSNL6B9rDOGVJE/doYJuW3Z4an/vdsdCTDo9Nglg0opN96D
+ jL7RFgp022QFKra8jY1KgnUuTA==
+X-Google-Smtp-Source: APXvYqzJ4tj047V+dgc+TKDZcflNbKJ5qTg0EAVu+npAXtjoZQ7guf2rLTzpaAdN41expHYGtOQXRQ==
+X-Received: by 2002:a17:90a:372a:: with SMTP id
+ u39mr93122937pjb.2.1564064655613; 
+ Thu, 25 Jul 2019 07:24:15 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id l31sm87357468pgm.63.2019.07.25.07.24.14
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Jul 2019 07:24:14 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190719210326.15466-1-richard.henderson@linaro.org>
+ <20190719210326.15466-13-richard.henderson@linaro.org>
+ <871rye1ad5.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <6f561cff-b612-ae50-020f-7c66bac0f742@linaro.org>
+Date: Thu, 25 Jul 2019 07:24:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 25 Jul 2019 14:20:12 -0000
-From: Cole Robinson <1837909@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crobinso
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
-X-Launchpad-Bug-Modifier: Cole Robinson (crobinso)
-Message-Id: <156406441263.18058.18411127090440261548.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: df648e2cd59ea600b50086d983d8f137a87e8c78
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1837909] [NEW] test-char fails if host has no
- network interfaces
+In-Reply-To: <871rye1ad5.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH for-4.2 12/24] target/arm: Add VHE system
+ register redirection and aliasing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,115 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1837909 <1837909@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, beata.michalska@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-# ./tests/test-char =
-
-# random seed: R02S8602535bf831a74bca571d8c416d8161
-1..34
-# Start of char tests
+On 7/25/19 7:01 AM, Alex Bennée wrote:
+>> +    union {
+>> +        /*
+>> +         * Offsets of the secure and non-secure fields in CPUARMState for
+>> +         * the register if it is banked.  These fields are only used during
+>> +         * the static registration of a register.  During hashing the bank
+>> +         * associated with a given security state is copied to fieldoffset
+>> +         * which is used from there on out.
+>> +         *
+>> +         * It is expected that register definitions use either fieldoffset
+>> +         * or bank_fieldoffsets in the definition but not both.  It is also
+>> +         * expected that both bank offsets are set when defining a banked
+>> +         * register.  This use indicates that a register is banked.
+>> +         */
+>> +        ptrdiff_t bank_fieldoffsets[2];
+> 
+> It seems a bit off that we are compressing this structure into a union
+> when we didn't bother with the above fieldoffset despite the statement
+> that only one or the other is used.
 ...
-ok 12 /char/websocket
-# Start of stdio tests
-# End of stdio tests
-# Start of socket tests
-# Start of server tests
-# Start of mainloop tests
-Unexpected error in inet_parse_connect_saddr() at util/qemu-sockets.c:421:
-# =
+> Is 2 pointers enough saving? Will we never see a re-directed register
+> that was using the banked fieldoffsets? Can we protect against that?
 
-# address resolution failed for 127.0.0.1:42275: Name or service not known
-# =
+It's because bank_fieldoffsets[] is only used before instantiation.
 
+Before the structure is given to add_cpreg_to_hashtable, we have copied the
+structure, copied bank_fieldoffsets into fieldoffset, and adjusted the secure
+state flag.
 
-Aborted (core dumped)
+After instantiation, those two pointers are unused, and I thought I could
+reclaim it.  However, you may have a point re total memory savings not making
+the complication worthwhile.
 
 
-# ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group d=
-efault qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host =
-
-       valid_lft forever preferred_lft forever
-
-
-This seems to be related to use of AI_ADDRCONFIG in qemu-sockets.c inet_par=
-se_connect_saddr, dropping it fixes the test. 'man getaddrinfo' makes it so=
-und like AI_ADDRCONFIG requires the host to have a non-loopback ipv4 or ipv=
-6 address available
-
-This host setup may seem niche, but it is what the 'mock' RPM build tool
-has by default. In Fedora we run the test suite during the RPM build, so
-the failing test causes a bit of pain for certain workflows
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1837909
-
-Title:
-  test-char fails if host has no network interfaces
-
-Status in QEMU:
-  New
-
-Bug description:
-  # ./tests/test-char =
-
-  # random seed: R02S8602535bf831a74bca571d8c416d8161
-  1..34
-  # Start of char tests
-  ...
-  ok 12 /char/websocket
-  # Start of stdio tests
-  # End of stdio tests
-  # Start of socket tests
-  # Start of server tests
-  # Start of mainloop tests
-  Unexpected error in inet_parse_connect_saddr() at util/qemu-sockets.c:421:
-  # =
-
-  # address resolution failed for 127.0.0.1:42275: Name or service not known
-  # =
-
-
-  Aborted (core dumped)
-
-  =
-
-  # ip a
-  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group=
- default qlen 1000
-      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-      inet 127.0.0.1/8 scope host lo
-         valid_lft forever preferred_lft forever
-      inet6 ::1/128 scope host =
-
-         valid_lft forever preferred_lft forever
-
-  =
-
-  This seems to be related to use of AI_ADDRCONFIG in qemu-sockets.c inet_p=
-arse_connect_saddr, dropping it fixes the test. 'man getaddrinfo' makes it =
-sound like AI_ADDRCONFIG requires the host to have a non-loopback ipv4 or i=
-pv6 address available
-
-  This host setup may seem niche, but it is what the 'mock' RPM build
-  tool has by default. In Fedora we run the test suite during the RPM
-  build, so the failing test causes a bit of pain for certain workflows
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1837909/+subscriptions
+r~
 
