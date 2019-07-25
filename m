@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9353E74D3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 13:37:43 +0200 (CEST)
-Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B167E74D2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 13:37:25 +0200 (CEST)
+Received: from localhost ([::1]:58854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqc46-0003vf-AT
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 07:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
+	id 1hqc3o-0002Nl-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 07:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1hqc3H-0000zB-4B
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:36:51 -0400
+ (envelope-from <david@redhat.com>) id 1hqc3K-0001BX-D0
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:36:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hqc3G-00035Q-28
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:36:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59946)
+ (envelope-from <david@redhat.com>) id 1hqc3I-00036h-C0
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:36:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59954)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hqc3F-00035A-TJ; Thu, 25 Jul 2019 07:36:50 -0400
+ id 1hqc3I-000369-5H; Thu, 25 Jul 2019 07:36:52 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4000F308339B;
- Thu, 25 Jul 2019 11:36:49 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 48D8E30860BD;
+ Thu, 25 Jul 2019 11:36:51 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-70.ams2.redhat.com [10.36.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B86D75D71C;
- Thu, 25 Jul 2019 11:36:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89E7A5D71C;
+ Thu, 25 Jul 2019 11:36:49 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 25 Jul 2019 13:36:32 +0200
-Message-Id: <20190725113638.4702-2-david@redhat.com>
+Date: Thu, 25 Jul 2019 13:36:33 +0200
+Message-Id: <20190725113638.4702-3-david@redhat.com>
 In-Reply-To: <20190725113638.4702-1-david@redhat.com>
 References: <20190725113638.4702-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 25 Jul 2019 11:36:49 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Thu, 25 Jul 2019 11:36:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v4 1/7] virtio-balloon: Fix wrong sign
- extension of PFNs
+Subject: [Qemu-devel] [PATCH-for-4.1 v4 2/7] virtio-balloon: Fix QEMU
+ crashes on pagesize > BALLOON_PAGE_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,37 +62,63 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we directly cast from int to uint64_t, we will first sign-extend to
-an int64_t, which is wrong. We actually want to treat the PFNs like
-unsigned values.
+We are using the wrong functions to set/clear bits, effectively touching
+multiple bits, writing out of range of the bitmap, resulting in memory
+corruptions. We have to use set_bit()/clear_bit() instead.
 
-As far as I can see, this dates back to the initial virtio-balloon
-commit, but wasn't triggered as fairly big guests would be required.
+Can easily be reproduced by starting a qemu guest on hugetlbfs memory,
+inflating the balloon. QEMU crashes. This never could have worked
+properly - especially, also pages would have been discarded when the
+first sub-page would be inflated (the whole bitmap would be set).
 
-Cc: qemu-stable@nongnu.org
-Reported-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+While testing I realized, that on hugetlbfs it is pretty much impossible
+to discard a page - the guest just frees the 4k sub-pages in random order
+most of the time. I was only able to discard a hugepage a handful of
+times - so I hope that now works correctly.
+
+Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE <
+                     host page size")
+Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruptio=
+n
+                     with inflates & deflates")
+Cc: qemu-stable@nongnu.org #v4.0.0
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/virtio-balloon.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index e85d1c0d5c..515abf6553 100644
+index 515abf6553..a78d2d2184 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -343,8 +343,8 @@ static void virtio_balloon_handle_output(VirtIODevice=
- *vdev, VirtQueue *vq)
-         }
+@@ -94,9 +94,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon=
+,
+         balloon->pbp->base =3D host_page_base;
+     }
 =20
-         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, 4) =
-=3D=3D 4) {
-+            unsigned int p =3D virtio_ldl_p(vdev, &pfn);
-             hwaddr pa;
--            int p =3D virtio_ldl_p(vdev, &pfn);
+-    bitmap_set(balloon->pbp->bitmap,
+-               (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+-               subpages);
++    set_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
++            balloon->pbp->bitmap);
 =20
-             pa =3D (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
-             offset +=3D 4;
+     if (bitmap_full(balloon->pbp->bitmap, subpages)) {
+         /* We've accumulated a full host page, we can actually discard
+@@ -140,9 +139,8 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+on,
+          * for a guest to do this in practice, but handle it anyway,
+          * since getting it wrong could mean discarding memory the
+          * guest is still using. */
+-        bitmap_clear(balloon->pbp->bitmap,
+-                     (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SI=
+ZE,
+-                     subpages);
++        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
++                  balloon->pbp->bitmap);
+=20
+         if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
+             g_free(balloon->pbp);
 --=20
 2.21.0
 
