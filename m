@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D2075FBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:24:32 +0200 (CEST)
-Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB5A75FD9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:30:26 +0200 (CEST)
+Received: from localhost ([::1]:37009 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hquab-00075W-Qr
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58393)
+	id 1hqugL-0002AA-0q
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:30:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hquaN-0006fY-Os
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:24:16 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hqufc-0000dh-FN
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hquaI-0005vY-2e
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:24:12 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38152)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hquaH-0005k3-OR
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:24:09 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s15so25410120wmj.3
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 00:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=r5UtIMnXMaC0iUiAV2qYBafMcUC917/tq7OSxSWoF3g=;
- b=tbbx/K7nIl91ZgnCaCZ73EkI1JHNwYDnRi2tjCUaVjFL+PMkzRqoQ+p0bD2sUVbWxZ
- U/8ZG95Gr806i56ASPAymk32M2BjOWdGpztt+9r+VPWcfE8oIrtKsXCi+oAKblPCCt8T
- YyY0ncS5yzdY3P2DQhVwUhT7bZxZx4TLdJh5HHSmKMW+7CIz8DDmJxdSUN4D2zQXbpvg
- 1REenjoxmPv2mEEYMY6IPFowH7L3oq5j5rapQxSMDrpZWDfXNRWWTGYtTlLdl6xa4ue3
- lvn3E+IYoeAw9pfvsKQW2alBY7SbV1z30jfyIwA+L4MJm0VDf52Mbi6AGjo+UgBWCCB+
- 8Jsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=r5UtIMnXMaC0iUiAV2qYBafMcUC917/tq7OSxSWoF3g=;
- b=ucearoU5CtiuiBj8PidWLE9HsKToa9/uP7LEqWb7Y7qKsDWtMcZHMUBiZ9T3bWWGCG
- POou+RrL1fkCeLxYa7rpDHQeCx3UCmAJl82PRnpAa5mkg35M283nORXsDyFCoLD3NMcO
- tG5uNiNEJnxvokfOTNmj40nS7IPlZPOvG5NwbvMxniC0cCbJNzxF150qgVxColevXAQZ
- CgsnfeowAx/BDNN54P4KURdwWBCEPIWC/Kz/Mdmf8yBMUAF7H0UExKjyh+0217o8ia1e
- qfxD8HkwB3E2Weaa0/X7F+JAM5OHY41/wHrjJnGin9pUn55pq7o5rAzbt117auTARX6y
- uO8Q==
-X-Gm-Message-State: APjAAAWutZvj7/j1ypyMDydEoJrMqn885TnThALBhwnql3W8dbkz8o9/
- sm3khzJSQm+jmJ1s5WAS1a3OPf1q2k8=
-X-Google-Smtp-Source: APXvYqzzaDLzuoLX/L9AOlzNEqavLyX21zh5cZ8UGwMv37qBaLUXp8GJfR+NUl6R4/szdbmcWx/M6g==
-X-Received: by 2002:a1c:96c7:: with SMTP id y190mr77026551wmd.87.1564125846037; 
- Fri, 26 Jul 2019 00:24:06 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r12sm61078698wrt.95.2019.07.26.00.24.05
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 00:24:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C6ECD1FF87;
- Fri, 26 Jul 2019 08:24:04 +0100 (BST)
-References: <20190723113301.16867-1-alex.bennee@linaro.org>
- <CAFEAcA9CP0cUkDR4qOKVgM1b2U1KNot=A-5OPEAOKu3=KpMyuw@mail.gmail.com>
-User-agent: mu4e 1.3.3; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA9CP0cUkDR4qOKVgM1b2U1KNot=A-5OPEAOKu3=KpMyuw@mail.gmail.com>
-Date: Fri, 26 Jul 2019 08:24:04 +0100
-Message-ID: <8736iti7hn.fsf@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1hqufX-00055S-SL
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:56973)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hqufX-0004Yo-4s; Fri, 26 Jul 2019 03:29:35 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45w11J0HRMz9sBF; Fri, 26 Jul 2019 17:29:23 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1564126164;
+ bh=BP+uvD7HjEup36Dg4X8ruWZdRh62v1XWUKKL0W1ff0c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J48gOQFO1Qo6NsLt06C8IQwEHxa/qqNflYFdcQRxCUhlKIi+BPRZn3quhYzFxn0kR
+ zMJwPnnJL/RON6wdsVqaRTTylPzxehdZeYbZYBxuzcDQCemz1PMIqD8d0VTs7FTu3l
+ IymH0xi7Y9xKXo1lEh0/fNCiZGB5zPmdVBzcz5zc=
+Date: Thu, 25 Jul 2019 13:26:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Amol Surati <suratiamol@gmail.com>
+Message-ID: <20190725032629.GA28601@umbus>
+References: <20190723090138.30623-1-clg@kaod.org>
+ <20190724032308.GV25073@umbus.fritz.box>
+ <0b80925b-c25b-04ee-2875-cbd155497a55@kaod.org>
+ <20190724085730.GX25073@umbus.fritz.box>
+ <20190724145504.GA29378@arch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH for 4.2] target/arm: generate a custom MIDR
- for -cpu max
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+Content-Disposition: inline
+In-Reply-To: <20190724145504.GA29378@arch>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] ppc/pnv: Generate phandle for
+ the "interrupt-parent" property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,104 +59,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+--bg08WKrSYDhXBjb5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, 23 Jul 2019 at 12:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> While most features are now detected by probing the ID_* registers
->> kernels can (and do) use MIDR_EL1 for working out of they have to
->> apply errata. This can trip up warnings in the kernel as it tries to
->> work out if it should apply workarounds to features that don't
->> actually exist in the reported CPU type.
->>
->> Avoid this problem by synthesising our own MIDR value using the
->> reserved value of 0 for the implementer and telling kernels the ID
->> registers should tell them everything they need to know.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>
->> ---
->> v2
->>   - don't leak QEMU version into ID reg
->> ---
->>  target/arm/cpu.h   | 6 ++++++
->>  target/arm/cpu64.c | 6 ++++++
->>  2 files changed, 12 insertions(+)
->>
->> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
->> index 7efbb488d9d..61eaef924e4 100644
->> --- a/target/arm/cpu.h
->> +++ b/target/arm/cpu.h
->> @@ -1605,6 +1605,12 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
->>  /*
->>   * System register ID fields.
->>   */
->> +FIELD(MIDR_EL1, REVISION, 0, 4)
->> +FIELD(MIDR_EL1, PARTNUM, 4, 12)
->> +FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
->> +FIELD(MIDR_EL1, VARIENT, 20, 4)
->
-> "VARIANT".
->
->> +FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
->> +
->>  FIELD(ID_ISAR0, SWAP, 0, 4)
->>  FIELD(ID_ISAR0, BITCOUNT, 4, 4)
->>  FIELD(ID_ISAR0, BITFIELD, 8, 4)
->> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
->> index b1bb394c6dd..e88aadfd2fd 100644
->> --- a/target/arm/cpu64.c
->> +++ b/target/arm/cpu64.c
->> @@ -296,6 +296,12 @@ static void aarch64_max_initfn(Object *obj)
->>          uint32_t u;
->>          aarch64_a57_initfn(obj);
->>
->> +        /* reset MIDR so our franken-max-cpu type isn't mistaken for a =
-real one */
->> +        t =3D FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0); /* Reserved for =
-SW */
->> +        t =3D FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf); /* See ID_* f=
-or details */
->> +        /* the rest is enigmatically empty lest kernels assume it means=
- something */
->> +        cpu->midr =3D t;
->
-> I think this would be easier to read if you used one big block
-> comment rather than being extremely terse so as to fit the
-> comments on the end of the lines:
->
->  /*
->   * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
->   * one and try to apply errata workarounds or use impdef features we
->   * don't provide.
->   * An IMPLEMENTER field of 0 means "reserved for software use";
->   * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
->   * to see which features are present";
->   * the VARIANT, PARTNUM and REVISION fields are all implementation
->   * defined and we choose to leave them all at zero.
->   */
->
-> It's also a bit inconsistent to do an explicit deposit of 0
-> for the IMPLEMENTER field but not for the VARIANT/PARTNUM/REVISION.
->
-> I wonder if we should put 0x51 (ascii 'Q') in the PARTNUM field;
-> then if somebody really needs to distinguish QEMU from random
-> other software-models they have a way to do it.
+On Wed, Jul 24, 2019 at 08:25:04PM +0530, Amol Surati wrote:
+> On Wed, Jul 24, 2019 at 06:57:30PM +1000, David Gibson wrote:
+> > On Wed, Jul 24, 2019 at 09:11:54AM +0200, C=E9dric Le Goater wrote:
+> > > On 24/07/2019 05:23, David Gibson wrote:
+> > > > On Tue, Jul 23, 2019 at 11:01:38AM +0200, C=E9dric Le Goater wrote:
+> > > >> Devices such as the BT or serial devices require a valid
+> > > >> "interrupt-parent" phandle in the device tree and it is currently
+> > > >> empty (0x0). It was not a problem until now but since OpenFirmare
+> > > >> started using a recent libdft (>=3D 1.4.7), petitboot fails to boo=
+t the
+> > > >> system image with error :
+> > > >>
+> > > >>    dtc_resize: fdt_open_into returned FDT_ERR_BADMAGIC
+> > > >>
+> > > >> Provide a phandle for the LPC bus.
+> > > >>
+> > > >> Suggested-by: Greg Kurz <groug@kaod.org>
+> > > >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > > >=20
+> > > > I've applied this, since it looks to be correct.
+> > > >=20
+> > > > But.. can you connect the dots for me in how this being missing
+> > > > results in a BADMAGIC error??
+> > >=20
+> > > Some binary called by petitboot segfaults when trying to kexec an ima=
+ge on=20
+> > > a system with a bogus DT (generated by QEMU). I don't know exactly wh=
+ich one=20
+> > > as I only see the error message above and the segv message in dmesg
+> >=20
+> > Ok, I'm still not seeing how that gets you to a BADMAGIC error.
+>=20
+> If I may interject, as this patch is related to the qemu bug:
+> https://bugs.launchpad.net/qemu/+bug/1826827.
+>=20
+> The error is printed by dtc_resize in kexec.c from kexec-lite
+> (antonblanchard/kexec-lite).
+>=20
+> There are two places where dtc_resize is called -
+> (1) initialize_fdt, when kexec is passed a dtb file.
+> (2) fdt_from_fs, when kexec must make dtc read /proc/device-tree to form
+>     a dtb.
+>=20
+> If initialize_fdt is called with a file which is an invalid dtb, the
+> dtc_resize prints the FDT_ERR_BADMAGIC error.
+>=20
+> Bug# 1826827 shows that dtc is one application that does
+> crash, although through the firing of an assertion, in the absence of
+> the mentioned properties. (fix to avoid the crash already checked into
+> dtc upstream, commit 8f69567622; to be released with dtc-v1.5.1).
+>=20
+> Assuming that the crashing app (it is not known here what it is) is
+> supposed to create a dtb for kexec, and its crash leaves behind an
+> incomplete/invalid dtb file, the initialize_fdt might receive an invalid
+> dtb.
 
-Q is reserved for Qualcomm - It would be nice if ARM could assign QEMU a
-code but I suspect that's not part of the business model.
+Ok, thanks.  That's what I was after.
 
->
-> thanks
-> -- PMM
+>=20
+>=20
+> Another possibility for that error exists within the fdt_from_fs function,
+> but that needs a version of kexec-lite at least 5 years old, which is
+> unlikely to be used here I guess.
+>=20
+>=20
+>=20
+> If this patch fixes both the crash and the error "dtc_resize: ....",
+> it is likely that dtc (or anything else which depends on libfdt) was the
+> cause of the crash, with dtc/libfdt version being < g8f69567622.
+>=20
+>=20
+> Thanks,
+> -amol
+>=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---
-Alex Benn=C3=A9e
+--bg08WKrSYDhXBjb5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl05IWIACgkQbDjKyiDZ
+s5JbmBAA5WIZ3dvYe9uGdTfM/666Gca/3i12NMI5TqmN9dM9U/CE+6ZTpFTidioD
+s5toKUoiwX7OFJu5KKiaqpCIIlG/bdqGx7u8WDAaeSNEdNfXynsknkDNhjcZK0+t
+H5bdTYtkPazUSsQij255MGyiwNJ9TuSVOc2io6dlTgKFbixC59aPxH89yWWZOrme
+PLXYD5S1lQAWzFPgVbhw1tLFs+YSgt1d5tYd3vpCbpV1KXnUn2+FFEqtVrHB+3ie
+5i7SZvjDLQJKPZtAtj9CbI/YX5yoRu+qcB0U/18ESHJKNhOln30p+0wq63lDO8XQ
+cCVsO8Q5CKsTiBCuVPJVr8HLvqxNWfVXk3HfLabf6gZNatQFZFBnaMoNHyPDaMvW
+FSmC9juA4A9z54qZ9r+nV1miC/szMjkp3+pe4luVmzPVSqS5RIKYo9npzRx0RTVZ
+QXGOEcEpXSXhhEDI97U8g8Mtz8UhH5p2sffeHQsQHZTXLPN3p/nVI6UWhbSyJGrQ
+YYt71mMtvXz57sAl3wRHeALphaYgZzSvRJFSI9NdDmkBDSQDZtZxGJICJSbJJbdF
+rCLsp7ejbCN55gE7TpSwaW8SAfkmIMgYbxCeJpW+r1jtJGJd+0bjWoqARNd1kIkj
+IPRQcFwzWWuOSoUdBSWGngig2Pfj/0JC3Ft+/xEocupb0TVWjfs=
+=MHRe
+-----END PGP SIGNATURE-----
+
+--bg08WKrSYDhXBjb5--
 
