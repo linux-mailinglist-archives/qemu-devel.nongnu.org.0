@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D920752A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:32:20 +0200 (CEST)
-Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01DC752A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:33:19 +0200 (CEST)
+Received: from localhost ([::1]:33012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqfj9-0003qg-2z
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48945)
+	id 1hqfk6-000751-2c
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hqfiR-0002Tu-3T
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:36 -0400
+ (envelope-from <mst@redhat.com>) id 1hqfiW-0002rh-MH
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hqfiP-0001pD-UR
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:34 -0400
-Received: from mail-qk1-f176.google.com ([209.85.222.176]:44810)
+ (envelope-from <mst@redhat.com>) id 1hqfiV-0001sB-Jh
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:40 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46901)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfiP-0001p4-QW
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:33 -0400
-Received: by mail-qk1-f176.google.com with SMTP id d79so36693001qke.11
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:31:33 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfiV-0001rt-GS
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:39 -0400
+Received: by mail-qt1-f195.google.com with SMTP id h21so49427550qtn.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:31:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=B3UY5a3GSETbHrcSK3vVNYdNg0sS9rUjkdxwFi9HF2M=;
- b=Nb38ls/V1eushyxO6ylrLLrITozt4S8qg1cQkK6pmJmexVVv2Prb/jXgrkz+YgY94T
- +amXEWzhejsTwioVx9lhT2TDH+ofPO3GZAAP/0w8WVHGAKUKmKLIbzFUxpW1Cfa4hhUE
- NF9QVmDyET50cyBGx395sAF43HO73nEZQy2b8Jb8SAiQjHbc2ZVW5mxu+A6SRITzKdRS
- 5BCfwPD7im6XmhWcPGAGdS/Uw9K0u7jJvBvotq/PymVwAgbthQwZb0rkFyvUswYeL2ui
- QuVY/F5LP9vncSifrslLhJYdsshJtuCF8bM1tZIXlsxNqlH4GuF0qp/K9eGyCYTE/ijP
- Tozg==
-X-Gm-Message-State: APjAAAV+ko8YUbxLOiLSy0gGR+KHHipv9HWiOp6ZwXB6mlnoT6Zkw8L9
- WQGeRbFh/98hItf+08CANdvmIHDQKzeA6A==
-X-Google-Smtp-Source: APXvYqwkB00o503MheE21nrKomd323zNnDCeyU9yooF7IAw9QEQjuDMkIj2hz8i/FP2g5Di4xQqV8w==
-X-Received: by 2002:a37:7ec7:: with SMTP id
- z190mr59403606qkc.347.1564068692947; 
- Thu, 25 Jul 2019 08:31:32 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=GDp8j9NviBwiadQVNh7husgN8Q3GImxt9I1Zswm0kPk=;
+ b=jf3v6H0dLr8w5bGdVMiByLJhOfnlY/DtUIrH9hO+7mAahseErn2J1/D23Hxss7cr85
+ Bbvs636J1xgT/eyUzeouPjtfDMpNvnCRgnXudH6E/gX5zwl9l+/zdKrAo1UYq34nceJy
+ aXzWrP5KTFhCzO4oG8s3hhGcpn4A6vSU99HupxIS1WCkDJUBUqO0y5C/r6+pB7IfJyPi
+ 82UFI9PyPY8et+9vZxcN4qxmD1lVH01x8kZ2LV/brtoXrPm/3qtZrXJYD5EPISyLtdez
+ tMMPW7vgiyab3z5B5AYmNAmQutBSrZxni8tKZIL7Ug/cNXpgezoH7AcroVkyqN/xVuMC
+ Q2rQ==
+X-Gm-Message-State: APjAAAXOD/jia/+HWtpiJlCCGtCKweHX/KBPfj54oOhCGT6mXRbXOBoY
+ H9f98kei/1+s48Uge/7U/sWQhlibNWanIw==
+X-Google-Smtp-Source: APXvYqw99hI9kPNmINbA0Y0Su/xjM2Zm5om9x5ZyQpkyC72LVHfDhTpcSKLcBeELTI1vu9G8vldWyQ==
+X-Received: by 2002:a0c:b999:: with SMTP id v25mr64792777qvf.36.1564068698775; 
+ Thu, 25 Jul 2019 08:31:38 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
  by smtp.gmail.com with ESMTPSA id
- c5sm23318181qkb.41.2019.07.25.08.31.30
+ w80sm24007737qka.74.2019.07.25.08.31.35
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 25 Jul 2019 08:31:32 -0700 (PDT)
-Date: Thu, 25 Jul 2019 11:31:28 -0400
+ Thu, 25 Jul 2019 08:31:38 -0700 (PDT)
+Date: Thu, 25 Jul 2019 11:31:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190624091304.666-1-stefanha@redhat.com>
+Message-ID: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
 References: <20190725153059.7313-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190725153059.7313-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.222.176
-Subject: [Qemu-devel] [PULL 01/12] docs: clarify multiqueue vs multiple
- virtqueues
+X-Received-From: 209.85.160.195
+Subject: [Qemu-devel] [PULL 02/12] i386/acpi: fix gint overflow in
+ crs_range_compare
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,73 +71,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Evgeny Yakovlev <wrfsh@yandex-team.ru>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
 
-The vhost-user specification does not explain when
-VHOST_USER_PROTOCOL_F_MQ must be implemented.  This may lead
-implementors of vhost-user masters to believe that this protocol feature
-is required for any device that has multiple virtqueues.  That would be
-a mistake since existing vhost-user slaves offer multiple virtqueues but
-do not advertise VHOST_USER_PROTOCOL_F_MQ.
+When very large regions (32GB sized in our case, PCI pass-through of GPUs)
+are compared substraction result does not fit into gint.
 
-For example, a vhost-net device with one rx/tx queue pair is not
-multiqueue.  The slave does not need to advertise
-VHOST_USER_PROTOCOL_F_MQ.  Therefore the master must assume it has these
-virtqueues and cannot rely on askingt the slave how many virtqueues
-exist.
+As a result crs_replace_with_free_ranges does not get sorted ranges and
+incorrectly computes PCI64 free space regions. Which then makes linux
+guest complain about device and PCI64 hole intersection and device
+becomes unusable.
 
-Extend the specification to explain the different between true
-multiqueue and regular devices with a fixed virtqueue layout.
+Fix that by returning exactly fitting ranges.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20190624091304.666-1-stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Also fix indentation of an entire crs_replace_with_free_ranges to make
+checkpatch happy.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+Message-Id: <1563466463-26012-1-git-send-email-wrfsh@yandex-team.ru>
+Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
 ---
- docs/interop/vhost-user.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/i386/acpi-build.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 5750668aba..7827b710aa 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -324,6 +324,15 @@ must support changing some configuration aspects on the fly.
- Multiple queue support
- ----------------------
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index d281ffa89e..e7b756b51b 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -755,10 +755,16 @@ static void crs_range_set_free(CrsRangeSet *range_set)
  
-+Many devices have a fixed number of virtqueues.  In this case the master
-+already knows the number of available virtqueues without communicating with the
-+slave.
-+
-+Some devices do not have a fixed number of virtqueues.  Instead the maximum
-+number of virtqueues is chosen by the slave.  The number can depend on host
-+resource availability or slave implementation details.  Such devices are called
-+multiple queue devices.
-+
- Multiple queue support allows the slave to advertise the maximum number of
- queues.  This is treated as a protocol extension, hence the slave has to
- implement protocol features first. The multiple queues feature is supported
-@@ -339,6 +348,14 @@ queue in the sent message to identify a specified queue.
- The master enables queues by sending message ``VHOST_USER_SET_VRING_ENABLE``.
- vhost-user-net has historically automatically enabled the first queue pair.
+ static gint crs_range_compare(gconstpointer a, gconstpointer b)
+ {
+-     CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
+-     CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
++    CrsRangeEntry *entry_a = *(CrsRangeEntry **)a;
++    CrsRangeEntry *entry_b = *(CrsRangeEntry **)b;
  
-+Slaves should always implement the ``VHOST_USER_PROTOCOL_F_MQ`` protocol
-+feature, even for devices with a fixed number of virtqueues, since it is simple
-+to implement and offers a degree of introspection.
-+
-+Masters must not rely on the ``VHOST_USER_PROTOCOL_F_MQ`` protocol feature for
-+devices with a fixed number of virtqueues.  Only true multiqueue devices
-+require this protocol feature.
-+
- Migration
- ---------
+-     return (int64_t)entry_a->base - (int64_t)entry_b->base;
++    if (entry_a->base < entry_b->base) {
++        return -1;
++    } else if (entry_a->base > entry_b->base) {
++        return 1;
++    } else {
++        return 0;
++    }
+ }
  
+ /*
 -- 
 MST
 
