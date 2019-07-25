@@ -2,48 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBAB174D40
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 13:38:16 +0200 (CEST)
-Received: from localhost ([::1]:58898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA8474D45
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 13:39:08 +0200 (CEST)
+Received: from localhost ([::1]:58949 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqc4e-0006gY-4e
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 07:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51375)
+	id 1hqc5T-0002Qf-Px
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 07:39:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1hqc3b-0002Rc-6J
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:37:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1hqc4E-0005Nx-Fy
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:37:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1hqc3a-0003Eq-2b
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:37:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42054)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1hqc3Y-0003DW-3s; Thu, 25 Jul 2019 07:37:09 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 28681305B1C1;
- Thu, 25 Jul 2019 11:37:07 +0000 (UTC)
-Received: from t460s.redhat.com (ovpn-117-70.ams2.redhat.com [10.36.117.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA505D71C;
- Thu, 25 Jul 2019 11:37:05 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 25 Jul 2019 13:36:38 +0200
-Message-Id: <20190725113638.4702-8-david@redhat.com>
-In-Reply-To: <20190725113638.4702-1-david@redhat.com>
-References: <20190725113638.4702-1-david@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hqc4C-0003if-M7
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:37:49 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36753)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hqc4C-0003eJ-Ft
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:37:48 -0400
+Received: by mail-wm1-f68.google.com with SMTP id g67so40323274wme.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 04:37:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uogSuPxOvtyP+/Y5rYXbgayF1NJ8ysZQzPcvLa/aI8U=;
+ b=BZ3uQQWFEQC2Il618Bhx60WU393Nw0pwYMwLR7JtrvpmvCZQe7ziArQkKhF1UjWQf3
+ 4JCYe/CmipBrBy/uUIXIrmaZAAiybDgjw7JlSIscZFKG8cOYsQsBIKdzntow+HksmonD
+ MkMnOfuIneIE7yXIDKOXZSkDTjUSOFe5JIHwHrZHkOC2XrBW4x+whk2ilkZK1kJ2ICSE
+ van6Tqhh6PxZ4RpaSfvQ6/u7DKnZNM1eGYfewJDmvEmOygvd9qTCPoCapwpjPXAMRDDZ
+ M1RmRyMI6q1sthXp+D3n8Oe3nQowuiolelbXBTeZnKr2JRYyA7OU+xvlH13WIVkOpZTn
+ CkTA==
+X-Gm-Message-State: APjAAAXdQ0GKE/UOUEUt6GK5y4Pm7bV43gVymLTnI/gyXVtYcjaJ5h7a
+ +PCVsRinDB8ZBg/Q7A6cLs/5/Q==
+X-Google-Smtp-Source: APXvYqzkNxt0eN2pEaKu9QFkxJQ9Nf+eAiM5gW5xYUVZx69HvaBA5o4Hhf1Pa9ZT4U0JH+jAwWXE+g==
+X-Received: by 2002:a1c:b706:: with SMTP id h6mr77262146wmf.119.1564054665429; 
+ Thu, 25 Jul 2019 04:37:45 -0700 (PDT)
+Received: from [192.168.1.37] (190.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.190])
+ by smtp.gmail.com with ESMTPSA id g19sm90017297wrb.52.2019.07.25.04.37.41
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Jul 2019 04:37:44 -0700 (PDT)
+To: tony.nguyen@bt.com, qemu-devel@nongnu.org
+References: <45d1ebe4b2ed4c039c9da20a738652df@tpw09926dag18e.domain1.systemhost.net>
+ <1564048377976.39897@bt.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <a40b6144-3f18-f42e-25da-8c2ec7ad6da6@redhat.com>
+Date: Thu, 25 Jul 2019 13:37:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 25 Jul 2019 11:37:07 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1564048377976.39897@bt.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.1 v4 7/7] virtio-balloon: No need to
- track subpages for the PBP anymore
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v4 03/15] target/mips: Access MemoryRegion
+ with MemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,68 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, walling@linux.ibm.com, sagark@eecs.berkeley.edu,
+ david@redhat.com, palmer@sifive.com, mark.cave-ayland@ilande.co.uk,
+ Alistair.Francis@wdc.com, edgar.iglesias@gmail.com, alex.williamson@redhat.com,
+ arikalo@wavecomp.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ rth@twiddle.net, atar4qemu@gmail.com, ehabkost@redhat.com,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, stefanha@redhat.com,
+ shorne@gmail.com, david@gibson.dropbear.id.au, qemu-riscv@nongnu.org,
+ kbastian@mail.uni-paderborn.de, cohuck@redhat.com, laurent@vivier.eu,
+ qemu-ppc@nongnu.org, amarkovic@wavecomp.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As ramblocks cannot get removed/readded while we are processing a bulk
-of inflation requests, there is no more need to track the page size
-in form of the number of subpages.
+On 7/25/19 11:52 AM, tony.nguyen@bt.com wrote:
 
-Suggested-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-balloon.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+<no description>
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index a6282d58d4..fe9664e42c 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -36,7 +36,6 @@
-=20
- typedef struct PartiallyBalloonedPage {
-     ram_addr_t base_gpa;
--    long subpages;
-     unsigned long *bitmap;
- } PartiallyBalloonedPage;
-=20
-@@ -55,16 +54,15 @@ static PartiallyBalloonedPage *virtio_balloon_pbp_all=
-oc(ram_addr_t base_gpa,
-     PartiallyBalloonedPage *pbp =3D g_new0(PartiallyBalloonedPage, 1);
-=20
-     pbp->base_gpa =3D base_gpa;
--    pbp->subpages =3D subpages;
-     pbp->bitmap =3D bitmap_new(subpages);
-=20
-     return pbp;
- }
-=20
- static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
--                                       ram_addr_t base_gpa, long subpage=
-s)
-+                                       ram_addr_t base_gpa)
- {
--    return pbp->subpages =3D=3D subpages && pbp->base_gpa =3D=3D base_gp=
-a;
-+    return pbp->base_gpa =3D=3D base_gpa;
- }
-=20
- static void balloon_inflate_page(VirtIOBalloon *balloon,
-@@ -106,7 +104,7 @@ static void balloon_inflate_page(VirtIOBalloon *ballo=
-on,
-     base_gpa =3D memory_region_get_ram_addr(mr) + mr_offset -
-                (rb_offset - rb_aligned_offset);
-=20
--    if (*pbp && !virtio_balloon_pbp_matches(*pbp, base_gpa, subpages)) {
-+    if (*pbp && !virtio_balloon_pbp_matches(*pbp, base_gpa)) {
-         /* We've partially ballooned part of a host page, but now
-          * we're trying to balloon part of a different one.  Too hard,
-          * give up on the old partial page */
---=20
-2.21.0
+I think Aleksandar will ask you to describe what the MemOp does, you can
+add something like:
 
+  The MEMOP_SIZE() macro will allow us to later easily convert the
+  memory_region_dispatch_ACCESS() functions to ...
+  Meanwhile this macro is a no-op. Thus this patch does not introduce
+  any logical change.
+
+And you can reuse this blob in the other patches around.
+
+With an improved patch description:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> ---
+>  target/mips/op_helper.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+> index 9e2e02f..dccb8df 100644
+> --- a/target/mips/op_helper.c
+> +++ b/target/mips/op_helper.c
+> @@ -24,6 +24,7 @@
+>  #include "exec/helper-proto.h"
+>  #include "exec/exec-all.h"
+>  #include "exec/cpu_ldst.h"
+> +#include "exec/memop.h"
+>  #include "sysemu/kvm.h"
+> 
+>  /*****************************************************************************/
+> @@ -4740,11 +4741,11 @@ void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
+>      if (op == 9) {
+>          /* Index Store Tag */
+>          memory_region_dispatch_write(env->itc_tag, index, env->CP0_TagLo,
+> -                                     8, MEMTXATTRS_UNSPECIFIED);
+> +                                     SIZE_MEMOP(8), MEMTXATTRS_UNSPECIFIED);
+>      } else if (op == 5) {
+>          /* Index Load Tag */
+>          memory_region_dispatch_read(env->itc_tag, index, &env->CP0_TagLo,
+> -                                    8, MEMTXATTRS_UNSPECIFIED);
+> +                                    SIZE_MEMOP(8), MEMTXATTRS_UNSPECIFIED);
+>      }
+>  #endif
+>  }
+> --
+> 1.8.3.1
+> 
+> 
+> 
 
