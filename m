@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6806874EED
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 15:15:37 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B5074EF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 15:17:07 +0200 (CEST)
+Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqdap-0003gk-JF
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 09:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
+	id 1hqdcI-0006Cw-Jp
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 09:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46257)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bharathpaul@gmail.com>) id 1hqc5d-0002wk-U1
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:39:20 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hqdc3-0005oI-Q3
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 09:16:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bharathpaul@gmail.com>) id 1hqc5b-00054b-Mk
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:39:16 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:42756)
+ (envelope-from <peter.maydell@linaro.org>) id 1hqdc2-0000m8-8G
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 09:16:51 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39854)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bharathpaul@gmail.com>)
- id 1hqc5b-00053f-Ho
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 07:39:15 -0400
-Received: by mail-io1-xd36.google.com with SMTP id e20so66124698iob.9
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 04:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=ooAoYM8kjiXrUQlGskzKajBALCVq96NDwOrZNjCwIaM=;
- b=o4qczxMe5jWiuGzYIOr7+Sajdp41h1AdEBJfS9nGcyxI1WCH/HUTHEMp3/EEDrK2Pd
- vWk1LxlkAHR1CwbI1pbqEWYadsyaOKuEJF1BIGE2CJQKc8GkGPrDK7Xkrq6kyVmZSx3f
- oZJMyqhuaIUd/7R4IczXa5TDSM857gDf2j66wnvQpqHqlufj+t3CeAe3bRnpW2+4NOMs
- i2zloSC7CAOSW+tz+9ekobOT02ZHeme+SJpXNRLMBL2fr3Q4BlvPN1hE+xlS20oZgAUk
- b4ykODvLK9+NRq27OvoiYGXQPqvC/16w1jyw/E+pei6PrdeBF9EhyvBC32xtt1ZIQn31
- cRYg==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hqdc2-0000lw-0w
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 09:16:50 -0400
+Received: by mail-wm1-x343.google.com with SMTP id u25so34362139wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 06:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=awbVXWJ0H/ID3VyhdnpYTxFXtlPEQgwVdKk0JkyiGr0=;
+ b=jOoZUSkMmj/j/ogJ+DXzuExrj5flQkoMEBUUMI/CUrVc/GUPlgv/xUxNnnwLJcntKa
+ b3D0UrRetimHCtlB8G5EYJbgESo2lE2Q1O9XdeIT0d+8AL7PXcTHNcRtxoLmnjb/0AoY
+ COmuDDWv8D88hJ6KqtvsDTcGlfemxzykO1Cetj+lsgxbeKv9iksZbEusgNlDnoDY2G8Y
+ WrtF8PW9NReTBdbiWIdkbvBaeJky2Km51YC4KkbP2wrBHTAIEn2QmrO4Awyh+aeEeug7
+ hFss4GkCrT27aQrsE6GlO8Oh9STM5Z/cD4oOd2aCRr155q+X2PY5rUs29UIElrpLpv/U
+ V4iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=ooAoYM8kjiXrUQlGskzKajBALCVq96NDwOrZNjCwIaM=;
- b=VI6L68EBh9iVZGKXNdv487o9b+A9DBzeXlQzJXqlG1AWR+IAzUQlWzpyJuhUbTgffj
- ouPSy3VOwqH7uDPZ0eolZoIGRN8jqFwKWygt7tRuO/H1YXBaXDILnuPXS5+HVMdcGVU5
- BNClmgE7J3e13v3rZlSDMB8JUqkUY1zD/7FDQQ/CgXDZA+ilP5icsZvfZd1W/tPiN/sm
- sacb/Ljc9yLZzcVznnG/ObkJhs4BOYzAitV7A5J4psNa18Il9ofr6IdIhAISVf+WIyGM
- sJo7pOC+tM0U7h4AiuUUI5IZDpMFsCAWFf215VGZo/Q/ZDsQ3N8xV5nbzwp0T5L4/0Te
- /Etg==
-X-Gm-Message-State: APjAAAX0aupe00f3r1YVcO1oOkWOmQVWML3fcxg4bX95QcoEBha4su4u
- mZAmtyOwlm7KJurPcWdmaJY4nn2Rt4D7I8hiGvxEzKjT
-X-Google-Smtp-Source: APXvYqwJ0c2PZuCESYHaNbDWdwZi05wE0D3bs1P6VGQUuTVExCBRW/gN/qlLcUE+ypEPJE2y2H0oQzzs6XBtxKIWNo4=
-X-Received: by 2002:a6b:90c1:: with SMTP id
- s184mr45618729iod.244.1564054754008; 
- Thu, 25 Jul 2019 04:39:14 -0700 (PDT)
-MIME-Version: 1.0
-From: bharath paulraj <bharathpaul@gmail.com>
-Date: Thu, 25 Jul 2019 17:09:02 +0530
-Message-ID: <CACfjA+m9_yYwArootOPmkHc2uGSXjeQeHPkX5DU9U4WWANUPcw@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=awbVXWJ0H/ID3VyhdnpYTxFXtlPEQgwVdKk0JkyiGr0=;
+ b=PWjRzJjvz9TN+Rm/N8a7l79NgXvr6FjF3vjbJIDsaBtdtAkt5SZ7QSQPOXGRz7Bm6q
+ O7ewYP5Oq+0ZIVt9SXnO/cUoDjUi1FVpvdDCMtSE67SbR8t0l0kB66Gsm3edEIPimMD0
+ GqX29M908PRqPN9vLTJLS/+JnkHsoLly5OKTMM+7FOqB+hsUWu3wDhHY1Gk1uNUgyNfq
+ AXb26lwpd5+xOF1SayduAOcaB8FyphkjpoXp6HITtG6cDplUI96npnxG1SS8KNLcEFxr
+ UOMoRCCJcECrVIQegaDXms5BhiYVIw99YclRmLSL/RorE3kC/dUCrsmeywagBkBNjLtt
+ Milg==
+X-Gm-Message-State: APjAAAWg5+XBo8q1Tp82/Q/CvOX45ojGzpPmgoBaQGBRb9QjiYPux7T/
+ hzz1qoLml8tNJzdmjjoGrvyGx+DPrtHctg==
+X-Google-Smtp-Source: APXvYqxxMId0LL7ZwUHEf25SkHDjH9pwlWEmWCExQfn6ZZ66hbpZrnbkLcunjYx71yn8EtLjG0R46w==
+X-Received: by 2002:a1c:ab06:: with SMTP id u6mr78455815wme.125.1564060608558; 
+ Thu, 25 Jul 2019 06:16:48 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id x185sm38771751wmg.46.2019.07.25.06.16.47
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 25 Jul 2019 06:16:47 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
+Date: Thu, 25 Jul 2019 14:16:45 +0100
+Message-Id: <20190725131645.19501-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d36
-X-Mailman-Approved-At: Thu, 25 Jul 2019 09:14:59 -0400
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] Reg: <VM LIVE Migration><conntrack entries>
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH for-4.1] linux-user: Make sigaltstack stacks
+ per-thread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,38 +76,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ patches@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Team,
+The alternate signal stack set up by the sigaltstack syscall is
+supposed to be per-thread.  We were incorrectly implementing it as
+process-wide.  This causes problems for guest binaries that rely on
+this.  Notably the Go runtime does, and so we were seeing crashes
+caused by races where two guest threads might incorrectly both
+execute on the same stack simultaneously.
 
-I am using QEMU/KVM for launching VMs and libvirt to govern those VMs.  I
-would like to synchronise the connection tracking entries specific to the V=
-M
- during the VM LIVE migrations. It is required when the firewall is
-implemented at the host level like libvirt's "network filters".  Unless
-these connection tracking entries are synchronised, all the connections to
-the VM are lost and all TCP connections should be reestablished. Is there
-any option already available? or do we need to develop the code? We can't
-rely on the migration hooks as VM pause in the source hypervisor and VM on
-in the destination hypervisor is done by QEMU and it does not wait for any
-application that needs to sync-up some metadata =E2=80=94 In my case, it is
-conntrack entries.
+Replace the global target_sigaltstack_used with a field
+sigaltstack_used in the TaskState, and make all the references to the
+old global instead get a pointer to the TaskState and use the field.
 
-If I like to add the code and contribute to the community, what could be
-the best approach to take?
-Approach-1: Add a new command in QEMU to configure "maximum waiting-time
-allowed".  During the VM Migration, Invoke the hook in the source when the
-VM is paused and wait till the time value configured is elapsed or the hook
-returns success, then do VM on in the destination.  It is more generic and
-its up to the application to synchronise whatever required with in the
-specified time span.
-Approach-2: Modify the migrate command to accept the list of IP-Address,
-which should be an optional parameter. If the IP-Address is specified,
-along the dirty page synchronisation, synchronise the conntrack entries
-that matches the IP address in its source or destination address and in the
-destination QEMU, the conntrack entries should be segregated and programmed
-in the hypervisor.
+Fixes: https://bugs.launchpad.net/qemu/+bug/1696773
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+I've marked this as "for-4.1" but it is quite late in the release
+cycle and I think this could use more testing than I have given it...
 
-Thank you,
-Bharath Paulraj
+Thanks are due to:
+ * the original bug reporter, for providing a nice simple test case
+ * rr, for allowing me to capture and forensically examine a single
+   example of the failure
+ * the Go project for having a good clear HACKING.md that explained
+   their stack usage and mentioned specifically that signal stacks
+   are per-thread (per-M, in their terms)
+ * a colleague, for prodding me into actually spending the necessary
+   two days grovelling through gdb sessions and logs to figure out
+   what was actually going wrong
+---
+ linux-user/qemu.h          |  2 ++
+ linux-user/signal-common.h |  1 -
+ linux-user/hppa/signal.c   |  3 ++-
+ linux-user/main.c          |  5 +++++
+ linux-user/signal.c        | 35 +++++++++++++++++++----------------
+ 5 files changed, 28 insertions(+), 18 deletions(-)
+
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 4258e4162d2..aac03346270 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -151,6 +151,8 @@ typedef struct TaskState {
+      */
+     int signal_pending;
+ 
++    /* This thread's sigaltstack, if it has one */
++    struct target_sigaltstack sigaltstack_used;
+ } __attribute__((aligned(16))) TaskState;
+ 
+ extern char *exec_path;
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+index 51030a93069..1df1068552f 100644
+--- a/linux-user/signal-common.h
++++ b/linux-user/signal-common.h
+@@ -19,7 +19,6 @@
+ 
+ #ifndef SIGNAL_COMMON_H
+ #define SIGNAL_COMMON_H
+-extern struct target_sigaltstack target_sigaltstack_used;
+ 
+ int on_sig_stack(unsigned long sp);
+ int sas_ss_flags(unsigned long sp);
+diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
+index b6927ee6735..d1a58feeb36 100644
+--- a/linux-user/hppa/signal.c
++++ b/linux-user/hppa/signal.c
+@@ -111,10 +111,11 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     abi_ulong frame_addr, sp, haddr;
+     struct target_rt_sigframe *frame;
+     int i;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
+ 
+     sp = get_sp_from_cpustate(env);
+     if ((ka->sa_flags & TARGET_SA_ONSTACK) && !sas_ss_flags(sp)) {
+-        sp = (target_sigaltstack_used.ss_sp + 0x7f) & ~0x3f;
++        sp = (ts->sigaltstack_used.ss_sp + 0x7f) & ~0x3f;
+     }
+     frame_addr = QEMU_ALIGN_UP(sp, 64);
+     sp = frame_addr + PARISC_RT_SIGFRAME_SIZE32;
+diff --git a/linux-user/main.c b/linux-user/main.c
+index a59ae9439de..8ffc5251955 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -180,6 +180,11 @@ void stop_all_tasks(void)
+ void init_task_state(TaskState *ts)
+ {
+     ts->used = 1;
++    ts->sigaltstack_used = (struct target_sigaltstack) {
++        .ss_sp = 0,
++        .ss_size = 0,
++        .ss_flags = TARGET_SS_DISABLE,
++    };
+ }
+ 
+ CPUArchState *cpu_copy(CPUArchState *env)
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 5cd237834d9..5ca6d62b15d 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -25,12 +25,6 @@
+ #include "trace.h"
+ #include "signal-common.h"
+ 
+-struct target_sigaltstack target_sigaltstack_used = {
+-    .ss_sp = 0,
+-    .ss_size = 0,
+-    .ss_flags = TARGET_SS_DISABLE,
+-};
+-
+ static struct target_sigaction sigact_table[TARGET_NSIG];
+ 
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+@@ -251,13 +245,17 @@ void set_sigmask(const sigset_t *set)
+ 
+ int on_sig_stack(unsigned long sp)
+ {
+-    return (sp - target_sigaltstack_used.ss_sp
+-            < target_sigaltstack_used.ss_size);
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++
++    return (sp - ts->sigaltstack_used.ss_sp
++            < ts->sigaltstack_used.ss_size);
+ }
+ 
+ int sas_ss_flags(unsigned long sp)
+ {
+-    return (target_sigaltstack_used.ss_size == 0 ? SS_DISABLE
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++
++    return (ts->sigaltstack_used.ss_size == 0 ? SS_DISABLE
+             : on_sig_stack(sp) ? SS_ONSTACK : 0);
+ }
+ 
+@@ -266,17 +264,21 @@ abi_ulong target_sigsp(abi_ulong sp, struct target_sigaction *ka)
+     /*
+      * This is the X/Open sanctioned signal stack switching.
+      */
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++
+     if ((ka->sa_flags & TARGET_SA_ONSTACK) && !sas_ss_flags(sp)) {
+-        return target_sigaltstack_used.ss_sp + target_sigaltstack_used.ss_size;
++        return ts->sigaltstack_used.ss_sp + ts->sigaltstack_used.ss_size;
+     }
+     return sp;
+ }
+ 
+ void target_save_altstack(target_stack_t *uss, CPUArchState *env)
+ {
+-    __put_user(target_sigaltstack_used.ss_sp, &uss->ss_sp);
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
++
++    __put_user(ts->sigaltstack_used.ss_sp, &uss->ss_sp);
+     __put_user(sas_ss_flags(get_sp_from_cpustate(env)), &uss->ss_flags);
+-    __put_user(target_sigaltstack_used.ss_size, &uss->ss_size);
++    __put_user(ts->sigaltstack_used.ss_size, &uss->ss_size);
+ }
+ 
+ /* siginfo conversion */
+@@ -708,12 +710,13 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+ {
+     int ret;
+     struct target_sigaltstack oss;
++    TaskState *ts = (TaskState *)thread_cpu->opaque;
+ 
+     /* XXX: test errors */
+     if(uoss_addr)
+     {
+-        __put_user(target_sigaltstack_used.ss_sp, &oss.ss_sp);
+-        __put_user(target_sigaltstack_used.ss_size, &oss.ss_size);
++        __put_user(ts->sigaltstack_used.ss_sp, &oss.ss_sp);
++        __put_user(ts->sigaltstack_used.ss_size, &oss.ss_size);
+         __put_user(sas_ss_flags(sp), &oss.ss_flags);
+     }
+ 
+@@ -760,8 +763,8 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
+             }
+         }
+ 
+-        target_sigaltstack_used.ss_sp = ss.ss_sp;
+-        target_sigaltstack_used.ss_size = ss.ss_size;
++        ts->sigaltstack_used.ss_sp = ss.ss_sp;
++        ts->sigaltstack_used.ss_size = ss.ss_size;
+     }
+ 
+     if (uoss_addr) {
+-- 
+2.20.1
+
+
