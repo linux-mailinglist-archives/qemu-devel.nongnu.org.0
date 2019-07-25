@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733AF748BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 10:05:47 +0200 (CEST)
-Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E63748C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 10:06:17 +0200 (CEST)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqYl0-0001f0-KS
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 04:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38471)
+	id 1hqYlU-0003R4-6w
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 04:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38580)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hqYko-0001Aa-DB
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:05:35 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hqYlD-0002oI-RM
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:06:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hqYkn-0003gh-8y
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:05:34 -0400
-Received: from smtpe1.intersmtp.com ([213.121.35.72]:55312)
+ (envelope-from <tony.nguyen@bt.com>) id 1hqYlB-0003mv-JI
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:05:59 -0400
+Received: from smtpe1.intersmtp.com ([62.239.224.237]:5526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hqYkc-0003Y7-T9; Thu, 25 Jul 2019 04:05:23 -0400
+ id 1hqYl6-0003kh-Bt; Thu, 25 Jul 2019 04:05:52 -0400
 Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
- BWP09926077.bt.com (10.36.82.108) with Microsoft SMTP Server (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Thu, 25
- Jul 2019 09:05:10 +0100
+ RDW083A010ED66.bt.com (10.187.98.36) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Thu, 25 Jul 2019 09:04:56 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
  tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Thu, 25 Jul 2019 09:05:17 +0100
+ Server (TLS) id 15.0.1395.4; Thu, 25 Jul 2019 09:05:47 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Thu, 25 Jul
- 2019 09:05:17 +0100
+ 2019 09:05:47 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v4 12/15] cpu: TLB_FLAGS_MASK bit to force
- memory slow path
-Thread-Index: AQHVQr+y/H9707CquU6/1OwIMKzlIg==
-Date: Thu, 25 Jul 2019 08:05:17 +0000
-Message-ID: <1564041917034.8581@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v4 13/15] cputlb: Byte swap memory
+ transaction attribute
+Thread-Index: AQHVQr/EOKC75awgBkiHGMtr0Ibz6Q==
+Date: Thu, 25 Jul 2019 08:05:47 +0000
+Message-ID: <1564041947711.97987@bt.com>
 References: <e9c6e5310b1a4863be45d45bf087fc3d@tpw09926dag18e.domain1.systemhost.net>, 
  <1563810716254.18886@bt.com>, <1564038073754.91133@bt.com>,
  <1564041524365.23360@bt.com>
@@ -49,13 +48,14 @@ X-MS-TNEF-Correlator:
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.42]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 213.121.35.72
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 62.239.224.237
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v4 12/15] cpu: TLB_FLAGS_MASK bit to force
- memory slow path
+Subject: [Qemu-devel] [PATCH v4 13/15] cputlb: Byte swap memory transaction
+ attribute
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,41 +78,73 @@ Cc: peter.maydell@linaro.org, walling@linux.ibm.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fast path is taken when TLB_FLAGS_MASK is all zero.
+Notice new attribute, byte swap, and force the transaction through the
+memory slow path.
 
-TLB_FORCE_SLOW is simply a TLB_FLAGS_MASK bit to force the slow path,
-there are no other side effects.
+Required by architectures that can invert endianness of memory
+transaction, e.g. SPARC64 has the Invert Endian TTE bit.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- include/exec/cpu-all.h | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ accel/tcg/cputlb.c      | 11 +++++++++++
+ include/exec/memattrs.h |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 536ea58..e496f99 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -331,12 +331,18 @@ CPUArchState *cpu_copy(CPUArchState *env);
- #define TLB_MMIO            (1 << (TARGET_PAGE_BITS - 3))
- /* Set if TLB entry must have MMU lookup repeated for every access */
- #define TLB_RECHECK         (1 << (TARGET_PAGE_BITS - 4))
-+/* Set if TLB entry must take the slow path.  */
-+#define TLB_FORCE_SLOW      (1 << (TARGET_PAGE_BITS - 5))
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index e61b1eb..f292a87 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -738,6 +738,9 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulon=
+g vaddr,
+          */
+         address |=3D TLB_RECHECK;
+     }
++    if (attrs.byte_swap) {
++        address |=3D TLB_FORCE_SLOW;
++    }
+     if (!memory_region_is_ram(section->mr) &&
+         !memory_region_is_romd(section->mr)) {
+         /* IO memory case */
+@@ -891,6 +894,10 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEn=
+try *iotlbentry,
+     bool locked =3D false;
+     MemTxResult r;
 
- /* Use this mask to check interception with an alignment mask
-  * in a TCG backend.
-  */
--#define TLB_FLAGS_MASK  (TLB_INVALID_MASK | TLB_NOTDIRTY | TLB_MMIO \
--                         | TLB_RECHECK)
-+#define TLB_FLAGS_MASK \
-+    (TLB_INVALID_MASK  \
-+     | TLB_NOTDIRTY    \
-+     | TLB_MMIO        \
-+     | TLB_RECHECK     \
-+     | TLB_FORCE_SLOW)
++    if (iotlbentry->attrs.byte_swap) {
++        op ^=3D MO_BSWAP;
++    }
++
+     section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs)=
+;
+     mr =3D section->mr;
+     mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+@@ -933,6 +940,10 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry=
+ *iotlbentry,
+     bool locked =3D false;
+     MemTxResult r;
 
- /**
-  * tlb_hit_page: return true if page aligned @addr is a hit against the
++    if (iotlbentry->attrs.byte_swap) {
++        op ^=3D MO_BSWAP;
++    }
++
+     section =3D iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs)=
+;
+     mr =3D section->mr;
+     mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
+index d4a3477..a0644eb 100644
+--- a/include/exec/memattrs.h
++++ b/include/exec/memattrs.h
+@@ -37,6 +37,8 @@ typedef struct MemTxAttrs {
+     unsigned int user:1;
+     /* Requester ID (for MSI for example) */
+     unsigned int requester_id:16;
++    /* SPARC64: TTE invert endianness */
++    unsigned int byte_swap:1;
+     /*
+      * The following are target-specific page-table bits.  These are not
+      * related to actual memory transactions at all.  However, this struct=
+ure
 --
 1.8.3.1
 
