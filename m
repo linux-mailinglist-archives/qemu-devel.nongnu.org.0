@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A4274B12
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 12:06:30 +0200 (CEST)
-Received: from localhost ([::1]:58310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE42274B14
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 12:06:47 +0200 (CEST)
+Received: from localhost ([::1]:58324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqadp-0006Wp-CD
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 06:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49297)
+	id 1hqae6-00085Z-Od
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 06:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqadN-0005WH-CN
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqadN-0005WG-CF
  for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:06:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqadJ-0006QP-QU
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hqadJ-0006Q6-Mj
  for qemu-devel@nongnu.org; Thu, 25 Jul 2019 06:05:59 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45734)
+Received: from relay.sw.ru ([185.231.240.75]:45720)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqadJ-0006O2-FE; Thu, 25 Jul 2019 06:05:57 -0400
+ id 1hqadI-0006O1-7y; Thu, 25 Jul 2019 06:05:57 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqadC-0001mQ-Tn; Thu, 25 Jul 2019 13:05:50 +0300
+ id 1hqadC-0001mQ-Vy; Thu, 25 Jul 2019 13:05:51 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu, 25 Jul 2019 13:05:48 +0300
-Message-Id: <20190725100550.33801-2-vsementsov@virtuozzo.com>
+Date: Thu, 25 Jul 2019 13:05:49 +0300
+Message-Id: <20190725100550.33801-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190725100550.33801-1-vsementsov@virtuozzo.com>
 References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 1/3] block: implement BDRV_REQ_PREFETCH
+Subject: [Qemu-devel] [PATCH v3 2/3] block/stream: use BDRV_REQ_PREFETCH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,85 +51,92 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do effective copy-on-read request when we don't need data actually. It
-will be used for block-stream and NBD_CMD_CACHE.
+This helps to avoid extra io, allocations and memory copying.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block.h |  8 +++++++-
- block/io.c            | 18 ++++++++++++------
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ block/stream.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 50a07c1c33..73c3fc4daa 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -88,8 +88,14 @@ typedef enum {
-      * fallback. */
-     BDRV_REQ_NO_FALLBACK        = 0x100,
+diff --git a/block/stream.c b/block/stream.c
+index 6ac1e7bec4..170e3b43be 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -22,11 +22,11 @@
  
-+    /*
-+     * BDRV_REQ_PREFETCH may be used only together with BDRV_REQ_COPY_ON_READ
-+     * on read request and means that caller don't really need data to be
-+     * written to qiov parameter which may be NULL.
-+     */
-+    BDRV_REQ_PREFETCH  = 0x200,
-     /* Mask of valid flags */
--    BDRV_REQ_MASK               = 0x1ff,
-+    BDRV_REQ_MASK               = 0x3ff,
- } BdrvRequestFlags;
+ enum {
+     /*
+-     * Size of data buffer for populating the image file.  This should be large
++     * Maximum chunk size to feed it to copy-on-read.  This should be large
+      * enough to process multiple clusters in a single call, so that populating
+      * contiguous regions of the image is efficient.
+      */
+-    STREAM_BUFFER_SIZE = 512 * 1024, /* in bytes */
++    STREAM_CHUNK = 512 * 1024, /* in bytes */
+ };
  
- typedef struct BlockSizes {
-diff --git a/block/io.c b/block/io.c
-index 06305c6ea6..9d99858b55 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1167,7 +1167,8 @@ bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+ typedef struct StreamBlockJob {
+@@ -39,13 +39,12 @@ typedef struct StreamBlockJob {
+ } StreamBlockJob;
+ 
+ static int coroutine_fn stream_populate(BlockBackend *blk,
+-                                        int64_t offset, uint64_t bytes,
+-                                        void *buf)
++                                        int64_t offset, uint64_t bytes)
+ {
+     assert(bytes < SIZE_MAX);
+ 
+-    /* Copy-on-read the unallocated clusters */
+-    return blk_co_pread(blk, offset, bytes, buf, BDRV_REQ_COPY_ON_READ);
++    return blk_co_preadv(blk, offset, bytes, NULL,
++                         BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
  }
  
- static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
--        int64_t offset, unsigned int bytes, QEMUIOVector *qiov)
-+        int64_t offset, unsigned int bytes, QEMUIOVector *qiov,
-+        int flags)
- {
-     BlockDriverState *bs = child->bs;
+ static void stream_abort(Job *job)
+@@ -117,7 +116,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+     int error = 0;
+     int ret = 0;
+     int64_t n = 0; /* bytes */
+-    void *buf;
  
-@@ -1278,9 +1279,11 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
-                 goto err;
-             }
- 
--            qemu_iovec_from_buf(qiov, progress, bounce_buffer + skip_bytes,
--                                pnum - skip_bytes);
--        } else {
-+            if (!(flags & BDRV_REQ_PREFETCH)) {
-+                qemu_iovec_from_buf(qiov, progress, bounce_buffer + skip_bytes,
-+                                    pnum - skip_bytes);
-+            }
-+        } else if (!(flags & BDRV_REQ_PREFETCH)) {
-             /* Read directly into the destination */
-             qemu_iovec_init(&local_qiov, qiov->niov);
-             qemu_iovec_concat(&local_qiov, qiov, progress, pnum - skip_bytes);
-@@ -1331,7 +1334,8 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-      * potential fallback support, if we ever implement any read flags
-      * to pass through to drivers.  For now, there aren't any
-      * passthrough flags.  */
--    assert(!(flags & ~(BDRV_REQ_NO_SERIALISING | BDRV_REQ_COPY_ON_READ)));
-+    assert(!(flags & ~(BDRV_REQ_NO_SERIALISING | BDRV_REQ_COPY_ON_READ |
-+                       BDRV_REQ_PREFETCH)));
- 
-     /* Handle Copy on Read and associated serialisation */
-     if (flags & BDRV_REQ_COPY_ON_READ) {
-@@ -1359,7 +1363,9 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-         }
- 
-         if (!ret || pnum != bytes) {
--            ret = bdrv_co_do_copy_on_readv(child, offset, bytes, qiov);
-+            ret = bdrv_co_do_copy_on_readv(child, offset, bytes, qiov, flags);
-+            goto out;
-+        } else if (flags & BDRV_REQ_PREFETCH) {
-             goto out;
-         }
+     if (bs == s->bottom) {
+         /* Nothing to stream */
+@@ -130,8 +128,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
      }
+     job_progress_set_remaining(&s->common.job, len);
+ 
+-    buf = qemu_blockalign(bs, STREAM_BUFFER_SIZE);
+-
+     /* Turn on copy-on-read for the whole block device so that guest read
+      * requests help us make progress.  Only do this when copying the entire
+      * backing chain since the copy-on-read operation does not take base into
+@@ -154,7 +150,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+ 
+         copy = false;
+ 
+-        ret = bdrv_is_allocated(bs, offset, STREAM_BUFFER_SIZE, &n);
++        ret = bdrv_is_allocated(bs, offset, STREAM_CHUNK, &n);
+         if (ret == 1) {
+             /* Allocated in the top, no need to copy.  */
+         } else if (ret >= 0) {
+@@ -171,7 +167,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         }
+         trace_stream_one_iteration(s, offset, n, ret);
+         if (copy) {
+-            ret = stream_populate(blk, offset, n, buf);
++            ret = stream_populate(blk, offset, n);
+         }
+         if (ret < 0) {
+             BlockErrorAction action =
+@@ -202,8 +198,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         bdrv_disable_copy_on_read(bs);
+     }
+ 
+-    qemu_vfree(buf);
+-
+     /* Do not remove the backing file if an error was there but ignored. */
+     return error;
+ }
 -- 
 2.18.0
 
