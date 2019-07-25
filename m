@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63C475757
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 20:56:26 +0200 (CEST)
-Received: from localhost ([::1]:34936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A34575825
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 21:42:40 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqiuf-0001np-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 14:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53339)
+	id 1hqjdN-0004FJ-5l
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 15:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=10276a3d6=alistair.francis@wdc.com>)
- id 1hqite-0006LE-JU
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 14:55:23 -0400
+ (envelope-from <lersek@redhat.com>) id 1hqjdA-0003mP-GN
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 15:42:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=10276a3d6=alistair.francis@wdc.com>)
- id 1hqitd-0007us-B2
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 14:55:22 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:43219)
+ (envelope-from <lersek@redhat.com>) id 1hqjd9-0005B5-2M
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 15:42:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42058)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=10276a3d6=alistair.francis@wdc.com>)
- id 1hqitc-0007rZ-SZ; Thu, 25 Jul 2019 14:55:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1564080921; x=1595616921;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XNjBwmh1LFBChEJ+quD7Z2691WqYMlE30zxPXnx8bn8=;
- b=DSSBaOdp52zuqbgFbj7CRCV6RncG3SLz8lscsg0dkb4HGlTcsGKfFgcX
- SUTgDBmCMpe/SJ7902dicOTR7fuhtZdQ5ftzrIUYAskXpHtfYElPyHCRU
- uusnnZmyeUFUpIIXtsFKXWyLbFbsr/IRTDfDiU2JXZRXU7r+zEKBw0zl+
- ddqSQQw+lOxvRQPzW1M5jrobAvxY9FG4miqjrspo0/OlxW7DNsB8QtTtx
- HtbdtByMgzBtUah1WmNG3HoGAOLoq2AxI8W7UDAfEoEaWGO7MBkOIirTe
- XEKnDL79FAMbPNl5P+f8Af91syMS+UkoluC/vW2FxhYVvDnI0H7T84W9L A==;
-IronPort-SDR: 3U+L11vXi7BcPCiwhAK9ztxiKoMCv1n6Vzygnqiqj3Fkml5859yH39k6OI4yC9Uiq3MzuZWk5W
- VF0kn92SdVR+nRTi1zcO747qQvG9MfM+mTgdlpw7NHp+ciILVb9WnokNvh2AW7dGP1CCqiRx1L
- YMPC95ecQczW5Vj79o92BLcBVgbBYl0yrU+mIrG15YNfqp7KUwBuCBGniLqXQgSUgygLnuRUdv
- A5Enklz72dZaLfPCJvu9+1729eelrsNvNTgo30tvf6l/nTC1BodLP4QIkzHWWcLdSWSdEuMKUA
- olI=
-X-IronPort-AV: E=Sophos;i="5.64,307,1559491200"; d="scan'208";a="115109069"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 26 Jul 2019 02:55:19 +0800
-IronPort-SDR: lhXjGBIP1sEA8PwGoQ0oPABExk0ow3XaZdYB/pl1x1si3frnyg784YBQvec1AfMFtse4xovPx7
- +7dBgUVPMz6aG+M54S08NAS3yFrPOVpi1zb2pBz12hU4mQGqNfe6a6xIlMwAXd59xqfI6CqRfz
- Vl2m00mDKF76+/LHgvl+QkP/hM98LWh2vw0YnfivXEkA6lGbv6vHn/JK3Y/b/CPxgn2r5mN9VQ
- GBoBYcFl47NzUuX/yEyQFc66PEU5gF3wcVa6gbDYcM/sEsXh2S/Wnxd49oCvzs9utu9POtOCxi
- J2XrSw+5cuRaVgmLav0STxo7
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP; 25 Jul 2019 11:53:29 -0700
-IronPort-SDR: E8ifU7kZm71V8FGinzNexRn2uMalZnkYLqnTQY6H2JALVJURBjQqSuzdCwUYmpcEFfEcEVxIUy
- 0iR8bTLGyR7a6SbT4KE42K/ku16IrDt/v5lIzNOIUYX7YLj/odEJtkEvUHPh5McDHjWL7mY3qP
- mgV5MnP50DaJjFKYyaYnWSK7zNv+T9z7O1urTVogGV3OXdUenRXcEpwZs09DcGK77KRQ6uZjMr
- ZxDPMyyurwEtAMEPoavogZkeHJIIRPCOzWaqAaFCrUdNYbXdvHUICKQcaK4VAAa8omV1QScliu
- RUs=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 25 Jul 2019 11:55:19 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Thu, 25 Jul 2019 11:52:14 -0700
-Message-Id: <4116c27c037b5e7f4822cfd7199724450dc6b5da.1564080680.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1564080680.git.alistair.francis@wdc.com>
-References: <cover.1564080680.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <lersek@redhat.com>)
+ id 1hqjd5-00054b-R9; Thu, 25 Jul 2019 15:42:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 764C630C746E;
+ Thu, 25 Jul 2019 19:42:16 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-178.ams2.redhat.com
+ [10.36.116.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2330F608A4;
+ Thu, 25 Jul 2019 19:42:05 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, Sam Eiderman <shmuel.eiderman@oracle.com>,
+ Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ philmd@redhat.com
+References: <20190626123948.10199-1-shmuel.eiderman@oracle.com>
+ <20190701074117.pkmzhon6v7nafq2p@sirius.home.kraxel.org>
+ <424BE97C-7EAF-4B28-B580-AC2B5261197C@oracle.com>
+ <EB5E5E3C-CCA1-4138-9623-89ECA7335F88@oracle.com>
+ <20190717194623.GF6471@localhost.localdomain>
+ <65B72D23-26BE-4C3B-B298-A6231D08BF6C@oracle.com>
+ <63344112-c84b-f239-3c34-ad3a613910f7@redhat.com>
+ <3ecc13e7-097f-7e8c-347d-443020c944d2@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <6321bb1e-dda4-bac1-e8ea-83bacee0d724@redhat.com>
+Date: Thu, 25 Jul 2019 21:42:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.153.144
-Subject: [Qemu-devel] [PATCH-4.2 v1 6/6] target/riscv: Fix Floating Point
- register names
+In-Reply-To: <3ecc13e7-097f-7e8c-347d-443020c944d2@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 25 Jul 2019 19:42:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [QEMU] [PATCH v5 0/8] Add Qemu to
+ SeaBIOS LCHS interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,41 +69,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
+Cc: qemu-block@nongnu.org, Arbel Moshe <arbel.moshe@oracle.com>,
+ seabios@seabios.org, QEMU <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Kevin O'Connor <kevin@koconnor.net>,
+ Liran Alon <liran.alon@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+On 07/25/19 02:50, John Snow wrote:
+>=20
+>=20
+> On 7/24/19 8:47 PM, John Snow wrote:
+>>
+>>
+>> On 7/19/19 6:10 AM, Sam Eiderman wrote:
+>>> Well, this patch introduces 3 command line parameters (=E2=80=9Clcyls=
+=E2=80=9D, =E2=80=9Clheads=E2=80=9D, =E2=80=9Clsecs=E2=80=9D)
+>>> to =E2=80=9Cscsi-hd=E2=80=9D =E2=80=9Cide-hd=E2=80=9D and =E2=80=9Cvi=
+rtio-pci-blk=E2=80=9D so this somehow has something to do with
+>>> block.
+>>>
+>>> This patch also adds fw_cfg interface to send these parameters to Sea=
+BIOS.
+>>>
+>>> "scripts/get_maintainer.pl -f hw/nvram/fw_cfg.c=E2=80=9D gives
+>>>
+>>> "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> (supporter:Firmware=
+ configur...)
+>>> Laszlo Ersek <lersek@redhat.com> (reviewer:Firmware configur...)
+>>> Gerd Hoffmann <kraxel@redhat.com> (reviewer:Firmware configur=E2=80=A6=
+)
+>>>
+>>> And this was already Reviewed-by Gerd.
+>>>
+>>> How should I proceed?
+>>>
+>>> Sam
+>>>
+>>
+>> I feel like it would be up to Gerd as the general SeaBIOS point of con=
+tact?
+>>
+>=20
+> ...ah, who is offline for vacation.
+>=20
+> We're in freeze right now anyway, so I would think that Gerd and/or
+> Kevin can work out who ought to stage this for a PR when the tree opens
+> again.
+>=20
 
-As per the RISC-V spec, Floating Point registers are named as f0..f31
-so lets fix the register names accordingly.
+I think the sole patch in the series that modifies "hw/nvram/fw_cfg.c" is
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ [Qemu-devel] [QEMU] [PATCH v5 7/8] bootdevice: FW_CFG interface for LCHS=
+ values
+  http://mid.mail-archive.com/20190626123948.10199-8-shmuel.eiderman@orac=
+le.com
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index f8d07bd20a..af1e9b7690 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -40,10 +40,10 @@ const char * const riscv_int_regnames[] = {
- };
- 
- const char * const riscv_fpr_regnames[] = {
--  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
--  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
--  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
--  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
-+  "f0", "f1", "f2",  "f3",  "f4", "f5", "f6", "f7",
-+  "f8", "f9", "f10",  "f11",  "f12", "f13", "f14", "f15",
-+  "f16", "f17", "f18",  "f19",  "f20", "f21", "f22", "f23",
-+  "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31"
- };
- 
- const char * const riscv_excp_names[] = {
--- 
-2.22.0
+and neither Phil nor myself seem to be CC'd on it (I've found the message=
+ in my list folder only).
 
+Regarding fw_cfg, I only review Phil's fw_cfg patches (so that whenever h=
+e posts patches, he can count on my review); other than that, I generally=
+ skip fw_cfg patches. And, I totally don't have a tree for collecting suc=
+h patches.
+
+Now, while Phil does:
+
+  T: git https://github.com/philmd/qemu.git fw_cfg-next
+
+I still don't think that tree would be the best for queueing this series,=
+ given the diffstat:
+
+ bootdevice.c             | 148 +++++++++---
+ hw/block/virtio-blk.c    |   6 +
+ hw/ide/qdev.c            |   7 +-
+ hw/nvram/fw_cfg.c        |  14 +-
+ hw/scsi/scsi-bus.c       |  15 ++
+ hw/scsi/scsi-disk.c      |  14 ++
+ include/hw/block/block.h |  22 +-
+ include/hw/scsi/scsi.h   |   1 +
+ include/sysemu/sysemu.h  |   4 +
+ tests/Makefile.include   |   2 +-
+ tests/hd-geo-test.c      | 582 +++++++++++++++++++++++++++++++++++++++++=
+++++++
+ 11 files changed, 774 insertions(+), 41 deletions(-)
+
+Just my two cents.
+
+Thanks
+Laszlo
 
