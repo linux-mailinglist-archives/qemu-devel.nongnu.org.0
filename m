@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C469751A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:45:44 +0200 (CEST)
-Received: from localhost ([::1]:60774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA1F751B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:47:22 +0200 (CEST)
+Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqf02-000537-TR
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38535)
+	id 1hqf1d-0007X2-H5
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39091)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hqezV-0003vI-HI
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:10 -0400
+ (envelope-from <mst@redhat.com>) id 1hqf1K-000777-Ay
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:47:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hqezT-000138-U4
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:09 -0400
-Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:43544)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hqezT-000124-L8
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:07 -0400
-Received: from player795.ha.ovh.net (unknown [10.108.35.74])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id F14F15E833
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 16:45:04 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id 4163883E4C39;
- Thu, 25 Jul 2019 14:44:59 +0000 (UTC)
-Date: Thu, 25 Jul 2019 16:44:58 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190725163621.16afa916@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <156406409479.19996.7606556689856621111.stgit@lep8c.aus.stglabs.ibm.com>
-References: <156406409479.19996.7606556689856621111.stgit@lep8c.aus.stglabs.ibm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <mst@redhat.com>) id 1hqf1I-000295-KN
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:47:02 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:37512)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqf1I-00028o-F5
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:47:00 -0400
+Received: by mail-qt1-f196.google.com with SMTP id y26so49314409qto.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 07:47:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+/LF3bATkDZgnViKWY1I5SOvrHwej91XGNeBkhHyJcA=;
+ b=dN/h2wwg3oV4lhnksF1r9b6VXHCdO6MzsqLiOvHks+OHLwfxSPADJYTUYqxGlT10F5
+ EUkHCcN0wnohaqNkNehMinFzJ+rtFMekeNY+jNZAeceVUEHvUYFKLDzRkmma+G6dT2st
+ Nd/NeY+h4pRGbDzRtJ79KG0+S32r9NIDJQxr5fmDHkBeduMGez1+zsqLNU2IEFH+aJsK
+ dSFu2zyDilyyS3qqz5BbxAPNFRK8T1SywKm0ppDE10Jz3ZRQRjrDew2sHkn1wX3dYhT+
+ dxkgchFxUgkoe96kvhPCzRBo5h24vz+keTl8ZR3iUpilIYmAHAI4+gOQUMnoxe6LZ9Jv
+ b54Q==
+X-Gm-Message-State: APjAAAXXrlKWIAOiX9Plgx53e7uMJWYMsCLoSNacL98nSM5m6sUE/8iS
+ zwzRceGRqfbEwdwC2hiTUPCGaA==
+X-Google-Smtp-Source: APXvYqystRGdP5kq+M6lFNfLYomZZa+//hj1yW9212woppHvwqqkjPhTV6z+J+w6dnLbaEzT6olLLA==
+X-Received: by 2002:ac8:2aaa:: with SMTP id b39mr63243636qta.24.1564066019778; 
+ Thu, 25 Jul 2019 07:46:59 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
+ by smtp.gmail.com with ESMTPSA id
+ l80sm2576055qke.24.2019.07.25.07.46.55
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 25 Jul 2019 07:46:58 -0700 (PDT)
+Date: Thu, 25 Jul 2019 10:46:53 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190725104331-mutt-send-email-mst@kernel.org>
+References: <20190703095825.GE11844@stefanha-x1.localdomain>
+ <87d0i7tlkl.fsf@redhat.com>
+ <20190719102915.GG18585@stefanha-x1.localdomain>
+ <8736j2p22w.fsf@redhat.com>
+ <CAJSP0QXTSwk4eJteC0wTB7LGoHY3=7t4G-eNfgREQ6k+GzV2_w@mail.gmail.com>
+ <904248411098104fcf7db22382172057e50db76c.camel@intel.com>
+ <87tvbdrvin.fsf@redhat.com>
+ <CAJSP0QW1NrYwC6a61jj_vgJOJO7ofJOVUcz6Bf4z720OiN_0rw@mail.gmail.com>
+ <c1464003-38f9-95ee-c42a-fb1d370df0ab@redhat.com>
+ <c9c811f4-6108-f5b1-31f5-3f757f51cf3c@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13866583253622561109
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrkedvgdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c9c811f4-6108-f5b1-31f5-3f757f51cf3c@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.73.241
-Subject: Re: [Qemu-devel] [PATCH v7] ppc: remove idle_timer logic
+ [fuzzy]
+X-Received-From: 209.85.160.196
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,166 +76,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "maran.wilson@oracle.com" <maran.wilson@oracle.com>, "Montes,
+ Julio" <julio.montes@intel.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "kraxel@redhat.com" <kraxel@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Jul 2019 09:15:08 -0500
-Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
-
-> The logic is broken for multiple vcpu guests, also causing memory leak.
-> The logic is in place to handle kvm not having KVM_CAP_PPC_IRQ_LEVEL,
-> which is part of the kernel now since 2.6.37. Instead of fixing the
-> leak, drop the redundant logic which is not excercised on new kernels
-> anymore. Exit with error on older kernels.
+On Wed, Jul 24, 2019 at 01:14:35PM +0200, Paolo Bonzini wrote:
+> On 23/07/19 12:01, Paolo Bonzini wrote:
+> > The number of buses is determined by the firmware, not by QEMU, so
+> > fw_cfg would not be the right interface.  In fact (as I have just
+> > learnt) lastbus is an x86-specific option that overrides the last bus
+> > returned by SeaBIOS's handle_1ab101.
+> > 
+> > So the next step could be to figure out what is the lastbus returned by
+> > handle_1ab101 and possibly why it isn't zero.
 > 
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
-
-LGTM. Just one minor comment, see below.
-
-> v6: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg05378.html
-> Changes from v6:
->    - switched to error_report instead of fprintf
-> ---
->  target/ppc/kvm.c |   75 ++++--------------------------------------------------
->  1 file changed, 5 insertions(+), 70 deletions(-)
+> Some update:
 > 
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8a06d3171e..5ab5e6c6a9 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -56,7 +56,6 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
->  };
->  
->  static int cap_interrupt_unset;
-> -static int cap_interrupt_level;
->  static int cap_segstate;
->  static int cap_booke_sregs;
->  static int cap_ppc_smt;
-> @@ -87,25 +86,6 @@ static int cap_large_decr;
->  
->  static uint32_t debug_inst_opcode;
->  
-> -/*
-> - * XXX We have a race condition where we actually have a level triggered
-> - *     interrupt, but the infrastructure can't expose that yet, so the guest
-> - *     takes but ignores it, goes to sleep and never gets notified that there's
-> - *     still an interrupt pending.
-> - *
-> - *     As a quick workaround, let's just wake up again 20 ms after we injected
-> - *     an interrupt. That way we can assure that we're always reinjecting
-> - *     interrupts in case the guest swallowed them.
-> - */
-> -static QEMUTimer *idle_timer;
-> -
-> -static void kvm_kick_cpu(void *opaque)
-> -{
-> -    PowerPCCPU *cpu = opaque;
-> -
-> -    qemu_cpu_kick(CPU(cpu));
-> -}
-> -
->  /*
->   * Check whether we are running with KVM-PR (instead of KVM-HV).  This
->   * should only be used for fallback tests - generally we should use
-> @@ -125,7 +105,6 @@ static int kvmppc_get_dec_bits(void);
->  int kvm_arch_init(MachineState *ms, KVMState *s)
->  {
->      cap_interrupt_unset = kvm_check_extension(s, KVM_CAP_PPC_UNSET_IRQ);
-> -    cap_interrupt_level = kvm_check_extension(s, KVM_CAP_PPC_IRQ_LEVEL);
->      cap_segstate = kvm_check_extension(s, KVM_CAP_PPC_SEGSTATE);
->      cap_booke_sregs = kvm_check_extension(s, KVM_CAP_PPC_BOOKE_SREGS);
->      cap_ppc_smt_possible = kvm_vm_check_extension(s, KVM_CAP_PPC_SMT_POSSIBLE);
-> @@ -161,9 +140,9 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->       */
->      cap_ppc_pvr_compat = false;
->  
-> -    if (!cap_interrupt_level) {
-> -        fprintf(stderr, "KVM: Couldn't find level irq capability. Expect the "
-> -                        "VM to stall at times!\n");
-> +    if (!kvm_check_extension(s, KVM_CAP_PPC_IRQ_LEVEL)) {
-> +        error_report("KVM: Host kernel doesn't have level irq capability");
-> +        exit(1);
->      }
->  
->      kvm_ppc_register_host_cpu_type(ms);
-> @@ -491,8 +470,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          return ret;
->      }
->  
-> -    idle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
-> -
->      switch (cenv->mmu_model) {
->      case POWERPC_MMU_BOOKE206:
->          /* This target supports access to KVM's guest TLB */
-> @@ -1332,7 +1309,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, int level)
->          return 0;
->      }
->  
-> -    if (!kvm_enabled() || !cap_interrupt_unset || !cap_interrupt_level) {
-> +    if (!kvm_enabled() || !cap_interrupt_unset) {
->          return 0;
->      }
->  
-> @@ -1349,49 +1326,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, int level)
->  
->  void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
->  {
-> -    PowerPCCPU *cpu = POWERPC_CPU(cs);
-> -    CPUPPCState *env = &cpu->env;
-> -    int r;
-> -    unsigned irq;
-> -
-> -    qemu_mutex_lock_iothread();
-> -
-> -    /*
-> -     * PowerPC QEMU tracks the various core input pins (interrupt,
-> -     * critical interrupt, reset, etc) in PPC-specific
-> -     * env->irq_input_state.
-> -     */
-> -    if (!cap_interrupt_level &&
-> -        run->ready_for_interrupt_injection &&
-> -        (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-> -        (env->irq_input_state & (1 << PPC_INPUT_INT)))
-> -    {
-> -        /*
-> -         * For now KVM disregards the 'irq' argument. However, in the
-> -         * future KVM could cache it in-kernel to avoid a heavyweight
-> -         * exit when reading the UIC.
-> -         */
-> -        irq = KVM_INTERRUPT_SET;
-> -
-> -        trace_kvm_injected_interrupt(irq);
-> -        r = kvm_vcpu_ioctl(cs, KVM_INTERRUPT, &irq);
-> -        if (r < 0) {
-> -            printf("cpu %d fail inject %x\n", cs->cpu_index, irq);
-> -        }
-> -
-> -        /* Always wake up soon in case the interrupt was level based */
-> -        timer_mod(idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> -                       (NANOSECONDS_PER_SECOND / 50));
-> -    }
-> -
-> -    /*
-> -     * We don't know if there are more interrupts pending after
-> -     * this. However, the guest will return to userspace in the course
-> -     * of handling this one anyways, so we will get a chance to
-> -     * deliver the rest.
-> -     */
-> -
-> -    qemu_mutex_unlock_iothread();
-> +    return;
+> - for 64-bit, PCIBIOS (and thus handle_1ab101) is not called.  PCIBIOS is
+> only used by 32-bit kernels.  As a side effect, PCI expander bridges do not
+> work on 32-bit kernels with ACPI disabled, because they are located beyond
+> pcibios_last_bus (with ACPI enabled, the DSDT exposes them).
+> 
+> - for -M pc, pcibios_last_bus in Linux remains -1 and no "legacy scanning" is done.
+> 
+> - for -M q35, pcibios_last_bus in Linux is set based on the size of the 
+> MMCONFIG aperture and Linux ends up scanning all 32*255 (bus,dev) pairs 
+> for buses above 0.
+> 
+> Here is a patch that only scans devfn==0, which should mostly remove the need
+> for pci=lastbus=0.  (Testing is welcome).
 
-This isn't needed but it doesn't do harm either, I don't think it's
-worth re-posting just for that.
+Actually, I think I have a better idea.
+At the moment we just get an exit on these reads and return all-ones.
+Yes, in theory there could be a UR bit set in a bunch of
+registers but in practice no one cares about these,
+and I don't think we implement them.
+So how about mapping a single page, read-only, and filling it
+with all-ones?
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+We'll still run the code within linux but it will be free.
 
+What do you think?
+
+
+> Actually, KVM could probably avoid the scanning altogether.  The only "hidden" root
+> buses we expect are from PCI expander bridges and if you found an MMCONFIG area
+> through the ACPI MCFG table, you can also use the DSDT to find PCI expander bridges.
+> However, I am being conservative.
+> 
+> A possible alternative could be a mechanism whereby the vmlinuz real mode entry
+> point, or the 32-bit PVH entry point, fetch lastbus and they pass it to the
+> kernel via the vmlinuz or PVH boot information structs.  However, I don't think
+> that's very useful, and there is some risk of breaking real hardware too.
+> 
+> Paolo
+> 
+> diff --git a/arch/x86/include/asm/pci_x86.h b/arch/x86/include/asm/pci_x86.h
+> index 73bb404f4d2a..17012aa60d22 100644
+> --- a/arch/x86/include/asm/pci_x86.h
+> +++ b/arch/x86/include/asm/pci_x86.h
+> @@ -61,6 +61,7 @@ enum pci_bf_sort_state {
+>  extern struct pci_ops pci_root_ops;
+>  
+>  void pcibios_scan_specific_bus(int busn);
+> +void pcibios_scan_bus_by_device(int busn);
+>  
+>  /* pci-irq.c */
+>  
+> @@ -216,8 +217,10 @@ static inline void mmio_config_writel(void __iomem *pos, u32 val)
+>  # endif
+>  # define x86_default_pci_init_irq	pcibios_irq_init
+>  # define x86_default_pci_fixup_irqs	pcibios_fixup_irqs
+> +# define x86_default_pci_scan_bus	pcibios_scan_bus_by_device
+>  #else
+>  # define x86_default_pci_init		NULL
+>  # define x86_default_pci_init_irq	NULL
+>  # define x86_default_pci_fixup_irqs	NULL
+> +# define x86_default_pci_scan_bus      NULL
+>  #endif
+> diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
+> index b85a7c54c6a1..4c3a0a17a600 100644
+> --- a/arch/x86/include/asm/x86_init.h
+> +++ b/arch/x86/include/asm/x86_init.h
+> @@ -251,6 +251,7 @@ struct x86_hyper_runtime {
+>   * @save_sched_clock_state:	save state for sched_clock() on suspend
+>   * @restore_sched_clock_state:	restore state for sched_clock() on resume
+>   * @apic_post_init:		adjust apic if needed
+> + * @pci_scan_bus:		scan a PCI bus
+>   * @legacy:			legacy features
+>   * @set_legacy_features:	override legacy features. Use of this callback
+>   * 				is highly discouraged. You should only need
+> @@ -273,6 +274,7 @@ struct x86_platform_ops {
+>  	void (*save_sched_clock_state)(void);
+>  	void (*restore_sched_clock_state)(void);
+>  	void (*apic_post_init)(void);
+> +	void (*pci_scan_bus)(int busn);
+>  	struct x86_legacy_features legacy;
+>  	void (*set_legacy_features)(void);
+>  	struct x86_hyper_runtime hyper;
+> diff --git a/arch/x86/kernel/jailhouse.c b/arch/x86/kernel/jailhouse.c
+> index 6857b4577f17..b248d7036dd3 100644
+> --- a/arch/x86/kernel/jailhouse.c
+> +++ b/arch/x86/kernel/jailhouse.c
+> @@ -11,12 +11,14 @@
+>  #include <linux/acpi_pmtmr.h>
+>  #include <linux/kernel.h>
+>  #include <linux/reboot.h>
+> +#include <linux/pci.h>
+>  #include <asm/apic.h>
+>  #include <asm/cpu.h>
+>  #include <asm/hypervisor.h>
+>  #include <asm/i8259.h>
+>  #include <asm/irqdomain.h>
+>  #include <asm/pci_x86.h>
+> +#include <asm/pci.h>
+>  #include <asm/reboot.h>
+>  #include <asm/setup.h>
+>  #include <asm/jailhouse_para.h>
+> @@ -136,6 +138,22 @@ static int __init jailhouse_pci_arch_init(void)
+>  	return 0;
 >  }
 >  
->  MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-> 
-> 
-
+> +static void jailhouse_pci_scan_bus_by_function(int busn)
+> +{
+> +        int devfn;
+> +        u32 l;
+> +
+> +        for (devfn = 0; devfn < 256; devfn++) {
+> +                if (!raw_pci_read(0, busn, devfn, PCI_VENDOR_ID, 2, &l) &&
+> +                    l != 0x0000 && l != 0xffff) {
+> +                        DBG("Found device at %02x:%02x [%04x]\n", busn, devfn, l);
+> +                        pr_info("PCI: Discovered peer bus %02x\n", busn);
+> +                        pcibios_scan_root(busn);
+> +                        return;
+> +                }
+> +        }
+> +}
+> +
+>  static void __init jailhouse_init_platform(void)
+>  {
+>  	u64 pa_data = boot_params.hdr.setup_data;
+> @@ -153,6 +171,7 @@ static void __init jailhouse_init_platform(void)
+>  	x86_platform.legacy.rtc		= 0;
+>  	x86_platform.legacy.warm_reset	= 0;
+>  	x86_platform.legacy.i8042	= X86_LEGACY_I8042_PLATFORM_ABSENT;
+> +	x86_platform.pci_scan_bus	= jailhouse_pci_scan_bus_by_function;
+>  
+>  	legacy_pic			= &null_legacy_pic;
+>  
+> diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+> index 82caf01b63dd..59f7204ed8f3 100644
+> --- a/arch/x86/kernel/kvm.c
+> +++ b/arch/x86/kernel/kvm.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/debugfs.h>
+>  #include <linux/nmi.h>
+>  #include <linux/swait.h>
+> +#include <linux/pci.h>
+>  #include <asm/timer.h>
+>  #include <asm/cpu.h>
+>  #include <asm/traps.h>
+> @@ -33,6 +34,7 @@
+>  #include <asm/apicdef.h>
+>  #include <asm/hypervisor.h>
+>  #include <asm/tlb.h>
+> +#include <asm/pci.h>
+>  
+>  static int kvmapf = 1;
+>  
+> @@ -621,10 +623,31 @@ static void kvm_flush_tlb_others(const struct cpumask *cpumask,
+>  	native_flush_tlb_others(flushmask, info);
+>  }
+>  
+> +#ifdef CONFIG_PCI
+> +static void kvm_pci_scan_bus(int busn)
+> +{
+> +        u32 l;
+> +
+> +	/*
+> +	 * Assume that there are no "hidden" buses, i.e. all PCI root buses
+> +	 * have a host bridge at device 0, function 0.
+> +	 */
+> +	if (!raw_pci_read(0, busn, 0, PCI_VENDOR_ID, 2, &l) &&
+> +	    l != 0x0000 && l != 0xffff) {
+> +		pr_info("PCI: Discovered peer bus %02x\n", busn);
+> +		pcibios_scan_root(busn);
+> +        }
+> +}
+> +#endif
+> +
+>  static void __init kvm_guest_init(void)
+>  {
+>  	int i;
+>  
+> +#ifdef CONFIG_PCI
+> +	x86_platform.pci_scan_bus = kvm_pci_scan_bus;
+> +#endif
+> +
+>  	if (!kvm_para_available())
+>  		return;
+>  
+> diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
+> index 50a2b492fdd6..19e1cc2cb6e0 100644
+> --- a/arch/x86/kernel/x86_init.c
+> +++ b/arch/x86/kernel/x86_init.c
+> @@ -118,6 +118,7 @@ struct x86_platform_ops x86_platform __ro_after_init = {
+>  	.get_nmi_reason			= default_get_nmi_reason,
+>  	.save_sched_clock_state 	= tsc_save_sched_clock_state,
+>  	.restore_sched_clock_state 	= tsc_restore_sched_clock_state,
+> +	.pci_scan_bus			= x86_default_pci_scan_bus,
+>  	.hyper.pin_vcpu			= x86_op_int_noop,
+>  };
+>  
+> diff --git a/arch/x86/pci/legacy.c b/arch/x86/pci/legacy.c
+> index 467311b1eeea..6214dbce26d3 100644
+> --- a/arch/x86/pci/legacy.c
+> +++ b/arch/x86/pci/legacy.c
+> @@ -36,14 +36,19 @@ int __init pci_legacy_init(void)
+>  
+>  void pcibios_scan_specific_bus(int busn)
+>  {
+> -	int stride = jailhouse_paravirt() ? 1 : 8;
+> -	int devfn;
+> -	u32 l;
+> -
+>  	if (pci_find_bus(0, busn))
+>  		return;
+>  
+> -	for (devfn = 0; devfn < 256; devfn += stride) {
+> +	x86_platform.pci_scan_bus(busn);
+> +}
+> +EXPORT_SYMBOL_GPL(pcibios_scan_specific_bus);
+> +
+> +void pcibios_scan_bus_by_device(int busn)
+> +{
+> +	int devfn;
+> +	u32 l;
+> +
+> +	for (devfn = 0; devfn < 256; devfn += 8) {
+>  		if (!raw_pci_read(0, busn, devfn, PCI_VENDOR_ID, 2, &l) &&
+>  		    l != 0x0000 && l != 0xffff) {
+>  			DBG("Found device at %02x:%02x [%04x]\n", busn, devfn, l);
+> @@ -53,7 +58,6 @@ void pcibios_scan_specific_bus(int busn)
+>  		}
+>  	}
+>  }
+> -EXPORT_SYMBOL_GPL(pcibios_scan_specific_bus);
+>  
+>  static int __init pci_subsys_init(void)
+>  {
 
