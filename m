@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4440F752BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:34:26 +0200 (CEST)
-Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48941752A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:33:37 +0200 (CEST)
+Received: from localhost ([::1]:33024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqflB-0002XC-0H
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49154)
+	id 1hqfkN-00089o-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:33:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49224)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hqfix-0004Oi-JW
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:08 -0400
+ (envelope-from <mst@redhat.com>) id 1hqfj9-00054B-4o
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hqfis-00025X-AS
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:04 -0400
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:44741)
+ (envelope-from <mst@redhat.com>) id 1hqfj6-0002HF-RY
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:18 -0400
+Received: from mail-qt1-f175.google.com ([209.85.160.175]:34087)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfiq-00023d-Iy
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:00 -0400
-Received: by mail-qt1-f173.google.com with SMTP id 44so18462110qtg.11
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:32:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfj3-00027j-8s
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:32:14 -0400
+Received: by mail-qt1-f175.google.com with SMTP id k10so49553532qtq.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:32:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qXQUg4Kta23ntDHkhiVCZLYlJLKuuOflKsyqruTW+1M=;
- b=bkByt7qWiHBQr9flWJNmR8iIHTjTt3yEt5nFRV/miVN8A9rfgxVWMvUs5/j/Vrgj/6
- Oh1NvBnTfaVpilglH8PYCxvuo7oP5LgBgQHbk77K4Jkpv3RoVta8YbM9o+gXAJVH0c9e
- 3EOGKgNmzPFM6AJ4R1qyz5+GWqYCE4vE4rD0ZdUJB2p+7v8cACZw1rTVBrnHvlGR85+r
- mTBQBPHdPc4HNzH0dauwX9BN1HzFXBGiOtvTNNa8gM9pqxan9MYmqFnlB57adPsZBdlO
- OpYjXlgFCul/cVuHAUOJan944guacv23nE/3T+XXvXeL8Q3uTfxswQ0c6rqCSPjeYFG0
- LMNA==
-X-Gm-Message-State: APjAAAUvmJdLv7/o7vuVsZJwnF/joLBFIxqTwkGfLjnkyr2+qs2PxR7z
- yuc0ixT+PVJBtN6lebUuVGy2h08FsVa0Cw==
-X-Google-Smtp-Source: APXvYqwZ1+zIIB1hHKLF0WLwI92BGFUDWofm44TgEEBzAYxPmqOaJ3mpipMZSluAn0jukuhL2+/0/g==
-X-Received: by 2002:a0c:81f0:: with SMTP id 45mr65622140qve.13.1564068719420; 
- Thu, 25 Jul 2019 08:31:59 -0700 (PDT)
+ bh=/hrcl/m7AfRfxAabgjr0nGL2uw+WOg+32XDf093oxBo=;
+ b=iy1GiWlqOa9SOupkrJHyM40CVf4SvlXY6soE0zbPl1FBWS/QByn9n7vGP5WC3apD4u
+ 7j+Zef9ZOqCvDlyK/dXMvSLFdNBJ6NjNlU4c1W6pQUu8PSpfmO7wo66yee+9ggSPJhJC
+ ycX4+FEHfV67OD7dEKISvJUIppixn3bxjcxLaYHzCq7cP8RD6L+iJkF8AgapG+IqdoNh
+ ez2fYjApy0lC5/VRjBAQrW7cG4TXKvjzntF0RmtnNC6JNBSAXEDjcSMUnEJuWIXTvjJ+
+ edBoI3G1S5RBe40dDSL2jVSpasJwuowS7tPvB6MYeRVqSYtQ02BVSpddCy+lbyrqVeJp
+ a5xg==
+X-Gm-Message-State: APjAAAX/rYn2XsM2cEwm+wZAQ1nwyJ3jN1/PDyNCPA4uihYTev0aUbqu
+ 4gLLUpvc6uuzNe0IY3wh3M5jtb/703Inaw==
+X-Google-Smtp-Source: APXvYqzRq9g5v37UH6i9NTuyNepc7XCuaUkfipDFnkWEyW29Y5OwMxXnMyP9gcZHcMf22/a/R5K78w==
+X-Received: by 2002:aed:22f2:: with SMTP id q47mr63734786qtc.106.1564068724236; 
+ Thu, 25 Jul 2019 08:32:04 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
  by smtp.gmail.com with ESMTPSA id
- m12sm20453575qkk.123.2019.07.25.08.31.57
+ n5sm28211627qta.29.2019.07.25.08.32.02
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 25 Jul 2019 08:31:58 -0700 (PDT)
-Date: Thu, 25 Jul 2019 11:31:55 -0400
+ Thu, 25 Jul 2019 08:32:03 -0700 (PDT)
+Date: Thu, 25 Jul 2019 11:32:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190722134108.22151-3-david@redhat.com>
+Message-ID: <20190722134108.22151-4-david@redhat.com>
 References: <20190725153059.7313-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +56,8 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.173
-Subject: [Qemu-devel] [PULL 06/12] virtio-balloon: Fix QEMU crashes on
- pagesize > BALLOON_PAGE_SIZE
+X-Received-From: 209.85.160.175
+Subject: [Qemu-devel] [PULL 07/12] virtio-balloon: Simplify deflate with pbp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,67 +70,71 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
  David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We are using the wrong functions to set/clear bits, effectively touching
-multiple bits, writing out of range of the bitmap, resulting in memory
-corruptions. We have to use set_bit()/clear_bit() instead.
+Let's simplify this - the case we are optimizing for is very hard to
+trigger and not worth the effort. If we're switching from inflation to
+deflation, let's reset the pbp.
 
-Can easily be reproduced by starting a qemu guest on hugetlbfs memory,
-inflating the balloon. QEMU crashes. This never could have worked
-properly - especially, also pages would have been discarded when the
-first sub-page would be inflated (the whole bitmap would be set).
-
-While testing I realized, that on hugetlbfs it is pretty much impossible
-to discard a page - the guest just frees the 4k sub-pages in random order
-most of the time. I was only able to discard a hugepage a handful of
-times - so I hope that now works correctly.
-
-Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE < host page size")
-Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruption with inflates & deflates")
-Cc: qemu-stable@nongnu.org #v4.0.0
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190722134108.22151-3-david@redhat.com>
+Message-Id: <20190722134108.22151-4-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/virtio/virtio-balloon.c | 26 +++++---------------------
+ 1 file changed, 5 insertions(+), 21 deletions(-)
 
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 515abf6553..a78d2d2184 100644
+index a78d2d2184..04a7e6c772 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -94,9 +94,8 @@ static void balloon_inflate_page(VirtIOBalloon *balloon,
-         balloon->pbp->base = host_page_base;
+@@ -117,7 +117,7 @@ static void balloon_deflate_page(VirtIOBalloon *balloon,
+     void *addr = memory_region_get_ram_ptr(mr) + offset;
+     RAMBlock *rb;
+     size_t rb_page_size;
+-    ram_addr_t ram_offset, host_page_base;
++    ram_addr_t ram_offset;
+     void *host_addr;
+     int ret;
+ 
+@@ -125,27 +125,11 @@ static void balloon_deflate_page(VirtIOBalloon *balloon,
+      * host address? */
+     rb = qemu_ram_block_from_host(addr, false, &ram_offset);
+     rb_page_size = qemu_ram_pagesize(rb);
+-    host_page_base = ram_offset & ~(rb_page_size - 1);
+-
+-    if (balloon->pbp
+-        && rb == balloon->pbp->rb
+-        && host_page_base == balloon->pbp->base) {
+-        int subpages = rb_page_size / BALLOON_PAGE_SIZE;
+ 
+-        /*
+-         * This means the guest has asked to discard some of the 4kiB
+-         * subpages of a host page, but then changed its mind and
+-         * asked to keep them after all.  It's exceedingly unlikely
+-         * for a guest to do this in practice, but handle it anyway,
+-         * since getting it wrong could mean discarding memory the
+-         * guest is still using. */
+-        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+-                  balloon->pbp->bitmap);
+-
+-        if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
+-            g_free(balloon->pbp);
+-            balloon->pbp = NULL;
+-        }
++    if (balloon->pbp) {
++        /* Let's play safe and always reset the pbp on deflation requests. */
++        g_free(balloon->pbp);
++        balloon->pbp = NULL;
      }
  
--    bitmap_set(balloon->pbp->bitmap,
--               (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
--               subpages);
-+    set_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
-+            balloon->pbp->bitmap);
- 
-     if (bitmap_full(balloon->pbp->bitmap, subpages)) {
-         /* We've accumulated a full host page, we can actually discard
-@@ -140,9 +139,8 @@ static void balloon_deflate_page(VirtIOBalloon *balloon,
-          * for a guest to do this in practice, but handle it anyway,
-          * since getting it wrong could mean discarding memory the
-          * guest is still using. */
--        bitmap_clear(balloon->pbp->bitmap,
--                     (ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
--                     subpages);
-+        clear_bit((ram_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
-+                  balloon->pbp->bitmap);
- 
-         if (bitmap_empty(balloon->pbp->bitmap, subpages)) {
-             g_free(balloon->pbp);
+     host_addr = (void *)((uintptr_t)addr & ~(rb_page_size - 1));
 -- 
 MST
 
