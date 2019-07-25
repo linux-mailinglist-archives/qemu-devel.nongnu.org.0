@@ -2,40 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D52749B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 11:20:39 +0200 (CEST)
-Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810DB749CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 11:23:48 +0200 (CEST)
+Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqZvS-0003pH-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 05:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
+	id 1hqZyU-0001Am-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 05:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37129)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqZtz-0007SQ-LE
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:19:09 -0400
+ (envelope-from <oscar.zhangbo@huawei.com>) id 1hqZyH-0000mK-Ou
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:23:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hqZty-00044x-2C
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:19:07 -0400
-Received: from relay.sw.ru ([185.231.240.75]:44246)
+ (envelope-from <oscar.zhangbo@huawei.com>) id 1hqZyG-0006yi-J3
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:23:33 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2484 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqZtx-00042D-O4; Thu, 25 Jul 2019 05:19:05 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1hqZtw-0001bs-84; Thu, 25 Jul 2019 12:19:04 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Thu, 25 Jul 2019 12:18:59 +0300
-Message-Id: <20190725091900.30542-9-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190725091900.30542-1-vsementsov@virtuozzo.com>
-References: <20190725091900.30542-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 8/9] block/qcow2-bitmap: fix reopening
- bitmaps to RW
+ (Exim 4.71) (envelope-from <oscar.zhangbo@huawei.com>)
+ id 1hqZyG-0006xJ-70
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 05:23:32 -0400
+Received: from DGGEML402-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 8D2E038D4F799632AA88;
+ Thu, 25 Jul 2019 17:23:26 +0800 (CST)
+Received: from DGGEML509-MBX.china.huawei.com ([169.254.1.213]) by
+ DGGEML402-HUB.china.huawei.com ([fe80::fca6:7568:4ee3:c776%31]) with mapi id
+ 14.03.0439.000; Thu, 25 Jul 2019 17:23:18 +0800
+From: "Zhangbo (Oscar)" <oscar.zhangbo@huawei.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, "wangxiongfeng (C)"
+ <wangxiongfeng2@huawei.com>
+Thread-Topic: CC wangxiongfeng. RE: [PATCH] pcie: fix device unplug timeout
+Thread-Index: AdVCyncrVmQiWqhESdmweEDxO2X+Cg==
+Date: Thu, 25 Jul 2019 09:23:17 +0000
+Message-ID: <0259E1C966E8C54AA93AA2B1240828E672DF61CC@dggeml509-mbx.china.huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.177.17.158]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.188
+Subject: [Qemu-devel] CC wangxiongfeng. RE: [PATCH] pcie: fix device unplug
+ timeout
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,125 +58,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: fangying <fangying1@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "limingwang \(A\)" <limingwang@huawei.com>, "dengkai
+ \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently reopening bitmaps to RW can't work, as qcow2 needs write
-access to file child, to mark bitmaps in-image with IN_USE flag.
-
-The possibility to write-access file child during reopen-RW was
-implemented several patches ago with help of
-.bdrv_need_rw_file_child_during_reopen_rw handler. Let's use
-this new API to fix bitmaps reopening.
-
-Add corresponding test-cases to 260 iotest.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.h              |  1 +
- block/qcow2-bitmap.c       |  6 ++++++
- block/qcow2.c              |  1 +
- tests/qemu-iotests/260     |  2 ++
- tests/qemu-iotests/260.out | 35 +++++++++++++++++++++++++++++++++++
- 5 files changed, 45 insertions(+)
-
-diff --git a/block/qcow2.h b/block/qcow2.h
-index a67e6a7d7c..3bfdaa7957 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -730,6 +730,7 @@ void *qcow2_cache_is_table_offset(Qcow2Cache *c, uint64_t offset);
- void qcow2_cache_discard(Qcow2Cache *c, void *table);
- 
- /* qcow2-bitmap.c functions */
-+bool qcow2_has_bitmaps(BlockDriverState *bs);
- int qcow2_check_bitmaps_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-                                   void **refcount_table,
-                                   int64_t *refcount_table_size);
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index e276a95154..ed02588626 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1102,6 +1102,12 @@ Qcow2BitmapInfoList *qcow2_get_bitmap_info_list(BlockDriverState *bs,
-     return list;
- }
- 
-+bool qcow2_has_bitmaps(BlockDriverState *bs)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    return s->nb_bitmaps;
-+}
-+
- int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
- {
-     BDRVQcow2State *s = bs->opaque;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 5c1187e2f9..1d9fb3ae98 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -5232,6 +5232,7 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_reopen_bitmaps_rw = qcow2_reopen_bitmaps_rw,
-     .bdrv_can_store_new_dirty_bitmap = qcow2_can_store_new_dirty_bitmap,
-     .bdrv_remove_persistent_dirty_bitmap = qcow2_remove_persistent_dirty_bitmap,
-+    .bdrv_need_rw_file_child_during_reopen_rw = qcow2_has_bitmaps,
- };
- 
- static void bdrv_qcow2_init(void)
-diff --git a/tests/qemu-iotests/260 b/tests/qemu-iotests/260
-index 51288b8ee7..d8fcf4567a 100755
---- a/tests/qemu-iotests/260
-+++ b/tests/qemu-iotests/260
-@@ -83,3 +83,5 @@ def test(persistent, restart):
- 
- 
- test(persistent=False, restart=False)
-+test(persistent=True, restart=False)
-+test(persistent=True, restart=True)
-diff --git a/tests/qemu-iotests/260.out b/tests/qemu-iotests/260.out
-index 5239d27c46..2f0d98d036 100644
---- a/tests/qemu-iotests/260.out
-+++ b/tests/qemu-iotests/260.out
-@@ -15,3 +15,38 @@ check that no bitmaps are in snapshot: not found
- {"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- check bitmap after commit: name=bitmap0 dirty-clusters=2
- check updated bitmap: name=bitmap0 dirty-clusters=3
-+
-+Testcase persistent without restart
-+
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": true}}
-+{"return": {}}
-+initial bitmap: name=bitmap0 dirty-clusters=1
-+{"execute": "blockdev-snapshot-sync", "arguments": {"device": "drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+check that no bitmaps are in snapshot: not found
-+{"execute": "block-commit", "arguments": {"device": "drive0", "top": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+check bitmap after commit: name=bitmap0 dirty-clusters=2
-+check updated bitmap: name=bitmap0 dirty-clusters=3
-+
-+Testcase persistent with restart
-+
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0", "persistent": true}}
-+{"return": {}}
-+initial bitmap: name=bitmap0 dirty-clusters=1
-+{"execute": "blockdev-snapshot-sync", "arguments": {"device": "drive0", "format": "qcow2", "snapshot-file": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+check that no bitmaps are in snapshot: not found
-+... Restart ...
-+{"execute": "block-commit", "arguments": {"device": "drive0", "top": "TEST_DIR/PID-top"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "block-job-complete", "arguments": {"device": "drive0"}}
-+{"return": {}}
-+{"data": {"device": "drive0", "len": 65536, "offset": 65536, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+check bitmap after commit: name=bitmap0 dirty-clusters=2
-+check updated bitmap: name=bitmap0 dirty-clusters=3
--- 
-2.18.0
-
+Pj4gSWYgdGhlIGxpbnV4IGtlcm5lbCBvbmx5IHJlY2VpdmVzIGFuIEFCUCBldmVudCBkdXJpbmcg
+cGNpZSB1bnBsdWcsIGl0IHdpbGwgc2xlZXAgNXMNCj4+IHRvIGV4cGVjdCBhIFBEQyBldmVudCwg
+d2hpY2ggd2lsbCBjYXVzZSBkZXZpY2UgdW5wbHVnIHRpbWVvdXQuDQo+DQo+TXkgdW5kZXJzdGFu
+ZGluZyBpcyB0aGF0IHRoZXJlJ3Mgbm8gdGltZW91dC4gU3BlYyBzYXlzOg0KPglJZiBwcmVzZW50
+LCB0aGUgUG93ZXIgSW5kaWNhdG9yIHByb3ZpZGVzIHZpc3VhbCBmZWVkYmFjayB0byB0aGUgaHVt
+YW4NCj5vcGVyYXRvciAoaWYgdGhlIHN5c3RlbQ0KPglzb2Z0d2FyZSBhY2NlcHRzIHRoZSByZXF1
+ZXN0IGluaXRpYXRlZCBieSB0aGUgQXR0ZW50aW9uIEJ1dHRvbikgYnkgYmxpbmtpbmcuDQo+T25j
+ZSB0aGUgUG93ZXINCj4JSW5kaWNhdG9yIGJlZ2lucyBibGlua2luZywgYSA1LXNlY29uZCBhYm9y
+dCBpbnRlcnZhbCBleGlzdHMgZHVyaW5nIHdoaWNoIGENCj5zZWNvbmQgZGVwcmVzc2lvbiBvZiB0
+aGUNCj4JQXR0ZW50aW9uIEJ1dHRvbiBjYW5jZWxzIHRoZSBvcGVyYXRpb24uDQo+DQo+dGhpcyBp
+cyBleGFjdGx5IHdoYXQgbGludXggaW1wbGVtZW50cy4NCj5UaHVzIGFmdGVyIGFuIEFCUCBldmVu
+dCwgbGludXggc3RhcnRzIGEgNSBzZWNvbmQgdGltZXI6DQo+CXNjaGVkdWxlX2RlbGF5ZWRfd29y
+aygmY3RybC0+YnV0dG9uX3dvcmssIDUgKiBIWik7DQo+DQo+DQo+PiBJbiB0aGUgbWVhbndoaWxl
+LCBpZiB0aGUga2VybmVsIG9ubHkgcmVjZWl2ZXMgYSBQREMgZXZlbnQgZHVyaW5nIHRoZSB1bnBs
+dWcsIGl0DQo+PiB3aWxsIHdhaXQgZm9yIGF0IGxlYXN0IDEgc2Vjb25kIGJlZm9yZSBjaGVja2lu
+ZyBjYXJkIHByZXNlbnQgYXMgZGF0YSBsaW5rIGxheWVyDQo+PiBzdGF0ZSBjaGFuZ2VkIChsaW5r
+IGRvd24pIGV2ZW50IHJlcG9ydGVkIHByaW9yIHRvIHByZXNlbmNlIGRldGVjdCBjaGFuZ2VkDQo+
+PiAoY2FyZCBpcyBub3QgcHJlc2VudCkuDQo+DQo+SSBkb24ndCB1bmRlcnN0YW5kIHdoYXQgeW91
+IGFyZSBzYXlpbmcgZXhhY3RseS4NCj5CdXQgSSBkb24ndCBzZWUgYW55IG90aGVyIGRlbGF5ZWQg
+d29yayBpbg0KPmRyaXZlcnMvcGNpL2hvdHBsdWcvcGNpZWhwX2N0cmwuYw0KPg0KPg0KPj4gVGhl
+cmVmb3JlIHdlIGNhbiBzZW5kIGJvdGggQUJQIGFuZCBQREMgZXZlbnRzIHRvIHRoZSBrZXJuZWwg
+aW4gdW5wbHVnDQo+cHJvY2Vzcw0KPj4gdG8gYXZvaWQgdW5wbHVnIHRpbWVvdXQuDQo+Pg0KPj4g
+U2lnbmVkLW9mZi1ieTogbGltaW5nd2FuZ0BodWF3ZWkuY29tDQo+PiBTaWduZWQtb2ZmLWJ5OiBm
+YW5neWluZzFAaHVhd2VpLmNvbQ0KPj4gU2lnbmVkLW9mZi1ieTogb3NjYXIuemhhbmdib0BodWF3
+ZWkuY29tDQo+DQo+SSBzZWUgdGhpcyBpbiBsaW51eDoNCj4NCj4vKioNCj4gKiBwY2llaHBfY2hl
+Y2tfcHJlc2VuY2UoKSAtIHN5bnRoZXNpemUgZXZlbnQgaWYgcHJlc2VuY2UgaGFzIGNoYW5nZWQN
+Cj4gKg0KPiAqIE9uIHByb2JlIGFuZCByZXN1bWUsIGFuIGV4cGxpY2l0IHByZXNlbmNlIGNoZWNr
+IGlzIG5lY2Vzc2FyeSB0byBicmluZyB1cCBhbg0KPiAqIG9jY3VwaWVkIHNsb3Qgb3IgYnJpbmcg
+ZG93biBhbiB1bm9jY3VwaWVkIHNsb3QuICBUaGlzIGNhbid0IGJlIHRyaWdnZXJlZCBieQ0KPiAq
+IGV2ZW50cyBpbiB0aGUgU2xvdCBTdGF0dXMgcmVnaXN0ZXIsIHRoZXkgbWF5IGJlIHN0YWxlIGFu
+ZCBhcmUgdGhlcmVmb3JlDQo+ICogY2xlYXJlZC4gIFNlY29uZGx5LCBzZW5kaW5nIGFuIGludGVy
+cnVwdCBmb3IgImV2ZW50cyB0aGF0IG9jY3VyIHdoaWxlDQo+ICogaW50ZXJydXB0IGdlbmVyYXRp
+b24gaXMgZGlzYWJsZWQgW3doZW5dIGludGVycnVwdCBnZW5lcmF0aW9uIGlzIHN1YnNlcXVlbnRs
+eQ0KPiAqIGVuYWJsZWQiIGlzIG9wdGlvbmFsIHBlciBQQ0llIHI0LjAsIHNlYyA2LjcuMy40Lg0K
+PiAqLw0KPg0KPg0KPk15IHN1Z2dlc3Rpb24gdGhlcmVmb3JlIGlzIHRvIHRyeSB0byBjbGVhciBQ
+cmVzZW5jZSBEZXRlY3QgU3RhdGUsDQo+c2V0IHByZXNlbmNlIGRldGVjdCBjaGFuZ2VkIGFuZCBk
+byBub3Qgc2V0IGF0dGVudGlvbiBidXR0b24NCj5wcmVzc2VkLg0KPg0KQHdhbmd4aW9uZ2ZlbmcN
+Cg0KPg0KPj4gLS0tDQo+PiAgaHcvcGNpL3BjaWUuYyAgICAgICAgIHwgOCArKy0tLS0tLQ0KPj4g
+IGluY2x1ZGUvaHcvcGNpL3BjaWUuaCB8IDEgLQ0KPj4gIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNl
+cnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9ody9wY2kvcGNp
+ZS5jIGIvaHcvcGNpL3BjaWUuYw0KPj4gaW5kZXggMTc0ZjM5Mi4uYTgwMGYyMyAxMDA2NDQNCj4+
+IC0tLSBhL2h3L3BjaS9wY2llLmMNCj4+ICsrKyBiL2h3L3BjaS9wY2llLmMNCj4+IEBAIC00ODUs
+NyArNDg1LDggQEAgdm9pZA0KPnBjaWVfY2FwX3Nsb3RfdW5wbHVnX3JlcXVlc3RfY2IoSG90cGx1
+Z0hhbmRsZXIgKmhvdHBsdWdfZGV2LA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBQQ0lfRVhQX0xOS1NUQV9ETExMQSk7DQo+PiAgICAgIH0NCj4+DQo+PiAtICAgIHBj
+aWVfY2FwX3Nsb3RfcHVzaF9hdHRlbnRpb25fYnV0dG9uKFBDSV9ERVZJQ0UoaG90cGx1Z19kZXYp
+KTsNCj4+ICsgICAgcGNpZV9jYXBfc2xvdF9ldmVudChQQ0lfREVWSUNFKGhvdHBsdWdfZGV2KSwN
+Cj4+ICsgICAgICAgICAgICAgICAgICAgICAgICBQQ0lfRVhQX0hQX0VWX1BEQyB8IFBDSV9FWFBf
+SFBfRVZfQUJQKTsNCj4+ICB9DQo+Pg0KPj4gIC8qIHBjaSBleHByZXNzIHNsb3QgZm9yIHBjaSBl
+eHByZXNzIHJvb3QvZG93bnN0cmVhbSBwb3J0DQo+PiBAQCAtNzAxLDExICs3MDIsNiBAQCBpbnQg
+cGNpZV9jYXBfc2xvdF9wb3N0X2xvYWQodm9pZCAqb3BhcXVlLCBpbnQNCj52ZXJzaW9uX2lkKQ0K
+Pj4gICAgICByZXR1cm4gMDsNCj4+ICB9DQo+Pg0KPj4gLXZvaWQgcGNpZV9jYXBfc2xvdF9wdXNo
+X2F0dGVudGlvbl9idXR0b24oUENJRGV2aWNlICpkZXYpDQo+PiAtew0KPj4gLSAgICBwY2llX2Nh
+cF9zbG90X2V2ZW50KGRldiwgUENJX0VYUF9IUF9FVl9BQlApOw0KPj4gLX0NCj4+IC0NCj4+ICAv
+KiByb290IGNvbnRyb2wvY2FwYWJpbGl0aWVzL3N0YXR1cy4gUE1FIGlzbid0IGVtdWxhdGVkIGZv
+ciBub3cgKi8NCj4+ICB2b2lkIHBjaWVfY2FwX3Jvb3RfaW5pdChQQ0lEZXZpY2UgKmRldikNCj4+
+ICB7DQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9ody9wY2kvcGNpZS5oIGIvaW5jbHVkZS9ody9w
+Y2kvcGNpZS5oDQo+PiBpbmRleCA4Y2YzMzYxLi4wOTc1YTU0IDEwMDY0NA0KPj4gLS0tIGEvaW5j
+bHVkZS9ody9wY2kvcGNpZS5oDQo+PiArKysgYi9pbmNsdWRlL2h3L3BjaS9wY2llLmgNCj4+IEBA
+IC0xMTIsNyArMTEyLDYgQEAgdm9pZCBwY2llX2NhcF9zbG90X3dyaXRlX2NvbmZpZyhQQ0lEZXZp
+Y2UgKmRldiwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQxNl90IG9s
+ZF9zbHRfY3RsLCB1aW50MTZfdA0KPm9sZF9zbHRfc3RhLA0KPj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgdWludDMyX3QgYWRkciwgdWludDMyX3QgdmFsLCBpbnQgbGVuKTsNCj4+
+ICBpbnQgcGNpZV9jYXBfc2xvdF9wb3N0X2xvYWQodm9pZCAqb3BhcXVlLCBpbnQgdmVyc2lvbl9p
+ZCk7DQo+PiAtdm9pZCBwY2llX2NhcF9zbG90X3B1c2hfYXR0ZW50aW9uX2J1dHRvbihQQ0lEZXZp
+Y2UgKmRldik7DQo+Pg0KPj4gIHZvaWQgcGNpZV9jYXBfcm9vdF9pbml0KFBDSURldmljZSAqZGV2
+KTsNCj4+ICB2b2lkIHBjaWVfY2FwX3Jvb3RfcmVzZXQoUENJRGV2aWNlICpkZXYpOw0KPj4gLS0N
+Cj4+IDEuOC4zLjENCg==
 
