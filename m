@@ -2,41 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E1E74958
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 10:46:35 +0200 (CEST)
-Received: from localhost ([::1]:57226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D50F74955
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 10:45:52 +0200 (CEST)
+Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqZOU-0006xk-Dy
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 04:46:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50247)
+	id 1hqZNm-00042N-Sr
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 04:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50320)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqZMq-0000kB-0y
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:44:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hqZN2-0001dy-SW
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:45:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqZMo-0000Ch-PP
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:44:51 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:57068)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1hqZMo-0000CT-DY
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:44:50 -0400
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 9717354006B;
- Thu, 25 Jul 2019 11:44:49 +0300 (MSK)
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 25 Jul 2019 11:44:49 +0300
-Message-ID: <156404428943.18669.15747009371169578935.stgit@pasha-Precision-3630-Tower>
-In-Reply-To: <156404424989.18669.12696116045723475173.stgit@pasha-Precision-3630-Tower>
-References: <156404424989.18669.12696116045723475173.stgit@pasha-Precision-3630-Tower>
-User-Agent: StGit/0.17.1-dirty
+ (envelope-from <kwolf@redhat.com>) id 1hqZN1-0000LR-Qm
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:45:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40444)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hqZN1-0000Jy-JM
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 04:45:03 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 84912C024B02;
+ Thu, 25 Jul 2019 08:45:01 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-146.ams2.redhat.com [10.36.117.146])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB1BD60605;
+ Thu, 25 Jul 2019 08:44:54 +0000 (UTC)
+Date: Thu, 25 Jul 2019 10:44:53 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190725084453.GA8294@linux.fritz.box>
+References: <156395778867.510.17588721322993616668.stgit@pasha-Precision-3630-Tower>
+ <83f7a43a-3039-0ac2-e7c7-5e802811d431@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [for-4.2 PATCH v2 7/8] icount: clean up cpu_can_io at
- the entry to the block
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83f7a43a-3039-0ac2-e7c7-5e802811d431@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 25 Jul 2019 08:45:02 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH for-4.2 00/14] Some record/replay fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,109 +57,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
- pbonzini@redhat.com, quintela@redhat.com, ciro.santilli@gmail.com,
- jasowang@redhat.com, crosthwaite.peter@gmail.com, armbru@redhat.com,
- mreitz@redhat.com, alex.bennee@linaro.org, maria.klimushenkova@ispras.ru,
- mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
- thomas.dullien@googlemail.com, dovgaluk@ispras.ru, artem.k.pisarenko@gmail.com,
- dgilbert@redhat.com, rth@twiddle.net
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
+ crosthwaite.peter@gmail.com, ciro.santilli@gmail.com, jasowang@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ alex.bennee@linaro.org, Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>,
+ maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+ boost.lists@gmail.com, thomas.dullien@googlemail.com, dovgaluk@ispras.ru,
+ mreitz@redhat.com, artem.k.pisarenko@gmail.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Am 24.07.2019 um 16:35 hat Paolo Bonzini geschrieben:
+> On 24/07/19 10:43, Pavel Dovgalyuk wrote:
+> > The set of patches include the latest fixes for record/replay icount function:
+> >  - fix for icount for the case when translation blocks are chained
+> >  - block operation fixes for rr mode
+> >  - development documentation update
+> >  - some refactoring
+> > 
+> > These patches make record/replay functional on the latest 4.2 QEMU core.
+> 
+> Please separate patches 1 and 9-14, I can merge those.
 
-Most of IO instructions can be executed only at the end of the block in
-icount mode. Therefore translator can set cpu_can_io flag when translating
-the last instruction.
-But when the blocks are chained, then this flag is not reset and may
-remain set at the beginning of the next block.
-This patch resets the flag at the entry of any translation block,
-making I/O operations impossible by default.
+The block related parts have my Acked-by and the rest looks a bit like
+no man's land, so I think you could just take the whole series.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-
---
-
-v2 changes:
- - reset can_do_io at the start of every TB (suggested by Paolo Bonzini)
----
- accel/tcg/cpu-exec.c      |    1 -
- include/exec/gen-icount.h |   38 ++++++++++++++++++++------------------
- 2 files changed, 20 insertions(+), 19 deletions(-)
-
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 6c85c3ee1e..48272c781b 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -169,7 +169,6 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-     }
- #endif /* DEBUG_DISAS */
- 
--    cpu->can_do_io = !use_icount;
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
-     cpu->can_do_io = 1;
-     last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index f7669b6841..4004e6c9d0 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -7,6 +7,24 @@
- 
- static TCGOp *icount_start_insn;
- 
-+static inline void gen_io_start(void)
-+{
-+    TCGv_i32 tmp = tcg_const_i32(1);
-+    tcg_gen_st_i32(tmp, cpu_env,
-+                   offsetof(ArchCPU, parent_obj.can_do_io) -
-+                   offsetof(ArchCPU, env));
-+    tcg_temp_free_i32(tmp);
-+}
-+
-+static inline void gen_io_end(void)
-+{
-+    TCGv_i32 tmp = tcg_const_i32(0);
-+    tcg_gen_st_i32(tmp, cpu_env,
-+                   offsetof(ArchCPU, parent_obj.can_do_io) -
-+                   offsetof(ArchCPU, env));
-+    tcg_temp_free_i32(tmp);
-+}
-+
- static inline void gen_tb_start(TranslationBlock *tb)
- {
-     TCGv_i32 count, imm;
-@@ -40,6 +58,8 @@ static inline void gen_tb_start(TranslationBlock *tb)
-         tcg_gen_st16_i32(count, cpu_env,
-                          offsetof(ArchCPU, neg.icount_decr.u16.low) -
-                          offsetof(ArchCPU, env));
-+        /* Disable I/O by default */
-+        gen_io_end();
-     }
- 
-     tcg_temp_free_i32(count);
-@@ -57,22 +77,4 @@ static inline void gen_tb_end(TranslationBlock *tb, int num_insns)
-     tcg_gen_exit_tb(tb, TB_EXIT_REQUESTED);
- }
- 
--static inline void gen_io_start(void)
--{
--    TCGv_i32 tmp = tcg_const_i32(1);
--    tcg_gen_st_i32(tmp, cpu_env,
--                   offsetof(ArchCPU, parent_obj.can_do_io) -
--                   offsetof(ArchCPU, env));
--    tcg_temp_free_i32(tmp);
--}
--
--static inline void gen_io_end(void)
--{
--    TCGv_i32 tmp = tcg_const_i32(0);
--    tcg_gen_st_i32(tmp, cpu_env,
--                   offsetof(ArchCPU, parent_obj.can_do_io) -
--                   offsetof(ArchCPU, env));
--    tcg_temp_free_i32(tmp);
--}
--
- #endif
-
+Kevin
 
