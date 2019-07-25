@@ -2,99 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42EF7514E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:36:10 +0200 (CEST)
-Received: from localhost ([::1]:60722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A28751AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 16:45:57 +0200 (CEST)
+Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqeqn-0007F4-PF
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36347)
+	id 1hqf0F-0006A5-LY
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 10:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38667)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanb@linux.ibm.com>) id 1hqeqY-0006qn-NT
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:35:55 -0400
+ (envelope-from <bounces@canonical.com>) id 1hqezu-0005F4-N7
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanb@linux.ibm.com>) id 1hqeqX-0001eb-KJ
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:35:54 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1806
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
- id 1hqeqX-0001do-FC
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:35:53 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6PEXKMv151208
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 10:35:51 -0400
-Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tydmrjbxb-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 10:35:51 -0400
-Received: from localhost
- by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <stefanb@linux.ibm.com>;
- Thu, 25 Jul 2019 15:35:50 +0100
-Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
- by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 25 Jul 2019 15:35:46 +0100
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6PEZj6U48496998
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 25 Jul 2019 14:35:46 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D969478060;
- Thu, 25 Jul 2019 14:35:45 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 83FAA78066;
- Thu, 25 Jul 2019 14:35:45 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 25 Jul 2019 14:35:45 +0000 (GMT)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20190725105842.872625-1-stefanb@linux.vnet.ibm.com>
- <20190725105842.872625-3-stefanb@linux.vnet.ibm.com>
- <CAJ+F1CKdMR_ab=cz9RKsTUZQ5ioQp0=fSiqTOZcuVDiyZMZgWw@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Date: Thu, 25 Jul 2019 10:35:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <bounces@canonical.com>) id 1hqezt-0001Ny-FV
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45454)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hqezt-0001LZ-9l
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 10:45:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hqezr-0001IQ-Uh
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:45:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C92152E80CC
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 14:45:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CKdMR_ab=cz9RKsTUZQ5ioQp0=fSiqTOZcuVDiyZMZgWw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-MW
-X-TM-AS-GCONF: 00
-x-cbid: 19072514-0004-0000-0000-0000152E91E3
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011491; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000287; SDB=6.01237267; UDB=6.00652185; IPR=6.01018640; 
- MB=3.00027886; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-25 14:35:48
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19072514-0005-0000-0000-00008C9B2BC9
-Message-Id: <83cba945-2634-d500-0cdb-999cd6e2a402@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-25_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907250170
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id x6PEXKMv151208
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PATCH 2/2] tpm_emulator: Translate TPM error
- codes to strings
+Date: Thu, 25 Jul 2019 14:36:57 -0000
+From: elmarco <marcandre.lureau@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crobinso marcandre-lureau
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: elmarco (marcandre-lureau)
+References: <156406441263.18058.18411127090440261548.malonedeb@gac.canonical.com>
+Message-Id: <156406541803.17681.2502459833725209168.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: fd036c3443f26b4e31f70c254fa8891d50e98d47
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1837909] Re: test-char fails if host has no
+ network interfaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,51 +64,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Reply-To: Bug 1837909 <1837909@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/19 7:08 AM, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->
-> On Thu, Jul 25, 2019 at 2:58 PM Stefan Berger
-> <stefanb@linux.vnet.ibm.com> wrote:
->> Implement a function to translate TPM error codes to strings so that
->> at least the most common error codes can be translated to human
->> readable strings.
->>
->> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
->> ---
->>   hw/tpm/tpm_emulator.c | 50 ++++++++++++++++++++++++++++++++++-------=
---
->>   1 file changed, 40 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
->> index 1288cbcb8d..186dde0838 100644
->> --- a/hw/tpm/tpm_emulator.c
->> +++ b/hw/tpm/tpm_emulator.c
->> @@ -82,6 +82,30 @@ typedef struct TPMEmulator {
->>       TPMBlobBuffers state_blobs;
->>   } TPMEmulator;
->>
->> +struct tpm_error {
->> +    uint32_t tpm_result;
->> +    const char *string;
->> +};
->> +
->> +static const struct tpm_error tpm_errors[] =3D {
->> +    {  9 , "operation failed" },
->> +    {  32, "encryption error" },
->> +    {  33, "decryption error" },
->> +    /* TPM 2 codes */
->> +    { 0x101, "operation failed" },
->> +};
-> Wouldn't those codes be better defined in tpm_ioctl.h?
+This should be addressed by:
+https://patchew.org/QEMU/20190713143311.17620-1-marcandre.lureau@redhat.com/
 
-tpm_int.h has some already. will add some more there.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1837909
+
+Title:
+  test-char fails if host has no network interfaces
+
+Status in QEMU:
+  New
+
+Bug description:
+  # ./tests/test-char =
+
+  # random seed: R02S8602535bf831a74bca571d8c416d8161
+  1..34
+  # Start of char tests
+  ...
+  ok 12 /char/websocket
+  # Start of stdio tests
+  # End of stdio tests
+  # Start of socket tests
+  # Start of server tests
+  # Start of mainloop tests
+  Unexpected error in inet_parse_connect_saddr() at util/qemu-sockets.c:421:
+  # =
+
+  # address resolution failed for 127.0.0.1:42275: Name or service not known
+  # =
 
 
-Stefan
+  Aborted (core dumped)
 
+  =
 
+  # ip a
+  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group=
+ default qlen 1000
+      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+      inet 127.0.0.1/8 scope host lo
+         valid_lft forever preferred_lft forever
+      inet6 ::1/128 scope host =
+
+         valid_lft forever preferred_lft forever
+
+  =
+
+  This seems to be related to use of AI_ADDRCONFIG in qemu-sockets.c inet_p=
+arse_connect_saddr, dropping it fixes the test. 'man getaddrinfo' makes it =
+sound like AI_ADDRCONFIG requires the host to have a non-loopback ipv4 or i=
+pv6 address available
+
+  This host setup may seem niche, but it is what the 'mock' RPM build
+  tool has by default. In Fedora we run the test suite during the RPM
+  build, so the failing test causes a bit of pain for certain workflows
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1837909/+subscriptions
 
