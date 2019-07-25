@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB5A75FD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:30:26 +0200 (CEST)
-Received: from localhost ([::1]:37009 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8776875FDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 09:31:05 +0200 (CEST)
+Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqugL-0002AA-0q
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:30:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37865)
+	id 1hqugw-0004g9-34
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 03:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37727)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hqufc-0000dh-FN
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:42 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hqufX-00055S-SL
+ (envelope-from <dgibson@ozlabs.org>) id 1hqufa-0000dM-1v
  for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:39 -0400
-Received: from ozlabs.org ([203.11.71.1]:56973)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgibson@ozlabs.org>) id 1hqufX-00054L-Hj
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 03:29:37 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60505)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hqufX-0004Yo-4s; Fri, 26 Jul 2019 03:29:35 -0400
+ id 1hqufW-0004Ye-Qz; Fri, 26 Jul 2019 03:29:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45w11J0HRMz9sBF; Fri, 26 Jul 2019 17:29:23 +1000 (AEST)
+ id 45w11J1DyBz9s3l; Fri, 26 Jul 2019 17:29:24 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1564126164;
- bh=BP+uvD7HjEup36Dg4X8ruWZdRh62v1XWUKKL0W1ff0c=;
+ bh=gwdM3HACaL/zyCLDGufOukHRIgTremEbI+0AuvciFZ0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J48gOQFO1Qo6NsLt06C8IQwEHxa/qqNflYFdcQRxCUhlKIi+BPRZn3quhYzFxn0kR
- zMJwPnnJL/RON6wdsVqaRTTylPzxehdZeYbZYBxuzcDQCemz1PMIqD8d0VTs7FTu3l
- IymH0xi7Y9xKXo1lEh0/fNCiZGB5zPmdVBzcz5zc=
-Date: Thu, 25 Jul 2019 13:26:29 +1000
+ b=C6Jp+4dP+KbIHM4VeNDXA2KZB3njktis2sDQD6VM/QM4Lae9uR7oQUws3VJGIsZ5B
+ KcA5gt0YP5bKI1Gfk7QSnRSJZgCThm1EFC9dOMuaoWiTqZIiZ0RoapdvHTREEhvf0t
+ hulBtfPfzoCYikOIRL6jgyoegHuyW5eYZEa4Y0l8=
+Date: Thu, 25 Jul 2019 13:27:23 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Amol Surati <suratiamol@gmail.com>
-Message-ID: <20190725032629.GA28601@umbus>
-References: <20190723090138.30623-1-clg@kaod.org>
- <20190724032308.GV25073@umbus.fritz.box>
- <0b80925b-c25b-04ee-2875-cbd155497a55@kaod.org>
- <20190724085730.GX25073@umbus.fritz.box>
- <20190724145504.GA29378@arch>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190725032723.GB28601@umbus>
+References: <20190722182347.25075-1-clg@kaod.org>
+ <20190723013808.GJ25073@umbus.fritz.box>
+ <177076c3-b418-fb52-74c9-ee98f5fe4694@kaod.org>
+ <20190723063730.GT25073@umbus.fritz.box>
+ <9dcb77c1-ff45-921a-6b98-6f1c3b67b89a@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
+ protocol="application/pgp-signature"; boundary="RASg3xLB4tUQ4RcS"
 Content-Disposition: inline
-In-Reply-To: <20190724145504.GA29378@arch>
+In-Reply-To: <9dcb77c1-ff45-921a-6b98-6f1c3b67b89a@kaod.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH] ppc/pnv: Generate phandle for
- the "interrupt-parent" property
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] ppc/pnv: Introduce PowerNV machines with
+ fixed CPU models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,91 +60,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---bg08WKrSYDhXBjb5
+--RASg3xLB4tUQ4RcS
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 24, 2019 at 08:25:04PM +0530, Amol Surati wrote:
-> On Wed, Jul 24, 2019 at 06:57:30PM +1000, David Gibson wrote:
-> > On Wed, Jul 24, 2019 at 09:11:54AM +0200, C=E9dric Le Goater wrote:
-> > > On 24/07/2019 05:23, David Gibson wrote:
-> > > > On Tue, Jul 23, 2019 at 11:01:38AM +0200, C=E9dric Le Goater wrote:
-> > > >> Devices such as the BT or serial devices require a valid
-> > > >> "interrupt-parent" phandle in the device tree and it is currently
-> > > >> empty (0x0). It was not a problem until now but since OpenFirmare
-> > > >> started using a recent libdft (>=3D 1.4.7), petitboot fails to boo=
-t the
-> > > >> system image with error :
-> > > >>
-> > > >>    dtc_resize: fdt_open_into returned FDT_ERR_BADMAGIC
-> > > >>
-> > > >> Provide a phandle for the LPC bus.
-> > > >>
-> > > >> Suggested-by: Greg Kurz <groug@kaod.org>
-> > > >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > >=20
-> > > > I've applied this, since it looks to be correct.
-> > > >=20
-> > > > But.. can you connect the dots for me in how this being missing
-> > > > results in a BADMAGIC error??
-> > >=20
-> > > Some binary called by petitboot segfaults when trying to kexec an ima=
-ge on=20
-> > > a system with a bogus DT (generated by QEMU). I don't know exactly wh=
-ich one=20
-> > > as I only see the error message above and the segv message in dmesg
+On Wed, Jul 24, 2019 at 11:32:00AM +0200, C=E9dric Le Goater wrote:
+> On 23/07/2019 08:37, David Gibson wrote:
+> > On Tue, Jul 23, 2019 at 08:00:27AM +0200, C=E9dric Le Goater wrote:
+> >> On 23/07/2019 03:38, David Gibson wrote:
+> >>> On Mon, Jul 22, 2019 at 08:23:47PM +0200, C=E9dric Le Goater wrote:
+> >>>> Make the current "powernv" machine an abstract type and derive from =
+it
+> >>>> new machines with specific CPU models: power8, power8e, power8nvl,
+> >>>> power9.
+> >>>>
+> >>>> The "powernv" machine is now an alias on the "powernv9" machine.
+> >>>>
+> >>>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> >>>
+> >>> Ah, sorry, I wasn't clear here.  I don't think we need a different
+> >>> machine type for every cpu model, I just think we should have powernv8
+> >>> and powernv9.  POWER8E and POWER8NVL don't significantly change the
+> >>> system design (IIUC) so they can still be done with "-machine powernv8
+> >>> -cpu POWER8E" or whatever.  I expect the same will be true for POWER9'
+> >>> when that comes along
+> >>
+> >> I understand but I am afraid we will to have one machine per CPU famil=
+y=20
+> >> because POWER8E and POWER8NVL already have their own PnvChip :=20
+> >>
+> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8, pnv_chip_power8_class_=
+init),
+> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8E, pnv_chip_power8e_clas=
+s_init),
+> >>     DEFINE_PNV8_CHIP_TYPE(TYPE_PNV_CHIP_POWER8NVL,
+> >>                           pnv_chip_power8nvl_class_init),
 > >=20
-> > Ok, I'm still not seeing how that gets you to a BADMAGIC error.
+> > Hrm.  Is there an actual reason we need different chip classes for
+> > these? =20
+> The POWER8 (8E, 8, 8NVL) chips differ by the core :=20
 >=20
-> If I may interject, as this patch is related to the qemu bug:
-> https://bugs.launchpad.net/qemu/+bug/1826827.
+>     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8E_BASE       =3D 0x004B=
+0000,
+>     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8_BASE        =3D 0x004D=
+0000,
+>     target/ppc/cpu-models.h:    CPU_POWERPC_POWER8NVL_BASE     =3D 0x004C=
+0000,
 >=20
-> The error is printed by dtc_resize in kexec.c from kexec-lite
-> (antonblanchard/kexec-lite).
+> The chip model is different :
 >=20
-> There are two places where dtc_resize is called -
-> (1) initialize_fdt, when kexec is passed a dtb file.
-> (2) fdt_from_fs, when kexec must make dtc read /proc/device-tree to form
->     a dtb.
->=20
-> If initialize_fdt is called with a file which is an invalid dtb, the
-> dtc_resize prints the FDT_ERR_BADMAGIC error.
->=20
-> Bug# 1826827 shows that dtc is one application that does
-> crash, although through the firing of an assertion, in the absence of
-> the mentioned properties. (fix to avoid the crash already checked into
-> dtc upstream, commit 8f69567622; to be released with dtc-v1.5.1).
->=20
-> Assuming that the crashing app (it is not known here what it is) is
-> supposed to create a dtb for kexec, and its crash leaves behind an
-> incomplete/invalid dtb file, the initialize_fdt might receive an invalid
-> dtb.
+>     k->chip_cfam_id =3D 0x221ef04980000000ull; /* P8 Murano DD2.1 */
+>     k->chip_cfam_id =3D 0x220ea04980000000ull; /* P8 Venice DD2.0 */
+>     k->chip_cfam_id =3D 0x120d304980000000ull; /* P8 Naples DD1.0 */
+> =20
+> The chiplets are different also. NVL has a NPU and a different LPC bus wh=
+ich
+> is modeled. There are different number of PHBs.
 
-Ok, thanks.  That's what I was after.
+Ah, ok.  That seems like enough reason.
 
 >=20
+> > Even if there is, I don't see an inherent reason that implies separate
+> > machine classes as well.=20
 >=20
-> Another possibility for that error exists within the fdt_from_fs function,
-> but that needs a version of kexec-lite at least 5 years old, which is
-> unlikely to be used here I guess.
+> I will see if we can have a single powernv8 machine.
 >=20
->=20
->=20
-> If this patch fixes both the crash and the error "dtc_resize: ....",
-> it is likely that dtc (or anything else which depends on libfdt) was the
-> cause of the crash, with dtc/libfdt version being < g8f69567622.
->=20
->=20
-> Thanks,
-> -amol
+> C.
 >=20
 
 --=20
@@ -152,25 +140,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---bg08WKrSYDhXBjb5
+--RASg3xLB4tUQ4RcS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl05IWIACgkQbDjKyiDZ
-s5JbmBAA5WIZ3dvYe9uGdTfM/666Gca/3i12NMI5TqmN9dM9U/CE+6ZTpFTidioD
-s5toKUoiwX7OFJu5KKiaqpCIIlG/bdqGx7u8WDAaeSNEdNfXynsknkDNhjcZK0+t
-H5bdTYtkPazUSsQij255MGyiwNJ9TuSVOc2io6dlTgKFbixC59aPxH89yWWZOrme
-PLXYD5S1lQAWzFPgVbhw1tLFs+YSgt1d5tYd3vpCbpV1KXnUn2+FFEqtVrHB+3ie
-5i7SZvjDLQJKPZtAtj9CbI/YX5yoRu+qcB0U/18ESHJKNhOln30p+0wq63lDO8XQ
-cCVsO8Q5CKsTiBCuVPJVr8HLvqxNWfVXk3HfLabf6gZNatQFZFBnaMoNHyPDaMvW
-FSmC9juA4A9z54qZ9r+nV1miC/szMjkp3+pe4luVmzPVSqS5RIKYo9npzRx0RTVZ
-QXGOEcEpXSXhhEDI97U8g8Mtz8UhH5p2sffeHQsQHZTXLPN3p/nVI6UWhbSyJGrQ
-YYt71mMtvXz57sAl3wRHeALphaYgZzSvRJFSI9NdDmkBDSQDZtZxGJICJSbJJbdF
-rCLsp7ejbCN55gE7TpSwaW8SAfkmIMgYbxCeJpW+r1jtJGJd+0bjWoqARNd1kIkj
-IPRQcFwzWWuOSoUdBSWGngig2Pfj/0JC3Ft+/xEocupb0TVWjfs=
-=MHRe
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl05IZsACgkQbDjKyiDZ
+s5ICHw//UFch0CquR50qxhq9So+c2DHSUZOLXx63R2GTueMfU7Oe2arRv9Aldt/g
+rK6ik6rrGadG9xZ+agc7K6JnsCorHgxJwPlc7r6jy1huJfBQ29mbHuw4KtxaUBkC
+cBnrAG0KkQtzUg3QwH7TT20INIE0JXxaLVORZpEtpUm7yBrk/A2EYqdo8RXvu0ke
+5OlApMig9khdCnKr/MtzB5iEDlE1VdNsm9pZl1qgGQUJ5zBNHz3qmc6tBGp+zqxx
+nV0YJXxiOcq6vkMuJJErAZ5ZwXAW8Z1SBaTK4Bw2LlUB0I983vvKTKKnpi3VMIC3
+VzOV/LuMk2IJPuuqNHBkABUwIJmaEG5YYjll/6gBu/BSkAjv5u6/QYB/u7uuyfZA
+q029Lg0na6hTOFkIB1HyYn6n5mpzXxlE69Sr3s+s80uK4985xZzg89Hl8hj4JdkR
+NNW4wjzyiQDtiVoRyQM6me6a++fvJT8McpxXvOvlhFCzbBxYexhQh4Qqs2m4o1gd
+s9AbBa7mvEd99PBSat6q1Fmi2MPR7Wzpmlk/s7doLxYvy9guXg+S+FmVvmIbTwJJ
+P8Jc5aB+/yPIOolLfMsQPbFO+Y8GMsI7VrymSTiljBsvzgaU8om/PWV1hzoaHBaL
+MmKFAIquCq75jmyYa4J6u90M/CnPgaSa/WQ2x9V+q9vi4uAG/3I=
+=ENMT
 -----END PGP SIGNATURE-----
 
---bg08WKrSYDhXBjb5--
+--RASg3xLB4tUQ4RcS--
 
