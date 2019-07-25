@@ -2,68 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8FD75283
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:22:33 +0200 (CEST)
-Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091A875290
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:27:50 +0200 (CEST)
+Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqfZh-000454-7J
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46909)
+	id 1hqfen-00007I-8c
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47867)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hqfZU-0003f6-JU
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:22:21 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hqfeY-0007pf-R5
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hqfZT-0003vJ-MP
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:22:20 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:33456)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfZT-0003v9-Ht
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:22:19 -0400
-Received: by mail-qt1-f195.google.com with SMTP id r6so45225275qtt.0
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:22:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=glXy1hHBHBaz60wgQfXt41x7b3C2atHxP3ge3rxZisI=;
- b=TpAvjQO4L7j5fN2fB9rJ/S2eCiiUy/mzNnqkAUSm5i32eMx79RZSg2ruut/s/j4ICg
- t1UlyDRtp/fd5wa3bb5qNsfsweGA0vLFJG1FK153yF+BmH8Uo+J1Y85U9ObOQkJsMz0S
- EbeQuOWXPz1e4lNpBZe84RTwfquFb8CEUmobKFqYnbBlwZWpT32uvmh+iMm+s1ek/TOw
- 6C9gvHbe/tV8ymvfmPNHnB5LFPT8jmITHd+wlCvTNSNlPi3V9cPt53IjUiFCWgw3KOrh
- qRyK8OOvtxnNbyfOwwmzCUBUX63w6lifYKtlXlGS/I0ewdVYVV6qXZts2yp1zSYWDzjz
- ayAA==
-X-Gm-Message-State: APjAAAVRpdesfVKeHktmzcsUAaCPfozUZHnAMbZTxYrqmBoKh72ncvVg
- mrfej/SuI66deXVKeVDU/miptQ==
-X-Google-Smtp-Source: APXvYqy29fZ4MWaFLqlihFMv98uPe3Fj/COGoWjVDwtiuqBXw0A1Jya1tJJ1/sf1enAu6u5Mr6G+tA==
-X-Received: by 2002:ad4:5283:: with SMTP id v3mr63979805qvr.207.1564068138961; 
- Thu, 25 Jul 2019 08:22:18 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
- by smtp.gmail.com with ESMTPSA id
- j184sm20075739qkc.65.2019.07.25.08.22.15
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 25 Jul 2019 08:22:18 -0700 (PDT)
-Date: Thu, 25 Jul 2019 11:22:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Message-ID: <20190725112132-mutt-send-email-mst@kernel.org>
-References: <20190329104904.450fefef@x1.home>
- <dbe614f5-47c8-b05d-dd73-2fbcd1579ae3@amd.com>
- <20190723112618.0efafa8d@x1.home> <20190724071439.GB18771@xz-x1>
- <20190724040837-mutt-send-email-mst@kernel.org>
- <20190724100331.GA14454@xz-x1> <20190724084355.627d44cf@x1.home>
- <20190725063733.GH14454@xz-x1>
- <20190725064244-mutt-send-email-mst@kernel.org>
- <20190725080023.24de0d82@x1.home>
+ (envelope-from <balaton@eik.bme.hu>) id 1hqfeT-0008Su-Je
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:27:34 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28210)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hqfeT-0008S7-9X
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:27:29 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1DC4C7456C8;
+ Thu, 25 Jul 2019 17:27:27 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0019E7456B4; Thu, 25 Jul 2019 17:27:26 +0200 (CEST)
+Message-Id: <e626b64a89116e519e6c307c83dc8624616cf309.1564068311.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Thu, 25 Jul 2019 17:25:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190725080023.24de0d82@x1.home>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.195
-Subject: Re: [Qemu-devel] [RFC PATCH] pci: Use PCI aliases when determining
- device IOMMU address space
+Content-Type: text/plain; charset=UTF-8
+To: qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
+Subject: [Qemu-devel] [PATCH] ati-vga: Attempt to handle CRTC offset not
+ exact multiple of stride
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +48,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Singh, Brijesh" <brijesh.singh@amd.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <zhexu@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>, "Suthikulpanit,
- Suravee" <Suravee.Suthikulpanit@amd.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 25, 2019 at 08:00:23AM -0600, Alex Williamson wrote:
-> On Thu, 25 Jul 2019 06:43:04 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Thu, Jul 25, 2019 at 02:37:33PM +0800, Peter Xu wrote:
-> > > After re-read Michael's reply, I feel like what Michael suggested is
-> > > that we can simply ignore the bus-number-change case by the guest OS
-> > > for now, but I might be wrong.  
-> > That's what I suggested, yes.
-> 
-> "by the guest OS", yes, that's the part that's beyond the scope of this
-> effort.  If we deem it necessary to support IVHD DMA alias though, it's
-> the guest firmware that determines the initial bus numbers, which is
-> part of the DeviceID used to defined IVHD entries and we would not be
-> able to ignore that initial programming.  Everything related to the
-> guest OS renumber PCI buses is out of scope, the guest firmware
-> programming initial bus numbers is not.  
+MacOS seems to need this and the resulting vbe_start_addr seems
+correct but I'm not sure this is how it should work (picture is still
+broken with MacOS but probably due to firmware problems now).
 
-Right. That's par for the course, we have same issues with MCFG
-and others. bios programs it and then we generate acpi based on
-that.
+It also occured to me that these CRTC regs are also present in VGA so
+I wonder if they should be shared in case some drivers try to poke
+them via VGA regs. Added a comment noting this although in practice
+drivers I've tried so far program the card accessing ati regs so I did
+not attempt to change it.
 
->Thanks,
-> 
-> Alex
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/ati.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index b849f5d510..d1db07dd2f 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -50,6 +50,7 @@ static void ati_vga_switch_mode(ATIVGAState *s)
+         s->mode =3D EXT_MODE;
+         if (s->regs.crtc_gen_cntl & CRTC2_EN) {
+             /* CRT controller enabled, use CRTC values */
++            /* FIXME Should these be the same as VGA CRTC regs? */
+             uint32_t offs =3D s->regs.crtc_offset & 0x07ffffff;
+             int stride =3D (s->regs.crtc_pitch & 0x7ff) * 8;
+             int bpp =3D 0;
+@@ -103,14 +104,20 @@ static void ati_vga_switch_mode(ATIVGAState *s)
+             if (stride) {
+                 vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_VIRT_=
+WIDTH);
+                 vbe_ioport_write_data(&s->vga, 0, stride);
+-                if (offs % stride =3D=3D 0) {
+-                    vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_Y=
+_OFFSET);
+-                    vbe_ioport_write_data(&s->vga, 0, offs / stride);
+-                } else {
+-                    /* FIXME what to do with this? */
+-                    error_report("VGA offset is not multiple of pitch, "
+-                                 "expect bad picture");
++                if (offs % stride) {
++                    /* FIXME Is this correct? */
++                    warn_report("CRTC offset is not multiple of pitch");
++                    vbe_ioport_write_index(&s->vga, 0,
++                                           VBE_DISPI_INDEX_X_OFFSET);
++                    vbe_ioport_write_data(&s->vga, 0,
++                                          offs % stride / (bpp / 8));
+                 }
++                vbe_ioport_write_index(&s->vga, 0, VBE_DISPI_INDEX_Y_OFF=
+SET);
++                vbe_ioport_write_data(&s->vga, 0, offs / stride);
++                DPRINTF("VBE offset (%d,%d), vbe_start_addr=3D%x\n",
++                        s->vga.vbe_regs[VBE_DISPI_INDEX_X_OFFSET],
++                        s->vga.vbe_regs[VBE_DISPI_INDEX_Y_OFFSET],
++                        s->vga.vbe_start_addr);
+             }
+         }
+     } else {
+--=20
+2.13.7
+
 
