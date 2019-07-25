@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C11752A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:32:53 +0200 (CEST)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB4752B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Jul 2019 17:33:53 +0200 (CEST)
+Received: from localhost ([::1]:33030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqfjg-0005nm-12
-	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49075)
+	id 1hqfkd-0000i3-8Q
+	for lists+qemu-devel@lfdr.de; Thu, 25 Jul 2019 11:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49109)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hqfih-0003UF-T6
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:52 -0400
+ (envelope-from <mst@redhat.com>) id 1hqfim-0003o7-U3
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hqfig-0001xW-PL
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:51 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]:34856)
+ (envelope-from <mst@redhat.com>) id 1hqfil-0001zo-Qe
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:56 -0400
+Received: from mail-qt1-f172.google.com ([209.85.160.172]:38691)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfig-0001xI-JR
- for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:50 -0400
-Received: by mail-qt1-f181.google.com with SMTP id d23so49520349qto.2
- for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:31:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hqfil-0001zc-LY
+ for qemu-devel@nongnu.org; Thu, 25 Jul 2019 11:31:55 -0400
+Received: by mail-qt1-f172.google.com with SMTP id n11so49469725qtl.5
+ for <qemu-devel@nongnu.org>; Thu, 25 Jul 2019 08:31:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=qK4MNfjcAxJwf+DeGNG4n+y7iHUMdDAt4rT1q9ypIWg=;
- b=ulzR4xRYrchXHdBxkirjtmTjaLfbHxoqDzbMJQJZ7X90s18PAa0PnzKr2m4LZV1NWx
- tyyrEmGVLoUl7hGFKgcFutgQrZj4cMWCekkEOGctC58esO5MiEFi7iyPDHAxZ6PGNWwh
- 5bCJ32G66mjMsdJu7TZIUYv3fH3NE4C1c4Qe+I2wsGE+6sY/5Yo94XJjV8bllspmARTa
- ID95qHkfKwe/bNbppYLQBbR2Wmq6YWXtFVspJY0/i7OQ3i7feZGXe4zKPJG2k6bKsLRc
- TXdHLw3VDM8Vx16+UbtIpNjCm1BGQTJVIzrah+fgcg8fsvJgjmEj9AqR3hZVkU968Egw
- j/1g==
-X-Gm-Message-State: APjAAAWAbOhWOY2+id5NGxGDsgnRjh7a8vzuYzvKJ9ZqUC6Ajd9VIt38
- rqJUbLuY5uQwNSwG029s7IJAAn8cBQJpnA==
-X-Google-Smtp-Source: APXvYqzjpiSbFKXphSVJyw/9WNRAWLbNDzN/nKVNGc25cI3u6sp14JolaqA9gskP93DKekZstKQ4ew==
-X-Received: by 2002:ac8:65d4:: with SMTP id t20mr58015844qto.249.1564068709815; 
- Thu, 25 Jul 2019 08:31:49 -0700 (PDT)
+ bh=dA9LUO6VEsx//VU7t8V1eZMwkDlrJzb1dpjUR6L1COU=;
+ b=EpvqwaLLULvcrfcZCJihXR4Xw8hcwjw1+AuVML+RVPqIcKSORYJT66wca6Y42Oyr5U
+ BGkMN3tCdv/I0ERnb7yL7mOnv+WWUDZlnP0k69mMGw9bB6YsJhEthoi8VTp3S//eChzP
+ ddXbd59fIVFgwrlLF4PwNfuWyMBRRaBbZ+8XGCFOGfSNVbL8YA8AhWXSFokthD0kWJ2W
+ xfr8EI9vGdLQw9rGlsgqBlZN0cUyBuqw3/fXKyQOoM5RLqjMY4jqT+HOIt8abiEAxoHS
+ zNq/nf23bJwYpVHPBATt7mSYkNJv9mhdnoUVsofUrJ54VuhPm4bilNuktEpfQACScw8k
+ l+Ug==
+X-Gm-Message-State: APjAAAWe7EQ6IXv0qagBrHcmWaDlHrOiZlQrIS0iaQDsfMUrzqaerOuN
+ pdGWEbu11cs1paIFrUkL+2pKVQe24mmAgA==
+X-Google-Smtp-Source: APXvYqxZCws6qgZeuf32d1SbcE4YpdOWAde5wy2uAKriVp2OIYr2Rlqohy9pvoVDLXSNTyKfvyKVMA==
+X-Received: by 2002:a05:6214:1274:: with SMTP id
+ r20mr61646308qvv.127.1564068714754; 
+ Thu, 25 Jul 2019 08:31:54 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
  by smtp.gmail.com with ESMTPSA id
- g3sm20953801qkk.125.2019.07.25.08.31.46
+ c5sm31052308qta.5.2019.07.25.08.31.52
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 25 Jul 2019 08:31:49 -0700 (PDT)
-Date: Thu, 25 Jul 2019 11:31:44 -0400
+ Thu, 25 Jul 2019 08:31:54 -0700 (PDT)
+Date: Thu, 25 Jul 2019 11:31:50 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1563526469-15588-1-git-send-email-wrfsh@yandex-team.ru>
+Message-ID: <20190722134108.22151-2-david@redhat.com>
 References: <20190725153059.7313-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +57,9 @@ X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.181
-Subject: [Qemu-devel] [PULL 04/12] i386/acpi: show PCI Express bus on
- pxb-pcie expanders
+X-Received-From: 209.85.160.172
+Subject: [Qemu-devel] [PULL 05/12] virtio-balloon: Fix wrong sign extension
+ of PFNs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,45 +72,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-stable@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Evgeny Yakovlev <wrfsh@yandex-team.ru>, Richard Henderson <rth@twiddle.net>
+ David Gibson <david@gibson.dropbear.id.au>, qemu-stable@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Evgeny Yakovlev <wrfsh@yandex-team.ru>
+From: David Hildenbrand <david@redhat.com>
 
-Show PCIe host bridge PNP id with PCI host bridge as a compatible id
-when expanding a pcie bus.
+If we directly cast from int to uint64_t, we will first sign-extend to
+an int64_t, which is wrong. We actually want to treat the PFNs like
+unsigned values.
+
+As far as I can see, this dates back to the initial virtio-balloon
+commit, but wasn't triggered as fairly big guests would be required.
 
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Evgeny Yakovlev <wrfsh@yandex-team.ru>
-Message-Id: <1563526469-15588-1-git-send-email-wrfsh@yandex-team.ru>
+Reported-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20190722134108.22151-2-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/i386/acpi-build.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-balloon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index e7b756b51b..f3fdfefcd5 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1914,10 +1914,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             scope = aml_scope("\\_SB");
-             dev = aml_device("PC%.02X", bus_num);
-             aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
--            aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-             aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-             if (pci_bus_is_express(bus)) {
-+                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-+                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
-                 aml_append(dev, build_q35_osc_method());
-+            } else {
-+                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-             }
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index e85d1c0d5c..515abf6553 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -343,8 +343,8 @@ static void virtio_balloon_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+         }
  
-             if (numa_node != NUMA_NODE_UNASSIGNED) {
+         while (iov_to_buf(elem->out_sg, elem->out_num, offset, &pfn, 4) == 4) {
++            unsigned int p = virtio_ldl_p(vdev, &pfn);
+             hwaddr pa;
+-            int p = virtio_ldl_p(vdev, &pfn);
+ 
+             pa = (hwaddr) p << VIRTIO_BALLOON_PFN_SHIFT;
+             offset += 4;
 -- 
 MST
 
