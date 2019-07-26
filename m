@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C502E7639C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:34:45 +0200 (CEST)
-Received: from localhost ([::1]:38183 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B6D763A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:39:39 +0200 (CEST)
+Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqxYh-0002EY-T8
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:34:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47053)
+	id 1hqxdR-0004AL-Gv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hqxYL-0001jC-Di
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:34:25 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hqxdC-0003lB-2Y
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hqxYJ-0004Vi-Bd
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:34:21 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43939)
+ (envelope-from <pbonzini@redhat.com>) id 1hqxd7-0004b9-2D
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:20 -0400
+Received: from mail-wm1-f52.google.com ([209.85.128.52]:52058)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hqxYJ-00046J-3K
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:34:19 -0400
-Received: by mail-ot1-x343.google.com with SMTP id j11so30589204otp.10
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 03:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OoLRuocXcyae0c39AfRGFFWkG6eGTv2vwCCtYPEVV7Y=;
- b=iM0KPVuqOXCUwMVOHQkNDQk0jL1aDjxuz2N3JNymmtzQiM/c0suNjHmhtpfZH9hYHb
- LKXdpfo2vm4jpFEjBSu4TUi915Df6hIfUdowOgrtF//o9LuKSbKnq/cOGcH/FT1ksey0
- 5idTtyr35a4sB+pbZqttCzBSZtLT1Pfo/BSwPxAKrdpIZezDl5WwyIBGKxCr2ZyG+5rA
- XCDxojeXbPQDksG3mwZgfoKqNEXCVLMq1lxtA6gU0HwmPO1cLajftGKG6sp3DohgmEEU
- xVy9WpGL3V+B36xbZZY7+20HNN122D1OyTCP+aBsyKGyzeDPsMoRvw5UhNH1Au4smYpl
- A6xQ==
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hqxd6-0004LK-Qq
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:16 -0400
+Received: by mail-wm1-f52.google.com with SMTP id 207so47602504wma.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 03:39:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OoLRuocXcyae0c39AfRGFFWkG6eGTv2vwCCtYPEVV7Y=;
- b=fpXbc3UrKLu45B1OlGNwcXIxeolgF+wEfjgXkRUdvykhvBDb4Mxuf/7yyxgDHNWyfD
- dw5KKepKHV+Tu++9UfR8ozqJ7H/SHPD8jWp7qE3z2vzjGP3d0P+RzARYXDfBGM/RsJK9
- qou1Kb7Efh7jyvLYBQPsI6gVfBTI3+8xfLOEYDp0GoQz9yTpxKA9luJx5e01FG/RoXol
- uHNTOrkzXzlhF/9uBblIy6lXncF6P4SIcHnitOXAlTaesjazThraXMoCYuFfeXnRhYZX
- 0fSTGuS+9+Ft7w437dIze6zcKH5TMbrlvoK9UjK50LFCzbozIFSofpZgMZEisrr/A8cb
- V/Vw==
-X-Gm-Message-State: APjAAAWofAnSEeWQrxcOvR+G8S64CGuvYcSoZMZwyahxwQgR2bQ3+X6B
- Dn2MLjQTDGDDmvKXhx6lQFIvfeAPlFBmVQ3NzmNP2g==
-X-Google-Smtp-Source: APXvYqw5MARY2qQ8WkEFlLREabgLfbbvcsqXA+W8g4Iy+qm5lQyVqZT0uzwcZvOA7UApbezemJl6zrK10BSvS5exFkA=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr21177301otk.221.1564137253030; 
- Fri, 26 Jul 2019 03:34:13 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rOz9vd5bQ8csDJcR9DambSHLy1SbYwjYJbDKArh43Xg=;
+ b=B6ZlK+ALu7g7NDgUBDxNwZ5FTFU0Ge2oGyWQMgtTVuX3hR0JNKrpmc4svuBVWBI3wm
+ F/7MxxyEFfcvDF9bE9ht2i6sgxibdcBvTBsGf7vSN/bwJOcMqCU4Pr6jez2NSJ4vmsAg
+ M9rs7ptOiTFg4k8/a0Kktdj5IlJrPIB0ayKmug4F6hRTCzq2dLUYcQqduNndFX/4KTqQ
+ F1+aruz2Eo7m1KclXqeJHtJKDqubpVqFplG7PUAnL0ss7IwDVV8ttbUZEl83qkwQcc9y
+ yvh3j5DPSImK5vek6CFJftCtIqdDr/wcc3+a5e+8UJ3LkzYFLeHfs1HIOGWlaYUxAowG
+ 6rEg==
+X-Gm-Message-State: APjAAAVRStzovTSGn0QtVFo4GjYp9DORbPNDCu7/FM7/UG0wmySCoZfu
+ j5T6rJ5O9gpRo4KzC8ktCTauow==
+X-Google-Smtp-Source: APXvYqySqBsFwi1qD2SQ94MLlt8IU6yX/TidKoQLMGQ+X5dzMVFDwUIIAig3fOQXDF1s7f3o7d66MA==
+X-Received: by 2002:a05:600c:20ca:: with SMTP id
+ y10mr52433565wmm.72.1564137552685; 
+ Fri, 26 Jul 2019 03:39:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:cc23:f353:392:d2ee?
+ ([2001:b07:6468:f312:cc23:f353:392:d2ee])
+ by smtp.gmail.com with ESMTPSA id h8sm53629339wmf.12.2019.07.26.03.39.11
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 26 Jul 2019 03:39:11 -0700 (PDT)
+To: "Oleinik, Alexander" <alxndr@bu.edu>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20190725032321.12721-1-alxndr@bu.edu>
+ <20190725032321.12721-5-alxndr@bu.edu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <5f030ef4-2cca-4f28-cdb2-20924cd2ad6e@redhat.com>
+Date: Fri, 26 Jul 2019 12:39:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190726103010.31741-1-alex.bennee@linaro.org>
- <CAFEAcA9ioE_XcSuU_MXZAW=v-7Me6Nq_z9A830i+RswfNxGjcA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9ioE_XcSuU_MXZAW=v-7Me6Nq_z9A830i+RswfNxGjcA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 26 Jul 2019 11:34:02 +0100
-Message-ID: <CAFEAcA9q1=_faoFSJ0QFWuiN6h4WsOCK5LGfeo=OwO65vW6SSA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v4] target/arm: generate a custom MIDR for
- -cpu max
+In-Reply-To: <20190725032321.12721-5-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.52
+Subject: Re: [Qemu-devel] [RFC 04/19] fuzz: Add qos support to fuzz targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,56 +75,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "bsd@redhat.com" <bsd@redhat.com>,
+ "superirishdonkey@gmail.com" <superirishdonkey@gmail.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Jul 2019 at 11:30, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Fri, 26 Jul 2019 at 11:30, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
-> >
-> > While most features are now detected by probing the ID_* registers
-> > kernels can (and do) use MIDR_EL1 for working out of they have to
-> > apply errata. This can trip up warnings in the kernel as it tries to
-> > work out if it should apply workarounds to features that don't
-> > actually exist in the reported CPU type.
-> >
-> > Avoid this problem by synthesising our own MIDR value.
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> > +        /*
-> > +         * Reset MIDR so the guest doesn't mistake our 'max' CPU type =
-for a real
-> > +         * one and try to apply errata workarounds or use impdef featu=
-res we
-> > +         * don't provide.
-> > +         * An IMPLEMENTER field of 0 means "reserved for software use"=
-;
-> > +         * ARCHITECTURE must be 0xf indicating "v7 or later, check ID =
-registers
-> > +         * to see which features are present";
-> > +         * the VARIANT, PARTNUM and REVISION fields are all implementa=
-tion
-> > +         * defined and we choose to define VARIANT and set the others =
-to zero.
-> > +         */
-> > +        t =3D FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
-> > +        t =3D FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
-> > +        t =3D FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
-> > +        t =3D FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
-> > +        t =3D FIELD_DP64(t, MIDR_EL1, REVISION, 0);
->
-> Comment still says we set VARIANT but code says we set PARTNUM...
+On 25/07/19 05:23, Oleinik, Alexander wrote:
+> qos_helpers.c is largely a copy of tests/qos-test.c
+> 
+> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+> ---
+>  tests/fuzz/qos_fuzz.c    |  63 +++++++++
+>  tests/fuzz/qos_fuzz.h    |  29 ++++
+>  tests/fuzz/qos_helpers.c | 295 +++++++++++++++++++++++++++++++++++++++
+>  tests/fuzz/qos_helpers.h |  17 +++
+>  4 files changed, 404 insertions(+)
+>  create mode 100644 tests/fuzz/qos_fuzz.c
+>  create mode 100644 tests/fuzz/qos_fuzz.h
+>  create mode 100644 tests/fuzz/qos_helpers.c
+>  create mode 100644 tests/fuzz/qos_helpers.h
 
-I guess we might also briefly mention why we set PARTNUM
-("just in case guest code needs to distinguish this QEMU CPU from
-other software implementations, though this shouldn't be needed",
-or some such.)
+If there are functions that are exactly the same, please move them to a
+new file that is shared by qos-test.c and the fuzzing driver.  Other
+functions can stay in qos_fuzz.c.
 
-thanks
--- PMM
+Paolo
 
