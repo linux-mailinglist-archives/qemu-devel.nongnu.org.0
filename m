@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE28377093
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:51:29 +0200 (CEST)
-Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E74777097
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:52:22 +0200 (CEST)
+Received: from localhost ([::1]:42220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4NK-0003Si-TK
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57004)
+	id 1hr4OB-0007LJ-SC
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57120)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Mb-0001lW-7p
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:42 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Md-0001pV-Up
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Ma-0007IJ-8i
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:41 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38249)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Mc-0007Ok-Rt
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:43 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43171)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Ma-0007D6-2u
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:40 -0400
-Received: by mail-pf1-x443.google.com with SMTP id y15so24860118pfn.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:38 -0700 (PDT)
+ id 1hr4Mc-0007Hs-Lk
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:42 -0400
+Received: by mail-pl1-x643.google.com with SMTP id 4so18030133pld.10
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0JuwQx0rsSZ8qsmRHdUvrfpwMYNiERG9Y6tvmeQiWIA=;
- b=mdDlubgVyDpI0gBB/9wS4I3ZOTQgv4PpfZOk+KWeOqCkAjg83eDxHSixsyqM/xsBH/
- BUVd6oQhdvo5O9aiW5mkGLz7dEIhy3r0ivcthlWlYuq4gGzBsfLKkHKBneIkiO919vcx
- t1WvOzaFxWjUepiRoMhwm5dfyd/rmBatVGkWj0EmEZAEC+syAvh0jVEbFIZmuA+YoA6t
- ysnYu1tw3IFx1kJynkc7h3HfJyre+u0vB8LD4He5RzXNQMnMiQlfcT2jvVgTb3AVFOfw
- y/ZcEUS0wdrLVSzBk/yeO36PMtHFp9rn7/FUPQRpmh53uzbZ+jZYm8uuGIhZtB1sk5lg
- sDDg==
+ bh=hX3AW17o2PIgWW1hwgb4F4i9rjNSXrxFa91FWtRbpGo=;
+ b=gLloNoZOxtLByK/MTAwGv6CqokWdIJ7gMXXF9egTgTBWUsY6ZOo5ryePADqYcs71y4
+ GEmlszug5YpaT4L+LTC6lFAofXr2J8Vnb1w+80oi8P0WfwcFBLeMN95dIr7IHKsSp5QU
+ dXi5YcfuRUs3UvRJamcM+bSv72P9koioiekJg1/5gI+mzfdDCHLJA7KIMvDbC2IOAhI4
+ ldJRiPTDMBoynB2mBsKBu+y79Ro2DUABd4M2m6s2K3TceLQh2f9FVJOiWcwfYUl2qIf6
+ KDE4rvwKc78uHf8ygfhD+xBBpBDuTbFiYKSVZkKRiC0FmGRgHkHcSnmVBH/tl6nwonq8
+ vWYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=0JuwQx0rsSZ8qsmRHdUvrfpwMYNiERG9Y6tvmeQiWIA=;
- b=ffr9owdpy1THOs+hARYCoc8X4jsBDORmRC5DodLJbcTaaX9LYmZlWbBkd0l+zBsGpm
- A9UTEDG4CCA1RY3eeUjiDWfCYJjbXTYh3aa5UccM3aPOcu13zxbxZ1OQDlkVhjFP/q4e
- 8ShejMFIY64eOj11x0OjVQe6fqZTzmsFYMtTImp0Mu52kVHwCTOeJsBEZ3CfhaYinZ5c
- VGNkrZexU/Bsg9CERrIbBLmX0grd+iGk25ti9mygn/GyCSLG3Jmdul2WfImVVNN+z56/
- 5P8Y2qLi8WddPqRuJfC1YXo2v02IL715fzYIRh5FljGT6vWMkr4vndpnqHXgfFeqYXbU
- 7c6g==
-X-Gm-Message-State: APjAAAUXdiiip2N6vUUj1a1A83wCiKcVGxYGemS8bSqPSUdiFsEvLNnV
- 7whWKJxx4AU24jCSfNUe4ogaRTgdPNY=
-X-Google-Smtp-Source: APXvYqwvTy4iDYLI8dksQMq4dUVkoUFdrcz7PpaveHPuTEiudndRV441C6L2lXW/dW7b2EFVS2Wx7Q==
-X-Received: by 2002:a17:90a:3463:: with SMTP id
- o90mr101503225pjb.15.1564163437889; 
- Fri, 26 Jul 2019 10:50:37 -0700 (PDT)
+ bh=hX3AW17o2PIgWW1hwgb4F4i9rjNSXrxFa91FWtRbpGo=;
+ b=OUOVDFhwx8TnD3ugpGTKkhYl1m1UCMxP2wiB+bY9bW4qv7YA7Tz4z5wLtBrpsHsAoL
+ BXqsj/o2H5BZqq83A757iGh1z4xYsrL35MKLcCSYkTuXjAGc/hqK1ia1eDwECd6qzVzA
+ FyhYOL/NjHOzqOZaFHRCpObvgtQ+ku/EWrUbFlaUkFZbK56llwuGiRo3jG2D97n0AoNj
+ Xa0+BnC2m/73LPsnOpZCdEsG58ZHxoRL2VTR39aLCeL1MMFuokztTd/pNrKtawxrRsom
+ cNbsH3UmqxSNm6laVvaaTkmrYYh6g89EHkoyJCBGOxZiT2kdpK60jMs/p0ePM6LB03G5
+ sljA==
+X-Gm-Message-State: APjAAAVTZlUNyWz37rbj7HhmSu7mnT3i8qwo0u3rInjD1QzSZkvM8yQj
+ /M+QdWZ+aHGFjPbLjzho+/jwgfWk6C4=
+X-Google-Smtp-Source: APXvYqz/OoR1VHD8vyYiMB/yal0X+HBsVEoIEs9z2KKuafOWq7xy8mxS8eP4/Fsp4gntkB9nr0RnFQ==
+X-Received: by 2002:a17:902:2ac8:: with SMTP id
+ j66mr93064289plb.273.1564163439414; 
+ Fri, 26 Jul 2019 10:50:39 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.36
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:50:37 -0700 (PDT)
+ Fri, 26 Jul 2019 10:50:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:49:28 -0700
-Message-Id: <20190726175032.6769-4-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:49:29 -0700
+Message-Id: <20190726175032.6769-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH 03/67] target/arm: Remove offset argument to
- gen_exception_bkpt_insn
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH 04/67] target/arm: Remove offset argument to
+ gen_exception_internal_insn
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,7 +81,7 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The address of the current insn is still available in s->base.pc_next.
+The actual argument is 0 for all callers.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
@@ -89,42 +89,40 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 33f78296eb..19b126d4f3 100644
+index 19b126d4f3..0848fb933a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1256,12 +1256,12 @@ static void gen_exception_insn(DisasContext *s, int excp, int syn,
-     s->base.is_jmp = DISAS_NORETURN;
+@@ -1239,10 +1239,10 @@ static inline void gen_smc(DisasContext *s)
+     s->base.is_jmp = DISAS_SMC;
  }
  
--static void gen_exception_bkpt_insn(DisasContext *s, int offset, uint32_t syn)
-+static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
+-static void gen_exception_internal_insn(DisasContext *s, int offset, int excp)
++static void gen_exception_internal_insn(DisasContext *s, int excp)
  {
-     TCGv_i32 tcg_syn;
- 
      gen_set_condexec(s);
 -    gen_set_pc_im(s, s->pc - offset);
-+    gen_set_pc_im(s, s->base.pc_next);
-     tcg_syn = tcg_const_i32(syn);
-     gen_helper_exception_bkpt_insn(cpu_env, tcg_syn);
-     tcg_temp_free_i32(tcg_syn);
-@@ -8139,7 +8139,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             case 1:
-                 /* bkpt */
-                 ARCH(5);
--                gen_exception_bkpt_insn(s, 4, syn_aa32_bkpt(imm16, false));
-+                gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm16, false));
-                 break;
-             case 2:
-                 /* Hypervisor call (v7) */
-@@ -11611,7 +11611,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         {
-             int imm8 = extract32(insn, 0, 8);
-             ARCH(5);
--            gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
-+            gen_exception_bkpt_insn(s, syn_aa32_bkpt(imm8, true));
-             break;
-         }
++    gen_set_pc_im(s, s->pc);
+     gen_exception_internal(excp);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -1294,7 +1294,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
+         s->current_el != 0 &&
+ #endif
+         (imm == (s->thumb ? 0x3c : 0xf000))) {
+-        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
++        gen_exception_internal_insn(s, EXCP_SEMIHOST);
+         return;
+     }
  
+@@ -11984,7 +11984,7 @@ static bool arm_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+         /* End the TB early; it's likely not going to be executed */
+         dc->base.is_jmp = DISAS_TOO_MANY;
+     } else {
+-        gen_exception_internal_insn(dc, 0, EXCP_DEBUG);
++        gen_exception_internal_insn(dc, EXCP_DEBUG);
+         /* The address covered by the breakpoint must be
+            included in [tb->pc, tb->pc + tb->size) in order
+            to for it to be properly cleared -- thus we
 -- 
 2.17.1
 
