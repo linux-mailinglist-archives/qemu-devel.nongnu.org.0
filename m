@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7E9760C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 10:31:23 +0200 (CEST)
-Received: from localhost ([::1]:37312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1684A760BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 10:31:10 +0200 (CEST)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqvdK-0004BU-CY
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 04:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34146)
+	id 1hqvd4-00037s-IF
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 04:31:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34081)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hqvcV-0002HD-7a
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:30:34 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hqvcT-0002H0-EL
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:30:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hqvcS-0001IU-BB
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:30:29 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52909)
+ (envelope-from <dgibson@ozlabs.org>) id 1hqvcQ-0001G8-5e
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:30:28 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:47449)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hqvcM-0000vY-AR; Fri, 26 Jul 2019 04:30:26 -0400
+ id 1hqvcK-0000vs-IT; Fri, 26 Jul 2019 04:30:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45w2MT5yDJz9s4Y; Fri, 26 Jul 2019 18:30:13 +1000 (AEST)
+ id 45w2MV0CY3z9sML; Fri, 26 Jul 2019 18:30:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1564129813;
- bh=tYS/8sV48OjtUa7/ahOf1Z0vXCj3GYrNGs50+0OE21E=;
+ d=gibson.dropbear.id.au; s=201602; t=1564129814;
+ bh=BM2shhbOtIhLYqjd0ti6l6KAOnZyII2HMsg7wGVVoEw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BffoA7/WIR8aRwDlNe/AO5UkupBtaxmEyRnAYvQ8FA9737qP+qw6ye1yrf/hlRy3W
- H256eksU/415BLGwn+EmT9qS1J23V15f9sImGgycAqa5Xn37FkliisxQ33AjU7pGV1
- 8GffY9/uBAkw3auaQvRoYZ2QvwRB8w4C2Y8OX/1o=
-Date: Fri, 26 Jul 2019 18:01:07 +1000
+ b=MWv4zNGeiUyn35HUCRGL6hoqkuXZnJumWAcjzNvlU4bvjAFfQ2QVHlcCM0uxmlppY
+ Okv4f0r2YxxUUFAsdaAcUAOhZTvPsh0fSjrRT4XShBzmSHlHhEohptkIhlSjwZ5vpD
+ Xc7XTOpJ5sr9FwpWrEuOQDmYitqM8eMl5eJ5u3Ys=
+Date: Fri, 26 Jul 2019 18:08:57 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-ID: <20190726080107.GH28601@umbus>
-References: <156406409479.19996.7606556689856621111.stgit@lep8c.aus.stglabs.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190726080857.GA3147@umbus>
+References: <20190725113638.4702-1-david@redhat.com>
+ <20190725113638.4702-6-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dMyqICaxQaaUjrCL"
+ protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
 Content-Disposition: inline
-In-Reply-To: <156406409479.19996.7606556689856621111.stgit@lep8c.aus.stglabs.ibm.com>
+In-Reply-To: <20190725113638.4702-6-david@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v7] ppc: remove idle_timer logic
+Subject: Re: [Qemu-devel] [PATCH-for-4.1 v4 5/7] virtio-balloon: Rework pbp
+ tracking data
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,176 +57,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---dMyqICaxQaaUjrCL
+--PEIAKu/WMn1b1Hv9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 25, 2019 at 09:15:08AM -0500, Shivaprasad G Bhat wrote:
-> The logic is broken for multiple vcpu guests, also causing memory leak.
-> The logic is in place to handle kvm not having KVM_CAP_PPC_IRQ_LEVEL,
-> which is part of the kernel now since 2.6.37. Instead of fixing the
-> leak, drop the redundant logic which is not excercised on new kernels
-> anymore. Exit with error on older kernels.
+On Thu, Jul 25, 2019 at 01:36:36PM +0200, David Hildenbrand wrote:
+> Using the address of a RAMBlock to test for a matching pbp is not really
+> safe. Instead, let's use the guest physical address of the base page
+> along with the page size (via the number of subpages).
 >=20
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> Also, let's allocate the bitmap separately. This makes the code
+> easier to read and maintain - we can reuse bitmap_new().
+>=20
+> Prepare the code to move the PBP out of the device.
+>=20
+> Fixes: ed48c59875b6 ("virtio-balloon: Safely handle BALLOON_PAGE_SIZE <
+>                      host page size")
+> Fixes: b27b32391404 ("virtio-balloon: Fix possible guest memory corruption
+>                      with inflates & deflates")
+> Cc: qemu-stable@nongnu.org #v4.0.0
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Applied to ppc-for-4.2.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
-> v6: https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg05378.html
-> Changes from v6:
->    - switched to error_report instead of fprintf
-> ---
->  target/ppc/kvm.c |   75 ++++--------------------------------------------=
-------
->  1 file changed, 5 insertions(+), 70 deletions(-)
+>  hw/virtio/virtio-balloon.c | 69 +++++++++++++++++++++++++-------------
+>  1 file changed, 46 insertions(+), 23 deletions(-)
 >=20
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 8a06d3171e..5ab5e6c6a9 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -56,7 +56,6 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[=
-] =3D {
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index f206cc8bf7..40d493a31a 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -35,16 +35,44 @@
+>  #define BALLOON_PAGE_SIZE  (1 << VIRTIO_BALLOON_PFN_SHIFT)
+> =20
+>  struct PartiallyBalloonedPage {
+> -    RAMBlock *rb;
+> -    ram_addr_t base;
+> -    unsigned long bitmap[];
+> +    ram_addr_t base_gpa;
+> +    long subpages;
+> +    unsigned long *bitmap;
 >  };
 > =20
->  static int cap_interrupt_unset;
-> -static int cap_interrupt_level;
->  static int cap_segstate;
->  static int cap_booke_sregs;
->  static int cap_ppc_smt;
-> @@ -87,25 +86,6 @@ static int cap_large_decr;
-> =20
->  static uint32_t debug_inst_opcode;
-> =20
-> -/*
-> - * XXX We have a race condition where we actually have a level triggered
-> - *     interrupt, but the infrastructure can't expose that yet, so the g=
-uest
-> - *     takes but ignores it, goes to sleep and never gets notified that =
-there's
-> - *     still an interrupt pending.
-> - *
-> - *     As a quick workaround, let's just wake up again 20 ms after we in=
-jected
-> - *     an interrupt. That way we can assure that we're always reinjecting
-> - *     interrupts in case the guest swallowed them.
-> - */
-> -static QEMUTimer *idle_timer;
-> -
-> -static void kvm_kick_cpu(void *opaque)
-> -{
-> -    PowerPCCPU *cpu =3D opaque;
-> -
-> -    qemu_cpu_kick(CPU(cpu));
-> -}
-> -
->  /*
->   * Check whether we are running with KVM-PR (instead of KVM-HV).  This
->   * should only be used for fallback tests - generally we should use
-> @@ -125,7 +105,6 @@ static int kvmppc_get_dec_bits(void);
->  int kvm_arch_init(MachineState *ms, KVMState *s)
+> +static void virtio_balloon_pbp_free(PartiallyBalloonedPage *pbp)
+> +{
+> +    if (!pbp) {
+> +        return;
+> +    }
+> +    g_free(pbp->bitmap);
+> +    g_free(pbp);
+> +}
+> +
+> +static PartiallyBalloonedPage *virtio_balloon_pbp_alloc(ram_addr_t base_=
+gpa,
+> +                                                        long subpages)
+> +{
+> +    PartiallyBalloonedPage *pbp =3D g_new0(PartiallyBalloonedPage, 1);
+> +
+> +    pbp->base_gpa =3D base_gpa;
+> +    pbp->subpages =3D subpages;
+> +    pbp->bitmap =3D bitmap_new(subpages);
+> +
+> +    return pbp;
+> +}
+> +
+> +static bool virtio_balloon_pbp_matches(PartiallyBalloonedPage *pbp,
+> +                                       ram_addr_t base_gpa, long subpage=
+s)
+> +{
+> +    return pbp->subpages =3D=3D subpages && pbp->base_gpa =3D=3D base_gp=
+a;
+> +}
+> +
+>  static void balloon_inflate_page(VirtIOBalloon *balloon,
+>                                   MemoryRegion *mr, hwaddr mr_offset)
 >  {
->      cap_interrupt_unset =3D kvm_check_extension(s, KVM_CAP_PPC_UNSET_IRQ=
+>      void *addr =3D memory_region_get_ram_ptr(mr) + mr_offset;
+> -    ram_addr_t rb_offset, rb_aligned_offset;
+> +    ram_addr_t rb_offset, rb_aligned_offset, base_gpa;
+> +    PartiallyBalloonedPage **pbp =3D &balloon->pbp;
+>      RAMBlock *rb;
+>      size_t rb_page_size;
+>      int subpages;
+> @@ -75,39 +103,34 @@ static void balloon_inflate_page(VirtIOBalloon *ball=
+oon,
+> =20
+>      rb_aligned_offset =3D QEMU_ALIGN_DOWN(rb_offset, rb_page_size);
+>      subpages =3D rb_page_size / BALLOON_PAGE_SIZE;
+> +    base_gpa =3D memory_region_get_ram_addr(mr) + mr_offset -
+> +               (rb_offset - rb_aligned_offset);
+> =20
+> -    if (balloon->pbp
+> -        && (rb !=3D balloon->pbp->rb
+> -            || rb_aligned_offset !=3D balloon->pbp->base)) {
+> +    if (*pbp && !virtio_balloon_pbp_matches(*pbp, base_gpa, subpages)) {
+>          /* We've partially ballooned part of a host page, but now
+>           * we're trying to balloon part of a different one.  Too hard,
+>           * give up on the old partial page */
+> -        g_free(balloon->pbp);
+> -        balloon->pbp =3D NULL;
+> +        virtio_balloon_pbp_free(*pbp);
+> +        *pbp =3D NULL;
+>      }
+> =20
+> -    if (!balloon->pbp) {
+> -        /* Starting on a new host page */
+> -        size_t bitlen =3D BITS_TO_LONGS(subpages) * sizeof(unsigned long=
 );
-> -    cap_interrupt_level =3D kvm_check_extension(s, KVM_CAP_PPC_IRQ_LEVEL=
-);
->      cap_segstate =3D kvm_check_extension(s, KVM_CAP_PPC_SEGSTATE);
->      cap_booke_sregs =3D kvm_check_extension(s, KVM_CAP_PPC_BOOKE_SREGS);
->      cap_ppc_smt_possible =3D kvm_vm_check_extension(s, KVM_CAP_PPC_SMT_P=
-OSSIBLE);
-> @@ -161,9 +140,9 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->       */
->      cap_ppc_pvr_compat =3D false;
-> =20
-> -    if (!cap_interrupt_level) {
-> -        fprintf(stderr, "KVM: Couldn't find level irq capability. Expect=
- the "
-> -                        "VM to stall at times!\n");
-> +    if (!kvm_check_extension(s, KVM_CAP_PPC_IRQ_LEVEL)) {
-> +        error_report("KVM: Host kernel doesn't have level irq capability=
-");
-> +        exit(1);
+> -        balloon->pbp =3D g_malloc0(sizeof(PartiallyBalloonedPage) + bitl=
+en);
+> -        balloon->pbp->rb =3D rb;
+> -        balloon->pbp->base =3D rb_aligned_offset;
+> +    if (!*pbp) {
+> +        *pbp =3D virtio_balloon_pbp_alloc(base_gpa, subpages);
 >      }
 > =20
->      kvm_ppc_register_host_cpu_type(ms);
-> @@ -491,8 +470,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
->          return ret;
+> -    set_bit((rb_offset - balloon->pbp->base) / BALLOON_PAGE_SIZE,
+> -            balloon->pbp->bitmap);
+> +    set_bit((rb_offset - rb_aligned_offset) / BALLOON_PAGE_SIZE,
+> +            (*pbp)->bitmap);
+> =20
+> -    if (bitmap_full(balloon->pbp->bitmap, subpages)) {
+> +    if (bitmap_full((*pbp)->bitmap, subpages)) {
+>          /* We've accumulated a full host page, we can actually discard
+>           * it now */
+> =20
+> -        ram_block_discard_range(rb, balloon->pbp->base, rb_page_size);
+> +        ram_block_discard_range(rb, rb_aligned_offset, rb_page_size);
+>          /* We ignore errors from ram_block_discard_range(), because it
+>           * has already reported them, and failing to discard a balloon
+>           * page is not fatal */
+> -
+> -        g_free(balloon->pbp);
+> -        balloon->pbp =3D NULL;
+> +        virtio_balloon_pbp_free(*pbp);
+> +        *pbp =3D NULL;
 >      }
-> =20
-> -    idle_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, kvm_kick_cpu, cpu);
-> -
->      switch (cenv->mmu_model) {
->      case POWERPC_MMU_BOOKE206:
->          /* This target supports access to KVM's guest TLB */
-> @@ -1332,7 +1309,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq, =
-int level)
->          return 0;
->      }
-> =20
-> -    if (!kvm_enabled() || !cap_interrupt_unset || !cap_interrupt_level) {
-> +    if (!kvm_enabled() || !cap_interrupt_unset) {
->          return 0;
->      }
-> =20
-> @@ -1349,49 +1326,7 @@ int kvmppc_set_interrupt(PowerPCCPU *cpu, int irq,=
- int level)
-> =20
->  void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
->  {
-> -    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -    CPUPPCState *env =3D &cpu->env;
-> -    int r;
-> -    unsigned irq;
-> -
-> -    qemu_mutex_lock_iothread();
-> -
-> -    /*
-> -     * PowerPC QEMU tracks the various core input pins (interrupt,
-> -     * critical interrupt, reset, etc) in PPC-specific
-> -     * env->irq_input_state.
-> -     */
-> -    if (!cap_interrupt_level &&
-> -        run->ready_for_interrupt_injection &&
-> -        (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-> -        (env->irq_input_state & (1 << PPC_INPUT_INT)))
-> -    {
-> -        /*
-> -         * For now KVM disregards the 'irq' argument. However, in the
-> -         * future KVM could cache it in-kernel to avoid a heavyweight
-> -         * exit when reading the UIC.
-> -         */
-> -        irq =3D KVM_INTERRUPT_SET;
-> -
-> -        trace_kvm_injected_interrupt(irq);
-> -        r =3D kvm_vcpu_ioctl(cs, KVM_INTERRUPT, &irq);
-> -        if (r < 0) {
-> -            printf("cpu %d fail inject %x\n", cs->cpu_index, irq);
-> -        }
-> -
-> -        /* Always wake up soon in case the interrupt was level based */
-> -        timer_mod(idle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> -                       (NANOSECONDS_PER_SECOND / 50));
-> -    }
-> -
-> -    /*
-> -     * We don't know if there are more interrupts pending after
-> -     * this. However, the guest will return to userspace in the course
-> -     * of handling this one anyways, so we will get a chance to
-> -     * deliver the rest.
-> -     */
-> -
-> -    qemu_mutex_unlock_iothread();
-> +    return;
 >  }
 > =20
->  MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
->=20
+> @@ -128,7 +151,7 @@ static void balloon_deflate_page(VirtIOBalloon *ballo=
+on,
+> =20
+>      if (balloon->pbp) {
+>          /* Let's play safe and always reset the pbp on deflation request=
+s. */
+> -        g_free(balloon->pbp);
+> +        virtio_balloon_pbp_free(balloon->pbp);
+>          balloon->pbp =3D NULL;
+>      }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -232,25 +222,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---dMyqICaxQaaUjrCL
+--PEIAKu/WMn1b1Hv9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl06s0MACgkQbDjKyiDZ
-s5JqRw//T9+PAX6W2pJt5EkJz6gEhTjbW70TmZlOn64Q2uX8916xn7Xjzt+ySaeq
-dSvyUuwNMq+bnLaekr7fvrzWE8rdZkVbctTc4jHPx+ggPqtT08PB9Z3xICW4JJa9
-x2lKniX6lBWtu9tnqX6BbeDlXAnyOlffQv915B4o1bRa4N84fiYPrTLN33SrxfBh
-uq4py4zTFLP8yXIz9nbyXiVK3YsYuLmyG7dAgrtlkVtLNHsXIr/WEVCGVBXNPlIV
-tkzYH6JiJlYhVX70kZbb7g5/CVL8i4hxR1ftnKypL8lhgVvJwPl77Uk6eCjFxKlJ
-8PgPQCoJW0vzPtjbDc2dRh2oz+VPeZAZkCYC48Wl26evOseBmESjsUHFlx3rnMHO
-5yYo7hsqqlpMg5b5edPV6Qikd8xd8u40UKtSK30diVog2OJRRtsJpTJdNJgUt41A
-UDUgX+2Px7rysvMykO2xNCYxx1srIwUzPDnXGWSuG847L6VqrvDmGHx4bRW2Hnhb
-8nV8bX5TjGZWVJ0/L6qHCMa5UWaD1gkOUwaYAd0aN+vU7ppmTGdHYhkCzIBR0jlu
-49+gpqO2ZMiuaShHC7p2r2Idy1sH5hFijegFFtX+4mQFMyYaYiFtxhi0iHk0Dc7f
-DlwoNN534pchZ+LVcYPjft+UieOLzuh+l0C5YRl0JpZlyzNXCFM=
-=T54B
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl06tRkACgkQbDjKyiDZ
+s5JGSxAAu0Y0S6SrMEHlQbpaccb9WpWzzgZ9NqyLBh8iJ5/+QmPKRGvWs/sBwfEM
+IXLf3KcCw+X0+YhVnoITiigLLzzWkHEL0vA1wWoqOiFrkdtsN9htqKZuo/6kSya+
+lVsLqY5KdLCDSrEo+YjlNUeYMD43fUjc4A/QWseF/b6GhzG1GgcJ1GtjYFW3qpcm
+l8YNRB52rUrXnRy14Yh337Roy4YO9xyt3J0SqbtVninW59ZtVJnOzPe2hKE/SLkG
+y6d6q05yufCsWGX70WC94et3JhUUcbR8W4MMD3dKOZYMkals7P56rkUeykTOcqHR
+1DgkDZHc1OdR8C8ZWiQbowgjN9GFgBQqTt6WvAPjNbmuKy0KlO9yEkFS+QzXfMgU
+R8b3XCO+g51pkUjny9b2xWShFBWE1kALJ/Qm+ngyvPzHy3NPzERyLPSj2bpb4V8s
+z6gJgbfyCVschS2luZBgt3o2mMHm8lV8d2iG5SfgdaeG6nFdWUbWMw6vCxznTdqr
+TiWl3dKlhCvchLl0JBhX5RYxdd/Z67ZKHQJp29+w9VwDRjpnOl6SeCXBuKKKXJak
+ZMxz3lx5FZkBHElgHOQTjc/Itrv0KCLcCNTTPcdjPJyL/epjUBFLeCSVJbzqnd2E
+3k4ESkbI7pBUYFx7aBwEcEcDPxEUqx98ZwshEeqAi/hre8WH+Hk=
+=Ip2S
 -----END PGP SIGNATURE-----
 
---dMyqICaxQaaUjrCL--
+--PEIAKu/WMn1b1Hv9--
 
