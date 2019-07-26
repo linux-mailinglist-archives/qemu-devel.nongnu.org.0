@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A60E770F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:07:05 +0200 (CEST)
-Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E4477114
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:17:45 +0200 (CEST)
+Received: from localhost ([::1]:42672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4cS-0007C7-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60006)
+	id 1hr4Ys-0001WM-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59015)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4OB-0008Rw-60
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:20 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4NV-0005Wz-Bc
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4O8-0001hG-35
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:17 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37885)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4NS-0000sh-0f
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:36 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:35667)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Nq-0001CM-Hi
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:14 -0400
-Received: by mail-pg1-x541.google.com with SMTP id i70so14372259pgd.4
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:53 -0700 (PDT)
+ id 1hr4NR-0000oE-Nu
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:33 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id u14so24878344pfn.2
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=CpCg1eLgsmeNBuXSBMKJnkt//MK4VjGPzn8vhxLPYT4=;
- b=QNMjh3w8HR3G0vPDqCVV1OMzSsqKpgoqDpwu/LU8YFxUHa4kQaBqG+uioKMmdFuWTW
- hUBr+I48dQ/YYVR456EjtWF2zNlNT8VLGcf9QrtuHWcBuF2EbEY4P0nQBeNAdkggrqQq
- wJWebg3i8Om8Dwz/kvHaNOxP0BTWKXZYrCmoE3yu048+k0r30HiBPgDAijS3cLbOsd3d
- k+V6qSRB/dw8ouyY2nlW2DWrY7gLnrtd/JcSNmovAib/syRZHuLk0e6/VFcH1vJxDMmX
- egcROH59F0gd6umRJZGVnBjb+ChYll7z8GlRFmNLM0TnSCVi12YhfPlr9SqizaMv+ZA1
- StGQ==
+ bh=wDt/gxXOEruKJVqZkyq92uFSMEbVcSh409biqimT4es=;
+ b=l2uVYsyChcSlp0SE+aT5EmxpknN6lP8vdMTXyOHaOGtOP3IPv5s0hGhJ6fer3Yjtir
+ CYMcjPuWSPL4/wiznTn2JlwZTedJHqywSb5VzPcfPzF80R23aoySf4wYC7L9xcfjZw4E
+ C5xFPl7y+htqkPEKndGiu5Nr/gJNrm2HAuHM8ULNYzAlfmn7knmZhKFfs3t1YkEhXSzA
+ t56/NTjFzKtl8/bel1g0TCPFZ145TchN6kJKVv9sJwq+FJoNv9/KrYJ3I1IQ5qU+2JnN
+ n/vDamCocGRuScJGVsvYQ7EFh6d1YhRDR0v4AuOHGB7/foJhz+YwKJYgzhYcrMMTFGgW
+ bDXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=CpCg1eLgsmeNBuXSBMKJnkt//MK4VjGPzn8vhxLPYT4=;
- b=pleFhxQa9+WIKrkJNLAI6HdllS0ZUvdKarik4fiiiAQa0Eyh4o3J2QZUjl6KEnNRcX
- cz+VWwFsGzgZOeOQRiHhE4mdnfPbG5SR5osVdihDjfWkd9Ug18g70nE6ke5JfSJd1OaB
- zjIGsvOssW2HJkpc68P/QeW9NC6En7JW0MjAGO3XQDlFUHjAlaIufDMc2IniEeXki/7Y
- qpSNcq6FAzkMNfF26k5ZyYyTkeCA12Bj+btozQ81NvlwUg+ey/tic56o+4u2LR+s9n5h
- vSext6UunTDeUi5Wg4V6nUF3o3CEb+IKRrJhQ6HQEKCbcX4gmjgmexdidaydkV3mI7lp
- 1LPg==
-X-Gm-Message-State: APjAAAURK1xe1Sr7qNdM0MBgu/m/zKm7+opkXFB8RhFIM1ZlTmN9T6Rh
- KtSWp2q9B1U5Ana7WcEd890oRyto0aU=
-X-Google-Smtp-Source: APXvYqzKCOAkEGfTHNztVAyyb3bE75Fpu8/PkllTbGLXMo9IesjJOtIdOukYO8/VmqXjJXRde5ioLg==
-X-Received: by 2002:a17:90a:ac11:: with SMTP id
- o17mr100551920pjq.134.1564163512683; 
- Fri, 26 Jul 2019 10:51:52 -0700 (PDT)
+ bh=wDt/gxXOEruKJVqZkyq92uFSMEbVcSh409biqimT4es=;
+ b=iSO0kMundiFqzqY/8Y1rK2GJm/O1ukvlPSdfBsLwqP2cpFg+/0dLsOjdau+XWoBUc8
+ ggBN6dF7MNknQl6LORrDAcWyAZyPy+/rGYcRwUIKBdlDojsjTj3vCx4oEUUUDqbW8H4m
+ jkivzZ2b5m/1gElxdm9/hvzth8d8qC4kK0klXFsOUMywz/SFinQneNqJQqdMT20FBa0G
+ TIsdzjI25Mr7nqgL2GAFemCrTQt3u90R/Oxncj5Hz9VZKdxg9MxogOxdvc7Wd0AOrTxt
+ T8C9q5xAcTvZfN04vKtREAlPW7lsAAbldd9M+KU+OKDSmssyI0HGHBwWB1ij/2LkDfFw
+ /mZQ==
+X-Gm-Message-State: APjAAAWi2EmNz+sXCfevuTSRjl9vdinFEldONvkvjwire6drjQTQ6O/r
+ 6KZaKWdkrfeDF4JruTV808rPMr8n094=
+X-Google-Smtp-Source: APXvYqyjh5D2v+wVrGKFmXKjS/apWCccoyAa5YCXvG2foKRxmp4v0bNuRxZ02+mvRVRJP0Cf+ZsGfg==
+X-Received: by 2002:a63:b904:: with SMTP id z4mr90750276pge.388.1564163491483; 
+ Fri, 26 Jul 2019 10:51:31 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.51
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:51:52 -0700 (PDT)
+ Fri, 26 Jul 2019 10:51:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:50:31 -0700
-Message-Id: <20190726175032.6769-67-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:50:12 -0700
+Message-Id: <20190726175032.6769-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 66/67] target/arm: Move singlestep check from
- gen_jmp to gen_goto_tb
+X-Received-From: 2607:f8b0:4864:20::42e
+Subject: [Qemu-devel] [PATCH 47/67] target/arm: Convert T16 add pc/sp
+ (immediate)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +80,59 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We miss quite a number of single-step events by having
-the check in the wrong place.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ target/arm/translate.c | 12 +-----------
+ target/arm/t16.decode  |  7 +++++++
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c2b8b86fd2..9ae9b23823 100644
+index 28f274ca7c..525276ed13 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -2740,7 +2740,10 @@ static void gen_goto_ptr(void)
-  */
- static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
- {
--    if (use_goto_tb(s, dest)) {
-+    if (unlikely(is_singlestepping(s))) {
-+        gen_set_pc_im(s, dest);
-+        gen_singlestep_exception(s);
-+    } else if (use_goto_tb(s, dest)) {
-         tcg_gen_goto_tb(n);
-         gen_set_pc_im(s, dest);
-         tcg_gen_exit_tb(s->base.tb, n);
-@@ -2751,16 +2754,9 @@ static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
-     s->base.is_jmp = DISAS_NORETURN;
- }
+@@ -10758,19 +10758,9 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     case 7: /* load/store byte immediate offset, in decodetree */
+     case 8: /* load/store halfword immediate offset, in decodetree */
+     case 9: /* load/store from stack, in decodetree */
++    case 10: /* add PC/SP (immediate), in decodetree */
+         goto illegal_op;
  
--static inline void gen_jmp (DisasContext *s, uint32_t dest)
-+static inline void gen_jmp(DisasContext *s, uint32_t dest)
- {
--    if (unlikely(is_singlestepping(s))) {
--        /* An indirect jump so that we still trigger the debug exception.  */
--        if (s->thumb)
--            dest |= 1;
--        gen_bx_im(s, dest);
--    } else {
--        gen_goto_tb(s, 0, dest);
--    }
-+    gen_goto_tb(s, 0, dest);
- }
+-    case 10:
+-        /*
+-         * 0b1010_xxxx_xxxx_xxxx
+-         *  - Add PC/SP (immediate)
+-         */
+-        rd = (insn >> 8) & 7;
+-        val = (insn & 0xff) * 4;
+-        tmp = add_reg_for_lit(s, insn & (1 << 11) ? 13 : 15, val);
+-        store_reg(s, rd, tmp);
+-        break;
+-
+     case 11:
+         /* misc */
+         op = (insn >> 8) & 0xf;
+diff --git a/target/arm/t16.decode b/target/arm/t16.decode
+index 797e4e7068..568656ecd6 100644
+--- a/target/arm/t16.decode
++++ b/target/arm/t16.decode
+@@ -23,6 +23,7 @@
+ &s_rrr_shr       !extern s rn rd rm rs shty
+ &s_rri_rot       !extern s rn rd imm rot
+ &s_rrrr          !extern s rd rn rm ra
++&ri              !extern rd imm
+ &ldst_rr         !extern p w u rn rt rm shimm shtype
+ &ldst_ri         !extern p w u rn rt imm
  
- static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
+@@ -102,3 +103,9 @@ LDRH_ri         10001 ..... ... ...             @ldst_ri_2
+ 
+ STR_ri          10010 ... ........              @ldst_spec_i rn=13
+ LDR_ri          10011 ... ........              @ldst_spec_i rn=13
++
++# Add PC/SP (immediate)
++
++ADR             10100 rd:3 ........             imm=%imm8_0x4
++ADD_rri         10101 rd:3 ........ \
++                &s_rri_rot rn=13 s=0 rot=0 imm=%imm8_0x4  # SP
 -- 
 2.17.1
 
