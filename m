@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B69B76F68
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 18:57:22 +0200 (CEST)
-Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB1C76F70
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:01:03 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr3Wz-0001Hg-9L
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 12:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40373)
+	id 1hr3aX-0003TS-MJ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44943)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hr3Wl-0000rs-Kg
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 12:57:09 -0400
+ (envelope-from <bounces@canonical.com>) id 1hr3aH-000350-Ts
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:00:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hr3Wj-0005TK-Ts
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 12:57:07 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44666)
+ (envelope-from <bounces@canonical.com>) id 1hr3aF-0007iY-Ll
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:00:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45980)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hr3Wj-0005LT-HV
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 12:57:05 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p17so55111541wrf.11
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 09:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=s3WF8CoI8DIoXoqdJWkQChOEkusWU2ljBJJWUPo2R5I=;
- b=K5lG/tc/LFETt9P0zr80sIihVSbGc6ZjwchQmn90zvvuztR7y5TlQkU0+qg2H3kq8x
- vZwPF5B2TwWMfheOjuDj2INJKadYtRwVmIRYmrFg2qFvsnz188CpzcMoJ/DFGOMS6MNC
- PB6VDAdkhZXdyahXowx4oBa0RX7HwYHWuCaakucdTJOgG2mfAYVRDkp48IQRlWiHvDlF
- iWf8hcBOcKfdhFjo2878/sL3+j7D7KSyu91fYJYEFf8JqoI7jWHMrA3lyT+CstQPIx5S
- 93wFbHlbnKorGeywviP25peZsIEzC8rwAoT4LuKwksKopO3BxnzdXcIq32gBmkn1ILS3
- Nzhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=s3WF8CoI8DIoXoqdJWkQChOEkusWU2ljBJJWUPo2R5I=;
- b=aeJ7O9EiTvdlBPyomzhLqQnZYfmbR4zUN1ohNMlUpptpozOwh5gkx3wLu5jskxVLnx
- dv6RwMIIzvJXoeKUVmckbWz2UEK3fT1xqMsSmIAiqW6iNsQNPUqmHePvY7XW7WaMJxya
- F9Rq3DHapUD2tneXfOF6cMm9sPIKlG5z5pipasPQhhSsuIIgD7H3ZpWblS3g4ejOI1tu
- mr9/F8PJbMIKGY78clDmz3f0lX8+kM5x6DD/9Wn2y+UllSqgu00VXsHqQ88XFKKuhRVt
- zuDJhO3hMg+2ZF6VwoXYQggfYYkBTFUfEA9HSJo8ploiN9OKZtJAvxp+b68DT3ulri3d
- 193A==
-X-Gm-Message-State: APjAAAX2L1iwaFsVtUEjyBJFh5T2cgiJoAuyJc/0qnQqD7q+yOZXl3ts
- KNFgfIf6TQoKANVH0u9louj+jA==
-X-Google-Smtp-Source: APXvYqzz/WkWKlhcgc6cQjASA99qCXC667L1sus4bC82DHJU655ZglgB+eKrXTzw7nI2bIyyqioG0g==
-X-Received: by 2002:adf:f40b:: with SMTP id g11mr33370403wro.81.1564160223931; 
- Fri, 26 Jul 2019 09:57:03 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id v16sm33138578wrn.28.2019.07.26.09.57.03
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 09:57:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 01B9B1FF87;
- Fri, 26 Jul 2019 17:57:03 +0100 (BST)
-References: <20190720010235.32444-1-vandersonmr2@gmail.com>
- <20190720010235.32444-7-vandersonmr2@gmail.com>
-User-agent: mu4e 1.3.3; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190720010235.32444-7-vandersonmr2@gmail.com>
-Date: Fri, 26 Jul 2019 17:57:02 +0100
-Message-ID: <87muh0hgyp.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hr3aF-0007bY-G0
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:00:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hr3aD-00064P-Lz
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 17:00:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A0CB92E80C7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 17:00:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v4 6/7] monitor: adding tb_stats hmp command
+Date: Fri, 26 Jul 2019 16:53:58 -0000
+From: "Steffen \(Daode\) Nurpmeso" <1838066@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sdaoden
+X-Launchpad-Bug-Reporter: Steffen (Daode) Nurpmeso (sdaoden)
+X-Launchpad-Bug-Modifier: Steffen (Daode) Nurpmeso (sdaoden)
+Message-Id: <156416003866.5869.12093759540682814562.malonedeb@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: d8efd2366ee64d463fe0f68129b80165e9fcc219
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838066] [NEW] unexpected error:
+ raw_reconfigure_getfd(): qemu-system-x86_64: Could not reopen file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,327 +63,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- vandersonmr <vandersonmr2@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1838066 <1838066@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-vandersonmr <vandersonmr2@gmail.com> writes:
+  Unexpected error in raw_reconfigure_getfd() at block/file-posix.c:923:
+  qemu-system-x86_64: Could not reopen file: Permission denied
+  Aborted
 
-> Adding tb_stats [start|pause|stop|filter] command to hmp.
-> This allows controlling the collection of statistics.
-> It is also possible to set the level of collection:
-> all, jit, or exec.
->
-> The goal of this command is to allow the dynamic exploration
-> of the TCG behavior and quality. Therefore, for now, a
-> corresponding QMP command is not worthwhile.
->
-> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> ---
->  accel/tcg/tb-stats.c    | 107 ++++++++++++++++++++++++++++++++++++++++
->  hmp-commands.hx         |  17 +++++++
->  include/exec/tb-stats.h |  13 +++++
->  include/qemu/log.h      |   1 +
->  monitor/misc.c          |  40 +++++++++++++++
->  5 files changed, 178 insertions(+)
->
-> diff --git a/accel/tcg/tb-stats.c b/accel/tcg/tb-stats.c
-> index 44497d4f9b..6c330e1b02 100644
-> --- a/accel/tcg/tb-stats.c
-> +++ b/accel/tcg/tb-stats.c
-> @@ -6,6 +6,9 @@
->
->  #include "qemu/qemu-print.h"
->
-> +/* only accessed in safe work */
-> +static GList *last_search;
-> +
->  struct jit_profile_info {
->      uint64_t translations;
->      uint64_t aborted;
-> @@ -104,4 +107,108 @@ void dump_jit_profile_info(TCGProfile *s)
->      }
->  }
->
-> +static void dessaloc_tbstats(void *p, uint32_t hash, void *userp)
-> +{
-> +    g_free(p);
-> +}
+Is what i sometimes (only) get, mostly for Linux guests i'd say (Arch just =
+a few moments ago).
+This is on CRUX-Linux, thus a self-compiled qemu 4.0.0 with default recipe,=
+ without special compiler flags (-O2 -march=3Dx86-64 -pipe) on an Intel i5 =
+laptop.
+But what i do is running this via sudo:
 
-surely free_tbstats would be a better name?
+     sudo=3D'sudo --preserve-env=3DVMNAME,VMADDR' runas=3D'-runas vm -chroo=
+t .'
+  fi
 
-> +
-> +void clean_tbstats(void)
-> +{
-> +    /* remove all tb_stats */
-> +    qht_iter(&tb_ctx.tb_stats, dessaloc_tbstats, NULL);
-> +    qht_destroy(&tb_ctx.tb_stats);
-> +}
-> +
-> +static void reset_tbstats_flag(void *p, uint32_t hash, void *userp)
-> +{
-> +    uint32_t flag =3D *((int *)userp);
-> +    TBStatistics *tbs =3D p;
-> +    tbs->stats_enabled =3D flag;
-> +}
-> +
-> +void set_tbstats_flags(uint32_t flag)
-> +{
-> +    /* iterate over tbstats setting their flag as TB_NOTHING */
-> +    qht_iter(&tb_ctx.tb_stats, reset_tbstats_flag, &flag);
-> +}
-> +
-> +void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd)
-> +{
-> +    struct TbstatsCommand *cmdinfo =3D icmd.host_ptr;
-> +    int cmd =3D cmdinfo->cmd;
-> +    uint32_t level =3D cmdinfo->level;
-> +
-> +    /* for safe, always pause TB generation while running this commands =
-*/
-> +    mmap_lock();
+  VMADDR=3D$addr VMNAME=3D$vmname
+  export VMADDR VMNAME
+  eval exec $sudo qemu-system-x86_64 -name $vmname $runas \
+      $host $accel $display $net $vmcustom $vmimg $redir
 
-This doesn't serialise in all cases - in fact it's running as safe work
-which is our serial case. The mmap_lock is really only needed for code
-generation in linux-user. I think the lock/unlock can be dropped from
-these operations.
+the last run ends up like (via sudo)
 
-> +
-> +    switch (cmd) {
-> +    case START:
-> +        if (tb_stats_collection_paused()) {
-> +            set_tbstats_flags(level);
-> +        } else {
-> +            if (tb_stats_collection_enabled()) {
-> +                qemu_printf("TB information already being recorded");
-> +                return;
-> +            }
-> +            qht_init(&tb_ctx.tb_stats, tb_stats_cmp, CODE_GEN_HTABLE_SIZ=
-E,
-> +                        QHT_MODE_AUTO_RESIZE);
+  qemu-system-x86_64 -name arch-2019 -runas vm -chroot . -cpu host -m
+size=3D1984 -smp cpus=3D2 -enable-kvm -accel accel=3Dkvm,thread=3Dmulti -di=
+splay
+curses -net nic,netdev=3Dnet0,macaddr=3D..  -netdev
+tap,id=3Dnet0,script=3D./.ifup.sh,downscript=3D./.ifdown.sh,ifname=3Dvm_arc=
+h-2019
 
-I'm wary of initialising this in multiple places. Maybe move this to
-enable_collect_tb_stats and drop the initialisation in tb_htable_init.
+vm is a user effectively living in the chroot only without any rights anywh=
+ere.
+Hope this helps, thanks a lot for qemu!!
 
-> +        }
-> +
-> +        set_default_tbstats_flag(level);
-> +        enable_collect_tb_stats();
-> +        tb_flush(cpu);
-> +        break;
-> +    case PAUSE:
-> +        if (!tb_stats_collection_enabled()) {
-> +            qemu_printf("TB information not being recorded");
-> +            return;
-> +        }
-> +
-> +        /* Continue to create TBStatistic structures but stop collecting=
- statistics */
-> +        pause_collect_tb_stats();
-> +        tb_flush(cpu);
-> +        set_default_tbstats_flag(TB_NOTHING);
-> +        set_tbstats_flags(TB_PAUSED);
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Minor style suggestion - make the tb_flush the last thing you do once
-you have moved things around. You are in safe work so nothing should be
-happening anyway and it reads better.
+-- =
 
-> +        break;
-> +    case STOP:
-> +        if (!tb_stats_collection_enabled()) {
-> +            qemu_printf("TB information not being recorded");
-> +            return;
-> +        }
-> +
-> +        /* Dissalloc all TBStatistics structures and stop creating new o=
-nes */
-> +        disable_collect_tb_stats();
-> +        tb_flush(cpu);
-> +        clean_tbstats();
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838066
 
-As above.
+Title:
+  unexpected error: raw_reconfigure_getfd(): qemu-system-x86_64: Could
+  not reopen file
 
-> +        break;
-> +    case FILTER:
-> +        if (!tb_stats_collection_enabled()) {
-> +            qemu_printf("TB information not being recorded");
-> +            return;
-> +        }
-> +        if (!last_search) {
-> +            qemu_printf("no search on record! execute info tbs before fi=
-ltering!");
-> +            return;
-> +        }
-> +
-> +        tb_flush(cpu);
-> +        set_default_tbstats_flag(TB_NOTHING);
-> +
-> +        /* Set all tbstats as paused, then return only the ones from las=
-t_search */
-> +        pause_collect_tb_stats();
-> +        set_tbstats_flags(TB_PAUSED);
-> +
-> +        for (GList *iter =3D last_search; iter; iter =3D g_list_next(ite=
-r)) {
-> +            TBStatistics *tbs =3D iter->data;
-> +            tbs->stats_enabled =3D level;
-> +        }
+Status in QEMU:
+  New
 
-If we are only interested in tracking the N hotestest at this point we
-want to prevent allocation of new TBStats and free all the unused ones?
+Bug description:
+    Unexpected error in raw_reconfigure_getfd() at block/file-posix.c:923:
+    qemu-system-x86_64: Could not reopen file: Permission denied
+    Aborted
 
-> +
-> +        break;
-> +    default: /* INVALID */
+  Is what i sometimes (only) get, mostly for Linux guests i'd say (Arch jus=
+t a few moments ago).
+  This is on CRUX-Linux, thus a self-compiled qemu 4.0.0 with default recip=
+e, without special compiler flags (-O2 -march=3Dx86-64 -pipe) on an Intel i=
+5 laptop.
+  But what i do is running this via sudo:
 
-g_assert_not_reached()? This would be an internal bug if we ever sent
-the wrong command?
+       sudo=3D'sudo --preserve-env=3DVMNAME,VMADDR' runas=3D'-runas vm -chr=
+oot .'
+    fi
 
-> +        break;
-> +    }
-> +
-> +    mmap_unlock();
-> +    g_free(cmdinfo);
-> +}
->
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index bfa5681dd2..419898751e 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1885,6 +1885,23 @@ STEXI
->  @findex qemu-io
->  Executes a qemu-io command on the given block device.
->
-> +ETEXI
-> +#if defined(CONFIG_TCG)
-> +    {
-> +        .name       =3D "tb_stats",
-> +        .args_type  =3D "command:s,level:s?",
-> +        .params     =3D "command [stats_level]",
-> +        .help       =3D "Control tb statistics collection:"
-> +                        "tb_stats (start|pause|stop|filter)
-> [all|jit_stats|exec_stats]",
+    VMADDR=3D$addr VMNAME=3D$vmname
+    export VMADDR VMNAME
+    eval exec $sudo qemu-system-x86_64 -name $vmname $runas \
+        $host $accel $display $net $vmcustom $vmimg $redir
 
-What does filter do?
+  the last run ends up like (via sudo)
 
-> +        .cmd        =3D hmp_tbstats,
-> +    },
-> +#endif
-> +
-> +STEXI
-> +@item tb_stats
-> +@findex
-> +Control recording tb statistics
-> +
->  ETEXI
->
->      {
-> diff --git a/include/exec/tb-stats.h b/include/exec/tb-stats.h
-> index 7d775f2c0d..d1debd3262 100644
-> --- a/include/exec/tb-stats.h
-> +++ b/include/exec/tb-stats.h
-> @@ -6,6 +6,9 @@
->  #include "exec/tb-context.h"
->  #include "tcg.h"
->
-> +enum SortBy { SORT_BY_HOTNESS, SORT_BY_HG /* Host/Guest */, SORT_BY_SPIL=
-LS };
-> +enum TbstatsCmd { START, PAUSE, STOP, FILTER };
-> +
->  #define tb_stats_enabled(tb, JIT_STATS) \
->      (tb && tb->tb_stats && (tb->tb_stats->stats_enabled & JIT_STATS))
->
-> @@ -60,4 +63,14 @@ bool tb_stats_cmp(const void *ap, const void *bp);
->
->  void dump_jit_profile_info(TCGProfile *s);
->
-> +void set_tbstats_flags(uint32_t flags);
-> +void clean_tbstats(void);
-> +
-> +struct TbstatsCommand {
-> +    enum TbstatsCmd cmd;
-> +    uint32_t level;
-> +};
-> +
-> +void do_hmp_tbstats_safe(CPUState *cpu, run_on_cpu_data icmd);
-> +
->  #endif
-> diff --git a/include/qemu/log.h b/include/qemu/log.h
-> index 93642603e5..47071d72c7 100644
-> --- a/include/qemu/log.h
-> +++ b/include/qemu/log.h
-> @@ -133,6 +133,7 @@ void qemu_log_close(void);
->  #define TB_NOTHING    0
->  #define TB_EXEC_STATS (1 << 1)
->  #define TB_JIT_STATS  (1 << 2)
-> +#define TB_PAUSED     (1 << 3)
->
->  void enable_collect_tb_stats(void);
->  void disable_collect_tb_stats(void);
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 00338c002a..aea9b0db4f 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -459,6 +459,46 @@ static void hmp_info_registers(Monitor *mon, const Q=
-Dict *qdict)
->  }
->
->  #ifdef CONFIG_TCG
-> +static void hmp_tbstats(Monitor *mon, const QDict *qdict)
-> +{
-> +    if (!tcg_enabled()) {
-> +        error_report("TB information is only available with accel=3Dtcg"=
-);
-> +        return;
-> +    }
-> +
-> +    char *cmd =3D (char *) qdict_get_try_str(qdict, "command");
-> +    enum TbstatsCmd icmd =3D -1;
-> +
-> +    if (strcmp(cmd, "start") =3D=3D 0) {
-> +        icmd =3D START;
-> +    } else if (strcmp(cmd, "pause") =3D=3D 0) {
-> +        icmd =3D PAUSE;
-> +    } else if (strcmp(cmd, "stop") =3D=3D 0) {
-> +        icmd =3D STOP;
-> +    } else if (strcmp(cmd, "filter") =3D=3D 0) {
-> +        icmd =3D FILTER;
-> +    } else {
-> +        error_report("invalid command!");
-> +    }
-> +
-> +    char *slevel =3D (char *) qdict_get_try_str(qdict, "level");
-> +    uint32_t level =3D TB_EXEC_STATS | TB_JIT_STATS;
-> +    if (slevel) {
-> +        if (strcmp(slevel, "jit_stats") =3D=3D 0) {
-> +            level =3D TB_JIT_STATS;
-> +        } else if (strcmp(slevel, "exec_stats") =3D=3D 0) {
-> +            level =3D TB_EXEC_STATS;
-> +        }
-> +    }
-> +
-> +    struct TbstatsCommand *tbscommand =3D g_new0(struct TbstatsCommand, =
-1);
-> +    tbscommand->cmd =3D icmd;
-> +    tbscommand->level =3D level;
+    qemu-system-x86_64 -name arch-2019 -runas vm -chroot . -cpu host -m
+  size=3D1984 -smp cpus=3D2 -enable-kvm -accel accel=3Dkvm,thread=3Dmulti
+  -display curses -net nic,netdev=3Dnet0,macaddr=3D..  -netdev
+  tap,id=3Dnet0,script=3D./.ifup.sh,downscript=3D./.ifdown.sh,ifname=3Dvm_a=
+rch-2019
 
-It might be worth considering squashing these into a single pointer to
-avoid the allocation and free?
+  vm is a user effectively living in the chroot only without any rights any=
+where.
+  Hope this helps, thanks a lot for qemu!!
 
-> +    async_safe_run_on_cpu(first_cpu, do_hmp_tbstats_safe,
-> +                          RUN_ON_CPU_HOST_PTR(tbscommand));
-> +
-> +}
-> +
->  static void hmp_info_jit(Monitor *mon, const QDict *qdict)
->  {
->      if (!tcg_enabled()) {
-
-
---
-Alex Benn=C3=A9e
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838066/+subscriptions
 
