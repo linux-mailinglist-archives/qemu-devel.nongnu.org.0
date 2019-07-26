@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BBC773D8
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jul 2019 00:07:42 +0200 (CEST)
-Received: from localhost ([::1]:43468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B802773D0
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jul 2019 00:02:41 +0200 (CEST)
+Received: from localhost ([::1]:43446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr8NJ-0006qP-1R
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 18:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60399)
+	id 1hr8IS-0004J8-4m
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 18:02:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58043)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fintelia@gmail.com>) id 1hr8N1-0006HG-8C
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 18:07:24 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hr8IE-0003s7-Hd
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 18:02:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fintelia@gmail.com>) id 1hr8Mv-0003aH-3Y
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 18:07:18 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:36036)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fintelia@gmail.com>)
- id 1hr8Mu-0003EF-I6; Fri, 26 Jul 2019 18:07:16 -0400
-Received: by mail-lf1-x141.google.com with SMTP id q26so38102385lfc.3;
- Fri, 26 Jul 2019 15:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fCK+X2tcIS92/EKkLAEH9dGaJcfqMKXYLhoNNJJVB0E=;
- b=O0nt8Ejl+oPRGkmrZfNBwxsKHxdZzv+QdxkPU/NX4H7WbN7vdAPmmgJjM8yOre3ByD
- gwQCHluVRVan4jubv+QqI9K96vd70T20iz27uVqNhsLFopYiiP1+/x4s0xOnyZ6Mu79v
- CjFyGmaCZ9vS0BXAy0h+r8dQiEkuDGyddJH0GvBDpzzuj4TzeC2duH+YTkhsOZeofz6j
- 1rQpkmG1BCyMpLa4U9+XS84sXVEKS5VrNkL8lu9Sq+zHozOOWlzZkot5A3W52SWOgXQ7
- l0g3pLtcffrABCIiCSkrunb38lQ5W8S9ruI3l4zO2xzQVsV99O812FD/XBgzuQxJ1ub2
- X8Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fCK+X2tcIS92/EKkLAEH9dGaJcfqMKXYLhoNNJJVB0E=;
- b=jC2zPCkPxrufgIrLFzMV1WnR4yzs0jGjkx0ruL22I/eEfj0DyUtY3eqLNpBiLtdU/O
- P2jyHEOtTsuY/89G+LlwQxKbtymvpUZbdBt4NVphN3HXjnnSr4v+aZg5GD5RvflOSQsj
- rSETbOZekCxXk9DWw1GFgJ3iqBkr293suHyQSjrrrXsDL/9s2+LM8bZUlJUxf7F7NxCe
- A1TVTtptr6LPanT+lZaIkRxNG+RjTm2KSM4QN2JMYtTNlmURVyJC8AsUDPbVXvV2zp5X
- Vb/b8VlpY1JSzw+j4WGt8WyBgLHVTQ0pAFmSizCBVF/X9MU7/0FxUGZJLhlMJ0gvU81r
- 2GJg==
-X-Gm-Message-State: APjAAAW19ttx/bOP8sqsACOgyiZH3CYnblDs8MmEq2IcHazcilXGlgep
- qcteDlcg6XfIuoSNhB6oGHd7psTwPhWmV/qgi0Qm8KDg
-X-Google-Smtp-Source: APXvYqwISxTqTXIUht4oVDWEipcjsRU9WorxiK6vadDCUb2C91FzAvg3Vc6HWd849PSWt9PH1e6BQykS+IdePdqbdb4=
-X-Received: by 2002:a19:7006:: with SMTP id h6mr44830456lfc.5.1564174850508;
- Fri, 26 Jul 2019 14:00:50 -0700 (PDT)
+ (envelope-from <ehabkost@redhat.com>) id 1hr8Hx-0000pY-Jv
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 18:02:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58598)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hr8Hg-00006t-Kr
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 18:01:56 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 796AC3083362;
+ Fri, 26 Jul 2019 21:16:35 +0000 (UTC)
+Received: from localhost (ovpn-116-40.gru2.redhat.com [10.97.116.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 993F45C70A;
+ Fri, 26 Jul 2019 21:16:31 +0000 (UTC)
+Date: Fri, 26 Jul 2019 18:16:26 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190726211626.GG17432@habkost.net>
+References: <3dd21116-32ae-3eb2-ffcf-2ba77391ccc3@redhat.com>
 MIME-Version: 1.0
-References: <cover.1564080680.git.alistair.francis@wdc.com>
- <b415f5b51e09418760b95e5c73fad5e68b97f173.1564080680.git.alistair.francis@wdc.com>
- <CANnJOVEyy7wb74eEucj5t=xonOvUFTPWuty9R+-KP0DLc+L7zQ@mail.gmail.com>
- <CAKmqyKOh-7LE5ry_RG56-TM0bqj_kckcK74W8kFLiPHrjjx7hw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOh-7LE5ry_RG56-TM0bqj_kckcK74W8kFLiPHrjjx7hw@mail.gmail.com>
-From: Jonathan Behrens <fintelia@gmail.com>
-Date: Fri, 26 Jul 2019 17:00:07 -0400
-Message-ID: <CANnJOVHWmA_KcdOC4o_4Uq9vZmNR_Sdy0L0foqqr_FwJY7ULqQ@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH-4.2 v1 2/6] target/riscv:
- Remove strict perm checking for CSR R/W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3dd21116-32ae-3eb2-ffcf-2ba77391ccc3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 26 Jul 2019 21:16:35 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Exploring Sphinx, autodoc, apidoc,
+ and coverage tools for python/qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,79 +56,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Gabriel Barreto <sbarreto.gabriel@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The remaining checks are not sufficient. If you look at the bottom of
-csr.c, you'll see that for most of the M-mode CSRs the predicate is set to
-"any" which unconditionally allows access regardless of privilege mode. The
-S-mode CSR predicates similarly only check that supervisor mode exists, but
-not that the processor is current running in that mode. I do agree with you
-that using the register address to determine the required privilege mode is
-a little strange, but RISC-V is designed so that bits 8 and 9 of the CSR
-address encode that information: 0=U-mode, 1=S-mode, 2=HS-mode, 3=M-mode.
+CCing Cleber and Gabriel.  Comments at the "conclusions" section
+below:
 
-I also tested by booting RVirt <https://github.com/mit-pdos/RVirt> with a
-Linux guest and found that this patch caused it to instantly crash because
-guest CSR accesses weren't intercepted.
+On Wed, Jul 24, 2019 at 05:06:41PM -0400, John Snow wrote:
+> Has anyone on this list experimented with these tools?
+> 
+> I was hoping to use them to document things like the python/machine.py
+> and python/qmp.py modules to help demonstrate some of our internal
+> tooling API (for test writers, GSoC/Outreachy interns, folks who want to
+> script QEMU at a level between writing a CLI driver and using libvirt.)
+> 
+> What follows below is my process trying to enable this and some of the
+> problems I'm still stuck with, summarized below at the end of this more
+> exploratory text.
+> 
+> 
+> Enabling autodoc:
+> 
+> First, it appears as if enabling the "sphinx-autodoc" tool is not
+> sufficient for actually generating anything at all when you invoke the
+> sphinx-generated "make html" target. It just enables understanding
+> certain directives.
+> 
+> So apparently you need to generate module "stubs" using sphinx-autodoc.
+> Sphinx uses the sphinx-autodoc extension to understand how to consume
+> the directives in these stubs.
+> 
+> That strikes me as odd, because these stubs might need to be changed
+> frequently as code comes and goes; it seems strange that it isn't
+> integrated at the top level. (Do I have the wrong idea on how these
+> tools should be used?)
+> 
+> So you need to run:
+> > sphinx-apidoc --separate --module-first -o docs/ python/qemu/
+> 
+> which generates stubs to docs:
+> 
+> Creating file docs/qemu.machine.rst.
+> Creating file docs/qemu.qmp.rst.
+> Creating file docs/qemu.qtest.rst.
+> Creating file docs/qemu.rst.
+> Creating file docs/modules.rst.
+> 
+> And then you can edit e.g. the top-level index.rst TOC in docs/index.rst
+> to look like this:
+> 
+> ```
+> .. toctree::
+>    :maxdepth: 2
+>    :caption: Contents:
+> 
+>    interop/index
+>    devel/index
+>    specs/index
+>    modules
+> ```
+> 
+> And then finally generating the build; manually removing the -W option
+> from the Makefile: there are a lot of warnings in here.
+> 
+> > sphinx-build -n -b html -D version=4.0.92 -D release="4.0.92
+> (v4.1.0-rc2-34-g160802eb07-dirty)" -d .doctrees/
+> /home/bos/jhuston/src/qemu/docs/ docs/
+> 
+> Great! that will generate output to docs/index.html which indeed shows
+> APIdoc comments generated from our Python files. Good.
+> 
+> However, where this gets a little strange is if you look at the
+> generated stubs. For instance, qemu.machine.rst looks like this:
+> 
+> ```
+> .. automodule:: qemu.machine
+>     :members:
+>     :undoc-members:
+>     :show-inheritance:
+> ```
+> 
+> :undoc-members: says that we want to "document" any members that don't
+> have a matching apidoc comment by generating a stub.
+> 
+> Oops, but the presence of that stub will cause the sphinx coverage tool
+> to happily report 100% coverage.
+> 
+> Further oops, pylint doesn't understand apidoc comments and can't be
+> used as the linter in this case, either.
+> 
+> You can edit the stubs to remove these directives, but these stubs are
+> generated -- and it doesn't appear like there's a command line option to
+> change this behavior. ...Hmm.
+> 
+> And either way, the coverage tool only generates a report and not
+> something with an error code that I could use to gate the build. Same
+> goes for the general build: if I remove the :undoc-members: parameter,
+> there's nothing in the autodoc module that appears to throw warnings
+> when it encounters undocumented parameters or members.
+> 
+> That seems disappointing, because it's hard to keep docstrings up to
+> date unless they are checked conclusively at build time.
+> 
+> 
+> Conclusions:
+> 
+> - the autodoc documentation page doesn't seem to document examples of
+> how you're expected to write meaningful docstrings for the tool to extract.
 
-Jonathan
+I had the same impression when I read sphinx/autodoc
+documentation.
 
-On Fri, Jul 26, 2019 at 4:28 PM Alistair Francis <alistair23@gmail.com>
-wrote:
+> 
+> - autodoc fools the coverage tool into reporting 100% coverage.
+> 
+> - autodoc can be configured to omit non-documented members to allow the
+> coverage tool to work, but the configuration is auto-generated and
+> defaults to always generating documentation for these entities.
+> 
+> - coverage tool doesn't appear like it can be used for gating the build
+> natively for missing python docs; it only generates a report.
+> 
+> - Even if we script to block on a non-empty report, the coverage tool
+> only works at the function/class level and does not understand the
+> concept of missing parameter or return value tags.
+> 
+> - It would seem that it would be the Autodoc module's job to be
+> responsible for understanding incomplete documentation, but doesn't
+> appear to. The :param name: syntax is just a ReST "field list" and isn't
+> parsed semantically by autodoc, sadly.
 
-> On Thu, Jul 25, 2019 at 2:48 PM Jonathan Behrens <fintelia@gmail.com>
-> wrote:
-> >
-> > Unless I'm missing something, this is the only place that QEMU checks
-> the privilege level for read and writes to CSRs. The exact computation used
-> here won't work with the hypervisor extension, but we also can't just get
-> rid of privilege checking entirely...
->
-> The csr_ops struct contains a checker function, so there are still
-> some checks occurring. I haven't done negative testing on this patch,
-> but the current check doesn't seem to make any sense so it should be
-> removed. We can separately discuss adding more checks but this current
-> way base don CSR address just seems strange.
->
-> Alistair
->
-> >
-> > Jonathan
-> >
-> > On Thu, Jul 25, 2019 at 2:56 PM Alistair Francis <
-> alistair.francis@wdc.com> wrote:
-> >>
-> >> The privledge check based on the CSR address mask 0x300 doesn't work
-> >> when using Hypervisor extensions so remove the check
-> >>
-> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >> ---
-> >>  target/riscv/csr.c | 3 +--
-> >>  1 file changed, 1 insertion(+), 2 deletions(-)
-> >>
-> >> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> >> index e0d4586760..af3b762c8b 100644
-> >> --- a/target/riscv/csr.c
-> >> +++ b/target/riscv/csr.c
-> >> @@ -797,9 +797,8 @@ int riscv_csrrw(CPURISCVState *env, int csrno,
-> target_ulong *ret_value,
-> >>
-> >>      /* check privileges and return -1 if check fails */
-> >>  #if !defined(CONFIG_USER_ONLY)
-> >> -    int csr_priv = get_field(csrno, 0x300);
-> >>      int read_only = get_field(csrno, 0xC00) == 3;
-> >> -    if ((write_mask && read_only) || (env->priv < csr_priv)) {
-> >> +    if (write_mask && read_only) {
-> >>          return -1;
-> >>      }
-> >>  #endif
-> >> --
-> >> 2.22.0
-> >>
-> >>
->
+I wonder if there are other Python documentation coverage tools
+outside Sphinx.  Googling for [python docstring coverage]
+resulted in a few different projects, but I don't know which ones
+would understand Sphinx-compatible rST docstrings.
+
+> 
+> 
+> It looks to me, at a glance, that there's nothing in Sphinx that knows
+> how to look for and warn about undocumented parameters, exception types,
+> return values, etc. Hopefully I've missed something and it is possible.
+
+Personally, my first priority would be generating reasonable
+documentation from docstrings, preferably integrated with the
+rest of the QEMU docs.  Gating based on docstring coverage checks
+would be just nice to have.
+
+-- 
+Eduardo
+
