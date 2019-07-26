@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99E6760EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 10:34:32 +0200 (CEST)
-Received: from localhost ([::1]:37376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C57760F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 10:36:50 +0200 (CEST)
+Received: from localhost ([::1]:37394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqvgN-0002JP-M3
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 04:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45231)
+	id 1hqvia-0004vR-UP
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 04:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hqvfl-0000Rh-0H
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:33:53 -0400
+ (envelope-from <clg@kaod.org>) id 1hqviL-0004RX-9J
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:36:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hqvfh-0002Xr-Js
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:33:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45480)
+ (envelope-from <clg@kaod.org>) id 1hqviJ-0007kt-Nw
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:36:33 -0400
+Received: from 8.mo173.mail-out.ovh.net ([46.105.46.122]:35635)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hqvfh-0002Tl-DY
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:33:49 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B011030C583B
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 08:33:48 +0000 (UTC)
-Received: from localhost (ovpn-117-212.ams2.redhat.com [10.36.117.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FC8A5D719;
- Fri, 26 Jul 2019 08:33:38 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Date: Fri, 26 Jul 2019 09:33:22 +0100
-Message-Id: <20190726083322.13637-4-stefanha@redhat.com>
-In-Reply-To: <20190726083322.13637-1-stefanha@redhat.com>
-References: <20190726083322.13637-1-stefanha@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hqviH-0007hY-TD
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 04:36:30 -0400
+Received: from player731.ha.ovh.net (unknown [10.108.35.95])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4224210DACE
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:36:26 +0200 (CEST)
+Received: from kaod.org (unknown [109.190.253.16])
+ (Authenticated sender: clg@kaod.org)
+ by player731.ha.ovh.net (Postfix) with ESMTPSA id 5ED64838CCC6;
+ Fri, 26 Jul 2019 08:36:20 +0000 (UTC)
+To: sathnaga@linux.vnet.ibm.com, qemu-devel@nongnu.org
+References: <20190726071809.32389-1-sathnaga@linux.vnet.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <ae2385ae-adb8-b8b4-0a10-94c6a4468082@kaod.org>
+Date: Fri, 26 Jul 2019 10:36:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 26 Jul 2019 08:33:48 +0000 (UTC)
+In-Reply-To: <20190726071809.32389-1-sathnaga@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 13513332161010240486
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrkeeggddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] virtiofsd: implement FUSE_INIT
- map_alignment field
+X-Received-From: 46.105.46.122
+Subject: Re: [Qemu-devel] [PATCH 1/2] tests.acceptance.avocado_qemu: Add
+ support for powerpc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,50 +58,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Communicate the host page size to the FUSE client so that
-FUSE_SETUPMAPPING/FUSE_REMOVEMAPPING requests are aware of our alignment
-constraints.
+On 26/07/2019 09:18, sathnaga@linux.vnet.ibm.com wrote:
+> From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+>=20
+> Current acceptance test will not run in powerpc Little endian
+> environment due the arch name does not match the qemu binary path,
+> let's handle it.
+>=20
+> Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- contrib/virtiofsd/fuse_lowlevel.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_l=
-owlevel.c
-index dbbfda78bf..452dd6b2b0 100644
---- a/contrib/virtiofsd/fuse_lowlevel.c
-+++ b/contrib/virtiofsd/fuse_lowlevel.c
-@@ -2131,6 +2131,12 @@ static void do_init(fuse_req_t req, fuse_ino_t nod=
-eid,
- 	}
- 	if (se->conn.proto_minor >=3D 23)
- 		outarg.time_gran =3D se->conn.time_gran;
-+	if (arg->flags & FUSE_MAP_ALIGNMENT) {
-+		outarg.flags |=3D FUSE_MAP_ALIGNMENT;
-+
-+		/* This constraint comes from mmap(2) and munmap(2) */
-+		outarg.map_alignment =3D sysconf(_SC_PAGE_SIZE);
-+	}
-=20
- 	if (se->debug) {
- 		fuse_debug("   INIT: %u.%u\n", outarg.major, outarg.minor);
-@@ -2144,6 +2150,8 @@ static void do_init(fuse_req_t req, fuse_ino_t node=
-id,
- 			   outarg.congestion_threshold);
- 		fuse_debug("   time_gran=3D%u\n",
- 			   outarg.time_gran);
-+		fuse_debug("   map_alignment=3D%u\n",
-+			   outarg.map_alignment);
- 	}
- 	if (arg->minor < 5)
- 		outargsize =3D FUSE_COMPAT_INIT_OUT_SIZE;
---=20
-2.21.0
+Thanks,
+
+C.
+
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
+ce/avocado_qemu/__init__.py
+> index aee5d820ed..a05f0bb530 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -19,6 +19,7 @@ sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
+> =20
+>  from qemu.machine import QEMUMachine
+> =20
+> +
+
+extra new line ^
+
+>  def is_readable_executable_file(path):
+>      return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+> =20
+> @@ -39,6 +40,9 @@ def pick_default_qemu_bin(arch=3DNone):
+>      """
+>      if arch is None:
+>          arch =3D os.uname()[4]
+> +    # qemu binary path does not match arch for powerpc, handle it
+> +    if 'ppc64le' in arch:
+> +        arch =3D 'ppc64'
+>      qemu_bin_relative_path =3D os.path.join("%s-softmmu" % arch,
+>                                            "qemu-system-%s" % arch)
+>      if is_readable_executable_file(qemu_bin_relative_path):
+>=20
 
 
