@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359B977128
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:23:46 +0200 (CEST)
-Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898387714C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:34:25 +0200 (CEST)
+Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4Yz-0002YY-DC
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59713)
+	id 1hr52t-0006RC-WD
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47334)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Nw-0007Uk-85
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:05 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr52e-000617-8n
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:34:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Ns-0001KU-6G
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:03 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38145)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr52d-0005F9-31
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:34:08 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33421)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Nr-0001DD-UO
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:00 -0400
-Received: by mail-pl1-x644.google.com with SMTP id az7so25002530plb.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:54 -0700 (PDT)
+ id 1hr52c-000582-QD
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:34:07 -0400
+Received: by mail-pf1-x444.google.com with SMTP id g2so24910192pfq.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 11:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ggteB4WINk5mb6nMpXwNHzA9GUmr46ovcnkhvcdKD8k=;
- b=Buc8ocppTVZ8/0vu8O9BFAEvpnSUEBT08+KVgqmbrllPtLH1/hU4ckz56I+Esxjxzg
- ZrY1cZ1dtZy+SNx4EIMeD9lCtj7pi6eEXSm9O+X2OdhOjDeuUhzON26nzdm9Rc6fc95t
- DzB2/sDs4SW116bRspRHF8ezfsdjhAckAJC222a692ZTS6IFWNGQPra2PNGMlA3oFfrE
- 5RNSApyaWBqw0+1W4FdTGMB3cFgqvYt4K+E2C/l0Uyc3H8cSgo7tJ0eViMPMpnn02Ads
- E8jR2HBPTkhA9hF2NJKgf5tUeaIBNEWROJBIjaeVtcaEQblh7lnmyCmiIBbgrcwpUYLY
- /sow==
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wkSx0OalOfQUYo0gvwfAvDMu6TklzMt4esDAb6i7vsM=;
+ b=zGucbvKMTMdz8tPJMPMB8Q6aR8acVZMipNc8MMaMUKnm7UNZSqetfMY+w1jR5xDMqq
+ fdE8g5LXfnRXbyDbCnlXC4M2ab15qXC7DDJyJCDtCO7DdvzAvLXNa6qH86h/WC75En8N
+ f7OIiPjGoBDE9l0hDDtibf//APVG6XQGEi04CY53nV0Jse+opsDCjCvXp++Nv456+MfN
+ oE8tUEOHh5xUVofTixr6pU8O+bt2NHKzXS7AT4xx7R/2QHaLTfsYjgXO58ag2P8U09cU
+ DtjG6Cx0OIPeXoxC5ei5h0KBbQp+FRU1doVhKmaxbX1HbFeyBmzZ0SXC2WbH+Rx7t7ra
+ 9T+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ggteB4WINk5mb6nMpXwNHzA9GUmr46ovcnkhvcdKD8k=;
- b=EP6PvzJTwbygR8uGcGtOI01It01iQFPKiNQcprJguYStCtIiI+uAXEKr/Mq4BuBzYr
- r2vrKExc3lf1sQ/rP7gsV7tUmaxfD0PLiTyLnzJsu8jBUd6ON9Qh30rzc51mvLY0euxC
- rOSge61jlqTjz/jlB0fapB0+z0bt6dbVv6Rh/wmmp+wbyhUkHqf1gVKeHjMWvjTSihau
- PxcuWwh9ZBKc8ekKv5npUPnD+pUaSj8SWIgDlKUWMoIWVs7pA3GcwHF3/Nec6gnUH11y
- d/Q4i/awra12Ry5MZxZ9HMMif/+NSuKK2h7rBEcgwuHag8qmehD9R3t6QqUm6Lntv3dh
- cMkA==
-X-Gm-Message-State: APjAAAVrKIwxEn5+5biYy0d8/I7DMtrgX/BUJ3KpChhWpYJOueN2bFrw
- 3qfoL1q4tEhIoObUVqLcFOySR+L5m2g=
-X-Google-Smtp-Source: APXvYqxuycKcD2FE60LO3agy4DSjcMsPKKJxoGOhSLIoE3Vn4TsB83lS1Pq1v6ttohtpFsLKbFcXeg==
-X-Received: by 2002:a17:902:bd94:: with SMTP id
- q20mr87126516pls.307.1564163513826; 
- Fri, 26 Jul 2019 10:51:53 -0700 (PDT)
-Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
- [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.52
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:51:52 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:50:32 -0700
-Message-Id: <20190726175032.6769-68-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wkSx0OalOfQUYo0gvwfAvDMu6TklzMt4esDAb6i7vsM=;
+ b=tJlZbanH+2uPEyx2lOowuQnC2fFtEN/xeFRs6N3oZWWp1JHgzUcD5E+wUewFzrDDqf
+ NfF/BpOo2f/TlLxw1JB+Eo79/jVVe6MQOkiEuQCLtTfpHjY7NyT9fdMcwnXDf2gUzFup
+ r6P31t/hYE4EXYYbtKvxO1WuQ/EfNg2mkKjAt0ze0+YGIoaDjecU8C+ap0OJtefFDMTt
+ ZjTar0uPE/lWRJl/Z23wzalbOlaJcVULxYecclTj0phAMAabDytJKOYVaukZ8FNi+xEw
+ IOr866ncUaX5qclR2Se2QjA95m62mK1Dxnlj/7SjamuwU5PrHTey8UmDrBzfO+Tdg8EB
+ xHoA==
+X-Gm-Message-State: APjAAAWKzc3WraWs1FCbukcCSqYBOT8h59WFcEv0WkzNODmm6UYNwxjk
+ BpiiIsQ620PWI8vXIVU8jCL0OA==
+X-Google-Smtp-Source: APXvYqxW+DkdA1INys4b3oTci2eLSXQ6MqdQ9ho0zZVcXIAi92r45eN3JmJe7+Pxb352rqS09J7OUw==
+X-Received: by 2002:a63:1d4:: with SMTP id 203mr17677684pgb.441.1564166045241; 
+ Fri, 26 Jul 2019 11:34:05 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id v7sm10908081pff.87.2019.07.26.11.34.04
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 26 Jul 2019 11:34:04 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
+ <20190726175032.6769-67-richard.henderson@linaro.org>
+ <CAFEAcA9s44Lc58X=C1DzPRRCyi_KOpx0CiMfhKWEzAdDoU326A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <77302caf-9111-8341-c05a-aff996437c2b@linaro.org>
+Date: Fri, 26 Jul 2019 11:34:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9s44Lc58X=C1DzPRRCyi_KOpx0CiMfhKWEzAdDoU326A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH 67/67] target/arm: Merge gen_bx_im into
- trans_BLX_i
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH 66/67] target/arm: Move singlestep check
+ from gen_jmp to gen_goto_tb
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,65 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the only remaining use of gen_bx_im.  Simplify, since we know
-the destination mode is changing.  Use gen_jmp for the actual branch.
+On 7/26/19 11:13 AM, Peter Maydell wrote:
+> On Fri, 26 Jul 2019 at 18:51, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> We miss quite a number of single-step events by having
+>> the check in the wrong place.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  target/arm/translate.c | 16 ++++++----------
+>>  1 file changed, 6 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/target/arm/translate.c b/target/arm/translate.c
+>> index c2b8b86fd2..9ae9b23823 100644
+>> --- a/target/arm/translate.c
+>> +++ b/target/arm/translate.c
+>> @@ -2740,7 +2740,10 @@ static void gen_goto_ptr(void)
+>>   */
+>>  static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
+>>  {
+>> -    if (use_goto_tb(s, dest)) {
+>> +    if (unlikely(is_singlestepping(s))) {
+>> +        gen_set_pc_im(s, dest);
+>> +        gen_singlestep_exception(s);
+>> +    } else if (use_goto_tb(s, dest)) {
+>>          tcg_gen_goto_tb(n);
+>>          gen_set_pc_im(s, dest);
+>>          tcg_gen_exit_tb(s->base.tb, n);
+>> @@ -2751,16 +2754,9 @@ static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
+>>      s->base.is_jmp = DISAS_NORETURN;
+>>  }
+>>
+>> -static inline void gen_jmp (DisasContext *s, uint32_t dest)
+>> +static inline void gen_jmp(DisasContext *s, uint32_t dest)
+>>  {
+>> -    if (unlikely(is_singlestepping(s))) {
+>> -        /* An indirect jump so that we still trigger the debug exception.  */
+>> -        if (s->thumb)
+>> -            dest |= 1;
+>> -        gen_bx_im(s, dest);
+>> -    } else {
+>> -        gen_goto_tb(s, 0, dest);
+>> -    }
+>> +    gen_goto_tb(s, 0, dest);
+>>  }
+>>
+>>  static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
+> 
+> I haven't tested but I'm not sure this change is right.
+> The idea of the current code is that we handle generating
+> the actual singlestep exception in arm_tr_tb_stop() at the
+> end, rather than in the process of generating code for the
+> insn. This change means we now do a gen_singlestep_exception()
+> in the gen_jmp()/gen_goto_tb() part of the code, but we haven't
+> removed the handling of it in arm_tr_tb_stop(), so we're now
+> doing this in two places. Why doesn't the current design work?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+Note that the existing gen_goto_tb does not test for single-step, and always
+emits NORETURN code, either via tcg_gen_goto_tb() or
+tcg_gen_lookup_and_goto_ptr().  The singlestep exception is neither generated
+nor would it be reachable.
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9ae9b23823..dc51e1e622 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -813,21 +813,6 @@ static inline void gen_set_pc_im(DisasContext *s, target_ulong val)
-     tcg_gen_movi_i32(cpu_R[15], val);
- }
- 
--/* Set PC and Thumb state from an immediate address.  */
--static inline void gen_bx_im(DisasContext *s, uint32_t addr)
--{
--    TCGv_i32 tmp;
--
--    s->base.is_jmp = DISAS_JUMP;
--    if (s->thumb != (addr & 1)) {
--        tmp = tcg_temp_new_i32();
--        tcg_gen_movi_i32(tmp, addr & 1);
--        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUARMState, thumb));
--        tcg_temp_free_i32(tmp);
--    }
--    tcg_gen_movi_i32(cpu_R[15], addr & ~1);
--}
--
- /* Set PC and Thumb state from var.  var is marked as dead.  */
- static inline void gen_bx(DisasContext *s, TCGv_i32 var)
- {
-@@ -10042,12 +10027,18 @@ static bool trans_BL(DisasContext *s, arg_i *a)
- 
- static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
- {
-+    TCGv_i32 tmp;
-+
-     /* For A32, ARCH(5) is checked near the start of the uncond block. */
-     if (s->thumb && (a->imm & 2)) {
-         return false;
-     }
-     tcg_gen_movi_i32(cpu_R[14], s->pc | s->thumb);
--    gen_bx_im(s, (s->pc_read & ~3) + a->imm + !s->thumb);
-+    tmp = tcg_temp_new_i32();
-+    tcg_gen_movi_i32(tmp, !s->thumb);
-+    tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUARMState, thumb));
-+    tcg_temp_free_i32(tmp);
-+    gen_jmp(s, (s->pc_read & ~3) + a->imm);
-     return true;
- }
- 
--- 
-2.17.1
+Another way to do handle this would be to test single-step but set DISAS_JUMP
+instead of actually generate the singlestep exception in gen_goto_tb.  Do you
+prefer that method?
 
+> And if we need to do something different for the route to
+> "change the PC via gen_jmp()" why don't we need to do it
+> also when we change the PC via eg gen_bx_im() ?
+
+See patch 67.
+
+>  * four places for barrier insns where we use a
+>    gen_goto_tb to end the TB -- this isn't consistent
+>    with how we end the TB for other situations...)
+
+Fixing this sounds like a good cleanup.
+
+
+r~
 
