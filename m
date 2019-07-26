@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9E3770A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:54:19 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415AB7709C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:53:17 +0200 (CEST)
+Received: from localhost ([::1]:42252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4Q5-0007o3-6r
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:54:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
+	id 1hr4P4-00035C-Lv
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57433)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Mk-0002Cg-34
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:51 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Mm-0002Pc-Uc
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Mh-0007cb-KX
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:48 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39239)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Mj-0007hy-Q4
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:51 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42185)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Mh-0007Ze-Dl
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:47 -0400
-Received: by mail-pf1-x442.google.com with SMTP id f17so20863474pfn.6
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:47 -0700 (PDT)
+ id 1hr4Mj-0007g1-JA
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:49 -0400
+Received: by mail-pg1-x542.google.com with SMTP id t132so25100896pgb.9
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6AlrLPoHEa++V99L7+ZXhJHR2MnP9U+NbGuctJWMxJE=;
- b=mqb8bBC+RsDkqdEMK9OWURwjjLzi83s/2TP/cn0X/bcMBMFQt9jPUJkzStfa+59HBK
- VPfzXXkPsdu6+vc1IGIME0HhVU4rjindrTnDcc2gsfOmvMEuxo/Wby2TgPPhaj74alAh
- 3Rrn9UUznq3sT9Qb/hxM61DUtZgUPB8OYHG/B2WRCnebxf7M5KL4W6NMfCHg49MzTWiQ
- 8J9jGvodc2fCCXPPFtZ5i6l3aYJMIESIxRBPzVrd+RMBx5JgcOOOhdL6a8h4FoVj98Uo
- A1pPHfz96ZQCZmXlpsD2V/JWP+5Zh45+415MhmiXeNhmOROQpD04BLmMV+u5K3AaquZB
- 88wA==
+ bh=nQkh2An2kFZsAIQLEJuPgVfqt44IAx9vqtUtFyE7/Qo=;
+ b=nHLntBkexNHKSWsXkmEB+IE2sg7znr577TTLhAa2uCifkD4yBhqMItocTfOLYc7eSg
+ bNBDzDu0VhHCU3UnX0pVqWALgpBK/Cp1BTz9mEcn1RATqWNF2NlGAIT3KGGJ98y8HMlF
+ ULMa8sV3oOzMrPKknF6yU9SLmx+aXECNG0s1leBp+3kpURqs+j+wBnwpOt1DbZ4Oz9go
+ os4g/MTQXVloASFGIfbPuRtOgy2ufcTo5ZMA450lETtXaaH1JMhJd/H24AWfpLLIOxxf
+ Lho9Hwd3SpN/FOQx6Zm6FJ6yZ/vOVJ/Qbz8JdTfYxZhyc4TDpzDlHza+9/JO7lZP6JVq
+ BZZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=6AlrLPoHEa++V99L7+ZXhJHR2MnP9U+NbGuctJWMxJE=;
- b=f6BVbJAo+INOLeqfD+WPkagReXhn+e5Me4OHPt0K8SymZL3l/mZz+z6i2n7lb5z4KM
- zc70RP9UqBXhBj1e5+ern0y5W2CMuIdZlv43UiWI1flh1iLshUWO+t1e5Uj1Nult464C
- N4IT5kv3xlQvHxILWC6p1QbmJfCpPl+PDmOKxPMgegNttM8u/BV5gUvDE4RbxBceaxNV
- tz/+xHZ7KINky6OLwQesAydZdRMr3mwnBzR9lMCL0ihbbYJzNH7reUxCNGvQc4Ue8b4U
- Q2/FYwBmz/Wi8swsiqO9kKHCit7Pz+dFhgqR0S5XaZEo9DF6y1M9T1fcLyVLGRi3yJFw
- QW+Q==
-X-Gm-Message-State: APjAAAVGxMMOB4dBCjLwiS4SbXDz/f5U/6V7aLLdgeJPhooy3kH0URUl
- idAiYoBgeh8r7qeZdCUyY3BopTIdBEg=
-X-Google-Smtp-Source: APXvYqzi+sVHu8VG0O+VlkBK5lFI8X3/Vo1+1+1uShW6w4ASsOmFlmZxT/6ZdjwhL7XMnBAVU1eTwg==
-X-Received: by 2002:a63:ec48:: with SMTP id r8mr16802349pgj.387.1564163446138; 
- Fri, 26 Jul 2019 10:50:46 -0700 (PDT)
+ bh=nQkh2An2kFZsAIQLEJuPgVfqt44IAx9vqtUtFyE7/Qo=;
+ b=GozWpePHFKZMKwTbHttFYAlqhwWnVuw49xBqo3xp/osXLLdxfp3TDw4MUgE5Onv+mp
+ 5WLaBeaoivGw8dLfG24tIdJfe0xKtoWJPFQt7I3k82BCPfo6Qs0C/lYN1OUMV8k0UZ2T
+ eIVwK2e3OMEsqIpxZ4FHFm/7JTrt9D01PviZXZr3Ed/xJxGUVguEAEjU3SmsFDa+HpMK
+ vzGEVYvqo5bYPvQYRncAF1aDyHfbLb5oWrlMggJuHEW65IBznkgWyUOamJZtSlbxUwem
+ t6IbC29bklRyESO2KFVJrLtslNxvPzWmv+1MWKI2VWjOpPT+D+Q3pAWj0rqJNGQaivOM
+ EW5g==
+X-Gm-Message-State: APjAAAWPffWTMMLgg5wUl46h4PYfEi9MAQmm4fO0pn7kl3Rga5461Ta/
+ V7Km9dhGGizEkezhOXGAauACwnEKdKo=
+X-Google-Smtp-Source: APXvYqzb/RrE3v/cVejadmuj0wfOat1ZbaVTsjgfv5aO/STGnfdsTORa7sgGJCktsvw5B10t9hHb2Q==
+X-Received: by 2002:a17:90a:b903:: with SMTP id
+ p3mr97691321pjr.79.1564163448309; 
+ Fri, 26 Jul 2019 10:50:48 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.45
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:50:45 -0700 (PDT)
+ Fri, 26 Jul 2019 10:50:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:49:35 -0700
-Message-Id: <20190726175032.6769-11-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:49:37 -0700
+Message-Id: <20190726175032.6769-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 10/67] target/arm: Move test for AL into
- arm_skip_unless
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH 12/67] target/arm: Introduce gen_illegal_op
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,66 +80,95 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will shortly be calling this function much more often.
+Unify the code sequence for generating an illegal opcode exception.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
+ target/arm/translate-vfp.inc.c |  3 +--
+ target/arm/translate.c         | 21 +++++++++++----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index 4066b2febf..1b08930649 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -108,8 +108,7 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+ 
+     if (!s->vfp_enabled && !ignore_vfp_enabled) {
+         assert(!arm_dc_feature(s, ARM_FEATURE_M));
+-        gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                           default_exception_el(s));
++        gen_illegal_op(s);
+         return false;
+     }
+ 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 53c46fcdc4..36419025db 100644
+index 4738b91957..0f21ee9ce7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7705,8 +7705,14 @@ static void arm_gen_condlabel(DisasContext *s)
- /* Skip this instruction if the ARM condition is false */
- static void arm_skip_unless(DisasContext *s, uint32_t cond)
- {
--    arm_gen_condlabel(s);
--    arm_gen_test_cc(cond ^ 1, s->condlabel);
-+    /*
-+     * Conditionally skip the insn. Note that both 0xe and 0xf mean
-+     * "always"; 0xf is not "never".
-+     */
-+    if (cond < 0xe) {
-+        arm_gen_condlabel(s);
-+        arm_gen_test_cc(cond ^ 1, s->condlabel);
-+    }
+@@ -1279,6 +1279,12 @@ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
+     s->base.is_jmp = DISAS_NORETURN;
  }
  
- static void disas_arm_insn(DisasContext *s, unsigned int insn)
-@@ -7944,11 +7950,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
++static void gen_illegal_op(DisasContext *s)
++{
++    gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
++                       default_exception_el(s));
++}
++
+ /* Force a TB lookup after an instruction that changes the CPU state.  */
+ static inline void gen_lookup_tb(DisasContext *s)
+ {
+@@ -1309,8 +1315,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
+         return;
+     }
+ 
+-    gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                       default_exception_el(s));
++    gen_illegal_op(s);
+ }
+ 
+ static inline void gen_add_data_offset(DisasContext *s, unsigned int insn,
+@@ -7631,8 +7636,7 @@ static void gen_srs(DisasContext *s,
+     }
+ 
+     if (undef) {
+-        gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                           default_exception_el(s));
++        gen_illegal_op(s);
+         return;
+     }
+ 
+@@ -9299,8 +9303,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+             break;
+         default:
+         illegal_op:
+-            gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                               default_exception_el(s));
++            gen_illegal_op(s);
+             break;
          }
-         goto illegal_op;
      }
--    if (cond != 0xe) {
--        /* if not always execute, we generate a conditional jump to
--           next instruction */
--        arm_skip_unless(s, cond);
--    }
-+
-+    arm_skip_unless(s, cond);
-+
-     if ((insn & 0x0f900000) == 0x03000000) {
-         if ((insn & (1 << 21)) == 0) {
-             ARCH(6T2);
-@@ -12095,15 +12099,7 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     dc->insn = insn;
- 
-     if (dc->condexec_mask && !thumb_insn_is_unconditional(dc, insn)) {
--        uint32_t cond = dc->condexec_cond;
--
--        /*
--         * Conditionally skip the insn. Note that both 0xe and 0xf mean
--         * "always"; 0xf is not "never".
--         */
--        if (cond < 0x0e) {
--            arm_skip_unless(dc, cond);
--        }
-+        arm_skip_unless(dc, dc->condexec_cond);
+@@ -10990,8 +10993,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
      }
+     return;
+ illegal_op:
+-    gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                       default_exception_el(s));
++    gen_illegal_op(s);
+ }
  
-     if (is_16bit) {
+ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+@@ -11816,8 +11818,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+     return;
+ illegal_op:
+ undef:
+-    gen_exception_insn(s, EXCP_UDEF, syn_uncategorized(),
+-                       default_exception_el(s));
++    gen_illegal_op(s);
+ }
+ 
+ static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
 -- 
 2.17.1
 
