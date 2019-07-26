@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E5C773BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 23:52:31 +0200 (CEST)
-Received: from localhost ([::1]:43408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1270B773BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 23:52:05 +0200 (CEST)
+Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr88c-00081m-D3
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 17:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52825)
+	id 1hr88B-00078X-O4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 17:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52587)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1hr88O-0007bY-Ep
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:52:17 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hr87x-0006g6-3a
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1hr887-00040t-34
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:52:04 -0400
-Received: from mail-ed1-f48.google.com ([209.85.208.48]:41811)
+ (envelope-from <pbonzini@redhat.com>) id 1hr87v-0003tb-FR
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:48 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
- id 1hr87x-0002ob-7A; Fri, 26 Jul 2019 17:51:49 -0400
-Received: by mail-ed1-f48.google.com with SMTP id p15so54384719eds.8;
- Fri, 26 Jul 2019 14:48:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hr87u-0003NM-Sj
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:47 -0400
+Received: by mail-wm1-f66.google.com with SMTP id v19so48801436wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 14:50:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:references:mime-version
- :content-transfer-encoding:subject:to:from:message-id;
- bh=2AyAQVGQBQq6GkY01jBrkoZB7K3SRJrtiK85l7NW6Vo=;
- b=sGnvTfCGDaCAYGKcqKfCsRJ95IqoOd9kYvEQznj5OObLtz5zuOmZBlvdjzmG1I7PEB
- VUPHxeLDy8vxgTt0y6c9UmBTUnqzNvsuWQscW2jMIfgnAHLWcafhjLxi6OEchNF5G3oY
- R0S+EiVv1BLV8/wwQHAzM/TXMiqN16j+ggCbL6FTnObSVKUeWXvmGHx2v96SuOJkXXGq
- PEMsFPyFb/5DMx2s1yBlnu0J1xyZbEvc59pXwsdECnIRR5F/ZNGgvc0SOTyOaVFn8LEq
- adZKQ82/OshXjOi6xfi5V255GaL0I8azj8mfurkYinWUw+6EemyTxOgBnJ0jkUf+Q2Zy
- 9xHg==
-X-Gm-Message-State: APjAAAUM6fcJjWRb9S8gqjP7HLrqemrNGoLjADdrsGo4nBmBkaAvfzA8
- mbv/dCvQhgKxKRzzXrrIQ+AUc1ojd+I=
-X-Google-Smtp-Source: APXvYqwVTdz0eBkMTidrDK9VGJHhW8JYWJ2bgN10x4f9xvpXsFqV2eMJT+0uPO7NhF4G7mMIa2O4pg==
-X-Received: by 2002:a50:fb8c:: with SMTP id e12mr27651492edq.155.1564175381374; 
- Fri, 26 Jul 2019 14:09:41 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:c2bd:509e:e83c:a9b1:9a76:b53e?
- ([2a00:1fa0:c2bd:509e:e83c:a9b1:9a76:b53e])
- by smtp.gmail.com with ESMTPSA id f24sm13909666edt.82.2019.07.26.14.09.40
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 26 Jul 2019 14:09:40 -0700 (PDT)
-Date: Fri, 26 Jul 2019 23:09:36 +0200
-In-Reply-To: <76881947-141b-0a16-c52d-a315203c32eb@redhat.com>
-References: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
- <76881947-141b-0a16-c52d-a315203c32eb@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y42NyBvQudU+/4iG5WVpuCQS0TEERIwAYrGuB50wlpA=;
+ b=Wyf7AEhslxql8rxe02ZAOHtB9kIYrZmt+3SRB0LTCYtbDhNQSP2hppAsQp/1eeKi90
+ jCsOdeNgf64n8k6FqUzOI7P8Db0Q7q/x3j8wQLWQEY0FtbwyO12Dn/A2eggDES1Gkm75
+ MDvffFH2SysYszRMhsk6arbWTtKmnZ9T6wycDPPudaICqmUJFvQiQt3fi241AJf1cIMX
+ EceeqKEVxTtp/AOYk/LzEdtQYoWhPLX/nGUGt7ng0qRxn7K3l8VnNIBD3EWFBDT8LkcK
+ W5XFzbztjE1Q9OsBL3M1aYZIumzMk4pMtBCdWWjq4MjjYeooHiNjcn4oDI9VnTXQDxMs
+ Vh+A==
+X-Gm-Message-State: APjAAAW2lAU3kW9MXG+97gePWZP6LDq6M124XbDlh6qpPXsJjIdgMkFT
+ bT+g4XKaomr1dk+vzleg03mMcQ==
+X-Google-Smtp-Source: APXvYqyJLKRAqFhFQuNtxHh9DrWEsYOThB9CYagNgVlHiPkmm7kLqif++E/4xzGDW4QJLAjLVGc4VA==
+X-Received: by 2002:a1c:a909:: with SMTP id s9mr85785662wme.20.1564177821065; 
+ Fri, 26 Jul 2019 14:50:21 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:9036:7130:d6ec:a346?
+ ([2001:b07:6468:f312:9036:7130:d6ec:a346])
+ by smtp.gmail.com with ESMTPSA id g8sm52294717wmf.17.2019.07.26.14.50.20
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 26 Jul 2019 14:50:20 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@gmail.com>, "Oleinik, Alexander" <alxndr@bu.edu>
+References: <20190725032321.12721-1-alxndr@bu.edu>
+ <20190725032321.12721-8-alxndr@bu.edu>
+ <20190726125633.GE25977@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <fe918732-c8eb-61b6-b44f-01a47c77e4e5@redhat.com>
+Date: Fri, 26 Jul 2019 23:50:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-To: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, mst@redhat.com, pmatouse@redhat.com,
- sstabellini@kernel.org, mdroth@linux.vnet.ibm.com, pjp@redhat.com
-From: Alexander Popov <alex.popov@linux.com>
-Message-ID: <781B2374-635B-4B24-AF3C-EA42152C2335@linux.com>
+In-Reply-To: <20190726125633.GE25977@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.208.48
-Subject: Re: [Qemu-devel] [QEMU-SECURITY] ide: fix assertion in ide_dma_cb()
- to prevent qemu DoS from quest
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [RFC 07/19] fuzz: Modify libqtest to directly
+ invoke qtest.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,30 +75,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ "superirishdonkey@gmail.com" <superirishdonkey@gmail.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 26/07/19 14:56, Stefan Hajnoczi wrote:
+> This should use indirection: a function pointer to dispatch to either
+> the socket or the internal qtest_process_inbuf() call.
+> 
+> With a bit of refactoring you can eliminate the #ifdefs and treat the
+> socket fd as one backend and direct invocation as another backend.
 
+My suggestion was a bit different (two files), but this also works.  In
+fact it can also be combined to have three files:
 
-26 =D0=B8=D1=8E=D0=BB=D1=8F 2019 =D0=B3=2E 2:25:03 GMT+02:00, John Snow <j=
-snow@redhat=2Ecom> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->Oh, this is fun=2E
-=2E=2E=2E=20
->I can worry about a proper fix for 4=2E2+=2E
+- one defining libqtest's qtest_init and associated struct of function
+pointers
 
-Hello John,=20
+- one defining the fuzzer's qtest_init and associated struct of function
+pointers
 
-Thanks for your letter=2E=20
+- one with the remaining libqtest code, modified to use the struct of
+function pointers for everything that you're #ifdef-ing here, and a
+function qtest_client_init that receives the struct of function pointers
+and stores them in QTestState.  The two qtest_init implementations in
+the other files just call qtest_client_init.
 
-I double-checked the git history and mailing list, I'm still sure
-that my fix for this assertion is correct=2E
-
-You know this code very well, of course it would be great if you
-prepare the further fixes=2E=20
-
-Feel free to add me to CC, I can review the patches and test
-them with fuzzing=2E=20
-
-Best regards,=20
-Alexander 
+Paolo
 
