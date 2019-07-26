@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284CC770AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:56:33 +0200 (CEST)
-Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE41C770BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:57:55 +0200 (CEST)
+Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4SF-0000Za-R5
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58917)
+	id 1hr4Ta-0006HV-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59049)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4NR-0005Lb-Nm
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:34 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4NW-0005fG-Bq
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4NQ-0000p1-I4
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:33 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33410)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4NR-0000sI-SQ
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:36 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39973)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4NQ-0000if-CO
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:32 -0400
-Received: by mail-pg1-x544.google.com with SMTP id f20so15878106pgj.0
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:30 -0700 (PDT)
+ id 1hr4NR-0000lc-Js
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:33 -0400
+Received: by mail-pg1-x541.google.com with SMTP id w10so25118876pgj.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DJdrX3hGPWd+nibN4wc0pBIHsM6KUMw+bIbJb3gnsWg=;
- b=SMX8tfFkoYwIcv28vMhG4MahozdMyw8XYZvQYpm8lIsJRiHb2YmyH0RHZXRjuDqG8h
- aNaPPkmq5W0/5pVAmjCWfTw3wz9bM+uMD8/wWAd7UTVSZcmT3E1EswqaoFFdThQENjXW
- m6/AdnpmZt44SLMTqMHuS/1Ygct9wrRViSSX1T/N16/h31A7MIrgfc+3VctsYstZwYBF
- binQlAKZEC9FHXAt+6B1htgh6+w9laFYIrPMfNyZu/up+pEGglfJE8rnNYlPcS1VZbOD
- Tb+UqKL8bN/1z/8zfK4TddcX6zacp/nRkYa/T+205DTcD+r2xOL0uRy/6kbL+3xOLaUi
- +eSQ==
+ bh=rYLqZpflL8enArleH0yr8+1WjHV+ohzdNCLhPhFauU8=;
+ b=vUuFxnGZfQO+eydHDnu89G4IdZjWb7HlKZY0QaHpGWE2BItOyaXMRIyVdYMQ5FlbEM
+ Yim3sn4LSJI+5S27aQP1J2C2gp1832rmmjn9LZEPvvc6vHBj15SNzxQnSTccj6It2Qu6
+ cS6QTKFPWIY1IProfCj0G52h3yThcb54AOYaoXea967IO0U7De6pKTx3WjHAbiwNNoQW
+ Pv2eBFF0vGE0C8m5ue1r55cJDh1mazO5ejuFcwKyH0XSM6zu9//T4NI/KhOvRakQY0bv
+ LIsUPxvbl/VsMzZRVQY/gHNa2DNFyrVkYn/6y36PZCjMoYP7ouD3kNNyjtf9KLKQhUlg
+ STGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=DJdrX3hGPWd+nibN4wc0pBIHsM6KUMw+bIbJb3gnsWg=;
- b=FA2fHL1YvejWdllZ2nh8lcPtWMf0iiD2GX74OkmgzkrRa6eKE+vdRF5lr8zlGEy1Af
- cSZOigovVA4ATU59zKLa1whbLXCPDNk2UbN1VkNMkacfMZOVquiclyqo6htuzoJZOySU
- BQIBXRhsBsO5EaYFXVs825Gs8xUE8pe+mDeebD1tNEK1444pzyyuDHffMeBYDMia1hca
- eScGN6GXYbsdDbo+dmnx2LnmLRH8KJx0UjkGEHrX4x5OLTOAeZM/5XEEL8S94L14WzPj
- X/3MqVcl35IzBUldglo83n47TR2s6ktv2PalHeSJGZqwWTlBy/YzTe+933+9zgwcHARO
- 7dlA==
-X-Gm-Message-State: APjAAAVs3hwH7U1DJjCCxNanArryV7kUEi6wCGmeBhBwm9GWKzbZ6ItX
- TFUcaEiH2szJE8ZVn+sWgQeEpbNgthc=
-X-Google-Smtp-Source: APXvYqxt5OeXyTqlms/fhyEnWqA7BM19XAhuclm4VyzXPMYj4CgieR1zEPJaoVEaJ23TsrDFfI/G/g==
-X-Received: by 2002:a63:5823:: with SMTP id m35mr93897621pgb.329.1564163489154; 
- Fri, 26 Jul 2019 10:51:29 -0700 (PDT)
+ bh=rYLqZpflL8enArleH0yr8+1WjHV+ohzdNCLhPhFauU8=;
+ b=t6eSJVZ9WBeYqG7QFh0GjW0PLsjEM/XSlrM0IQY9O6nq5ax8WOX5M+vRPtg+IgWOht
+ T8jBV0KaAd4fHIXU2lG4NClBacLqIi982PDlS1gQqn+b4h3kh8fYONmCRT6tL1a6ZNH+
+ zqPSxXjYoIKh0y9Q44d/L/DpLR2kbH7MNGiSEYFrk/n0zukDRtllJhI5EMmxaWGud60r
+ pJKfjntUMnyXCZoZrTboDxJzeGl/51avPhUSsSYSaKWSLBhSr5Ox8K2dSiU9cehym3gq
+ BxqmfFvVKlNT5xm9b+Xp7yGxff2JH4MXjNDoQp/vj+6r3bsEsxyZdZyxiCVvbDRHZ6hu
+ uuRw==
+X-Gm-Message-State: APjAAAVqb4Z28vN79tdSyBlW8YvusFMpAIQ9KdNyPsvYyKbQ5HbFGmqA
+ 3MUnlbXDPlVe/13BnqHDIHXntFmXbQI=
+X-Google-Smtp-Source: APXvYqznLqbjQE4G5DtbsMbfZhR3WNUcUn1+ZBUIdYGBmr2MQX1yzZmDouKWrzWZUYSZkV66yVC+hw==
+X-Received: by 2002:a63:7e1d:: with SMTP id z29mr92318259pgc.346.1564163490363; 
+ Fri, 26 Jul 2019 10:51:30 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.28
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.29
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:51:28 -0700 (PDT)
+ Fri, 26 Jul 2019 10:51:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:50:10 -0700
-Message-Id: <20190726175032.6769-46-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:50:11 -0700
+Message-Id: <20190726175032.6769-47-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH 45/67] target/arm: Convert T16 load/store
- (register offset)
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 46/67] target/arm: Convert T16 load/store
+ (immediate offset)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,102 +82,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 51 ++----------------------------------------
- target/arm/t16.decode  | 15 +++++++++++++
- 2 files changed, 17 insertions(+), 49 deletions(-)
+ target/arm/translate.c | 94 +++---------------------------------------
+ target/arm/t16.decode  | 33 +++++++++++++++
+ 2 files changed, 38 insertions(+), 89 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 17a0eea425..7b87621315 100644
+index 7b87621315..28f274ca7c 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10754,55 +10754,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+@@ -10753,97 +10753,13 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+          */
          goto illegal_op;
  
-     case 5:
--        /* load/store register offset.  */
+-    case 5:
+-        /* load/store register offset, in decodetree */
++    case 5: /* load/store register offset, in decodetree */
++    case 6: /* load/store word immediate offset, in decodetree */
++    case 7: /* load/store byte immediate offset, in decodetree */
++    case 8: /* load/store halfword immediate offset, in decodetree */
++    case 9: /* load/store from stack, in decodetree */
+         goto illegal_op;
+ 
+-    case 6:
+-        /* load/store word immediate offset */
 -        rd = insn & 7;
 -        rn = (insn >> 3) & 7;
--        rm = (insn >> 6) & 7;
--        op = (insn >> 9) & 7;
 -        addr = load_reg(s, rn);
--        tmp = load_reg(s, rm);
--        tcg_gen_add_i32(addr, addr, tmp);
--        tcg_temp_free_i32(tmp);
+-        val = (insn >> 4) & 0x7c;
+-        tcg_gen_addi_i32(addr, addr, val);
 -
--        if (op < 3) { /* store */
--            tmp = load_reg(s, rd);
--        } else {
+-        if (insn & (1 << 11)) {
+-            /* load */
 -            tmp = tcg_temp_new_i32();
--        }
--
--        switch (op) {
--        case 0: /* str */
--            gen_aa32_st32_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 1: /* strh */
--            gen_aa32_st16_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 2: /* strb */
--            gen_aa32_st8_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 3: /* ldrsb */
--            gen_aa32_ld8s_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 4: /* ldr */
--            gen_aa32_ld32u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 5: /* ldrh */
--            gen_aa32_ld16u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 6: /* ldrb */
--            gen_aa32_ld8u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        case 7: /* ldrsh */
--            gen_aa32_ld16s_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
--            break;
--        }
--        if (op >= 3) { /* load */
+-            gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
 -            store_reg(s, rd, tmp);
 -        } else {
+-            /* store */
+-            tmp = load_reg(s, rd);
+-            gen_aa32_st32(s, tmp, addr, get_mem_index(s));
 -            tcg_temp_free_i32(tmp);
 -        }
 -        tcg_temp_free_i32(addr);
 -        break;
-+        /* load/store register offset, in decodetree */
-+        goto illegal_op;
- 
-     case 6:
-         /* load/store word immediate offset */
+-
+-    case 7:
+-        /* load/store byte immediate offset */
+-        rd = insn & 7;
+-        rn = (insn >> 3) & 7;
+-        addr = load_reg(s, rn);
+-        val = (insn >> 6) & 0x1f;
+-        tcg_gen_addi_i32(addr, addr, val);
+-
+-        if (insn & (1 << 11)) {
+-            /* load */
+-            tmp = tcg_temp_new_i32();
+-            gen_aa32_ld8u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            store_reg(s, rd, tmp);
+-        } else {
+-            /* store */
+-            tmp = load_reg(s, rd);
+-            gen_aa32_st8_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            tcg_temp_free_i32(tmp);
+-        }
+-        tcg_temp_free_i32(addr);
+-        break;
+-
+-    case 8:
+-        /* load/store halfword immediate offset */
+-        rd = insn & 7;
+-        rn = (insn >> 3) & 7;
+-        addr = load_reg(s, rn);
+-        val = (insn >> 5) & 0x3e;
+-        tcg_gen_addi_i32(addr, addr, val);
+-
+-        if (insn & (1 << 11)) {
+-            /* load */
+-            tmp = tcg_temp_new_i32();
+-            gen_aa32_ld16u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            store_reg(s, rd, tmp);
+-        } else {
+-            /* store */
+-            tmp = load_reg(s, rd);
+-            gen_aa32_st16_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            tcg_temp_free_i32(tmp);
+-        }
+-        tcg_temp_free_i32(addr);
+-        break;
+-
+-    case 9:
+-        /* load/store from stack */
+-        rd = (insn >> 8) & 7;
+-        addr = load_reg(s, 13);
+-        val = (insn & 0xff) * 4;
+-        tcg_gen_addi_i32(addr, addr, val);
+-
+-        if (insn & (1 << 11)) {
+-            /* load */
+-            tmp = tcg_temp_new_i32();
+-            gen_aa32_ld32u_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            store_reg(s, rd, tmp);
+-        } else {
+-            /* store */
+-            tmp = load_reg(s, rd);
+-            gen_aa32_st32_iss(s, tmp, addr, get_mem_index(s), rd | ISSIs16Bit);
+-            tcg_temp_free_i32(tmp);
+-        }
+-        tcg_temp_free_i32(addr);
+-        break;
+-
+     case 10:
+         /*
+          * 0b1010_xxxx_xxxx_xxxx
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 9833fc97e7..567c5005d6 100644
+index 567c5005d6..797e4e7068 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -23,6 +23,7 @@
- &s_rrr_shr       !extern s rn rd rm rs shty
+@@ -24,6 +24,7 @@
  &s_rri_rot       !extern s rn rd imm rot
  &s_rrrr          !extern s rd rn rm ra
-+&ldst_rr         !extern p w u rn rt rm shimm shtype
+ &ldst_rr         !extern p w u rn rt rm shimm shtype
++&ldst_ri         !extern p w u rn rt imm
  
  # Set S if the instruction is outside of an IT block.
  %s               !function=t16_setflags
-@@ -54,3 +55,17 @@ ORR_rrri         010000 1100 ... ...            @lll_noshr
- MUL              010000 1101 rn:3 rd:3          &s_rrrr %s rm=%reg_0 ra=0
- BIC_rrri         010000 1110 ... ...            @lll_noshr
- MVN_rrri         010000 1111 ... ...            @lll_noshr
+@@ -69,3 +70,35 @@ LDR_rr           0101 100 ... ... ...           @ldst_rr
+ LDRH_rr          0101 101 ... ... ...           @ldst_rr
+ LDRB_rr          0101 110 ... ... ...           @ldst_rr
+ LDRSH_rr         0101 111 ... ... ...           @ldst_rr
 +
-+# Load/store (register offset)
++# Load/store word/byte (immediate offset)
 +
-+@ldst_rr         ....... rm:3 rn:3 rt:3 \
-+                 &ldst_rr p=1 w=0 u=1 shimm=0 shtype=0
++%imm5_6x4       6:5 !function=times_4
 +
-+STR_rr           0101 000 ... ... ...           @ldst_rr
-+STRH_rr          0101 001 ... ... ...           @ldst_rr
-+STRB_rr          0101 010 ... ... ...           @ldst_rr
-+LDRSB_rr         0101 011 ... ... ...           @ldst_rr
-+LDR_rr           0101 100 ... ... ...           @ldst_rr
-+LDRH_rr          0101 101 ... ... ...           @ldst_rr
-+LDRB_rr          0101 110 ... ... ...           @ldst_rr
-+LDRSH_rr         0101 111 ... ... ...           @ldst_rr
++@ldst_ri_1      ..... imm:5 rn:3 rt:3 \
++                &ldst_ri p=1 w=0 u=1
++@ldst_ri_4      ..... ..... rn:3 rt:3 \
++                &ldst_ri p=1 w=0 u=1 imm=%imm5_6x4
++
++STR_ri          01100 ..... ... ...             @ldst_ri_4
++LDR_ri          01101 ..... ... ...             @ldst_ri_4
++STRB_ri         01110 ..... ... ...             @ldst_ri_1
++LDRB_ri         01111 ..... ... ...             @ldst_ri_1
++
++# Load/store halfword (immediate offset)
++
++%imm5_6x2       6:5 !function=times_2
++@ldst_ri_2      ..... ..... rn:3 rt:3 \
++                &ldst_ri p=1 w=0 u=1 imm=%imm5_6x2
++
++STRH_ri         10000 ..... ... ...             @ldst_ri_2
++LDRH_ri         10001 ..... ... ...             @ldst_ri_2
++
++# Load/store (SP-relative)
++
++%imm8_0x4       0:8 !function=times_4
++@ldst_spec_i    ..... rt:3 ........ \
++                &ldst_ri p=1 w=0 u=1 imm=%imm8_0x4
++
++STR_ri          10010 ... ........              @ldst_spec_i rn=13
++LDR_ri          10011 ... ........              @ldst_spec_i rn=13
 -- 
 2.17.1
 
