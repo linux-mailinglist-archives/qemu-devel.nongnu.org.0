@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1270B773BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 23:52:05 +0200 (CEST)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9341D773C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 23:52:47 +0200 (CEST)
+Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr88B-00078X-O4
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 17:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52587)
+	id 1hr88s-0000cb-R0
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 17:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hr87x-0006g6-3a
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:50 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hr88Y-00086t-QN
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:52:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hr87v-0003tb-FR
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:48 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40050)
+ (envelope-from <pbonzini@redhat.com>) id 1hr88W-0004Bz-NB
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:52:25 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:56092)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hr87u-0003NM-Sj
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:51:47 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v19so48801436wmj.5
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 14:50:22 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hr88W-0003rT-EL
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:52:24 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so49103309wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 14:51:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y42NyBvQudU+/4iG5WVpuCQS0TEERIwAYrGuB50wlpA=;
- b=Wyf7AEhslxql8rxe02ZAOHtB9kIYrZmt+3SRB0LTCYtbDhNQSP2hppAsQp/1eeKi90
- jCsOdeNgf64n8k6FqUzOI7P8Db0Q7q/x3j8wQLWQEY0FtbwyO12Dn/A2eggDES1Gkm75
- MDvffFH2SysYszRMhsk6arbWTtKmnZ9T6wycDPPudaICqmUJFvQiQt3fi241AJf1cIMX
- EceeqKEVxTtp/AOYk/LzEdtQYoWhPLX/nGUGt7ng0qRxn7K3l8VnNIBD3EWFBDT8LkcK
- W5XFzbztjE1Q9OsBL3M1aYZIumzMk4pMtBCdWWjq4MjjYeooHiNjcn4oDI9VnTXQDxMs
- Vh+A==
-X-Gm-Message-State: APjAAAW2lAU3kW9MXG+97gePWZP6LDq6M124XbDlh6qpPXsJjIdgMkFT
- bT+g4XKaomr1dk+vzleg03mMcQ==
-X-Google-Smtp-Source: APXvYqyJLKRAqFhFQuNtxHh9DrWEsYOThB9CYagNgVlHiPkmm7kLqif++E/4xzGDW4QJLAjLVGc4VA==
-X-Received: by 2002:a1c:a909:: with SMTP id s9mr85785662wme.20.1564177821065; 
- Fri, 26 Jul 2019 14:50:21 -0700 (PDT)
+ bh=n4mqr7paywORaZUl6qISKbFJ41AH3otwRlzFIuZX9x0=;
+ b=Hu8iMgCVNkfoFwCSn0eJGW/V11xKhJv4VWPH4j2hHjs004VLOofSgiv4E9eTtex0iM
+ D1V2SU5+Km/n7yDf2jOcZRkgykAY0v0d4r/LTgu/JJIp4r3jjsi7zHVj4SSmU5vJ8RTr
+ dCNu0dKGg/fVwzL5QTRTczIPZc4MLwOTdNvwD+hz/YhNmOZ23hmu0aUDdezX91bXD4x/
+ 3IXZwiPttAKesR75vY7rjGy8bm5INYgrCOj3OrBwptRCQuHAWp4klPtI2bFG6A0g80m4
+ bijxOkcfNPJcXAUAhNnOt9jgXEZ7D+cNO6xwfa+Mf6HdPnPjj2sR0p4mIK23w6E9x8FL
+ ft2g==
+X-Gm-Message-State: APjAAAWfel2wJtC5YurV/kXxw3mA4YxLO6jHBG0c3aSTCk31DIv/jdPc
+ tINbjOZkIcS7/3mT2o3Hyz18VA==
+X-Google-Smtp-Source: APXvYqy8E/Wk0CozynLwgUh8Mqsb/L/Ywv1pDYllloOW/C2+J5lHqoQ+JvvRGKrX4FmZgKpoYeQJCw==
+X-Received: by 2002:a7b:ce18:: with SMTP id m24mr83928552wmc.126.1564177904996; 
+ Fri, 26 Jul 2019 14:51:44 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:9036:7130:d6ec:a346?
  ([2001:b07:6468:f312:9036:7130:d6ec:a346])
- by smtp.gmail.com with ESMTPSA id g8sm52294717wmf.17.2019.07.26.14.50.20
+ by smtp.gmail.com with ESMTPSA id i66sm87131276wmi.11.2019.07.26.14.51.43
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 26 Jul 2019 14:50:20 -0700 (PDT)
+ Fri, 26 Jul 2019 14:51:44 -0700 (PDT)
 To: Stefan Hajnoczi <stefanha@gmail.com>, "Oleinik, Alexander" <alxndr@bu.edu>
 References: <20190725032321.12721-1-alxndr@bu.edu>
- <20190725032321.12721-8-alxndr@bu.edu>
- <20190726125633.GE25977@stefanha-x1.localdomain>
+ <20190725032321.12721-10-alxndr@bu.edu>
+ <20190726130414.GG25977@stefanha-x1.localdomain>
 From: Paolo Bonzini <pbonzini@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <fe918732-c8eb-61b6-b44f-01a47c77e4e5@redhat.com>
-Date: Fri, 26 Jul 2019 23:50:19 +0200
+Message-ID: <754e1464-964b-61d7-6fda-ba52372b4756@redhat.com>
+Date: Fri, 26 Jul 2019 23:51:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190726125633.GE25977@stefanha-x1.localdomain>
+In-Reply-To: <20190726130414.GG25977@stefanha-x1.localdomain>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [RFC 07/19] fuzz: Modify libqtest to directly
- invoke qtest.c
+Subject: Re: [Qemu-devel] [RFC 09/19] fuzz: use mtree_info to find mapped
+ addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,35 +75,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: "bsd@redhat.com" <bsd@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "superirishdonkey@gmail.com" <superirishdonkey@gmail.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "superirishdonkey@gmail.com" <superirishdonkey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/07/19 14:56, Stefan Hajnoczi wrote:
-> This should use indirection: a function pointer to dispatch to either
-> the socket or the internal qtest_process_inbuf() call.
+On 26/07/19 15:04, Stefan Hajnoczi wrote:
+> On Thu, Jul 25, 2019 at 03:23:51AM +0000, Oleinik, Alexander wrote:
+>> Locate mmio and port i/o addresses that are mapped to devices so we can
+>> limit the fuzzer to only these addresses. This should be replaced with
+>> a sane way of enumaring these memory regions.
+>>
+>> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+>> ---
+>>  memory.c | 34 ++++++++++++++++++++++++++++++++++
+>>  1 file changed, 34 insertions(+)
+>>
+>> diff --git a/memory.c b/memory.c
+>> index 5d8c9a9234..fa6cbe4f1d 100644
+>> --- a/memory.c
+>> +++ b/memory.c
+>> @@ -34,6 +34,11 @@
+>>  #include "hw/qdev-properties.h"
+>>  #include "hw/boards.h"
+>>  #include "migration/vmstate.h"
+>> +#ifdef CONFIG_FUZZ
+>> +#include "tests/fuzz/fuzz.h"
+>> +#include "tests/fuzz/qos_fuzz.h"
+>> +#endif
+>> +
+>>  
+>>  //#define DEBUG_UNASSIGNED
+>>  
+>> @@ -3016,12 +3021,20 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+>>      int n = view->nr;
+>>      int i;
+>>      AddressSpace *as;
+>> +#ifdef CONFIG_FUZZ
+>> +    bool io=false;
+>> +#endif
+>> +
+>>  
+>>      qemu_printf("FlatView #%d\n", fvi->counter);
+>>      ++fvi->counter;
+>>  
+>>      for (i = 0; i < fv_address_spaces->len; ++i) {
+>>          as = g_array_index(fv_address_spaces, AddressSpace*, i);
+>> +#ifdef CONFIG_FUZZ
+>> +        if(strcmp("I/O",as->name) == 0)
+>> +            io = true;
+>> +#endif
+>>          qemu_printf(" AS \"%s\", root: %s",
+>>                      as->name, memory_region_name(as->root));
+>>          if (as->root->alias) {
+>> @@ -3062,6 +3075,27 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+>>                          range->readonly ? "rom" : memory_region_type(mr),
+>>                          memory_region_name(mr));
+>>          }
+>> +#ifdef CONFIG_FUZZ
+>> +        if(strcmp("i/o", memory_region_type(mr))==0 && strcmp("io", memory_region_name(mr))){
+>> +            fuzz_memory_region *fmr = g_new0(fuzz_memory_region, 1);
+>> +            if(!fuzz_memory_region_head)
+>> +            {
+>> +                fuzz_memory_region_head = fmr;
+>> +                fuzz_memory_region_tail = fmr;
+>> +            }
+>> +            fmr->io = io;
+>> +            fmr->start = int128_get64(range->addr.start);
+>> +            fmr->length = MR_SIZE(range->addr.size);
+>> +            fmr->next = fuzz_memory_region_head;
+>> +            fuzz_memory_region_tail->next = fmr;
+>> +            fuzz_memory_region_tail = fmr;
+>> +            if(io == true){
+>> +                total_io_mem += MR_SIZE(range->addr.size)+1;
+>> +            } else {
+>> +                total_ram_mem += MR_SIZE(range->addr.size)+1;
+>> +            }
+>> +        }
+>> +#endif
 > 
-> With a bit of refactoring you can eliminate the #ifdefs and treat the
-> socket fd as one backend and direct invocation as another backend.
+> Why is this patch modifying a print function?  I think the goal is to
+> build the fuzz_memory_region list and calculate
+> total_io_mem/total_ram_mem.  This should be done by a separate function.
 
-My suggestion was a bit different (two files), but this also works.  In
-fact it can also be combined to have three files:
-
-- one defining libqtest's qtest_init and associated struct of function
-pointers
-
-- one defining the fuzzer's qtest_init and associated struct of function
-pointers
-
-- one with the remaining libqtest code, modified to use the struct of
-function pointers for everything that you're #ifdef-ing here, and a
-function qtest_client_init that receives the struct of function pointers
-and stores them in QTestState.  The two qtest_init implementations in
-the other files just call qtest_client_init.
+Yeah, this should just cut-and-paste code from mtree_print_flatview,
+then you can remove the printing stuff completely from your copy.
 
 Paolo
+
 
