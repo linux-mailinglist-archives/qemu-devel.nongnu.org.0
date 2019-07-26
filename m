@@ -2,46 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDB976C0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 16:51:30 +0200 (CEST)
-Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CF576C23
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 16:55:57 +0200 (CEST)
+Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr1ZB-0004Tz-Io
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 10:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56902)
+	id 1hr1dU-0000Fd-RM
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 10:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39787)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <S.E.Harris@kent.ac.uk>) id 1hr1Yg-0003hE-7g
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:50:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr1dF-00082T-Tm
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:55:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <S.E.Harris@kent.ac.uk>) id 1hr1Yc-0007uZ-Fx
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:50:58 -0400
-Received: from mx0.kent.ac.uk ([129.12.21.32]:58393)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1hr1Ya-0007ps-C7
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:50:54 -0400
-Received: from edueda7.kent.ac.uk ([129.12.237.167] helo=cadance)
- by mx0.kent.ac.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.92) (envelope-from <S.E.Harris@kent.ac.uk>)
- id 1hr1YV-000MNY-CP; Fri, 26 Jul 2019 15:50:47 +0100
-Date: Fri, 26 Jul 2019 15:53:02 +0100
-From: Sarah Harris <S.E.Harris@kent.ac.uk>
-To: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20190726155302.acca1173b146bb7e7f471fdc@kent.ac.uk>
-In-Reply-To: <CAK4993g3sX5QEq-qXg_1s9+us3pBW5RDYFnLLiJe7=2OUxpjtQ@mail.gmail.com>
-References: <20190719082647.18113-1-mrolnik@gmail.com>
- <20190719082647.18113-6-mrolnik@gmail.com>
- <000c01d542cf$d8476a00$88d63e00$@ru>
- <CAK4993g3sX5QEq-qXg_1s9+us3pBW5RDYFnLLiJe7=2OUxpjtQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <richard.henderson@linaro.org>) id 1hr1dE-0005lC-R6
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:55:41 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38175)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hr1dE-0005jb-GB
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 10:55:40 -0400
+Received: by mail-pf1-x441.google.com with SMTP id y15so24648993pfn.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 07:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Odfgxg7vIXjw/Iv/5NARPcAT/tZ6lO+gPqDya16oOQ4=;
+ b=u0YrwrijpB6FA7Cga6XnQQeIHcroFf8ygXeNB02hz9a1VnnMQubvQGMPjObIS7biyN
+ 69KtH1dqHycTjA4dTcAD8FEy0b5dhVrSLpD29wZ7qB0XyaITpokk2vBEjKV7ePuGPWbw
+ wAf9nsZmgH5yhmfZU5K04mkYGJip/ubasv1FPBu6t4ClVTXfE03oNEP6tO/8KPMKunuC
+ RZJhT7lwi2b6ogDl+oenX3kKnJakbObLGejqnF5GSaNpFm8G5CVUK2TDX9RR4UVG7sa/
+ rv5XaHgyQEcAT/QA5aNkOkmX1eKruqwHyj0Q9LHlEaX5/TcpsGyrjsgmXGtN3ZGwSErk
+ cWUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Odfgxg7vIXjw/Iv/5NARPcAT/tZ6lO+gPqDya16oOQ4=;
+ b=TKkGx9N25xWLrbg5v2oBkAby66R706d/vFg6knKXCdtHDHh8o319G7elk60/ec5Tza
+ 1sxlDyAdU333egYXaxXBqHopC9+h/823ZlUf1ZKluX/Wj8HPwAQLoBCCCP8pyIANQtcH
+ gh8pxlaF+2bvtoQwrFMJ11s7ZuS1VhzNpq8tt+BqDt2kf/4KTFEjoYQMxFdUk/5cZeRo
+ TsGQRJhnID/AYRc/3lwotTqI2jnguMJn1Iaq1TVfC8Vb+NZNcCellceCKxD0tp3yaA5h
+ eLIHeW90P/6qW+UB/yv9aNa32M24WdjksRkNtvgJFqWqfAeJ066w2loeLty6rC7j7pJK
+ KjkA==
+X-Gm-Message-State: APjAAAUxaCLguiBHjEZI1P7Ja4TjOJS3n1thKgYhr5Psm+BkVXLs4g0K
+ Mr0OJhiiEhsuBzXhMZ7W74j5JA==
+X-Google-Smtp-Source: APXvYqxHP3A+az/tb3/Ex2/ugET3pE/toCX8uSZ0qv7LoYoPMUw15icDo/Fh8Ra+2FoGKjMLkB6zHQ==
+X-Received: by 2002:a17:90a:9f08:: with SMTP id
+ n8mr99311338pjp.102.1564152939279; 
+ Fri, 26 Jul 2019 07:55:39 -0700 (PDT)
+Received: from [192.168.1.11] (97-126-117-207.tukw.qwest.net. [97.126.117.207])
+ by smtp.gmail.com with ESMTPSA id b68sm68532990pfb.149.2019.07.26.07.55.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 26 Jul 2019 07:55:38 -0700 (PDT)
+To: tony.nguyen@bt.com, qemu-devel@nongnu.org
+References: <3106a3c959c4498fad13a5799c89ba7b@tpw09926dag18e.domain1.systemhost.net>
+ <1564123735589.34363@bt.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <1d9a2b2b-625c-f7d6-cf3c-97b5b40d366a@linaro.org>
+Date: Fri, 26 Jul 2019 07:55:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <1564123735589.34363@bt.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 129.12.21.32
-Subject: Re: [Qemu-devel] [PATCH v27 5/8] target/avr: Add limited support
- for USART and 16 bit timer peripherals
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v5 14/15] target/sparc: Add TLB entry with
+ attributes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,101 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, walling@linux.ibm.com, sagark@eecs.berkeley.edu,
+ mst@redhat.com, palmer@sifive.com, mark.cave-ayland@ilande.co.uk,
+ Alistair.Francis@wdc.com, edgar.iglesias@gmail.com, alex.williamson@redhat.com,
+ arikalo@wavecomp.com, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, rth@twiddle.net, atar4qemu@gmail.com,
+ ehabkost@redhat.com, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ stefanha@redhat.com, shorne@gmail.com, david@gibson.dropbear.id.au,
+ qemu-riscv@nongnu.org, kbastian@mail.uni-paderborn.de, cohuck@redhat.com,
+ laurent@vivier.eu, qemu-ppc@nongnu.org, amarkovic@wavecomp.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael and Pavel,
+On 7/25/19 11:48 PM, tony.nguyen@bt.com wrote:
+> Append MemTxAttrs to interfaces so we can pass along up coming Invert
+> Endian TTE bit on SPARC64.
+> 
+> Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
+> ---
+>  target/sparc/mmu_helper.c | 32 ++++++++++++++++++--------------
+>  1 file changed, 18 insertions(+), 14 deletions(-)
 
-The USART was based on the ATMega2560.
-It was designed for testing so its functionality is somewhat limited.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Peripherals seem to vary between AVR chips so the configuration in the 2560 may not match other chips, especially the older ones.
-From memory, the only shared registers in the 2560 USART are the PRR's, which we implemented by adding single byte memory regions during board initialisation (so that the memory region wasn't part of any one device).
-I expect there are cleaner ways to do it.
 
-Kind regards,
-Sarah Harris
+r~
 
-On Thu, 25 Jul 2019 20:52:33 +0300
-Michael Rolnik <mrolnik@gmail.com> wrote:
-
-> Hi Pavel.
-> 
-> Please see my answers below.
-> 
-> On Thu, Jul 25, 2019 at 1:00 PM Pavel Dovgalyuk <dovgaluk@ispras.ru> wrote:
-> 
-> > > From: Qemu-devel [mailto:qemu-devel-bounces+patchwork-qemu-
-> > > devel=patchwork.kernel.org@nongnu.org] On Behalf Of Michael Rolnik
-> > > From: Sarah Harris <S.E.Harris@kent.ac.uk>
-> > >
-> > > These were designed to facilitate testing but should provide enough
-> > function to be useful in
-> > > other contexts.
-> >
-> > USART is very useful for testing, but to which model of AVR is belongs?
-> > We also started implementation of USART and other devices in our
-> > internship program,
-> > using prior version of your patches.
-> > There were other register addresses for the registers and some of them
-> > even intersect
-> > making read/write logic more complex (we looked at Atmega8).
-> >
-> 
-> This is a question for Sara as she built it. (I think it was ATmega2560)
-> 
-> 
-> >
-> > You also mix the board and the SoC into one file, making hardware-on-chip
-> > harder to reuse.
-> >
-> > I think that the structure can be revised in the following way:
-> > Board -> SoC -> Devices
-> >
-> > Board includes SoC, loads the firmware, and adds some external peripheral
-> > devices, if needed.
-> >
-> > SoC includes embedded peripherals. It dispatches IO memory accesses and
-> > passes them
-> > to the devices. In this case you can have different register addresses for
-> > different SoCs, but
-> > the embedded device emulation code can be mostly the same for simple
-> > devices like USART.
-> >
-> > > Only a subset of the functions of each peripheral is implemented, mainly
-> > due to the lack of a
-> > > standard way to handle electrical connections (like GPIO pins).
-> >
-> You are right.
-> 
-> >
-> > We did not got too much results, you can check for our changes here:
-> > https://github.com/Dovgalyuk/qemu/tree/avr8
-> >
-> > But we can help you in development of better version of the patches and
-> > split the work
-> > for making this platform more usable.
-> >
-> 
-> Gladly.
-> You are welcome.
-> My initial intent was to provide CPU only and I hoped that others will
-> model the devices.
-> 
-> *Richard, Phil & all,*
-> what would be the right mechanism / procedure to split the work?
-> 
-> 
-> >
-> > Pavel Dovgalyuk
-> >
-> >
-> 
-> -- 
-> Best Regards,
-> Michael Rolnik
 
