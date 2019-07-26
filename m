@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D8A75F3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 08:48:35 +0200 (CEST)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301EB75F42
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 08:49:23 +0200 (CEST)
+Received: from localhost ([::1]:36780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqu1q-0005T0-OD
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 02:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
+	id 1hqu2c-0007Y3-9x
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 02:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tony.nguyen@bt.com>) id 1hqu13-00035n-A4
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 02:47:47 -0400
+ (envelope-from <tony.nguyen@bt.com>) id 1hqu26-0006RC-Gc
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 02:48:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tony.nguyen@bt.com>) id 1hqu11-0005Dq-Ee
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 02:47:45 -0400
-Received: from smtpe1.intersmtp.com ([62.239.224.236]:41124)
+ (envelope-from <tony.nguyen@bt.com>) id 1hqu22-0006d1-CR
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 02:48:49 -0400
+Received: from smtpe1.intersmtp.com ([213.121.35.77]:51296)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <tony.nguyen@bt.com>)
- id 1hqu0m-0004Ed-Qq; Fri, 26 Jul 2019 02:47:29 -0400
-Received: from tpw09926dag18g.domain1.systemhost.net (10.9.212.34) by
- RDW083A009ED65.bt.com (10.187.98.35) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Fri, 26 Jul 2019 07:43:28 +0100
+ id 1hqu1G-0005Rv-G8; Fri, 26 Jul 2019 02:48:00 -0400
+Received: from tpw09926dag18h.domain1.systemhost.net (10.9.212.42) by
+ BWP09926082.bt.com (10.36.82.113) with Microsoft SMTP Server (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.1.1713.5; Fri, 26
+ Jul 2019 07:47:46 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net (10.9.212.18) by
- tpw09926dag18g.domain1.systemhost.net (10.9.212.34) with Microsoft SMTP
- Server (TLS) id 15.0.1395.4; Fri, 26 Jul 2019 07:47:24 +0100
+ tpw09926dag18h.domain1.systemhost.net (10.9.212.42) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Fri, 26 Jul 2019 07:47:47 +0100
 Received: from tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c]) by tpw09926dag18e.domain1.systemhost.net
  ([fe80::a946:6348:ccf4:fa6c%12]) with mapi id 15.00.1395.000; Fri, 26 Jul
- 2019 07:47:24 +0100
+ 2019 07:47:47 +0100
 From: <tony.nguyen@bt.com>
 To: <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v5 10/15] memory: Access MemoryRegion with
- MemOp semantics
-Thread-Index: AQHVQ337z2ux/Jk5eUK0KMuToV5GXA==
-Date: Fri, 26 Jul 2019 06:47:24 +0000
-Message-ID: <1564123643791.27023@bt.com>
+Thread-Topic: [Qemu-devel] [PATCH v5 11/15] memory: Single byte swap along the
+ I/O path
+Thread-Index: AQHVQ34JFcVl51mE9EO/EnEfwkEv1Q==
+Date: Fri, 26 Jul 2019 06:47:47 +0000
+Message-ID: <1564123667210.66446@bt.com>
 References: <3106a3c959c4498fad13a5799c89ba7b@tpw09926dag18e.domain1.systemhost.net>
 In-Reply-To: <3106a3c959c4498fad13a5799c89ba7b@tpw09926dag18e.domain1.systemhost.net>
 Accept-Language: en-AU, en-GB, en-US
@@ -46,14 +47,13 @@ X-MS-TNEF-Correlator:
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.187.101.42]
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 62.239.224.236
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 213.121.35.77
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] [PATCH v5 10/15] memory: Access MemoryRegion with
- MemOp semantics
+Subject: [Qemu-devel] [PATCH v5 11/15] memory: Single byte swap along the
+ I/O path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,59 +78,203 @@ Cc: peter.maydell@linaro.org, walling@linux.ibm.com, sagark@eecs.berkeley.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To convert interfaces of MemoryRegion access, MEMOP_SIZE and
-SIZE_MEMOP no-op stubs were introduced to change syntax while keeping
-the existing semantics.
+Now that MemOp has been pushed down into the memory API, we can
+collapse the two byte swaps adjust_endianness and handle_bswap into
+the former.
 
-Now with interfaces converted, we fill the stubs and use MemOp
-semantics.
+Collapsing byte swaps along the I/O path enables additional endian
+inversion logic, e.g. SPARC64 Invert Endian TTE bit, with redundant
+byte swaps cancelling out.
 
 Signed-off-by: Tony Nguyen <tony.nguyen@bt.com>
 ---
- include/exec/memop.h  | 5 ++---
- include/exec/memory.h | 4 ++--
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ accel/tcg/cputlb.c | 41 +++++++++++++++++++----------------------
+ memory.c           | 30 +++++++++++++++++-------------
+ 2 files changed, 36 insertions(+), 35 deletions(-)
 
-diff --git a/include/exec/memop.h b/include/exec/memop.h
-index 09c8d20..f2847e8 100644
---- a/include/exec/memop.h
-+++ b/include/exec/memop.h
-@@ -106,8 +106,7 @@ typedef enum MemOp {
-     MO_SSIZE =3D MO_SIZE | MO_SIGN,
- } MemOp;
-
--/* No-op while memory_region_dispatch_[read|write] is converted to MemOp *=
-/
--#define MEMOP_SIZE(op)  (op)    /* MemOp to size.  */
--#define SIZE_MEMOP(ul)  (ul)    /* Size to MemOp.  */
-+#define MEMOP_SIZE(op)  (1 << ((op) & MO_SIZE)) /* MemOp to size.  */
-+#define SIZE_MEMOP(ul)  (ctzl(ul))              /* Size to MemOp.  */
-
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 5d88cec..e61b1eb 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1209,26 +1209,13 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
+arget_ulong addr,
  #endif
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 0ea4843..975b86a 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1732,7 +1732,7 @@ void mtree_info(bool flatview, bool dispatch_tree, bo=
-ol owner);
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @pval: pointer to uint64_t which the data is written to
-- * @op: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
+
+ /*
+- * Byte Swap Helper
++ * Byte Swap Checker
+  *
+- * This should all dead code away depending on the build host and
+- * access type.
++ * Dead code should all go away depending on the build host and access typ=
+e.
   */
- MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-@@ -1747,7 +1747,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion =
+-
+-static inline uint64_t handle_bswap(uint64_t val, int size, bool big_endia=
+n)
++static inline bool need_bswap(bool big_endian)
+ {
+-    if ((big_endian && NEED_BE_BSWAP) || (!big_endian && NEED_LE_BSWAP)) {
+-        switch (size) {
+-        case 1: return val;
+-        case 2: return bswap16(val);
+-        case 4: return bswap32(val);
+-        case 8: return bswap64(val);
+-        default:
+-            g_assert_not_reached();
+-        }
+-    } else {
+-        return val;
+-    }
++    return (big_endian && NEED_BE_BSWAP) || (!big_endian && NEED_LE_BSWAP)=
+;
+ }
+
+ /*
+@@ -1259,6 +1246,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCG=
+MemOpIdx oi,
+     unsigned a_bits =3D get_alignment_bits(get_memop(oi));
+     void *haddr;
+     uint64_t res;
++    MemOp op;
+
+     /* Handle CPU specific unaligned behaviour */
+     if (addr & ((1 << a_bits) - 1)) {
+@@ -1304,9 +1292,13 @@ load_helper(CPUArchState *env, target_ulong addr, TC=
+GMemOpIdx oi,
+             }
+         }
+
+-        res =3D io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
+-                       mmu_idx, addr, retaddr, access_type, SIZE_MEMOP(siz=
+e));
+-        return handle_bswap(res, size, big_endian);
++        op =3D SIZE_MEMOP(size);
++        if (need_bswap(big_endian)) {
++            op ^=3D MO_BSWAP;
++        }
++
++        return io_readx(env, &env_tlb(env)->d[mmu_idx].iotlb[index],
++                       mmu_idx, addr, retaddr, access_type, op);
+     }
+
+     /* Handle slow unaligned access (it spans two pages or IO).  */
+@@ -1507,6 +1499,7 @@ store_helper(CPUArchState *env, target_ulong addr, ui=
+nt64_t val,
+     const size_t tlb_off =3D offsetof(CPUTLBEntry, addr_write);
+     unsigned a_bits =3D get_alignment_bits(get_memop(oi));
+     void *haddr;
++    MemOp op;
+
+     /* Handle CPU specific unaligned behaviour */
+     if (addr & ((1 << a_bits) - 1)) {
+@@ -1552,9 +1545,13 @@ store_helper(CPUArchState *env, target_ulong addr, u=
+int64_t val,
+             }
+         }
+
++        op =3D SIZE_MEMOP(size);
++        if (need_bswap(big_endian)) {
++            op ^=3D MO_BSWAP;
++        }
++
+         io_writex(env, &env_tlb(env)->d[mmu_idx].iotlb[index], mmu_idx,
+-                  handle_bswap(val, size, big_endian),
+-                  addr, retaddr, SIZE_MEMOP(size));
++                  val, addr, retaddr, op);
+         return;
+     }
+
+diff --git a/memory.c b/memory.c
+index 6982e19..0277d3d 100644
+--- a/memory.c
++++ b/memory.c
+@@ -352,7 +352,7 @@ static bool memory_region_big_endian(MemoryRegion *mr)
+ #endif
+ }
+
+-static bool memory_region_wrong_endianness(MemoryRegion *mr)
++static bool memory_region_endianness_inverted(MemoryRegion *mr)
+ {
+ #ifdef TARGET_WORDS_BIGENDIAN
+     return mr->ops->endianness =3D=3D DEVICE_LITTLE_ENDIAN;
+@@ -361,23 +361,27 @@ static bool memory_region_wrong_endianness(MemoryRegi=
+on *mr)
+ #endif
+ }
+
+-static void adjust_endianness(MemoryRegion *mr, uint64_t *data, unsigned s=
+ize)
++static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
+ {
+-    if (memory_region_wrong_endianness(mr)) {
+-        switch (size) {
+-        case 1:
++    if (memory_region_endianness_inverted(mr)) {
++        op ^=3D MO_BSWAP;
++    }
++
++    if (op & MO_BSWAP) {
++        switch (op & MO_SIZE) {
++        case MO_8:
+             break;
+-        case 2:
++        case MO_16:
+             *data =3D bswap16(*data);
+             break;
+-        case 4:
++        case MO_32:
+             *data =3D bswap32(*data);
+             break;
+-        case 8:
++        case MO_64:
+             *data =3D bswap64(*data);
+             break;
+         default:
+-            abort();
++            g_assert_not_reached();
+         }
+     }
+ }
+@@ -1451,7 +1455,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion =
 *mr,
-  * @mr: #MemoryRegion to access
-  * @addr: address within that region
-  * @data: data to write
-- * @op: size of the access in bytes
-+ * @op: size, sign, and endianness of the memory operation
-  * @attrs: memory transaction attributes to use for the access
-  */
- MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+     }
+
+     r =3D memory_region_dispatch_read1(mr, addr, pval, size, attrs);
+-    adjust_endianness(mr, pval, size);
++    adjust_endianness(mr, pval, op);
+     return r;
+ }
+
+@@ -1494,7 +1498,7 @@ MemTxResult memory_region_dispatch_write(MemoryRegion=
+ *mr,
+         return MEMTX_DECODE_ERROR;
+     }
+
+-    adjust_endianness(mr, &data, size);
++    adjust_endianness(mr, &data, op);
+
+     if ((!kvm_eventfds_enabled()) &&
+         memory_region_dispatch_write_eventfds(mr, addr, data, size, attrs)=
+) {
+@@ -2340,7 +2344,7 @@ void memory_region_add_eventfd(MemoryRegion *mr,
+     }
+
+     if (size) {
+-        adjust_endianness(mr, &mrfd.data, size);
++        adjust_endianness(mr, &mrfd.data, SIZE_MEMOP(size));
+     }
+     memory_region_transaction_begin();
+     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
+@@ -2375,7 +2379,7 @@ void memory_region_del_eventfd(MemoryRegion *mr,
+     unsigned i;
+
+     if (size) {
+-        adjust_endianness(mr, &mrfd.data, size);
++        adjust_endianness(mr, &mrfd.data, SIZE_MEMOP(size));
+     }
+     memory_region_transaction_begin();
+     for (i =3D 0; i < mr->ioeventfd_nb; ++i) {
 --
 1.8.3.1
 
