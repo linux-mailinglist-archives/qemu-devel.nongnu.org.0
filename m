@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5E57758D
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jul 2019 03:12:06 +0200 (CEST)
-Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B17A37758E
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Jul 2019 03:12:20 +0200 (CEST)
+Received: from localhost ([::1]:43898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hrBFl-0005Y2-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 21:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47953)
+	id 1hrBFz-0006NU-Ru
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 21:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49918)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bo.liu@linux.alibaba.com>) id 1hr7rp-0001e1-ER
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:35:10 -0400
+ (envelope-from <bo.liu@linux.alibaba.com>) id 1hr819-0003oo-Rc
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:44:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bo.liu@linux.alibaba.com>) id 1hr7rV-0006Nr-CK
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:34:56 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:60944)
+ (envelope-from <bo.liu@linux.alibaba.com>) id 1hr80n-00018O-AD
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:44:36 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:59467)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <bo.liu@linux.alibaba.com>)
- id 1hr7rG-0003fs-Gu
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:34:38 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R681e4; CH=green; DM=||false|;
+ id 1hr80h-0006hr-05
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 17:44:21 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R771e4; CH=green; DM=||false|;
  FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04420; MF=bo.liu@linux.alibaba.com; NM=1;
- PH=DS; RN=3; SR=0; TI=SMTPD_---0TXs008o_1564176375; 
+ PH=DS; RN=3; SR=0; TI=SMTPD_---0TXrnCxE_1564176941; 
 Received: from US-160370MP2.local(mailfrom:bo.liu@linux.alibaba.com
- fp:SMTPD_---0TXs008o_1564176375) by smtp.aliyun-inc.com(127.0.0.1);
- Sat, 27 Jul 2019 05:26:16 +0800
-Date: Fri, 26 Jul 2019 14:26:14 -0700
+ fp:SMTPD_---0TXrnCxE_1564176941) by smtp.aliyun-inc.com(127.0.0.1);
+ Sat, 27 Jul 2019 05:35:42 +0800
+Date: Fri, 26 Jul 2019 14:35:40 -0700
 From: Liu Bo <bo.liu@linux.alibaba.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190726212613.24lionrtvt3kz2g3@US-160370MP2.local>
+Message-ID: <20190726213540.mpqdzjrtn6mbcst6@US-160370MP2.local>
 References: <20190726091103.23503-1-stefanha@redhat.com>
- <20190726091103.23503-3-stefanha@redhat.com>
+ <20190726091103.23503-2-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190726091103.23503-3-stefanha@redhat.com>
+In-Reply-To: <20190726091103.23503-2-stefanha@redhat.com>
 User-Agent: NeoMutt/20180323
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 115.124.30.130
+X-Received-From: 115.124.30.45
 X-Mailman-Approved-At: Fri, 26 Jul 2019 21:11:54 -0400
-Subject: Re: [Qemu-devel] [Virtio-fs] [PATCH 2/5] virtiofsd: prevent
- lo_lookup() NULL pointer	dereference
+Subject: Re: [Qemu-devel] [Virtio-fs] [PATCH 1/5] virtiofsd: skip
+	unnecessary	vu_queue_get_avail_bytes()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,46 +59,54 @@ Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 26, 2019 at 10:11:00AM +0100, Stefan Hajnoczi wrote:
-> Most lo_do_lookup() have already checked that the parent inode exists.
-> lo_lookup() hasn't and can therefore hit a NULL pointer dereference when
-> lo_inode(req, parent) returns NULL.
->
-
-Sigh...this one has been fixed by 3 different developers...Me, Pengtao and Stefan.
-
-The following one on the ML did the exactly same thing.
----
-Subject: [Virtio-fs] [PATCH] virtiofsd: fix lo_do_lookup panic
-
-It needs to check for invalid parent dir.
-
-Signed-off-by: Peng Tao <tao.peng@linux.alibaba.com>
----
-
-thanks,
--liubo
-
+On Fri, Jul 26, 2019 at 10:10:59AM +0100, Stefan Hajnoczi wrote:
+> When debug output is disabled there is no need to calculate the number
+> of in/out bytes available.
+> 
+> There is also no need to skip a request if there are 0 out bytes.  The
+> request parsing code already handles invalid requests.
+> 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  contrib/virtiofsd/passthrough_ll.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  contrib/virtiofsd/fuse_virtio.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> index 9ae1381618..277a17fc03 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -766,6 +766,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
->  	struct lo_data *lo = lo_data(req);
->  	struct lo_inode *inode, *dir = lo_inode(req, parent);
+> diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virtio.c
+> index 083e4fc317..d543c6d30f 100644
+> --- a/contrib/virtiofsd/fuse_virtio.c
+> +++ b/contrib/virtiofsd/fuse_virtio.c
+> @@ -507,18 +507,16 @@ static void *fv_queue_thread(void *opaque)
+>                 ret = pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
+>                 assert(ret == 0); /* there is no possible error case */
 >  
-> +	if (!dir) {
-> +		return EBADF;
-> +	}
+> -               /* out is from guest, in is too guest */
+> -               unsigned int in_bytes, out_bytes;
+> -               vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
+> +               if (se->debug) {
+> +                       /* out is from guest, in is too guest */
+> +                       unsigned int in_bytes, out_bytes;
+> +                       vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
+>  
+> -               if (se->debug)
+>                         fuse_debug("%s: Queue %d gave evalue: %zx available: in: %u out: %u\n",
+>  				  __func__, qi->qidx, (size_t)evalue, in_bytes,
+>  				  out_bytes);
+> -
+> -               if (!out_bytes) {
+> -                       goto next;
+>                 }
 > +
->  	memset(e, 0, sizeof(*e));
->  	e->attr_timeout = lo->timeout;
->  	e->entry_timeout = lo->timeout;
+>                 while (1) {
+>                         bool allocated_bufv = false;
+>                         struct fuse_bufvec bufv;
+> @@ -708,7 +706,6 @@ static void *fv_queue_thread(void *opaque)
+>                         elem = NULL;
+>                  }
+>  
+> -next:
+>                  pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
+>          }
+>          pthread_mutex_destroy(&ch.lock);
 > -- 
 > 2.21.0
 > 
@@ -106,4 +114,9 @@ thanks,
 > Virtio-fs mailing list
 > Virtio-fs@redhat.com
 > https://www.redhat.com/mailman/listinfo/virtio-fs
+
+Reviewed-by: Liu Bo <bo.liu@linux.alibaba.com>
+
+thanks,
+-liubo
 
