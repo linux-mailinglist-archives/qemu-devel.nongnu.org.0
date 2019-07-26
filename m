@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4BA763D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:49:17 +0200 (CEST)
-Received: from localhost ([::1]:38328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB628763E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:51:22 +0200 (CEST)
+Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqxml-0006hC-A7
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:49:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43579)
+	id 1hqxoo-0001gH-0X
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49995)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hqxkq-0000DE-Hd
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:47:18 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hqxoV-00012j-JM
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:51:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hqxko-0007Ia-3x
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:47:15 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2243 helo=huawei.com)
+ (envelope-from <mreitz@redhat.com>) id 1hqxoO-0001M0-88
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:51:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53610)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hqxkX-0006on-CY; Fri, 26 Jul 2019 06:46:59 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 4964D8CBD32DD9E3B5DA;
- Fri, 26 Jul 2019 18:46:46 +0800 (CST)
-Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 26 Jul 2019 18:46:36 +0800
-From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
- <imammedo@redhat.com>
-Date: Fri, 26 Jul 2019 11:45:19 +0100
-Message-ID: <20190726104519.23812-10-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: git-send-email 2.12.0.windows.1
-In-Reply-To: <20190726104519.23812-1-shameerali.kolothum.thodi@huawei.com>
-References: <20190726104519.23812-1-shameerali.kolothum.thodi@huawei.com>
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hqxoB-0000rG-2u; Fri, 26 Jul 2019 06:50:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 60C6330860BA;
+ Fri, 26 Jul 2019 10:50:38 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-116-164.ams2.redhat.com
+ [10.36.116.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3248B19D7E;
+ Fri, 26 Jul 2019 10:50:35 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20190725162704.12622-1-kwolf@redhat.com>
+ <20190725162704.12622-5-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6c00ea43-5b9f-5fb7-3e52-86bcf3933668@redhat.com>
+Date: Fri, 26 Jul 2019 12:50:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.202.227.237]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20190725162704.12622-5-kwolf@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="MIUOMaStJrWWWO8m9kX8NBy4lzGxV7mKQ"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Fri, 26 Jul 2019 10:50:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
-Subject: [Qemu-devel] [PATCH-for-4.2 v8 9/9] hw/arm: Use GED for
- system_powerdown event
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 4/4] block-backend: Queue requests while
+ drained
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,162 +86,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
- linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
- sebastien.boeuf@intel.com, lersek@redhat.com
+Cc: dplotnikov@virtuozzo.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For machines 4.2 or higher with ACPI boot use GED for system_powerdown
-event instead of GPIO. Guest boot with DT still uses GPIO.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--MIUOMaStJrWWWO8m9kX8NBy4lzGxV7mKQ
+Content-Type: multipart/mixed; boundary="gTLn0QrhM5vCYUwfA1TrrSnBAvpm7K3qL";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: dplotnikov@virtuozzo.com, vsementsov@virtuozzo.com, den@virtuozzo.com,
+ qemu-devel@nongnu.org
+Message-ID: <6c00ea43-5b9f-5fb7-3e52-86bcf3933668@redhat.com>
+Subject: Re: [PATCH 4/4] block-backend: Queue requests while drained
+References: <20190725162704.12622-1-kwolf@redhat.com>
+ <20190725162704.12622-5-kwolf@redhat.com>
+In-Reply-To: <20190725162704.12622-5-kwolf@redhat.com>
 
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
-v7 --> v8
- -Retained gpio based system_powerdown support for machines < 4.2.
- -Reuse of virt_powerdown_req() for ACPI GED use.
- -Dropped Eric's R-by for now because of above.
+--gTLn0QrhM5vCYUwfA1TrrSnBAvpm7K3qL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
----
- hw/acpi/generic_event_device.c       |  2 ++
- hw/arm/virt-acpi-build.c             |  6 +++---
- hw/arm/virt.c                        | 27 ++++++++++++++++-----------
- include/hw/acpi/acpi_dev_interface.h |  1 +
- include/hw/arm/virt.h                |  1 +
- 5 files changed, 23 insertions(+), 14 deletions(-)
+On 25.07.19 18:27, Kevin Wolf wrote:
+> This fixes device like IDE that can still start new requests from I/O
 
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index 0b3214eff4..f00b0ab14b 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -205,6 +205,8 @@ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
- 
-     if (ev & ACPI_MEMORY_HOTPLUG_STATUS) {
-         sel = ACPI_GED_MEM_HOTPLUG_EVT;
-+    } else if (ev & ACPI_POWER_DOWN_STATUS) {
-+        sel = ACPI_GED_PWR_DOWN_EVT;
-     } else {
-         /* Unknown event. Return without generating interrupt. */
-         warn_report("GED: Unsupported event %d. No irq injected", ev);
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 75657caa36..31bf2bf775 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -49,7 +49,6 @@
- #include "kvm_arm.h"
- 
- #define ARM_SPI_BASE 32
--#define ACPI_POWER_BUTTON_DEVICE "PWRB"
- 
- static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
- {
-@@ -739,12 +738,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-                     (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
-     acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
-                       vms->highmem, vms->highmem_ecam);
--    acpi_dsdt_add_gpio(scope, &memmap[VIRT_GPIO],
--                       (irqmap[VIRT_GPIO] + ARM_SPI_BASE));
-     if (vms->acpi_dev) {
-         build_ged_aml(scope, "\\_SB."GED_DEVICE,
-                       HOTPLUG_HANDLER(vms->acpi_dev),
-                       irqmap[VIRT_ACPI_GED] + ARM_SPI_BASE, AML_SYSTEM_MEMORY);
-+    } else {
-+        acpi_dsdt_add_gpio(scope, &memmap[VIRT_GPIO],
-+                           (irqmap[VIRT_GPIO] + ARM_SPI_BASE));
-     }
- 
-     if (vms->acpi_dev && ms->ram_slots) {
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 41386a6eb7..73a758d9a9 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -528,7 +528,7 @@ static inline DeviceState *create_acpi_ged(VirtMachineState *vms, qemu_irq *pic)
- {
-     DeviceState *dev;
-     int irq = vms->irqmap[VIRT_ACPI_GED];
--    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT;
-+    uint32_t event = ACPI_GED_MEM_HOTPLUG_EVT | ACPI_GED_PWR_DOWN_EVT;
- 
-     dev = DEVICE(object_new(TYPE_ACPI_GED));
-     qdev_prop_set_uint64(dev, "memhp-base",
-@@ -784,13 +784,15 @@ static void create_rtc(const VirtMachineState *vms, qemu_irq *pic)
- static DeviceState *gpio_key_dev;
- static void virt_powerdown_req(Notifier *n, void *opaque)
- {
--    /* use gpio Pin 3 for power button event */
--    qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
--}
-+    VirtMachineState *s = container_of(n, VirtMachineState, powerdown_notifier);
- 
--static Notifier virt_system_powerdown_notifier = {
--    .notify = virt_powerdown_req
--};
-+    if (s->acpi_dev) {
-+        acpi_send_event(s->acpi_dev, ACPI_POWER_DOWN_STATUS);
-+    } else {
-+        /* use gpio Pin 3 for power button event */
-+        qemu_set_irq(qdev_get_gpio_in(gpio_key_dev, 0), 1);
-+    }
-+}
- 
- static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
- {
-@@ -833,9 +835,6 @@ static void create_gpio(const VirtMachineState *vms, qemu_irq *pic)
-     qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
-                            "gpios", phandle, 3, 0);
- 
--    /* connect powerdown request */
--    qemu_register_powerdown_notifier(&virt_system_powerdown_notifier);
--
-     g_free(nodename);
- }
- 
-@@ -1721,12 +1720,18 @@ static void machvirt_init(MachineState *machine)
- 
-     create_pcie(vms, pic);
- 
--    create_gpio(vms, pic);
- 
-     if (has_ged && aarch64 && firmware_loaded && acpi_enabled) {
-         vms->acpi_dev = create_acpi_ged(vms, pic);
-+    } else {
-+        create_gpio(vms, pic);
-     }
- 
-+    /* connect powerdown request */
-+    vms->powerdown_notifier.notify = virt_powerdown_req;
-+    qemu_register_powerdown_notifier(&vms->powerdown_notifier);
-+
-+
-     /* Create mmio transports, so the user can create virtio backends
-      * (which will be automatically plugged in to the transports). If
-      * no backend is created the transport will just sit harmlessly idle.
-diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
-index 43ff119179..adcb3a816c 100644
---- a/include/hw/acpi/acpi_dev_interface.h
-+++ b/include/hw/acpi/acpi_dev_interface.h
-@@ -11,6 +11,7 @@ typedef enum {
-     ACPI_MEMORY_HOTPLUG_STATUS = 8,
-     ACPI_NVDIMM_HOTPLUG_STATUS = 16,
-     ACPI_VMGENID_CHANGE_STATUS = 32,
-+    ACPI_POWER_DOWN_STATUS = 64,
- } AcpiEventStatusBits;
- 
- #define TYPE_ACPI_DEVICE_IF "acpi-device-interface"
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 577ee49b4b..0b41083e9d 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -137,6 +137,7 @@ typedef struct {
-     int psci_conduit;
-     hwaddr highest_gpa;
-     DeviceState *acpi_dev;
-+    Notifier powerdown_notifier;
- } VirtMachineState;
- 
- #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
--- 
-2.17.1
+*devices
+
+> handlers in the CPU thread while the block backend is drained.
+>=20
+> The basic assumption is that in a drain section, no new requests should=
+
+> be allowed through a BlockBackend (blk_drained_begin/end don't exist,
+> we get drain sections only on the node level). However, there are two
+> special cases where requests should not be queued:
+>=20
+> 1. Block jobs: We already make sure that block jobs are paused in a
+>    drain section, so they won't start new requests. However, if the
+>    drain_begin is called on the job's BlockBackend first, it can happen=
+
+>    that we deadlock because the job stays busy until it reaches a pause=
+
+>    point - which it can't if it's requests aren't processed any more.
+>=20
+>    The proper solution here would be to make all requests through the
+>    job's filter node instead of using a BlockBackend. For now, just
+>    disabling request queuin on the job BlockBackend is simpler.
+
+Yep, seems reasonable.
+
+(We=E2=80=99d need a relationship that a BB is owned by some job, and the=
+n pause
+the job when the BB is drained, I suppose.  But that=E2=80=99s exactly
+accomplished by not making the job use a BB, but its BdrvChild
+references instead.)
+
+> 2. In test cases where making requests through bdrv_* would be
+>    cumbersome because we'd need a BdrvChild. As we already got the
+>    functionality to disable request queuing from 1., use it in tests,
+>    too, for convenience.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  include/sysemu/block-backend.h | 11 +++---
+>  block/backup.c                 |  1 +
+>  block/block-backend.c          | 69 +++++++++++++++++++++++++++++-----=
+
+>  block/commit.c                 |  2 +
+>  block/mirror.c                 |  6 ++-
+>  blockjob.c                     |  3 ++
+>  tests/test-bdrv-drain.c        |  1 +
+>  7 files changed, 76 insertions(+), 17 deletions(-)
+
+[...]
+
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index fdd6b01ecf..603b281743 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+
+[...]
+
+> @@ -1127,13 +1136,26 @@ static int blk_check_byte_request(BlockBackend =
+*blk, int64_t offset,
+>      return 0;
+>  }
+> =20
+> +static void blk_wait_while_drained(BlockBackend *blk)
+
++coroutine_fn?  (Maybe even blk_co_wait...)
+
+> +{
+> +    if (blk->quiesce_counter && !blk->disable_request_queuing) {
+> +        qemu_co_queue_wait(&blk->queued_requests, NULL);
+> +    }
+> +}
+> +
+>  int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
+>                                 unsigned int bytes, QEMUIOVector *qiov,=
+
+> -                               BdrvRequestFlags flags)
+> +                               BdrvRequestFlags flags, bool wait_while=
+_drained)
+
+What=E2=80=99s the purpose of this parameter?  How would it hurt to alway=
+s
+wait_while_drained?
+
+I see the following callers of blk_co_p{read,write}v() that call it with
+wait_while_drained=3Dfalse:
+
+1. blk_aio_{read,write}_entry(): They wait themselves, so they don=E2=80=99=
+t
+   need these functions to wait.  But OTOH, because they have waited, we
+   know that the BB is not quiesced here, so we won=E2=80=99t wait here a=
+nyway.
+   (These functions should be coroutine_fn, too, by the way)
+
+2. mirror: It disables request queuing anyway, so wait_while_drained
+   doesn=E2=80=99t have any effect.
+
+>  {
+>      int ret;
+> -    BlockDriverState *bs =3D blk_bs(blk);
+> +    BlockDriverState *bs;
+> =20
+> +    if (wait_while_drained) {
+> +        blk_wait_while_drained(blk);
+> +    }
+
+[...]
+
+What about blk_co_flush()?  Should that wait, too?
+
+> @@ -2232,6 +2278,9 @@ static void blk_root_drained_end(BdrvChild *child=
+, int *drained_end_counter)
+>          if (blk->dev_ops && blk->dev_ops->drained_end) {
+>              blk->dev_ops->drained_end(blk->dev_opaque);
+>          }
+> +        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
+> +            /* Resume all queued requests */
+> +        }
+
+Wouldn=E2=80=99t qemu_co_queue_restart_all(&blk->queued_requests) achieve=
+ the same?
+
+Max
 
 
+--gTLn0QrhM5vCYUwfA1TrrSnBAvpm7K3qL--
+
+--MIUOMaStJrWWWO8m9kX8NBy4lzGxV7mKQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl062voACgkQ9AfbAGHV
+z0DjJwf/RzoPjWMv2PlTfdYGEj0ksKygzIX633jqst/PEKJB8NQruQqGoMz2FwHd
+8Bn1U4vgNTMeqYoEh/7zgAOZO6yHfUsUkt5nd25EP9mVLuiv5v2BTWVs8RhvXorG
+yaXZBQ7A9rli4nri0HCX+L9RZ4twcM3gIgPKcDyVoTffItFA1JOqvm2Bq46BJH78
+/yC89XoEGvg9mJkeCNn/lnr9UmP10Wa+ZMGIGL0aK6yr8NX1XaPSpsyawdv4Nskm
+LEapmCBL/ax8M7xviguYDjx1mWRvBUMYEAFD8pdiGQlkF25gnAD9uWRZ2OhDc1RE
+/vYlZYiHVBB4hgQZIIz4Z+Z06+I3lQ==
+=rlyL
+-----END PGP SIGNATURE-----
+
+--MIUOMaStJrWWWO8m9kX8NBy4lzGxV7mKQ--
 
