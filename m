@@ -2,68 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B6D763A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:39:39 +0200 (CEST)
-Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB00763DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:49:21 +0200 (CEST)
+Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqxdR-0004AL-Gv
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56166)
+	id 1hqxmq-00072T-E5
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43302)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hqxdC-0003lB-2Y
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:23 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hqxkZ-0007YN-5W
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:47:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hqxd7-0004b9-2D
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:20 -0400
-Received: from mail-wm1-f52.google.com ([209.85.128.52]:52058)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hqxd6-0004LK-Qq
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:39:16 -0400
-Received: by mail-wm1-f52.google.com with SMTP id 207so47602504wma.1
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 03:39:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rOz9vd5bQ8csDJcR9DambSHLy1SbYwjYJbDKArh43Xg=;
- b=B6ZlK+ALu7g7NDgUBDxNwZ5FTFU0Ge2oGyWQMgtTVuX3hR0JNKrpmc4svuBVWBI3wm
- F/7MxxyEFfcvDF9bE9ht2i6sgxibdcBvTBsGf7vSN/bwJOcMqCU4Pr6jez2NSJ4vmsAg
- M9rs7ptOiTFg4k8/a0Kktdj5IlJrPIB0ayKmug4F6hRTCzq2dLUYcQqduNndFX/4KTqQ
- F1+aruz2Eo7m1KclXqeJHtJKDqubpVqFplG7PUAnL0ss7IwDVV8ttbUZEl83qkwQcc9y
- yvh3j5DPSImK5vek6CFJftCtIqdDr/wcc3+a5e+8UJ3LkzYFLeHfs1HIOGWlaYUxAowG
- 6rEg==
-X-Gm-Message-State: APjAAAVRStzovTSGn0QtVFo4GjYp9DORbPNDCu7/FM7/UG0wmySCoZfu
- j5T6rJ5O9gpRo4KzC8ktCTauow==
-X-Google-Smtp-Source: APXvYqySqBsFwi1qD2SQ94MLlt8IU6yX/TidKoQLMGQ+X5dzMVFDwUIIAig3fOQXDF1s7f3o7d66MA==
-X-Received: by 2002:a05:600c:20ca:: with SMTP id
- y10mr52433565wmm.72.1564137552685; 
- Fri, 26 Jul 2019 03:39:12 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:cc23:f353:392:d2ee?
- ([2001:b07:6468:f312:cc23:f353:392:d2ee])
- by smtp.gmail.com with ESMTPSA id h8sm53629339wmf.12.2019.07.26.03.39.11
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 26 Jul 2019 03:39:11 -0700 (PDT)
-To: "Oleinik, Alexander" <alxndr@bu.edu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190725032321.12721-1-alxndr@bu.edu>
- <20190725032321.12721-5-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <5f030ef4-2cca-4f28-cdb2-20924cd2ad6e@redhat.com>
-Date: Fri, 26 Jul 2019 12:39:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hqxkL-0006m7-1W
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:46:53 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2241 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hqxk4-0004qv-0Q; Fri, 26 Jul 2019 06:46:28 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id E0E9BF0D0223E0E7695C;
+ Fri, 26 Jul 2019 18:46:15 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 26 Jul 2019 18:46:05 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Date: Fri, 26 Jul 2019 11:45:10 +0100
+Message-ID: <20190726104519.23812-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20190725032321.12721-5-alxndr@bu.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.52
-Subject: Re: [Qemu-devel] [RFC 04/19] fuzz: Add qos support to fuzz targets
+X-Received-From: 45.249.212.191
+Subject: [Qemu-devel] [PATCH-for-4.2 v8 0/9] ARM virt: ACPI memory hotplug
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,30 +53,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "bsd@redhat.com" <bsd@redhat.com>,
- "superirishdonkey@gmail.com" <superirishdonkey@gmail.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
+ sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/07/19 05:23, Oleinik, Alexander wrote:
-> qos_helpers.c is largely a copy of tests/qos-test.c
-> 
-> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
-> ---
->  tests/fuzz/qos_fuzz.c    |  63 +++++++++
->  tests/fuzz/qos_fuzz.h    |  29 ++++
->  tests/fuzz/qos_helpers.c | 295 +++++++++++++++++++++++++++++++++++++++
->  tests/fuzz/qos_helpers.h |  17 +++
->  4 files changed, 404 insertions(+)
->  create mode 100644 tests/fuzz/qos_fuzz.c
->  create mode 100644 tests/fuzz/qos_fuzz.h
->  create mode 100644 tests/fuzz/qos_helpers.c
->  create mode 100644 tests/fuzz/qos_helpers.h
+This series is an attempt to provide device memory hotplug support 
+on ARM virt platform. This is based on Eric's recent works here[1]
+and carries some of the pc-dimm related patches dropped from his
+series.
 
-If there are functions that are exactly the same, please move them to a
-new file that is shared by qos-test.c and the fuzzing driver.  Other
-functions can stay in qos_fuzz.c.
+The kernel support for arm64 memory hot add was added recently by
+Robin and hence the guest kernel should be => 5.0-rc1.
 
-Paolo
+NVDIM support is not included currently as we still have an unresolved
+issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
+can be included, but not done for now, for keeping it simple.
+
+This makes use of GED device to sent hotplug ACPI events to the
+Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
+Sebastien to add the hardware-reduced support to Nemu using GED
+device[3]. (Please shout if I got the author/signed-off wrong for
+those patches or missed any names).
+
+This is sanity tested on a HiSilicon ARM64 platform and appreciate
+any further testing.
+
+Note:
+Attempted adding dimm_pxm test case to bios-tables-test for arm/virt.
+But noticed the issue decribed here[5]. This is under investigation 
+now.
+
+Thanks,
+Shameer
+
+[1] https://patchwork.kernel.org/cover/10837565/
+[2] https://patchwork.kernel.org/cover/10783589/
+[3] https://github.com/intel/nemu/blob/topic/virt-x86/hw/acpi/ged.c
+[4] http://lists.infradead.org/pipermail/linux-arm-kernel/2019-May/651763.html
+[5] https://www.mail-archive.com/qemu-devel@nongnu.org/msg632651.html
+
+v7 --> v8
+ -Addressed comments from Igor.Please see individual patches.
+ -Updated bios-tables-test-allowed-diff.h to avoid "make check"
+  failure (patch #6) and dropped patch #10
+ -Added Igor's R-by to patches 4 & 5.
+ -Dropped Erics's R-by from patch #9 for now.
+
+v6 --> v7
+- Added 4.2 machine support and restricted GED creation for < 4.2
+  This is to address the migration test fail reported by Eric.
+- Included "tests: Update DSDT ACPI table.." patch(#10) from Eric
+  to fix the "make check" bios-tables-test failure.
+  
+v5 --> v6
+
+-Addressed comments from Eric.
+-Added R-by from Eric and Igor.
+
+v4 --> v5
+-Removed gsi/ged-irq routing in virt.
+-Added Migration support.
+-Dropped support for DT coldplug case based on the discussions
+ here[4]
+-Added system_powerdown support through GED.
+
+v3 --> v4
+Addressed comments from Igor and Eric,
+-Renamed "virt-acpi" to "acpi-ged".
+-Changed ged device parent to TYPE_DEVICE.
+-Introduced DT memory node property "hotpluggable" to resolve device
+ memory being treated as early boot memory issue(patch #7).
+-Combined patches #3 and #9 from v3 into #3.
+
+v2 --> v3
+
+Addressed comments from Igor and Eric,
+-Made virt acpi device platform independent and moved
+ to hw/acpi/generic_event_device.c
+-Moved ged specific code into hw/acpi/generic_event_device.c
+-Introduced an opt-in feature "fdt" to resolve device-memory being
+ treated as early boot memory.
+-Dropped patch #1 from v2.
+
+RFC --> v2
+
+-Use GED device instead of GPIO for ACPI hotplug events.
+-Removed NVDIMM support for now.
+-Includes dropped patches from Eric's v9 series.
+
+Eric Auger (1):
+  hw/arm/virt: Add memory hotplug framework
+
+Samuel Ortiz (2):
+  hw/acpi: Do not create memory hotplug method when handler is not
+    defined
+  hw/acpi: Add ACPI Generic Event Device Support
+
+Shameer Kolothum (6):
+  hw/acpi: Make ACPI IO address space configurable
+  hw/arm/virt: Add 4.2 machine type
+  hw/arm/virt: Enable device memory cold/hot plug with ACPI boot
+  hw/arm/virt-acpi-build: Add PC-DIMM in SRAT
+  hw/acpi: Add system power down support to GED
+  hw/arm: Use GED for system_powerdown event
+
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/generic_event_device.c         | 330 +++++++++++++++++++++++++
+ hw/acpi/memory_hotplug.c               |  35 +--
+ hw/arm/Kconfig                         |   4 +
+ hw/arm/virt-acpi-build.c               |  29 ++-
+ hw/arm/virt.c                          | 125 +++++++++-
+ hw/core/machine.c                      |   3 +
+ hw/i386/acpi-build.c                   |   3 +-
+ include/hw/acpi/acpi_dev_interface.h   |   1 +
+ include/hw/acpi/generic_event_device.h | 103 ++++++++
+ include/hw/acpi/memory_hotplug.h       |   9 +-
+ include/hw/arm/virt.h                  |   5 +
+ include/hw/boards.h                    |   3 +
+ tests/bios-tables-test-allowed-diff.h  |   1 +
+ 15 files changed, 623 insertions(+), 33 deletions(-)
+ create mode 100644 hw/acpi/generic_event_device.c
+ create mode 100644 include/hw/acpi/generic_event_device.h
+
+-- 
+2.17.1
+
+
 
