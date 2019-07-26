@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C047711C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:19:26 +0200 (CEST)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0769377103
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:13:43 +0200 (CEST)
+Received: from localhost ([::1]:42868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4YB-00082Y-4g
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59599)
+	id 1hr4ir-0001RP-Ud
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47352)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Nu-0007Ms-Op
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hr4ig-00011D-4M
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:13:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Nr-0001Hz-HP
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:00 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34806)
+ (envelope-from <peter.maydell@linaro.org>) id 1hr4if-0006mX-0B
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:13:30 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Nn-0001AI-IY
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:56 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n9so18890225pgc.1
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hr4ie-0006lh-SK
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 14:13:28 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w196so19549366oie.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 11:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GfZoaF1PKj02fL5gI7kwlJOVMtCnQ9O6XVR81E0meI8=;
- b=kcq8eWPVuVdKWR6yW1d/KHcSAnOLyfw8o2AyH2g3hGs0sb1lxn1A0JA91+kpnwI0CS
- qppjr3UV2eo+kWSsTPm3Igg9+XENJRT6omZwXtoPzln8YbZFwhvmXqShJtOs+gWUxCbI
- HJL5Qwclub7i4zjhVYFcV/RnUvyw7xJ7RNyViifawnoL+u/kaoFsODr9lQYgnxIZr9Ee
- yGVhmt9i+LHlYGxDHjym7zm4dxuy5Fbnac9Pgng2GmSzyrkwS3bmj3hDq13G9v6VJfFp
- K49ZJeCEvLowoCCkYWtjZwPgnRGejqDJGD6/7r4MYQgJ/f9VNIQrxVniWbS1iD2tJ7qK
- MLTA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cB5O7qLZbi7AU1GJPd1XmkLwCN14JF69T6pjBdSiZPc=;
+ b=eMeab0+NWmNXAhFgUk8XVALNy+5YcQqpcnBmYQ+i5c3exvgnchG/ene4YaB3q3zrlm
+ lm8ZYkWzwb8zQUaoz/tKO7pKtLiK2uO9oivxkzVlb/g7pROZU5BDlf/Nt1cBU1pwhhyi
+ DJwJB3WInOEBv3d8XipwTjVGdBZacCmifC68RmmRjqKOZtqcIddBwaYwusrWo4thptsn
+ 8y2/MbVB/ZEUn9T2meF2pDVPtPudPaiCfqll8ymQPI/dLMV3AODwqvGSjVI0MlvkEJ9v
+ ScWZpN8eoi6p5+LPsRDKdUeEqwOq99Ymk/zRbtnoX1xsWZUt0UcZfL42fLtXuSsAF0zL
+ 1+UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=GfZoaF1PKj02fL5gI7kwlJOVMtCnQ9O6XVR81E0meI8=;
- b=eHDBEObfeFUkmJ5lHLlEIhd2uI88aTn9xDKoGAJ3B9/unYqyITTDCw5W6XNZNpOD9L
- kAiaoTzJbn/PofZNui7zF1oPBM0Pt0XKELsDzvdulcuGN343EU6NG1GQ7PeFo5N3iDuv
- cF7CVA/Ftm4kR0eCRySg4BfgjzZbj4vIFdk2Hp8bn6BmBukE8SgoIhjRTJ8tdVcm9sVr
- nmPAjdcLWWQuVpMl98LRKJq8hMbY49bLDx/3iojpabHMW69VeHz1Tyx8fOhXVFszMvSi
- wz6+ehVBZIcd5XxQtNMyGxy3nXsZTdFn5y1I78YiIbR1qk/yhktSFCjdk8M7wn46mSUm
- B++A==
-X-Gm-Message-State: APjAAAWt1u3eRVuHv3bGPnyuIiJrn8Mydctz0/Q6x69zYBOGS3gGfc1x
- JG3Mjs3jYF/VoTrfdcy/qOhlvDTZiX0=
-X-Google-Smtp-Source: APXvYqzVE8B2mzx60xssgjTgsd+M67p9tl80pak7Zh1+teSK+EutOz2+fAnoMN9JoFaJa/Bey3kDvw==
-X-Received: by 2002:aa7:8218:: with SMTP id k24mr22628587pfi.221.1564163511718; 
- Fri, 26 Jul 2019 10:51:51 -0700 (PDT)
-Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
- [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:51:51 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:50:30 -0700
-Message-Id: <20190726175032.6769-66-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cB5O7qLZbi7AU1GJPd1XmkLwCN14JF69T6pjBdSiZPc=;
+ b=OwTm3TxyQ52YNzFmjlt1lpsPEG2BzpN5iOwnmbxWKTRdR+Efp/QD7auzNCfnsPa1kj
+ NrJkl0X+ZKiL0E0txYZ3i+mklDsd/7YnAps2GWNZWQJE5GBbbzDWLiYqGGvPh0sqamP/
+ RuN0mysD4X8EfsW+VBOZHnGEn1rGX+pd3MNDcbdU+Yq6G8oPGIyZrMaYVljiYaCNDXOx
+ o1mroWdjPNvBRotrX+XK3X3H4sGfaohSdEjaUA1iUQwbbKl21cbTFPe0GVGjgKva3CdA
+ JrbHkckglY2XyeNWslt8JlrXnBqknLmbakIq1qt3G68yj8VPZdC96idUz+WXL1vUyAlI
+ RfGQ==
+X-Gm-Message-State: APjAAAUiIE+4KW6iFZYDdueeoUBYsU+XAp/iwJuO3R3Z5aLppiratbmv
+ xvzPulxyxB/5IQUMeAnVWhyxcNiXaKn53Mq7iFba1w==
+X-Google-Smtp-Source: APXvYqwX64ULsHl7H8q2Mn7iWh3WA9YJOpFhKMufQyhTrN3wzqHRpYxqmrU42YSHam0ZSYUTnKtNHPkhUrk/yI6FTZo=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr45720050oij.98.1564164807738; 
+ Fri, 26 Jul 2019 11:13:27 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
+ <20190726175032.6769-67-richard.henderson@linaro.org>
+In-Reply-To: <20190726175032.6769-67-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Jul 2019 19:13:16 +0100
+Message-ID: <CAFEAcA9s44Lc58X=C1DzPRRCyi_KOpx0CiMfhKWEzAdDoU326A@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 65/67] target/arm: Clean up disas_thumb_insn
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH 66/67] target/arm: Move singlestep check
+ from gen_jmp to gen_goto_tb
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,58 +74,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that everything is converted, remove the rest of
-the legacy decode.
+On Fri, 26 Jul 2019 at 18:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We miss quite a number of single-step events by having
+> the check in the wrong place.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+>
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index c2b8b86fd2..9ae9b23823 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -2740,7 +2740,10 @@ static void gen_goto_ptr(void)
+>   */
+>  static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
+>  {
+> -    if (use_goto_tb(s, dest)) {
+> +    if (unlikely(is_singlestepping(s))) {
+> +        gen_set_pc_im(s, dest);
+> +        gen_singlestep_exception(s);
+> +    } else if (use_goto_tb(s, dest)) {
+>          tcg_gen_goto_tb(n);
+>          gen_set_pc_im(s, dest);
+>          tcg_gen_exit_tb(s->base.tb, n);
+> @@ -2751,16 +2754,9 @@ static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
+>      s->base.is_jmp = DISAS_NORETURN;
+>  }
+>
+> -static inline void gen_jmp (DisasContext *s, uint32_t dest)
+> +static inline void gen_jmp(DisasContext *s, uint32_t dest)
+>  {
+> -    if (unlikely(is_singlestepping(s))) {
+> -        /* An indirect jump so that we still trigger the debug exception.  */
+> -        if (s->thumb)
+> -            dest |= 1;
+> -        gen_bx_im(s, dest);
+> -    } else {
+> -        gen_goto_tb(s, 0, dest);
+> -    }
+> +    gen_goto_tb(s, 0, dest);
+>  }
+>
+>  static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate.c | 27 ++-------------------------
- 1 file changed, 2 insertions(+), 25 deletions(-)
+I haven't tested but I'm not sure this change is right.
+The idea of the current code is that we handle generating
+the actual singlestep exception in arm_tr_tb_stop() at the
+end, rather than in the process of generating code for the
+insn. This change means we now do a gen_singlestep_exception()
+in the gen_jmp()/gen_goto_tb() part of the code, but we haven't
+removed the handling of it in arm_tr_tb_stop(), so we're now
+doing this in two places. Why doesn't the current design work?
+And if we need to do something different for the route to
+"change the PC via gen_jmp()" why don't we need to do it
+also when we change the PC via eg gen_bx_im() ?
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index a8db6e9280..c2b8b86fd2 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -10677,32 +10677,9 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
- 
- static void disas_thumb_insn(DisasContext *s, uint32_t insn)
- {
--    if (disas_t16(s, insn)) {
--        return;
-+    if (!disas_t16(s, insn)) {
-+        gen_illegal_op(s);
-     }
--    /* fall back to legacy decoder */
--
--    switch (insn >> 12) {
--    case 0: case 1: /* add/sub (3reg, 2reg imm), shift imm; in decodetree */
--    case 2: case 3: /* add, sub, cmp, mov (reg, imm), in decodetree */
--    case 4: /* ldr lit, data proc (2reg), data proc ext, bx; in decodetree */
--    case 5: /* load/store register offset, in decodetree */
--    case 6: /* load/store word immediate offset, in decodetree */
--    case 7: /* load/store byte immediate offset, in decodetree */
--    case 8: /* load/store halfword immediate offset, in decodetree */
--    case 9: /* load/store from stack, in decodetree */
--    case 10: /* add PC/SP (immediate), in decodetree */
--    case 11: /* misc, in decodetree */
--    case 12: /* load/store multiple, in decodetree */
--    case 13: /* conditional branch or swi, in decodetree */
--    case 14:
--    case 15:
--        /* branches, in decodetree */
--        goto illegal_op;
--    }
--    return;
--illegal_op:
--    gen_illegal_op(s);
- }
- 
- static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
--- 
-2.17.1
+(Incidentally, the only places other than gen_jmp()
+which call gen_goto_tb() are:
+ * the end-of-TB handling of DISAS_NEXT/DISAS_TOO_MANY
+ * four places for barrier insns where we use a
+   gen_goto_tb to end the TB -- this isn't consistent
+   with how we end the TB for other situations...)
 
+thanks
+-- PMM
 
