@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4183770FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:10:05 +0200 (CEST)
-Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E446A770EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 20:05:57 +0200 (CEST)
+Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4YD-0008Ql-6K
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59399)
+	id 1hr4bM-00031X-4l
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 14:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59725)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4No-00072A-UA
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Nv-0007Vx-G1
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Nl-0001C9-CI
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:55 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39977)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Nt-0001Ow-Vy
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:03 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35150)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Nl-000104-3L
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:51:53 -0400
-Received: by mail-pg1-x544.google.com with SMTP id w10so25119004pgj.7
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:39 -0700 (PDT)
+ id 1hr4Nt-00010K-LP
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:52:01 -0400
+Received: by mail-pg1-x543.google.com with SMTP id s1so18806513pgr.2
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:51:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4oQFd4eolp/sR05iPY07hrdPVedFpqTSb74q9tevE6Q=;
- b=sebaT5CasiTw2aM3248r1KuO5rtFcs1xBcJSCI0q1O9VXVe8TaJ5Jd4Xof3DPSkguy
- SdwPX+1iUc6OEXijV+TlXieOtSH9CiMnH1cGu8E6VElNAFU3DJEYnFwmcTj4gWP9mmUK
- /wPf2JdJDkvHEmeOaTfp+7hzDOgFzA/rI4rVIP6vSTsOnuaRjvABIpedUTv8GtfLknum
- oHRT/y2drBf5b/EDjQld8UII+U8bZ1Kbn/SQkkAPoe4cwsg5wFLzJpvvDBeONpw1ohv9
- 85Klm4DDg8PXU7dbUnp8pnDjroZ3PAPrhHCZY9+1N0/7tnJA7b4VtDlNkYd9c+OuztrL
- Acag==
+ bh=zTUDYR2hU4ZALOUVF4vngOslrJ4X/C4rxl23t5JZO3Q=;
+ b=IBcpfWh5F6SICO8ZNgo7HTWDEj65hPbOmjwpHDMPOSCTbQdQto+AG5lDVWE1kScYkY
+ rEsUNeJv4bBFCbT66tWGHDNt+d0xjQ/OB9MQdoTN+F/1CPHGwOBZ3boZbOttYIDTYNsh
+ PTmM0DBzE0+7rqSNGOfyl8V5z6oueULbw4QzVAOk+njVXlGr6WsSRMS16e8bi46V+NgY
+ od0S5QvWjed+z6Qr/bSITXm52QCaEWcF4h1c92XYLvDWqCm8zaDNUmo+kP4TJvAyWXTL
+ wZL411752OUL9vsnDENcfUJhWQ4PLhmiKZxUrZYiGTzCycnozF00YUPxnAXEFN0wttuH
+ 9Ggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4oQFd4eolp/sR05iPY07hrdPVedFpqTSb74q9tevE6Q=;
- b=DEs1nBHbmqVrESg3rs7bnP+O1Cyo757KEy+t7vVQPX/KFIO/25j4TvSt//NmnMjJ2B
- r9wPZH+uYwJGCqBoM+zN4GHoQEzSk6VhhT/tyG0M/bCLj7/6e9olFW+u2KvUDTik/6qo
- cuaTatRSBXJAmdFkz84o1URYOQlNWQkJuvL/MBHCdEAF7RYKynrir+veBLFqLxcSwVnz
- Xrk7YBQX4B9mVGgCjykw67cfgVDLuSXvB5w1qx76WwBEWkNpZMM58O/XMvlg36bVTgJi
- yOFDg6Beh4agwqIaVkCUlAaAI7MvAakWiYpVqYyQ8PzmyJf7PqVfvIW1TqPAPLAcsT0+
- UpUQ==
-X-Gm-Message-State: APjAAAVMUbDH/56Sk5Ifcxd+DIKzv4yBpHq3v9fRlHjO8ypZ/96eQn53
- +yuoD98xxkgIlvG1F1XfCiJTY09mRgI=
-X-Google-Smtp-Source: APXvYqxOzZpWyPNKSuBcQ16lQYpVyvhlX4GBRaXlcBtUC/QODCksPzzXlJgICUhsFOUPFUk30vFpbg==
-X-Received: by 2002:a17:90a:d996:: with SMTP id
- d22mr99375160pjv.86.1564163498255; 
- Fri, 26 Jul 2019 10:51:38 -0700 (PDT)
+ bh=zTUDYR2hU4ZALOUVF4vngOslrJ4X/C4rxl23t5JZO3Q=;
+ b=qWuKciOTBgUp44THfd2OYFQsPHpBsEvPJdNDve0gj3t80YqWIVIGIJ7mqpAKx/YlmV
+ N1WofbG0o7d0sV5oOQGVx0iH8imL1ZafV136cMVeB4Va1jjGLMfp3r1lDkmGlVZ+3Pxp
+ iC51jM60sjgQDtxcEEAROzrusNHjtQ0nnVPuRgz4S7Vp2PlkDzDC9rsDqct8Hgx9bFtE
+ 0Aq1V/yCdc0VeeBWxlUwitp62MiMzhNlEHhTSwEgCgPo3i3pQKf8UjVKz396ZlTMlTlZ
+ ZDB/n5PGlr8yleQhX4fEdXBgeZxD6GZ6j0QWwVuboKPurB0iJEib9i4w7kUj/nNLcIo8
+ RNug==
+X-Gm-Message-State: APjAAAXXJzBYU/Uevl0MLP9dK9aiHweyBqpXuysX2gjH66oFmCp5MaOb
+ PJUr4LhaJQkEKszDyVMzcX0FBkmr8kU=
+X-Google-Smtp-Source: APXvYqxGhPvm+WZGEC1hSI13KU6gkOPJ8HlBJZ3M4shCforb+njAXOXRIP8u16W8+u2xKiUypO1cmw==
+X-Received: by 2002:a63:5c7:: with SMTP id 190mr90711195pgf.67.1564163499284; 
+ Fri, 26 Jul 2019 10:51:39 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.37
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.51.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:51:37 -0700 (PDT)
+ Fri, 26 Jul 2019 10:51:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:50:18 -0700
-Message-Id: <20190726175032.6769-54-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:50:19 -0700
+Message-Id: <20190726175032.6769-55-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH 53/67] target/arm: Convert T16 adjust sp
- (immediate)
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH 54/67] target/arm: Convert T16, extract
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,56 +81,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 15 ++-------------
- target/arm/t16.decode  |  9 +++++++++
+ target/arm/translate.c | 14 +-------------
+ target/arm/t16.decode  | 10 ++++++++++
  2 files changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 23f5f982f5..8dd88419fe 100644
+index 8dd88419fe..9c8e11bd3a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10648,19 +10648,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         /* misc */
+@@ -10649,21 +10649,9 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
          op = (insn >> 8) & 0xf;
          switch (op) {
--        case 0:
--            /*
--             * 0b1011_0000_xxxx_xxxx
--             *  - ADD (SP plus immediate)
--             *  - SUB (SP minus immediate)
--             */
--            tmp = load_reg(s, 13);
--            val = (insn & 0x7f) * 4;
--            if (insn & (1 << 7))
--                val = -(int32_t)val;
--            tcg_gen_addi_i32(tmp, tmp, val);
--            store_sp_checked(s, tmp);
--            break;
-+        case 0: /* add/sub (sp, immediate), in decodetree */
-+            goto illegal_op;
+         case 0: /* add/sub (sp, immediate), in decodetree */
++        case 2: /* sign/zero extend, in decodetree */
+             goto illegal_op;
  
-         case 2: /* sign/zero extend.  */
-             ARCH(6);
+-        case 2: /* sign/zero extend.  */
+-            ARCH(6);
+-            rd = insn & 7;
+-            rm = (insn >> 3) & 7;
+-            tmp = load_reg(s, rm);
+-            switch ((insn >> 6) & 3) {
+-            case 0: gen_sxth(tmp); break;
+-            case 1: gen_sxtb(tmp); break;
+-            case 2: gen_uxth(tmp); break;
+-            case 3: gen_uxtb(tmp); break;
+-            }
+-            store_reg(s, rd, tmp);
+-            break;
+         case 4: case 5: case 0xc: case 0xd:
+             /*
+              * 0b1011_x10x_xxxx_xxxx
 diff --git a/target/arm/t16.decode b/target/arm/t16.decode
-index 69d3894ba7..ddf12ada11 100644
+index ddf12ada11..1b47e804bf 100644
 --- a/target/arm/t16.decode
 +++ b/target/arm/t16.decode
-@@ -156,6 +156,15 @@ ADD_rrri        0100 0100 . .... ...            @addsub_2h s=0
- CMP_rrri        0100 0101 . .... ...            @addsub_2h s=1
- MOV_rrri        0100 0110 . .... ...            @addsub_2h s=0
- 
-+# Adjust SP (immediate)
+@@ -23,6 +23,7 @@
+ &s_rrr_shr       !extern s rn rd rm rs shty
+ &s_rri_rot       !extern s rn rd imm rot
+ &s_rrrr          !extern s rd rn rm ra
++&rrr_rot         !extern rd rn rm rot
+ &ri              !extern rd imm
+ &r               !extern rm
+ &ldst_rr         !extern p w u rn rt rm shimm shtype
+@@ -173,3 +174,12 @@ BX              0100 0111 0 .... 000            @branchr
+ BLX_r           0100 0111 1 .... 000            @branchr
+ BXNS            0100 0111 0 .... 100            @branchr
+ BLXNS           0100 0111 1 .... 100            @branchr
 +
-+%imm7_0x4       0:7 !function=times_4
-+@addsub_sp_i    .... .... . ....... \
-+                &s_rri_rot s=0 rd=13 rn=13 rot=0 imm=%imm7_0x4
++# Extend
 +
-+ADD_rri         1011 0000 0 .......             @addsub_sp_i
-+SUB_rri         1011 0000 1 .......             @addsub_sp_i
++@extend         .... .... .. rm:3 rd:3          &rrr_rot rn=15 rot=0
 +
- # Branch and exchange
- 
- @branchr        .... .... . rm:4 ...            &r
++SXTAH           1011 0010 00 ... ...            @extend
++SXTAB           1011 0010 01 ... ...            @extend
++UXTAH           1011 0010 10 ... ...            @extend
++UXTAB           1011 0010 11 ... ...            @extend
 -- 
 2.17.1
 
