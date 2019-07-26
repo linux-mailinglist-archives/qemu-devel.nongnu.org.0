@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005ED76195
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 11:12:22 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A3076199
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 11:13:02 +0200 (CEST)
+Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqwGw-0007Xr-Rg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 05:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32903)
+	id 1hqwHc-00017D-CK
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 05:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35645)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hqwGM-0005Le-0U
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 05:11:44 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hqwHI-0000c0-2n
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 05:12:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hqwGG-0005Vw-Kb
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 05:11:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58756)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hqwHA-0000DE-Tt
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 05:12:35 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:52306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hqwGG-0005PB-AY
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 05:11:36 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9EB3581F25
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 09:11:34 +0000 (UTC)
-Received: from localhost (ovpn-117-212.ams2.redhat.com [10.36.117.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D86455D9C6;
- Fri, 26 Jul 2019 09:11:29 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: virtio-fs@redhat.com,
-	qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:11:03 +0100
-Message-Id: <20190726091103.23503-6-stefanha@redhat.com>
-In-Reply-To: <20190726091103.23503-1-stefanha@redhat.com>
-References: <20190726091103.23503-1-stefanha@redhat.com>
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hqwH4-000848-A1; Fri, 26 Jul 2019 05:12:26 -0400
+Received: from [172.16.11.117] (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 1212A96F52;
+ Fri, 26 Jul 2019 09:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1564132339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q1772vBXvapvSD5tbTLGT/zlBP9h+P1My+8HFMiZbZU=;
+ b=4h9Y2gCfVxerZjhL7dIqFOv7QT5SI9PURUVWgehWMre0D55B8DP9BprIivQ/iF73OKwsrO
+ myQvoeqPx7DDigv5jm0Y0TIh/hEPUgF8MkpV78K44wcsOSfOSVTY3sljsPHuHfgmaUzs0V
+ nB3n8+fi5lwHoGU5+YxpGRqB6yxpZL4=
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190725163710.11703-1-peter.maydell@linaro.org>
+ <20190725163710.11703-3-peter.maydell@linaro.org>
+ <20190725172712.GM2656@work-vm>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <fa5590b1-2d62-a9c4-c54e-957c9bac9ed1@greensocs.com>
+Date: Fri, 26 Jul 2019 11:12:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 26 Jul 2019 09:11:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190725172712.GM2656@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1564132341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q1772vBXvapvSD5tbTLGT/zlBP9h+P1My+8HFMiZbZU=;
+ b=x5W7Ttm4B9zzWvUWtw3E+2EkJqSl7j9wk3QRp0wET0+xpMaZUDTMojbk22B7rjbfHEoebj
+ s8fQ0PWga3j/Jqkt6ErP8FD6nZMK1vKG84yP7rmNI7MTm8w2+FdWyZ/Bwtv8WOU0yygMLM
+ RYhVJxoNW8oFYI0HmI67swWZ0u/Cdp4=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564132341; a=rsa-sha256; cv=none;
+ b=4skvJs4Hvt2V0mLTB2pAitZPom/JUS7YzOC74fxYnGfh5wNK+pJR7eunjoWcuWOmseMZ/h
+ GuK8Zj/QH6sWxpJ3z2MXxvtDNGQ2+Lreh/BDzUr0FRLzSagmFywdyFOOXJOYiLlinHfMCi
+ 3ipAvasPQ0PRr8AgbTepiE8OtmvF2qc=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/5] virtiofsd: prevent races with lo_dirp_put()
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [PATCH for-4.1? 2/2] vmstate.h: Type check
+ VMSTATE_STRUCT_VARRAY macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,144 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce lo_dirp_put() so that FUSE_RELEASEDIR does not cause
-use-after-free races with other threads that are accessing lo_dirp.
 
-Also make lo_releasedir() atomic to prevent FUSE_RELEASEDIR racing with
-itself.  This prevents double-frees.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- contrib/virtiofsd/passthrough_ll.c | 42 +++++++++++++++++++++++++-----
- 1 file changed, 36 insertions(+), 6 deletions(-)
+On 7/25/19 7:27 PM, Dr. David Alan Gilbert wrote:
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+>> The VMSTATE_STRUCT_VARRAY_UINT32 macro is intended to handle
+>> migrating a field which is an array of structs, but where instead of
+>> migrating the entire array we only migrate a variable number of
+>> elements of it.
+>>
+>> The VMSTATE_STRUCT_VARRAY_POINTER_UINT32 macro is intended to handle
+>> migrating a field which is of pointer type, and points to a
+>> dynamically allocated array of structs of variable size.
+>>
+>> We weren't actually checking that the field passed to
+>> VMSTATE_STRUCT_VARRAY_UINT32 really is an array, with the result that
+>> accidentally using it where the _POINTER_ macro was intended would
+>> compile but silently corrupt memory on migration.
+>>
+>> Add type-checking that enforces that the field passed in is
+>> really of the right array type. This applies to all the VMSTATE
+>> macros which use flags including VMS_VARRAY_* but not VMS_POINTER.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> However, for the rest of it, from migration I'm happy:
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
-hrough_ll.c
-index ad3abdd532..f74e7d2d21 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -1293,11 +1293,28 @@ static void lo_readlink(fuse_req_t req, fuse_ino_=
-t ino)
- }
-=20
- struct lo_dirp {
-+	gint refcount;
- 	DIR *dp;
- 	struct dirent *entry;
- 	off_t offset;
- };
-=20
-+static void lo_dirp_put(struct lo_dirp **dp)
-+{
-+	struct lo_dirp *d =3D *dp;
-+
-+	if (!d) {
-+		return;
-+	}
-+	*dp =3D NULL;
-+
-+	if (g_atomic_int_dec_and_test(&d->refcount)) {
-+		closedir(d->dp);
-+		free(d);
-+	}
-+}
-+
-+/* Call lo_dirp_put() on the return value when no longer needed */
- static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi=
-)
- {
- 	struct lo_data *lo =3D lo_data(req);
-@@ -1305,6 +1322,9 @@ static struct lo_dirp *lo_dirp(fuse_req_t req, stru=
-ct fuse_file_info *fi)
-=20
- 	pthread_mutex_lock(&lo->mutex);
- 	elem =3D lo_map_get(&lo->dirp_map, fi->fh);
-+	if (elem) {
-+		g_atomic_int_inc(&elem->dirp->refcount);
-+	}
- 	pthread_mutex_unlock(&lo->mutex);
- 	if (!elem)
- 		return NULL;
-@@ -1335,6 +1355,8 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t i=
-no, struct fuse_file_info *fi
- 	d->offset =3D 0;
- 	d->entry =3D NULL;
-=20
-+	g_atomic_int_set(&d->refcount, 1); /* paired with lo_releasedir() */
-+
- 	fh =3D lo_add_dirp_mapping(req, d);
- 	if (fh =3D=3D -1)
- 		goto out_err;
-@@ -1363,7 +1385,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_=
-t ino, size_t size,
- 			  off_t offset, struct fuse_file_info *fi, int plus)
- {
- 	struct lo_data *lo =3D lo_data(req);
--	struct lo_dirp *d;
-+	struct lo_dirp *d =3D NULL;
- 	struct lo_inode *dinode;
- 	char *buf =3D NULL;
- 	char *p;
-@@ -1451,6 +1473,8 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_=
-t ino, size_t size,
-=20
-     err =3D 0;
- error:
-+    lo_dirp_put(&d);
-+
-     // If there's an error, we can only signal it if we haven't stored
-     // any entries yet - otherwise we'd end up with wrong lookup
-     // counts for the entries that are already in the buffer. So we
-@@ -1477,22 +1501,25 @@ static void lo_readdirplus(fuse_req_t req, fuse_i=
-no_t ino, size_t size,
- static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_fi=
-le_info *fi)
- {
- 	struct lo_data *lo =3D lo_data(req);
-+	struct lo_map_elem *elem;
- 	struct lo_dirp *d;
-=20
- 	(void) ino;
-=20
--	d =3D lo_dirp(req, fi);
--	if (!d) {
-+	pthread_mutex_lock(&lo->mutex);
-+	elem =3D lo_map_get(&lo->dirp_map, fi->fh);
-+	if (!elem) {
-+		pthread_mutex_unlock(&lo->mutex);
- 		fuse_reply_err(req, EBADF);
- 		return;
- 	}
-=20
--	pthread_mutex_lock(&lo->mutex);
-+	d =3D elem->dirp;
- 	lo_map_remove(&lo->dirp_map, fi->fh);
- 	pthread_mutex_unlock(&lo->mutex);
-=20
--	closedir(d->dp);
--	free(d);
-+	lo_dirp_put(&d); /* paired with lo_opendir() */
-+
- 	fuse_reply_err(req, 0);
- }
-=20
-@@ -1701,6 +1728,9 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t =
-ino, int datasync,
- 		res =3D fdatasync(fd);
- 	else
- 		res =3D fsync(fd);
-+
-+	lo_dirp_put(&d);
-+
- 	fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
- }
-=20
---=20
-2.21.0
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Tested-by: Damien Hedde <damien.hedde@greensocs.com>
 
+Damien
 
