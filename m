@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505A276522
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 14:07:24 +0200 (CEST)
-Received: from localhost ([::1]:39246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1657651D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 14:06:32 +0200 (CEST)
+Received: from localhost ([::1]:39216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqz0K-0001jp-HJ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 08:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58477)
+	id 1hqyzR-0006Hm-FO
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 08:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58432)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hqyyu-0005Ve-8A
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 08:05:57 -0400
+ (envelope-from <armbru@redhat.com>) id 1hqyys-0005Vc-VQ
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 08:05:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hqyyq-0007uO-4I
+ (envelope-from <armbru@redhat.com>) id 1hqyyq-0007uZ-6V
  for qemu-devel@nongnu.org; Fri, 26 Jul 2019 08:05:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42938)
+Received: from mx1.redhat.com ([209.132.183.28]:56004)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hqyyp-0007oQ-PZ
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 08:05:48 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hqyyp-0007oO-PA
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 08:05:47 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A00C3083363
+ by mx1.redhat.com (Postfix) with ESMTPS id 0FF3485543
  for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 12:05:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-30.ams2.redhat.com
  [10.36.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D23775D70D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D230736FB;
  Fri, 26 Jul 2019 12:05:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4D2CD1133019; Fri, 26 Jul 2019 14:05:42 +0200 (CEST)
+ id 50DB41133025; Fri, 26 Jul 2019 14:05:42 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 14:05:17 +0200
-Message-Id: <20190726120542.9894-4-armbru@redhat.com>
+Date: Fri, 26 Jul 2019 14:05:18 +0200
+Message-Id: <20190726120542.9894-5-armbru@redhat.com>
 In-Reply-To: <20190726120542.9894-1-armbru@redhat.com>
 References: <20190726120542.9894-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 26 Jul 2019 12:05:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Fri, 26 Jul 2019 12:05:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 03/28] qapi: Split error.json off common.json
+Subject: [Qemu-devel] [PATCH 04/28] memory: Fix type of
+ IOMMUMemoryRegionClass member @parent_class
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,162 +58,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In my "build everything" tree, changing a type in qapi/common.json
-triggers a recompile of some 3600 out of 6600 objects (not counting
-tests and objects that don't depend on qemu/osdep.h).
+TYPE_IOMMU_MEMORY_REGION is a direct subtype of TYPE_MEMORY_REGION.
+Its instance struct is IOMMUMemoryRegion, and its first member is a
+MemoryRegion.  Correct.  Its class struct is IOMMUMemoryRegionClass,
+and its first member is a DeviceClass.  Wrong.  Messed up when commit
+1221a474676 introduced the QOM type.  It even included hw/qdev-core.h
+just for that.
 
-One common dependency is QapiErrorClass: it's used only in in
-qapi/error.h, which uses nothing else, and is widely included.
+TYPE_MEMORY_REGION doesn't bother to define a class struct.  This is
+fine, it simply defaults to its super-type TYPE_OBJECT's class struct
+ObjectClass.  Changing IOMMUMemoryRegionClass's first member's type to
+ObjectClass would be a minimal fix, if a bit brittle: if
+TYPE_MEMORY_REGION ever acquired own class struct, we'd have to update
+IOMMUMemoryRegionClass to use it.
 
-Move QapiErrorClass from common.json to new error.json.  Touching
-common.json now recompiles only some 2900 objects.
+Fix it the clean and robust way instead: give TYPE_MEMORY_REGION its
+own class struct MemoryRegionClass now, and use it for
+IOMMUMemoryRegionClass's first member.
 
-Cc: Eric Blake <eblake@redhat.com>
+Revert the include of hw/qdev-core.h, and fix the few files that have
+come to rely on it.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS           |  2 ++
- include/qapi/error.h  |  2 +-
- qapi/Makefile.objs    |  2 +-
- qapi/common.json      | 24 ------------------------
- qapi/error.json       | 29 +++++++++++++++++++++++++++++
- qapi/qapi-schema.json |  1 +
- 6 files changed, 34 insertions(+), 26 deletions(-)
- create mode 100644 qapi/error.json
+ hw/display/vga-isa-mm.c | 1 +
+ hw/net/pcnet.h          | 1 +
+ include/exec/memory.h   | 9 +++++++--
+ memory.c                | 1 +
+ 4 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc9636b43a..a43c200eaf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1875,6 +1875,7 @@ M: Markus Armbruster <armbru@redhat.com>
- S: Supported
- F: include/qapi/error.h
- F: include/qemu/error-report.h
-+F: qapi/error.json
- F: util/error.c
- F: util/qemu-error.c
+diff --git a/hw/display/vga-isa-mm.c b/hw/display/vga-isa-mm.c
+index 215e649719..a790f69b6d 100644
+--- a/hw/display/vga-isa-mm.c
++++ b/hw/display/vga-isa-mm.c
+@@ -22,6 +22,7 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
++#include "qemu/bitops.h"
+ #include "qemu/units.h"
+ #include "hw/hw.h"
+ #include "hw/display/vga.h"
+diff --git a/hw/net/pcnet.h b/hw/net/pcnet.h
+index 40831a7845..28d19a5c6f 100644
+--- a/hw/net/pcnet.h
++++ b/hw/net/pcnet.h
+@@ -8,6 +8,7 @@
+ #define PCNET_LOOPTEST_NOCRC	2
 =20
-@@ -2063,6 +2064,7 @@ F: monitor/monitor-internal.h
- F: monitor/qmp*
- F: monitor/misc.c
- F: monitor/monitor.c
-+F: qapi/error.json
- F: docs/devel/*qmp-*
- F: docs/interop/*qmp-*
- F: scripts/qmp/
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index 51b63dd4b5..3f95141a01 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -119,7 +119,7 @@
- #ifndef ERROR_H
- #define ERROR_H
+ #include "exec/memory.h"
++#include "hw/irq.h"
 =20
--#include "qapi/qapi-types-common.h"
-+#include "qapi/qapi-types-error.h"
+ /* BUS CONFIGURATION REGISTERS */
+ #define BCR_MSRDA    0
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index bb0961ddb9..238370a2ff 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -25,7 +25,6 @@
+ #include "qemu/notify.h"
+ #include "qom/object.h"
+ #include "qemu/rcu.h"
+-#include "hw/qdev-core.h"
 =20
- /*
-  * Overall category of an error.
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index c5a29e86e2..dd3f5e6f94 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -6,7 +6,7 @@ util-obj-y +=3D qmp-event.o
- util-obj-y +=3D qapi-util.o
+ #define RAM_ADDR_INVALID (~(ram_addr_t)0)
 =20
- QAPI_COMMON_MODULES =3D audio authz block-core block char common crypto
--QAPI_COMMON_MODULES +=3D dump introspect job machine migration misc net
-+QAPI_COMMON_MODULES +=3D dump error introspect job machine migration mis=
-c net
- QAPI_COMMON_MODULES +=3D qdev qom rdma rocker run-state sockets tpm
- QAPI_COMMON_MODULES +=3D trace transaction ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
-diff --git a/qapi/common.json b/qapi/common.json
-index 99d313ef3b..3d4e8de1e0 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -4,30 +4,6 @@
- # =3D Common data types
- ##
+@@ -205,6 +204,12 @@ struct MemoryRegionOps {
+     } impl;
+ };
 =20
--##
--# @QapiErrorClass:
--#
--# QEMU error classes
--#
--# @GenericError: this is used for errors that don't require a specific e=
-rror
--#                class. This should be the default case for most errors
--#
--# @CommandNotFound: the requested command has not been found
--#
--# @DeviceNotActive: a device has failed to be become active
--#
--# @DeviceNotFound: the requested device has not been found
--#
--# @KVMMissingCap: the requested operation can't be fulfilled because a
--#                 required KVM capability is missing
--#
--# Since: 1.2
--##
--{ 'enum': 'QapiErrorClass',
--  # Keep this in sync with ErrorClass in error.h
--  'data': [ 'GenericError', 'CommandNotFound',
--            'DeviceNotActive', 'DeviceNotFound', 'KVMMissingCap' ] }
--
- ##
- # @IoOperationType:
- #
-diff --git a/qapi/error.json b/qapi/error.json
-new file mode 100644
-index 0000000000..3fad08f506
---- /dev/null
-+++ b/qapi/error.json
-@@ -0,0 +1,29 @@
-+# -*- Mode: Python -*-
++typedef struct MemoryRegionClass {
++    /* private */
++    ObjectClass parent_class;
++} MemoryRegionClass;
 +
-+##
-+# =3D QMP errors
-+##
 +
-+##
-+# @QapiErrorClass:
-+#
-+# QEMU error classes
-+#
-+# @GenericError: this is used for errors that don't require a specific e=
-rror
-+#                class. This should be the default case for most errors
-+#
-+# @CommandNotFound: the requested command has not been found
-+#
-+# @DeviceNotActive: a device has failed to be become active
-+#
-+# @DeviceNotFound: the requested device has not been found
-+#
-+# @KVMMissingCap: the requested operation can't be fulfilled because a
-+#                 required KVM capability is missing
-+#
-+# Since: 1.2
-+##
-+{ 'enum': 'QapiErrorClass',
-+  # Keep this in sync with ErrorClass in error.h
-+  'data': [ 'GenericError', 'CommandNotFound',
-+            'DeviceNotActive', 'DeviceNotFound', 'KVMMissingCap' ] }
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 38af54d6b3..920b03b0aa 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -80,6 +80,7 @@
- # stable order, it's best to include each sub-schema just once, or
- # include it first right here.
+ enum IOMMUMemoryRegionAttr {
+     IOMMU_ATTR_SPAPR_TCE_FD
+ };
+@@ -237,7 +242,7 @@ enum IOMMUMemoryRegionAttr {
+  */
+ typedef struct IOMMUMemoryRegionClass {
+     /* private */
+-    struct DeviceClass parent_class;
++    MemoryRegionClass parent_class;
 =20
-+{ 'include': 'error.json' }
- { 'include': 'common.json' }
- { 'include': 'sockets.json' }
- { 'include': 'run-state.json' }
+     /*
+      * Return a TLB entry that contains a given address.
+diff --git a/memory.c b/memory.c
+index d4579bbaec..bf108b596e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -3223,6 +3223,7 @@ void memory_region_init_rom_device(MemoryRegion *mr=
+,
+ static const TypeInfo memory_region_info =3D {
+     .parent             =3D TYPE_OBJECT,
+     .name               =3D TYPE_MEMORY_REGION,
++    .class_size         =3D sizeof(MemoryRegionClass),
+     .instance_size      =3D sizeof(MemoryRegion),
+     .instance_init      =3D memory_region_initfn,
+     .instance_finalize  =3D memory_region_finalize,
 --=20
 2.21.0
 
