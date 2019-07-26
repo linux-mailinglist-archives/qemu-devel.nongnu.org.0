@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6057709D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:53:23 +0200 (CEST)
-Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD69770A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:55:04 +0200 (CEST)
+Received: from localhost ([::1]:42342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4PC-0003iQ-TR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57299)
+	id 1hr4Qp-0002fT-7x
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57491)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Mj-00029E-8e
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:50 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Mo-0002Yi-3y
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4Mh-0007ab-5f
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:48 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44162)
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4Mm-0007p5-Vw
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:53 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33404)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4Mg-0007Tc-Vz
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:47 -0400
-Received: by mail-pf1-x444.google.com with SMTP id t16so24825652pfe.11
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:45 -0700 (PDT)
+ id 1hr4Mm-0007Vn-Qh
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:52 -0400
+Received: by mail-pg1-x543.google.com with SMTP id f20so15877252pgj.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=aps50xe7CceEtOuNm5w6u+s65ojahSCeZEPTzeYb2Dc=;
- b=OUdEzYa8SNfl74dE7aT6MwUI/pOTiIrNiw17RqWvxMcwtWmNvLDxWFx+wt16lCxiYs
- eNE78fLQL1V/WgNjmGRWl0Yp8dfq36CS61hQRz6hSf/LOCki2+ptyYwwGifOoK2k0H8K
- ErHfEigw0OEW+/7MQ/xwXez7wLEOyZmt5KGCzVnhhU/oDJsEwaUfq9rumsHSZW+sDGRA
- vGQGGJF4hiGk78/M1Z8FE6Tuu2o+JJa59UibkAo0O1le2UrbjndcO4i+DmMBvsjHNcwN
- d9wmRS6fvhQGFwcO6AAWQk6xv/ZF+OM1Am788PuAyk4KGdxFb9aDxgwUNtfy3BK0jSEP
- ZZCQ==
+ bh=Za01uaUS+E1JffTVMwXCPiCzGTAwavbcztjEMPVjIIo=;
+ b=HTQ12VGSu11D/hpOGCcoiE8mxbiVZ3ioQ3SLZdSbQEZH39gCfmq0Mh5LPP8IieKPXp
+ 0isbaob2Qo4YwKI6fZVEtrdoD8ztCbcZGEtg8pMg/d4o18VvoF8xfao3HEFjMbdVYf9Q
+ mfy4XWlk/VlSJQbiP1T8QlHLUbK/1k5ORD96UxIbYWkz9qg6PnvZ89eFsHrBSwzSLmFg
+ g3xkzZf86Ctk+l9grsBxtF4joI1GtQ2uqIOUrOVYdrbtgh4Ud1hhsGvZ0ABp3OOCuPuG
+ hazMVjv5wzqDF+g6/aPVeebrWcoJLlw5BdXdigpaO07muKqZG7XRnfc0Pfv9OJwQ8u7k
+ fHBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=aps50xe7CceEtOuNm5w6u+s65ojahSCeZEPTzeYb2Dc=;
- b=VC4+B6pW2LbDkedPj9cFY7oEjqhn4+xVa9fhQamP7AbTtcrvuVvWiWReQ/b8tuLS3M
- cUOfpxj/PllkHior2RxhfGPg2twtpGHwNxJIFRWGC8/Rp5dQB1tgoZ/+xeeAsL6NuNVI
- VVjckHMvygIIM3ED7UudEKSMQnxt83zvh8ptj192nP1BWm67fSWoLOv13m/DQ95+i7NS
- rMQzt3Fo2tCgdp9H8nG9hq1BlXSoCiHvYPl6yBXSnupXwSX6Ck1gGV7kOOohyK64ivVF
- 7dyzI2O3cwzgik+UQeDmAG8JM6JhJJ9OXL+DMQOfF4qkPnVH/P6IrgwoIco5ox2ejKBl
- rIlg==
-X-Gm-Message-State: APjAAAVJ6KbgKEw1OhdUk2MFKLqucsBrqw1bih6bbAmmFY2IQnmXAkM2
- OcmaeNOXfThqsQEMRfUnrgSwavgaJI4=
-X-Google-Smtp-Source: APXvYqyDeOxLqtrMhdkYEat+40Q1Xq6S1xdyeEris1C1nlv2eW5tEqThEo9kY4QQSozlK9kQUqd30Q==
-X-Received: by 2002:a62:ae01:: with SMTP id q1mr22905447pff.219.1564163443819; 
- Fri, 26 Jul 2019 10:50:43 -0700 (PDT)
+ bh=Za01uaUS+E1JffTVMwXCPiCzGTAwavbcztjEMPVjIIo=;
+ b=T9/Jmf7tc6MOiXe0bjFx+Rt/f8ALuLZjwS1rNNegojUwqj1X2Pjz+RrOBbPosb5Wpp
+ xBSfx50Iy/fIuS3eUsQvf3n6hBtfYTejebmfJ3yPz4dCf/DaUpyYRD0aGP6OMgOkLz9p
+ +Uvt8FYk3oaDDKTBwLZFZKyvjlwUcBgY5sLbzS8YrXJ2COHnnivAIs0USES1ZtnKyUC1
+ ZAma92Oa9OrRU29aAtKIH8RyNO3WwRnnlLuVMZ0a8OtpvhgRGuQwh3ykiTlL5v+fv5QG
+ Fb6Ya8MHQ9KTnusNrrxkAtnZp9SlGzxYp4dWrgbyAammXc1e5uPAMLot66LNs0Ja7vEF
+ LqEg==
+X-Gm-Message-State: APjAAAWHBOtBKnPAFixVH0g/hiwn5eevBFvYd/RkoqmeTFlEYCox0r3o
+ eMt12sRv00hau6LSb0Bpw9Sqc+9S4yQ=
+X-Google-Smtp-Source: APXvYqwBWcHYIwS/IdbUWVqFtATsgzmUsVfYjdZWMUAXDkCDDdDlgl6R6/jLMKRS8nmuubRpdnRF6A==
+X-Received: by 2002:a63:b904:: with SMTP id z4mr90747529pge.388.1564163444774; 
+ Fri, 26 Jul 2019 10:50:44 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.42
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.43
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:50:43 -0700 (PDT)
+ Fri, 26 Jul 2019 10:50:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:49:33 -0700
-Message-Id: <20190726175032.6769-9-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:49:34 -0700
+Message-Id: <20190726175032.6769-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
 References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH 08/67] target/arm: Use store_reg_from_load in
- thumb2 code
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH 09/67] target/arm: Fold a pc load into load_reg
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,48 +79,28 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is an extra always-true ARMv5 test, but this will
-become more obvious once we start unifying the
-implementation of A32+T32.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ target/arm/translate.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 5e2dd8bb16..e316eeb312 100644
+index e316eeb312..53c46fcdc4 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -9773,13 +9773,11 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                         /* Load.  */
-                         tmp = tcg_temp_new_i32();
-                         gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
--                        if (i == 15) {
--                            gen_bx_excret(s, tmp);
--                        } else if (i == rn) {
-+                        if (i == rn) {
-                             loaded_var = tmp;
-                             loaded_base = 1;
+@@ -9161,11 +9161,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                             }
                          } else {
--                            store_reg(s, i, tmp);
-+                            store_reg_from_load(s, i, tmp);
-                         }
-                     } else {
-                         /* Store.  */
-@@ -10914,11 +10912,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 tcg_temp_free_i32(addr);
-                 goto illegal_op;
-             }
--            if (rs == 15) {
--                gen_bx_excret(s, tmp);
--            } else {
--                store_reg(s, rs, tmp);
--            }
-+            store_reg_from_load(s, rs, tmp);
-         } else {
-             /* Store.  */
-             tmp = load_reg(s, rs);
+                             /* store */
+-                            if (i == 15) {
+-                                /* special case: r15 = PC + 8 */
+-                                tmp = tcg_temp_new_i32();
+-                                tcg_gen_movi_i32(tmp, s->pc_read);
+-                            } else if (user) {
++                            if (user && i != 15) {
+                                 tmp = tcg_temp_new_i32();
+                                 tmp2 = tcg_const_i32(i);
+                                 gen_helper_get_user_reg(tmp, cpu_env, tmp2);
 -- 
 2.17.1
 
