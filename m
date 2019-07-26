@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F2F77094
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:51:33 +0200 (CEST)
-Received: from localhost ([::1]:42182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E7C77092
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 19:51:28 +0200 (CEST)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hr4NP-0003rS-Fz
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
+	id 1hr4NK-0003dQ-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 13:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56905)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4MY-0001kt-S5
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4MY-0001ks-Ry
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hr4MW-00077I-EW
+ (envelope-from <richard.henderson@linaro.org>) id 1hr4MX-0007Aa-Pd
  for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:38 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46834)
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37653)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hr4MW-00073i-3E
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:36 -0400
-Received: by mail-pg1-x542.google.com with SMTP id k189so6067585pgk.13
- for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:35 -0700 (PDT)
+ id 1hr4MX-00076A-KW
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 13:50:37 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 19so24852619pfa.4
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 10:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=qFigwqxkZ9qhX2+b3zlDbnkq417ogpiBOSL/2AuGB2I=;
- b=kt8tMQpvJp0uFngsozpYNhdh3fTIKNepILssaQNkoXQLS3q0KjkeYrssTOvCbaQMCE
- Hw1JnSbkjEV962kZEjM5rhc1C0XDfbUJT1zAP0F7iveSAzQgm/ClT5/xJikRnpbAFQCK
- iRzjhfcTJW2/zkNRHvaPdEUS+ge3oQcfIMq/ioTr+UGcW0fVVENDdN9eUOwJ29uso26X
- +fe5TwpvnvXVysPh9UMzdVIHsgioVjdFJ9KM+GDtXLVA0pB9XswmxqrOX3NnqlsrinOO
- aPbLX7BSZfyGu7VcVVV6WMrgNtWapPzB5PO5h0LHLhJkZpC3cTvGz9+zoRlIn4tzIPsp
- nIqw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ynwokCS+Kqgt3LfDdzexRygGm/TpfqdWtRJ/K6TofxQ=;
+ b=oXKkjU8fglSAI1Jty8wDUH65ezOiFiflanv1iU7NYrrwB/qUNs7CJHIvK3eHLc6yJh
+ vvfKYGb5XJCTgGneoT8ZzCTyuCWTywlHOcGOgGfxyHrGMeYP9YNN5ZJZ9lYxS+UikDKN
+ x6NaBqJ2fTIeCKyhV8N6PJ/4AzT8lRR2oVtoOPT1rzONK4nBYbOPdHbTko7VQzmwYlQ4
+ tA4UwkjLpwjIQp6YQ8eYt5FNLZUlX3Dk3jnptgCokx/9J1CWJdbewYYCXKK6jg/YeDQb
+ n8Ia07lzEC9oS+n+RvYVNor2nRRqHhxIto7TFlUl8myyIKiBDTn+hSPVBmlC7eRWvu11
+ fL9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=qFigwqxkZ9qhX2+b3zlDbnkq417ogpiBOSL/2AuGB2I=;
- b=HL+F4kVfOwiRHiyvV5Mx2WfoI7+UfLfWX58VEL2dJ7u1pNHIZVmUdVRakOisyO1PjT
- r7/BNV01BHVtSjZKO/w5jPm2MJIjbhjiFjvi+iClzUzdCvuwuG/Ve0z1tjltaI9qdIDA
- xT9EE0HqOJR2b+NyxtIv/3bO3VhD7m1SAzMeILv3rmVL4V8PCQnv5HLkYAHz8fFf1Wfr
- 0Vb1BtfDig5x3fmIS1h7iPg/Iiyq3kRJYeK3VPywpD9QIYIQGzEFBa0L9LryvWAyOxKr
- sQ8D9buD/8UennsUrS8RZiB5v3zUDl1FMU4ZuUCfhhqAyHnLOUZYktjRGztFIPAVopTl
- lBhw==
-X-Gm-Message-State: APjAAAXcII6tTI17aD83zjo7ebPmmvTMkb02MSy0SBy82wqMzawGrVcl
- DgqFI04TzFlPa5beE3WvZHGBIvFsR0M=
-X-Google-Smtp-Source: APXvYqyObypCgcQjsd1hBq+pm5P3Sg7v/dw9PGIDfKy5D6OTFroaNBaRa24r3v7ORNR6jrKDPl9EJA==
-X-Received: by 2002:a65:5082:: with SMTP id r2mr66447352pgp.170.1564163434091; 
- Fri, 26 Jul 2019 10:50:34 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=ynwokCS+Kqgt3LfDdzexRygGm/TpfqdWtRJ/K6TofxQ=;
+ b=tdXzd95eI10P3EqYQf7ZDm7lxcx+GjWi2knYxeHu5zGjDr+FuvMgQYbCa5WN4paanq
+ bvu1dyjBVYAW1tDzBd3Ypea+MqaykJPERzAxIz85iFaIU1fTsiWz3dUCj2ZAemPlHILN
+ wL/8ppXpK1DTTVVz/2QHDEQvK8DndLTWchFFY4dZrySUk6buuxRE3QwSXlrrWMFaLr7n
+ u57fZ8/wPqZYTw47TU/JilDl15c0+F/KflNzFiYRBg4aktRsILMSNH5wbiKBy7Ux5KJ+
+ ototNItibZlEMKimACBin8EeNZeexMOZBHLkR9ru8SLoSWXcrw3rVu1cVj8IqO1fGB5E
+ 9NIA==
+X-Gm-Message-State: APjAAAXk7FhcfSNdysMF6wX1BSpm6zHmUP0O/wZwB4yTwwIzz9NfQCPF
+ iTRa9GeVpvAewbJNWUdNR0NwzY1B8kc=
+X-Google-Smtp-Source: APXvYqwAwKsgKWEbkDiKv1mE75OLMvidr1nR1Qvo/H0WjENG7z2eImN92v3XwWvyFTCymQ+lADDZGg==
+X-Received: by 2002:a63:2c8:: with SMTP id 191mr91125178pgc.139.1564163435378; 
+ Fri, 26 Jul 2019 10:50:35 -0700 (PDT)
 Received: from localhost.localdomain (97-126-117-207.tukw.qwest.net.
  [97.126.117.207])
- by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.32
+ by smtp.gmail.com with ESMTPSA id o24sm104287919pfp.135.2019.07.26.10.50.34
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 10:50:33 -0700 (PDT)
+ Fri, 26 Jul 2019 10:50:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 26 Jul 2019 10:49:25 -0700
-Message-Id: <20190726175032.6769-1-richard.henderson@linaro.org>
+Date: Fri, 26 Jul 2019 10:49:26 -0700
+Message-Id: <20190726175032.6769-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190726175032.6769-1-richard.henderson@linaro.org>
+References: <20190726175032.6769-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH 00/67] target/arm: Convert aa32 base isa to
- decodetree
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH 01/67] decodetree: Allow !function with no
+ input bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,120 +80,39 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This unifies the implementation of the actual instructions
-for a32, t32, and t16.  In order to make this happen, we
-need several preliminary cleanups.  Most importantly to how
-we handle the architectural representation of PC.
+With this, we can have the function return a value from the DisasContext.
 
-I attempt to convert single groups of instructions at once,
-as they are grouped in the sections of the encoding sections
-of the manual.
-
-This has been tested by running the debian 9 armhf installer,
-which does a far amount of switching between arm and thumb modes.
-I've also run Peter's ARM TFM image, and all of the existing
-RISU tests that we have.  (Our RISU test cases are nowhere near
-complete for 32-bit mode, but it did find 3 bugs, so not useless.)
-
-What's left is converting NEON and iwmmxt, then we could start
-merging some of the decoders and tidying the top-level interface
-further.
-
-We will need to convert NEON in order to have a good chance at
-finishing the ARMv8.2-FHP extension.
-
-
-r~
-
-
-Richard Henderson (67):
-  decodetree: Allow !function with no input bits
-  target/arm: Remove offset argument to gen_exception_insn
-  target/arm: Remove offset argument to gen_exception_bkpt_insn
-  target/arm: Remove offset argument to gen_exception_internal_insn
-  target/arm: Use the saved value of the insn address
-  target/arm: Introduce pc_read
-  target/arm: Introduce add_reg_for_lit
-  target/arm: Use store_reg_from_load in thumb2 code
-  target/arm: Fold a pc load into load_reg
-  target/arm: Move test for AL into arm_skip_unless
-  target/arm: Add stubs for aa32 decodetree
-  target/arm: Introduce gen_illegal_op
-  target/arm: Convert Data Processing (reg, reg-shifted-reg, imm)
-  target/arm: Convert multiply and multiply accumulate
-  target/arm: Convert Saturating addition and subtraction
-  target/arm: Convert Halfword multiply and multiply accumulate
-  target/arm: Convert MSR (immediate) and hints
-  target/arm: Convert MRS/MSR (banked, register)
-  target/arm: Convert Cyclic Redundancy Check
-  target/arm: Convert the rest of A32 Miscelaneous instructions
-  target/arm: Convert T32 ADDW/SUBW
-  target/arm: Convert load/store (register, immediate, literal)
-  target/arm: Convert Synchronization primitives
-  target/arm: Convert USAD8, USADA8, SBFX, UBFX, BFC, BFI, UDF
-  target/arm: Convert Parallel addition and subtraction
-  target/arm: Convert Packing, unpacking, saturation, and reversal
-  target/arm: Convert Signed multiply, signed and unsigned divide
-  target/arm: Convert MOVW, MOVT
-  target/arm: Convert LDM, STM
-  target/arm: Convert B, BL, BLX (immediate)
-  target/arm: Convert SVC
-  target/arm: Convert RFE and SRS
-  target/arm: Convert Clear-Exclusive, Barriers
-  target/arm: Convert CPS (privileged)
-  target/arm: Convert SETEND
-  target/arm: Convert PLI, PLD, PLDW
-  target/arm: Convert Unallocated memory hint
-  target/arm: Convert Table Branch
-  target/arm: Convert SG
-  target/arm: Convert TT
-  target/arm: Simplify disas_thumb2_insn
-  target/arm: Simplify disas_arm_insn
-  target/arm: Add skeleton for T16 decodetree
-  target/arm: Convert T16 data-processing (two low regs)
-  target/arm: Convert T16 load/store (register offset)
-  target/arm: Convert T16 load/store (immediate offset)
-  target/arm: Convert T16 add pc/sp (immediate)
-  target/arm: Convert T16 load/store multiple
-  target/arm: Convert T16 add/sub (3 low, 2 low and imm)
-  target/arm: Convert T16 one low register and immediate
-  target/arm: Convert T16 branch and exchange
-  target/arm: Convert T16 add, compare, move (two high registers)
-  target/arm: Convert T16 adjust sp (immediate)
-  target/arm: Convert T16, extract
-  target/arm: Convert T16, Change processor state
-  target/arm: Convert T16, Reverse bytes
-  target/arm: Convert T16, nop hints
-  target/arm: Convert T16, push and pop
-  target/arm: Convert T16, Conditional branches, Supervisor call
-  target/arm: Convert T16, Miscellaneous 16-bit instructions
-  target/arm: Convert T16, shift immediate
-  target/arm: Convert T16, load (literal)
-  target/arm: Convert T16, Unconditional branch
-  target/arm: Convert T16, long branches
-  target/arm: Clean up disas_thumb_insn
-  target/arm: Move singlestep check from gen_jmp to gen_goto_tb
-  target/arm: Merge gen_bx_im into trans_BLX_i
-
- target/arm/helper.h               |    1 -
- target/arm/translate.h            |   10 +
- target/arm/op_helper.c            |   15 -
- target/arm/translate-vfp.inc.c    |   41 +-
- target/arm/translate.c            | 7142 ++++++++++++-----------------
- scripts/decodetree.py             |    5 +-
- target/arm/Makefile.objs          |   24 +
- target/arm/a32-uncond.decode      |   74 +
- target/arm/a32.decode             |  534 +++
- target/arm/t16.decode             |  279 ++
- target/arm/t32.decode             |  629 +++
- tests/decode/succ_function.decode |    2 +
- 12 files changed, 4559 insertions(+), 4197 deletions(-)
- create mode 100644 target/arm/a32-uncond.decode
- create mode 100644 target/arm/a32.decode
- create mode 100644 target/arm/t16.decode
- create mode 100644 target/arm/t32.decode
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ scripts/decodetree.py             | 5 ++++-
+ tests/decode/succ_function.decode | 2 ++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
  create mode 100644 tests/decode/succ_function.decode
 
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index d7a59d63ac..4259d87a95 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -195,7 +195,10 @@ class MultiField:
+     """Class representing a compound instruction field"""
+     def __init__(self, subs, mask):
+         self.subs = subs
+-        self.sign = subs[0].sign
++        if len(subs):
++            self.sign = subs[0].sign
++        else:
++            self.sign = 0
+         self.mask = mask
+ 
+     def __str__(self):
+diff --git a/tests/decode/succ_function.decode b/tests/decode/succ_function.decode
+new file mode 100644
+index 0000000000..632a9de252
+--- /dev/null
++++ b/tests/decode/succ_function.decode
+@@ -0,0 +1,2 @@
++%foo  !function=foo
++foo   00000000000000000000000000000000 %foo
 -- 
 2.17.1
 
