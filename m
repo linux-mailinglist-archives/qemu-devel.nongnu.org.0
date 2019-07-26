@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F7376376
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:26:38 +0200 (CEST)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C887638C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Jul 2019 12:30:43 +0200 (CEST)
+Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hqxQq-0007yL-QB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59831)
+	id 1hqxUn-0007HQ-CQ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Jul 2019 06:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39470)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hqxQa-0007Yx-Ev
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:26:23 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hqxUV-0006iX-J2
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:30:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hqxQW-0000hm-FU
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:26:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57468)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hqxQV-0000Oz-SN
- for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:26:16 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C074281F18;
- Fri, 26 Jul 2019 10:26:11 +0000 (UTC)
-Received: from [10.72.12.238] (ovpn-12-238.pek2.redhat.com [10.72.12.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF0C460A35;
- Fri, 26 Jul 2019 10:26:09 +0000 (UTC)
-To: P J P <ppandit@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20190723104754.29324-1-ppandit@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <ee8f8b24-bc60-293b-e458-f598361612ea@redhat.com>
-Date: Fri, 26 Jul 2019 18:26:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <alex.bennee@linaro.org>) id 1hqxUR-0006Y1-AN
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:30:22 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54041)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hqxUQ-0006Hp-Jr
+ for qemu-devel@nongnu.org; Fri, 26 Jul 2019 06:30:19 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x15so47571187wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 26 Jul 2019 03:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JKZ/eufwsGEOLBqmS8Sok2hjujRO4sX8Mpyc9JijYgk=;
+ b=Db8o7UOubhgqfWqNAq2FijwUXtlDbH6WVUGzbcm0PGN6pYX+rddAo2iTDYs6gW3pxo
+ YYmEKKCs/s8uky5mwbjRxr7e4EUMT3iy+vCOWoQ7lFqa7Q59YlFPxNCwbu0T4+9H9NCB
+ xkTzOIM7wr45+xmtFfFkQOmjOlljKxJqgd1T4AJQhW1uJl8BN9FW91K04sYyQGIRSDfi
+ 858PPxYtoGTqrdAM1r6+W977XjGhJBsumO1PbWCfd/PkRntyW/CuZ/0+nzRzoCEJWyCW
+ heU4/25JXYgkJ6oLvtpiDwh+DkjmLXUmFHqN9QPlP+uJsJfpZfuZ/AJ5jgaEeKiKT9HV
+ E4Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JKZ/eufwsGEOLBqmS8Sok2hjujRO4sX8Mpyc9JijYgk=;
+ b=DH8aBq7RgN0baiDMmkOpFbgmPBk8KiBvPUAZewB8/Z0O2WDWpMlpYA3sgA6YJ1gU7d
+ iar/6Ll0ysJ9rmMGirUdpA/2kU6T8tkTnuHkU3wiUqp7CSuOn7qQENmAwOhCNQa3/PaQ
+ WlVdZsNJDPtiITHqIx9NpoiuUpy9UBzEubxaPxuJzqKmZY0GgaD4kBfPI0e4NItCenbi
+ 8gRG8/xP8Wn4mRLOS4E5D5SJyd1a0lmbZRaxId14wvFZCKbYOYQpMO5qfajku6pIMCBR
+ HzFFujJajQiGeP/vNICWQ/H/v/SFi9jVoOUTrUhWKViv07MdSZGP3tI34QBQonYpnsjC
+ NMWQ==
+X-Gm-Message-State: APjAAAULEhiokYIVD64mLFyG1KJlgw+9dO7S6X21F3+mqpb1DNbb7h/L
+ j8hnnNCefZF7p9XU8SfH3fnSNw==
+X-Google-Smtp-Source: APXvYqxdZPN4ODEVuSDHLlXkpTf6HJ/XpiKs39IsiZU0U4fv/X/oef0uYWBXiHTCdUvgSaoIK8hnig==
+X-Received: by 2002:a05:600c:2111:: with SMTP id
+ u17mr64627899wml.64.1564137014759; 
+ Fri, 26 Jul 2019 03:30:14 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id 4sm120168288wro.78.2019.07.26.03.30.14
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 26 Jul 2019 03:30:14 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BA02C1FF87;
+ Fri, 26 Jul 2019 11:30:13 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Fri, 26 Jul 2019 11:30:10 +0100
+Message-Id: <20190726103010.31741-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190723104754.29324-1-ppandit@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 26 Jul 2019 10:26:11 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 0/3] restrict bridge interface name to
- IFNAMSIZ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH v4] target/arm: generate a custom MIDR for -cpu
+ max
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,43 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+While most features are now detected by probing the ID_* registers
+kernels can (and do) use MIDR_EL1 for working out of they have to
+apply errata. This can trip up warnings in the kernel as it tries to
+work out if it should apply workarounds to features that don't
+actually exist in the reported CPU type.
 
-On 2019/7/23 =E4=B8=8B=E5=8D=886:47, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> Hello,
->
-> Linux net_deivce defines network interface name to be of IFNAMSIZE(=3D1=
-6)
-> bytes, including the terminating null('\0') byte.
->
-> Qemu tap deivce, while invoking 'qemu-bridge-helper' tool to set up the
-> network bridge interface, supplies bridge name of 16 characters, thus
-> allowing to create an ACL bypass scenario.
->
-> This patch series attempts to fix it. It also updates bridge helper
-> invocation routine 'net_bridge_run_helper' to avoid snprintf() calls.
->
-> Thank you.
-> --
-> Prasad J Pandit (3):
->    qemu-bridge-helper: restrict interface name to IFNAMSIZ
->    qemu-bridge-helper: move repeating code in parse_acl_file
->    net: tap: replace snprintf with g_strdup_printf calls
->
->   net/tap.c            | 19 +++++++++++--------
->   qemu-bridge-helper.c | 24 +++++++++++++++++-------
->   2 files changed, 28 insertions(+), 15 deletions(-)
->
+Avoid this problem by synthesising our own MIDR value.
 
-Applied.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thanks
+---
+v2
+  - don't leak QEMU version into ID reg
+v3
+  - move comment into one block
+  - explicit setting of more fields
+v4
+  - minor reword of comment
+---
+ target/arm/cpu.h   |  6 ++++++
+ target/arm/cpu64.c | 17 +++++++++++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 94c990cddbd..67f2af0e169 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1611,6 +1611,12 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
+ /*
+  * System register ID fields.
+  */
++FIELD(MIDR_EL1, REVISION, 0, 4)
++FIELD(MIDR_EL1, PARTNUM, 4, 12)
++FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
++FIELD(MIDR_EL1, VARIANT, 20, 4)
++FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
++
+ FIELD(ID_ISAR0, SWAP, 0, 4)
+ FIELD(ID_ISAR0, BITCOUNT, 4, 4)
+ FIELD(ID_ISAR0, BITFIELD, 8, 4)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 1901997a064..511d31dce41 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -296,6 +296,23 @@ static void aarch64_max_initfn(Object *obj)
+         uint32_t u;
+         aarch64_a57_initfn(obj);
+ 
++        /*
++         * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
++         * one and try to apply errata workarounds or use impdef features we
++         * don't provide.
++         * An IMPLEMENTER field of 0 means "reserved for software use";
++         * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
++         * to see which features are present";
++         * the VARIANT, PARTNUM and REVISION fields are all implementation
++         * defined and we choose to define VARIANT and set the others to zero.
++         */
++        t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
++        t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
++        t = FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
++        t = FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
++        t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
++        cpu->midr = t;
++
+         t = cpu->isar.id_aa64isar0;
+         t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
+         t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
+-- 
+2.20.1
 
 
