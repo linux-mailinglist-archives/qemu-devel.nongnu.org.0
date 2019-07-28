@@ -2,49 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F33677E39
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jul 2019 08:15:06 +0200 (CEST)
-Received: from localhost ([::1]:43736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933D977E4F
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jul 2019 08:45:13 +0200 (CEST)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hrcSW-00018w-Rg
-	for lists+qemu-devel@lfdr.de; Sun, 28 Jul 2019 02:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37849)
+	id 1hrcvg-0005Om-RP
+	for lists+qemu-devel@lfdr.de; Sun, 28 Jul 2019 02:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hrcS0-0000e1-3z
- for qemu-devel@nongnu.org; Sun, 28 Jul 2019 02:14:33 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hrcub-0003xH-NX
+ for qemu-devel@nongnu.org; Sun, 28 Jul 2019 02:44:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hrcRy-0006d9-JA
- for qemu-devel@nongnu.org; Sun, 28 Jul 2019 02:14:32 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48137 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hrcua-0000wx-Ku
+ for qemu-devel@nongnu.org; Sun, 28 Jul 2019 02:44:05 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40513 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hrcRx-0006an-AG; Sun, 28 Jul 2019 02:14:30 -0400
+ id 1hrcuZ-0000wD-NW; Sun, 28 Jul 2019 02:44:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45xCFs12nhz9sBF; Sun, 28 Jul 2019 16:14:25 +1000 (AEST)
+ id 45xCvz1ZJDz9sBF; Sun, 28 Jul 2019 16:43:59 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1564294465;
- bh=/0eHd3rqryk6xnyZlhUiQEWZdl2/Xis1OXbeWnDTJnc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cnl4D9fhhJbWZWBacjEHtqq5k1wYaz9i+JeruRjklQinT1145CG/EThewiT7dLuBt
- yEuSjqD7EoIyfLCEk2Hn3zrS9rTDxuNMt1BC4ot0yekYWx4oh1Nf67NXZcaSzNHmPy
- VNbz4KAVwNxHzTA3jMY32BMHNJT0BhPzLwGR0BTg=
-Date: Sun, 28 Jul 2019 16:09:55 +1000
+ d=gibson.dropbear.id.au; s=201602; t=1564296239;
+ bh=gsfN9YMBR30Lwl2A8/cY+d4qZIy8SVO57ggWAIp8UlU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eJWd+jTIj/83BBzsG75RqQi0D/xOfVnd+DnR+QN8qrD2VK3KZBrb5j1Zxupnj/AFS
+ Zj2MZWgjTERswHZjuJ/Ast2ANBbZYvStCRakp9DVBxsZBXDXjcZ4V8DSX0m18QIzSW
+ PkqG+YipOEOZ5G4f9C6m8g+DYjyUoG+s1R1UYuDQ=
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190728060955.GC5110@umbus>
-References: <20190720012850.14369-1-aik@ozlabs.ru>
- <20190720012850.14369-5-aik@ozlabs.ru>
+To: peter.maydell@linaro.org
+Date: Sun, 28 Jul 2019 16:43:53 +1000
+Message-Id: <20190728064355.2605-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xo44VMWPx7vlQ2+2"
-Content-Disposition: inline
-In-Reply-To: <20190720012850.14369-5-aik@ozlabs.ru>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH qemu RFC 4/4] spapr: Implement SLOF-less
- client_architecture_support
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 0/2] ppc-for-4.1 queue 20190728
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,232 +52,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Mackerras <paulus@ozlabs.org>, Michael Ellerman <mpe@ellerman.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit fff3159900d2b95613a9cb75fc3703e67a6747=
+29:
 
---xo44VMWPx7vlQ2+2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-201=
+90726' into staging (2019-07-26 16:23:07 +0100)
 
-On Sat, Jul 20, 2019 at 11:28:50AM +1000, Alexey Kardashevskiy wrote:
-> QEMU already implements H_CAS called by SLOF. The existing handler
-> prepares a diff FDT and SLOF applies it on top of its current tree.
-> In SLOF-less setup when the user explicitly selected "bios=3Dno",
-> this updates the FDT from the OS, updates it and writes back to the OS.
-> The new behavior is advertised to the OS via "/chosen/qemu,h_cas".
+are available in the Git repository at:
 
-I don't love having two different paths here, I'm wondering if we can
-unify things at all.
+  git://github.com/dgibson/qemu.git tags/ppc-for-4.1-20190728
 
-I have wondered at some points if there's anything preventing us just
-giving a whole new device tree at CAS, rather than selected updates -
-that could simplify several things.
+for you to fetch changes up to 8d216d8c5370495fc416bb8ac573299779867aad:
 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->  include/hw/ppc/spapr.h |  5 +++++
->  hw/ppc/spapr.c         | 24 ++++++++++++++++-----
->  hw/ppc/spapr_hcall.c   | 49 +++++++++++++++++++++++++++++++++++++++---
->  3 files changed, 70 insertions(+), 8 deletions(-)
->=20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 7f5d7a70d27e..73cd9cf25b83 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -766,9 +766,14 @@ struct SpaprEventLogEntry {
-> =20
->  void spapr_events_init(SpaprMachineState *sm);
->  void spapr_dt_events(SpaprMachineState *sm, void *fdt);
-> +int spapr_h_cas_do_compose_response(SpaprMachineState *spapr, void *fdt,
-> +                                    SpaprOptionVector *ov5_updates);
->  int spapr_h_cas_compose_response(SpaprMachineState *sm,
->                                   target_ulong addr, target_ulong size,
->                                   SpaprOptionVector *ov5_updates);
-> +#define FDT_MAX_SIZE 0x100000
-> +void *spapr_build_fdt(SpaprMachineState *spapr);
-> +
->  void close_htab_fd(SpaprMachineState *spapr);
->  void spapr_setup_hpt_and_vrma(SpaprMachineState *spapr);
->  void spapr_free_hpt(SpaprMachineState *spapr);
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b097a99951f1..f84895f4a8b4 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -978,6 +978,19 @@ static bool spapr_hotplugged_dev_before_cas(void)
->      return false;
->  }
-> =20
-> +int spapr_h_cas_do_compose_response(SpaprMachineState *spapr, void *fdt,
-> +                                    SpaprOptionVector *ov5_updates)
+  xics/kvm: Fix fallback to emulated XICS (2019-07-28 11:50:26 +1000)
 
-Not a great function name.
+----------------------------------------------------------------
+ppc patch queue (for 4.1) 2019-07-28
 
-> +{
-> +    /* Fixup cpu nodes */
-> +    _FDT((spapr_fixup_cpu_dt(fdt, spapr)));
-> +
-> +    if (spapr_dt_cas_updates(spapr, fdt, ov5_updates)) {
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  int spapr_h_cas_compose_response(SpaprMachineState *spapr,
->                                   target_ulong addr, target_ulong size,
->                                   SpaprOptionVector *ov5_updates)
-> @@ -1009,10 +1022,7 @@ int spapr_h_cas_compose_response(SpaprMachineState=
- *spapr,
->      _FDT((fdt_open_into(fdt_skel, fdt, size)));
->      g_free(fdt_skel);
-> =20
-> -    /* Fixup cpu nodes */
-> -    _FDT((spapr_fixup_cpu_dt(fdt, spapr)));
-> -
-> -    if (spapr_dt_cas_updates(spapr, fdt, ov5_updates)) {
-> +    if (spapr_h_cas_do_compose_response(spapr, fdt, ov5_updates)) {
->          return -1;
->      }
-> =20
-> @@ -1232,6 +1242,10 @@ static void spapr_dt_chosen(SpaprMachineState *spa=
-pr, void *fdt)
-> =20
->      /* We always implemented RTAS as hcall, tell guests to call it direc=
-tly */
->      _FDT(fdt_setprop_cell(fdt, chosen, "qemu,h_rtas", 1));
-> +    /* Tell the guest that H_CAS will return the entire FDT now, not the=
- diff */
-> +    if (!spapr->bios_enabled) {
-> +        _FDT(fdt_setprop_cell(fdt, chosen, "qemu,h_cas", 1));
+Here's a pull request for qemu-4.1, which I hope will be the last from
+the ppc tree.  This applies a couple of last minute fixes for the XIVE
+code.
 
-As with H_RTAS< using qemu,hypertas-functions would be more
-appropriate for this.
+----------------------------------------------------------------
+Greg Kurz (2):
+      spapr/irq: Inform the user when falling back to emulated IC
+      xics/kvm: Fix fallback to emulated XICS
 
-> +    }
-> =20
->      spapr_dt_ov5_platform_support(spapr, fdt, chosen);
-> =20
-> @@ -1262,7 +1276,7 @@ static void spapr_dt_hypervisor(SpaprMachineState *=
-spapr, void *fdt)
->      }
->  }
-> =20
-> -static void *spapr_build_fdt(SpaprMachineState *spapr)
-> +void *spapr_build_fdt(SpaprMachineState *spapr)
->  {
->      MachineState *machine =3D MACHINE(spapr);
->      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index b964d94f330b..c5cb06c9d507 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -17,6 +17,7 @@
->  #include "hw/ppc/spapr_ovec.h"
->  #include "mmu-book3s-v3.h"
->  #include "hw/mem/memory-device.h"
-> +#include "sysemu/device_tree.h"
-> =20
->  static bool has_spr(PowerPCCPU *cpu, int spr)
->  {
-> @@ -1774,9 +1775,51 @@ static target_ulong h_client_architecture_support(=
-PowerPCCPU *cpu,
->              /* legacy hash or new hash: */
->              spapr_setup_hpt_and_vrma(spapr);
->          }
-> -        spapr->cas_reboot =3D
-> -            (spapr_h_cas_compose_response(spapr, args[1], args[2],
-> -                                          ov5_updates) !=3D 0);
-> +
-> +        if (spapr->bios_enabled) {
-> +            spapr->cas_reboot =3D
-> +                (spapr_h_cas_compose_response(spapr, args[1], args[2],
-> +                                              ov5_updates) !=3D 0);
-> +        } else {
-> +            int size;
-> +            void *fdt, *fdt_skel;
-> +            struct fdt_header hdr =3D { 0 };
-> +
-> +            cpu_physical_memory_read(args[1], &hdr, sizeof(hdr));
-> +            size =3D fdt32_to_cpu(hdr.totalsize);
-> +            if (size > FDT_MAX_SIZE) {
-> +                return H_NOT_AVAILABLE;
-> +            }
-> +
-> +            fdt_skel =3D g_malloc0(size);
-> +            cpu_physical_memory_read(args[1], fdt_skel, size);
-> +
-> +            fdt =3D g_malloc0(FDT_MAX_SIZE);
-> +            fdt_open_into(fdt_skel, fdt, FDT_MAX_SIZE);
-> +            g_free(fdt_skel);
-
-fdt_open_into() explicitly permits using the same buffer for both
-arguments, so you don't need two allocations here - you can just
-allocate FDT_MAX_SIZE, read it in, then fdt_open_into() in place.
-
-You probably should check for errors from fdt_open_into(), though.
-
-> +
-> +            if (spapr_h_cas_do_compose_response(spapr, fdt, ov5_updates)=
-) {
-> +                g_free(fdt);
-> +                return H_NOT_AVAILABLE;
-> +            }
-> +            fdt_pack(fdt);
-> +            if (fdt_totalsize(fdt) > FDT_MAX_SIZE) {
-
-This can't actually happen - you only ever allocated a buffer of size
-FDT_MAX_SIZE, so if the DT was going to exceed that you would have hit
-FDT_ERR_NOSPACE in an earlier step.
-
-> +                error_report("FDT too big ! 0x%x bytes (max is 0x%x)",
-> +                             fdt_totalsize(fdt), FDT_MAX_SIZE);
-> +                g_free(fdt);
-> +                return H_NOT_AVAILABLE;
-> +            }
-> +
-> +            /* Load the fdt */
-> +            cpu_physical_memory_write(args[1], fdt, fdt_totalsize(fdt));
-> +
-> +            g_free(spapr->fdt_blob);
-> +            spapr->fdt_size =3D fdt_totalsize(fdt);
-> +            spapr->fdt_initial_size =3D spapr->fdt_size;
-> +            spapr->fdt_blob =3D fdt;
-> +
-> +            qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-> +        }
->      }
-> =20
->      /*
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---xo44VMWPx7vlQ2+2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl09PDEACgkQbDjKyiDZ
-s5KIWA//RO7Xq2RfSLo+lAXgs4MxcV4gyryUCdmuI5DjekpSTCuGxsbE214/Zb/a
-C9kkdst8H/NFWHJ6HDGR/3bpKUIFePH65RCYJGjR3YdoPFe7OvSzl7WhdeIFPEiT
-HfSxmibAknVPm3MGaPGItX3GTmUgdQnfKytosqdE7AMhGGklinJTuodgyY4TxFBh
-mfImo9DA34lnDZfWuPR+FA9k0FG9w8H8dYNA8f4Lc0VWDvxBabmTl3VqXjWWyD+4
-/niMFTpqUfYqeU48O4BXaEqyByEmOPlbRQuqY0b5f8P9VeLmRSGhn1QHzqsTqPJU
-MkgJ7f0vO4lL1MpUKeg38XOOmMFulANR/T+cfW3EM7jDfoxyCOh/B2T+l73FDcHr
-Akf1FYkhwPBc1K069aJDYnFfhAaAknA5fB0GAybY6e4uPSsuDSdqIzOnqN0MQSB4
-DcUEezuCmnNQ0muQQSYkwoGMlKHvbaK2EvnljsyP8ul+LU9fbKWFo7/osjc0VtbX
-rY/Tp+Vyg8745BhbUV2Ua5Doscl7yzuxPQ78YJ+QFKdiNoQwOhkycUspcBWLcket
-YumlUyNdZao6qzqpvDj8hW0Jb2dEyeZw2hpCK5ale7Tr3YCz4m7Nm/skF+5ma+Q1
-rrLlxV08ovb9MZKf9NFhlJpxuFznGTI1Rk9VzyGKxifFCH/wJbg=
-=KyKp
------END PGP SIGNATURE-----
-
---xo44VMWPx7vlQ2+2--
+ hw/intc/xics_kvm.c | 11 -----------
+ hw/ppc/spapr_irq.c |  1 +
+ 2 files changed, 1 insertion(+), 11 deletions(-)
 
