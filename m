@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4871077D2C
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5477D2B
 	for <lists+qemu-devel@lfdr.de>; Sun, 28 Jul 2019 04:00:13 +0200 (CEST)
-Received: from localhost ([::1]:43330 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hrYTr-0000c1-Ux
-	for lists+qemu-devel@lfdr.de; Sat, 27 Jul 2019 22:00:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48668)
+	id 1hrYTs-0000aq-0U
+	for lists+qemu-devel@lfdr.de; Sat, 27 Jul 2019 22:00:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hrYT5-00087c-LM
+ (envelope-from <dgibson@ozlabs.org>) id 1hrYT5-00087V-5Z
  for qemu-devel@nongnu.org; Sat, 27 Jul 2019 21:59:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hrYT4-0001wp-N7
+ (envelope-from <dgibson@ozlabs.org>) id 1hrYT4-0001wR-16
  for qemu-devel@nongnu.org; Sat, 27 Jul 2019 21:59:23 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54593 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36699 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hrYT2-0001q4-Kg; Sat, 27 Jul 2019 21:59:22 -0400
+ id 1hrYT2-0001q7-Mq; Sat, 27 Jul 2019 21:59:21 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45x5bJ0CBhz9sBF; Sun, 28 Jul 2019 11:59:07 +1000 (AEST)
+ id 45x5bJ0pk9z9s8m; Sun, 28 Jul 2019 11:59:08 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1564279148;
- bh=hlCAbvMXkOdVobC4uHWwts/2ZlaQe0gMcFkX6e/Bw/0=;
+ bh=dtBVm1x13rjPpLMTyoFm4QpOQYS1qzPjo57Pr1awLL8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jd5ePCtF2fo/ndPgmIr3Tk/VQRu5KgUEja/KgFzOwmMIZOQoiUqJKOEgpA3G+WL9b
- NwO3uA0MRI7vCyDHB/8qd7TWdkYAe3cDYhoObZCo5+MNlZ7VrD1FQ06/Jz6JhTZVMx
- Pp34IcPcYZ2GbPIq5qweKSBcEoJWktepjb2CpT0k=
-Date: Sun, 28 Jul 2019 11:51:22 +1000
+ b=huaXclX5pl/hnj5L0sup+cBeCo/D58ia03BcmnExCWFF8hM5SFzZDyMRlY4/zpKqB
+ fDLv7CLMUQi+XHMLbBxhy3taoJvw7pB27FPbx4o7bm3ebebqtM5uAwH09azFUj4tc9
+ 7ofEyPUXC2/5GlLk9px6AEt1E/FRbYMsinUj7ID8=
+Date: Sun, 28 Jul 2019 11:54:44 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190728015122.GA5110@umbus>
+Message-ID: <20190728015444.GB5110@umbus>
 References: <156415227297.1064338.9181963275184520284.stgit@bahia.lan>
+ <156415227855.1064338.5657793835271464648.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jI8keyz6grp/JLjh"
+ protocol="application/pgp-signature"; boundary="ZoaI/ZTpAVc4A5k6"
 Content-Disposition: inline
-In-Reply-To: <156415227297.1064338.9181963275184520284.stgit@bahia.lan>
+In-Reply-To: <156415227855.1064338.5657793835271464648.stgit@bahia.lan>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 0/3] spapr/pci: Improve MSI tracking
+Subject: Re: [Qemu-devel] [PATCH 1/3] spapr/pci: Consolidate de-allocation
+ of MSIs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,23 +63,94 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jI8keyz6grp/JLjh
+--ZoaI/ZTpAVc4A5k6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 26, 2019 at 04:44:33PM +0200, Greg Kurz wrote:
-> Some recent tests with AIX guests showed that we don't tear down
-> MSIs that were allocated with the "change-msi" RTAS call, when
-> the guest is rebooted. This series teach PHBs to do the cleanup
-> at reset time.
+On Fri, Jul 26, 2019 at 04:44:38PM +0200, Greg Kurz wrote:
+> When freeing MSIs, we need to:
+> - remove them from the machine's MSI bitmap
+> - remove them from the IC backend
+> - remove them from the PHB's MSI cache
 >=20
-> This bug has always been there. Not sure it is worth the pain to
-> have this fixed in 4.1.
+> This is currently open coded in two places in rtas_ibm_change_msi(),
+> and we're about to need this in spapr_phb_reset() as well. Instead of
+> duplicating this code again, make it a destroy function for the PHB's
+> MSI cache. Removing an MSI device from the cache will call the destroy
+> function internally.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Since we've only recently started looking at AIX as a supported guest,
-and these bugs don't appear to break Linux guests, no, I don't think
-it is.
+Applied to ppc-for-4.2.
+
+> ---
+>  hw/ppc/spapr_pci.c |   24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 2d5697d119f4..bc22568bfa71 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -336,10 +336,6 @@ static void rtas_ibm_change_msi(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+>              return;
+>          }
+> =20
+> -        if (!smc->legacy_irq_allocation) {
+> -            spapr_irq_msi_free(spapr, msi->first_irq, msi->num);
+> -        }
+> -        spapr_irq_free(spapr, msi->first_irq, msi->num);
+>          if (msi_present(pdev)) {
+>              spapr_msi_setmsg(pdev, 0, false, 0, 0);
+>          }
+> @@ -409,10 +405,6 @@ static void rtas_ibm_change_msi(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+> =20
+>      /* Release previous MSIs */
+>      if (msi) {
+> -        if (!smc->legacy_irq_allocation) {
+> -            spapr_irq_msi_free(spapr, msi->first_irq, msi->num);
+> -        }
+> -        spapr_irq_free(spapr, msi->first_irq, msi->num);
+>          g_hash_table_remove(phb->msi, &config_addr);
+>      }
+> =20
+> @@ -1806,6 +1798,19 @@ static void spapr_phb_unrealize(DeviceState *dev, =
+Error **errp)
+>      memory_region_del_subregion(get_system_memory(), &sphb->mem32window);
+>  }
+> =20
+> +static void spapr_phb_destroy_msi(gpointer opaque)
+> +{
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> +    spapr_pci_msi *msi =3D opaque;
+> +
+> +    if (!smc->legacy_irq_allocation) {
+> +        spapr_irq_msi_free(spapr, msi->first_irq, msi->num);
+> +    }
+> +    spapr_irq_free(spapr, msi->first_irq, msi->num);
+> +    g_free(msi);
+> +}
+> +
+>  static void spapr_phb_realize(DeviceState *dev, Error **errp)
+>  {
+>      /* We don't use SPAPR_MACHINE() in order to exit gracefully if the u=
+ser
+> @@ -2017,7 +2022,8 @@ static void spapr_phb_realize(DeviceState *dev, Err=
+or **errp)
+>                                      spapr_tce_get_iommu(tcet));
+>      }
+> =20
+> -    sphb->msi =3D g_hash_table_new_full(g_int_hash, g_int_equal, g_free,=
+ g_free);
+> +    sphb->msi =3D g_hash_table_new_full(g_int_hash, g_int_equal, g_free,
+> +                                      spapr_phb_destroy_msi);
+>      return;
+> =20
+>  unrealize:
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -85,25 +158,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---jI8keyz6grp/JLjh
+--ZoaI/ZTpAVc4A5k6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl08/5gACgkQbDjKyiDZ
-s5JJjhAAp0PQemTibJkfe9IOsGFUUc3F+1LeNQ7IyxxwlVjf/xk3NeRzhycXIsc4
-JDccKH86ALj+Gl8f4mUGbvWl9579PVn+AWMxjs12bZrgFMyyZ/8Yoj8srYLnKvTi
-a/joFeENPPhmHhFzEXbZvFblgFVFC3tnHdFMcEOxrcHZTA4AVO1WkdpVa1PmNvjJ
-GEzUrLE2f9mjvMpm2m9PE1B4ZSdM+c7l2c0ZNR8XxjFFTEj7gM001zzFxgGWgech
-bPcXsgngDo3NoYT6b17bYD+ouE01yH42uFp0XWM3HVkpo34xUui6TyBcAHKVRV4t
-Z4r5oCsqEAfjZDKvxtcUVxOvaNyV7BGvY/TuUGmUefD2LqE1Kmsy9a8fif71Qwgp
-RH89cNV/e4oP+qcrKtE/JYJQ01jiwMJ4ORPYxz5CvIYlp6E2jSIJnceEaUe7Xlf6
-H5VWhNpSJFy3XSolnY3IandzbK7z7hzfcHh4tPWftR3zFkKsdQ75JDwsm5Dm+V+C
-pSf2btoPyWtRMt0lVvYQ6UKJA815IvmCFftJLyY842cat/wB2fNHPBr6n5jLRz2d
-UDMo0wFiJFTmxoVWoiKGev95tm5Erz81yIiZ5JwiNMdA6tziKCiXmcXSlRHT0TWU
-RRwyph4BKntjFCJ7Vap3pQQ+3HfR18ImvySUWhcddpYZeKvn3CM=
-=Gto9
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl09AGQACgkQbDjKyiDZ
+s5KAdQ/9FXZCSM+TCaRnMJOL0F+QufBnqqzWuAQQgj94L9yaD2K1V/iUZlBNHSZ3
+yuABjuIE1LjMKwe9lRvnTIqPdlDQoKpDiEvFT1gK7mz1hLdSAGaX2XAVLHb0MoCm
+BtD/hZY0dqrZrWujZwcS/GLK3unlbfG+tEDVwCIGgiDexXInQLO1o1o5GcvfvXJG
+1yrIQWmjOHHl9eeiN1JU3hgDEEL/qrYmlrGVU5Y3wVWG1acxwyzABSWgDfjdEBgo
+dv3cXM/lFnA08boCo9QXGC1XqI/ERLoNm343OKjsk7VMqP8V/T8suV+fW02JRXii
+MWfIe5klNBxUBkQcojnxSq9eH24MCqdQYCWcSso5VIDxYoQ4UZLDdNAG73ZKVYWa
+29sAxYLmjmX/Tr3SR0oc96iA9c3Rcpv/ZK9SGlf609NdKvk2UeKOpXiPpPpe7nLl
+cRstpPjbSA+jaDXEwMM1qhAfwZhxy89LRjxWtZqunETKzp6Y5qaWE6FOpjpBysQX
+6lGNL7hgjEj1kkilW7X9fS8t4M9+r/Dsl2ofVrRakYkT++fiOIABsrS2mgS71bwt
+FqQ1RG85q1G927zMB5QqncBEj+WPAyueld7V4q/6oLJtmcGdas9p5iUB1RoW2+gt
+c5rLScHSwrdep054x7a8Zuk8ZOs4c8PmVJdgyTk2G3QEq77rlis=
+=9PFT
 -----END PGP SIGNATURE-----
 
---jI8keyz6grp/JLjh--
+--ZoaI/ZTpAVc4A5k6--
 
