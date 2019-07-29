@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F0478C58
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:10:21 +0200 (CEST)
-Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422BA78C5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:12:28 +0200 (CEST)
+Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs5Pw-00010p-NN
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
+	id 1hs5Rz-0004ew-GA
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hs5PO-0000ZZ-5R
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:09:46 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qj-00032p-PQ
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hs5PN-0000s0-As
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:09:46 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41574)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hs5PN-0000rg-40
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:09:45 -0400
-Received: by mail-oi1-x241.google.com with SMTP id g7so45180065oia.8
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 06:09:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n/pHSpT+bbjF1zMW2NFwPjFHCYIqw2zgPAxWouutVL4=;
- b=kWEYkqdg+mIaUktSUms2e2FhDH+Stil6lMehQPsoGJnDArtmTJ2cq4CdAEWFkkagX1
- ZX72X92lQ69GVAFLNASBi8wFsz8JqDjM9yJv+4uwKG9tNbzYyy9FSBefG759gnTiP9yV
- BHXgvmOa3IgS7V+IUdgQ2Xz4HGbXScQJrrz8Duj0N/hZG400SAh5WQVjLqJa2i/SviOd
- 3536qh7HLgtXlauS1WfOOFiqJnbuxuuS7rWgt7n0zmGxlxBKdWAPjST8qXUIEx+cTavu
- lcqmbdEG1h1d2qG0OK97F+IOzkgeGpdzFFvE3qula0qkgWUpwYhkZqecMZQq8bP3gx+i
- Ngvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n/pHSpT+bbjF1zMW2NFwPjFHCYIqw2zgPAxWouutVL4=;
- b=GV5TLfjpHT0o9cxSni81BwyQ27LZ11Ces42WocY414A8R/X8tUBjCGwFDmRpoCWRHq
- 7636xd+FjtPJbIS45R4DhUmb1v4CTxffPCObHDtZfHR7ci6D18k2h2njZEpHI/CnZH0X
- TSwXU2WGc8fixp7BbZg/3/XSJlxvoMWOzXj485O8gi6hzXyM0IbupfZ51VEUB4tC3L0m
- mnjAzC4lpuKbWF3J0SIMmqjIye8/niyz3/9tOXWso/usGogksf+Wewu3LFVZci1J5J9N
- qm3CFd1RzN9B+qM6GTTohrB0T0gCZ8YKPmpthQOxnwQvYD5uPjv3mgENlyfbCF/fRCJX
- 0O5w==
-X-Gm-Message-State: APjAAAX11v1diDCAvR9qk4gfPb/Z6EVhsvnS5d1Qyl8o+IU6tRf41tdo
- Bxr+8ggDBeD8Ea7U2Fnn7Z0j87snfwjiSS6wk5f3hQ==
-X-Google-Smtp-Source: APXvYqzCo/VBYVS0gdPYhjYiaQ9YhrZ92sS10oyqgmaYfrqyVFMt+MSOvLmU8vobYCCFKEH1uLmvsMFHxfBhzEpBZx0=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr34617955oic.170.1564405784212; 
- Mon, 29 Jul 2019 06:09:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190701123108.12493-1-philmd@redhat.com>
- <20190701123108.12493-3-philmd@redhat.com>
-In-Reply-To: <20190701123108.12493-3-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Jul 2019 14:09:33 +0100
-Message-ID: <CAFEAcA8AdvyZvnWtWP_1sMP92sHEDwM0ARbzg-s7L1CfcKpAYg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH 2/6] hw/arm: Use object_initialize_child
- for correct reference counting
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qi-0003D6-SN
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:09 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:48440 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hs5Qi-0001FT-Lx
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:08 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id C0A4C1A2209;
+ Mon, 29 Jul 2019 15:10:03 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A882E1A2207;
+ Mon, 29 Jul 2019 15:10:03 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Jul 2019 15:09:44 +0200
+Message-Id: <1564405791-9147-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.1 v2 0/7] linux-user: Misc patches for 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,36 +48,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 13:31, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> As explained in commit aff39be0ed97:
->
->   Both functions, object_initialize() and object_property_add_child()
->   increase the reference counter of the new object, so one of the
->   references has to be dropped afterwards to get the reference
->   counting right. Otherwise the child object will not be properly
->   cleaned up when the parent gets destroyed.
->   Thus let's use now object_initialize_child() instead to get the
->   reference counting here right.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+A set of misc linux user patches for 4.2.
 
-thanks
--- PMM
+
+v2->v3:
+
+  - minor code formatting improvements
+  - added a patch on semtimedop()
+
+v1->v2:
+
+  - updated commit messages
+  - minor improvements of code formatting
+  - added three patches containing support for ten additional
+    ioctls
+
+Aleksandar Markovic (5):
+  linux-user: Add support for FDMSGON and FDMSGOFF ioctls
+  linux-user: Add support for FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT
+    ioctls
+  linux-user: Add support for FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls
+  linux-user: Add support for FDSETEMSGTRESH, FDSETMAXERRS, and
+    FDGETMAXERRS ioctls
+  linux-user: Add support for RNDRESEEDCRNG ioctl
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for semtimedop() syscall
+
+Yunqiang Su (1):
+  linux user: Add support for FDFLUSH ioctl
+
+ linux-user/ioctls.h        | 16 ++++++++++++++++
+ linux-user/syscall.c       | 37 +++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  | 33 +++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h | 12 ++++++++++++
+ 4 files changed, 98 insertions(+)
+
+-- 
+2.7.4
+
 
