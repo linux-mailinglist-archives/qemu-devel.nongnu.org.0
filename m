@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987C878780
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:34:58 +0200 (CEST)
-Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C686A78787
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:36:04 +0200 (CEST)
+Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs17R-0005ce-SF
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48005)
+	id 1hs18W-0007UW-2V
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48023)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hs16P-0004QO-Fc
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:54 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hs16T-0004Sc-7d
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hs16O-0003E6-GL
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38618)
+ (envelope-from <jasowang@redhat.com>) id 1hs16Q-0003F8-SU
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43470)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hs16O-0003Dh-BL
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:52 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hs16Q-0003Ek-LR
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:54 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0D68A3B46;
- Mon, 29 Jul 2019 08:33:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E1E7F308FC5F;
+ Mon, 29 Jul 2019 08:33:53 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-203.pek2.redhat.com
  [10.72.12.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45CC710190AA;
- Mon, 29 Jul 2019 08:33:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B5D410190AA;
+ Mon, 29 Jul 2019 08:33:51 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Mon, 29 Jul 2019 16:33:42 +0800
-Message-Id: <1564389226-4489-2-git-send-email-jasowang@redhat.com>
+Date: Mon, 29 Jul 2019 16:33:43 +0800
+Message-Id: <1564389226-4489-3-git-send-email-jasowang@redhat.com>
 In-Reply-To: <1564389226-4489-1-git-send-email-jasowang@redhat.com>
 References: <1564389226-4489-1-git-send-email-jasowang@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 29 Jul 2019 08:33:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 29 Jul 2019 08:33:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/5] e1000: don't raise interrupt in pre_save()
+Subject: [Qemu-devel] [PULL 2/5] qemu-bridge-helper: restrict interface name
+ to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,48 +58,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should not raise any interrupt after VM has been stopped but this
-is what e1000 currently did when mit timer is active in
-pre_save(). Fixing this by scheduling a timer in post_load() which can
-make sure the interrupt was raised when VM is running.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Reported-and-tested-by: Longpeng <longpeng2@huawei.com>
+The network interface name in Linux is defined to be of size
+IFNAMSIZ(=3D16), including the terminating null('\0') byte.
+The same is applied to interface names read from 'bridge.conf'
+file to form ACL rules. If user supplied '--br=3Dbridge' name
+is not restricted to the same length, it could lead to ACL bypass
+issue. Restrict interface name to IFNAMSIZ, including null byte.
+
+Reported-by: Riccardo Schirone <rschiron@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ qemu-bridge-helper.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 1dc1466..a023ceb 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -1381,11 +1381,6 @@ static int e1000_pre_save(void *opaque)
-     E1000State *s = opaque;
-     NetClientState *nc = qemu_get_queue(s->nic);
- 
--    /* If the mitigation timer is active, emulate a timeout now. */
--    if (s->mit_timer_on) {
--        e1000_mit_timer(s);
--    }
--
-     /*
-      * If link is down and auto-negotiation is supported and ongoing,
-      * complete auto-negotiation immediately. This allows us to look
-@@ -1423,7 +1418,8 @@ static int e1000_post_load(void *opaque, int version_id)
-         s->mit_irq_level = false;
+diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+index 95624bc..2058e10 100644
+--- a/qemu-bridge-helper.c
++++ b/qemu-bridge-helper.c
+@@ -119,6 +119,13 @@ static int parse_acl_file(const char *filename, ACLL=
+ist *acl_list)
+         }
+         *argend =3D 0;
+=20
++        if (!g_str_equal(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
++            fprintf(stderr, "name `%s' too long: %zu\n", arg, strlen(arg=
+));
++            fclose(f);
++            errno =3D EINVAL;
++            return -1;
++        }
++
+         if (strcmp(cmd, "deny") =3D=3D 0) {
+             acl_rule =3D g_malloc(sizeof(*acl_rule));
+             if (strcmp(arg, "all") =3D=3D 0) {
+@@ -269,6 +276,10 @@ int main(int argc, char **argv)
+         usage();
+         return EXIT_FAILURE;
      }
-     s->mit_ide = 0;
--    s->mit_timer_on = false;
-+    s->mit_timer_on = true;
-+    timer_mod(s->mit_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 1);
- 
-     /* nc.link_down can't be migrated, so infer link_down according
-      * to link status bit in mac_reg[STATUS].
--- 
++    if (strlen(bridge) >=3D IFNAMSIZ) {
++        fprintf(stderr, "name `%s' too long: %zu\n", bridge, strlen(brid=
+ge));
++        return EXIT_FAILURE;
++    }
+=20
+     /* parse default acl file */
+     QSIMPLEQ_INIT(&acl_list);
+--=20
 2.5.0
 
 
