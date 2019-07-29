@@ -2,40 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B30C79B4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:38:38 +0200 (CEST)
-Received: from localhost ([::1]:56580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A775D79B6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:47:41 +0200 (CEST)
+Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsDLp-0003Ds-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60281)
+	id 1hsDUa-0006Q7-NF
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hsDKt-0002Gc-3I
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:37:40 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hsDTz-0005wg-Cu
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hsDKs-0003y5-0o
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:37:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46998)
+ (envelope-from <jsnow@redhat.com>) id 1hsDTy-0002ou-AH
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52378)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hsDKp-0003rg-MM; Mon, 29 Jul 2019 17:37:35 -0400
+ id 1hsDTv-0002lI-Qk; Mon, 29 Jul 2019 17:47:00 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BCA730BD1B4;
- Mon, 29 Jul 2019 21:37:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C997B44BD1;
+ Mon, 29 Jul 2019 21:46:58 +0000 (UTC)
 Received: from [10.18.17.74] (dhcp-17-74.bos.redhat.com [10.18.17.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A3C65D9C5;
- Mon, 29 Jul 2019 21:37:32 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <1562554503-177179-1-git-send-email-shaju.abraham@nutanix.com>
- <087e6cb5-b24d-b144-744c-d74defeadb86@redhat.com>
- <34a8030e-a173-162d-6786-3dafa5a1d4ed@redhat.com>
- <20190729100946.GC3369@stefanha-x1.localdomain>
- <9c34e70f-5ead-309c-865c-4a64d8a28724@redhat.com>
- <7005cc99-3bb2-fa70-aaf6-86870c37827b@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA905D9C5;
+ Mon, 29 Jul 2019 21:46:58 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20190729213416.1972-1-pbonzini@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -112,22 +107,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <e846dfd4-3bf5-1e28-dfd9-3315168f3144@redhat.com>
-Date: Mon, 29 Jul 2019 17:37:31 -0400
+Message-ID: <e8d53076-f5d0-ed13-110b-0cce911a07ec@redhat.com>
+Date: Mon, 29 Jul 2019 17:46:57 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <7005cc99-3bb2-fa70-aaf6-86870c37827b@redhat.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20190729213416.1972-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 29 Jul 2019 21:37:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Mon, 29 Jul 2019 21:46:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] Fix Guest VM crash due to iSCSI Sense Key
- error
+Subject: Re: [Qemu-devel] [PATCH] dma-helpers: ensure AIO callback is
+ invoked after cancellation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -139,51 +134,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, shaju.abraham@nutanix.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 7/29/19 5:32 PM, Paolo Bonzini wrote:
-> On 29/07/19 21:45, John Snow wrote:
->> Next, we'll unschedule the BH if there is one. I think the only case
->> where there is one is the reschedule_dma case of dma_blk_cb. (I'm not
->> too familiar with these DMA helpers: in what cases do we expect the iov
->> to be empty?)
+On 7/29/19 5:34 PM, Paolo Bonzini wrote:
+> dma_aio_cancel unschedules the BH if there is one, which corresponds
+> to the reschedule_dma case of dma_blk_cb.  This can stall the DMA
+> permanently, because dma_complete will never get invoked and therefore
+> nobody will ever invoke the original AIO callback in dbs->common.cb.
 > 
-> When there is another I/O that is using the DMA bounce buffer (the one
-> case that comes to mind in which you do DMA from MMIO areas is
-> loading/saving VGA RAM).
+> Fix this by invoking the callback (which is ensured to happen after
+> a bdrv_aio_cancel_async, or done manually in the dbs->bh case), and
+> add assertions to check that the DMA state machine is indeed waiting
+> for dma_complete or reschedule_dma, but never both.
 > 
->> So it looks like this cancellation will produce one of two effects,
->> depending on when it's invoked:
->>
->> 1) We'll stall the DMA permanently by deleting that BH, because
->> dma_complete will never get invoked and therefore nobody will ever call
->> ide_dma_cb with any return value of any kind. The IDE state machine
->> likely just hangs waiting for the DMA to finish until the guest OS
->> decides to reset the errant controller.
->>
->> 2) The DMA will continue blissfully unaware it was canceled, because the
->> lower AIOCB has no cancel method, and so will finish, call back to
->> dma_blk_cb, and continue the transfer loop unaware.
->>
->>
->> ... Does your reading align with mine?
->>
->>
->> If it does -- if there are indeed no places in the code today that
->> artificially inject -ECANCELED -- I need to remove these special stanzas
->> from the IDE code and allow the IDE state machine to handle these errors
->> as true errors.
+> Reported-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  dma-helpers.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> The bug is that there is no place to inject -ECANCELED in the dbs->bh
-> case.  I've sent an obviously^W untested patch.
+> diff --git a/dma-helpers.c b/dma-helpers.c
+> index 2d7e02d..d3871dc 100644
+> --- a/dma-helpers.c
+> +++ b/dma-helpers.c
+> @@ -90,6 +90,7 @@ static void reschedule_dma(void *opaque)
+>  {
+>      DMAAIOCB *dbs = (DMAAIOCB *)opaque;
+>  
+> +    assert(!dbs->acb && dbs->bh);
+>      qemu_bh_delete(dbs->bh);
+>      dbs->bh = NULL;
+>      dma_blk_cb(dbs, 0);
+> @@ -111,15 +112,12 @@ static void dma_complete(DMAAIOCB *dbs, int ret)
+>  {
+>      trace_dma_complete(dbs, ret, dbs->common.cb);
+>  
+> +    assert(!dbs->acb && !dbs->bh);
+>      dma_blk_unmap(dbs);
+>      if (dbs->common.cb) {
+>          dbs->common.cb(dbs->common.opaque, ret);
+>      }
+>      qemu_iovec_destroy(&dbs->iov);
+> -    if (dbs->bh) {
+> -        qemu_bh_delete(dbs->bh);
+> -        dbs->bh = NULL;
+> -    }
+
+Now presumably handled by dma_aio_cancel,
+
+>      qemu_aio_unref(dbs);
+>  }
+>  
+> @@ -179,14 +177,21 @@ static void dma_aio_cancel(BlockAIOCB *acb)
+>  
+>      trace_dma_aio_cancel(dbs);
+>  
+> +    assert(!(dbs->acb && dbs->bh));
+>      if (dbs->acb) {
+> +        /* This will invoke dma_blk_cb.  */
+
+uhh, does it? this is maybe where I got lost reading this code.
+Isn't dbs->acb going to be what was returned from e.g.
+dma_blk_read_io_func, which ultimately uses blk_aio_em_aiocb_info, that
+has no cancel callback?
+
+I thought this was just going to NOP entirely. No?
+
+>          blk_aio_cancel_async(dbs->acb);
+> +        return;
+>      }
+> +
+>      if (dbs->bh) {
+>          cpu_unregister_map_client(dbs->bh);
+>          qemu_bh_delete(dbs->bh);
+>          dbs->bh = NULL;
+>      }
+> +    if (dbs->common.cb) {
+> +        dbs->common.cb(dbs->common.opaque, -ECANCELED);
+> +    }
+
+Well, here at least I am now on terra-firma that we're going to call the
+original callback with ECANCELED, which is a step towards code that
+isn't surprising my sensibilities.
+
+>  }
+>  
+>  static AioContext *dma_get_aio_context(BlockAIOCB *acb)
 > 
 
-Where does it inject -ECANCELED in the non-dbs->bh case?
-
---js
 
