@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A4A78EC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:11:41 +0200 (CEST)
-Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCDF78EC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:11:12 +0200 (CEST)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7JM-0001QZ-VS
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38895)
+	id 1hs7It-0000Kx-Bz
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs78J-0005uj-SZ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:16 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs78E-0005dL-0p
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs78I-0005kb-O2
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:15 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48426)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs78D-0005eZ-1W
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:09 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:49048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs78E-0004iO-8s; Mon, 29 Jul 2019 11:00:10 -0400
+ id 1hs784-0005RC-FW; Mon, 29 Jul 2019 11:00:00 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id D84C596F8F;
- Mon, 29 Jul 2019 14:59:12 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id AFFD696F92;
+ Mon, 29 Jul 2019 14:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412354;
+ s=mail; t=1564412357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IojvZJcR6TrNzXejNkbhfStORPj7CffyX3e9LR2zhu0=;
- b=pQTJedEFzSEhToYRJonGcyEJsut6kxPeewLDxgIoti8xf3Y2g4muzo7+iEpR2lAT0EKUtB
- EXOfgBkzpZZDvNvFJCH8dNKhSWSGF84dKsKt8ijRGvPZ5jtivjMp4PMlknGrfBwpS17J+m
- P3QUDPseQOJAbSQY0wtKraRR6dgTp+s=
+ bh=FGORLyVsyoPn4CUafp3DkuY7BxPSGvVkEp7R/gpfDbs=;
+ b=jnmf5LB0kusot6raukquz8lPwMXc9zV2FeRAcofzOXMmmKd1jRsLpvbl1ViZVyEcCbQUCS
+ SO27AlK946/F7M4vxFkmM/9qNwA8kgdMEjhsr2hrh4Gj0XCf1iJJ0t/rIDAMlf7awXDESB
+ lNlyPzqbxMQjKEK9UqGe50uy8ekVJH4=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:38 +0200
-Message-Id: <20190729145654.14644-18-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:40 +0200
+Message-Id: <20190729145654.14644-20-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412354;
+ s=mail; t=1564412357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IojvZJcR6TrNzXejNkbhfStORPj7CffyX3e9LR2zhu0=;
- b=Y6q5K32mpl0fpwHYvDKhkQBHZ9iVben+BD4D7MsEj4wevi2BxXlCxS60WBzQzQI2syPsE5
- dqvuB0Ar/YXxgGyRwrkuWFdv1Vhe/0I4Vmp1iSY0qyE6A5gj+ZHrTR+wjs7xmDjONZ1uQI
- 9RdKGsBsUwHwOrv8spxlAYhkh4EZmno=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412354; a=rsa-sha256; cv=none;
- b=Shawad7IqON5VSONAGP4x8Uk9zJwyF+1tn0CWqTmXEbt/2uuIttSlevf0Iy3nXAdkAcNLw
- S6FbOWr8JcI5vL2krQ9MiQalI25Q0NGXmEXseIiYQ1+yvePrMAGJQzMGciga7FEvYianf5
- dOx5CfJ3qFH9HTNIlj5AbJbbxjOY7WE=
+ bh=FGORLyVsyoPn4CUafp3DkuY7BxPSGvVkEp7R/gpfDbs=;
+ b=q5cGZv9a88zJSmVzplwAzjUVhIJHdAvvuXY7RDQKi0spMb8RJnXTHDtqA15PQXW191hF8t
+ mpLVE8crYPSdbnZXwyYCn9FyqUOHfivKfjJ3BG4jpQFEoL0sSiAR+oH2zPStSKkGur++Zq
+ Ab4Za56t/pZ5MWIGuYlhKpZoVXuPg0o=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412357; a=rsa-sha256; cv=none;
+ b=FtKC4bRy9kmEhgoLjr1bG0ETU+E8zZFLMB357yCR7zcqjaZF5mw0C2ENCSoCpsvRCPI4pw
+ EaUYswGtSd0myspPdUDHgt5w/XbfrH86+Js6XbT9FVboqD0zqKib83cLZxH8UuLyzg6fHS
+ z0kl7zQfD9efR2Zoo0mB59Ko/MpZW0Y=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -62,8 +62,8 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 17/33] hw/usb/dev-uas.c: remove
- qdev_reset_all call
+Subject: [Qemu-devel] [PATCH v3 19/33] hw/sd/pl181.c & omap_mmc.c: remove
+ device_legacy_reset call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,28 +88,44 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace deprecated qdev_reset_all by device_reset_warm.
+Replace legacy's reset call by device_reset_warm.
 
-This does not impact the behavior.
+The new function propagates also the reset to the sub-buses tree but this=
+ has
+no impact since SDState has no child bus.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/usb/dev-uas.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/omap_mmc.c | 2 +-
+ hw/sd/pl181.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
-index abd8070d0c..b3a6e470e4 100644
---- a/hw/usb/dev-uas.c
-+++ b/hw/usb/dev-uas.c
-@@ -777,7 +777,7 @@ static void usb_uas_task(UASDevice *uas, uas_iu *iu)
+diff --git a/hw/sd/omap_mmc.c b/hw/sd/omap_mmc.c
+index 24a1edc149..3021e54b8d 100644
+--- a/hw/sd/omap_mmc.c
++++ b/hw/sd/omap_mmc.c
+@@ -317,7 +317,7 @@ void omap_mmc_reset(struct omap_mmc_s *host)
+      * into any bus, and we must reset it manually. When omap_mmc is
+      * QOMified this must move into the QOM reset function.
+      */
+-    device_legacy_reset(DEVICE(host->card));
++    device_reset_warm(DEVICE(host->card));
+ }
 =20
-     case UAS_TMF_LOGICAL_UNIT_RESET:
-         trace_usb_uas_tmf_logical_unit_reset(uas->dev.addr, tag, lun);
--        qdev_reset_all(&dev->qdev);
-+        device_reset_warm(&dev->qdev);
-         usb_uas_queue_response(uas, tag, UAS_RC_TMF_COMPLETE);
-         break;
+ static uint64_t omap_mmc_read(void *opaque, hwaddr offset,
+diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
+index 15b4aaa67f..a59ef7eb2a 100644
+--- a/hw/sd/pl181.c
++++ b/hw/sd/pl181.c
+@@ -480,7 +480,7 @@ static void pl181_reset(DeviceState *d)
+     /* Since we're still using the legacy SD API the card is not plugged
+      * into any bus, and we must reset it manually.
+      */
+-    device_legacy_reset(DEVICE(s->card));
++    device_reset_warm(DEVICE(s->card));
+ }
 =20
+ static void pl181_init(Object *obj)
 --=20
 2.22.0
 
