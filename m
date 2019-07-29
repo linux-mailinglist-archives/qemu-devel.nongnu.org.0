@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB2678EC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:09:38 +0200 (CEST)
-Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DDD78EBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:08:04 +0200 (CEST)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7HN-0005B2-Cf
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37960)
+	id 1hs7Fr-0002S4-Dv
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38073)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs77J-0004C2-VH
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:15 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs77Q-0004HY-Rg
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs77H-0004fM-Dl
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:13 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48070)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs77L-0004j8-EZ
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:17 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:48108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs777-0004TL-1w; Mon, 29 Jul 2019 10:59:01 -0400
+ id 1hs778-0004UA-K9; Mon, 29 Jul 2019 10:59:03 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id D39C596F5E;
- Mon, 29 Jul 2019 14:58:58 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 3E69896F63;
+ Mon, 29 Jul 2019 14:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412340;
+ s=mail; t=1564412341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NnkkIoHVwWj6c273Ch/WUhHvEUJl8xs34edh8vQqVyY=;
- b=CroHY+IlItvjMM4Iw8/7AYkxH5q8EiTBp1PKOIK+M0rdPIHctZYv9o1GokUeUF5uTySRNj
- fO8u47ZuIG+TSBno3xcVOgBS4os+0iLJ/5bfKNCLRprHTocNKBxKxID9LM2xqptAiIHor/
- V3gQvO/Jxh+CZ27PTXuYGxw613ku4OU=
+ bh=409z6EcDD8PHCk72cCP2wzloU1EO5HsmW5lWXcYVGNs=;
+ b=xiA+HxspsLSBtmQcw+UvJ/wzhyFTaaXQuhIXreXHNWUyJndVIdBS5VTsTzNdkxYvDKIc2N
+ 4c8tuqHWXo5Pg7KmqYndFmLGgi6sLEYUqPevLayStKO6KNvb5J76ilgmDQ3SmqvZ+OA0xi
+ ig6QWdsZp3AbTtbeMWYY/K+OnIJvIgI=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:28 +0200
-Message-Id: <20190729145654.14644-8-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:29 +0200
+Message-Id: <20190729145654.14644-9-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412340;
+ s=mail; t=1564412341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NnkkIoHVwWj6c273Ch/WUhHvEUJl8xs34edh8vQqVyY=;
- b=NFJL4PD3UgBLR7FmwdToZdyfJh+nCcCVNXArVa4OtIbRuz0PoSUGZ+bl5HZSd1I7C5Stvy
- 351xcD331HNpGgIFDA/gRnLDcGopGY2Bc3QmEoacdjQpD5TpifOfi01xTDzTIaZI3mRWMg
- zE701oZWUEyMYk/qp/oqfdW8u+TgCI0=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412340; a=rsa-sha256; cv=none;
- b=XwPuZipvWSknFivXe90DlrcOw0OtcyvyzoGCBs9TYAJuwybn3igXaReNWrg991UMTMRDs4
- AiT3xcKfHAdH2kOJ8xNEQxxsXTQuxzX1h/t+ckopXNAAzKR0fkPOUfAk1iGO1/erfhMoJT
- 7b7TOiaXU/Z/cN7GGLWb61OvUTXGgQ4=
+ bh=409z6EcDD8PHCk72cCP2wzloU1EO5HsmW5lWXcYVGNs=;
+ b=yrwdTmD8nli09lh4tSL2S4rXSszfTatn7Y1PP+jI/c36hC5bnnX6cOxH3blgc2SqVeOSXK
+ L4uvV5HjM6Ea2x9/gLXdfBhWC/4gxOmR7KXBc7+vBXfvg3KhcQRZ3cMo2q688hE4JKagXT
+ D21NSh9YTv4mdnsrKB9UUw7yCCDQxW4=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412341; a=rsa-sha256; cv=none;
+ b=Iw5SF0aymzGYPVa6mybde/cU7+/kf+iKmI9X64k+3GPT2xQroQh2325IyGMVDrNXHzK+TZ
+ ViVIj0y2juaNXZZoOAiDjsLJ/Ghz8vOrIDZ5zBSQ+IREWndsjGvRhLzwgYtZvGahqLS9nG
+ Ve/Bzba2DvH4orgGjVoMvo4bOav83Lc=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -62,8 +62,8 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 07/33] automatically add vmstate for reset
- support in devices
+Subject: [Qemu-devel] [PATCH v3 08/33] Add function to control reset with
+ gpio inputs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,137 +88,243 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This add the reset related sections for every QOM
-device.
+It adds the possibility to add 2 gpios to control the warm and cold reset=
+.
+With theses ios, the reset can be maintained during some time.
+Each io is associated with a state to detect level changes.
+
+Vmstate subsections are also added to the existsing device_reset
+subsection.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/core/qdev-vmstate.c | 41 +++++++++++++++++++++++++++++++++++++++++
- hw/core/qdev.c         | 12 +++++++++++-
- include/hw/qdev-core.h |  3 +++
- stubs/Makefile.objs    |  1 +
- stubs/device.c         |  7 +++++++
- 5 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 stubs/device.c
+ hw/core/qdev-vmstate.c | 15 ++++++++++
+ hw/core/qdev.c         | 65 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/qdev-core.h | 57 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 137 insertions(+)
 
 diff --git a/hw/core/qdev-vmstate.c b/hw/core/qdev-vmstate.c
-index 07b010811f..24f8465c61 100644
+index 24f8465c61..72f84c6cee 100644
 --- a/hw/core/qdev-vmstate.c
 +++ b/hw/core/qdev-vmstate.c
-@@ -43,3 +43,44 @@ const struct VMStateDescription device_vmstate_reset =3D=
+@@ -24,10 +24,23 @@ static int device_vmstate_reset_post_load(void *opaqu=
+e, int version_id)
  {
+     DeviceState *dev =3D (DeviceState *) opaque;
+     BusState *bus;
++    uint32_t io_count =3D 0;
++
+     QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+         bus->resetting =3D dev->resetting;
+         bus->reset_is_cold =3D dev->reset_is_cold;
+     }
++
++    if (dev->cold_reset_input.state) {
++        io_count +=3D 1;
++    }
++    if (dev->warm_reset_input.state) {
++        io_count +=3D 1;
++    }
++    /* ensure resetting count is coherent with io states */
++    if (dev->resetting < io_count) {
++        return -1;
++    }
+     return 0;
+ }
+=20
+@@ -40,6 +53,8 @@ const struct VMStateDescription device_vmstate_reset =3D=
+ {
+     .fields =3D (VMStateField[]) {
+         VMSTATE_UINT32(resetting, DeviceState),
+         VMSTATE_BOOL(reset_is_cold, DeviceState),
++        VMSTATE_BOOL(cold_reset_input.state, DeviceState),
++        VMSTATE_BOOL(warm_reset_input.state, DeviceState),
          VMSTATE_END_OF_LIST()
      },
  };
-+
-+static VMStateDescription *vmsd_duplicate_and_append(
-+        const VMStateDescription *old_vmsd,
-+        const VMStateDescription *new_subsection)
-+{
-+    VMStateDescription *vmsd;
-+    int n =3D 0;
-+
-+    assert(old_vmsd && new_subsection);
-+
-+    vmsd =3D (VMStateDescription *) g_memdup(old_vmsd, sizeof(*vmsd));
-+
-+    if (old_vmsd->subsections) {
-+        while (old_vmsd->subsections[n]) {
-+            n +=3D 1;
-+        }
-+    }
-+    vmsd->subsections =3D g_new(const VMStateDescription *, n + 2);
-+
-+    if (old_vmsd->subsections) {
-+        memcpy(vmsd->subsections, old_vmsd->subsections,
-+               sizeof(VMStateDescription *) * n);
-+    }
-+    vmsd->subsections[n] =3D new_subsection;
-+    vmsd->subsections[n + 1] =3D NULL;
-+
-+    return vmsd;
-+}
-+
-+void device_class_build_extended_vmsd(DeviceClass *dc)
-+{
-+    assert(dc->vmsd);
-+    assert(!dc->vmsd_ext);
-+
-+    /* forge a subsection with proper name */
-+    VMStateDescription *reset;
-+    reset =3D g_memdup(&device_vmstate_reset, sizeof(*reset));
-+    reset->name =3D g_strdup_printf("%s/device_reset", dc->vmsd->name);
-+
-+    dc->vmsd_ext =3D vmsd_duplicate_and_append(dc->vmsd, reset);
-+}
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index e9e5f2d5f9..88387d3743 100644
+index 88387d3743..11a4de55ea 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -45,7 +45,17 @@ bool qdev_hot_removed =3D false;
- const VMStateDescription *qdev_get_vmsd(DeviceState *dev)
- {
-     DeviceClass *dc =3D DEVICE_GET_CLASS(dev);
--    return dc->vmsd;
-+
-+    if (!dc->vmsd) {
-+        return NULL;
-+    }
-+
-+    if (!dc->vmsd_ext) {
-+        /* build it first time we need it */
-+        device_class_build_extended_vmsd(dc);
-+    }
-+
-+    return dc->vmsd_ext;
+@@ -450,6 +450,67 @@ void qdev_init_gpio_in(DeviceState *dev, qemu_irq_ha=
+ndler handler, int n)
+     qdev_init_gpio_in_named(dev, handler, NULL, n);
  }
 =20
- static void bus_remove_child(BusState *bus, DeviceState *child)
++static DeviceResetInputState *device_get_reset_input_state(DeviceState *=
+dev,
++                                                            bool cold)
++{
++    return cold ? &dev->cold_reset_input : &dev->warm_reset_input;
++}
++
++static void device_reset_handler(DeviceState *dev, bool cold, bool level=
+)
++{
++    DeviceResetInputState *dris =3D device_get_reset_input_state(dev, co=
+ld);
++
++    if (dris->type =3D=3D DEVICE_RESET_ACTIVE_LOW) {
++        level =3D !level;
++    }
++
++    if (dris->state =3D=3D level) {
++        /* io state has not changed */
++        return;
++    }
++
++    dris->state =3D level;
++
++    if (level) {
++        resettable_assert_reset(OBJECT(dev), cold);
++    } else {
++        resettable_deassert_reset(OBJECT(dev));
++    }
++}
++
++static void device_cold_reset_handler(void *opaque, int n, int level)
++{
++    device_reset_handler((DeviceState *) opaque, true, level);
++}
++
++static void device_warm_reset_handler(void *opaque, int n, int level)
++{
++    device_reset_handler((DeviceState *) opaque, false, level);
++}
++
++void qdev_init_reset_gpio_in_named(DeviceState *dev, const char *name,
++                                   bool cold, DeviceResetActiveType type=
+)
++{
++    DeviceResetInputState *dris =3D device_get_reset_input_state(dev, co=
+ld);
++    qemu_irq_handler handler;
++
++    switch (type) {
++    case DEVICE_RESET_ACTIVE_LOW:
++    case DEVICE_RESET_ACTIVE_HIGH:
++        break;
++    default:
++        assert(false);
++        break;
++    }
++
++    assert(!dris->exists);
++    dris->exists =3D true;
++    dris->type =3D type;
++
++    handler =3D cold ? device_cold_reset_handler : device_warm_reset_han=
+dler;
++    qdev_init_gpio_in_named(dev, handler, name, 1);
++}
++
+ void qdev_init_gpio_out_named(DeviceState *dev, qemu_irq *pins,
+                               const char *name, int n)
+ {
+@@ -1007,6 +1068,10 @@ static void device_initfn(Object *obj)
+     dev->instance_id_alias =3D -1;
+     dev->realized =3D false;
+     dev->resetting =3D 0;
++    dev->cold_reset_input.exists =3D false;
++    dev->cold_reset_input.state =3D false;
++    dev->warm_reset_input.exists =3D false;
++    dev->warm_reset_input.state =3D false;
+=20
+     object_property_add_bool(obj, "realized",
+                              device_get_realized, device_set_realized, N=
+ULL);
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 1670ae41bb..926d4bbcb1 100644
+index 926d4bbcb1..f724ddc8f4 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -120,6 +120,7 @@ typedef struct DeviceClass {
+@@ -136,6 +136,23 @@ struct NamedGPIOList {
+     QLIST_ENTRY(NamedGPIOList) node;
+ };
 =20
-     /* device state */
-     const struct VMStateDescription *vmsd;
-+    const struct VMStateDescription *vmsd_ext;
-=20
-     /* Private to qdev / bus.  */
-     const char *bus_type;
-@@ -520,6 +521,8 @@ void device_class_set_parent_unrealize(DeviceClass *d=
-c,
-=20
- const struct VMStateDescription *qdev_get_vmsd(DeviceState *dev);
-=20
-+void device_class_build_extended_vmsd(DeviceClass *dc);
++typedef enum DeviceResetActiveType {
++    DEVICE_RESET_ACTIVE_LOW,
++    DEVICE_RESET_ACTIVE_HIGH,
++} DeviceResetActiveType;
 +
- const char *qdev_fw_name(DeviceState *dev);
-=20
- Object *qdev_get_machine(void);
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 9c7393b08c..432b56f290 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -40,4 +40,5 @@ stub-obj-y +=3D pci-host-piix.o
- stub-obj-y +=3D ram-block.o
- stub-obj-y +=3D ramfb.o
- stub-obj-y +=3D fw_cfg.o
-+stub-obj-y +=3D device.o
- stub-obj-$(CONFIG_SOFTMMU) +=3D semihost.o
-diff --git a/stubs/device.c b/stubs/device.c
-new file mode 100644
-index 0000000000..e9b4f57e5f
---- /dev/null
-+++ b/stubs/device.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "hw/qdev-core.h"
++/**
++ * DeviceResetInputState:
++ * @exists: tell if io exists
++ * @type: tell whether the io active low or high
++ * @state: true if reset is currently active
++ */
++typedef struct DeviceResetInputState {
++    bool exists;
++    DeviceResetActiveType type;
++    bool state;
++} DeviceResetInputState;
 +
-+void device_class_build_extended_vmsd(DeviceClass *dc)
+ /**
+  * DeviceState:
+  * @realized: Indicates whether the device has been fully constructed.
+@@ -143,6 +160,8 @@ struct NamedGPIOList {
+  * used to count how many times reset has been initiated on the device.
+  * @reset_is_cold: If the device is under reset, indicates whether it is=
+ cold
+  * or warm.
++ * @cold_reset_input: state data for cold reset io
++ * @warm_reset_input: state data for warm reset io
+  *
+  * This structure should not be accessed directly.  We declare it here
+  * so that it can be embedded in individual device state structures.
+@@ -167,6 +186,8 @@ struct DeviceState {
+     uint32_t resetting;
+     bool reset_is_cold;
+     bool reset_hold_needed;
++    DeviceResetInputState cold_reset_input;
++    DeviceResetInputState warm_reset_input;
+ };
+=20
+ struct DeviceListener {
+@@ -372,6 +393,42 @@ static inline void qdev_init_gpio_in_named(DeviceSta=
+te *dev,
+ void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
+                      const char *name);
+=20
++/**
++ * qdev_init_reset_gpio_in_named:
++ * Create a gpio controlling the warm or cold reset of the device.
++ *
++ * @cold: specify whether it triggers cold or warm reset
++ * @type: what kind of reset io it is
++ *
++ * Note: the io is considered created in its inactive state. No reset
++ * is started by this function.
++ */
++void qdev_init_reset_gpio_in_named(DeviceState *dev, const char *name,
++                                   bool cold, DeviceResetActiveType type=
+);
++
++/**
++ * qdev_init_warm_reset_gpio:
++ * Create the input to control the device warm reset.
++ */
++static inline void qdev_init_warm_reset_gpio(DeviceState *dev,
++                                             const char *name,
++                                             DeviceResetActiveType type)
 +{
-+    return;
++    qdev_init_reset_gpio_in_named(dev, name, false, type);
 +}
++
++/**
++ * qdev_init_cold_reset_gpio:
++ * Create the input to control the device cold reset.
++ * It can also be used as a power gate control.
++ */
++static inline void qdev_init_cold_reset_gpio(DeviceState *dev,
++                                             const char *name,
++                                             DeviceResetActiveType type)
++{
++    qdev_init_reset_gpio_in_named(dev, name, true, type);
++}
++
+ BusState *qdev_get_parent_bus(DeviceState *dev);
+=20
+ /*** BUS API. ***/
 --=20
 2.22.0
 
