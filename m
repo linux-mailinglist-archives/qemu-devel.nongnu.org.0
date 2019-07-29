@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E147478ED8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:14:13 +0200 (CEST)
-Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFC678ECD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:12:45 +0200 (CEST)
+Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Lp-0007M0-4G
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39571)
+	id 1hs7KO-0003xy-J9
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39563)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs798-0007Ed-GR
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs798-0007EC-AL
  for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs796-0006UN-Vc
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs796-0006U0-SS
  for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:06 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49060)
+Received: from beetle.greensocs.com ([5.135.226.135]:49062)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs78u-0005Tt-Jg; Mon, 29 Jul 2019 11:00:53 -0400
+ id 1hs78u-0005Tu-K7; Mon, 29 Jul 2019 11:00:53 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id B548C96FB5;
- Mon, 29 Jul 2019 14:59:22 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 225ED96FE3;
+ Mon, 29 Jul 2019 14:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412364;
+ s=mail; t=1564412365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HGGw8htxAIJ95suMEQmcO6Wzd1brwHWaCoaPQS+mZIU=;
- b=YP06WmN5WHD07/jTlSfgGa2nWOwGCoxKQ29sH5FnKn+wLQkrsEyxQ3RpGrtflRvGIeOY/0
- uSlOOmTqBYb28Ewuotd6J6KyjCqoRuqyeP7sSODZ0AUyEOPdCV7naf6ox+GEVLZjuyhyoZ
- ie6Pljdmt/2KuzCubwwI0I9RXOCoET0=
+ bh=p5l1fmWgkohnYfqwDvu/gGAV5E6NY7tIcptUny/2QoI=;
+ b=xTKf3JbPAx1i2E2+hOM1o5Jx5CwFUMK0mIg6d0hDPA2uq9XqrC1hjAi2W7Zc3ZuBdJ/MJJ
+ 2bqPdU5HT0Jaed7xGUl83+xBk+wceANeKoF43MYFjxaoyp1iAqnzcn9FwNbQ6qP9cGUSNf
+ /AtZkXhDEzCmPNZBkas1dlzL7wadFcY=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:45 +0200
-Message-Id: <20190729145654.14644-25-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:46 +0200
+Message-Id: <20190729145654.14644-26-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412364;
+ s=mail; t=1564412365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HGGw8htxAIJ95suMEQmcO6Wzd1brwHWaCoaPQS+mZIU=;
- b=reTUCletLFNrKr/Uq1GGJmGv1saXk6XjI/CGClamgkcyVUgVlsMD/giMejo5bKjbPqSTn0
- KMRPHcBIjfgyLegvWOqGSzEbL83Ulc3T2ThmjkjX+cPaGyqeQSLI0qbk2LUYlJQGivn4fB
- 8Va9ei3TKcadVCUpx+0kmYe3EB1wpXg=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412364; a=rsa-sha256; cv=none;
- b=6aaXPMsz8Ptck4nIylbhGiRj23zMRZw+Lc39uayZpSEP5/UCClf1lm7Qghd8RvpiBrGptv
- fFtSreD331DPl0f6Blhgy1q9qNfOrO1txu7SNLET0qTPueOsAmOyW32dosXoQrwtxFsbaf
- G0mnCJIsGbqFIgLXZ6l4CF2M6Sf2TaI=
+ bh=p5l1fmWgkohnYfqwDvu/gGAV5E6NY7tIcptUny/2QoI=;
+ b=zY+GYV/DDvu/oLJcsLrR2NFWMFitWRZDW+El9glEQer/WSvDFVosPPMXAL8jMBvWIrtfVk
+ 03kXZFsjdImszCQLyJfEdO0R/wOvY/9/GYN2B5eZyj6pgPf4/w/gHBv/yIrsGM3JIQj5oG
+ ++1GOidE8bU5UXt0D9+CUzKGgBQk8BI=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412365; a=rsa-sha256; cv=none;
+ b=AkHvT+/uLNLqiZknofRYqcrNzI/hWV7H8OW87AWt1E7g0UbyoydnSKYMrAqOpX1xWyJGDF
+ XoVq69K1PEFFfHH8C5HlpKJZKf2ACiT+dj+kginTeGqR3gsbVtxky8cUbflOCv47ANvef1
+ 8GUKdWPUaRDbFV8EvpXsyZwCnT8iPPg=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -62,7 +62,7 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 24/33] hw/ppc/spapr: remove
+Subject: [Qemu-devel] [PATCH v3 25/33] hw/i386/pc.c: remove
  device_legacy_reset call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,52 +88,28 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace legacy's reset call by device_reset_warm.
+Replace additional APIC legacy reset by device_reset_cold.
 
 The new function propagates also the reset to the sub-buses tree.
-
-In spapr_vio.c, the function resets a SpaprtceTable which does not seem
-to have child bus so it should have no impact.
-
-In Spapr_pci.c the functions resets QOM children devices of a SpaprPhbSta=
-te.
-If there is a device with a child bus, then this bus will now be reset
-(and all its qdev tree).
+APIC does not have any so it should have no impact on behavior.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/ppc/spapr_pci.c | 2 +-
- hw/ppc/spapr_vio.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/pc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 3c6cf79a5e..946b2b4483 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -2029,7 +2029,7 @@ static int spapr_phb_children_reset(Object *child, =
-void *opaque)
-     DeviceState *dev =3D (DeviceState *) object_dynamic_cast(child, TYPE=
-_DEVICE);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c0f20fe8aa..a175d76819 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -2823,7 +2823,7 @@ static void pc_machine_reset(MachineState *machine)
+         cpu =3D X86_CPU(cs);
 =20
-     if (dev) {
--        device_legacy_reset(dev);
-+        device_reset_warm(dev);
+         if (cpu->apic_state) {
+-            device_legacy_reset(cpu->apic_state);
++            device_reset_cold(cpu->apic_state);
+         }
      }
-=20
-     return 0;
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 5a0b5cc35c..41c17cfdd6 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -306,7 +306,7 @@ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *=
-crq)
- static void spapr_vio_quiesce_one(SpaprVioDevice *dev)
- {
-     if (dev->tcet) {
--        device_legacy_reset(DEVICE(dev->tcet));
-+        device_reset_warm(DEVICE(dev->tcet));
-     }
-     free_crq(dev);
  }
 --=20
 2.22.0
