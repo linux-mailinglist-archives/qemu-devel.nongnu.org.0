@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEEA378517
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 08:40:54 +0200 (CEST)
-Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4E57851A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 08:42:10 +0200 (CEST)
+Received: from localhost ([::1]:49946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hrzL4-0001VD-73
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 02:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
+	id 1hrzMH-0003aX-9e
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 02:42:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56192)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hrzCe-0005NY-AC
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:32:14 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hrzJH-00089j-LW
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:39:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hrzCc-0001rq-U5
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:32:12 -0400
-Received: from mga11.intel.com ([192.55.52.93]:47116)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hrzJG-0005YG-Fs
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:39:03 -0400
+Received: from mga17.intel.com ([192.55.52.151]:3485)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hrzCc-0001Br-19
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:32:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hrzJG-0005VH-6J
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 02:39:02 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2019 23:31:48 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2019 23:38:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,321,1559545200"; d="scan'208";a="370357289"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.37])
- by fmsmga005.fm.intel.com with ESMTP; 28 Jul 2019 23:31:46 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: imammedo@redhat.com,
-	eblake@redhat.com,
-	ehabkost@redhat.com
-Date: Mon, 29 Jul 2019 14:31:24 +0800
-Message-Id: <20190729063127.2801-9-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190729063127.2801-1-tao3.xu@intel.com>
-References: <20190729063127.2801-1-tao3.xu@intel.com>
+X-IronPort-AV: E=Sophos;i="5.64,321,1559545200"; d="scan'208";a="173776086"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga003.jf.intel.com with ESMTP; 28 Jul 2019 23:38:58 -0700
+Date: Mon, 29 Jul 2019 14:38:36 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Ivan Ren <renyime@gmail.com>
+Message-ID: <20190729063836.GA21091@richard>
+References: <1564367573-6327-1-git-send-email-ivanren@tencent.com>
+ <1564367573-6327-2-git-send-email-ivanren@tencent.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1564367573-6327-2-git-send-email-ivanren@tencent.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.93
-Subject: [Qemu-devel] [PATCH v8 08/11] hmat acpi: Build Memory Side Cache
- Information Structure(s)
+X-Received-From: 192.55.52.151
+Subject: Re: [Qemu-devel] [PATCH 1/2] migration: add
+ qemu_file_update_rate_transfer interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,192 +58,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- dan.j.williams@intel.com
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+On Mon, Jul 29, 2019 at 10:32:52AM +0800, Ivan Ren wrote:
+>Add qemu_file_update_rate_transfer for just update bytes_xfer for
+>speed limitation. This will be used for further migration feature
+>such as multifd migration.
+>
+>Signed-off-by: Ivan Ren <ivanren@tencent.com>
+>---
+> migration/qemu-file.c | 5 +++++
+> migration/qemu-file.h | 1 +
+> 2 files changed, 6 insertions(+)
+>
+>diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+>index 0431585502..13e7f03f9b 100644
+>--- a/migration/qemu-file.c
+>+++ b/migration/qemu-file.c
+>@@ -615,6 +615,11 @@ void qemu_file_reset_rate_limit(QEMUFile *f)
+>     f->bytes_xfer = 0;
+> }
+> 
+>+void qemu_file_update_rate_transfer(QEMUFile *f, int64_t len)
 
-This structure describes memory side cache information for memory
-proximity domains if the memory side cache is present and the
-physical device forms the memory side cache.
-The software could use this information to effectively place
-the data in memory to maximize the performance of the system
-memory that use the memory side cache.
+Looks good, except the function name. Not good at naming :-)
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
 
-No changes in v8.
----
- hw/acpi/hmat.c          | 64 ++++++++++++++++++++++++++++++++++++++++-
- hw/acpi/hmat.h          | 17 +++++++++++
- include/qemu/typedefs.h |  1 +
- include/sysemu/numa.h   |  3 ++
- include/sysemu/sysemu.h |  2 ++
- 5 files changed, 86 insertions(+), 1 deletion(-)
+>+{
+>+    f->bytes_xfer += len;
+>+}
+>+
+> void qemu_put_be16(QEMUFile *f, unsigned int v)
+> {
+>     qemu_put_byte(f, v >> 8);
+>diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+>index 13baf896bd..6145d10aca 100644
+>--- a/migration/qemu-file.h
+>+++ b/migration/qemu-file.h
+>@@ -147,6 +147,7 @@ int qemu_peek_byte(QEMUFile *f, int offset);
+> void qemu_file_skip(QEMUFile *f, int size);
+> void qemu_update_position(QEMUFile *f, size_t size);
+> void qemu_file_reset_rate_limit(QEMUFile *f);
+>+void qemu_file_update_rate_transfer(QEMUFile *f, int64_t len);
+> void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
+> int64_t qemu_file_get_rate_limit(QEMUFile *f);
+> void qemu_file_set_error(QEMUFile *f, int ret);
+>-- 
+>2.17.2 (Apple Git-113)
+>
 
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 431818dc82..01a6552d51 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -134,14 +134,63 @@ static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
-     }
- }
- 
-+/* ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure: Table 5-143 */
-+static void build_hmat_cache(GArray *table_data, HMAT_Cache_Info *hmat_cache)
-+{
-+    /*
-+     * Cache Attributes: Bits [3:0] – Total Cache Levels
-+     * for this Memory Proximity Domain
-+     */
-+    uint32_t cache_attr = hmat_cache->total_levels & 0xF;
-+
-+    /* Bits [7:4] : Cache Level described in this structure */
-+    cache_attr |= (hmat_cache->level & 0xF) << 4;
-+
-+    /* Bits [11:8] - Cache Associativity */
-+    cache_attr |= (hmat_cache->associativity & 0xF) << 8;
-+
-+    /* Bits [15:12] - Write Policy */
-+    cache_attr |= (hmat_cache->write_policy & 0xF) << 12;
-+
-+    /* Bits [31:16] - Cache Line size in bytes */
-+    cache_attr |= (hmat_cache->line_size & 0xFFFF) << 16;
-+
-+    cache_attr = cpu_to_le32(cache_attr);
-+
-+    /* Type */
-+    build_append_int_noprefix(table_data, 2, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Length */
-+    build_append_int_noprefix(table_data, 32, 4);
-+    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, hmat_cache->mem_proximity, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
-+    /* Memory Side Cache Size */
-+    build_append_int_noprefix(table_data, hmat_cache->size, 8);
-+    /* Cache Attributes */
-+    build_append_int_noprefix(table_data, cache_attr, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /*
-+     * Number of SMBIOS handles (n)
-+     * Linux kernel uses Memory Side Cache Information Structure
-+     * without SMBIOS entries for now, so set Number of SMBIOS handles
-+     * as 0.
-+     */
-+    build_append_int_noprefix(table_data, 0, 2);
-+}
-+
- /* Build HMAT sub table structures */
- static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
- {
-     uint16_t flags;
-     uint32_t num_initiator = 0;
-     uint32_t initiator_pxm[MAX_NODES];
--    int i, hrchy, type;
-+    int i, hrchy, type, level;
-     HMAT_LB_Info *numa_hmat_lb;
-+    HMAT_Cache_Info *numa_hmat_cache;
- 
-     for (i = 0; i < nstat->num_nodes; i++) {
-         flags = 0;
-@@ -175,6 +224,19 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *nstat)
-             }
-         }
-     }
-+
-+    /*
-+     * ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure:
-+     * Table 5-143
-+     */
-+    for (i = 0; i < nstat->num_nodes; i++) {
-+        for (level = 0; level <= MAX_HMAT_CACHE_LEVEL; level++) {
-+            numa_hmat_cache = nstat->hmat_cache[i][level];
-+            if (numa_hmat_cache) {
-+                build_hmat_cache(table_data, numa_hmat_cache);
-+            }
-+        }
-+    }
- }
- 
- void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat)
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-index 5f050781e6..6c32f12e78 100644
---- a/hw/acpi/hmat.h
-+++ b/hw/acpi/hmat.h
-@@ -81,6 +81,23 @@ struct HMAT_LB_Info {
-     uint16_t    bandwidth[MAX_NODES][MAX_NODES];
- };
- 
-+struct HMAT_Cache_Info {
-+    /* The memory proximity domain to which the memory belongs. */
-+    uint32_t    mem_proximity;
-+    /* Size of memory side cache in bytes. */
-+    uint64_t    size;
-+    /* Total cache levels for this memory proximity domain. */
-+    uint8_t     total_levels;
-+    /* Cache level described in this structure. */
-+    uint8_t     level;
-+    /* Cache Associativity: None/Direct Mapped/Comple Cache Indexing */
-+    uint8_t     associativity;
-+    /* Write Policy: None/Write Back(WB)/Write Through(WT) */
-+    uint8_t     write_policy;
-+    /* Cache Line size in bytes. */
-+    uint16_t    line_size;
-+};
-+
- void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *nstat);
- 
- #endif
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index c0257e936b..d971f5109e 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -33,6 +33,7 @@ typedef struct FWCfgEntry FWCfgEntry;
- typedef struct FWCfgIoState FWCfgIoState;
- typedef struct FWCfgMemState FWCfgMemState;
- typedef struct FWCfgState FWCfgState;
-+typedef struct HMAT_Cache_Info HMAT_Cache_Info;
- typedef struct HMAT_LB_Info HMAT_LB_Info;
- typedef struct HVFX86EmulatorState HVFX86EmulatorState;
- typedef struct I2CBus I2CBus;
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index 85ddad99b4..1ed3362917 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -33,6 +33,9 @@ struct NumaState {
- 
-     /* NUMA modes HMAT Locality Latency and Bandwidth Information */
-     HMAT_LB_Info *hmat_lb[HMAT_LB_LEVELS][HMAT_LB_TYPES];
-+
-+    /* Memory Side Cache Information Structure */
-+    HMAT_Cache_Info *hmat_cache[MAX_NODES][MAX_HMAT_CACHE_LEVEL + 1];
- };
- typedef struct NumaState NumaState;
- 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index fc638f06cd..45525ff8ae 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -144,6 +144,8 @@ enum {
-     HMAT_LB_DATA_WRITE_BANDWIDTH  = 5,
- };
- 
-+#define MAX_HMAT_CACHE_LEVEL        3
-+
- #define HMAT_LB_LEVELS    (HMAT_LB_MEM_CACHE_3RD_LEVEL + 1)
- #define HMAT_LB_TYPES     (HMAT_LB_DATA_WRITE_BANDWIDTH + 1)
- 
 -- 
-2.20.1
-
+Wei Yang
+Help you, Help me
 
