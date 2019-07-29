@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0A1786EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:02:59 +0200 (CEST)
-Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B507278706
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:11:27 +0200 (CEST)
+Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs0cU-0005ni-HY
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41942)
+	id 1hs0kg-0001oA-FO
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43479)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <renyime@gmail.com>) id 1hs0b8-00048H-IR
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:01:35 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs0kB-0001P3-Ki
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:10:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <renyime@gmail.com>) id 1hs0b7-0006DK-Kw
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:01:34 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:38301)
+ (envelope-from <bounces@canonical.com>) id 1hs0kA-0000Sc-GS
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:10:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58330)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1hs0b7-0006Cg-F2
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:01:33 -0400
-Received: by mail-pf1-x431.google.com with SMTP id y15so27603735pfn.5
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 01:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FoQXJ5qQTi3p24A9fozZ2RVCDQjx8oTJ1oBTH1twvYw=;
- b=IiD1UQQtVt0z2XjhzKu9rvUaLJtu0/G5tr97sts5CJ2rj+Ch0Wcx2N1ET8jOT/OKd6
- FBO1OR6yP5aSda+SmgeOOSUvsPWLBkpvLjnWPX5KF9fqzIrf3+2vPwcrxLBz+p9pM4jd
- Lv07Lb24uZJLRSiwjC5yicJXzqB6pxxD+sMEXDeQLYtCgA1yGjVPuR0JGktFEjTW560L
- QbOZ0mVb0ROP8/yQOxrMpD1kwNDr6qw29zF/Razpb16zVWBq/OLZeH5DtqkL9KYOyOw0
- z6ZwZlGZgQgqM6/vmNewe/swHyFPtl+bWV5HALaoKQ9PepPY/xG0IPQK4oWJV/xeyVw0
- g00Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=FoQXJ5qQTi3p24A9fozZ2RVCDQjx8oTJ1oBTH1twvYw=;
- b=BF7v6Sf3qdR99Ca+Z49LpheEkiw+ZF9PhVyzkIHIBhtsAHTC8asA7nQbx4YzIvwW0i
- oLilN9aFCCMVi1k0lTKhQCOXITupOb0CWphdJ5KlPGH4MBoVSg/uLs17baxppDXPcqeO
- m3TRSgJguZ0MqjWl/oTIHZ/QjySrS0RME8pwJNOY6FPnLgIzk95A3SvH1ZRK69IyuEWj
- sX5ThlR4xuShD0HElWRfuIxPYA9vXN0ZWTOAgp47+j1InWrhXLtjP9zK8EPXsNoe3Iej
- KIbD1E9H+D1qQK8+hN8tWyrSwrCvX0wgjmsTQQpUYswIedieFd4puVrEi10OAZjdv46L
- qZ6g==
-X-Gm-Message-State: APjAAAV221jzLiyZJ/GsSNxRIVjPDimeuYGE6QwVVogGuaSnMcds1t1M
- O/i8B41Rm7SDayE9ILOzwDJeUMI6UE4XZA==
-X-Google-Smtp-Source: APXvYqx9Q37agfd6Z7hoUXtZCivulxpitndCAFDgdXHis2uICmt/aKJ2hBFXtzMzuAoWIVPkQ3wftQ==
-X-Received: by 2002:a17:90a:21ac:: with SMTP id
- q41mr112772605pjc.31.1564387292669; 
- Mon, 29 Jul 2019 01:01:32 -0700 (PDT)
-Received: from VM_85_204_centos.localdomain ([129.226.55.250])
- by smtp.gmail.com with ESMTPSA id l6sm61237035pga.72.2019.07.29.01.01.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 29 Jul 2019 01:01:32 -0700 (PDT)
-From: Ivan Ren <renyime@gmail.com>
-X-Google-Original-From: Ivan Ren <ivanren@tencent.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Date: Mon, 29 Jul 2019 16:01:21 +0800
-Message-Id: <1564387281-12321-4-git-send-email-ivanren@tencent.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1564387281-12321-1-git-send-email-ivanren@tencent.com>
-References: <1564387281-12321-1-git-send-email-ivanren@tencent.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::431
-Subject: [Qemu-devel] [PATCH v2 3/3] migration: update ram_counters for
- multifd sync packet
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs0kA-0000Rp-BE
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:10:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs0k8-0007nd-Ca
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 08:10:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5C2F82E80CB
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 08:10:52 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 07:59:16 -0000
+From: elmarco <marcandre.lureau@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hugelgupf marcandre-lureau
+X-Launchpad-Bug-Reporter: Chris Koch (hugelgupf)
+X-Launchpad-Bug-Modifier: elmarco (marcandre-lureau)
+References: <156438177001.5960.9261076941599056117.malonedeb@soybean.canonical.com>
+Message-Id: <156438715697.11796.5957890622881397734.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: bdcf93f44b4917cad0acbc3f9526ed9b56dc0baa
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838228] Re: Slirp Broadcast traffic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,32 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1838228 <1838228@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Multifd sync will send MULTIFD_FLAG_SYNC flag info to destination, add
-these bytes to ram_counters record.
+slirp has been moved to a standalone project, can you report here:
+https://gitlab.freedesktop.org/slirp/libslirp/issues
 
-Signed-off-by: Ivan Ren <ivanren@tencent.com>
----
- migration/ram.c | 2 ++
- 1 file changed, 2 insertions(+)
+I don't have an answer off the top of my head, but I would suggest
+looking/tweaking at the network mask. And for the receive side,
+debugging from sorecvfrom().
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 88ddd2bbe2..20b6eebb7c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1085,6 +1085,8 @@ static void multifd_send_sync_main(RAMState *rs)
-         p->flags |= MULTIFD_FLAG_SYNC;
-         p->pending_job++;
-         qemu_file_update_transfer(rs->f, p->packet_len);
-+        ram_counters.multifd_bytes += p->packet_len;
-+        ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
-     }
--- 
-2.17.2 (Apple Git-113)
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838228
+
+Title:
+  Slirp Broadcast traffic
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi all,
+
+  Version: QEMU emulator version 3.1.0 (Debian 1:3.1+dfsg-7+build1)
+
+  I'm running some DHCP traffic to a *custom* DHCP server with user-mode
+  networking in QEMU. I'm using port 30067 for the server, so this does
+  not conflict with the built-in DHCP server.
+
+  DHCP broadcasts to and from the server, and I'm observing issues with
+  both sending and receiving packets.
+
+  Firstly, from the VM, a packet sent to IPv4 x.x.x.2:30067 (gateway)
+  makes it to the server, but a packet sent to 255.255.255.255 does not.
+  I'd suspect that Slirp has to support sending to the broadcast IP
+  address? Or is this something I can turn on with a configuration
+  option? (My QEMU version too old?)
+
+  Secondly, the source address in a DHCP IPv4 packet must be 0.0.0.0 (by
+  RFC). That means that any return packet will have 0.0.0.0 swapped in
+  as its destination address. However, that packet doesn't make it into
+  the VM at all. I know that if you deliver this packet to Linux, a raw
+  socket will spit it back out. The packets' destination address should
+  not prevent the packet from being delivered to the right VM, since
+  Slirp (should?) know exactly which VM the session belongs to. (It's a
+  proxy, not a router.)
+
+  WDYT? Did I miss some configuration options or use too old a version?
+
+  Thanks,
+  Chris
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838228/+subscriptions
 
