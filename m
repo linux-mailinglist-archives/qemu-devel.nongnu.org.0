@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B2378F0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:22:41 +0200 (CEST)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3F378F1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:24:11 +0200 (CEST)
+Received: from localhost ([::1]:53760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7U0-0007Z1-JD
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39957)
+	id 1hs7VS-0002VE-JA
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40696)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hs79H-0007df-Jf
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:16 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hs7C5-0004Ky-PH
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:04:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hs79G-0006kQ-Cq
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34762)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hs799-0006Xr-1M; Mon, 29 Jul 2019 11:01:07 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0D6EF30C1325;
- Mon, 29 Jul 2019 15:01:06 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A1735D9C3;
- Mon, 29 Jul 2019 15:01:04 +0000 (UTC)
-Message-ID: <a3b01bf8158a2c4759a527662982c58e5c2494d0.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Jul 2019 18:01:03 +0300
-In-Reply-To: <e8da41f1-8e8c-c9b2-b34f-545c6e2c2ce0@redhat.com>
-References: <20190722172616.28797-1-mreitz@redhat.com>
- <20190722172616.28797-3-mreitz@redhat.com>
- <CAFEAcA-JfzfR258pgNxEc=x7NqDncUrvQMtyCZ6FVm0PaZdv+A@mail.gmail.com>
- <e8da41f1-8e8c-c9b2-b34f-545c6e2c2ce0@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 29 Jul 2019 15:01:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 2/5] block/nvme: support larger that 512
- bytes sector devices
+ (envelope-from <stefanha@gmail.com>) id 1hs7C3-0000eY-Id
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:04:09 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55534)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hs7C0-0000bV-BQ
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:04:05 -0400
+Received: by mail-wm1-x344.google.com with SMTP id a15so54175434wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 08:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=wfhlxrJRaFp3hWxSE5Cb2xLcPJefE7XdQ7rh7BlSLXg=;
+ b=c1cej2NPrRKMUmpkbSILdT8ocBDcIgpKMyb98xHNA6Snwvoybx0EES1BMi/gu8pp7n
+ OwzqagVGX8m32G0s8CCpDaOdq/ZjFQaiYsYa6H5MSnVvKoj+PTx+RAFmOIfrkA1/+XQj
+ nifnlxSDwNNME5emb2EbYiS7zlanP2t2+teHld5YUbP0f9FTCvEVj4S6/GY49Hynx0VV
+ E7nDejPy5XZIURdqR61DfykHMWVuGV7189+0bG+R4tZo7/Bfy8SmWsnQgKYFtmmGlD0g
+ YNKyH75M4SBJFCmP9M410eBSAcoHmZ5apw4l1MQAAljt/HiytatfT48awDDEedQbBlkN
+ 16dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=wfhlxrJRaFp3hWxSE5Cb2xLcPJefE7XdQ7rh7BlSLXg=;
+ b=o19xAypxm1Gg7yRx6sNL4WTPvi5jJLjifKWcezwqIDhhNldWI62rG0TTxNUyPkNcHG
+ mmXMgbzXuW9pcQC4Hf/lvzdGBXIoH9CxDyP/LkIIrAPNWbJviFRl0eV8mLYElMSEyFbO
+ WXt+GRoulC+sqZqziS2VPt9bQwm1IeiG/fgbmUZ1rH/WEZtrPWLcnR9BBk1dDPbQ7Of8
+ z0XHqew2jA/CegJ4vptOl6jUlXOiGYxrUvn0YzmDvHtvrkW6L0TJWx0+HbGOp8Boi2Gx
+ lR1yN70U3YZZhALJ2EeHdVqJh4r5e4dagRDI5OBq1Qkjui5OdcSl/f9/lL92jK8U53d2
+ mieA==
+X-Gm-Message-State: APjAAAVQlSuzt6LPbZvDUlBAxDTDdMbV4HtjUjty3h/mPzHAwVoPEdCm
+ XS3voPjea8kRm+v/TDt03+Q=
+X-Google-Smtp-Source: APXvYqw+LwzhCTKkgzt978UWbR+B92nOu/kLkowD+1DL6fFR2xwOg3ppU/mnGGEHi9JnLRpBWecZ2Q==
+X-Received: by 2002:a1c:7d08:: with SMTP id y8mr82256119wmc.50.1564412643182; 
+ Mon, 29 Jul 2019 08:04:03 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id x6sm64158692wrt.63.2019.07.29.08.04.01
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 29 Jul 2019 08:04:01 -0700 (PDT)
+Date: Mon, 29 Jul 2019 16:04:00 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: P J P <ppandit@redhat.com>
+Message-ID: <20190729150400.GG6771@stefanha-x1.localdomain>
+References: <20190723104754.29324-1-ppandit@redhat.com>
+ <20190723104754.29324-4-ppandit@redhat.com>
+ <20190723130326.GC5445@stefanha-x1.localdomain>
+ <CAKXe6S+pXN0d6K9Vw=kxsy51bVz1PxXBHYEmTesUnYo8u8vcYg@mail.gmail.com>
+ <nycvar.YSQ.7.76.1907241116470.10049@xnncv>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NY6JkbSqL3W9mApi"
+Content-Disposition: inline
+In-Reply-To: <nycvar.YSQ.7.76.1907241116470.10049@xnncv>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v4 3/3] net: tap: replace snprintf with
+ g_strdup_printf calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,74 +83,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-07-29 at 15:25 +0200, Max Reitz wrote:
-> On 29.07.19 15:16, Peter Maydell wrote:
-> > On Mon, 22 Jul 2019 at 18:26, Max Reitz <mreitz@redhat.com> wrote:
-> > > 
-> > > From: Maxim Levitsky <mlevitsk@redhat.com>
-> > > 
-> > > Currently the driver hardcodes the sector size to 512,
-> > > and doesn't check the underlying device. Fix that.
-> > > 
-> > > Also fail if underlying nvme device is formatted with metadata
-> > > as this needs special support.
-> > > 
-> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > Message-id: 20190716163020.13383-3-mlevitsk@redhat.com
-> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> > > +static int64_t nvme_get_blocksize(BlockDriverState *bs)
-> > > +{
-> > > +    BDRVNVMeState *s = bs->opaque;
-> > > +    assert(s->blkshift >= BDRV_SECTOR_BITS);
-> > > +    return 1 << s->blkshift;
-> > > +}
-> > 
-> > Hi -- Coverity points out here that we calculate the
-> > "1 << s->blkshift" as a 32-bit shift, but then return an
-> > int64_t type (CID 1403771).
-> > 
-> > Can the blkshift ever really be 31 or more ?
-> > 
-> > The types here seem weird anyway -- we return an int64_t,
-> > but the only user of this is nvme_probe_blocksizes(),
-> > which uses the value only to set BlockSizes::phys and ::log,
-> > both of which are of type "uint32_t". That leads me to think
-> > that the right return type for the function is uint32_t.
-> > 
-> > PS: this is the only Coverity issue currently outstanding so
-> > if it's a trivial fix it might be nice to put it into rc3.
-> 
-> Maxim, what do you think?
 
-Fully agree with that.
+--NY6JkbSqL3W9mApi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> How about we let nvme_identify() limit blkshift to something sane and
-> then return a uint32_t here?
-> 
-> In theory it would be limited by page_size, and that has a maximum value
-> of 2^27.  In practice, though, that limit is checked by another 32-bit
-> shift...
+On Wed, Jul 24, 2019 at 11:18:09AM +0530, P J P wrote:
+> +-- On Tue, 23 Jul 2019, Li Qiang wrote --+
+> | Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2019=E5=B9=B47=E6=9C=8823=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:03=E5=86=99=E9=81=93=EF=BC=
+=9A
+> | > On Tue, Jul 23, 2019 at 04:17:54PM +0530, P J P wrote:
+> | > > -            snprintf(helper_cmd, sizeof(helper_cmd), "%s %s %s %s",
+> | > > -                     helper, "--use-vnet", fd_buf, br_buf);
+> | > > +            helper_cmd =3D g_strdup_printf("%s %s %s %s", helper,
+> | > > +                            "--use-vnet", fd_buf, br_buf ? br_buf =
+: "");
+> | >
+> | > The change to the br_buf argument isn't covered in the commit
+> | > description.  Why did you change this, was it a bug, etc?
+> |=20
+> | IIUC, if we pass the NULL argument in g_strdup_printf, the 'helper_cmd'=
+ will=20
+> | contain the '(null)' char.
+>=20
+> Yep, right.
 
-2^27 is the maximum NVME page size, but in theory, but only in theory,
-you can have blocks larger that a page size, you will just have to give the controller
-more that one page, even when you read a single block.
+This change isn't related to the topic of the patch.  It's a separate
+bug fix.
 
-But like I said in the other mail, Linux doesn't support at all block size > cpu page size which is almost always 4K,
-thus 12 is the practical limit for the block size these days, and of course both 27 and 31 is well above this.
+Please either document it in the commit description so it's clear the
+change is intentional, or send it as a separate patch.
 
-So I'll send a patch to fix this today or tomorrow.
+Stefan
 
-Best regards,
-	Maxim Levitsky
+--NY6JkbSqL3W9mApi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Max
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0/CuAACgkQnKSrs4Gr
+c8hB3QgAqqsQ5pexGzGm08DdDmGJ2iS2MI5pgBRilsMt/VJelxoD5bKr7eCrvGRp
+QmhN+62kIHxymaDCR63YHKAQwdTAPBpK1oDZUW/O6xRFwHTps4l0bAoBaltso3U6
+VCe4P9v78q1Su0MX8fwS6IDnEw+FSWRpdRjMAnrfrHkIrO8O6bUrq7epLkLy4cJQ
+6QCRyyMdEY6ZFuJ00S8/8YddS0+ePP9XV/r5AvlzhXhemzTqxN7bDO5fIZNLSth2
+2rEG7b6QFHvOn1rwZCh7bTUZ6EZzRW9zEyfPdWjzHf6+I+k8BVkFUAQF2FO/WQR0
+z/FJbsB7BUIzkDFT7gYidc+m/5ozzw==
+=tzbn
+-----END PGP SIGNATURE-----
 
+--NY6JkbSqL3W9mApi--
 
