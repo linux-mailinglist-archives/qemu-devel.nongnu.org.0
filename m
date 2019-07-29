@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C69278F06
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:21:14 +0200 (CEST)
-Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCE778F02
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:20:19 +0200 (CEST)
+Received: from localhost ([::1]:53548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Sb-00048y-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:21:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
+	id 1hs7Ri-0001XG-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs79G-0007ZR-BZ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:19 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs7IU-00011i-PP
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:10:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs79E-0006i4-EP
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:14 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49076)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs78x-0005a0-SV; Mon, 29 Jul 2019 11:00:56 -0400
-Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 63F0997069;
- Mon, 29 Jul 2019 14:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fki3DuRgk6JFE9a+j7+oWH+U0r34bgS+MNXGIekQZnU=;
- b=dLSGNwEpQa/20qyXIqWQDLdcESAX96U400gNwEvfr9wsyJaqlZ1ZFDYmyXCnomRQRkaJuX
- pVXUXsUeCJAysigd1Zp0xXi4EQ/RxGRA1VoD+coayzrqG9GP4INO3Py4NyuqorliAO3RQY
- XbJ321Te7+zsfFU8YdjTaUZ0zgo9aI4=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:53 +0200
-Message-Id: <20190729145654.14644-33-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
-References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ (envelope-from <bounces@canonical.com>) id 1hs7IT-000721-OW
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:10:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs7IT-000719-JY
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:10:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs7IS-0007hS-BJ
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4D7712E804A
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:10:44 +0000 (UTC)
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fki3DuRgk6JFE9a+j7+oWH+U0r34bgS+MNXGIekQZnU=;
- b=D3Ba5CNsHloxQE/7q2Fo6MTt+nJj9RM2dg4sE5BGFGVQ4quJWStDjweXmmpYueaNXYRmPP
- WZfiJ34rcbt1bxEDxidnnAf1pJJ7WHPdM6Q9Oita8ymDVlSf+R5C0eysA8ra7G4hhVeefb
- ph/qxeiId+jQ+W+dvuJPNsPJKDrPZyU=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412375; a=rsa-sha256; cv=none;
- b=T73fGYf+yfutNEO7kxdcE9AfaozDM7e+6TvG0gA00+Aa6/ONj7WYHbUZhIoFyBFWV6ueG1
- 9jZgB5qBJSSZBDRKT68BGnv4oS3f+mPYhlYOSodCU/FXkObcTKrcRypku/dqrarlzGm2HZ
- rUtQrp4q4sQU8zwI4DknmdWMvgvhicw=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-X-Spam: Yes
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 14:59:19 -0000
+From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+Message-Id: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 2f410a29d0ae32ab93c312b49874529035809667
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 32/33] Add uart reset support in zynq_slcr
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838277] [NEW] qemu-system-aarch64: regression:
+ msr vbar_el2, xN not working in EL2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,118 +65,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
- dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
- kraxel@redhat.com, edgar.iglesias@xilinx.com, hare@suse.com,
- qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
- thuth@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com,
- david@gibson.dropbear.id.au, Damien Hedde <damien.hedde@greensocs.com>,
- berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two gpio outputs to control the uart resets.
+Public bug reported:
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
- hw/misc/zynq_slcr.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+Affects 3.1.0 (latest stable release) and latest commit
+(893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+(qemu from bionic ubuntu LTS).
 
-diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-index 6fcdbce4f0..b6c9a281c2 100644
---- a/hw/misc/zynq_slcr.c
-+++ b/hw/misc/zynq_slcr.c
-@@ -97,6 +97,10 @@ REG32(SPI_RST_CTRL, 0x21c)
- REG32(CAN_RST_CTRL, 0x220)
- REG32(I2C_RST_CTRL, 0x224)
- REG32(UART_RST_CTRL, 0x228)
-+    FIELD(UART_RST_CTRL, UART0_CPU1X_RST, 0, 1)
-+    FIELD(UART_RST_CTRL, UART1_CPU1X_RST, 1, 1)
-+    FIELD(UART_RST_CTRL, UART0_REF_RST, 2, 1)
-+    FIELD(UART_RST_CTRL, UART1_REF_RST, 3, 1)
- REG32(GPIO_RST_CTRL, 0x22c)
- REG32(LQSPI_RST_CTRL, 0x230)
- REG32(SMC_RST_CTRL, 0x234)
-@@ -190,8 +194,14 @@ typedef struct ZynqSLCRState {
-     MemoryRegion iomem;
-=20
-     uint32_t regs[ZYNQ_SLCR_NUM_REGS];
-+
-+    qemu_irq uart0_rst;
-+    qemu_irq uart1_rst;
- } ZynqSLCRState;
-=20
-+#define ZYNQ_SLCR_REGFIELD_TO_OUT(state, irq, reg, field) \
-+    qemu_set_irq((state)->irq, ARRAY_FIELD_EX32((state)->regs, reg, fiel=
-d) !=3D 0)
-+
- static void zynq_slcr_reset_init(Object *obj)
- {
-     ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-@@ -293,6 +303,24 @@ static void zynq_slcr_reset_init(Object *obj)
-     s->regs[R_DDRIOB + 12] =3D 0x00000021;
- }
-=20
-+static void zynq_slcr_compute_uart_reset(ZynqSLCRState *s)
-+{
-+    ZYNQ_SLCR_REGFIELD_TO_OUT(s, uart0_rst, UART_RST_CTRL, UART0_REF_RST=
-);
-+    ZYNQ_SLCR_REGFIELD_TO_OUT(s, uart1_rst, UART_RST_CTRL, UART1_REF_RST=
-);
-+}
-+
-+static void zynq_slcr_reset_hold(Object *obj)
-+{
-+    ZynqSLCRState *s =3D ZYNQ_SLCR(obj);
-+    ZynqSLCRClass *zc =3D ZYNQ_SLCR_GET_CLASS(obj);
-+
-+    if (zc->parent_reset_phases.hold) {
-+        zc->parent_reset_phases.hold(obj);
-+    }
-+
-+    zynq_slcr_compute_uart_reset(s);
-+}
-+
- static bool zynq_slcr_check_offset(hwaddr offset, bool rnw)
- {
-     switch (offset) {
-@@ -432,6 +460,9 @@ static void zynq_slcr_write(void *opaque, hwaddr offs=
-et,
-             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-         }
-         break;
-+    case R_UART_RST_CTRL:
-+        zynq_slcr_compute_uart_reset(s);
-+        break;
-     }
- }
-=20
-@@ -448,6 +479,9 @@ static void zynq_slcr_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &slcr_ops, s, "slcr",
-                           ZYNQ_SLCR_MMIO_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
-+
-+    qdev_init_gpio_out_named(DEVICE(obj), &s->uart0_rst, "uart0_rst", 1)=
-;
-+    qdev_init_gpio_out_named(DEVICE(obj), &s->uart1_rst, "uart1_rst", 1)=
-;
- }
-=20
- static const VMStateDescription vmstate_zynq_slcr =3D {
-@@ -470,7 +504,7 @@ static void zynq_slcr_class_init(ObjectClass *klass, =
-void *data)
-=20
-     resettable_class_set_parent_reset_phases(rc,
-                                              zynq_slcr_reset_init,
--                                             NULL,
-+                                             zynq_slcr_reset_hold,
-                                              NULL,
-                                              &zc->parent_reset_phases);
- }
---=20
-2.22.0
+With the following code and shell commands:
 
+test.s:
+
+.text
+mov x0, #0x60000000
+msr vbar_el2, x0
+dsb sy
+isb sy
+
+$ aarch64-none-elf-as test.s -o test.o
+$ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+$ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu cor=
+tex-a57 -kernel test.bin -s -S
+
+vbar_el2 is still 0 after the code, instead of being the expected
+0x60000000. (see screenshot).
+
+This regression doesn't seem to happen for vbar_el1 &
+virtualization=3Doff.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "gdb screenshot"
+   https://bugs.launchpad.net/bugs/1838277/+attachment/5279820/+files/vbar.=
+png
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838277
+
+Title:
+  qemu-system-aarch64: regression: msr vbar_el2, xN not working in EL2
+
+Status in QEMU:
+  New
+
+Bug description:
+  Affects 3.1.0 (latest stable release) and latest commit
+  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+  (qemu from bionic ubuntu LTS).
+
+  With the following code and shell commands:
+
+  test.s:
+
+  .text
+  mov x0, #0x60000000
+  msr vbar_el2, x0
+  dsb sy
+  isb sy
+
+  $ aarch64-none-elf-as test.s -o test.o
+  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
+ortex-a57 -kernel test.bin -s -S
+
+  vbar_el2 is still 0 after the code, instead of being the expected
+  0x60000000. (see screenshot).
+
+  This regression doesn't seem to happen for vbar_el1 &
+  virtualization=3Doff.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
 
