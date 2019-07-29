@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AD578EB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:06:25 +0200 (CEST)
-Received: from localhost ([::1]:53052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA878EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:09:37 +0200 (CEST)
+Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7EG-0007ln-K0
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38609)
+	id 1hs7HM-0005BJ-PL
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38805)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs78A-0005Vy-QG
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:07 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs78G-0005lB-MI
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs789-0005aQ-MZ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:06 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49050)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs78B-0005cx-PV
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:12 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:49054)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs784-0005RB-Fp; Mon, 29 Jul 2019 11:00:00 -0400
+ id 1hs785-0005S3-Il; Mon, 29 Jul 2019 11:00:01 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 4D14496F8E;
- Mon, 29 Jul 2019 14:59:14 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 7CC6A96F98;
+ Mon, 29 Jul 2019 14:59:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412355;
+ s=mail; t=1564412359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1IcmTa6ZKW/z4Jx3NrXrLMXyWQItUUT4uM9Fbt082nk=;
- b=kGJsb5r2TQPh4AeCIdCB5Qzktp39BcQt2H0Gt7oOG4ke7McCWnh86aPOKqQsOAE9SBfRCV
- dTmeVoHGkSrmJXcOlCs6BYdv9rW/+ALcn45k6JSk/3zG8bBCFh1MMYsQeDCE0AdCqwPVha
- GdH0oQl+in0CAQHFqYPPbuaWUemw6Hc=
+ bh=MabvMRXMXvglNHuMuwjz05sk4mSZqL5kEppHHuUwOes=;
+ b=RbEw7tAydVp6/nppEq6nCc6ol8nkZTCHV19A4QJmuGWul57V30AGOyO/52vuGMABdYRQMC
+ 7iK91DSQatfT+pjryv5+tM2e///hsymOb2yA8aPDXXTezQlHRp0HnGfX0MBoLzIdwo1me2
+ zaIXpoY5jwGJDYHE5wzY+VyM0SvCo9s=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:39 +0200
-Message-Id: <20190729145654.14644-19-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:42 +0200
+Message-Id: <20190729145654.14644-22-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412355;
+ s=mail; t=1564412359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1IcmTa6ZKW/z4Jx3NrXrLMXyWQItUUT4uM9Fbt082nk=;
- b=Z24LGGv2BLyH75b14UHx+FfmhKjVUmmitwbZ9Zu8nb9PlgFrSfOMaEb7RKnvA5dZhXDOlI
- uaeppMxaN/NV+V5Jmb0xF5O17tDIBjMGC9UeABlarXR2Cw5QfbRLD2ysOWKKqLn9/OvR7v
- OUDd+lmNAld1cuochbH/YrsGYgIArqQ=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412355; a=rsa-sha256; cv=none;
- b=6jwmvBOPhgmR+MptX9yyEXkwvsonDOItuhfibT+jtnmm0MgPHyPjuAvdZFgJq83IAN/xyb
- f69FL/4u9AYd0vPIxMZqgvuQCtpDpgwsQAUU6dxeHcYxu913ficLneapQqL3IRdkcVj2al
- UAAdJBK92dHKTmqS9PiLTXdRebxH91k=
+ bh=MabvMRXMXvglNHuMuwjz05sk4mSZqL5kEppHHuUwOes=;
+ b=xsE9+Q0d0dyv+xkvkMqr06WnTZSFzaN1kShGpwHQkCFv50Dep2t1+OIUlchuzljU+I5+al
+ lEbBf8W1F24hHA9JAHUW6uB3vJN5DNdh9c5RZlw1FzbD+IcieKABEnBYmvaLzsJL4KEs8w
+ n5WA7c127R07w54EvtPKX2G7O5uW5lU=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412359; a=rsa-sha256; cv=none;
+ b=UQkGwFSDvFflTpIyjFSfQZEwGWqTWkZbJZ7+kXz5OS77XN3Tb7/JaXJq4M5+DWbOmBUSsq
+ 8WCbS234CmUQDcHuTZIRHapaU+Sq+l+nk0tbTaL8d0CfQBgLTGk+BS/JtheJefMqZyp6hf
+ cDhiqXvBAFJPKoLgWLKWe7cfPUcgbgU=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -62,7 +62,7 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 18/33] hw/audio/intel-hda.c: remove
+Subject: [Qemu-devel] [PATCH v3 21/33] hw/intc/spapr_xive.c: remove
  device_legacy_reset call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,26 +92,26 @@ Replace legacy's reset call by device_reset_warm.
 
 The new function propagates also the reset to the sub-buses tree but this=
  has
-no impact since since HDACodecDevice has no child bus.
+no impact since SpaprXive has no child bus.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/audio/intel-hda.c | 2 +-
+ hw/intc/spapr_xive.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index f133684b10..523bb3e2ca 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -1086,7 +1086,7 @@ static void intel_hda_reset(DeviceState *dev)
-     QTAILQ_FOREACH(kid, &d->codecs.qbus.children, sibling) {
-         DeviceState *qdev =3D kid->child;
-         cdev =3D HDA_CODEC_DEVICE(qdev);
--        device_legacy_reset(DEVICE(cdev));
-+        device_reset_warm(DEVICE(cdev));
-         d->state_sts |=3D (1 << cdev->cad);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 22e11ad10c..fbd7ddb06e 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -1511,7 +1511,7 @@ static target_ulong h_int_reset(PowerPCCPU *cpu,
+         return H_PARAMETER;
      }
-     intel_hda_update_irq(d);
+=20
+-    device_legacy_reset(DEVICE(xive));
++    device_reset_warm(DEVICE(xive));
+=20
+     if (kvm_irqchip_in_kernel()) {
+         Error *local_err =3D NULL;
 --=20
 2.22.0
 
