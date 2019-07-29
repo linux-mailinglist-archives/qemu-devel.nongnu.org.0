@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC9678C7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:14:59 +0200 (CEST)
-Received: from localhost ([::1]:52086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1A178C78
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:14:32 +0200 (CEST)
+Received: from localhost ([::1]:52072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs5UQ-0001PT-Pn
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
+	id 1hs5Tz-0008UI-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qs-0003RG-AZ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:19 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qu-0003Wu-8Y
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qr-0003Qd-Cc
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:18 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:49889 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hs5Qt-0003VF-8O
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:20 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:50065 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hs5Qr-0001Y1-6K
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:17 -0400
+ id 1hs5Qt-0001cC-1z
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:11:19 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 557E51A2199;
- Mon, 29 Jul 2019 15:10:14 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id 611321A21BB;
+ Mon, 29 Jul 2019 15:10:16 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 3CA981A20A2;
- Mon, 29 Jul 2019 15:10:14 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 4891F1A20A2;
+ Mon, 29 Jul 2019 15:10:16 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 15:09:47 +0200
-Message-Id: <1564405791-9147-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Mon, 29 Jul 2019 15:09:48 +0200
+Message-Id: <1564405791-9147-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564405791-9147-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1564405791-9147-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.1 v2 3/7] linux-user: Add support for
- FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT ioctls
+Subject: [Qemu-devel] [PATCH for 4.1 v2 4/7] linux-user: Add support for
+ FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,45 +57,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT ioctls are misc commands
-for controlling a floppy drive.
+FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls provide means for controlling
+formatting of a floppy drive.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/ioctls.h       | 4 ++++
- linux-user/syscall_defs.h | 4 ++++
- 2 files changed, 8 insertions(+)
+ linux-user/ioctls.h        | 3 +++
+ linux-user/syscall_defs.h  | 3 +++
+ linux-user/syscall_types.h | 5 +++++
+ 3 files changed, 11 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 9978163..ab4ef2e 100644
+index ab4ef2e..e393ad6 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -115,6 +115,10 @@
+@@ -114,6 +114,9 @@
+ 
       IOCTL(FDMSGON, 0, TYPE_NULL)
       IOCTL(FDMSGOFF, 0, TYPE_NULL)
++     IOCTL(FDFMTBEG, 0, TYPE_NULL)
++     IOCTL(FDFMTTRK, IOC_W, MK_PTR(MK_STRUCT(STRUCT_format_descr)))
++     IOCTL(FDFMTEND, 0, TYPE_NULL)
       IOCTL(FDFLUSH, 0, TYPE_NULL)
-+     IOCTL(FDRESET, 0, TYPE_NULL)
-+     IOCTL(FDRAWCMD, 0, TYPE_NULL)
-+     IOCTL(FDTWADDLE, 0, TYPE_NULL)
-+     IOCTL(FDEJECT, 0, TYPE_NULL)
- 
- #ifdef FIBMAP
-      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
+      IOCTL(FDRESET, 0, TYPE_NULL)
+      IOCTL(FDRAWCMD, 0, TYPE_NULL)
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index cd97e9b..4185391 100644
+index 4185391..1ca115d 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -888,6 +888,10 @@ struct target_pollfd {
+@@ -887,6 +887,9 @@ struct target_pollfd {
+ 
  #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
  #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
++#define TARGET_FDFMTBEG       TARGET_IO(2, 0x47)
++#define TARGET_FDFMTTRK      TARGET_IOW(2, 0x48, struct target_format_descr)
++#define TARGET_FDFMTEND       TARGET_IO(2, 0x49)
  #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
-+#define TARGET_FDRESET        TARGET_IO(2, 0x54)
-+#define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
-+#define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
-+#define TARGET_FDEJECT        TARGET_IO(2, 0x5a)
+ #define TARGET_FDRESET        TARGET_IO(2, 0x54)
+ #define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 4e36983..d82d1a5 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -261,6 +261,11 @@ STRUCT(blkpg_ioctl_arg,
+        TYPE_INT, /* datalen */
+        TYPE_PTRVOID) /* data */
  
- #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
- #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
++STRUCT(format_descr,
++       TYPE_INT,     /* device */
++       TYPE_INT,     /* head */
++       TYPE_INT)     /* track */
++
+ #if defined(CONFIG_USBFS)
+ /* usb device ioctls */
+ STRUCT(usbdevfs_ctrltransfer,
 -- 
 2.7.4
 
