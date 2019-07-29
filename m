@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D7078EDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:14:50 +0200 (CEST)
-Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98EC78EFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:19:38 +0200 (CEST)
+Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7MP-0008UV-8s
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39267)
+	id 1hs7R3-0000Ff-JM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43561)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hs78r-0006xa-6Y
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:50 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7PM-0006pe-P5
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hs78o-0006EF-Vp
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:48 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33710)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7PL-0007AD-SJ
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:52 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42326)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1hs78o-0006Cn-7M; Mon, 29 Jul 2019 11:00:46 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n9so62323723wru.0;
- Mon, 29 Jul 2019 08:00:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
+ id 1hs7PL-00079p-Lk; Mon, 29 Jul 2019 11:17:51 -0400
+Received: by mail-pg1-x544.google.com with SMTP id t132so28415138pgb.9;
+ Mon, 29 Jul 2019 08:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=EvGNx+Kn3j22mBnD961uLdesgAsnX9V9qF5f4y0JXAk=;
- b=EfjmWj2el3tkQhY49K2n7qYNNgdsfguH1ifg9deCMCWl99STnMa3uulGEV182xBF2B
- 0iEqya+ZdE7eYyx+Rf5udJkDM3d1ryCXBDZqLk86vWwBKxh7DnQBeUAF37ZuuJLErNDJ
- 6LKjBmMfZIbdYydbd/3PnwLPPar0U1IH4VpdTsSNmL9W8/+/qFSws9I0W9cQf0pxgIps
- SRYVAcyCxmIO8H+j/VEQUSW6qQWnAf19Dz5pVghoz9N81VfReSJcnhPsfUAVL+12gU/P
- SY9IADzKyMMqeO5eoGV2T9ib5byC7huFWVZ1TXuKkG9Orv/bWxzEldbPope4RCD33zQA
- K08Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2qHkahVEkN1zu8CSs6/qp7V0fV616Ybkp0QDQj4tHxQ=;
+ b=WCxLK1lkWaRPKpbvSdxkBLv1HcNsF3ywlDY+z/zCCq/BOmwKYJ3jwYFFZInEvRg1cV
+ fJPvE+4rPvS/JyTVH89DtxX7dJtnD49ceY9+IX7vMO23T86PGhiJyHIIDa4bXI3/deJ/
+ qaNW5SpsuFS/+QSosm2ecl726wjLpkcxkX3HlZpxeGzMmnTJjyU601MzxSduQWgC9xQo
+ R6/jjcQwiO7OXQhPPoxfqMMAJUG4U28VrBJHMH0NDl/cZUSESF/Mk2KYfcgKsuThHEcy
+ v4nGEZEVZZsfDemWhEOguimIJ/WHx4lJ3b+iUJ0zekvFFYaju9Tj4EMllGUw0adYpXSR
+ ZEBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EvGNx+Kn3j22mBnD961uLdesgAsnX9V9qF5f4y0JXAk=;
- b=RvSx8oSjKW9DYpX5tz+a0y97ljYgYh4CETzUgO/rrLku71Yuz8W99x0yYHEKiN/qE1
- 6bnNnzBATa3QkBJta9nAwNjKF3E02ctJH1K+KkyisvkGymUDbejAsX/ZCA0zKiCj37ZO
- zrkj0S+En2ONg0K2T4QJNs4yf8uM3gplUDrwAgHTXB4BpYnp8nOO1Y1t9HG7mzAmYTi0
- 2GaMOfE/+C5GuRU0fppNyxvC41Sv2nMTJxNv86x9H3+sJ6LNO7lXtefhAL9iizSkJgV2
- X/TFF5ekFQot1zTCgl1ZIUr4PMgBp1GpZ2K1JmqaxCszSAOJsdimrFVjVVL5nzPB/Iwd
- AuGA==
-X-Gm-Message-State: APjAAAWDYzsHyqR2Omr1nScypR+tev1MOzGcmVDagXU05AhpKsnOkJ/x
- wgspyDXhsVpTTjWK6clzSA8=
-X-Google-Smtp-Source: APXvYqy2N2JqJM971redH8YBz1aVzaUt3bKb9FUYCmc08Im/9gX+ZXeX5j/jlAsZw1e+7WfTYKA/ww==
-X-Received: by 2002:adf:e8c2:: with SMTP id k2mr30751971wrn.198.1564412444196; 
- Mon, 29 Jul 2019 08:00:44 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id z1sm68458209wrv.90.2019.07.29.08.00.42
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2qHkahVEkN1zu8CSs6/qp7V0fV616Ybkp0QDQj4tHxQ=;
+ b=UFWsnJlw8UrN7eaQxlVAQajRmrQNeCPovZOqveYlS07SQDnxcdTZ69R95tAkCfirkB
+ EveYUQzZgsrY1el+q8t4QlmnOoFc3MhYem6jLqInj4mRAnD6oxNxOEO0hZJW3T/PLCF1
+ 6ksuCO9Gqb64+Myfqc+q4PllT7LXSr0qfJlnUaFyQ1SrlKLd0A2UYnS8KMfpjuA0Yki0
+ Z7YHKlItyc5t2c/EhmHf3ktnGEWunnDIdVMmhv/J8JNQZ4+Gp1lSGYI0lbp0ZzaV/3xl
+ wGV48H7equgwBsP9ie3GEcX08V3TqkOw//bjW+bL5zXWjTq5tbVQXIBAeHcxc+xV1laS
+ 7WuQ==
+X-Gm-Message-State: APjAAAU+Qw6NfTfdf3ZPxAxlQIw3KJpBhXXJyuw1xkYMWrA0qhj5kl1T
+ Q6uOwC4hiPfNQdWzUC5JtO2Cln/RGsgVkQ==
+X-Google-Smtp-Source: APXvYqwy0340v6Bhv9d0IE0r+GKW65wsAumSUsrydFW191dJjTVErfvTWN4hJ84VGjHcfAntsrF7DQ==
+X-Received: by 2002:aa7:8007:: with SMTP id j7mr36857767pfi.154.1564413470389; 
+ Mon, 29 Jul 2019 08:17:50 -0700 (PDT)
+Received: from localhost.localdomain ([136.233.9.97])
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.17.43
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:00:43 -0700 (PDT)
-Date: Mon, 29 Jul 2019 16:00:41 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20190729150041.GF6771@stefanha-x1.localdomain>
-References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
+ Mon, 29 Jul 2019 08:17:49 -0700 (PDT)
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Jul 2019 20:46:39 +0530
+Message-Id: <20190729151651.21306-4-mehta.aaru20@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
+References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="twz1s1Hj1O0rHoT0"
-Content-Disposition: inline
-In-Reply-To: <20190725100550.33801-1-vsementsov@virtuozzo.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v3 for-4.2 0/3] block:
- BDRV_REQ_PREFETCH
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 03/15] block/block: add BDRV flag for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,67 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Maxim Levitsky <maximlevitsky@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---twz1s1Hj1O0rHoT0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 25, 2019 at 01:05:47PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> Hi all!
->=20
-> Here is small new read flag: BDRV_REQ_PREFETCH, which in combination with
-> BDRV_REQ_COPY_ON_READ does copy-on-read without
-> extra buffer for read data. This means that only parts that needs COR
-> will be actually read and only corresponding buffers allocated, no more.
->=20
-> This allows to improve a bit block-stream and NBD_CMD_CACHE
->=20
-> v3: rebase 02 on master, fix commit message of 03.
->=20
-> v2: change interface to be just one flag BDRV_REQ_PREFETCH
->=20
-> v1 was "[PATCH 0/3] block: blk_co_pcache"
->    https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01047.html
->=20
-> Vladimir Sementsov-Ogievskiy (3):
->   block: implement BDRV_REQ_PREFETCH
->   block/stream: use BDRV_REQ_PREFETCH
->   nbd: improve CMD_CACHE: use BDRV_REQ_PREFETCH
->=20
->  include/block/block.h |  8 +++++++-
->  block/io.c            | 18 ++++++++++++------
->  block/stream.c        | 20 +++++++-------------
->  nbd/server.c          | 43 +++++++++++++++++++++++++++++++++++--------
->  4 files changed, 61 insertions(+), 28 deletions(-)
->=20
-> --=20
-> 2.18.0
->=20
->=20
-
+Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
+---
+ include/block/block.h | 1 +
+ 1 file changed, 1 insertion(+)
 
---twz1s1Hj1O0rHoT0
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/include/block/block.h b/include/block/block.h
+index 50a07c1c33..e29baa172c 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -121,6 +121,7 @@ typedef struct HDGeometry {
+                                       ignoring the format layer */
+ #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
+ #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening read-write fails */
++#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
+ 
+ #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
+ 
+-- 
+2.21.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0/ChkACgkQnKSrs4Gr
-c8huZAf8DYrt0xQ7OoO8i3iPV99FIod6laCocfMfgP6ifYYyi/48BywpkliHySzC
-g0Vtg1DpJrTCeM4za5gDFZBEbB3oVmoidrgLNVENUI/pu0DWE7KsGtESh9I0nNoH
-bYj771OapJB1SUl+h8JPjnRcBjPEjeOlSqSY6t+5t+I3KlkmUu1w5iZCoCt/qk5Q
-iKaSrZS/VtuqhE5BOLZbWiToIEWyJxxbrdEBoa0Ki6DJBPOHoGxx4VJYk38VeX5j
-0QxcVA/Wcb4JKiGnUc7Cs2+y7IrVnZoRbRyfh2YEgWr0UJY4eOF6Rde9rK7E4n5d
-tqh81BDzr85lx3Z8YJoYEdcvy4RMdw==
-=vXhs
------END PGP SIGNATURE-----
-
---twz1s1Hj1O0rHoT0--
 
