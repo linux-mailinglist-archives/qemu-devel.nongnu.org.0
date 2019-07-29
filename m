@@ -2,62 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46EF78F6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:35:39 +0200 (CEST)
-Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130B478F5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:33:16 +0200 (CEST)
+Received: from localhost ([::1]:54080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7gY-0006nk-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:35:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47391)
+	id 1hs7eF-0002hP-Ad
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:33:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45314)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hs7bj-0007KZ-Uk
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:41 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hs7VT-0003Vm-1V
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:24:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hs7bi-0005pW-Ti
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35456)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hs7bi-0005ox-ON
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hs7bh-0001uI-BV
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:30:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4BD232E80C7
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:30:37 +0000 (UTC)
+ (envelope-from <stefanha@redhat.com>) id 1hs7VR-00061f-U8
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:24:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49296)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>)
+ id 1hs7VP-0005xE-Jb; Mon, 29 Jul 2019 11:24:07 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 663EC58E23;
+ Mon, 29 Jul 2019 15:24:06 +0000 (UTC)
+Received: from localhost (ovpn-117-148.ams2.redhat.com [10.36.117.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 391A719C59;
+ Mon, 29 Jul 2019 15:24:02 +0000 (UTC)
+Date: Mon, 29 Jul 2019 16:24:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190729152400.GB21033@stefanha-x1.localdomain>
+References: <20190604161514.262241-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Jul 2019 15:23:53 -0000
-From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: elouan-appere
-X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
- =?utf-8?q?e=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
- =?utf-8?q?e=29?=
-References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
-Message-Id: <156441383340.10274.11763799810880630893.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: c89ebccfc6bb965f15183be8d63f758e50f2575c
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
+Content-Disposition: inline
+In-Reply-To: <20190604161514.262241-1-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Mon, 29 Jul 2019 15:24:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: msr
- vbar_el2, xN not working in EL2
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 00/12] block: qiov_offset parameter for
+ io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,53 +58,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Err, my bad. The following code does seem to work fine (somehow?), but
-the bug in my code is currently being caused by a JIT failure in mov sp,
-x8 (aligned value), causing a crash (with the same version
-considerations).
 
--- =
+--DBIVS5p969aUjpLe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838277
+On Tue, Jun 04, 2019 at 07:15:02PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Hi all!
+>=20
+> Here is new parameter qiov_offset for io path, to avoid
+> a lot of places with same pattern of creating local_qiov or hd_qiov
+> variables.
+>=20
+> These series also includes my
+> "[Qemu-devel] [PATCH 0/2] block/io: refactor padding"
+> with some changes [described in 01 and 03 emails]
+>=20
+> Vladimir Sementsov-Ogievskiy (12):
+>   util/iov: introduce qemu_iovec_init_extended
+>   util/iov: improve qemu_iovec_is_zero
+>   block/io: refactor padding
+>   block: define .*_part io handlers in BlockDriver
+>   block/io: bdrv_co_do_copy_on_readv: use and support qiov_offset
+>   block/io: bdrv_co_do_copy_on_readv: lazy allocation
+>   block/io: bdrv_aligned_preadv: use and support qiov_offset
+>   block/io: bdrv_aligned_pwritev: use and support qiov_offset
+>   block/io: introduce bdrv_co_p{read,write}v_part
+>   block/qcow2: refactor qcow2_co_preadv to use buffer-based io
+>   block/qcow2: implement .bdrv_co_preadv_part
+>   block/qcow2: implement .bdrv_co_pwritev(_compressed)_part
+>=20
+>  block/qcow2.h             |   1 +
+>  include/block/block_int.h |  21 ++
+>  include/qemu/iov.h        |  10 +-
+>  block/backup.c            |   2 +-
+>  block/io.c                | 532 ++++++++++++++++++++++----------------
+>  block/qcow2-cluster.c     |  14 +-
+>  block/qcow2.c             | 131 +++++-----
+>  qemu-img.c                |   4 +-
+>  util/iov.c                | 153 +++++++++--
+>  9 files changed, 559 insertions(+), 309 deletions(-)
+>=20
+> --=20
+> 2.18.0
 
-Title:
-  qemu-system-aarch64: regression: msr vbar_el2, xN not working in EL2
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
-Status in QEMU:
-  New
+Stefan
 
-Bug description:
-  Affects 3.1.0 (latest stable release) and latest commit
-  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
-  (qemu from bionic ubuntu LTS).
+--DBIVS5p969aUjpLe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  With the following code and shell commands:
+-----BEGIN PGP SIGNATURE-----
 
-  test.s:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0/D5AACgkQnKSrs4Gr
+c8gH6Qf+Odh7j1xA5FrRVYnfiLCNjhUcqva39NsGDWQfWQWU5J1OrOvzqzCrxsny
+UOgMLm9ON1laNZ+/dHHO+BxGxDPYgMQg25ZsJPhB6xma+WhWhVgn0sVOVDT/eaXu
+A2SSeXcyvyRHAuS+u1o3mTV3VYsoDWmnyKq8YOA0dvvz+49srQcM6G3fLnCjV99x
+Im7paLhiouIzyKf2LVh6cutjH+zD3qUGba3wZAwF6JNVQ1iHmPpyQYk7EiklOP8i
+5H2c6quzVp+Wfspo1C+vf97MmM/4fRsgSSOUlZdB9UqcPZhlIFDhiTp6FGftYLra
+dkRXCCUB8rK9apCCcrkmZMad+vpGbA==
+=4KuQ
+-----END PGP SIGNATURE-----
 
-  .text
-  mov x0, #0x60000000
-  msr vbar_el2, x0
-  dsb sy
-  isb sy
-
-  $ aarch64-none-elf-as test.s -o test.o
-  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
-  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
-ortex-a57 -kernel test.bin -s -S
-
-  vbar_el2 is still 0 after the code, instead of being the expected
-  0x60000000. (see screenshot).
-
-  This regression doesn't seem to happen for vbar_el1 &
-  virtualization=3Doff.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
+--DBIVS5p969aUjpLe--
 
