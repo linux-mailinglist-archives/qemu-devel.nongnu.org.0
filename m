@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5BD79117
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:36:58 +0200 (CEST)
-Received: from localhost ([::1]:55080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3227915B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:47:33 +0200 (CEST)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs8dt-0002Ff-9h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
+	id 1hs8o9-00084X-1H
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33743)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hs8cn-0001Ph-Sx
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs8mG-0007II-HD
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:45:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hs8cm-0002xB-Uy
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47326)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hs8cm-0002wm-OR
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AC644E82F
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:35:47 +0000 (UTC)
-Received: from work-vm (ovpn-117-222.ams2.redhat.com [10.36.117.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D57119C58;
- Mon, 29 Jul 2019 16:35:44 +0000 (UTC)
-Date: Mon, 29 Jul 2019 17:35:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20190729163541.GJ2756@work-vm>
-References: <20190729162903.4489-1-dgilbert@redhat.com>
- <20190729183232.22bcbb26.cohuck@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hs8mF-0000Wm-1v
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:45:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35268)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs8mE-0000WU-Sb
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:45:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs8mD-0006pZ-ND
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:45:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A20312E80C9
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:45:33 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190729183232.22bcbb26.cohuck@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 29 Jul 2019 16:35:47 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 16:36:42 -0000
+From: Hans Peter <1838312@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=virt-manager;
+ component=universe; status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: green-world78
+X-Launchpad-Bug-Reporter: Hans Peter (green-world78)
+X-Launchpad-Bug-Modifier: Hans Peter (green-world78)
+References: <156441781649.17826.2889969380137011138.malonedeb@gac.canonical.com>
+Message-Id: <156441820261.10930.5778161335094382184.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: a1f051db1c0daae54899ccb083d6db245dc412c8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [For 4.1 PATCH v2 0/2] Reversions to fix PCIe in
- virtio
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838312] Re: Qemu virt-manager Segmentation fault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,52 +66,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Reply-To: Bug 1838312 <1838312@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Cornelia Huck (cohuck@redhat.com) wrote:
-> On Mon, 29 Jul 2019 17:29:01 +0100
-> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> 
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Revert a couple of patches that break PCIe capabilities in virtio
-> > devices. The 'optional' revert is just reverted to make the main
-> > reversion trivial.
-> 
-> Don't want to spoil the party here; but wasn't the optional stuff
-> removed because it was deemed to be a bad idea?
+syslog:
 
-I'm perfectly happy to go either way with this; it maybe a bad idea
-but it's harmless I think.
+kernel: [ 2003.888116] virt-manager[16014]: segfault at 32d0 ip
+00000000000032d0 sp 00007ffeb09ac658 error 14 in python3.7[400000+21000]
 
-Dave
+kernel: [ 2003.888124] Code: Bad RIP value.
 
-> > 
-> > Symptom:
-> >   Loss of PCIe capabilities in virtio devices hung off PCIe bridges
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > 
-> > Dr. David Alan Gilbert (2):
-> >   Revert "Revert "globals: Allow global properties to be optional""
-> >   Revert "hw: report invalid disable-legacy|modern usage for
-> >     virtio-1-only devs"
-> > 
-> >  hw/core/machine.c             | 23 +++--------------------
-> >  hw/display/virtio-gpu-pci.c   |  4 +---
-> >  hw/display/virtio-vga.c       |  4 +---
-> >  hw/virtio/virtio-crypto-pci.c |  4 +---
-> >  hw/virtio/virtio-input-pci.c  |  4 +---
-> >  hw/virtio/virtio-pci.c        | 26 ++++++++++----------------
-> >  hw/virtio/virtio-pci.h        | 31 ++++++-------------------------
-> >  include/hw/qdev-core.h        |  3 +++
-> >  qom/object.c                  |  3 +++
-> >  9 files changed, 29 insertions(+), 73 deletions(-)
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838312
+
+Title:
+  Qemu virt-manager Segmentation fault
+
+Status in QEMU:
+  Invalid
+Status in virt-manager package in Ubuntu:
+  New
+
+Bug description:
+  Hi!
+
+  I installed all these packages:
+
+  sudo apt install qemu
+  sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluet=
+ooth3
+  sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvi=
+rglrenderer0 libxen-4.9 libxenstore3.0
+  sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libi=
+scsi7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
+  sudo apt install qemu-block-extra qemu-system-common qemu-system-data qem=
+u-system-gui qemu-utils
+  sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
+  sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo=
+-1.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientg=
+tk-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 lib=
+gvnc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-cl=
+ient-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients =
+libvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libv=
+irt-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-cli=
+ent-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
+
+  without the i386 packages for Qemu because I want only 64 bit.
+
+  I installed all these packages without error, but when I run
+
+  # virt-manager
+
+  Output: ...shows me:
+
+  Segmentation fault
+
+  =
+
+  My hardware is 100% ok.
+  Maybee a broken lib?
+
+
+  How can I fix that?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838312/+subscriptions
 
