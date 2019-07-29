@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77C478F41
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:30:12 +0200 (CEST)
-Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF62F78F63
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:33:51 +0200 (CEST)
+Received: from localhost ([::1]:54096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7bI-0005VE-1V
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:30:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44159)
+	id 1hs7ep-00049N-7t
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44223)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Qf-0000Sd-BK
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:14 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Qn-0000mq-7V
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Qe-000298-2C
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:13 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38384)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Ql-0002Zq-Cz
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:21 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7Qd-00026N-RX; Mon, 29 Jul 2019 11:19:11 -0400
-Received: by mail-pg1-x541.google.com with SMTP id f5so19605898pgu.5;
- Mon, 29 Jul 2019 08:19:11 -0700 (PDT)
+ id 1hs7Ql-0002X9-54; Mon, 29 Jul 2019 11:19:19 -0400
+Received: by mail-pf1-x444.google.com with SMTP id b13so28204636pfo.1;
+ Mon, 29 Jul 2019 08:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gOorbCfkOfD5hZ9Ne/IGI2m869VvMpyg8Fi+6sPnwi8=;
- b=F1G6OjQEueVHGDuOxyiPHc/6rCXIpTHvBUxDKg/GCcSs7LIom8AHRKoVzpeGTt0kl1
- AHwgGNguLmZQbE/2H+3CvRrKuWgippajWFoUFLlIKFstyGEp649gMHswlVcEvyglMk0Y
- /+Bf3gd2t4SI8uNc/bxPrP/E9c3UOX3u5PklkDRcPsm24HnJzVsXqblo4OJmLKI2hnuq
- RudvuXeFWtylYu4MuACDcIlSO0g/Nn5Ez9tAPT/Bo2pOcTE7gZfKNzr83sWXAtPhfc28
- drWwByGMWHse3DXertNDAmDXXdco0VKkqgXSvTABuResxGzV9mot+7fXOkWdly4PVpYS
- vKJw==
+ bh=fhT6p03C5v3J9yDVaVfplDSCrT3h2ddpuxbvCBZkjsk=;
+ b=utq7f8mamy4ZSq2uBLbat1UM0eyxbZ5ft05JIMnz7csDyzPMx/9qCXMd9WjIQKZ6wC
+ YtWbfbBhjpf2/Oc4mKqD5PJZeDzJlxvcR8BeSxc9uZ2zojQa8V/YYreJeIXHbh0mHvw2
+ DxnzPtcfft2uMYkP+DGb1yo+QaN3IbETMw+/JOGtklvp8EyrXxhJfD5kKVg765Hx8LYZ
+ FGb7d8uzNI5eyQnBSk7xRxqVkR4q/VPKT4sBwK9MMKunwbEtGa6g+e+08nfpRfSHWOnF
+ bJXvgw1EChtfTXKHCv1JovOsBGmsQpiroaBnncJB7r3NQ9U9ZNH2XcEjYT7e9wwmL48z
+ jlaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gOorbCfkOfD5hZ9Ne/IGI2m869VvMpyg8Fi+6sPnwi8=;
- b=Angjjw8uxKZb3t6E1n1WZuL4uWU8X6EEXkki+kHcxX8+kDBMkxrIthAW6J/uzmSZOL
- /M+bcwxmL+gfNqqppcwOnzNQ1tknMMA1LyQAV3sP1zRwDT1GFvBxY5eirNTPbQY5g1FA
- XY1bRXU1AImfj7chtfKmVTHZhdps1hDgByf3VHdn7F3m5LoftGUs9YF6U4bL8R565rNK
- jfY+WOLFMnCi4u3KOSzcgIn2vgEV69dPVaC7dd4qZvEwLFjZ7wMbIYD9PDhzYvr6ScpU
- GrFwo/G+RqP05xf7lKteXCOKufShSiMy4upiTBlO/uJVHKutUrxvnHunHC0BxNnimrpc
- ZLbQ==
-X-Gm-Message-State: APjAAAUEmk6s5lusdlJvRm/NcQTAjU01b7v9y1MW81B+qbrgV3iVsq6a
- iwdhzCGmooC+BUy1I5ehcI8Dtz5rlo4iGQ==
-X-Google-Smtp-Source: APXvYqx7ATTByWezOb6rtvkEfSN65BlA2JSe7DJoZbU+CNhr2MziYjNcj2wbP/ZRlbiUTdg1kapMYw==
-X-Received: by 2002:a63:c50f:: with SMTP id f15mr5133443pgd.372.1564413550517; 
- Mon, 29 Jul 2019 08:19:10 -0700 (PDT)
+ bh=fhT6p03C5v3J9yDVaVfplDSCrT3h2ddpuxbvCBZkjsk=;
+ b=c8Oz3H4G7a6hn6yQNxDg2OMObapzuByEVcVkxuLkrC2gnbf18YifAt/HtM5QRsmgF8
+ cCzjqbYHTR7lUwShW09yJe73bmIHbfuQZXlq2WyG5cm68QGaxpQHNfgHuiIZgL+JJRDW
+ zYc4GO6QTX7pE9XdUIiZqRQjzK4WYVSEhv+TMm6jR77IOVwtBatl0Tq+UbtIkaP5B+lB
+ 0of4emXC/s7Sc7YKg7/kPFdEaOUdJdPwZiabOefYIlxMGazuIPdJC+KH9snc7YLTr5iO
+ h668Amf6A5rmciAECwCppUfKQQe9+DnRMrNdsJSOWmRc5zIyWQuXenv7xrzLjfJ1DNX9
+ ufrQ==
+X-Gm-Message-State: APjAAAUGR/npn5IFjaTF6187qKJ8n3UqzksopRtzx3NuX/fxCTLxpmQw
+ Bbdeu5fdleMJnL4DawM3z7MAU7aXTKgrFg==
+X-Google-Smtp-Source: APXvYqwdvhrTuIM6cHwUrb/hz4nARwe8pn+mXqqQ0kPxiQO50c89JlJ8sdaeTjxjAC3mmnV9XLj/ZQ==
+X-Received: by 2002:a62:1597:: with SMTP id 145mr35903183pfv.180.1564413557659; 
+ Mon, 29 Jul 2019 08:19:17 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.19.04
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.19.10
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:19:09 -0700 (PDT)
+ Mon, 29 Jul 2019 08:19:17 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:50 +0530
-Message-Id: <20190729151651.21306-15-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 20:46:51 +0530
+Message-Id: <20190729151651.21306-16-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v7 14/15] tests/qemu-iotests: enable testing
- with aio options
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v7 15/15] tests/qemu-iotests: use AIOMODE with
+ various tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,148 +89,282 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 ---
- tests/qemu-iotests/check      | 15 ++++++++++++++-
- tests/qemu-iotests/common.rc  | 14 ++++++++++++++
- tests/qemu-iotests/iotests.py |  9 ++++++++-
- 3 files changed, 36 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/028 |  3 ++-
+ tests/qemu-iotests/058 |  2 +-
+ tests/qemu-iotests/089 |  4 ++--
+ tests/qemu-iotests/091 |  7 ++++---
+ tests/qemu-iotests/109 |  3 ++-
+ tests/qemu-iotests/147 |  5 +++--
+ tests/qemu-iotests/181 | 10 +++++-----
+ tests/qemu-iotests/183 |  7 ++++---
+ tests/qemu-iotests/185 | 17 ++++++++++++-----
+ tests/qemu-iotests/200 |  3 ++-
+ tests/qemu-iotests/201 | 10 +++++-----
+ 11 files changed, 42 insertions(+), 29 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index c24874ff4a..1e398923fd 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -132,6 +132,7 @@ sortme=false
- expunge=true
- have_test_arg=false
- cachemode=false
-+aiomode=false
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 01f495912f..59e7b670ed 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -108,7 +108,8 @@ echo block-backup
+ echo
  
- tmp="${TEST_DIR}"/$$
- rm -f $tmp.list $tmp.tmp $tmp.sed
-@@ -141,6 +142,7 @@ export IMGFMT_GENERIC=true
- export IMGPROTO=file
- export IMGOPTS=""
- export CACHEMODE="writeback"
-+export AIOMODE="threads"
- export QEMU_IO_OPTIONS=""
- export QEMU_IO_OPTIONS_NO_FMT=""
- export CACHEMODE_IS_DEFAULT=true
-@@ -225,6 +227,11 @@ s/ .*//p
-         CACHEMODE_IS_DEFAULT=false
-         cachemode=false
-         continue
-+    elif $aiomode
-+    then
-+        AIOMODE="$r"
-+        aiomode=false
-+        continue
-     fi
+ qemu_comm_method="monitor"
+-_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},id=disk
++_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=${AIOMODE},\
++id=disk
+ h=$QEMU_HANDLE
+ QEMU_COMM_TIMEOUT=1
  
-     xpand=true
-@@ -269,6 +276,7 @@ other options
-     -n                  show me, do not run tests
-     -o options          -o options to pass to qemu-img create/convert
-     -c mode             cache mode
-+    -i mode             AIO mode
-     -makecheck          pretty print output for make check
+diff --git a/tests/qemu-iotests/058 b/tests/qemu-iotests/058
+index 8c3212a72f..38d1ed90c0 100755
+--- a/tests/qemu-iotests/058
++++ b/tests/qemu-iotests/058
+@@ -64,7 +64,7 @@ nbd_snapshot_img="nbd:unix:$nbd_unix_socket"
+ converted_image=$TEST_IMG.converted
  
- testlist options
-@@ -433,10 +441,13 @@ testlist options
-             cachemode=true
-             xpand=false
-             ;;
-+        -i)
-+            aiomode=true
-+            xpand=false
-+            ;;
-         -T)        # deprecated timestamp option
-             xpand=false
-             ;;
--
-         -v)
-             verbose=true
-             xpand=false
-@@ -515,6 +526,8 @@ done
+ # Use -f raw instead of -f $IMGFMT for the NBD connection
+-QEMU_IO_NBD="$QEMU_IO -f raw --cache=$CACHEMODE"
++QEMU_IO_NBD="$QEMU_IO -f raw --cache=$CACHEMODE --aio=$AIOMODE"
  
- # Set qemu-io cache mode with $CACHEMODE we have
- QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --cache $CACHEMODE"
-+# Set qemu-io aio mode with $AIOMODE we have
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --aio $AIOMODE"
+ echo
+ echo "== preparing image =="
+diff --git a/tests/qemu-iotests/089 b/tests/qemu-iotests/089
+index ad029f1f09..059ad75e28 100755
+--- a/tests/qemu-iotests/089
++++ b/tests/qemu-iotests/089
+@@ -64,7 +64,7 @@ $QEMU_IO -c 'write -P 42 0 512' -c 'write -P 23 512 512' \
  
- QEMU_IO_OPTIONS_NO_FMT="$QEMU_IO_OPTIONS"
- if [ "$IMGOPTSSYNTAX" != "true" ]; then
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 5502c3da2f..03f4a1cd7f 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -490,6 +490,20 @@ _default_cache_mode()
-         return
-     fi
- }
-+_supported_aio_modes()
-+{
-+    for mode; do
-+        if [ "$mode" = "$AIOMODE" ]; then
-+            return
-+        fi
-+    done
-+    _notrun "not suitable for aio mode: $AIOMODE"
-+}
-+_default_aio_mode()
-+{
-+    AIOMODE="$1"
-+    QEMU_IO="$QEMU_IO --aio $1"
-+}
+ $QEMU_IMG convert -f raw -O $IMGFMT "$TEST_IMG.base" "$TEST_IMG"
  
- _unsupported_imgopts()
- {
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ce74177ab1..76f1ab0945 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -58,6 +58,7 @@ imgproto = os.environ.get('IMGPROTO', 'file')
- test_dir = os.environ.get('TEST_DIR')
- output_dir = os.environ.get('OUTPUT_DIR', '.')
- cachemode = os.environ.get('CACHEMODE')
-+aiomode = os.environ.get('AIOMODE')
- qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
+-$QEMU_IO_PROG --cache $CACHEMODE \
++$QEMU_IO_PROG --cache $CACHEMODE --aio $AIOMODE \
+          -c 'read -P 42 0 512' -c 'read -P 23 512 512' \
+          -c 'read -P 66 1024 512' "json:{
+     \"driver\": \"$IMGFMT\",
+@@ -111,7 +111,7 @@ $QEMU_IO -c 'write -P 42 0x38000 512' "$TEST_IMG" | _filter_qemu_io
  
- socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
-@@ -457,6 +458,7 @@ class VM(qtest.QEMUQtestMachine):
-             options.append('file=%s' % path)
-             options.append('format=%s' % format)
-             options.append('cache=%s' % cachemode)
-+            options.append('aio=%s' % aiomode)
+ # The "image.filename" part tests whether "a": { "b": "c" } and "a.b": "c" do
+ # the same (which they should).
+-$QEMU_IO_PROG --cache $CACHEMODE \
++$QEMU_IO_PROG --cache $CACHEMODE --aio $AIOMODE  \
+      -c 'read -P 42 0x38000 512' "json:{
+     \"driver\": \"$IMGFMT\",
+     \"file\": {
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index d62ef18a02..78741d3fe7 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -60,14 +60,15 @@ echo === Starting QEMU VM1 ===
+ echo
  
-         if opts:
-             options.append(opts)
-@@ -799,6 +801,10 @@ def verify_cache_mode(supported_cache_modes=[]):
-     if supported_cache_modes and (cachemode not in supported_cache_modes):
-         notrun('not suitable for this cache mode: %s' % cachemode)
+ qemu_comm_method="monitor"
+-_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},id=disk
++_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=${AIOMODE},\
++             id=disk
+ h1=$QEMU_HANDLE
  
-+def verify_aio_mode(supported_aio_modes=[]):
-+    if supported_aio_modes and (aiomode not in supported_aio_modes):
-+        notrun('not suitable for this aio mode: %s' % aiomode)
-+
- def supports_quorum():
-     return 'quorum' in qemu_img_pipe('--help')
+ echo
+ echo === Starting QEMU VM2 ===
+ echo
+-_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},id=disk \
+-             -incoming "exec: cat '${MIG_FIFO}'"
++_launch_qemu -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=${AIOMODE},\
++             id=disk -incoming "exec: cat '${MIG_FIFO}'"
+ h2=$QEMU_HANDLE
  
-@@ -843,7 +849,7 @@ def skip_if_unsupported(required_formats=[], read_only=False):
-     return skip_test_decorator
+ echo
+diff --git a/tests/qemu-iotests/109 b/tests/qemu-iotests/109
+index 9897ceb6cd..451709689a 100755
+--- a/tests/qemu-iotests/109
++++ b/tests/qemu-iotests/109
+@@ -52,7 +52,8 @@ run_qemu()
+     local qmp_format="$3"
+     local qmp_event="$4"
  
- def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
--         unsupported_fmts=[]):
-+        supported_aio_modes=[], unsupported_fmts=[]):
-     '''Run tests'''
+-    _launch_qemu -drive file="${source_img}",format=raw,cache=${CACHEMODE},id=src
++    _launch_qemu -drive file="${source_img}",format=raw,cache=${CACHEMODE},\
++                 aio=${AIOMODE},id=src
+     _send_qemu_cmd $QEMU_HANDLE "{ 'execute': 'qmp_capabilities' }" "return"
  
-     global debug
-@@ -861,6 +867,7 @@ def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
-     verify_image_format(supported_fmts, unsupported_fmts)
-     verify_platform(supported_oses)
-     verify_cache_mode(supported_cache_modes)
-+    verify_aio_mode(supported_aio_modes)
+     _send_qemu_cmd $QEMU_HANDLE \
+diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
+index 2d84fddb01..632973b23c 100755
+--- a/tests/qemu-iotests/147
++++ b/tests/qemu-iotests/147
+@@ -24,7 +24,7 @@ import socket
+ import stat
+ import time
+ import iotests
+-from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_early_pipe
++from iotests import cachemode, aiomode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_early_pipe
  
-     if debug:
-         output = sys.stdout
+ NBD_PORT_START      = 32768
+ NBD_PORT_END        = NBD_PORT_START + 1024
+@@ -134,7 +134,8 @@ class BuiltinNBD(NBDBlockdevAddBase):
+         self.server.add_drive_raw('if=none,id=nbd-export,' +
+                                   'file=%s,' % test_img +
+                                   'format=%s,' % imgfmt +
+-                                  'cache=%s' % cachemode)
++                                  'cache=%s' % cachemode +
++                                  'aio=%s' % aiomode)
+         self.server.launch()
+ 
+     def tearDown(self):
+diff --git a/tests/qemu-iotests/181 b/tests/qemu-iotests/181
+index e317e63422..547c1b47b0 100755
+--- a/tests/qemu-iotests/181
++++ b/tests/qemu-iotests/181
+@@ -58,21 +58,21 @@ qemu_comm_method="monitor"
+ 
+ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     _launch_qemu \
+-        -drive "${TEST_IMG}",cache=${CACHEMODE},id=disk
++        -drive "${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,id=disk
+ else
+     _launch_qemu \
+-        -drive file="${TEST_IMG}",cache=${CACHEMODE},driver=$IMGFMT,id=disk
++        -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,driver=$IMGFMT,id=disk
+ fi
+ src=$QEMU_HANDLE
+ 
+ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     _launch_qemu \
+-        -drive "${TEST_IMG}",cache=${CACHEMODE},id=disk \
++        -drive "${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,id=disk \
+         -incoming "unix:${MIG_SOCKET}"
+ else
+     _launch_qemu \
+-        -drive file="${TEST_IMG}",cache=${CACHEMODE},driver=$IMGFMT,id=disk \
+-        -incoming "unix:${MIG_SOCKET}"
++        -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,driver=$IMGFMT,\
++        id=disk -incoming "unix:${MIG_SOCKET}"
+ fi
+ dest=$QEMU_HANDLE
+ 
+diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
+index fbe5a99beb..b16db9466d 100755
+--- a/tests/qemu-iotests/183
++++ b/tests/qemu-iotests/183
+@@ -56,13 +56,14 @@ echo
+ qemu_comm_method="qmp"
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    -drive file="${TEST_IMG}",cache=$CACHEMODE,aio=$AIOMODE,\
++    driver=$IMGFMT,id=disk
+ src=$QEMU_HANDLE
+ _send_qemu_cmd $src "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}.dest",cache=$CACHEMODE,driver=$IMGFMT,id=disk \
+-    -incoming "unix:${MIG_SOCKET}"
++    -drive file="${TEST_IMG}.dest",cache=$CACHEMODE,aio=$AIOMODE,\
++    driver=$IMGFMT,id=disk -incoming "unix:${MIG_SOCKET}"
+ dest=$QEMU_HANDLE
+ _send_qemu_cmd $dest "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+diff --git a/tests/qemu-iotests/185 b/tests/qemu-iotests/185
+index 454ff600cc..1c74a0ef5a 100755
+--- a/tests/qemu-iotests/185
++++ b/tests/qemu-iotests/185
+@@ -54,7 +54,8 @@ echo
+ qemu_comm_method="qmp"
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}.base",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    -drive file="${TEST_IMG}.base",cache=$CACHEMODE,aio=$AIOMODE,\
++    driver=$IMGFMT,id=disk
+ h=$QEMU_HANDLE
+ _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+@@ -125,7 +126,8 @@ echo === Start active commit job and exit qemu ===
+ echo
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    -drive file="${TEST_IMG}",cache=$CACHEMODE,aio=$AIOMODE,driver=$IMGFMT,\
++    id=disk
+ h=$QEMU_HANDLE
+ _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+@@ -147,7 +149,8 @@ echo === Start mirror job and exit qemu ===
+ echo
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    -drive file="${TEST_IMG}",cache=$CACHEMODE,aio=$AIOMODE,driver=$IMGFMT,\
++    id=disk
+ h=$QEMU_HANDLE
+ _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+@@ -172,7 +175,9 @@ echo === Start backup job and exit qemu ===
+ echo
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    _launch_qemu \
++    -drive file="${TEST_IMG}",cache=$CACHEMODE,aio=$AIOMODE,driver=$IMGFMT,\
++    id=disk
+ h=$QEMU_HANDLE
+ _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+@@ -196,7 +201,9 @@ echo === Start streaming job and exit qemu ===
+ echo
+ 
+ _launch_qemu \
+-    -drive file="${TEST_IMG}",cache=$CACHEMODE,driver=$IMGFMT,id=disk
++    _launch_qemu \
++    -drive file="${TEST_IMG}",cache=$CACHEMODE,aio=$AIOMODE,driver=$IMGFMT,\
++    id=disk
+ h=$QEMU_HANDLE
+ _send_qemu_cmd $h "{ 'execute': 'qmp_capabilities' }" 'return'
+ 
+diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
+index 72d431f251..b554dd947b 100755
+--- a/tests/qemu-iotests/200
++++ b/tests/qemu-iotests/200
+@@ -66,7 +66,8 @@ echo === Starting QEMU VM ===
+ echo
+ qemu_comm_method="qmp"
+ _launch_qemu -object iothread,id=iothread0 $virtio_scsi \
+-             -drive file="${TEST_IMG}",media=disk,if=none,cache=$CACHEMODE,id=drive_sysdisk,format=$IMGFMT \
++             -drive file="${TEST_IMG}",media=disk,if=none,cache=$CACHEMODE,\
++             aio=$AIOMODE,id=drive_sysdisk,format=$IMGFMT \
+              -device scsi-hd,drive=drive_sysdisk,bus=scsi0.0,id=sysdisk,bootindex=0
+ h1=$QEMU_HANDLE
+ 
+diff --git a/tests/qemu-iotests/201 b/tests/qemu-iotests/201
+index 7abf740fe4..48837c4f30 100755
+--- a/tests/qemu-iotests/201
++++ b/tests/qemu-iotests/201
+@@ -58,21 +58,21 @@ qemu_comm_method="monitor"
+ 
+ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     _launch_qemu \
+-        -drive "${TEST_IMG}",cache=${CACHEMODE},id=disk
++        -drive "${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,id=disk
+ else
+     _launch_qemu \
+-        -drive file="${TEST_IMG}",cache=${CACHEMODE},driver=$IMGFMT,id=disk
++        -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,driver=$IMGFMT,id=disk
+ fi
+ src=$QEMU_HANDLE
+ 
+ if [ "$IMGOPTSSYNTAX" = "true" ]; then
+     _launch_qemu \
+-        -drive "${TEST_IMG}",cache=${CACHEMODE},id=disk \
++        -drive "${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,id=disk \
+         -incoming "unix:${MIG_SOCKET}"
+ else
+     _launch_qemu \
+-        -drive file="${TEST_IMG}",cache=${CACHEMODE},driver=$IMGFMT,id=disk \
+-        -incoming "unix:${MIG_SOCKET}"
++        -drive file="${TEST_IMG}",cache=${CACHEMODE},aio=$AIOMODE,driver=$IMGFMT,\
++        id=disk -incoming "unix:${MIG_SOCKET}"
+ fi
+ dest=$QEMU_HANDLE
+ 
 -- 
 2.21.0
 
