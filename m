@@ -2,106 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6C778FA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:42:53 +0200 (CEST)
-Received: from localhost ([::1]:54198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA9A78FCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:49:22 +0200 (CEST)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7nZ-0002Dj-4w
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49653)
+	id 1hs7tp-0001kt-5y
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50362)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <BROGERS@suse.com>) id 1hs7mw-0001ml-GX
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:42:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs7qI-0004XJ-P7
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:45:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <BROGERS@suse.com>) id 1hs7mu-0000kv-Kc
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:42:14 -0400
-Received: from m4a0039g.houston.softwaregrp.com ([15.124.2.85]:50722)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <BROGERS@suse.com>) id 1hs7ms-0000iG-NL
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:42:12 -0400
-Received: FROM m4a0039g.houston.softwaregrp.com (15.120.17.147) BY
- m4a0039g.houston.softwaregrp.com WITH ESMTP; 
- Mon, 29 Jul 2019 15:42:06 +0000
-Received: from M4W0334.microfocus.com (2002:f78:1192::f78:1192) by
- M4W0335.microfocus.com (2002:f78:1193::f78:1193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10; Mon, 29 Jul 2019 15:22:13 +0000
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (15.124.8.10) by
- M4W0334.microfocus.com (15.120.17.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1591.10 via Frontend Transport; Mon, 29 Jul 2019 15:22:13 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XyX7at/tCu657p/gIobmNyfvat5IsmzrB+BGRkIgepmt4r2+SYSV9/2paUUYDwEPlfXb0dEmVIzYr+oKmn90GPEzjCP3KHGoGygncFFQdz8TBwuelPxnfOpL2Kl/X6TPAT8zjwOE5/Tu58LU+DpTPJvIrfv1SPVAucnnblNOWt+WioB1dpxuaphCAuS2IueD7e5jYqf5z5/H0YhAvZxnldhc++IWXzWngOLENO2Z7dGi4vMEsb8ogkbClAN8t8OunaHIwdl6NAC01StzIQMGqCVuDB6bdIfCzuxHpIOcM7smYded7LSfOvtr5DqsEgRqbySRVGhruyM2sS03jWfvDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SCFzRDVxQnjP5kMJ9WpHWXWbw3gnalSreLF+gq7URkc=;
- b=mk/UuFSpa6ek5NIWxN4/+8QtIrs+pKdTjbetWmNsxFOLZxqCz/1QbZuEtmkVC2CgDbSHwFQgIyRbFFmGFf7kTcHjqzpGUfTpk30H7/KXjkPZKT9FO/qxKc6r9j9d96GLuMz3RPFkMz9VIYvexfR5l9PamNxzQJauQC8NnsuJrv1VCDJGPLCMHiGUmy1g1BuAZNHj/V1MJBbz7PHBpTOOVoSVSH3lHckI8LrwS01FXb2Nkwi6HVVR2hZ6Tqpp+4bvujrUt+vQeMXYL86vetdM7lWPVNx8I24zLTCn6LnNUvRafDGejSl4SXS8nzrpYzufcZ+v1oGxsr0NleOGz6jTUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=suse.com;dmarc=pass action=none header.from=suse.com;dkim=pass
- header.d=suse.com;arc=none
-Received: from CH2PR18MB3096.namprd18.prod.outlook.com (10.255.155.222) by
- CH2PR18MB3335.namprd18.prod.outlook.com (52.132.246.77) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.10; Mon, 29 Jul 2019 15:22:11 +0000
-Received: from CH2PR18MB3096.namprd18.prod.outlook.com
- ([fe80::54ad:4562:f961:5610]) by CH2PR18MB3096.namprd18.prod.outlook.com
- ([fe80::54ad:4562:f961:5610%3]) with mapi id 15.20.2115.005; Mon, 29 Jul 2019
- 15:22:11 +0000
-From: Bruce Rogers <BROGERS@suse.com>
-To: "ehabkost@redhat.com" <ehabkost@redhat.com>, "paul.c.lai@intel.com"
- <paul.c.lai@intel.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel]  Fixing Snowridge CPU model name and features
-Thread-Index: AQHVO++rwnjP5vO/OEuCByxO4tC57abhyuMA
-Date: Mon, 29 Jul 2019 15:22:11 +0000
-Message-ID: <1a33ae335f396d49689425e0137213efd9f28a7c.camel@suse.com>
-References: <20190716155808.25010-1-paul.c.lai@intel.com>
-In-Reply-To: <20190716155808.25010-1-paul.c.lai@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=BROGERS@suse.com; 
-x-originating-ip: [2620:113:8044:4009:ffff:ffff:ffff:f626]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4d250318-4309-46e5-40f3-08d71438876a
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:CH2PR18MB3335; 
-x-ms-traffictypediagnostic: CH2PR18MB3335:
-x-microsoft-antispam-prvs: <CH2PR18MB3335ABAF37324337C55F8112D9DD0@CH2PR18MB3335.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 01136D2D90
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(189003)(199004)(8676002)(53936002)(25786009)(102836004)(229853002)(99286004)(81156014)(81166006)(6486002)(118296001)(7736002)(5660300002)(2201001)(305945005)(8936002)(6436002)(6512007)(2906002)(316002)(46003)(54906003)(110136005)(76176011)(478600001)(6506007)(4326008)(186003)(446003)(11346002)(68736007)(486006)(14454004)(36756003)(6116002)(71190400001)(476003)(2616005)(86362001)(71200400001)(66476007)(256004)(76116006)(91956017)(66946007)(6246003)(66446008)(64756008)(66556008)(2501003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CH2PR18MB3335;
- H:CH2PR18MB3096.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: suse.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: uRT1yMKqXyGlwpGPhhboiATFpR4yk0XYY7QDf8RRkcGtSXJkM9iCnEhRoZFo/fP3f8uJBPM+rjegRb1OWg1xf3kOaO6QOw3I8qBZQd8aKS0ty+GSgYe7BMjta9SGrHO92y/Ahg1Xdo4PT/RBL3k3nzYXYalyceTrJnurSb+IBjHuqlz1u93qXIEUuINo/X/lTww9QiKS2Qp4Awj6J3MCvXHLoTQlQ5zRYdY1sOaMmAw/lv3CdvR6FCZbas8YPWEl00W0WWjfVY/Ko2MdUTNgEay90JjY+Ky8vYqo6aAeOWGK0P/3BUFu+hQCqE2AKLRYhwk6aTQvNLCFyJQYwQMLe1aEtykDaJWYD3qFJ8NudNKI1h5FTw1y5ieKpiOjqIOCIC6dtwGkT2rjVYG6DyxCIfVq55PVQfLySHHA8kvEfZY=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A328C44E4095FC478188C9366AD0B375@namprd18.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1hs7qF-00042Z-9j
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:45:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41090)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs7qF-00040K-0a
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:45:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs7qC-0004al-N7
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A93C72E80C7
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:45:36 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d250318-4309-46e5-40f3-08d71438876a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2019 15:22:11.6757 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BROGERS@suse.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR18MB3335
-X-OriginatorOrg: suse.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 15:39:29 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
+References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
+Message-Id: <156441477064.6035.5256655689352798964.launchpad@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: bbbb60ee3988bfcc88dcdc0d59e23bffeeffd25d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 15.124.2.85
-Subject: Re: [Qemu-devel] Fixing Snowridge CPU model name and features
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: msr
+ vbar_el2, xN not working in EL2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -110,37 +66,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "tao3.xu@intel.com" <tao3.xu@intel.com>,
- "luwei.kang@intel.com" <luwei.kang@intel.com>,
- "wei.w.wang@intel.com" <wei.w.wang@intel.com>
+Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDE5LTA3LTE2IGF0IDA4OjU4IC0wNzAwLCBQYXVsIExhaSB3cm90ZToNCj4gQ2hh
-bmdpbmcgdGhlIG5hbWUgdG8gU25vd3JpZGdlIGZyb20gU25vd1JpZGdlLVNlcnZlci4NCj4gVGhl
-cmUgaXMgbm8gY2xpZW50IG1vZGVsIG9mIFNub3dyaWRnZSwgc28gIi1TZXJ2ZXIiIGlzIHVubmVj
-ZXNzYXJ5Lg0KPiANCj4gUmVtb3ZpbmcgQ1BVSURfRVhUX1ZNWCBmcm9tIFNub3dyaWRnZSBjcHUg
-ZmVhdHVyZSBsaXN0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUGF1bCBMYWkgPHBhdWwuYy5sYWlA
-aW50ZWwuY29tPg0KPiBUZXN0ZWQtYnk6IFRhbzMgWHUgPHRhbzMueHVAaW50ZWwuY29tPg0KPiAt
-LS0NCj4gIHRhcmdldC9pMzg2L2NwdS5jIHwgMyArLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvaTM4
-Ni9jcHUuYyBiL3RhcmdldC9pMzg2L2NwdS5jDQo+IGluZGV4IDYzZDg5Mjc2ZmUuLjdmNTZlODg3
-YWUgMTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9pMzg2L2NwdS5jDQo+ICsrKyBiL3RhcmdldC9pMzg2
-L2NwdS5jDQo+IEBAIC0yNjg4LDcgKzI2ODgsNyBAQCBzdGF0aWMgWDg2Q1BVRGVmaW5pdGlvbiBi
-dWlsdGluX3g4Nl9kZWZzW10gPSB7DQo+ICAgICAgICAgIC5tb2RlbF9pZCA9ICJJbnRlbCBYZW9u
-IFByb2Nlc3NvciAoSWNlbGFrZSkiLA0KPiAgICAgIH0sDQo+ICAgICAgew0KPiAtICAgICAgICAu
-bmFtZSA9ICJTbm93UmlkZ2UtU2VydmVyIiwNCj4gKyAgICAgICAgLm5hbWUgPSAiU25vd3JpZGdl
-IiwNCj4gICAgICAgICAgLmxldmVsID0gMjcsDQo+ICAgICAgICAgIC52ZW5kb3IgPSBDUFVJRF9W
-RU5ET1JfSU5URUwsDQo+ICAgICAgICAgIC5mYW1pbHkgPSA2LA0KPiBAQCAtMjcwNiw3ICsyNzA2
-LDYgQEAgc3RhdGljIFg4NkNQVURlZmluaXRpb24gYnVpbHRpbl94ODZfZGVmc1tdID0gew0KPiAg
-ICAgICAgICAgICAgQ1BVSURfRlhTUiB8IENQVUlEX1NTRSB8IENQVUlEX1NTRTIsDQo+ICAgICAg
-ICAgIC5mZWF0dXJlc1tGRUFUXzFfRUNYXSA9DQo+ICAgICAgICAgICAgICBDUFVJRF9FWFRfU1NF
-MyB8IENQVUlEX0VYVF9QQ0xNVUxRRFEgfCBDUFVJRF9FWFRfTU9OSVRPUg0KPiB8DQo+IC0gICAg
-ICAgICAgICBDUFVJRF9FWFRfVk1YIHwNCj4gICAgICAgICAgICAgIENQVUlEX0VYVF9TU1NFMyB8
-DQo+ICAgICAgICAgICAgICBDUFVJRF9FWFRfQ1gxNiB8DQo+ICAgICAgICAgICAgICBDUFVJRF9F
-WFRfU1NFNDEgfA0KDQpXaGF0IGlzIHRoZSBzdGF0dXMgb2YgdGhpcyBwYXRjaCB3aXRoIHJlc3Bl
-Y3QgdG8gdGhlIHY0LjEuMCByZWxlYXNlPw0KSXQgd291bGQgc2VlbSB0byBtZSB0aGF0IGl0IHdh
-cyB0YXJnZXRlZCBmb3IgdGhpcyByZWxlYXNlLCB0byBnZXQgdGhlDQpuYW1lIGFuZCBmZWF0dXJl
-cyByaWdodCBiZWZvcmUgY29kaWZpZWQgaW4gYSByZWxlYXNlZCB2ZXJzaW9uLCBidXQNCkludGVs
-IHdvdWxkIGtub3cgYmV0dGVyLg0KDQpCcnVjZQ0K
+** Tags added: arm tcg
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838277
+
+Title:
+  qemu-system-aarch64: regression: msr vbar_el2, xN not working in EL2
+
+Status in QEMU:
+  New
+
+Bug description:
+  Affects 3.1.0 (latest stable release) and latest commit
+  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+  (qemu from bionic ubuntu LTS).
+
+  With the following code and shell commands:
+
+  test.s:
+
+  .text
+  mov x0, #0x60000000
+  msr vbar_el2, x0
+  dsb sy
+  isb sy
+
+  $ aarch64-none-elf-as test.s -o test.o
+  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
+ortex-a57 -kernel test.bin -s -S
+
+  vbar_el2 is still 0 after the code, instead of being the expected
+  0x60000000. (see screenshot).
+
+  This regression doesn't seem to happen for vbar_el1 &
+  virtualization=3Doff.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
 
