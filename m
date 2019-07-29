@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFECF78CC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:26:52 +0200 (CEST)
-Received: from localhost ([::1]:52172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4C778CD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:27:43 +0200 (CEST)
+Received: from localhost ([::1]:52178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs5fw-0006BZ-2g
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43053)
+	id 1hs5gk-00073E-9n
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:27:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43154)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hs5fN-0005mO-Gh
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:26:19 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hs5gE-0006ei-4B
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:27:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hs5fM-0005Nk-58
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:26:17 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35251)
+ (envelope-from <stefanha@gmail.com>) id 1hs5gD-00062d-6A
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:27:10 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hs5fL-0005LH-Vp
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:26:16 -0400
-Received: by mail-ot1-x344.google.com with SMTP id j19so24032849otq.2
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 06:26:15 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hs5gC-00060y-Vs
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:27:09 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p17so61835535wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 06:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eVYifojs1/K+bqVEZaKx4B5wvlPkpP2+BLgVTCEn3OM=;
- b=VxlJOlLOnrOZ3y1D9fFANnxqsXPCWp36LoiYE5lstijI3CL4a9vV7DyiKY3Cmc2gdp
- Pa+WKmxzRz2wii013//tYKZCcu795iQNSS6d1b7eDU4W57b94Ij6Y/r7Io1BiTXUZg7m
- YiVdFKsMktC+VeYaXnPo7YGDsjgyFdCzvMjYPLregOOeplS9kRZT6yOwtFgcJ84IT8oZ
- zfqHG+knrfe7Kzd+D0MUn3l1A/x4QHsgA9bOXa0jf8PDZoPW8Qu1f8cUG/wkIGQMLNY1
- exIUbwUg53kdAvOmE4wOkTrqMEr08F6lbsOvxhg4ZpFMcPGg3BKbQ7IPXrZw8Rby9Luq
- uB0A==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=3o/2YoQr0fKPWcdh9lEvGvvQ1rJtAZyO4dm9qUqpV10=;
+ b=aeXXNRzGVjX2vZexY21QVKJmcMVA4L2bzGEyVEeOEVAqpc+6cZHoO3ejvkrYK/U8wg
+ iVSWm7wuNe9rsS2DiNXGucWGg16ZWBDX7UWmwyD+YAHIrqHc+fD1Kpmja/1RGjLfwpUm
+ OdJTentRtO6XYtD89EqmPHmjXq5T1c+Sskh13uoROH5lcy/FsyCo4uhX7iq0k31YlxXt
+ r5VNyWbU+cnbb5p6NeVdHNzasFOeIBZEblE1grTCgGNLHK5ljJ1kWyuxLFl2hCoIyMft
+ x8ZgNoBkFUBf+df191nePcr4t2qj0XF39+Ek4Y2CiN8WUD9iRt6oMYRErMVzMQoyZTjT
+ pBgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eVYifojs1/K+bqVEZaKx4B5wvlPkpP2+BLgVTCEn3OM=;
- b=ArK+HV/WnpmtxYwCyi762UiRVHsJvKqIUGqT1RqyKVGF/A5uoVnxqkral+dQE8pp20
- aVWvFQu4/cH683kTmcazsmrO1IlnwFfSlI2xLdlzGA5H4n2p9Ih58PayTw4Po/lGumF5
- 7XnBA8g+kxYsGh/ZUpHRWhYkcT9GfaWnhS5mSKQ08+WLB61vimPQI3qNdNJeNugxl1GE
- fRiE0SL4L3yCtYKYrYRVI/wQnHR/fBs9fA3BxwQzSkXYmTHLcTjIK7DvbrCns91Z57Vk
- s0EiQCj/9+0o+Vm2EVlGFA0lyt2z22+vVNa5raoUNJnCYJrT+yKra8MLeqOZ1MaEqqcf
- IfNg==
-X-Gm-Message-State: APjAAAWF9SyL42JWU7Yu/2GDUTylgmRqzYSnrE+XKPvy1TTucMN+FGox
- yAQLUSD6U+L7bsgiHqJsIIr9yogGq9XuNGf5tdkiiqTofdQ=
-X-Google-Smtp-Source: APXvYqyzqLAqIn5qsblOZQ+c6yjaMvm3UrARidXWY36rDgAOJuZa/v+8as39Qhr4u01AWukEvKZw11Qcm5OFuwWZNHw=
-X-Received: by 2002:a9d:6ad7:: with SMTP id m23mr79946696otq.306.1564406774797; 
- Mon, 29 Jul 2019 06:26:14 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3o/2YoQr0fKPWcdh9lEvGvvQ1rJtAZyO4dm9qUqpV10=;
+ b=UI/DPEZUP6vjekviZhC7lTZ5SEvuuVO3NsYJe3BUqXbi74jyKX6NO1JAh9J6WjHQhO
+ gXmFUXJJ42Aa/bXYk6bJnMbn2lmNkSrdvvK1UkYKBgjzYB9yfbAdZQ2h5fyY1n+1CMR+
+ Gsi8SM8BtMVyws7BKhVKqdi8+SSpAmwi5xOjqzQ2BPE5f8JS3VhCkEzIW8QLX+91WAhO
+ Uefd2GL1RuQ8kwqdY62ecRZ8JZf18rD2bzgepxNBaCXOuU171WR0RTISM/5EDB8gOUhW
+ FCYYeFH9XzYx2y/NcA45ujD1ogiPGxsRQ6oPBBTp5HR51HYcPFc3dOoiad5YyP+bQ/UL
+ UHGQ==
+X-Gm-Message-State: APjAAAU9URdGX8/c4O+cBGty2OTGuszeFhf2L0qjiHtBcV8JR1zI9E+0
+ YTzI2YG9bcMoB33LIpi7qLM=
+X-Google-Smtp-Source: APXvYqxyX/LlMn3URX62vEhI8ENlSYHW85g9I+A35+HtN7yofAKPJg13wmAPqyLVNBpPbjuKVRDycQ==
+X-Received: by 2002:adf:e343:: with SMTP id n3mr81722059wrj.103.1564406827105; 
+ Mon, 29 Jul 2019 06:27:07 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id x8sm51414943wmc.5.2019.07.29.06.27.06
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 29 Jul 2019 06:27:06 -0700 (PDT)
+Date: Mon, 29 Jul 2019 14:27:05 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Chris Friesen <chris.friesen@windriver.com>
+Message-ID: <20190729132705.GC6771@stefanha-x1.localdomain>
+References: <c6d83f1f-50e2-60e1-38d7-4e622ac71a8c@windriver.com>
 MIME-Version: 1.0
-References: <1564405791-9147-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1564405791-9147-8-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1564405791-9147-8-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 29 Jul 2019 15:26:04 +0200
-Message-ID: <CAL1e-=jCQ_Fe++XQh7jYoZqAxro9rH6Mo0jj7FZV_Pd7ezCHYA@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7qSK/uQB79J36Y4o"
+Content-Disposition: inline
+In-Reply-To: <c6d83f1f-50e2-60e1-38d7-4e622ac71a8c@windriver.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH for 4.1 v2 7/7] linux-user: Add support for
- semtimedop() syscall
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] high-level view of packet processing for virtio
+ NIC?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,113 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 29, 2019 at 3:11 PM Aleksandar Markovic <
-aleksandar.markovic@rt-rk.com> wrote:
 
-> From: Aleksandar Rikalo <arikalo@wavecomp.com>
->
-> Add support for semtimedop() emulation. It is based on invocation
-> of safe_semtimedop().
->
-> Conversion is left out of safe_semtimedop(), since other safe_xxx()
-> usually don't contain similar conversions.
->
-> Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->
+--7qSK/uQB79J36Y4o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Aleksandar R., Laurent,
+On Tue, Jul 23, 2019 at 10:18:01AM -0600, Chris Friesen wrote:
+> I'm looking for information on what the qemu architecture looks like for
+> processing virtio network packets in a two-vCPU guest.
+>=20
+> It looks like there's an IO thread doing a decent fraction of the work,
+> separate from the vCPU threads--is that correct?  There's no disk involved
+> in this case, purely network packet processing.
 
-Please note that I just rebased the patch compared to its last incarnation
-- no code change.
+Most production x86 KVM guests use vhost_net.ko to perform virtio-net
+rx/tx virtqueue processing in the host kernel.  That means the QEMU code
+isn't used and the code path is totally different.
 
-Laurent's hints were as follows last time:
+Before spending too much time on this, check which code path you are
+interested in.
 
-"To avoid duplicate code (and cleanup the stack allocation), you should
+If you are using QEMU's virtio-net without vhost then the main loop
+thread processes rx/tx virtqueue kicks and packet rx/tx events.  The
+vcpu threads are not directly involved because the ioeventfd feature is
+used to direct virtqueue kicks to the main loop thread instead of
+blocking vcpu threads.
 
-remove do_semop()  and call do_semtimedop(..., NULL) from IPCOP_semop
-and TARGET_NR_semop.
+Stefan
 
-Thanks, Laurent"
+--7qSK/uQB79J36Y4o
+Content-Type: application/pgp-signature; name="signature.asc"
 
- I guess they are still valid.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Aleksandar
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0+9CkACgkQnKSrs4Gr
+c8hIzQgAxFjgo6JLLJ37AlTCAbdBz/3mZJqpr+BOtLHAeKD37GXt1f9j9Z7bnWnG
+97jdH4mjqEIekE4iRgaaftHetxY/nT/tydHlvk6CsFJWWyePyiOwEuo3QfyxjqwK
+yje+l1Ey4Nf222mYYTwy+DUYGJN8INLnF70eb5TRFm8/jxGSLLNxhUIHY+yQCnD3
+Shy8agHmfGgBJfXkDBZTDOUMsLqfvZd+fJ8ifiMw3bAVwAZP/kH36ii9zdFN17Fb
+MU27PrDOHwyjBJupjuEm6Jgp5oM5aGSWPTLe/wlaJEKkFeXyS7zEN8+tsHP42CE4
++ka882Pjqbn9T9D8O6bw1zpMYHOJtQ==
+=mZPD
+-----END PGP SIGNATURE-----
 
+--7qSK/uQB79J36Y4o--
 
-
->  linux-user/syscall.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ee80175..c7b08f5 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -6650,7 +6650,39 @@ static inline abi_long host_to_target_statx(struct
-> target_statx *host_stx,
->      return 0;
->  }
->  #endif
-> +#ifdef TARGET_NR_semtimedop
-> +static inline abi_long do_semtimedop(int semid, abi_long ptr, unsigned
-> nsops,
-> +                                     abi_long timeout)
-> +{
-> +    struct sembuf *sops;
-> +    struct timespec ts, *pts;
-> +    abi_long ret;
-> +
-> +    if (timeout) {
-> +        pts = &ts;
-> +        if (target_to_host_timespec(pts, timeout)) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +    } else {
-> +        pts = NULL;
-> +    }
->
-> +    sops = g_malloc(sizeof(struct sembuf) * nsops);
-> +    if (sops == NULL) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    if (target_to_host_sembuf(sops, ptr, nsops)) {
-> +        g_free(sops);
-> +        return -TARGET_EFAULT;
-> +    }
-> +
-> +    ret = get_errno(safe_semtimedop(semid, sops, nsops, pts));
-> +    g_free(sops);
-> +
-> +    return ret;
-> +}
-> +#endif
->
->  /* ??? Using host futex calls even when target atomic operations
->     are not really atomic probably breaks things.  However implementing
-> @@ -9194,6 +9226,10 @@ static abi_long do_syscall1(void *cpu_env, int num,
-> abi_long arg1,
->      case TARGET_NR_semop:
->          return do_semop(arg1, arg2, arg3);
->  #endif
-> +#ifdef TARGET_NR_semtimedop
-> +    case TARGET_NR_semtimedop:
-> +        return do_semtimedop(arg1, arg2, arg3, arg4);
-> +#endif
->  #ifdef TARGET_NR_semctl
->      case TARGET_NR_semctl:
->          return do_semctl(arg1, arg2, arg3, arg4);
-> --
-> 2.7.4
->
->
->
