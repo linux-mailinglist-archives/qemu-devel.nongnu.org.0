@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C60B78F25
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:53853 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2597478F2E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:28:03 +0200 (CEST)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Xa-0006by-J5
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41996)
+	id 1hs7ZC-0001pZ-BO
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43443)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hs7Ik-0001M8-Ed
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:11:04 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7P1-0005xw-KE
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hs7Ii-0007Hq-Ob
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:11:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35458)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hs7If-0007CE-VO; Mon, 29 Jul 2019 11:10:58 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 34830308FC23;
- Mon, 29 Jul 2019 15:10:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-51.ams2.redhat.com
- [10.36.116.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F311160856;
- Mon, 29 Jul 2019 15:10:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7598F1138619; Mon, 29 Jul 2019 17:10:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Pino Toscano <ptoscano@redhat.com>
-References: <20190726140954.31921-1-ptoscano@redhat.com>
- <28464409.aSG18riZGY@lindworm.usersys.redhat.com>
- <87ftmprtuj.fsf@dusky.pond.sub.org>
- <2550520.5yHEQrR4yj@lindworm.usersys.redhat.com>
-Date: Mon, 29 Jul 2019 17:10:54 +0200
-In-Reply-To: <2550520.5yHEQrR4yj@lindworm.usersys.redhat.com> (Pino Toscano's
- message of "Mon, 29 Jul 2019 13:21:34 +0200")
-Message-ID: <87a7cwnaf5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7P0-0006cU-BN
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:31 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34289)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
+ id 1hs7P0-0006a6-3g; Mon, 29 Jul 2019 11:17:30 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b13so28202104pfo.1;
+ Mon, 29 Jul 2019 08:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gqQiGoFiW+lpg1rPNQrONW25rfL/th38heAefJfZSA0=;
+ b=r6GZm5KCfz/8cRyF6cB9GrZDQq+FyFDfB9wrezlcGFoBEHyRTytxJVaVF1acbCcDFI
+ BRJJYPJYfvpZi7SRfv4N5z7zjieObjYUD+UXWse9IaNIIAUvKicNKLPS3DNo6Q/HDAmo
+ b3aliuLb1iT3TIEkIpOZ7teSUx+YWo5+UEgB/2m+0xb8cZ5y8kGaS3D0uXmK9sdg0pHX
+ XeZwH0/2K9FevNN3kxKeThPQgUoVLFeENmtQfvfpGFBGFVAha5SQrYEcMd/DNWxwA3VD
+ QyxiI0dVbdJqVL4qcm5jMOAi/sRN3ppZI5qAEGDTg4FoKOeJurlhdBUxhkMlL3rKJAVq
+ QuLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gqQiGoFiW+lpg1rPNQrONW25rfL/th38heAefJfZSA0=;
+ b=Ix7ALbqXPF3WUxGtuw1AM37B5C3DlsgCYRQ61tZ7M2pnDFc0EqgBfDdydDW36aQRQu
+ KhkEiWdpoeWRJZM6sKVL9NKb2vr/ppGJudn0zcdjAu9tcraWmmXAAoWzVYHpuq0gIizA
+ X3uNbS8pnIGzL9VHuGT1+SWqQIyGTFwcvVRnY8HSIFSFfLewuiS9w8NDvY57GMQfUO39
+ j+RRNuKns2SgYOoDf/IUFGUh0ezWfmJ7RcRJdiStPtrsx49pJnLGhimM45/KgB6McpoC
+ 8vHw+6hizVrgwo+nsvr0BuNtAJ1nMhOZZwchByrl+5yNlTv1qyeHCrcvUtoH8xvXOWH0
+ eMVg==
+X-Gm-Message-State: APjAAAXvHprmRsopZl9oZfsimd9Gv5uKUsQQXNRQ6xdxBgGJSzilowa2
+ mUdxtWW2jUwubzMxQ6us71ktqg5Tj2s=
+X-Google-Smtp-Source: APXvYqyW30VE9bwSRhhVu+0I2Dl7pkW2zI0Tik3a3GfsfcLgkyXKaUQAi7Ogqlj+yq4NolaBEDKy+g==
+X-Received: by 2002:a63:590f:: with SMTP id n15mr58185179pgb.190.1564413448228; 
+ Mon, 29 Jul 2019 08:17:28 -0700 (PDT)
+Received: from localhost.localdomain ([136.233.9.97])
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.17.18
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 29 Jul 2019 08:17:27 -0700 (PDT)
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Jul 2019 20:46:36 +0530
+Message-Id: <20190729151651.21306-1-mehta.aaru20@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 29 Jul 2019 15:10:56 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] ssh: implement private key
- authentication
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v7 00/15] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,56 +74,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, rjones@redhat.com, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pino Toscano <ptoscano@redhat.com> writes:
+This patch series adds support for the newly developed io_uring Linux AIO
+interface. Linux io_uring is faster than Linux's AIO asynchronous I/O code,
+offers efficient buffered asynchronous I/O support, the ability to do I/O
+without performing a system call via polled I/O, and other efficiency enhancements.
 
-> On Monday, 29 July 2019 12:57:40 CEST Markus Armbruster wrote:
->> Pino Toscano <ptoscano@redhat.com> writes:
->> 
->> > On Friday, 26 July 2019 16:24:34 CEST Eric Blake wrote:
->> >> On 7/26/19 9:09 AM, Pino Toscano wrote:
->> >> > Add a 'private-key' option which represents the path of a private key
->> >> > to use for authentication, and 'private-key-secret' as the name of an
->> >> > object with its passphrase.
->> >> > 
->> >> > Signed-off-by: Pino Toscano <ptoscano@redhat.com>
->> >> 
->> >> > +++ b/qapi/block-core.json
->> >> > @@ -3226,6 +3226,11 @@
->> >> >  # @password-secret:     ID of a QCryptoSecret object providing a password
->> >> >  #                       for authentication (since 4.2)
->> >> >  #
->> >> > +# @private-key:         path to the private key (since 4.2)
->> >> > +#
->> >> > +# @private-key-secret:  ID of a QCryptoSecret object providing the passphrase
->> >> > +#                       for 'private-key' (since 4.2)
->> >> 
->> >> Is password-secret intended to be mutually-exclusive with
->> >> private-key/private-key-secret?
->> >
->> > My initial thought was to allow users to specify data for all the
->> > authentication methods possible.  Either ways (all of them, or a single
->> > one) are fine for me.
->> 
->> How does this work at the libssh level?  Can you configure multiple
->> authentication methods, and let negotiation pick the one to be used?
->
-> The remote servers sends all the authentication methods supported, and
-> the user of libssh can decide which one(s) to attempt.  See for example
-> the small tutorial in the libssh documentation:
-> http://api.libssh.org/stable/libssh_tutor_authentication.html
+Testing it requires a host kernel (5.1+) and the liburing library.
+Use the option -drive aio=io_uring to enable it.
 
-SSH server and client negotiate: the server offers methods, the client
-tries offered methods it likes one after the other.
+Benchmarks for the system at https://github.com/rooshm/benchmarks
+io_uring has similar performance as libaio but supports cache=writeback.
+Further performance enhancement will be implemented
 
-This means we want QMP to let us configure which methods we like, along
-with whatever data is necessary to actually try them.
+There is currently an -EIO output when guests are booted from io_uring on ext4,
+the error is reported upstream.
+https://lore.kernel.org/linux-block/20190723080701.GA3198@stefanha-x1.localdomain/
 
-In short, we don't want mutually exclusive here.
+v7:
+- completes io-tests options
+- misc fixes
 
-Correct?
+v6:
+- add slow path for short-read
+- hooks up fsync
+- enables qemu-iotests with aio options
+- adds bdrv_parse_aio
+
+v5:
+- Adds completion polling
+- Extends qemu-io
+- Adds qemu-iotest
+
+v4:
+- Add error handling
+- Add trace events
+- Remove aio submission based code
+
+Aarushi Mehta (15):
+  configure: permit use of io_uring
+  qapi/block-core: add option for io_uring
+  block/block: add BDRV flag for io_uring
+  block/io_uring: implements interfaces for io_uring
+  stubs: add stubs for io_uring interface
+  util/async: add aio interfaces for io_uring
+  blockdev: adds bdrv_parse_aio to use io_uring
+  block/file-posix.c: extend to use io_uring
+  block: add trace events for io_uring
+  block/io_uring: adds userspace completion polling
+  qemu-io: adds option to use aio engine
+  qemu-img: adds option to use aio engine for benchmarking
+  qemu-nbd: adds option for aio engines
+  tests/qemu-iotests: enable testing with aio options
+  tests/qemu-iotests: use AIOMODE with various tests
+
+ MAINTAINERS                   |   8 +
+ block.c                       |  22 ++
+ block/Makefile.objs           |   3 +
+ block/file-posix.c            |  99 ++++++--
+ block/io_uring.c              | 439 ++++++++++++++++++++++++++++++++++
+ block/trace-events            |  12 +
+ blockdev.c                    |  12 +-
+ configure                     |  27 +++
+ include/block/aio.h           |  16 +-
+ include/block/block.h         |   2 +
+ include/block/raw-aio.h       |  12 +
+ qapi/block-core.json          |   4 +-
+ qemu-img.c                    |  10 +-
+ qemu-img.texi                 |   5 +-
+ qemu-io.c                     |  24 +-
+ qemu-nbd.c                    |  12 +-
+ qemu-nbd.texi                 |   4 +-
+ stubs/Makefile.objs           |   1 +
+ stubs/io_uring.c              |  32 +++
+ tests/qemu-iotests/028        |   3 +-
+ tests/qemu-iotests/058        |   2 +-
+ tests/qemu-iotests/089        |   4 +-
+ tests/qemu-iotests/091        |   7 +-
+ tests/qemu-iotests/109        |   3 +-
+ tests/qemu-iotests/147        |   5 +-
+ tests/qemu-iotests/181        |  10 +-
+ tests/qemu-iotests/183        |   7 +-
+ tests/qemu-iotests/185        |  17 +-
+ tests/qemu-iotests/200        |   3 +-
+ tests/qemu-iotests/201        |  10 +-
+ tests/qemu-iotests/check      |  15 +-
+ tests/qemu-iotests/common.rc  |  14 ++
+ tests/qemu-iotests/iotests.py |   9 +-
+ util/async.c                  |  36 +++
+ 34 files changed, 812 insertions(+), 77 deletions(-)
+ create mode 100644 block/io_uring.c
+ create mode 100644 stubs/io_uring.c
+
+-- 
+2.21.0
+
 
