@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2BA79B76
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:48:52 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1EC579B75
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:48:49 +0200 (CEST)
+Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsDVj-0007n8-KF
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
+	id 1hsDVg-0007jH-Tn
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:48:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hsDUn-0006vg-EK
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hsDUn-0006vf-Dq
  for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hsDUl-0003Kt-OJ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:53 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56165)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hsDUk-0003Kc-Qk
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:52 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:32930)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hsDUl-0003Jd-CS
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id a15so55172272wmj.5
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 14:47:51 -0700 (PDT)
+ id 1hsDUk-0003Ju-ER
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:47:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n9so63546602wru.0
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 14:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sa/mQp6emtqXRaB8V2BxR9P12B/uQ16VIM5jS+vD+YI=;
- b=Yjg0CBkynRZymphxC1QWn94gZXfQoIj/AcXwHMUdk9gaewNB3zxFG7GyTVeBIm+6dq
- ElTvdMzCoIXfbJLELR5cYXY6eLkHgb44VdcYLdeD9twXYeOIospo9yTIv4+q+CffByhM
- tpQ8Wn4wf8yypxleFZvuMNJRrsvJYaN0KB/ySi4Hy6RpQ8tKOOHANjc230rMG+EnNh6U
- 8wpXZ7pMZU52LFuqB1aipTsZxb4/nT4hkL+uSL5rLzPEUd6tpIBdRsLT/3HFlwJYmyVV
- TAsUjtvzWIf/e5d1eifZCxjQe5i0kYZDcoRzKVuN0A5bS5JW0fVnjXa4wZR9iONU8W/o
- iMcA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pTcqJxuHRzx/IgdDui6F+TGTCaaxU5b/6/alrJ5LvsA=;
+ b=NI4nBOH1ZEgLkBba/65dOnP1/cB7YQvb0jTF7M1jWFhCKEORkpeDm3RDgEyGIRcJRQ
+ N3OWvju2Z0VUV5ARROVmoxvPBAwnyTB9LZvdgY9vwCELk19y/HoG0u7u5z2e2ZEWty2G
+ apRib53aBc5zVDguuBON2dDARx5iiFhowG23iwBgTD2nVGYnOIA8BnJ7mR3+g5GoGBs2
+ Is+fuWIX5VtEW0Lf+JtwaXop9FUgBijE4PzNM5/XrIefMrVtokhjC4cGIxzfRQXxeBXL
+ 7hmVtHZCiXnTxrJTjayJhY8gFMYhhHlyADiCXrRluYpzcWszdX+58f0XYHq1VS0nsW3L
+ 6uug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=sa/mQp6emtqXRaB8V2BxR9P12B/uQ16VIM5jS+vD+YI=;
- b=oofTXGBoKXcYTh2GsycUgm8b4GTdgkbt1TTR6O5Kb1eYkWB0pHw+pYjxfCNkFnDujp
- WtTahFrye376jEaXIGk9aiFLc2rtPS72Y5P9byjTtRSm23mCluRGLHaS3HwF5bjShZPw
- mZl4QaLokx9uuhB2Jxla8ohr+v6Qou0rscp6se6WJmy1t96ug19lsRdnsEXoT0Rg6FtC
- g2NdfxIz/tRzAWRfuItM0UHhLjD9UfL5tnUcZkrpETFp5uQjfLs1eivAnzryxI3Kyv1d
- KxuQDsZkR2oRwV1dVoUjJUsdI/8n0bZOy/3qUqU/AZg0KuQUBjes3ktZmIAPWWAFfLW4
- y/IA==
-X-Gm-Message-State: APjAAAVdbbMggKPCdxe0OOVvGuD5LIgYHMjU25Mw6QzkSocYQFDZ5dAw
- HEopzHTljmQ4vOLqGA2ob3jKKbwr8r8=
-X-Google-Smtp-Source: APXvYqwMYpVhzLccr8lCEzPFLb0oRU4u6yuGMLCCY4KnPk7RcJvcW43HHIMrYwwucSFpiBAxk/gnQg==
-X-Received: by 2002:a7b:c928:: with SMTP id h8mr65380634wml.93.1564436867965; 
- Mon, 29 Jul 2019 14:47:47 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=pTcqJxuHRzx/IgdDui6F+TGTCaaxU5b/6/alrJ5LvsA=;
+ b=sfa9kbb9JYodkJ1vjxYb0DnC3qwhb2lmF3QOCLbwbAbPHxvMnkmbAuImwfxneIkHh2
+ PP+6zQDyjh4hGNDxGH/F1w+XnuAQzJ9Zk+TFd5EYoJxvaJRiaUyAkQTlpy+CW/uHiaWs
+ 4eRACK3vyrOcepGrJBt05ArClnwInlMXQ4Y9W87nQ06of0IMorqeqBZ3lSvrSl5IAKBX
+ HCd4C92a5r9xfHFWXumM6sS4PtG3wVEAPDIQjQahD6Ps2+/MBVro61DW6m1ftoEwzDT6
+ cUtJOJhQfa2e2KtSzXrx3LQG22nwGb4i/LRvjXjJenVf1FB7EesS0+5y2JWkYErOcpIi
+ frMQ==
+X-Gm-Message-State: APjAAAWX6nlbvx3k1AOw/Nqb1McjurmXpPgsWsGiPWFyHToVPLCVQ9aZ
+ 9G+EsYE91meJArwB1MXCpvLqvlOVMjc=
+X-Google-Smtp-Source: APXvYqwNKYtYxcZcrppFnJalR/XTwvHD03cFu1jMbQcUk2e6nM3pFVsR+/aaiCcO+tvpS8FUoQ4frQ==
+X-Received: by 2002:adf:e8cb:: with SMTP id k11mr38450719wrn.244.1564436868808; 
+ Mon, 29 Jul 2019 14:47:48 -0700 (PDT)
 Received: from donizetti.lan ([2001:b07:6468:f312:29d3:6123:6d5f:2c04])
- by smtp.gmail.com with ESMTPSA id s3sm62983238wmh.27.2019.07.29.14.47.46
+ by smtp.gmail.com with ESMTPSA id s3sm62983238wmh.27.2019.07.29.14.47.48
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 14:47:47 -0700 (PDT)
+ Mon, 29 Jul 2019 14:47:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 23:47:16 +0200
-Message-Id: <20190729214717.6616-1-pbonzini@redhat.com>
+Date: Mon, 29 Jul 2019 23:47:17 +0200
+Message-Id: <20190729214717.6616-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190729214717.6616-1-pbonzini@redhat.com>
+References: <20190729214717.6616-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH untested for-4.2] memory: fix race between TCG
- and accesses to dirty bitmap
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH] memory: introduce
+ memory_global_after_dirty_log_sync
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,7 +82,7 @@ Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The race is as follows:
+There is a race between TCG and accesses to the dirty log:
 
       vCPU thread                  reader thread
       -----------------------      -----------------------
@@ -92,8 +94,6 @@ The race is as follows:
       TLB check -> fast path
                                    read memory
         write to RAM
-
-and the second write is missed by the reader.
 
 Fortunately, in order to fix it, no change is required to the
 vCPU thread.  However, the reader thread must delay the read after
@@ -107,10 +107,6 @@ flush after doing a test-and-clear of the dirty-page flags.
 Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-        I tested this some time ago, and enough has changed that I don't
-        really trust those old results.  Nevertheless, I am throwing out
-        the patch so that it is not forgotten.
-
  exec.c                | 31 +++++++++++++++++++++++++++++++
  include/exec/memory.h | 12 ++++++++++++
  memory.c              | 10 +++++++++-
