@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF30F78F13
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:22:47 +0200 (CEST)
-Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05ED278F2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:27:11 +0200 (CEST)
+Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7U7-0007sR-3S
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43865)
+	id 1hs7YK-0008JH-QW
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43973)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Q3-0007bf-81
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:37 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QD-0007kc-7B
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Q1-00005J-8p
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:35 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33206)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QC-0000j8-83
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:45 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35000)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7Px-0008Of-Eo; Mon, 29 Jul 2019 11:18:33 -0400
-Received: by mail-pf1-x443.google.com with SMTP id g2so28206258pfq.0;
- Mon, 29 Jul 2019 08:18:28 -0700 (PDT)
+ id 1hs7QA-0000dn-6u; Mon, 29 Jul 2019 11:18:44 -0400
+Received: by mail-pl1-x642.google.com with SMTP id w24so27637989plp.2;
+ Mon, 29 Jul 2019 08:18:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rFNYp/sUy+7Vn316ErSiQ+ZjgPpQQr0YSAzg9F+EV7Q=;
- b=EpmbyHib7ILOGM4QYfbOz38vA3UwE10VAbAI9CNE8kUghA0FFApStoXpKxwf6FIyUz
- Hfd2ic8OnbPuwVSE5i1e00CQNihymxMegiZ/gnON6oHxpIPMxFJFT4Q3KtCljNomnbNn
- SHeIalWsRmBQVLjDrPWc1Z33xe8VawOK4f9xG6VzLEPscZK8eXJRnt9wCTD2+SLXNIwb
- hQ0cjs8lr/if+eE6UqU4YDTt5nT/trACOQc97uQpn6CjfynNY/qPa2L2S9Onyqh32SdD
- A3dyHxclIw3LvohGNyn5g437s0oPIdquGcqqV/vcaueb9Yq4PnxzT4cq4R0yjU7mzbTS
- a90w==
+ bh=rZYA5xSOck9aKPGmwHUNllk81b/q8QLNugjTlKfx170=;
+ b=WSOJpMmvb6q6f2rrL0A8KE9pSO2qkr7f/bHA4JiDGoE0oNOptA0fr7yePSyXTWf9w9
+ 4kpNQt21Yx7/Oe0jSHG1NOlgyWBoFbXqUDRDB02WsQ05xik910aV1BHRo11kZT5fmToU
+ Tx63tcPlAi89yeqJypL8m2svUmqp4tWImsTjbPjzJYSwcrviHVqwrZemlygFZM84LcaN
+ oeR9gME55SJTm3tZALnLtHhEm4CvRJ6Fyl44j5B1UH7QoLXLrv1++xCFNWWX0HmVoyCK
+ Ll5+M+sgBFP0+ityv/MYSkxjdlK2njmq2xoJ2aKrQC7bzl96w+5A3fXeCdgzyTytOwiA
+ kTfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rFNYp/sUy+7Vn316ErSiQ+ZjgPpQQr0YSAzg9F+EV7Q=;
- b=oJACrzrKp6WA+9YKVrvHbyG2nbav2h7dKSavTkZv63uaIZIobwR1Zwj2AZlbzzfpgp
- 9NNn0FO4A3r11BMHtxodw6z0MbXD3Fwww/Q/KmzHeftGcxHRt6mrGA8thwoNAL1PNxwv
- kKcfJWE26Elb//Ak0vow6gpgl7WLhh7ZB04mGpkgF8euB6GoTnhYcwGoyWB025IJqaKF
- t1Vl9u+plzZDU8fiERRcLgDC0ese7jwHmX6hQunq98LnbqdHh1O5L61/1hx/aj4SJYN6
- 2P73NRGSl+INKqux33lY+QQ0tuQAqcpWTAQfwa4yhsLMljoZgRue/2gKUNbdj+whu3so
- kkdA==
-X-Gm-Message-State: APjAAAU8yvzioSQCrZ6oz/fwaXjZ59RgktvKlkaXUI1u+DTiIKO4/th5
- y4m5oeSbBNzgdFF6JtsuetWfkUgszisk+g==
-X-Google-Smtp-Source: APXvYqwnCNKnz43sK6X6TUlhTAfhT+J+H/tZrGRQg+fMl4zUm4mL+dGfBAuWMKwZWqelhAiJ7UDhMQ==
-X-Received: by 2002:a63:f452:: with SMTP id p18mr79104916pgk.373.1564413507121; 
- Mon, 29 Jul 2019 08:18:27 -0700 (PDT)
+ bh=rZYA5xSOck9aKPGmwHUNllk81b/q8QLNugjTlKfx170=;
+ b=f1+QOLsPWXw9UPQPMn/RbrXvX2JdyBHSqDPO4c7DB+K4AJKckDu2U0tR4s4WcunfwO
+ Q9m09jgq/vAKAxFOlVviQwCCztFfa0ZzZzH+awyCPBcc2fkJOOZLV1zx9JO/emVlsLuk
+ mwOTmstgyHcNexbSJZGGFZVwWp37jBDy9PWayW+gHNKgLvEFlgQ5otUZBxezl0oQ3cnX
+ a8J8LPa6iapfJYAadb+wrEnoMvOh6mvSdJrBWW+jEdi1c4blv8+B8fhWpOdNGodUaSyE
+ 9UwoGlKrvcqp5/Ak9ayaHVehDmya8ZGLoJ6MZUJUEuHzgBaljsyeVl/J/Xs8RJ12fsvh
+ jKIg==
+X-Gm-Message-State: APjAAAUbtB1VMd1ARlsrufaWTiVcUiWClGdiyf+0fEyp159j122PDcVg
+ fmmaortMiMrpz823CGVjV317t5qI1VOb9g==
+X-Google-Smtp-Source: APXvYqxD93nYleuN1AJqUQjJLPQCm/SxiPHIvotq1cDcZAq5bCdaexkbf0ktDwLy/PI3vpvVZGwczQ==
+X-Received: by 2002:a17:902:1129:: with SMTP id
+ d38mr112055417pla.220.1564413520456; 
+ Mon, 29 Jul 2019 08:18:40 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.20
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.33
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:18:26 -0700 (PDT)
+ Mon, 29 Jul 2019 08:18:39 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:44 +0530
-Message-Id: <20190729151651.21306-9-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 20:46:46 +0530
+Message-Id: <20190729151651.21306-11-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
@@ -63,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v7 08/15] block/file-posix.c: extend to use
- io_uring
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v7 10/15] block/io_uring: adds userspace
+ completion polling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,218 +84,51 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Maxim Levitsky <maximlevitsky@gmail.com>
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/file-posix.c | 99 ++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 79 insertions(+), 20 deletions(-)
+ block/io_uring.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 4479cc7ab4..4aa42f826f 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -156,6 +156,7 @@ typedef struct BDRVRawState {
-     bool has_write_zeroes:1;
-     bool discard_zeroes:1;
-     bool use_linux_aio:1;
-+    bool use_linux_io_uring:1;
-     bool page_cache_inconsistent:1;
-     bool has_fallocate;
-     bool needs_alignment;
-@@ -425,7 +426,7 @@ static QemuOptsList raw_runtime_opts = {
-         {
-             .name = "aio",
-             .type = QEMU_OPT_STRING,
--            .help = "host AIO implementation (threads, native)",
-+            .help = "host AIO implementation (threads, native, io_uring)",
-         },
-         {
-             .name = "locking",
-@@ -484,9 +485,15 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         goto fail;
-     }
+diff --git a/block/io_uring.c b/block/io_uring.c
+index c7b2b0a9e2..691130b948 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -237,6 +237,21 @@ static void qemu_luring_completion_cb(void *opaque)
+     luring_process_completions_and_submit(s);
+ }
  
--    aio_default = (bdrv_flags & BDRV_O_NATIVE_AIO)
--                  ? BLOCKDEV_AIO_OPTIONS_NATIVE
--                  : BLOCKDEV_AIO_OPTIONS_THREADS;
-+    if (bdrv_flags & BDRV_O_NATIVE_AIO) {
-+        aio_default = BLOCKDEV_AIO_OPTIONS_NATIVE;
-+#ifdef CONFIG_LINUX_IO_URING
-+    } else if (bdrv_flags & BDRV_O_IO_URING) {
-+        aio_default = BLOCKDEV_AIO_OPTIONS_IO_URING;
-+#endif
-+    } else {
-+        aio_default = BLOCKDEV_AIO_OPTIONS_THREADS;
-+    }
-     aio = qapi_enum_parse(&BlockdevAioOptions_lookup,
-                           qemu_opt_get(opts, "aio"),
-                           aio_default, &local_err);
-@@ -495,7 +502,11 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         ret = -EINVAL;
-         goto fail;
-     }
++static bool qemu_luring_poll_cb(void *opaque)
++{
++    LuringState *s = opaque;
++    struct io_uring_cqe *cqes;
 +
-     s->use_linux_aio = (aio == BLOCKDEV_AIO_OPTIONS_NATIVE);
-+#ifdef CONFIG_LINUX_IO_URING
-+    s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
-+#endif
- 
-     locking = qapi_enum_parse(&OnOffAuto_lookup,
-                               qemu_opt_get(opts, "locking"),
-@@ -559,7 +570,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     s->shared_perm = BLK_PERM_ALL;
- 
- #ifdef CONFIG_LINUX_AIO
--     /* Currently Linux does AIO only for files opened with O_DIRECT */
-+    /* Currently Linux does AIO only for files opened with O_DIRECT */
-     if (s->use_linux_aio) {
-         if (!(s->open_flags & O_DIRECT)) {
-             error_setg(errp, "aio=native was specified, but it requires "
-@@ -581,6 +592,22 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     }
- #endif /* !defined(CONFIG_LINUX_AIO) */
- 
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (s->use_linux_io_uring) {
-+        if (!aio_setup_linux_io_uring(bdrv_get_aio_context(bs), errp)) {
-+            error_prepend(errp, "Unable to use io_uring: ");
-+            goto fail;
++    if (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
++        if (cqes) {
++            luring_process_completions_and_submit(s);
++            return true;
 +        }
 +    }
-+#else
-+    if (s->use_linux_io_uring) {
-+        error_setg(errp, "aio=io_uring was specified, but is not supported "
-+                         "in this build.");
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+#endif /* !defined(CONFIG_LINUX_IO_URING) */
 +
-     s->has_discard = true;
-     s->has_write_zeroes = true;
-     if ((bs->open_flags & BDRV_O_NOCACHE) != 0) {
-@@ -1874,21 +1901,25 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
-         return -EIO;
- 
-     /*
--     * Check if the underlying device requires requests to be aligned,
--     * and if the request we are trying to submit is aligned or not.
--     * If this is the case tell the low-level driver that it needs
--     * to copy the buffer.
-+     * When using O_DIRECT, the request must be aligned to be able to use
-+     * either libaio or io_uring interface. If not fail back to regular thread
-+     * pool read/write code which emulates this for us if we
-+     * set QEMU_AIO_MISALIGNED.
-      */
--    if (s->needs_alignment) {
--        if (!bdrv_qiov_is_aligned(bs, qiov)) {
--            type |= QEMU_AIO_MISALIGNED;
-+    if (s->needs_alignment && !bdrv_qiov_is_aligned(bs, qiov)) {
-+        type |= QEMU_AIO_MISALIGNED;
-+#ifdef CONFIG_LINUX_IO_URING
-+    } else if (s->use_linux_io_uring) {
-+        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-+        assert(qiov->size == bytes);
-+        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-+#endif
- #ifdef CONFIG_LINUX_AIO
--        } else if (s->use_linux_aio) {
--            LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
--            assert(qiov->size == bytes);
--            return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
-+    } else if (s->use_linux_aio) {
-+        LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
-+        assert(qiov->size == bytes);
-+        return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
- #endif
--        }
-     }
- 
-     acb = (RawPosixAIOData) {
-@@ -1924,24 +1955,36 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, uint64_t offset,
- 
- static void raw_aio_plug(BlockDriverState *bs)
++    return false;
++}
++
+ static void ioq_init(LuringQueue *io_q)
  {
-+    BDRVRawState __attribute__((unused)) *s = bs->opaque;
- #ifdef CONFIG_LINUX_AIO
--    BDRVRawState *s = bs->opaque;
-     if (s->use_linux_aio) {
-         LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
-         laio_io_plug(bs, aio);
-     }
- #endif
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (s->use_linux_io_uring) {
-+        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-+        luring_io_plug(bs, aio);
-+    }
-+#endif
+     QSIMPLEQ_INIT(&io_q->submit_queue);
+@@ -394,7 +409,7 @@ void luring_attach_aio_context(LuringState *s, AioContext *new_context)
+     s->aio_context = new_context;
+     s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
+     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
+-                       qemu_luring_completion_cb, NULL, NULL, s);
++                       qemu_luring_completion_cb, NULL, qemu_luring_poll_cb, s);
  }
  
- static void raw_aio_unplug(BlockDriverState *bs)
- {
-+    BDRVRawState __attribute__((unused)) *s = bs->opaque;
- #ifdef CONFIG_LINUX_AIO
--    BDRVRawState *s = bs->opaque;
-     if (s->use_linux_aio) {
-         LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
-         laio_io_unplug(bs, aio);
-     }
- #endif
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (s->use_linux_io_uring) {
-+        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-+        luring_io_unplug(bs, aio);
-+    }
-+#endif
- }
- 
- static int raw_co_flush_to_disk(BlockDriverState *bs)
-@@ -1961,14 +2004,20 @@ static int raw_co_flush_to_disk(BlockDriverState *bs)
-         .aio_type       = QEMU_AIO_FLUSH,
-     };
- 
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (s->use_linux_io_uring) {
-+        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
-+        return luring_co_submit(bs, aio, s->fd, 0, NULL, QEMU_AIO_FLUSH);
-+    }
-+#endif
-     return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
- }
- 
- static void raw_aio_attach_aio_context(BlockDriverState *bs,
-                                        AioContext *new_context)
- {
-+    BDRVRawState __attribute__((unused)) *s = bs->opaque;
- #ifdef CONFIG_LINUX_AIO
--    BDRVRawState *s = bs->opaque;
-     if (s->use_linux_aio) {
-         Error *local_err;
-         if (!aio_setup_linux_aio(new_context, &local_err)) {
-@@ -1978,6 +2027,16 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
-         }
-     }
- #endif
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (s->use_linux_io_uring) {
-+        Error *local_err;
-+        if (!aio_setup_linux_io_uring(new_context, &local_err)) {
-+            error_reportf_err(local_err, "Unable to use linux io_uring, "
-+                                         "falling back to thread pool: ");
-+            s->use_linux_io_uring = false;
-+        }
-+    }
-+#endif
- }
- 
- static void raw_close(BlockDriverState *bs)
+ LuringState *luring_init(Error **errp)
 -- 
 2.21.0
 
