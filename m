@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D12B78C5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:11:46 +0200 (CEST)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3484378C9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 15:17:54 +0200 (CEST)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs5RJ-00031Q-Hw
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40622)
+	id 1hs5XF-0002zU-74
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 09:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hs5QI-00027v-Qo
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:10:44 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hs5WR-0002WX-6a
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:17:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hs5QH-0002HK-8e
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:10:42 -0400
-Resent-Date: Mon, 29 Jul 2019 09:10:42 -0400
-Resent-Message-Id: <E1hs5QH-0002HK-8e@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21442)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hs5QH-0002En-0U
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:10:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1564405831; cv=none; d=zoho.com; s=zohoarc; 
- b=Tf5d0civqgwWWNCqftsKihNAcRCMSksaGyg/oNQAY25MQWUhJ6iIgJhi6X2fx8FfBgSMues3iRfnrej0wYIsSufGJe45JP5oMOpKaMU0jxkwU8Kxt0e4XveIi57cZxUg8Rc1bKfC2E9mvdpo6/UeTDlj/u8L9mqpfbkyszLmVkI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1564405831;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=IekwpAr7SlHeXeAlmofkL+JPKTqUhhdiqY8RcDeIH/c=; 
- b=Ela/zpZm5idzH1q4AyQSCtnSNZchHzu7ZMGmJGJbAS5dNpiW38bAWdC9Bv7ve1CASxMuSxtn2ixtrim2hI+V3HkT1cGP5ihZMBScYLqgU8cQuysKApcU4nPuMtoyO+tmHnpYXbuu66LuPKxtGwaF/pJBZjwGOgGZBOq8ZeWIvLA=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1564405829424329.8184797063677;
- Mon, 29 Jul 2019 06:10:29 -0700 (PDT)
-Message-ID: <156440582835.32054.8344633326640950717@c4a48874b076>
-In-Reply-To: <20190729125755.45008-1-slp@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hs5WQ-00066c-5o
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:17:03 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:36533)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hs5WP-00061p-Sc
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 09:17:02 -0400
+Received: by mail-ot1-x335.google.com with SMTP id r6so62478068oti.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 06:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TCrm4ivHs2IMudA2Tz9tISJsYbGA0/TCDE26vz9dz0I=;
+ b=eMqp8/WaYWr7DUSojx7c3gmbnpArV4sBaXPPhiWt4tCWMii4GB+P+QuIhEUsik2DXx
+ tzRFgU4eE1ae+KfAJ5v7xpPioixmBlMLSkiOIxub4FLYA93GtOgUjDILVB8fpe2sjzr4
+ FkW9PpoRXbUijxhKFOAc+1ttwdui3BZQOH6Vz6dAFDYb85yYKds6ncHASd/ybxXL/hpU
+ CdmnP4blMc10tAy6C5HwpXzWlJQWbyb7lWvt0fk6kkQiRgsls1L584ZqgxCv4pyagrdB
+ 6t/o7/9fL7UPYhZ19b556T40oBgyTqbklDqIyyIJgOMPCPR7GW39bWlbnbaQ12NqnP5B
+ BbFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TCrm4ivHs2IMudA2Tz9tISJsYbGA0/TCDE26vz9dz0I=;
+ b=oaP+zwkJG/djSt+mVNqRbdKZBq5Ad9zqjfnEI5EBh++pqVNc6HltABtyepa+l5vvo9
+ e2ae8jX2dTBBshQ+UloejwD1wZGxIRDk5iQ2Iuv6hvDBiHi70mmrfz2eKBbS7iUzzbRm
+ CdqnWMNbc5M5o2NoqxiyDUiZkKgfDnBms/RUeSVxF+wXHgMu5+22mDpeG2L39454sBaG
+ 98YdbVYG0ADvf9ADBRwF+DCO1BYCPYWHQ1ZO+GMOuSSsvLsdMbh5h3UNhL5upkazajo3
+ BjfocB/89q2jINjAjmOUyKtSOK+jhjunTSPZhhdCE8WfvPiC4GlCSFI3MV6SxpOL7KAh
+ 47HA==
+X-Gm-Message-State: APjAAAWupN+X8N42DisH5d1JyABWVO09mFg4zheuuAlfGeXx0VYt/S+C
+ tvSw2KKo6EAkef5eeKTVj+dhORaFroRzNRstV6La8w==
+X-Google-Smtp-Source: APXvYqwZlkgMNMWz4IiecXRm9unhe2/GNMGVOS5soLBp5lj/0l9AEJ+J9aD6q9J/ckzDzqOlvFAs+MMTKzPUj2YpnWc=
+X-Received: by 2002:a9d:4d81:: with SMTP id u1mr106979otk.221.1564406220717;
+ Mon, 29 Jul 2019 06:17:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: slp@redhat.com
-Date: Mon, 29 Jul 2019 06:10:29 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [RFC] virtio-mmio: implement modern (v2)
- personality (virtio-1)
+References: <20190722172616.28797-1-mreitz@redhat.com>
+ <20190722172616.28797-3-mreitz@redhat.com>
+In-Reply-To: <20190722172616.28797-3-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Jul 2019 14:16:50 +0100
+Message-ID: <CAFEAcA-JfzfR258pgNxEc=x7NqDncUrvQMtyCZ6FVm0PaZdv+A@mail.gmail.com>
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
+Subject: Re: [Qemu-devel] [PULL 2/5] block/nvme: support larger that 512
+ bytes sector devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,146 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, slp@redhat.com,
- mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcyOTEyNTc1NS40NTAw
-OC0xLXNscEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtSRkNdIHZpcnRpby1t
-bWlvOiBpbXBsZW1lbnQgbW9kZXJuICh2MikgcGVyc29uYWxpdHkgKHZpcnRpby0xKQpNZXNzYWdl
-LWlkOiAyMDE5MDcyOTEyNTc1NS40NTAwOC0xLXNscEByZWRoYXQuY29tCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8
-fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3Jp
-dGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9
-PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRl
-ZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3Qv
-cWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMTkwNzI5MTI1NzU1LjQ1MDA4LTEt
-c2xwQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5MDcyOTEyNTc1NS40NTAwOC0xLXNscEByZWRo
-YXQuY29tClN1Ym1vZHVsZSAnY2Fwc3RvbmUnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvY2Fw
-c3RvbmUuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdjYXBzdG9uZScKU3VibW9kdWxlICdkdGMn
-IChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvZHRjLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAn
-ZHRjJwpTdWJtb2R1bGUgJ3JvbXMvUWVtdU1hY0RyaXZlcnMnIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQvUWVtdU1hY0RyaXZlcnMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL1FlbXVN
-YWNEcml2ZXJzJwpTdWJtb2R1bGUgJ3JvbXMvU0xPRicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dp
-dC9TTE9GLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9TTE9GJwpTdWJtb2R1bGUgJ3Jv
-bXMvZWRrMicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9lZGsyLmdpdCkgcmVnaXN0ZXJlZCBm
-b3IgcGF0aCAncm9tcy9lZGsyJwpTdWJtb2R1bGUgJ3JvbXMvaXB4ZScgKGh0dHBzOi8vZ2l0LnFl
-bXUub3JnL2dpdC9pcHhlLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9pcHhlJwpTdWJt
-b2R1bGUgJ3JvbXMvb3BlbmJpb3MnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvb3BlbmJpb3Mu
-Z2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL29wZW5iaW9zJwpTdWJtb2R1bGUgJ3JvbXMv
-b3BlbmhhY2t3YXJlJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L29wZW5oYWNrd2FyZS5naXQp
-IHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvb3BlbmhhY2t3YXJlJwpTdWJtb2R1bGUgJ3JvbXMv
-b3BlbnNiaScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9vcGVuc2JpLmdpdCkgcmVnaXN0ZXJl
-ZCBmb3IgcGF0aCAncm9tcy9vcGVuc2JpJwpTdWJtb2R1bGUgJ3JvbXMvcWVtdS1wYWxjb2RlJyAo
-aHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L3FlbXUtcGFsY29kZS5naXQpIHJlZ2lzdGVyZWQgZm9y
-IHBhdGggJ3JvbXMvcWVtdS1wYWxjb2RlJwpTdWJtb2R1bGUgJ3JvbXMvc2VhYmlvcycgKGh0dHBz
-Oi8vZ2l0LnFlbXUub3JnL2dpdC9zZWFiaW9zLmdpdC8pIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3Jv
-bXMvc2VhYmlvcycKU3VibW9kdWxlICdyb21zL3NlYWJpb3MtaHBwYScgKGh0dHBzOi8vZ2l0LnFl
-bXUub3JnL2dpdC9zZWFiaW9zLWhwcGEuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3Nl
-YWJpb3MtaHBwYScKU3VibW9kdWxlICdyb21zL3NnYWJpb3MnIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQvc2dhYmlvcy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2dhYmlvcycKU3Vi
-bW9kdWxlICdyb21zL3NraWJvb3QnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvc2tpYm9vdC5n
-aXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2tpYm9vdCcKU3VibW9kdWxlICdyb21zL3Ut
-Ym9vdCcgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC91LWJvb3QuZ2l0KSByZWdpc3RlcmVkIGZv
-ciBwYXRoICdyb21zL3UtYm9vdCcKU3VibW9kdWxlICdyb21zL3UtYm9vdC1zYW00NjBleCcgKGh0
-dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC91LWJvb3Qtc2FtNDYwZXguZ2l0KSByZWdpc3RlcmVkIGZv
-ciBwYXRoICdyb21zL3UtYm9vdC1zYW00NjBleCcKU3VibW9kdWxlICdzbGlycCcgKGh0dHBzOi8v
-Z2l0LnFlbXUub3JnL2dpdC9saWJzbGlycC5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3NsaXJw
-JwpTdWJtb2R1bGUgJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJyAoaHR0cHM6Ly9naXQu
-cWVtdS5vcmcvZ2l0L2JlcmtlbGV5LXNvZnRmbG9hdC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0
-aCAndGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMnClN1Ym1vZHVsZSAndGVzdHMvZnAvYmVy
-a2VsZXktdGVzdGZsb2F0LTMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvYmVya2VsZXktdGVz
-dGZsb2F0LTMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0
-ZmxvYXQtMycKU3VibW9kdWxlICd1aS9rZXljb2RlbWFwZGInIChodHRwczovL2dpdC5xZW11Lm9y
-Zy9naXQva2V5Y29kZW1hcGRiLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndWkva2V5Y29kZW1h
-cGRiJwpDbG9uaW5nIGludG8gJ2NhcHN0b25lJy4uLgpTdWJtb2R1bGUgcGF0aCAnY2Fwc3RvbmUn
-OiBjaGVja2VkIG91dCAnMjJlYWQzZTBiZmRiODc1MTY2NTY0NTMzMzYxNjBlMGEzN2IwNjZiZicK
-Q2xvbmluZyBpbnRvICdkdGMnLi4uClN1Ym1vZHVsZSBwYXRoICdkdGMnOiBjaGVja2VkIG91dCAn
-ODhmMTg5MDlkYjczMWE2Mjc0NTZmMjZkNzc5NDQ1Zjg0ZTQ0OTUzNicKQ2xvbmluZyBpbnRvICdy
-b21zL1FlbXVNYWNEcml2ZXJzJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9RZW11TWFjRHJpdmVy
-cyc6IGNoZWNrZWQgb3V0ICc5MGM0ODhkNWY0YTQwNzM0MjI0N2I5ZWE4NjlkZjFjMmQ5YzhlMjY2
-JwpDbG9uaW5nIGludG8gJ3JvbXMvU0xPRicuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvU0xPRic6
-IGNoZWNrZWQgb3V0ICdiYTFhYjM2MGVlYmU2MzM4YmI4ZDdkODNhOTIyMGNjZjdlMjEzYWYzJwpD
-bG9uaW5nIGludG8gJ3JvbXMvZWRrMicuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvZWRrMic6IGNo
-ZWNrZWQgb3V0ICcyMGQyZTVhMTI1ZTM0ZmM4NTAxMDI2NjEzYTcxNTQ5YjJhMWEzZTU0JwpTdWJt
-b2R1bGUgJ1NvZnRGbG9hdCcgKGh0dHBzOi8vZ2l0aHViLmNvbS91Y2ItYmFyL2JlcmtlbGV5LXNv
-ZnRmbG9hdC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnQXJtUGtnL0xpYnJhcnkvQXJtU29m
-dEZsb2F0TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJwpTdWJtb2R1bGUgJ0NyeXB0b1BrZy9MaWJy
-YXJ5L09wZW5zc2xMaWIvb3BlbnNzbCcgKGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
-c2wpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3Bl
-bnNzbCcKQ2xvbmluZyBpbnRvICdBcm1Qa2cvTGlicmFyeS9Bcm1Tb2Z0RmxvYXRMaWIvYmVya2Vs
-ZXktc29mdGZsb2F0LTMnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQXJtUGtnL0xpYnJh
-cnkvQXJtU29mdEZsb2F0TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJzogY2hlY2tlZCBvdXQgJ2I2
-NGFmNDFjMzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2YjljODgwMzcnCkNsb25pbmcgaW50byAnQ3J5
-cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9t
-cy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbCc6IGNoZWNrZWQgb3V0
-ICc1MGVhYWM5ZjMzMzc2NjcyNTlkZTcyNTQ1MWYyMDFlNzg0NTk5Njg3JwpTdWJtb2R1bGUgJ2Jv
-cmluZ3NzbCcgKGh0dHBzOi8vYm9yaW5nc3NsLmdvb2dsZXNvdXJjZS5jb20vYm9yaW5nc3NsKSBy
-ZWdpc3RlcmVkIGZvciBwYXRoICdib3Jpbmdzc2wnClN1Ym1vZHVsZSAna3JiNScgKGh0dHBzOi8v
-Z2l0aHViLmNvbS9rcmI1L2tyYjUpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2tyYjUnClN1Ym1vZHVs
-ZSAncHljYS5jcnlwdG9ncmFwaHknIChodHRwczovL2dpdGh1Yi5jb20vcHljYS9jcnlwdG9ncmFw
-aHkuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdweWNhLWNyeXB0b2dyYXBoeScKQ2xvbmluZyBp
-bnRvICdib3Jpbmdzc2wnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRvUGtnL0xp
-YnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsL2JvcmluZ3NzbCc6IGNoZWNrZWQgb3V0ICcyMDcwZjhh
-ZDkxNTFkYzhmM2E3M2JmZmFhMTQ2YjVlNjkzN2E1ODNmJwpDbG9uaW5nIGludG8gJ2tyYjUnLi4u
-ClN1Ym1vZHVsZSBwYXRoICdyb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9v
-cGVuc3NsL2tyYjUnOiBjaGVja2VkIG91dCAnYjlhZDZjNDk1MDVjOTZhMDg4MzI2YjYyYTUyNTY4
-ZTM0ODRmMjE2OCcKQ2xvbmluZyBpbnRvICdweWNhLWNyeXB0b2dyYXBoeScuLi4KU3VibW9kdWxl
-IHBhdGggJ3JvbXMvZWRrMi9DcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wvcHlj
-YS1jcnlwdG9ncmFwaHknOiBjaGVja2VkIG91dCAnMDk0MDMxMDBkZTJmNmYxY2RkMGQ0ODRkY2I4
-ZTYyMGYxYzMzNWM4ZicKQ2xvbmluZyBpbnRvICdyb21zL2lweGUnLi4uClN1Ym1vZHVsZSBwYXRo
-ICdyb21zL2lweGUnOiBjaGVja2VkIG91dCAnZGU0NTY1Y2JlNzZlYTlmNzkxM2EwMWYzMzFiZTNl
-ZTkwMWJiNmUxNycKQ2xvbmluZyBpbnRvICdyb21zL29wZW5iaW9zJy4uLgpTdWJtb2R1bGUgcGF0
-aCAncm9tcy9vcGVuYmlvcyc6IGNoZWNrZWQgb3V0ICdjNzllMGVjYjg0ZjRmMWVlM2Y3M2Y1MjE2
-MjJlMjY0ZWRkMWJmMTc0JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbmhhY2t3YXJlJy4uLgpTdWJt
-b2R1bGUgcGF0aCAncm9tcy9vcGVuaGFja3dhcmUnOiBjaGVja2VkIG91dCAnYzU1OWRhN2M4ZWVj
-NWU0NWVmMWY2Nzk3ODgyN2FmNmYwYjk1NDZmNScKQ2xvbmluZyBpbnRvICdyb21zL29wZW5zYmkn
-Li4uClN1Ym1vZHVsZSBwYXRoICdyb21zL29wZW5zYmknOiBjaGVja2VkIG91dCAnY2UyMjhlZTA5
-MTlkZWI5OTU3MTkyZDcyM2VlY2M4YWFhZTI2OTdjNicKQ2xvbmluZyBpbnRvICdyb21zL3FlbXUt
-cGFsY29kZScuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMvcWVtdS1wYWxjb2RlJzogY2hlY2tlZCBv
-dXQgJ2JmMGUxMzY5ODg3MjQ1MDE2NGZhNzA0MGRhMzZhOTVkMmQ0YjMyNmYnCkNsb25pbmcgaW50
-byAncm9tcy9zZWFiaW9zJy4uLgpTdWJtb2R1bGUgcGF0aCAncm9tcy9zZWFiaW9zJzogY2hlY2tl
-ZCBvdXQgJ2E1Y2FiNThlOWEzZmI2ZTE2OGFiYTkxOWM1NjY5YmVhNDA2NTczYjQnCkNsb25pbmcg
-aW50byAncm9tcy9zZWFiaW9zLWhwcGEnLi4uClN1Ym1vZHVsZSBwYXRoICdyb21zL3NlYWJpb3Mt
-aHBwYSc6IGNoZWNrZWQgb3V0ICcwZjRmZTg0NjU4MTY1ZTk2Y2UzNTg3MGZkMTlmYzYzNGUxODJl
-NzdiJwpDbG9uaW5nIGludG8gJ3JvbXMvc2dhYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3JvbXMv
-c2dhYmlvcyc6IGNoZWNrZWQgb3V0ICdjYmFlZTUyMjg3ZTVmMzIzNzMxODFjZmY1MGEwMGI2YzRh
-YzkwMTVhJwpDbG9uaW5nIGludG8gJ3JvbXMvc2tpYm9vdCcuLi4KU3VibW9kdWxlIHBhdGggJ3Jv
-bXMvc2tpYm9vdCc6IGNoZWNrZWQgb3V0ICcyNjFjYThlNzc5ZTUxMzg4NjlhNDVmMTc0Y2FhNDli
-ZTZhMjc0NTAxJwpDbG9uaW5nIGludG8gJ3JvbXMvdS1ib290Jy4uLgpTdWJtb2R1bGUgcGF0aCAn
-cm9tcy91LWJvb3QnOiBjaGVja2VkIG91dCAnZDM2ODkyNjdmOTJjNTk1NmUwOWNjN2QxYmFhNDcw
-MDE0MTY2MmJmZicKQ2xvbmluZyBpbnRvICdyb21zL3UtYm9vdC1zYW00NjBleCcuLi4KU3VibW9k
-dWxlIHBhdGggJ3JvbXMvdS1ib290LXNhbTQ2MGV4JzogY2hlY2tlZCBvdXQgJzYwYjM5MTZmMzNl
-NjE3YTgxNTk3M2M1YTZkZjc3MDU1YjJlM2E1ODgnCkNsb25pbmcgaW50byAnc2xpcnAnLi4uClN1
-Ym1vZHVsZSBwYXRoICdzbGlycCc6IGNoZWNrZWQgb3V0ICdmMGRhNjcyNjIwN2I3NDBmNjEwMTAy
-OGIyOTkyZjkxODQ3N2E0YjA4JwpDbG9uaW5nIGludG8gJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRm
-bG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAndGVzdHMvZnAvYmVya2VsZXktc29mdGZsb2F0LTMn
-OiBjaGVja2VkIG91dCAnYjY0YWY0MWMzMjc2Zjk3ZjBlMTgxOTIwNDAwZWUwNTZiOWM4ODAzNycK
-Q2xvbmluZyBpbnRvICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQtMycuLi4KU3VibW9kdWxl
-IHBhdGggJ3Rlc3RzL2ZwL2JlcmtlbGV5LXRlc3RmbG9hdC0zJzogY2hlY2tlZCBvdXQgJzVhNTlk
-Y2VjMTkzMjczOTZhMDExYTE3ZmQ5MjRhZWQ0ZmVjNDE2YjMnCkNsb25pbmcgaW50byAndWkva2V5
-Y29kZW1hcGRiJy4uLgpTdWJtb2R1bGUgcGF0aCAndWkva2V5Y29kZW1hcGRiJzogY2hlY2tlZCBv
-dXQgJzZiM2Q3MTZlMmI2NDcyZWI3MTg5ZDMyMjA1NTIyODBlZjNkODMyY2UnClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKYjA2YTI3NCB2aXJ0aW8tbW1pbzogaW1wbGVtZW50IG1vZGVy
-biAodjIpIHBlcnNvbmFsaXR5ICh2aXJ0aW8tMSkKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9S
-OiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzUyOiBGSUxFOiBo
-dy92aXJ0aW8vdmlydGlvLW1taW8uYzo1NDE6CisgICAgLnN1YnNlY3Rpb25zID0gKGNvbnN0IFZN
-U3RhdGVEZXNjcmlwdGlvbipbXSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDQwMSBsaW5lcyBjaGVj
-a2VkCgpDb21taXQgYjA2YTI3NDNmYmY0ICh2aXJ0aW8tbW1pbzogaW1wbGVtZW50IG1vZGVybiAo
-djIpIHBlcnNvbmFsaXR5ICh2aXJ0aW8tMSkpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNzI5
-MTI1NzU1LjQ1MDA4LTEtc2xwQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+On Mon, 22 Jul 2019 at 18:26, Max Reitz <mreitz@redhat.com> wrote:
+>
+> From: Maxim Levitsky <mlevitsk@redhat.com>
+>
+> Currently the driver hardcodes the sector size to 512,
+> and doesn't check the underlying device. Fix that.
+>
+> Also fail if underlying nvme device is formatted with metadata
+> as this needs special support.
+>
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Message-id: 20190716163020.13383-3-mlevitsk@redhat.com
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
+> +static int64_t nvme_get_blocksize(BlockDriverState *bs)
+> +{
+> +    BDRVNVMeState *s = bs->opaque;
+> +    assert(s->blkshift >= BDRV_SECTOR_BITS);
+> +    return 1 << s->blkshift;
+> +}
+
+Hi -- Coverity points out here that we calculate the
+"1 << s->blkshift" as a 32-bit shift, but then return an
+int64_t type (CID 1403771).
+
+Can the blkshift ever really be 31 or more ?
+
+The types here seem weird anyway -- we return an int64_t,
+but the only user of this is nvme_probe_blocksizes(),
+which uses the value only to set BlockSizes::phys and ::log,
+both of which are of type "uint32_t". That leads me to think
+that the right return type for the function is uint32_t.
+
+PS: this is the only Coverity issue currently outstanding so
+if it's a trivial fix it might be nice to put it into rc3.
+
+thanks
+-- PMM
 
