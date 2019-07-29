@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D806678EF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:17:55 +0200 (CEST)
-Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D7078EDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:14:50 +0200 (CEST)
+Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7PP-0005t3-0s
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:17:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39966)
+	id 1hs7MP-0008UV-8s
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39267)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs79H-0007eV-Pg
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:16 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hs78r-0006xa-6Y
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs79G-0006kf-EA
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:15 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49078)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs78x-0005Zz-SH; Mon, 29 Jul 2019 11:00:56 -0400
-Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id C54EF97082;
- Mon, 29 Jul 2019 14:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8VM1iJKivn2M3c7C3sqBxBOTVwxONCMfs1SbQ7OUKqo=;
- b=JFhI1VWmw5aW8DhY6yb1HIbEVBPBLHw6o1FXIo1pOtJMjb4Xy8DJdCAbQh1UmRMUg71FYP
- RcDS1xWqPob4GrDhF7a0SnXgkbLerqE7w/5H84k7ZikohwRXTH6l4NTKvd3xD33RNJMueE
- Piu8+CwJ6aHwS/QvVlz5y0OsSO2Nc/Y=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:54 +0200
-Message-Id: <20190729145654.14644-34-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
-References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ (envelope-from <stefanha@gmail.com>) id 1hs78o-0006EF-Vp
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:48 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33710)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1hs78o-0006Cn-7M; Mon, 29 Jul 2019 11:00:46 -0400
+Received: by mail-wr1-x441.google.com with SMTP id n9so62323723wru.0;
+ Mon, 29 Jul 2019 08:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=EvGNx+Kn3j22mBnD961uLdesgAsnX9V9qF5f4y0JXAk=;
+ b=EfjmWj2el3tkQhY49K2n7qYNNgdsfguH1ifg9deCMCWl99STnMa3uulGEV182xBF2B
+ 0iEqya+ZdE7eYyx+Rf5udJkDM3d1ryCXBDZqLk86vWwBKxh7DnQBeUAF37ZuuJLErNDJ
+ 6LKjBmMfZIbdYydbd/3PnwLPPar0U1IH4VpdTsSNmL9W8/+/qFSws9I0W9cQf0pxgIps
+ SRYVAcyCxmIO8H+j/VEQUSW6qQWnAf19Dz5pVghoz9N81VfReSJcnhPsfUAVL+12gU/P
+ SY9IADzKyMMqeO5eoGV2T9ib5byC7huFWVZ1TXuKkG9Orv/bWxzEldbPope4RCD33zQA
+ K08Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=EvGNx+Kn3j22mBnD961uLdesgAsnX9V9qF5f4y0JXAk=;
+ b=RvSx8oSjKW9DYpX5tz+a0y97ljYgYh4CETzUgO/rrLku71Yuz8W99x0yYHEKiN/qE1
+ 6bnNnzBATa3QkBJta9nAwNjKF3E02ctJH1K+KkyisvkGymUDbejAsX/ZCA0zKiCj37ZO
+ zrkj0S+En2ONg0K2T4QJNs4yf8uM3gplUDrwAgHTXB4BpYnp8nOO1Y1t9HG7mzAmYTi0
+ 2GaMOfE/+C5GuRU0fppNyxvC41Sv2nMTJxNv86x9H3+sJ6LNO7lXtefhAL9iizSkJgV2
+ X/TFF5ekFQot1zTCgl1ZIUr4PMgBp1GpZ2K1JmqaxCszSAOJsdimrFVjVVL5nzPB/Iwd
+ AuGA==
+X-Gm-Message-State: APjAAAWDYzsHyqR2Omr1nScypR+tev1MOzGcmVDagXU05AhpKsnOkJ/x
+ wgspyDXhsVpTTjWK6clzSA8=
+X-Google-Smtp-Source: APXvYqy2N2JqJM971redH8YBz1aVzaUt3bKb9FUYCmc08Im/9gX+ZXeX5j/jlAsZw1e+7WfTYKA/ww==
+X-Received: by 2002:adf:e8c2:: with SMTP id k2mr30751971wrn.198.1564412444196; 
+ Mon, 29 Jul 2019 08:00:44 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id z1sm68458209wrv.90.2019.07.29.08.00.42
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 29 Jul 2019 08:00:43 -0700 (PDT)
+Date: Mon, 29 Jul 2019 16:00:41 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190729150041.GF6771@stefanha-x1.localdomain>
+References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8VM1iJKivn2M3c7C3sqBxBOTVwxONCMfs1SbQ7OUKqo=;
- b=tPylVglyjK9gj7L05jvLEdTjQdzcShhevAGcpugN9tKGnnRPmDnIjLzVb0aFa3aj8BGmvY
- Krc4+SDcg2GkvqAoQU4jqYpy+T1qBajDRwazVHrA/46oVUVLoAY208vaCoChQ6m+8FJIoP
- H6/nIGQbxl+AnBVOLYWYyrYOViGJzJM=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412377; a=rsa-sha256; cv=none;
- b=Rt9UvrTi1HwN2iK14uquO2Uf7oQ7gOVVHwpz1BIj2a6c1vFEbRwjiRfBD9EaWmjBNWcTr4
- 6HvjLFVtH1ncBizrQ2fKV84IZNrmDFc8NkM7JR7Y+4RPx3k5+iDv4rzOYqCoAbHI0rhWwd
- yICqDgcfj4q+45phrH4/8Tspiz7VeSk=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-X-Spam: Yes
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 33/33] Connect the uart reset gpios in the
- zynq platform
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="twz1s1Hj1O0rHoT0"
+Content-Disposition: inline
+In-Reply-To: <20190725100550.33801-1-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v3 for-4.2 0/3] block:
+ BDRV_REQ_PREFETCH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,101 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
- dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
- kraxel@redhat.com, edgar.iglesias@xilinx.com, hare@suse.com,
- qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
- thuth@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com,
- david@gibson.dropbear.id.au, Damien Hedde <damien.hedde@greensocs.com>,
- berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect the two uart reset inputs to the slcr corresponding outputs.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
- hw/arm/xilinx_zynq.c           | 14 ++++++++------
- include/hw/char/cadence_uart.h | 10 +++++++++-
- 2 files changed, 17 insertions(+), 7 deletions(-)
+--twz1s1Hj1O0rHoT0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 89da34808b..bb56f1e03c 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -165,7 +165,7 @@ static void zynq_init(MachineState *machine)
-     MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
--    DeviceState *dev;
-+    DeviceState *dev, *slcr;
-     SysBusDevice *busdev;
-     qemu_irq pic[64];
-     int n;
-@@ -210,9 +210,9 @@ static void zynq_init(MachineState *machine)
-                           1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2=
-aa,
-                           0);
-=20
--    dev =3D qdev_create(NULL, "xilinx,zynq_slcr");
--    qdev_init_nofail(dev);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xF8000000);
-+    slcr =3D qdev_create(NULL, "xilinx,zynq_slcr");
-+    qdev_init_nofail(slcr);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
-=20
-     dev =3D qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-@@ -233,8 +233,10 @@ static void zynq_init(MachineState *machine)
-     sysbus_create_simple("xlnx,ps7-usb", 0xE0002000, pic[53-IRQ_OFFSET])=
-;
-     sysbus_create_simple("xlnx,ps7-usb", 0xE0003000, pic[76-IRQ_OFFSET])=
-;
-=20
--    cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
--    cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
-+    cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0),
-+                        slcr, "uart0_rst", 0);
-+    cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1),
-+                        slcr, "uart1_rst", 0);
-=20
-     sysbus_create_varargs("cadence_ttc", 0xF8001000,
-             pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], =
-NULL);
-diff --git a/include/hw/char/cadence_uart.h b/include/hw/char/cadence_uar=
-t.h
-index e1cf33e94c..c03c61a1f2 100644
---- a/include/hw/char/cadence_uart.h
-+++ b/include/hw/char/cadence_uart.h
-@@ -52,7 +52,10 @@ typedef struct {
-=20
- static inline DeviceState *cadence_uart_create(hwaddr addr,
-                                         qemu_irq irq,
--                                        Chardev *chr)
-+                                        Chardev *chr,
-+                                        DeviceState *rst_dev,
-+                                        const char *rst_name,
-+                                        int rst_n)
- {
-     DeviceState *dev;
-     SysBusDevice *s;
-@@ -64,6 +67,11 @@ static inline DeviceState *cadence_uart_create(hwaddr =
-addr,
-     sysbus_mmio_map(s, 0, addr);
-     sysbus_connect_irq(s, 0, irq);
-=20
-+    if (rst_dev) {
-+        qdev_connect_gpio_out_named(rst_dev, rst_name, rst_n,
-+                qdev_get_gpio_in_named(dev, "rst", 0));
-+    }
-+
-     return dev;
- }
-=20
---=20
-2.22.0
+On Thu, Jul 25, 2019 at 01:05:47PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> Hi all!
+>=20
+> Here is small new read flag: BDRV_REQ_PREFETCH, which in combination with
+> BDRV_REQ_COPY_ON_READ does copy-on-read without
+> extra buffer for read data. This means that only parts that needs COR
+> will be actually read and only corresponding buffers allocated, no more.
+>=20
+> This allows to improve a bit block-stream and NBD_CMD_CACHE
+>=20
+> v3: rebase 02 on master, fix commit message of 03.
+>=20
+> v2: change interface to be just one flag BDRV_REQ_PREFETCH
+>=20
+> v1 was "[PATCH 0/3] block: blk_co_pcache"
+>    https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01047.html
+>=20
+> Vladimir Sementsov-Ogievskiy (3):
+>   block: implement BDRV_REQ_PREFETCH
+>   block/stream: use BDRV_REQ_PREFETCH
+>   nbd: improve CMD_CACHE: use BDRV_REQ_PREFETCH
+>=20
+>  include/block/block.h |  8 +++++++-
+>  block/io.c            | 18 ++++++++++++------
+>  block/stream.c        | 20 +++++++-------------
+>  nbd/server.c          | 43 +++++++++++++++++++++++++++++++++++--------
+>  4 files changed, 61 insertions(+), 28 deletions(-)
+>=20
+> --=20
+> 2.18.0
+>=20
+>=20
 
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--twz1s1Hj1O0rHoT0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0/ChkACgkQnKSrs4Gr
+c8huZAf8DYrt0xQ7OoO8i3iPV99FIod6laCocfMfgP6ifYYyi/48BywpkliHySzC
+g0Vtg1DpJrTCeM4za5gDFZBEbB3oVmoidrgLNVENUI/pu0DWE7KsGtESh9I0nNoH
+bYj771OapJB1SUl+h8JPjnRcBjPEjeOlSqSY6t+5t+I3KlkmUu1w5iZCoCt/qk5Q
+iKaSrZS/VtuqhE5BOLZbWiToIEWyJxxbrdEBoa0Ki6DJBPOHoGxx4VJYk38VeX5j
+0QxcVA/Wcb4JKiGnUc7Cs2+y7IrVnZoRbRyfh2YEgWr0UJY4eOF6Rde9rK7E4n5d
+tqh81BDzr85lx3Z8YJoYEdcvy4RMdw==
+=vXhs
+-----END PGP SIGNATURE-----
+
+--twz1s1Hj1O0rHoT0--
 
