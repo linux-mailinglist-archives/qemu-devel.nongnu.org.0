@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A638379AEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:18:26 +0200 (CEST)
-Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C7779AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:20:20 +0200 (CEST)
+Received: from localhost ([::1]:56478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsD2H-00084m-Tu
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:18:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56719)
+	id 1hsD47-0001kC-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57312)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hsD0H-0005uD-Qq
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:22 -0400
+ (envelope-from <eblake@redhat.com>) id 1hsD3V-00016m-43
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:19:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hsD0G-0003jl-Mj
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:21 -0400
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:43668)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hsD0G-0003jZ-JD
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:20 -0400
-Received: by mail-qt1-f173.google.com with SMTP id w17so16623080qto.10
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 14:16:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qNyxluckYNXjX0PviQMIN4Hjjd/tW1RorHrzwXKNic0=;
- b=YXCabN4v+vFndbgr3CdIbguu2YmQ5vZkpdoxFr3rCZv5S6nRK7fZky6Cn8GU96lNOk
- khYBw42Akt4UYBWbAaPsMgtYj6qlq6NFhYbuJ8FqA5fuEQCnmgjrpuFC/Q8Qebn4T6Yy
- R/3eHnjXTkty5CDepES3agQW5zh82IEgcRedW88UPAfqgXaBuYknvE9kmkfFiVmexrzp
- wwdT1PiT72rqfrrlVbRSX9GiDxLvbiByzz2gfsInC3/NLhLRvX5l6K9AkjpjjEKuyRa5
- Or/M23B3BILNC9sxrkJtD/xAx1yqqxrY+d+QadrTDowpEem99baO5WjeySa44yByAdYL
- 8afw==
-X-Gm-Message-State: APjAAAXp+4IcGu1VDxfOf8aqOa85+KxzXzliiitINXbaPPB3yYLLLvT2
- Vlm+xEmRm9ZtvvogJ68O2JnkAoLx5IcGPA==
-X-Google-Smtp-Source: APXvYqwoU/egkdex8u6mxc9FsYJMsUwNUUJAJoao73k/ZNmzDvjN/rmkCY5pjfiiTN0jOI0myzeT/A==
-X-Received: by 2002:a0c:ad7a:: with SMTP id v55mr78346444qvc.130.1564434979765; 
- Mon, 29 Jul 2019 14:16:19 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
- by smtp.gmail.com with ESMTPSA id
- g2sm27478762qkf.32.2019.07.29.14.16.16
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 14:16:19 -0700 (PDT)
-Date: Mon, 29 Jul 2019 17:16:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190723160859.27250-1-imammedo@redhat.com>
-References: <20190729211404.1533-1-mst@redhat.com>
+ (envelope-from <eblake@redhat.com>) id 1hsD3U-00047t-7P
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:19:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56612)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hsD3S-00046F-6G; Mon, 29 Jul 2019 17:19:38 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 517163082126;
+ Mon, 29 Jul 2019 21:19:37 +0000 (UTC)
+Received: from [10.3.116.93] (ovpn-116-93.phx2.redhat.com [10.3.116.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 621DE608A5;
+ Mon, 29 Jul 2019 21:19:29 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
+ <20190725100550.33801-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <3916bd0a-561e-637b-1445-76fe19ce5321@redhat.com>
+Date: Mon, 29 Jul 2019 16:19:28 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190729211404.1533-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
+In-Reply-To: <20190725100550.33801-3-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wygaEbHWdsJZCce7qRTjMyXdYefqdB0TE"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Mon, 29 Jul 2019 21:19:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.173
-Subject: [Qemu-devel] [PULL 3/3] pc-dimm: fix crash when invalid slot number
- is used
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 2/3] block/stream: use BDRV_REQ_PREFETCH
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,55 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Pankaj Gupta <pagupta@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, &lt@redhat.com, Mammedov@redhat.com,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, fam@euphon.net, mreitz@redhat.com, stefanha@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wygaEbHWdsJZCce7qRTjMyXdYefqdB0TE
+Content-Type: multipart/mixed; boundary="FHCcx3W8rbNVdnJXUlTMgH9eHp6MyH0uQ";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: jsnow@redhat.com, mreitz@redhat.com, kwolf@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, den@openvz.org
+Message-ID: <3916bd0a-561e-637b-1445-76fe19ce5321@redhat.com>
+Subject: Re: [PATCH v3 2/3] block/stream: use BDRV_REQ_PREFETCH
+References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
+ <20190725100550.33801-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20190725100550.33801-3-vsementsov@virtuozzo.com>
 
-QEMU will crash with:
-  Segmentation fault (core dumped)
-when negative slot number is used, ex:
-  qemu-system-x86_64 -m 1G,maxmem=20G,slots=256 \
-      -object memory-backend-ram,id=mem1,size=1G \
-      -device pc-dimm,id=dimm1,memdev=mem1,slot=-2
+--FHCcx3W8rbNVdnJXUlTMgH9eHp6MyH0uQ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-fix it by checking that slot number is within valid range.
+On 7/25/19 5:05 AM, Vladimir Sementsov-Ogievskiy wrote:
+> This helps to avoid extra io, allocations and memory copying.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/stream.c | 20 +++++++-------------
+>  1 file changed, 7 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/block/stream.c b/block/stream.c
+> index 6ac1e7bec4..170e3b43be 100644
+> --- a/block/stream.c
+> +++ b/block/stream.c
+> @@ -22,11 +22,11 @@
+> =20
+>  enum {
+>      /*
+> -     * Size of data buffer for populating the image file.  This should=
+ be large
+> +     * Maximum chunk size to feed it to copy-on-read.  This should be =
+large
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20190723160859.27250-1-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Signed-off-by: Igor Mammedov &lt;<a href="mailto:imammedo@redhat.com" target="_blank">imammedo@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Li Qiang &lt;<a href="mailto:liq3ea@gmail.com">liq3ea@gmail.com</a>&gt;<br></div><div> </div><blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Reviewed-by: Pankaj Gupta <pagupta@redhat.com>
----
- hw/mem/pc-dimm.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+s/feed it/feed/
 
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index b1239fd0d3..29c785799c 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -38,6 +38,13 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
- 
-     slot = object_property_get_int(OBJECT(dimm), PC_DIMM_SLOT_PROP,
-                                    &error_abort);
-+    if ((slot < 0 || slot >= machine->ram_slots) &&
-+         slot != PC_DIMM_UNASSIGNED_SLOT) {
-+        error_setg(&local_err, "invalid slot number, valid range is [0-%"
-+                   PRIu64 "]", machine->ram_slots - 1);
-+        goto out;
-+    }
-+
-     slot = pc_dimm_get_free_slot(slot == PC_DIMM_UNASSIGNED_SLOT ? NULL : &slot,
-                                  machine->ram_slots, &local_err);
-     if (local_err) {
--- 
-MST
+Will fix during staging
 
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--FHCcx3W8rbNVdnJXUlTMgH9eHp6MyH0uQ--
+
+--wygaEbHWdsJZCce7qRTjMyXdYefqdB0TE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0/YuAACgkQp6FrSiUn
+Q2o9iwf+MBN3Hq6ue6osc5ej6z0PxsTRfvAejLvM91IMz652clm7J4dpY9VZOM5P
+TXjU4eO2uFirQ0gqc3hRrCAm8zsETe2p3BzQu3BrXggSa1LN0hgjRJ2MP0nmS+7j
+uVrmT8TIv/KnCNJaq1g2uK57zmaVpaUFDbcbF4nJEmHMIpvX4+ZZ3ymPvpmSr4QJ
+OzxDPVNAs1gH1sSMGNmXvGf6jRMw+JBmqKSBFZmKZv9L3Qlm/MqmDVPaKD1dR/MR
+fFsI5wN0qvI+ZaPpigaUgUbQ2Z5Wr+scuO7tZbKx99eyX7oTx04VWef+z3v/YqkZ
+BMOPY7sjPUWIYMzlE2HiCI3Vf3KBZw==
+=11yv
+-----END PGP SIGNATURE-----
+
+--wygaEbHWdsJZCce7qRTjMyXdYefqdB0TE--
 
