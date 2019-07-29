@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C826E78E99
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:02:48 +0200 (CEST)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE56B78EA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:04:26 +0200 (CEST)
+Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Am-0000WZ-0C
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37809)
+	id 1hs7CL-0003Ti-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37815)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs77D-00048F-IW
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs77D-00048N-J0
  for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs779-0004WY-Jk
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs77A-0004XC-3W
  for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:07 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:47824)
+Received: from beetle.greensocs.com ([5.135.226.135]:47866)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs76y-0004LL-Rb; Mon, 29 Jul 2019 10:58:53 -0400
+ id 1hs76z-0004Lq-7O; Mon, 29 Jul 2019 10:58:53 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 57B8196F52;
- Mon, 29 Jul 2019 14:58:48 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 680C196F54;
+ Mon, 29 Jul 2019 14:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412329;
+ s=mail; t=1564412331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bbKIOzndvJvjGPCRQi73dk81BuTtK2CbU1pDEiN/02Q=;
- b=uUnopwiS0kBeBxatAwXRWOlbLfXe41phQv8GehOTtDAtVXOMWb/c61JcEmPUlG0fvi3CtJ
- irPBJ5NzqHvK6aVpsucDvjZ33QN0MnzLXlHCnAWk3DCxDwGNvoXzTP6Q8y3QduD+2pmjyf
- PLY8WDBtb3mCPvggGFBMPulZ8hx0WIs=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uxjVvbIxNj4mVuniMLvjY/Wiyh5WRqlk3kJ9We1kpZg=;
+ b=pv5U1pu+EDX9drgeHPg7L4f6A5RUt6PyVfXgTzuKw5czVagDIs2edhNVlrL4XtEN37nO2U
+ dByyMLNmyCULZpzQdRCKA+zE8YdubaYl0aT3zPFji0Zxy0p98WrCBxlkWm1j1zmGvqKZxe
+ Wqa2d3obJOU6VeukBWmnc5CQRtbhBWA=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:21 +0200
-Message-Id: <20190729145654.14644-1-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:22 +0200
+Message-Id: <20190729145654.14644-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412329;
+ s=mail; t=1564412331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bbKIOzndvJvjGPCRQi73dk81BuTtK2CbU1pDEiN/02Q=;
- b=a2uN0GUyre3imf42Jx8WT4hfqjEN3vYnvHX5AOcZTlmlF3LLJokF3lJAqvF/DIg48RsVw4
- HK9BOUSQlyBc4qo2bP3+SKjh68niL0bTgCbuta1yALXxPpyvkOQfFDUpSj5bjmojKQBSoS
- OMXeo8JV56lyVrdsmc+SdeDcCxcX31Y=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412329; a=rsa-sha256; cv=none;
- b=3YNduc5NhAT7iL7mYlfJ04ojE9RDJ0v70q8M7ka50AJL4XAq9+TFiZs2he7zaE/4GaEWf+
- bOLusSnXsALqd39pzMWKAIlvtfotfR24e4RoCwo9Fih+78reeVV6SDsPcunXzqnypp25GZ
- EHfgRJypzdjmjhpkl9yl1ruJe3y0cro=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uxjVvbIxNj4mVuniMLvjY/Wiyh5WRqlk3kJ9We1kpZg=;
+ b=jR5XfSyKayMyFJFy5VrZLiYMyAl3O52UYBIkEuIxR+BIn5hAV2hsY7Kk7LP8+Jt8d+HdO1
+ t5GeHCbHcsey6A6zNOUguIRT12YIwNFLbm20BGxpTfLNN67kUwRvR9kdY5tc7iu5KZpJYM
+ aSUUHiYkqETISKQK4YpjG+KB49JkfcU=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412331; a=rsa-sha256; cv=none;
+ b=zdBwvNCtBRKbsbLqJqoD1r6KrLg+TPM6z8TrbkvNPBM7ZPvDaqqIuv0N4K5oqijQBau4EE
+ PlPpWksNBjKOggBozLiWhHdR0P2MkNd+r5JPbDaW+aNrhkxKadrUvp8bozCjHOS0yKwoQs
+ i1c8z2fLed1XrkoAMje4yXCCtkmUpvw=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
+X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 00/33] Multi-phase reset mechanism
+Subject: [Qemu-devel] [PATCH v3 01/33] Create Resettable QOM interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,329 +87,508 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This commit defines an interface allowing multi-phase reset.
+The phases are INIT, HOLD and EXIT. Each phase has an associated method
+in the class.
 
-Here's the third version of the multi-phase reset proposal patches. I've =
-dropped
-the RFC tag. Previous version can be found here:
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg00504.html
+The reset of a Resettable is controlled with 2 functions:
+  - resettable_assert_reset which starts the reset operation.
+  - resettable_deassert_reset which ends the reset operation.
 
-The purpose of this series is to split the current reset procedure into 3
-phases. We need 2 phases to separate what's local from what's doing exter=
-nal
-side effects (IO for example). And we need a 3rd additional phase to hand=
-le
-staying in reset state.
+There is also a `resettable_reset` helper function which does assert then
+deassert allowing to do a proper reset in one call.
 
-This serie has side-effects on ~20 files calling reset qdev/device api. I=
-n
-consequence there is a lot of people in the CC list, most of them because=
- of 2=20
-simple patches.
+In addition, two functions, *resettable_reset_cold_fn* and
+*resettable_reset_warm_fn*, are defined. They take only an opaque argumen=
+t
+(for the Resettable object) and can be used as callbacks.
 
-# Overview
+The Resettable interface is "reentrant", _assert_ can be called several
+times and _deasert_ must be called the same number of times so that the
+Resettable leave reset state. It is supported by keeping a counter of
+the current number of _assert_ calls. The counter maintainance is done
+though 3 methods get/increment/decrement_count. A method set_cold is used
+to set the cold flag of the reset. Another method set_host_needed is used
+to ensure hold phase is executed only if required.
 
-The phases are:
-INIT PHASE: Reset the object internal state, put a resetting flag and do =
-the
-    same for the reset subtree. No side effect on other devices to guaran=
-tee
-    that, in a reset domain, everything get initialized first. This corre=
-sponds
-    mostly to what is currently done in the device/bus reset method.
+Reset hierarchy is also supported. Each Resettable may have
+sub-Resettable objects. When resetting a Resettable, it is propagated to
+its children using the foreach_child method.
 
-HOLD PHASE: This phase allows to control a reset with a IO. When a IO con=
-trol
-    reset procedure based on the IO level (not edge), we may need to asse=
-rt
-    the reset, wait some time, and finally de-assert the reset. The conse=
-quence
-    is that such a device can stay in a "resetting state" and may need to=
- show
-    this state to other devices through its outputs. For example, a clock
-    controller will typically shutdown its clocks when it is in resetting=
- state.
+When entering reset, init phases are executed parent-to-child order then
+hold phases are executed child-parent order.
+When leaving reset, exit phases are executed in child-to-parent order.
+This will allow to replace current qdev_reset mechanism by this interface
+without side-effects on reset order.
 
-EXIT PHASE: This phase sets outputs to state after reset. For a clock con=
-troller
-     it starts the clocks. It also clears the "resetting" flag. A device =
-should
-     not react to inputs until this flag has been cleared. During this ph=
-ase,
-     outputs are propagated.
+Note: I used an uint32 for the count. This match the type already used
+in the existing resetting counter in hw/scsi/vmw_pvscsi.c for the
+PVSCSIState.
 
-The reset use a new QOM interface: "Resettable". It is detailed in the ad=
-ded
-documentation. Here's an overview, it contains the following methods:
-  - 3 methods corresponding to the 3 phases, to be implemented by special=
-ized
-    objects.
-  - others methods do handle the reset mechanics, implemented by base cla=
-sses:
-    + reset_count getter/modifier methods to know when we enter or leave =
-reset
-      if multiple reset sources are enabled at the same time.
-    + set_cold method to handle warm/cold reset
-    + foreach_child to do something on reset children. This method allow =
-to
-      build some reset hirearchy.
-
-The reset order of the phase is the following
-  - reset assertation
-    1. init phases in parent-to-child order
-    2. hold phases in child-to-parent order
-  - reset de-assertation
-    3. exit phases in child-to-parent order
-
-# Reset deprecation
-
-The switch to multi-phase reset deprecates the current way of handling re=
-set
-(for users or developers of Devices). It used a reset method in both
-DeviceClass and BusClass.
-
-1. qdev/qbus_reset_all
-
-Theses functions are deprecated by this series and are replaced by includ=
-ed
-patches without change of behavior.
-
-2. old's device_reset
-
-There was a few call to this function, I renamed it *device_legacy_reset*=
- to
-handle the transition. This function allowed to reset only a given device=
-=20
-(and not its eventual qbus subtree). This behavior is not possible with
-the Resettable interface. I changed existing calls. Most of the time ther=
-e is
-no change of behavior because devices have no sub-buses.
-Here the summary after checking each one (I've reproduced the list made b=
-y
-Peter with some additional commentary of myself):
-
- hw/audio/intel-hda.c
-  -- used by the HDA device to reset the HDACodecDevice, which I think ha=
-s
-     no child buses
- hw/hyperv/hyperv.c
-  -- resets the SynICState, which I think has no child buses
- hw/i386/pc.c
-  -- resets the APIC, which has no child buses. (This reset is only
-     done as a workaround for lack of reset phases: the whole machine
-     is reset and then the APIC is re-reset last to undo any changes
-     that other devices might have made to it. Probably making the APIC
-     support phased reset would allow us to drop this hack.)
- hw/ide/microdrive.c
-  -- called here to reset the MicroDriveState object. It does have
-     a child bus, but it seems to me that potential children (ide-cd,
-     ide-hd or ide-drive) have no implementation of the reset method.
- hw/intc/spapr_xive.c
-  -- resets the SpaprXive device, which I think has no child buses
- hw/ppc/pnv_psi.c
-  -- resets a XiveSource, which I think has no child buses
- hw/ppc/spapr_pci.c
-  -- resets every QOM child of the SpaprPhbState. This one will
-     require closer checking, but my guess is that if there's a child
-     with a child bus then failure to reset the bus would be a bug.
- hw/ppc/spapr_vio.c
-  -- resets an SpaprTceTable, which I think has no child buses.
- hw/s390x/s390-pci-inst.c
-  -- resets the S390PCIBusDevice Needs S390 expertise, but probably
-     either no child buses or failure to reset them is a bug.
- hw/scsi/vmw_pvscsi.c
-  -- resets an individual SCSIDevice. Specialization of this class ("gene=
-ric"
-     or "disks") don't have child buses I think.
- hw/sd/omap_mmc.c
-  -- resetting an SDState, which has no child bus
- hw/sd/pl181.c
-  -- resetting an SDState, which has no child bus
-
-In my opinion only hw/ppc/spapr_pci.c and hw/s390x/s390-pci-inst.c may im=
-ply
-behavior changes.
-
-3. DeviceClass's reset and BusClass's methods
-
-This is the major change. The method is deprecated because, methods are n=
-ow
-located in the interface class. In the series, I make the exit phase redi=
-rect
-to the original reset method of DeviceClass (or BusClass). There a lot of=
- use
-of the method and transitioning to 3-phases only reset will need some wor=
-k I
-did not address in this series.
-
-# Migration
-
-For devices, I've added a patch to automate the addition of reset related
-subsection. In consequence it is not necessary to explicetely add the
-reset subsection in every device specialization requiring it. Right know
-this is kind of a hack into qdev to dynamically modify the vmsd before th=
-e
-registration. There is probably a much cleaner way to do this but I prefe=
-red
-to demonstrate it by keeping modification local to qdev.
-As far as I can tell it's ok to dynamically add subsections at the end. T=
-his
-does not prevent from further adding subsections in the orignal vmsd: the
-subsections order in the array is irrelevant from migration point-of-view=
-.
-The loading part just lookup each subsection in the array by name uppon
-reception.
-
-For buses, I handle them in the parent parent post_load. It has some limi=
-tation
-but should work pretty well for most of cases (if we hold reset qdev/qbus
-subtree starting from a device not a bus). If we consider holding part of=
- a soc
-under reset goes through gpio, it have to be a device.
-
-# Change in qdev/qbus hiearchy
-
-It is possible to change the parent bus of a device with the
-qdev_set_parent_bus function. We could add some code to adapt the resetti=
-ng
-count of the device if old and new bus have different reset state. I did =
-not do
-it right now because it doesnt not fill the right place do this: as long =
-as reset
-hiearchy follows the qdev hiearchy this would be fine place, but there is
-nothing enforcing that with Resettable.
-
-Given that, there is actually no bus help in reset. The only case when it=
- can
-happen is during the reset of a bus. Running the qom-test which test ever=
-y
-machine (with the initial main reset) gives one case where it happens: th=
-e raspi
-because sd-card is moved during the reset. IMO, during reset, it's hazard=
-ous to
-change qdev/qbus hierarchy since reset follows it so I'll try to address =
-this on
-a separate patch.
-
-# Test
-
-I tested this using the xilinx-zynq-a9 machine. Reset gpio and migration =
-during
-reset works.
-
-# Changes since v2
-
-  - don't call device implementations of reset phase functions multiple t=
-imes.
-  - init phase are executed parent-to-children order, legacy reset method=
- is
-    mapped on exit phase in order to keep the legacy order.
-  - migration: poc of automatic addition of subsection.
-  - migration: basic support for sub-buses.
-  - qdev/qbus_reset_all & device_reset replacement
-
-The series is organised as follow:
-  - Patch   1 adds Resettable interface
-  - Patches 2 and 3 rename device_reset function by device_legacy_reset t=
-o
-    prepare the transition.
-  - Patches 4 to 8 makes the changes in Device and Bus classes.
-  - Patche 9 adds some doc
-  - Patches 10 to 17 replace qdev/qbus_reset calls
-  - Patches 18 to 27 replace device_reset calls
-  - Patch 28 cleans remaining legacy reset API
-  - Patches 29 to 33 modify the xilinx_zynq to add 3-phases reset support=
- in the
-    uart and the slcr (the reset controller of the soc).
-
-Thanks,
-Damien
-
-Damien Hedde (33):
-  Create Resettable QOM interface
-  add temporary device_legacy_reset function to replace device_reset
-  Replace all call to device_reset by call to device_legacy_reset
-  make Device and Bus Resettable
-  Switch to new api in qdev/bus
-  add the vmstate description for device reset state
-  automatically add vmstate for reset support in devices
-  Add function to control reset with gpio inputs
-  add doc about Resettable interface
-  vl.c: remove qbus_reset_all registration
-  hw/s390x/ipl.c: remove qbus_reset_all registration
-  hw/pci/: remove qdev/qbus_reset_all call
-  hw/scsi/: remove qdev/qbus_reset_all call
-  hw/s390x/s390-virtio-ccw.c: remove qdev_reset_all call
-  hw/ide/piix.c: remove qdev_reset_all call
-  hw/input/adb.c: remove qdev_reset_all call
-  hw/usb/dev-uas.c: remove qdev_reset_all call
-  hw/audio/intel-hda.c: remove device_legacy_reset call
-  hw/sd/pl181.c & omap_mmc.c: remove device_legacy_reset call
-  hw/hyperv/hyperv.c: remove device_legacy_reset call
-  hw/intc/spapr_xive.c: remove device_legacy_reset call
-  hw/ppc/pnv_psi.c: remove device_legacy_reset call
-  hw/scsi/vmw_pvscsi.c: remove device_legacy_reset call
-  hw/ppc/spapr: remove device_legacy_reset call
-  hw/i386/pc.c: remove device_legacy_reset call
-  hw/s390x/s390-pci-inst.c: remove device_legacy_reset call
-  hw/ide/microdrive.c: remove device_legacy_reset calls
-  qdev: Remove unused deprecated reset functions
-  hw/misc/zynq_slcr: use standard register definition
-  convert cadence_uart to 3-phases reset
-  Convert zynq's slcr to 3-phases reset
-  Add uart reset support in zynq_slcr
-  Connect the uart reset gpios in the zynq platform
-
- Makefile.objs                  |   1 +
- docs/devel/reset.txt           | 165 ++++++++++
- hw/arm/xilinx_zynq.c           |  14 +-
- hw/audio/intel-hda.c           |   2 +-
- hw/char/cadence_uart.c         |  77 ++++-
- hw/core/Makefile.objs          |   2 +
- hw/core/bus.c                  |  85 ++++++
- hw/core/qdev-vmstate.c         | 101 ++++++
- hw/core/qdev.c                 | 169 ++++++++--
- hw/core/resettable.c           | 220 +++++++++++++
- hw/core/trace-events           |  39 +++
- hw/hyperv/hyperv.c             |   2 +-
- hw/i386/pc.c                   |   2 +-
- hw/ide/microdrive.c            |   8 +-
- hw/ide/piix.c                  |   2 +-
- hw/input/adb.c                 |   2 +-
- hw/intc/spapr_xive.c           |   2 +-
- hw/misc/zynq_slcr.c            | 543 ++++++++++++++++++---------------
- hw/pci/pci.c                   |   6 +-
- hw/pci/pci_bridge.c            |   2 +-
- hw/ppc/pnv_psi.c               |   2 +-
- hw/ppc/spapr_pci.c             |   2 +-
- hw/ppc/spapr_vio.c             |   2 +-
- hw/s390x/ipl.c                 |   6 +-
- hw/s390x/s390-pci-inst.c       |   2 +-
- hw/s390x/s390-virtio-ccw.c     |   2 +-
- hw/scsi/lsi53c895a.c           |   4 +-
- hw/scsi/megasas.c              |   2 +-
- hw/scsi/mptsas.c               |   8 +-
- hw/scsi/spapr_vscsi.c          |   2 +-
- hw/scsi/virtio-scsi.c          |   6 +-
- hw/scsi/vmw_pvscsi.c           |   6 +-
- hw/sd/omap_mmc.c               |   2 +-
- hw/sd/pl181.c                  |   2 +-
- hw/usb/dev-uas.c               |   2 +-
- include/hw/char/cadence_uart.h |  10 +-
- include/hw/qdev-core.h         | 158 +++++++++-
- include/hw/resettable.h        | 126 ++++++++
- stubs/Makefile.objs            |   1 +
- stubs/device.c                 |   7 +
- tests/Makefile.include         |   1 +
- vl.c                           |   6 +-
- 42 files changed, 1470 insertions(+), 333 deletions(-)
- create mode 100644 docs/devel/reset.txt
- create mode 100644 hw/core/qdev-vmstate.c
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ Makefile.objs           |   1 +
+ hw/core/Makefile.objs   |   1 +
+ hw/core/resettable.c    | 220 ++++++++++++++++++++++++++++++++++++++++
+ hw/core/trace-events    |  39 +++++++
+ include/hw/resettable.h | 126 +++++++++++++++++++++++
+ 5 files changed, 387 insertions(+)
  create mode 100644 hw/core/resettable.c
  create mode 100644 hw/core/trace-events
  create mode 100644 include/hw/resettable.h
- create mode 100644 stubs/device.c
 
+diff --git a/Makefile.objs b/Makefile.objs
+index 6a143dcd57..a723a47e14 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -191,6 +191,7 @@ trace-events-subdirs +=3D migration
+ trace-events-subdirs +=3D net
+ trace-events-subdirs +=3D ui
+ endif
++trace-events-subdirs +=3D hw/core
+ trace-events-subdirs +=3D hw/display
+ trace-events-subdirs +=3D qapi
+ trace-events-subdirs +=3D qom
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+index f8481d959f..d9234aa98a 100644
+--- a/hw/core/Makefile.objs
++++ b/hw/core/Makefile.objs
+@@ -1,6 +1,7 @@
+ # core qdev-related obj files, also used by *-user:
+ common-obj-y +=3D qdev.o qdev-properties.o
+ common-obj-y +=3D bus.o reset.o
++common-obj-y +=3D resettable.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
+ # irq.o needed for qdev GPIO handling:
+diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+new file mode 100644
+index 0000000000..d7d631ce8b
+--- /dev/null
++++ b/hw/core/resettable.c
+@@ -0,0 +1,220 @@
++/*
++ * Resettable interface.
++ *
++ * Copyright (c) 2019 GreenSocs SAS
++ *
++ * Authors:
++ *   Damien Hedde
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/module.h"
++#include "hw/resettable.h"
++#include "trace.h"
++
++#define RESETTABLE_MAX_COUNT 50
++
++#define RESETTABLE_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(ResettableClass, (obj), TYPE_RESETTABLE)
++
++static void resettable_init_reset(Object *obj, bool cold);
++
++static bool resettable_class_check(ResettableClass *rc)
++{
++    if (!rc->set_cold) {
++        return false;
++    }
++    if (!rc->set_hold_needed) {
++        return false;
++    }
++    if (!rc->increment_count) {
++        return false;
++    }
++    if (!rc->decrement_count) {
++        return false;
++    }
++    if (!rc->get_count) {
++        return false;
++    }
++    return true;
++}
++
++static void resettable_foreach_child(ResettableClass *rc,
++                                     Object *obj,
++                                     void (*func)(Object *))
++{
++    if (rc->foreach_child) {
++        rc->foreach_child(obj, func);
++    }
++}
++
++static void resettable_init_cold_reset(Object *obj)
++{
++    resettable_init_reset(obj, true);
++}
++
++static void resettable_init_warm_reset(Object *obj)
++{
++    resettable_init_reset(obj, false);
++}
++
++static void resettable_init_reset(Object *obj, bool cold)
++{
++    void (*func)(Object *);
++    ResettableClass *rc =3D RESETTABLE_GET_CLASS(obj);
++    uint32_t count;
++    bool action_needed =3D false;
++    bool prev_cold;
++
++    assert(resettable_class_check(rc));
++
++    count =3D rc->increment_count(obj);
++    /* this assert is here to catch an eventual reset loop */
++    assert(count <=3D RESETTABLE_MAX_COUNT);
++
++    /*
++     * only take action if:
++     * + we really enter reset for the 1st time
++     * + or we are in warm reset and start a cold one
++     */
++    prev_cold =3D rc->set_cold(obj, cold);
++    if (count =3D=3D 1) {
++        action_needed =3D true;
++    } else if (cold && !prev_cold) {
++        action_needed =3D true;
++    }
++    trace_resettable_phase_init(obj, object_get_typename(obj), cold, cou=
+nt,
++                                action_needed);
++
++    /* exec init phase */
++    if (action_needed) {
++        rc->set_hold_needed(obj, true);
++        if (rc->phases.init) {
++            rc->phases.init(obj);
++        }
++    }
++
++    /*
++     * handle the children even if action_needed is at false so that
++     * children counts are incremented too
++     */
++    func =3D cold ? resettable_init_cold_reset : resettable_init_warm_re=
+set;
++    resettable_foreach_child(rc, obj, func);
++    trace_resettable_phase_init_end(obj);
++}
++
++static void resettable_hold_reset(Object *obj)
++{
++    ResettableClass *rc =3D RESETTABLE_GET_CLASS(obj);
++    bool hold_needed;
++
++    assert(resettable_class_check(rc));
++    trace_resettable_phase_hold(obj, object_get_typename(obj));
++
++    /* handle children first */
++    resettable_foreach_child(rc, obj, resettable_hold_reset);
++
++    /* exec hold phase */
++    hold_needed =3D rc->set_hold_needed(obj, false);
++    if (hold_needed) {
++        if (rc->phases.hold) {
++            rc->phases.hold(obj);
++        }
++    }
++    trace_resettable_phase_hold_end(obj, hold_needed);
++}
++
++static void resettable_exit_reset(Object *obj)
++{
++    uint32_t count;
++    ResettableClass *rc =3D RESETTABLE_GET_CLASS(obj);
++
++    assert(resettable_class_check(rc));
++    trace_resettable_phase_exit(obj, object_get_typename(obj));
++
++    resettable_foreach_child(rc, obj, resettable_deassert_reset);
++
++    count =3D rc->get_count(obj);
++    /*
++     * we could assert that count > 0 but there are some corner cases
++     * where we prefer to let it go as it is probably harmless.
++     * For example: if there is reset support addition between
++     * hosts when doing a migration. We may do such things as
++     * deassert a non-existing reset.
++     */
++    if (count > 0) {
++        count =3D rc->decrement_count(obj);
++    } else {
++        trace_resettable_count_underflow(obj);
++    }
++    if (count =3D=3D 0) {
++        if (rc->phases.exit) {
++            rc->phases.exit(obj);
++        }
++    }
++    trace_resettable_phase_exit_end(obj, count);
++}
++
++void resettable_assert_reset(Object *obj, bool cold)
++{
++    trace_resettable_reset_assert(obj, object_get_typename(obj), cold);
++    resettable_init_reset(obj, cold);
++    resettable_hold_reset(obj);
++}
++
++void resettable_deassert_reset(Object *obj)
++{
++    trace_resettable_reset_deassert(obj, object_get_typename(obj));
++    resettable_exit_reset(obj);
++}
++
++void resettable_reset(Object *obj, bool cold)
++{
++    trace_resettable_reset(obj, object_get_typename(obj), cold);
++    resettable_assert_reset(obj, cold);
++    resettable_deassert_reset(obj);
++}
++
++void resettable_reset_warm_fn(void *opaque)
++{
++    resettable_reset((Object *) opaque, false);
++}
++
++void resettable_reset_cold_fn(void *opaque)
++{
++    resettable_reset((Object *) opaque, true);
++}
++
++void resettable_class_set_parent_reset_phases(ResettableClass *rc,
++                                              ResettableInitPhase init,
++                                              ResettableHoldPhase hold,
++                                              ResettableExitPhase exit,
++                                              ResettablePhases *parent_p=
+hases)
++{
++    *parent_phases =3D rc->phases;
++    if (init) {
++        rc->phases.init =3D init;
++    }
++    if (hold) {
++        rc->phases.hold =3D hold;
++    }
++    if (exit) {
++        rc->phases.exit =3D exit;
++    }
++}
++
++static const TypeInfo resettable_interface_info =3D {
++    .name       =3D TYPE_RESETTABLE,
++    .parent     =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(ResettableClass),
++};
++
++static void reset_register_types(void)
++{
++    type_register_static(&resettable_interface_info);
++}
++
++type_init(reset_register_types)
+diff --git a/hw/core/trace-events b/hw/core/trace-events
+new file mode 100644
+index 0000000000..489d96d445
+--- /dev/null
++++ b/hw/core/trace-events
+@@ -0,0 +1,39 @@
++# See docs/devel/tracing.txt for syntax documentation.
++#
++# This file is processed by the tracetool script during the build.
++#
++# To add a new trace event:
++#
++# 1. Choose a name for the trace event.  Declare its arguments and forma=
+t
++#    string.
++#
++# 2. Call the trace event from code using trace_##name, e.g. multiwrite_=
+cb() ->
++#    trace_multiwrite_cb().  The source file must #include "trace.h".
++#
++# Format of a trace event:
++#
++# [disable] <name>(<type1> <arg1>[, <type2> <arg2>] ...) "<format-string=
+>"
++#
++# Example: g_malloc(size_t size) "size %zu"
++#
++# The "disable" keyword will build without the trace event.
++#
++# The <name> must be a valid as a C function name.
++#
++# Types should be standard C types.  Use void * for pointers because the=
+ trace
++# system may not have the necessary headers included.
++#
++# The <format-string> should be a sprintf()-compatible format string.
++
++# resettable.c
++resettable_reset(void *obj, const char *type, int cold) "obj=3D%p(%s) co=
+ld=3D%d"
++resettable_reset_assert(void *obj, const char *type, int cold) "obj=3D%p=
+(%s) cold=3D%d"
++resettable_reset_deassert(void *obj, const char *type) "obj=3D%p(%s)"
++resettable_reset_deassert_end(void *obj) "obj=3D%p"
++resettable_phase_init(void *obj, const char *type, int cold, uint32_t co=
+unt, int needed) "obj=3D%p(%s) cold=3D%d count=3D%" PRIu32 " needed=3D%d"
++resettable_phase_init_end(void *obj) "obj=3D%p"
++resettable_phase_hold(void *obj, const char *type) "obj=3D%p(%s)"
++resettable_phase_hold_end(void *obj, int needed) "obj=3D%p needed=3D%d"
++resettable_phase_exit(void *obj, const char *type) "obj=3D%p(%s)"
++resettable_phase_exit_end(void *obj, uint32_t count) "obj=3D%p count=3D%=
+" PRIu32
++resettable_count_underflow(void *obj) "obj=3D%p"
+diff --git a/include/hw/resettable.h b/include/hw/resettable.h
+new file mode 100644
+index 0000000000..e617a8e875
+--- /dev/null
++++ b/include/hw/resettable.h
+@@ -0,0 +1,126 @@
++#ifndef HW_RESETTABLE_H
++#define HW_RESETTABLE_H
++
++#include "qom/object.h"
++
++#define TYPE_RESETTABLE "resettable"
++
++#define RESETTABLE_CLASS(class) \
++    OBJECT_CLASS_CHECK(ResettableClass, (class), TYPE_RESETTABLE)
++
++/*
++ * ResettableClass:
++ * Interface for resettable objects.
++ *
++ * The reset operation is divided in several phases each represented by =
+a
++ * method.
++ *
++ * Each Ressetable must maintain a reset counter in its state, 3 methods=
+ allows
++ * to interact with it.
++ *
++ * @phases.init: should reset local state only. Takes a bool @cold argum=
+ent
++ * specifying whether the reset is cold or warm. It must not do side-eff=
+ect
++ * on others objects.
++ *
++ * @phases.hold: side-effects action on others objects due to staying in=
+ a
++ * resetting state.
++ *
++ * @phases.exit: leave the reset state, may do side-effects action on ot=
+hers
++ * objects.
++ *
++ * @set_cold: Set whether the current reset is cold or warm. Return the
++ * previous flag value. Return value has no meaning if @get_count return=
+s
++ * a zero value.
++ *
++ * @set_hold_needed: Set hold_needed flag. Return the previous flag valu=
+e.
++ *
++ * @get_count: Get the current reset count
++ * @increment_count: Increment the reset count, returns the new count
++ * @decrement_count: decrement the reset count, returns the new count
++ *
++ * @foreach_child: Executes a given function on every Resettable child.
++ * A child is not a QOM child, but a child a reset meaning.
++ */
++typedef void (*ResettableInitPhase)(Object *obj);
++typedef void (*ResettableHoldPhase)(Object *obj);
++typedef void (*ResettableExitPhase)(Object *obj);
++typedef bool (*ResettableSetCold)(Object *obj, bool cold);
++typedef bool (*ResettableSetHoldNeeded)(Object *obj, bool hold_needed);
++typedef uint32_t (*ResettableGetCount)(Object *obj);
++typedef uint32_t (*ResettableIncrementCount)(Object *obj);
++typedef uint32_t (*ResettableDecrementCount)(Object *obj);
++typedef void (*ResettableForeachChild)(Object *obj, void (*visitor)(Obje=
+ct *));
++typedef struct ResettableClass {
++    InterfaceClass parent_class;
++
++    struct ResettablePhases {
++        ResettableInitPhase init;
++        ResettableHoldPhase hold;
++        ResettableExitPhase exit;
++    } phases;
++
++    ResettableSetCold set_cold;
++    ResettableSetHoldNeeded set_hold_needed;
++    ResettableGetCount get_count;
++    ResettableIncrementCount increment_count;
++    ResettableDecrementCount decrement_count;
++    ResettableForeachChild foreach_child;
++} ResettableClass;
++typedef struct ResettablePhases ResettablePhases;
++
++/**
++ * resettable_assert_reset:
++ * Increments the reset count and executes the init and hold phases.
++ * Each time resettable_assert_reset is called, resettable_deassert_rese=
+t
++ * must eventually be called once.
++ * It will also impact reset children.
++ *
++ * @obj object to reset, must implement Resettable interface.
++ * @cold boolean indicating the type of reset (cold or warm)
++ */
++void resettable_assert_reset(Object *obj, bool cold);
++
++/**
++ * resettable_deassert_reset:
++ * Decrements the reset count by one and executes the exit phase if it h=
+its
++ * zero.
++ * It will also impact reset children.
++ *
++ * @obj object to reset, must implement Resettable interface.
++ */
++void resettable_deassert_reset(Object *obj);
++
++/**
++ * resettable_reset:
++ * Calling this function is equivalent to call @assert_reset then
++ * @deassert_reset.
++ */
++void resettable_reset(Object *obj, bool cold);
++
++/**
++ * resettable_reset_warm_fn:
++ * Helper to call resettable_reset(opaque, false)
++ */
++void resettable_reset_warm_fn(void *opaque);
++
++/**
++ * resettable_reset_cold_fn:
++ * Helper to call resettable_reset(opaque, true)
++ */
++void resettable_reset_cold_fn(void *opaque);
++
++/**
++ * resettable_class_set_parent_reset_phases:
++ *
++ * Save @rc current reset phases into @parent_phases and override @rc ph=
+ases
++ * by the given new methods (@init, @hold and @exit).
++ * Each phase is overriden only if the new one is not NULL allowing to
++ * override a subset of phases.
++ */
++void resettable_class_set_parent_reset_phases(ResettableClass *rc,
++                                              ResettableInitPhase init,
++                                              ResettableHoldPhase hold,
++                                              ResettableExitPhase exit,
++                                              ResettablePhases *parent_p=
+hases);
++
++#endif
 --=20
 2.22.0
 
