@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98EC78EFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:19:38 +0200 (CEST)
-Received: from localhost ([::1]:53542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FD178F05
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:21:14 +0200 (CEST)
+Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7R3-0000Ff-JM
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43561)
+	id 1hs7Sb-00047r-Q6
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39847)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7PM-0006pe-P5
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:53 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs79E-0007Vr-Qs
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7PL-0007AD-SJ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:17:52 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42326)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7PL-00079p-Lk; Mon, 29 Jul 2019 11:17:51 -0400
-Received: by mail-pg1-x544.google.com with SMTP id t132so28415138pgb.9;
- Mon, 29 Jul 2019 08:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2qHkahVEkN1zu8CSs6/qp7V0fV616Ybkp0QDQj4tHxQ=;
- b=WCxLK1lkWaRPKpbvSdxkBLv1HcNsF3ywlDY+z/zCCq/BOmwKYJ3jwYFFZInEvRg1cV
- fJPvE+4rPvS/JyTVH89DtxX7dJtnD49ceY9+IX7vMO23T86PGhiJyHIIDa4bXI3/deJ/
- qaNW5SpsuFS/+QSosm2ecl726wjLpkcxkX3HlZpxeGzMmnTJjyU601MzxSduQWgC9xQo
- R6/jjcQwiO7OXQhPPoxfqMMAJUG4U28VrBJHMH0NDl/cZUSESF/Mk2KYfcgKsuThHEcy
- v4nGEZEVZZsfDemWhEOguimIJ/WHx4lJ3b+iUJ0zekvFFYaju9Tj4EMllGUw0adYpXSR
- ZEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2qHkahVEkN1zu8CSs6/qp7V0fV616Ybkp0QDQj4tHxQ=;
- b=UFWsnJlw8UrN7eaQxlVAQajRmrQNeCPovZOqveYlS07SQDnxcdTZ69R95tAkCfirkB
- EveYUQzZgsrY1el+q8t4QlmnOoFc3MhYem6jLqInj4mRAnD6oxNxOEO0hZJW3T/PLCF1
- 6ksuCO9Gqb64+Myfqc+q4PllT7LXSr0qfJlnUaFyQ1SrlKLd0A2UYnS8KMfpjuA0Yki0
- Z7YHKlItyc5t2c/EhmHf3ktnGEWunnDIdVMmhv/J8JNQZ4+Gp1lSGYI0lbp0ZzaV/3xl
- wGV48H7equgwBsP9ie3GEcX08V3TqkOw//bjW+bL5zXWjTq5tbVQXIBAeHcxc+xV1laS
- 7WuQ==
-X-Gm-Message-State: APjAAAU+Qw6NfTfdf3ZPxAxlQIw3KJpBhXXJyuw1xkYMWrA0qhj5kl1T
- Q6uOwC4hiPfNQdWzUC5JtO2Cln/RGsgVkQ==
-X-Google-Smtp-Source: APXvYqwy0340v6Bhv9d0IE0r+GKW65wsAumSUsrydFW191dJjTVErfvTWN4hJ84VGjHcfAntsrF7DQ==
-X-Received: by 2002:aa7:8007:: with SMTP id j7mr36857767pfi.154.1564413470389; 
- Mon, 29 Jul 2019 08:17:50 -0700 (PDT)
-Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.17.43
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:17:49 -0700 (PDT)
-From: Aarushi Mehta <mehta.aaru20@gmail.com>
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs79C-0006fi-TC
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:01:12 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:49068)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hs78x-0005ZI-5J; Mon, 29 Jul 2019 11:00:55 -0400
+Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 9260497064;
+ Mon, 29 Jul 2019 14:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1564412372;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5wnMQEiMoszMl9iY43hRAj3emLdaJgse3RhUORv7mA=;
+ b=Ea3nNUHBhop4jRADSkdTGq8pqTrpXz8GjNAW2XOEMWXYWs4wr6y+Azhd+x6TyzmtaUIa0f
+ fgu1C6oh+49Zae93jKY13Chv48FFAG3Hs8IcWm1SPNlfFxrUNTNdC2Y2qBXqIs5eoB5Aql
+ U8JHbKOijurENUbWe5wZMFcIbObAerg=
+From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:39 +0530
-Message-Id: <20190729151651.21306-4-mehta.aaru20@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
-References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 16:56:51 +0200
+Message-Id: <20190729145654.14644-31-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v7 03/15] block/block: add BDRV flag for
- io_uring
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1564412372;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5wnMQEiMoszMl9iY43hRAj3emLdaJgse3RhUORv7mA=;
+ b=WvAtHFZsfTFPAyXrEStEy1QIY3iaOPPwetox0EZF1ouGR0iZA29+tV6sRjebYFOKLBM57J
+ ERM5gqfvLMean5HO212vrYh/lF0WaUMObYwSA6zV0lo4Lujk1Y4YMrytvg7FPQJZD2FcFs
+ x4N1AhQyvYa7aPdtUtQX/lfy7Hiuxb4=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412372; a=rsa-sha256; cv=none;
+ b=yqKxTNzhj6/OkXaMKs3th7yRmN8RS62X4Voqti9rlDfKpu/d7N7Kgr3wUUWvZGqQx7x4hi
+ l52Z15Xyv0LQzYmMskkshTZNNPaqY3YL/Bt+Bc5Tx19zVqit+2xIay0hRixEs7vchqGlf2
+ Cas3a3jnxOwoJBCjeOsNz1N+84QeNVE=
+ARC-Authentication-Results: i=1;
+	beetle.greensocs.com;
+	none
+X-Spam: Yes
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
+Subject: [Qemu-devel] [PATCH v3 30/33] convert cadence_uart to 3-phases reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,37 +74,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- saket.sinha89@gmail.com, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefan@redhat.com>, Julia Suvorova <jusual@mail.ru>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Maxim Levitsky <maximlevitsky@gmail.com>
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ kraxel@redhat.com, edgar.iglesias@xilinx.com, hare@suse.com,
+ qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
+ thuth@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com,
+ david@gibson.dropbear.id.au, Damien Hedde <damien.hedde@greensocs.com>,
+ berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
----
- include/block/block.h | 1 +
- 1 file changed, 1 insertion(+)
+Split the existing reset procedure into 3 phases.
+Test the resetting flag to discard register accesses
+and character reception.
+Also adds a active high reset io.
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 50a07c1c33..e29baa172c 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -121,6 +121,7 @@ typedef struct HDGeometry {
-                                       ignoring the format layer */
- #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
- #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening read-write fails */
-+#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
- 
- #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
- 
--- 
-2.21.0
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ hw/char/cadence_uart.c | 77 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 73 insertions(+), 4 deletions(-)
+
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index fa25fe24da..d7bacc44fe 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -39,6 +39,18 @@
+     #define DB_PRINT(...)
+ #endif
+=20
++#define CADENCE_UART_CLASS(class) \
++    OBJECT_CLASS_CHECK(CadenceUartClass, (class), TYPE_CADENCE_UART)
++#define CADENCE_UART_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(CadenceUartClass, (obj), TYPE_CADENCE_UART)
++
++typedef struct CadenceUartClass {
++    /*< private >*/
++    SysBusDeviceClass parent_class;
++
++    struct ResettablePhases parent_reset_phases;
++} CadenceUartClass;
++
+ #define UART_SR_INTR_RTRIG     0x00000001
+ #define UART_SR_INTR_REMPTY    0x00000002
+ #define UART_SR_INTR_RFUL      0x00000004
+@@ -223,6 +235,10 @@ static int uart_can_receive(void *opaque)
+     int ret =3D MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE=
+);
+     uint32_t ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
+=20
++    if (device_is_resetting((DeviceState *) opaque)) {
++        return 0;
++    }
++
+     if (ch_mode =3D=3D NORMAL_MODE || ch_mode =3D=3D ECHO_MODE) {
+         ret =3D MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
+     }
+@@ -338,6 +354,10 @@ static void uart_receive(void *opaque, const uint8_t=
+ *buf, int size)
+     CadenceUARTState *s =3D opaque;
+     uint32_t ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
+=20
++    if (device_is_resetting((DeviceState *) opaque)) {
++        return;
++    }
++
+     if (ch_mode =3D=3D NORMAL_MODE || ch_mode =3D=3D ECHO_MODE) {
+         uart_write_rx_fifo(opaque, buf, size);
+     }
+@@ -351,6 +371,10 @@ static void uart_event(void *opaque, int event)
+     CadenceUARTState *s =3D opaque;
+     uint8_t buf =3D '\0';
+=20
++    if (device_is_resetting((DeviceState *) opaque)) {
++        return;
++    }
++
+     if (event =3D=3D CHR_EVENT_BREAK) {
+         uart_write_rx_fifo(opaque, &buf, 1);
+     }
+@@ -383,6 +407,10 @@ static void uart_write(void *opaque, hwaddr offset,
+ {
+     CadenceUARTState *s =3D opaque;
+=20
++    if (device_is_resetting((DeviceState *)opaque)) {
++        return;
++    }
++
+     DB_PRINT(" offset:%x data:%08x\n", (unsigned)offset, (unsigned)value=
+);
+     offset >>=3D 2;
+     if (offset >=3D CADENCE_UART_R_MAX) {
+@@ -441,6 +469,10 @@ static uint64_t uart_read(void *opaque, hwaddr offse=
+t,
+     CadenceUARTState *s =3D opaque;
+     uint32_t c =3D 0;
+=20
++    if (device_is_resetting((DeviceState *)opaque)) {
++        return 0;
++    }
++
+     offset >>=3D 2;
+     if (offset >=3D CADENCE_UART_R_MAX) {
+         c =3D 0;
+@@ -460,9 +492,14 @@ static const MemoryRegionOps uart_ops =3D {
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+ };
+=20
+-static void cadence_uart_reset(DeviceState *dev)
++static void cadence_uart_reset_init(Object *obj)
+ {
+-    CadenceUARTState *s =3D CADENCE_UART(dev);
++    CadenceUARTState *s =3D CADENCE_UART(obj);
++    CadenceUartClass *cc =3D CADENCE_UART_GET_CLASS(obj);
++
++    if (cc->parent_reset_phases.init) {
++        cc->parent_reset_phases.init(obj);
++    }
+=20
+     s->r[R_CR] =3D 0x00000128;
+     s->r[R_IMR] =3D 0;
+@@ -471,6 +508,28 @@ static void cadence_uart_reset(DeviceState *dev)
+     s->r[R_BRGR] =3D 0x0000028B;
+     s->r[R_BDIV] =3D 0x0000000F;
+     s->r[R_TTRIG] =3D 0x00000020;
++}
++
++static void cadence_uart_reset_hold(Object *obj)
++{
++    CadenceUARTState *s =3D CADENCE_UART(obj);
++    CadenceUartClass *cc =3D CADENCE_UART_GET_CLASS(obj);
++
++    if (cc->parent_reset_phases.hold) {
++        cc->parent_reset_phases.hold(obj);
++    }
++
++    qemu_set_irq(s->irq, 0);
++}
++
++static void cadence_uart_reset_exit(Object *obj)
++{
++    CadenceUARTState *s =3D CADENCE_UART(obj);
++    CadenceUartClass *cc =3D CADENCE_UART_GET_CLASS(obj);
++
++    if (cc->parent_reset_phases.exit) {
++        cc->parent_reset_phases.exit(obj);
++    }
+=20
+     uart_rx_reset(s);
+     uart_tx_reset(s);
+@@ -499,6 +558,8 @@ static void cadence_uart_init(Object *obj)
+     sysbus_init_irq(sbd, &s->irq);
+=20
+     s->char_tx_time =3D (NANOSECONDS_PER_SECOND / 9600) * 10;
++
++    qdev_init_warm_reset_gpio(DEVICE(obj), "rst", DEVICE_RESET_ACTIVE_HI=
+GH);
+ }
+=20
+ static int cadence_uart_post_load(void *opaque, int version_id)
+@@ -544,12 +605,19 @@ static Property cadence_uart_properties[] =3D {
+ static void cadence_uart_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
++    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
++    CadenceUartClass *cc =3D CADENCE_UART_CLASS(klass);
+=20
+     dc->realize =3D cadence_uart_realize;
+     dc->vmsd =3D &vmstate_cadence_uart;
+-    dc->reset =3D cadence_uart_reset;
+     dc->props =3D cadence_uart_properties;
+-  }
++
++    resettable_class_set_parent_reset_phases(rc,
++                                             cadence_uart_reset_init,
++                                             cadence_uart_reset_hold,
++                                             cadence_uart_reset_exit,
++                                             &cc->parent_reset_phases);
++}
+=20
+ static const TypeInfo cadence_uart_info =3D {
+     .name          =3D TYPE_CADENCE_UART,
+@@ -557,6 +625,7 @@ static const TypeInfo cadence_uart_info =3D {
+     .instance_size =3D sizeof(CadenceUARTState),
+     .instance_init =3D cadence_uart_init,
+     .class_init    =3D cadence_uart_class_init,
++    .class_size =3D sizeof(CadenceUartClass),
+ };
+=20
+ static void cadence_uart_register_types(void)
+--=20
+2.22.0
 
 
