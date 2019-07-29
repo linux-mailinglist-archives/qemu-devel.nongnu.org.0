@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C8F790E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:32:02 +0200 (CEST)
-Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFBD79113
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:36:36 +0200 (CEST)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs8Z7-00051W-8U
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59245)
+	id 1hs8dX-0001sg-IE
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hs8WQ-0002dD-Jz
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:29:15 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs8ca-0001Di-Mk
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hs8WO-0005OU-Tx
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:29:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42618)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hs8WO-0005O3-Ma
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:29:12 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 03604883D7
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:29:12 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-222.ams2.redhat.com
- [10.36.117.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED98560856;
- Mon, 29 Jul 2019 16:29:10 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, berrange@redhat.com, cohuck@redhat.com,
- mst@redhat.com
-Date: Mon, 29 Jul 2019 17:29:03 +0100
-Message-Id: <20190729162903.4489-3-dgilbert@redhat.com>
-In-Reply-To: <20190729162903.4489-1-dgilbert@redhat.com>
-References: <20190729162903.4489-1-dgilbert@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hs8cZ-0002p6-7U
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60298)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs8cX-0002o1-U3
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs8cW-0005NK-Kc
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8A03F2E80D0
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:35:32 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 29 Jul 2019 16:29:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 16:30:16 -0000
+From: Hans Peter <1838312@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: green-world78
+X-Launchpad-Bug-Reporter: Hans Peter (green-world78)
+X-Launchpad-Bug-Modifier: Hans Peter (green-world78)
+Message-Id: <156441781649.17826.2889969380137011138.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: ef39ec35514360d821bb222b1c031336e1e18c8d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] Revert "hw: report invalid
- disable-legacy|modern usage for virtio-1-only devs"
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838312] [NEW] Qemu virt-manager Segmentation
+ fault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,249 +63,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1838312 <1838312@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Public bug reported:
 
-This reverts commit f2784eed306449c3d04a71a05ed6463b8289aedf
-since that accidentally removes the PCIe capabilities from virtio
-devices because virtio_pci_dc_realize is called before the new 'mode'
-flag is set.
+Hi!
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/core/machine.c             | 23 +++--------------------
- hw/display/virtio-gpu-pci.c   |  4 +---
- hw/display/virtio-vga.c       |  4 +---
- hw/virtio/virtio-crypto-pci.c |  4 +---
- hw/virtio/virtio-input-pci.c  |  4 +---
- hw/virtio/virtio-pci.c        | 26 ++++++++++----------------
- hw/virtio/virtio-pci.h        | 31 ++++++-------------------------
- 7 files changed, 23 insertions(+), 73 deletions(-)
+I installed all these packages:
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c58a8e594e..c4a2ab2282 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -115,26 +115,9 @@ const size_t hw_compat_2_7_len =3D G_N_ELEMENTS(hw_c=
-ompat_2_7);
-=20
- GlobalProperty hw_compat_2_6[] =3D {
-     { "virtio-mmio", "format_transport_address", "off" },
--    /*
--     * don't include devices which are modern-only
--     * ie keyboard, mouse, tablet, gpu, vga & crypto
--     */
--    { "virtio-9p-pci", "disable-modern", "on" },
--    { "virtio-9p-pci", "disable-legacy", "off" },
--    { "virtio-balloon-pci", "disable-modern", "on" },
--    { "virtio-balloon-pci", "disable-legacy", "off" },
--    { "virtio-blk-pci", "disable-modern", "on" },
--    { "virtio-blk-pci", "disable-legacy", "off" },
--    { "virtio-input-host-pci", "disable-modern", "on" },
--    { "virtio-input-host-pci", "disable-legacy", "off" },
--    { "virtio-net-pci", "disable-modern", "on" },
--    { "virtio-net-pci", "disable-legacy", "off" },
--    { "virtio-rng-pci", "disable-modern", "on" },
--    { "virtio-rng-pci", "disable-legacy", "off" },
--    { "virtio-scsi-pci", "disable-modern", "on" },
--    { "virtio-scsi-pci", "disable-legacy", "off" },
--    { "virtio-serial-pci", "disable-modern", "on" },
--    { "virtio-serial-pci", "disable-legacy", "off" },
-+    /* Optional because not all virtio-pci devices support legacy mode *=
-/
-+    { "virtio-pci", "disable-modern", "on",  .optional =3D true },
-+    { "virtio-pci", "disable-legacy", "off", .optional =3D true },
- };
- const size_t hw_compat_2_6_len =3D G_N_ELEMENTS(hw_compat_2_6);
-=20
-diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-index d6f01b4a98..e4c7eb6193 100644
---- a/hw/display/virtio-gpu-pci.c
-+++ b/hw/display/virtio-gpu-pci.c
-@@ -33,9 +33,7 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy =
-*vpci_dev, Error **errp)
-     Error *local_error =3D NULL;
-=20
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
--    if (!virtio_pci_force_virtio_1(vpci_dev, errp)) {
--        return;
--    }
-+    virtio_pci_force_virtio_1(vpci_dev);
-     object_property_set_bool(OBJECT(vdev), true, "realized", &local_erro=
-r);
-=20
-     if (local_error) {
-diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-index 416e7fec87..79a145e284 100644
---- a/hw/display/virtio-vga.c
-+++ b/hw/display/virtio-vga.c
-@@ -137,9 +137,7 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *v=
-pci_dev, Error **errp)
-=20
-     /* init virtio bits */
-     qdev_set_parent_bus(DEVICE(g), BUS(&vpci_dev->bus));
--    if (!virtio_pci_force_virtio_1(vpci_dev, errp)) {
--        return;
--    }
-+    virtio_pci_force_virtio_1(vpci_dev);
-     object_property_set_bool(OBJECT(g), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
-diff --git a/hw/virtio/virtio-crypto-pci.c b/hw/virtio/virtio-crypto-pci.=
-c
-index c8a2317a10..91d4446080 100644
---- a/hw/virtio/virtio-crypto-pci.c
-+++ b/hw/virtio/virtio-crypto-pci.c
-@@ -53,9 +53,7 @@ static void virtio_crypto_pci_realize(VirtIOPCIProxy *v=
-pci_dev, Error **errp)
-     }
-=20
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
--    if (!virtio_pci_force_virtio_1(vpci_dev, errp)) {
--        return;
--    }
-+    virtio_pci_force_virtio_1(vpci_dev);
-     object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-     object_property_set_link(OBJECT(vcrypto),
-                  OBJECT(vcrypto->vdev.conf.cryptodev), "cryptodev",
-diff --git a/hw/virtio/virtio-input-pci.c b/hw/virtio/virtio-input-pci.c
-index 1c40292abc..ad7774e93e 100644
---- a/hw/virtio/virtio-input-pci.c
-+++ b/hw/virtio/virtio-input-pci.c
-@@ -49,9 +49,7 @@ static void virtio_input_pci_realize(VirtIOPCIProxy *vp=
-ci_dev, Error **errp)
-     DeviceState *vdev =3D DEVICE(&vinput->vdev);
-=20
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
--    if (!virtio_pci_force_virtio_1(vpci_dev, errp)) {
--        return;
--    }
-+    virtio_pci_force_virtio_1(vpci_dev);
-     object_property_set_bool(OBJECT(vdev), true, "realized", errp);
- }
-=20
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ce928f2429..f6d2223e78 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1723,22 +1723,16 @@ static void virtio_pci_realize(PCIDevice *pci_dev=
-, Error **errp)
-                        /* PCI BAR regions must be powers of 2 */
-                        pow2ceil(proxy->notify.offset + proxy->notify.siz=
-e));
-=20
--    if ((proxy->disable_legacy =3D=3D ON_OFF_AUTO_ON) ||
--        ((proxy->disable_legacy =3D=3D ON_OFF_AUTO_AUTO) && pcie_port)) =
-{
--        if (proxy->disable_modern) {
--            error_setg(errp, "device cannot work as neither modern nor "
--                       "legacy mode is enabled");
--            error_append_hint(errp, "Set either disable-modern or "
--                              "disable-legacy to off\n");
--            return;
--        }
--        proxy->mode =3D VIRTIO_PCI_MODE_MODERN;
--    } else {
--        if (proxy->disable_modern) {
--            proxy->mode =3D VIRTIO_PCI_MODE_LEGACY;
--        } else {
--            proxy->mode =3D VIRTIO_PCI_MODE_TRANSITIONAL;
--        }
-+    if (proxy->disable_legacy =3D=3D ON_OFF_AUTO_AUTO) {
-+        proxy->disable_legacy =3D pcie_port ? ON_OFF_AUTO_ON : ON_OFF_AU=
-TO_OFF;
-+    }
-+
-+    if (!virtio_pci_modern(proxy) && !virtio_pci_legacy(proxy)) {
-+        error_setg(errp, "device cannot work as neither modern nor legac=
-y mode"
-+                   " is enabled");
-+        error_append_hint(errp, "Set either disable-modern or disable-le=
-gacy"
-+                          " to off\n");
-+        return;
-     }
-=20
-     if (pcie_port && pci_is_express(pci_dev)) {
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 619d9098c1..292275acb1 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -15,7 +15,6 @@
- #ifndef QEMU_VIRTIO_PCI_H
- #define QEMU_VIRTIO_PCI_H
-=20
--#include "qapi/error.h"
- #include "hw/pci/msi.h"
- #include "hw/virtio/virtio-bus.h"
-=20
-@@ -119,12 +118,6 @@ typedef struct VirtIOPCIQueue {
-   uint32_t used[2];
- } VirtIOPCIQueue;
-=20
--typedef enum {
--    VIRTIO_PCI_MODE_LEGACY,
--    VIRTIO_PCI_MODE_TRANSITIONAL,
--    VIRTIO_PCI_MODE_MODERN,
--} VirtIOPCIMode;
--
- struct VirtIOPCIProxy {
-     PCIDevice pci_dev;
-     MemoryRegion bar;
-@@ -149,7 +142,6 @@ struct VirtIOPCIProxy {
-     bool disable_modern;
-     bool ignore_backend_features;
-     OnOffAuto disable_legacy;
--    VirtIOPCIMode mode;
-     uint32_t class_code;
-     uint32_t nvectors;
-     uint32_t dfselect;
-@@ -164,34 +156,23 @@ struct VirtIOPCIProxy {
-=20
- static inline bool virtio_pci_modern(VirtIOPCIProxy *proxy)
- {
--    return proxy->mode !=3D VIRTIO_PCI_MODE_LEGACY;
-+    return !proxy->disable_modern;
- }
-=20
- static inline bool virtio_pci_legacy(VirtIOPCIProxy *proxy)
- {
--    return proxy->mode !=3D VIRTIO_PCI_MODE_MODERN;
-+    return proxy->disable_legacy =3D=3D ON_OFF_AUTO_OFF;
- }
-=20
--static inline bool virtio_pci_force_virtio_1(VirtIOPCIProxy *proxy,
--                                             Error **errp)
-+static inline void virtio_pci_force_virtio_1(VirtIOPCIProxy *proxy)
- {
--    if (proxy->disable_legacy =3D=3D ON_OFF_AUTO_OFF) {
--        error_setg(errp, "Unable to set disable-legacy=3Doff on a virtio=
--1.0 "
--                   "only device");
--        return false;
--    }
--    if (proxy->disable_modern =3D=3D true) {
--        error_setg(errp, "Unable to set disable-modern=3Don on a virtio-=
-1.0 "
--                   "only device");
--        return false;
--    }
--    proxy->mode =3D VIRTIO_PCI_MODE_MODERN;
--    return true;
-+    proxy->disable_modern =3D false;
-+    proxy->disable_legacy =3D ON_OFF_AUTO_ON;
- }
-=20
- static inline void virtio_pci_disable_modern(VirtIOPCIProxy *proxy)
- {
--    proxy->mode =3D VIRTIO_PCI_MODE_LEGACY;
-+    proxy->disable_modern =3D true;
- }
-=20
- /*
---=20
-2.21.0
+sudo apt install qemu
+sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluetoo=
+th3
+sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvirg=
+lrenderer0 libxen-4.9 libxenstore3.0
+sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libisc=
+si7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
+sudo apt install qemu-block-extra qemu-system-common qemu-system-data qemu-=
+system-gui qemu-utils
+sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
+sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo-1=
+.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientgtk=
+-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 libgv=
+nc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-clie=
+nt-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients li=
+bvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libvir=
+t-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-clien=
+t-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
 
+without the i386 packages for Qemu because I want only 64 bit.
+
+I installed all these packages without error, but when I run
+
+# virt-manager
+
+Output: ...shows me:
+
+Segmentation fault
+
+
+My hardware is 100% ok.
+Maybee a broken lib?
+
+
+How can I fix that?
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838312
+
+Title:
+  Qemu virt-manager Segmentation fault
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi!
+
+  I installed all these packages:
+
+  sudo apt install qemu
+  sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluet=
+ooth3
+  sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvi=
+rglrenderer0 libxen-4.9 libxenstore3.0
+  sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libi=
+scsi7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
+  sudo apt install qemu-block-extra qemu-system-common qemu-system-data qem=
+u-system-gui qemu-utils
+  sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
+  sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo=
+-1.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientg=
+tk-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 lib=
+gvnc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-cl=
+ient-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients =
+libvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libv=
+irt-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-cli=
+ent-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
+
+  without the i386 packages for Qemu because I want only 64 bit.
+
+  I installed all these packages without error, but when I run
+
+  # virt-manager
+
+  Output: ...shows me:
+
+  Segmentation fault
+
+  =
+
+  My hardware is 100% ok.
+  Maybee a broken lib?
+
+
+  How can I fix that?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838312/+subscriptions
 
