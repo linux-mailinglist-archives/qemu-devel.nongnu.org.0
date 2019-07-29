@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFBD79113
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:36:36 +0200 (CEST)
-Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FDB790E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 18:32:51 +0200 (CEST)
+Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs8dX-0001sg-IE
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
+	id 1hs8Zv-00060d-2W
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 12:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59492)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hs8ca-0001Di-Mk
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:38 -0400
+ (envelope-from <berrange@redhat.com>) id 1hs8YC-0004l0-Gv
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hs8cZ-0002p6-7U
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60298)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hs8cX-0002o1-U3
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:35:35 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hs8cW-0005NK-Kc
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8A03F2E80D0
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:35:32 +0000 (UTC)
+ (envelope-from <berrange@redhat.com>) id 1hs8YB-00072d-9W
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:31:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48986)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hs8YA-00071s-Is
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 12:31:02 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EA2803082B15
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 16:31:01 +0000 (UTC)
+Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53F46600CC;
+ Mon, 29 Jul 2019 16:30:57 +0000 (UTC)
+Date: Mon, 29 Jul 2019 17:30:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Message-ID: <20190729163054.GT32718@redhat.com>
+References: <20190729162903.4489-1-dgilbert@redhat.com>
+ <20190729162903.4489-2-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190729162903.4489-2-dgilbert@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 29 Jul 2019 16:31:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Jul 2019 16:30:16 -0000
-From: Hans Peter <1838312@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: green-world78
-X-Launchpad-Bug-Reporter: Hans Peter (green-world78)
-X-Launchpad-Bug-Modifier: Hans Peter (green-world78)
-Message-Id: <156441781649.17826.2889969380137011138.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: ef39ec35514360d821bb222b1c031336e1e18c8d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838312] [NEW] Qemu virt-manager Segmentation
- fault
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] Revert "Revert "globals: Allow
+ global properties to be optional""
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,110 +59,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838312 <1838312@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: cohuck@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Mon, Jul 29, 2019 at 05:29:02PM +0100, Dr. David Alan Gilbert (git) wr=
+ote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> This reverts commit 8fa70dbd8bb478d9483c1da3e9976a2d86b3f9a0.
+>=20
+> Because we're about to revert it's neighbour and thus uses an optional
+> again.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  include/hw/qdev-core.h | 3 +++
+>  qom/object.c           | 3 +++
+>  2 files changed, 6 insertions(+)
 
-Hi!
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-I installed all these packages:
-
-sudo apt install qemu
-sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluetoo=
-th3
-sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvirg=
-lrenderer0 libxen-4.9 libxenstore3.0
-sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libisc=
-si7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
-sudo apt install qemu-block-extra qemu-system-common qemu-system-data qemu-=
-system-gui qemu-utils
-sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
-sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo-1=
-.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientgtk=
--3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 libgv=
-nc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-clie=
-nt-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients li=
-bvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libvir=
-t-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-clien=
-t-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
-
-without the i386 packages for Qemu because I want only 64 bit.
-
-I installed all these packages without error, but when I run
-
-# virt-manager
-
-Output: ...shows me:
-
-Segmentation fault
-
-
-My hardware is 100% ok.
-Maybee a broken lib?
-
-
-How can I fix that?
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838312
-
-Title:
-  Qemu virt-manager Segmentation fault
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi!
-
-  I installed all these packages:
-
-  sudo apt install qemu
-  sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluet=
-ooth3
-  sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvi=
-rglrenderer0 libxen-4.9 libxenstore3.0
-  sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libi=
-scsi7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
-  sudo apt install qemu-block-extra qemu-system-common qemu-system-data qem=
-u-system-gui qemu-utils
-  sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
-  sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo=
--1.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientg=
-tk-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 lib=
-gvnc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-cl=
-ient-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients =
-libvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libv=
-irt-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-cli=
-ent-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
-
-  without the i386 packages for Qemu because I want only 64 bit.
-
-  I installed all these packages without error, but when I run
-
-  # virt-manager
-
-  Output: ...shows me:
-
-  Segmentation fault
-
-  =
-
-  My hardware is 100% ok.
-  Maybee a broken lib?
-
-
-  How can I fix that?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838312/+subscriptions
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
