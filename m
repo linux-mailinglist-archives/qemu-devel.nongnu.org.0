@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CCC78F21
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:25:30 +0200 (CEST)
-Received: from localhost ([::1]:53820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091B078F3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:29:48 +0200 (CEST)
+Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Wk-0004fh-0I
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:25:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43716)
+	id 1hs7at-0004mQ-8M
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:29:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43808)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Ph-0007IH-Rr
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:14 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Pq-0007aw-Fj
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Pg-0007uc-SO
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:13 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36134)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Pp-0008CP-BF
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:22 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40019)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7Pg-0007tm-Ml; Mon, 29 Jul 2019 11:18:12 -0400
-Received: by mail-pl1-x641.google.com with SMTP id k8so27651854plt.3;
- Mon, 29 Jul 2019 08:18:12 -0700 (PDT)
+ id 1hs7Pp-00087l-5Z; Mon, 29 Jul 2019 11:18:21 -0400
+Received: by mail-pf1-x444.google.com with SMTP id p184so28192982pfp.7;
+ Mon, 29 Jul 2019 08:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eFjnzxuAegStXPBjOt40eXvFDqL2hXLnGuTLIfY9ow8=;
- b=d6RMTsJJ4Li8LDNoKvGFSMtne3nJ0koJtocDNJnZ2J3vbIUfSw606EmNQqRnEpgGJD
- uqkxp3t3jHljdFhXQJniNrTgEQCB+QbYkmmL2sLqmIWeU0vRXLQEuKj2ftgqL3wCep1v
- g8O/kOr5Bszn1c/7CLRJK3xabl5tYnY4mxrD78cV46wRIgypjg34vrliphvxAcnWWWUZ
- HwpdZ9j32Um3jwWeYZByxJB9PY2Z7q3ZUolugwk2eqVLxIQKQW1QRS7QJM1pdB3reqyI
- K+C6oOqIKwrokEnMF9gFgfcSDre38dCGQmIWtSyAiH4MBXn9Okss1Hgeh6Fn1SvruvlQ
- LZzA==
+ bh=LR9iVRChMwWQAhc5h02KM+c31gdyfKaD2veUCMmmXek=;
+ b=Sgr4c1gaaymXX9q50sFv4ldrhDJdicYmnBDuitQlWwDxPKGeQXC7go2X8lOnyaY9We
+ 8sc68s3aplsAN+f6K5B5uZWCk4elVDYV/B703KFq7Xh8x9bOM0hWtyjSBjM5vzzvBjB6
+ v5Cwn9Q4d1bjw0YrLHQ57pu+klxj6yjC+LAzK0ZNRcZ3lYU5zlVj8w/Tp+qaDU7AwZ/l
+ 5iKk3niFMKzvIYIyCWaxhBYQfxzgeL10vaZyrYyBsDqiV2jFiv9rMJ8kAZ3sWUxbg0Au
+ BItDzZY53OTiga11ZC72O+OazQyktYtK1feGmqwJHUakJvmMx3hBRTiv6tFGcWlFQw6p
+ 5qtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eFjnzxuAegStXPBjOt40eXvFDqL2hXLnGuTLIfY9ow8=;
- b=Qg0aHEerdhJ8VAoaEfTZ6DhDunBqfwvVT4p4A7S77IMfFDlE77xfLlIRLdIhvgvfpe
- Cx1zRBxrlWJjF66wOgBLVpqyJSGV/wQIwQFV2tL3+TSDxOi6GtBFaXFtdCB0ROsGG5qX
- au8SnzXR6R2z+Jj5YAWfLixahAd3nAZL+ojAYCmxyrIDsAv0NcUSjOPxPiY7LDkuvBVU
- zI7/dVNYt8YGGnLG36TpbroXRPbvsw4WeQAUm2vFb16aABESG+uT42cXfAMbYwuH1ziu
- lDSRvyePICNanVajq5a+2A31bI30kGJoPjdms1rBk7Q+UdtgQHsB+u490IXTg55X5Iky
- OYBg==
-X-Gm-Message-State: APjAAAXY7PS7OYC0EU/uKjniAc2yQUcIP5pZLcUG8QlDRNb+4CSi74cJ
- wAqKh1QwAkWB2d4Ef0rcfulfj6Cdxbiu2Q==
-X-Google-Smtp-Source: APXvYqyKXJh7+q9Ef37oHVYiL20DRfITfHp4vA41XF4qUEhpwBqoWmUdRxweZPRzao1vOg/CF7pXBA==
-X-Received: by 2002:a17:902:e4:: with SMTP id
- a91mr14164357pla.150.1564413491384; 
- Mon, 29 Jul 2019 08:18:11 -0700 (PDT)
+ bh=LR9iVRChMwWQAhc5h02KM+c31gdyfKaD2veUCMmmXek=;
+ b=HgYczwJSejJfj6QOEyr/pVaAB95VJIDN79eyJuqzfIc7ZeFx/8XSDmE8doni0lBLQM
+ 6t00fVTEmVijhtuykd6OOHChAFaA1QeU3GojHsfidZnY2qS9sWrvWnvpyvIqrXpJhe88
+ 5SFicWTx/LIKjJQs9pZh9piKU2HZd3Zo18tk3fMmlaunW47Utej9r1mikGSrBEjXfhxV
+ O+8HwUVuAzbuqrlia0zsSbBOGx/8P91i1SYQDdL94T9RiQgCaYRoaJ1FHHeQ8DV/bW49
+ XRBJd+zFWEczJalnpUdjvjv8rZbe6adqgyVe8apc27Hq4Yt4TzuRRhP1vf/Y46YYK0Wm
+ l5lw==
+X-Gm-Message-State: APjAAAUl52ORJ7NpNv4g1EB3ChpjKtPtrlyBZH9WwF4NuZIduHrf2DO/
+ +luY7aAhpzKjhYW2I/moA2qlW3iVTWiIKg==
+X-Google-Smtp-Source: APXvYqw8cZH38oX1QNztMZ9AX7tTFRbv/Mh3dNgH7okgmRCZk9gl0YLlCbggnTZoQUkps/4k0BpGaA==
+X-Received: by 2002:aa7:97bb:: with SMTP id d27mr36899936pfq.93.1564413499891; 
+ Mon, 29 Jul 2019 08:18:19 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.04
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.11
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:18:10 -0700 (PDT)
+ Mon, 29 Jul 2019 08:18:19 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:42 +0530
-Message-Id: <20190729151651.21306-7-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 20:46:43 +0530
+Message-Id: <20190729151651.21306-8-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v7 06/15] util/async: add aio interfaces for
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v7 07/15] blockdev: adds bdrv_parse_aio to use
  io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,70 +90,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- util/async.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ block.c               | 22 ++++++++++++++++++++++
+ blockdev.c            | 12 ++++--------
+ include/block/block.h |  1 +
+ 3 files changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/util/async.c b/util/async.c
-index 8d2105729c..2e0a5e20ac 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -276,6 +276,14 @@ aio_ctx_finalize(GSource     *source)
-     }
- #endif
- 
-+#ifdef CONFIG_LINUX_IO_URING
-+    if (ctx->linux_io_uring) {
-+        luring_detach_aio_context(ctx->linux_io_uring, ctx);
-+        luring_cleanup(ctx->linux_io_uring);
-+        ctx->linux_io_uring = NULL;
-+    }
-+#endif
-+
-     assert(QSLIST_EMPTY(&ctx->scheduled_coroutines));
-     qemu_bh_delete(ctx->co_schedule_bh);
- 
-@@ -340,6 +348,29 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
+diff --git a/block.c b/block.c
+index cbd8da5f3b..401831e28d 100644
+--- a/block.c
++++ b/block.c
+@@ -844,6 +844,28 @@ static BlockdevDetectZeroesOptions bdrv_parse_detect_zeroes(QemuOpts *opts,
+     return detect_zeroes;
  }
- #endif
  
-+#ifdef CONFIG_LINUX_IO_URING
-+LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp)
++/**
++ * Set open flags for aio engine
++ *
++ * Return 0 on success, -1 if the engine specified is invalid
++ */
++int bdrv_parse_aio(const char *mode, int *flags)
 +{
-+    if (ctx->linux_io_uring) {
-+        return ctx->linux_io_uring;
++    if (!strcmp(mode, "threads")) {
++        /* do nothing, default */
++    } else if (!strcmp(mode, "native")) {
++        *flags |= BDRV_O_NATIVE_AIO;
++#ifdef CONFIG_LINUX_IO_URING
++    } else if (!strcmp(mode, "io_uring")) {
++        *flags |= BDRV_O_IO_URING;
++#endif
++    } else {
++        return -1;
 +    }
 +
-+    ctx->linux_io_uring = luring_init(errp);
-+    if (!ctx->linux_io_uring) {
-+        return NULL;
-+    }
-+
-+    luring_attach_aio_context(ctx->linux_io_uring, ctx);
-+    return ctx->linux_io_uring;
++    return 0;
 +}
 +
-+LuringState *aio_get_linux_io_uring(AioContext *ctx)
-+{
-+    assert(ctx->linux_io_uring);
-+    return ctx->linux_io_uring;
-+}
-+#endif
-+
- void aio_notify(AioContext *ctx)
- {
-     /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
-@@ -431,6 +462,11 @@ AioContext *aio_context_new(Error **errp)
- #ifdef CONFIG_LINUX_AIO
-     ctx->linux_aio = NULL;
- #endif
-+
-+#ifdef CONFIG_LINUX_IO_URING
-+    ctx->linux_io_uring = NULL;
-+#endif
-+
-     ctx->thread_pool = NULL;
-     qemu_rec_mutex_init(&ctx->lock);
-     timerlistgroup_init(&ctx->tlg, aio_timerlist_notify, ctx);
+ /**
+  * Set open flags for a given discard mode
+  *
+diff --git a/blockdev.c b/blockdev.c
+index 4d141e9a1f..a41623ae9a 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -383,13 +383,9 @@ static void extract_common_blockdev_options(QemuOpts *opts, int *bdrv_flags,
+         }
+ 
+         if ((aio = qemu_opt_get(opts, "aio")) != NULL) {
+-            if (!strcmp(aio, "native")) {
+-                *bdrv_flags |= BDRV_O_NATIVE_AIO;
+-            } else if (!strcmp(aio, "threads")) {
+-                /* this is the default */
+-            } else {
+-               error_setg(errp, "invalid aio option");
+-               return;
++            if (bdrv_parse_aio(aio, bdrv_flags) < 0) {
++                error_setg(errp, "invalid aio option");
++                return;
+             }
+         }
+     }
+@@ -4574,7 +4570,7 @@ QemuOptsList qemu_common_drive_opts = {
+         },{
+             .name = "aio",
+             .type = QEMU_OPT_STRING,
+-            .help = "host AIO implementation (threads, native)",
++            .help = "host AIO implementation (threads, native, io_uring)",
+         },{
+             .name = BDRV_OPT_CACHE_WB,
+             .type = QEMU_OPT_BOOL,
+diff --git a/include/block/block.h b/include/block/block.h
+index e29baa172c..ec6b9ea4c8 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -297,6 +297,7 @@ void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                        Error **errp);
+ 
++int bdrv_parse_aio(const char *mode, int *flags);
+ int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
+ int bdrv_parse_discard_flags(const char *mode, int *flags);
+ BdrvChild *bdrv_open_child(const char *filename,
 -- 
 2.21.0
 
