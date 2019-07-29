@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCB978F47
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:31:38 +0200 (CEST)
-Received: from localhost ([::1]:54024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46EF78F6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:35:39 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7cf-0007cx-M9
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
+	id 1hs7gY-0006nk-TZ
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47391)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chihmin.chao@sifive.com>) id 1hs7RF-00023l-UV
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:51 -0400
+ (envelope-from <bounces@canonical.com>) id 1hs7bj-0007KZ-Uk
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chihmin.chao@sifive.com>) id 1hs7RE-00034v-Qo
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:49 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:35440)
+ (envelope-from <bounces@canonical.com>) id 1hs7bi-0005pW-Ti
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35456)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
- id 1hs7RE-00034Q-Ib
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:48 -0400
-Received: by mail-io1-xd35.google.com with SMTP id m24so120879686ioo.2
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 08:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WAiALMNkzL5uN9MeA97W3K0oNByFyZcmznPBDqq7Mfg=;
- b=MNUgdHA+VXLTXnxNT+CZ3mZ35wgasz0fMgnC0vyczUFKyLa5LhpUlxtB/Uhfi6zjJt
- qOjWaaQuEjGcV12AAsiSu7zzVqZpFkI21eFhUo2F3kUnshknd6Rt5qNbPmpabXoDd3TA
- JOUHO/vVZTLhVN1ainlSyS+PQ5KbxWvSM4/7OgOlkMbKIQH1Wr55N5F86kofYESycsJr
- OSI3MizvrE5DOo+1+DOHvYXfotFfQQEQwdIMyVXYFtYHOo0KxE8uPQuhwWzkpy2pxrS2
- 71nQDttFpNOydnfczve0ip9zfzgOuTP4MPkUDwklNwobL393FHo3OKZgOlNkDubYZCcM
- op6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WAiALMNkzL5uN9MeA97W3K0oNByFyZcmznPBDqq7Mfg=;
- b=RNIQ6i5z7zyAVh+HuRIfWidSFecOPVKmbyQRfn5pNsHeNGhlQrRFdM1k6CSg6cvgOl
- N4G377scIFG1mlGalhJ+jNj3OfJa8Y7he/xwWeqfdiVTmuk6uV8M7MM+h54EmVZUeU7i
- 265n59m+brciWLSkU9cnP62uZ0/pZ1ERLPZrQTtCBo3mZL7xG7wr/XaNq8f6KwAGjztY
- Nz4ecFz4PvFW9uw7NDjx8SUuztiaiCB+yRrmfm8guBnPlIPWKZ18XZHNkPGDUqxWlGhv
- /x41qYK0ymH+rTGlwlrEtnJFguvoMBPk5VWaiu/lbu8yIS1wdvJ1hnMfvVzzlcbhffvG
- n9Kw==
-X-Gm-Message-State: APjAAAVv2aTA1urMQ1dfR3azU7dUB4ev84J3PYz8Kzp5gy+LN80ujgE5
- UtwS2aVbdygyWZM8sMffHOIaEruNL1Ty8Js69lMGLg==
-X-Google-Smtp-Source: APXvYqwDxlwzlziWG2rmZ3MYHWHVSrbJZoc2VKOT+ol4vPkJ036OR/oV9QpSRV2XOPC4wAOhLpEj0H2Urmw2MPMj+58=
-X-Received: by 2002:a6b:4e1a:: with SMTP id c26mr54148491iob.178.1564413587616; 
- Mon, 29 Jul 2019 08:19:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hs7bi-0005ox-ON
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:30:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hs7bh-0001uI-BV
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:30:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4BD232E80C7
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 15:30:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <cover.1564080680.git.alistair.francis@wdc.com>
- <4116c27c037b5e7f4822cfd7199724450dc6b5da.1564080680.git.alistair.francis@wdc.com>
-In-Reply-To: <4116c27c037b5e7f4822cfd7199724450dc6b5da.1564080680.git.alistair.francis@wdc.com>
-From: Chih-Min Chao <chihmin.chao@sifive.com>
-Date: Mon, 29 Jul 2019 23:19:36 +0800
-Message-ID: <CAEiOBXUcwp5rZbdH7VuQjnM3Xq5-ONTWmcDp1Da+C1n_-w95Uw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d35
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH-4.2 v1 6/6] target/riscv: Fix Floating
- Point register names
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Jul 2019 15:23:53 -0000
+From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
+Message-Id: <156441383340.10274.11763799810880630893.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: c89ebccfc6bb965f15183be8d63f758e50f2575c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: msr
+ vbar_el2, xN not working in EL2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,54 +66,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 26, 2019 at 2:56 AM Alistair Francis <alistair.francis@wdc.com>
-wrote:
+Err, my bad. The following code does seem to work fine (somehow?), but
+the bug in my code is currently being caused by a JIT failure in mov sp,
+x8 (aligned value), causing a crash (with the same version
+considerations).
 
-> From: Atish Patra <atish.patra@wdc.com>
->
-> As per the RISC-V spec, Floating Point registers are named as f0..f31
-> so lets fix the register names accordingly.
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f8d07bd20a..af1e9b7690 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -40,10 +40,10 @@ const char * const riscv_int_regnames[] = {
->  };
->
->  const char * const riscv_fpr_regnames[] = {
-> -  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
-> -  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
-> -  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
-> -  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
-> +  "f0", "f1", "f2",  "f3",  "f4", "f5", "f6", "f7",
-> +  "f8", "f9", "f10",  "f11",  "f12", "f13", "f14", "f15",
-> +  "f16", "f17", "f18",  "f19",  "f20", "f21", "f22", "f23",
-> +  "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31"
->  };
->
+-- =
 
-Could you indicate the section of the spec ?
-By chapter 20 of user spec, the patch changes the floating register name to
-architecture name but leave the integer register use the ABI name.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838277
 
-chihmin
+Title:
+  qemu-system-aarch64: regression: msr vbar_el2, xN not working in EL2
 
->  const char * const riscv_excp_names[] = {
-> --
-> 2.22.0
->
->
->
+Status in QEMU:
+  New
+
+Bug description:
+  Affects 3.1.0 (latest stable release) and latest commit
+  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+  (qemu from bionic ubuntu LTS).
+
+  With the following code and shell commands:
+
+  test.s:
+
+  .text
+  mov x0, #0x60000000
+  msr vbar_el2, x0
+  dsb sy
+  isb sy
+
+  $ aarch64-none-elf-as test.s -o test.o
+  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
+ortex-a57 -kernel test.bin -s -S
+
+  vbar_el2 is still 0 after the code, instead of being the expected
+  0x60000000. (see screenshot).
+
+  This regression doesn't seem to happen for vbar_el1 &
+  virtualization=3Doff.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
+
