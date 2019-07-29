@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A7778777
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:33:08 +0200 (CEST)
-Received: from localhost ([::1]:50448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A222E7877F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 10:34:55 +0200 (CEST)
+Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs15f-0002ua-Ci
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47407)
+	id 1hs17O-0005XR-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 04:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47991)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hs13h-0001Y5-Ip
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:31:06 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hs16N-0004QH-RM
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hs13g-0001Kc-Kp
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:31:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50814)
+ (envelope-from <jasowang@redhat.com>) id 1hs16M-0003Cv-RG
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43448)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hs13g-0001K5-Eq
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:31:04 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hs16M-0003CP-MA
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 04:33:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8AB1B30C34D6;
- Mon, 29 Jul 2019 08:31:03 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7ED5E60872;
- Mon, 29 Jul 2019 08:30:58 +0000 (UTC)
-Date: Mon, 29 Jul 2019 10:30:56 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Message-ID: <20190729103056.42f423ff@redhat.com>
-In-Reply-To: <690fd825-3553-6dee-5ff4-2ad7652afe46@redhat.com>
-References: <20190728131304.1282-1-richardw.yang@linux.intel.com>
- <20190728131304.1282-4-richardw.yang@linux.intel.com>
- <690fd825-3553-6dee-5ff4-2ad7652afe46@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id BE085308FB93;
+ Mon, 29 Jul 2019 08:33:49 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-203.pek2.redhat.com
+ [10.72.12.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6003C10190AA;
+ Mon, 29 Jul 2019 08:33:48 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Mon, 29 Jul 2019 16:33:41 +0800
+Message-Id: <1564389226-4489-1-git-send-email-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 29 Jul 2019 08:31:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 29 Jul 2019 08:33:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/3] memory-device: break the loop if tmp
- exceed the hinted range
+Subject: [Qemu-devel] [PULL 0/5] Net patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,46 +55,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Jul 2019 09:49:37 +0200
-David Hildenbrand <david@redhat.com> wrote:
+The following changes since commit fff3159900d2b95613a9cb75fc3703e67a6747=
+29:
 
-> On 28.07.19 15:13, Wei Yang wrote:
-> > The memory-device list built by memory_device_build_list is ordered by
-> > its address, this means if the tmp range exceed the hinted range, all
-> > the following range will not overlap with it.
-> > 
-> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> > ---
-> >  hw/mem/memory-device.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-> > index 413b514586..aea47ab3e8 100644
-> > --- a/hw/mem/memory-device.c
-> > +++ b/hw/mem/memory-device.c
-> > @@ -180,7 +180,7 @@ static uint64_t memory_device_get_free_addr(MachineState *ms,
-> >                  range_make_empty(&new);
-> >                  break;
-> >              }
-> > -        } else if (!hint) {
-> > +        } else if (!hint || range_lob(&tmp) > range_upb(&new)) {
-> >              break;
-> >          }
-> >      }
-> >   
-> 
-> Lower bound is inclusive, upper bound is exclusive. Shouldn't this be
-> 
-> range_lob(&tmp) >= range_upb(&new)
-> 
-> Also, I wonder if patch #2 is now really needed?
-Indeed, it looks like 3/3 will break early in both hinted and
-non-hinted cases so 2/3 looks not necessary (in case 2/3 is dropped
-this commit message needs to be amended). 
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-201=
+90726' into staging (2019-07-26 16:23:07 +0100)
+
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to f77bed14f01557596727c4eea042e9818c242049:
+
+  net/colo-compare.c: Fix memory leak and code style issue. (2019-07-29 1=
+6:29:30 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Jason Wang (1):
+      e1000: don't raise interrupt in pre_save()
+
+Prasad J Pandit (3):
+      qemu-bridge-helper: restrict interface name to IFNAMSIZ
+      qemu-bridge-helper: move repeating code in parse_acl_file
+      net: tap: replace snprintf with g_strdup_printf calls
+
+Zhang Chen (1):
+      net/colo-compare.c: Fix memory leak and code style issue.
+
+ hw/net/e1000.c       |  8 ++------
+ net/colo-compare.c   | 27 ++++++++++++++++++++-------
+ net/tap.c            | 19 +++++++++++--------
+ qemu-bridge-helper.c | 24 +++++++++++++++++-------
+ 4 files changed, 50 insertions(+), 28 deletions(-)
 
 
