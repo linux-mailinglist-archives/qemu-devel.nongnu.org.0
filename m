@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBDF78F57
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:32:39 +0200 (CEST)
-Received: from localhost ([::1]:54072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77C478F41
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:30:12 +0200 (CEST)
+Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7de-0001ME-M9
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44053)
+	id 1hs7bI-0005VE-1V
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:30:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44159)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QP-0008Eu-EV
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:58 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Qf-0000Sd-BK
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QO-0001PE-9w
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:57 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46720)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Qe-000298-2C
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:19:13 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38384)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7QO-0001O9-2Q; Mon, 29 Jul 2019 11:18:56 -0400
-Received: by mail-pg1-x541.google.com with SMTP id k189so9382771pgk.13;
- Mon, 29 Jul 2019 08:18:56 -0700 (PDT)
+ id 1hs7Qd-00026N-RX; Mon, 29 Jul 2019 11:19:11 -0400
+Received: by mail-pg1-x541.google.com with SMTP id f5so19605898pgu.5;
+ Mon, 29 Jul 2019 08:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WSpSTIHXOrvOaCUkGHFuQSPMR43SBs+6E3PxPGPC7o8=;
- b=Em/cuWMmFKQc6ZdVMU/a859hLnYCxrqXRu9c/c5uEVt9nQy5Dq5uzXlfC1YXLXhNil
- m/y+Hvdn0iZ/HgEVYH3jSOfVpPXGG6pTFVKdUUwo4SqBJJDk2++Gj0p2ZPeD5u9hFiAp
- 4nJkTvTlgusOQqSj/YH1yseHo8g3DvjNYMTm/bfwW0MHUGq96vjzNfxX83B5FcYWPho0
- FEeD8Glf3MhUE9E0sFOtdDd3Lcai025kKzkNU+PE7tXWeBcQlfhh6bFBpvhcXfkWdiSa
- +HBy08W3YuTB9+2M3nd01RwYO79yifgeHAK0ckIzW75bOcA6CVstTPJ4+RlACpSkn+/t
- ukwA==
+ bh=gOorbCfkOfD5hZ9Ne/IGI2m869VvMpyg8Fi+6sPnwi8=;
+ b=F1G6OjQEueVHGDuOxyiPHc/6rCXIpTHvBUxDKg/GCcSs7LIom8AHRKoVzpeGTt0kl1
+ AHwgGNguLmZQbE/2H+3CvRrKuWgippajWFoUFLlIKFstyGEp649gMHswlVcEvyglMk0Y
+ /+Bf3gd2t4SI8uNc/bxPrP/E9c3UOX3u5PklkDRcPsm24HnJzVsXqblo4OJmLKI2hnuq
+ RudvuXeFWtylYu4MuACDcIlSO0g/Nn5Ez9tAPT/Bo2pOcTE7gZfKNzr83sWXAtPhfc28
+ drWwByGMWHse3DXertNDAmDXXdco0VKkqgXSvTABuResxGzV9mot+7fXOkWdly4PVpYS
+ vKJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WSpSTIHXOrvOaCUkGHFuQSPMR43SBs+6E3PxPGPC7o8=;
- b=DZN3koz8Vk55qnZoXj/1A/gJVWjGr55coXmLD25QqZlE4mt9/ZLsjzB3ft0qRumc4c
- ww35+hB9FyML7kgOVfyRTlbzjgo4HsUZB8wUQPkYi7x0pYA7rhnjPhw30CInIiRaKgcy
- PRIm+7d38GnpP83uC5vP+7e2RvDRQRd/YT0Z/J6jarUCVAovKhYloMInQwb1mU549bfI
- zTUU93zpgaY340c7pxLoYAJ4d436AcBYIwd74G1xcRcknnFiSF6Ll8LDm3Gv5+a8eCXf
- tMYa+cOc3HT1GhSxRAQmd9nr5IJ1fsCUN5gcDXOY4N4/ALtPg/nQDZTxWYICper6gbp4
- rnsw==
-X-Gm-Message-State: APjAAAXFW2RF7ei5OcAtqcc+LJBkHqWEdxOKIxHLO/Z2nFAdXuc+x/oj
- X9inJIFqlf0h9U1NtAEguJE2yhVj4wh0cg==
-X-Google-Smtp-Source: APXvYqx7EaXu3DwiEMu5ofLpR/FxsqgM3Etvw/oGp7nOtyz03NXfz97sumOI3HmqSwCpVMn8zwQ9mw==
-X-Received: by 2002:a62:1ccd:: with SMTP id
- c196mr37507676pfc.102.1564413534801; 
- Mon, 29 Jul 2019 08:18:54 -0700 (PDT)
+ bh=gOorbCfkOfD5hZ9Ne/IGI2m869VvMpyg8Fi+6sPnwi8=;
+ b=Angjjw8uxKZb3t6E1n1WZuL4uWU8X6EEXkki+kHcxX8+kDBMkxrIthAW6J/uzmSZOL
+ /M+bcwxmL+gfNqqppcwOnzNQ1tknMMA1LyQAV3sP1zRwDT1GFvBxY5eirNTPbQY5g1FA
+ XY1bRXU1AImfj7chtfKmVTHZhdps1hDgByf3VHdn7F3m5LoftGUs9YF6U4bL8R565rNK
+ jfY+WOLFMnCi4u3KOSzcgIn2vgEV69dPVaC7dd4qZvEwLFjZ7wMbIYD9PDhzYvr6ScpU
+ GrFwo/G+RqP05xf7lKteXCOKufShSiMy4upiTBlO/uJVHKutUrxvnHunHC0BxNnimrpc
+ ZLbQ==
+X-Gm-Message-State: APjAAAUEmk6s5lusdlJvRm/NcQTAjU01b7v9y1MW81B+qbrgV3iVsq6a
+ iwdhzCGmooC+BUy1I5ehcI8Dtz5rlo4iGQ==
+X-Google-Smtp-Source: APXvYqx7ATTByWezOb6rtvkEfSN65BlA2JSe7DJoZbU+CNhr2MziYjNcj2wbP/ZRlbiUTdg1kapMYw==
+X-Received: by 2002:a63:c50f:: with SMTP id f15mr5133443pgd.372.1564413550517; 
+ Mon, 29 Jul 2019 08:19:10 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.47
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.19.04
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:18:54 -0700 (PDT)
+ Mon, 29 Jul 2019 08:19:09 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:48 +0530
-Message-Id: <20190729151651.21306-13-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 20:46:50 +0530
+Message-Id: <20190729151651.21306-15-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
@@ -65,8 +64,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v7 12/15] qemu-img: adds option to use aio
- engine for benchmarking
+Subject: [Qemu-devel] [PATCH v7 14/15] tests/qemu-iotests: enable testing
+ with aio options
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,61 +89,148 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 ---
- qemu-img.c    | 10 +++++++++-
- qemu-img.texi |  5 ++++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/check      | 15 ++++++++++++++-
+ tests/qemu-iotests/common.rc  | 14 ++++++++++++++
+ tests/qemu-iotests/iotests.py |  9 ++++++++-
+ 3 files changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 79983772de..3fc8dac0b1 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -4192,7 +4192,8 @@ static int img_bench(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {0, 0, 0, 0}
-         };
--        c = getopt_long(argc, argv, ":hc:d:f:no:qs:S:t:wU", long_options, NULL);
-+        c = getopt_long(argc, argv, ":hc:d:f:ni:o:qs:S:t:wU", long_options,
-+                        NULL);
-         if (c == -1) {
-             break;
-         }
-@@ -4234,6 +4235,13 @@ static int img_bench(int argc, char **argv)
-             break;
-         case 'n':
-             flags |= BDRV_O_NATIVE_AIO;
-+        case 'i':
-+            ret = bdrv_parse_aio(optarg, &flags);
-+            if (ret < 0) {
-+                error_report("Invalid aio option: %s", optarg);
-+                ret = -1;
-+                goto out;
-+            }
-             break;
-         case 'o':
-         {
-diff --git a/qemu-img.texi b/qemu-img.texi
-index c8e9bba515..0a2eccea85 100644
---- a/qemu-img.texi
-+++ b/qemu-img.texi
-@@ -206,7 +206,7 @@ Command description:
- Amends the image format specific @var{options} for the image file
- @var{filename}. Not all file formats support this operation.
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index c24874ff4a..1e398923fd 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -132,6 +132,7 @@ sortme=false
+ expunge=true
+ have_test_arg=false
+ cachemode=false
++aiomode=false
  
--@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-interval=@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var{cache}] [-w] [-U] @var{filename}
-+@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-interval=@var{flush_interval}] [-n] [-i @var{aio}][--no-drain] [-o @var{offset}] [--pattern=@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var{cache}] [-w] [-U] @var{filename}
+ tmp="${TEST_DIR}"/$$
+ rm -f $tmp.list $tmp.tmp $tmp.sed
+@@ -141,6 +142,7 @@ export IMGFMT_GENERIC=true
+ export IMGPROTO=file
+ export IMGOPTS=""
+ export CACHEMODE="writeback"
++export AIOMODE="threads"
+ export QEMU_IO_OPTIONS=""
+ export QEMU_IO_OPTIONS_NO_FMT=""
+ export CACHEMODE_IS_DEFAULT=true
+@@ -225,6 +227,11 @@ s/ .*//p
+         CACHEMODE_IS_DEFAULT=false
+         cachemode=false
+         continue
++    elif $aiomode
++    then
++        AIOMODE="$r"
++        aiomode=false
++        continue
+     fi
  
- Run a simple sequential I/O benchmark on the specified image. If @code{-w} is
- specified, a write test is performed, otherwise a read test is performed.
-@@ -227,6 +227,9 @@ If @code{-n} is specified, the native AIO backend is used if possible. On
- Linux, this option only works if @code{-t none} or @code{-t directsync} is
- specified as well.
+     xpand=true
+@@ -269,6 +276,7 @@ other options
+     -n                  show me, do not run tests
+     -o options          -o options to pass to qemu-img create/convert
+     -c mode             cache mode
++    -i mode             AIO mode
+     -makecheck          pretty print output for make check
  
-+If @code{-i} is specified, aio option can be used to specify different AIO
-+backends: @var{threads}, @var{native} or @var{io_uring}.
+ testlist options
+@@ -433,10 +441,13 @@ testlist options
+             cachemode=true
+             xpand=false
+             ;;
++        -i)
++            aiomode=true
++            xpand=false
++            ;;
+         -T)        # deprecated timestamp option
+             xpand=false
+             ;;
+-
+         -v)
+             verbose=true
+             xpand=false
+@@ -515,6 +526,8 @@ done
+ 
+ # Set qemu-io cache mode with $CACHEMODE we have
+ QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --cache $CACHEMODE"
++# Set qemu-io aio mode with $AIOMODE we have
++QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --aio $AIOMODE"
+ 
+ QEMU_IO_OPTIONS_NO_FMT="$QEMU_IO_OPTIONS"
+ if [ "$IMGOPTSSYNTAX" != "true" ]; then
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 5502c3da2f..03f4a1cd7f 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -490,6 +490,20 @@ _default_cache_mode()
+         return
+     fi
+ }
++_supported_aio_modes()
++{
++    for mode; do
++        if [ "$mode" = "$AIOMODE" ]; then
++            return
++        fi
++    done
++    _notrun "not suitable for aio mode: $AIOMODE"
++}
++_default_aio_mode()
++{
++    AIOMODE="$1"
++    QEMU_IO="$QEMU_IO --aio $1"
++}
+ 
+ _unsupported_imgopts()
+ {
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index ce74177ab1..76f1ab0945 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -58,6 +58,7 @@ imgproto = os.environ.get('IMGPROTO', 'file')
+ test_dir = os.environ.get('TEST_DIR')
+ output_dir = os.environ.get('OUTPUT_DIR', '.')
+ cachemode = os.environ.get('CACHEMODE')
++aiomode = os.environ.get('AIOMODE')
+ qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
+ 
+ socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
+@@ -457,6 +458,7 @@ class VM(qtest.QEMUQtestMachine):
+             options.append('file=%s' % path)
+             options.append('format=%s' % format)
+             options.append('cache=%s' % cachemode)
++            options.append('aio=%s' % aiomode)
+ 
+         if opts:
+             options.append(opts)
+@@ -799,6 +801,10 @@ def verify_cache_mode(supported_cache_modes=[]):
+     if supported_cache_modes and (cachemode not in supported_cache_modes):
+         notrun('not suitable for this cache mode: %s' % cachemode)
+ 
++def verify_aio_mode(supported_aio_modes=[]):
++    if supported_aio_modes and (aiomode not in supported_aio_modes):
++        notrun('not suitable for this aio mode: %s' % aiomode)
 +
- For write tests, by default a buffer filled with zeros is written. This can be
- overridden with a pattern byte specified by @var{pattern}.
+ def supports_quorum():
+     return 'quorum' in qemu_img_pipe('--help')
  
+@@ -843,7 +849,7 @@ def skip_if_unsupported(required_formats=[], read_only=False):
+     return skip_test_decorator
+ 
+ def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
+-         unsupported_fmts=[]):
++        supported_aio_modes=[], unsupported_fmts=[]):
+     '''Run tests'''
+ 
+     global debug
+@@ -861,6 +867,7 @@ def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
+     verify_image_format(supported_fmts, unsupported_fmts)
+     verify_platform(supported_oses)
+     verify_cache_mode(supported_cache_modes)
++    verify_aio_mode(supported_aio_modes)
+ 
+     if debug:
+         output = sys.stdout
 -- 
 2.21.0
 
