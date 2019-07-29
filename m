@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA878EC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:09:37 +0200 (CEST)
-Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63E878E91
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:00:25 +0200 (CEST)
+Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7HM-0005BJ-PL
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38805)
+	id 1hs78S-0004wx-QR
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37369)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs78G-0005lB-MI
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:13 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hs76q-0003JZ-1F
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:58:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs78B-0005cx-PV
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:12 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49054)
+ (envelope-from <cohuck@redhat.com>) id 1hs76p-0004HK-0b
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:58:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56964)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs785-0005S3-Il; Mon, 29 Jul 2019 11:00:01 -0400
-Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 7CC6A96F98;
- Mon, 29 Jul 2019 14:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MabvMRXMXvglNHuMuwjz05sk4mSZqL5kEppHHuUwOes=;
- b=RbEw7tAydVp6/nppEq6nCc6ol8nkZTCHV19A4QJmuGWul57V30AGOyO/52vuGMABdYRQMC
- 7iK91DSQatfT+pjryv5+tM2e///hsymOb2yA8aPDXXTezQlHRp0HnGfX0MBoLzIdwo1me2
- zaIXpoY5jwGJDYHE5wzY+VyM0SvCo9s=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:42 +0200
-Message-Id: <20190729145654.14644-22-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
-References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hs76o-0004GA-RU; Mon, 29 Jul 2019 10:58:42 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B280E30A7C63;
+ Mon, 29 Jul 2019 14:58:40 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A23325C21A;
+ Mon, 29 Jul 2019 14:58:29 +0000 (UTC)
+Date: Mon, 29 Jul 2019 16:58:27 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190729165827.565d6265.cohuck@redhat.com>
+In-Reply-To: <20190729145229.4333-1-imammedo@redhat.com>
+References: <20190729145229.4333-1-imammedo@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MabvMRXMXvglNHuMuwjz05sk4mSZqL5kEppHHuUwOes=;
- b=xsE9+Q0d0dyv+xkvkMqr06WnTZSFzaN1kShGpwHQkCFv50Dep2t1+OIUlchuzljU+I5+al
- lEbBf8W1F24hHA9JAHUW6uB3vJN5DNdh9c5RZlw1FzbD+IcieKABEnBYmvaLzsJL4KEs8w
- n5WA7c127R07w54EvtPKX2G7O5uW5lU=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412359; a=rsa-sha256; cv=none;
- b=UQkGwFSDvFflTpIyjFSfQZEwGWqTWkZbJZ7+kXz5OS77XN3Tb7/JaXJq4M5+DWbOmBUSsq
- 8WCbS234CmUQDcHuTZIRHapaU+Sq+l+nk0tbTaL8d0CfQBgLTGk+BS/JtheJefMqZyp6hf
- cDhiqXvBAFJPKoLgWLKWe7cfPUcgbgU=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-X-Spam: Yes
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Mon, 29 Jul 2019 14:58:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 21/33] hw/intc/spapr_xive.c: remove
- device_legacy_reset call
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH RFC 0/2] s390: stop abusing
+ memory_region_allocate_system_memory()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,44 +57,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
- dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
- kraxel@redhat.com, edgar.iglesias@xilinx.com, hare@suse.com,
- qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
- thuth@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com,
- david@gibson.dropbear.id.au, Damien Hedde <damien.hedde@greensocs.com>,
- berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace legacy's reset call by device_reset_warm.
+On Mon, 29 Jul 2019 10:52:27 -0400
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-The new function propagates also the reset to the sub-buses tree but this=
- has
-no impact since SpaprXive has no child bus.
+cc:ing some folks for awareness.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
- hw/intc/spapr_xive.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 22e11ad10c..fbd7ddb06e 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1511,7 +1511,7 @@ static target_ulong h_int_reset(PowerPCCPU *cpu,
-         return H_PARAMETER;
-     }
-=20
--    device_legacy_reset(DEVICE(xive));
-+    device_reset_warm(DEVICE(xive));
-=20
-     if (kvm_irqchip_in_kernel()) {
-         Error *local_err =3D NULL;
---=20
-2.22.0
+> While looking into unifying guest RAM allocation to use hostmem backends
+> for initial RAM (especially when -mempath is used) and retiring
+> memory_region_allocate_system_memory() API, leaving only single hostmem backend,
+> I was inspecting how currently it is used by boards and it turns out several
+> boards abuse it by calling the function several times (despite documented contract
+> forbiding it).
+> 
+> s390 is one of such boards where KVM limitation on memslot size got propagated
+> to board design and memory_region_allocate_system_memory() was abused to satisfy
+> KVM requirement for max RAM chunk where memory region alias would suffice.
+> 
+> Unfortunately, memory_region_allocate_system_memory() usage created migration
+> dependency where guest RAM is transferred in migration stream as several RAMBlocks
+> if it's more than KVM_SLOT_MAX_BYTES.
+> 
+> In order to replace these several RAM chunks with a single memdev and keep it
+> working with KVM memslot size limit and migration compatible, following was done:
+>    * [2/2] use memory region aliases to partition hostmem backend RAM on
+>            KVM_SLOT_MAX_BYTES chunks, which should keep KVM side working
+>    * [1/2] hacked memory region aliases (to ram memory regions only) to have
+>            its own RAMBlocks pointing to RAM chunks owned by aliased memory
+>            region. While it's admittedly a hack, but it's relatively simple and
+>            allows board code rashape migration stream as necessary
+> 
+>            I haven't tried to use migratable aliases on x86 machines, but with it
+>            it could be possible to drop legacy RAM allocation and compat knob
+>            (cd5ff8333a) dropping '-numa node,mem' completely even for old machines.
+> 
+> PS:
+>    Tested with ping pong cross version migration on s390 machine 
+>    (with reduced KVM_SLOT_MAX_BYTES since I don't have access to large
+>     enough host)
+>      
+> 
+> Igor Mammedov (2):
+>   memory: make MemoryRegion alias migratable
+>   s390: do not call memory_region_allocate_system_memory() multiple
+>     times
+> 
+>  exec.c                     |  7 ++++---
+>  hw/s390x/s390-virtio-ccw.c | 20 +++++++++++++++-----
+>  memory.c                   |  5 +++++
+>  3 files changed, 24 insertions(+), 8 deletions(-)
+> 
 
 
