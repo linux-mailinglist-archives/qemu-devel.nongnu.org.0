@@ -2,104 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED4978F69
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:34:43 +0200 (CEST)
-Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B37678F55
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:32:33 +0200 (CEST)
+Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7fe-0005Cf-D2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
+	id 1hs7dY-00015W-E3
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47471)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hs7aL-00053C-PK
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:29:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hs7cI-00084e-L4
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:31:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hs7aK-0004Np-Nm
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:29:13 -0400
-Received: from mail-eopbgr40108.outbound.protection.outlook.com
- ([40.107.4.108]:39598 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hs7aH-0004Kw-PV; Mon, 29 Jul 2019 11:29:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D8St9kYBw9X6H11fAPznGgwW1EO4DxhkEGs0VJTDbHFB2/ekElCUMsACNfb+F9NM1srAogsTjp1ZsGthm1jPbTQI6Y8G+lbYMqnSkI5ut98/QNHPWstCWyo1qsveA5uiadaL1nsyYbxWeDGzY8A28jMZaUU/ZrQhvKUrDWK0O8GFm60DHxjHWnBB6mM0V4DmwU3vMJGbLTQj7bdX6nrSBGY2k10r/WTFvbD4b7fonQjEgTY+g9Yp1iMSHwmbIVXfNln2d4II7tsJ1HT3DEPltU5l8cDqhcvJwH9xYAYKrFGA1UWsn6cw4W2IikUzUC1zyfEvWdGhFSXTlJUgBdrYZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WGis6Q+q/Utmmqn3k7a/M6k77bJFCswbvKcsPOrRuy0=;
- b=ffnKeHe1yYCcqHlK/EKsjqAKn3tJxJYQQZxbeDc/u7TCxcWwvDAaG2CLgENKu4ybKwXhjSgp620uKBcIb122sDco0OxFT1ijQ83ugEl9h3h/rK8R56asu8F9aHwMcLIMO01duhW+/CRacmqdxFL4hYzgacXlZcXnchBFgKVFcLTo3y2ikIppH0tstu17fT9bhXfIoAPraetQCNUEqGG2pFN2bHhlEUY/tnTSltqoczK0o5EOSIxsC7LWvHIpu9M/2UMC51SAToZyzQcBG8ELHGDkW0T90IGDew0SLpVZaTKHSf1KJVTHOW5guZgXCWKBEp0ojmtAsZUSNyfWKa0Msw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=virtuozzo.com;dmarc=pass action=none
- header.from=virtuozzo.com;dkim=pass header.d=virtuozzo.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WGis6Q+q/Utmmqn3k7a/M6k77bJFCswbvKcsPOrRuy0=;
- b=IiZ1yjVP4zfy6X1aSjSMuN69lBTaN5fLsJ6Jvflq9d4q2h7yvOsIMJozZD86IW8khdjnzE4Zg4vZ0ru2bvvaLsmxMNlEITRE/gcoNOfai9/kXzEu1xeWm0Ldvm1PzZq+6B9FBggAArG5npnVZ5rQycbGEQ8GKEDXg6aXnn30GjU=
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) by
- DB8PR08MB4105.eurprd08.prod.outlook.com (20.179.12.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.14; Mon, 29 Jul 2019 15:29:07 +0000
-Received: from DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604]) by DB8PR08MB5498.eurprd08.prod.outlook.com
- ([fe80::617b:d2c2:11e9:4604%3]) with mapi id 15.20.2115.005; Mon, 29 Jul 2019
- 15:29:07 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Thread-Topic: [Qemu-block] [PATCH v3 for-4.2 0/3] block: BDRV_REQ_PREFETCH
-Thread-Index: AQHVQtCOrWd5EA7R1Umv0q7KGrzceqbhtyWAgAAH7wA=
-Date: Mon, 29 Jul 2019 15:29:07 +0000
-Message-ID: <3d5311b4-62d7-3722-bdba-b4f968f38182@virtuozzo.com>
-References: <20190725100550.33801-1-vsementsov@virtuozzo.com>
- <20190729150041.GF6771@stefanha-x1.localdomain>
-In-Reply-To: <20190729150041.GF6771@stefanha-x1.localdomain>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0291.eurprd05.prod.outlook.com
- (2603:10a6:7:93::22) To DB8PR08MB5498.eurprd08.prod.outlook.com
- (2603:10a6:10:11c::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190729182904497
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 28024b62-44d7-4303-f600-08d714397ed4
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4105; 
-x-ms-traffictypediagnostic: DB8PR08MB4105:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DB8PR08MB4105CBAEF44AE0CA978A440EC1DD0@DB8PR08MB4105.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1332;
-x-forefront-prvs: 01136D2D90
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(136003)(366004)(396003)(346002)(39840400004)(199004)(189003)(53754006)(186003)(52116002)(6486002)(6436002)(476003)(2616005)(7736002)(11346002)(5660300002)(2906002)(66066001)(31696002)(4326008)(1411001)(68736007)(446003)(53936002)(81156014)(81166006)(14454004)(229853002)(6916009)(107886003)(36756003)(99286004)(486006)(305945005)(26005)(966005)(8676002)(54906003)(25786009)(102836004)(8936002)(478600001)(76176011)(6306002)(71200400001)(6246003)(31686004)(6512007)(71190400001)(66446008)(64756008)(66946007)(256004)(316002)(86362001)(66476007)(6506007)(3846002)(6116002)(66556008)(386003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB8PR08MB4105;
- H:DB8PR08MB5498.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: dga6bCHoqMZSp/nJ649L//nysZPNlWIr3D6fhXJqsAROL/tSqVbfgiiAH/c1zSTetbBzcLrLRAX/g2ykDQqVCZKAL9MMU5X0i/giGzB+krx1l/OkPLST8XHVRkiadne06T0/1oYeqr+8Tf65Hnep4uLWQWgyCSnCxqqmRtIMo9RzmPFxfYHF0anyMk7OyxX7jMahugyWkESOZP9JBC+iwcdQIQJZQwIjI4ojH7mJcqdZCNrghl4Nm1r0lcHdK4D5UR7HlkzfQ8ElBvZoDGvgK2h31DkI4Py2aqmsqfBk1FlsTx+lY4LW4OwD7Gv+690QF+7HLxTpnKQ19cVseZ98H8WykiXDAxhu0t2AUBohdwhTysE8xmZZKspYp+Ol3LuP0lWje0x87vZyUfOGuRmXEDt3IHhHS7vJdJsQ3Vydyl0=
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <13AE531F1EE9454BB0E1A8B64EB7A1BD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <mreitz@redhat.com>) id 1hs7cH-00066I-JY
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:31:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37922)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hs7cB-00062p-GD; Mon, 29 Jul 2019 11:31:09 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 73D9B87642;
+ Mon, 29 Jul 2019 15:31:05 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-55.ams2.redhat.com
+ [10.36.117.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EAA95D6A0;
+ Mon, 29 Jul 2019 15:31:04 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20190729105343.19250-1-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <81bbb801-6e73-253c-7e21-24cc17daae01@redhat.com>
+Date: Mon, 29 Jul 2019 17:31:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28024b62-44d7-4303-f600-08d714397ed4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2019 15:29:07.0912 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4105
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.108
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v3 for-4.2 0/3] block:
- BDRV_REQ_PREFETCH
+In-Reply-To: <20190729105343.19250-1-kwolf@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lGMOLHcBrJzpybCqpv8WQTSA4Wy5csRWc"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 29 Jul 2019 15:31:05 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH for-4.1] block/copy-on-read: Fix
+ permissions for inactive node
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,57 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.07.2019 18:00, Stefan Hajnoczi wrote:
-> On Thu, Jul 25, 2019 at 01:05:47PM +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
->> Hi all!
->>
->> Here is small new read flag: BDRV_REQ_PREFETCH, which in combination wit=
-h
->> BDRV_REQ_COPY_ON_READ does copy-on-read without
->> extra buffer for read data. This means that only parts that needs COR
->> will be actually read and only corresponding buffers allocated, no more.
->>
->> This allows to improve a bit block-stream and NBD_CMD_CACHE
->>
->> v3: rebase 02 on master, fix commit message of 03.
->>
->> v2: change interface to be just one flag BDRV_REQ_PREFETCH
->>
->> v1 was "[PATCH 0/3] block: blk_co_pcache"
->>     https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01047.html
->>
->> Vladimir Sementsov-Ogievskiy (3):
->>    block: implement BDRV_REQ_PREFETCH
->>    block/stream: use BDRV_REQ_PREFETCH
->>    nbd: improve CMD_CACHE: use BDRV_REQ_PREFETCH
->>
->>   include/block/block.h |  8 +++++++-
->>   block/io.c            | 18 ++++++++++++------
->>   block/stream.c        | 20 +++++++-------------
->>   nbd/server.c          | 43 +++++++++++++++++++++++++++++++++++--------
->>   4 files changed, 61 insertions(+), 28 deletions(-)
->>
->> --=20
->> 2.18.0
->>
->>
->=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lGMOLHcBrJzpybCqpv8WQTSA4Wy5csRWc
+Content-Type: multipart/mixed; boundary="G20Za4ZnHuui5jSjODV84iaWxJnISq827";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
+Message-ID: <81bbb801-6e73-253c-7e21-24cc17daae01@redhat.com>
+Subject: Re: [PATCH for-4.1] block/copy-on-read: Fix permissions for inactive
+ node
+References: <20190729105343.19250-1-kwolf@redhat.com>
+In-Reply-To: <20190729105343.19250-1-kwolf@redhat.com>
 
-Thank you for reviewing!
+--G20Za4ZnHuui5jSjODV84iaWxJnISq827
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Best regards,
-Vladimir
+On 29.07.19 12:53, Kevin Wolf wrote:
+> The copy-on-read drive must not request the WRITE_UNCHANGED permission
+> for its child if the node is inactive, otherwise starting a migration
+> destination with -incoming will fail because the child cannot provide
+> write access yet:
+>=20
+>   qemu-system-x86_64: -blockdev copy-on-read,file=3Dimg,node-name=3Dcor=
+: Block node is read-only
+>=20
+> Earlier QEMU versions additionally ran into an abort() on the migration=
+
+> source side: bdrv_inactivate_recurse() failed to update permissions.
+> This is silently ignored today because it was only supposed to loosen
+> restrictions. This is the symptom that was originally reported here:
+>=20
+>   https://bugzilla.redhat.com/show_bug.cgi?id=3D1733022
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  block/copy-on-read.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--G20Za4ZnHuui5jSjODV84iaWxJnISq827--
+
+--lGMOLHcBrJzpybCqpv8WQTSA4Wy5csRWc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0/ETYACgkQ9AfbAGHV
+z0BfZQgAotulPoxKc6dLD+gmR7L5cdbuiCfYf5recwRe0SzSpiWJUU9UxF3kzPC4
+hshxaELjtFabiLsMzPVciAohnpUWcizIK1kWnwrIOFd9OUdNWFg4oVGqvmjYBlpT
+oXYcCk8YQw5gdhAnd8xUs2e8qTo+b+NX2UwkqDkXgjT07eQjDmTaM+ot+IcfIqzh
+13kYJZEDsI6ZAYa+hOwXl9de0azD7s1lhYPfNAuoKUWJSWx/cC1YGq9J4IIsmXzD
+h9IC+CSmbiVswF8ROsD2r9IBMkLQlf1KNCQSs0lQNABG9+izGq1fJ43IugV38UpQ
+iLZ/+IF4Tc9WCSX+0I1ZPn4JfaoUBg==
+=4q6i
+-----END PGP SIGNATURE-----
+
+--lGMOLHcBrJzpybCqpv8WQTSA4Wy5csRWc--
 
