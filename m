@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406ED78F43
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:30:59 +0200 (CEST)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBDF78F57
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:32:39 +0200 (CEST)
+Received: from localhost ([::1]:54072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7c2-0007Fo-FE
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
+	id 1hs7de-0001ME-M9
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44053)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Q5-0007dN-1Y
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:40 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QP-0008Eu-EV
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hs7Q3-0000Fu-DQ
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:36 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:45809)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hs7QO-0001PE-9w
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:18:57 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46720)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hs7Q3-0000BZ-6d; Mon, 29 Jul 2019 11:18:35 -0400
-Received: by mail-pf1-x441.google.com with SMTP id r1so28194353pfq.12;
- Mon, 29 Jul 2019 08:18:34 -0700 (PDT)
+ id 1hs7QO-0001O9-2Q; Mon, 29 Jul 2019 11:18:56 -0400
+Received: by mail-pg1-x541.google.com with SMTP id k189so9382771pgk.13;
+ Mon, 29 Jul 2019 08:18:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CsviC0H5kxruu2nLsmjsEXhYUXVsWAJ6x54pOSbsHRI=;
- b=UA1sQSbD0BgpnzosE2aBx6h50xVsRxYAyBmrVJAqvm4/r5nBCUp2mnMoNbOwF65Uxj
- PcOE8KTYHJLgfU7wsn6fKEovnGkJEPz3mOaiHZ5DbTLP+GtX3gMqKu5ombKdrfmPcpbu
- Bw3dzf0toAW6dFB+dGWTBND7RkLbl9w2Gq8cgRtOqGjhOdeSdNeRuDfBdhS3CmVuWzmd
- 3lF2kCykgyKmlorn7qoG5BifniuSjTKet8Q0nJSCUz2R/6CypW1NKIRYGcyr4G3p9H/K
- 4VFTwnDn/r4CWOgBIXmiVP+YQdbWV4R0EEQSFb/11NrLnAoIlI8YYJDTkusv7fFiyvYi
- 5pXQ==
+ bh=WSpSTIHXOrvOaCUkGHFuQSPMR43SBs+6E3PxPGPC7o8=;
+ b=Em/cuWMmFKQc6ZdVMU/a859hLnYCxrqXRu9c/c5uEVt9nQy5Dq5uzXlfC1YXLXhNil
+ m/y+Hvdn0iZ/HgEVYH3jSOfVpPXGG6pTFVKdUUwo4SqBJJDk2++Gj0p2ZPeD5u9hFiAp
+ 4nJkTvTlgusOQqSj/YH1yseHo8g3DvjNYMTm/bfwW0MHUGq96vjzNfxX83B5FcYWPho0
+ FEeD8Glf3MhUE9E0sFOtdDd3Lcai025kKzkNU+PE7tXWeBcQlfhh6bFBpvhcXfkWdiSa
+ +HBy08W3YuTB9+2M3nd01RwYO79yifgeHAK0ckIzW75bOcA6CVstTPJ4+RlACpSkn+/t
+ ukwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CsviC0H5kxruu2nLsmjsEXhYUXVsWAJ6x54pOSbsHRI=;
- b=Ml/htjH8J9GrZWv/s0UDKV5563BY24L+Qu0cI1QnS1gkNpaXd3mBsJlZ6sZDrxBR6y
- bFvBBeXE8pD1ypS3of6b4Qcr70CoAwz65Hq/wqp9wGrHc0/st+QCbRJX+O0Wycp7GH0+
- 8AHJjz+FoKa8SLgPEEDQCU0wIjTg3H/wWG25p0+O7AU7AmQzpZPt9s7gArCRMId8bza2
- BdZ2dB88UpkMvNZUcxVOtXpxoig7Ss2ZA8xoTCvoO5CKXCim3mn9L0KyejqF0JJgYNmi
- fozBaPze8vWV3kAbhL619vP/+NZAKAUI3cHatnrf4TqpLvY8RJuSKfe9xwJdfxjZoHdy
- ev/g==
-X-Gm-Message-State: APjAAAVx/+Q75tYYzP9yTwZWmZ/1te3CzhdJREeV32QB3VvSC3YXL0BA
- JchJrsE1LJlPJsHMyOWbFTJlMeEop67cUg==
-X-Google-Smtp-Source: APXvYqwhfc8cf11gHszg58e12d9z9XNipulSiZOpcPHjdGpkRXhow6dgx4fA06qABMo3PKEGvDP2/w==
-X-Received: by 2002:a63:6f41:: with SMTP id k62mr58949394pgc.32.1564413513477; 
- Mon, 29 Jul 2019 08:18:33 -0700 (PDT)
+ bh=WSpSTIHXOrvOaCUkGHFuQSPMR43SBs+6E3PxPGPC7o8=;
+ b=DZN3koz8Vk55qnZoXj/1A/gJVWjGr55coXmLD25QqZlE4mt9/ZLsjzB3ft0qRumc4c
+ ww35+hB9FyML7kgOVfyRTlbzjgo4HsUZB8wUQPkYi7x0pYA7rhnjPhw30CInIiRaKgcy
+ PRIm+7d38GnpP83uC5vP+7e2RvDRQRd/YT0Z/J6jarUCVAovKhYloMInQwb1mU549bfI
+ zTUU93zpgaY340c7pxLoYAJ4d436AcBYIwd74G1xcRcknnFiSF6Ll8LDm3Gv5+a8eCXf
+ tMYa+cOc3HT1GhSxRAQmd9nr5IJ1fsCUN5gcDXOY4N4/ALtPg/nQDZTxWYICper6gbp4
+ rnsw==
+X-Gm-Message-State: APjAAAXFW2RF7ei5OcAtqcc+LJBkHqWEdxOKIxHLO/Z2nFAdXuc+x/oj
+ X9inJIFqlf0h9U1NtAEguJE2yhVj4wh0cg==
+X-Google-Smtp-Source: APXvYqx7EaXu3DwiEMu5ofLpR/FxsqgM3Etvw/oGp7nOtyz03NXfz97sumOI3HmqSwCpVMn8zwQ9mw==
+X-Received: by 2002:a62:1ccd:: with SMTP id
+ c196mr37507676pfc.102.1564413534801; 
+ Mon, 29 Jul 2019 08:18:54 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.27
+ by smtp.gmail.com with ESMTPSA id h129sm58693941pfb.110.2019.07.29.08.18.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 08:18:32 -0700 (PDT)
+ Mon, 29 Jul 2019 08:18:54 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 20:46:45 +0530
-Message-Id: <20190729151651.21306-10-mehta.aaru20@gmail.com>
+Date: Mon, 29 Jul 2019 20:46:48 +0530
+Message-Id: <20190729151651.21306-13-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190729151651.21306-1-mehta.aaru20@gmail.com>
 References: <20190729151651.21306-1-mehta.aaru20@gmail.com>
@@ -63,8 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v7 09/15] block: add trace events for io_uring
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v7 12/15] qemu-img: adds option to use aio
+ engine for benchmarking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,139 +89,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io_uring.c   | 22 +++++++++++++++++++---
- block/trace-events | 12 ++++++++++++
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ qemu-img.c    | 10 +++++++++-
+ qemu-img.texi |  5 ++++-
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index d33e554862..c7b2b0a9e2 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -17,6 +17,7 @@
- #include "block/raw-aio.h"
- #include "qemu/coroutine.h"
- #include "qapi/error.h"
-+#include "trace.h"
- 
- #define MAX_EVENTS 128
- 
-@@ -93,6 +94,8 @@ static void luring_resubmit_short_read(LuringState *s, LuringAIOCB *luringcb,
-     QEMUIOVector *resubmit_qiov;
-     size_t remaining;
- 
-+    trace_luring_resubmit_short_read(s, luringcb, nread);
-+
-     /* Update read position */
-     luringcb->total_read = nread;
-     remaining = luringcb->qiov->size - luringcb->total_read;
-@@ -163,6 +166,7 @@ static void luring_process_completions(LuringState *s)
- 
-         /* Change counters one-by-one because we can be nested. */
-         s->io_q.in_flight--;
-+        trace_luring_process_completion(s, luringcb, ret);
- 
-         /* total_read is non-zero only for resubmitted read requests */
-         total_bytes = ret + luringcb->total_read;
-@@ -263,6 +267,7 @@ static int ioq_submit(LuringState *s)
-             QSIMPLEQ_REMOVE_HEAD(&s->io_q.submit_queue, next);
+diff --git a/qemu-img.c b/qemu-img.c
+index 79983772de..3fc8dac0b1 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4192,7 +4192,8 @@ static int img_bench(int argc, char **argv)
+             {"force-share", no_argument, 0, 'U'},
+             {0, 0, 0, 0}
+         };
+-        c = getopt_long(argc, argv, ":hc:d:f:no:qs:S:t:wU", long_options, NULL);
++        c = getopt_long(argc, argv, ":hc:d:f:ni:o:qs:S:t:wU", long_options,
++                        NULL);
+         if (c == -1) {
+             break;
          }
-         ret = io_uring_submit(&s->ring);
-+        trace_luring_io_uring_submit(s, ret);
-         /* Prevent infinite loop if submission is refused */
-         if (ret <= 0) {
-             if (ret == -EAGAIN) {
-@@ -287,12 +292,15 @@ static int ioq_submit(LuringState *s)
+@@ -4234,6 +4235,13 @@ static int img_bench(int argc, char **argv)
+             break;
+         case 'n':
+             flags |= BDRV_O_NATIVE_AIO;
++        case 'i':
++            ret = bdrv_parse_aio(optarg, &flags);
++            if (ret < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                ret = -1;
++                goto out;
++            }
+             break;
+         case 'o':
+         {
+diff --git a/qemu-img.texi b/qemu-img.texi
+index c8e9bba515..0a2eccea85 100644
+--- a/qemu-img.texi
++++ b/qemu-img.texi
+@@ -206,7 +206,7 @@ Command description:
+ Amends the image format specific @var{options} for the image file
+ @var{filename}. Not all file formats support this operation.
  
- void luring_io_plug(BlockDriverState *bs, LuringState *s)
- {
-+    trace_luring_io_plug(s);
-     s->io_q.plugged++;
- }
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-interval=@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-interval=@var{flush_interval}] [-n] [-i @var{aio}][--no-drain] [-o @var{offset}] [--pattern=@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var{cache}] [-w] [-U] @var{filename}
  
- void luring_io_unplug(BlockDriverState *bs, LuringState *s)
- {
-     assert(s->io_q.plugged);
-+    trace_luring_io_unplug(s, s->io_q.blocked, s->io_q.plugged,
-+                           s->io_q.in_queue, s->io_q.in_flight);
-     if (--s->io_q.plugged == 0 &&
-         !s->io_q.blocked && s->io_q.in_queue > 0) {
-         ioq_submit(s);
-@@ -313,6 +321,7 @@ void luring_io_unplug(BlockDriverState *bs, LuringState *s)
- static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-                             uint64_t offset, int type)
- {
-+    int ret;
-     struct io_uring_sqe *sqes = &luringcb->sqeq;
+ Run a simple sequential I/O benchmark on the specified image. If @code{-w} is
+ specified, a write test is performed, otherwise a read test is performed.
+@@ -227,6 +227,9 @@ If @code{-n} is specified, the native AIO backend is used if possible. On
+ Linux, this option only works if @code{-t none} or @code{-t directsync} is
+ specified as well.
  
-     switch (type) {
-@@ -336,11 +345,14 @@ static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
- 
-     QSIMPLEQ_INSERT_TAIL(&s->io_q.submit_queue, luringcb, next);
-     s->io_q.in_queue++;
--
-+    trace_luring_do_submit(s, s->io_q.blocked, s->io_q.plugged,
-+                           s->io_q.in_queue, s->io_q.in_flight);
-     if (!s->io_q.blocked &&
-         (!s->io_q.plugged ||
-          s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
--        return ioq_submit(s);
-+        ret = ioq_submit(s);
-+        trace_luring_do_submit_done(s, ret);
-+        return ret;
-     }
-     return 0;
- }
-@@ -355,8 +367,10 @@ int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
-         .qiov       = qiov,
-         .is_read    = (type == QEMU_AIO_READ),
-     };
--
-+    trace_luring_co_submit(bs, s, &luringcb, fd, offset, qiov ? qiov->size : 0,
-+                           type);
-     ret = luring_do_submit(fd, &luringcb, s, offset, type);
++If @code{-i} is specified, aio option can be used to specify different AIO
++backends: @var{threads}, @var{native} or @var{io_uring}.
 +
-     if (ret < 0) {
-         return ret;
-     }
-@@ -388,6 +402,7 @@ LuringState *luring_init(Error **errp)
-     int rc;
-     LuringState *s;
-     s = g_new0(LuringState, 1);
-+    trace_luring_init_state(s, sizeof(*s));
-     struct io_uring *ring = &s->ring;
-     rc = io_uring_queue_init(MAX_EVENTS, ring, 0);
-     if (rc < 0) {
-@@ -405,4 +420,5 @@ void luring_cleanup(LuringState *s)
- {
-     io_uring_queue_exit(&s->ring);
-     g_free(s);
-+    trace_luring_cleanup_state(s);
- }
-diff --git a/block/trace-events b/block/trace-events
-index d724df0117..66aaf8352b 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -60,6 +60,18 @@ qmp_block_stream(void *bs) "bs %p"
- file_paio_submit(void *acb, void *opaque, int64_t offset, int count, int type) "acb %p opaque %p offset %"PRId64" count %d type %d"
- file_copy_file_range(void *bs, int src, int64_t src_off, int dst, int64_t dst_off, int64_t bytes, int flags, int64_t ret) "bs %p src_fd %d offset %"PRIu64" dst_fd %d offset %"PRIu64" bytes %"PRIu64" flags %d ret %"PRId64
+ For write tests, by default a buffer filled with zeros is written. This can be
+ overridden with a pattern byte specified by @var{pattern}.
  
-+#io_uring.c
-+luring_init_state(void *s, size_t size) "s %p size %zu"
-+luring_cleanup_state(void *s) "%p freed"
-+luring_io_plug(void *s) "LuringState %p plug"
-+luring_io_unplug(void *s, int blocked, int plugged, int queued, int inflight) "LuringState %p blocked %d plugged %d queued %d inflight %d"
-+luring_do_submit(void *s, int blocked, int plugged, int queued, int inflight) "LuringState %p blocked %d plugged %d queued %d inflight %d"
-+luring_do_submit_done(void *s, int ret) "LuringState %p submitted to kernel %d"
-+luring_co_submit(void *bs, void *s, void *luringcb, int fd, uint64_t offset, size_t nbytes, int type) "bs %p s %p luringcb %p fd %d offset %" PRId64 " nbytes %zd type %d"
-+luring_process_completion(void *s, void *aiocb, int ret) "LuringState %p luringcb %p ret %d"
-+luring_io_uring_submit(void *s, int ret) "LuringState %p ret %d"
-+luring_resubmit_short_read(void *s, void *luringcb, int nread) "LuringState %p luringcb %p nread %d"
-+
- # qcow2.c
- qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offset 0x%" PRIx64 " bytes %d"
- qcow2_writev_done_req(void *co, int ret) "co %p ret %d"
 -- 
 2.21.0
 
