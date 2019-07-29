@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D5079AE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:17:22 +0200 (CEST)
-Received: from localhost ([::1]:56448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633DB79AEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 23:19:18 +0200 (CEST)
+Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsD1F-0006Jt-75
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56673)
+	id 1hsD37-0000Is-LX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 17:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56693)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hsD01-0005ZG-2u
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:05 -0400
+ (envelope-from <mst@redhat.com>) id 1hsD06-0005cm-IV
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hsD00-0003T3-1n
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:05 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:35836)
+ (envelope-from <mst@redhat.com>) id 1hsD05-0003gD-GQ
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:10 -0400
+Received: from mail-qk1-f174.google.com ([209.85.222.174]:46608)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hsCzz-0003RA-TU
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:03 -0400
-Received: by mail-qt1-f193.google.com with SMTP id d23so60974337qto.2
- for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 14:16:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hsD05-0003fx-B9
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 17:16:09 -0400
+Received: by mail-qk1-f174.google.com with SMTP id r4so44993288qkm.13
+ for <qemu-devel@nongnu.org>; Mon, 29 Jul 2019 14:16:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=56Kq6/bdO7dXYH2sn1ZzlSC7sP2/lMfBCKvfK33VPho=;
- b=A5ri3Mz8Jj2NwbVcF+X7bnHSMB1oREGdzA1MnpZJrVD+2CqOkANinw+vNTzn84dZ0o
- 3q16BuOFnHnTe99anmIPQqJFRXaYzxy1/Fp2X+7PksZNG6oNORPVAjUnVnhJ+0wvS4Lh
- 2ht+ow38u8X450h6c5xtAhXzgEAz3sUz5LR+ufGbekmLlL5o2Krs28xPl4dUMAyxbF3x
- X2uRq3OAONKXZG3kjhPLAHLRaXWIXfhYiTRoejDPuDB+0GpEESdQx6XOPhX8MylidCsm
- 7lQLedbs8C97NQKbUZ48hbODEVvZW2tyrn9F7d1yOm9J1U8DajiQYQfUVnloha6SxZ32
- arnQ==
-X-Gm-Message-State: APjAAAVbuHvSmJ82Pgmwhmnbj3JYzuKKB+IwnGN96PRJs314V6wnOUnM
- CqQ8jkwxninzGESUPAQGPVvQ66p2qTQidg==
-X-Google-Smtp-Source: APXvYqwJuRU5+9o59y/WtlhdhNuNoUSW1YLO9pgPf9saSYeFJ2CR9OfhGVK+Vf7Us3kCitjFr8wN0Q==
-X-Received: by 2002:a0c:e588:: with SMTP id t8mr80511092qvm.179.1564434962910; 
- Mon, 29 Jul 2019 14:16:02 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+ZGWjw1OaIuDmpM6NLOjoTAP/QWzrO1rV9SIMYsAMog=;
+ b=X7J7gv6skOzWPyptsgoE9ZxDLkLcrq7g9V/21/28JbAh2CQu6L+TW4dJ15KhziyA53
+ W+YBbmdNGUO7j/I8e9bx8Na6ULCicZQVAcBGhq0ofM52APnTPpdWcBPOdjeeKen4Ycrr
+ 0St+rnQcaVBKUoBwuJwZ8NvCRSBn+PHnEZUzZL7EUio3qMsWwI78UcXkOYWmxFXhE52k
+ Gb3co4L6a02UBhwjPbsvcr+7LZ/Sury/ePmpgCPa+USaRVAjsPr7Pe4p2Swrn4xbboAR
+ Y39cPr61a1qrBkx3FxxeD1ErJDLXnG8/h3mO27aa9qM+dVAynEUGmSRpmK0YdeCHzjtf
+ Emgg==
+X-Gm-Message-State: APjAAAVdyPK7GQeNXX2NxdG6YCGwDkfU7Cs358KkdIO+dI7A6PVyzwWj
+ l4G/V17Z3YEo/av6IT7hzBEjWZ2VLeiTCw==
+X-Google-Smtp-Source: APXvYqwIQRWLRqfFv/di1aDwV3wzaravRnPZtgbUFHmiCYiQsOAGTH224E3dS91XJ1a0yj4jzNSbLg==
+X-Received: by 2002:a05:620a:113b:: with SMTP id
+ p27mr44241325qkk.397.1564434968332; 
+ Mon, 29 Jul 2019 14:16:08 -0700 (PDT)
 Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
  by smtp.gmail.com with ESMTPSA id
- j8sm27068122qki.85.2019.07.29.14.16.00
+ l123sm26687136qkc.9.2019.07.29.14.16.05
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 29 Jul 2019 14:16:02 -0700 (PDT)
-Date: Mon, 29 Jul 2019 17:15:58 -0400
+ Mon, 29 Jul 2019 14:16:07 -0700 (PDT)
+Date: Mon, 29 Jul 2019 17:16:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190729211404.1533-1-mst@redhat.com>
+Message-ID: <20190729162903.4489-2-dgilbert@redhat.com>
+References: <20190729211404.1533-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20190729211404.1533-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.193
-Subject: [Qemu-devel] [PULL 0/3] virtio, pc: fixes
+X-Received-From: 209.85.222.174
+Subject: [Qemu-devel] [PULL 1/3] Revert "Revert "globals: Allow global
+ properties to be optional""
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,53 +71,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm sending this out now as these patches are ready,
-but it seems likely we'll need another patch for pci,
-and as it deals with migration compat it might be a blocker.
-Will know more tomorrow :(
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
+This reverts commit 8fa70dbd8bb478d9483c1da3e9976a2d86b3f9a0.
 
-The following changes since commit fff3159900d2b95613a9cb75fc3703e67a674729:
+Because we're about to revert it's neighbour and thus uses an optional
+again.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190726' into staging (2019-07-26 16:23:07 +0100)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 22235bb609c18547cf6b215bad1f9d2ec56ad371:
-
-  pc-dimm: fix crash when invalid slot number is used (2019-07-29 16:57:27 -0400)
-
-----------------------------------------------------------------
-virtio, pc: fixes
-
-A couple of last minute bugfixes.
-
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190729162903.4489-2-dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+---
+ include/hw/qdev-core.h | 3 +++
+ qom/object.c           | 3 +++
+ 2 files changed, 6 insertions(+)
 
-----------------------------------------------------------------
-Dr. David Alan Gilbert (2):
-      Revert "Revert "globals: Allow global properties to be optional""
-      Revert "hw: report invalid disable-legacy|modern usage for virtio-1-only devs"
-
-Igor Mammedov (1):
-      pc-dimm: fix crash when invalid slot number is used
-
- hw/virtio/virtio-pci.h        | 31 ++++++-------------------------
- include/hw/qdev-core.h        |  3 +++
- hw/core/machine.c             | 23 +++--------------------
- hw/display/virtio-gpu-pci.c   |  4 +---
- hw/display/virtio-vga.c       |  4 +---
- hw/mem/pc-dimm.c              |  7 +++++++
- hw/virtio/virtio-crypto-pci.c |  4 +---
- hw/virtio/virtio-input-pci.c  |  4 +---
- hw/virtio/virtio-pci.c        | 26 ++++++++++----------------
- qom/object.c                  |  3 +++
- 10 files changed, 36 insertions(+), 73 deletions(-)
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index e157fc4acd..136df7774c 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -252,6 +252,8 @@ struct PropertyInfo {
+ /**
+  * GlobalProperty:
+  * @used: Set to true if property was used when initializing a device.
++ * @optional: If set to true, GlobalProperty will be skipped without errors
++ *            if the property doesn't exist.
+  *
+  * An error is fatal for non-hotplugged devices, when the global is applied.
+  */
+@@ -260,6 +262,7 @@ typedef struct GlobalProperty {
+     const char *property;
+     const char *value;
+     bool used;
++    bool optional;
+ } GlobalProperty;
+ 
+ static inline void
+diff --git a/qom/object.c b/qom/object.c
+index 3966a3d461..1555547727 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -386,6 +386,9 @@ void object_apply_global_props(Object *obj, const GPtrArray *props, Error **errp
+         if (object_dynamic_cast(obj, p->driver) == NULL) {
+             continue;
+         }
++        if (p->optional && !object_property_find(obj, p->property, NULL)) {
++            continue;
++        }
+         p->used = true;
+         object_property_parse(obj, p->value, p->property, &err);
+         if (err != NULL) {
+-- 
+MST
 
 
