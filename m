@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53EC378EC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:10:07 +0200 (CEST)
-Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C367678EB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Jul 2019 17:07:40 +0200 (CEST)
+Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hs7Hq-0006L1-H4
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
+	id 1hs7FT-0001R7-WC
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 11:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38565)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs77X-0004Kz-AX
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:28 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs789-0005SJ-H2
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hs77T-0004pi-5i
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 10:59:25 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48220)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hs788-0005Z4-9M
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 11:00:05 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:48246)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hs77D-0004ZC-Cw; Mon, 29 Jul 2019 10:59:07 -0400
+ id 1hs783-0004aI-CZ; Mon, 29 Jul 2019 10:59:59 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 7548296F68;
- Mon, 29 Jul 2019 14:59:04 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id D93E296F6C;
+ Mon, 29 Jul 2019 14:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1564412345;
+ s=mail; t=1564412347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6BYZlTqXFaSTVHfhpxHCxDjaR213vN7XZdOsvKiNxUA=;
- b=3ZGy/9vpKbQy9Dtyg6v2JIvek4NUmM2DVlo1R+3rmd1+QxCBOWVBWq1cRg7PAzCUumBppq
- fNEUCmJRJwq3XVG656PNv3C5lkPlmkOweGWywia+P3/kV6e4Ln9M94QUgtHQynBIzPRBtN
- dbL6HH6ioZIxnKpMNdmMhMhEZ620SXk=
+ bh=VqngxFE1LYSL6RUCSoBOVHLbVMhtjOBp3mEG5XVXqYg=;
+ b=OMU9xVNA+PSt5AInVlh+uxBeSiV/LnfInWgsPOYIsG9gMFVlwgb1+E00wPHjnake8//zdV
+ 5Uw9ifoADskLKIQXDX3Rg25gkgG74YhH2FNpz1grYvUg2p6MnNxzLtSSWZryTSF1Mug3Ch
+ Ci+7l15vtct895w06Sjp1iROPL/zGEI=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Jul 2019 16:56:32 +0200
-Message-Id: <20190729145654.14644-12-damien.hedde@greensocs.com>
+Date: Mon, 29 Jul 2019 16:56:33 +0200
+Message-Id: <20190729145654.14644-13-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190729145654.14644-1-damien.hedde@greensocs.com>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1564412345;
+ s=mail; t=1564412347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6BYZlTqXFaSTVHfhpxHCxDjaR213vN7XZdOsvKiNxUA=;
- b=qkrEF5itTmFRRH9M7llbzZQK88uW0GC0w4HegGZRw8tNe2edblo2uLbQhsoF57AMh5w14w
- +kRiBqzpy3yWOxWXRVpUrYg2qo0Tqg9RzAnu+ci2ASQ8Ns263yedN3ABQQImAgMeVnP7IC
- nJA57zCYrjgmSud54Lnccxq1l7wb/Zg=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412345; a=rsa-sha256; cv=none;
- b=Q30jrPAQb7NLdpZtgzV7vTFOOqRYGwSsbCsFzkI/Vx+6m5FfT9KxHio6wCPyDMLzUMgbz5
- +cWhfOvZjsGIKNX2AktGR6IvKkj/YMR51/8UaQ0B7L8+bL2SOzfTCqDvYgnNtTZSmE+/89
- IvJDPrAnlk9+EF2LgeuQEDSiPuofODM=
+ bh=VqngxFE1LYSL6RUCSoBOVHLbVMhtjOBp3mEG5XVXqYg=;
+ b=NEIDUEr6yN9tx8ViwSUPXM8koP1bG2FV/Ba141YGsZGZEUTDHYCKbyQrGiSbBA2fNvkLfv
+ fHeSG7L2aHv01s3Uqzm4xJjy4II5mGtlB23KxO/0F3STlqKu6XgvMJrA8+RW5edVS/PsE+
+ udsNqjC4JjhakWri4pHs/ZRzBxlTP4Y=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564412347; a=rsa-sha256; cv=none;
+ b=ocHrlw543pgepaf6hD/gMKi4nwIUyiDarvDb4Ek+T0anvrLO+hYDsAaKyqUL9xdZDSpsmX
+ HC/W10NKPpkNKUA1ukNndUMGbrp5GKxtc4cotBWEbzOYX5eMmqFBh7588aQXEsunVANr4k
+ IsE+Qs+qeFS00JaxLv8JeA10L/eIuI4=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -62,8 +62,8 @@ X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [PATCH v3 11/33] hw/s390x/ipl.c: remove qbus_reset_all
- registration
+Subject: [Qemu-devel] [PATCH v3 12/33] hw/pci/: remove qdev/qbus_reset_all
+ call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,34 +88,51 @@ Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace deprecated qbus_reset_all by resettable_reset_cold_fn for
-the ipl registration in the main reset handlers.
+Replace deprecated qdev/bus_reset_all by device/bus_reset_warm.
 
 This does not impact the behavior.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- hw/s390x/ipl.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/pci/pci.c        | 6 +++---
+ hw/pci/pci_bridge.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index 60bd081d3e..402770a2c9 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -234,7 +234,11 @@ static void s390_ipl_realize(DeviceState *dev, Error=
- **errp)
-      */
-     ipl->compat_start_addr =3D ipl->start_addr;
-     ipl->compat_bios_start_addr =3D ipl->bios_start_addr;
--    qemu_register_reset(qdev_reset_all_fn, dev);
-+    /*
-+     * TODO: when we add some kind of main reset container / domain
-+     * switch to it to really benefit from multi-phase.
-+     */
-+    qemu_register_reset(resettable_reset_cold_fn, dev);
- error:
-     error_propagate(errp, err);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 8076a80ab3..f2b9d37754 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -325,14 +325,14 @@ static void pci_do_device_reset(PCIDevice *dev)
+  */
+ void pci_device_reset(PCIDevice *dev)
+ {
+-    qdev_reset_all(&dev->qdev);
++    device_reset_warm(&dev->qdev);
+     pci_do_device_reset(dev);
  }
+=20
+ /*
+  * Trigger pci bus reset under a given bus.
+- * Called via qbus_reset_all on RST# assert, after the devices
+- * have been reset qdev_reset_all-ed already.
++ * Called via bus_reset on RST# assert, after the devices
++ * have been reset device_reset-ed already.
+  */
+ static void pcibus_reset(BusState *qbus)
+ {
+diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+index 715b9a4fe6..695242149f 100644
+--- a/hw/pci/pci_bridge.c
++++ b/hw/pci/pci_bridge.c
+@@ -274,7 +274,7 @@ void pci_bridge_write_config(PCIDevice *d,
+     newctl =3D pci_get_word(d->config + PCI_BRIDGE_CONTROL);
+     if (~oldctl & newctl & PCI_BRIDGE_CTL_BUS_RESET) {
+         /* Trigger hot reset on 0->1 transition. */
+-        qbus_reset_all(BUS(&s->sec_bus));
++        bus_reset_warm(BUS(&s->sec_bus));
+     }
+ }
+=20
 --=20
 2.22.0
 
