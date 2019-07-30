@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAE67B009
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:32:32 +0200 (CEST)
-Received: from localhost ([::1]:34992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3157B02E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:35:39 +0200 (CEST)
+Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVzD-0003bQ-T6
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33553)
+	id 1hsW2E-0003Ao-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:35:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hsVsT-0006yV-31
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:34 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hsVsW-000705-Ae
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hsVsQ-0002fv-KX
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41582)
+ (envelope-from <mreitz@redhat.com>) id 1hsVsU-0002is-EA
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:19689)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hsVsL-0002aK-Ku; Tue, 30 Jul 2019 13:25:25 -0400
+ id 1hsVsO-0002bj-VL; Tue, 30 Jul 2019 13:25:29 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E3303300CA4E;
- Tue, 30 Jul 2019 17:25:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9FE3A3087958;
+ Tue, 30 Jul 2019 17:25:27 +0000 (UTC)
 Received: from localhost (ovpn-116-164.ams2.redhat.com [10.36.116.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DBEA5D978;
- Tue, 30 Jul 2019 17:25:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE90F5D9C5;
+ Tue, 30 Jul 2019 17:25:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 19:25:00 +0200
-Message-Id: <20190730172508.19911-6-mreitz@redhat.com>
+Date: Tue, 30 Jul 2019 19:25:01 +0200
+Message-Id: <20190730172508.19911-7-mreitz@redhat.com>
 In-Reply-To: <20190730172508.19911-1-mreitz@redhat.com>
 References: <20190730172508.19911-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 30 Jul 2019 17:25:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 30 Jul 2019 17:25:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 05/13] qcow2: Write v3-compliant
- snapshot list on upgrade
+Subject: [Qemu-devel] [PATCH for-4.2 06/13] qcow2: Separate
+ qcow2_check_read_snapshot_table()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,80 +60,223 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2 v3 requires every snapshot table entry to have two extra data
-fields: The 64-bit VM state size, and the virtual disk size.  Both are
-optional for v2 images, so they may not be present.
+Reading the snapshot table can fail.  That is a problem when we want to
+repair the image.
 
-qcow2_upgrade() therefore should update the snapshot table to ensure all
-entries have these extra data fields.
+Therefore, stop reading the snapshot table in qcow2_do_open() in check
+mode.  Instead, add a new function qcow2_check_read_snapshot_table()
+that reads the snapshot table at a later point.  In the future, we want
+to handle errors here and fix them.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1727347
-Reported-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ block/qcow2.h          |  4 +++
+ block/qcow2-snapshot.c | 58 ++++++++++++++++++++++++++++++++
+ block/qcow2.c          | 76 ++++++++++++++++++++++++++++++++----------
+ 3 files changed, 120 insertions(+), 18 deletions(-)
 
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 77586d81b9..50c7eefb5b 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -712,6 +712,10 @@ void qcow2_free_snapshots(BlockDriverState *bs);
+ int qcow2_read_snapshots(BlockDriverState *bs, Error **errp);
+ int qcow2_write_snapshots(BlockDriverState *bs);
+=20
++int coroutine_fn qcow2_check_read_snapshot_table(BlockDriverState *bs,
++                                                 BdrvCheckResult *result=
+,
++                                                 BdrvCheckMode fix);
++
+ /* qcow2-cache.c functions */
+ Qcow2Cache *qcow2_cache_create(BlockDriverState *bs, int num_tables,
+                                unsigned table_size);
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 3d097b92d7..cbc6d699b6 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -321,6 +321,64 @@ fail:
+     return ret;
+ }
+=20
++int coroutine_fn qcow2_check_read_snapshot_table(BlockDriverState *bs,
++                                                 BdrvCheckResult *result=
+,
++                                                 BdrvCheckMode fix)
++{
++    BDRVQcow2State *s =3D bs->opaque;
++    Error *local_err =3D NULL;
++    int ret;
++    struct {
++        uint32_t nb_snapshots;
++        uint64_t snapshots_offset;
++    } QEMU_PACKED snapshot_table_pointer;
++
++    /* qcow2_do_open() discards this information in check mode */
++    ret =3D bdrv_pread(bs->file, 60, &snapshot_table_pointer,
++                     sizeof(snapshot_table_pointer));
++    if (ret < 0) {
++        result->check_errors++;
++        fprintf(stderr, "ERROR failed to read the snapshot table pointer=
+ from "
++                "the image header: %s\n", strerror(-ret));
++        return ret;
++    }
++
++    s->snapshots_offset =3D be64_to_cpu(snapshot_table_pointer.snapshots=
+_offset);
++    s->nb_snapshots =3D be32_to_cpu(snapshot_table_pointer.nb_snapshots)=
+;
++
++    ret =3D qcow2_validate_table(bs, s->snapshots_offset, s->nb_snapshot=
+s,
++                               sizeof(QCowSnapshotHeader),
++                               sizeof(QCowSnapshotHeader) * QCOW_MAX_SNA=
+PSHOTS,
++                               "snapshot table", &local_err);
++    if (ret < 0) {
++        result->check_errors++;
++        error_reportf_err(local_err, "ERROR ");
++
++        /* We did not read the snapshot table, so invalidate this inform=
+ation */
++        s->snapshots_offset =3D 0;
++        s->nb_snapshots =3D 0;
++
++        return ret;
++    }
++
++    qemu_co_mutex_unlock(&s->lock);
++    ret =3D qcow2_read_snapshots(bs, &local_err);
++    qemu_co_mutex_lock(&s->lock);
++    if (ret < 0) {
++        result->check_errors++;
++        error_reportf_err(local_err,
++                          "ERROR failed to read the snapshot table: ");
++
++        /* We did not read the snapshot table, so invalidate this inform=
+ation */
++        s->snapshots_offset =3D 0;
++        s->nb_snapshots =3D 0;
++
++        return ret;
++    }
++
++    return 0;
++}
++
+ static void find_new_snapshot_id(BlockDriverState *bs,
+                                  char *id_str, int id_str_size)
+ {
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 99e9dad798..75d41683a1 100644
+index 75d41683a1..2983a7795a 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -4731,7 +4731,9 @@ static int qcow2_upgrade(BlockDriverState *bs, int =
-target_version,
-                          Error **errp)
- {
-     BDRVQcow2State *s =3D bs->opaque;
-+    bool need_snapshot_update;
-     int current_version =3D s->qcow_version;
-+    int i;
-     int ret;
-=20
-     /* This is qcow2_upgrade(), not qcow2_downgrade() */
-@@ -4740,7 +4742,30 @@ static int qcow2_upgrade(BlockDriverState *bs, int=
- target_version,
-     /* There are no other versions (yet) that you can upgrade to */
-     assert(target_version =3D=3D 3);
-=20
--    status_cb(bs, 0, 1, cb_opaque);
-+    status_cb(bs, 0, 2, cb_opaque);
-+
-+    /*
-+     * In v2, snapshots do not need to have extra data.  v3 requires
-+     * the 64-bit VM state size and the virtual disk size to be
-+     * present.
-+     * qcow2_write_snapshots() will always write the list in the
-+     * v3-compliant format.
-+     */
-+    need_snapshot_update =3D false;
-+    for (i =3D 0; i < s->nb_snapshots; i++) {
-+        if (s->snapshots[i].extra_data_size < 16) {
-+            need_snapshot_update =3D true;
-+            break;
-+        }
-+    }
-+    if (need_snapshot_update) {
-+        ret =3D qcow2_write_snapshots(bs);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Failed to update the snapshot =
-table");
-+            return ret;
-+        }
-+    }
-+    status_cb(bs, 1, 2, cb_opaque);
-=20
-     s->qcow_version =3D target_version;
-     ret =3D qcow2_update_header(bs);
-@@ -4749,7 +4774,7 @@ static int qcow2_upgrade(BlockDriverState *bs, int =
-target_version,
-         error_setg_errno(errp, -ret, "Failed to update the image header"=
-);
-         return ret;
-     }
--    status_cb(bs, 1, 1, cb_opaque);
-+    status_cb(bs, 2, 2, cb_opaque);
-=20
+@@ -567,11 +567,40 @@ int qcow2_mark_consistent(BlockDriverState *bs)
      return 0;
  }
+=20
++static void qcow2_add_check_result(BdrvCheckResult *out,
++                                   const BdrvCheckResult *src,
++                                   bool set_allocation_info)
++{
++    out->corruptions +=3D src->corruptions;
++    out->leaks +=3D src->leaks;
++    out->check_errors +=3D src->check_errors;
++    out->corruptions_fixed +=3D src->corruptions_fixed;
++    out->leaks_fixed +=3D src->leaks_fixed;
++
++    if (set_allocation_info) {
++        out->image_end_offset =3D src->image_end_offset;
++        out->bfi =3D src->bfi;
++    }
++}
++
+ static int coroutine_fn qcow2_co_check_locked(BlockDriverState *bs,
+                                               BdrvCheckResult *result,
+                                               BdrvCheckMode fix)
+ {
+-    int ret =3D qcow2_check_refcounts(bs, result, fix);
++    BdrvCheckResult snapshot_res =3D {};
++    BdrvCheckResult refcount_res =3D {};
++    int ret;
++
++    memset(result, 0, sizeof(*result));
++
++    ret =3D qcow2_check_read_snapshot_table(bs, &snapshot_res, fix);
++    qcow2_add_check_result(result, &snapshot_res, false);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret =3D qcow2_check_refcounts(bs, &refcount_res, fix);
++    qcow2_add_check_result(result, &refcount_res, true);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -1403,17 +1432,22 @@ static int coroutine_fn qcow2_do_open(BlockDriver=
+State *bs, QDict *options,
+         goto fail;
+     }
+=20
+-    /* The total size in bytes of the snapshot table is checked in
+-     * qcow2_read_snapshots() because the size of each snapshot is
+-     * variable and we don't know it yet.
+-     * Here we only check the offset and number of snapshots. */
+-    ret =3D qcow2_validate_table(bs, header.snapshots_offset,
+-                               header.nb_snapshots,
+-                               sizeof(QCowSnapshotHeader),
+-                               sizeof(QCowSnapshotHeader) * QCOW_MAX_SNA=
+PSHOTS,
+-                               "Snapshot table", errp);
+-    if (ret < 0) {
+-        goto fail;
++    if (!(flags & BDRV_O_CHECK)) {
++        /*
++         * The total size in bytes of the snapshot table is checked in
++         * qcow2_read_snapshots() because the size of each snapshot is
++         * variable and we don't know it yet.
++         * Here we only check the offset and number of snapshots.
++         */
++        ret =3D qcow2_validate_table(bs, header.snapshots_offset,
++                                   header.nb_snapshots,
++                                   sizeof(QCowSnapshotHeader),
++                                   sizeof(QCowSnapshotHeader) *
++                                       QCOW_MAX_SNAPSHOTS,
++                                   "Snapshot table", errp);
++        if (ret < 0) {
++            goto fail;
++        }
+     }
+=20
+     /* read the level 1 table */
+@@ -1573,13 +1607,19 @@ static int coroutine_fn qcow2_do_open(BlockDriver=
+State *bs, QDict *options,
+         s->image_backing_file =3D g_strdup(bs->auto_backing_file);
+     }
+=20
+-    /* Internal snapshots */
+-    s->snapshots_offset =3D header.snapshots_offset;
+-    s->nb_snapshots =3D header.nb_snapshots;
++    /*
++     * Internal snapshots; skip reading them in check mode, because
++     * we do not need them then, and we do not want to abort because
++     * of a broken table.
++     */
++    if (!(flags & BDRV_O_CHECK)) {
++        s->snapshots_offset =3D header.snapshots_offset;
++        s->nb_snapshots =3D header.nb_snapshots;
+=20
+-    ret =3D qcow2_read_snapshots(bs, errp);
+-    if (ret < 0) {
+-        goto fail;
++        ret =3D qcow2_read_snapshots(bs, errp);
++        if (ret < 0) {
++            goto fail;
++        }
+     }
+=20
+     /* Clear unknown autoclear feature bits */
 --=20
 2.21.0
 
