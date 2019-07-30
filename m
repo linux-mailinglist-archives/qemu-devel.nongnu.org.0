@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F747ABB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 16:59:33 +0200 (CEST)
-Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04EF7ABC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 17:00:36 +0200 (CEST)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsTb9-00068U-Sl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 10:59:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
+	id 1hsTcB-0007eI-Ur
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 11:00:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39601)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hsTa1-00050j-Nt
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:58:22 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hsTa3-00055C-RD
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:58:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hsTa0-0007xX-Mu
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:58:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33044)
+ (envelope-from <kwolf@redhat.com>) id 1hsTa2-0007zP-JW
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:58:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hsTZx-0007uv-Tk; Tue, 30 Jul 2019 10:58:18 -0400
+ id 1hsTZz-0007wl-QZ; Tue, 30 Jul 2019 10:58:20 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2FC5F308402E;
- Tue, 30 Jul 2019 14:58:17 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1D9575859E;
+ Tue, 30 Jul 2019 14:58:19 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-75.ams2.redhat.com
  [10.36.117.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70D925D6A7;
- Tue, 30 Jul 2019 14:58:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A02C5B69A;
+ Tue, 30 Jul 2019 14:58:17 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 16:57:26 +0200
-Message-Id: <20190730145727.28965-2-kwolf@redhat.com>
+Date: Tue, 30 Jul 2019 16:57:27 +0200
+Message-Id: <20190730145727.28965-3-kwolf@redhat.com>
 In-Reply-To: <20190730145727.28965-1-kwolf@redhat.com>
 References: <20190730145727.28965-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 30 Jul 2019 14:58:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Tue, 30 Jul 2019 14:58:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.1 1/2] fdc: Fix inserting read-only media
- in empty drive
+Subject: [Qemu-devel] [PATCH for-4.1 2/2] iotests/118: Test inserting a
+ read-only medium
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,68 +61,54 @@ Cc: kwolf@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to insert a read-only medium (i.e. a read-only block node) to
-the BlockBackend of a floppy drive, we must not have taken write
-permissions on that BlockBackend, or the operation will fail with the
-error message "Block node is read-only".
-
-The device already takes care to remove all permissions when the medium
-is ejected, but the state isn't correct if the drive is initially empty:
-It uses blk_is_read_only() to check whether write permissions should be
-taken, but this function returns false for empty BlockBackends in the
-common case.
-
-Fix floppy_drive_realize() to avoid taking write permissions if the
-drive is empty.
-
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/fdc.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/118     | 6 +++++-
+ tests/qemu-iotests/118.out | 4 ++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 77af9979de..9b24cb9b85 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -514,6 +514,7 @@ static void floppy_drive_realize(DeviceState *qdev, E=
-rror **errp)
-     FloppyDrive *dev =3D FLOPPY_DRIVE(qdev);
-     FloppyBus *bus =3D FLOPPY_BUS(qdev->parent_bus);
-     FDrive *drive;
-+    bool read_only;
-     int ret;
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index 603e10e8a2..499c5f0901 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -207,10 +207,11 @@ class GeneralChangeTestsBaseClass(ChangeBaseClass):
+             self.assert_qmp(result, 'return[0]/tray_open', False)
+         self.assert_qmp(result, 'return[0]/inserted/image/filename', new=
+_img)
 =20
-     if (dev->unit =3D=3D -1) {
-@@ -542,6 +543,12 @@ static void floppy_drive_realize(DeviceState *qdev, =
-Error **errp)
-         dev->conf.blk =3D blk_new(qemu_get_aio_context(), 0, BLK_PERM_AL=
-L);
-         ret =3D blk_attach_dev(dev->conf.blk, qdev);
-         assert(ret =3D=3D 0);
+-    def test_cycle(self):
++    def test_cycle(self, read_only_node=3DFalse):
+         result =3D self.vm.qmp('blockdev-add',
+                              node_name=3D'new',
+                              driver=3Diotests.imgfmt,
++                             read_only=3Dread_only_node,
+                              file=3D{'filename': new_img,
+                                     'driver': 'file'})
+         self.assert_qmp(result, 'return', {})
+@@ -257,6 +258,9 @@ class GeneralChangeTestsBaseClass(ChangeBaseClass):
+             self.assert_qmp(result, 'return[0]/tray_open', False)
+         self.assert_qmp(result, 'return[0]/inserted/image/filename', new=
+_img)
+=20
++    def test_cycle_read_only_media(self):
++        self.test_cycle(True)
 +
-+        /* Don't take write permissions on an empty drive to allow attac=
-hing a
-+         * read-only node later */
-+        read_only =3D true;
-+    } else {
-+        read_only =3D !blk_bs(dev->conf.blk) || blk_is_read_only(dev->co=
-nf.blk);
-     }
+     def test_close_on_closed(self):
+         result =3D self.vm.qmp('blockdev-close-tray', id=3Dself.device_n=
+ame)
+         # Should be a no-op
+diff --git a/tests/qemu-iotests/118.out b/tests/qemu-iotests/118.out
+index 6a917130b6..4823c113d5 100644
+--- a/tests/qemu-iotests/118.out
++++ b/tests/qemu-iotests/118.out
+@@ -1,5 +1,5 @@
+-...........................................................
++...............................................................
+ ----------------------------------------------------------------------
+-Ran 59 tests
++Ran 63 tests
 =20
-     blkconf_blocksizes(&dev->conf);
-@@ -559,9 +566,7 @@ static void floppy_drive_realize(DeviceState *qdev, E=
-rror **errp)
-     dev->conf.rerror =3D BLOCKDEV_ON_ERROR_AUTO;
-     dev->conf.werror =3D BLOCKDEV_ON_ERROR_AUTO;
-=20
--    if (!blkconf_apply_backend_options(&dev->conf,
--                                       blk_is_read_only(dev->conf.blk),
--                                       false, errp)) {
-+    if (!blkconf_apply_backend_options(&dev->conf, read_only, false, err=
-p)) {
-         return;
-     }
-=20
+ OK
 --=20
 2.20.1
 
