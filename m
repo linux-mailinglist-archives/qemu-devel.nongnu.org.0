@@ -2,50 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574797B00B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:32:39 +0200 (CEST)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D037AFFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:30:34 +0200 (CEST)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVzK-0003tb-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33030)
+	id 1hsVxJ-0007ml-Oh
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:30:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33377)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqs-0002y8-Rf
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:56 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hsVsE-0006Vh-9d
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqr-0001Xv-HY
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45132)
+ (envelope-from <mreitz@redhat.com>) id 1hsVsC-0002RT-Hk
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40184)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hsVqi-0001Sr-Tw; Tue, 30 Jul 2019 13:23:45 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hsVs7-0002O4-2R; Tue, 30 Jul 2019 13:25:12 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9C67C3C93;
- Tue, 30 Jul 2019 17:23:43 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99F7A60BE5;
- Tue, 30 Jul 2019 17:23:38 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, mst@redhat.com, peter.maydell@linaro.org,
- alex.williamson@redhat.com, jean-philippe@linaro.org, kevin.tian@intel.com
-Date: Tue, 30 Jul 2019 19:21:36 +0200
-Message-Id: <20190730172137.23114-15-eric.auger@redhat.com>
-In-Reply-To: <20190730172137.23114-1-eric.auger@redhat.com>
-References: <20190730172137.23114-1-eric.auger@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 62F21308FB93;
+ Tue, 30 Jul 2019 17:25:10 +0000 (UTC)
+Received: from localhost (ovpn-116-164.ams2.redhat.com [10.36.116.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6A7C5D9C5;
+ Tue, 30 Jul 2019 17:25:09 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue, 30 Jul 2019 19:24:55 +0200
+Message-Id: <20190730172508.19911-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 30 Jul 2019 17:23:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 30 Jul 2019 17:25:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 v10 14/15] virtio-iommu-pci: Add virtio
- iommu pci support
+Subject: [Qemu-devel] [PATCH for-4.2 00/13] qcow2: Let check -r all repair
+ some snapshot bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,177 +54,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tn@semihalf.com, bharat.bhushan@nxp.com, peterx@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds virtio-iommu-pci, which is the pci proxy for
-the virtio-iommu device.
+Hi,
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+As Eric reports in https://bugzilla.redhat.com/show_bug.cgi?id=3D1727347,
+qemu-img amend has a bug when it comes to converting qcow2 v2 images to
+v3: In v3, every snapshot table entry requires at least 16 bytes of
+extra metadata to be present, which isn=E2=80=99t the case for v2 images.
+Currently, qemu-img amend doesn=E2=80=99t take care of updating the snaps=
+hot
+table, so the image is a bit corrupt afterwards (luckily, qemu doesn=E2=80=
+=99t
+take notice, though).
 
----
+This yields the following patches:
+- Patch 3: Helper patch
+- Patch 4: Helper patch, so we can actually do more than just to bump up
+  the version number when upgrading a qcow2 image from v2 to v3
+- Patch 5: The fix
 
-v8 -> v9:
-- add the msi-bypass property
-- create virtio-iommu-pci.c
----
- hw/virtio/Makefile.objs          |  1 +
- hw/virtio/virtio-iommu-pci.c     | 88 ++++++++++++++++++++++++++++++++
- include/hw/pci/pci.h             |  1 +
- include/hw/virtio/virtio-iommu.h |  1 +
- qdev-monitor.c                   |  1 +
- 5 files changed, 92 insertions(+)
- create mode 100644 hw/virtio/virtio-iommu-pci.c
+Eric also points out that qemu-img check does not see any problem with
+such images and doesn=E2=80=99t fix them, so:
+- Patch 11: Makes qemu-img check report if a snapshot table entry has
+  too little extra data, and repair it with -r all
+  (Patches 6 and 7 add the necessary infrastructure so we can check and
+  repair the snapshot table at all.)
 
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index f42e4dd94f..80ca719f1c 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -27,6 +27,7 @@ obj-$(CONFIG_VIRTIO_INPUT_HOST) +=3D virtio-input-host-=
-pci.o
- obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-pci.o
- obj-$(CONFIG_VIRTIO_RNG) +=3D virtio-rng-pci.o
- obj-$(CONFIG_VIRTIO_BALLOON) +=3D virtio-balloon-pci.o
-+obj-$(CONFIG_VIRTIO_IOMMU) +=3D virtio-iommu-pci.o
- obj-$(CONFIG_VIRTIO_9P) +=3D virtio-9p-pci.o
- obj-$(CONFIG_VIRTIO_SCSI) +=3D virtio-scsi-pci.o
- obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk-pci.o
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-new file mode 100644
-index 0000000000..f9977096bd
---- /dev/null
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -0,0 +1,88 @@
-+/*
-+ * Virtio IOMMU PCI Bindings
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ * Written by Eric Auger
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "virtio-pci.h"
-+#include "hw/virtio/virtio-iommu.h"
-+
-+typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
-+
-+/*
-+ * virtio-iommu-pci: This extends VirtioPCIProxy.
-+ *
-+ */
-+#define VIRTIO_IOMMU_PCI(obj) \
-+        OBJECT_CHECK(VirtIOIOMMUPCI, (obj), TYPE_VIRTIO_IOMMU_PCI)
-+
-+struct VirtIOIOMMUPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VirtIOIOMMU vdev;
-+};
-+
-+static Property virtio_iommu_pci_properties[] =3D {
-+    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+    DEFINE_PROP_BOOL("msi-bypass", VirtIOIOMMUPCI, vdev.msi_bypass, true=
-),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **e=
-rrp)
-+{
-+    VirtIOIOMMUPCI *dev =3D VIRTIO_IOMMU_PCI(vpci_dev);
-+    DeviceState *vdev =3D DEVICE(&dev->vdev);
-+
-+    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-+    object_property_set_link(OBJECT(dev),
-+                             OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-+                             "primary-bus", errp);
-+    object_property_set_bool(OBJECT(vdev), true, "realized", errp);
-+}
-+
-+static void virtio_iommu_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    VirtioPCIClass *k =3D VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k =3D PCI_DEVICE_CLASS(klass);
-+    k->realize =3D virtio_iommu_pci_realize;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+    dc->props =3D virtio_iommu_pci_properties;
-+    pcidev_k->vendor_id =3D PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id =3D PCI_DEVICE_ID_VIRTIO_IOMMU;
-+    pcidev_k->revision =3D VIRTIO_PCI_ABI_VERSION;
-+    pcidev_k->class_id =3D PCI_CLASS_OTHERS;
-+}
-+
-+static void virtio_iommu_pci_instance_init(Object *obj)
-+{
-+    VirtIOIOMMUPCI *dev =3D VIRTIO_IOMMU_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VIRTIO_IOMMU);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info =3D {
-+    .base_name             =3D TYPE_VIRTIO_IOMMU_PCI,
-+    .generic_name          =3D "virtio-iommu-pci",
-+    .transitional_name     =3D "virtio-iommu-pci-transitional",
-+    .non_transitional_name =3D "virtio-iommu-pci-non-transitional",
-+    .instance_size =3D sizeof(VirtIOIOMMUPCI),
-+    .instance_init =3D virtio_iommu_pci_instance_init,
-+    .class_init    =3D virtio_iommu_pci_class_init,
-+};
-+
-+static void virtio_iommu_pci_register(void)
-+{
-+    virtio_pci_types_register(&virtio_iommu_pci_info);
-+}
-+
-+type_init(virtio_iommu_pci_register)
-+
-+
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index aaf1b9f70d..492ea7e68d 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -86,6 +86,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_VIRTIO_9P          0x1009
- #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
- #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
-+#define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
-=20
- #define PCI_VENDOR_ID_REDHAT             0x1b36
- #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-=
-iommu.h
-index 56c8b4e57f..893ac65c0b 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -25,6 +25,7 @@
- #include "hw/pci/pci.h"
-=20
- #define TYPE_VIRTIO_IOMMU "virtio-iommu-device"
-+#define TYPE_VIRTIO_IOMMU_PCI "virtio-iommu-device-base"
- #define VIRTIO_IOMMU(obj) \
-         OBJECT_CHECK(VirtIOIOMMU, (obj), TYPE_VIRTIO_IOMMU)
-=20
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 58222c2211..74cf090c61 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -63,6 +63,7 @@ static const QDevAlias qdev_alias_table[] =3D {
-     { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_S390X },
-     { "virtio-input-host-pci", "virtio-input-host",
-             QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
-+    { "virtio-iommu-pci", "virtio-iommu", QEMU_ARCH_ALL & ~QEMU_ARCH_S39=
-0X },
-     { "virtio-keyboard-ccw", "virtio-keyboard", QEMU_ARCH_S390X },
-     { "virtio-keyboard-pci", "virtio-keyboard",
-             QEMU_ARCH_ALL & ~QEMU_ARCH_S390X },
+Then I got the glorious idea of =E2=80=9CHey, if I want to see how much e=
+xtra
+data a snapshot table entry has outside of qcow2_read_snapshots(), I
+should add a field that reports that value to QCowSnapshot.  And if I do
+that, I might as well make the qcow2 driver interpret the specification
+a bit more literally, namely it should ignore all unknown extra data,
+that is (as I interpret it), keep it in memory and write it back when
+updating the snapshot table.=E2=80=9D
+
+That led to patch 2.  Maybe you find that stupid, in which case we can
+totally drop patch 2 (with some changes to other patches).
+
+Anyway.  Because of this, qcow2_read_snapshots() suddenly got more error
+case, so I thought now would be a good time to give it an Error **
+parameter.  Cue patch 1.
+
+At this point:
+(1) I had infrastructure for repairing a snapshot table in
+    qemu-img check -r all, and
+(2) I had added a new error case if a snapshot table entry has a
+    suspiciously large amount of extra data.
+
+I decided that this should be repairable, too.  This is done by patch 8.
+(If we drop patch 2, this will go, too.)
+
+Now I was really into it, so I decided even more things needed fixing!
+Namely the final two reasons why we would reject a snapshot table:
+(1) It has too many snapshots (patch 10),
+(2) It is too long overall (patch 9).
+
+
+Finally, patch 13 adds an overly complicated test (using the new
+peek_file* functions added in patch 12).
+
+
+Max Reitz (13):
+  qcow2: Add Error ** to qcow2_read_snapshots()
+  qcow2: Keep unknown extra snapshot data
+  qcow2: Make qcow2_write_snapshots() public
+  qcow2: Put qcow2_upgrade() into an own function
+  qcow2: Write v3-compliant snapshot list on upgrade
+  qcow2: Separate qcow2_check_read_snapshot_table()
+  qcow2: Add qcow2_check_fix_snapshot_table()
+  qcow2: Fix broken snapshot table entries
+  qcow2: Fix overly long snapshot tables
+  qcow2: Repair snapshot table with too many entries
+  qcow2: Fix v3 snapshot table entry compliancy
+  iotests: Add peek_file* functions
+  iotests: Test qcow2's snapshot table handling
+
+ block/qcow2.h                |  15 +-
+ block/qcow2-snapshot.c       | 302 +++++++++++++++++++++--
+ block/qcow2.c                | 152 ++++++++++--
+ tests/qemu-iotests/261       | 449 +++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/261.out   | 321 +++++++++++++++++++++++++
+ tests/qemu-iotests/common.rc |  20 ++
+ tests/qemu-iotests/group     |   1 +
+ 7 files changed, 1219 insertions(+), 41 deletions(-)
+ create mode 100755 tests/qemu-iotests/261
+ create mode 100644 tests/qemu-iotests/261.out
+
 --=20
-2.20.1
+2.21.0
 
 
