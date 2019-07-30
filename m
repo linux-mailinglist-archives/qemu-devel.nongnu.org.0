@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C6F7A6E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:27:11 +0200 (CEST)
-Received: from localhost ([::1]:59848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAE17A6E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:27:07 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsQHe-0007YK-Co
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1hsQHa-0007RA-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hsQFJ-0003am-DH
+ (envelope-from <kwolf@redhat.com>) id 1hsQFJ-0003ak-Ct
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:24:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hsQFH-0006jd-Hq
+ (envelope-from <kwolf@redhat.com>) id 1hsQFH-0006ji-KM
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:24:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43288)
+Received: from mx1.redhat.com ([209.132.183.28]:55636)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hsQF8-0006eH-FU; Tue, 30 Jul 2019 07:24:35 -0400
+ id 1hsQFB-0006et-8O; Tue, 30 Jul 2019 07:24:38 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C3D6B88313;
- Tue, 30 Jul 2019 11:24:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 26886300BEA8;
+ Tue, 30 Jul 2019 11:24:35 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-75.ams2.redhat.com
  [10.36.117.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9BB260623;
- Tue, 30 Jul 2019 11:24:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA5060623;
+ Tue, 30 Jul 2019 11:24:33 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 13:24:24 +0200
-Message-Id: <20190730112425.21497-4-kwolf@redhat.com>
+Date: Tue, 30 Jul 2019 13:24:25 +0200
+Message-Id: <20190730112425.21497-5-kwolf@redhat.com>
 In-Reply-To: <20190730112425.21497-1-kwolf@redhat.com>
 References: <20190730112425.21497-1-kwolf@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 30 Jul 2019 11:24:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 30 Jul 2019 11:24:35 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/4] block/copy-on-read: Fix permissions for
- inactive node
+Subject: [Qemu-devel] [PULL 4/4] scsi-cd: Fix inserting read-only media in
+ empty drive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,57 +61,63 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The copy-on-read drive must not request the WRITE_UNCHANGED permission
-for its child if the node is inactive, otherwise starting a migration
-destination with -incoming will fail because the child cannot provide
-write access yet:
+scsi-disks decides whether it has a read-only device by looking at
+whether the BlockBackend specified as drive=3D... is read-only. In the
+case of an anonymous BlockBackend (with a node name specified in
+drive=3D...), this is the read-only flag of the attached node. In the cas=
+e
+of an empty anonymous BlockBackend, it's always read-write because
+nothing prevented it from being read-write.
 
-  qemu-system-x86_64: -blockdev copy-on-read,file=3Dimg,node-name=3Dcor: =
-Block node is read-only
+This is a problem because scsi-cd would take write permissions on the
+anonymous BlockBackend of an empty drive created without a drive=3D...
+option. Using blockdev-insert-medium with a read-only node fails then
+with the error message "Block node is read-only".
 
-Earlier QEMU versions additionally ran into an abort() on the migration
-source side: bdrv_inactivate_recurse() failed to update permissions.
-This is silently ignored today because it was only supposed to loosen
-restrictions. This is the symptom that was originally reported here:
+Fix scsi_realize() so that scsi-cd devices always take read-only
+permissions on their BlockBackend instead.
 
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1733022
-
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1733920
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- block/copy-on-read.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ hw/scsi/scsi-disk.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 22f24fd0db..6631f30205 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -56,16 +56,14 @@ static void cor_child_perm(BlockDriverState *bs, Bdrv=
-Child *c,
-                            uint64_t perm, uint64_t shared,
-                            uint64_t *nperm, uint64_t *nshared)
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 8e95e3e38d..af3e622dc5 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2318,6 +2318,7 @@ static void scsi_disk_unit_attention_reported(SCSID=
+evice *dev)
+ static void scsi_realize(SCSIDevice *dev, Error **errp)
  {
--    if (c =3D=3D NULL) {
--        *nperm =3D (perm & PERM_PASSTHROUGH) | BLK_PERM_WRITE_UNCHANGED;
--        *nshared =3D (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
--        return;
--    }
-+    *nperm =3D perm & PERM_PASSTHROUGH;
-+    *nshared =3D (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+     SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, dev);
++    bool read_only;
 =20
--    *nperm =3D (perm & PERM_PASSTHROUGH) |
--             (c->perm & PERM_UNCHANGED);
--    *nshared =3D (shared & PERM_PASSTHROUGH) |
--               (c->shared_perm & PERM_UNCHANGED);
-+    /* We must not request write permissions for an inactive node, the c=
-hild
-+     * cannot provide it. */
-+    if (!(bs->open_flags & BDRV_O_INACTIVE)) {
-+        *nperm |=3D BLK_PERM_WRITE_UNCHANGED;
+     if (!s->qdev.conf.blk) {
+         error_setg(errp, "drive property not set");
+@@ -2351,8 +2352,13 @@ static void scsi_realize(SCSIDevice *dev, Error **=
+errp)
+             return;
+         }
+     }
+-    if (!blkconf_apply_backend_options(&dev->conf,
+-                                       blk_is_read_only(s->qdev.conf.blk=
+),
++
++    read_only =3D blk_is_read_only(s->qdev.conf.blk);
++    if (dev->type =3D=3D TYPE_ROM) {
++        read_only =3D true;
 +    }
- }
-=20
-=20
++
++    if (!blkconf_apply_backend_options(&dev->conf, read_only,
+                                        dev->type =3D=3D TYPE_DISK, errp)=
+) {
+         return;
+     }
 --=20
 2.20.1
 
