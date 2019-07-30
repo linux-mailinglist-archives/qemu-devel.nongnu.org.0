@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824F79D9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:53:00 +0200 (CEST)
-Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB5679DA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:54:59 +0200 (CEST)
+Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsGNv-0002rU-K8
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33873)
+	id 1hsGPq-0003lv-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33996)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hsGNF-0002On-Ar
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:52:18 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hsGOd-0003LZ-FY
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:53:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hsGNE-0000qe-5i
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:52:17 -0400
-Received: from mga17.intel.com ([192.55.52.151]:58124)
+ (envelope-from <tao3.xu@intel.com>) id 1hsGOc-0001sl-A2
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:53:43 -0400
+Received: from mga01.intel.com ([192.55.52.88]:30716)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hsGND-0000pr-TB
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:52:16 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hsGOc-0001qK-22
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:53:42 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2019 17:52:14 -0700
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2019 17:53:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,324,1559545200"; d="scan'208";a="182955904"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga002.jf.intel.com with ESMTP; 29 Jul 2019 17:52:12 -0700
-Date: Tue, 30 Jul 2019 08:51:50 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190730005150.GA27925@richard>
-References: <20190724070307.12568-1-richardw.yang@linux.intel.com>
- <20190729135859.GD6771@stefanha-x1.localdomain>
+X-IronPort-AV: E=Sophos;i="5.64,324,1559545200"; d="scan'208";a="371327254"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.148])
+ ([10.239.196.148])
+ by fmsmga006.fm.intel.com with ESMTP; 29 Jul 2019 17:53:36 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20190729063127.2801-1-tao3.xu@intel.com>
+ <20190729063127.2801-3-tao3.xu@intel.com>
+ <20190729150957.157a7c03@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <04ce7f87-815c-924b-e1df-6a4028750926@intel.com>
+Date: Tue, 30 Jul 2019 08:53:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190729135859.GD6771@stefanha-x1.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190729150957.157a7c03@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
-Subject: Re: [Qemu-devel] [PATCH] docs/nvdimm: add example on persistent
- backend setup
+X-Received-From: 192.55.52.88
+Subject: Re: [Qemu-devel] [PATCH v8 02/11] numa: move numa global variable
+ nb_numa_nodes into MachineState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,101 +60,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: qemu-devel@nongnu.org, ross.zwisler@linux.intel.com,
- xiaoguangrong.eric@gmail.com, Wei Yang <richardw.yang@linux.intel.com>,
- mst@redhat.com
+Cc: ehabkost@redhat.com, jingqi.liu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com, dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Stefan
-
-Thanks for your comments :-)
-
-On Mon, Jul 29, 2019 at 02:58:59PM +0100, Stefan Hajnoczi wrote:
->On Wed, Jul 24, 2019 at 03:03:07PM +0800, Wei Yang wrote:
->> Persistent backend setup requires some knowledge about nvdimm and ndctl
->> tool. Some users report they may struggle to gather these knowledge and
->> have difficulty to setup it properly.
->> 
->> Here we provide two examples for persistent backend and gives the link
->> to ndctl. By doing so, user could try it directly and do more
->> investigation on persistent backend setup with ndctl.
->> 
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+On 7/29/2019 9:09 PM, Igor Mammedov wrote:
+> On Mon, 29 Jul 2019 14:31:18 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> Add struct NumaState in MachineState and move existing numa global
+>> nb_numa_nodes(renamed as "num_nodes") into NumaState. And add variable
+>> numa_support into MachineClass to decide which submachines support NUMA.
+>>
+>> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+>> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 >> ---
->>  docs/nvdimm.txt | 28 ++++++++++++++++++++++++++++
->>  1 file changed, 28 insertions(+)
->> 
->> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
->> index b531cacd35..baba7a940d 100644
->> --- a/docs/nvdimm.txt
->> +++ b/docs/nvdimm.txt
->> @@ -171,6 +171,32 @@ guest software that this vNVDIMM device contains a region that cannot
->>  accept persistent writes. In result, for example, the guest Linux
->>  NVDIMM driver, marks such vNVDIMM device as read-only.
->>  
->> +Backend File Setup Example
->> +..........................
+>>
+>> Changes in v8:
+>>      - Add check if numa->numa_state is NULL in pxb_dev_realize_common
+>>      - Use nb_nodes in spapr_populate_memory() (Igor)
+>> ---
+> [...]
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index 821f0d4a49..1c7c12c415 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -331,7 +331,7 @@ static int spapr_fixup_cpu_dt(void *fdt, SpaprMachineState *spapr)
+>>               return ret;
+>>           }
+>>   
+>> -        if (nb_numa_nodes > 1) {
+>> +        if (ms->numa_state->num_nodes > 1) {
+>>               ret = spapr_fixup_cpu_numa_dt(fdt, offset, cpu);
+>>               if (ret < 0) {
+>>                   return ret;
+>> @@ -351,9 +351,9 @@ static int spapr_fixup_cpu_dt(void *fdt, SpaprMachineState *spapr)
+>>   
+>>   static hwaddr spapr_node0_size(MachineState *machine)
+>>   {
+>> -    if (nb_numa_nodes) {
+>> +    if (machine->numa_state->num_nodes) {
+>>           int i;
+>> -        for (i = 0; i < nb_numa_nodes; ++i) {
+>> +        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
+>>               if (numa_info[i].node_mem) {
+>>                   return MIN(pow2floor(numa_info[i].node_mem),
+>>                              machine->ram_size);
+>> @@ -398,13 +398,14 @@ static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
+>>   {
+>>       MachineState *machine = MACHINE(spapr);
+>>       hwaddr mem_start, node_size;
+>> -    int i, nb_nodes = nb_numa_nodes;
+>> +    int i, nb_nodes = machine->numa_state->num_nodes;
+>>       NodeInfo *nodes = numa_info;
+>>       NodeInfo ramnode;
+>>   
+>>       /* No NUMA nodes, assume there is just one node with whole RAM */
+>> -    if (!nb_numa_nodes) {
+>> +    if (!nb_nodes) {
+>>           nb_nodes = 1;
+>> +        machine->numa_state->num_nodes = nb_nodes;
+> You've not addressed a v7 comment
+> On Tue, 23 Jul 2019 16:56:41 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+>> I don't like user fixing up generic machine data that came from CLI
+>> (or luck of such)
+> [...]
+>> I'd keep fixup local (i.e. using nb_nodes)
+> 
+> i.e. do not modify machine->numa_state->num_nodes and just use value local
+> like current code does.
 
-Here I use '-' because I want to say this is a sub-section of "Guest Data
-Persistence".
+But modify machine->numa_state->num_nodes can fix the issue:
+spapr_populate_memory() creates a implicit node and info
+temporarily but then spapr_validate_node_memory() will use
+global nb_numa_nodes which is 0 and skip check.
 
-Actually, I struggled a little to pick up a proper character. Do you think '-'
-is the proper one?
+Or if I should modify the check part, i.e.
+static void spapr_validate_node_memory(MachineState *machine, Error **errp)
+{
+[...]
+     for (i = 0; machine->numa_state->nodes[i] == NULL; i++) {
+         if (machine->numa_state->nodes[i].node_mem % 
+SPAPR_MEMORY_BLOCK_SIZE) {
+             error_setg(errp,
+                        "Node %d memory size 0x%" PRIx64
+                        " is not aligned to %" PRIu64 " MiB",
+                        i, machine->numa_state->nodes[i].node_mem,
+                        SPAPR_MEMORY_BLOCK_SIZE / MiB);)
 
->
->For consistency with the rest of the document please use '-' instead of
->'.'.
->
->> +
->> +Here is two examples for how to setup these persistent backend on
->> +linux, which leverages the tool ndctl [3].
->
->Small grammar tweaks:
->
->  Here are two examples showing how to set up persistent backends on
->  Linux using the tool ndctl [3].
->
->> +
->> +It is easy to setup DAX device backend file.
->
->Please move this into the "A. DAX device" section and use it as an
->introduction to explain what this section is about:
->
->  Use the following command to set up /dev/dax0.0 so that the entirety
->  of namespace0.0 can be exposed as an emulated NVDIMM to the guest:
->
->> +
->> +A. DAX device
->> +
->> +    ndctl create-namespace -f -e namespace0.0 -m devdax
->> +
->> +The /dev/dax0.0 could be used directly in "mem-path" option.
->> +
->> +For DAX file, it is more than creating the proper namespace. The
->> +block device should be partitioned and mounted (with dax option).
->
->Please move this into "B. DAX file":
->
->  Individual files on a DAX host file system can be exposed as emulated
->  NVDIMMS.  First an fsdax block device is created, partitioned, and
->  then mounted with the "dax" mount option:
->
->> +
->> +B. DAX file
->> +
->> +    ndctl create-namespace -f -e namespace0.0 -m fsdax
->> +    (partition /dev/pmem0 with name pmem0p1)
->> +    mount -o dax /dev/pmem0p1 /mnt
->> +    (dd a file with proper size in /mnt)
->
->"dd a file" could be "create or copy a disk image file with qemu-img(1),
->cp(1), or dd(1) in /mnt".
+> 
+>>           ramnode.node_mem = machine->ram_size;
+>>           nodes = &ramnode;
+>>       }
+> [...]
+> 
 
-
-
--- 
-Wei Yang
-Help you, Help me
 
