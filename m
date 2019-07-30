@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71FD79D7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:42:14 +0200 (CEST)
-Received: from localhost ([::1]:57238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA9579D7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:43:10 +0200 (CEST)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsGDW-0005aJ-1h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60297)
+	id 1hsGEQ-0006UO-0L
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60515)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hsGCo-000597-5x
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:41:31 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hsGDf-00061v-5L
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:42:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hsGCn-0002Mg-1N
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:41:30 -0400
-Received: from mga14.intel.com ([192.55.52.115]:22186)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hsGDe-0002zr-7N
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:42:23 -0400
+Received: from mga04.intel.com ([192.55.52.120]:23076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hsGCm-0002Ks-Nc
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:41:28 -0400
+ id 1hsGDd-0002yd-Uo
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:42:22 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2019 17:41:27 -0700
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2019 17:42:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,324,1559545200"; d="scan'208";a="182953253"
+X-IronPort-AV: E=Sophos;i="5.64,324,1559545200"; d="scan'208";a="182953515"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga002.jf.intel.com with ESMTP; 29 Jul 2019 17:41:25 -0700
-Date: Tue, 30 Jul 2019 08:41:03 +0800
+ by orsmga002.jf.intel.com with ESMTP; 29 Jul 2019 17:42:19 -0700
+Date: Tue, 30 Jul 2019 08:41:57 +0800
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: Ivan Ren <renyime@gmail.com>
-Message-ID: <20190730004103.GA17604@richard>
+Message-ID: <20190730004157.GB17604@richard>
 References: <1564387281-12321-1-git-send-email-ivanren@tencent.com>
- <1564387281-12321-2-git-send-email-ivanren@tencent.com>
+ <1564387281-12321-4-git-send-email-ivanren@tencent.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1564387281-12321-2-git-send-email-ivanren@tencent.com>
+In-Reply-To: <1564387281-12321-4-git-send-email-ivanren@tencent.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.115
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] migration: add
- qemu_file_update_transfer interface
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] [PATCH v2 3/3] migration: update ram_counters for
+ multifd sync packet
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,48 +63,31 @@ Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 29, 2019 at 04:01:19PM +0800, Ivan Ren wrote:
->Add qemu_file_update_transfer for just update bytes_xfer for speed
->limitation. This will be used for further migration feature such as
->multifd migration.
+On Mon, Jul 29, 2019 at 04:01:21PM +0800, Ivan Ren wrote:
+>Multifd sync will send MULTIFD_FLAG_SYNC flag info to destination, add
+>these bytes to ram_counters record.
 >
 >Signed-off-by: Ivan Ren <ivanren@tencent.com>
 
-Well I have reviewed this patch, suppose you need add my Reviewed-by.
+Also this is suggested by me, it would be better to add Suggested-by.
 
 >---
-> migration/qemu-file.c | 5 +++++
-> migration/qemu-file.h | 1 +
-> 2 files changed, 6 insertions(+)
+> migration/ram.c | 2 ++
+> 1 file changed, 2 insertions(+)
 >
->diff --git a/migration/qemu-file.c b/migration/qemu-file.c
->index 0431585502..18f480529a 100644
->--- a/migration/qemu-file.c
->+++ b/migration/qemu-file.c
->@@ -615,6 +615,11 @@ void qemu_file_reset_rate_limit(QEMUFile *f)
->     f->bytes_xfer = 0;
-> }
-> 
->+void qemu_file_update_transfer(QEMUFile *f, int64_t len)
->+{
->+    f->bytes_xfer += len;
->+}
->+
-> void qemu_put_be16(QEMUFile *f, unsigned int v)
-> {
->     qemu_put_byte(f, v >> 8);
->diff --git a/migration/qemu-file.h b/migration/qemu-file.h
->index 13baf896bd..5de9fa2e96 100644
->--- a/migration/qemu-file.h
->+++ b/migration/qemu-file.h
->@@ -147,6 +147,7 @@ int qemu_peek_byte(QEMUFile *f, int offset);
-> void qemu_file_skip(QEMUFile *f, int size);
-> void qemu_update_position(QEMUFile *f, size_t size);
-> void qemu_file_reset_rate_limit(QEMUFile *f);
->+void qemu_file_update_transfer(QEMUFile *f, int64_t len);
-> void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
-> int64_t qemu_file_get_rate_limit(QEMUFile *f);
-> void qemu_file_set_error(QEMUFile *f, int ret);
+>diff --git a/migration/ram.c b/migration/ram.c
+>index 88ddd2bbe2..20b6eebb7c 100644
+>--- a/migration/ram.c
+>+++ b/migration/ram.c
+>@@ -1085,6 +1085,8 @@ static void multifd_send_sync_main(RAMState *rs)
+>         p->flags |= MULTIFD_FLAG_SYNC;
+>         p->pending_job++;
+>         qemu_file_update_transfer(rs->f, p->packet_len);
+>+        ram_counters.multifd_bytes += p->packet_len;
+>+        ram_counters.transferred += p->packet_len;
+>         qemu_mutex_unlock(&p->mutex);
+>         qemu_sem_post(&p->sem);
+>     }
 >-- 
 >2.17.2 (Apple Git-113)
 >
