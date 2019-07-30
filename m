@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036E97A75A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:56:16 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C389F7A7A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:07:02 +0200 (CEST)
+Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsQjn-0000KV-7j
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57556)
+	id 1hsQuE-0006oF-28
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59465)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsQjB-00084N-Ie
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:55:38 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsQsx-0005Cx-Kf
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsQjA-0005V5-Eq
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:55:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53456)
+ (envelope-from <bounces@canonical.com>) id 1hsQsw-0001Dq-H2
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55922)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsQjA-0005Uc-9E
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:55:36 -0400
+ id 1hsQsw-0001Da-BL
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsQj9-00023T-4Z
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 11:55:35 +0000
+ id 1hsQsv-0003aV-1o
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 12:05:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E6CD92E80CC
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 11:55:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 080BF2E80CC
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 12:05:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jul 2019 11:49:46 -0000
+Date: Tue, 30 Jul 2019 11:57:22 -0000
 From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -46,13 +46,13 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
  =?utf-8?q?e=29?=
 References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
-Message-Id: <156448738705.5869.4405843998932074804.malone@soybean.canonical.com>
+Message-Id: <156448784245.7562.14885730435878328690.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19010";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 7f4b8b5a877455b94fd8d86378073ceb5513982f
+X-Launchpad-Hash: 59c9576c10f12e2ff865e4331de91438daa1b1f7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: TCG
@@ -72,61 +72,12 @@ Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sure.
+ie. there's x20 being wrongly used in start.s in some places, meaning #8
+can be discarded, but this does not explain the vbar_el2 bug (the repro
+steps for which are above).
 
-* For both: extract the archive in the same folder, chmod to it & run
-
-qemu-system-aarch64 -nographic -machine virt,secure=3Don,virtualization=3Don
-,gic-version=3D2 -cpu cortex-a57 -smp 2 -m 1024 -bios bl1.bin -d unimp
--semihosting-config enable,target=3Dnative -serial mon:stdio -s -S
-
-* In another terminal window, same folder:
-
-aarch64-none-elf-gdb thermosphere.elf
-
-* while in GDB:
-
-target remote :1234
-
-This .elf corresponds to bl33.bin which runs in EL2 (the other binary
-files are Arm Trusted Firmware).
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-For
-https://bugs.launchpad.net/qemu/+bug/1838277/+attachment/5279996/+files/exa=
-mple.zip:
-
-* in GDB:
-
-b *0x6000010C
-
-* GDB should report it placed a breakpoint in main.c, line 11 (this is
-on a brk instruction). Then:
-
-continue
-disas
-
-* Here you should see =3D> 0x000000006000010c <+36>:    brk     #0x3e8
-
-* Notice VBAR_EL2 has a valid, non-zero value:
-
-p $VBAR_EL2
-
-* gdb reports: $1 =3D 0x60001000
-
-* Step the instruction, the control-C:
-
-stepi
-
-__Expected behavior__: qemu should have jumped to 0x60001000+0x200
-__Actual behavior__: qemu jumps to 0+0x200
-
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Erratum: there was an issue in example #2, which was a bug on my part.
-Above regression still stands
+qemu *did* correctly jump to 0x60001200 (synchronous exception from same
+EL with vbar_el2=3D0x60001000) in version 2.11, but not anymore.
 
 -- =
 
