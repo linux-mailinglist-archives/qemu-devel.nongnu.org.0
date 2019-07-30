@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34E07AD39
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:05:58 +0200 (CEST)
-Received: from localhost ([::1]:34408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE947AD41
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:07:47 +0200 (CEST)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsUdR-0002mk-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49841)
+	id 1hsUfC-00066c-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50341)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hsUbc-00083M-Dz
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:05 -0400
+ (envelope-from <lersek@redhat.com>) id 1hsUeK-0005Es-Fg
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hsUbb-0006Pk-AP
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:04 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35250)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hsUbb-0006PK-5Z
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:03 -0400
-Received: by mail-oi1-x242.google.com with SMTP id a127so48263204oii.2
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p6rUg7JRwuzV5vIRpzkVx7AjYDp1I9ZV/OKO75VF274=;
- b=QosSbjyhYTZO6DgzPpmhlEh8VMyyKQxL5Ll7yki0WV6mS7dkY1QANeeuaucHm485SK
- 3o6zv9f//snFvcpzowQKPqUiCqVVSNAimKGgBWAnbQ59DhQA8sIK8u7wjqMJDZO6iK0k
- o3zJgQSgs0OKaf72ePkItXZyNOM+u+Ppcap2dJy/n2H5O6jno2f4wh4oKOoHhi0sNvK1
- bJNM9JpO2VTcuzJHjk4uqLVscZ1bUIun3cmuS25fRshz2An85nmmjjBcI/pnceFH4yh1
- /jD7piyKDmcfTjkCAHh+96gX3iZJ5lgdyHvn2nFrat6p4USDCIbLsR+MNgD9Lnlaloxy
- wWlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=p6rUg7JRwuzV5vIRpzkVx7AjYDp1I9ZV/OKO75VF274=;
- b=kJEitR4FEE9YCqFMUUCOdggqz8SDSfJaSUF+qovp6Zow0B3MHnGHxQoeJRe2LpNWkX
- ocJLmgspt86zJuA93KQ40yJ3sFg8LHqIv1tWuUhbB5DtT4ztXdiODv21rL0HNlezPudN
- ZjoupwcGMmKjqNostwRV6ttPuXGUb0018dbe4whbapg3NUis/e2VlmqLhii/LovAglvg
- vaDhFkIpfGuRwdFbxr6jrrWlkkDNU1jKMp7b2a2hnPZLQWlX0pnp9dTJYc7Gv+jv1Hvn
- 6jlS7ydzcGkVP7EPYBrtqzh/hAFR/MrqJPDBTiKDfIcrbR/6MdyqP73akntoQ3JcZT+g
- ic0w==
-X-Gm-Message-State: APjAAAWUl21bTYUYj4wF2HbXq5M5iQmWrJnLbavyRpP/junGOGuFQq36
- cTTnnZ6uDZ1U3Zp56HKQjvk4/08WWWu75/UccWDdag==
-X-Google-Smtp-Source: APXvYqydYz7pPqlWXITgDzOqE5A+NchVbaWlJFh79opdaits/z5ehQyjBdlPobViPNROCCtG50GLrUkKeuUJ/Pqzphg=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr1434932oic.170.1564502642155; 
- Tue, 30 Jul 2019 09:04:02 -0700 (PDT)
+ (envelope-from <lersek@redhat.com>) id 1hsUeJ-0007is-It
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3057)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hsUeJ-0007hN-Cy
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:51 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 81819285AE;
+ Tue, 30 Jul 2019 16:06:49 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.118.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF73160BF7;
+ Tue, 30 Jul 2019 16:06:43 +0000 (UTC)
+To: Sergio Lopez <slp@redhat.com>, mst@redhat.com
+References: <20190729125755.45008-1-slp@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <932a0c3c-b6cb-540f-ca07-1559c8fe9049@redhat.com>
+Date: Tue, 30 Jul 2019 18:06:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20190730153331.24515-1-kwolf@redhat.com>
-In-Reply-To: <20190730153331.24515-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Jul 2019 17:03:51 +0100
-Message-ID: <CAFEAcA-zGqSLbXPEVtcDoE5nCBzns-7ozU_L=_nb-bqRUSeA_g@mail.gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PULL 0/2] fdc: Fix inserting read-only media in
- empty drive
+In-Reply-To: <20190729125755.45008-1-slp@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Tue, 30 Jul 2019 16:06:49 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] virtio-mmio: implement modern (v2)
+ personality (virtio-1)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,39 +59,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Jul 2019 at 16:33, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 8517bf84056282ea3e27772d51f76db3a6fa2d26:
->
->   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-07-30' into staging (2019-07-30 14:23:07 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 68174160144c9263366a4397ef8b417698e2735c:
->
->   iotests/118: Test inserting a read-only medium (2019-07-30 17:32:01 +0200)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - fdc: Fix inserting read-only media in empty drive
->
-> ----------------------------------------------------------------
-> Kevin Wolf (2):
->       fdc: Fix inserting read-only media in empty drive
->       iotests/118: Test inserting a read-only medium
+On 07/29/19 14:57, Sergio Lopez wrote:
+> Implement the modern (v2) personality, according to the VirtIO 1.0
+> specification.
+> 
+> Support for v2 among guests is not as widespread as it'd be
+> desirable. While the Linux driver has had it for a while, support is
+> missing, at least, from Tianocore EDK II, NetBSD and FreeBSD.
 
+That's right; not only are there no plans to implement virtio-mmio/1.0
+for OVMF (to my knowledge), I'd even argue against such efforts.
 
-Applied, thanks.
+OVMF is a heavy-weight guest firmware, which I see entirely out of scope
+for "micro VMs". And so virtio-mmio/1.0 would seem like a needless &
+unwelcome complication, from the OVMF maintainership perspective.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+(This should not be construed as an argument against "micro VMs" -- I
+always say, identify your use case, then pick the right components for
+it. I never try to convince people to use OVMF indiscriminately.)
 
--- PMM
+> For this reason, the v2 personality is disabled, keeping the legacy
+> behavior as default. Machine types willing to use v2, can enable it
+> using MachineClass's compat_props.
+
+This approach makes me happy (with the understanding that edk2 guest
+firmware is not going to target the new machine type(s) in question).
+
+Thanks!
+Laszlo
 
