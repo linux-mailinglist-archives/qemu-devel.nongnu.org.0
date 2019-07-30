@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5637A5B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:12:07 +0200 (CEST)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20197A5D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:17:07 +0200 (CEST)
+Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsP71-0000zQ-0C
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39681)
+	id 1hsPBr-0005su-47
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40680)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsP5t-0007yY-I4
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:58 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsPAR-0004zy-W0
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:15:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsP5o-0004G1-Tq
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51496)
+ (envelope-from <bounces@canonical.com>) id 1hsPAQ-00079d-NP
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52636)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsP5m-0004Dj-3G
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:50 -0400
+ id 1hsPAQ-00078a-HO
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:15:38 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsP5j-0002Ef-PA
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:10:47 +0000
+ id 1hsPAP-0002mK-Il
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:15:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB8E42E80CD
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:10:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 823AB2E80CE
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:15:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jul 2019 10:01:20 -0000
-From: Hans Peter <1838312@bugs.launchpad.net>
+Date: Tue, 30 Jul 2019 10:05:39 -0000
+From: Roman Bolshakov <1818937@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=virt-manager;
- component=universe; status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: crash hvf macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: green-world78 paelzer
-X-Launchpad-Bug-Reporter: Hans Peter (green-world78)
-X-Launchpad-Bug-Modifier: Hans Peter (green-world78)
-References: <156441781649.17826.2889969380137011138.malonedeb@gac.canonical.com>
-Message-Id: <156448088050.17753.14383596510841757488.malone@gac.canonical.com>
+X-Launchpad-Bug-Commenters: bwibking cuser2 kisg roolebo
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156448113999.18690.15169437762510070122.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19010";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3476d33dee3c6d9af19cdd235db2e9ef40f15209
+X-Launchpad-Hash: 1d401b08b9c8cdd6d807510b20fa4f0969510f3d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838312] Re: Qemu virt-manager Segmentation fault
+Subject: [Qemu-devel] [Bug 1818937] Re: Crash with HV_ERROR on macOS host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -66,70 +64,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838312 <1838312@bugs.launchpad.net>
+Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "Crash.log of python3.7"
-   https://bugs.launchpad.net/qemu/+bug/1838312/+attachment/5280000/+files/=
-crash.log
+During the inspection of Apple reference, I have noticed that Guest CR0 and=
+ CR0 Guest/Host Mask has incorrect value. Apple defines that Guest CR0 is w=
+ritable only if:
+CR0.CD and CR0.NW are unset
+
+But hvf accel code follows Intel SDM "Table 9-1. IA-32 and Intel 64
+Processor States Following Power-up, Reset, or INIT" and sets CR0 value
+to: 0x60000010
+
+Likewise, CR0 Guest/Host Mask is conditionally writable if:
+CR0.CD and CR0.NW are set
+
+I doubt if it's related to the HV_ERROR issue but I'll prepare a patch
+to fix both fields (and likely set CR0 Read Shadow).
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838312
+https://bugs.launchpad.net/bugs/1818937
 
 Title:
-  Qemu virt-manager Segmentation fault
+  Crash with HV_ERROR on macOS host
 
 Status in QEMU:
-  Invalid
-Status in virt-manager package in Ubuntu:
-  Incomplete
+  New
 
 Bug description:
-  Hi!
+  On macOS host running Windows 10 guest, qemu crashed with error
+  message: Error: HV_ERROR.
 
-  I installed all these packages:
+  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
+ 4278U.
+  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
+  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
+rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
 
-  sudo apt install qemu
-  sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluet=
-ooth3
-  sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvi=
-rglrenderer0 libxen-4.9 libxenstore3.0
-  sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libi=
-scsi7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
-  sudo apt install qemu-block-extra qemu-system-common qemu-system-data qem=
-u-system-gui qemu-utils
-  sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
-  sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo=
--1.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientg=
-tk-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 lib=
-gvnc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-cl=
-ient-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients =
-libvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libv=
-irt-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-cli=
-ent-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
-
-  without the i386 packages for Qemu because I want only 64 bit.
-
-  I installed all these packages without error, but when I run
-
-  # virt-manager
-
-  Output: ...shows me:
-
-  Segmentation fault
+  thread list
+  Process 56054 stopped
+    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
+nar16 + 970, queue =3D 'com.apple.main-thread'
+    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
+__select + 10
+    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
+__sigwait + 10
+  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
+__pthread_kill + 10, stop reason =3D signal SIGABRT
+    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
+__psynch_cvwait + 10
+    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
+`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
+    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
+b`start_wqthread
+    thread #32: tid =3D 0x300c17, 0x0000000000000000
+    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
+`__psynch_cvwait + 10
 
   =
 
-  My hardware is 100% ok.
-  Maybee a broken lib?
+  Crashed thread:
 
-
-  How can I fix that?
+  * thread #6, stop reason =3D signal SIGABRT
+    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
+10
+      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
+85
+      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
+      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
+unavailable>) at hvf.c:106 [opt]
+      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
+x00007f8e5283de00) at hvf.c:681 [opt]
+      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
+n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
+      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
+s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
+      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
+126
+      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
+ 70
+      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838312/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
 
