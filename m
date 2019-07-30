@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF22D7A6B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:14:03 +0200 (CEST)
-Received: from localhost ([::1]:59760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734347A6E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:28:04 +0200 (CEST)
+Received: from localhost ([::1]:59858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsQ4x-0000lR-2q
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50711)
+	id 1hsQIV-0000iY-NN
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52456)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hsQ4C-0000IP-AQ
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:13:17 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsQGE-0004pl-SK
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hsQ4B-0002OB-4y
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:13:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48850)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hsQ4A-0002Ng-ER
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:13:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B610487633;
- Tue, 30 Jul 2019 11:13:13 +0000 (UTC)
-Received: from work-vm (ovpn-117-45.ams2.redhat.com [10.36.117.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 36A6D10013A7;
- Tue, 30 Jul 2019 11:13:09 +0000 (UTC)
-Date: Tue, 30 Jul 2019 12:13:06 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190730111306.GC2678@work-vm>
-References: <20190730093719.12958-1-dgilbert@redhat.com>
- <20190730093719.12958-2-dgilbert@redhat.com>
- <20190730122545.7c08dd58@Igors-MacBook-Pro>
+ (envelope-from <bounces@canonical.com>) id 1hsQGD-0007N7-LF
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44772)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hsQGD-0007MP-F6
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hsQGC-0005bt-E3
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 11:25:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 65F7B2E804C
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 11:25:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190730122545.7c08dd58@Igors-MacBook-Pro>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 30 Jul 2019 11:13:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Jul 2019 11:19:07 -0000
+From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
+Message-Id: <156448554711.10327.14717048835632191041.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 14de2f18c468554e038a106631f0ca8257dddbbb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] pcie_root_port: Allow ACS to be
- disabled
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: TCG
+ sometimes using wrong values for VBAR_EL2 despite it being correctly
+ reported to GDB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,79 +68,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, mst@redhat.com
+Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Igor Mammedov (imammedo@redhat.com) wrote:
-> On Tue, 30 Jul 2019 10:37:18 +0100
-> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> 
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > ACS was added in 4.0 unconditionally, this breaks migration
-> > compatibility.
-> > Allow ACS to be disabled by adding a property that's
-> > checked by pcie_root_port.
-> > 
-> > Unfortunately pcie-root-port doesn't have any instance data,
-> > so there's no where for that flag to live, so stuff it into
-> > PCIESlot.
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  hw/pci-bridge/pcie_root_port.c | 3 ++-
-> >  include/hw/pci/pcie_port.h     | 2 ++
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-> > index 09019ca05d..1d8a778709 100644
-> > --- a/hw/pci-bridge/pcie_root_port.c
-> > +++ b/hw/pci-bridge/pcie_root_port.c
-> > @@ -111,7 +111,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
-> >      pcie_aer_root_init(d);
-> >      rp_aer_vector_update(d);
-> >  
-> > -    if (rpc->acs_offset) {
-> > +    if (rpc->acs_offset && !s->disable_acs) {
-> 
-> it's not like it would be used per instance,
-> so could we use class property and with rpc->disable_acs instead of PCIESlot?
+> For me that test binary seems to work (with a QEMU built from upstream
+git commit 893dc8300c80e3dc32f3) : at least it boots and prints various
+messages ending with "Hello from Thermosphere!"
 
-I'm not clear I understand how class properties help;
-    object_class_property_add_bool
-takes a getter/setter that takes an Object *  parameter;
-my reading of that is that it's the instance data so has the same
-problem.
+my bad, I wasn't precise enough. Right now, test binary should display a
+crash dump (=3D> exceptions.c) following __builtin_trap() but doesn't.
 
-Dave
+Here is what happens:
 
-> >          pcie_acs_init(d, rpc->acs_offset);
-> >      }
-> >      return;
-> > @@ -145,6 +145,7 @@ static void rp_exit(PCIDevice *d)
-> >  static Property rp_props[] = {
-> >      DEFINE_PROP_BIT(COMPAT_PROP_PCP, PCIDevice, cap_present,
-> >                      QEMU_PCIE_SLTCAP_PCP_BITNR, true),
-> > +    DEFINE_PROP_BOOL("disable-acs", PCIESlot, disable_acs, false),
-> >      DEFINE_PROP_END_OF_LIST()
-> >  };
-> >  
-> > diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-> > index 09586f4641..7515430087 100644
-> > --- a/include/hw/pci/pcie_port.h
-> > +++ b/include/hw/pci/pcie_port.h
-> > @@ -53,6 +53,8 @@ struct PCIESlot {
-> >      PCIExpLinkSpeed speed;
-> >      PCIExpLinkWidth width;
-> >  
-> > +    /* Disable ACS (really for a pcie_root_port) */
-> > +    bool        disable_acs;
-> >      QLIST_ENTRY(PCIESlot) next;
-> >  };
-> >  
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Expected behavior: code steps into $VBAR_EL2+0x200, $VBAR_EL2 being reporte=
+d to be its expected value
+Actual behavior: code steps into 0+0x200
+
+(gdb) disas
+Dump of assembler code for function main:
+   0x00000000600000e8 <+0>:     ldr     w1, [x18, #16]
+   0x00000000600000ec <+4>:     str     x30, [sp, #-16]!
+   0x00000000600000f0 <+8>:     cbnz    w1, 0x60000110 <main+40>
+   0x00000000600000f4 <+12>:    mov     w0, #0xc200                     // =
+#49664
+   0x00000000600000f8 <+16>:    movk    w0, #0x1, lsl #16
+   0x00000000600000fc <+20>:    bl      0x60000d10 <uartInit>
+   0x0000000060000100 <+24>:    adrp    x0, 0x60001000 <unknown_exception>
+   0x0000000060000104 <+28>:    add     x0, x0, #0x8be
+   0x0000000060000108 <+32>:    bl      0x60000128 <serialLog>
+=3D> 0x000000006000010c <+36>:    brk     #0x3e8
+   0x0000000060000110 <+40>:    adrp    x0, 0x60001000 <unknown_exception>
+   0x0000000060000114 <+44>:    add     x0, x0, #0x8d8
+   0x0000000060000118 <+48>:    bl      0x60000128 <serialLog>
+   0x000000006000011c <+52>:    mov     w0, #0x0                        // =
+#0
+   0x0000000060000120 <+56>:    ldr     x30, [sp], #16
+   0x0000000060000124 <+60>:    ret
+End of assembler dump.
+(gdb) stepi
+^C
+Thread 1 received signal SIGINT, Interrupt.
+0x0000000000000200 in ?? ()
+(gdb) p $VBAR_EL2
+$10 =3D 0x60001000
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838277
+
+Title:
+  qemu-system-aarch64: regression: TCG sometimes using wrong values for
+  VBAR_EL2 despite it being correctly reported to GDB
+
+Status in QEMU:
+  New
+
+Bug description:
+  Affects 3.1.0 (latest stable release) and latest commit
+  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+  (qemu from bionic ubuntu LTS).
+
+  With the following code and shell commands:
+
+  test.s:
+
+  .text
+  mov x0, #0x60000000
+  msr vbar_el2, x0
+  dsb sy
+  isb sy
+
+  $ aarch64-none-elf-as test.s -o test.o
+  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
+ortex-a57 -kernel test.bin -s -S
+
+  vbar_el2 is still 0 after the code, instead of being the expected
+  0x60000000. (see screenshot).
+
+  This regression doesn't seem to happen for vbar_el1 &
+  virtualization=3Doff.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
 
