@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2147AFBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:24:02 +0200 (CEST)
-Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150D57AFC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:26:14 +0200 (CEST)
+Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVqz-000212-Kb
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60827)
+	id 1hsVt7-0006pI-8c
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60836)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hsVpf-0008Pp-U2
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:22:43 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hsVpg-0008SX-PG
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:22:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hsVpc-0000iN-Mq
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:22:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54017)
+ (envelope-from <eric.auger@redhat.com>) id 1hsVpe-0000kB-Oy
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:22:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55406)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hsVpU-0000ZK-Ii; Tue, 30 Jul 2019 13:22:28 -0400
+ id 1hsVpZ-0000fN-Ts; Tue, 30 Jul 2019 13:22:34 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76B5530A884E;
- Tue, 30 Jul 2019 17:22:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DA0B530BD1D6;
+ Tue, 30 Jul 2019 17:22:32 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2E4C60BEC;
- Tue, 30 Jul 2019 17:22:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8967D60C47;
+ Tue, 30 Jul 2019 17:22:27 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, mst@redhat.com, peter.maydell@linaro.org,
  alex.williamson@redhat.com, jean-philippe@linaro.org, kevin.tian@intel.com
-Date: Tue, 30 Jul 2019 19:21:24 +0200
-Message-Id: <20190730172137.23114-3-eric.auger@redhat.com>
+Date: Tue, 30 Jul 2019 19:21:25 +0200
+Message-Id: <20190730172137.23114-4-eric.auger@redhat.com>
 In-Reply-To: <20190730172137.23114-1-eric.auger@redhat.com>
 References: <20190730172137.23114-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 30 Jul 2019 17:22:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 30 Jul 2019 17:22:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 v10 02/15] linux-headers: update
- against 5.3-rc2
+Subject: [Qemu-devel] [PATCH for-4.2 v10 03/15] virtio-iommu: Add skeleton
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,806 +60,477 @@ Cc: tn@semihalf.com, bharat.bhushan@nxp.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sync headers against 5.3-rc2 (commit 2a11c76e5301)
+This patchs adds the skeleton for the virtio-iommu device.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- include/standard-headers/asm-x86/bootparam.h  |   2 +
- include/standard-headers/asm-x86/kvm_para.h   |   3 +
- include/standard-headers/linux/ethtool.h      |   2 +
- include/standard-headers/linux/pci_regs.h     |   4 +
- include/standard-headers/linux/virtio_ids.h   |   1 +
- include/standard-headers/linux/virtio_iommu.h | 165 ++++++++++++++++++
- include/standard-headers/linux/virtio_pmem.h  |   6 +-
- linux-headers/asm-arm/kvm.h                   |  12 ++
- linux-headers/asm-arm/unistd-common.h         |   2 +
- linux-headers/asm-arm64/kvm.h                 |  17 ++
- linux-headers/asm-generic/mman-common.h       |  15 +-
- linux-headers/asm-generic/mman.h              |  10 +-
- linux-headers/asm-generic/unistd.h            |   8 +-
- linux-headers/asm-mips/unistd_n32.h           |   1 +
- linux-headers/asm-mips/unistd_n64.h           |   1 +
- linux-headers/asm-mips/unistd_o32.h           |   1 +
- linux-headers/asm-powerpc/mman.h              |   6 +-
- linux-headers/asm-powerpc/unistd_32.h         |   1 +
- linux-headers/asm-powerpc/unistd_64.h         |   1 +
- linux-headers/asm-s390/unistd_32.h            |   2 +
- linux-headers/asm-s390/unistd_64.h            |   2 +
- linux-headers/asm-x86/kvm.h                   |  28 ++-
- linux-headers/asm-x86/unistd_32.h             |   2 +
- linux-headers/asm-x86/unistd_64.h             |   2 +
- linux-headers/asm-x86/unistd_x32.h            |   2 +
- linux-headers/linux/kvm.h                     |  11 +-
- linux-headers/linux/psp-sev.h                 |   5 +-
- linux-headers/linux/virtio_iommu.h            |   1 +
- 28 files changed, 278 insertions(+), 35 deletions(-)
- create mode 100644 include/standard-headers/linux/virtio_iommu.h
- create mode 100644 linux-headers/linux/virtio_iommu.h
 
-diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/stand=
-ard-headers/asm-x86/bootparam.h
-index 67d4f0119f..a6f7cf535e 100644
---- a/include/standard-headers/asm-x86/bootparam.h
-+++ b/include/standard-headers/asm-x86/bootparam.h
-@@ -29,6 +29,8 @@
- #define XLF_EFI_HANDOVER_32		(1<<2)
- #define XLF_EFI_HANDOVER_64		(1<<3)
- #define XLF_EFI_KEXEC			(1<<4)
-+#define XLF_5LEVEL			(1<<5)
-+#define XLF_5LEVEL_ENABLED		(1<<6)
+---
+
+v9 -> v10:
+- expose VIRTIO_IOMMU_F_MMIO feature
+- s/domain_bits/domain_range struct
+- change error codes
+- enforce unmigratable
+- Kconfig
+
+v7 -> v8:
+- expose VIRTIO_IOMMU_F_BYPASS and VIRTIO_F_VERSION_1
+  features
+- set_config dummy implementation + tracing
+- add trace in get_features
+- set the features on realize() and store the acked ones
+- remove inclusion of linux/virtio_iommu.h
+
+v6 -> v7:
+- removed qapi-event.h include
+- add primary_bus and associated property
+
+v4 -> v5:
+- use the new v0.5 terminology (domain, endpoint)
+- add the event virtqueue
+
+v3 -> v4:
+- use page_size_mask instead of page_sizes
+- added set_features()
+- added some traces (reset, set_status, set_features)
+- empty virtio_iommu_set_config() as the driver MUST NOT
+  write to device configuration fields
+- add get_config trace
+
+v2 -> v3:
+- rebase on 2.10-rc0, ie. use IOMMUMemoryRegion and remove
+  iommu_ops.
+- advertise VIRTIO_IOMMU_F_MAP_UNMAP feature
+- page_sizes set to TARGET_PAGE_SIZE
+
+Conflicts:
+	hw/virtio/trace-events
+---
+ hw/virtio/Kconfig                |   5 +
+ hw/virtio/Makefile.objs          |   1 +
+ hw/virtio/trace-events           |   8 +
+ hw/virtio/virtio-iommu.c         | 267 +++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-iommu.h |  62 +++++++
+ 5 files changed, 343 insertions(+)
+ create mode 100644 hw/virtio/virtio-iommu.c
+ create mode 100644 include/hw/virtio/virtio-iommu.h
+
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index 3724ff8bac..a30107b439 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -6,6 +6,11 @@ config VIRTIO_RNG
+     default y
+     depends on VIRTIO
 =20
++config VIRTIO_IOMMU
++    bool
++    default y
++    depends on VIRTIO
++
+ config VIRTIO_PCI
+     bool
+     default y if PCI_DEVICES
+diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
+index 964ce78607..f42e4dd94f 100644
+--- a/hw/virtio/Makefile.objs
++++ b/hw/virtio/Makefile.objs
+@@ -14,6 +14,7 @@ obj-$(CONFIG_VIRTIO_CRYPTO) +=3D virtio-crypto.o
+ obj-$(call land,$(CONFIG_VIRTIO_CRYPTO),$(CONFIG_VIRTIO_PCI)) +=3D virti=
+o-crypto-pci.o
+ obj-$(CONFIG_VIRTIO_PMEM) +=3D virtio-pmem.o
+ common-obj-$(call land,$(CONFIG_VIRTIO_PMEM),$(CONFIG_VIRTIO_PCI)) +=3D =
+virtio-pmem-pci.o
++obj-$(CONFIG_VIRTIO_IOMMU) +=3D virtio-iommu.o
+ obj-$(CONFIG_VHOST_VSOCK) +=3D vhost-vsock.o
 =20
- #endif /* _ASM_X86_BOOTPARAM_H */
-diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standa=
-rd-headers/asm-x86/kvm_para.h
-index 35cd8d651f..90604a8fb7 100644
---- a/include/standard-headers/asm-x86/kvm_para.h
-+++ b/include/standard-headers/asm-x86/kvm_para.h
-@@ -29,6 +29,8 @@
- #define KVM_FEATURE_PV_TLB_FLUSH	9
- #define KVM_FEATURE_ASYNC_PF_VMEXIT	10
- #define KVM_FEATURE_PV_SEND_IPI	11
-+#define KVM_FEATURE_POLL_CONTROL	12
-+#define KVM_FEATURE_PV_SCHED_YIELD	13
-=20
- #define KVM_HINTS_REALTIME      0
-=20
-@@ -47,6 +49,7 @@
- #define MSR_KVM_ASYNC_PF_EN 0x4b564d02
- #define MSR_KVM_STEAL_TIME  0x4b564d03
- #define MSR_KVM_PV_EOI_EN      0x4b564d04
-+#define MSR_KVM_POLL_CONTROL	0x4b564d05
-=20
- struct kvm_steal_time {
- 	uint64_t steal;
-diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-=
-headers/linux/ethtool.h
-index 9b9919a8f6..16d0eeea86 100644
---- a/include/standard-headers/linux/ethtool.h
-+++ b/include/standard-headers/linux/ethtool.h
-@@ -1483,6 +1483,8 @@ enum ethtool_link_mode_bit_indices {
- 	ETHTOOL_LINK_MODE_200000baseLR4_ER4_FR4_Full_BIT =3D 64,
- 	ETHTOOL_LINK_MODE_200000baseDR4_Full_BIT	 =3D 65,
- 	ETHTOOL_LINK_MODE_200000baseCR4_Full_BIT	 =3D 66,
-+	ETHTOOL_LINK_MODE_100baseT1_Full_BIT		 =3D 67,
-+	ETHTOOL_LINK_MODE_1000baseT1_Full_BIT		 =3D 68,
-=20
- 	/* must be last entry */
- 	__ETHTOOL_LINK_MODE_MASK_NBITS
-diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard=
--headers/linux/pci_regs.h
-index 27164769d1..f28e562d7c 100644
---- a/include/standard-headers/linux/pci_regs.h
-+++ b/include/standard-headers/linux/pci_regs.h
-@@ -528,6 +528,7 @@
- #define  PCI_EXP_LNKCAP_SLS_5_0GB 0x00000002 /* LNKCAP2 SLS Vector bit 1=
- */
- #define  PCI_EXP_LNKCAP_SLS_8_0GB 0x00000003 /* LNKCAP2 SLS Vector bit 2=
- */
- #define  PCI_EXP_LNKCAP_SLS_16_0GB 0x00000004 /* LNKCAP2 SLS Vector bit =
-3 */
-+#define  PCI_EXP_LNKCAP_SLS_32_0GB 0x00000005 /* LNKCAP2 SLS Vector bit =
-4 */
- #define  PCI_EXP_LNKCAP_MLW	0x000003f0 /* Maximum Link Width */
- #define  PCI_EXP_LNKCAP_ASPMS	0x00000c00 /* ASPM Support */
- #define  PCI_EXP_LNKCAP_L0SEL	0x00007000 /* L0s Exit Latency */
-@@ -556,6 +557,7 @@
- #define  PCI_EXP_LNKSTA_CLS_5_0GB 0x0002 /* Current Link Speed 5.0GT/s *=
-/
- #define  PCI_EXP_LNKSTA_CLS_8_0GB 0x0003 /* Current Link Speed 8.0GT/s *=
-/
- #define  PCI_EXP_LNKSTA_CLS_16_0GB 0x0004 /* Current Link Speed 16.0GT/s=
- */
-+#define  PCI_EXP_LNKSTA_CLS_32_0GB 0x0005 /* Current Link Speed 32.0GT/s=
- */
- #define  PCI_EXP_LNKSTA_NLW	0x03f0	/* Negotiated Link Width */
- #define  PCI_EXP_LNKSTA_NLW_X1	0x0010	/* Current Link Width x1 */
- #define  PCI_EXP_LNKSTA_NLW_X2	0x0020	/* Current Link Width x2 */
-@@ -661,6 +663,7 @@
- #define  PCI_EXP_LNKCAP2_SLS_5_0GB	0x00000004 /* Supported Speed 5GT/s *=
-/
- #define  PCI_EXP_LNKCAP2_SLS_8_0GB	0x00000008 /* Supported Speed 8GT/s *=
-/
- #define  PCI_EXP_LNKCAP2_SLS_16_0GB	0x00000010 /* Supported Speed 16GT/s=
- */
-+#define  PCI_EXP_LNKCAP2_SLS_32_0GB	0x00000020 /* Supported Speed 32GT/s=
- */
- #define  PCI_EXP_LNKCAP2_CROSSLINK	0x00000100 /* Crosslink supported */
- #define PCI_EXP_LNKCTL2		48	/* Link Control 2 */
- #define  PCI_EXP_LNKCTL2_TLS		0x000f
-@@ -668,6 +671,7 @@
- #define  PCI_EXP_LNKCTL2_TLS_5_0GT	0x0002 /* Supported Speed 5GT/s */
- #define  PCI_EXP_LNKCTL2_TLS_8_0GT	0x0003 /* Supported Speed 8GT/s */
- #define  PCI_EXP_LNKCTL2_TLS_16_0GT	0x0004 /* Supported Speed 16GT/s */
-+#define  PCI_EXP_LNKCTL2_TLS_32_0GT	0x0005 /* Supported Speed 32GT/s */
- #define PCI_EXP_LNKSTA2		50	/* Link Status 2 */
- #define PCI_CAP_EXP_ENDPOINT_SIZEOF_V2	52	/* v2 endpoints with link end =
-here */
- #define PCI_EXP_SLTCAP2		52	/* Slot Capabilities 2 */
-diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standa=
-rd-headers/linux/virtio_ids.h
-index 32b2f94d1f..348fd0176f 100644
---- a/include/standard-headers/linux/virtio_ids.h
-+++ b/include/standard-headers/linux/virtio_ids.h
-@@ -43,6 +43,7 @@
- #define VIRTIO_ID_INPUT        18 /* virtio input */
- #define VIRTIO_ID_VSOCK        19 /* virtio vsock transport */
- #define VIRTIO_ID_CRYPTO       20 /* virtio crypto */
-+#define VIRTIO_ID_IOMMU        23 /* virtio IOMMU */
- #define VIRTIO_ID_PMEM         27 /* virtio pmem */
-=20
- #endif /* _LINUX_VIRTIO_IDS_H */
-diff --git a/include/standard-headers/linux/virtio_iommu.h b/include/stan=
-dard-headers/linux/virtio_iommu.h
+ ifeq ($(CONFIG_VIRTIO_PCI),y)
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index e28ba48da6..f7dac39213 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -53,3 +53,11 @@ virtio_mmio_write_offset(uint64_t offset, uint64_t val=
+ue) "virtio_mmio_write off
+ virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%" P=
+RIx64 " shift %d"
+ virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue write =
+0x%" PRIx64 " max %d"
+ virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
++
++# hw/virtio/virtio-iommu.c
++virtio_iommu_device_reset(void) "reset!"
++virtio_iommu_get_features(uint64_t features) "device supports features=3D=
+0x%"PRIx64
++virtio_iommu_set_features(uint64_t features) "features accepted by the d=
+river =3D0x%"PRIx64
++virtio_iommu_device_status(uint8_t status) "driver status =3D %d"
++virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_=
+t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=3D0x%"=
+PRIx64" start=3D0x%"PRIx64" end=3D0x%"PRIx64" domain_range=3D%d probe_siz=
+e=3D0x%x"
++virtio_iommu_set_config(uint64_t page_size_mask, uint64_t start, uint64_=
+t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=3D0x%"=
+PRIx64" start=3D0x%"PRIx64" end=3D0x%"PRIx64" domain_bits=3D%d probe_size=
+=3D0x%x"
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
 new file mode 100644
-index 0000000000..b9443b83a1
+index 0000000000..f239954396
 --- /dev/null
-+++ b/include/standard-headers/linux/virtio_iommu.h
-@@ -0,0 +1,165 @@
-+/* SPDX-License-Identifier: BSD-3-Clause */
++++ b/hw/virtio/virtio-iommu.c
+@@ -0,0 +1,267 @@
 +/*
-+ * Virtio-iommu definition v0.12
++ * virtio-iommu device
 + *
-+ * Copyright (C) 2019 Arm Ltd.
-+ */
-+#ifndef _LINUX_VIRTIO_IOMMU_H
-+#define _LINUX_VIRTIO_IOMMU_H
-+
-+#include "standard-headers/linux/types.h"
-+
-+/* Feature bits */
-+#define VIRTIO_IOMMU_F_INPUT_RANGE		0
-+#define VIRTIO_IOMMU_F_DOMAIN_RANGE		1
-+#define VIRTIO_IOMMU_F_MAP_UNMAP		2
-+#define VIRTIO_IOMMU_F_BYPASS			3
-+#define VIRTIO_IOMMU_F_PROBE			4
-+#define VIRTIO_IOMMU_F_MMIO			5
-+
-+struct virtio_iommu_range_64 {
-+	uint64_t					start;
-+	uint64_t					end;
-+};
-+
-+struct virtio_iommu_range_32 {
-+	uint32_t					start;
-+	uint32_t					end;
-+};
-+
-+struct virtio_iommu_config {
-+	/* Supported page sizes */
-+	uint64_t					page_size_mask;
-+	/* Supported IOVA range */
-+	struct virtio_iommu_range_64		input_range;
-+	/* Max domain ID size */
-+	struct virtio_iommu_range_32		domain_range;
-+	/* Probe buffer size */
-+	uint32_t					probe_size;
-+};
-+
-+/* Request types */
-+#define VIRTIO_IOMMU_T_ATTACH			0x01
-+#define VIRTIO_IOMMU_T_DETACH			0x02
-+#define VIRTIO_IOMMU_T_MAP			0x03
-+#define VIRTIO_IOMMU_T_UNMAP			0x04
-+#define VIRTIO_IOMMU_T_PROBE			0x05
-+
-+/* Status types */
-+#define VIRTIO_IOMMU_S_OK			0x00
-+#define VIRTIO_IOMMU_S_IOERR			0x01
-+#define VIRTIO_IOMMU_S_UNSUPP			0x02
-+#define VIRTIO_IOMMU_S_DEVERR			0x03
-+#define VIRTIO_IOMMU_S_INVAL			0x04
-+#define VIRTIO_IOMMU_S_RANGE			0x05
-+#define VIRTIO_IOMMU_S_NOENT			0x06
-+#define VIRTIO_IOMMU_S_FAULT			0x07
-+#define VIRTIO_IOMMU_S_NOMEM			0x08
-+
-+struct virtio_iommu_req_head {
-+	uint8_t					type;
-+	uint8_t					reserved[3];
-+};
-+
-+struct virtio_iommu_req_tail {
-+	uint8_t					status;
-+	uint8_t					reserved[3];
-+};
-+
-+struct virtio_iommu_req_attach {
-+	struct virtio_iommu_req_head		head;
-+	uint32_t					domain;
-+	uint32_t					endpoint;
-+	uint8_t					reserved[8];
-+	struct virtio_iommu_req_tail		tail;
-+};
-+
-+struct virtio_iommu_req_detach {
-+	struct virtio_iommu_req_head		head;
-+	uint32_t					domain;
-+	uint32_t					endpoint;
-+	uint8_t					reserved[8];
-+	struct virtio_iommu_req_tail		tail;
-+};
-+
-+#define VIRTIO_IOMMU_MAP_F_READ			(1 << 0)
-+#define VIRTIO_IOMMU_MAP_F_WRITE		(1 << 1)
-+#define VIRTIO_IOMMU_MAP_F_MMIO			(1 << 2)
-+
-+#define VIRTIO_IOMMU_MAP_F_MASK			(VIRTIO_IOMMU_MAP_F_READ |	\
-+						 VIRTIO_IOMMU_MAP_F_WRITE |	\
-+						 VIRTIO_IOMMU_MAP_F_MMIO)
-+
-+struct virtio_iommu_req_map {
-+	struct virtio_iommu_req_head		head;
-+	uint32_t					domain;
-+	uint64_t					virt_start;
-+	uint64_t					virt_end;
-+	uint64_t					phys_start;
-+	uint32_t					flags;
-+	struct virtio_iommu_req_tail		tail;
-+};
-+
-+struct virtio_iommu_req_unmap {
-+	struct virtio_iommu_req_head		head;
-+	uint32_t					domain;
-+	uint64_t					virt_start;
-+	uint64_t					virt_end;
-+	uint8_t					reserved[4];
-+	struct virtio_iommu_req_tail		tail;
-+};
-+
-+#define VIRTIO_IOMMU_PROBE_T_NONE		0
-+#define VIRTIO_IOMMU_PROBE_T_RESV_MEM		1
-+
-+#define VIRTIO_IOMMU_PROBE_T_MASK		0xfff
-+
-+struct virtio_iommu_probe_property {
-+	uint16_t					type;
-+	uint16_t					length;
-+};
-+
-+#define VIRTIO_IOMMU_RESV_MEM_T_RESERVED	0
-+#define VIRTIO_IOMMU_RESV_MEM_T_MSI		1
-+
-+struct virtio_iommu_probe_resv_mem {
-+	struct virtio_iommu_probe_property	head;
-+	uint8_t					subtype;
-+	uint8_t					reserved[3];
-+	uint64_t					start;
-+	uint64_t					end;
-+};
-+
-+struct virtio_iommu_req_probe {
-+	struct virtio_iommu_req_head		head;
-+	uint32_t					endpoint;
-+	uint8_t					reserved[64];
-+
-+	uint8_t					properties[];
-+
-+	/*
-+	 * Tail follows the variable-length properties array. No padding,
-+	 * property lengths are all aligned on 8 bytes.
-+	 */
-+};
-+
-+/* Fault types */
-+#define VIRTIO_IOMMU_FAULT_R_UNKNOWN		0
-+#define VIRTIO_IOMMU_FAULT_R_DOMAIN		1
-+#define VIRTIO_IOMMU_FAULT_R_MAPPING		2
-+
-+#define VIRTIO_IOMMU_FAULT_F_READ		(1 << 0)
-+#define VIRTIO_IOMMU_FAULT_F_WRITE		(1 << 1)
-+#define VIRTIO_IOMMU_FAULT_F_EXEC		(1 << 2)
-+#define VIRTIO_IOMMU_FAULT_F_ADDRESS		(1 << 8)
-+
-+struct virtio_iommu_fault {
-+	uint8_t					reason;
-+	uint8_t					reserved[3];
-+	uint32_t					flags;
-+	uint32_t					endpoint;
-+	uint8_t					reserved2[4];
-+	uint64_t					address;
-+};
-+
-+#endif
-diff --git a/include/standard-headers/linux/virtio_pmem.h b/include/stand=
-ard-headers/linux/virtio_pmem.h
-index 7e3d43b121..fc029de798 100644
---- a/include/standard-headers/linux/virtio_pmem.h
-+++ b/include/standard-headers/linux/virtio_pmem.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-+/* SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR BSD-3-C=
-lause */
- /*
-  * Definitions for virtio-pmem devices.
-  *
-@@ -7,8 +7,8 @@
-  * Author(s): Pankaj Gupta <pagupta@redhat.com>
-  */
-=20
--#ifndef _UAPI_LINUX_VIRTIO_PMEM_H
--#define _UAPI_LINUX_VIRTIO_PMEM_H
-+#ifndef _LINUX_VIRTIO_PMEM_H
-+#define _LINUX_VIRTIO_PMEM_H
-=20
- #include "standard-headers/linux/types.h"
- #include "standard-headers/linux/virtio_ids.h"
-diff --git a/linux-headers/asm-arm/kvm.h b/linux-headers/asm-arm/kvm.h
-index e1f8b74558..dfccc47092 100644
---- a/linux-headers/asm-arm/kvm.h
-+++ b/linux-headers/asm-arm/kvm.h
-@@ -214,6 +214,18 @@ struct kvm_vcpu_events {
- #define KVM_REG_ARM_FW_REG(r)		(KVM_REG_ARM | KVM_REG_SIZE_U64 | \
- 					 KVM_REG_ARM_FW | ((r) & 0xffff))
- #define KVM_REG_ARM_PSCI_VERSION	KVM_REG_ARM_FW_REG(0)
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1	KVM_REG_ARM_FW_REG(1)
-+	/* Higher values mean better protection. */
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_NOT_AVAIL		0
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_AVAIL		1
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_NOT_REQUIRED	2
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2	KVM_REG_ARM_FW_REG(2)
-+	/* Higher values mean better protection. */
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_NOT_AVAIL		0
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_UNKNOWN		1
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_AVAIL		2
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_NOT_REQUIRED	3
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_ENABLED	(1U << 4)
-=20
- /* Device Control API: ARM VGIC */
- #define KVM_DEV_ARM_VGIC_GRP_ADDR	0
-diff --git a/linux-headers/asm-arm/unistd-common.h b/linux-headers/asm-ar=
-m/unistd-common.h
-index 27a9b6da27..eb5d361b11 100644
---- a/linux-headers/asm-arm/unistd-common.h
-+++ b/linux-headers/asm-arm/unistd-common.h
-@@ -388,5 +388,7 @@
- #define __NR_fsconfig (__NR_SYSCALL_BASE + 431)
- #define __NR_fsmount (__NR_SYSCALL_BASE + 432)
- #define __NR_fspick (__NR_SYSCALL_BASE + 433)
-+#define __NR_pidfd_open (__NR_SYSCALL_BASE + 434)
-+#define __NR_clone3 (__NR_SYSCALL_BASE + 435)
-=20
- #endif /* _ASM_ARM_UNISTD_COMMON_H */
-diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.=
-h
-index 2431ec35a9..a95d3a4203 100644
---- a/linux-headers/asm-arm64/kvm.h
-+++ b/linux-headers/asm-arm64/kvm.h
-@@ -229,6 +229,16 @@ struct kvm_vcpu_events {
- #define KVM_REG_ARM_FW_REG(r)		(KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
- 					 KVM_REG_ARM_FW | ((r) & 0xffff))
- #define KVM_REG_ARM_PSCI_VERSION	KVM_REG_ARM_FW_REG(0)
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1	KVM_REG_ARM_FW_REG(1)
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_NOT_AVAIL		0
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_AVAIL		1
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_1_NOT_REQUIRED	2
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2	KVM_REG_ARM_FW_REG(2)
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_NOT_AVAIL		0
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_UNKNOWN		1
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_AVAIL		2
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_NOT_REQUIRED	3
-+#define KVM_REG_ARM_SMCCC_ARCH_WORKAROUND_2_ENABLED     	(1U << 4)
-=20
- /* SVE registers */
- #define KVM_REG_ARM64_SVE		(0x15 << KVM_REG_ARM_COPROC_SHIFT)
-@@ -260,6 +270,13 @@ struct kvm_vcpu_events {
- 	 KVM_REG_SIZE_U256 |						\
- 	 ((i) & (KVM_ARM64_SVE_MAX_SLICES - 1)))
-=20
-+/*
-+ * Register values for KVM_REG_ARM64_SVE_ZREG(), KVM_REG_ARM64_SVE_PREG(=
-) and
-+ * KVM_REG_ARM64_SVE_FFR() are represented in memory in an endianness-
-+ * invariant layout which differs from the layout used for the FPSIMD
-+ * V-registers on big-endian systems: see sigcontext.h for more explanat=
-ion.
++ * Copyright (c) 2017 Red Hat, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ *
 + */
 +
- #define KVM_ARM64_SVE_VQ_MIN __SVE_VQ_MIN
- #define KVM_ARM64_SVE_VQ_MAX __SVE_VQ_MAX
-=20
-diff --git a/linux-headers/asm-generic/mman-common.h b/linux-headers/asm-=
-generic/mman-common.h
-index abd238d0f7..63b1f506ea 100644
---- a/linux-headers/asm-generic/mman-common.h
-+++ b/linux-headers/asm-generic/mman-common.h
-@@ -19,15 +19,18 @@
- #define MAP_TYPE	0x0f		/* Mask for type of mapping */
- #define MAP_FIXED	0x10		/* Interpret addr exactly */
- #define MAP_ANONYMOUS	0x20		/* don't use a file */
--#ifdef CONFIG_MMAP_ALLOW_UNINITIALIZED
--# define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could=
- be uninitialized */
--#else
--# define MAP_UNINITIALIZED 0x0		/* Don't support this flag */
--#endif
-=20
--/* 0x0100 - 0x80000 flags are defined in asm-generic/mman.h */
-+/* 0x0100 - 0x4000 flags are defined in asm-generic/mman.h */
-+#define MAP_POPULATE		0x008000	/* populate (prefault) pagetables */
-+#define MAP_NONBLOCK		0x010000	/* do not block on IO */
-+#define MAP_STACK		0x020000	/* give out an address that is best suited f=
-or process/thread stacks */
-+#define MAP_HUGETLB		0x040000	/* create a huge page mapping */
-+#define MAP_SYNC		0x080000 /* perform synchronous page faults for the ma=
-pping */
- #define MAP_FIXED_NOREPLACE	0x100000	/* MAP_FIXED which doesn't unmap un=
-derlying mapping */
-=20
-+#define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could =
-be
-+					 * uninitialized */
++#include "qemu/osdep.h"
++#include "qemu/iov.h"
++#include "qemu-common.h"
++#include "hw/virtio/virtio.h"
++#include "sysemu/kvm.h"
++#include "trace.h"
 +
- /*
-  * Flags for mlock
-  */
-diff --git a/linux-headers/asm-generic/mman.h b/linux-headers/asm-generic=
-/mman.h
-index 653687d977..57e8195d0b 100644
---- a/linux-headers/asm-generic/mman.h
-+++ b/linux-headers/asm-generic/mman.h
-@@ -9,13 +9,11 @@
- #define MAP_EXECUTABLE	0x1000		/* mark it as an executable */
- #define MAP_LOCKED	0x2000		/* pages are locked */
- #define MAP_NORESERVE	0x4000		/* don't check for reservations */
--#define MAP_POPULATE	0x8000		/* populate (prefault) pagetables */
--#define MAP_NONBLOCK	0x10000		/* do not block on IO */
--#define MAP_STACK	0x20000		/* give out an address that is best suited fo=
-r process/thread stacks */
--#define MAP_HUGETLB	0x40000		/* create a huge page mapping */
--#define MAP_SYNC	0x80000		/* perform synchronous page faults for the map=
-ping */
-=20
--/* Bits [26:31] are reserved, see mman-common.h for MAP_HUGETLB usage */
-+/*
-+ * Bits [26:31] are reserved, see asm-generic/hugetlb_encode.h
-+ * for MAP_HUGETLB usage
-+ */
-=20
- #define MCL_CURRENT	1		/* lock all current mappings */
- #define MCL_FUTURE	2		/* lock all future mappings */
-diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-gener=
-ic/unistd.h
-index a87904daf1..1be0e798e3 100644
---- a/linux-headers/asm-generic/unistd.h
-+++ b/linux-headers/asm-generic/unistd.h
-@@ -844,9 +844,15 @@ __SYSCALL(__NR_fsconfig, sys_fsconfig)
- __SYSCALL(__NR_fsmount, sys_fsmount)
- #define __NR_fspick 433
- __SYSCALL(__NR_fspick, sys_fspick)
-+#define __NR_pidfd_open 434
-+__SYSCALL(__NR_pidfd_open, sys_pidfd_open)
-+#ifdef __ARCH_WANT_SYS_CLONE3
-+#define __NR_clone3 435
-+__SYSCALL(__NR_clone3, sys_clone3)
-+#endif
-=20
- #undef __NR_syscalls
--#define __NR_syscalls 434
-+#define __NR_syscalls 436
-=20
- /*
-  * 32 bit systems traditionally used different
-diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips=
-/unistd_n32.h
-index fb988de900..7dffe8e34e 100644
---- a/linux-headers/asm-mips/unistd_n32.h
-+++ b/linux-headers/asm-mips/unistd_n32.h
-@@ -363,6 +363,7 @@
- #define __NR_fsconfig	(__NR_Linux + 431)
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
-+#define __NR_pidfd_open	(__NR_Linux + 434)
-=20
-=20
- #endif /* _ASM_MIPS_UNISTD_N32_H */
-diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips=
-/unistd_n64.h
-index 17359163c9..f4592d6fc5 100644
---- a/linux-headers/asm-mips/unistd_n64.h
-+++ b/linux-headers/asm-mips/unistd_n64.h
-@@ -339,6 +339,7 @@
- #define __NR_fsconfig	(__NR_Linux + 431)
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
-+#define __NR_pidfd_open	(__NR_Linux + 434)
-=20
-=20
- #endif /* _ASM_MIPS_UNISTD_N64_H */
-diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips=
-/unistd_o32.h
-index 83c8d8fb83..04c6728352 100644
---- a/linux-headers/asm-mips/unistd_o32.h
-+++ b/linux-headers/asm-mips/unistd_o32.h
-@@ -409,6 +409,7 @@
- #define __NR_fsconfig	(__NR_Linux + 431)
- #define __NR_fsmount	(__NR_Linux + 432)
- #define __NR_fspick	(__NR_Linux + 433)
-+#define __NR_pidfd_open	(__NR_Linux + 434)
-=20
-=20
- #endif /* _ASM_MIPS_UNISTD_O32_H */
-diff --git a/linux-headers/asm-powerpc/mman.h b/linux-headers/asm-powerpc=
-/mman.h
-index 1c2b3fca05..8db7c2a3be 100644
---- a/linux-headers/asm-powerpc/mman.h
-+++ b/linux-headers/asm-powerpc/mman.h
-@@ -21,15 +21,11 @@
- #define MAP_DENYWRITE	0x0800		/* ETXTBSY */
- #define MAP_EXECUTABLE	0x1000		/* mark it as an executable */
-=20
++#include "standard-headers/linux/virtio_ids.h"
 +
- #define MCL_CURRENT     0x2000          /* lock all currently mapped pag=
-es */
- #define MCL_FUTURE      0x4000          /* lock all additions to address=
- space */
- #define MCL_ONFAULT	0x8000		/* lock all pages that are faulted in */
-=20
--#define MAP_POPULATE	0x8000		/* populate (prefault) pagetables */
--#define MAP_NONBLOCK	0x10000		/* do not block on IO */
--#define MAP_STACK	0x20000		/* give out an address that is best suited fo=
-r process/thread stacks */
--#define MAP_HUGETLB	0x40000		/* create a huge page mapping */
--
- /* Override any generic PKEY permission defines */
- #define PKEY_DISABLE_EXECUTE   0x4
- #undef PKEY_ACCESS_MASK
-diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-po=
-werpc/unistd_32.h
-index 04cb2d3e61..2af478a7fe 100644
---- a/linux-headers/asm-powerpc/unistd_32.h
-+++ b/linux-headers/asm-powerpc/unistd_32.h
-@@ -416,6 +416,7 @@
- #define __NR_fsconfig	431
- #define __NR_fsmount	432
- #define __NR_fspick	433
-+#define __NR_pidfd_open	434
-=20
-=20
- #endif /* _ASM_POWERPC_UNISTD_32_H */
-diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-po=
-werpc/unistd_64.h
-index b1e6921490..4d76f18222 100644
---- a/linux-headers/asm-powerpc/unistd_64.h
-+++ b/linux-headers/asm-powerpc/unistd_64.h
-@@ -388,6 +388,7 @@
- #define __NR_fsconfig	431
- #define __NR_fsmount	432
- #define __NR_fspick	433
-+#define __NR_pidfd_open	434
-=20
-=20
- #endif /* _ASM_POWERPC_UNISTD_64_H */
-diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/=
-unistd_32.h
-index 941853f3e9..7cce3ee296 100644
---- a/linux-headers/asm-s390/unistd_32.h
-+++ b/linux-headers/asm-s390/unistd_32.h
-@@ -406,5 +406,7 @@
- #define __NR_fsconfig 431
- #define __NR_fsmount 432
- #define __NR_fspick 433
-+#define __NR_pidfd_open 434
-+#define __NR_clone3 435
-=20
- #endif /* _ASM_S390_UNISTD_32_H */
-diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/=
-unistd_64.h
-index 90271d7f82..2371ff1e7a 100644
---- a/linux-headers/asm-s390/unistd_64.h
-+++ b/linux-headers/asm-s390/unistd_64.h
-@@ -354,5 +354,7 @@
- #define __NR_fsconfig 431
- #define __NR_fsmount 432
- #define __NR_fspick 433
-+#define __NR_pidfd_open 434
-+#define __NR_clone3 435
-=20
- #endif /* _ASM_S390_UNISTD_64_H */
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index 6e7dd792e4..503d3f42da 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -378,23 +378,24 @@ struct kvm_sync_regs {
- 	struct kvm_vcpu_events events;
- };
-=20
--#define KVM_X86_QUIRK_LINT0_REENABLED	(1 << 0)
--#define KVM_X86_QUIRK_CD_NW_CLEARED	(1 << 1)
--#define KVM_X86_QUIRK_LAPIC_MMIO_HOLE	(1 << 2)
--#define KVM_X86_QUIRK_OUT_7E_INC_RIP	(1 << 3)
-+#define KVM_X86_QUIRK_LINT0_REENABLED	   (1 << 0)
-+#define KVM_X86_QUIRK_CD_NW_CLEARED	   (1 << 1)
-+#define KVM_X86_QUIRK_LAPIC_MMIO_HOLE	   (1 << 2)
-+#define KVM_X86_QUIRK_OUT_7E_INC_RIP	   (1 << 3)
-+#define KVM_X86_QUIRK_MISC_ENABLE_NO_MWAIT (1 << 4)
-=20
- #define KVM_STATE_NESTED_FORMAT_VMX	0
--#define KVM_STATE_NESTED_FORMAT_SVM	1
-+#define KVM_STATE_NESTED_FORMAT_SVM	1	/* unused */
-=20
- #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
- #define KVM_STATE_NESTED_EVMCS		0x00000004
-=20
--#define KVM_STATE_NESTED_VMX_VMCS_SIZE	0x1000
--
- #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
-=20
-+#define KVM_STATE_NESTED_VMX_VMCS_SIZE	0x1000
++#include "hw/virtio/virtio-bus.h"
++#include "hw/virtio/virtio-access.h"
++#include "hw/virtio/virtio-iommu.h"
 +
- struct kvm_vmx_nested_state_data {
- 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
- 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
-@@ -432,4 +433,17 @@ struct kvm_nested_state {
- 	} data;
- };
-=20
-+/* for KVM_CAP_PMU_EVENT_FILTER */
-+struct kvm_pmu_event_filter {
-+	__u32 action;
-+	__u32 nevents;
-+	__u32 fixed_counter_bitmap;
-+	__u32 flags;
-+	__u32 pad[4];
-+	__u64 events[0];
++/* Max size */
++#define VIOMMU_DEFAULT_QUEUE_SIZE 256
++
++static int virtio_iommu_handle_attach(VirtIOIOMMU *s,
++                                      struct iovec *iov,
++                                      unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_detach(VirtIOIOMMU *s,
++                                      struct iovec *iov,
++                                      unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_map(VirtIOIOMMU *s,
++                                   struct iovec *iov,
++                                   unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++static int virtio_iommu_handle_unmap(VirtIOIOMMU *s,
++                                     struct iovec *iov,
++                                     unsigned int iov_cnt)
++{
++    return VIRTIO_IOMMU_S_UNSUPP;
++}
++
++static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *v=
+q)
++{
++    VirtIOIOMMU *s =3D VIRTIO_IOMMU(vdev);
++    struct virtio_iommu_req_head head;
++    struct virtio_iommu_req_tail tail;
++    VirtQueueElement *elem;
++    unsigned int iov_cnt;
++    struct iovec *iov;
++    size_t sz;
++
++    for (;;) {
++        elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement));
++        if (!elem) {
++            return;
++        }
++
++        if (iov_size(elem->in_sg, elem->in_num) < sizeof(tail) ||
++            iov_size(elem->out_sg, elem->out_num) < sizeof(head)) {
++            virtio_error(vdev, "virtio-iommu bad head/tail size");
++            virtqueue_detach_element(vq, elem, 0);
++            g_free(elem);
++            break;
++        }
++
++        iov_cnt =3D elem->out_num;
++        iov =3D g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_=
+num);
++        sz =3D iov_to_buf(iov, iov_cnt, 0, &head, sizeof(head));
++        if (unlikely(sz !=3D sizeof(head))) {
++            tail.status =3D VIRTIO_IOMMU_S_DEVERR;
++            goto out;
++        }
++        qemu_mutex_lock(&s->mutex);
++        switch (head.type) {
++        case VIRTIO_IOMMU_T_ATTACH:
++            tail.status =3D virtio_iommu_handle_attach(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_DETACH:
++            tail.status =3D virtio_iommu_handle_detach(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_MAP:
++            tail.status =3D virtio_iommu_handle_map(s, iov, iov_cnt);
++            break;
++        case VIRTIO_IOMMU_T_UNMAP:
++            tail.status =3D virtio_iommu_handle_unmap(s, iov, iov_cnt);
++            break;
++        default:
++            tail.status =3D VIRTIO_IOMMU_S_UNSUPP;
++        }
++        qemu_mutex_unlock(&s->mutex);
++
++out:
++        sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
++                          &tail, sizeof(tail));
++        assert(sz =3D=3D sizeof(tail));
++
++        virtqueue_push(vq, elem, sizeof(tail));
++        virtio_notify(vdev, vq);
++        g_free(elem);
++    }
++}
++
++static void virtio_iommu_get_config(VirtIODevice *vdev, uint8_t *config_=
+data)
++{
++    VirtIOIOMMU *dev =3D VIRTIO_IOMMU(vdev);
++    struct virtio_iommu_config *config =3D &dev->config;
++
++    trace_virtio_iommu_get_config(config->page_size_mask,
++                                  config->input_range.start,
++                                  config->input_range.end,
++                                  config->domain_range.end,
++                                  config->probe_size);
++    memcpy(config_data, &dev->config, sizeof(struct virtio_iommu_config)=
+);
++}
++
++static void virtio_iommu_set_config(VirtIODevice *vdev,
++                                      const uint8_t *config_data)
++{
++    struct virtio_iommu_config config;
++
++    memcpy(&config, config_data, sizeof(struct virtio_iommu_config));
++    trace_virtio_iommu_set_config(config.page_size_mask,
++                                  config.input_range.start,
++                                  config.input_range.end,
++                                  config.domain_range.end,
++                                  config.probe_size);
++}
++
++static uint64_t virtio_iommu_get_features(VirtIODevice *vdev, uint64_t f=
+,
++                                          Error **errp)
++{
++    VirtIOIOMMU *dev =3D VIRTIO_IOMMU(vdev);
++
++    f |=3D dev->features;
++    trace_virtio_iommu_get_features(f);
++    return f;
++}
++
++static void virtio_iommu_set_features(VirtIODevice *vdev, uint64_t val)
++{
++    VirtIOIOMMU *dev =3D VIRTIO_IOMMU(vdev);
++
++    dev->acked_features =3D val;
++    trace_virtio_iommu_set_features(dev->acked_features);
++}
++
++static const VMStateDescription vmstate_virtio_iommu_device =3D {
++    .name =3D "virtio-iommu-device",
++    .unmigratable =3D 1,
 +};
 +
-+#define KVM_PMU_EVENT_ALLOW 0
-+#define KVM_PMU_EVENT_DENY 1
++static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
++{
++    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
++    VirtIOIOMMU *s =3D VIRTIO_IOMMU(dev);
 +
- #endif /* _ASM_X86_KVM_H */
-diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/un=
-istd_32.h
-index 57bb48854c..e8ebec1cdc 100644
---- a/linux-headers/asm-x86/unistd_32.h
-+++ b/linux-headers/asm-x86/unistd_32.h
-@@ -424,5 +424,7 @@
- #define __NR_fsconfig 431
- #define __NR_fsmount 432
- #define __NR_fspick 433
-+#define __NR_pidfd_open 434
-+#define __NR_clone3 435
-=20
- #endif /* _ASM_X86_UNISTD_32_H */
-diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/un=
-istd_64.h
-index fe6aa0688a..a2f863d549 100644
---- a/linux-headers/asm-x86/unistd_64.h
-+++ b/linux-headers/asm-x86/unistd_64.h
-@@ -346,5 +346,7 @@
- #define __NR_fsconfig 431
- #define __NR_fsmount 432
- #define __NR_fspick 433
-+#define __NR_pidfd_open 434
-+#define __NR_clone3 435
-=20
- #endif /* _ASM_X86_UNISTD_64_H */
-diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/u=
-nistd_x32.h
-index 09cca49ba7..4cdc67d848 100644
---- a/linux-headers/asm-x86/unistd_x32.h
-+++ b/linux-headers/asm-x86/unistd_x32.h
-@@ -299,6 +299,8 @@
- #define __NR_fsconfig (__X32_SYSCALL_BIT + 431)
- #define __NR_fsmount (__X32_SYSCALL_BIT + 432)
- #define __NR_fspick (__X32_SYSCALL_BIT + 433)
-+#define __NR_pidfd_open (__X32_SYSCALL_BIT + 434)
-+#define __NR_clone3 (__X32_SYSCALL_BIT + 435)
- #define __NR_rt_sigaction (__X32_SYSCALL_BIT + 512)
- #define __NR_rt_sigreturn (__X32_SYSCALL_BIT + 513)
- #define __NR_ioctl (__X32_SYSCALL_BIT + 514)
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index c8423e760c..9cf351919c 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -116,7 +116,7 @@ struct kvm_irq_level {
- 	 * ACPI gsi notion of irq.
- 	 * For IA-64 (APIC model) IOAPIC0: irq 0-23; IOAPIC1: irq 24-47..
- 	 * For X86 (standard AT mode) PIC0/1: irq 0-15. IOAPIC0: 0-23..
--	 * For ARM: See Documentation/virtual/kvm/api.txt
-+	 * For ARM: See Documentation/virt/kvm/api.txt
- 	 */
- 	union {
- 		__u32 irq;
-@@ -696,9 +696,11 @@ struct kvm_ioeventfd {
- #define KVM_X86_DISABLE_EXITS_MWAIT          (1 << 0)
- #define KVM_X86_DISABLE_EXITS_HLT            (1 << 1)
- #define KVM_X86_DISABLE_EXITS_PAUSE          (1 << 2)
-+#define KVM_X86_DISABLE_EXITS_CSTATE         (1 << 3)
- #define KVM_X86_DISABLE_VALID_EXITS          (KVM_X86_DISABLE_EXITS_MWAI=
-T | \
-                                               KVM_X86_DISABLE_EXITS_HLT =
-| \
--                                              KVM_X86_DISABLE_EXITS_PAUS=
-E)
-+                                              KVM_X86_DISABLE_EXITS_PAUS=
-E | \
-+                                              KVM_X86_DISABLE_EXITS_CSTA=
-TE)
-=20
- /* for KVM_ENABLE_CAP */
- struct kvm_enable_cap {
-@@ -993,6 +995,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_SVE 170
- #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
- #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
-+#define KVM_CAP_PMU_EVENT_FILTER 173
-=20
- #ifdef KVM_CAP_IRQ_ROUTING
-=20
-@@ -1083,7 +1086,7 @@ struct kvm_xen_hvm_config {
-  *
-  * KVM_IRQFD_FLAG_RESAMPLE indicates resamplefd is valid and specifies
-  * the irqfd to operate in resampling mode for level triggered interrupt
-- * emulation.  See Documentation/virtual/kvm/api.txt.
-+ * emulation.  See Documentation/virt/kvm/api.txt.
-  */
- #define KVM_IRQFD_FLAG_RESAMPLE (1 << 1)
-=20
-@@ -1327,6 +1330,8 @@ struct kvm_s390_ucas_mapping {
- #define KVM_PPC_GET_RMMU_INFO	  _IOW(KVMIO,  0xb0, struct kvm_ppc_rmmu_i=
-nfo)
- /* Available with KVM_CAP_PPC_GET_CPU_CHAR */
- #define KVM_PPC_GET_CPU_CHAR	  _IOR(KVMIO,  0xb1, struct kvm_ppc_cpu_cha=
-r)
-+/* Available with KVM_CAP_PMU_EVENT_FILTER */
-+#define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_even=
-t_filter)
-=20
- /* ioctl for vm fd */
- #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device=
++    virtio_init(vdev, "virtio-iommu", VIRTIO_ID_IOMMU,
++                sizeof(struct virtio_iommu_config));
++
++    s->req_vq =3D virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE,
++                             virtio_iommu_handle_command);
++    s->event_vq =3D virtio_add_queue(vdev, VIOMMU_DEFAULT_QUEUE_SIZE, NU=
+LL);
++
++    s->config.page_size_mask =3D TARGET_PAGE_MASK;
++    s->config.input_range.end =3D -1UL;
++    s->config.domain_range.start =3D 0;
++    s->config.domain_range.end =3D 32;
++
++    virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
++    virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
++    virtio_add_feature(&s->features, VIRTIO_F_VERSION_1);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
++}
++
++static void virtio_iommu_device_unrealize(DeviceState *dev, Error **errp=
 )
-diff --git a/linux-headers/linux/psp-sev.h b/linux-headers/linux/psp-sev.=
-h
-index 36bbe17d8f..34c39690c0 100644
---- a/linux-headers/linux/psp-sev.h
-+++ b/linux-headers/linux/psp-sev.h
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
- /*
-  * Userspace interface for AMD Secure Encrypted Virtualization (SEV)
-  * platform management commands.
-@@ -7,10 +8,6 @@
-  * Author: Brijesh Singh <brijesh.singh@amd.com>
-  *
-  * SEV API specification is available at: https://developer.amd.com/sev/
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-  */
-=20
- #ifndef __PSP_SEV_USER_H__
-diff --git a/linux-headers/linux/virtio_iommu.h b/linux-headers/linux/vir=
-tio_iommu.h
++{
++    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
++
++    virtio_cleanup(vdev);
++}
++
++static void virtio_iommu_device_reset(VirtIODevice *vdev)
++{
++    trace_virtio_iommu_device_reset();
++}
++
++static void virtio_iommu_set_status(VirtIODevice *vdev, uint8_t status)
++{
++    trace_virtio_iommu_device_status(status);
++}
++
++static void virtio_iommu_instance_init(Object *obj)
++{
++}
++
++static const VMStateDescription vmstate_virtio_iommu =3D {
++    .name =3D "virtio-iommu",
++    .minimum_version_id =3D 1,
++    .version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_VIRTIO_DEVICE,
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static Property virtio_iommu_properties[] =3D {
++    DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCI=
+Bus *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void virtio_iommu_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_CLASS(klass);
++
++    dc->props =3D virtio_iommu_properties;
++    dc->vmsd =3D &vmstate_virtio_iommu;
++
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    vdc->realize =3D virtio_iommu_device_realize;
++    vdc->unrealize =3D virtio_iommu_device_unrealize;
++    vdc->reset =3D virtio_iommu_device_reset;
++    vdc->get_config =3D virtio_iommu_get_config;
++    vdc->set_config =3D virtio_iommu_set_config;
++    vdc->get_features =3D virtio_iommu_get_features;
++    vdc->set_features =3D virtio_iommu_set_features;
++    vdc->set_status =3D virtio_iommu_set_status;
++    vdc->vmsd =3D &vmstate_virtio_iommu_device;
++}
++
++static const TypeInfo virtio_iommu_info =3D {
++    .name =3D TYPE_VIRTIO_IOMMU,
++    .parent =3D TYPE_VIRTIO_DEVICE,
++    .instance_size =3D sizeof(VirtIOIOMMU),
++    .instance_init =3D virtio_iommu_instance_init,
++    .class_init =3D virtio_iommu_class_init,
++};
++
++static void virtio_register_types(void)
++{
++    type_register_static(&virtio_iommu_info);
++}
++
++type_init(virtio_register_types)
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-=
+iommu.h
 new file mode 100644
-index 0000000000..2dc4609c16
+index 0000000000..4d47b6abeb
 --- /dev/null
-+++ b/linux-headers/linux/virtio_iommu.h
-@@ -0,0 +1 @@
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -0,0 +1,62 @@
++/*
++ * virtio-iommu device
++ *
++ * Copyright (c) 2017 Red Hat, Inc.
++ *
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef QEMU_VIRTIO_IOMMU_H
++#define QEMU_VIRTIO_IOMMU_H
++
 +#include "standard-headers/linux/virtio_iommu.h"
++#include "hw/virtio/virtio.h"
++#include "hw/pci/pci.h"
++
++#define TYPE_VIRTIO_IOMMU "virtio-iommu-device"
++#define VIRTIO_IOMMU(obj) \
++        OBJECT_CHECK(VirtIOIOMMU, (obj), TYPE_VIRTIO_IOMMU)
++
++#define IOMMU_PCI_BUS_MAX      256
++#define IOMMU_PCI_DEVFN_MAX    256
++
++typedef struct IOMMUDevice {
++    void         *viommu;
++    PCIBus       *bus;
++    int           devfn;
++    IOMMUMemoryRegion  iommu_mr;
++    AddressSpace  as;
++} IOMMUDevice;
++
++typedef struct IOMMUPciBus {
++    PCIBus       *bus;
++    IOMMUDevice  *pbdev[0]; /* Parent array is sparse, so dynamically al=
+loc */
++} IOMMUPciBus;
++
++typedef struct VirtIOIOMMU {
++    VirtIODevice parent_obj;
++    VirtQueue *req_vq;
++    VirtQueue *event_vq;
++    struct virtio_iommu_config config;
++    uint64_t features;
++    uint64_t acked_features;
++    GHashTable *as_by_busptr;
++    IOMMUPciBus *as_by_bus_num[IOMMU_PCI_BUS_MAX];
++    PCIBus *primary_bus;
++    GTree *domains;
++    QemuMutex mutex;
++    GTree *endpoints;
++} VirtIOIOMMU;
++
++#endif
 --=20
 2.20.1
 
