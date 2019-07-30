@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D717A8DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:42:59 +0200 (CEST)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646977A8E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:45:22 +0200 (CEST)
+Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsRT0-000241-NI
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:42:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37827)
+	id 1hsRVJ-000458-KM
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hsRRv-0001EU-Cg
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:53 -0400
+ (envelope-from <philmd@redhat.com>) id 1hsRUj-0003eM-Kj
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:44:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hsRRu-0008BS-5J
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35798)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hsRRt-00088Q-DT
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 219788553F;
- Tue, 30 Jul 2019 12:41:48 +0000 (UTC)
-Received: from work-vm (ovpn-117-45.ams2.redhat.com [10.36.117.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7A2619C5B;
- Tue, 30 Jul 2019 12:41:43 +0000 (UTC)
-Date: Tue, 30 Jul 2019 13:41:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190730124141.GD2678@work-vm>
-References: <20190730093719.12958-1-dgilbert@redhat.com>
- <20190730093719.12958-2-dgilbert@redhat.com>
- <20190730122545.7c08dd58@Igors-MacBook-Pro>
- <20190730111306.GC2678@work-vm>
- <20190730140325.3e8a02df@Igors-MacBook-Pro>
+ (envelope-from <philmd@redhat.com>) id 1hsRUi-00016G-GF
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:44:45 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33650)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hsRUi-000160-A5
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:44:44 -0400
+Received: by mail-wm1-f66.google.com with SMTP id h19so45242533wme.0
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 05:44:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4Kic34jwrMRJKNGGyXXNdWGTyizjP/+FUol/smm5bpE=;
+ b=H/qLv+3gxBRelDt4Iy6Fq6LmKK1baHAIZ9I/NetgzTcv6svW4UT6eeEw72ss/ZtSHU
+ kusVCoVCvPF8gIEE870IHCNZOhtwio+99jX9Brn4mAZ+9V7XxDVIZEiDUMpdk+iehKA8
+ uot1giKMIhOPvJuRA3QSlgotlyigfc7lD0CyUCRgX9J9IJO4bm9uzI+qFJ7BdZQfsopO
+ Vq9+rrW47oHfiwJq+KaobLumiPV8x0bQIozkdBSQfdqfHrhA7HwcCHxKL2WeX40/hgnK
+ FJ1QHXEggRt4PY7njN2smxSQtT3u+7iMnuVg8sQ52PCfz/vS5ZiBt0/6YL7sRtgGCEXz
+ LBXg==
+X-Gm-Message-State: APjAAAVI3Zmys/ZACtSehWTQloStWBcg08IyrX5u4LSTJiGAmSqUItcp
+ 2m7Mw1t3Eb+YtdbxVnYYP/dLhw==
+X-Google-Smtp-Source: APXvYqwAkljziPW6Sx72sIC2X5NZvAxm8HIUzwOabItB/TBtDoTjCK9zTHm62qEDio2G+bek0Ycdcw==
+X-Received: by 2002:a1c:ac81:: with SMTP id
+ v123mr108066365wme.145.1564490682750; 
+ Tue, 30 Jul 2019 05:44:42 -0700 (PDT)
+Received: from [192.168.1.38] (190.red-81-40-121.staticip.rima-tde.net.
+ [81.40.121.190])
+ by smtp.gmail.com with ESMTPSA id t6sm70391269wmb.29.2019.07.30.05.44.41
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 30 Jul 2019 05:44:42 -0700 (PDT)
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20190730123759.21723-1-pbonzini@redhat.com>
+ <20190730123759.21723-3-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ed8416f5-852c-872c-eb05-8850a6aa216d@redhat.com>
+Date: Tue, 30 Jul 2019 14:44:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190730140325.3e8a02df@Igors-MacBook-Pro>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 30 Jul 2019 12:41:48 +0000 (UTC)
+In-Reply-To: <20190730123759.21723-3-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] pcie_root_port: Allow ACS to be
- disabled
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH 2/3] tests/tcg: cleanup Makefile inclusions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,102 +75,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com, mst@redhat.com
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Igor Mammedov (imammedo@redhat.com) wrote:
-> On Tue, 30 Jul 2019 12:13:06 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On 7/30/19 2:37 PM, Paolo Bonzini wrote:
+[...]
+> Drop the usage of TARGET_BASE_ARCH, which is ignored by everything except
+> x86_64 and aarch64.  Fix x86 tests by using -cpu max and, while
+> at it, standardize on QEMU_OPTS for aarch64 tests too.
 > 
-> > * Igor Mammedov (imammedo@redhat.com) wrote:
-> > > On Tue, 30 Jul 2019 10:37:18 +0100
-> > > "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> > > 
-> > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > > 
-> > > > ACS was added in 4.0 unconditionally, this breaks migration
-> > > > compatibility.
-> > > > Allow ACS to be disabled by adding a property that's
-> > > > checked by pcie_root_port.
-> > > > 
-> > > > Unfortunately pcie-root-port doesn't have any instance data,
-> > > > so there's no where for that flag to live, so stuff it into
-> > > > PCIESlot.
-> > > > 
-> > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > ---
-> > > >  hw/pci-bridge/pcie_root_port.c | 3 ++-
-> > > >  include/hw/pci/pcie_port.h     | 2 ++
-> > > >  2 files changed, 4 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-> > > > index 09019ca05d..1d8a778709 100644
-> > > > --- a/hw/pci-bridge/pcie_root_port.c
-> > > > +++ b/hw/pci-bridge/pcie_root_port.c
-> > > > @@ -111,7 +111,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
-> > > >      pcie_aer_root_init(d);
-> > > >      rp_aer_vector_update(d);
-> > > >  
-> > > > -    if (rpc->acs_offset) {
-> > > > +    if (rpc->acs_offset && !s->disable_acs) {
-> > > 
-> > > it's not like it would be used per instance,
-> > > so could we use class property and with rpc->disable_acs instead of PCIESlot?
-> > 
-> > I'm not clear I understand how class properties help;
-> >     object_class_property_add_bool
-> > takes a getter/setter that takes an Object *  parameter;
-> > my reading of that is that it's the instance data so has the same
-> > problem.
-> 
-> it's possible to reach class data from setter/getter,
-> for example s390_cpu_model_class_register_props().
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+[...]
+> --- a/tests/tcg/Makefile.include
+> +++ b/tests/tcg/Makefile.qemu
+> @@ -2,20 +2,23 @@
+>  #
+>  # TCG tests (per-target rules)
+>  #
+> -# This Makefile fragment is included from the per-target
+> -# Makefile.target so will be invoked for each linux-user program we
+> -# build. We have two options for compiling, either using a configured
+> -# guest compiler or calling one of our docker images to do it for us.
+> +# This Makefile fragment is included from the build-tcg target, once
+> +# for each target we build. We have two options for compiling, either
+> +# using a configured guest compiler or calling one of our docker images
+> +# to do it for us.
+>  #
+>  
+>  # The per ARCH makefile, if it exists, holds extra information about
+>  # useful docker images or alternative compiler flags.
+>  
+> --include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include
+> --include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include
+> +include $(TARGET_DIR)config-target.mak
+> +include $(SRC_PATH)/rules.mak
+> +include $(wildcard \
+> +	$(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.include \
+> +	$(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.include)
+>  
 
-Ah OK.
-
-> But it will be a bit more code than here and considering
-> that it's only field in parent type which is reachable through
-> root port specific property only it is also ok as is as a
-> fix to 4.1, so if you prefer to keep it like now
-> 
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-Thanks!
-
-> 
-> 
-> > Dave
-> > 
-> > > >          pcie_acs_init(d, rpc->acs_offset);
-> > > >      }
-> > > >      return;
-> > > > @@ -145,6 +145,7 @@ static void rp_exit(PCIDevice *d)
-> > > >  static Property rp_props[] = {
-> > > >      DEFINE_PROP_BIT(COMPAT_PROP_PCP, PCIDevice, cap_present,
-> > > >                      QEMU_PCIE_SLTCAP_PCP_BITNR, true),
-> > > > +    DEFINE_PROP_BOOL("disable-acs", PCIESlot, disable_acs, false),
-> > > >      DEFINE_PROP_END_OF_LIST()
-> > > >  };
-> > > >  
-> > > > diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-> > > > index 09586f4641..7515430087 100644
-> > > > --- a/include/hw/pci/pcie_port.h
-> > > > +++ b/include/hw/pci/pcie_port.h
-> > > > @@ -53,6 +53,8 @@ struct PCIESlot {
-> > > >      PCIExpLinkSpeed speed;
-> > > >      PCIExpLinkWidth width;
-> > > >  
-> > > > +    /* Disable ACS (really for a pcie_root_port) */
-> > > > +    bool        disable_acs;
-> > > >      QLIST_ENTRY(PCIESlot) next;
-> > > >  };
-> > > >  
-> > > 
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+It is still used here... Else we could clean ./configure way more.
 
