@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BAE17A6E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:27:07 +0200 (CEST)
-Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308377A6DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 13:26:26 +0200 (CEST)
+Received: from localhost ([::1]:59835 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsQHa-0007RA-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
+	id 1hsQGv-0005f0-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 07:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52380)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hsQFJ-0003ak-Ct
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:24:46 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hsQFm-0004MR-ES
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hsQFH-0006ji-KM
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:24:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55636)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hsQFB-0006et-8O; Tue, 30 Jul 2019 07:24:38 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 26886300BEA8;
- Tue, 30 Jul 2019 11:24:35 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-75.ams2.redhat.com
- [10.36.117.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA5060623;
- Tue, 30 Jul 2019 11:24:33 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 13:24:25 +0200
-Message-Id: <20190730112425.21497-5-kwolf@redhat.com>
-In-Reply-To: <20190730112425.21497-1-kwolf@redhat.com>
-References: <20190730112425.21497-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hsQFl-0006zD-I5
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:14 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:45557)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hsQFl-0006yY-9r
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 07:25:13 -0400
+Received: by mail-ot1-x341.google.com with SMTP id x21so398766otq.12
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 04:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F3oDi/Zmrw26OuLdHHb6A44/8O2jhczV1bJOF/8qPXI=;
+ b=seLRh/vGzNNneByODUJEF49lMB33bs3N7QjW6DW/+Xf+DFwLPf32wZuy7SHCepCQL8
+ /Tk7n6PRMbTuOGbXWW0px52/xKBW51qzJbrfJg13tlRfKLdIVr+D7r3ZKS/PMMmvyMUL
+ PBH+sjNHSAvbQV/WhmN3HrieBc0cU9gcDYt5BkseB+TUtaFv7gKzjTf0Zs2jmqubP8Ef
+ elHGzOY6kGopcrOad6+ilhMB1E4jKVU+4dWSnmdV58WUPI2vnpVLZBumZJ2PN1XRTHZt
+ u9Qv5u5RFEigMG7KWFAjCcoX13co6ujZsC9o3HN+TUq22Xp52cVyzNnMUDga9wczTDr+
+ e+rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F3oDi/Zmrw26OuLdHHb6A44/8O2jhczV1bJOF/8qPXI=;
+ b=Xs8PnTu8LKbTh+/RE/w+PK5xJ5dFLOI19/xtX9aOGS2kXW09r13wBe1CfM4feIYC0v
+ zzlAsnOA2NyLnUZzF97QjcWA9QURxQAzxS18/5AG9CNW4Jb5kpt8ks2rhyXCOSXVFF3q
+ y0TnZOpdy32C9hrZcP2/IO+w1TaWda3U9R4mLT4exKB+JVZJwSDLXxxQzxL6dhMlRlOB
+ vOpnMJ1zp6uO9zARgSwx5rOHYbIbnThOGwduqzFrgkkxtOAno9KxZEZAtFLD6zNUKDiD
+ fF6XyE2RMT36TqRFsK+5bUkn0alL4/5N3CTJwsJvmi1/XmfsdwlJnevbMGhsH54s40hN
+ ZDmA==
+X-Gm-Message-State: APjAAAUL7NF50A/T21HzIXCs2MepdCvIZPb9Gw5WeRM9GfJip2TAPCxT
+ BC1HORH8otoWbTTshFxyOOmmfpGvz9GiDuLgohFPTNCn
+X-Google-Smtp-Source: APXvYqyE3+HH6v7c+9F5GeB8tXFS5K5nmMWCnLVdwZIaHUf3R2hxydTDk1wfpH4zApAtM+FdF7/jBckw2IaDJUyUqHw=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr26924575oti.91.1564485912245; 
+ Tue, 30 Jul 2019 04:25:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 30 Jul 2019 11:24:35 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 4/4] scsi-cd: Fix inserting read-only media in
- empty drive
+References: <20190714134028.315-1-laurent@vivier.eu>
+ <20190714134028.315-2-laurent@vivier.eu>
+ <1F76A574-2A97-4070-8EE0-0EE83A4241E9@physik.fu-berlin.de>
+ <13f6aa89-e3f3-61e8-fa05-cde20b55daa0@vivier.eu>
+In-Reply-To: <13f6aa89-e3f3-61e8-fa05-cde20b55daa0@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jul 2019 12:25:01 +0100
+Message-ID: <CAFEAcA9AM=uJ0evZgthd9kebhGMYNzG_HKz=VYRCMmDj4D_=zw@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH 2/2] linux-user: manage binfmt-misc
+ preserve-arg[0] flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,68 +75,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-scsi-disks decides whether it has a read-only device by looking at
-whether the BlockBackend specified as drive=3D... is read-only. In the
-case of an anonymous BlockBackend (with a node name specified in
-drive=3D...), this is the read-only flag of the attached node. In the cas=
-e
-of an empty anonymous BlockBackend, it's always read-write because
-nothing prevented it from being read-write.
+On Wed, 17 Jul 2019 at 11:07, Laurent Vivier <laurent@vivier.eu> wrote:
+> QEMU is not able to detect if it has been started by binfmt_misc with
+> the preserve-arg[0] enabled or not, so it can't adapt the args analysis
+> to get the correct list.
 
-This is a problem because scsi-cd would take write permissions on the
-anonymous BlockBackend of an empty drive created without a drive=3D...
-option. Using blockdev-insert-medium with a read-only node fails then
-with the error message "Block node is read-only".
+If the kernel provided a more useful interface (for instance
+telling us what it was doing via the ELF auxv so we knew how
+to interpret the command line arguments) this would help.
+Of course you still have to wait until that kernel change actually
+gets into the hands of users...
 
-Fix scsi_realize() so that scsi-cd devices always take read-only
-permissions on their BlockBackend instead.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1733920
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- hw/scsi/scsi-disk.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 8e95e3e38d..af3e622dc5 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2318,6 +2318,7 @@ static void scsi_disk_unit_attention_reported(SCSID=
-evice *dev)
- static void scsi_realize(SCSIDevice *dev, Error **errp)
- {
-     SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, dev);
-+    bool read_only;
-=20
-     if (!s->qdev.conf.blk) {
-         error_setg(errp, "drive property not set");
-@@ -2351,8 +2352,13 @@ static void scsi_realize(SCSIDevice *dev, Error **=
-errp)
-             return;
-         }
-     }
--    if (!blkconf_apply_backend_options(&dev->conf,
--                                       blk_is_read_only(s->qdev.conf.blk=
-),
-+
-+    read_only =3D blk_is_read_only(s->qdev.conf.blk);
-+    if (dev->type =3D=3D TYPE_ROM) {
-+        read_only =3D true;
-+    }
-+
-+    if (!blkconf_apply_backend_options(&dev->conf, read_only,
-                                        dev->type =3D=3D TYPE_DISK, errp)=
-) {
-         return;
-     }
---=20
-2.20.1
-
+thanks
+-- PMM
 
