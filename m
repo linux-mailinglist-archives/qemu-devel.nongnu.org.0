@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D677A8F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:47:00 +0200 (CEST)
-Received: from localhost ([::1]:60758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF077A8DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:43:27 +0200 (CEST)
+Received: from localhost ([::1]:60718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsRWt-00053i-PO
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:46:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38520)
+	id 1hsRTT-000353-35
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:43:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37759)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsRVb-0004bn-00
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:45:41 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsRRR-0000fq-JO
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsRVY-0001yR-Hy
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:45:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39640)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsRRP-0007y2-Qt
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:21 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44710)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsRVW-0001xL-S6
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:45:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsRVV-0000vT-EL
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 12:45:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 463BE2E80CC
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 12:45:33 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hsRRP-0007x1-2O
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:41:19 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p17so65593686wrf.11
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 05:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HSajL510A12WGwHFHorNgqsJmQZJjvkUpk1fsQfA9PA=;
+ b=hRQoaM7PJrENTdcuT27ORwxX+80vpb8nLw3oPfpe+5cGa7vf5ybnxnoAmmEV7Xm6Ba
+ +dns4dMmTHuWrTzQjczPMLT40FxN9iwegRHn4Z11M19PUnt7iYm/JszyD5qBS7LeM7+K
+ HmjgtOMndVbKaU6FF29vQj2fTagXNk9YsGxjv+qMtuoVI4pKikY5IrK9vaiCiWjHLAB5
+ Zt6OOry4qcxeU5Y6jenCFixzCEVSr7SADHNpUFWN3J3aAQ5IuNCqX//tXAHX3qXaVKMH
+ yAWJB7DnCkWbn9nDUB+MUoEs/ysGx9eZYh/wXbYOaTgusg2uojXXo8MwygvkKRPNITE3
+ 51pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HSajL510A12WGwHFHorNgqsJmQZJjvkUpk1fsQfA9PA=;
+ b=Z8rS3jEw5pa2dXwYJ+x8ACPGJEJFO9IR1lG0gn03O8x9u+qdC2p7xzAwW1r7fhGJpv
+ dZAwO8dfQSRKiRTgSflmnaEQeVY3SARu8tfn5eIlbXH2/p9RpRbiudHt2CoYzyOOJwCk
+ U1cO9qI4/ohZMmTuAMcPfb6sRsooOpemnRIiaeT6FOQZUjC3tO0IyQodGSeNLxJZJDYd
+ lxCt2Fo5XzFi6fy9Q3SrJ0UUF7OaXC1+iLwXtCUNcBAwK/vMvvmgOCr5IC7a8Jecflxg
+ POmrV3moMrs2gdcUPn6hJ8iOA35/W/iLjwdlLRSm6VFYm1/ZcF5UGZMw4a/uYIu/OQwP
+ NvoQ==
+X-Gm-Message-State: APjAAAXNN6AgA5F5fDVOWPkawHHjKdoV1BqoAxx+1azJJYIlmWR/t580
+ m+MQRxkP91FJvPdxmdtkI6YqyZtfvMQ=
+X-Google-Smtp-Source: APXvYqx7rZdbRd/jRlQFJy5ROZN/BZ2FHTq3uKJbNUO5BzOuEuhnBOi5s2yR6b1KF0nOLpLmo/T2gg==
+X-Received: by 2002:adf:fa42:: with SMTP id y2mr46430804wrr.170.1564490475910; 
+ Tue, 30 Jul 2019 05:41:15 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id x24sm60303828wmh.5.2019.07.30.05.41.14
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 30 Jul 2019 05:41:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9648B1FF87;
+ Tue, 30 Jul 2019 13:41:14 +0100 (BST)
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <20190614171200.21078-26-alex.bennee@linaro.org>
+ <bd131b16-2f38-4112-4e09-6a2f63908bf2@linaro.org>
+User-agent: mu4e 1.3.3; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <bd131b16-2f38-4112-4e09-6a2f63908bf2@linaro.org>
+Date: Tue, 30 Jul 2019 13:41:14 +0100
+Message-ID: <87ftmnitjp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jul 2019 12:38:58 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: elouan-appere pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
- =?utf-8?q?e=29?=
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
-Message-Id: <156449033829.10846.5493606542799960361.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f8f9eaddb0ccec60878952fca0c91d95a4ef8aa5
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: TCG
- sometimes using wrong values for VBAR_EL2 despite it being correctly
- reported to GDB
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v3 25/50] translator: add translator_ld{ub,
+ sw, uw, l, q}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,54 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
+Cc: "Emilio G. Cota" <cota@braap.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bug is specific to our handling of the 'brk' insn (and other debug
-exceptions within the guest like singlestep or watchpoints or
-breakpoints) at EL2, so you can work around it for the moment by
-avoiding using hardcoded brk insns in your EL2 code.
 
--- =
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838277
+> On 6/14/19 10:11 AM, Alex Benn=C3=A9e wrote:
+>> +#define GEN_TRANSLATOR_LD(fullname, name, type, swap_fn)               =
+ \
+>> +    static inline type                                                 =
+ \
+>> +    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)     =
+ \
+>> +    {                                                                  =
+ \
+>> +        type ret =3D cpu_ ## name ## _code(env, pc);                   =
+   \
+>> +                                                                       =
+ \
+>> +        if (do_swap) {                                                 =
+ \
+>> +            ret =3D swap_fn(ret);                                      =
+   \
+>> +        }                                                              =
+ \
+>
+> This feels like we should have done this at a different level.  We alread=
+y have
+> lower-level functions that read from memory with the proper
+> endianness.
 
-Title:
-  qemu-system-aarch64: regression: TCG sometimes using wrong values for
-  VBAR_EL2 despite it being correctly reported to GDB
+Yeah - this really only caters to the translator for guests which can
+switch their mode.
 
-Status in QEMU:
-  New
+> It seems that we don't have them for *_code, but that could be fixed.  Or,
+> indeed, bypassed, since these could be the new official interface, deprec=
+ating
+> the *_code functions.
 
-Bug description:
-  Affects 3.1.0 (latest stable release) and latest commit
-  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
-  (qemu from bionic ubuntu LTS).
+Hmm how to properly audit that _code isn't being used elsewhere. You get
+lost in a maze of macros pretty quickly :-/
 
-  With the following code and shell commands:
+So you are proposing dropping the _code helpers from cpu_ldst_*_template
+and directly binding to the low level load/softmmu function from
+translator.h? Do we ever need _code access that isn't part of the
+translator loading instructions?
 
-  test.s:
+>
+>
+> r~
 
-  .text
-  mov x0, #0x60000000
-  msr vbar_el2, x0
-  dsb sy
-  isb sy
 
-  $ aarch64-none-elf-as test.s -o test.o
-  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
-  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
-ortex-a57 -kernel test.bin -s -S
-
-  vbar_el2 is still 0 after the code, instead of being the expected
-  0x60000000. (see screenshot).
-
-  This regression doesn't seem to happen for vbar_el1 &
-  virtualization=3Doff.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
+--
+Alex Benn=C3=A9e
 
