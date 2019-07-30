@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12C97AAD2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 16:21:19 +0200 (CEST)
-Received: from localhost ([::1]:33434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040FB7AAC5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 16:20:21 +0200 (CEST)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsT0A-0006mQ-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 10:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59355)
+	id 1hsSzC-0003qP-18
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 10:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59352)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hsSxV-0002II-HR
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hsSxV-0002IH-I1
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:18:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hsSxT-0002hq-NV
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hsSxT-0002ho-NR
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 10:18:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:49364)
+Received: from relay.sw.ru ([185.231.240.75]:49374)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hsSxT-0002gA-FE; Tue, 30 Jul 2019 10:18:31 -0400
+ id 1hsSxT-0002g9-Fa; Tue, 30 Jul 2019 10:18:31 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hsSxP-0000jQ-EM; Tue, 30 Jul 2019 17:18:27 +0300
+ id 1hsSxP-0000jQ-J9; Tue, 30 Jul 2019 17:18:27 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 17:18:22 +0300
-Message-Id: <20190730141826.709849-1-vsementsov@virtuozzo.com>
+Date: Tue, 30 Jul 2019 17:18:23 +0300
+Message-Id: <20190730141826.709849-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190730141826.709849-1-vsementsov@virtuozzo.com>
+References: <20190730141826.709849-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 0/4] qcow2: async handling of fragmented io
+Subject: [Qemu-devel] [PATCH v2 1/4] block: introduce aio task pool
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,159 +51,215 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Common interface for aio task loops. To be used for improving
+performance of synchronous io loops in qcow2, block-stream,
+copy-on-read, and may be other places.
 
-Here is an asynchronous scheme for handling fragmented qcow2
-reads and writes. Both qcow2 read and write functions loops through
-sequential portions of data. The series aim it to parallelize these
-loops iterations.
-It improves performance for fragmented qcow2 images, I've tested it
-as described below.
-
-v2: changed a lot, as
- 1. a lot of preparations around locks, hd_qiovs, threads for encryption
-    are done
- 2. I decided to create separate file with async request handling API, to
-    reuse it for backup, stream and copy-on-read to improve their performance
-    too. Mirror and qemu-img convert has their own async request handling,
-    may be we'll be able finally merge all these similar code into one
-    feature.
-    Note that not all API calls used in qcow2, some will be needed on
-    following steps for parallelizing other io loops.
-
-Based-on: https://github.com/stefanha/qemu/commits/block
-
-About testing:
-
-I have four 4G qcow2 images (with default 64k block size) on my ssd disk:
-t-seq.qcow2 - sequentially written qcow2 image
-t-reverse.qcow2 - filled by writing 64k portions from end to the start
-t-rand.qcow2 - filled by writing 64k portions (aligned) in random order
-t-part-rand.qcow2 - filled by shuffling order of 64k writes in 1m clusters
-(see source code of image generation in the end for details)
-
-and I've done several runs like the following (sequential io by 1mb chunks):
-
-    out=/tmp/block; echo > $out; cat /tmp/files | while read file; do for wr in {"","-w"}; do echo "$file" $wr; ./qemu-img bench -c 4096 -d 1 -f qcow2 -n -s 1m -t none $wr "$file" | grep 'Run completed in' | awk '{print $4}' >> $out; done; done
-
-
-short info about parameters:
-  -w - do writes (otherwise do reads)
-  -c - count of blocks
-  -s - block size
-  -t none - disable cache
-  -n - native aio
-  -d 1 - don't use parallel requests provided by qemu-img bench itself
-
-results:
-
-    +---------------------------+---------+---------+
-    | file                      | master  | async   |
-    +---------------------------+---------+---------+
-    | /ssd/t-part-rand.qcow2    | 14.671  | 9.193   |
-    +---------------------------+---------+---------+
-    | /ssd/t-part-rand.qcow2 -w | 11.434  | 8.621   |
-    +---------------------------+---------+---------+
-    | /ssd/t-rand.qcow2         | 20.421  | 10.05   |
-    +---------------------------+---------+---------+
-    | /ssd/t-rand.qcow2 -w      | 11.097  | 8.915   |
-    +---------------------------+---------+---------+
-    | /ssd/t-reverse.qcow2      | 17.515  | 9.407   |
-    +---------------------------+---------+---------+
-    | /ssd/t-reverse.qcow2 -w   | 11.255  | 8.649   |
-    +---------------------------+---------+---------+
-    | /ssd/t-seq.qcow2          | 9.081   | 9.072   |
-    +---------------------------+---------+---------+
-    | /ssd/t-seq.qcow2 -w       | 8.761   | 8.747   |
-    +---------------------------+---------+---------+
-    | /tmp/t-part-rand.qcow2    | 41.179  | 41.37   |
-    +---------------------------+---------+---------+
-    | /tmp/t-part-rand.qcow2 -w | 54.097  | 55.323  |
-    +---------------------------+---------+---------+
-    | /tmp/t-rand.qcow2         | 711.899 | 514.339 |
-    +---------------------------+---------+---------+
-    | /tmp/t-rand.qcow2 -w      | 546.259 | 642.114 |
-    +---------------------------+---------+---------+
-    | /tmp/t-reverse.qcow2      | 86.065  | 96.522  |
-    +---------------------------+---------+---------+
-    | /tmp/t-reverse.qcow2 -w   | 46.557  | 48.499  |
-    +---------------------------+---------+---------+
-    | /tmp/t-seq.qcow2          | 33.804  | 33.862  |
-    +---------------------------+---------+---------+
-    | /tmp/t-seq.qcow2 -w       | 34.299  | 34.233  |
-    +---------------------------+---------+---------+
-
-
-Performance gain is obvious, especially for read and especially for ssd.
-For hdd there is a degradation for reverse case, but this is the most
-impossible case and seems not critical.
-
-How images are generated:
-
-    ==== gen-writes ======
-    #!/usr/bin/env python
-    import random
-    import sys
-
-    size = 4 * 1024 * 1024 * 1024
-    block = 64 * 1024
-    block2 = 1024 * 1024
-
-    arg = sys.argv[1]
-
-    if arg in ('rand', 'reverse', 'seq'):
-        writes = list(range(0, size, block))
-
-    if arg == 'rand':
-        random.shuffle(writes)
-    elif arg == 'reverse':
-        writes.reverse()
-    elif arg == 'part-rand':
-        writes = []
-        for off in range(0, size, block2):
-            wr = list(range(off, off + block2, block))
-            random.shuffle(wr)
-            writes.extend(wr)
-    elif arg != 'seq':
-        sys.exit(1)
-
-    for w in writes:
-        print 'write -P 0xff {} {}'.format(w, block)
-
-    print 'q'
-    ==========================
-
-    ===== gen-test-images.sh =====
-    #!/bin/bash
-
-    IMG_PATH=/ssd
-
-    for name in seq reverse rand part-rand; do
-        IMG=$IMG_PATH/t-$name.qcow2
-        echo createing $IMG ...
-        rm -f $IMG
-        qemu-img create -f qcow2 $IMG 4G
-        gen-writes $name | qemu-io $IMG
-    done
-    ==============================
-
-
-Vladimir Sementsov-Ogievskiy (4):
-  block: introduce aio task pool
-  block/qcow2: refactor qcow2_co_preadv_part
-  block/qcow2: refactor qcow2_co_pwritev_part
-  block/qcow2: introduce parallel subrequest handling in read and write
-
- qapi/block-core.json |   2 +-
- block/aio_task.h     |  52 +++++
- block/aio_task.c     | 119 +++++++++++
- block/qcow2.c        | 459 ++++++++++++++++++++++++++++---------------
- block/Makefile.objs  |   2 +
- block/trace-events   |   1 +
- 6 files changed, 477 insertions(+), 158 deletions(-)
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/aio_task.h    |  52 +++++++++++++++++++
+ block/aio_task.c    | 119 ++++++++++++++++++++++++++++++++++++++++++++
+ block/Makefile.objs |   2 +
+ 3 files changed, 173 insertions(+)
  create mode 100644 block/aio_task.h
  create mode 100644 block/aio_task.c
 
+diff --git a/block/aio_task.h b/block/aio_task.h
+new file mode 100644
+index 0000000000..933af1d8e7
+--- /dev/null
++++ b/block/aio_task.h
+@@ -0,0 +1,52 @@
++/*
++ * Aio tasks loops
++ *
++ * Copyright (c) 2019 Virtuozzo International GmbH.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef BLOCK_AIO_TASK_H
++#define BLOCK_AIO_TASK_H
++
++#include "qemu/coroutine.h"
++
++typedef struct AioTaskPool AioTaskPool;
++typedef struct AioTask AioTask;
++typedef int (*AioTaskFunc)(AioTask *task);
++struct AioTask {
++    AioTaskPool *pool;
++    AioTaskFunc func;
++    int ret;
++};
++
++/*
++ * aio_task_pool_new
++ *
++ * The caller is responsible to g_free AioTaskPool pointer after use.
++ */
++AioTaskPool *aio_task_pool_new(int max_busy_tasks);
++int aio_task_pool_status(AioTaskPool *pool);
++bool aio_task_pool_empty(AioTaskPool *pool);
++void aio_task_pool_start_task(AioTaskPool *pool, AioTask *task);
++void aio_task_pool_wait_slot(AioTaskPool *pool);
++void aio_task_pool_wait_one(AioTaskPool *pool);
++void aio_task_pool_wait_all(AioTaskPool *pool);
++
++#endif /* BLOCK_AIO_TASK_H */
+diff --git a/block/aio_task.c b/block/aio_task.c
+new file mode 100644
+index 0000000000..807be8deb5
+--- /dev/null
++++ b/block/aio_task.c
+@@ -0,0 +1,119 @@
++/*
++ * Aio tasks loops
++ *
++ * Copyright (c) 2019 Virtuozzo International GmbH.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "block/aio.h"
++#include "aio_task.h"
++
++struct AioTaskPool {
++    Coroutine *main_co;
++    int status;
++    int max_busy_tasks;
++    int busy_tasks;
++    bool wait_done;
++};
++
++static void aio_task_co(void *opaque)
++{
++    AioTask *task = opaque;
++    AioTaskPool *pool = task->pool;
++
++    assert(pool->busy_tasks < pool->max_busy_tasks);
++    pool->busy_tasks++;
++
++    task->ret = task->func(task);
++
++    pool->busy_tasks--;
++
++    if (task->ret < 0 && pool->status == 0) {
++        pool->status = task->ret;
++    }
++
++    g_free(task);
++
++    if (pool->wait_done) {
++        pool->wait_done = false;
++        aio_co_wake(pool->main_co);
++    }
++}
++
++void aio_task_pool_wait_one(AioTaskPool *pool)
++{
++    assert(pool->busy_tasks > 0);
++    assert(qemu_coroutine_self() == pool->main_co);
++
++    pool->wait_done = true;
++    qemu_coroutine_yield();
++
++    assert(!pool->wait_done);
++    assert(pool->busy_tasks < pool->max_busy_tasks);
++}
++
++void aio_task_pool_wait_slot(AioTaskPool *pool)
++{
++    if (pool->busy_tasks < pool->max_busy_tasks) {
++        return;
++    }
++
++    aio_task_pool_wait_one(pool);
++}
++
++void aio_task_pool_wait_all(AioTaskPool *pool)
++{
++    while (pool->busy_tasks > 0) {
++        aio_task_pool_wait_one(pool);
++    }
++}
++
++void aio_task_pool_start_task(AioTaskPool *pool, AioTask *task)
++{
++    aio_task_pool_wait_slot(pool);
++
++    task->pool = pool;
++    qemu_coroutine_enter(qemu_coroutine_create(aio_task_co, task));
++}
++
++AioTaskPool *aio_task_pool_new(int max_busy_tasks)
++{
++    AioTaskPool *pool = g_new0(AioTaskPool, 1);
++
++    pool->main_co = qemu_coroutine_self();
++    pool->max_busy_tasks = max_busy_tasks;
++
++    return pool;
++}
++
++int aio_task_pool_status(AioTaskPool *pool)
++{
++    if (!pool) {
++        return 0; /* Sugar for lazy allocation of aio pool */
++    }
++
++    return pool->status;
++}
++
++bool aio_task_pool_empty(AioTaskPool *pool)
++{
++    return pool->busy_tasks == 0;
++}
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 35f3bca4d9..c2eb8c8769 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -40,6 +40,8 @@ block-obj-y += throttle.o copy-on-read.o
+ 
+ block-obj-y += crypto.o
+ 
++block-obj-y += aio_task.o
++
+ common-obj-y += stream.o
+ 
+ nfs.o-libs         := $(LIBNFS_LIBS)
 -- 
 2.18.0
 
