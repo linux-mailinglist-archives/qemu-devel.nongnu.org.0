@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EE47B041
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:39:58 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679347B047
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:40:35 +0200 (CEST)
+Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsW6P-0003Jv-7B
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35774)
+	id 1hsW70-0004rf-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35547)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hsW2v-0005Yi-CI
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:36:22 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hsW23-0003v5-VB
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:35:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1hsW2u-0000N0-EO
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:36:21 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44704)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1hsW23-0008RS-3F
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:35:27 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:40516)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1hsW2u-0000Md-9I; Tue, 30 Jul 2019 13:36:20 -0400
-Received: by mail-pf1-x442.google.com with SMTP id t16so30174718pfe.11;
- Tue, 30 Jul 2019 10:36:19 -0700 (PDT)
+ id 1hsW22-0008R6-TX; Tue, 30 Jul 2019 13:35:27 -0400
+Received: by mail-pf1-x443.google.com with SMTP id p184so30199170pfp.7;
+ Tue, 30 Jul 2019 10:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NXuVmvKVvaaCTBLbPMTd941jc9j4FEh2ipsZBGZH/Ck=;
- b=BK8Zti3K0yzBkniUOUGbVHiOjeuxOxWLKH2CU926tyFH7UUYCswvnyjVRjYIkmeGUh
- Qv3Yan/DpDIvggy9DtItC3tNf9Pei/ZTrkSr7rIUTQybc05sye1Ob8CjA6fkFWE5g/ng
- Ad73wwDje8MoKvBLw/n06Yd/M57GEY5GlKYw1ZUPbLGI1eWnzNRMCXbOWcdS2Q1huSCh
- ylGPOE8pqwbpRlA7B3vISm024tLTzeFizjO6RZ6Z9Kbk5a7UdIYfBS08xysozVvjKqm5
- C/jGQB8hXjDMJtulx/ZDpwu7zd1ttlFfoOoLHYao53L3gZVwWk0IdyeRFCftYoWNnzuy
- yJUA==
+ bh=kq+GocMZNBzs7h+JrH4HUXS6sT3wW7TSwegih8ayQCc=;
+ b=L6JMmOmR9adQM+7Yn8wBFur6/NdLwM2ssKsQlg9abh2H4LpAA39v/LQHqVtl6kgPHL
+ z0q4Ao/x3LGnT9rSQxQMsMhpoQhkatpTXZfpnAVpVo2OIUTCIqTxZ3nipA+fpG2AP3MM
+ A9aEPrr2EgUjIIDGdMCX46sq8nMt7pqjiuhHCEXSxBXsnSv/vDLTvg09K8t+wJJmwGRN
+ XKj5mcDdbb85gYcbT9zQjM6mk4hbe8dCBHLSNBNBddYwybhArxmdctpI+b2XuuDoqIiB
+ o2lIrRbCyyKkTN28y5MMbkYqqpo3sbVKxEGTVUamB4FNteFZJP3QDGN7nW+C50dSTkXP
+ XkRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NXuVmvKVvaaCTBLbPMTd941jc9j4FEh2ipsZBGZH/Ck=;
- b=JuI8l89YWQKuW2xR71vPCqmblnN1reuUePtSk5DDLKEKSWmenc5Kp6Y5YtlGcw7J78
- lAzlOExvlEvpIn9I6t6EuZqUuGSASsaVFYf8JUzPjJAm7buVqQlmA5ZtG1B+2p52lyEe
- xtq68oGEhcOxfRDGIWdQ12v02iPbwJl9V4msl/nO4V7PuBLjo3xgPg0sbqr/R/UsZ80S
- z2YmR6dhYnk7lrbIG1Ab2uAynP72PuRErhn/R9hdV5XDzO9v6cW51ohck3IWHBPPuqaj
- Cer3R5gWWI0tL/R9xpd5UHXRFzUZ42mqb6FiKc3wXCuA5KWwE5FL08IyFOsG5IfY8215
- ExfA==
-X-Gm-Message-State: APjAAAVgsy0JZKWUVg9xCeFQ1UPAWb2KgC3ssd8v8TpTJzmIJta+EB73
- V0HDVLSkPMnzrGbNdWlHbc/zhZyVFUBlcg==
-X-Google-Smtp-Source: APXvYqxsesaQAvRgWcFtxDQ8PhkYZt+CXNDx10IKa3OSN0UaLV+DN67OUlDWFxnB1ehrrh4DmQJHCg==
-X-Received: by 2002:a17:90a:258b:: with SMTP id
- k11mr113181991pje.110.1564508178658; 
- Tue, 30 Jul 2019 10:36:18 -0700 (PDT)
+ bh=kq+GocMZNBzs7h+JrH4HUXS6sT3wW7TSwegih8ayQCc=;
+ b=S5d2x5/MBfm6gCwgkIvEYOyGhVkrW8Hb90aXMpS3LLK2czI/f4QywMXOo+yhkl9jFl
+ fWi24wyFflz2HrnuvpwGkDzl2Wk5iG9RkegO7iIRNUQg6goW1OE7NUZreAkwAJCy0jME
+ +CwxjNFIK+mA2Ur7b+7+c7Sp6PgD9pKlqaxd9i6EJmvl8GCgV60CPNa7eyWWKho5M1Iu
+ 9n8yt/Zb0bsztH+U8BSj0jXf5e/P5FZPfEL+QqytBDMNireRXvl+GakXL53tz6F3kU3P
+ cEh41b9rAVoBjZitN3s2DPI+YizABTPvdKW8EhREwYjGxwwKqEZOcwba5CoB5hOGFzD1
+ 7eog==
+X-Gm-Message-State: APjAAAUxXmcRGkXW4+cfDUorLXF+vfMsMYkoWCIW+gQ5QJHaj3vj+IhV
+ UNkwctDAQYgtr2/QLvI9sGuMgsSTakbZPQ==
+X-Google-Smtp-Source: APXvYqyD5buVWI7Vla9DLEAJ0o2XwD0UDQjch1i/L9sdecxMmPoNJuU4Lnek9aBcnfbKQjnSRXbufA==
+X-Received: by 2002:a63:3148:: with SMTP id x69mr23346603pgx.300.1564508125119; 
+ Tue, 30 Jul 2019 10:35:25 -0700 (PDT)
 Received: from localhost.localdomain ([136.233.9.97])
- by smtp.gmail.com with ESMTPSA id q24sm59122895pjp.14.2019.07.30.10.36.13
+ by smtp.gmail.com with ESMTPSA id q24sm59122895pjp.14.2019.07.30.10.35.18
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 30 Jul 2019 10:36:18 -0700 (PDT)
+ Tue, 30 Jul 2019 10:35:24 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Jul 2019 23:04:35 +0530
-Message-Id: <20190730173441.26486-11-mehta.aaru20@gmail.com>
+Date: Tue, 30 Jul 2019 23:04:27 +0530
+Message-Id: <20190730173441.26486-3-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190730173441.26486-1-mehta.aaru20@gmail.com>
 References: <20190730173441.26486-1-mehta.aaru20@gmail.com>
@@ -64,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v8 10/16] block/io_uring: adds userspace
- completion polling
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v8 02/16] qapi/block-core: add option for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,47 +87,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Only enumerates option for devices that support it. Since QAPI schema
+supports io_uring, which is the actual name of the Linux API, it is
+preferred over io-uring.
+
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io_uring.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ qapi/block-core.json | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index ba739ebe06..e2bef380e7 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -238,6 +238,21 @@ static void qemu_luring_completion_cb(void *opaque)
-     luring_process_completions_and_submit(s);
- }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0d43d4f37c..3dc93b483f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2792,11 +2792,13 @@
+ #
+ # @threads:     Use qemu's thread pool
+ # @native:      Use native AIO backend (only Linux and Windows)
++# @io_uring:    Use linux io_uring (since 4.2)
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevAioOptions',
+-  'data': [ 'threads', 'native' ] }
++  'data': [ 'threads', 'native',
++            { 'name': 'io_uring', 'if': 'defined(CONFIG_LINUX_IO_URING)' } ] }
  
-+static bool qemu_luring_poll_cb(void *opaque)
-+{
-+    LuringState *s = opaque;
-+    struct io_uring_cqe *cqes;
-+
-+    if (io_uring_peek_cqe(&s->ring, &cqes) == 0) {
-+        if (cqes) {
-+            luring_process_completions_and_submit(s);
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- static void ioq_init(LuringQueue *io_q)
- {
-     QSIMPLEQ_INIT(&io_q->submit_queue);
-@@ -395,7 +410,7 @@ void luring_attach_aio_context(LuringState *s, AioContext *new_context)
-     s->aio_context = new_context;
-     s->completion_bh = aio_bh_new(new_context, qemu_luring_completion_bh, s);
-     aio_set_fd_handler(s->aio_context, s->ring.ring_fd, false,
--                       qemu_luring_completion_cb, NULL, NULL, s);
-+                       qemu_luring_completion_cb, NULL, qemu_luring_poll_cb, s);
- }
- 
- LuringState *luring_init(Error **errp)
+ ##
+ # @BlockdevCacheOptions:
 -- 
 2.21.0
 
