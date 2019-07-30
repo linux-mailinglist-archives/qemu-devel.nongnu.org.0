@@ -2,38 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A6F7ADDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:34:59 +0200 (CEST)
-Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088D77AE25
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:38:28 +0200 (CEST)
+Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsV5X-0004gf-0o
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53261)
+	id 1hsV8s-0007dl-W7
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hsV3c-0001p5-PJ
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:33:01 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hsV81-0006ma-KE
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:37:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hsV3b-0002XD-Ml
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:33:00 -0400
-Received: from relay.sw.ru ([185.231.240.75]:54206)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hsV3Z-0002Uq-3E; Tue, 30 Jul 2019 12:32:57 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1hsV3V-0001Yw-RV; Tue, 30 Jul 2019 19:32:53 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 19:32:51 +0300
-Message-Id: <20190730163251.755248-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190730163251.755248-1-vsementsov@virtuozzo.com>
-References: <20190730163251.755248-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/3] block/backup: refactor write_flags
+ (envelope-from <bmeng.cn@gmail.com>) id 1hsV80-0004I1-E1
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:37:33 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:41784)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hsV7x-0004GM-Uz; Tue, 30 Jul 2019 12:37:30 -0400
+Received: by mail-ed1-x542.google.com with SMTP id p15so63095144eds.8;
+ Tue, 30 Jul 2019 09:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q05HFV4rBCNFkmWOp6EN0tG/5WsbjW6PV1n9UTQXHLw=;
+ b=n12rHZexv2/swQz+QDqDh/WI5lHYYFGX357zdhdk8/dw+hCp/OCndDJhn0dS/SmNkP
+ CBpFyIIRcC3kyqPuRN20uUjUFZqg40+DimXtn8OWC4YtCf5BXrZJlfrs6YIhwmwQ/UX4
+ A/+ZK//5dZkeoocXenUINFs5hOsqNNjMIeqvpmFCqrZCSBvpwNieHPFLg3kmW+KV2yrz
+ q9BfyC7DUOQRaaGwS6X6T8cG/wb2TIQbE/Bup50pak9ic73Y1l18coG9Q8zIY0WWjYgA
+ 8v1zouPi1sR3Ydcor2wipva7pkwn+d/bWfXtIz3Md7QZBpCG/jRgd3pvNsMaPA8kWqOg
+ eaDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q05HFV4rBCNFkmWOp6EN0tG/5WsbjW6PV1n9UTQXHLw=;
+ b=mzdU0L5GXqkRjXS1qKDTsYtaeRfR/t1vdGBAfUidVxX1kzWxInXD5WS6hWoPNTkg0q
+ liKdCBiSBgUahX0ay1gtjfiNFyAD+Q4wemPfIdnhgXUlGLiyVWXUwNTXgjiOUwAwHMjs
+ wKCBNEPx152sc3M6tbwfSg955pZwsAxwzF97isSg9KvZt41GR5Yatzg00tqfX8jP+Tib
+ owegGOmPBh2P30nnC95f7t2ZjHuN6Kj1ocbQw1yClQeOlokup87PVnl+Ao55yDiRqne9
+ GRk+RVNy0qvDH8yLjxUBT0mlVaL3vGxgK9bPCE3KUKVzT/F2MkmKljvz815y+evry5ou
+ +tKg==
+X-Gm-Message-State: APjAAAUjW+ElWsR7UQVKH0ue05frhKlYtnoAjbk//0iQyPGbYq3g0cGp
+ FXqYYiV0wpwjT8RjYr/g2RVbcWmxiQoFnzh2nJ0=
+X-Google-Smtp-Source: APXvYqx9jHbCMIZtrZ8HHSWJljkDhhcSuwpJ3gtSFYVbx8e1wJn8CAMyru4rOXiLMvMaDnkSed3nYSdJ8lpAZO3CEHw=
+X-Received: by 2002:a50:886a:: with SMTP id c39mr35399946edc.214.1564504647726; 
+ Tue, 30 Jul 2019 09:37:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAEUhbmWfS8TPTRa-Ovc1gnPUC-3ofA4G+sR7PaSNzfWT-fPNfQ@mail.gmail.com>
+ <mhng-2dc6a880-670f-449e-9361-9cf2ae4af4ee@palmer-si-x1e>
+In-Reply-To: <mhng-2dc6a880-670f-449e-9361-9cf2ae4af4ee@palmer-si-x1e>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 31 Jul 2019 00:37:16 +0800
+Message-ID: <CAEUhbmXb_rOcBUT8dqtzf+LCGqiuDf-wqHts79HVy-xQf-KXig@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH] riscv: sifive_test: Add reset functionality
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,99 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-write flags are constant, let's store it in BackupBlockJob instead of
-recalculating. It also makes two boolean fields to be unused, so,
-drop them.
+On Tue, Jul 30, 2019 at 3:47 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> On Mon, 22 Jul 2019 22:30:15 PDT (-0700), bmeng.cn@gmail.com wrote:
+> > Hi Palmer,
+> >
+> > On Sat, Jul 20, 2019 at 9:47 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+> >>
+> >> On Fri, 14 Jun 2019 08:15:51 PDT (-0700), bmeng.cn@gmail.com wrote:
+> >> > This adds a reset opcode for sifive_test device to trigger a system
+> >> > reset for testing purpose.
+> >> >
+> >> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> >> > ---
+> >> >
+> >> >  hw/riscv/sifive_test.c         | 4 ++++
+> >> >  include/hw/riscv/sifive_test.h | 3 ++-
+> >> >  2 files changed, 6 insertions(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
+> >> > index 24a04d7..cd86831 100644
+> >> > --- a/hw/riscv/sifive_test.c
+> >> > +++ b/hw/riscv/sifive_test.c
+> >> > @@ -21,6 +21,7 @@
+> >> >  #include "qemu/osdep.h"
+> >> >  #include "hw/sysbus.h"
+> >> >  #include "qemu/module.h"
+> >> > +#include "sysemu/sysemu.h"
+> >> >  #include "target/riscv/cpu.h"
+> >> >  #include "hw/riscv/sifive_test.h"
+> >> >
+> >> > @@ -40,6 +41,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
+> >> >              exit(code);
+> >> >          case FINISHER_PASS:
+> >> >              exit(0);
+> >> > +        case FINISHER_RESET:
+> >> > +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> >> > +            return;
+> >> >          default:
+> >> >              break;
+> >> >          }
+> >> > diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
+> >> > index 71d4c9f..c186a31 100644
+> >> > --- a/include/hw/riscv/sifive_test.h
+> >> > +++ b/include/hw/riscv/sifive_test.h
+> >> > @@ -34,7 +34,8 @@ typedef struct SiFiveTestState {
+> >> >
+> >> >  enum {
+> >> >      FINISHER_FAIL = 0x3333,
+> >> > -    FINISHER_PASS = 0x5555
+> >> > +    FINISHER_PASS = 0x5555,
+> >> > +    FINISHER_RESET = 0x7777
+> >> >  };
+> >> >
+> >> >  DeviceState *sifive_test_create(hwaddr addr);
+> >>
+> >> Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+> >
+> > Thanks a lot!
+> >
+> >> Sorry this took a while, but it's in the hardware now.  I'll merge this, but
+> >> I'm considering it a new feature so it'll be held off a bit.
+> >
+> > "but it's in the hardware now", do you mean the code I added (0x7777)
+> > is now supported by a newer version SiFive test device with compatible
+> > string "sifive,test1", and can actually do the system wide reset?
+>
+> No, the hardware is still a "sifive,test0" as plumbing through the reset is
+> trickier than I wanted to take on.  I just reserved the 0x7777 code and
+> implemented it by triggering an unsupported function error, so we don't
+> accidentally use it for something else later.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/backup.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+OK, thanks for the clarifications!
 
-diff --git a/block/backup.c b/block/backup.c
-index c5f941101a..4651649e9d 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -47,7 +47,6 @@ typedef struct BackupBlockJob {
-     uint64_t len;
-     uint64_t bytes_read;
-     int64_t cluster_size;
--    bool compress;
-     NotifierWithReturn before_write;
-     QLIST_HEAD(, CowRequest) inflight_reqs;
- 
-@@ -55,7 +54,7 @@ typedef struct BackupBlockJob {
-     bool use_copy_range;
-     int64_t copy_range_size;
- 
--    bool serialize_target_writes;
-+    BdrvRequestFlags write_flags;
- } BackupBlockJob;
- 
- static const BlockJobDriver backup_job_driver;
-@@ -110,10 +109,6 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-     BlockBackend *blk = job->common.blk;
-     int nbytes;
-     int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
--    int write_flags =
--            (job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0) |
--            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
--
- 
-     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-     hbitmap_reset(job->copy_bitmap, start, job->cluster_size);
-@@ -132,7 +127,7 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
-     }
- 
-     ret = blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
--                        write_flags);
-+                        job->write_flags);
-     if (ret < 0) {
-         trace_backup_do_cow_write_fail(job, start, ret);
-         if (error_is_read) {
-@@ -160,7 +155,6 @@ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
-     BlockBackend *blk = job->common.blk;
-     int nbytes;
-     int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
--    int write_flags = job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0;
- 
-     assert(QEMU_IS_ALIGNED(job->copy_range_size, job->cluster_size));
-     assert(QEMU_IS_ALIGNED(start, job->cluster_size));
-@@ -168,7 +162,7 @@ static int coroutine_fn backup_cow_with_offload(BackupBlockJob *job,
-     nr_clusters = DIV_ROUND_UP(nbytes, job->cluster_size);
-     hbitmap_reset(job->copy_bitmap, start, job->cluster_size * nr_clusters);
-     ret = blk_co_copy_range(blk, start, job->target, start, nbytes,
--                            read_flags, write_flags);
-+                            read_flags, job->write_flags);
-     if (ret < 0) {
-         trace_backup_do_cow_copy_range_fail(job, start, ret);
-         hbitmap_set(job->copy_bitmap, start, job->cluster_size * nr_clusters);
-@@ -638,10 +632,16 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     job->sync_mode = sync_mode;
-     job->sync_bitmap = sync_mode == MIRROR_SYNC_MODE_INCREMENTAL ?
-                        sync_bitmap : NULL;
--    job->compress = compress;
- 
--    /* Detect image-fleecing (and similar) schemes */
--    job->serialize_target_writes = bdrv_chain_contains(target, bs);
-+    /*
-+     * Set write flags:
-+     *  1. Detect image-fleecing (and similar) schemes
-+     *  2. Handle compression
-+     */
-+    job->write_flags =
-+            (bdrv_chain_contains(target, bs) ? BDRV_REQ_SERIALISING : 0) |
-+            (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
-+
-     job->cluster_size = cluster_size;
-     job->copy_bitmap = copy_bitmap;
-     copy_bitmap = NULL;
--- 
-2.18.0
-
+Regards,
+Bin
 
