@@ -2,45 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05FC79D4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:29:18 +0200 (CEST)
-Received: from localhost ([::1]:57170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EA179D60
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 02:34:53 +0200 (CEST)
+Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsG0z-0006G5-Gi
-	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:29:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58013)
+	id 1hsG6O-00087Q-97
+	for lists+qemu-devel@lfdr.de; Mon, 29 Jul 2019 20:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <piaojun@huawei.com>) id 1hsFzo-0005mZ-Hp
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:28:05 -0400
+ (envelope-from <piaojun@huawei.com>) id 1hsG5r-0007dd-2W
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:34:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <piaojun@huawei.com>) id 1hsFzn-0002Rb-Gc
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:28:04 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2245 helo=huawei.com)
+ (envelope-from <piaojun@huawei.com>) id 1hsG5p-0006T5-5g
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:34:19 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:43864 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <piaojun@huawei.com>) id 1hsFzm-0002Nu-El
- for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:28:03 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 99CC23CCB98E78BC1612;
- Tue, 30 Jul 2019 08:27:57 +0800 (CST)
+ (Exim 4.71) (envelope-from <piaojun@huawei.com>) id 1hsG5o-0006R0-Jc
+ for qemu-devel@nongnu.org; Mon, 29 Jul 2019 20:34:17 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 8F55EEA39494D70861EB;
+ Tue, 30 Jul 2019 08:34:12 +0800 (CST)
 Received: from [10.177.253.249] (10.177.253.249) by smtp.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Tue, 30 Jul 2019
- 08:27:50 +0800
-To: <virtio-fs@redhat.com>, <qemu-devel@nongnu.org>
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Tue, 30 Jul 2019
+ 08:34:02 +0800
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20190726091103.23503-1-stefanha@redhat.com>
+ <20190726091103.23503-3-stefanha@redhat.com>
+ <e83e2463-5239-e5c0-cc44-e1e0b74df37c@huawei.com>
+ <20190729154118.GA21560@stefanha-x1.localdomain>
 From: piaojun <piaojun@huawei.com>
-Message-ID: <5D3F8F04.3030404@huawei.com>
-Date: Tue, 30 Jul 2019 08:27:48 +0800
+Message-ID: <5D3F9078.2070607@huawei.com>
+Date: Tue, 30 Jul 2019 08:34:00 +0800
 User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
  Thunderbird/38.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190729154118.GA21560@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.177.253.249]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
-Subject: [Qemu-devel] [PATCH] virtiofsd: fix compile error if 'F_OFD_GETLK'
- not defined
+X-Received-From: 45.249.212.35
+Subject: Re: [Qemu-devel] [Virtio-fs] [PATCH 2/5] virtiofsd: prevent
+ lo_lookup() NULL pointer dereference
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,45 +57,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: piaojun@huawei.com
+Cc: virtio-fs@redhat.com, piaojun@huawei.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use F_GETLK for fcntl when F_OFD_GETLK not defined.
 
-Signed-off-by: Jun Piao <piaojun@huawei.com>
----
- contrib/virtiofsd/passthrough_ll.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-index 9ae1381..757785b 100644
---- a/contrib/virtiofsd/passthrough_ll.c
-+++ b/contrib/virtiofsd/passthrough_ll.c
-@@ -1619,7 +1619,11 @@ static void lo_getlk(fuse_req_t req, fuse_ino_t ino,
- 		return;
- 	}
+On 2019/7/29 23:41, Stefan Hajnoczi wrote:
+> On Mon, Jul 29, 2019 at 08:35:36PM +0800, piaojun wrote:
+>> Hi Stefan,
+>>
+>> On 2019/7/26 17:11, Stefan Hajnoczi wrote:
+>>> Most lo_do_lookup() have already checked that the parent inode exists.
+>>> lo_lookup() hasn't and can therefore hit a NULL pointer dereference when
+>>> lo_inode(req, parent) returns NULL.
+>>>
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>>  contrib/virtiofsd/passthrough_ll.c | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
+>>> index 9ae1381618..277a17fc03 100644
+>>> --- a/contrib/virtiofsd/passthrough_ll.c
+>>> +++ b/contrib/virtiofsd/passthrough_ll.c
+>>> @@ -766,6 +766,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+>>>  	struct lo_data *lo = lo_data(req);
+>>>  	struct lo_inode *inode, *dir = lo_inode(req, parent);
+>>>  
+>>> +	if (!dir) {
+>>> +		return EBADF;
+>>> +	}
+>>> +
+>>
+>> I worry about that dir will be released or set NULL just after NULL
+>> checking. Or could we use some lock to prevent the simultaneity?
+> 
+> Yes, I agree.  I haven't audited lo_inode yet, but it needs a refcount
+> and/or lock to ensure accesses are safe.  I'll do that and other things
+> in a separate patch series.
+> 
+> Stefan
 
-+#ifdef F_OFD_GETLK
- 	ret = fcntl(plock->fd, F_OFD_GETLK, lock);
-+#else
-+	ret = fcntl(plock->fd, F_GETLK, lock);
-+#endif
- 	if (ret == -1)
- 		saverr = errno;
- 	pthread_mutex_unlock(&inode->plock_mutex);
-@@ -1668,7 +1672,12 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino,
+OK, that sounds good.
 
- 	/* TODO: Is it alright to modify flock? */
- 	lock->l_pid = 0;
-+
-+#ifdef F_OFD_GETLK
- 	ret = fcntl(plock->fd, F_OFD_SETLK, lock);
-+#else
-+	ret = fcntl(plock->fd, F_SETLK, lock);
-+#endif
- 	if (ret == -1) {
- 		saverr = errno;
- 	}
--- 
+Jun
+
+> 
 
