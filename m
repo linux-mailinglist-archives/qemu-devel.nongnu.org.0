@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238727B025
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:34:22 +0200 (CEST)
-Received: from localhost ([::1]:35046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE437AFFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:30:44 +0200 (CEST)
+Received: from localhost ([::1]:34952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsW0z-0008I3-A5
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33474)
+	id 1hsVxT-0008MQ-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hsVsJ-0006hJ-FO
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:24 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hsVsM-0006qs-Hg
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hsVsI-0002YF-HI
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38410)
+ (envelope-from <mreitz@redhat.com>) id 1hsVsL-0002aS-FF
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:25:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39457)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hsVsG-0002Tq-83; Tue, 30 Jul 2019 13:25:20 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hsVsI-0002X8-LY; Tue, 30 Jul 2019 13:25:22 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0D35B81DFF;
- Tue, 30 Jul 2019 17:25:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id EEF07796ED;
+ Tue, 30 Jul 2019 17:25:21 +0000 (UTC)
 Received: from localhost (ovpn-116-164.ams2.redhat.com [10.36.116.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F3B060856;
- Tue, 30 Jul 2019 17:25:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5568C5C1A1;
+ Tue, 30 Jul 2019 17:25:21 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 19:24:58 +0200
-Message-Id: <20190730172508.19911-4-mreitz@redhat.com>
+Date: Tue, 30 Jul 2019 19:24:59 +0200
+Message-Id: <20190730172508.19911-5-mreitz@redhat.com>
 In-Reply-To: <20190730172508.19911-1-mreitz@redhat.com>
 References: <20190730172508.19911-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 30 Jul 2019 17:25:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Tue, 30 Jul 2019 17:25:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 03/13] qcow2: Make
- qcow2_write_snapshots() public
+Subject: [Qemu-devel] [PATCH for-4.2 04/13] qcow2: Put qcow2_upgrade() into
+ an own function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,40 +60,93 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Updating the snapshot list will be useful when upgrading a v2 image to
-v3, so we will need to call this function in qcow2.c.
+This does not make sense right now, but it will make sense once we need
+to do more than to just update s->qcow_version.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h          | 1 +
- block/qcow2-snapshot.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ block/qcow2.c | 43 ++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 290a48b77e..77586d81b9 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -710,6 +710,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
-=20
- void qcow2_free_snapshots(BlockDriverState *bs);
- int qcow2_read_snapshots(BlockDriverState *bs, Error **errp);
-+int qcow2_write_snapshots(BlockDriverState *bs);
-=20
- /* qcow2-cache.c functions */
- Qcow2Cache *qcow2_cache_create(BlockDriverState *bs, int num_tables,
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index b037c6e5fd..3d097b92d7 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -163,7 +163,7 @@ fail:
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0336deaf2c..99e9dad798 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4721,12 +4721,46 @@ static int qcow2_downgrade(BlockDriverState *bs, =
+int target_version,
+     return 0;
  }
 =20
- /* add at the end of the file a new list of snapshots */
--static int qcow2_write_snapshots(BlockDriverState *bs)
-+int qcow2_write_snapshots(BlockDriverState *bs)
- {
-     BDRVQcow2State *s =3D bs->opaque;
-     QCowSnapshot *sn;
++/*
++ * Upgrades an image's version.  While newer versions encompass all
++ * features of older versions, some things may have to be presented
++ * differently.
++ */
++static int qcow2_upgrade(BlockDriverState *bs, int target_version,
++                         BlockDriverAmendStatusCB *status_cb, void *cb_o=
+paque,
++                         Error **errp)
++{
++    BDRVQcow2State *s =3D bs->opaque;
++    int current_version =3D s->qcow_version;
++    int ret;
++
++    /* This is qcow2_upgrade(), not qcow2_downgrade() */
++    assert(target_version > current_version);
++
++    /* There are no other versions (yet) that you can upgrade to */
++    assert(target_version =3D=3D 3);
++
++    status_cb(bs, 0, 1, cb_opaque);
++
++    s->qcow_version =3D target_version;
++    ret =3D qcow2_update_header(bs);
++    if (ret < 0) {
++        s->qcow_version =3D current_version;
++        error_setg_errno(errp, -ret, "Failed to update the image header"=
+);
++        return ret;
++    }
++    status_cb(bs, 1, 1, cb_opaque);
++
++    return 0;
++}
++
+ typedef enum Qcow2AmendOperation {
+     /* This is the value Qcow2AmendHelperCBInfo::last_operation will be
+      * statically initialized to so that the helper CB can discern the f=
+irst
+      * invocation from an operation change */
+     QCOW2_NO_OPERATION =3D 0,
+=20
++    QCOW2_UPGRADING,
+     QCOW2_CHANGING_REFCOUNT_ORDER,
+     QCOW2_DOWNGRADING,
+ } Qcow2AmendOperation;
+@@ -4909,17 +4943,16 @@ static int qcow2_amend_options(BlockDriverState *=
+bs, QemuOpts *opts,
+     helper_cb_info =3D (Qcow2AmendHelperCBInfo){
+         .original_status_cb =3D status_cb,
+         .original_cb_opaque =3D cb_opaque,
+-        .total_operations =3D (new_version < old_version)
++        .total_operations =3D (new_version !=3D old_version)
+                           + (s->refcount_bits !=3D refcount_bits)
+     };
+=20
+     /* Upgrade first (some features may require compat=3D1.1) */
+     if (new_version > old_version) {
+-        s->qcow_version =3D new_version;
+-        ret =3D qcow2_update_header(bs);
++        helper_cb_info.current_operation =3D QCOW2_UPGRADING;
++        ret =3D qcow2_upgrade(bs, new_version, &qcow2_amend_helper_cb,
++                            &helper_cb_info, errp);
+         if (ret < 0) {
+-            s->qcow_version =3D old_version;
+-            error_setg_errno(errp, -ret, "Failed to update the image hea=
+der");
+             return ret;
+         }
+     }
 --=20
 2.21.0
 
