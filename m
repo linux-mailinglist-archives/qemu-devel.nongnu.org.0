@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF6F7A826
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:24:02 +0200 (CEST)
-Received: from localhost ([::1]:60548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188CB7A873
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:29:05 +0200 (CEST)
+Received: from localhost ([::1]:60590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsRAf-0004S4-MA
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34603)
+	id 1hsRFY-0007TO-AG
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35455)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liam.merwick@oracle.com>) id 1hsR9r-00040v-0A
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:23:11 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hsREV-0006yt-M5
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:28:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1hsR9p-00012b-UL
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:23:10 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46294)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1hsR9p-00011X-Kv
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:23:09 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x6UC9Io4168333;
- Tue, 30 Jul 2019 12:22:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=TdL8lYAbo8VRfghnHW9UAHDiOlDzL3xO1gRPLcN8n58=;
- b=mdmf6V358bPDUopEO9NVonUYx6XwfPFfoZ1sZEii9FJz6a4k646Pr2iEOlGYopsZQlgQ
- siIzHB10d5GSfAd6wRTVpMbZqPxtM0fyGvSYkTy45e7jBMK67NPCC8Hj1wLX6LkRBMaU
- 0I03vTwsLDsMD69eTX0FErFQ30tfinFJLqP3yakya9v9oOtttnkvcflJ3hBwkqGk8Isl
- MBNMbuLVuuxNx3Q0worQmIMv3M4Ctlu482x91Vcem8xNDyth8MFj2MjW0VSDl0aR1LPe
- JkzS/ZIAUqjqJjolYGcDIFmP/6LiQbZyMYb0V5PQzMXHX5dHXibETsik1w1bUAdlc9uS kQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2u0e1tp8sx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Jul 2019 12:22:59 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x6UC8F3E163590;
- Tue, 30 Jul 2019 12:22:58 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 2u0bqu3e4g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Jul 2019 12:22:58 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x6UCMviH011325;
- Tue, 30 Jul 2019 12:22:57 GMT
-Received: from dhcp-10-175-172-128.vpn.oracle.com (/10.175.172.128)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 30 Jul 2019 05:22:57 -0700
-To: piaojun <piaojun@huawei.com>, virtio-fs@redhat.com, qemu-devel@nongnu.org
-References: <5D3F8F04.3030404@huawei.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <8748798a-ac4f-4c0a-96fa-190e24dca52b@oracle.com>
-Date: Tue, 30 Jul 2019 13:22:56 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.8.0
+ (envelope-from <peter.maydell@linaro.org>) id 1hsREU-0002pL-Ae
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:27:59 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46084)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hsREU-0002of-1g
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:27:58 -0400
+Received: by mail-ot1-x342.google.com with SMTP id z23so37704141ote.13
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 05:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xOkqCXei626p4OQ5Tak5fBt3D1sIDF8ssJ+f03vVISE=;
+ b=ICB2fg2jNeFCUTdaDXI9R65OxUJ31zVKflVEF03ZJyVWnStWwUM945luzflCSZuknQ
+ TkP/wcEJ0ZEs2eAL4rmtUNwILb5d2AJgE0FuiTW0GVvLCdY1ITvwN5gRNAxxKhA9W2hu
+ omvRQXUjYOVZ1sAZzawTeunRQGOLljWsY/Qrs6eUT5pyKkVKlWUCVEbiz7yvNvrUw5sG
+ XVJzaWNo0Jv1Yn+rQex9Y+O0kSzEMQ49gF6y37UbnTe1NNrnONeDrU1skWMVAaexR7Vo
+ 3779hBPI/T3XHpYhX9PFJ3/kyBMplH2KsmEpqmhEr9IeGSoBZoMT4L2d+DHUk3o+J2+d
+ c+5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xOkqCXei626p4OQ5Tak5fBt3D1sIDF8ssJ+f03vVISE=;
+ b=jG+qCrCaJ+jpvDyIHZB/re1ofT+J59xYHu+Z1RQmdyOSgEk88gowgQwf4bciZsTRiW
+ t5iO2Y6sDLqLCDbWanANNY5CHhQvFqfIgzuH65HFYRp3y9pceV9oizV1mTHgu5P4tS1e
+ dy4oeFsUTp/RezOhlFqjaFnCgKCnAGMBky4k0rmhDWoOa5QfyDBaQMZl9es9XytXyJqe
+ Q0k1YtrjMrWQOCcSO9t2RVb7O5r8usLaKcRW3xkblUvr2FD/+/QBHzmS/asgEoK1MnsT
+ qPwPbVjBxEAtwqVrw0q/fRCWqHUHxCCmniFTCuwC7c6/0yHKN3vPCUL8Z108fqE4wuoY
+ Wuhg==
+X-Gm-Message-State: APjAAAXfSMwGceEP/jBCs5XD5sy8A/tmT1kSPQ+fgtF/APOvMbNGHEI4
+ kC+ickl/qxwageh1PFYu+ikNGryFyi0UZL0+2tGLUg==
+X-Google-Smtp-Source: APXvYqyfTs0uF1MlxNwi2l12OBcZtET3KRaPuXyraT7B+v432qtSed3NVxsHLsmrBs8zP3YRqSZirybTEusYVNAIZSc=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr27117947oti.91.1564489675464; 
+ Tue, 30 Jul 2019 05:27:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5D3F8F04.3030404@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9333
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1907300129
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9333
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1907300129
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: Re: [Qemu-devel] [PATCH] virtiofsd: fix compile error if
- 'F_OFD_GETLK' not defined
+References: <20190730112425.21497-1-kwolf@redhat.com>
+In-Reply-To: <20190730112425.21497-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jul 2019 13:27:44 +0100
+Message-ID: <CAFEAcA93swjx3rX1SaCLqAWhkcE5du5vv_K_De_+hgUkBV=sHQ@mail.gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PULL 0/4] Block layer and multiboot test patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,60 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/07/2019 01:27, piaojun wrote:
-> Use F_GETLK for fcntl when F_OFD_GETLK not defined.
-
-
-Use F_GETLK/F_SETLK for fcntl when F_OFD_GETLK/F_OFD_SETLK not defined.
-
-> 
-> Signed-off-by: Jun Piao <piaojun@huawei.com>
-> ---
->   contrib/virtiofsd/passthrough_ll.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> index 9ae1381..757785b 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -1619,7 +1619,11 @@ static void lo_getlk(fuse_req_t req, fuse_ino_t ino,
->   		return;
->   	}
-> 
-> +#ifdef F_OFD_GETLK
->   	ret = fcntl(plock->fd, F_OFD_GETLK, lock);
-> +#else
-> +	ret = fcntl(plock->fd, F_GETLK, lock);
-> +#endif
->   	if (ret == -1)
->   		saverr = errno;
->   	pthread_mutex_unlock(&inode->plock_mutex);
-> @@ -1668,7 +1672,12 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino,
-> 
->   	/* TODO: Is it alright to modify flock? */
->   	lock->l_pid = 0;
-> +
-> +#ifdef F_OFD_GETLK
-
-
-This checks for F_OFD_GETLK but uses F_OFD_SETLK (albeit unlikely one 
-being defined without the other)
-
-
->   	ret = fcntl(plock->fd, F_OFD_SETLK, lock);
-> +#else
-> +	ret = fcntl(plock->fd, F_SETLK, lock);
-> +#endif
->   	if (ret == -1) {
->   		saverr = errno;
->   	}
+On Tue, 30 Jul 2019 at 12:24, Kevin Wolf <kwolf@redhat.com> wrote:
 >
-Might qemu_lock_fd()/qemu_unlock_fd() in util/osdep.c be useful to hide 
-this instead?
+> The following changes since commit ee9545ed1543020fba52fa5fb8f2b71c63e5389f:
+>
+>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-07-30 09:43:32 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 7cef3d1290c9d675deff95029ba78e51fb727125:
+>
+>   scsi-cd: Fix inserting read-only media in empty drive (2019-07-30 13:21:38 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - scsi-cd: Fix inserting read-only media in empty drive
+> - block/copy-on-read: Fix permissions for inactive node
+> - Test case fixes
+>
+> ----------------------------------------------------------------
+> Andrey Shinkevich (1):
+>       Fixes: add read-zeroes to 051.out
+>
+> Kevin Wolf (3):
+>       tests/multiboot: Fix load address of test kernels
+>       block/copy-on-read: Fix permissions for inactive node
+>       scsi-cd: Fix inserting read-only media in empty drive
 
-Regards,
-Liam
+
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
