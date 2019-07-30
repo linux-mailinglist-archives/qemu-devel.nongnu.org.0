@@ -2,57 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140537A7A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:06:16 +0200 (CEST)
-Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4CE37A7B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 14:08:16 +0200 (CEST)
+Received: from localhost ([::1]:60470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsQtT-0005lX-AJ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59428)
+	id 1hsQvQ-0007lF-5k
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 08:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pagupta@redhat.com>) id 1hsQsm-0004rA-VJ
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:34 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hsQuc-0007Ht-Bo
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:07:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pagupta@redhat.com>) id 1hsQsl-00019F-Jb
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34198)
+ (envelope-from <imammedo@redhat.com>) id 1hsQuZ-0001lf-4W
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:07:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36432)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hsQsl-00018p-Ad
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:05:31 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hsQuY-0001kj-T0
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 08:07:23 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A0F7B0CCB;
- Tue, 30 Jul 2019 12:05:30 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C9F0605A8;
- Tue, 30 Jul 2019 12:05:30 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
- (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 5A8A21806B01;
- Tue, 30 Jul 2019 12:05:30 +0000 (UTC)
-Date: Tue, 30 Jul 2019 08:05:29 -0400 (EDT)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <835647202.5426199.1564488329949.JavaMail.zimbra@redhat.com>
-In-Reply-To: <20190730114548.4ff4188b.cohuck@redhat.com>
-References: <20190730064658.27369-1-pagupta@redhat.com>
- <20190730114548.4ff4188b.cohuck@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 673F63179173
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 12:07:21 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-204-67.brq.redhat.com [10.40.204.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 880535D6B0;
+ Tue, 30 Jul 2019 12:07:20 +0000 (UTC)
+Date: Tue, 30 Jul 2019 14:07:18 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190730140718.4c7dbab0@Igors-MacBook-Pro>
+In-Reply-To: <20190726120542.9894-25-armbru@redhat.com>
+References: <20190726120542.9894-1-armbru@redhat.com>
+ <20190726120542.9894-25-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.116.177, 10.4.195.29]
-Thread-Topic: virtio pmem: user document
-Thread-Index: YB8Kh4j3lyLHqeerYOdlIJxC6YtgrA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 30 Jul 2019 12:05:30 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Tue, 30 Jul 2019 12:07:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] virtio pmem: user document
+Subject: Re: [Qemu-devel] [PATCH 24/28] Include sysemu/hostmem.h less
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,209 +56,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aarcange@redhat.com, riel@surriel.com, mst@redhat.com, david@redhat.com,
- qemu-devel@nongnu.org, lcapitulino@redhat.com, stefanha@redhat.com,
- nilal@redhat.com
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 26 Jul 2019 14:05:38 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
+> Move the HostMemoryBackend typedef from sysemu/hostmem.h to
+> qemu/typedefs.h.  This renders a few inclusions of sysemu/hostmem.h
+> superflouous; drop them.
+> 
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-> On Tue, 30 Jul 2019 12:16:57 +0530
-> Pankaj Gupta <pagupta@redhat.com> wrote:
-> 
-> > This patch documents the steps to use virtio pmem.
-> > It also documents other useful information about
-> > virtio pmem e.g use-case, comparison with Qemu NVDIMM
-> > backend and current limitations.
-> > 
-> > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-> > ---
-> >  docs/virtio-pmem.txt | 65 ++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 65 insertions(+)
-> >  create mode 100644 docs/virtio-pmem.txt
-> > 
-> > diff --git a/docs/virtio-pmem.txt b/docs/virtio-pmem.txt
-> 
-> Maybe make this ReST from the start? Should be trivial enough.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-o.k
+> ---
+>  hw/mem/nvdimm.c                 | 1 +
+>  hw/virtio/virtio-pmem.c         | 1 +
+>  include/hw/mem/pc-dimm.h        | 1 -
+>  include/hw/virtio/virtio-pmem.h | 1 -
+>  include/qemu/typedefs.h         | 1 +
+>  include/sysemu/hostmem.h        | 1 -
+>  6 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> index 6fefd65092..375f9a588a 100644
+> --- a/hw/mem/nvdimm.c
+> +++ b/hw/mem/nvdimm.c
+> @@ -30,6 +30,7 @@
+>  #include "hw/mem/nvdimm.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/mem/memory-device.h"
+> +#include "sysemu/hostmem.h"
+>  
+>  static void nvdimm_get_label_size(Object *obj, Visitor *v, const char *name,
+>                                    void *opaque, Error **errp)
+> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> index ff1a2ddb36..c0c9395e55 100644
+> --- a/hw/virtio/virtio-pmem.c
+> +++ b/hw/virtio/virtio-pmem.c
+> @@ -21,6 +21,7 @@
+>  #include "hw/virtio/virtio-access.h"
+>  #include "standard-headers/linux/virtio_ids.h"
+>  #include "standard-headers/linux/virtio_pmem.h"
+> +#include "sysemu/hostmem.h"
+>  #include "block/aio.h"
+>  #include "block/thread-pool.h"
+>  
+> diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
+> index 47b246f95c..289edc0f3d 100644
+> --- a/include/hw/mem/pc-dimm.h
+> +++ b/include/hw/mem/pc-dimm.h
+> @@ -17,7 +17,6 @@
+>  #define QEMU_PC_DIMM_H
+>  
+>  #include "exec/memory.h"
+> -#include "sysemu/hostmem.h"
+>  #include "hw/qdev-core.h"
+>  
+>  #define TYPE_PC_DIMM "pc-dimm"
+> diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-pmem.h
+> index 8bf2ae780f..33f1999320 100644
+> --- a/include/hw/virtio/virtio-pmem.h
+> +++ b/include/hw/virtio/virtio-pmem.h
+> @@ -16,7 +16,6 @@
+>  
+>  #include "hw/virtio/virtio.h"
+>  #include "qapi/qapi-types-misc.h"
+> -#include "sysemu/hostmem.h"
+>  
+>  #define TYPE_VIRTIO_PMEM "virtio-pmem"
+>  
+> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+> index 9e1283aacf..f569f5f270 100644
+> --- a/include/qemu/typedefs.h
+> +++ b/include/qemu/typedefs.h
+> @@ -33,6 +33,7 @@ typedef struct FWCfgEntry FWCfgEntry;
+>  typedef struct FWCfgIoState FWCfgIoState;
+>  typedef struct FWCfgMemState FWCfgMemState;
+>  typedef struct FWCfgState FWCfgState;
+> +typedef struct HostMemoryBackend HostMemoryBackend;
+>  typedef struct HVFX86EmulatorState HVFX86EmulatorState;
+>  typedef struct I2CBus I2CBus;
+>  typedef struct I2SCodec I2SCodec;
+> diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+> index 92fa0e458c..afeb5db1b1 100644
+> --- a/include/sysemu/hostmem.h
+> +++ b/include/sysemu/hostmem.h
+> @@ -27,7 +27,6 @@
+>  #define MEMORY_BACKEND_CLASS(klass) \
+>      OBJECT_CLASS_CHECK(HostMemoryBackendClass, (klass), TYPE_MEMORY_BACKEND)
+>  
+> -typedef struct HostMemoryBackend HostMemoryBackend;
+>  typedef struct HostMemoryBackendClass HostMemoryBackendClass;
+>  
+>  /**
 
-> 
-> > new file mode 100644
-> > index 0000000000..fc61eebb20
-> > --- /dev/null
-> > +++ b/docs/virtio-pmem.txt
-> > @@ -0,0 +1,65 @@
-> > +
-> > +QEMU virtio pmem
-> > +===================
-> > +
-> > + This document explains the usage of virtio pmem device
-> 
-> "setup and usage" ?
-
-o.k
-
-> 
-> > + which is available since QEMU v4.1.0.
-> > +
-> > + The virtio pmem is paravirtualized persistent memory device
-> 
-> "The virtio pmem device is a paravirtualized..."
-
-sure.
-
-> 
-> > + on regular(non-NVDIMM) storage.
-> > +
-> > +Usecase
-> > +--------
-> > +  Allows to bypass the guest page cache and directly use host page cache.
-> > +  This reduces guest memory footprint as host can make efficient memory
-> 
-> s/as host/,as the host/
-
-sure
-
-> 
-> > +  reclaim decisions under memory pressure.
-> > +
-> > +o How does virtio-pmem compare to the nvdimm emulation supported by QEMU?
-> > +
-> > +  NVDIMM emulation on regular(non-NVDIMM) host storage does not persists
-> 
-> s/regular(non-NVDIMM)/regular (i.e. non-NVDIMM)/ ?
-> s/persists/persist/
-
-yes, to both.
-
-> 
-> > +  the guest writes as there are no defined semantecs in the device
-> > specification.
-> 
-> s/semantecs/semantics/
-
-ah...spell checker :(
-
-> 
-> > +  With virtio pmem device, guest write persistence on non-NVDIMM storage
-> > is
-> > +  supported.
-> 
-> "The virtio pmem device provides a way to support guest write
-> persistence on non-NVDIMM storage." ?
-> 
-> > +
-> > +virtio pmem usage
-> > +-----------------
-> > +  virtio pmem device is created with a memory-backend-file with the below
-> > +  options:
-> 
-> "A virtio pmem device backed by a memory-backend-file can be created on
-> the QEMU command line as in the following example:" ?
-
-o.k
-
-> 
-> > +
-> > +  -machine pc -m 8G,slots=$N,maxmem=$MAX_SIZE
-> 
-> I'm not sure you should explicitly specify the machine type in this
-> example. I think it is fine to say that something is only supported on
-> a subset of machine types, but it should not make its way into an
-> example on how to configure a device and its backing.
-
-o.k
-
-> 
-> Also, maybe fill in more concrete values here? Or split it into a part
-> specifying the syntax (where I'd use <max_size> instead of $MAX_SIZE
-> etc.), and a more concrete example?
-
-o.k
-
-> 
-> > +  -object memory-backend-file,id=mem1,share,mem-path=$PATH,size=$SIZE
-> > +  -device virtio-pmem-pci,memdev=mem1,id=nv1
-> > +
-> > +   where:
-> > +   - "object
-> > memory-backend-file,id=mem1,share,mem-path=$PATH,size=$VIRTIO_PMEM_SIZE"
-> > +     creates a backend storage of size $SIZE on a file $PATH. All
-> > +     accesses to the virtio pmem device go to the file $PATH.
-> > +
-> > +   - "device virtio-pmem-pci,id=nvdimm1,memdev=mem1" creates a virtio pmem
-> > +     device whose storage is provided by above memory backend device.
-> 
-> "a virtio pmem PCI device" ?
-
-o.k
-
-> 
-> > +
-> > +  Multiple virtio pmem devices can be created if multiple pairs of
-> > "-object"
-> > +  and "-device" are provided.
-> > +
-> > +Hotplug
-> > +-------
-> > +Accomplished by two monitor commands "object_add" and "device_add".
-> 
-> Hm... what about the following instead:
-> 
-> "Virtio pmem devices can be hotplugged via the QEMU monitor. First, the
-> memory backing has to be added via 'object_add'; afterwards, the virtio
-> pmem device can be added via 'device_add'."
-
-o.k
-
-> 
-> > +
-> > +For example, the following commands add another 4GB virtio pmem device to
-> > +the guest:
-> > +
-> > + (qemu) object_add
-> > memory-backend-file,id=mem2,share=on,mem-path=virtio_pmem2.img,size=4G
-> > + (qemu) device_add virtio-pmem-pci,id=virtio_pmem2,memdev=mem2
-> > +
-> > +Guest Data Persistence
-> > +----------------------
-> > +Guest data persistence on non-NVDIMM requires guest userspace application
-> > to
-> 
-> s/application/applications/ ?
-> 
-> > +perform fsync/msync. This is different than real nvdimm backend where no
-> > additional
-> 
-> s/than/from a/ ?
-
-yes.
-
-> 
-> > +fsync/msync is required for data persistence.
-> 
-> Should we be a bit more verbose on what which guest applications are
-> supposed to do? I.e., how do they know they need to do fsync/msync,
-> when should they do it, and what are the consequences if they don't?
-
-o.k. 
-
-> 
-> > +
-> > +Limitations
-> > +------------
-> > +- Real nvdimm device backend is not supported.
-> > +- virtio pmem hotunplug is not supported.
-> > +- ACPI NVDIMM features like regions/namespaces are not supported.
-> > +- ndctl command is not supported.
-
-Thank you for the review.
-
-Best regards,
-Pankaj
-> 
-> 
-> 
 
