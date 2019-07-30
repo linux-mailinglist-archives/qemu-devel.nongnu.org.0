@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5FA7AFD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:27:27 +0200 (CEST)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 705147AFDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:28:42 +0200 (CEST)
+Received: from localhost ([::1]:34918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVuI-0000ua-Pn
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
+	id 1hsVvV-0004FG-Lw
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqT-0002DT-Jo
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:30 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hsVqZ-0002YK-KY
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqS-0001JR-Ie
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40192)
+ (envelope-from <eric.auger@redhat.com>) id 1hsVqY-0001M9-BT
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:26338)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hsVqQ-0001I1-3J; Tue, 30 Jul 2019 13:23:26 -0400
+ id 1hsVqV-0001Kb-GB; Tue, 30 Jul 2019 13:23:31 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4EB4D3082141;
- Tue, 30 Jul 2019 17:23:25 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BA747308218D;
+ Tue, 30 Jul 2019 17:23:30 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D57D60BE5;
- Tue, 30 Jul 2019 17:23:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A655160BE5;
+ Tue, 30 Jul 2019 17:23:25 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, mst@redhat.com, peter.maydell@linaro.org,
  alex.williamson@redhat.com, jean-philippe@linaro.org, kevin.tian@intel.com
-Date: Tue, 30 Jul 2019 19:21:33 +0200
-Message-Id: <20190730172137.23114-12-eric.auger@redhat.com>
+Date: Tue, 30 Jul 2019 19:21:34 +0200
+Message-Id: <20190730172137.23114-13-eric.auger@redhat.com>
 In-Reply-To: <20190730172137.23114-1-eric.auger@redhat.com>
 References: <20190730172137.23114-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Tue, 30 Jul 2019 17:23:25 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 30 Jul 2019 17:23:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 v10 11/15] virtio-iommu: Expose the
- IOAPIC MSI reserved region when relevant
+Subject: [Qemu-devel] [PATCH for-4.2 v10 12/15] virtio-iommu: Implement
+ fault reporting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,116 +61,156 @@ Cc: tn@semihalf.com, bharat.bhushan@nxp.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We introduce a new msi_bypass field which indicates whether
-the IOAPIC MSI window [0xFEE00000 - 0xFEEFFFFF] must be exposed
-as a reserved region. By default the field is set to true at
-instantiation time. Later on we will introduce a property at
-virtio pci proxy level to turn it off.
+The event queue allows to report asynchronous errors.
+The translate function now injects faults when relevant.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
+ hw/virtio/trace-events   |  1 +
+ hw/virtio/virtio-iommu.c | 67 ++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 65 insertions(+), 3 deletions(-)
 
-v8 -> v9:
-- pass IOAPIC_RANGE_END to virtio_iommu_register_resv_region
-- take into account the change in the struct virtio_iommu_probe_resv_mem
-  definition
-- We just introduce the field here. A property will be introduced later o=
-n
-  at pci proxy level.
----
- hw/virtio/virtio-iommu.c         | 36 ++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-iommu.h |  1 +
- 2 files changed, 37 insertions(+)
-
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 2e557dffb4..046290a971 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -77,3 +77,4 @@ virtio_iommu_unmap_inc_interval(uint64_t low, uint64_t =
+high) "Unmap inc [0x%"PRI
+ virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint3=
+2_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
+ virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_=
+t start, uint64_t end, uint32_t flags, size_t filled) "dev=3D %d, subtype=
+=3D%d start=3D0x%"PRIx64" end=3D0x%"PRIx64" flags=3D%d filled=3D0x%lx"
+ virtio_iommu_fill_none_property(uint32_t devid) "devid=3D%d"
++virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpo=
+int, uint64_t addr) "FAULT reason=3D%d flags=3D%d endpoint=3D%d address =3D=
+0x%"PRIx64
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 66be9a4627..74038288b0 100644
+index 74038288b0..8e54a17227 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -39,6 +39,9 @@
- #define VIOMMU_DEFAULT_QUEUE_SIZE 256
- #define VIOMMU_PROBE_SIZE 512
-=20
-+#define IOAPIC_RANGE_START      (0xfee00000)
-+#define IOAPIC_RANGE_END        (0xfeefffff)
-+
- #define SUPPORTED_PROBE_PROPERTIES (\
-     1 << VIRTIO_IOMMU_PROBE_T_RESV_MEM)
-=20
-@@ -100,6 +103,30 @@ static void virtio_iommu_detach_endpoint_from_domain=
-(viommu_endpoint *ep)
-     ep->domain =3D NULL;
+@@ -654,17 +654,63 @@ push:
+     }
  }
 =20
-+static void virtio_iommu_register_resv_region(viommu_endpoint *ep,
-+                                              uint8_t subtype,
-+                                              uint64_t start, uint64_t e=
-nd)
++static void virtio_iommu_report_fault(VirtIOIOMMU *viommu, uint8_t reaso=
+n,
++                                      uint32_t flags, uint32_t endpoint,
++                                      uint64_t address)
 +{
-+    viommu_interval *interval;
-+    struct virtio_iommu_probe_resv_mem *resv_reg_prop;
-+    size_t prop_size =3D sizeof(struct virtio_iommu_probe_resv_mem);
-+    size_t value_size =3D prop_size -
-+                sizeof(struct virtio_iommu_probe_property);
++    VirtIODevice *vdev =3D &viommu->parent_obj;
++    VirtQueue *vq =3D viommu->event_vq;
++    struct virtio_iommu_fault fault;
++    VirtQueueElement *elem;
++    size_t sz;
 +
-+    interval =3D g_malloc0(sizeof(*interval));
-+    interval->low =3D start;
-+    interval->high =3D end;
++    memset(&fault, 0, sizeof(fault));
++    fault.reason =3D reason;
++    fault.flags =3D flags;
++    fault.endpoint =3D endpoint;
++    fault.address =3D address;
 +
-+    resv_reg_prop =3D g_malloc0(prop_size);
-+    resv_reg_prop->head.type =3D VIRTIO_IOMMU_PROBE_T_RESV_MEM;
-+    resv_reg_prop->head.length =3D cpu_to_le64(value_size);
-+    resv_reg_prop->subtype =3D cpu_to_le64(subtype);
-+    resv_reg_prop->start =3D cpu_to_le64(start);
-+    resv_reg_prop->end =3D cpu_to_le64(end);
++    for (;;) {
++        elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement));
 +
-+    g_tree_insert(ep->reserved_regions, interval, resv_reg_prop);
++        if (!elem) {
++            virtio_error(vdev,
++                         "no buffer available in event queue to report e=
+vent");
++            return;
++        }
++
++        if (iov_size(elem->in_sg, elem->in_num) < sizeof(fault)) {
++            virtio_error(vdev, "error buffer of wrong size");
++            virtqueue_detach_element(vq, elem, 0);
++            g_free(elem);
++            continue;
++        }
++        break;
++    }
++    /* we have a buffer to fill in */
++    sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
++                      &fault, sizeof(fault));
++    assert(sz =3D=3D sizeof(fault));
++
++    trace_virtio_iommu_report_fault(reason, flags, endpoint, address);
++    virtqueue_push(vq, elem, sz);
++    virtio_notify(vdev, vq);
++    g_free(elem);
++
 +}
 +
- static viommu_endpoint *virtio_iommu_get_endpoint(VirtIOIOMMU *s,
-                                                   uint32_t ep_id)
+ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwadd=
+r addr,
+                                             IOMMUAccessFlags flag,
+                                             int iommu_idx)
  {
-@@ -117,6 +144,12 @@ static viommu_endpoint *virtio_iommu_get_endpoint(Vi=
-rtIOIOMMU *s,
-     ep->reserved_regions =3D g_tree_new_full((GCompareDataFunc)interval_=
-cmp,
-                                             NULL, (GDestroyNotify)g_free=
-,
-                                             (GDestroyNotify)g_free);
-+    if (s->msi_bypass) {
-+        virtio_iommu_register_resv_region(ep, VIRTIO_IOMMU_RESV_MEM_T_MS=
-I,
-+                                          IOAPIC_RANGE_START,
-+                                          IOAPIC_RANGE_END);
-+    }
+     IOMMUDevice *sdev =3D container_of(mr, IOMMUDevice, iommu_mr);
+     VirtIOIOMMU *s =3D sdev->viommu;
+-    uint32_t sid;
++    uint32_t sid, flags;
+     viommu_endpoint *ep;
+     viommu_mapping *mapping;
+     viommu_interval interval;
+     bool bypass_allowed;
++    bool read_fault, write_fault;
+=20
+     interval.low =3D addr;
+     interval.high =3D addr + 1;
+@@ -689,6 +735,8 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemo=
+ryRegion *mr, hwaddr addr,
+     if (!ep) {
+         if (!bypass_allowed) {
+             error_report("%s sid=3D%d is not known!!", __func__, sid);
++            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_UNKNOWN,
++                                      0, sid, 0);
+         } else {
+             entry.perm =3D flag;
+         }
+@@ -701,6 +749,8 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemo=
+ryRegion *mr, hwaddr addr,
+                           "%s %02x:%02x.%01x not attached to any domain\=
+n",
+                           __func__, PCI_BUS_NUM(sid),
+                           PCI_SLOT(sid), PCI_FUNC(sid));
++            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_DOMAIN,
++                                      0, sid, 0);
+         } else {
+             entry.perm =3D flag;
+         }
+@@ -712,14 +762,25 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMe=
+moryRegion *mr, hwaddr addr,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s no mapping for 0x%"PRIx64" for sid=3D%d\n",
+                       __func__, addr, sid);
++        virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
++                                  0, sid, addr);
+         goto unlock;
+     }
+=20
+-    if (((flag & IOMMU_RO) && !(mapping->flags & VIRTIO_IOMMU_MAP_F_READ=
+)) ||
+-        ((flag & IOMMU_WO) && !(mapping->flags & VIRTIO_IOMMU_MAP_F_WRIT=
+E))) {
++    read_fault =3D (flag & IOMMU_RO) &&
++                    !(mapping->flags & VIRTIO_IOMMU_MAP_F_READ);
++    write_fault =3D (flag & IOMMU_WO) &&
++                    !(mapping->flags & VIRTIO_IOMMU_MAP_F_WRITE);
 +
-     return ep;
- }
-=20
-@@ -822,6 +855,9 @@ static void virtio_iommu_set_status(VirtIODevice *vde=
-v, uint8_t status)
-=20
- static void virtio_iommu_instance_init(Object *obj)
- {
-+    VirtIOIOMMU *s =3D VIRTIO_IOMMU(obj);
-+
-+    s->msi_bypass =3D true;
- }
-=20
- static const VMStateDescription vmstate_virtio_iommu =3D {
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-=
-iommu.h
-index f55f48d304..56c8b4e57f 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -59,6 +59,7 @@ typedef struct VirtIOIOMMU {
-     GTree *domains;
-     QemuMutex mutex;
-     GTree *endpoints;
-+    bool msi_bypass;
- } VirtIOIOMMU;
-=20
- #endif
++    flags =3D read_fault ? VIRTIO_IOMMU_FAULT_F_READ : 0;
++    flags |=3D write_fault ? VIRTIO_IOMMU_FAULT_F_WRITE : 0;
++    if (flags) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Permission error on 0x%"PRIx64"(%d): allowed=3D%d=
+\n",
+                       addr, flag, mapping->flags);
++        flags |=3D VIRTIO_IOMMU_FAULT_F_ADDRESS;
++        virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
++                                  flags, sid, addr);
+         goto unlock;
+     }
+     entry.translated_addr =3D addr - mapping->virt_addr + mapping->phys_=
+addr;
 --=20
 2.20.1
 
