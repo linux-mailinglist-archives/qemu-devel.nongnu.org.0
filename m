@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194BC7A5A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:09:57 +0200 (CEST)
-Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62EB7A5B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:12:07 +0200 (CEST)
+Received: from localhost ([::1]:59386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsP4t-0006nk-T0
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39407)
+	id 1hsP71-00010y-3f
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:12:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39682)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hsP4M-0006AU-5U
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:09:23 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsP5t-0007yZ-Ih
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hsP4K-0003IP-OU
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:09:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37798)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hsP4H-0003GQ-PQ; Tue, 30 Jul 2019 06:09:17 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 85C74308FBAF;
- Tue, 30 Jul 2019 10:09:16 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-164.ams2.redhat.com
- [10.36.116.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7567219C67;
- Tue, 30 Jul 2019 10:09:15 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20190729164234.11573-1-kwolf@redhat.com>
- <874l34ghjm.fsf@dusky.pond.sub.org>
- <20190730082920.GA8134@localhost.localdomain>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0e04a847-bc0d-bd69-9dcc-f4c10f29d97d@redhat.com>
-Date: Tue, 30 Jul 2019 12:09:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <bounces@canonical.com>) id 1hsP5p-0004GO-EJ
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51542)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hsP5m-0004E4-3M
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:10:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hsP5k-0002H0-La
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:10:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D9FE2E80C7
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:10:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190730082920.GA8134@localhost.localdomain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PLmP3eD4EwlSi8eHomfqmWlHdS4m6NDJd"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 30 Jul 2019 10:09:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Jul 2019 09:54:38 -0000
+From: =?utf-8?b?RWxvdWFuIEFwcMOpcsOp?= <1838277@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: elouan-appere pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
+References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
+Message-Id: <156448047819.18729.748184267604470482.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: a6a4cb20cc0806e71c0bc19418da633a563e07e2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1] scsi-cd: Fix inserting read-only
- media in empty drive
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: msr
+ vbar_el2, xN not working in EL2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,167 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PLmP3eD4EwlSi8eHomfqmWlHdS4m6NDJd
-Content-Type: multipart/mixed; boundary="MNuqlgnxy43cHtldm3F12OKRPd3WLYpf2";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Message-ID: <0e04a847-bc0d-bd69-9dcc-f4c10f29d97d@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH for-4.1] scsi-cd: Fix inserting read-only
- media in empty drive
-References: <20190729164234.11573-1-kwolf@redhat.com>
- <874l34ghjm.fsf@dusky.pond.sub.org>
- <20190730082920.GA8134@localhost.localdomain>
-In-Reply-To: <20190730082920.GA8134@localhost.localdomain>
+Right, so basically I was working on https://github.com/Atmosphere-
+NX/Atmosphere/tree/hyp/thermosphere (make PLATFORM=3Dqemu qemudbg). This
+uses Arm Trusted Firmware.
 
---MNuqlgnxy43cHtldm3F12OKRPd3WLYpf2
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+While gdb now reports $VBAR_EL2 correctly (as opposed to what the title
+says), I observed the following effects:
 
-On 30.07.19 10:29, Kevin Wolf wrote:
-> Am 30.07.2019 um 08:31 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->>
->>> scsi-disks decides whether it has a read-only device by looking at
->>> whether the BlockBackend specified as drive=3D... is read-only. In th=
-e
->>> case of an anonymous BlockBackend (with a node name specified in
->>> drive=3D...), this is the read-only flag of the attached node. In the=
- case
->>> of an empty anonymous BlockBackend, it's always read-write because
->>> nothing prevented it from being read-write.
->>>
->>> This is a problem because scsi-cd would take write permissions on the=
+- at least before I fixed a bug in my exception handlers, I needed to
+add this JIT workaround I found by accident: https://github.com
+/Atmosphere-NX/Atmosphere/blob/hyp/thermosphere/src/start.s#L62 to get
+to main. Otherwise mov sp, x8 (with x8 aligned) crashed for no reason.
 
->>> anonymous BlockBackend of an empty drive created without a drive=3D..=
-=2E
->>> option. Using blockdev-insert-medium with a read-only node fails then=
+- VBAR_EL2 is/was loaded before msr VBAR_EL2, x8 despite data and
+instruction barriers
 
->>> with the error message "Block node is read-only".
->>>
->>> Fix scsi_realize() so that scsi-cd devices always take read-only
->>> permissions on their BlockBackend instead.
->>>
->>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1733920
->>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> ---
->>>  hw/scsi/scsi-disk.c | 10 ++++++++--
->>>  1 file changed, 8 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
->>> index 8e95e3e38d..af3e622dc5 100644
->>> --- a/hw/scsi/scsi-disk.c
->>> +++ b/hw/scsi/scsi-disk.c
->>> @@ -2318,6 +2318,7 @@ static void scsi_disk_unit_attention_reported(S=
-CSIDevice *dev)
->>>  static void scsi_realize(SCSIDevice *dev, Error **errp)
->>>  {
->>>      SCSIDiskState *s =3D DO_UPCAST(SCSIDiskState, qdev, dev);
->>> +    bool read_only;
->>> =20
->>>      if (!s->qdev.conf.blk) {
->>>          error_setg(errp, "drive property not set");
->>> @@ -2351,8 +2352,13 @@ static void scsi_realize(SCSIDevice *dev, Erro=
-r **errp)
->>>              return;
->>>          }
->>>      }
->>> -    if (!blkconf_apply_backend_options(&dev->conf,
->>> -                                       blk_is_read_only(s->qdev.conf=
-=2Eblk),
->>> +
->>> +    read_only =3D blk_is_read_only(s->qdev.conf.blk);
->>> +    if (dev->type =3D=3D TYPE_ROM) {
->>> +        read_only =3D true;
->>> +    }
->>> +
->>> +    if (!blkconf_apply_backend_options(&dev->conf, read_only,
->>>                                         dev->type =3D=3D TYPE_DISK, e=
-rrp)) {
->>>          return;
->>>      }
->>
->> For what it's worth, we have code similar to the one after this patch =
-in
->>
->> * ide_dev_initfn()
->>
->> * xen_block_realize()  (I guess)
->>
->> We have code similar to the one before this patch in
->>
->> * floppy_drive_realize()
->>
->>   I figure we avoid the problem by recomputing read-only on media
->>   change, in fd_change_cb().  Funny: looks like a medium's
->>   read-only-ness lingers after unload until the next medium is loaded.=
+- From 3.1 onwards (or after 2.11): VBAR_EL2 is correctly reported (p
+$VBAR_EL2 gives $1 =3D 0x60001000 as exepected, and the read value of
+PSTATE is 0x3c5) but **QEMU acts as if VBAR_EL2 was 0** depending on
+crash site (but still reports it correctly when jumping to 0+0x200)
+(there's a __builtin_trap() call in function main)
 
->=20
-> We may try to, but it looks something is broken for floppies.
->=20
-> The bug only came to my attention yesterday, so I haven't got a full
-> test case yet, but the half that I already have fails for floppy. I'll
-> look into this, but it was more important to me to get at least the
-> scsi-cd fix into 4.1.
->=20
->> * nvme_realize()
->>
->> * virtio_blk_device_realize()
->>
->> * scsi_generic_realize()
->>
->> * usb_msd_storage_realize()
->>
->> Are these all okay?  Should they work more like floppy?  If not, what
->> makes floppy special?
->=20
-> Most of them aren't relevant in this context because this is a problem
-> with removable media, and most devices don't support that. So as far as=
+Attached elf and binary & built Arm TF build. Run flags: -nographic
+-machine virt,secure=3Don,virtualization=3Don,gic-version=3D2 -cpu cortex-a=
+57
+-smp 4 -m 1024 -bios bl1.bin -d unimp -semihosting-config
+enable,target=3Dnative -serial mon:stdio
 
-> I know all we need to check is floppy, ATAPI and SCSI CD-ROM.
->=20
-> Floppy is special because it's the only read-write device that supports=
+** Attachment added: "program triggering jit bug"
+   https://bugs.launchpad.net/qemu/+bug/1838277/+attachment/5279996/+files/=
+example.zip
 
-> removable media (and you can insert a read-only floppy after ejecting a=
+** Summary changed:
 
-> read-write one or vice versa). CDs can be simpler because they are
-> always read-only.
+- qemu-system-aarch64: regression: msr vbar_el2, xN not working in EL2
++ qemu-system-aarch64: regression: TCG sometimes using wrong values for VBA=
+R_EL2 despite it being correctly reported to GDB
 
-There are also SD cards.
+-- =
 
-(The SD code just rejects read-only BBs, and it takes PERM_WRITE on it.
- So I suppose it=E2=80=99s good because this way you simply can never ins=
-ert
-read-only nodes.)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838277
 
-Max
+Title:
+  qemu-system-aarch64: regression: TCG sometimes using wrong values for
+  VBAR_EL2 despite it being correctly reported to GDB
 
+Status in QEMU:
+  New
 
---MNuqlgnxy43cHtldm3F12OKRPd3WLYpf2--
+Bug description:
+  Affects 3.1.0 (latest stable release) and latest commit
+  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
+  (qemu from bionic ubuntu LTS).
 
---PLmP3eD4EwlSi8eHomfqmWlHdS4m6NDJd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  With the following code and shell commands:
 
------BEGIN PGP SIGNATURE-----
+  test.s:
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1AF0kACgkQ9AfbAGHV
-z0DRzggAsYPcqvl6mtybi5rGw3keYHHER1o8jeSgNZFTlL/sFbBefLPLNTn0lXgh
-xR5vvogwW1Gbqw8JMQUVrxu3i76Q+A2QM+01ZsEAU0MMBHW51mOcTdiIGUCjmhbt
-7wO+PDjnaje2B8/VgTd0odOsFhzxgRBDpdbEXlJGuRvlo1rwkvUh+6K/44f+gu8D
-Gl2E5yi9F93UppKFicOJ70woUXr8Qif4wkUNnnsfUJ7Ve7Kx94rqv3lfnLUgat9P
-C9MsogQVIh7kQP7DFm+RvF5NgthjTtOCNzk8BhyKHCK7gvlr+3/o52wCV7ZAZL7j
-u/6TWlaPdRYtKRWiMDbaw+55lI6cRw==
-=x6Uf
------END PGP SIGNATURE-----
+  .text
+  mov x0, #0x60000000
+  msr vbar_el2, x0
+  dsb sy
+  isb sy
 
---PLmP3eD4EwlSi8eHomfqmWlHdS4m6NDJd--
+  $ aarch64-none-elf-as test.s -o test.o
+  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
+  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
+ortex-a57 -kernel test.bin -s -S
+
+  vbar_el2 is still 0 after the code, instead of being the expected
+  0x60000000. (see screenshot).
+
+  This regression doesn't seem to happen for vbar_el1 &
+  virtualization=3Doff.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
 
