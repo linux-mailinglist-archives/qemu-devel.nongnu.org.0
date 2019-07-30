@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F047A4A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 11:38:26 +0200 (CEST)
-Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F300D7A4F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 11:44:56 +0200 (CEST)
+Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsOaP-0003w4-IK
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 05:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
+	id 1hsOgi-0006bK-7l
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 05:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hsOZW-0002Z5-9v
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:37:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hsOgC-00069l-0Z
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:44:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hsOZV-0005oD-C1
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:37:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40350)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hsOZV-0005nj-4f
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:37:29 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 766B9B2DD1
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:37:28 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-45.ams2.redhat.com
- [10.36.117.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70B0719C65;
- Tue, 30 Jul 2019 09:37:27 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	mst@redhat.com,
-	ehabkost@redhat.com
-Date: Tue, 30 Jul 2019 10:37:19 +0100
-Message-Id: <20190730093719.12958-3-dgilbert@redhat.com>
-In-Reply-To: <20190730093719.12958-1-dgilbert@redhat.com>
-References: <20190730093719.12958-1-dgilbert@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hsOgA-0000rc-SK
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:44:23 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41468)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hsOgA-0000rH-Mq
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:44:22 -0400
+Received: by mail-ot1-x344.google.com with SMTP id o101so65611576ota.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 02:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hrR+BYqvD4LedGC9eN+HGEwdHBeOn6BbH9SmblDuc6Y=;
+ b=mKnk6IabvKg5uYjLvnoy1xqzMA/XVqjS+8OYrRiWM8bs+qQI7CI5vLFKPfMIochDka
+ JvJXr7vzrV4NhT5MjtgzlRAmaSxWiLTIIE4U/KjwV8RQ/FnnDzPNsbX0+XIEsyZamww9
+ 6KmCU8Xm3XtA+O6pG//XKCcnOe9ki9gUZEypLZG7cHfBEz8qatiyOkKPbpRzjZO4cSaL
+ 3A5VuiFUD+UyyRxK7nw6Pq/BMMBZPbDR7PbXWCHdVP3g2FKvcILw7VcXIhy+iyaM3/ft
+ FHafiPzmPbHptby8lE7eXlTlV/lCMv+Glkhc9pbY8WG/pZhUZ0Ui1idKkiWw0PJfLncj
+ 7yUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hrR+BYqvD4LedGC9eN+HGEwdHBeOn6BbH9SmblDuc6Y=;
+ b=pvJbiNxiaNcveflCSscYwe0eZD98U+WK9j33PJoWmaWOz4ntL8DIk+eiOqv7ek7IPt
+ FUNCaq4tFiqV9WPq1DOdnhCr51wgBErTpsahLzlJjziJyxjnfrzYYprx957xaSq2KWTx
+ a64lZIXYJnL+D2MbJ/egecAU9+IWDLB5v4/zeikGCmrkUnIhiupmI8SLrdYBMxKA8BlX
+ LLNiquHypcP6st7bxDsyIddLiFZlX3WpmGDnSBtSzTlfUahnb3Rpz6KgBXw4QRFEpgy5
+ HlU2yjKT2kFYDN60V4AU12s81jOgBYI7INaJXFIl80sMvT4IxHf49UrdL0AgTKrjr9bL
+ pH/Q==
+X-Gm-Message-State: APjAAAXljC7IPo1wvGfKXeBFtaNIu1Lrr3NzqfOOHXENm5M6KZiETJ9/
+ BrlU7lm1+vOPOd8w848I6ePJgatUlwRb3hKpNOcQAg==
+X-Google-Smtp-Source: APXvYqwl3kZrsVBjarPejDuQZllkMCItp0K0LTbd9Q6O7xW/g1DkQQ7usUIEYbfevlbhCrB+kDg1zVcsU02AMvaxbjU=
+X-Received: by 2002:a9d:4d81:: with SMTP id u1mr3464740otk.221.1564479861129; 
+ Tue, 30 Jul 2019 02:44:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 30 Jul 2019 09:37:28 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] pcie_root_port: Disable ACS on older
- machines
+References: <20190729211404.1533-1-mst@redhat.com>
+In-Reply-To: <20190729211404.1533-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jul 2019 10:44:10 +0100
+Message-ID: <CAFEAcA9VaKso4okcPOy_EMRDc_CSLSOjgNJ1LfkKbfu2cW7zfg@mail.gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PULL 0/3] virtio, pc: fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,48 +71,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Mon, 29 Jul 2019 at 22:16, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> I'm sending this out now as these patches are ready,
+> but it seems likely we'll need another patch for pci,
+> and as it deals with migration compat it might be a blocker.
+> Will know more tomorrow :(
+>
+>
+> The following changes since commit fff3159900d2b95613a9cb75fc3703e67a674729:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190726' into staging (2019-07-26 16:23:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to 22235bb609c18547cf6b215bad1f9d2ec56ad371:
+>
+>   pc-dimm: fix crash when invalid slot number is used (2019-07-29 16:57:27 -0400)
+>
+> ----------------------------------------------------------------
+> virtio, pc: fixes
+>
+> A couple of last minute bugfixes.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> ----------------------------------------------------------------
+> Dr. David Alan Gilbert (2):
+>       Revert "Revert "globals: Allow global properties to be optional""
+>       Revert "hw: report invalid disable-legacy|modern usage for virtio-1-only devs"
+>
+> Igor Mammedov (1):
+>       pc-dimm: fix crash when invalid slot number is used
+>
 
-ACS got added in 4.0 unconditionally,  that broke older<->4.0 migration
-where there was a PCIe root port.
-Fix this by turning it off for 3.1 and older machines; note this
-fixes compatibility for older QEMUs but breaks compatibility with 4.0
-for older machine types.
 
-    machine type    source qemu   dest qemu
-       3.1             3.1           4.0        broken
-       3.1             3.1           4.1rc2     broken
-       3.1             3.1           4.1+this   OK ++
-       3.1             4.0           4.1rc2     OK
-       3.1             4.0           4.1+this   broken --
-       4.0             4.0           4.1rc2     OK
-       4.0             4.0           4.1+this   OK
+Applied, thanks.
 
-So we gain and lose; the consensus seems to be treat this as a
-fix for older machine types.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hw/core/machine.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c58a8e594e..26a5f30e6d 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -52,6 +52,7 @@ GlobalProperty hw_compat_3_1[] =3D {
-     { "virtio-blk-device", "discard", "false" },
-     { "virtio-blk-device", "write-zeroes", "false" },
-     { "virtio-balloon-device", "qemu-4-0-config-size", "false" },
-+    { "pcie-root-port-base", "disable-acs", "true" }, /* Added in 4.1 */
- };
- const size_t hw_compat_3_1_len =3D G_N_ELEMENTS(hw_compat_3_1);
-=20
---=20
-2.21.0
-
+-- PMM
 
