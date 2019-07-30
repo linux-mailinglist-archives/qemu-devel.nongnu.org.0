@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3117AFC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:24:38 +0200 (CEST)
-Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5FA7AFD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 19:27:27 +0200 (CEST)
+Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVrZ-0003oc-Oy
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32883)
+	id 1hsVuI-0000ua-Pn
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 13:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqP-00022p-HH
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:27 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hsVqT-0002DT-Jo
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hsVqO-0001HL-1O
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32778)
+ (envelope-from <eric.auger@redhat.com>) id 1hsVqS-0001JR-Ie
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 13:23:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40192)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hsVqK-0001EO-JY; Tue, 30 Jul 2019 13:23:20 -0400
+ id 1hsVqQ-0001I1-3J; Tue, 30 Jul 2019 13:23:26 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DAD33308FC5F;
- Tue, 30 Jul 2019 17:23:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4EB4D3082141;
+ Tue, 30 Jul 2019 17:23:25 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-116-49.ams2.redhat.com [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7470960BE5;
- Tue, 30 Jul 2019 17:23:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D57D60BE5;
+ Tue, 30 Jul 2019 17:23:20 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, mst@redhat.com, peter.maydell@linaro.org,
  alex.williamson@redhat.com, jean-philippe@linaro.org, kevin.tian@intel.com
-Date: Tue, 30 Jul 2019 19:21:32 +0200
-Message-Id: <20190730172137.23114-11-eric.auger@redhat.com>
+Date: Tue, 30 Jul 2019 19:21:33 +0200
+Message-Id: <20190730172137.23114-12-eric.auger@redhat.com>
 In-Reply-To: <20190730172137.23114-1-eric.auger@redhat.com>
 References: <20190730172137.23114-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 30 Jul 2019 17:23:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Tue, 30 Jul 2019 17:23:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.2 v10 10/15] virtio-iommu: Implement
- probe request
+Subject: [Qemu-devel] [PATCH for-4.2 v10 11/15] virtio-iommu: Expose the
+ IOAPIC MSI reserved region when relevant
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,315 +61,116 @@ Cc: tn@semihalf.com, bharat.bhushan@nxp.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements the PROBE request. At the moment,
-no reserved regions are returned as none are registered
-per device. Only a NONE property is returned.
+We introduce a new msi_bypass field which indicates whether
+the IOAPIC MSI window [0xFEE00000 - 0xFEEFFFFF] must be exposed
+as a reserved region. By default the field is set to true at
+instantiation time. Later on we will introduce a property at
+virtio pci proxy level to turn it off.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
 ---
+
 v8 -> v9:
-- fix filling of properties (changes induced by v0.7 -> v0.8 spec
-  evolution)
-- return VIRTIO_IOMMU_S_INVAL in case of error
-
-v7 -> v8:
-- adapt to removal of value filed in virtio_iommu_probe_property
-
-v6 -> v7:
-- adapt to the change in virtio_iommu_probe_resv_mem fields
-- use get_endpoint() instead of directly checking the EP
-  was registered.
-
-v4 -> v5:
-- initialize bufstate.error to false
-- add cpu_to_le64(size)
+- pass IOAPIC_RANGE_END to virtio_iommu_register_resv_region
+- take into account the change in the struct virtio_iommu_probe_resv_mem
+  definition
+- We just introduce the field here. A property will be introduced later o=
+n
+  at pci proxy level.
 ---
- hw/virtio/trace-events   |   2 +
- hw/virtio/virtio-iommu.c | 168 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 168 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-iommu.c         | 36 ++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-iommu.h |  1 +
+ 2 files changed, 37 insertions(+)
 
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 8257065159..2e557dffb4 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -75,3 +75,5 @@ virtio_iommu_unmap_left_interval(uint64_t low, uint64_t=
- high, uint64_t next_low,
- virtio_iommu_unmap_right_interval(uint64_t low, uint64_t high, uint64_t =
-next_low, uint64_t next_high) "Unmap right [0x%"PRIx64",0x%"PRIx64"], new=
- interval=3D[0x%"PRIx64",0x%"PRIx64"]"
- virtio_iommu_unmap_inc_interval(uint64_t low, uint64_t high) "Unmap inc =
-[0x%"PRIx64",0x%"PRIx64"]"
- virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint3=
-2_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
-+virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_=
-t start, uint64_t end, uint32_t flags, size_t filled) "dev=3D %d, subtype=
-=3D%d start=3D0x%"PRIx64" end=3D0x%"PRIx64" flags=3D%d filled=3D0x%lx"
-+virtio_iommu_fill_none_property(uint32_t devid) "devid=3D%d"
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index a8de583f9a..66be9a4627 100644
+index 66be9a4627..74038288b0 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -37,6 +37,10 @@
-=20
- /* Max size */
+@@ -39,6 +39,9 @@
  #define VIOMMU_DEFAULT_QUEUE_SIZE 256
-+#define VIOMMU_PROBE_SIZE 512
+ #define VIOMMU_PROBE_SIZE 512
+=20
++#define IOAPIC_RANGE_START      (0xfee00000)
++#define IOAPIC_RANGE_END        (0xfeefffff)
 +
-+#define SUPPORTED_PROBE_PROPERTIES (\
-+    1 << VIRTIO_IOMMU_PROBE_T_RESV_MEM)
+ #define SUPPORTED_PROBE_PROPERTIES (\
+     1 << VIRTIO_IOMMU_PROBE_T_RESV_MEM)
 =20
- typedef struct viommu_domain {
-     uint32_t id;
-@@ -49,6 +53,7 @@ typedef struct viommu_endpoint {
-     viommu_domain *domain;
-     QLIST_ENTRY(viommu_endpoint) next;
-     VirtIOIOMMU *viommu;
-+    GTree *reserved_regions;
- } viommu_endpoint;
+@@ -100,6 +103,30 @@ static void virtio_iommu_detach_endpoint_from_domain=
+(viommu_endpoint *ep)
+     ep->domain =3D NULL;
+ }
 =20
- typedef struct viommu_interval {
-@@ -63,6 +68,13 @@ typedef struct viommu_mapping {
-     uint32_t flags;
- } viommu_mapping;
-=20
-+typedef struct viommu_property_buffer {
-+    viommu_endpoint *endpoint;
-+    size_t filled;
-+    uint8_t *start;
-+    bool error;
-+} viommu_property_buffer;
++static void virtio_iommu_register_resv_region(viommu_endpoint *ep,
++                                              uint8_t subtype,
++                                              uint64_t start, uint64_t e=
+nd)
++{
++    viommu_interval *interval;
++    struct virtio_iommu_probe_resv_mem *resv_reg_prop;
++    size_t prop_size =3D sizeof(struct virtio_iommu_probe_resv_mem);
++    size_t value_size =3D prop_size -
++                sizeof(struct virtio_iommu_probe_property);
 +
- static inline uint16_t virtio_iommu_get_sid(IOMMUDevice *dev)
++    interval =3D g_malloc0(sizeof(*interval));
++    interval->low =3D start;
++    interval->high =3D end;
++
++    resv_reg_prop =3D g_malloc0(prop_size);
++    resv_reg_prop->head.type =3D VIRTIO_IOMMU_PROBE_T_RESV_MEM;
++    resv_reg_prop->head.length =3D cpu_to_le64(value_size);
++    resv_reg_prop->subtype =3D cpu_to_le64(subtype);
++    resv_reg_prop->start =3D cpu_to_le64(start);
++    resv_reg_prop->end =3D cpu_to_le64(end);
++
++    g_tree_insert(ep->reserved_regions, interval, resv_reg_prop);
++}
++
+ static viommu_endpoint *virtio_iommu_get_endpoint(VirtIOIOMMU *s,
+                                                   uint32_t ep_id)
  {
-     return PCI_BUILD_BDF(pci_bus_num(dev->bus), dev->devfn);
-@@ -102,6 +114,9 @@ static viommu_endpoint *virtio_iommu_get_endpoint(Vir=
-tIOIOMMU *s,
-     ep->viommu =3D s;
-     trace_virtio_iommu_get_endpoint(ep_id);
-     g_tree_insert(s->endpoints, GUINT_TO_POINTER(ep_id), ep);
-+    ep->reserved_regions =3D g_tree_new_full((GCompareDataFunc)interval_=
+@@ -117,6 +144,12 @@ static viommu_endpoint *virtio_iommu_get_endpoint(Vi=
+rtIOIOMMU *s,
+     ep->reserved_regions =3D g_tree_new_full((GCompareDataFunc)interval_=
 cmp,
-+                                            NULL, (GDestroyNotify)g_free=
+                                             NULL, (GDestroyNotify)g_free=
 ,
-+                                            (GDestroyNotify)g_free);
+                                             (GDestroyNotify)g_free);
++    if (s->msi_bypass) {
++        virtio_iommu_register_resv_region(ep, VIRTIO_IOMMU_RESV_MEM_T_MS=
+I,
++                                          IOAPIC_RANGE_START,
++                                          IOAPIC_RANGE_END);
++    }
++
      return ep;
  }
 =20
-@@ -115,6 +130,7 @@ static void virtio_iommu_put_endpoint(gpointer data)
-     }
+@@ -822,6 +855,9 @@ static void virtio_iommu_set_status(VirtIODevice *vde=
+v, uint8_t status)
 =20
-     trace_virtio_iommu_put_endpoint(ep->id);
-+    g_tree_destroy(ep->reserved_regions);
-     g_free(ep);
- }
-=20
-@@ -348,6 +364,125 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
-     return VIRTIO_IOMMU_S_INVAL;
- }
-=20
-+/**
-+ * virtio_iommu_fill_resv_mem_prop - Add a RESV_MEM probe
-+ * property into the probe request buffer
-+ *
-+ * @key: interval handle
-+ * @value: handle to the reserved memory region
-+ * @data: handle to the probe request buffer state
-+ */
-+static gboolean virtio_iommu_fill_resv_mem_prop(gpointer key,
-+                                                gpointer value,
-+                                                gpointer data)
-+{
-+    struct virtio_iommu_probe_resv_mem *resv =3D
-+        (struct virtio_iommu_probe_resv_mem *)value;
-+    struct virtio_iommu_probe_resv_mem *buf_prop;
-+    viommu_property_buffer *bufstate =3D (viommu_property_buffer *)data;
-+    size_t prop_size =3D sizeof(*resv);
-+
-+    if (bufstate->filled + prop_size >=3D VIOMMU_PROBE_SIZE) {
-+        bufstate->error =3D true;
-+        /* get the traversal stopped by returning true */
-+        return true;
-+    }
-+    buf_prop =3D (struct virtio_iommu_probe_resv_mem *)
-+                (bufstate->start + bufstate->filled);
-+    *buf_prop =3D *resv;
-+
-+    bufstate->filled +=3D prop_size;
-+    trace_virtio_iommu_fill_resv_property(bufstate->endpoint->id,
-+                                          resv->subtype, resv->start,
-+                                          resv->end, resv->subtype,
-+                                          bufstate->filled);
-+    return false;
-+}
-+
-+static int virtio_iommu_fill_none_prop(viommu_property_buffer *bufstate)
-+{
-+    struct virtio_iommu_probe_property *prop;
-+
-+    prop =3D (struct virtio_iommu_probe_property *)
-+                (bufstate->start + bufstate->filled);
-+    prop->type =3D 0;
-+    prop->length =3D 0;
-+    bufstate->filled +=3D sizeof(*prop);
-+    trace_virtio_iommu_fill_none_property(bufstate->endpoint->id);
-+    return 0;
-+}
-+
-+/* Fill the properties[] buffer with properties of type @type */
-+static int virtio_iommu_fill_property(int type,
-+                                      viommu_property_buffer *bufstate)
-+{
-+    int ret =3D -ENOSPC;
-+
-+    if (bufstate->filled + sizeof(struct virtio_iommu_probe_property)
-+            >=3D VIOMMU_PROBE_SIZE) {
-+        /* no space left for the header */
-+        bufstate->error =3D true;
-+        goto out;
-+    }
-+
-+    switch (type) {
-+    case VIRTIO_IOMMU_PROBE_T_NONE:
-+        ret =3D virtio_iommu_fill_none_prop(bufstate);
-+        break;
-+    case VIRTIO_IOMMU_PROBE_T_RESV_MEM:
-+    {
-+        viommu_endpoint *ep =3D bufstate->endpoint;
-+
-+        g_tree_foreach(ep->reserved_regions,
-+                       virtio_iommu_fill_resv_mem_prop,
-+                       bufstate);
-+        if (!bufstate->error) {
-+            ret =3D 0;
-+        }
-+        break;
-+    }
-+    default:
-+        ret =3D -ENOENT;
-+        break;
-+    }
-+out:
-+    if (ret) {
-+        error_report("%s property of type=3D%d could not be filled (%d),=
-"
-+                     " remaining size =3D 0x%lx",
-+                     __func__, type, ret, bufstate->filled);
-+    }
-+    return ret;
-+}
-+
-+/**
-+ * virtio_iommu_probe - Fill the probe request buffer with all
-+ * the properties the device is able to return and add a NONE
-+ * property at the end. @buf points to properties[].
-+ */
-+static int virtio_iommu_probe(VirtIOIOMMU *s,
-+                              struct virtio_iommu_req_probe *req,
-+                              uint8_t *buf)
-+{
-+    uint32_t ep_id =3D le32_to_cpu(req->endpoint);
-+    viommu_endpoint *ep =3D virtio_iommu_get_endpoint(s, ep_id);
-+    int16_t prop_types =3D SUPPORTED_PROBE_PROPERTIES, type;
-+    viommu_property_buffer bufstate =3D {.start =3D buf, .filled =3D 0,
-+                                       .error =3D false, .endpoint =3D e=
-p};
-+
-+    while ((type =3D ctz32(prop_types)) !=3D 32) {
-+        if (virtio_iommu_fill_property(type, &bufstate)) {
-+            goto failure;
-+        }
-+        prop_types &=3D ~(1 << type);
-+    }
-+    if (virtio_iommu_fill_property(VIRTIO_IOMMU_PROBE_T_NONE, &bufstate)=
-) {
-+        goto failure;
-+    }
-+    return VIRTIO_IOMMU_S_OK;
-+failure:
-+    return VIRTIO_IOMMU_S_INVAL;
-+}
-+
- static int virtio_iommu_iov_to_req(struct iovec *iov,
-                                    unsigned int iov_cnt,
-                                    void *req, size_t req_sz)
-@@ -398,6 +533,17 @@ static int virtio_iommu_handle_unmap(VirtIOIOMMU *s,
-     return ret ? ret : virtio_iommu_unmap(s, &req);
- }
-=20
-+static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
-+                                     struct iovec *iov,
-+                                     unsigned int iov_cnt,
-+                                     uint8_t *buf)
-+{
-+    struct virtio_iommu_req_probe req;
-+    int ret =3D virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req))=
-;
-+
-+    return ret ? ret : virtio_iommu_probe(s, &req, buf);
-+}
-+
- static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *v=
-q)
+ static void virtio_iommu_instance_init(Object *obj)
  {
-     VirtIOIOMMU *s =3D VIRTIO_IOMMU(vdev);
-@@ -443,17 +589,33 @@ static void virtio_iommu_handle_command(VirtIODevic=
-e *vdev, VirtQueue *vq)
-         case VIRTIO_IOMMU_T_UNMAP:
-             tail.status =3D virtio_iommu_handle_unmap(s, iov, iov_cnt);
-             break;
-+        case VIRTIO_IOMMU_T_PROBE:
-+        {
-+            struct virtio_iommu_req_tail *ptail;
-+            uint8_t *buf =3D g_malloc0(s->config.probe_size + sizeof(tai=
-l));
++    VirtIOIOMMU *s =3D VIRTIO_IOMMU(obj);
 +
-+            ptail =3D (struct virtio_iommu_req_tail *)
-+                        (buf + s->config.probe_size);
-+            ptail->status =3D virtio_iommu_handle_probe(s, iov, iov_cnt,=
- buf);
-+
-+            sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
-+                              buf, s->config.probe_size + sizeof(tail));
-+            g_free(buf);
-+            assert(sz =3D=3D s->config.probe_size + sizeof(tail));
-+            goto push;
-+        }
-         default:
-             tail.status =3D VIRTIO_IOMMU_S_UNSUPP;
-         }
--        qemu_mutex_unlock(&s->mutex);
++    s->msi_bypass =3D true;
+ }
 =20
- out:
-         sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
-                           &tail, sizeof(tail));
-         assert(sz =3D=3D sizeof(tail));
+ static const VMStateDescription vmstate_virtio_iommu =3D {
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-=
+iommu.h
+index f55f48d304..56c8b4e57f 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -59,6 +59,7 @@ typedef struct VirtIOIOMMU {
+     GTree *domains;
+     QemuMutex mutex;
+     GTree *endpoints;
++    bool msi_bypass;
+ } VirtIOIOMMU;
 =20
--        virtqueue_push(vq, elem, sizeof(tail));
-+push:
-+        qemu_mutex_unlock(&s->mutex);
-+        virtqueue_push(vq, elem, sz);
-         virtio_notify(vdev, vq);
-         g_free(elem);
-     }
-@@ -608,6 +770,7 @@ static void virtio_iommu_device_realize(DeviceState *=
-dev, Error **errp)
-     s->config.input_range.end =3D -1UL;
-     s->config.domain_range.start =3D 0;
-     s->config.domain_range.end =3D 32;
-+    s->config.probe_size =3D VIOMMU_PROBE_SIZE;
-=20
-     virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
-     virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
-@@ -617,6 +780,7 @@ static void virtio_iommu_device_realize(DeviceState *=
-dev, Error **errp)
-     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
-     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
-     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
-+    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
-=20
-     qemu_mutex_init(&s->mutex);
-=20
+ #endif
 --=20
 2.20.1
 
