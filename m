@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774387B228
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 20:41:14 +0200 (CEST)
-Received: from localhost ([::1]:35700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DA87B236
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 20:42:56 +0200 (CEST)
+Received: from localhost ([::1]:35726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsX3h-0000Xp-Hl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 14:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47644)
+	id 1hsX5L-0002Yj-9f
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 14:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hsX2y-0008Sf-M2
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:40:29 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hsX43-0001Hd-Rz
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:41:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hsX2x-0003Un-JP
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:40:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37956)
+ (envelope-from <jsnow@redhat.com>) id 1hsX42-0004bg-R6
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:41:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32790)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hsX2v-0003RX-59; Tue, 30 Jul 2019 14:40:25 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hsX40-0004Yo-K6; Tue, 30 Jul 2019 14:41:32 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D62373018761;
- Tue, 30 Jul 2019 18:40:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CF59A309174E;
+ Tue, 30 Jul 2019 18:41:31 +0000 (UTC)
 Received: from [10.18.17.211] (dhcp-17-211.bos.redhat.com [10.18.17.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E918B5C1A1;
- Tue, 30 Jul 2019 18:40:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6EF719C67;
+ Tue, 30 Jul 2019 18:41:30 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20190730163251.755248-1-vsementsov@virtuozzo.com>
- <20190730163251.755248-2-vsementsov@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,21 +108,21 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <f13fdafd-34d2-3079-ab17-78cdb7e9f428@redhat.com>
-Date: Tue, 30 Jul 2019 14:40:22 -0400
+Message-ID: <c78b645a-e79b-1335-0e6e-44db4953417d@redhat.com>
+Date: Tue, 30 Jul 2019 14:41:30 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190730163251.755248-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20190730163251.755248-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 30 Jul 2019 18:40:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Tue, 30 Jul 2019 18:41:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/3] block/backup: deal with zero detection
+Subject: Re: [Qemu-devel] [PATCH 0/3] backup fixes for 4.1?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -143,84 +142,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 7/30/19 12:32 PM, Vladimir Sementsov-Ogievskiy wrote:
-> We have detect_zeroes option, so at least for blockdev-backup user
-> should define it if zero-detection is needed. For drive-backup leave
-> detection enabled by default but do it through existing option instead
-> of open-coding.
+> Hi all!
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup.c | 15 ++++++---------
->  blockdev.c     |  8 ++++----
->  2 files changed, 10 insertions(+), 13 deletions(-)
+> Here are two small fixes.
 > 
-> diff --git a/block/backup.c b/block/backup.c
-> index 715e1d3be8..f4aaf08df3 100644
-> --- a/block/backup.c
-> +++ b/block/backup.c
-> @@ -110,7 +110,10 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
->      BlockBackend *blk = job->common.blk;
->      int nbytes;
->      int read_flags = is_write_notifier ? BDRV_REQ_NO_SERIALISING : 0;
-> -    int write_flags = job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0;
-> +    int write_flags =
-> +            (job->serialize_target_writes ? BDRV_REQ_SERIALISING : 0) |
-> +            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
-> +
->  
->      assert(QEMU_IS_ALIGNED(start, job->cluster_size));
->      hbitmap_reset(job->copy_bitmap, start, job->cluster_size);
-> @@ -128,14 +131,8 @@ static int coroutine_fn backup_cow_with_bounce_buffer(BackupBlockJob *job,
->          goto fail;
->      }
->  
-> -    if (buffer_is_zero(*bounce_buffer, nbytes)) {
-> -        ret = blk_co_pwrite_zeroes(job->target, start,
-> -                                   nbytes, write_flags | BDRV_REQ_MAY_UNMAP);
-> -    } else {
-> -        ret = blk_co_pwrite(job->target, start,
-> -                            nbytes, *bounce_buffer, write_flags |
-> -                            (job->compress ? BDRV_REQ_WRITE_COMPRESSED : 0));
-> -    }
-> +    ret = blk_co_pwrite(job->target, start, nbytes, *bounce_buffer,
-> +                        write_flags);
->      if (ret < 0) {
->          trace_backup_do_cow_write_fail(job, start, ret);
->          if (error_is_read) {
-> diff --git a/blockdev.c b/blockdev.c
-> index 4d141e9a1f..a94d754504 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -3434,7 +3434,7 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
->      BlockJob *job = NULL;
->      BdrvDirtyBitmap *bmap = NULL;
->      AioContext *aio_context;
-> -    QDict *options = NULL;
-> +    QDict *options;
->      Error *local_err = NULL;
->      int flags, job_flags = JOB_DEFAULT;
->      int64_t size;
-> @@ -3529,10 +3529,10 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
->          goto out;
->      }
->  
-> +    options = qdict_new();
-> +    qdict_put_str(options, "discard", "unmap");
-> +    qdict_put_str(options, "detect-zeroes", "unmap");
->      if (backup->format) {
-> -        if (!options) {
-> -            options = qdict_new();
-> -        }
->          qdict_put_str(options, "driver", backup->format);
->      }
->  
+> 01 is not a degradation at all, so it's OK for 4.2
+> 02 is degradation of 3.0, so it's possibly OK for 4.2 too,
+>    but it seems to be real bug and fix is very simple, so,
+>    may be 4.1 is better
+> 
+> Or you may take the whole series to 4.1 if you want.
 > 
 
-I'm less sure of this one personally. Is it right to always try to set
-unmap on the target?
-
-I like the idea of removing special cases and handling things more
-centrally though, but I'll want Max (or Kevin) to take a peek.
+I think (1) and (2) can go in for stable after review, but they're not
+crucial for 4.1 especially at this late of a stage. Should be cataclysms
+only right now.
 
 --js
 
