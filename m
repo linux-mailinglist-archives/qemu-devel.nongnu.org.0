@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7911A7B2BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 20:55:55 +0200 (CEST)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE397B2D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 21:03:54 +0200 (CEST)
+Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsXHu-000899-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 14:55:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50055)
+	id 1hsXPd-0007Db-NH
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 15:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52010)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hsXGe-0006oM-F0
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:54:37 -0400
+ (envelope-from <eblake@redhat.com>) id 1hsXOo-0006eT-8Z
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 15:03:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hsXGd-0001I0-Hp
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 14:54:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40824)
+ (envelope-from <eblake@redhat.com>) id 1hsXOn-0002zV-9B
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 15:03:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51904)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hsXGb-0001Et-DC; Tue, 30 Jul 2019 14:54:33 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hsXOk-0002wH-S5; Tue, 30 Jul 2019 15:02:59 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B65FE8F01F;
- Tue, 30 Jul 2019 18:54:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E605D307D90D;
+ Tue, 30 Jul 2019 19:02:57 +0000 (UTC)
 Received: from [10.3.116.93] (ovpn-116-93.phx2.redhat.com [10.3.116.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B4DE19C67;
- Tue, 30 Jul 2019 18:54:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48DE3600CC;
+ Tue, 30 Jul 2019 19:02:57 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190730172508.19911-1-mreitz@redhat.com>
- <20190730172508.19911-8-mreitz@redhat.com>
+ <20190730172508.19911-9-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,22 +58,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <dc71a5c0-bc5f-fd94-cbdb-e537ea714e5b@redhat.com>
-Date: Tue, 30 Jul 2019 13:54:31 -0500
+Message-ID: <fdce3796-8a60-cf7e-cb07-72a21d226b94@redhat.com>
+Date: Tue, 30 Jul 2019 14:02:56 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190730172508.19911-8-mreitz@redhat.com>
+In-Reply-To: <20190730172508.19911-9-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="o9970V6sUUIIZA4Fec0K7PSQ6qtedfmNO"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="r1DwzP5QR8LipHnrIxEvtncEEidYJ3LOt"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 30 Jul 2019 18:54:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 30 Jul 2019 19:02:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 07/13] qcow2: Add
- qcow2_check_fix_snapshot_table()
+Subject: Re: [Qemu-devel] [PATCH for-4.2 08/13] qcow2: Fix broken snapshot
+ table entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,42 +90,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---o9970V6sUUIIZA4Fec0K7PSQ6qtedfmNO
-Content-Type: multipart/mixed; boundary="rOMOUKaGWd381RdC1zgTnvRKdAQdQTsRJ";
+--r1DwzP5QR8LipHnrIxEvtncEEidYJ3LOt
+Content-Type: multipart/mixed; boundary="AafbanJU0Dpx1nCNMHyZqYTsBuu91rqXb";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <dc71a5c0-bc5f-fd94-cbdb-e537ea714e5b@redhat.com>
-Subject: Re: [PATCH for-4.2 07/13] qcow2: Add qcow2_check_fix_snapshot_table()
+Message-ID: <fdce3796-8a60-cf7e-cb07-72a21d226b94@redhat.com>
+Subject: Re: [PATCH for-4.2 08/13] qcow2: Fix broken snapshot table entries
 References: <20190730172508.19911-1-mreitz@redhat.com>
- <20190730172508.19911-8-mreitz@redhat.com>
-In-Reply-To: <20190730172508.19911-8-mreitz@redhat.com>
+ <20190730172508.19911-9-mreitz@redhat.com>
+In-Reply-To: <20190730172508.19911-9-mreitz@redhat.com>
 
---rOMOUKaGWd381RdC1zgTnvRKdAQdQTsRJ
+--AafbanJU0Dpx1nCNMHyZqYTsBuu91rqXb
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 7/30/19 12:25 PM, Max Reitz wrote:
-> qcow2_check_read_snapshot_table() can perform consistency checks, but i=
-t
-> cannot fix everything.  Specifically, it cannot allocate new clusters,
-> because that should wait until the refcount structures are known to be
-> consistent (i.e., after qcow2_check_refcounts()).  Thus, it cannot call=
-
-> qcow2_write_snapshots().
->=20
-> Do that in qcow2_check_fix_snapshot_table(), which is called after
-> qcow2_check_refcounts().
->=20
-> Currently, there is nothing that would set result->corruptions, so this=
-
-> is a no-op.  A follow-up patch will change that.
+> The only case where we currently reject snapshot table entries is when
+> they have too much extra data.  Fix them with qemu-img check -r all by
+> counting it as a corruption, reducing their extra_data_size, and then
+> letting qcow2_check_fix_snapshot_table() do the rest.
 >=20
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
+>  block/qcow2-snapshot.c | 69 ++++++++++++++++++++++++++++++++++--------=
 
+>  1 file changed, 56 insertions(+), 13 deletions(-)
+>=20
+
+> @@ -112,16 +141,22 @@ int qcow2_read_snapshots(BlockDriverState *bs, Er=
+ror **errp)
+>          }
+> =20
+>          if (sn->extra_data_size > sizeof(extra)) {
+> -            /* Store unknown extra data */
+>              size_t unknown_extra_data_size =3D
+>                  sn->extra_data_size - sizeof(extra);
+> =20
+> -            sn->unknown_extra_data =3D g_malloc(unknown_extra_data_siz=
+e);
+> -            ret =3D bdrv_pread(bs->file, offset, sn->unknown_extra_dat=
+a,
+> -                             unknown_extra_data_size);
+> -            if (ret < 0) {
+> -                error_setg_errno(errp, -ret, "Failed to read snapshot =
+table");
+> -                goto fail;
+> +            if (discard_unknown_extra_data) {
+> +                /* Discard unknown extra data */
+> +                sn->extra_data_size =3D sizeof(extra);
+
+This truncates it down to just the data we know. Should it instead
+truncate down to the 1024 bytes of QCOW_MAX_SNAPSHOT_EXTRA_DATA defined
+in 2/13?  (We can't keep all of the user's extra stuff, but we can at
+least try to preserve as much as possible)
+
+Otherwise, looks good.
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
@@ -134,24 +156,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---rOMOUKaGWd381RdC1zgTnvRKdAQdQTsRJ--
+--AafbanJU0Dpx1nCNMHyZqYTsBuu91rqXb--
 
---o9970V6sUUIIZA4Fec0K7PSQ6qtedfmNO
+--r1DwzP5QR8LipHnrIxEvtncEEidYJ3LOt
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1AkmcACgkQp6FrSiUn
-Q2qmOggAgncyseqbfvRPI78/uczkWMZ0JJ6M+U9iFOuUs2hBeNY+hdpM9WBKFn3V
-UcLFTn8Aqo0LFfzQ7k7uhPauT2+Lc1SR2bIHoJeZhyiN+VNdYmHWowlvVXt7iX49
-oXARIWUDoE/kpSzebQzVd+Te5fznpRE6dbM7qyOKrBFgXtTfmw7q6wuu7wWyXs8W
-kLNrAlwS0weStiLiJelAaDIayMeypo5EKljFUTatbtrowiZixe0FU4uamtwFDZy9
-8g3WBlCWI5x+30JmNmwUcQvEi/A8oWZsxqv3ZFFx1X34GfIFNaTx17z2nIkEJWdm
-gveSINs25mY1j8AXInjCWSyDeJ6new==
-=oq3i
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1AlGAACgkQp6FrSiUn
+Q2qpUQf/UwFqWyQ6o24llndq2n5fnWfcfQ9xk+P7InKJlSli4aHRbs4O7tPvgt+4
+xdncnHMyb3w0gnPW/asQlh4tA9qAgobFu3Vc+5fj40koxz/f+CxBM5+kJXfGQPnE
+SeVzKJA3wshPTmUqrhMzV9luAaOhfSNT0J8f1h1GBO7keGVgWuzOoezczDmF6jxe
+fv3RbM7cw5XL0XktvuG943s3iQ9kbeokyFgJnGoWGF3VxuEGvNxBgpEnfJPvSARq
+qCZLwez81LiKGd+M0Jq5j6znSgSV2CvTGmAS7zZhQU7y4YWbs9UixhUGtJgakwGI
+3U8vU9uUc8q5sqqFpK8jp7eCViMShw==
+=efhF
 -----END PGP SIGNATURE-----
 
---o9970V6sUUIIZA4Fec0K7PSQ6qtedfmNO--
+--r1DwzP5QR8LipHnrIxEvtncEEidYJ3LOt--
 
