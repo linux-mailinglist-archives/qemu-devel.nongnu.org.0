@@ -2,40 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F55A7AD36
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:05:41 +0200 (CEST)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34E07AD39
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:05:58 +0200 (CEST)
+Received: from localhost ([::1]:34408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsUdA-0001qD-0E
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:05:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49227)
+	id 1hsUdR-0002mk-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49841)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hsUZd-0005Rs-RH
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:02:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hsUbc-00083M-Dz
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hsUZb-0005Zm-Hz
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:02:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:53310)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hsUZZ-0005Y8-Mj; Tue, 30 Jul 2019 12:01:59 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hsUZT-0001RG-68; Tue, 30 Jul 2019 19:01:51 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Tue, 30 Jul 2019 19:01:38 +0300
-Message-Id: <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1564502498-805893-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1564502498-805893-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 3/3] i386/kvm: initialize struct at full before
- ioctl call
+ (envelope-from <peter.maydell@linaro.org>) id 1hsUbb-0006Pk-AP
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:04 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35250)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hsUbb-0006PK-5Z
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:04:03 -0400
+Received: by mail-oi1-x242.google.com with SMTP id a127so48263204oii.2
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p6rUg7JRwuzV5vIRpzkVx7AjYDp1I9ZV/OKO75VF274=;
+ b=QosSbjyhYTZO6DgzPpmhlEh8VMyyKQxL5Ll7yki0WV6mS7dkY1QANeeuaucHm485SK
+ 3o6zv9f//snFvcpzowQKPqUiCqVVSNAimKGgBWAnbQ59DhQA8sIK8u7wjqMJDZO6iK0k
+ o3zJgQSgs0OKaf72ePkItXZyNOM+u+Ppcap2dJy/n2H5O6jno2f4wh4oKOoHhi0sNvK1
+ bJNM9JpO2VTcuzJHjk4uqLVscZ1bUIun3cmuS25fRshz2An85nmmjjBcI/pnceFH4yh1
+ /jD7piyKDmcfTjkCAHh+96gX3iZJ5lgdyHvn2nFrat6p4USDCIbLsR+MNgD9Lnlaloxy
+ wWlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p6rUg7JRwuzV5vIRpzkVx7AjYDp1I9ZV/OKO75VF274=;
+ b=kJEitR4FEE9YCqFMUUCOdggqz8SDSfJaSUF+qovp6Zow0B3MHnGHxQoeJRe2LpNWkX
+ ocJLmgspt86zJuA93KQ40yJ3sFg8LHqIv1tWuUhbB5DtT4ztXdiODv21rL0HNlezPudN
+ ZjoupwcGMmKjqNostwRV6ttPuXGUb0018dbe4whbapg3NUis/e2VlmqLhii/LovAglvg
+ vaDhFkIpfGuRwdFbxr6jrrWlkkDNU1jKMp7b2a2hnPZLQWlX0pnp9dTJYc7Gv+jv1Hvn
+ 6jlS7ydzcGkVP7EPYBrtqzh/hAFR/MrqJPDBTiKDfIcrbR/6MdyqP73akntoQ3JcZT+g
+ ic0w==
+X-Gm-Message-State: APjAAAWUl21bTYUYj4wF2HbXq5M5iQmWrJnLbavyRpP/junGOGuFQq36
+ cTTnnZ6uDZ1U3Zp56HKQjvk4/08WWWu75/UccWDdag==
+X-Google-Smtp-Source: APXvYqydYz7pPqlWXITgDzOqE5A+NchVbaWlJFh79opdaits/z5ehQyjBdlPobViPNROCCtG50GLrUkKeuUJ/Pqzphg=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr1434932oic.170.1564502642155; 
+ Tue, 30 Jul 2019 09:04:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190730153331.24515-1-kwolf@redhat.com>
+In-Reply-To: <20190730153331.24515-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jul 2019 17:03:51 +0100
+Message-ID: <CAFEAcA-zGqSLbXPEVtcDoE5nCBzns-7ozU_L=_nb-bqRUSeA_g@mail.gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] [PULL 0/2] fdc: Fix inserting read-only media in
+ empty drive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,50 +73,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berto@igalia.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mtosatti@redhat.com, mdroth@linux.vnet.ibm.com,
- armbru@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not the whole structure is initialized before passing it to the KVM.
-Reduce the number of Valgrind reports.
+On Tue, 30 Jul 2019 at 16:33, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 8517bf84056282ea3e27772d51f76db3a6fa2d26:
+>
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-07-30' into staging (2019-07-30 14:23:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 68174160144c9263366a4397ef8b417698e2735c:
+>
+>   iotests/118: Test inserting a read-only medium (2019-07-30 17:32:01 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - fdc: Fix inserting read-only media in empty drive
+>
+> ----------------------------------------------------------------
+> Kevin Wolf (2):
+>       fdc: Fix inserting read-only media in empty drive
+>       iotests/118: Test inserting a read-only medium
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- target/i386/kvm.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index dbbb137..ed57e31 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -190,6 +190,7 @@ static int kvm_get_tsc(CPUState *cs)
-         return 0;
-     }
- 
-+    memset(&msr_data, 0, sizeof(msr_data));
-     msr_data.info.nmsrs = 1;
-     msr_data.entries[0].index = MSR_IA32_TSC;
-     env->tsc_valid = !runstate_is_running();
-@@ -1706,6 +1707,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     if (has_xsave) {
-         env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
-+        memset(env->xsave_buf, 0, sizeof(struct kvm_xsave));
-     }
- 
-     max_nested_state_len = kvm_max_nested_state_length();
-@@ -3477,6 +3479,7 @@ static int kvm_put_debugregs(X86CPU *cpu)
-         return 0;
-     }
- 
-+    memset(&dbgregs, 0, sizeof(dbgregs));
-     for (i = 0; i < 4; i++) {
-         dbgregs.db[i] = env->dr[i];
-     }
--- 
-1.8.3.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
