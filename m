@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17097AE4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:45:40 +0200 (CEST)
-Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A767AE58
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:47:49 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsVFs-0001qm-2p
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:45:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54937)
+	id 1hsVHw-00031S-QR
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:47:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55242)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hsVFH-0001Fy-Mu
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:45:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hsVHE-0002XI-PM
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:47:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hsVFF-00073l-M2
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:45:03 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33442)
+ (envelope-from <peter.maydell@linaro.org>) id 1hsVHD-0007wL-QR
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:47:04 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37432)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hsVFE-00072w-M4
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:45:01 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n9so66629209wru.0
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:45:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hsVHD-0007w0-Lb
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:47:03 -0400
+Received: by mail-ot1-x342.google.com with SMTP id s20so1522434otp.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:47:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nUkRSKmD93EEaLhM8tNdzGVabn/OtuV4nTMemeBGWHA=;
+ b=V5/Z5B2nzOXRzWeTVqCQ55MDNnGl2HBP/bmAySM+cRNa4/YEL249lTHRJtrMJ50oNR
+ Svp3FBDGvcg1/d33ohc9PU3ZeKC2GaYBlYcZmTExS6rCcMpx/ClkjUkQg48AIwNcJI9I
+ 7SVk+g4H8EOmUdtHNOLsenD4OdTxNZQKLE4TZCVlwlcaGH3F343TRVAZH6YqDk+En/by
+ YyZ49xNI45na6CfxkJrOQiQRHbOSvLqCQO7HgqQ4bKb0l0mhWzA4K0YCPBE//BAQ3McB
+ PWsrL+VpOG8jlo4Md8AX+fbdb2ZAogEvbmeJSL2Rwzwy9w2JUh/CEUAd4yBA1Y+hW9zw
+ YbEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=44PWnsZlugzoF8OgUVXZACuqPGycODVBbu6h4inAI8o=;
- b=RNy0CBOZelP6cSuqp6SEVByQs0ATlfqEiQp6FJWqsETRlOGXTwj6kcQOLIbhc2f2KI
- +aKVvmiqEd3r20fwv9Ac34xj2mqSU5/jBRfXqYf+D9oBppDRnDyxwh3sT9E8l51fYuXJ
- YnGa6u7LaeWIvHrEFen+VXQJk1CSNGR4J915mcwa2c5WEN+58tckYiKpiLSfC4X2kNSz
- m0UezqV9Ol4zyvbynweTDk9TFPbVxzdagwWqK2Nu7KovZwbYvR7bzcw4DA82AcWLTHnV
- nbdsWqswIEROJxfB8sJb/YKCoJUAgSsJydSt1BFQMwSiWT5pBEsunl3H7zF59lWSS+hl
- IxNA==
-X-Gm-Message-State: APjAAAXDeQ9WA5ObeqSjdk7W9W6eJVjLHCYo16QcvspTDF+B+ObOk3u/
- fdVxK2RYtNo5ZmV0dfuvg9M0GQ==
-X-Google-Smtp-Source: APXvYqyxNaQbCpzEb+xWh4DJMWsbihpOAJ8VYcDfTamWG5R6SzfItdFfDyhi3S+O1mCc7qBb9fVfJQ==
-X-Received: by 2002:a5d:628d:: with SMTP id k13mr1679873wru.69.1564505099684; 
- Tue, 30 Jul 2019 09:44:59 -0700 (PDT)
-Received: from [192.168.43.238] (63.red-95-127-155.staticip.rima-tde.net.
- [95.127.155.63])
- by smtp.gmail.com with ESMTPSA id k124sm107600279wmk.47.2019.07.30.09.44.58
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 30 Jul 2019 09:44:59 -0700 (PDT)
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nUkRSKmD93EEaLhM8tNdzGVabn/OtuV4nTMemeBGWHA=;
+ b=IbbCNamDOrTUITVXHli33Tg2il7Lnl7Q+M56xNGNoCIzVr2GrSDdo1P/1ITGXB/jDn
+ 6DKdSfAkUyEX6sIBa5LvFB31oNnGm+Tr9Dn/a6gDpD7EPao3wr+PvYrRRLPa0YO83i09
+ pmCqFK1cVqDRgDZQ1oYkHfCFnbIYrGqUD4avhfe+Tp+nTtSrYOac0aN0hSkDXI9KM6XA
+ BfXvpicokAfsCylIkb9yRo900/oJgNuKuJR+BC73jr8OWBhPxikvFJd0xdCsX+HQZ1oA
+ YPMtmqiPtsY1cp55g01wK//08g2s7hQCp9NRaZPE/z3+9lFbT6Pn1XnonQRvPNWOjIb9
+ 8/wA==
+X-Gm-Message-State: APjAAAXwp1DAnAfLr0b/UcVgcLGOAjkiNXkAPbha+rjCwx7YnTsEBS+O
+ pnycVl7gjWa8DrYsHnY8Y/JCfPmDmmCYeth04rjLsg==
+X-Google-Smtp-Source: APXvYqyWW4S8ROi5zSb2O8UjWKsqQufpGz3Z+VohcQPodGtBNPBYt/C4m+kskBsFObP65wB6ekYyoLuC4mMlqVEv22M=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr80997084otj.97.1564505222637; 
+ Tue, 30 Jul 2019 09:47:02 -0700 (PDT)
+MIME-Version: 1.0
 References: <1564502498-805893-1-git-send-email-andrey.shinkevich@virtuozzo.com>
  <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <7a78ef04-4120-20d9-d5f4-6572c5676344@redhat.com>
-Date: Tue, 30 Jul 2019 18:44:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
 In-Reply-To: <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Jul 2019 17:46:51 +0100
+Message-ID: <CAFEAcA_M7kTA-tmdNdP4-pVjKkdzHFXuSeR3wKYSohK+W38m+Q@mail.gmail.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 Subject: Re: [Qemu-devel] [PATCH 3/3] i386/kvm: initialize struct at full
  before ioctl call
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,60 +73,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berto@igalia.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mtosatti@redhat.com, mdroth@linux.vnet.ibm.com,
- armbru@redhat.com, pbonzini@redhat.com, den@openvz.org, rth@twiddle.net
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, Qemu-block <qemu-block@nongnu.org>,
+ kvm-devel <kvm@vger.kernel.org>, Markus Armbruster <armbru@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/30/19 6:01 PM, Andrey Shinkevich wrote:
+On Tue, 30 Jul 2019 at 17:05, Andrey Shinkevich
+<andrey.shinkevich@virtuozzo.com> wrote:
+>
 > Not the whole structure is initialized before passing it to the KVM.
 > Reduce the number of Valgrind reports.
-> 
+>
 > Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->  target/i386/kvm.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index dbbb137..ed57e31 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -190,6 +190,7 @@ static int kvm_get_tsc(CPUState *cs)
->          return 0;
->      }
->  
-> +    memset(&msr_data, 0, sizeof(msr_data));
 
-I wonder the overhead of this one...
+Does it even make sense to try to valgrind a KVM-enabled run
+of QEMU? As soon as we run the guest it will make modifications
+to memory which Valgrind can't track; and I don't think
+Valgrind supports the KVM_RUN ioctl anyway...
 
->      msr_data.info.nmsrs = 1;
->      msr_data.entries[0].index = MSR_IA32_TSC;
->      env->tsc_valid = !runstate_is_running();
-> @@ -1706,6 +1707,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
->  
->      if (has_xsave) {
->          env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
-> +        memset(env->xsave_buf, 0, sizeof(struct kvm_xsave));
-
-OK
-
->      }
->  
->      max_nested_state_len = kvm_max_nested_state_length();
-> @@ -3477,6 +3479,7 @@ static int kvm_put_debugregs(X86CPU *cpu)
->          return 0;
->      }
->  
-> +    memset(&dbgregs, 0, sizeof(dbgregs));
-
-OK
-
->      for (i = 0; i < 4; i++) {
->          dbgregs.db[i] = env->dr[i];
->      }
-
-We could remove 'dbgregs.flags = 0;'
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+thanks
+-- PMM
 
