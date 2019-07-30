@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C27E7A9E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 15:42:27 +0200 (CEST)
-Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1987A9E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 15:43:32 +0200 (CEST)
+Received: from localhost ([::1]:33038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsSOY-0006mJ-Jx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 09:42:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51341)
+	id 1hsSPb-0008Lp-UO
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 09:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51571)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsSNr-0006Kc-OM
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:41:44 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hsSOg-0007LI-Vb
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:42:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsSNq-0007XO-Hs
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:41:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36652)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsSNq-0007Wd-19
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:41:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsSNn-0003MF-Nq
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 13:41:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 863192E80CC
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 13:41:39 +0000 (UTC)
+ (envelope-from <cohuck@redhat.com>) id 1hsSOg-0007vR-1F
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:42:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38420)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hsSOb-0007sD-RS; Tue, 30 Jul 2019 09:42:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3D27F3092647;
+ Tue, 30 Jul 2019 13:42:28 +0000 (UTC)
+Received: from gondolin (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABFF25D9E2;
+ Tue, 30 Jul 2019 13:42:11 +0000 (UTC)
+Date: Tue, 30 Jul 2019 15:42:09 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <20190730154209.2049f10a.cohuck@redhat.com>
+In-Reply-To: <20190729145654.14644-2-damien.hedde@greensocs.com>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-2-damien.hedde@greensocs.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jul 2019 13:28:02 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: elouan-appere pmaydell
-X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
- =?utf-8?q?e=29?=
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
-Message-Id: <156449328307.23216.8587213550866132496.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19010";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1354f8e3ce9d6d6cb37ae7f597d57d82e43e57a8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 30 Jul 2019 13:42:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression in
- 3.1: breakpoint instructions always routed to EL_D even when current EL is
- higher
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 01/33] Create Resettable QOM interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,52 +57,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, kraxel@redhat.com, edgar.iglesias@xilinx.com,
+ hare@suse.com, qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, marcandre.lureau@redhat.com, rth@twiddle.net,
+ thuth@redhat.com, ehabkost@redhat.com, alistair@alistair23.me,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com,
+ david@gibson.dropbear.id.au, berrange@redhat.com, mark.burton@greensocs.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just sent a patch out for review which I think should fix this:
-https://patchew.org/QEMU/20190730132522.27086-1-peter.maydell@linaro.org/
+On Mon, 29 Jul 2019 16:56:22 +0200
+Damien Hedde <damien.hedde@greensocs.com> wrote:
 
--- =
+(...)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838277
+> +/*
+> + * ResettableClass:
+> + * Interface for resettable objects.
+> + *
+> + * The reset operation is divided in several phases each represented by a
+> + * method.
+> + *
+> + * Each Ressetable must maintain a reset counter in its state, 3 methods allows
+> + * to interact with it.
+> + *
+> + * @phases.init: should reset local state only. Takes a bool @cold argument
+> + * specifying whether the reset is cold or warm. It must not do side-effect
+> + * on others objects.
 
-Title:
-  qemu-system-aarch64: regression in 3.1: breakpoint instructions always
-  routed to EL_D even when current EL is higher
+I'm having a hard time figuring out what a 'cold' or a 'warm' reset is
+supposed to be... can you add a definition/guideline somewhere?
 
-Status in QEMU:
-  New
+> + *
+> + * @phases.hold: side-effects action on others objects due to staying in a
+> + * resetting state.
+> + *
+> + * @phases.exit: leave the reset state, may do side-effects action on others
+> + * objects.
+> + *
+> + * @set_cold: Set whether the current reset is cold or warm. Return the
+> + * previous flag value. Return value has no meaning if @get_count returns
+> + * a zero value.
 
-Bug description:
-  Affects 3.1.0 (latest stable release) and latest commit
-  (893dc8300c80e3dc32f31e968cf7aa0904da50c3) but did *not* affect 2.11
-  (qemu from bionic ubuntu LTS).
+Same here.
 
-  With the following code and shell commands:
+> + *
+> + * @set_hold_needed: Set hold_needed flag. Return the previous flag value.
+> + *
+> + * @get_count: Get the current reset count
+> + * @increment_count: Increment the reset count, returns the new count
+> + * @decrement_count: decrement the reset count, returns the new count
+> + *
+> + * @foreach_child: Executes a given function on every Resettable child.
+> + * A child is not a QOM child, but a child a reset meaning.
+> + */
 
-  test.s:
-
-  .text
-  mov x0, #0x60000000
-  msr vbar_el2, x0
-  dsb sy
-  isb sy
-
-  $ aarch64-none-elf-as test.s -o test.o
-  $ aarch64-none-elf-objcopy -S -O binary test.o test.bin
-  $ qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -cpu c=
-ortex-a57 -kernel test.bin -s -S
-
-  vbar_el2 is still 0 after the code, instead of being the expected
-  0x60000000. (see screenshot).
-
-  This regression doesn't seem to happen for vbar_el1 &
-  virtualization=3Doff.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838277/+subscriptions
+(...)
 
