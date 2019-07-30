@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465437A387
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 11:01:02 +0200 (CEST)
-Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683087A3D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 11:17:02 +0200 (CEST)
+Received: from localhost ([::1]:59110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsO0D-0001DR-8E
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 05:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
+	id 1hsOFh-0005Je-KB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 05:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59946)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dinechin@redhat.com>) id 1hsNzT-0000l4-3A
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:00:16 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsOEX-0004aV-BH
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:15:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1hsNzR-0006M8-W7
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:00:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38212)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>)
- id 1hsNzP-0006Kb-Ch; Tue, 30 Jul 2019 05:00:11 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 419AC30ADC81;
- Tue, 30 Jul 2019 09:00:10 +0000 (UTC)
-Received: from ptitpuce (ovpn-116-130.ams2.redhat.com [10.36.116.130])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8A6F5D6D0;
- Tue, 30 Jul 2019 09:00:02 +0000 (UTC)
-References: <20190729164234.11573-1-kwolf@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.2
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190729164234.11573-1-kwolf@redhat.com>
-Date: Tue, 30 Jul 2019 11:00:00 +0200
-Message-ID: <m1y30foq27.fsf@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hsOEW-00069X-6a
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:15:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39714)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hsOEV-00069A-Lx
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 05:15:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hsOET-0003fZ-BA
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:15:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1893C2E80E1
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 09:15:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 30 Jul 2019 09:00:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 30 Jul 2019 09:01:29 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm raspi2
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aditya-govardhan
+X-Launchpad-Bug-Reporter: Aditya Govardhan (aditya-govardhan)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156377129036.14702.8663571503299830535.malonedeb@wampee.canonical.com>
+Message-Id: <156447729013.7808.16737404267635516804.launchpad@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19010";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 9002f1023f581b6d54ed1daabca3fb161fd5f8ec
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1] scsi-cd: Fix inserting read-only
- media in empty drive
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1837347] Re: guest userspace process core dump
+ after raspi2 kernel boot
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,69 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1837347 <1837347@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Summary changed:
 
-Kevin Wolf writes:
+- core dump after raspi2 kernel boot
++ guest userspace process core dump after raspi2 kernel boot
 
-> scsi-disks decides whether it has a read-only device by looking at
-> whether the BlockBackend specified as drive=... is read-only. In the
-> case of an anonymous BlockBackend (with a node name specified in
-> drive=...), this is the read-only flag of the attached node. In the case
-> of an empty anonymous BlockBackend, it's always read-write because
-> nothing prevented it from being read-write.
->
-> This is a problem because scsi-cd would take write permissions on the
-> anonymous BlockBackend of an empty drive created without a drive=...
-> option. Using blockdev-insert-medium with a read-only node fails then
-> with the error message "Block node is read-only".
->
-> Fix scsi_realize() so that scsi-cd devices always take read-only
-> permissions on their BlockBackend instead.
->
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1733920
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  hw/scsi/scsi-disk.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index 8e95e3e38d..af3e622dc5 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -2318,6 +2318,7 @@ static void scsi_disk_unit_attention_reported(SCSIDevice *dev)
->  static void scsi_realize(SCSIDevice *dev, Error **errp)
->  {
->      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
-> +    bool read_only;
->
->      if (!s->qdev.conf.blk) {
->          error_setg(errp, "drive property not set");
-> @@ -2351,8 +2352,13 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
->              return;
->          }
->      }
-> -    if (!blkconf_apply_backend_options(&dev->conf,
-> -                                       blk_is_read_only(s->qdev.conf.blk),
-> +
-> +    read_only = blk_is_read_only(s->qdev.conf.blk);
-> +    if (dev->type == TYPE_ROM) {
-> +        read_only = true;
-> +    }
+** Tags added: arm
 
-Is there a reason to check blk_is_read_only even for CD-ROM?
-If not, why not make it a "else"?
+-- =
 
-> +
-> +    if (!blkconf_apply_backend_options(&dev->conf, read_only,
->                                         dev->type == TYPE_DISK, errp)) {
->          return;
->      }
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1837347
 
+Title:
+  guest userspace process core dump after raspi2 kernel boot
 
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+Status in QEMU:
+  New
+
+Bug description:
+  Host info:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  x86-64, Ubuntu 18.04, QEMU 4.0.0 (downloaded tarball from main site)
+
+  Guest info:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  ARM7l, Raspbian OS off the main raspberry pi site
+
+  QEMU command:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  qemu-system-arm -M raspi2 -kernel bootpart/kernel7.img -dtb bootpart/bcm2=
+709-rpi-2-b.dtb -drive file=3D2019-07-10-raspbian-buster.img,format=3Draw,i=
+f=3Dsd -append "rw earlyprintk console=3DttyAMA0,115200 fsck.repair=3Dyes r=
+ootwait memtest=3D1 loglevel=3D8 dwc_otg.lpm_enable=3D0 root=3D/dev/mmcblk0=
+p2" -serial stdio
+
+  kernel7.img and bcm2709-rpi-2-b.dtb were obtained by the following
+  commands:
+
+  guestfish --ro -a 2019-07-10-raspbian-buster.img -m /dev/sda1
+  ><fs> copy-out / bootpart/
+  ><fs> quit
+
+  Output:
+  =3D=3D=3D=3D=3D=3D=3D
+
+  https://pastebin.com/fL1eXhV0
+
+  References:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  https://translatedcode.wordpress.com/2016/11/03/installing-debian-on-qemu=
+s-32-bit-arm-virt-board/
+  https://translatedcode.wordpress.com/2018/04/25/debian-on-qemus-raspberry=
+-pi-3-model/
+
+  =
+
+  The core dump error can occur at both times, before logging in and after =
+logging in, in this case I have given the output after logging in to show t=
+he initial processes running.
+
+  Also please let me know if I using any kernel flags incorrectly
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1837347/+subscriptions
 
