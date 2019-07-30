@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FC87B64F
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 01:40:08 +0200 (CEST)
-Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54B97B657
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 01:41:44 +0200 (CEST)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsbix-0006M9-5q
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 19:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57772)
+	id 1hsbkT-0000Z5-Lu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 19:41:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=10717eeaa=alistair.francis@wdc.com>)
- id 1hsbhP-0005JE-NH
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:38:32 -0400
+ id 1hsbhP-0005JF-U9
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:38:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=10717eeaa=alistair.francis@wdc.com>)
- id 1hsbhO-0001sl-Mr
+ id 1hsbhO-0001sg-MK
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:38:31 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2172)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2164)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=10717eeaa=alistair.francis@wdc.com>)
- id 1hsbhO-0001r8-DT; Tue, 30 Jul 2019 19:38:30 -0400
+ id 1hsbhN-0001jk-Vu; Tue, 30 Jul 2019 19:38:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1564529911; x=1596065911;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=TzSLaqGd1ijZpKYVZGyg4YDJEHLu4T6oDeS8B/digZY=;
- b=JnJhv33wo2q+MvYxc42I3et9SWKs1UP8Ey5K86LU0xEKHM7CUHYYHN/X
- gfgfDySa//bEE/tkSRteguuOq3PDa8e9/WUkDxitt23xKD5gTzXaknqt8
- SB0EI3P78kAHvrxk/8Y7WfzW8Yx5IB/Sohb1xeu0n7ebM7g6+bssUMXYl
- RFVcCKntGU6h1vIVSvzLrPtp04vXdyAbv5BCtKlYekN42JH7t2WcBNq+V
- aj373e4qNqlv+NEeRogAxowFwS8snm89pqRBr1tBqgi3EzPCRTKi+Ishe
- veROGgjAkOZuxJHI18e4EZZ1nNJMoVos3LOaLOuDlyc1Z0q4E6LfKOocR Q==;
-IronPort-SDR: +z5KeEronAc9zV9wGgxQ2fn5sUxKOJ8cPQQjh9l9LyLfKLn51FgEbspg+tQlw+sRUE5t06BQff
- F2OxtqcFZZR7LrGRQke8JHLx5YJi7OtVNGF1cr9VBSUPXBRQzpX2aXPImJGB64iLr4c2EfjcPX
- gMog6Gaifv69wSFMnXEq/XVWnKawS7mfypn098Wt4gzlUBQ274g8n+Iff74egrS0wTF9wBYI9d
- Rz43Z3KEIFd81M5kZm9EYr59tFJz0ixwu+HPuD8wnoW4dP+eNv+VPpUuHjEyQ13M2vAIoCm99p
- +n4=
-X-IronPort-AV: E=Sophos;i="5.64,327,1559491200"; d="scan'208";a="116132618"
+ t=1564529910; x=1596065910;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DdmPDvuvTdTMJK7ANSpW3TC2s/fLXf2JTxoSe9OWJVc=;
+ b=BwJbEPLm4HwnOZ/KYRYAVJDSPrYRsKTTm0C9TbWvGdrXBuITOKacdW1c
+ Q4W/p+VXPtZRgDbKBxNM5z63PTkkbwiUhhNkd0aQbuyXx2jHMnRXHqjvf
+ WxfyXshxzq0V5hM8AzfhYSmlQzSNIo17PZy9ZfEMGQ6iX0V7ObPvfzL7U
+ /UTW+YZ6X82trXYdB/c8R5cqIN9z2pC7f2faX28KjXT2rVkYFBr463YYj
+ g8XTzNvRzaHhMJPhMKH8J5cMOfTptDiygct6vyRidwoYDr24dfwVkQFZF
+ EQXH+re9kcGZVlgNko4nJsD47JjdXiotdZC3xMUGfk/X6IJBeLHKh5hqY Q==;
+IronPort-SDR: 0wGghUNN2SRApxTiKArB7nIsLMAiNMEP9eqIfyXnsn4JXvTJyHiJ2cM/7OdHQSUGAYgfK0XYiP
+ fCqyqxePA7mEuxJbWwk+mgZcvGR/Q5E+ZqvXkrFSkqMnQV+SiwVRTMmCETpL3dtqM7avx1fexk
+ rUWiaVZcYbeKJz+W+kuvu3E4+q5aqk+apDJp0TJTYsNNFqpfnRFXvn9vGT6MFnsVzKD9v8h/wu
+ 6yaGukSeKRNwaHchtc+trMomDjeAWjumWKdxeuKijmYq5iF3uXxndkCqTyFWFkN5n1qF9VlPVM
+ SJ4=
+X-IronPort-AV: E=Sophos;i="5.64,327,1559491200"; d="scan'208";a="116132614"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 31 Jul 2019 07:38:27 +0800
-IronPort-SDR: 20B4XNCxalkYbjm2YTXoAa/SILbAcDi7UmYdtD3JbBlM/wmYL24lJFIczfquqgHAhZfDtX8Zb/
- jjZsbvuxjgZGuESEyzRPfweivH7wIyKf0NV6J0u3pEFaRr82nmo9yDCpry9s+r9gXhQWHLQvu0
- N9zwCV5iQXh7ROgp1dnzPsOrM8BEg+/tB6G7PSTaKrIthZSL7zbe9wMvriycQg5OwMSgkGDGoi
- +Ihh4laNS3cWCZsjl+n2HNltYWEKNwtQ2PW1adE1c7xurkyXFvr2VNfZur2g6ogLlQyFpkrf0G
- iKbQSJ7dBDSENoAfQOyd4vM8
+ by ob1.hgst.iphmx.com with ESMTP; 31 Jul 2019 07:38:24 +0800
+IronPort-SDR: m5nSw+oijeum8U5S4D1QdSQ8koZ0hHnDa6dHR7v39UihpBJ8RvKPfkW8s419ASZx+gvWndmqdC
+ 19irL9S9xEAl005Z9fnGZaFUVEDlnWg4d7vtK/pAO3O35aHAlW595+c/3kvblqVzCxMPlKFJ69
+ BNSRUCBXlT61TpZOkb+6RHLiAjKkutCfsl3cVXVFhqvnjcykv/FzMlHtZ2wSfEP29vsJrJVmqL
+ 9iSBEfxYHP3jbqFyAN/uyF9z/jcEogerSO7VqzSbfjIZrS11xEopuWMLQEaTTdopadOD8XfiQo
+ QUSuTzoz0x0P6wHo+QCkitcH
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP; 30 Jul 2019 16:36:28 -0700
-IronPort-SDR: QHc8BU6VDFbEpaT4RGNLfWu7UO4GtqSGxx1ouVrcfMbLaZbnw5CZ7FhRr4MiuaWAt5fe7ikDDc
- 9o1Kv3A6i+eyk2mr3C9vXv1QFp2+FmFOi+R820HfyVzNWfO5LqwZq5fhjSOk21OLuTgEh3vzhb
- 90vucpeCHd2fZ9ubrRezOs1H3DW2Rvh4FYZBOvM2Vly8aIuSxaAWxQvPxP9NTU3eX00DSofIgb
- x6wQLzYq5OA+gbS2Xu37mgLKldSXnRkR2zjkBJ9MX227YxDepAdM3rs7s5c+q7xQIDgPMiNFMC
- EXE=
+ by uls-op-cesaep01.wdc.com with ESMTP; 30 Jul 2019 16:36:26 -0700
+IronPort-SDR: 1WZ2KjeSlkN0+yHP9/3Q4t2mu0J/a+pxC25zp2cOQYCHx7bbBaTsrheMjQEE7lg+6FTB5ZjkQv
+ 5PvyvP2PG3i3XP/l4NdjeyEF9j2TWojf9xw572/YM9SrcnRjPw2oQ7Jh5liZrXcAUt5/R2ykS/
+ H9RWQ79gxJIQ1aTphhYJw7uT4KHY4OJp3D3wZvQYOHOcqwUUQTR1D5bMMCTeQ5MsD5fu+UU7Eu
+ DbQpLmtj0rsWmmTW3TPLMIPLm1dkw7Boa7quieQJQaHuwwHlZ6mryclpya0EoiCKmwbdZMos++
+ 0K8=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.58])
- by uls-op-cesaip01.wdc.com with ESMTP; 30 Jul 2019 16:38:27 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 30 Jul 2019 16:38:24 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Tue, 30 Jul 2019 16:35:19 -0700
-Message-Id: <868a01ec5dd656f26ebb06d0b4313452f66206e3.1564529681.git.alistair.francis@wdc.com>
+Date: Tue, 30 Jul 2019 16:35:16 -0700
+Message-Id: <cover.1564529681.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1564529681.git.alistair.francis@wdc.com>
-References: <cover.1564529681.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.154.45
-Subject: [Qemu-devel] [PATCH-4.2 v2 1/5] target/riscv: Don't set write
- permissions on dirty PTEs
+Subject: [Qemu-devel] [PATCH-4.2 v2 0/5] RISC-V: Hypervisor prep work part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,33 +85,42 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setting write permission on dirty PTEs results in userspace inside a
-Hypervisor guest (VU) becoming corrupted. This appears to be because it
-ends up with write permission in the second stage translation in cases
-where we aren't doing a store.
+The first three patches are ones that I have pulled out of my original
+Hypervisor series at an attempt to reduce the number of patches in the
+series.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu_helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+These three patches all make sense without the Hypervisor series so can
+be merged seperatley and will reduce the review burden of the next
+version of the patches.
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index e32b6126af..f027be7f16 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -340,10 +340,8 @@ restart:
-             if ((pte & PTE_X)) {
-                 *prot |= PAGE_EXEC;
-             }
--            /* add write permission on stores or if the page is already dirty,
--               so that we TLB miss on later writes to update the dirty bit */
--            if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+            /* add write permission on stores */
-+            if ((pte & PTE_W) && (access_type == MMU_DATA_STORE)) {
-                 *prot |= PAGE_WRITE;
-             }
-             return TRANSLATE_SUCCESS;
+The fource patch is a prep patch for the new v0.4 Hypervisor spec.
+
+The final patch is unreleated to Hypervisor that I'm just slipping in
+here because it seems easier then sending it by itself.
+
+v2:
+ - Small corrections based on feedback
+ - Remove the CSR permission check patch
+
+
+Alistair Francis (4):
+  target/riscv: Don't set write permissions on dirty PTEs
+  riscv: plic: Remove unused interrupt functions
+  target/riscv: Create function to test if FP is enabled
+  target/riscv: Update the Hypervisor CSRs to v0.4
+
+Atish Patra (1):
+  target/riscv: Fix Floating Point register names
+
+ hw/riscv/sifive_plic.c         | 12 ------------
+ include/hw/riscv/sifive_plic.h |  3 ---
+ target/riscv/cpu.c             |  8 ++++----
+ target/riscv/cpu.h             |  6 +++++-
+ target/riscv/cpu_bits.h        | 35 +++++++++++++++++-----------------
+ target/riscv/cpu_helper.c      | 16 ++++++++++++----
+ target/riscv/csr.c             | 20 ++++++++++---------
+ 7 files changed, 50 insertions(+), 50 deletions(-)
+
 -- 
 2.22.0
 
