@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828C57A979
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 15:26:18 +0200 (CEST)
-Received: from localhost ([::1]:32886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B437A97D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 15:28:14 +0200 (CEST)
+Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsS8v-0005J5-P4
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 09:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47410)
+	id 1hsSAo-0007PB-0w
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 09:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47566)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hsS87-0004XE-N3
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:25:28 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hsS8i-0005KB-Ii
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:26:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hsS86-0007qx-E2
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:25:27 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35181)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hsS86-0007pW-7d
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:25:26 -0400
-Received: by mail-wm1-x344.google.com with SMTP id l2so56623883wmg.0
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 06:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=k60h7N7EIxaxf66BX3JejTtIWy6wazpW1QrSO9+z374=;
- b=SqQsgaYn4x7sPE1mhDmtKxdm3DwOJylh7+/jy+3XPBr2Gd1ivE9/I2YWQpej8mLirR
- SdBnu9+SbHWq61lOdbFQDyh3XlqVtJMuVn7m0pZmUlrIyJTdmjLAtCaAIbQnU5ZjXNB5
- C6QIw5OvyTIutOlN+pfvq/JNibzCBFdCmLkuH2Lto3VCqTIrbo8UeclYBN/oQA7XjuZA
- qAmrYFMi6qlfvuHyrIaXnzoFbNImm62lqvy0ZeXE63+OBr3uFlvI7pnY1Rou8T/05rZN
- LdMKwf8tVowaPordwBMPLdAdOQn+UjxzrRyA76EJOET6yvRzfyS6sVenSjK3mTy1FfKB
- EZhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=k60h7N7EIxaxf66BX3JejTtIWy6wazpW1QrSO9+z374=;
- b=TI+wj37XbcMszA2YAyF2NfCdivhBccjw2a55kB/WY+zhh+7YY4Wh9vaauv7w2JDVPC
- 1ofMibvZiIYBMVO1+30DS4iXSne+4WZKyFnqGm2ppe2aniDVzUP2HrYFkhXwchjA3xlw
- /J2+hZOTyNXsyicB3hBw4z5/I3Pe+5WtXMCb2eG4f/8vjU+p25Gt0dz8gtJOK2FI59f+
- bFDjYX3tChoRBH2PycDYOCkEUvXXiHC37vAGYJm/MQA8uj97nOiUKGpuHZonwdtnjYYG
- 3x7xfZLPydcU/PiEzH4POOB7N1m80/FJxKPjsQkl7ErQHM3xjVB4jVwbFe3PmEugjXpy
- g64w==
-X-Gm-Message-State: APjAAAVkjD/d6FrVxQFKdx76cTs8+MDkIVewSRjRiT7PcG4NWLkf/wyu
- GFzKU49n1NihJkidv/8S4Kyz/Q==
-X-Google-Smtp-Source: APXvYqzYshGyq5SwwStPFWF3ni4qtOvANH3e9PhZZLi5q2xpbc0RegCMuSsFffg39y+/Fb+lcjxF3Q==
-X-Received: by 2002:a1c:b457:: with SMTP id
- d84mr111200322wmf.153.1564493124885; 
- Tue, 30 Jul 2019 06:25:24 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f1sm44391896wml.28.2019.07.30.06.25.23
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 30 Jul 2019 06:25:24 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Tue, 30 Jul 2019 14:25:22 +0100
-Message-Id: <20190730132522.27086-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <imammedo@redhat.com>) id 1hsS8h-0008O9-Bo
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 09:26:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57172)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1hsS8h-0008Nh-3G; Tue, 30 Jul 2019 09:26:03 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2211E3082AEF;
+ Tue, 30 Jul 2019 13:26:02 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-204-67.brq.redhat.com [10.40.204.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FE2E19C70;
+ Tue, 30 Jul 2019 13:26:00 +0000 (UTC)
+Date: Tue, 30 Jul 2019 15:25:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190730152558.2e1aa23a@Igors-MacBook-Pro>
+In-Reply-To: <20190729175315.GK2756@work-vm>
+References: <20190729145229.4333-1-imammedo@redhat.com>
+ <20190729145229.4333-2-imammedo@redhat.com>
+ <20190729175315.GK2756@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH for-4.1?] target/arm: Deliver BKPT/BRK
- exceptions to correct exception level
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 30 Jul 2019 13:26:02 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH RFC 1/2] memory: make MemoryRegion alias
+ migratable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,69 +58,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: pbonzini@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most Arm architectural debug exceptions (eg watchpoints) are ignored
-if the configured "debug exception level" is below the current
-exception level (so for example EL1 can't arrange to get debug exceptions
-for EL2 execution). Exceptions generated by the BRK or BPKT instructions
-are a special case -- they must always cause an exception, so if
-we're executing above the debug exception level then we
-must take them to the current exception level.
+On Mon, 29 Jul 2019 18:53:15 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-This fixes a bug where executing BRK at EL2 could result in an
-exception being taken at EL1 (which is strictly forbidden by the
-architecture).
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > use qemu_ram_alloc_from_ptr() to create aliased RAMBlock
+> > to the part of original memory region.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  exec.c   | 7 ++++---
+> >  memory.c | 5 +++++
+> >  2 files changed, 9 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/exec.c b/exec.c
+> > index 3e78de3b8f..daef0cd54f 100644
+> > --- a/exec.c
+> > +++ b/exec.c
+> > @@ -2313,7 +2313,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+> >                                          new_block->used_length,
+> >                                          DIRTY_CLIENTS_ALL);
+> >  
+> > -    if (new_block->host) {
+> > +    if (new_block->host && !new_block->mr->alias) {
+> >          qemu_ram_setup_dump(new_block->host, new_block->max_length);
+> >          qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUGEPAGE);
+> >          /* MADV_DONTFORK is also needed by KVM in absence of synchronous MMU */
+> > @@ -2671,7 +2671,8 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+> >  
+> >      rcu_read_lock();
+> >      block = atomic_rcu_read(&ram_list.mru_block);
+> > -    if (block && block->host && host - block->host < block->max_length) {
+> > +    if (block && !block->mr->alias && block->host &&
+> > +        host - block->host < block->max_length) {
+> >          goto found;
+> >      }
+> >  
+> > @@ -2680,7 +2681,7 @@ RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
+> >          if (block->host == NULL) {
+> >              continue;
+> >          }
+> > -        if (host - block->host < block->max_length) {
+> > +        if (!block->mr->alias && host - block->host < block->max_length) {
+> >              goto found;
+> >          }
+> >      }
+> > diff --git a/memory.c b/memory.c
+> > index 5d8c9a9234..d710c17a26 100644
+> > --- a/memory.c
+> > +++ b/memory.c
+> > @@ -1678,6 +1678,11 @@ void memory_region_init_alias(MemoryRegion *mr,
+> >      memory_region_init(mr, owner, name, size);
+> >      mr->alias = orig;
+> >      mr->alias_offset = offset;
+> > +    if (orig->ram_block && size) {
+> > +        mr->ram_block = qemu_ram_alloc_from_ptr(size,
+> > +                                                orig->ram_block->host + offset,
+> > +                                                mr, &error_fatal);
+> > +    }
+> >  }
+> 
+> Doesn't this cause new memory regions to be created in other existing
+> machines, e.g. x86's mem-smram, or the various PCI vga hacks?
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1838277
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-At this point in the release cycle I'm not sure we should put this
-into 4.1 -- it is definitely a bug but it's not a regression as
-we've been wrong like this for multiple releases, pretty much
-since we put in the debug handling code I suspect.
+I'd guess you've meant RAMBlocks instead of memory regions, if that's it
+then yes, every alias pointing to RAM backed memory region will have
+RAMBlock that's points to aliased part of aliased memory region.
 
- target/arm/op_helper.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+(I didn't not intended to limit it to s390 only as it potentially
+ could be used for x86 initial memory refactoring as well)
+If it's issue we probably can address that by adding additional API
+  memory_region_alias_make_migratable()
+and call it on selected aliases, but the less APIs we have the better
+so I went for reusing exiting vmstate_register_ram_global().
 
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 1ab91f915e4..5e1625a1c8a 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -370,6 +370,9 @@ void HELPER(exception_with_syndrome)(CPUARMState *env, uint32_t excp,
-  */
- void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
- {
-+    int debug_el = arm_debug_target_el(env);
-+    int cur_el = arm_current_el(env);
-+
-     /* FSR will only be used if the debug target EL is AArch32. */
-     env->exception.fsr = arm_debug_exception_fsr(env);
-     /* FAR is UNKNOWN: clear vaddress to avoid potentially exposing
-@@ -377,7 +380,18 @@ void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
-      * exception/security level.
-      */
-     env->exception.vaddress = 0;
--    raise_exception(env, EXCP_BKPT, syndrome, arm_debug_target_el(env));
-+    /*
-+     * Other kinds of architectural debug exception are ignored if
-+     * they target an exception level below the current one (in QEMU
-+     * this is checked by arm_generate_debug_exceptions()). Breakpoint
-+     * instructions are special because they always generate an exception
-+     * to somewhere: if they can't go to the configured debug exception
-+     * level they are taken to the current exception level.
-+     */
-+    if (debug_el < cur_el) {
-+        debug_el = cur_el;
-+    }
-+    raise_exception(env, EXCP_BKPT, syndrome, debug_el);
- }
- 
- uint32_t HELPER(cpsr_read)(CPUARMState *env)
--- 
-2.20.1
+(I admit faking RAMBlock is a hack (albeit working one),
+ but my attempt to teach migration code to accept aliases directly didn't
+ work for me well and was very fragile, I don't remember specifics any more
+ and probably code as well since it was utter failure)
+
+PS:
+ this patch is by no means a complete one (I probably cut corners on cleanup path)
+ but should be sufficient to demo idea and see if it's acceptable.
+
+
+> Dave
+> >  
+> >  void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+> > -- 
+> > 2.18.1
+> > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
