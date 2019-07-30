@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464767A61E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:36:32 +0200 (CEST)
-Received: from localhost ([::1]:59536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09D87A61F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 12:36:33 +0200 (CEST)
+Received: from localhost ([::1]:59540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsPUd-0005ga-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43930)
+	id 1hsPUe-0005kH-UK
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 06:36:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43932)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsPTm-0004VG-Ov
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:35:39 -0400
+ (envelope-from <bounces@canonical.com>) id 1hsPTn-0004VH-00
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:35:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsPTl-0007nT-MW
+ (envelope-from <bounces@canonical.com>) id 1hsPTl-0007nb-TC
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:35:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56282)
+Received: from indium.canonical.com ([91.189.90.7]:56318)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsPTl-0007mp-HR
+ id 1hsPTl-0007n8-O6
  for qemu-devel@nongnu.org; Tue, 30 Jul 2019 06:35:37 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsPTj-00053r-LN
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:35:35 +0000
+ id 1hsPTk-00053T-Co
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:35:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A08BD2E80CC
- for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:35:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0682D2E80CC
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 10:35:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Jul 2019 10:24:51 -0000
+Date: Tue, 30 Jul 2019 10:26:15 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,13 +45,13 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
  =?utf-8?q?e=29?=
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <156441235921.17753.6613889826588806043.malonedeb@gac.canonical.com>
-Message-Id: <156448229146.23160.7111627030443464361.malone@chaenomeles.canonical.com>
+Message-Id: <156448237595.23160.18015532333863680959.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19010";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: dad079b2743fe5eafce7a80f46b5b8be6b8edf54
+X-Launchpad-Hash: c54f971afd9d65b1cbd12b9a3ed68a080afbf83c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1838277] Re: qemu-system-aarch64: regression: TCG
@@ -71,9 +71,9 @@ Reply-To: Bug 1838277 <1838277@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For me that test binary seems to work (with a QEMU built from upstream
-git commit 893dc8300c80e3dc32f3) : at least it boots and prints various
-messages ending with "Hello from Thermosphere!".
+If you want me to investigate whatever the issue with 'mov sp, x8'
+crashing is you'll need to provide a binary that demonstrates that
+problem, not one with a workaround in it.
 
 -- =
 
