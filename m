@@ -2,52 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE947AD41
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:07:47 +0200 (CEST)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D2B7ADC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Jul 2019 18:33:51 +0200 (CEST)
+Received: from localhost ([::1]:34542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsUfC-00066c-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50341)
+	id 1hsV4Q-00035d-E2
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 12:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hsUeK-0005Es-Fg
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:53 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hsV3b-0001n5-Q0
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:33:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hsUeJ-0007is-It
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:3057)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hsV3a-0002Wh-Sz
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:32:59 -0400
+Received: from relay.sw.ru ([185.231.240.75]:54200)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hsUeJ-0007hN-Cy
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 12:06:51 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 81819285AE;
- Tue, 30 Jul 2019 16:06:49 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.36.118.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF73160BF7;
- Tue, 30 Jul 2019 16:06:43 +0000 (UTC)
-To: Sergio Lopez <slp@redhat.com>, mst@redhat.com
-References: <20190729125755.45008-1-slp@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <932a0c3c-b6cb-540f-ca07-1559c8fe9049@redhat.com>
-Date: Tue, 30 Jul 2019 18:06:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20190729125755.45008-1-slp@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Tue, 30 Jul 2019 16:06:49 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] virtio-mmio: implement modern (v2)
- personality (virtio-1)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hsV3Y-0002Un-R2; Tue, 30 Jul 2019 12:32:56 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hsV3V-0001Yw-5M; Tue, 30 Jul 2019 19:32:53 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Date: Tue, 30 Jul 2019 19:32:48 +0300
+Message-Id: <20190730163251.755248-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH 0/3] backup fixes for 4.1?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,36 +43,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/29/19 14:57, Sergio Lopez wrote:
-> Implement the modern (v2) personality, according to the VirtIO 1.0
-> specification.
-> 
-> Support for v2 among guests is not as widespread as it'd be
-> desirable. While the Linux driver has had it for a while, support is
-> missing, at least, from Tianocore EDK II, NetBSD and FreeBSD.
+Hi all!
 
-That's right; not only are there no plans to implement virtio-mmio/1.0
-for OVMF (to my knowledge), I'd even argue against such efforts.
+Here are two small fixes.
 
-OVMF is a heavy-weight guest firmware, which I see entirely out of scope
-for "micro VMs". And so virtio-mmio/1.0 would seem like a needless &
-unwelcome complication, from the OVMF maintainership perspective.
+01 is not a degradation at all, so it's OK for 4.2
+02 is degradation of 3.0, so it's possibly OK for 4.2 too,
+   but it seems to be real bug and fix is very simple, so,
+   may be 4.1 is better
 
-(This should not be construed as an argument against "micro VMs" -- I
-always say, identify your use case, then pick the right components for
-it. I never try to convince people to use OVMF indiscriminately.)
+Or you may take the whole series to 4.1 if you want.
 
-> For this reason, the v2 personality is disabled, keeping the legacy
-> behavior as default. Machine types willing to use v2, can enable it
-> using MachineClass's compat_props.
+Vladimir Sementsov-Ogievskiy (3):
+  block/backup: deal with zero detection
+  block/backup: disable copy_range for compressed backup
+  block/backup: refactor write_flags
 
-This approach makes me happy (with the understanding that edk2 guest
-firmware is not going to target the new machine type(s) in question).
+ block/backup.c | 31 ++++++++++++++-----------------
+ blockdev.c     |  8 ++++----
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
-Thanks!
-Laszlo
+-- 
+2.18.0
+
 
