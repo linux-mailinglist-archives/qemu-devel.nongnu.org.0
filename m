@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749557B659
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 01:42:26 +0200 (CEST)
-Received: from localhost ([::1]:36832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80537B676
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 01:59:48 +0200 (CEST)
+Received: from localhost ([::1]:36896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsblB-0001KP-Na
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 19:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59750)
+	id 1hsc1z-0006mU-8C
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 19:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35103)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hsbiF-00062k-ID
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:39:25 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hsc1U-0006MK-I9
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:59:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hsbiC-0002XV-4u
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:39:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25744)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hsbi3-0002TR-RC
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:39:14 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6UNbCx8013092; Tue, 30 Jul 2019 19:39:05 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2u2wqdbxs2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Jul 2019 19:39:04 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6UNU8vA020671;
- Tue, 30 Jul 2019 23:39:03 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 2u0e85txv1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Jul 2019 23:39:03 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6UNd2PV34996606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Jul 2019 23:39:02 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97FF4C605A;
- Tue, 30 Jul 2019 23:39:02 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7FDBCC6055;
- Tue, 30 Jul 2019 23:39:02 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.212])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 30 Jul 2019 23:39:02 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <alistair23@gmail.com>) id 1hsc1T-00019H-BV
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:59:16 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:46703)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hsc1T-00016I-01
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 19:59:15 -0400
+Received: by mail-lf1-x141.google.com with SMTP id z15so41751681lfh.13
+ for <qemu-devel@nongnu.org>; Tue, 30 Jul 2019 16:59:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8ZFMaAAqODuPDpCUuDoy5gYJ4VcvCYwrP1IIPVEHIS0=;
+ b=se3lhPTvG3R/EMLwsQ+10hQhyos5oCPj7UzHcAdhAJmOYaV2MRBNKCys+06djOsCUz
+ rId5oBKc9F6Fvq03GAoivHVwPaNgbRLSLR02BfT5R6x53aISTFqvgz6Wf5Q+w/0iFNGr
+ z61QNN1nZXP4TnfXFtK8tMpHBkrxaTXXrE6Ffzi8l0SkU8adMHi413gTAwQ9Z7hR91Lj
+ Z0RnnCj8Mq4j672MSmsrYcfgQIUevPlfKENd0iWql9onV/R3508+DOOOL+rgTlBGZNo6
+ sSv+tZZtjurGUz9brwPqglLL9s+1kOZdU3zUY6AZBRCiobWBJEMWzSczx6cvYU+TZLsX
+ ErMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8ZFMaAAqODuPDpCUuDoy5gYJ4VcvCYwrP1IIPVEHIS0=;
+ b=r8NoetazwN4hUEh7o8bJFzRuPhAFWtmGbl5xGnlU2Q5PMMmff6Q05fpEKggvNaenQw
+ +D4yKAZy0qK6pXh5RIOohJHjv6k4uiIqH8zMikmt8l1UYRs8BuddD2U7AwLNiOaTW08l
+ X9z6ww4GYP7roFc+iyW9ydzbQPjFSnHVFKupW6FvcSvRy3yDqHaF+11LCC3MRbfVt5+t
+ 7FC7gHGcW7XQxhfrngHRyjUe1EHDG6j8J9pyz2857g2KijepKWYq2Fu8l4I+x2rjOo9n
+ bwzQfDv5zYwGHLeJBEu02+hJ0PxLtXNtb8bPKVsNh6QRvdIEqjD+H/mU3bfqQVCgnQWA
+ nFTQ==
+X-Gm-Message-State: APjAAAUyKX31/jINHoaqE8/Lppbg+4F3ulANnoSZhyy8ktRToOz+p+Xn
+ CxT3gh6IQ86EX6Z8916cmMdGXAFUVlESH1s5R5Q=
+X-Google-Smtp-Source: APXvYqxsRejNbONWuibEpW9AXKqQAoIq2frInITRoZ3UGnQOKeH79rGzf5kdrUW7NXTY7wDPtcEzfaeDLt6q2dfjEjs=
+X-Received: by 2002:a19:6904:: with SMTP id e4mr37485400lfc.156.1564531153276; 
+ Tue, 30 Jul 2019 16:59:13 -0700 (PDT)
 MIME-Version: 1.0
+References: <F94AE129-7994-48B1-8215-EF429990C512@espressif.com>
+In-Reply-To: <F94AE129-7994-48B1-8215-EF429990C512@espressif.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 30 Jul 2019 16:55:39 -0700
+Message-ID: <CAKmqyKMwm_-HK4=Yq8UiZW-NCE=7V1PL1ZkwCNZawQbc0dLzjw@mail.gmail.com>
+To: Ivan Grokhotkov <ivan@espressif.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-User-Agent: alot/0.7
-To: qemu-devel@nongnu.org
-Message-ID: <156452993884.16169.12168229409049273970@sif>
-Date: Tue, 30 Jul 2019 18:38:58 -0500
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-30_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907300239
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [ANNOUNCE] QEMU 4.1.0-rc3 is now available
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH] target/riscv: don't overwrite priv_version
+ and resetvec when realizing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,126 +74,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Tue, Jul 16, 2019 at 6:22 AM Ivan Grokhotkov <ivan@espressif.com> wrote:
+>
+> CPU-specific init functions (riscv_*_cpu_init) configure members of
+> CPURISCVState, such as priv_version and resetvec. However
+> riscv_cpu_realize unconditionally overwrites these members. The
+> result is that some CPUs (such as CPU_SIFIVE_U34) are getting created
+> with incorrect priv_version.
+>
+> Only set priv_version in riscv_cpu_realize if priv_spec property was
+> set. Don't set resetvec in riscv_cpu_realize, rely on the init
+> function to set it. Set default priv_version and resetvec in init
+> functions where this was missing.
+>
+> Signed-off-by: Ivan Grokhotkov <ivan@espressif.com>
+> ---
+> target/riscv/cpu.c | 12 +++++++-----
+> target/riscv/cpu.h |  1 +
+> 2 files changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f8d07bd20a..cded5bac22 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -110,7 +110,7 @@ static void riscv_any_cpu_init(Object *obj)
+> {
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+>      set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> -    set_priv_version(env, PRIV_VERSION_1_11_0);
+> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
+>      set_resetvec(env, DEFAULT_RSTVEC);
+> }
+>
+> @@ -119,6 +119,8 @@ static void riscv_any_cpu_init(Object *obj)
+> static void riscv_base32_cpu_init(Object *obj)
+> {
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
+> +       set_resetvec(env, DEFAULT_RSTVEC);
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-fourth release candidate for the QEMU 4.1 release.  This release is meant
-for testing purposes and should not be used in a production environment.
+Your indentation seems off (and in some other places as well).
 
-  http://download.qemu-project.org/qemu-4.1.0-rc3.tar.xz
-  http://download.qemu-project.org/qemu-4.1.0-rc3.tar.xz.sig
+Otherwise this patch looks fine.
 
-A note from the maintainer:
+Alistair
 
-  Unless there are any release critical bugs discovered, this
-  will be the last release candidate before final release of 4.1.0
-  on the 6th August. Otherwise we'll do an rc4 and release on
-  the 13th August.
-
-You can help improve the quality of the QEMU 4.1 release by testing this
-release and reporting bugs on Launchpad:
-
-  https://bugs.launchpad.net/qemu/
-
-The release plan, as well a documented known issues for release
-candidates, are available at:
-
-  http://wiki.qemu.org/Planning/4.1
-
-Please add entries to the ChangeLog for the 4.1 release below:
-
-  http://wiki.qemu.org/ChangeLog/4.1
-
-Thank you to everyone involved!
-
-Changes since rc2:
-
-3bd6cbbb18: Update version for v4.1.0-rc3 release (Peter Maydell)
-c8557f1b48: pcie_root_port: Disable ACS on older machines (Dr. David Alan G=
-ilbert)
-a58dfba201: pcie_root_port: Allow ACS to be disabled (Dr. David Alan Gilber=
-t)
-987a232242: target/arm: Deliver BKPT/BRK exceptions to correct exception le=
-vel (Peter Maydell)
-6817416014: iotests/118: Test inserting a read-only medium (Kevin Wolf)
-0b9e918f03: fdc: Fix inserting read-only media in empty drive (Kevin Wolf)
-1120407bdf: nvme: Limit blkshift to 12 (for 4 kB blocks) (Max Reitz)
-7cef3d1290: scsi-cd: Fix inserting read-only media in empty drive (Kevin Wo=
-lf)
-2b23f28639: block/copy-on-read: Fix permissions for inactive node (Kevin Wo=
-lf)
-251071e0c0: Fixes: add read-zeroes to 051.out (Andrey Shinkevich)
-6078a0b64f: tests/multiboot: Fix load address of test kernels (Kevin Wolf)
-22235bb609: pc-dimm: fix crash when invalid slot number is used (Igor Mamme=
-dov)
-dd56040d29: Revert "hw: report invalid disable-legacy|modern usage for virt=
-io-1-only devs" (Dr. David Alan Gilbert)
-92fd453c67: Revert "Revert "globals: Allow global properties to be optional=
-"" (Dr. David Alan Gilbert)
-ff656fcd33: i386: Fix Snowridge CPU model name and features (Paul Lai)
-f77bed14f0: net/colo-compare.c: Fix memory leak and code style issue. (Zhan=
-g Chen)
-389abe1dd1: net: tap: replace snprintf with g_strdup_printf calls (Prasad J=
- Pandit)
-3283dde4b5: qemu-bridge-helper: move repeating code in parse_acl_file (Pras=
-ad J Pandit)
-6f5d867122: qemu-bridge-helper: restrict interface name to IFNAMSIZ (Prasad=
- J Pandit)
-f46efa9b08: e1000: don't raise interrupt in pre_save() (Jason Wang)
-8d216d8c53: xics/kvm: Fix fallback to emulated XICS (Greg Kurz)
-f5bda01066: spapr/irq: Inform the user when falling back to emulated IC (Gr=
-eg Kurz)
-75ea2529cf: riscv/boot: Fixup the RISC-V firmware warning (Alistair Francis)
-5bfce0b74f: linux-user: Make sigaltstack stacks per-thread (Peter Maydell)
-67505c114e: hw/arm/boot: Further improve initrd positioning code (Peter May=
-dell)
-d5fef92f6a: hw/arm/boot: Rename elf_{low, high}_addr to image_{low, high}_a=
-ddr (Peter Maydell)
-0c413ba0d8: vmstate.h: Type check VMSTATE_STRUCT_VARRAY macros (Peter Mayde=
-ll)
-372e458ebc: stellaris_input: Fix vmstate description of buttons field (Pete=
-r Maydell)
-830fc739d0: pl330: fix vmstate description (Damien Hedde)
-7e095e84ba: tpm_emulator: Translate TPM error codes to strings (Stefan Berg=
-er)
-1b47b37c33: virtio-balloon: free pbp more aggressively (Michael S. Tsirkin)
-bcfd16fe26: tpm: Exit in reset when backend indicates failure (Stefan Berge=
-r)
-9a7ca8a7c9: virtio-balloon: don't track subpages for the PBP (David Hildenb=
-rand)
-a8cd64d488: virtio-balloon: Use temporary PBP only (David Hildenbrand)
-1c5cfc2b71: virtio-balloon: Rework pbp tracking data (David Hildenbrand)
-e6129b271b: virtio-balloon: Better names for offset variables in inflate/de=
-flate code (David Hildenbrand)
-2ffc49eea1: virtio-balloon: Simplify deflate with pbp (David Hildenbrand)
-483f13524b: virtio-balloon: Fix QEMU crashes on pagesize > BALLOON_PAGE_SIZ=
-E (David Hildenbrand)
-ffa207d082: virtio-balloon: Fix wrong sign extension of PFNs (David Hildenb=
-rand)
-ee4b0c8686: i386/acpi: show PCI Express bus on pxb-pcie expanders (Evgeny Y=
-akovlev)
-be1927c97e: ioapic: kvm: Skip route updates for masked pins (Jan Kiszka)
-21e2acd583: i386/acpi: fix gint overflow in crs_range_compare (Evgeny Yakov=
-lev)
-df98d7ccc2: docs: clarify multiqueue vs multiple virtqueues (Stefan Hajnocz=
-i)
-6ef2d01abf: MAINTAINERS: vfio-ccw: Remove myself as the maintainer (Farhan =
-Ali)
-f193bc0c53: migration: fix migrate_cancel multifd migration leads destinati=
-on hung forever (Ivan Ren)
-3c3ca25d1f: migration: Make explicit that we are quitting multifd (Juan Qui=
-ntela)
-a3ec6b7d23: migration: fix migrate_cancel leads live_migration thread hung =
-forever (Ivan Ren)
-713f762a31: migration: fix migrate_cancel leads live_migration thread endle=
-ss loop (Ivan Ren)
-6baabe5cf8: docs: correct kconfig option (Marc-Andr=C3=A9 Lureau)
-bec7156a45: i386/kvm: Do not sync nested state during runtime (Jan Kiszka)
-9c5aad84da: virtio-scsi: fixed virtio_scsi_ctx_check failed when detaching =
-scsi disk (Zhengui li)
-
+>      /* We set this in the realise function */
+>      set_misa(env, 0);
+> }
+> @@ -157,6 +159,8 @@ static void rv32imacu_nommu_cpu_init(Object *obj)
+> static void riscv_base64_cpu_init(Object *obj)
+> {
+>      CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> +    set_priv_version(env, PRIV_VERSION_DEFAULT);
+> +       set_resetvec(env, DEFAULT_RSTVEC);
+>      /* We set this in the realise function */
+>      set_misa(env, 0);
+> }
+> @@ -316,7 +320,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
+ **errp)
+>      RISCVCPU *cpu =3D RISCV_CPU(dev);
+>      CPURISCVState *env =3D &cpu->env;
+>      RISCVCPUClass *mcc =3D RISCV_CPU_GET_CLASS(dev);
+> -    int priv_version =3D PRIV_VERSION_1_11_0;
+> +    int priv_version =3D PRIV_VERSION_DEFAULT;
+>      target_ulong target_misa =3D 0;
+>      Error *local_err =3D NULL;
+>
+> @@ -339,11 +343,9 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+>                         cpu->cfg.priv_spec);
+>              return;
+>          }
+> +        set_priv_version(env, priv_version);
+>      }
+>
+> -    set_priv_version(env, priv_version);
+> -    set_resetvec(env, DEFAULT_RSTVEC);
+> -
+>      if (cpu->cfg.mmu) {
+>          set_feature(env, RISCV_FEATURE_MMU);
+>      }
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0adb307f32..88a52a1c8c 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -81,6 +81,7 @@ enum {
+> #define PRIV_VERSION_1_09_1 0x00010901
+> #define PRIV_VERSION_1_10_0 0x00011000
+> #define PRIV_VERSION_1_11_0 0x00011100
+> +#define PRIV_VERSION_DEFAULT PRIV_VERSION_1_11_0
+>
+> #define TRANSLATE_PMP_FAIL 2
+> #define TRANSLATE_FAIL 1
+> --
+> 2.20.1 (Apple Git-117)
+>
+> I couldn=E2=80=99t find an existing place where a unit test for correct p=
+riv_version could be added, but would be happy to do so if poked in the rig=
+ht direction. Thanks.
+>
+> ---
+> Best regards,
+> Ivan Grokhotkov
+>
+>
+>
 
