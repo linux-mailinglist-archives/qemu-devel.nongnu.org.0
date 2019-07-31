@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FAA7CF21
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:53:28 +0200 (CEST)
-Received: from localhost ([::1]:44522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9667CF26
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:55:05 +0200 (CEST)
+Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsvbD-0003YG-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:53:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34005)
+	id 1hsvcn-00065P-5e
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hsvQJ-0003bR-R3
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:12 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hsvQM-0003nS-ST
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hsvQI-0005lC-TJ
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38274)
+ (envelope-from <kwolf@redhat.com>) id 1hsvQL-0005ml-Iz
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46966)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hsvQG-0005ij-Mz; Wed, 31 Jul 2019 16:42:08 -0400
+ id 1hsvQI-0005kj-NT; Wed, 31 Jul 2019 16:42:10 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4AF8B30C585C;
- Wed, 31 Jul 2019 20:42:07 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0BE4F300C72A;
+ Wed, 31 Jul 2019 20:42:10 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-122.ams2.redhat.com
  [10.36.116.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40B4F5C207;
- Wed, 31 Jul 2019 20:42:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF14A5C207;
+ Wed, 31 Jul 2019 20:42:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 31 Jul 2019 22:42:00 +0200
-Message-Id: <20190731204203.10732-1-kwolf@redhat.com>
+Date: Wed, 31 Jul 2019 22:42:02 +0200
+Message-Id: <20190731204203.10732-3-kwolf@redhat.com>
+In-Reply-To: <20190731204203.10732-1-kwolf@redhat.com>
+References: <20190731204203.10732-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 31 Jul 2019 20:42:07 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Wed, 31 Jul 2019 20:42:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 0/3] iotests: More media change tests
+Subject: [Qemu-devel] [PATCH 2/3] iotests/118: Create test classes
+ dynamically
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,21 +60,132 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series is motivated by the bug fixed in commit 7cef3d1290
-('scsi-cd: Fix inserting read-only media in empty drive'). After the
-series is applied, media change is tested for all combinations of
-floppy/ide-cd/scsi-cd with -drive/-blockdev and initially empty
-drive/inserted media.
+We're getting a ridiculous number of child classes of
+TestInitiallyFilled and TestInitiallyEmpty that differ only in a few
+attributes that we want to test in all combinations.
 
-Kevin Wolf (3):
-  iotests/118: Test media change for scsi-cd
-  iotests/118: Create test classes dynamically
-  iotests/118: Add -blockdev based tests
+Instead of explicitly writing down every combination, let's use a loop
+and create those classes dynamically.
 
- tests/qemu-iotests/118     | 84 +++++++++++++++++++++-----------------
- tests/qemu-iotests/118.out |  4 +-
- 2 files changed, 49 insertions(+), 39 deletions(-)
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/qemu-iotests/118 | 69 +++++++++++++-----------------------------
+ 1 file changed, 21 insertions(+), 48 deletions(-)
 
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index 3c20d2d61f..c281259215 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -294,15 +294,15 @@ class GeneralChangeTestsBaseClass(ChangeBaseClass):
+ class TestInitiallyFilled(GeneralChangeTestsBaseClass):
+     was_empty =3D False
+=20
+-    def setUp(self, media, interface):
++    def setUp(self):
+         qemu_img('create', '-f', iotests.imgfmt, old_img, '1440k')
+         qemu_img('create', '-f', iotests.imgfmt, new_img, '1440k')
+         self.vm =3D iotests.VM()
+-        self.vm.add_drive(old_img, 'media=3D%s' % media, 'none')
+-        if interface =3D=3D 'scsi':
++        self.vm.add_drive(old_img, 'media=3D%s' % self.media, 'none')
++        if self.interface =3D=3D 'scsi':
+             self.vm.add_device('virtio-scsi-pci')
+         self.vm.add_device('%s,drive=3Ddrive0,id=3D%s' %
+-                           (interface_to_device_name(interface),
++                           (interface_to_device_name(self.interface),
+                             self.device_name))
+         self.vm.launch()
+=20
+@@ -331,13 +331,13 @@ class TestInitiallyFilled(GeneralChangeTestsBaseCla=
+ss):
+ class TestInitiallyEmpty(GeneralChangeTestsBaseClass):
+     was_empty =3D True
+=20
+-    def setUp(self, media, interface):
++    def setUp(self):
+         qemu_img('create', '-f', iotests.imgfmt, new_img, '1440k')
+-        self.vm =3D iotests.VM().add_drive(None, 'media=3D%s' % media, '=
+none')
+-        if interface =3D=3D 'scsi':
++        self.vm =3D iotests.VM().add_drive(None, 'media=3D%s' % self.med=
+ia, 'none')
++        if self.interface =3D=3D 'scsi':
+             self.vm.add_device('virtio-scsi-pci')
+         self.vm.add_device('%s,drive=3Ddrive0,id=3D%s' %
+-                           (interface_to_device_name(interface),
++                           (interface_to_device_name(self.interface),
+                             self.device_name))
+         self.vm.launch()
+=20
+@@ -355,50 +355,23 @@ class TestInitiallyEmpty(GeneralChangeTestsBaseClas=
+s):
+         # Should be a no-op
+         self.assert_qmp(result, 'return', {})
+=20
+-class TestCDInitiallyFilled(TestInitiallyFilled):
+-    TestInitiallyFilled =3D TestInitiallyFilled
+-    has_real_tray =3D True
+-
+-    def setUp(self):
+-        self.TestInitiallyFilled.setUp(self, 'cdrom', 'ide')
+-
+-class TestCDInitiallyEmpty(TestInitiallyEmpty):
+-    TestInitiallyEmpty =3D TestInitiallyEmpty
+-    has_real_tray =3D True
+-
+-    def setUp(self):
+-        self.TestInitiallyEmpty.setUp(self, 'cdrom', 'ide')
++# Do this in a function to avoid leaking variables like case into the gl=
+obal
++# name space (otherwise tests would be run for the abstract base classes=
+)
++def create_basic_test_classes():
++    for (media, interface, has_real_tray) in [ ('cdrom', 'ide', True),
++                                               ('cdrom', 'scsi', True),
++                                               ('disk', 'floppy', False)=
+ ]:
+=20
+-class TestSCSICDInitiallyFilled(TestInitiallyFilled):
+-    TestInitiallyFilled =3D TestInitiallyFilled
+-    has_real_tray =3D True
++        for case in [ TestInitiallyFilled, TestInitiallyEmpty ]:
+=20
+-    def setUp(self):
+-        self.TestInitiallyFilled.setUp(self, 'cdrom', 'scsi')
++            attr =3D { 'media': media,
++                     'interface': interface,
++                     'has_real_tray': has_real_tray }
+=20
+-class TestSCSICDInitiallyEmpty(TestInitiallyEmpty):
+-    TestInitiallyEmpty =3D TestInitiallyEmpty
+-    has_real_tray =3D True
++            name =3D '%s_%s_%s' % (case.__name__, media, interface)
++            globals()[name] =3D type(name, (case, ), attr)
+=20
+-    def setUp(self):
+-        self.TestInitiallyEmpty.setUp(self, 'cdrom', 'scsi')
+-
+-class TestFloppyInitiallyFilled(TestInitiallyFilled):
+-    TestInitiallyFilled =3D TestInitiallyFilled
+-    has_real_tray =3D False
+-
+-    def setUp(self):
+-        self.TestInitiallyFilled.setUp(self, 'disk', 'floppy')
+-
+-class TestFloppyInitiallyEmpty(TestInitiallyEmpty):
+-    TestInitiallyEmpty =3D TestInitiallyEmpty
+-    has_real_tray =3D False
+-
+-    def setUp(self):
+-        self.TestInitiallyEmpty.setUp(self, 'disk', 'floppy')
+-        # FDDs not having a real tray and there not being a medium insid=
+e the
+-        # tray at startup means the tray will be considered open
+-        self.has_opened =3D True
++create_basic_test_classes()
+=20
+ class TestChangeReadOnly(ChangeBaseClass):
+     device_name =3D 'qdev0'
 --=20
 2.20.1
 
