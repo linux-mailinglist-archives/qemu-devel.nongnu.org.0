@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570547BCFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:26:15 +0200 (CEST)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67537BD22
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:28:16 +0200 (CEST)
+Received: from localhost ([::1]:39302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsksA-0005NW-JW
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60665)
+	id 1hsku7-00084L-Us
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33105)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hskrS-0004V4-LG
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:25:35 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hsktc-0007aD-CV
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:27:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hskrR-0001n6-NY
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:25:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38684)
+ (envelope-from <mreitz@redhat.com>) id 1hsktb-0002p2-51
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:27:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34450)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hskrP-0001m5-JA; Wed, 31 Jul 2019 05:25:27 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hsktY-0002nA-Do; Wed, 31 Jul 2019 05:27:40 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E92E48552A;
- Wed, 31 Jul 2019 09:25:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1FAD5C00233A;
+ Wed, 31 Jul 2019 09:27:39 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-44.ams2.redhat.com
  [10.36.117.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C7BF1000329;
- Wed, 31 Jul 2019 09:25:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8324E600D1;
+ Wed, 31 Jul 2019 09:27:35 +0000 (UTC)
 To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 References: <20190730172508.19911-1-mreitz@redhat.com>
- <20190730172508.19911-11-mreitz@redhat.com>
- <b851fa96-85ea-f20b-5d6b-969ee7c6756c@redhat.com>
+ <20190730172508.19911-13-mreitz@redhat.com>
+ <90984be8-3181-03aa-57e4-7e3c46cec6f8@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -60,22 +60,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <49f4b347-8d1b-98e2-5a72-b34e93512ad2@redhat.com>
-Date: Wed, 31 Jul 2019 11:25:21 +0200
+Message-ID: <e1b18d6a-3ed2-3b87-56ef-81efe4ce2c51@redhat.com>
+Date: Wed, 31 Jul 2019 11:27:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <b851fa96-85ea-f20b-5d6b-969ee7c6756c@redhat.com>
+In-Reply-To: <90984be8-3181-03aa-57e4-7e3c46cec6f8@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="TRK0xCZfpsmqkIMa2LqxmPbTUwZKzwfI9"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ boundary="YtcANA2eZCfvrK4uurbzXvTFPthovd7l6"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 31 Jul 2019 09:25:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 31 Jul 2019 09:27:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 10/13] qcow2: Repair snapshot table
- with too many entries
+Subject: Re: [Qemu-devel] [PATCH for-4.2 12/13] iotests: Add peek_file*
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,69 +92,108 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TRK0xCZfpsmqkIMa2LqxmPbTUwZKzwfI9
-Content-Type: multipart/mixed; boundary="Ww0nw1xR7mg7YLOBZlHTpJ27RpV2EbGwS";
+--YtcANA2eZCfvrK4uurbzXvTFPthovd7l6
+Content-Type: multipart/mixed; boundary="KPTaYJG0lxkwie8IfNypdqeh80pNPjtbE";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <49f4b347-8d1b-98e2-5a72-b34e93512ad2@redhat.com>
-Subject: Re: [PATCH for-4.2 10/13] qcow2: Repair snapshot table with too many
- entries
+Message-ID: <e1b18d6a-3ed2-3b87-56ef-81efe4ce2c51@redhat.com>
+Subject: Re: [PATCH for-4.2 12/13] iotests: Add peek_file* functions
 References: <20190730172508.19911-1-mreitz@redhat.com>
- <20190730172508.19911-11-mreitz@redhat.com>
- <b851fa96-85ea-f20b-5d6b-969ee7c6756c@redhat.com>
-In-Reply-To: <b851fa96-85ea-f20b-5d6b-969ee7c6756c@redhat.com>
+ <20190730172508.19911-13-mreitz@redhat.com>
+ <90984be8-3181-03aa-57e4-7e3c46cec6f8@redhat.com>
+In-Reply-To: <90984be8-3181-03aa-57e4-7e3c46cec6f8@redhat.com>
 
---Ww0nw1xR7mg7YLOBZlHTpJ27RpV2EbGwS
+--KPTaYJG0lxkwie8IfNypdqeh80pNPjtbE
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 30.07.19 21:10, Eric Blake wrote:
+On 30.07.19 21:22, Eric Blake wrote:
 > On 7/30/19 12:25 PM, Max Reitz wrote:
 >> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>  block/qcow2-snapshot.c | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
+>>  tests/qemu-iotests/common.rc | 20 ++++++++++++++++++++
+>>  1 file changed, 20 insertions(+)
 >>
+>> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.=
+rc
+>> index 5502c3da2f..78decfd5d5 100644
+>> --- a/tests/qemu-iotests/common.rc
+>> +++ b/tests/qemu-iotests/common.rc
+>> @@ -53,6 +53,26 @@ poke_file()
+>>      printf "$3" | dd "of=3D$1" bs=3D1 "seek=3D$2" conv=3Dnotrunc &>/d=
+ev/null
+>>  }
+>> =20
+>> +# peek_file_le 'test.img' 512 2 =3D> 65534
+>> +peek_file_le()
+>> +{
+>> +    # Wrap in echo $() to strip spaces
+>> +    echo $(od -j"$2" -N"$3" --endian=3Dlittle -An -vtu"$3" "$1")
 >=20
-> Same problem as for 9/13 - should we really be throwing away the user's=
+> Requires coreutils' od, but we can patch that later if it proves to be =
+a
+> problem on other hosts.
+>=20
+> I used to do something similar in nbdkit (prior to qemu-nbd --list
+> making my life a lot easier; see nbdkit commit b228cb40); but there, I
+> read a 16-bit value in 2 8-bit chunks and pieced it together myself
+> rather than relying on --endian:
+>=20
+> -    # Protocol is big endian, we want native endian.
+> -    # xargs trick to trim whitespace from
+> -    # https://stackoverflow.com/a/12973694
+> -    eflags_hi=3D$(od -An -N1     -tx1 eflags.out | xargs)
+> -    eflags_lo=3D$(od -An -N1 -j1 -tx1 eflags.out | xargs)
+> -    eflags=3D$(( 0x$eflags_hi << 8 | 0x$eflags_lo ))
+>=20
+> But as long as we are using --endian, your version nicely handles 1, 2,=
 
-> data like this?  (9/13 hits if the user has a small number of snapshots=
-,
-> but each has enough extra data, that the overall table is bigger than w=
-e
-> like; 10/13 hits if the user has more snapshots than we like, but
-> otherwise they do the same thing).
+> 4, and 8-byte reads.
+>=20
+>> +
+>> +# peek_file_raw 'test.img' 512 2 =3D> '\xff\xfe'
+>> +peek_file_raw()
+>> +{
+>> +    dd if=3D"$1" bs=3D1 skip=3D"$2" count=3D"$3" status=3Dnone
+>> +}
+>=20
+> Of course, calling $(peek_file_raw ...) is a bad idea, because it might=
 
-The same arguments apply (though the =E2=80=9Cit must be a corruption=E2=80=
-=9D argument
-applies even more, because having more than 65536 snapshots just isn=E2=80=
-=99t
-right.)
+> eat a trailing byte that happened to be a newline; it also doesn't
+> handle NUL bytes very well.  Is it worth documenting caveats for using
+> this one?
+
+In my experience, it handled NUL bytes so well that I had to tr -d them
+away. :-)
+
+I mean, isn=E2=80=99t the problem in the caller, then?
 
 Max
 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
---Ww0nw1xR7mg7YLOBZlHTpJ27RpV2EbGwS--
 
---TRK0xCZfpsmqkIMa2LqxmPbTUwZKzwfI9
+--KPTaYJG0lxkwie8IfNypdqeh80pNPjtbE--
+
+--YtcANA2eZCfvrK4uurbzXvTFPthovd7l6
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1BXoEACgkQ9AfbAGHV
-z0C0Hwf/T3jfxa2pW4xpYLbZ55CKXtuJVDT9Rg9IVKLxDzQvQ3ZRtNpgK73lbwt5
-9z0mRqI+2R5lLRd3OtTudnCKmpD94Nso9y5JkcT+7Sjzq5wG9UHvFCv5ba/xuFkX
-u9ve/TRrrPeYhbMWxarb2Mm/SNmTSU1hsSw23P+F3EJ7GimfkvIeI0guJxeaM4B9
-kgSFdUX2o6LfLQAana+AUSXTsy17tQ0iWtokPbBzcI5PbVZn/vFQsPFVSosYjeeR
-HxznHk7ITcBcP8YAMwtYa7Mmyol6S3QdGapW+E264ymDtsCNMaaqK8kW1VWKj1c1
-ytEXrJpWP815yO26Nzt6KJYQAwKHVg==
-=VvDK
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1BXwYACgkQ9AfbAGHV
+z0DfZQgAxIuAfrI/JabZuQh3RX9j3Km1Lh8L7ic70XzZYyfURPVbU/mK+Rd6L8+c
+qhDcMWZ/SYagZ3QWzetRHVlnKNhed6jM3tiRboKThpo1DmfBdK4qnM7OZusTH96f
+u9rMj7Km0kuENjTCc9lMali3O+9MIKHwtedgrGniOMFhf9UMuD/AyKkzj/yYcrv7
+T3+B1J7J+bpaydwObTFhShK7d1tIF8scAo4YmS2ehtM5nvYUqakjmEZ6VN3RjoVs
+j5bjz0gQo+8Jmdo+D/3847v/oOGFVtVcwRgVrp7pjZbRZyntWOfV0RMkIYeR6/ur
+FPiaDbcVNOrCP3zreX6gt6CPKHx+Gw==
+=l+fT
 -----END PGP SIGNATURE-----
 
---TRK0xCZfpsmqkIMa2LqxmPbTUwZKzwfI9--
+--YtcANA2eZCfvrK4uurbzXvTFPthovd7l6--
 
