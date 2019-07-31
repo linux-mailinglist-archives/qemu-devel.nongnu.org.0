@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4FF7BCEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:23:44 +0200 (CEST)
-Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F64F7BCFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:26:16 +0200 (CEST)
+Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hskpj-0002wf-KE
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59919)
+	id 1hsksB-0005QG-Cw
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60689)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ppandit@redhat.com>) id 1hskpB-00029E-7G
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:10 -0400
+ (envelope-from <bounces@canonical.com>) id 1hskrX-0004Zs-Jw
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:25:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ppandit@redhat.com>) id 1hskpA-0000Zq-0p
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48870)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hskp9-0000Yl-Oy
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:07 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1954881DF1;
- Wed, 31 Jul 2019 09:23:07 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-38.phx2.redhat.com
- [10.3.116.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 623F85C1B5;
- Wed, 31 Jul 2019 09:22:56 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Date: Wed, 31 Jul 2019 14:49:33 +0530
-Message-Id: <20190731091933.17363-1-ppandit@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hskrW-0001oS-Iz
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:25:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33652)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hskrW-0001oA-DD
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:25:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hskrV-0003Da-AZ
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1B5D02E8019
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:33 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 31 Jul 2019 09:23:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 31 Jul 2019 09:20:12 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm mprofile tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: buckfobb
+X-Launchpad-Bug-Reporter: KD (buckfobb)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <156452233283.15483.3370838341008169030.malonedeb@wampee.canonical.com>
+Message-Id: <156456481256.15599.6617072288313710395.launchpad@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19012";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 55c24c09740501755c161b44f7b23117d096e663
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5] net: tap: replace snprintf with
- g_strdup_printf calls
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838475] Re: qemu-system-arm exits when cortex-m4
+ floating point used and irq occurs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,98 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Reply-To: Bug 1838475 <1838475@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+** Tags added: arm mprofile tcg
 
-When invoking qemu-bridge-helper in 'net_bridge_run_helper',
-instead of using fixed sized buffers, use dynamically allocated
-ones initialised and returned by g_strdup_printf().
+** Tags added: testcase
 
-If bridge name 'br_buf' is undefined, pass empty string ("") to
-g_strdup_printf() in its place, to avoid printing "(null)" string.
+-- =
 
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- net/tap.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838475
 
-Update v5: add commit message about conditional 'br_buf' argument
-  -> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06397.html
+Title:
+  qemu-system-arm exits when cortex-m4 floating point used and irq
+  occurs
 
-diff --git a/net/tap.c b/net/tap.c
-index e8aadd8d4b..fc38029f41 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -498,9 +498,9 @@ static int net_bridge_run_helper(const char *helper, =
-const char *bridge,
-     }
-     if (pid =3D=3D 0) {
-         int open_max =3D sysconf(_SC_OPEN_MAX), i;
--        char fd_buf[6+10];
--        char br_buf[6+IFNAMSIZ] =3D {0};
--        char helper_cmd[PATH_MAX + sizeof(fd_buf) + sizeof(br_buf) + 15]=
-;
-+        char *fd_buf =3D NULL;
-+        char *br_buf =3D NULL;
-+        char *helper_cmd =3D NULL;
-=20
-         for (i =3D 3; i < open_max; i++) {
-             if (i !=3D sv[1]) {
-@@ -508,17 +508,17 @@ static int net_bridge_run_helper(const char *helper=
-, const char *bridge,
-             }
-         }
-=20
--        snprintf(fd_buf, sizeof(fd_buf), "%s%d", "--fd=3D", sv[1]);
-+        fd_buf =3D g_strdup_printf("%s%d", "--fd=3D", sv[1]);
-=20
-         if (strrchr(helper, ' ') || strrchr(helper, '\t')) {
-             /* assume helper is a command */
-=20
-             if (strstr(helper, "--br=3D") =3D=3D NULL) {
--                snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", brid=
-ge);
-+                br_buf =3D g_strdup_printf("%s%s", "--br=3D", bridge);
-             }
-=20
--            snprintf(helper_cmd, sizeof(helper_cmd), "%s %s %s %s",
--                     helper, "--use-vnet", fd_buf, br_buf);
-+            helper_cmd =3D g_strdup_printf("%s %s %s %s", helper,
-+                            "--use-vnet", fd_buf, br_buf ? br_buf : "");
-=20
-             parg =3D args;
-             *parg++ =3D (char *)"sh";
-@@ -527,10 +527,11 @@ static int net_bridge_run_helper(const char *helper=
-, const char *bridge,
-             *parg++ =3D NULL;
-=20
-             execv("/bin/sh", args);
-+            g_free(helper_cmd);
-         } else {
-             /* assume helper is just the executable path name */
-=20
--            snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", bridge);
-+            br_buf =3D g_strdup_printf("%s%s", "--br=3D", bridge);
-=20
-             parg =3D args;
-             *parg++ =3D (char *)helper;
-@@ -541,6 +542,8 @@ static int net_bridge_run_helper(const char *helper, =
-const char *bridge,
-=20
-             execv(helper, args);
-         }
-+        g_free(fd_buf);
-+        g_free(br_buf);
-         _exit(1);
-=20
-     } else {
---=20
-2.21.0
+Status in QEMU:
+  New
 
+Bug description:
+  qemu-system-arm exits with
+
+  "...Secure UsageFault with CFSR.NOCP because NSACR.CP10 prevents stacking=
+ FP regs
+  ...taking pending nonsecure exception 3
+  Taking exception 7 [Breakpoint]
+  qemu: fatal: Lockup: can't escalate 3 to HardFault (current priority -1)" =
+
+
+  when emulating Cortex-m4, executing at least 1 floating point
+  instruction, and then an irq (e.g. sys tick) occurring.
+
+  CPACR.CP10 and CPACR.CP11 are set to 0x3 respectively prior to
+  executing the fp instructions.
+
+  NOTE: NSACR does not appear to be a cortex m4 register.
+
+  Attached is a simplified elf to repro the issue.
+
+  The qemu command line is: "qemu-system-arm --gdb tcp::1234 -cpu
+  cortex-m4 -machine lm3s6965evb -nographic -semihosting-config
+  enable=3Don,target=3Dnative -kernel QemuExitWhenUsingFPAndIRQOccurs.elf -d
+  int"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838475/+subscriptions
 
