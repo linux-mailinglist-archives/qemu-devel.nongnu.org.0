@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48327C916
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:46:11 +0200 (CEST)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB337C938
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:51:27 +0200 (CEST)
+Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrju-0002xe-KR
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:46:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51208)
+	id 1hsrp0-0005u9-CU
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52942)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrj3-0001h3-5T
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:45:18 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hsroT-0005Sf-4Y
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:50:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrj2-0000qo-28
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:45:17 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43165)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrj1-0000oz-QS
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:45:15 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id p13so70408859wru.10
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mjk2DnvfJD1k/p+MqNImwcO38VXfRv1NAD/8zcwI2MQ=;
- b=vf3Qhf4qL45sidOgROi8Ul9+tgpNUnxyKODPFMrd5NpW+c3Yya3bnu3xPP6Qm2Xo2z
- jYsDmCrBSX8Ehlqx3GK3X9DbewB+nZFp5Jh5xy4GbT8Ff0idt1VXCeIKp926jAohQhVB
- IBSEZXUb3E+e0Ef7KIoXlHP/3Uh6kexxfeObgcycullKID62vZGMlFq6leHxaZoIwZbN
- itHyHHnPA3kk2/yNEQcbRARG3OYAwG69XnldtFXfqmrbIBc+iljlJV8wmJwJg0ys1wV5
- UFxyxs2/C2785hrgov1RaNoXr+5gOOdzaQkOywuR994lE+aAmT6jR4GqgmXFWfQD3hSe
- vo1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mjk2DnvfJD1k/p+MqNImwcO38VXfRv1NAD/8zcwI2MQ=;
- b=jIEWQuy2n3yL1jhNaLJ4G9AbzsyYspRrCa59rZTXFkwGFHGGv+QxXppWyq585Ft+ZG
- V1gImozwWnc0sKlOrCfsOLX/PEmQqmTejsSZnceFmK4yGz6/Ynz9QJ8of3OiNoPB+5fT
- KGXx02oy94TgZoEL5+ueOeTBmdHnOmRdMyI+FmXWv8G1WJWvRKkkvDff5041bDDUXo3l
- zTNrK+bzhrwgxrXXTsVHv4Z2Yksy56tBx9wXV4AHeub3wgyHXorJSeyaM/Drjminn5CW
- KfLMlzanceXSYZxWF19fNlkDiQ+za6LVWZZbHHiShIlIOmPdhbWdT/A5tQ+aNgNag09o
- bElA==
-X-Gm-Message-State: APjAAAUWsTkWPUk1VnSKziXOWfXQEIkxng66IhZLc98vuALeJNajAf+/
- C1PqNN48guUYHVPv90yyBKi4940HjUE=
-X-Google-Smtp-Source: APXvYqxZmJZr7PKRMxVZgJU5+u0tZYUHVe0M2VFciORbq0cG3ExDZ2sjLa+yj3wXpEzcsPQ+xO+7lw==
-X-Received: by 2002:adf:ed41:: with SMTP id u1mr129156373wro.162.1564591514200; 
- Wed, 31 Jul 2019 09:45:14 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id z5sm49307630wmf.48.2019.07.31.09.45.13
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:45:13 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C49B1FFC2;
- Wed, 31 Jul 2019 17:07:23 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:07:09 +0100
-Message-Id: <20190731160719.11396-45-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ (envelope-from <dgilbert@redhat.com>) id 1hsroS-00056t-2J
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:50:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56834)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hsroR-00055x-SR
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:50:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 035C630C1E3B
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:50:50 +0000 (UTC)
+Received: from work-vm (ovpn-116-252.ams2.redhat.com [10.36.116.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D4181001B07;
+ Wed, 31 Jul 2019 16:50:48 +0000 (UTC)
+Date: Wed, 31 Jul 2019 17:50:46 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190731165046.GI3203@work-vm>
+References: <20190726091103.23503-1-stefanha@redhat.com>
+ <20190726091103.23503-2-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PATCH  v4 44/54] vl: support -plugin option
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190726091103.23503-2-stefanha@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Wed, 31 Jul 2019 16:50:50 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/5] virtiofsd: skip unnecessary
+ vu_queue_get_avail_bytes()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,105 +58,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Llu=C3=ADs=20Vilanova?= <vilanova@ac.upc.edu>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lluís Vilanova <vilanova@ac.upc.edu>
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> When debug output is disabled there is no need to calculate the number
+> of in/out bytes available.
+> 
+> There is also no need to skip a request if there are 0 out bytes.  The
+> request parsing code already handles invalid requests.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Signed-off-by: Lluís Vilanova <vilanova@ac.upc.edu>
-[ cota: s/instrument/plugin ]
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- qemu-options.hx | 17 +++++++++++++++++
- vl.c            | 11 +++++++++++
- 2 files changed, 28 insertions(+)
+Thanks, I've squashed this in to existing commits.
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 9621e934c0b..7b438f61734 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4131,6 +4131,23 @@ HXCOMM HX does not support conditional compilation of text.
- @findex -trace
- @include qemu-option-trace.texi
- ETEXI
-+DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
-+    "-plugin [file=]<file>[,arg=<string>]\n"
-+    "                load a plugin\n",
-+    QEMU_ARCH_ALL)
-+STEXI
-+@item -plugin file=@var{file}[,arg=@var{string}]
-+@findex -plugin
-+
-+Load a plugin.
-+
-+@table @option
-+@item file=@var{file}
-+Load the given plugin from a shared library file.
-+@item arg=@var{string}
-+Argument string passed to the plugin. (Can be given multiple times.)
-+@end table
-+ETEXI
- 
- HXCOMM Internal use
- DEF("qtest", HAS_ARG, QEMU_OPTION_qtest, "", QEMU_ARCH_ALL)
-diff --git a/vl.c b/vl.c
-index b426b321346..bb62989f776 100644
---- a/vl.c
-+++ b/vl.c
-@@ -109,6 +109,7 @@ int main(int argc, char **argv)
- 
- #include "trace-root.h"
- #include "trace/control.h"
-+#include "qemu/plugin.h"
- #include "qemu/queue.h"
- #include "sysemu/arch_init.h"
- 
-@@ -2889,6 +2890,7 @@ int main(int argc, char **argv, char **envp)
-     bool list_data_dirs = false;
-     char *dir, **dirs;
-     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
-+    QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- 
-     os_set_line_buffering();
- 
-@@ -2919,6 +2921,7 @@ int main(int argc, char **argv, char **envp)
-     qemu_add_opts(&qemu_global_opts);
-     qemu_add_opts(&qemu_mon_opts);
-     qemu_add_opts(&qemu_trace_opts);
-+    qemu_plugin_add_opts();
-     qemu_add_opts(&qemu_option_rom_opts);
-     qemu_add_opts(&qemu_machine_opts);
-     qemu_add_opts(&qemu_accel_opts);
-@@ -3697,6 +3700,9 @@ int main(int argc, char **argv, char **envp)
-                 g_free(trace_file);
-                 trace_file = trace_opt_parse(optarg);
-                 break;
-+            case QEMU_OPTION_plugin:
-+                qemu_plugin_opt_parse(optarg, &plugin_list);
-+                break;
-             case QEMU_OPTION_readconfig:
-                 {
-                     int ret = qemu_read_config_file(optarg);
-@@ -4010,6 +4016,11 @@ int main(int argc, char **argv, char **envp)
-                                machine_class->default_machine_opts, 0);
-     }
- 
-+    /* process plugin before CPUs are created, but once -smp has been parsed */
-+    if (qemu_plugin_load_list(&plugin_list)) {
-+        exit(1);
-+    }
-+
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       default_driver_check, NULL, NULL);
-     qemu_opts_foreach(qemu_find_opts("global"),
--- 
-2.20.1
+Dave
 
+> ---
+>  contrib/virtiofsd/fuse_virtio.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virtio.c
+> index 083e4fc317..d543c6d30f 100644
+> --- a/contrib/virtiofsd/fuse_virtio.c
+> +++ b/contrib/virtiofsd/fuse_virtio.c
+> @@ -507,18 +507,16 @@ static void *fv_queue_thread(void *opaque)
+>                 ret = pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
+>                 assert(ret == 0); /* there is no possible error case */
+>  
+> -               /* out is from guest, in is too guest */
+> -               unsigned int in_bytes, out_bytes;
+> -               vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
+> +               if (se->debug) {
+> +                       /* out is from guest, in is too guest */
+> +                       unsigned int in_bytes, out_bytes;
+> +                       vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
+>  
+> -               if (se->debug)
+>                         fuse_debug("%s: Queue %d gave evalue: %zx available: in: %u out: %u\n",
+>  				  __func__, qi->qidx, (size_t)evalue, in_bytes,
+>  				  out_bytes);
+> -
+> -               if (!out_bytes) {
+> -                       goto next;
+>                 }
+> +
+>                 while (1) {
+>                         bool allocated_bufv = false;
+>                         struct fuse_bufvec bufv;
+> @@ -708,7 +706,6 @@ static void *fv_queue_thread(void *opaque)
+>                         elem = NULL;
+>                  }
+>  
+> -next:
+>                  pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
+>          }
+>          pthread_mutex_destroy(&ch.lock);
+> -- 
+> 2.21.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
