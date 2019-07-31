@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9607BD51
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:36:26 +0200 (CEST)
-Received: from localhost ([::1]:39360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969D37BD2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:30:24 +0200 (CEST)
+Received: from localhost ([::1]:39328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsl22-0004xV-4M
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36816)
+	id 1hskwB-00016h-SU
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsl1J-00047X-US
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:35:43 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hskvZ-0000Ph-H8
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:29:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsl1I-0007g7-0l
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:35:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35432)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsl1G-0007ct-TB
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:35:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsl1E-0004GE-KB
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:35:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97C952E80CD
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:35:36 +0000 (UTC)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hskvY-00043E-Fc
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:29:45 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:58424)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hskvT-0003zb-Kh; Wed, 31 Jul 2019 05:29:40 -0400
+Received: from [172.16.11.117] (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 96A5696F50;
+ Wed, 31 Jul 2019 09:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1564565377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kSQAjbqA5TXg43q0JVmvSZNd+foS5vyVzOrBfp+PDgs=;
+ b=Myy55KeFleX9wJmVFLeMeoIzKsXzJj/DPAYVBQth4Fq+a6c0J0bVNvuttjX4lIRpngEeQ6
+ WFI9zuNMXB8QaVdzTXerix2fcRT6Zyypc59ywVY1Th4VRv/KRueMpR9wcUYmhMQM9Tsp8M
+ Z5zWFCikxLJ5Y9eqfhoeotkEApKtl1Q=
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-6-damien.hedde@greensocs.com>
+ <20190731060533.GD2032@umbus.fritz.box>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <51aa7e6d-3568-8485-4b67-a598a24a1f3d@greensocs.com>
+Date: Wed, 31 Jul 2019 11:29:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 31 Jul 2019 09:27:51 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm kvm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell skandal
-X-Launchpad-Bug-Reporter: Lutz (skandal)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
-Message-Id: <156456527167.7147.13988509479454426927.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19012";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 5b9527e5ff9c33e1f1e52f0504891ce37cdd6206
+In-Reply-To: <20190731060533.GD2032@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1564565377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kSQAjbqA5TXg43q0JVmvSZNd+foS5vyVzOrBfp+PDgs=;
+ b=BYat8WSK2wwrLuymKzxmOuaU+48VQnKbhqFhKd3D/0TFwZdrov0AenLwwDsQ3U+NSzxkru
+ 6fb2qQ9yVDrQM1NvojjnMfptnKFcOQDlZoafG9DQZD/HYPqQr7F6TbdCG2ZggBkGuFEnsx
+ 1fFW9BfBcMip0CADm+eg3DhcGyDNigg=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564565377; a=rsa-sha256; cv=none;
+ b=OogKBj3OvtXeELBZNrnS4sXNv/RJpmueV4tXZIjIi1x3UaW9bhCXUNCIdDvhTm2CKrvfd4
+ EnI2+tW0jMQcWF9OoeuyiiFZoO0IZ6TGhdSl7YhOjX4DnCov/6k3FiNWR68RygszaTla2F
+ ztSPsjqT0I6fzfyles/6XQVIeLacrOU=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1836501] Re: cpu_address_space_init fails with
- assertion
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [PATCH v3 05/33] Switch to new api in qdev/bus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,68 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, kraxel@redhat.com, edgar.iglesias@xilinx.com,
+ hare@suse.com, qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ ehabkost@redhat.com, alistair@alistair23.me, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com, rth@twiddle.net,
+ berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: kvm
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836501
+On 7/31/19 8:05 AM, David Gibson wrote:
+> On Mon, Jul 29, 2019 at 04:56:26PM +0200, Damien Hedde wrote:
+>> Deprecate old reset apis and make them use the new one while they
+>> are still used somewhere.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>>  hw/core/qdev.c         | 22 +++-------------------
+>>  include/hw/qdev-core.h | 28 ++++++++++++++++++++++------
+>>  2 files changed, 25 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>> index 559ced070d..e9e5f2d5f9 100644
+>> --- a/hw/core/qdev.c
+>> +++ b/hw/core/qdev.c
+>> @@ -312,25 +312,9 @@ static void device_foreach_reset_child(Object *obj, void (*func)(Object *))
+>>      }
+>>  }
+>>  
+>> -static int qdev_reset_one(DeviceState *dev, void *opaque)
+>> -{
+>> -    device_legacy_reset(dev);
+>> -
+>> -    return 0;
+>> -}
+>> -
+>> -static int qbus_reset_one(BusState *bus, void *opaque)
+>> -{
+>> -    BusClass *bc = BUS_GET_CLASS(bus);
+>> -    if (bc->reset) {
+>> -        bc->reset(bus);
+>> -    }
+>> -    return 0;
+>> -}
+>> -
+>>  void qdev_reset_all(DeviceState *dev)
+>>  {
+>> -    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_one, NULL);
+>> +    device_reset(dev, false);
+>>  }
+>>  
+>>  void qdev_reset_all_fn(void *opaque)
+>> @@ -340,7 +324,7 @@ void qdev_reset_all_fn(void *opaque)
+>>  
+>>  void qbus_reset_all(BusState *bus)
+>>  {
+>> -    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_one, NULL);
+>> +    bus_reset(bus, false);
+>>  }
+>>  
+>>  void qbus_reset_all_fn(void *opaque)
+>> @@ -922,7 +906,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>>              }
+>>          }
+>>          if (dev->hotplugged) {
+>> -            device_legacy_reset(dev);
+>> +            device_reset(dev, true);
+> 
+> So.. is this change in the device_reset() signature really necessary?
+> Even if there are compelling reasons to handle warm reset in the new
+> API, that doesn't been you need to change device_reset() itself from
+> its established meaning of a cold (i.e. as per power cycle) reset.
+> Warm resets are generally called in rather more specific circumstances
+> (often under guest software direction) so it seems likely that users
+> would want to engage with the new reset API directly.  Or we could
+> just create a device_warm_reset() wrapper.  That would also avoid the
+> bare boolean parameter, which is not great for readability (you have
+> to look up the signature to have any idea what it means).
 
-Title:
-  cpu_address_space_init fails with assertion
+I've added device_reset_cold/warm wrapper functions to avoid having to
+pass the boolean parameter. it seems I forgot to use them in qdev.c
+I suppose, like you said, we could live with
++ no function with the boolean parameter
++ device_reset doing cold reset
++ device_reset_warm (or device_warm_reset) for the warm version
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
-
-    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
-  failed.
-
-  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
-  Stretch (9) or Buster (10).
-
-  Without KVM it is running fine but slow. I'm operating Debian Jessie
-  with qemu 2.1 for a long time with KVM virtualization working
-  flawlessly. When I upgraded to Stretch I ran into the trouble
-  described before. I tried Debian Stretch and Buster with all Kernels
-  provided by the Board manufacturer (Hardkernel).
-
-  It seems to be related to the feature introduced in Version 2.6:
-  https://wiki.qemu.org/ChangeLog/2.6
-  - Support for a separate EL3 address space
-
-  KVM is enabled, so I assume the adress space index asidx to be causing
-  the assert to fail.
-
-  dmesg | grep -i KVM
-  [    0.741714] kvm [1]: 8-bit VMID
-  [    0.741721] kvm [1]: IDMAP page: 40201000
-  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
-  [    0.742543] kvm [1]: Hyp mode initialized successfully
-  [    0.742600] kvm [1]: vgic-v2@10484000
-  [    0.742924] kvm [1]: vgic interrupt IRQ16
-  [    0.742943] kvm [1]: virtual timer IRQ60
-
-  Full command line is:
-  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
-el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
-blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
-e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
-
-  Is there anything to do to understand, if this is a hardware related
-  failure or probably just a missing parameter?
-
-  Regards
-
-  Lutz
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
+Damien
 
