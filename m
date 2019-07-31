@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75567C4B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:20:11 +0200 (CEST)
-Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28257C4C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:22:10 +0200 (CEST)
+Received: from localhost ([::1]:41368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hspSd-00059X-0R
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34806)
+	id 1hspUX-0001bW-VK
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hspNC-0001zs-63
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:35 -0400
+ (envelope-from <clg@kaod.org>) id 1hspNO-0002CU-Lm
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hspNA-0002dA-Sy
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:33 -0400
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:36801)
+ (envelope-from <clg@kaod.org>) id 1hspNM-0002k7-6i
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:45 -0400
+Received: from 14.mo7.mail-out.ovh.net ([178.33.251.19]:57811)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspNA-0002cM-Cs
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:32 -0400
-Received: from player715.ha.ovh.net (unknown [10.109.160.226])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 7C7D2114B32
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:14:31 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspNJ-0002gS-Gi
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:14:41 -0400
+Received: from player715.ha.ovh.net (unknown [10.109.143.201])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id EF3A612C4A6
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:14:36 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id E2A38850BD9D;
- Wed, 31 Jul 2019 14:14:24 +0000 (UTC)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 8646F850BE2D;
+ Wed, 31 Jul 2019 14:14:31 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 31 Jul 2019 16:12:32 +0200
-Message-Id: <20190731141233.1340-18-clg@kaod.org>
+Date: Wed, 31 Jul 2019 16:12:33 +0200
+Message-Id: <20190731141233.1340-19-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190731141233.1340-1-clg@kaod.org>
 References: <20190731141233.1340-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 11693314960186969062
+X-Ovh-Tracer-Id: 11694722335611194342
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgdejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.111.180
-Subject: [Qemu-devel] [PATCH v3 17/18] ppc/pnv: Quiesce some XIVE errors
+X-Received-From: 178.33.251.19
+Subject: [Qemu-devel] [PATCH v3 18/18] ppc/xive: Introduce a
+ xive_os_cam_decode() helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,50 +61,88 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When dumping the END and NVT tables, the error logging is too noisy.
+The OS CAM line has a special encoding exploited by the HW. Provide a
+helper routine to hide the details to the TIMA command handlers. This
+also clarifies the endianness of different variables : 'qw1w2' is
+big-endian and 'cam' is native.
+
+Also add a check on the V bit in the TM_PULL_POOL_CTX special
+operation.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/intc/pnv_xive.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/intc/xive.c | 40 +++++++++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 9 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 8e3ba23788f7..df0b17772c0d 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -27,7 +27,7 @@
-=20
- #include "pnv_xive_regs.h"
-=20
--#define XIVE_DEBUG
-+#undef XIVE_DEBUG
-=20
- /*
-  * Virtual structures table (VST)
-@@ -172,7 +172,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-     vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-=20
-     if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-         xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index e79439f6b940..bdc36f2a1b0b 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -339,14 +339,34 @@ static void xive_tm_set_os_pending(XivePresenter *x=
+ptr, XiveTCTX *tctx,
+     xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff))=
 ;
-+#endif
-         return 0;
-     }
+ }
 =20
-@@ -193,7 +195,9 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
-ive, uint32_t type,
-         vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
++static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
++                               uint32_t *nvt_idx, bool *vo)
++{
++    *nvt_blk =3D xive_nvt_blk(cam);
++    *nvt_idx =3D xive_nvt_idx(cam);
++    *vo =3D !!(cam & TM_QW1W2_VO);
++}
++
+ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+                                     hwaddr offset, unsigned size)
+ {
+-    uint32_t qw1w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+-    uint32_t qw1w2;
++    uint32_t qw1w2 =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
++    uint32_t qw1w2_new;
++    uint32_t cam =3D be32_to_cpu(qw1w2);
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool vo;
 =20
-         if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-             xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
-idx);
-+#endif
-             return 0;
-         }
+-    qw1w2 =3D xive_set_field32(TM_QW1W2_VO, qw1w2_prev, 0);
+-    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
++
++    if (!vo) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: pulling invalid NVT %x/%x =
+!?\n",
++                      nvt_blk, nvt_idx);
++    }
++
++    /* Invalidate CAM line */
++    qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
++    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2_new, 4);
+     return qw1w2;
+ }
 =20
+@@ -384,13 +404,15 @@ static void xive_tctx_need_resend(XiveRouter *xrtr,=
+ XiveTCTX *tctx,
+ static void xive_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+                                 hwaddr offset, uint64_t value, unsigned =
+size)
+ {
+-    uint32_t qw1w2 =3D value;
+-    uint8_t nvt_blk =3D xive_nvt_blk(qw1w2);
+-    uint32_t nvt_idx =3D xive_nvt_idx(qw1w2);
+-    bool vo =3D !!(qw1w2 & TM_QW1W2_VO);
++    uint32_t cam =3D value;
++    uint32_t qw1w2 =3D cpu_to_be32(cam);
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool vo;
++
++    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
+=20
+     /* First update the registers */
+-    qw1w2 =3D cpu_to_be32(qw1w2);
+     memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+=20
+     /* Check the interrupt pending bits */
 --=20
 2.21.0
 
