@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B0A7C286
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 15:00:06 +0200 (CEST)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83617C2AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 15:03:39 +0200 (CEST)
+Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsoD7-00006F-3W
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 09:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1hsoGZ-0001fa-5g
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 09:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41240)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hsoCX-00083H-Ey
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 08:59:31 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hsoG1-0001CJ-2c
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 09:03:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1hsoCV-0007jN-Kr
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 08:59:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39137)
+ (envelope-from <pbonzini@redhat.com>) id 1hsoG0-0000iE-6u
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 09:03:05 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1hsoCV-0007iC-Dc
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 08:59:27 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u25so49391881wmc.4
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 05:59:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HD1C6pev3eT2o7gZwrPiFohdf5FlJEYGBZdgepRvUI8=;
- b=J75fPHGP0z7+tVeDajjLzz1cH1rJW4hgVXCn4aWgxmBVJAItvTmGf6jPF6+drcVdBp
- tXcJRZdWgBTBlqbtZuv82nSrIuHP6I+o84uPhSwm8JGx8dNJwSRijRxZoJ9GqIjdXani
- 7RXn5D2Dh25kWgprXClHA/U7cIO1CB1NXh9dnn2wUJSvs+k7FIIexNleVgjcXDHB1gw3
- PIgl8ba1NQwf7kFyt++m5HGSJsFVNQ2BBs3fxMgzNsDLY0eFwrjs03ZS8hhKV23TuISd
- mSVBE9wEW9aOhrYN/j/Cew5uPmoTXPIOOXnxlHHexxEhOpQ3V70lVZoYaQ+a2vyuabSp
- qiVg==
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hsoG0-0000ht-0r
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 09:03:04 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so69672740wrs.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 06:03:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HD1C6pev3eT2o7gZwrPiFohdf5FlJEYGBZdgepRvUI8=;
- b=FGNEJ0N08S4xH5/PUmpELQ1RZWq23pRgNr3dUIEM4SE4+Ae1zNdbvdDLoyzOFcq2l6
- R1kI8Ac39P8Fi+8no++DLk9k7hMCaWULCW7Q0JXwVLVrGLTqubV9taoiGTECYp5cDz+O
- ylIry21Oc5CpousXMgPY0oi3Qls2pRid/ErXxuaH+qxNFvvYybLZC4PlQHUzYh+6hMRg
- dCQfmZu2mmaLkDNy7ZPe/a9/iF4gWTvIMQvAKh/NdgoWUqiuv7TMW44jLNJLtcCPU9rL
- 2lJHRK3TU9ywcL0czVtHv0CKcxdv6rxWfO6FFzGeLzE1wckvtXD46eCGe2aVPn8641oZ
- TMSA==
-X-Gm-Message-State: APjAAAWuShLUjPFPQ7BDuL2Tk1xXQskal1SLASCxhqPJ2+hGJB87L005
- ZEeIyH4RbyX8ZTK0Y0qO2Ff28eEvikWyEWa4Kvw=
-X-Google-Smtp-Source: APXvYqxZICZnigA5rwl6FBhBuNQtf1p8FpAnhoV+olsLN80Fsbnqukg/XXYdoKIjemgCIzhiJp/iEdQeJqSVMGqqaDM=
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr106482526wma.107.1564577963682; 
- Wed, 31 Jul 2019 05:59:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6tuOZnHqaG3S/kW7Gc2GJzSdvEDHwY1ehrhqvfGBrTA=;
+ b=Z1RQi4zUJSq2mS/9wp24leL7PjHoYQUXt6Z/AxNRhWZjDKzfiAvKbSjEekiYfIIjrj
+ 3i4SETMQAWNCPW939Yq9sTmZ3WLcutqnFyKEpvhFndhYh9UiRDxJRnNHCgGAWojeIV/c
+ jO84CPTV2YeXdXFdSx9EDwnjBNOi99vvuMHhvvDR6mYtuS6uDwYfq1zHVrFlAyz4+PNk
+ elExkMbHps1W/pyTKnK9mOM05jwiYEgAqKkJOu8Khd+wsF5xlhaDJWreJpWNCz7PoaTv
+ utaCF+ft34mA8htdVNyINlLYOkZSM7FkCz7p/E3rUVLOLAP9gAAgmumB2OU5oS1C18Eq
+ IfsQ==
+X-Gm-Message-State: APjAAAXuva53Da7v3jmrifIkC6tXdvM/eHvq4Jnp8ycPzKG90kB0lAJa
+ fqXU3QM3S/h/4pGzW+O0C8pIFw==
+X-Google-Smtp-Source: APXvYqxvj2NnCMXj09R1SeZlYJ9gWJtaTck7xRuR/yQ+wJh0fkCYe9eoa9Hzi5kavRfZMIfrLo53SQ==
+X-Received: by 2002:adf:ea88:: with SMTP id s8mr125860239wrm.68.1564578182860; 
+ Wed, 31 Jul 2019 06:03:02 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:91e7:65e:d8cd:fdb3?
+ ([2001:b07:6468:f312:91e7:65e:d8cd:fdb3])
+ by smtp.gmail.com with ESMTPSA id b8sm88518509wmh.46.2019.07.31.06.03.01
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 31 Jul 2019 06:03:02 -0700 (PDT)
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <1564502498-805893-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1564502498-805893-4-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <14b60c5b-6ed4-0f4d-17a8-6ec861115c1e@redhat.com>
+ <30f40221-d2d2-780b-3375-910e9f755edd@de.ibm.com>
+ <08958a7e-1952-caf7-ab45-2fd503db418c@virtuozzo.com>
+ <bdbee2e0-62a7-8906-8076-408922511146@de.ibm.com>
+ <f9346216-a4e9-4882-4a36-33580529b75e@de.ibm.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <72f0fe91-3ced-ea7c-b675-1f219586213c@redhat.com>
+Date: Wed, 31 Jul 2019 15:03:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190725084341.8287-1-berrange@redhat.com>
-In-Reply-To: <20190725084341.8287-1-berrange@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 31 Jul 2019 16:59:10 +0400
-Message-ID: <CAJ+F1C+3E7=bOv6S9hWt5KaKDUvO5GbXCRJPUqaHEc4BKJD0PQ@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] require newer glib2 to enable
- autofree'ing of stack variables exiting scope
+In-Reply-To: <f9346216-a4e9-4882-4a36-33580529b75e@de.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH 3/3] i386/kvm: initialize struct at full
+ before ioctl call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,107 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berto@igalia.com" <berto@igalia.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Denis Lunev <den@virtuozzo.com>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "armbru@redhat.com" <armbru@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 25, 2019 at 12:44 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
->
-> Both GCC and CLang support a C extension attribute((cleanup)) which
-> allows you to define a function that is invoked when a stack variable
-> exits scope. This typically used to free the memory allocated to it,
-> though you're not restricted to this. For example it could be used to
-> unlock a mutex.
->
-> We could use that functionality now, but the syntax is a bit ugly in
-> plain C. Since version 2.44 of GLib, there have been a few macros to
-> make it more friendly to use - g_autofree, g_autoptr and
-> G_DEFINE_AUTOPTR_CLEANUP_FUNC.
->
->   https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html
->
->   https://blogs.gnome.org/desrt/2015/01/30/g_autoptr/
->
-> The key selling point is that it simplifies the cleanup code paths,
-> often eliminating the need to goto cleanup labels. This improves
-> the readability of the code and makes it less likely that you'll
-> leak memory accidentally.
->
-> Inspired by seeing it added to glib, and used in systemd, Libvirt
-> finally got around to adopting this in Feb 2019. Overall our
-> experience with it has been favourable/positive, with the code
-> simplification being very nice.
->
-> The main caveats with it are
->
->  - Only works with GCC or CLang. We don't care as those are
->    the only two compilers we declare support for.
->
->  - You must always initialize the variables when declared
->    to ensure predictable behaviour when they leave scope.
->    Chances are most methods with goto jumps for cleanup
->    are doing this already
->
->  - You must not directly return the value that's assigned
->    to a auto-cleaned variable. You must steal the pointer
->    in some way. ie
->
->     BAD:
->         g_autofree char *wibble =3D g_strdup("wibble")
->         ....
->         return wibble;
->
->     GOOD:
->         g_autofree char *wibble =3D g_strdup("wibble")
->         ...
->         return g_steal_pointer(wibble);
->
->     g_steal_pointer is an inline function which simply copies
->     the pointer to a new variable, and sets the original variable
->     to NULL, thus avoiding cleanup.
->
-> I've illustrated the usage by converting a bunch of the crypto code in
-> QEMU to use auto cleanup.
->
-> Changed on v2:
->
->  - Actually commit the rest of the changes to patch 3 so that what's
->    posted works :-) Sigh.
->
-> Daniel P. Berrang=C3=A9 (3):
->   glib: bump min required glib library version to 2.48
->   crypto: define cleanup functions for use with g_autoptr
->   crypto: use auto cleanup for many stack variables
+On 31/07/19 14:43, Christian Borntraeger wrote:
+>>>>>>       if (has_xsave) {
+>>>>>>           env->xsave_buf = qemu_memalign(4096, sizeof(struct kvm_xsave));
+>>>>>> +        memset(env->xsave_buf, 0, sizeof(struct kvm_xsave));
+> This is memsetting 4k? 
+> Yet another variant would be to use the RUNNING_ON_VALGRIND macro from
+> valgrind/valgrind.h to only memset for valgrind. But just using MAKE_MEM_DEFINED
+> from memcheck.h is simpler. 
+> 
 
-Series:
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Yes, it's 4k but only at initialization time and I actually prefer not
+to have potentially uninitialized host data in there.
 
->
->  configure                   |  2 +-
->  crypto/afsplit.c            | 28 ++++----------
->  crypto/block-luks.c         | 74 +++++++++++--------------------------
->  crypto/block.c              | 15 +++-----
->  crypto/hmac-glib.c          |  5 ---
->  crypto/pbkdf.c              |  5 +--
->  crypto/secret.c             | 38 ++++++++-----------
->  crypto/tlscredsanon.c       | 16 +++-----
->  crypto/tlscredspsk.c        |  5 +--
->  crypto/tlscredsx509.c       | 16 +++-----
->  include/crypto/block.h      |  2 +
->  include/crypto/cipher.h     |  2 +
->  include/crypto/hmac.h       |  2 +
->  include/crypto/ivgen.h      |  2 +
->  include/crypto/tlssession.h |  2 +
->  include/glib-compat.h       | 42 +--------------------
->  16 files changed, 78 insertions(+), 178 deletions(-)
->
-> --
-> 2.21.0
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+Paolo
 
