@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313197C871
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:20:37 +0200 (CEST)
-Received: from localhost ([::1]:42516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B8C7C877
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:22:07 +0200 (CEST)
+Received: from localhost ([::1]:42546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrLA-0007QT-CH
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
+	id 1hsrMc-00031H-Bt
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:22:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41121)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG7-0005wF-Lx
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:24 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hsrBK-00060p-Qp
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:10:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG6-0004A5-2p
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:23 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38178)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrG5-00047z-QL
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:21 -0400
-Received: by mail-wr1-x442.google.com with SMTP id g17so70334827wrr.5
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Snunrr/avWrIhXGLbDExuqiqLPGhcfnkTu5o+XPO9YI=;
- b=mGqpAqrb6thsotXl+ANgkByVidUUeGUcohf/pZCyVb1wV2wR+IBNiGzBgyKA3NATm2
- jeYtXQUeplIyRZ07zwvc1B/EcN61hPdFRj9f5Qq8tDudDcbOhmSZSTDRxovlj4Zxw8ic
- u9nv6N02rQj627dcANzy0vOvkiKp8J6txTLn52YlKZXqe+83dSt9jq2qpzg1CxN4oSXb
- 0hkk9ZY8ZFcCx78LvjaT24bD/8utggVRYcERHOeziLt8tyyOSeRPmC5aQO6T1lHKKnzq
- eC8lfwuxSGtPL/pfaEwlyTGGGptKwPb0mQzYVJ+yrSH4AtgYSBv/wqj6bTY0VH9WAXqH
- lY8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Snunrr/avWrIhXGLbDExuqiqLPGhcfnkTu5o+XPO9YI=;
- b=RKdWF4vO064N4Z58gRgbHebCMfwQ9PRv9UGWn1a075ghHJi0gAF9KECa+6XHMIgO51
- Lbx6thxLtBAhjHPSWLpS4sNdLY21eNC8nuBygsGOEes1O9DGv2cXuz3bbbcoAdDDcHME
- al6tV5zxZ7hfHyojDN3sTuK5RegkvXDx/ViTD4ctmRSQc6joX3siFLuveaIW3lVmuCvG
- 7Q1NhDvy9bToWyJrulydQBdcwnv1ueuaSI0CzqCbqJKeTCZrcI/iC90+9DD2N+lw91Bw
- VdLufz5fgC3ADP/hNOQhHiD1w/BOGwDlTsnL8ULenyuTn+3rNkJeLbU+4lOpw0VKso/v
- ljpQ==
-X-Gm-Message-State: APjAAAUPQIsPqn9cxTD64xUlZwPa8D36DtGcYZPssfXlCDDIRmowuXVJ
- TGeHXYitMlbTBtZ4nP68+ZamIQ==
-X-Google-Smtp-Source: APXvYqwLOjp0cptjpeQn31nEqTgFcH9lYtDKPV+Sdy9JVjNh8krSLdLRoaLgtFi0h4iY/Hpqzx9yYQ==
-X-Received: by 2002:a5d:5644:: with SMTP id j4mr54415173wrw.144.1564589718242; 
- Wed, 31 Jul 2019 09:15:18 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x185sm63457489wmg.46.2019.07.31.09.15.14
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:15:15 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C43F1FFCB;
- Wed, 31 Jul 2019 17:07:24 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:07:19 +0100
-Message-Id: <20190731160719.11396-55-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ (envelope-from <stefanha@redhat.com>) id 1hsrBJ-0001sq-UP
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:10:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47746)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hsrBH-0001oe-V7
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:10:25 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 832D130832DC;
+ Wed, 31 Jul 2019 16:10:22 +0000 (UTC)
+Received: from localhost (ovpn-117-27.ams2.redhat.com [10.36.117.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9F7560C05;
+ Wed, 31 Jul 2019 16:10:14 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: virtio-fs@redhat.com,
+	qemu-devel@nongnu.org
+Date: Wed, 31 Jul 2019 17:10:02 +0100
+Message-Id: <20190731161006.9447-2-stefanha@redhat.com>
+In-Reply-To: <20190731161006.9447-1-stefanha@redhat.com>
+References: <20190731161006.9447-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH  v4 54/54] include/exec/cpu-defs.h: fix typo
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 31 Jul 2019 16:10:22 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 1/5] virtiofsd: take lo->mutex around
+ lo_add_fd_mapping()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,34 +56,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Liu Bo <bo.liu@linux.alibaba.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/cpu-defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The lo_add_fd_mapping() function assumes lo->mutex is held, so we should
+acquire it.
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 31deca369ea..355fa817a93 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -233,7 +233,7 @@ typedef struct CPUTLB { } CPUTLB;
- #endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
- 
- /*
-- * This structure must be placed in ArchCPU immedately
-+ * This structure must be placed in ArchCPU immediately
-  * before CPUArchState, as a field named "neg".
-  */
- typedef struct CPUNegativeOffsetState {
--- 
-2.20.1
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ contrib/virtiofsd/passthrough_ll.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passt=
+hrough_ll.c
+index 65b7352c95..417a104218 100644
+--- a/contrib/virtiofsd/passthrough_ll.c
++++ b/contrib/virtiofsd/passthrough_ll.c
+@@ -1555,7 +1555,9 @@ static void lo_create(fuse_req_t req, fuse_ino_t pa=
+rent, const char *name,
+=20
+ 		update_version(lo, lo_inode(req, parent));
+=20
++		pthread_mutex_lock(&lo->mutex);
+ 		fh =3D lo_add_fd_mapping(req, fd);
++		pthread_mutex_unlock(&lo->mutex);
+ 		if (fh =3D=3D -1) {
+ 			close(fd);
+ 			fuse_reply_err(req, ENOMEM);
+@@ -1760,7 +1762,9 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino,=
+ struct fuse_file_info *fi)
+ 	if (fd =3D=3D -1)
+ 		return (void) fuse_reply_err(req, errno);
+=20
++	pthread_mutex_lock(&lo->mutex);
+ 	fh =3D lo_add_fd_mapping(req, fd);
++	pthread_mutex_unlock(&lo->mutex);
+ 	if (fh =3D=3D -1) {
+ 		close(fd);
+ 		fuse_reply_err(req, ENOMEM);
+--=20
+2.21.0
 
 
