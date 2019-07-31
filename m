@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4517C8AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:29:09 +0200 (CEST)
-Received: from localhost ([::1]:42772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6B57C88A
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:24:19 +0200 (CEST)
+Received: from localhost ([::1]:42590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrTQ-0005nL-8V
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45060)
+	id 1hsrOk-0000WV-JK
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42509)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPh-0004l4-OM
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:19 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrGA-00068W-Th
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPg-0000Gq-9I
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:17 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44292)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG8-0004CZ-V2
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:26 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40609)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrPg-0000G4-2v
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:16 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p17so70350835wrf.11
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:16 -0700 (PDT)
+ id 1hsrG8-0004Bl-NC
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:24 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id v19so60387930wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BnGODuR3Ycz5wS1Vq+gAFUjpRMhPGEguKfmXZgD+ipE=;
- b=xnEFkAm/zWatmrROcSkSEvr63uPFYqEEk3yDbnOK6SwJW68+amL9e+gaCXhGJ7nKh4
- NLHzib3BT7uCP1EEqeLXgmyFER8zK2oJNK+YdF61icDx3hOjxwhkWu+xTFWmwKv8P+fR
- eYswyn+ru1s9xOowYI1p+DqcETTZ+PSJSGyuXp43oWoWsmKO2HeSUKuDf7sAivKQtzFj
- ucjrZN1ZNE/kc97sNfCY37euJ7fGHJD52Hy/SjpZZERS8i9+V4PJ9hvhu0e7Fuyxctgb
- KcNO3hO3Kv86zgvkSthjh/p6tmhJLggn15WI3vlmxyMiAjXxmOmpvu7mlLrHEYe0zx26
- VFkw==
+ bh=xwP+mV0r3qT985xxGF4TCqT0a6cc9tGilhISQJihOk8=;
+ b=ib3eNgFRsowNuceFgiSQlQ3r2izO2U77qb3q2+PRrv2Fb5i3/T+lFFh8nKNfWbDqYG
+ V8PUbSTC7kaVzYa96HSn/7B7JGm1YvFfaOwQ1DRUOctmE/hsMQEhuQh/EfadbrwnPY1K
+ /IEOujmnF5RN8p5Ym7t9k2b7IH5KQeYPSo9K69w8gd/mQSkG9EkBDTIhMTCNoXZMPIHv
+ 3dD2Sys8GJ9Zw0+Sudo0bWxxDEdECAEGQqXde6nat5/JmDlgpznR22ooIoI8CyS0RpKA
+ tnIKIPc3y/SNePcPmPk/m5396X2yvD0vBBy1ZbDWS4rfDRTk6jqzdzucnoS6FqWg3FYf
+ Xlkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BnGODuR3Ycz5wS1Vq+gAFUjpRMhPGEguKfmXZgD+ipE=;
- b=WwrdBN3hz/EG5Y7CXitkonUsxKlaQmKWCX3fLgUMI004qG7q7v8ckv0mTjcq0FSyPf
- AHk5mrFvAftlHGawOD+1CfPsPI61V09wbOBfl9ZC7DF6CIwX0ayUu+V9B4umtbMJxiJl
- pEGodtlKyqgHC9EMJPbQrgYwX47KsCY4Yuhn6pU9gkrtcBWPqsibzH+CQcJ3BeM9B04D
- lvJO92yc0vhbFXz0Al0zI15eVhS7ogtOj2cSGGyk+QwVJc0ccbXJaoiEGNC7r41w6i5m
- OdG7Hob/VpaomHWjbxzKJ+wBN9j4NY+fo5CwqAT2ms8bl/2taUBF7d41QdOoU8+OPHox
- FOTg==
-X-Gm-Message-State: APjAAAUD5nJrOiox82UCAnyjMdmojIuK8ML8IVcEb3iw2b5I3S6aBGeC
- YHzRDglqST9IK08JeJef0A9r9w==
-X-Google-Smtp-Source: APXvYqzG0hFrgZLJ/WmOs174TOIh5X5FgoaT1X8dTrw70jFjKYp78d1dosIHTVoIUfRxXliwTtzhbw==
-X-Received: by 2002:adf:d08e:: with SMTP id
- y14mr106235925wrh.309.1564590315002; 
- Wed, 31 Jul 2019 09:25:15 -0700 (PDT)
+ bh=xwP+mV0r3qT985xxGF4TCqT0a6cc9tGilhISQJihOk8=;
+ b=sD1aCgmuqBQhPFE02fJhIEwkLvwLW23XxJZOumt2V2keLw9tKKdgXo+SeBL2FnZ9xh
+ 3H/5UfWcCEuSPt5vyHZOdubrS9zgTC7KCOzy0o1C+D7LhequMo7GNsPYYydcDq1sVlTC
+ NAqwp3kWcTsNbHro6MPUwdOvxZIZA1ZLxRTWMvBx9khHZfvZ6oV/g4w3DBNiJMoIxI4Y
+ vrw5JHfFH+bJx7981c6qS7fpNeL7nqiOh+YIQeZwDb80WDAamlCV3dvOLscAzWAZas6B
+ BENN4zYa2JYknmVEg3FVXGrYaesGc2J/cP0c1iQGAkwVOXBDlLxyN0RMuTd4c6XPb1I/
+ rKQQ==
+X-Gm-Message-State: APjAAAVCoi4rVva50Ri9jzr6sn6iGvZCdgVBV6D7MZk5a4yazGisLIng
+ /EjEUhbG7S6VJkfLXR54XF9LYA==
+X-Google-Smtp-Source: APXvYqw5SnAM0P2MRNGTZrpZD9RrGxfHaM79RruQ2iUySw07WKKx2HCOMAhQB8UxC116gPhSJHd9lw==
+X-Received: by 2002:a1c:c5c2:: with SMTP id
+ v185mr118307155wmf.161.1564589723370; 
+ Wed, 31 Jul 2019 09:15:23 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x20sm157165737wrg.10.2019.07.31.09.25.12
+ by smtp.gmail.com with ESMTPSA id z25sm71736508wmf.38.2019.07.31.09.15.16
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:25:13 -0700 (PDT)
+ Wed, 31 Jul 2019 09:15:18 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 09B251FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id 1E31B1FFC8;
  Wed, 31 Jul 2019 17:07:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:07:14 +0100
-Message-Id: <20190731160719.11396-50-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:07:15 +0100
+Message-Id: <20190731160719.11396-51-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v4 49/54] plugin: add qemu_plugin_insn_disas
- helper
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PATCH v4 50/54] tests/plugin: add instruction
+ execution breakdown
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,209 +83,341 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, bobby.prani@gmail.com,
- cota@braap.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: bobby.prani@gmail.com, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  aaron@os.amperecomputing.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give the plugins access to the QEMU dissasembler so they don't have to
-re-invent the wheel.
+This gives a break down of instruction classes and individual
+instruction types.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas.c                      | 103 +++++++++++++++++++++++++++++++++++
- include/disas/disas.h        |   2 +
- include/qemu/qemu-plugin.h   |   9 +++
- plugins/api.c                |   7 +++
- plugins/qemu-plugins.symbols |   1 +
- 5 files changed, 122 insertions(+)
+ tests/plugin/Makefile |   1 +
+ tests/plugin/howvec.c | 301 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 302 insertions(+)
+ create mode 100644 tests/plugin/howvec.c
 
-diff --git a/disas.c b/disas.c
-index 3e2bfa572b1..4b127369c36 100644
---- a/disas.c
-+++ b/disas.c
-@@ -475,6 +475,109 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
-     }
- }
+diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+index e74940eaac5..3656429d46b 100644
+--- a/tests/plugin/Makefile
++++ b/tests/plugin/Makefile
+@@ -11,6 +11,7 @@ NAMES += empty
+ NAMES += insn
+ NAMES += mem
+ NAMES += hotblocks
++NAMES += howvec
  
-+static GString plugin_disas_output;
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
+diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+new file mode 100644
+index 00000000000..accf8611ff4
+--- /dev/null
++++ b/tests/plugin/howvec.c
+@@ -0,0 +1,301 @@
++/*
++ * Copyright (C) 2019, Alex Bennée <alex.bennee@linaro.org>
++ *
++ * How vectorised is this code?
++ *
++ * Attempt to measure the amount of vectorisation that has been done
++ * on some code by counting classes of instruction. This is very much
++ * ARM specific.
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
 +
-+static int plugin_printf(FILE *stream, const char *fmt, ...)
++#include <qemu-plugin.h>
++
++#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
++
++typedef enum {
++    COUNT_CLASS,
++    COUNT_INDIVIDUAL,
++    COUNT_NONE
++} CountType;
++
++static int limit = 50;
++static int stdout_fd;
++static bool do_inline;
++static bool verbose;
++
++static GMutex lock;
++static GHashTable *insns;
++
++typedef struct {
++    const char *class;
++    const char *opt;
++    uint32_t mask;
++    uint32_t pattern;
++    CountType what;
++    uint64_t count;
++} InsnClassExecCount;
++
++typedef struct {
++    char *insn;
++    uint32_t opcode;
++    uint64_t count;
++    InsnClassExecCount *class;
++} InsnExecCount;
++
++/*
++ * Matchers for classes of instructions, order is important.
++ *
++ * Your most precise match must be before looser matches. If no match
++ * is found in the table we can create an individual entry.
++ */
++InsnClassExecCount insn_classes[] = {
++    /* "Reserved"" */
++    { "  UDEF",              "udef",   0xffff0000, 0x00000000, COUNT_NONE},
++    { "  SVE",               "sve",    0x1e000000, 0x04000000, COUNT_CLASS},
++    { "Reserved",            "res",    0x1e000000, 0x00000000, COUNT_CLASS},
++    /* Data Processing Immediate */
++    { "  PCrel addr",        "pcrel",  0x1f000000, 0x10000000, COUNT_CLASS},
++    { "  Add/Sub (imm,tags)","asit",   0x1f800000, 0x11800000, COUNT_CLASS},
++    { "  Add/Sub (imm)",     "asi",    0x1f000000, 0x11000000, COUNT_CLASS},
++    { "  Logical (imm)",     "logi",   0x1f800000, 0x12000000, COUNT_CLASS},
++    { "  Move Wide (imm)",   "movwi",  0x1f800000, 0x12800000, COUNT_CLASS},
++    { "  Bitfield",          "bitf",   0x1f800000, 0x13000000, COUNT_CLASS},
++    { "  Extract",           "extr",   0x1f800000, 0x13800000, COUNT_CLASS},
++    { "Data Proc Imm",       "dpri",   0x1c000000, 0x10000000, COUNT_CLASS},
++    /* Branches */
++    { "  Cond Branch (imm)", "cndb",   0xfe000000, 0x54000000, COUNT_CLASS},
++    { "  Exception Gen",     "excp",   0xff000000, 0xd4000000, COUNT_CLASS},
++    { "    NOP",             "nop",    0xffffffff, 0xd503201f, COUNT_NONE},
++    { "  Hints",             "hint",   0xfffff000, 0xd5032000, COUNT_CLASS},
++    { "  Barriers",          "barr",   0xfffff000, 0xd5033000, COUNT_CLASS},
++    { "  PSTATE",            "psta",   0xfff8f000, 0xd5004000, COUNT_CLASS},
++    { "  System Insn",       "sins",   0xffd80000, 0xd5080000, COUNT_CLASS},
++    { "  System Reg",        "sreg",   0xffd00000, 0xd5100000, COUNT_CLASS},
++    { "  Branch (reg)",      "breg",   0xfe000000, 0xd6000000, COUNT_CLASS},
++    { "  Branch (imm)",      "bimm",   0x7c000000, 0x14000000, COUNT_CLASS},
++    { "  Cmp & Branch",      "cmpb",   0x7e000000, 0x34000000, COUNT_CLASS},
++    { "  Tst & Branch",      "tstb",   0x7e000000, 0x36000000, COUNT_CLASS},
++    { "Branches",            "branch", 0x1c000000, 0x14000000, COUNT_CLASS},
++    /* Loads and Stores */
++    { "  AdvSimd ldstmult",  "advlsm", 0xbfbf0000, 0x0c000000, COUNT_CLASS},
++    { "  AdvSimd ldstmult++","advlsmp",0xbfb00000, 0x0c800000, COUNT_CLASS},
++    { "  AdvSimd ldst",      "advlss", 0xbf9f0000, 0x0d000000, COUNT_CLASS},
++    { "  AdvSimd ldst++",    "advlssp",0xbf800000, 0x0d800000, COUNT_CLASS},
++    { "  ldst excl",         "ldstx",  0x3f000000, 0x08000000, COUNT_CLASS},
++    { "    Prefetch",        "prfm",   0xff000000, 0xd8000000, COUNT_CLASS},
++    { "  Load Reg (lit)",    "ldlit",  0x1b000000, 0x18000000, COUNT_CLASS},
++    { "  ldst noalloc pair", "ldstnap",0x3b800000, 0x28000000, COUNT_CLASS},
++    { "  ldst pair",         "ldstp",  0x38000000, 0x28000000, COUNT_CLASS},
++    { "  ldst reg",          "ldstr",  0x3b200000, 0x38000000, COUNT_CLASS},
++    { "  Atomic ldst",       "atomic", 0x3b200c00, 0x38200000, COUNT_CLASS},
++    { "  ldst reg (reg off)","ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
++    { "  ldst reg (pac)",    "ldstpa", 0x3b200200, 0x38200800, COUNT_CLASS},
++    { "  ldst reg (imm)",    "ldsti",  0x3b000000, 0x39000000, COUNT_CLASS},
++    { "Loads & Stores",      "ldst",   0x0a000000, 0x08000000, COUNT_CLASS},
++    /* Data Processing Register */
++    { "Data Proc Reg",       "dprr",   0x0e000000, 0x0a000000, COUNT_CLASS},
++    /* Scalar FP */
++    { "Scalar FP ",          "fpsimd", 0x0e000000, 0x0e000000, COUNT_CLASS},
++    /* Unclassified */
++    { "Unclassified",        "unclas", 0x00000000, 0x00000000, COUNT_CLASS}
++};
++
++static gint cmp_exec_count(gconstpointer a, gconstpointer b)
 +{
-+    va_list va;
-+    GString *s = &plugin_disas_output;
-+    int initial_len = s->len;
-+
-+    va_start(va, fmt);
-+    g_string_append_printf(s, fmt, va);
-+    va_end(va);
-+
-+    return s->len - initial_len;
++    InsnExecCount *ea = (InsnExecCount *) a;
++    InsnExecCount *eb = (InsnExecCount *) b;
++    return ea->count > eb->count ? -1 : 1;
 +}
 +
-+static void plugin_print_address(bfd_vma addr, struct disassemble_info *info)
++static void plugin_exit(qemu_plugin_id_t id, void *p)
 +{
-+    /* does nothing */
-+}
++    GString *report = g_string_new("Instruction Classes:\n");
++    int i;
++    GList *counts;
 +
-+/* Disassemble a single instruction directly into plugin output */
-+static
-+bool plugin_cap_disas_insn(disassemble_info *info, uint64_t pc, size_t size)
-+{
-+    uint8_t cap_buf[1024];
-+    csh handle;
-+    cs_insn *insn;
-+    size_t csize = 0;
-+    int count;
-+    GString *s = &plugin_disas_output;
-+
-+    if (cap_disas_start(info, &handle) != CS_ERR_OK) {
-+        return false;
-+    }
-+    insn = cap_insn;
-+
-+    size_t tsize = MIN(sizeof(cap_buf) - csize, size);
-+    const uint8_t *cbuf = cap_buf;
-+    target_read_memory(pc, cap_buf, tsize, info);
-+
-+    count = cs_disasm(handle, cbuf, size, 0, 1, &insn);
-+
-+    if (count) {
-+        g_string_printf(s, "%s %s", insn->mnemonic, insn->op_str);
-+    } else {
-+        g_string_printf(s, "cs_disasm failed");
-+    }
-+
-+    cs_close(&handle);
-+    return true;
-+}
-+
-+char * plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    target_ulong pc;
-+    int count;
-+    CPUDebug s;
-+    GString *ds = g_string_set_size(&plugin_disas_output, 0);
-+
-+    g_assert(ds == &plugin_disas_output);
-+
-+    INIT_DISASSEMBLE_INFO(s.info, NULL, plugin_printf);
-+
-+    s.cpu = cpu;
-+    s.info.read_memory_func = target_read_memory;
-+    s.info.buffer_vma = addr;
-+    s.info.buffer_length = size;
-+    s.info.print_address_func = plugin_print_address;
-+    s.info.cap_arch = -1;
-+    s.info.cap_mode = 0;
-+    s.info.cap_insn_unit = 4;
-+    s.info.cap_insn_split = 4;
-+
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    s.info.endian = BFD_ENDIAN_BIG;
-+#else
-+    s.info.endian = BFD_ENDIAN_LITTLE;
-+#endif
-+
-+    if (cc->disas_set_info) {
-+        cc->disas_set_info(cpu, &s.info);
-+    }
-+
-+    if (s.info.cap_arch >= 0 && plugin_cap_disas_insn(&s.info, addr, size)) {
-+        return g_strdup(ds->str);
-+    }
-+
-+    if (s.info.print_insn == NULL) {
-+        s.info.print_insn = print_insn_od_target;
-+    }
-+
-+    for (pc = addr; size > 0; pc += count, size -= count) {
-+        count = s.info.print_insn(pc, &s.info);
-+        if (count < 0) {
++    for (i = 0; i < ARRAY_SIZE(insn_classes); i++) {
++        switch (insn_classes[i].what) {
++        case COUNT_CLASS:
++            if (insn_classes[i].count || verbose) {
++                g_string_append_printf(report, "Class: %-24s\t(%ld hits)\n",
++                                       insn_classes[i].class,
++                                       insn_classes[i].count);
++            }
++            break;
++        case COUNT_INDIVIDUAL:
++            g_string_append_printf(report, "Class: %-24s\tcounted individually\n",
++                                   insn_classes[i].class);
++            break;
++        case COUNT_NONE:
++            g_string_append_printf(report, "Class: %-24s\tnot counted\n",
++                                   insn_classes[i].class);
++            break;
++        default:
 +            break;
 +        }
-+        g_assert(size >= count);
 +    }
 +
-+    return g_strdup(ds->str);
++    counts = g_hash_table_get_values(insns);
++    if (counts && g_list_next(counts)) {
++        GList *it;
++
++        g_string_append_printf(report,"Individual Instructions:\n");
++
++        it = g_list_sort(counts, cmp_exec_count);
++
++        for (i = 0; i < limit && it->next; i++, it = it->next) {
++            InsnExecCount *rec = (InsnExecCount *) it->data;
++            g_string_append_printf(report, "Instr: %-24s\t(%ld hits)\t(op=%#08x/%s)\n",
++                                   rec->insn,
++                                   rec->count,
++                                   rec->opcode,
++                                   rec->class ?
++                                   rec->class->class : "un-categorised");
++        }
++        g_list_free(it);
++    }
++
++    dprintf(stdout_fd, "%s", report->str);
++    g_string_free(report, true);
 +}
 +
- /* Disassemble this for me please... (debugging). */
- void disas(FILE *out, void *code, unsigned long size)
- {
-diff --git a/include/disas/disas.h b/include/disas/disas.h
-index 15da511f49c..119df9e9bdf 100644
---- a/include/disas/disas.h
-+++ b/include/disas/disas.h
-@@ -13,6 +13,8 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
- void monitor_disas(Monitor *mon, CPUState *cpu,
-                    target_ulong pc, int nb_insn, int is_physical);
- 
-+char * plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
-+
- /* Look up symbol for debugging purpose.  Returns "" if unknown. */
- const char *lookup_symbol(target_ulong orig_addr);
- #endif
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index d9c1ca3b4cf..8b403dd6157 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -324,6 +324,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
-                                          qemu_plugin_vcpu_syscall_ret_cb_t cb);
- 
- 
-+/**
-+ * qemu_plugin_insn_disas() - return disassembly string for instruction
-+ * @insn: instruction reference
-+ *
-+ * Returns an allocated string containing the disassembly
-+ */
-+
-+char * qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
-+
- /**
-  * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
-  * @id: plugin ID
-diff --git a/plugins/api.c b/plugins/api.c
-index 4b3ac9e31fb..5a0bed1b1e0 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -40,6 +40,7 @@
- #include "sysemu/sysemu.h"
- #include "tcg/tcg.h"
- #include "exec/exec-all.h"
-+#include "disas/disas.h"
- #include "plugin.h"
- #ifndef CONFIG_USER_ONLY
- #include "hw/boards.h"
-@@ -211,6 +212,12 @@ void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn)
-     return insn->haddr;
- }
- 
-+char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
++static void plugin_init(void)
 +{
-+    CPUState *cpu = current_cpu;
-+    return plugin_disas(cpu, insn->vaddr, insn->data->len);
++    insns = g_hash_table_new(NULL, g_direct_equal);
 +}
 +
- /*
-  * The memory queries allow the plugin to query information about a
-  * memory access.
-diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index 40c0d1abd2f..267ec381b4a 100644
---- a/plugins/qemu-plugins.symbols
-+++ b/plugins/qemu-plugins.symbols
-@@ -25,6 +25,7 @@
-   qemu_plugin_insn_size;
-   qemu_plugin_insn_vaddr;
-   qemu_plugin_insn_haddr;
-+  qemu_plugin_insn_disas;
-   qemu_plugin_mem_size_shift;
-   qemu_plugin_mem_is_sign_extended;
-   qemu_plugin_mem_is_big_endian;
++static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
++{
++    uint64_t *count = (uint64_t *) udata;
++    (*count)++;
++}
++
++static uint64_t * find_counter(struct qemu_plugin_insn *insn)
++{
++    int i;
++    uint64_t *cnt = NULL;
++    uint32_t opcode;
++    InsnClassExecCount *class = NULL;
++
++    /* we expect all instructions to by 32 bits for ARM */
++    g_assert(qemu_plugin_insn_size(insn) == 4);
++    opcode = *((uint32_t *)qemu_plugin_insn_data(insn));
++
++    for (i = 0; !cnt && i < ARRAY_SIZE(insn_classes); i++) {
++        uint32_t masked_bits = opcode & insn_classes[i].mask;
++        if (masked_bits == insn_classes[i].pattern) {
++            class = &insn_classes[i];
++            break;
++        }
++    }
++
++    g_assert(class);
++
++    switch (class->what) {
++    case COUNT_NONE:
++        return NULL;
++    case COUNT_CLASS:
++        return &class->count;
++    case COUNT_INDIVIDUAL:
++    {
++        InsnExecCount *icount;
++
++        g_mutex_lock(&lock);
++        icount = (InsnExecCount *) g_hash_table_lookup(insns,
++                                                       GUINT_TO_POINTER(opcode));
++
++        if (!icount) {
++            icount = g_new0(InsnExecCount, 1);
++            icount->opcode = opcode;
++            icount->insn = qemu_plugin_insn_disas(insn);
++            icount->class = class;
++
++            if (verbose) {
++                dprintf(stdout_fd, "adding for %s (%#08x @ %#20lx from %s)\n",
++                        icount->insn, opcode, qemu_plugin_insn_vaddr(insn),
++                        class->class);
++            }
++            g_hash_table_insert(insns, GUINT_TO_POINTER(opcode),
++                                (gpointer) icount);
++        }
++        g_mutex_unlock(&lock);
++
++        return &icount->count;
++    }
++    default:
++        g_assert_not_reached();
++    }
++
++    return NULL;
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    size_t i;
++
++    for (i = 0; i < n; i++) {
++        uint64_t *cnt;
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++        cnt = find_counter(insn);
++
++        if (cnt) {
++            if (do_inline) {
++                qemu_plugin_register_vcpu_insn_exec_inline(
++                    insn, QEMU_PLUGIN_INLINE_ADD_U64, cnt, 1);
++            } else {
++                qemu_plugin_register_vcpu_insn_exec_cb(
++                    insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, cnt);
++            }
++        }
++    }
++}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    int i;
++
++    for (i = 0; i < argc; i++) {
++        char *p = argv[i];
++        if (strcmp(p, "inline") == 0) {
++            do_inline = true;
++        } else if (strcmp(p, "verbose") == 0) {
++            verbose = true;
++        } else {
++            int j;
++            CountType type = COUNT_INDIVIDUAL;
++            if (*p == '!') {
++                type = COUNT_NONE;
++                p++;
++            }
++            for (j = 0; j < ARRAY_SIZE(insn_classes); j++) {
++                if (strcmp(p, insn_classes[j].opt) == 0) {
++                    insn_classes[j].what = type;
++                    break;
++                }
++            }
++        }
++    }
++
++    /* to be used when in the exit hook */
++    stdout_fd = dup(STDOUT_FILENO);
++    assert(stdout_fd);
++
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
 -- 
 2.20.1
 
