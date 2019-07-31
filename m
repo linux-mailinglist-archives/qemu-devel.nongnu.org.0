@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A82B7BAFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 09:59:18 +0200 (CEST)
-Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE537BB0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 10:00:26 +0200 (CEST)
+Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsjW1-0006G4-De
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 03:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
+	id 1hsjX7-0000c3-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 04:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58695)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <thuth@redhat.com>) id 1hsjUB-0002ZA-Kj
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:24 -0400
+ (envelope-from <thuth@redhat.com>) id 1hsjU5-0002CA-9u
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hsjUA-0008Eu-Ke
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36702)
+ (envelope-from <thuth@redhat.com>) id 1hsjU4-00082e-82
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33434)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hsjU8-00086m-7c; Wed, 31 Jul 2019 03:57:20 -0400
+ id 1hsjU2-000809-5R; Wed, 31 Jul 2019 03:57:14 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 811CDC007359;
- Wed, 31 Jul 2019 07:57:19 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7007FA7D5;
+ Wed, 31 Jul 2019 07:57:13 +0000 (UTC)
 Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FF7A5C1B5;
- Wed, 31 Jul 2019 07:57:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1F915C1B5;
+ Wed, 31 Jul 2019 07:57:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Yang Zhong <yang.zhong@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 09:56:50 +0200
-Message-Id: <20190731075652.17053-7-thuth@redhat.com>
+Date: Wed, 31 Jul 2019 09:56:48 +0200
+Message-Id: <20190731075652.17053-5-thuth@redhat.com>
 In-Reply-To: <20190731075652.17053-1-thuth@redhat.com>
 References: <20190731075652.17053-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Wed, 31 Jul 2019 07:57:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Wed, 31 Jul 2019 07:57:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 6/8] hw/core: Add a config switch for the
- "split-irq" device
+Subject: [Qemu-devel] [PATCH v2 4/8] hw/core: Add a config switch for the
+ "register" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,69 +64,63 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "split-irq" device is currently only used by machines that use
-CONFIG_ARMSSE. Let's add a proper CONFIG_SPLIT_IRQ switch for this
-so that it only gets compiled when we really need it.
+The "register" device is only used by certain machines. Let's add
+a proper config switch for it so that it only gets compiled when we
+really need it.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/arm/Kconfig        | 3 +++
+ hw/Kconfig            | 1 +
  hw/core/Kconfig       | 3 +++
  hw/core/Makefile.objs | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ hw/dma/Kconfig        | 1 +
+ 4 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 849195c3f6..6e24c73b54 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -81,6 +81,7 @@ config MUSCA
-     select ARMSSE
-     select PL011
-     select PL031
-+    select SPLIT_IRQ
+diff --git a/hw/Kconfig b/hw/Kconfig
+index dbae1c0852..b45db3c813 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -76,3 +76,4 @@ config XILINX_AXI
 =20
- config MUSICPAL
+ config XLNX_ZYNQMP
      bool
-@@ -364,6 +365,7 @@ config MPS2
-     select OR_IRQ
-     select PL022    # Serial port
-     select PL080    # DMA controller
-+    select SPLIT_IRQ
-=20
- config FSL_IMX7
-     bool
-@@ -442,6 +444,7 @@ config ARMSSE
-     select IOTKIT_SYSCTL
-     select IOTKIT_SYSINFO
-     select OR_IRQ
-+    select SPLIT_IRQ
-     select TZ_MPC
-     select TZ_MSC
-     select TZ_PPC
++    select REGISTER
 diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-index 984143456a..fffb3d62b2 100644
+index c2a1ae8122..d11920fcb3 100644
 --- a/hw/core/Kconfig
 +++ b/hw/core/Kconfig
-@@ -15,3 +15,6 @@ config PLATFORM_BUS
+@@ -9,3 +9,6 @@ config FITLOADER
 =20
- config REGISTER
+ config PLATFORM_BUS
      bool
 +
-+config SPLIT_IRQ
++config REGISTER
 +    bool
 diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index ce337bd7c9..bb1afe422a 100644
+index f8481d959f..d6cfb2a81b 100644
 --- a/hw/core/Makefile.objs
 +++ b/hw/core/Makefile.objs
-@@ -19,7 +19,7 @@ common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
+@@ -17,7 +17,7 @@ common-obj-$(CONFIG_SOFTMMU) +=3D machine.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
+ common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
- common-obj-$(CONFIG_REGISTER) +=3D register.o
- common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
--common-obj-$(CONFIG_SOFTMMU) +=3D split-irq.o
-+common-obj-$(CONFIG_SPLIT_IRQ) +=3D split-irq.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D register.o
++common-obj-$(CONFIG_REGISTER) +=3D register.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D or-irq.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D split-irq.o
  common-obj-$(CONFIG_PLATFORM_BUS) +=3D platform-bus.o
- common-obj-$(CONFIG_SOFTMMU) +=3D generic-loader.o
- common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
+diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
+index 751dec5426..5c61b67bc0 100644
+--- a/hw/dma/Kconfig
++++ b/hw/dma/Kconfig
+@@ -16,6 +16,7 @@ config I8257
+=20
+ config ZYNQ_DEVCFG
+     bool
++    select REGISTER
+=20
+ config STP2000
+     bool
 --=20
 2.21.0
 
