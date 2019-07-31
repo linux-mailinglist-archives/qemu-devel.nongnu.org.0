@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E187B9BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 08:36:09 +0200 (CEST)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA6A7B9BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 08:35:33 +0200 (CEST)
+Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsiDW-0007CN-9q
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 02:36:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46830)
+	id 1hsiCy-0005S4-9W
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 02:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46475)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hsiBi-0003eo-Qf
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 02:34:16 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hsiBa-0003Uh-2o
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 02:34:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hsiBe-0001Gv-35
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 02:34:11 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35643 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hsiBW-00013Q-TC
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 02:34:04 -0400
+Received: from ozlabs.org ([203.11.71.1]:41985)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hsiBQ-00085z-5t; Wed, 31 Jul 2019 02:33:56 -0400
+ id 1hsiBM-00085T-Ip; Wed, 31 Jul 2019 02:33:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45z3Xk2LDVz9sML; Wed, 31 Jul 2019 16:33:42 +1000 (AEST)
+ id 45z3Xk6gQ1z9sND; Wed, 31 Jul 2019 16:33:42 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1564554822;
- bh=QF9Nd2npC2WAxnuebDxf6Zkv7OFBLQc2pmE8vZfTVI4=;
+ bh=29ai3ILc/EcKe7R0bLUQp9FTyRHWOu86Sxlqb+PMQ6w=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SU9i6s74fl0gzjtJN90B7nMt+O8UWrDtxG1qDxnU0juN49O7WOep8Y4u7O7z8KYTZ
- noxU0GPsygJLsoECkc6HzkA1soFpasmCqvXSFUjXphvGBzZ+KtAbfFutK0v6hBSrKS
- AvTb7gmLPn5tPR/5masRoJ1iTG9jb441cE+8RdEM=
-Date: Wed, 31 Jul 2019 16:05:33 +1000
+ b=C5HVez2eUzeO4FL3VwpAH7HFYa3w7lqQeLg712rkZm8p54QGd2bojRGVU4YBaGiM/
+ LKj4kF2RhPp5wjeMdzCozSG8eznwzCenC8uFsVRDteUvEYqrHSaykcZS70FxlPbsRH
+ 3lGwU9kWqwOtJSlgb+O3cmqA5geZ6puBpzyLuztc=
+Date: Wed, 31 Jul 2019 16:08:50 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <20190731060533.GD2032@umbus.fritz.box>
+Message-ID: <20190731060850.GE2032@umbus.fritz.box>
 References: <20190729145654.14644-1-damien.hedde@greensocs.com>
- <20190729145654.14644-6-damien.hedde@greensocs.com>
+ <20190729145654.14644-7-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u65IjBhB3TIa72Vp"
+ protocol="application/pgp-signature"; boundary="dFWYt1i2NyOo1oI9"
 Content-Disposition: inline
-In-Reply-To: <20190729145654.14644-6-damien.hedde@greensocs.com>
+In-Reply-To: <20190729145654.14644-7-damien.hedde@greensocs.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v3 05/33] Switch to new api in qdev/bus
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v3 06/33] add the vmstate description for
+ device reset state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,154 +69,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---u65IjBhB3TIa72Vp
+--dFWYt1i2NyOo1oI9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 29, 2019 at 04:56:26PM +0200, Damien Hedde wrote:
-> Deprecate old reset apis and make them use the new one while they
-> are still used somewhere.
+On Mon, Jul 29, 2019 at 04:56:27PM +0200, Damien Hedde wrote:
+> It contains the resetting counter and cold flag status.
+>=20
+> At this point, migration of bus reset related state (counter and cold/warm
+> flag) is handled by parent device. This done using the post_load
+> function in the vmsd subsection.
+>=20
+> This is last point allow to add an initial support of migration with part=
+ of
+> qdev/qbus tree in reset state under the following condition:
+> + time-lasting reset are asserted on Device only
+>=20
+> Note that if this condition is not respected, migration will succeed and
+> no failure will occurs. The only impact is that the resetting counter
+> of a bus may lower afer a migration.
 >=20
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->  hw/core/qdev.c         | 22 +++-------------------
->  include/hw/qdev-core.h | 28 ++++++++++++++++++++++------
->  2 files changed, 25 insertions(+), 25 deletions(-)
+>  hw/core/Makefile.objs  |  1 +
+>  hw/core/qdev-vmstate.c | 45 ++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 hw/core/qdev-vmstate.c
 >=20
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 559ced070d..e9e5f2d5f9 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -312,25 +312,9 @@ static void device_foreach_reset_child(Object *obj, =
-void (*func)(Object *))
->      }
->  }
-> =20
-> -static int qdev_reset_one(DeviceState *dev, void *opaque)
-> -{
-> -    device_legacy_reset(dev);
-> -
-> -    return 0;
-> -}
-> -
-> -static int qbus_reset_one(BusState *bus, void *opaque)
-> -{
-> -    BusClass *bc =3D BUS_GET_CLASS(bus);
-> -    if (bc->reset) {
-> -        bc->reset(bus);
-> -    }
-> -    return 0;
-> -}
-> -
->  void qdev_reset_all(DeviceState *dev)
->  {
-> -    qdev_walk_children(dev, NULL, NULL, qdev_reset_one, qbus_reset_one, =
-NULL);
-> +    device_reset(dev, false);
->  }
-> =20
->  void qdev_reset_all_fn(void *opaque)
-> @@ -340,7 +324,7 @@ void qdev_reset_all_fn(void *opaque)
-> =20
->  void qbus_reset_all(BusState *bus)
->  {
-> -    qbus_walk_children(bus, NULL, NULL, qdev_reset_one, qbus_reset_one, =
-NULL);
-> +    bus_reset(bus, false);
->  }
-> =20
->  void qbus_reset_all_fn(void *opaque)
-> @@ -922,7 +906,7 @@ static void device_set_realized(Object *obj, bool val=
-ue, Error **errp)
->              }
->          }
->          if (dev->hotplugged) {
-> -            device_legacy_reset(dev);
-> +            device_reset(dev, true);
-
-So.. is this change in the device_reset() signature really necessary?
-Even if there are compelling reasons to handle warm reset in the new
-API, that doesn't been you need to change device_reset() itself from
-its established meaning of a cold (i.e. as per power cycle) reset.
-Warm resets are generally called in rather more specific circumstances
-(often under guest software direction) so it seems likely that users
-would want to engage with the new reset API directly.  Or we could
-just create a device_warm_reset() wrapper.  That would also avoid the
-bare boolean parameter, which is not great for readability (you have
-to look up the signature to have any idea what it means).
-
->          }
->          dev->pending_deleted_event =3D false;
-> =20
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index eeb75611c8..1670ae41bb 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -109,6 +109,11 @@ typedef struct DeviceClass {
->      bool hotpluggable;
-> =20
->      /* callbacks */
-> +    /*
-> +     * Reset method here is deprecated and replaced by methods in the
-> +     * resettable class interface to implement a multi-phase reset.
-> +     * TODO: remove once every reset callback is unused
-> +     */
->      DeviceReset reset;
->      DeviceRealize realize;
->      DeviceUnrealize unrealize;
-> @@ -455,19 +460,22 @@ bool bus_is_resetting(BusState *bus);
->   */
->  bool bus_is_reset_cold(BusState *bus);
-> =20
-> -void qdev_reset_all(DeviceState *dev);
-> -void qdev_reset_all_fn(void *opaque);
-> -
->  /**
-> - * @qbus_reset_all:
-> - * @bus: Bus to be reset.
-> + * qbus/qdev_reset_all:
-> + * @bus/dev: Bus/Device to be reset.
->   *
-> - * Reset @bus and perform a bus-level ("hard") reset of all devices conn=
-ected
-> + * Reset @bus/dev and perform a bus-level reset of all devices/buses con=
-nected
->   * to it, including recursive processing of all buses below @bus itself.=
-  A
->   * hard reset means that qbus_reset_all will reset all state of the devi=
-ce.
->   * For PCI devices, for example, this will include the base address regi=
-sters
->   * or configuration space.
+> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+> index d9234aa98a..49e9be0228 100644
+> --- a/hw/core/Makefile.objs
+> +++ b/hw/core/Makefile.objs
+> @@ -4,6 +4,7 @@ common-obj-y +=3D bus.o reset.o
+>  common-obj-y +=3D resettable.o
+>  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
+>  common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
+> +common-obj-$(CONFIG_SOFTMMU) +=3D qdev-vmstate.o
+>  # irq.o needed for qdev GPIO handling:
+>  common-obj-y +=3D irq.o
+>  common-obj-y +=3D hotplug.o
+> diff --git a/hw/core/qdev-vmstate.c b/hw/core/qdev-vmstate.c
+> new file mode 100644
+> index 0000000000..07b010811f
+> --- /dev/null
+> +++ b/hw/core/qdev-vmstate.c
+> @@ -0,0 +1,45 @@
+> +/*
+> + * Device vmstate
 > + *
-> + * Theses functions are deprecated, please use device/bus_reset or
-> + * resettable_reset_* instead
-> + * TODO: remove them when all occurence are removed
->   */
-> +void qdev_reset_all(DeviceState *dev);
-> +void qdev_reset_all_fn(void *opaque);
->  void qbus_reset_all(BusState *bus);
->  void qbus_reset_all_fn(void *opaque);
-> =20
-> @@ -489,9 +497,17 @@ void qdev_machine_init(void);
->   * device_legacy_reset:
->   *
->   * Reset a single device (by calling the reset method).
+> + * Copyright (c) 2019 GreenSocs
 > + *
-> + * This function is deprecated, please use device_reset() instead.
-> + * TODO: remove the function when all occurences are removed.
->   */
->  void device_legacy_reset(DeviceState *dev);
-> =20
-> +/**
-> + * device_class_set_parent_reset:
-> + * TODO: remove the function when DeviceClass's reset method
-> + * is not used anymore.
+> + * Authors:
+> + *   Damien Hedde
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
 > + */
->  void device_class_set_parent_reset(DeviceClass *dc,
->                                     DeviceReset dev_reset,
->                                     DeviceReset *parent_reset);
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/qdev.h"
+> +#include "migration/vmstate.h"
+> +
+> +static bool device_vmstate_reset_needed(void *opaque)
+> +{
+> +    DeviceState *dev =3D (DeviceState *) opaque;
+> +    return dev->resetting !=3D 0;
+> +}
+> +
+> +static int device_vmstate_reset_post_load(void *opaque, int version_id)
+> +{
+> +    DeviceState *dev =3D (DeviceState *) opaque;
+> +    BusState *bus;
+> +    QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+> +        bus->resetting =3D dev->resetting;
+
+Having redundant copies of the resetting bit in the bridge and every
+bus instance seems kind of bogus.
+
+> +        bus->reset_is_cold =3D dev->reset_is_cold;
+> +    }
+> +    return 0;
+> +}
+> +
+> +const struct VMStateDescription device_vmstate_reset =3D {
+> +    .name =3D "device_reset",
+> +    .version_id =3D 0,
+> +    .minimum_version_id =3D 0,
+> +    .needed =3D device_vmstate_reset_needed,
+> +    .post_load =3D device_vmstate_reset_post_load,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT32(resetting, DeviceState),
+> +        VMSTATE_BOOL(reset_is_cold, DeviceState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -224,25 +172,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---u65IjBhB3TIa72Vp
+--dFWYt1i2NyOo1oI9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1BL60ACgkQbDjKyiDZ
-s5IuMg//csf/rxm79GuZqdHu/zHP22hy4xbuuEa69eZihEv69seSmfAu78oqgrI8
-DQGiwqgkoY0eULMmbaqYXxuluO2CNnrFPQuqA9weFZwii80uyLgXME1nHFtSBZok
-9b9gLF9KERqPTMPdbNdMOLzagAbajljIB866Lrz/DT8EIuILhUE5S61DkrQiywrs
-TZVMCxkKDEE+5IgC6UzmSyNBabGEzaktzyUDFelwZmF3EA2QSa8wQ032nleE2vEf
-YEp872mIR18eAWgGBh/3ERHcd2+BsPQXmQUQRDWx13ezUSos2KT3JtzlOqYqBvxK
-3azBaopqoZaWOucZKAlm1IhH+jvX6qnGRiOu8reUNcLLyRqw9d3EEx0JRCJn0i8D
-QQ7iuNdjY2TjfD5lFl0kPEENEiHfQToO+yREpQVhRID+2o4arBxapmSb0IZqVYFk
-JTaP3B3286zVJXmyL4Bz4MyUCtebUR95OUspzWnfQDt8klqKeqdzZrS2b3LxU1sm
-iYsSgYTFLOSrFizrB4iDXk2aEJBq9cBIZUEUBYU5hK6up73PBz3X8r8p2D+s8n+h
-gv1e25c5OYdDHKUU4vqukikt8Cf0jikJcm2Mx09iXmqsWdIBEgxHR5kjG0lpltNJ
-iqwBVkuzPCSi9YVQZf+NHtxyQvI/qBOuh7NSUiRndOH+AygsCng=
-=te1n
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1BMHIACgkQbDjKyiDZ
+s5IPkRAA3qZhu/RLWXmjjSlPGlNqZSJgaD+8gmEZQVU3r+1GtTrLpLPOuMtoFRLZ
+qNpvHPtIB8vWd40A1w9igbVKK0cYbAjlmPCRy1rauFyZuWy1KQF9sQFJx/ZmDk0S
+0OTNr2qjftIcOsNcD48V65WSNmIT+vAFkAFUlHhM24FHLuX57EcjxAcZBRPDIePB
+7iu9eTBOa+VN1Y29+iRfqQgL1lYGdwRyn4+5QOfcoRczNQ3OL0oeAoHWrgFa/fiu
+ojWk3YvYgwT63nmoM1c/WsVqO6vWPvUX5u9c+yiL6qcfryRE0nHI8kAjFD+CN2/4
+VjGc8f0SAcdkmiFOkVyEPsekxs0eeF7fn0UrTqNchcDrBHjam3nuRqyEC9X4l5Vr
+R3cox9h8/mFkGhmED3SKrCovOQohrcqv0BxjVGiEu+nhsRO1Or8Mh4a0lmamQ9Mo
+GOIrkNST2/hflpvf5AflwhMQUdRTjHs7A9FTHUXsYV6Q+EdFH+gbMKNrsHhzIs5o
+fg9DWQlkxdhycNm/QK3FQOsAI5fTqa9rGBDeLbr+4LeEQ96aHdGYkNpRJ1dYKpkq
+MOtq7Al4FOxH9MHWL15LvD6bTfK1UEMz/3glw2Rs/ry+Mx7hniM2LIQSfQM+CM6B
+TQmicwGJGJb/ope9SjKEwvCpX2uKlarD3uLUPP7u2LNOmqI9fb8=
+=qu7o
 -----END PGP SIGNATURE-----
 
---u65IjBhB3TIa72Vp--
+--dFWYt1i2NyOo1oI9--
 
