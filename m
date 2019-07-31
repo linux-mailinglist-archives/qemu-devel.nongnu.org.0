@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496AA7C894
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:26:10 +0200 (CEST)
-Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868687C876
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:21:58 +0200 (CEST)
+Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrQX-0005Qw-Em
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1hsrMT-0002Wj-NX
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42403)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG8-0005z5-Bz
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG7-0005w8-Mh
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG6-0004Ah-MS
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:24 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38179)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG5-00049K-Nd
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:23 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33697)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrG6-00049j-FV
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:22 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g17so70335005wrr.5
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:22 -0700 (PDT)
+ id 1hsrG1-00046g-Qo
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:19 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n9so70436154wru.0
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w8IWQyMyO7sgKHvlJ76dzk+gbyQ37XPlBpRgrQD8Bqw=;
- b=qxKnLaeNmmmzxrwId9vmijktIDvFEnv1WhUhxd8kE+x6mKYsqEm++eb6cMpKTy3wNl
- Ka6YHugSJaHQrq9juihNRF5Z6Qhsky3B2nTqau8pWVczgRGJDRx+ba2AFu/o3YiX0VRR
- 7ouEF8Us034A0dkx2BrVL4joP9iNzAuTuCrAhqNo3gFqoWMEwfaIU9RX4CX5bVLvxTVT
- iyF1WkZmbJIV9JIuiWDEhpUL5cbIn4+WL/BRYkUNOPs2fe90FfEJQfRQdscOLuSHMxT9
- PEr7MZDjLisJKuLMDihIfrIezoXBPy1+KcW2MEaAiOOF1jOY8Dh71C8HEgoUfbEt6fEI
- HyuQ==
+ bh=wNexri908PTiPWm1XMgESUAKCJc8K1I1ZWLPF6fkVnU=;
+ b=Dvqjhk3Whwr8YN8/XkYURjnj4DWkrCi0NowTwwgxYkqW4060jU1KZZsC2IN1B4kkpm
+ TOxOYFy+sFzJaf/rLKBoA0WvXzow82jIuz304gOpvApHbPrUjWJmF+sXsi/dPIyRQR89
+ B8yEYtGDEL2+BUDhSbPXWI/vqIEtpNizPeD/a4P1F9Y/Rz95xhfQPTS/LiNqsb3iRnRu
+ RgN9mNAyhQ91EG15Ytx89ylQZxs6dDg9liPjtVrWMfWhCNQEocu3Mkwl5iXIp/Y/obtB
+ wiaxaJwadnPQDpsBrNq4Ju20tg9xNExnNHdmF68NOPAfIkNIi81AruurYcgcEabw1ID9
+ X/Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w8IWQyMyO7sgKHvlJ76dzk+gbyQ37XPlBpRgrQD8Bqw=;
- b=pk0Jf0yb4nh8lD0yXR0l97Er5Q60Noahnu2bGKYim72RkaDTgst2mfWtIgdTq3vH8I
- PMNPI61BPOB85pklbQC17crblB/vZKyl26w2GDNtMlN2tzRVSVLhUyHanxNIpv0Qt0GF
- Rj+JfNB5Dz4K6OFmS7B662umTK7kwz8i9EVoCO2zpVpeIp9U0yd29eF0edDN7gBa0ZvA
- mv4iURNC9ljx/w0aBCPyXey88iNwHgZ76lqFa5juKv7Tjc2X9c0FA0h3bzi1JwtPVbXT
- 5YSbiGG7iM9jsDW48COHQ8GoV5lnsMBbMDI+GJPd/MsVgsOJU4fGbcOIj4kYSZqpz6GA
- 6Vug==
-X-Gm-Message-State: APjAAAXwXtxB3LIJ9Z6689uOKitA/4ClDGuPPkw/p8mjDHoTA3Vkxgvi
- YLlpdjQeiQyCUiBAfohWHpQZj8oGzO8=
-X-Google-Smtp-Source: APXvYqzzl0ejljgPUBz1xLqkU38DNGBW/C8M7s+R4/087dZAFYV4IWR3jdHbM3cf2Z277PBBwq+OWg==
-X-Received: by 2002:a5d:4111:: with SMTP id l17mr12277924wrp.59.1564589721290; 
- Wed, 31 Jul 2019 09:15:21 -0700 (PDT)
+ bh=wNexri908PTiPWm1XMgESUAKCJc8K1I1ZWLPF6fkVnU=;
+ b=leUzcjLsJSS2/2KLNrZGvinw1Aa0xAr6l8mVeYJntEVjkOI3+GrTkIgiAPAikIc2Pw
+ SUuiUBqAnt3L+UTIBw8YLPC9w7dr1XXlcgoXDDiDJ1Yw+wgm+wmgOta9N82ElY2Fpv4r
+ g5HbDzM9ebwJMN0YXjbUA/gWmCC4Jd/DC1kQSN/HC0BqquEkWH3BjbKtwb0bTvqAp8Be
+ Cd8iYN6iuvy6Vji6AplJNaq3CpDRxpZVaA4QY+1S0AKFiCzdYS9Tjx5edC2yqE+/k7J/
+ AHSkvcCaQ3jRFoazPuycpw1FrDhzZLIBQiKLkIENL5NOnC5xKpgXhSW/mbBzNzebIAth
+ KYRA==
+X-Gm-Message-State: APjAAAUUzg5MdUEFdzdXdhN+/mGa/fNLpT8gQ0K/QRFVZg/jQnBc3cbl
+ b2QvJM7jv8Ef0eXa3MeroyXGfA==
+X-Google-Smtp-Source: APXvYqy8k1e8wQ6s4CapOQFYxk5nty4PAj1rYhjZFNGeTNWMzpJFxo4aI+qyuFM54HBFeCZZcIlG+Q==
+X-Received: by 2002:adf:80e1:: with SMTP id 88mr48054009wrl.127.1564589716736; 
+ Wed, 31 Jul 2019 09:15:16 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j16sm13522465wrp.62.2019.07.31.09.15.15
+ by smtp.gmail.com with ESMTPSA id r11sm107266157wre.14.2019.07.31.09.15.13
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:15:17 -0700 (PDT)
+ Wed, 31 Jul 2019 09:15:14 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 13F5B1FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id 5A32A1FFB4;
  Wed, 31 Jul 2019 17:07:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:52 +0100
-Message-Id: <20190731160719.11396-28-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:55 +0100
+Message-Id: <20190731160719.11396-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,8 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH  v4 27/54] *-user: plugin syscalls
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH  v4 30/54] translator: add translator_ld{ub, sw,
+ uw, l, q}
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,183 +82,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, aaron@os.amperecomputing.com,
- cota@braap.org, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-To avoid too much duplication add a wrapper that the existing trace
-and the new plugin calls can live in. We could move the -strace code
-here as well but that is left for a future series as the code is
-subtly different between the bsd and linux.
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[AJB: wrap in syscall-trace.h, expand commit msg]
+[AJB: directly plumb into softmmu/user helpers]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- bsd-user/syscall.c           | 21 +++++++++++++------
- include/user/syscall-trace.h | 40 ++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c         |  7 ++++---
- 3 files changed, 59 insertions(+), 9 deletions(-)
- create mode 100644 include/user/syscall-trace.h
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 84a983a9a12..0d45b654bb3 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -26,6 +26,7 @@
+---
+v4
+  - don't use the cpu_ldst helpers, plumb directly into the lower
+  level
+  - mark the CODE_ACCESS/SOFTMMU_CODE_ACCESS as deprecated
+---
+ include/exec/cpu_ldst.h   | 11 ++++++++
+ include/exec/translator.h | 58 ++++++++++++++++++++++++++++++++++++++-
+ include/qemu/bswap.h      |  5 ++++
+ tcg/tcg.h                 |  2 ++
+ 4 files changed, 75 insertions(+), 1 deletion(-)
+
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 9151fdb042c..fd499f7e2ff 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -129,6 +129,11 @@ static inline void clear_helper_retaddr(void)
+ #include "exec/cpu_ldst_useronly_template.h"
+ #undef MEMSUFFIX
  
- #include "qemu.h"
- #include "qemu-common.h"
-+#include "user/syscall-trace.h"
- 
- //#define DEBUG
- 
-@@ -322,7 +323,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("freebsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-     if(do_strace)
-         print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
-@@ -403,7 +405,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_freebsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-@@ -421,7 +424,9 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("netbsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-     if(do_strace)
-         print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
-@@ -479,7 +484,8 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_netbsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-@@ -497,7 +503,9 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef DEBUG
-     gemu_log("openbsd syscall %d\n", num);
- #endif
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-+    record_syscall_start(cpu, num, arg1, arg2, arg3, arg4, arg5, arg6, 0, 0);
-+
-     if(do_strace)
-         print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
- 
-@@ -555,7 +563,8 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #endif
-     if (do_strace)
-         print_openbsd_syscall_ret(num, ret);
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+
-+    record_syscall_return(cpu, num, ret);
-     return ret;
-  efault:
-     ret = -TARGET_EFAULT;
-diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
-new file mode 100644
-index 00000000000..9e604736433
---- /dev/null
-+++ b/include/user/syscall-trace.h
-@@ -0,0 +1,40 @@
 +/*
-+ * Common System Call Tracing Wrappers for *-user
-+ *
-+ * Copyright (c) 2019 Linaro
-+ * Written by Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
++ */
+ #define MEMSUFFIX _code
+ #define CODE_ACCESS
+ #define DATA_SIZE 1
+@@ -427,6 +432,12 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+ #undef CPU_MMU_INDEX
+ #undef MEMSUFFIX
+ 
++/*
++ * Code access is deprecated in favour of translator_ld* functions
++ * (see translator.h). However there are still users that need to
++ * converted so for now these stay.
 + */
 +
-+#ifndef _SYSCALL_TRACE_H_
-+#define _SYSCALL_TRACE_H_
-+
+ #define CPU_MMU_INDEX (cpu_mmu_index(env, true))
+ #define MEMSUFFIX _code
+ #define SOFTMMU_CODE_ACCESS
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 180c51d5092..30b1a594fc1 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -19,7 +19,10 @@
+  */
+ 
+ 
++#include "qemu/bswap.h"
+ #include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "exec/plugin-gen.h"
+ #include "tcg/tcg.h"
+ 
+ 
+@@ -142,4 +145,57 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+ 
+ void translator_loop_temp_check(DisasContextBase *db);
+ 
+-#endif /* EXEC__TRANSLATOR_H */
 +/*
-+ * These helpers just provide a common place for the various
-+ * subsystems that want to track syscalls to put their hooks in. We
-+ * could potentially unify the -strace code here as well.
++ * Translator Load Functions
++ *
++ * These are intended to replace the old cpu_ld*_code functions and
++ * are mandatory for front-ends that have been migrated to the common
++ * translator_loop. These functions are only intended to be called
++ * from the translation stage and should not be called from helper
++ * functions. Those functions should be converted to encode the
++ * relevant at translation time.
 + */
 +
-+static inline void record_syscall_start(void *cpu, int num,
-+                                        abi_long arg1, abi_long arg2,
-+                                        abi_long arg3, abi_long arg4,
-+                                        abi_long arg5, abi_long arg6,
-+                                        abi_long arg7, abi_long arg8)
-+{
-+    trace_guest_user_syscall(cpu, num,
-+                             arg1, arg2, arg3, arg4,
-+                             arg5, arg6, arg7, arg8);
-+    qemu_plugin_vcpu_syscall(cpu, num,
-+                             arg1, arg2, arg3, arg4,
-+                             arg5, arg6, arg7, arg8);
-+}
++#ifdef CONFIG_USER_ONLY
 +
-+static inline void record_syscall_return(void *cpu, int num, abi_long ret)
-+{
-+    trace_guest_user_syscall_ret(cpu, num, ret);
-+    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
-+}
++#define DO_LOAD(type, name, shift)               \
++    set_helper_retaddr(1);                       \
++    ret = name ## _p(g2h(pc));                   \
++    clear_helper_retaddr();
 +
++#else
 +
-+#endif /* _SYSCALL_TRACE_H_ */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8367cb138df..9132f6d2663 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -109,6 +109,7 @@
- 
- #include "qemu.h"
- #include "qemu/guest-random.h"
-+#include "user/syscall-trace.h"
- #include "qapi/error.h"
- #include "fd-trans.h"
- 
-@@ -11968,8 +11969,8 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-     }
- #endif
- 
--    trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4,
--                             arg5, arg6, arg7, arg8);
-+    record_syscall_start(cpu, num, arg1,
-+                         arg2, arg3, arg4, arg5, arg6, arg7, arg8);
- 
-     if (unlikely(do_strace)) {
-         print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
-@@ -11981,6 +11982,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
-                           arg5, arg6, arg7, arg8);
-     }
- 
--    trace_guest_user_syscall_ret(cpu, num, ret);
-+    record_syscall_return(cpu, num, ret);
-     return ret;
++#define DO_LOAD(type, name, shift)                   \
++    int mmu_idx = cpu_mmu_index(env, true);          \
++    TCGMemOpIdx oi = make_memop_idx(shift, mmu_idx); \
++    ret = helper_ret_ ## name ## _cmmu(env, pc, oi, 0);
++
++#endif
++
++#define GEN_TRANSLATOR_LD(fullname, name, type, shift, swap_fn)         \
++    static inline type                                                  \
++    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
++    {                                                                   \
++        type ret;                                                       \
++        DO_LOAD(type, name, shift)                                      \
++                                                                        \
++        if (do_swap) {                                                  \
++            ret = swap_fn(ret);                                         \
++        }                                                               \
++        plugin_insn_append(&ret, sizeof(ret));                          \
++        return ret;                                                     \
++    }                                                                   \
++                                                                        \
++    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
++    {                                                                   \
++        return fullname ## _swap(env, pc, false);                       \
++    }
++
++GEN_TRANSLATOR_LD(translator_ldub, ldb, uint8_t, 1, /* no swap needed */)
++GEN_TRANSLATOR_LD(translator_ldsw, lduw, int16_t, 2, bswap16)
++GEN_TRANSLATOR_LD(translator_lduw, lduw, uint16_t, 2, bswap16)
++GEN_TRANSLATOR_LD(translator_ldl, ldl, uint32_t, 3, bswap32)
++GEN_TRANSLATOR_LD(translator_ldq, ldq, uint64_t, 4, bswap64)
++#undef GEN_TRANSLATOR_LD
++
++#endif  /* EXEC__TRANSLATOR_H */
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 2a9f3fe783e..4f707278740 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -306,6 +306,11 @@ static inline int ldub_p(const void *ptr)
+     return *(uint8_t *)ptr;
  }
+ 
++static inline int ldb_p(const void *ptr)
++{
++    return ldub_p(ptr);
++}
++
+ static inline int ldsb_p(const void *ptr)
+ {
+     return *(int8_t *)ptr;
+diff --git a/tcg/tcg.h b/tcg/tcg.h
+index 93f52f4ca93..c918fdd87c4 100644
+--- a/tcg/tcg.h
++++ b/tcg/tcg.h
+@@ -1404,6 +1404,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
+ # define helper_ret_stl_mmu   helper_be_stl_mmu
+ # define helper_ret_stq_mmu   helper_be_stq_mmu
+ # define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
++# define helper_ret_lduw_cmmu helper_be_ldw_cmmu
+ # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
+ # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
+ #else
+@@ -1417,6 +1418,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
+ # define helper_ret_stl_mmu   helper_le_stl_mmu
+ # define helper_ret_stq_mmu   helper_le_stq_mmu
+ # define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
++# define helper_ret_lduw_cmmu helper_le_ldw_cmmu
+ # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
+ # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
+ #endif
 -- 
 2.20.1
 
