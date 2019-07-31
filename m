@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68207C8A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:28:59 +0200 (CEST)
-Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313197C871
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:20:37 +0200 (CEST)
+Received: from localhost ([::1]:42516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrTG-00057J-Sc
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:28:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45113)
+	id 1hsrLA-0007QT-CH
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPj-0004q6-JH
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:20 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG7-0005wF-Lx
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPi-0000JN-GA
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:19 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40461)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG6-0004A5-2p
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:23 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38178)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrPi-0000IK-6I
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:18 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r1so70345177wrl.7
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:18 -0700 (PDT)
+ id 1hsrG5-00047z-QL
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:21 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g17so70334827wrr.5
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=71PC3LPMQ7lE0ThGx+IfFN7xPEpt1fYEADeiWTvDA7s=;
- b=BaNLFgp7IprdtgYQFWlB5XUJfCGlbnrvhF+Lt59pn3U1OulSdQWgXVf82/rA+QxpHA
- Gn0SVfG/ZMJpRmKGFPTwt1Ibn3dDWic9+/mMDoTOHFFOMcXqeiTUxj8Z7jrWavA6x5ze
- sTrERoku5cHJT7mD1HZ3siLXW8x+UM9ecP7vzw91YIYfcFUxdgsvP9ayslWQ7UQLIUPG
- oaSGi0/wP+cg82pChb2y3d7lusuyQf7OCMhmQvpDeyiyVELqLnVlhPxAPXAH6uxIryih
- fsXYXc9Di4d5DCgK1sXkDyckdgSIjTg+B757OcUGk/qLdVGHqEhSJ1s2Wbibb0hlqA2b
- QacA==
+ bh=Snunrr/avWrIhXGLbDExuqiqLPGhcfnkTu5o+XPO9YI=;
+ b=mGqpAqrb6thsotXl+ANgkByVidUUeGUcohf/pZCyVb1wV2wR+IBNiGzBgyKA3NATm2
+ jeYtXQUeplIyRZ07zwvc1B/EcN61hPdFRj9f5Qq8tDudDcbOhmSZSTDRxovlj4Zxw8ic
+ u9nv6N02rQj627dcANzy0vOvkiKp8J6txTLn52YlKZXqe+83dSt9jq2qpzg1CxN4oSXb
+ 0hkk9ZY8ZFcCx78LvjaT24bD/8utggVRYcERHOeziLt8tyyOSeRPmC5aQO6T1lHKKnzq
+ eC8lfwuxSGtPL/pfaEwlyTGGGptKwPb0mQzYVJ+yrSH4AtgYSBv/wqj6bTY0VH9WAXqH
+ lY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=71PC3LPMQ7lE0ThGx+IfFN7xPEpt1fYEADeiWTvDA7s=;
- b=nTKpGz9/rqiiCqEOeU+ou76oD5+PVJ+xKuY+bkQduOidCs63CjVvq/qva3lCmUQLyF
- zEHnvVa0iXNReoY/lBL4XMz5uZi5Xh58NRUMOWoZUN0cd28SBnQVEn4TEKmx+i1SRhqo
- 0lzPc3Gk+tw1oNHp2qeNe56p0UvAd+IeP0PCBxFVrLEUfEAWwlobt1Z4ZGwADSfXMiuj
- iz5vrHdgUaR9OeM1LXQTNRjejld9d1aRvx/Apa3Tvz8RUzELDF7oUoqi+kichjL6ecEW
- 564WMg3AdRFwk4s8Y2pUwDVW59GSP/rOLRk4Or2W6tGN2gUBpX15nIg54nfJtrQc2sHM
- DLDA==
-X-Gm-Message-State: APjAAAXPYRwz/v08eMpcSAFM5ZsUfliaSPFaOnLgFUdnBOvWxBPNUezN
- tOiuEW9godoVfh2JWnMyW9+Q3w==
-X-Google-Smtp-Source: APXvYqxFsQyX63Ufqiz1zfohjUE+QsF9GVojU6XEdiiukcts54H+0JBa93uy0/4Oii4/kLydLZa9lg==
-X-Received: by 2002:a05:6000:187:: with SMTP id
- p7mr12000274wrx.189.1564590317023; 
- Wed, 31 Jul 2019 09:25:17 -0700 (PDT)
+ bh=Snunrr/avWrIhXGLbDExuqiqLPGhcfnkTu5o+XPO9YI=;
+ b=RKdWF4vO064N4Z58gRgbHebCMfwQ9PRv9UGWn1a075ghHJi0gAF9KECa+6XHMIgO51
+ Lbx6thxLtBAhjHPSWLpS4sNdLY21eNC8nuBygsGOEes1O9DGv2cXuz3bbbcoAdDDcHME
+ al6tV5zxZ7hfHyojDN3sTuK5RegkvXDx/ViTD4ctmRSQc6joX3siFLuveaIW3lVmuCvG
+ 7Q1NhDvy9bToWyJrulydQBdcwnv1ueuaSI0CzqCbqJKeTCZrcI/iC90+9DD2N+lw91Bw
+ VdLufz5fgC3ADP/hNOQhHiD1w/BOGwDlTsnL8ULenyuTn+3rNkJeLbU+4lOpw0VKso/v
+ ljpQ==
+X-Gm-Message-State: APjAAAUPQIsPqn9cxTD64xUlZwPa8D36DtGcYZPssfXlCDDIRmowuXVJ
+ TGeHXYitMlbTBtZ4nP68+ZamIQ==
+X-Google-Smtp-Source: APXvYqwLOjp0cptjpeQn31nEqTgFcH9lYtDKPV+Sdy9JVjNh8krSLdLRoaLgtFi0h4iY/Hpqzx9yYQ==
+X-Received: by 2002:a5d:5644:: with SMTP id j4mr54415173wrw.144.1564589718242; 
+ Wed, 31 Jul 2019 09:15:18 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h133sm74457531wme.28.2019.07.31.09.25.13
+ by smtp.gmail.com with ESMTPSA id x185sm63457489wmg.46.2019.07.31.09.15.14
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:25:15 -0700 (PDT)
+ Wed, 31 Jul 2019 09:15:15 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 461F71FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 6C43F1FFCB;
  Wed, 31 Jul 2019 17:07:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:07:17 +0100
-Message-Id: <20190731160719.11396-53-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:07:19 +0100
+Message-Id: <20190731160719.11396-55-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -69,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PATCH v4 52/54] accel/stubs: reduce headers from
- tcg-stub
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH  v4 54/54] include/exec/cpu-defs.h: fix typo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,30 +89,25 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need much for these. However I do wonder why these aren't
-just null inlines in exec-all.h
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/stubs/tcg-stub.c | 3 ---
- 1 file changed, 3 deletions(-)
+ include/exec/cpu-defs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 76ae461749e..431ec7d7e6c 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -11,10 +11,7 @@
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index 31deca369ea..355fa817a93 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -233,7 +233,7 @@ typedef struct CPUTLB { } CPUTLB;
+ #endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
+ 
+ /*
+- * This structure must be placed in ArchCPU immedately
++ * This structure must be placed in ArchCPU immediately
+  * before CPUArchState, as a field named "neg".
   */
- 
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
--#include "tcg/tcg.h"
--#include "exec/cpu-common.h"
- #include "exec/exec-all.h"
- 
- void tb_flush(CPUState *cpu)
+ typedef struct CPUNegativeOffsetState {
 -- 
 2.20.1
 
