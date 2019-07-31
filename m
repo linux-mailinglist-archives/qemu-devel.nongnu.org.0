@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47017C836
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:10:08 +0200 (CEST)
-Received: from localhost ([::1]:42342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521EB7C833
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:10:01 +0200 (CEST)
+Received: from localhost ([::1]:42336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrB1-0004LK-SR
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40175)
+	id 1hsrAu-0003yn-GK
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:10:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40174)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsr8O-000220-8R
+ (envelope-from <alex.bennee@linaro.org>) id 1hsr8O-00021z-8B
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsr8N-0000bn-7a
+ (envelope-from <alex.bennee@linaro.org>) id 1hsr8N-0000be-72
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:24 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36637)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40519)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsr8M-0000aZ-UE
+ id 1hsr8M-0000aF-TY
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:23 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n4so70383564wrs.3
+Received: by mail-wr1-x442.google.com with SMTP id r1so70281970wrl.7
  for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BaXv1gxEuljYaje+hDfDXRtILG3ZeT8f0aD36Klyo9c=;
- b=sb3fmYCXvcBIFBymPMWalTLUOpAbWOteQclHXy7FnJExFFrkzOYQoguvAH1lD3QR0J
- dN1ZmK35Ulc/ANwNfl3kthVlisVySXVZi6p/L/od1lwC6YM0W46r05zO7Bcg+Obd+CWe
- AP5vTp8qBYYxTTzIZ76GagnLi210R1oONKmCmzBJwrOuAyVQ+iaUqsBfc88fV8Ne5pHQ
- TgfWH0yP+/wmQiTpZJUqw8F3pVr45HU51cPBkq3Yym/OzCKf4SgksoRQMYAVxctmUKBN
- 9MYY4ui9Qk8kng03WsIyQ6rsvIfG/kDJNE5A+tQvU7V/VeMCR/5G5lMrDoTMizolgeXq
- UtZg==
+ bh=qkiw3jBwg/vICATtfRTry9vznckLVpbUV1wDKMXT5GE=;
+ b=j0ex1P+VZmKuzOcUzLHFA1DkvDrTWj0nCyfYZqB2dcoD7k6OGXFl+1CPQDgL4BnlMP
+ dhsWZuOD3zK9OAGjVmWpqF7y0EM7RUqGIHfCY2Tn/WgN4/11+QvKtz0jFGVNMxzNTlbl
+ NQTfFeVuGO6jHkwmzAsoKHG57r74kDXgpKrLFv6g9n/vBlPRJ9OFySx8F8nbc0hieCCv
+ 6sgXTSO5ItUEOXIZwTEha34BLvT3y1Lj9OnFrSbzv2t5ldiBMEUWYwF6BAkon/NSaJQm
+ 5nHMGW26Zc1SakGWOAusGgqtXHGrZD7lzBqJDmAuIteCKa8foFZmcwmeI7rmW88BxoNp
+ x8FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BaXv1gxEuljYaje+hDfDXRtILG3ZeT8f0aD36Klyo9c=;
- b=Mhoj8aMOcXTUtuRgYQnXFZTSBvUHmE7WLZw/69ZlPdq8MpFJi5e3ZjoZ0DzQKLweAb
- ptOhSBtH2tp6Q1Fip8nULKukBvWFtTvYZJ8CmkIpBgD0FVcxx0SVACROxzUOSCOeme+Y
- jpynpyClYCPw52FghIM/CahoXND0Ze3MEb14OGDSKnj2nrLjvP8iz7m2T47zphi/BOGi
- V9UoitZZcRN0kEzb+V27HACdAGeMk+n4manOEfA9XxagIaCol1g4DkIKStIUgSOQBv/m
- hTTTNeetZIEaypmWwhMJJ9F4i2YmMVjXKYGNQIkZZUtUmLXZbwftbnsYuc6EnqnP+pbF
- Iy3A==
-X-Gm-Message-State: APjAAAVVXXjF8BjYvbWtyuxuz4mX69td5eUaaYM01dxni9ryUSojnxyu
- 1AmiY3qPMohtw/4HJZJbaRSgJA==
-X-Google-Smtp-Source: APXvYqx2kVDaK2wid8La7qtnYhl346vxT88x9tVsuZakK4ByPzS/a8xLyVWxIg/gFBWteQ1aNZ7FLA==
-X-Received: by 2002:a5d:4941:: with SMTP id r1mr130043288wrs.225.1564589241724; 
- Wed, 31 Jul 2019 09:07:21 -0700 (PDT)
+ bh=qkiw3jBwg/vICATtfRTry9vznckLVpbUV1wDKMXT5GE=;
+ b=dD+91ttFZbTicfaXNq0v462UGGY+a55o0AYK3T/lrNOjtLwwV9YI+H7CMoOIHLaZ3h
+ Mhogk/a02ZpqZmv98fsLfS6SvPVjriyn2gsmdh2wQITVdV571XnoHq99v8DaDNvNj987
+ dzmqWfmPj8T3sq8zuXu/ZT4OUck7zUwC8/aJc/FfoQeWR/45oMqArHwVGCv5UkGBoy0w
+ Vr7rb2KYDeyVtUF8eEod6fcy8WscEATpNgaep+JcZ/Q/0TeuwL8K9R6uUGhrzETj7PcM
+ 6rAEKZ9TWuD67tWuCJguBnIhJeLrdPvIHZjuPc319gVEzPuLbkKZuNWiR88GeB9JZNOe
+ ek9g==
+X-Gm-Message-State: APjAAAVSKvoJfybS84kW0A/XAojY2GF90tRaFfOwO63sjL+t1BtdJvSg
+ tnBuUXYDuo1nAioF7cUH1rFBwQ==
+X-Google-Smtp-Source: APXvYqw1zRVEORnd48ZvKdvz/39bCPB0QF5U9Omhd6pI/uOrZl3ZpZJV7Xl6K8hn/GHq4yH9WYwRQw==
+X-Received: by 2002:a5d:56c7:: with SMTP id m7mr13439910wrw.64.1564589240911; 
+ Wed, 31 Jul 2019 09:07:20 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r15sm72111534wrj.68.2019.07.31.09.07.19
+ by smtp.gmail.com with ESMTPSA id n9sm114495893wrp.54.2019.07.31.09.07.19
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Wed, 31 Jul 2019 09:07:20 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D6121FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id A1B441FF8F;
  Wed, 31 Jul 2019 17:07:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:26 +0100
-Message-Id: <20190731160719.11396-2-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:27 +0100
+Message-Id: <20190731160719.11396-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v4 01/54] target/arm: handle M-profile
+Subject: [Qemu-devel] [PATCH v4 02/54] target/arm: handle A-profile T32
  semihosting at translate time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,62 +89,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do this for other semihosting calls so we might as well do it for
-M-profile as well.
+As for the other semihosting calls we can resolve this at translate
+time.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/m_helper.c  | 18 ++++++------------
- target/arm/translate.c | 20 +++++++++++++++++++-
- 2 files changed, 25 insertions(+), 13 deletions(-)
+ target/arm/translate.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 84609f446e6..129d52a56bf 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2113,19 +2113,13 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-             break;
-         }
-         break;
-+    case EXCP_SEMIHOST:
-+        qemu_log_mask(CPU_LOG_INT,
-+                      "...handling as semihosting call 0x%x\n",
-+                      env->regs[0]);
-+        env->regs[0] = do_arm_semihosting(env);
-+        return;
-     case EXCP_BKPT:
--        if (semihosting_enabled()) {
--            int nr;
--            nr = arm_lduw_code(env, env->regs[15], arm_sctlr_b(env)) & 0xff;
--            if (nr == 0xab) {
--                env->regs[15] += 2;
--                qemu_log_mask(CPU_LOG_INT,
--                              "...handling as semihosting call 0x%x\n",
--                              env->regs[0]);
--                env->regs[0] = do_arm_semihosting(env);
--                return;
--            }
--        }
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_DEBUG, false);
-         break;
-     case EXCP_IRQ:
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 7853462b21b..0b02c520395 100644
+index 0b02c520395..662d6f49115 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -10976,6 +10976,24 @@ illegal_op:
-                        default_exception_el(s));
+@@ -10994,6 +10994,24 @@ static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
+     gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
  }
  
 +/*
-+ * Thumb BKPT. On M-profile CPUs this may be a semihosting call which
-+ * we can process much the same way as gen_hlt() above.
++ * Thumb SWI. On A-profile CPUs this may be a semihosting call.
 + */
-+static inline void gen_thumb_bkpt(DisasContext *s, int imm8)
++static inline void gen_thumb_swi(DisasContext *s, int imm8)
 +{
-+    if (arm_dc_feature(s, ARM_FEATURE_M) &&
-+        semihosting_enabled() &&
++    if (semihosting_enabled() &&
 +#ifndef CONFIG_USER_ONLY
 +        s->current_el != 0 &&
 +#endif
@@ -152,21 +119,27 @@ index 7853462b21b..0b02c520395 100644
 +        gen_exception_internal_insn(s, 0, EXCP_SEMIHOST);
 +        return;
 +    }
-+    gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
++    gen_set_pc_im(s, s->pc);
++    s->svc_imm = imm8;
++    s->base.is_jmp = DISAS_SWI;
 +}
 +
  static void disas_thumb_insn(DisasContext *s, uint32_t insn)
  {
      uint32_t val, op, rm, rn, rd, shift, cond;
-@@ -11611,7 +11629,7 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
-         {
-             int imm8 = extract32(insn, 0, 8);
-             ARCH(5);
--            gen_exception_bkpt_insn(s, 2, syn_aa32_bkpt(imm8, true));
-+            gen_thumb_bkpt(s, imm8);
+@@ -11758,10 +11776,8 @@ static void disas_thumb_insn(DisasContext *s, uint32_t insn)
+             goto undef;
+ 
+         if (cond == 0xf) {
+-            /* swi */
+-            gen_set_pc_im(s, s->pc);
+-            s->svc_imm = extract32(insn, 0, 8);
+-            s->base.is_jmp = DISAS_SWI;
++            /* swi/svc  */
++            gen_thumb_swi(s, extract32(insn, 0, 8));
              break;
          }
- 
+         /* generate a conditional jump to next instruction */
 -- 
 2.20.1
 
