@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD27CF16
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:49:59 +0200 (CEST)
-Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663557CF14
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:49:38 +0200 (CEST)
+Received: from localhost ([::1]:44446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsvXq-0004KF-H0
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33157)
+	id 1hsvXV-0003Rs-5s
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34027)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvN9-0005Ui-1Q
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:57 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hsvQL-0003gg-1Y
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvN7-0003o4-Mu
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:54 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46213)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hsvN7-0003lg-FO
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:53 -0400
-Received: by mail-pl1-x644.google.com with SMTP id c2so30962335plz.13
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 13:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+7keF6G5xzpT4+93ObrzwUEEy1FTEHDioAfRG1ABjog=;
- b=Hb+iG6hikB6nHFx/0MT8WzAVyCuE4kWuAO6EzmOEnNm3pFGP9rMfaa1afO3UPUFGnv
- 17DQ2LWK+1yBpJTJLNPFOiJwODFNOF90nLDcIgpHG0kwEYnRZjq0JXk/KkvqdwvJg/CK
- pQch3+YjbwCiE2BwPmod0uoZT2TyuP7J2F6c4Z4mvkyo8QnjfDok7IReDNPNkQlp/tXw
- oDzcFFZZ2bb7UBYwaidmj5/YQClk1pXg8m0qIr38dxZrN1k3QhnzeXRXJcsfiLRAhSic
- fSiROngHfmDmaEwU3JQik0jKTVpRd//AbtSbbZk+IY1/siAwrNC1xfGOGTP91M302qm7
- 9SKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=+7keF6G5xzpT4+93ObrzwUEEy1FTEHDioAfRG1ABjog=;
- b=HRP24J1xQU9UBJRzVh5jWdnC86Uiklpb5veBqUwO+lL9bJkDZI5jiyryr3ZqPf/PVJ
- BsNmPi2DmBA3qAh2HwrxPOVQ63dIdsYnS6miRjUo8Ju8LK0fJqyAS8LM16x1Vvq5ZeNA
- DzO2wH00fNLTjH2o+0y/f2lrXCBm/cmx9V46shcI6z2hOEGPu899sZGV+Xuq9UQRXRfu
- F+wjeWggF+tIDDqh3WN4PjmL05OUtbLsx5dUlHBA51P5R7jn+4d8PICyColeCo5LkqxB
- WHqbIN3WqW0eN+Dh9v3x9mx/3Q3SK5VDvTsVnTepT5bGb2YmuJoqpfkNWusMYj7X0KsY
- wCQw==
-X-Gm-Message-State: APjAAAUPO8TzugB+Crq24qqQU6ZwehHAaEIvHSiFgDrw8OCkeVuP5PIx
- Yx0/Dio3VY0ORmuQZAVRaKPZUrBpdZY=
-X-Google-Smtp-Source: APXvYqxPqhnHLkD9ZTEK6UndKKSKwUuWx9yFtf49NDBkQ9tTj1uBFc4OcS5nvaMeOGiudvRm9gc63w==
-X-Received: by 2002:a17:902:f81:: with SMTP id
- 1mr27243792plz.191.1564605530692; 
- Wed, 31 Jul 2019 13:38:50 -0700 (PDT)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id g4sm84054164pfo.93.2019.07.31.13.38.49
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 13:38:50 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:38:10 -0700
-Message-Id: <20190731203813.30765-30-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190731203813.30765-1-richard.henderson@linaro.org>
-References: <20190731203813.30765-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v2 29/32] target/arm: Update {fp,
- sve}_exception_el for VHE
+ (envelope-from <kwolf@redhat.com>) id 1hsvQJ-0005ly-Rc
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:42:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51186)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hsvQH-0005jf-CX; Wed, 31 Jul 2019 16:42:09 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A55BD30860B6;
+ Wed, 31 Jul 2019 20:42:08 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-116-122.ams2.redhat.com
+ [10.36.116.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9708B5C207;
+ Wed, 31 Jul 2019 20:42:07 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed, 31 Jul 2019 22:42:01 +0200
+Message-Id: <20190731204203.10732-2-kwolf@redhat.com>
+In-Reply-To: <20190731204203.10732-1-kwolf@redhat.com>
+References: <20190731204203.10732-1-kwolf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 31 Jul 2019 20:42:08 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 1/3] iotests/118: Test media change for scsi-cd
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,107 +55,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When TGE+E2H are both set, CPACR_EL1 is ignored.
+The test covered only floppy and ide-cd. Add scsi-cd as well.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- target/arm/helper.c | 53 ++++++++++++++++++++++++---------------------
- 1 file changed, 28 insertions(+), 25 deletions(-)
+ tests/qemu-iotests/118     | 20 ++++++++++++++++++++
+ tests/qemu-iotests/118.out |  4 ++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 15a054a141..b29717edb6 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5507,7 +5507,9 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
- int sve_exception_el(CPUARMState *env, int el)
- {
- #ifndef CONFIG_USER_ONLY
--    if (el <= 1) {
-+    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
+diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
+index 499c5f0901..3c20d2d61f 100755
+--- a/tests/qemu-iotests/118
++++ b/tests/qemu-iotests/118
+@@ -33,6 +33,8 @@ def interface_to_device_name(interface):
+         return 'ide-cd'
+     elif interface =3D=3D 'floppy':
+         return 'floppy'
++    elif interface =3D=3D 'scsi':
++        return 'scsi-cd'
+     else:
+         return None
+=20
+@@ -297,6 +299,8 @@ class TestInitiallyFilled(GeneralChangeTestsBaseClass=
+):
+         qemu_img('create', '-f', iotests.imgfmt, new_img, '1440k')
+         self.vm =3D iotests.VM()
+         self.vm.add_drive(old_img, 'media=3D%s' % media, 'none')
++        if interface =3D=3D 'scsi':
++            self.vm.add_device('virtio-scsi-pci')
+         self.vm.add_device('%s,drive=3Ddrive0,id=3D%s' %
+                            (interface_to_device_name(interface),
+                             self.device_name))
+@@ -330,6 +334,8 @@ class TestInitiallyEmpty(GeneralChangeTestsBaseClass)=
+:
+     def setUp(self, media, interface):
+         qemu_img('create', '-f', iotests.imgfmt, new_img, '1440k')
+         self.vm =3D iotests.VM().add_drive(None, 'media=3D%s' % media, '=
+none')
++        if interface =3D=3D 'scsi':
++            self.vm.add_device('virtio-scsi-pci')
+         self.vm.add_device('%s,drive=3Ddrive0,id=3D%s' %
+                            (interface_to_device_name(interface),
+                             self.device_name))
+@@ -363,6 +369,20 @@ class TestCDInitiallyEmpty(TestInitiallyEmpty):
+     def setUp(self):
+         self.TestInitiallyEmpty.setUp(self, 'cdrom', 'ide')
+=20
++class TestSCSICDInitiallyFilled(TestInitiallyFilled):
++    TestInitiallyFilled =3D TestInitiallyFilled
++    has_real_tray =3D True
 +
-+    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-         bool disabled = false;
- 
-         /* The CPACR.ZEN controls traps to EL1:
-@@ -5522,8 +5524,7 @@ int sve_exception_el(CPUARMState *env, int el)
-         }
-         if (disabled) {
-             /* route_to_el2 */
--            return (arm_feature(env, ARM_FEATURE_EL2)
--                    && (arm_hcr_el2_eff(env) & HCR_TGE) ? 2 : 1);
-+            return hcr_el2 & HCR_TGE ? 2 : 1;
-         }
- 
-         /* Check CPACR.FPEN.  */
-@@ -11221,8 +11222,6 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
- int fp_exception_el(CPUARMState *env, int cur_el)
- {
- #ifndef CONFIG_USER_ONLY
--    int fpen;
--
-     /* CPACR and the CPTR registers don't exist before v6, so FP is
-      * always accessible
-      */
-@@ -11250,30 +11249,34 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-      * 0, 2 : trap EL0 and EL1/PL1 accesses
-      * 1    : trap only EL0 accesses
-      * 3    : trap no accesses
-+     * This register is ignored if E2H+TGE are both set.
-      */
--    fpen = extract32(env->cp15.cpacr_el1, 20, 2);
--    switch (fpen) {
--    case 0:
--    case 2:
--        if (cur_el == 0 || cur_el == 1) {
--            /* Trap to PL1, which might be EL1 or EL3 */
--            if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
-+    if ((arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-+        int fpen = extract32(env->cp15.cpacr_el1, 20, 2);
++    def setUp(self):
++        self.TestInitiallyFilled.setUp(self, 'cdrom', 'scsi')
 +
-+        switch (fpen) {
-+        case 0:
-+        case 2:
-+            if (cur_el == 0 || cur_el == 1) {
-+                /* Trap to PL1, which might be EL1 or EL3 */
-+                if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
-+                    return 3;
-+                }
-+                return 1;
-+            }
-+            if (cur_el == 3 && !is_a64(env)) {
-+                /* Secure PL1 running at EL3 */
-                 return 3;
-             }
--            return 1;
-+            break;
-+        case 1:
-+            if (cur_el == 0) {
-+                return 1;
-+            }
-+            break;
-+        case 3:
-+            break;
-         }
--        if (cur_el == 3 && !is_a64(env)) {
--            /* Secure PL1 running at EL3 */
--            return 3;
--        }
--        break;
--    case 1:
--        if (cur_el == 0) {
--            return 1;
--        }
--        break;
--    case 3:
--        break;
-     }
- 
-     /*
--- 
-2.17.1
++class TestSCSICDInitiallyEmpty(TestInitiallyEmpty):
++    TestInitiallyEmpty =3D TestInitiallyEmpty
++    has_real_tray =3D True
++
++    def setUp(self):
++        self.TestInitiallyEmpty.setUp(self, 'cdrom', 'scsi')
++
+ class TestFloppyInitiallyFilled(TestInitiallyFilled):
+     TestInitiallyFilled =3D TestInitiallyFilled
+     has_real_tray =3D False
+diff --git a/tests/qemu-iotests/118.out b/tests/qemu-iotests/118.out
+index 4823c113d5..b4ff997a8c 100644
+--- a/tests/qemu-iotests/118.out
++++ b/tests/qemu-iotests/118.out
+@@ -1,5 +1,5 @@
+-...............................................................
++........................................................................=
+.................
+ ----------------------------------------------------------------------
+-Ran 63 tests
++Ran 89 tests
+=20
+ OK
+--=20
+2.20.1
 
 
