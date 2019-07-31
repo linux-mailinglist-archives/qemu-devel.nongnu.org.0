@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8679D7B72C
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 02:27:27 +0200 (CEST)
-Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD217B76D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 03:13:48 +0200 (CEST)
+Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hscSk-0002TF-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 20:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60155)
+	id 1hsdBb-0002jF-Hv
+	for lists+qemu-devel@lfdr.de; Tue, 30 Jul 2019 21:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51651)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hscRu-0001kA-9e
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 20:26:35 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1hsdAB-0001bt-NE
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 21:12:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hscRt-00066I-8c
- for qemu-devel@nongnu.org; Tue, 30 Jul 2019 20:26:34 -0400
-Received: from mga07.intel.com ([134.134.136.100]:25472)
+ (envelope-from <tao3.xu@intel.com>) id 1hsdA9-0000OW-4M
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 21:12:18 -0400
+Received: from mga18.intel.com ([134.134.136.126]:12442)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>)
- id 1hscRs-0005wd-Rm; Tue, 30 Jul 2019 20:26:33 -0400
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hsdA8-0000HX-MX
+ for qemu-devel@nongnu.org; Tue, 30 Jul 2019 21:12:17 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2019 17:26:28 -0700
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2019 18:12:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,327,1559545200"; d="scan'208";a="200520440"
-Received: from unknown (HELO [10.239.196.148]) ([10.239.196.148])
- by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2019 17:26:26 -0700
-To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20190729063127.2801-1-tao3.xu@intel.com>
- <20190729063127.2801-3-tao3.xu@intel.com>
- <20190729150957.157a7c03@redhat.com>
- <04ce7f87-815c-924b-e1df-6a4028750926@intel.com>
- <20190730111120.63de67ae@Igors-MacBook-Pro>
- <20190730211216.GV4313@habkost.net>
+X-IronPort-AV: E=Sophos;i="5.64,327,1559545200"; d="scan'208";a="200535528"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.37])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2019 18:12:11 -0700
 From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <6763636a-8150-3875-79f4-efd5ddcfbefb@intel.com>
-Date: Wed, 31 Jul 2019 08:26:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To: imammedo@redhat.com,
+	eblake@redhat.com,
+	ehabkost@redhat.com
+Date: Wed, 31 Jul 2019 09:11:58 +0800
+Message-Id: <20190731011209.22538-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190730211216.GV4313@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.100
-Subject: Re: [Qemu-devel] [PATCH v8 02/11] numa: move numa global variable
- nb_numa_nodes into MachineState
+X-Received-From: 134.134.136.126
+Subject: [Qemu-devel] [PATCH RESEND v8 00/11] Build ACPI Heterogeneous
+ Memory Attribute Table (HMAT)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,24 +54,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, jingqi.liu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, jonathan.cameron@huawei.com,
- David Gibson <dgibson@redhat.com>, dan.j.williams@intel.com, paulus@samba.org
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com, dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/2019 5:12 AM, Eduardo Habkost wrote:
-> On Tue, Jul 30, 2019 at 11:11:20AM +0200, Igor Mammedov wrote:
-> [...]
->> PS:
->> we already have an implicit node creation in generic numa code (when memory hotplug
->> is enabled), so we probably could reuse that and a node should be created from there
->> instead of fixing up from the code deep within the board.
-> 
-> I like that.  We can add a MachineClass::auto_enable_numa field
-> to indicate when a NUMA node is expected to be created
-> implicitly.
-> 
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-OK thank you for your suggestion.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
+
+The V7 patches link:
+https://patchwork.kernel.org/cover/11046195/
+
+Changelog:
+v8:
+    - rebase to upstream
+    - Add check if numa->numa_state is NULL in pxb_dev_realize_common
+    - Use nb_nodes in spapr_populate_memory() (RESEND to fix) (Igor)
+v7:
+    - Defer 11-13 of patch v6, because the driver of _HMA hasn't been
+      implemented in kernel driver
+    - Drop the HMAT_LB_MEM_CACHE_LAST_LEVEL which is not used in
+      ACPI 6.3 (Jonathan)
+    - Add bit mask in flags of hmat-lb (Jonathan)
+    - Add a marco to indicate the type is latency or bandwidth (Jonathan)
+
+Liu Jingqi (5):
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
+  numa: Extend the CLI to provide memory latency and bandwidth
+    information
+  numa: Extend the CLI to provide memory side cache information
+
+Tao Xu (6):
+  hw/arm: simplify arm_load_dtb
+  numa: move numa global variable nb_numa_nodes into MachineState
+  numa: move numa global variable have_numa_distance into MachineState
+  numa: move numa global variable numa_info into MachineState
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/bios-tables-test: add test cases for ACPI HMAT
+
+ exec.c                              |   5 +-
+ hw/acpi/Kconfig                     |   5 +
+ hw/acpi/Makefile.objs               |   1 +
+ hw/acpi/aml-build.c                 |   9 +-
+ hw/acpi/hmat.c                      | 256 +++++++++++++++++++++++++
+ hw/acpi/hmat.h                      | 103 ++++++++++
+ hw/arm/aspeed.c                     |   5 +-
+ hw/arm/boot.c                       |  20 +-
+ hw/arm/collie.c                     |   8 +-
+ hw/arm/cubieboard.c                 |   5 +-
+ hw/arm/exynos4_boards.c             |   7 +-
+ hw/arm/highbank.c                   |   8 +-
+ hw/arm/imx25_pdk.c                  |   5 +-
+ hw/arm/integratorcp.c               |   8 +-
+ hw/arm/kzm.c                        |   5 +-
+ hw/arm/mainstone.c                  |   5 +-
+ hw/arm/mcimx6ul-evk.c               |   5 +-
+ hw/arm/mcimx7d-sabre.c              |   5 +-
+ hw/arm/musicpal.c                   |   8 +-
+ hw/arm/nseries.c                    |   5 +-
+ hw/arm/omap_sx1.c                   |   5 +-
+ hw/arm/palm.c                       |  10 +-
+ hw/arm/raspi.c                      |   6 +-
+ hw/arm/realview.c                   |   5 +-
+ hw/arm/sabrelite.c                  |   5 +-
+ hw/arm/sbsa-ref.c                   |  12 +-
+ hw/arm/spitz.c                      |   5 +-
+ hw/arm/tosa.c                       |   8 +-
+ hw/arm/versatilepb.c                |   5 +-
+ hw/arm/vexpress.c                   |   5 +-
+ hw/arm/virt-acpi-build.c            |  19 +-
+ hw/arm/virt.c                       |  17 +-
+ hw/arm/xilinx_zynq.c                |   8 +-
+ hw/arm/xlnx-versal-virt.c           |   7 +-
+ hw/arm/xlnx-zcu102.c                |   5 +-
+ hw/arm/z2.c                         |   8 +-
+ hw/core/machine-hmp-cmds.c          |  12 +-
+ hw/core/machine.c                   |  38 +++-
+ hw/core/numa.c                      | 287 ++++++++++++++++++++++++----
+ hw/i386/acpi-build.c                |   7 +-
+ hw/i386/pc.c                        |  13 +-
+ hw/mem/pc-dimm.c                    |   2 +
+ hw/pci-bridge/pci_expander_bridge.c |   8 +-
+ hw/ppc/spapr.c                      |  29 +--
+ hw/ppc/spapr_pci.c                  |   4 +-
+ include/hw/acpi/aml-build.h         |   2 +-
+ include/hw/arm/boot.h               |   4 +-
+ include/hw/boards.h                 |   1 +
+ include/qemu/typedefs.h             |   2 +
+ include/sysemu/numa.h               |  30 ++-
+ include/sysemu/sysemu.h             |  23 +++
+ qapi/machine.json                   | 183 +++++++++++++++++-
+ qemu-options.hx                     |  84 +++++++-
+ tests/bios-tables-test.c            |  43 +++++
+ 54 files changed, 1134 insertions(+), 246 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+
+-- 
+2.20.1
+
 
