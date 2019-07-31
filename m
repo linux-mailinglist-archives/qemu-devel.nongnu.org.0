@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8A87C492
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:14:06 +0200 (CEST)
-Received: from localhost ([::1]:41192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD94A7C4A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:16:57 +0200 (CEST)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hspMj-0008Tu-HJ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34044)
+	id 1hspPU-0004Rm-Vc
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34097)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hspLl-0006kf-ED
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:06 -0400
+ (envelope-from <clg@kaod.org>) id 1hspLs-00079r-5k
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hspLk-0001dJ-Fj
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:05 -0400
-Received: from 6.mo69.mail-out.ovh.net ([46.105.50.107]:57031)
+ (envelope-from <clg@kaod.org>) id 1hspLq-0001hB-Ju
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:12 -0400
+Received: from 9.mo4.mail-out.ovh.net ([46.105.40.176]:36738)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspLk-0001cl-Ax
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:04 -0400
-Received: from player715.ha.ovh.net (unknown [10.109.159.224])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id B3C9D6467C
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:13:02 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspLq-0001gT-DD
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:10 -0400
+Received: from player715.ha.ovh.net (unknown [10.108.35.74])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 0DB4B200680
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:13:09 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id 323B2850B7B3;
- Wed, 31 Jul 2019 14:12:57 +0000 (UTC)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 87C93850B82A;
+ Wed, 31 Jul 2019 14:13:02 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 31 Jul 2019 16:12:17 +0200
-Message-Id: <20190731141233.1340-3-clg@kaod.org>
+Date: Wed, 31 Jul 2019 16:12:18 +0200
+Message-Id: <20190731141233.1340-4-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190731141233.1340-1-clg@kaod.org>
 References: <20190731141233.1340-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 11668263688295975910
+X-Ovh-Tracer-Id: 11669952537534761958
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.50.107
-Subject: [Qemu-devel] [PATCH v3 02/18] tests/boot-serial-test: add support
- for all the PowerNV machines
+X-Received-From: 46.105.40.176
+Subject: [Qemu-devel] [PATCH v3 03/18] ppc/xive: Introduce the XiveFabric
+ and XivePresenter interfaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,27 +61,193 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the machine names specifiying the CPU type, POWER8 and POWER9.
+When the XIVE IVRE sub-engine (XiveRouter) looks for a Notification
+Virtual Target (NVT) to notify, it broadcasts a message on the
+PowerBUS to find an XIVE IVPE sub-engine (Presenter) which has the NVT
+dispatched on one of its HW threads, and then forwards the
+notification if any response was received.
 
+The current XIVE presenter model is sufficient for the pseries machine
+because it has a single interrupt controller device, but the PowerNV
+machine can have multiple chips each having its own interrupt
+controller. In this case, the XIVE presenter model is too simple and
+the CAM line matching should scan all chips of the system.
+
+We introduce a XiveFabric QOM interface which needs to be implemented
+by the machine. It acts as the PowerBUS interface between the
+interrupt controller and the system. On HW, the XIVE sub-engine
+responsible for the communication with the other chip is the Common
+Queue (CQ) bridge unit. This interface offers a 'match_nvt' handler to
+perform the CAM line matching when looking for a XIVE Presenter with a
+dispatched NVT.
+
+We also introduce a XivePresenter QOM interface to represent the XIVE
+Presenter (PC) sub-engine of the XIVE controller with a similar
+'match_nvt' handler to perform the CAM line matching. This interface
+could be merged in the XiveRouter but as it is stateless and performs
+the XIVE IVPE sub-engine tasks, it makes sense to keep it independent.
+It should have its use in POWER10.
+
+Fixes: af53dbf6227a ("ppc/xive: introduce a simplified XIVE presenter")
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- tests/boot-serial-test.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/ppc/xive.h | 54 +++++++++++++++++++++++++++++++++++++++++++
+ hw/intc/xive.c        | 36 +++++++++++++++++++++--------
+ 2 files changed, 81 insertions(+), 9 deletions(-)
 
-diff --git a/tests/boot-serial-test.c b/tests/boot-serial-test.c
-index 24852d4c7d0b..a54d007298f7 100644
---- a/tests/boot-serial-test.c
-+++ b/tests/boot-serial-test.c
-@@ -103,7 +103,8 @@ static testdef_t tests[] =3D {
-     { "ppc64", "pseries",
-       "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken",
-       "Open Firmware" },
--    { "ppc64", "powernv", "-cpu POWER8", "OPAL" },
-+    { "ppc64", "powernv8", "", "OPAL" },
-+    { "ppc64", "powernv9", "", "OPAL" },
-     { "ppc64", "sam460ex", "-device e1000", "8086  100e" },
-     { "i386", "isapc", "-cpu qemu32 -device sga", "SGABIOS" },
-     { "i386", "pc", "-device sga", "SGABIOS" },
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 4851ff87e795..165134ce52a5 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -368,6 +368,60 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_t =
+nvt_blk, uint32_t nvt_idx,
+ XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
+ void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
+=20
++/*
++ * XIVE Presenter
++ */
++
++typedef struct XiveTCTXMatch {
++    XiveTCTX *tctx;
++    uint8_t ring;
++} XiveTCTXMatch;
++
++typedef struct XivePresenter XivePresenter;
++
++#define TYPE_XIVE_PRESENTER "xive-presenter"
++#define XIVE_PRESENTER(obj)                                     \
++    INTERFACE_CHECK(XivePresenter, (obj), TYPE_XIVE_PRESENTER)
++#define XIVE_PRESENTER_CLASS(klass)                                     =
+\
++    OBJECT_CLASS_CHECK(XivePresenterClass, (klass), TYPE_XIVE_PRESENTER)
++#define XIVE_PRESENTER_GET_CLASS(obj)                                   =
+\
++    OBJECT_GET_CLASS(XivePresenterClass, (obj), TYPE_XIVE_PRESENTER)
++
++typedef struct XivePresenterClass {
++    InterfaceClass parent;
++    int (*match_nvt)(XivePresenter *xptr, uint8_t format,
++                     uint8_t nvt_blk, uint32_t nvt_idx,
++                     bool cam_ignore, uint8_t priority,
++                     uint32_t logic_serv, XiveTCTXMatch *match);
++} XivePresenterClass;
++
++int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
++                              uint8_t format,
++                              uint8_t nvt_blk, uint32_t nvt_idx,
++                              bool cam_ignore, uint32_t logic_serv);
++
++/*
++ * XIVE Fabric (Interface between Interrupt Controller and Machine)
++ */
++
++typedef struct XiveFabric XiveFabric;
++
++#define TYPE_XIVE_FABRIC "xive-fabric"
++#define XIVE_FABRIC(obj)                                     \
++    INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
++#define XIVE_FABRIC_CLASS(klass)                                     \
++    OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
++#define XIVE_FABRIC_GET_CLASS(obj)                                   \
++    OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
++
++typedef struct XiveFabricClass {
++    InterfaceClass parent;
++    int (*match_nvt)(XiveFabric *xfb, uint8_t format,
++                     uint8_t nvt_blk, uint32_t nvt_idx,
++                     bool cam_ignore, uint8_t priority,
++                     uint32_t logic_serv, XiveTCTXMatch *match);
++} XiveFabricClass;
++
+ /*
+  * XIVE END ESBs
+  */
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 88f2e560db0f..4bdedab13047 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1294,9 +1294,10 @@ static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tc=
+tx)
+ /*
+  * The thread context register words are in big-endian format.
+  */
+-static int xive_presenter_tctx_match(XiveTCTX *tctx, uint8_t format,
+-                                     uint8_t nvt_blk, uint32_t nvt_idx,
+-                                     bool cam_ignore, uint32_t logic_ser=
+v)
++int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
++                              uint8_t format,
++                              uint8_t nvt_blk, uint32_t nvt_idx,
++                              bool cam_ignore, uint32_t logic_serv)
+ {
+     uint32_t cam =3D xive_nvt_cam_line(nvt_blk, nvt_idx);
+     uint32_t qw3w2 =3D xive_tctx_word2(&tctx->regs[TM_QW3_HV_PHYS]);
+@@ -1353,11 +1354,6 @@ static int xive_presenter_tctx_match(XiveTCTX *tct=
+x, uint8_t format,
+     return -1;
+ }
+=20
+-typedef struct XiveTCTXMatch {
+-    XiveTCTX *tctx;
+-    uint8_t ring;
+-} XiveTCTXMatch;
+-
+ static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
+                                  uint8_t nvt_blk, uint32_t nvt_idx,
+                                  bool cam_ignore, uint8_t priority,
+@@ -1383,7 +1379,8 @@ static bool xive_presenter_match(XiveRouter *xrtr, =
+uint8_t format,
+          * Check the thread context CAM lines and record matches. We
+          * will handle CPU exception delivery later
+          */
+-        ring =3D xive_presenter_tctx_match(tctx, format, nvt_blk, nvt_id=
+x,
++        ring =3D xive_presenter_tctx_match(XIVE_PRESENTER(xrtr), tctx, f=
+ormat,
++                                         nvt_blk, nvt_idx,
+                                          cam_ignore, logic_serv);
+         /*
+          * Save the context and follow on to catch duplicates, that we
+@@ -1670,6 +1667,7 @@ static const TypeInfo xive_router_info =3D {
+     .class_init    =3D xive_router_class_init,
+     .interfaces    =3D (InterfaceInfo[]) {
+         { TYPE_XIVE_NOTIFIER },
++        { TYPE_XIVE_PRESENTER },
+         { }
+     }
+ };
+@@ -1841,10 +1839,30 @@ static const TypeInfo xive_notifier_info =3D {
+     .class_size =3D sizeof(XiveNotifierClass),
+ };
+=20
++/*
++ * XIVE Presenter
++ */
++static const TypeInfo xive_presenter_info =3D {
++    .name =3D TYPE_XIVE_PRESENTER,
++    .parent =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(XivePresenterClass),
++};
++
++/*
++ * XIVE Fabric
++ */
++static const TypeInfo xive_fabric_info =3D {
++    .name =3D TYPE_XIVE_FABRIC,
++    .parent =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(XiveFabricClass),
++};
++
+ static void xive_register_types(void)
+ {
+     type_register_static(&xive_source_info);
+     type_register_static(&xive_notifier_info);
++    type_register_static(&xive_presenter_info);
++    type_register_static(&xive_fabric_info);
+     type_register_static(&xive_router_info);
+     type_register_static(&xive_end_source_info);
+     type_register_static(&xive_tctx_info);
 --=20
 2.21.0
 
