@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868687C876
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:21:58 +0200 (CEST)
-Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987127C873
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:21:00 +0200 (CEST)
+Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrMT-0002Wj-NX
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42403)
+	id 1hsrLX-0000Ih-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG7-0005w8-Mh
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:25 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG7-0005uW-8e
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG5-00049K-Nd
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrG6-0004A0-1m
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:23 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33697)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53508)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrG1-00046g-Qo
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:19 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n9so70436154wru.0
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:17 -0700 (PDT)
+ id 1hsrG5-00047H-Q6
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:21 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x15so61472968wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wNexri908PTiPWm1XMgESUAKCJc8K1I1ZWLPF6fkVnU=;
- b=Dvqjhk3Whwr8YN8/XkYURjnj4DWkrCi0NowTwwgxYkqW4060jU1KZZsC2IN1B4kkpm
- TOxOYFy+sFzJaf/rLKBoA0WvXzow82jIuz304gOpvApHbPrUjWJmF+sXsi/dPIyRQR89
- B8yEYtGDEL2+BUDhSbPXWI/vqIEtpNizPeD/a4P1F9Y/Rz95xhfQPTS/LiNqsb3iRnRu
- RgN9mNAyhQ91EG15Ytx89ylQZxs6dDg9liPjtVrWMfWhCNQEocu3Mkwl5iXIp/Y/obtB
- wiaxaJwadnPQDpsBrNq4Ju20tg9xNExnNHdmF68NOPAfIkNIi81AruurYcgcEabw1ID9
- X/Ow==
+ bh=TwsNXkTsHTv8y1ITkoQ5QIXyXHIc1coCol9uilfBzDM=;
+ b=ApKufer1ZmNFvz+1aMwTxRKO9pQL6ZDR3EM5lxC6cKVhXLgL10LatRlQGd+EOt+pL0
+ Vfq6Y3DikqFLXLa4LOuvxZQSI4NEL1U2tG8odekY24u/s7SZ8jZYaitFdKiH7mvGlLYI
+ d2tSWlgoY21T0+CXJiEosDttlzv24VDzJElrNv3TaOBOtstJzL0CqW3rnboNH8Q+XB0V
+ zQ2zr9LPan0SOg0jRtVzuBkasLOBnoWrL2BKqvaAyo/Aq4qtRGB+ct2ue9Z3UR+ECg9k
+ /yZ5THI5hlQvy7zCTPob5jLgsCa/JWIDKAGNtkGd2+EBJuggayHrZ+czjqiu8DpECMf0
+ bKyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wNexri908PTiPWm1XMgESUAKCJc8K1I1ZWLPF6fkVnU=;
- b=leUzcjLsJSS2/2KLNrZGvinw1Aa0xAr6l8mVeYJntEVjkOI3+GrTkIgiAPAikIc2Pw
- SUuiUBqAnt3L+UTIBw8YLPC9w7dr1XXlcgoXDDiDJ1Yw+wgm+wmgOta9N82ElY2Fpv4r
- g5HbDzM9ebwJMN0YXjbUA/gWmCC4Jd/DC1kQSN/HC0BqquEkWH3BjbKtwb0bTvqAp8Be
- Cd8iYN6iuvy6Vji6AplJNaq3CpDRxpZVaA4QY+1S0AKFiCzdYS9Tjx5edC2yqE+/k7J/
- AHSkvcCaQ3jRFoazPuycpw1FrDhzZLIBQiKLkIENL5NOnC5xKpgXhSW/mbBzNzebIAth
- KYRA==
-X-Gm-Message-State: APjAAAUUzg5MdUEFdzdXdhN+/mGa/fNLpT8gQ0K/QRFVZg/jQnBc3cbl
- b2QvJM7jv8Ef0eXa3MeroyXGfA==
-X-Google-Smtp-Source: APXvYqy8k1e8wQ6s4CapOQFYxk5nty4PAj1rYhjZFNGeTNWMzpJFxo4aI+qyuFM54HBFeCZZcIlG+Q==
-X-Received: by 2002:adf:80e1:: with SMTP id 88mr48054009wrl.127.1564589716736; 
- Wed, 31 Jul 2019 09:15:16 -0700 (PDT)
+ bh=TwsNXkTsHTv8y1ITkoQ5QIXyXHIc1coCol9uilfBzDM=;
+ b=LK7rgTfoKCKhXAR/CSlxw5Ud0WgPkOCUZhSE/p1jQ2XfNpOh8/UWpcm7Rtm6GqEm3o
+ 3TnH7DMenElTDucuHyFozmigZ7leRXgfZHI58bTqP5mZt9SKHeXTNuNWNaVYo/URsWiu
+ c608W7scABT5G/WXShA7Wo6FSfv2YUiqKkEEX2D0nEUWWb8wc5MT4arj5D27IaTOOknk
+ 7ExXwcNgFC2rs1xl5GaiDkTPZL5pmJY+stSM1XCONCLqP0ToGqu26QB4j9ZVA0UKuOXL
+ QAB9Mf+L6umti3nSmlG7iClhQBDv/ECS1rCW5l3UqzSJb2rimrkUDfvobS+d2UZQBofF
+ XVSA==
+X-Gm-Message-State: APjAAAUpk3qhTt8qFsxQolH6cklOLULGeWxdzEviX070/1AAGAqkTAEi
+ +i2zbZG3YJZhSQYKfpeozbVBXw==
+X-Google-Smtp-Source: APXvYqwlsnN3B64lkx7YjD8MjHOEzJBHHB263RewdHibl9X2zGzGIj8+FhBugarytxweyWBP60SG1w==
+X-Received: by 2002:a1c:7e14:: with SMTP id z20mr108780131wmc.83.1564589717279; 
+ Wed, 31 Jul 2019 09:15:17 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r11sm107266157wre.14.2019.07.31.09.15.13
+ by smtp.gmail.com with ESMTPSA id t63sm62639657wmt.6.2019.07.31.09.15.13
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Wed, 31 Jul 2019 09:15:14 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A32A1FFB4;
+ by zen.linaroharston (Postfix) with ESMTP id 6FCE71FFB5;
  Wed, 31 Jul 2019 17:07:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:55 +0100
-Message-Id: <20190731160719.11396-31-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:56 +0100
+Message-Id: <20190731160719.11396-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH  v4 30/54] translator: add translator_ld{ub, sw,
- uw, l, q}
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v4 31/54] target/arm: fetch code with
+ translator_ld
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,171 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, aaron@os.amperecomputing.com,
+ cota@braap.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ bobby.prani@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Now the arm_ld*_code functions are only used at translate time we can
+just pass down to translator_ld functions.
+
 Signed-off-by: Emilio G. Cota <cota@braap.org>
-[AJB: directly plumb into softmmu/user helpers]
+[AJB: convert from plugin_insn_append to translator_ld]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
 v4
-  - don't use the cpu_ldst helpers, plumb directly into the lower
-  level
-  - mark the CODE_ACCESS/SOFTMMU_CODE_ACCESS as deprecated
+  - use translator_ld like the rest of them
 ---
- include/exec/cpu_ldst.h   | 11 ++++++++
- include/exec/translator.h | 58 ++++++++++++++++++++++++++++++++++++++-
- include/qemu/bswap.h      |  5 ++++
- tcg/tcg.h                 |  2 ++
- 4 files changed, 75 insertions(+), 1 deletion(-)
+ target/arm/arm_ldst.h | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 9151fdb042c..fd499f7e2ff 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -129,6 +129,11 @@ static inline void clear_helper_retaddr(void)
- #include "exec/cpu_ldst_useronly_template.h"
- #undef MEMSUFFIX
+diff --git a/target/arm/arm_ldst.h b/target/arm/arm_ldst.h
+index 5e0ac8bef06..45edb108f6a 100644
+--- a/target/arm/arm_ldst.h
++++ b/target/arm/arm_ldst.h
+@@ -20,25 +20,20 @@
+ #ifndef ARM_LDST_H
+ #define ARM_LDST_H
  
-+/*
-+ * Code access is deprecated in favour of translator_ld* functions
-+ * (see translator.h). However there are still users that need to
-+ * converted so for now these stay.
-+ */
- #define MEMSUFFIX _code
- #define CODE_ACCESS
- #define DATA_SIZE 1
-@@ -427,6 +432,12 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
- #undef CPU_MMU_INDEX
- #undef MEMSUFFIX
+-#include "exec/cpu_ldst.h"
++#include "exec/translator.h"
+ #include "qemu/bswap.h"
  
-+/*
-+ * Code access is deprecated in favour of translator_ld* functions
-+ * (see translator.h). However there are still users that need to
-+ * converted so for now these stay.
-+ */
-+
- #define CPU_MMU_INDEX (cpu_mmu_index(env, true))
- #define MEMSUFFIX _code
- #define SOFTMMU_CODE_ACCESS
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 180c51d5092..30b1a594fc1 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -19,7 +19,10 @@
-  */
- 
- 
-+#include "qemu/bswap.h"
- #include "exec/exec-all.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/plugin-gen.h"
- #include "tcg/tcg.h"
- 
- 
-@@ -142,4 +145,57 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
- 
- void translator_loop_temp_check(DisasContextBase *db);
- 
--#endif /* EXEC__TRANSLATOR_H */
-+/*
-+ * Translator Load Functions
-+ *
-+ * These are intended to replace the old cpu_ld*_code functions and
-+ * are mandatory for front-ends that have been migrated to the common
-+ * translator_loop. These functions are only intended to be called
-+ * from the translation stage and should not be called from helper
-+ * functions. Those functions should be converted to encode the
-+ * relevant at translation time.
-+ */
-+
-+#ifdef CONFIG_USER_ONLY
-+
-+#define DO_LOAD(type, name, shift)               \
-+    set_helper_retaddr(1);                       \
-+    ret = name ## _p(g2h(pc));                   \
-+    clear_helper_retaddr();
-+
-+#else
-+
-+#define DO_LOAD(type, name, shift)                   \
-+    int mmu_idx = cpu_mmu_index(env, true);          \
-+    TCGMemOpIdx oi = make_memop_idx(shift, mmu_idx); \
-+    ret = helper_ret_ ## name ## _cmmu(env, pc, oi, 0);
-+
-+#endif
-+
-+#define GEN_TRANSLATOR_LD(fullname, name, type, shift, swap_fn)         \
-+    static inline type                                                  \
-+    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
-+    {                                                                   \
-+        type ret;                                                       \
-+        DO_LOAD(type, name, shift)                                      \
-+                                                                        \
-+        if (do_swap) {                                                  \
-+            ret = swap_fn(ret);                                         \
-+        }                                                               \
-+        plugin_insn_append(&ret, sizeof(ret));                          \
-+        return ret;                                                     \
-+    }                                                                   \
-+                                                                        \
-+    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
-+    {                                                                   \
-+        return fullname ## _swap(env, pc, false);                       \
-+    }
-+
-+GEN_TRANSLATOR_LD(translator_ldub, ldb, uint8_t, 1, /* no swap needed */)
-+GEN_TRANSLATOR_LD(translator_ldsw, lduw, int16_t, 2, bswap16)
-+GEN_TRANSLATOR_LD(translator_lduw, lduw, uint16_t, 2, bswap16)
-+GEN_TRANSLATOR_LD(translator_ldl, ldl, uint32_t, 3, bswap32)
-+GEN_TRANSLATOR_LD(translator_ldq, ldq, uint64_t, 4, bswap64)
-+#undef GEN_TRANSLATOR_LD
-+
-+#endif  /* EXEC__TRANSLATOR_H */
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 2a9f3fe783e..4f707278740 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -306,6 +306,11 @@ static inline int ldub_p(const void *ptr)
-     return *(uint8_t *)ptr;
+ /* Load an instruction and return it in the standard little-endian order */
+ static inline uint32_t arm_ldl_code(CPUARMState *env, target_ulong addr,
+                                     bool sctlr_b)
+ {
+-    uint32_t insn = cpu_ldl_code(env, addr);
+-    if (bswap_code(sctlr_b)) {
+-        return bswap32(insn);
+-    }
+-    return insn;
++    return translator_ldl_swap(env, addr, bswap_code(sctlr_b));
  }
  
-+static inline int ldb_p(const void *ptr)
-+{
-+    return ldub_p(ptr);
-+}
-+
- static inline int ldsb_p(const void *ptr)
+ /* Ditto, for a halfword (Thumb) instruction */
+ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+                                      bool sctlr_b)
  {
-     return *(int8_t *)ptr;
-diff --git a/tcg/tcg.h b/tcg/tcg.h
-index 93f52f4ca93..c918fdd87c4 100644
---- a/tcg/tcg.h
-+++ b/tcg/tcg.h
-@@ -1404,6 +1404,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stl_mmu   helper_be_stl_mmu
- # define helper_ret_stq_mmu   helper_be_stq_mmu
- # define helper_ret_ldw_cmmu  helper_be_ldw_cmmu
-+# define helper_ret_lduw_cmmu helper_be_ldw_cmmu
- # define helper_ret_ldl_cmmu  helper_be_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_be_ldq_cmmu
- #else
-@@ -1417,6 +1418,7 @@ uint64_t helper_be_ldq_cmmu(CPUArchState *env, target_ulong addr,
- # define helper_ret_stl_mmu   helper_le_stl_mmu
- # define helper_ret_stq_mmu   helper_le_stq_mmu
- # define helper_ret_ldw_cmmu  helper_le_ldw_cmmu
-+# define helper_ret_lduw_cmmu helper_le_ldw_cmmu
- # define helper_ret_ldl_cmmu  helper_le_ldl_cmmu
- # define helper_ret_ldq_cmmu  helper_le_ldq_cmmu
+-    uint16_t insn;
+ #ifndef CONFIG_USER_ONLY
+     /* In big-endian (BE32) mode, adjacent Thumb instructions have been swapped
+        within each word.  Undo that now.  */
+@@ -46,11 +41,7 @@ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+         addr ^= 2;
+     }
+ #endif
+-    insn = cpu_lduw_code(env, addr);
+-    if (bswap_code(sctlr_b)) {
+-        return bswap16(insn);
+-    }
+-    return insn;
++    return translator_lduw_swap(env, addr, bswap_code(sctlr_b));
+ }
+ 
  #endif
 -- 
 2.20.1
