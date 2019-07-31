@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4637A7C491
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:14:00 +0200 (CEST)
-Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DF47C493
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:14:08 +0200 (CEST)
+Received: from localhost ([::1]:41194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hspMd-0008BM-Fz
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34003)
+	id 1hspMl-00004t-He
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34007)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hspLg-0006bM-GJ
+ (envelope-from <clg@kaod.org>) id 1hspLg-0006bb-Kr
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hspLf-0001ZI-7N
+ (envelope-from <clg@kaod.org>) id 1hspLf-0001ZZ-BQ
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:13:00 -0400
-Received: from 9.mo173.mail-out.ovh.net ([46.105.72.44]:38139)
+Received: from 1.mo4.mail-out.ovh.net ([178.33.248.196]:34516)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspLf-0001TU-0A
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hspLf-0001YZ-5Z
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:12:59 -0400
-Received: from player715.ha.ovh.net (unknown [10.109.146.131])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 7CC9B11231B
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:12:50 +0200 (CEST)
+Received: from player715.ha.ovh.net (unknown [10.109.143.175])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 69E5F1FD476
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:12:57 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id 89E71850B6EA;
- Wed, 31 Jul 2019 14:12:45 +0000 (UTC)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 0FB35850B757;
+ Wed, 31 Jul 2019 14:12:50 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 31 Jul 2019 16:12:15 +0200
-Message-Id: <20190731141233.1340-1-clg@kaod.org>
+Date: Wed, 31 Jul 2019 16:12:16 +0200
+Message-Id: <20190731141233.1340-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190731141233.1340-1-clg@kaod.org>
+References: <20190731141233.1340-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 11664885988945791974
+X-Ovh-Tracer-Id: 11666856313866783718
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgdejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrleehgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.72.44
-Subject: [Qemu-devel] [PATCH v3 00/18] ppc/pnv: add XIVE support for KVM
- guests
+X-Received-From: 178.33.248.196
+Subject: [Qemu-devel] [PATCH v3 01/18] ppc/pnv: Introduce PowerNV machines
+ with fixed CPU models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,88 +61,150 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Make the current "powernv" machine an abstract type and derive from it
+new machines with specific CPU models: power8 and power9.
 
-The QEMU PowerNV machine emulates a baremetal OpenPOWER system and
-acts as an hypervisor (L0). Supporting emulation of KVM to run guests
-(L1) requires a few more extensions, among which guest support for the
-XIVE interrupt controller on POWER9 processor.
+The "powernv" machine is now an alias on the "powernv9" machine.
 
-The following changes add new per-CPU PowerNV machines and extend the
-XIVE models with the new XiveFabric and XivePresenter interfaces to
-provide support for XIVE escalations and interrupt resend. This
-mechanism is used by XIVE to notify the hypervisor that a vCPU is not
-dispatched on a HW thread. Tested on a QEMU PowerNV machine and a
-simple QEMU pseries guest doing network on a local bridge.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/ppc/pnv.c | 70 ++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 63 insertions(+), 7 deletions(-)
 
-The XIVE interrupt controller offers a way to increase the XIVE
-resources per chip by configuring multiple XIVE blocks on a chip. This
-is not currently supported by the model. However, some configurations,
-such as OPAL/skiboot, use one block-per-chip configuration with some
-optimizations. One of them is to override the hardwired chip ID by the
-block id in the PowerBUS operations and for CAM line compares. This
-patchset improves the support for this setup. Tested with 4 chips.
-
-A series from Suraj adding guest support in the Radix MMU model of the
-QEMU PowerNV machine is still required and will be send later. The
-whole patchset can be found under :
-
-  https://github.com/legoater/qemu/tree/powernv-4.1
-
-Thanks,
-
-C.
-
-Changes since v2:
-
- - introduced the XiveFabric and XivePresenter interfaces
- - removed the need of a XiveRouter pointer under XiveTCTX
-
-Changes since v1:
-
- - minor extra fixes=20
- - split the escalation support in different patches
- - kept the XiveRouter type for XiveTCTX back pointer (will address
-   this in P10)
- - removed pnv_xive_vst_size(). Really broken on indirect tables.
- - improved the dump of the NVT table
- - introduce pnv_xive_get_block_id()
-
-
-C=C3=A9dric Le Goater (18):
-  ppc/pnv: Introduce PowerNV machines with fixed CPU models
-  tests/boot-serial-test: add support for all the PowerNV machines
-  ppc/xive: Introduce the XiveFabric and XivePresenter interfaces
-  ppc/pnv: Implement the XiveFabric and XivePresenter interfaces
-  ppc/spapr: Implement the XiveFabric and XivePresenter interfaces
-  ppc/xive: Use the XiveFabric and XivePresenter interfaces
-  ppc/xive: Extend the TIMA operation with a XivePresenter parameter
-  ppc/pnv: Clarify how the TIMA is accessed on a multichip system
-  ppc/xive: Move the TIMA operations to the controller model
-  ppc/xive: Introduce a xive_tctx_ipb_update() helper
-  ppc/xive: Synthesize interrupt from the saved IPB in the NVT
-  ppc/pnv: Remove pnv_xive_vst_size() routine
-  ppc/pnv: Dump the XIVE NVT table
-  ppc/pnv: Skip empty slots of the XIVE NVT table
-  ppc/pnv: Introduce a pnv_xive_block_id() helper
-  ppc/pnv: Extend XivePresenter with a get_block_id() handler
-  ppc/pnv: Quiesce some XIVE errors
-  ppc/xive: Introduce a xive_os_cam_decode() helper
-
- include/hw/ppc/pnv.h       |  13 ++
- include/hw/ppc/pnv_xive.h  |   3 -
- include/hw/ppc/spapr_irq.h |   6 +
- include/hw/ppc/xive.h      |  71 ++++++--
- include/hw/ppc/xive_regs.h |  24 +++
- hw/intc/pnv_xive.c         | 356 ++++++++++++++++++++++++-------------
- hw/intc/spapr_xive.c       |  80 ++++++++-
- hw/intc/xive.c             | 319 ++++++++++++++++++---------------
- hw/ppc/pnv.c               | 102 ++++++++++-
- hw/ppc/spapr.c             |  34 ++++
- hw/ppc/spapr_irq.c         |  25 +++
- tests/boot-serial-test.c   |   3 +-
- 12 files changed, 743 insertions(+), 293 deletions(-)
-
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 4570ce8afe6a..18602b9e9bcd 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -602,9 +602,20 @@ static void pnv_chip_power9_pic_print_info(PnvChip *=
+chip, Monitor *mon)
+     pnv_psi_pic_print_info(&chip9->psi, mon);
+ }
+=20
++static bool pnv_match_cpu(const char *default_type, const char *cpu_type=
+)
++{
++    PowerPCCPUClass *ppc_default =3D
++        POWERPC_CPU_CLASS(object_class_by_name(default_type));
++    PowerPCCPUClass *ppc =3D
++        POWERPC_CPU_CLASS(object_class_by_name(cpu_type));
++
++    return ppc_default->pvr_match(ppc_default, ppc->pvr);
++}
++
+ static void pnv_init(MachineState *machine)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(machine);
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     MemoryRegion *ram;
+     char *fw_filename;
+     long fw_size;
+@@ -664,13 +675,23 @@ static void pnv_init(MachineState *machine)
+         }
+     }
+=20
++    /*
++     * Check compatibility of the specified CPU with the machine
++     * default.
++     */
++    if (!pnv_match_cpu(mc->default_cpu_type, machine->cpu_type)) {
++        error_report("invalid CPU model '%s' for %s machine",
++                     machine->cpu_type, mc->name);
++        exit(1);
++    }
++
+     /* Create the processor chips */
+     i =3D strlen(machine->cpu_type) - strlen(POWERPC_CPU_TYPE_SUFFIX);
+     chip_typename =3D g_strdup_printf(PNV_CHIP_TYPE_NAME("%.*s"),
+                                     i, machine->cpu_type);
+     if (!object_class_by_name(chip_typename)) {
+-        error_report("invalid CPU model '%.*s' for %s machine",
+-                     i, machine->cpu_type, MACHINE_GET_CLASS(machine)->n=
+ame);
++        error_report("invalid chip model '%.*s' for %s machine",
++                     i, machine->cpu_type, mc->name);
+         exit(1);
+     }
+=20
+@@ -1348,25 +1369,43 @@ static void pnv_machine_class_props_init(ObjectCl=
+ass *oc)
+                               NULL);
+ }
+=20
+-static void pnv_machine_class_init(ObjectClass *oc, void *data)
++static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+     XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
++
++    mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER8";
++    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
++
++    xic->icp_get =3D pnv_icp_get;
++    xic->ics_get =3D pnv_ics_get;
++    xic->ics_resend =3D pnv_ics_resend;
++}
++
++static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc =3D MACHINE_CLASS(oc);
++
++    mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
++    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
++
++    mc->alias =3D "powernv";
++}
++
++static void pnv_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc =3D MACHINE_CLASS(oc);
+     InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
+(oc);
+=20
+     mc->desc =3D "IBM PowerNV (Non-Virtualized)";
+     mc->init =3D pnv_init;
+     mc->reset =3D pnv_reset;
+     mc->max_cpus =3D MAX_CPUS;
+-    mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
+     mc->block_default_type =3D IF_IDE; /* Pnv provides a AHCI device for
+                                       * storage */
+     mc->no_parallel =3D 1;
+     mc->default_boot_order =3D NULL;
+     mc->default_ram_size =3D 2 * GiB;
+-    xic->icp_get =3D pnv_icp_get;
+-    xic->ics_get =3D pnv_ics_get;
+-    xic->ics_resend =3D pnv_ics_resend;
+     ispc->print_info =3D pnv_pic_print_info;
+=20
+     pnv_machine_class_props_init(oc);
+@@ -1386,10 +1425,27 @@ static void pnv_machine_class_init(ObjectClass *o=
+c, void *data)
+         .parent        =3D TYPE_PNV9_CHIP,          \
+     }
+=20
++#define DEFINE_PNV_MACHINE_TYPE(cpu, class_initfn)      \
++    {                                                   \
++        .name          =3D MACHINE_TYPE_NAME(cpu),        \
++        .parent        =3D TYPE_PNV_MACHINE,              \
++        .instance_size =3D sizeof(PnvMachineState),       \
++        .instance_init =3D pnv_machine_instance_init,     \
++        .class_init    =3D class_initfn,                  \
++        .interfaces =3D (InterfaceInfo[]) {               \
++            { TYPE_XICS_FABRIC },                       \
++            { TYPE_INTERRUPT_STATS_PROVIDER },          \
++            { },                                        \
++        },                                              \
++    }
++
+ static const TypeInfo types[] =3D {
++    DEFINE_PNV_MACHINE_TYPE("powernv8", pnv_machine_power8_class_init),
++    DEFINE_PNV_MACHINE_TYPE("powernv9", pnv_machine_power9_class_init),
+     {
+         .name          =3D TYPE_PNV_MACHINE,
+         .parent        =3D TYPE_MACHINE,
++        .abstract       =3D true,
+         .instance_size =3D sizeof(PnvMachineState),
+         .instance_init =3D pnv_machine_instance_init,
+         .class_init    =3D pnv_machine_class_init,
 --=20
 2.21.0
 
