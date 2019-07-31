@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858487CF05
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:45:45 +0200 (CEST)
-Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD567CF09
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:46:51 +0200 (CEST)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsvTk-0002Iv-OW
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:45:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60897)
+	id 1hsvUo-0005no-SD
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60916)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvMn-0004d9-MO
+ (envelope-from <richard.henderson@linaro.org>) id 1hsvMo-0004gb-Fx
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvMl-0003UA-SS
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:33 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33855)
+ (envelope-from <richard.henderson@linaro.org>) id 1hsvMn-0003Um-68
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:34 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45315)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hsvMl-0003TB-LH
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:31 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b13so32516048pfo.1
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 13:38:31 -0700 (PDT)
+ id 1hsvMm-0003UL-VV
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:33 -0400
+Received: by mail-pf1-x443.google.com with SMTP id r1so32508286pfq.12
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 13:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=mRFuXKk2Gwl0/7zE7hzogtQkhwOwZ57w0oxCxJ+Y7Jc=;
- b=fGPtrJi5lMT5db66q3lUVogvy1stjLkaPyGvAtBruficEjFf1GvyrkRNhgkQl2/+Uy
- PytEwlEo6zjLNTsti/sxJCtyURJN1c/GHPruTRIM1qdfdeGgutEryRyGQzlFZf3pHqLg
- Ivkq3Qq+R8rFUk1KnhllUNqnojOcSoCOVLX7du2gD/3wM79ZmeOsXB2Wf0y3GtSDQALc
- GhobsRrQjPV5M+S6svitEK/ZjYtfMlEMiPYsUmhs+baG/X8wrbFaR6i3R+WEYrcHhMCs
- Wn9bbbjAM4C7USvW50fi5Q3F/jskctSNB5bIl4bqsgo4trJQTP8k6b3sLRTJoHx8CD9i
- 7Gqw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h3dhwpfe86udFJHT5d1QRrLfJzUV39xxz0iIkIlTtJQ=;
+ b=fEfOWxba8dUcw1YB9PkYIF7f0IZt3Jot9DSidbxSvrttwik89jhDybvAmE8VjvntkR
+ mDhvbPtx9iN+Z9x0RjobWti4c2cp2cY8mDuDtAqKQ4WtW3WwgeUXoJYyL95HToYcRHrM
+ Xsq6CJqvcgL+jwB0/QbDoMWfP85NCylb65BUO2s8jFH0TwOMeL0uv0ehHKDdjmjmkL9p
+ ze0FDx8VuCQYQR0/twXL9eSoBsBgOWaRBgek75lmMDXYGekadt8wj0iKMPHEkJOnq5uq
+ ecKpamJKT5bbCXFt1APD3TF4suID1yEE2tlK8d/YvA2ZNBLEFaYkifOJviGN09SzEvV6
+ IA3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=mRFuXKk2Gwl0/7zE7hzogtQkhwOwZ57w0oxCxJ+Y7Jc=;
- b=eWWXuaPj9iwz5aT2Kfs7+b5BYHmE6LLAlOHJEq8wgfVv/gFW9aV0T8WJKdf4kAaP0s
- xz+NP09D4QaciTFwwJyneRu5gYxk2Stph44oQQeaUnyCE+rMmBL/DIhp9Xp/7uSzwGoi
- Zv6gpcoEsP5+WwHu/D/v+Q/17HTg7jTCtfLfvAlkk1IP2GVZnddQtd51k6WmKhGopxny
- b7kMIb9lqNq05IIj79lL5Em+8aiRorY1MJQ2OatzulDuj8tvAl9ZD/owEWcvLl1sJ7s1
- g1WannuvAbiaXD1Q/lBQXHarYK8w41B/crPO2VRsRJSMCUCRrYCIKUcCgjKoekxW5Gyz
- Nx5A==
-X-Gm-Message-State: APjAAAU8TIe+xjWzivo8FPfzU66XYYSn0TxGMhOlrGuawhQM3uXy2YFx
- yqSvf12wid6fuhKKKHlZYxQAKMnW5eM=
-X-Google-Smtp-Source: APXvYqyhjZ5R+/B2YsiAszESP1POQNreO4Dns6HtEA1jSw4p0zZceg6blvW5kby/+CZe7bN6Hj4pxg==
-X-Received: by 2002:a65:610a:: with SMTP id
- z10mr115874511pgu.178.1564605510226; 
- Wed, 31 Jul 2019 13:38:30 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=h3dhwpfe86udFJHT5d1QRrLfJzUV39xxz0iIkIlTtJQ=;
+ b=IQqTGImmvvSsf360KnRltbdOiGWtGIXWqUdMALYWmI6bHc8R/dzxzT9rVWqqOKn2jR
+ kpTt7sFWSTVv+HxT31xbbMBuKHCsAEBzS0e9vZrlqcaLlcklMHr3HJqLcJfXo5YnpxJn
+ btUgWczDTy0yledKUWRmoQ2XoZKKkZfgdkZFQTY+VlhpRvaClaO3Yz35lXiSsbEQhPQR
+ IrL/7ItVnTeG12APj9NkS0oLADYYxAI2VFFJCwJB5/jhBrFSyNLuwsb0Oyh1W91zM59k
+ 7DkB+R4+jC4CvStejHjQXqXa2mKlJgvyELtcpqxVXbiUPhSWfi5ffl5PACy1p6CblwDX
+ UUtg==
+X-Gm-Message-State: APjAAAWVY7OdSJtxye7fFbbKanW3n+w5iqpWyVYxfqxHTrtUhSRTBsQj
+ feV6gXWahK3ibNuqly+eaeBdHgTwic4=
+X-Google-Smtp-Source: APXvYqzxWA7PoiKIGMQfA5MX/czSvkN8aHlzxQZ51Aq22HOdgfpUq2gXlCELt+djs6Adnmv1yOCUJw==
+X-Received: by 2002:a63:550d:: with SMTP id j13mr52857180pgb.173.1564605511637; 
+ Wed, 31 Jul 2019 13:38:31 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id g4sm84054164pfo.93.2019.07.31.13.38.29
+ by smtp.gmail.com with ESMTPSA id g4sm84054164pfo.93.2019.07.31.13.38.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 13:38:29 -0700 (PDT)
+ Wed, 31 Jul 2019 13:38:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:37:53 -0700
-Message-Id: <20190731203813.30765-13-richard.henderson@linaro.org>
+Date: Wed, 31 Jul 2019 13:37:54 -0700
+Message-Id: <20190731203813.30765-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190731203813.30765-1-richard.henderson@linaro.org>
 References: <20190731203813.30765-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v2 12/32] target/arm: Add VHE system register
- redirection and aliasing
+Subject: [Qemu-devel] [PATCH v2 13/32] target/arm: Split out vae1_tlbmask,
+ vmalle1_tlbmask
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,277 +84,201 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several of the EL1/0 registers are redirected to the EL2 version when in
-EL2 and HCR_EL2.E2H is set.  Many of these registers have side effects.
-Link together the two ARMCPRegInfo structures after they have been
-properly instantiated.  Install common dispatch routines to all of the
-relevant registers.
+No functional change, but unify code sequences.
 
-The same set of registers that are redirected also have additional
-EL12/EL02 aliases created to access the original register that was
-redirected.
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    |  44 +++++++----
- target/arm/helper.c | 175 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 206 insertions(+), 13 deletions(-)
+ target/arm/helper.c | 118 ++++++++++++++------------------------------
+ 1 file changed, 37 insertions(+), 81 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index bba4e1f984..a0f10b60eb 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2455,19 +2455,6 @@ struct ARMCPRegInfo {
-      */
-     ptrdiff_t fieldoffset; /* offsetof(CPUARMState, field) */
- 
--    /* Offsets of the secure and non-secure fields in CPUARMState for the
--     * register if it is banked.  These fields are only used during the static
--     * registration of a register.  During hashing the bank associated
--     * with a given security state is copied to fieldoffset which is used from
--     * there on out.
--     *
--     * It is expected that register definitions use either fieldoffset or
--     * bank_fieldoffsets in the definition but not both.  It is also expected
--     * that both bank offsets are set when defining a banked register.  This
--     * use indicates that a register is banked.
--     */
--    ptrdiff_t bank_fieldoffsets[2];
--
-     /* Function for making any access checks for this register in addition to
-      * those specified by the 'access' permissions bits. If NULL, no extra
-      * checks required. The access check is performed at runtime, not at
-@@ -2502,6 +2489,37 @@ struct ARMCPRegInfo {
-      * fieldoffset is 0 then no reset will be done.
-      */
-     CPResetFn *resetfn;
-+
-+    union {
-+        /*
-+         * Offsets of the secure and non-secure fields in CPUARMState for
-+         * the register if it is banked.  These fields are only used during
-+         * the static registration of a register.  During hashing the bank
-+         * associated with a given security state is copied to fieldoffset
-+         * which is used from there on out.
-+         *
-+         * It is expected that register definitions use either fieldoffset
-+         * or bank_fieldoffsets in the definition but not both.  It is also
-+         * expected that both bank offsets are set when defining a banked
-+         * register.  This use indicates that a register is banked.
-+         */
-+        ptrdiff_t bank_fieldoffsets[2];
-+
-+        /*
-+         * "Original" writefn and readfn.
-+         * For ARMv8.1-VHE register aliases, we overwrite the read/write
-+         * accessor functions of various EL1/EL0 to perform the runtime
-+         * check for which sysreg should actually be modified, and then
-+         * forwards the operation.  Before overwriting the accessors,
-+         * the original function is copied here, so that accesses that
-+         * really do go to the EL1/EL0 version proceed normally.
-+         * (The corresponding EL2 register is linked via opaque.)
-+         */
-+        struct {
-+            CPReadFn *orig_readfn;
-+            CPWriteFn *orig_writefn;
-+        };
-+    };
- };
- 
- /* Macros which are lvalues for the field in CPUARMState for the
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e0f5627218..e9f4cae5e8 100644
+index e9f4cae5e8..7ecaacb276 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5225,6 +5225,171 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
+@@ -3898,70 +3898,61 @@ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+  * Page D4-1736 (DDI0487A.b)
+  */
  
-+#ifndef CONFIG_USER_ONLY
-+/* Test if system register redirection is to occur in the current state.  */
-+static bool redirect_for_e2h(CPUARMState *env)
++static int vae1_tlbmask(CPUARMState *env)
 +{
-+    return arm_current_el(env) == 2 && (arm_hcr_el2_eff(env) & HCR_E2H);
-+}
-+
-+static uint64_t el2_e2h_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    CPReadFn *readfn;
-+
-+    if (redirect_for_e2h(env)) {
-+        /* Switch to the saved EL2 version of the register.  */
-+        ri = ri->opaque;
-+        readfn = ri->readfn;
++    if (arm_is_secure_below_el3(env)) {
++        return ARMMMUIdxBit_S1SE1 | ARMMMUIdxBit_S1SE0;
 +    } else {
-+        readfn = ri->orig_readfn;
-+    }
-+    if (readfn == NULL) {
-+        readfn = raw_read;
-+    }
-+    return readfn(env, ri);
-+}
-+
-+static void el2_e2h_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                          uint64_t value)
-+{
-+    CPWriteFn *writefn;
-+
-+    if (redirect_for_e2h(env)) {
-+        /* Switch to the saved EL2 version of the register.  */
-+        ri = ri->opaque;
-+        writefn = ri->writefn;
-+    } else {
-+        writefn = ri->orig_writefn;
-+    }
-+    if (writefn == NULL) {
-+        writefn = raw_write;
-+    }
-+    writefn(env, ri, value);
-+}
-+
-+static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
-+{
-+    struct E2HAlias {
-+        uint32_t src_key, dst_key, new_key;
-+        const char *src_name, *dst_name, *new_name;
-+        bool (*feature)(const ARMISARegisters *id);
-+    };
-+
-+#define K(op0, op1, crn, crm, op2) \
-+    ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
-+
-+    static const struct E2HAlias aliases[] = {
-+        { K(3, 0,  1, 0, 0), K(3, 4,  1, 0, 0), K(3, 5, 1, 0, 0),
-+          "SCTLR", "SCTLR_EL2", "SCTLR_EL12" },
-+        { K(3, 0,  1, 0, 2), K(3, 4,  1, 1, 2), K(3, 5, 1, 0, 2),
-+          "CPACR", "CPTR_EL2", "CPACR_EL12" },
-+        { K(3, 0,  2, 0, 0), K(3, 4,  2, 0, 0), K(3, 5, 2, 0, 0),
-+          "TTBR0_EL1", "TTBR0_EL2", "TTBR0_EL12" },
-+        { K(3, 0,  2, 0, 1), K(3, 4,  2, 0, 1), K(3, 5, 2, 0, 1),
-+          "TTBR1_EL1", "TTBR1_EL2", "TTBR1_EL12" },
-+        { K(3, 0,  2, 0, 2), K(3, 4,  2, 0, 2), K(3, 5, 2, 0, 2),
-+          "TCR_EL1", "TCR_EL2", "TCR_EL12" },
-+        { K(3, 0,  4, 0, 0), K(3, 4,  4, 0, 0), K(3, 5, 4, 0, 0),
-+          "SPSR_EL1", "SPSR_EL2", "SPSR_EL12" },
-+        { K(3, 0,  4, 0, 1), K(3, 4,  4, 0, 1), K(3, 5, 4, 0, 1),
-+          "ELR_EL1", "ELR_EL2", "ELR_EL12" },
-+        { K(3, 0,  5, 1, 0), K(3, 4,  5, 1, 0), K(3, 5, 5, 1, 0),
-+          "AFSR0_EL1", "AFSR0_EL2", "AFSR0_EL12" },
-+        { K(3, 0,  5, 1, 1), K(3, 4,  5, 1, 1), K(3, 5, 5, 1, 1),
-+          "AFSR1_EL1", "AFSR1_EL2", "AFSR1_EL12" },
-+        { K(3, 0,  5, 2, 0), K(3, 4,  5, 2, 0), K(3, 5, 5, 2, 0),
-+          "ESR_EL1", "ESR_EL2", "ESR_EL12" },
-+        { K(3, 0,  6, 0, 0), K(3, 4,  6, 0, 0), K(3, 5, 6, 0, 0),
-+          "FAR_EL1", "FAR_EL2", "FAR_EL12" },
-+        { K(3, 0, 10, 2, 0), K(3, 4, 10, 2, 0), K(3, 5, 10, 2, 0),
-+          "MAIR_EL1", "MAIR_EL2", "MAIR_EL12" },
-+        { K(3, 0, 10, 3, 0), K(3, 4, 10, 3, 0), K(3, 5, 10, 3, 0),
-+          "AMAIR0", "AMAIR_EL2", "AMAIR_EL12" },
-+        { K(3, 0, 12, 0, 0), K(3, 4, 12, 0, 0), K(3, 5, 12, 0, 0),
-+          "VBAR", "VBAR_EL2", "VBAR_EL12" },
-+        { K(3, 0, 13, 0, 1), K(3, 4, 13, 0, 1), K(3, 5, 13, 0, 1),
-+          "CONTEXTIDR_EL1", "CONTEXTIDR_EL2", "CONTEXTIDR_EL12" },
-+        { K(3, 0, 14, 1, 0), K(3, 4, 14, 1, 0), K(3, 5, 14, 1, 0),
-+          "CNTKCTL", "CNTHCTL_EL2", "CNTKCTL_EL12" },
-+        { K(3, 3, 14, 2, 0), K(3, 4, 14, 2, 0), K(3, 5, 14, 2, 0),
-+          "CNTP_TVAL_EL0", "CNTHP_TVAL_EL2", "CNTP_TVAL_EL02" },
-+        { K(3, 3, 14, 2, 1), K(3, 4, 14, 2, 1), K(3, 5, 14, 2, 1),
-+          "CNTP_CTL_EL0", "CNTHP_CTL_EL2", "CNTP_CTL_EL02" },
-+        { K(3, 3, 14, 2, 2), K(3, 4, 14, 2, 2), K(3, 5, 14, 2, 2),
-+          "CNTP_CVAL_EL0", "CNTHP_CVAL_EL2", "CNTP_CVAL_EL02" },
-+        { K(3, 3, 14, 3, 0), K(3, 4, 14, 3, 0), K(3, 5, 14, 3, 0),
-+          "CNTV_TVAL_EL0", "CNTHV_TVAL_EL2", "CNTV_TVAL_EL02" },
-+        { K(3, 3, 14, 3, 1), K(3, 4, 14, 3, 1), K(3, 5, 14, 3, 1),
-+          "CNTV_CTL_EL0", "CNTHV_CTL_EL2", "CNTV_CTL_EL02" },
-+        { K(3, 3, 14, 3, 2), K(3, 4, 14, 3, 2), K(3, 5, 14, 3, 2),
-+          "CNTV_CVAL_EL0", "CNTHV_CVAL_EL2", "CNTV_CVAL_EL02" },
-+        /*
-+         * CNTHV_CVAL is a special case because there is no separate
-+         * AArch32 EL2 register to which CNTV_CVAL may be directed.
-+         * The effect can be achieved via CNTHV_CVAL_EL2.
-+         */
-+        { ENCODE_CP_REG(15, 1, 1, 0, 14, 3, 0), K(3, 4, 14, 3, 2), 0,
-+          "CNTV_CVAL", "CNTHV_CVAL_EL2", NULL },
-+
-+        /*
-+         * Note that redirection of ZCR is mentioned in the description
-+         * of ZCR_EL2, and aliasing in the description of ZCR_EL1, but
-+         * not in the summary table.
-+         */
-+        { K(3, 0,  1, 2, 0), K(3, 4,  1, 2, 0), K(3, 5, 1, 2, 0),
-+          "ZCR_EL1", "ZCR_EL2", "ZCR_EL12", isar_feature_aa64_sve },
-+
-+        /* TODO: ARMv8.2-SPE -- PMSCR_EL2 */
-+        /* TODO: ARMv8.4-Trace -- TRFCR_EL2 */
-+    };
-+#undef K
-+
-+    size_t i;
-+
-+    for (i = 0; i < ARRAY_SIZE(aliases); i++) {
-+        const struct E2HAlias *a = &aliases[i];
-+        ARMCPRegInfo *src_reg, *dst_reg;
-+
-+        if (a->feature && !a->feature(&cpu->isar)) {
-+            continue;
-+        }
-+
-+        src_reg = g_hash_table_lookup(cpu->cp_regs, &a->src_key);
-+        dst_reg = g_hash_table_lookup(cpu->cp_regs, &a->dst_key);
-+        g_assert(src_reg != NULL);
-+        g_assert(dst_reg != NULL);
-+
-+        /* Cross-compare names to detect typos in the keys.  */
-+        g_assert(strcmp(src_reg->name, a->src_name) == 0);
-+        g_assert(strcmp(dst_reg->name, a->dst_name) == 0);
-+
-+        /* None of the core system registers use opaque; we will.  */
-+        g_assert(src_reg->opaque == NULL);
-+
-+        /* Create alias before redirection so we dup the right data. */
-+        if (a->new_key) {
-+            ARMCPRegInfo *new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
-+            uint32_t *new_key = g_memdup(&a->new_key, sizeof(uint32_t));
-+            bool ok;
-+
-+            new_reg->name = a->new_name;
-+            new_reg->type |= ARM_CP_ALIAS;
-+            /* Remove PL1/PL0 access, leaving PL2/PL3 R/W in place.  */
-+            new_reg->access &= 0xf0;
-+
-+            ok = g_hash_table_insert(cpu->cp_regs, new_key, new_reg);
-+            g_assert(ok);
-+        }
-+
-+        src_reg->opaque = dst_reg;
-+        src_reg->orig_readfn = src_reg->readfn;
-+        src_reg->orig_writefn = src_reg->writefn;
-+        src_reg->readfn = el2_e2h_read;
-+        src_reg->writefn = el2_e2h_write;
++        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0;
 +    }
 +}
-+#endif
 +
- static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                      bool isread)
+ static void tlbi_aa64_vmalle1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                       uint64_t value)
  {
-@@ -6942,6 +7107,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         : cpu_isar_feature(aa32_predinv, cpu)) {
-         define_arm_cp_regs(cpu, predinv_reginfo);
-     }
-+
-+#ifndef CONFIG_USER_ONLY
-+    /*
-+     * Register redirections and aliases must be done last,
-+     * after the registers from the other extensions have been defined.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
-+        define_arm_vh_e2h_redirects_aliases(cpu);
-+    }
-+#endif
+     CPUState *cs = env_cpu(env);
+-    bool sec = arm_is_secure_below_el3(env);
++    int mask = vae1_tlbmask(env);
+ 
+-    if (sec) {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S1SE1 |
+-                                            ARMMMUIdxBit_S1SE0);
+-    } else {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S12NSE1 |
+-                                            ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_by_mmuidx_all_cpus_synced(cs, mask);
  }
  
- void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
+ static void tlbi_aa64_vmalle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
+ {
+     CPUState *cs = env_cpu(env);
++    int mask = vae1_tlbmask(env);
+ 
+     if (tlb_force_broadcast(env)) {
+         tlbi_aa64_vmalle1is_write(env, NULL, value);
+         return;
+     }
+ 
++    tlb_flush_by_mmuidx(cs, mask);
++}
++
++static int vmalle1_tlbmask(CPUARMState *env)
++{
++    /*
++     * Note that the 'ALL' scope must invalidate both stage 1 and
++     * stage 2 translations, whereas most other scopes only invalidate
++     * stage 1 translations.
++     */
+     if (arm_is_secure_below_el3(env)) {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_S1SE1 |
+-                            ARMMMUIdxBit_S1SE0);
++        return ARMMMUIdxBit_S1SE1 | ARMMMUIdxBit_S1SE0;
++    } else if (arm_feature(env, ARM_FEATURE_EL2)) {
++        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0 | ARMMMUIdxBit_S2NS;
+     } else {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_S12NSE1 |
+-                            ARMMMUIdxBit_S12NSE0);
++        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0;
+     }
+ }
+ 
+ static void tlbi_aa64_alle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                   uint64_t value)
+ {
+-    /* Note that the 'ALL' scope must invalidate both stage 1 and
+-     * stage 2 translations, whereas most other scopes only invalidate
+-     * stage 1 translations.
+-     */
+-    ARMCPU *cpu = env_archcpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
++    int mask = vmalle1_tlbmask(env);
+ 
+-    if (arm_is_secure_below_el3(env)) {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_S1SE1 |
+-                            ARMMMUIdxBit_S1SE0);
+-    } else {
+-        if (arm_feature(env, ARM_FEATURE_EL2)) {
+-            tlb_flush_by_mmuidx(cs,
+-                                ARMMMUIdxBit_S12NSE1 |
+-                                ARMMMUIdxBit_S12NSE0 |
+-                                ARMMMUIdxBit_S2NS);
+-        } else {
+-            tlb_flush_by_mmuidx(cs,
+-                                ARMMMUIdxBit_S12NSE1 |
+-                                ARMMMUIdxBit_S12NSE0);
+-        }
+-    }
++    tlb_flush_by_mmuidx(cs, mask);
+ }
+ 
+ static void tlbi_aa64_alle2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -3985,28 +3976,10 @@ static void tlbi_aa64_alle3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void tlbi_aa64_alle1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
+ {
+-    /* Note that the 'ALL' scope must invalidate both stage 1 and
+-     * stage 2 translations, whereas most other scopes only invalidate
+-     * stage 1 translations.
+-     */
+     CPUState *cs = env_cpu(env);
+-    bool sec = arm_is_secure_below_el3(env);
+-    bool has_el2 = arm_feature(env, ARM_FEATURE_EL2);
++    int mask = vmalle1_tlbmask(env);
+ 
+-    if (sec) {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S1SE1 |
+-                                            ARMMMUIdxBit_S1SE0);
+-    } else if (has_el2) {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S12NSE1 |
+-                                            ARMMMUIdxBit_S12NSE0 |
+-                                            ARMMMUIdxBit_S2NS);
+-    } else {
+-          tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                              ARMMMUIdxBit_S12NSE1 |
+-                                              ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_by_mmuidx_all_cpus_synced(cs, mask);
+ }
+ 
+ static void tlbi_aa64_alle2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4056,20 +4029,11 @@ static void tlbi_aa64_vae3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void tlbi_aa64_vae1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                    uint64_t value)
+ {
+-    ARMCPU *cpu = env_archcpu(env);
+-    CPUState *cs = CPU(cpu);
+-    bool sec = arm_is_secure_below_el3(env);
++    CPUState *cs = env_cpu(env);
++    int mask = vae1_tlbmask(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
+ 
+-    if (sec) {
+-        tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
+-                                                 ARMMMUIdxBit_S1SE1 |
+-                                                 ARMMMUIdxBit_S1SE0);
+-    } else {
+-        tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr,
+-                                                 ARMMMUIdxBit_S12NSE1 |
+-                                                 ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_page_by_mmuidx_all_cpus_synced(cs, pageaddr, mask);
+ }
+ 
+ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4080,8 +4044,8 @@ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+      * since we don't support flush-for-specific-ASID-only or
+      * flush-last-level-only.
+      */
+-    ARMCPU *cpu = env_archcpu(env);
+-    CPUState *cs = CPU(cpu);
++    CPUState *cs = env_cpu(env);
++    int mask = vae1_tlbmask(env);
+     uint64_t pageaddr = sextract64(value << 12, 0, 56);
+ 
+     if (tlb_force_broadcast(env)) {
+@@ -4089,15 +4053,7 @@ static void tlbi_aa64_vae1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+         return;
+     }
+ 
+-    if (arm_is_secure_below_el3(env)) {
+-        tlb_flush_page_by_mmuidx(cs, pageaddr,
+-                                 ARMMMUIdxBit_S1SE1 |
+-                                 ARMMMUIdxBit_S1SE0);
+-    } else {
+-        tlb_flush_page_by_mmuidx(cs, pageaddr,
+-                                 ARMMMUIdxBit_S12NSE1 |
+-                                 ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_page_by_mmuidx(cs, pageaddr, mask);
+ }
+ 
+ static void tlbi_aa64_vae2is_write(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.17.1
 
