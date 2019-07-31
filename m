@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D417C86D
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:19:14 +0200 (CEST)
-Received: from localhost ([::1]:42482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D337C84B
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:13:48 +0200 (CEST)
+Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrJp-0004Y8-PX
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
+	id 1hsrEZ-0002OR-Q7
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40293)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsr8m-0002AZ-9v
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:50 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsr8Z-00025f-Sf
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsr8h-0000mO-Fi
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:45 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42500)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsr8W-0000hT-A8
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:34 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35769)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsr8f-0000dv-6T
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:41 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x1so20404052wrr.9
+ id 1hsr8T-0000dG-V1
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:07:30 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so60318717wmg.0
  for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uLNFFdsSuak+Uy2t3FRbExjx92r6RyqLYQAFwuvDHzw=;
- b=HLAQf80lv0Lb/1bSS69wcmuEszlSD+YIxlbf6jVuGFw++d1bTM9wPioHO2Res0xz64
- CzB7qmOtWf8iZWDzTb0j25GNDreDP3VXg5v+QUyQNpXz91odPYht908236wXvTIJ2q0w
- Hyma+8H7IQO2IJJW5uFlpe3JuistRDQAnGh15BuMsJi8Ijz54lo3erWearoEJn+xaF9I
- JPqk4f4ul+sSsL1kmGUXK+IoODkZW1zfX9cNy1GC3GSNhKYfrkMiHEjHPe/xLvIP5ZYy
- 8+IpEtqmIGJ7AVO4tE3I18SAd3/N/rmasggBzg+MuDzkIhdaahUfUAkXLuTEH2MjhnVh
- wAsw==
+ bh=q2ZVpkuPZWWQPipjqK7QM3P7xcGJr7m8OUgkDGruy80=;
+ b=yPHwt37CO8xUdFkdMw0bpZRaFeSdTJIGAsDdqTiQlRFh63rYPgIUS1Dejn8lsSvvFZ
+ 56FeZqkcNA5kMQJL8DSNBmwY3cskkyHQcoQp9GXl3CySbkZoFCmiE3YJ8WhxF1qhqpnR
+ p3f4KNTEiizPqmgWm22UGHzSUyzlvc5PG1WYtJ4czezbzpepFHHmUEOeeBlfavTAQgBo
+ 1MoZxkrh0vich5TRTOtSDj0GtKq4fPb/hIynlvX1U4cs98uZuMQv35XQKbeKY6AXwAYJ
+ 9h41q9OdAnTVoKnJdMwIEy+RGjowYpmwpH+I5xt89xZ/2cBi1SHDZkE4RsO80KoSfL9b
+ ifNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uLNFFdsSuak+Uy2t3FRbExjx92r6RyqLYQAFwuvDHzw=;
- b=cTHVkTPqBU2AzxWNIzH5N/hXHJASos4SJ6huZ0srBCD/gAubYr493gmHii0OA3EVeV
- mqeh/WLBHR0CzCLhTW3bWkE9HiQE4R9mOa2SkGLdig6EKIg3Q922lxWNqzW1ByGcNu0y
- B3jPu5HRekg4u8cOf6XTjtW+jTH7scYt5cugklNFUZHBPnFrSickLPIJ1SDgjDfIjvgx
- kHbw6ccpn9hm8rJN0GGyaHtMpSkhDjKNJ5N3lxwBe+srCZDD+BUqpi6tu7+6P2Bq6szu
- 4dwKB+Rx3Ac7ZUiTuiBNLrvRHQxZ9M/Fe669gi8t8zzdf/fN9khMFy5nRBcDOKzyYfMt
- YurA==
-X-Gm-Message-State: APjAAAWZXHGePHIaNK9LhmdosI+Xr7W6f4zAr6mqhjYVmKEa3y1ZIHJA
- nWnfv0KtNQct/nAKqgPzppLQYA==
-X-Google-Smtp-Source: APXvYqxtiPUqHMCXlkNYlvFTBvypJCnxo2XtuLeNGBhqTIXlO+qcEj+YcqvTNwqZqAHKI+WtAH3qrA==
-X-Received: by 2002:adf:ec8e:: with SMTP id z14mr12171241wrn.269.1564589244646; 
+ bh=q2ZVpkuPZWWQPipjqK7QM3P7xcGJr7m8OUgkDGruy80=;
+ b=bxMBsN4CqoqGsBq02QMSZuW4tAFEy/HNbCGG1kuQkWvfik3s38nKXjVFmhEcy9dZmJ
+ KmTn3GTpvGu4x/INmHxeLy7vtXU85bJ5r3Bhki1Bet/96V2D2ai7SqNuyN5bf8CHcCGE
+ +kRC19btV+VMznAKnuTBOff6g2ps85R7gUZKs3WoMQp41GCCcgSh3gEelT6/GE/HYq1F
+ d4MRfp8Fdm6ycRTjshOD/h8IYPrjUQF3Grdo4ps7Bm/lJhUSWDtcLeWV4lMJ+iTG6E1z
+ eM64bao/93r6ItYZq80u1vx7H+4BpUU5YF7C283Dw5VCMmTGBrXc/DB8cGBwe3c+iKMb
+ m/hg==
+X-Gm-Message-State: APjAAAUFhPB68apXfdMKxmWNVXV2U0ltElL/ypQXKJFiVQg/zhbiKQan
+ 7CTqSTdYX/7M7yOu28lFDR9o0A==
+X-Google-Smtp-Source: APXvYqwjijozrDRhWUAndMWO5/xdg0VgA1fpRQYaJeShpUiGqcveaJquSgLpfUt1lvD7+ylXBxEg9A==
+X-Received: by 2002:a1c:be11:: with SMTP id
+ o17mr110956032wmf.115.1564589244207; 
  Wed, 31 Jul 2019 09:07:24 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id t185sm59154541wma.11.2019.07.31.09.07.20
+ by smtp.gmail.com with ESMTPSA id y16sm149394681wrg.85.2019.07.31.09.07.20
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Wed, 31 Jul 2019 09:07:23 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD0A51FF92;
+ by zen.linaroharston (Postfix) with ESMTP id F01FB1FF93;
  Wed, 31 Jul 2019 17:07:19 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:30 +0100
-Message-Id: <20190731160719.11396-6-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:31 +0100
+Message-Id: <20190731160719.11396-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v4 05/54] includes: remove stale [smp|max]_cpus
- externs
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v4 06/54] trace: expand mem_info:size_shift to
+ 4 bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +85,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: bobby.prani@gmail.com, cota@braap.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aaron@os.amperecomputing.com, Like Xu <like.xu@linux.intel.com>
+ aaron@os.amperecomputing.com, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit a5e0b3311 removed these in favour of querying machine
-properties. Remove the extern declarations as well.
+From: "Emilio G. Cota" <cota@braap.org>
 
+This will allow us to trace 32k-long memory accesses (although our
+maximum is something like 256 bytes at the moment).
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+[AJB: expanded to 3->4 bits]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Like Xu <like.xu@linux.intel.com>
-Message-Id: <20190711130546.18578-1-alex.bennee@linaro.org>
 ---
- include/sysemu/sysemu.h | 2 --
- 1 file changed, 2 deletions(-)
+ trace-events | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 984c439ac96..e70edf7c1cf 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -103,8 +103,6 @@ extern const char *keyboard_layout;
- extern int win2k_install_hack;
- extern int alt_grab;
- extern int ctrl_grab;
--extern int smp_cpus;
--extern unsigned int max_cpus;
- extern int cursor_hide;
- extern int graphic_rotate;
- extern int no_quit;
+diff --git a/trace-events b/trace-events
+index aeea3c2bdbf..63bb192ade6 100644
+--- a/trace-events
++++ b/trace-events
+@@ -149,7 +149,7 @@ vcpu guest_cpu_reset(void)
+ # Access information can be parsed as:
+ #
+ # struct mem_info {
+-#     uint8_t size_shift : 2; /* interpreted as "1 << size_shift" bytes */
++#     uint8_t size_shift : 4; /* interpreted as "1 << size_shift" bytes */
+ #     bool    sign_extend: 1; /* sign-extended */
+ #     uint8_t endianness : 1; /* 0: little, 1: big */
+ #     bool    store      : 1; /* wheter it's a store operation */
 -- 
 2.20.1
 
