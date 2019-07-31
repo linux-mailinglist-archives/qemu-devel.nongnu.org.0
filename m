@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905F17CBE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:25:18 +0200 (CEST)
-Received: from localhost ([::1]:43614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D484A7CBD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:23:00 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hstHp-00050J-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50675)
+	id 1hstFc-0000K8-0z
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hstCh-0002V1-D0
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:20:00 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hstCs-0002tG-1j
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:20:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hstCg-0001Iy-9i
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:19:59 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:44025 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hstCq-0001Mn-Fb
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:20:09 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:44064 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hstCg-0001II-3S
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:19:58 -0400
+ id 1hstCq-0001IS-8c
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:20:08 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 08B851A22A8;
+ by mail.rt-rk.com (Postfix) with ESMTP id 0EF971A22BB;
  Wed, 31 Jul 2019 20:19:56 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D6DAF1A22AB;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id DF0AD1A22B1;
  Wed, 31 Jul 2019 20:19:55 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 20:19:36 +0200
-Message-Id: <1564597178-24649-11-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 31 Jul 2019 20:19:37 +0200
+Message-Id: <1564597178-24649-12-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564597178-24649-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1564597178-24649-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v4 10/12] linux-user: Add support for
- HDIO_GET_BUSSTATE and HDIO_SET_BUSSTATE ioctls
+Subject: [Qemu-devel] [PATCH for 4.2 v4 11/12] linux-user: Add support for
+ RNDRESEEDCRNG ioctl
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,54 +57,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Add support for HDIO_GET_BUSSTATE and HDIO_SET_BUSSTATE ioctls.
+RNDRESEEDCRNG is a newer ioctl (added in kernel 4.17), and an
+"ifdef" guard is used for that reason in this patch.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
+ linux-user/ioctls.h       | 3 +++
+ linux-user/syscall_defs.h | 1 +
  2 files changed, 4 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index b9c6a5a..3796ee6 100644
+index 3796ee6..5efa434 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -438,6 +438,7 @@
-   IOCTL(HDIO_GET_WCACHE, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(HDIO_GET_ACOUSTIC, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(HDIO_GET_ADDRESS, IOC_R, MK_PTR(TYPE_INT))
-+  IOCTL(HDIO_GET_BUSSTATE, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(HDIO_DRIVE_CMD, IOC_R, MK_PTR(TYPE_INT))
-   IOCTL(HDIO_SET_UNMASKINTR, 0, TYPE_INT)
-   IOCTL(HDIO_SET_MULTCOUNT, 0, TYPE_INT)
-@@ -449,6 +450,7 @@
-   IOCTL(HDIO_SET_NICE, 0, TYPE_INT)
-   IOCTL(HDIO_SET_WCACHE, 0, TYPE_INT)
-   IOCTL(HDIO_SET_ACOUSTIC, 0, TYPE_INT)
-+  IOCTL(HDIO_SET_BUSSTATE, 0, TYPE_INT)
-   IOCTL(HDIO_SET_ADDRESS, 0, TYPE_INT)
+@@ -259,6 +259,9 @@
+   IOCTL(RNDADDTOENTCNT, IOC_W, MK_PTR(TYPE_INT))
+   IOCTL(RNDZAPENTCNT, 0, TYPE_NULL)
+   IOCTL(RNDCLEARPOOL, 0, TYPE_NULL)
++#ifdef RNDRESEEDCRNG
++  IOCTL(RNDRESEEDCRNG, 0, TYPE_NULL)
++#endif
  
-   IOCTL(VFAT_IOCTL_READDIR_BOTH, IOC_R, MK_PTR(MK_ARRAY(MK_STRUCT(STRUCT_dirent), 2)))
+   IOCTL(CDROMPAUSE, 0, TYPE_NULL)
+   IOCTL(CDROMSTART, 0, TYPE_NULL)
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index aa9c6af..766d7b9 100644
+index 766d7b9..314a052 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -1069,6 +1069,7 @@ struct target_format_descr {
- #define TARGET_HDIO_GET_WCACHE        0x030e  /* get write cache mode on|off */
- #define TARGET_HDIO_GET_ACOUSTIC      0x030f  /* get acoustic value */
- #define TARGET_HDIO_GET_ADDRESS       0x0310  /* get lba addressing modes */
-+#define TARGET_HDIO_GET_BUSSTATE      0x031a  /* get hwif bus state */
- #define TARGET_HDIO_DRIVE_CMD         0x031f  /* execute a special drive command */
+@@ -850,6 +850,7 @@ struct target_pollfd {
+ #define TARGET_RNDADDTOENTCNT  TARGET_IOW('R', 0x01, int)
+ #define TARGET_RNDZAPENTCNT    TARGET_IO('R', 0x04)
+ #define TARGET_RNDCLEARPOOL    TARGET_IO('R', 0x06)
++#define TARGET_RNDRESEEDCRNG   TARGET_IO('R', 0x07)
  
- /* hd/ide ctl's that pass (arg) non-ptr values are numbered 0x032n/0x033n */
-@@ -1082,6 +1083,7 @@ struct target_format_descr {
- #define TARGET_HDIO_SET_NICE          0x0329  /* set nice flags */
- #define TARGET_HDIO_SET_WCACHE        0x032b  /* change write cache mode */
- #define TARGET_HDIO_SET_ACOUSTIC      0x032c  /* change acoustic behavior */
-+#define TARGET_HDIO_SET_BUSSTATE      0x032d  /* set hwif bus state */
- #define TARGET_HDIO_SET_ADDRESS       0x032f  /* change lba addressing modes */
+ /* From <linux/fs.h> */
  
- /* loop ioctls */
 -- 
 2.7.4
 
