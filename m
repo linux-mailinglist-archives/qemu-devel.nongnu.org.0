@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD447C8C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:33:51 +0200 (CEST)
-Received: from localhost ([::1]:42866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBF7C8BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:32:35 +0200 (CEST)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrXy-0006lP-Qq
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45281)
+	id 1hsrWk-0003ML-Nb
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45205)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPr-0005Bd-1c
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPn-00051s-GW
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPq-0000Pr-3y
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:26 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35215)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPm-0000MS-0K
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:23 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35107)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrPp-0000P8-UI
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:26 -0400
-Received: by mail-wr1-x436.google.com with SMTP id y4so70383353wrm.2
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:25 -0700 (PDT)
+ id 1hsrPl-0000Ly-QB
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:21 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y4so70383126wrm.2
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3EcRLt1hOeMs35DCT9AnFf1hI7OqAUwmCSb9V9Rrwzo=;
- b=AB2l6WKzxHgRFsZ5PZAJAcK/ibVegEzzDoCy3zEIF559/7rCnSqxUx3CjonlDv/CDa
- ISrqRCauJ+zBTlBLl1dk12lzJ4Xx/JgFL3bhgvUfKlMIWCFqI+YyT4u3533Sh/SXf33O
- tg5mfW8E1e/Fmb/z4RgUMj98lfnGaZc8F9m74Ie4sbNIEr9Sg37aIsvG5IXtPtnd80zR
- Y9yGKHnNVZ/2jg/hJIO7liddESi+m8W48s13fP6gHmhrJmdBV8B5H02i3/HPyGaBt9It
- oL2APUdiEqzSbD3SjtZVLK2yASZjvMD8AafV/JQT8Ux7/SHj4RyYNmqqG2a0iKblPcqk
- lBZg==
+ bh=nwwivd4l04F9lotguBi5Pm9ljTTEntqAZyI9oEyrjH8=;
+ b=sDO1fhpFlvG0YQoaMXLyUECDLb92YEL+YNc8Ll9Tqnl1Yyu8fW78x/hEpRuRewSQpX
+ hKc4+mvpSE8YHZej0UNrw8gFlTvIUhHpjoLPs5yX8EJfr+wg+mFt4NVUe74rhrcjHCnG
+ s5FtNIHTCGfPI/bCv1nt7tLymIyDKlDHz2WkhROZBnFx7vGyUhIufL8S0/CayDobrSyr
+ d2zkcuHbdnV50XuTtjAqnTdm3dmEnf2ABd9y2Zldyc85F3mh7eankudz99l1ZwRAOZ0d
+ PEGAYA5oQg11E9M1xTv+0xy74GPIG3Y/hR5PGV41Pw3L7H9QeTS1gUG9ZDzNTe4J3Hhu
+ /CIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3EcRLt1hOeMs35DCT9AnFf1hI7OqAUwmCSb9V9Rrwzo=;
- b=UM4Vc3j1/ugPvXmL9W+/rDhUwTwhA2IrXwRv/OBKrCSqUkxC0YkRi5U1442NI5miZl
- x6Ao4NxSccb1QfxRE29LAvghy1J9B1btkpET6HK5QwuU3jWYF9aZKUtHj3uQW4MK2WlX
- l7ADMs3ev4dkoWNoV5EKsWkvv3vONJN9v/YiPJt8kBsvonYJqS2D9haP3IOO9Ql36DoH
- BInuRGc9uABhR9xf3PdpPk/uJbzCTDo8f0sadhtsztjuy+qD16UeOlXAZ5g65mWSLEgh
- n28TXBcbR8fHqHdHlJcGvMF8LTMDbNshe1U61ViBwJU23NNYc8U/jKbieQDsefOHu0vJ
- ji9w==
-X-Gm-Message-State: APjAAAWWXtxoLJUafRjf8fiknbzmjkBT+AjUoAILZ7UEp9TfSFxKELWv
- nQzUsCoozkoLMN+NO6yJzeXY5Q==
-X-Google-Smtp-Source: APXvYqyHNEn8K2uJNImDkMwQwHbJuE652ANIAoiFhmGUhmI1DteCEDwddkmLv5whIS49IQlDwGvfsg==
-X-Received: by 2002:adf:9ece:: with SMTP id b14mr85957473wrf.192.1564590324820; 
- Wed, 31 Jul 2019 09:25:24 -0700 (PDT)
+ bh=nwwivd4l04F9lotguBi5Pm9ljTTEntqAZyI9oEyrjH8=;
+ b=boqW/XHOSZS0uXx2ibGaJ33ZBfiguKDm977hUsDZ4CHmRdhe8zqE2CCo3HtbBrQYaz
+ WeNmT7oMG785at19xmMbPQe/uojJTwxTsVqf/CTqo3iraU8auRN2Ax02Jd0n6k0nzYDz
+ PLUR/SNbbaGJ/rkdvScBuh/BF6+a/tT+qWFgB89EHchIAcHG5QczfHSoVUA55259F/j2
+ ikspq/AXL8pg04BCd+Xcjsf3CodFRdddWfqcZBVkZ98aYNyh2mohhz1RGnMEBYkG1ro2
+ 4OqSpo7ob2uzwh8upxRIx9ycsiSMzNSmXXsGJC6LPDdF6SG1V/TIptoNfmDTg37bNqUT
+ BqSg==
+X-Gm-Message-State: APjAAAXLfeDYnzLjjPwkNMkehSRLFUfm0yNEL9HKgknCnA4qAD5k3Na+
+ TCmsyP9zaA+rFUYIJYe3HcTL0IVuTpM=
+X-Google-Smtp-Source: APXvYqxXd+H0GGKlOoRndl0xFfWeP2MV9/3GiCirZoIGXWxFw6fCzS5Q7hY+WMe5STFayodVYELVug==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr5708897wrt.84.1564590320731;
+ Wed, 31 Jul 2019 09:25:20 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id l17sm47513042wrr.94.2019.07.31.09.25.16
+ by smtp.gmail.com with ESMTPSA id j17sm113934938wrb.35.2019.07.31.09.25.14
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:25:22 -0700 (PDT)
+ Wed, 31 Jul 2019 09:25:16 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 710331FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id C480D1FF8C;
  Wed, 31 Jul 2019 17:07:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:46 +0100
-Message-Id: <20190731160719.11396-22-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:49 +0100
+Message-Id: <20190731160719.11396-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PATCH v4 21/54] atomic_template: fix indentation in
- GEN_ATOMIC_HELPER
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v4 24/54] plugins: implement helpers for
+ resolving hwaddr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,37 +82,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
+Cc: aaron@os.amperecomputing.com, cota@braap.org,
  Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+We need to keep a local per-cpu copy of the data as other threads may
+be running. We use a automatically growing array and re-use the space
+for subsequent queries.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/atomic_template.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/cputlb.c      | 32 ++++++++++++++++++++++++++
+ include/exec/exec-all.h | 17 ++++++++++++++
+ include/qemu/plugin.h   |  6 +++++
+ plugins/api.c           | 50 +++++++++++++++++++++++++++++++++--------
+ 4 files changed, 96 insertions(+), 9 deletions(-)
 
-diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-index 313a4c7ed97..53899bbbc21 100644
---- a/accel/tcg/atomic_template.h
-+++ b/accel/tcg/atomic_template.h
-@@ -284,7 +284,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index f7c0290639c..f37e89c806d 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1130,6 +1130,38 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+     return (void *)((uintptr_t)addr + entry->addend);
+ }
  
- #define GEN_ATOMIC_HELPER(X)                                        \
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
--                 ABI_TYPE val EXTRA_ARGS)                           \
-+                        ABI_TYPE val EXTRA_ARGS)                    \
- {                                                                   \
-     ATOMIC_MMU_DECLS;                                               \
-     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
++
++#ifdef CONFIG_PLUGIN
++/*
++ * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
++ * This should be a hot path as we will have just looked this path up
++ * in the softmmu lookup code (or helper). We don't handle re-fills or
++ * checking the victim table. This is purely informational.
++ */
++
++bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
++                       bool is_store, struct qemu_plugin_hwaddr *data)
++{
++    CPUArchState *env = cpu->env_ptr;
++    CPUTLBEntry *tlbe = tlb_entry(env, mmu_idx, addr);
++    target_ulong tlb_addr = is_store ? tlb_addr_write(tlbe) : tlbe->addr_read;
++
++    if (tlb_hit(tlb_addr, addr)) {
++        if (tlb_addr & TLB_MMIO) {
++            data->hostaddr = 0;
++            data->is_io = true;
++            /* XXX: lookup device */
++        } else {
++            data->hostaddr = addr + tlbe->addend;
++            data->is_io = false;
++        }
++        return true;
++    }
++    return false;
++}
++
++#endif
++
+ /* Probe for a read-modify-write atomic operation.  Do not allow unaligned
+  * operations, or io operations to proceed.  Return the host address.  */
+ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 90045e77c1f..c42626e35b1 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -262,6 +262,17 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+                   int mmu_idx, target_ulong size);
+ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+                  uintptr_t retaddr);
++
++/**
++ * tlb_plugin_lookup: query last TLB lookup
++ * @cpu: cpu environment
++ *
++ * This function can be used directly after a memory operation to
++ * query information about the access. It is used by the plugin
++ * infrastructure to expose more information about the address.
++ */
++bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
++                       bool is_store, struct qemu_plugin_hwaddr *data);
+ #else
+ static inline void tlb_init(CPUState *cpu)
+ {
+@@ -311,6 +322,12 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+                                                        uint16_t idxmap)
+ {
+ }
++static inline bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr,
++                                     int mmu_idx, bool is_store,
++                                     struct qemu_plugin_hwaddr *data)
++{
++    return false;
++}
+ #endif
+ 
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 3c46a241669..657345df60c 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -182,6 +182,12 @@ struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
+     return insn;
+ }
+ 
++struct qemu_plugin_hwaddr {
++    uint64_t hostaddr;
++    bool is_io;
++};
++
++
+ #ifdef CONFIG_PLUGIN
+ 
+ void qemu_plugin_vcpu_init_hook(CPUState *cpu);
+diff --git a/plugins/api.c b/plugins/api.c
+index 586bb8789f1..4b3ac9e31fb 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -39,7 +39,7 @@
+ #include "cpu.h"
+ #include "sysemu/sysemu.h"
+ #include "tcg/tcg.h"
+-#include "trace/mem-internal.h" /* mem_info macros */
++#include "exec/exec-all.h"
+ #include "plugin.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+@@ -240,11 +240,42 @@ bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info)
+  * Virtual Memory queries
+  */
+ 
++#ifdef CONFIG_SOFTMMU
++static GArray *hwaddr_refs;
++
++struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
++                                                  uint64_t vaddr)
++{
++    CPUState *cpu = current_cpu;
++    unsigned int mmu_idx = info >> TRACE_MEM_MMU_SHIFT;
++    struct qemu_plugin_hwaddr *hwaddr;
++
++    /* Ensure we have memory allocated for this work */
++    if (!hwaddr_refs) {
++        hwaddr_refs = g_array_sized_new(false, true,
++                                        sizeof(struct qemu_plugin_hwaddr),
++                                        cpu->cpu_index + 1);
++    } else if (cpu->cpu_index >= hwaddr_refs->len) {
++        hwaddr_refs = g_array_set_size(hwaddr_refs, cpu->cpu_index + 1);
++    }
++
++    hwaddr = &g_array_index(hwaddr_refs, struct qemu_plugin_hwaddr,
++                            cpu->cpu_index);
++
++    if (!tlb_plugin_lookup(cpu, vaddr, mmu_idx,
++                           info & TRACE_MEM_ST, hwaddr)) {
++        return NULL;
++    }
++
++    return hwaddr;
++}
++#else
+ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+                                                   uint64_t vaddr)
+ {
+     return NULL;
+ }
++#endif
+ 
+ bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr)
+ {
+@@ -253,14 +284,15 @@ bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr)
+ 
+ uint64_t qemu_plugin_hwaddr_to_raddr(const struct qemu_plugin_hwaddr *haddr)
+ {
+-#if 0 /* XXX FIXME should be SOFTMMU */
+-    ram_addr_t ram_addr;
+-
+-    g_assert(haddr);
+-    ram_addr = qemu_ram_addr_from_host(haddr);
+-    if (ram_addr == RAM_ADDR_INVALID) {
+-        error_report("Bad ram pointer %p", haddr);
+-        abort();
++#ifdef CONFIG_SOFTMMU
++    ram_addr_t ram_addr = 0;
++
++    if (haddr && !haddr->is_io) {
++        ram_addr = qemu_ram_addr_from_host((void *) haddr->hostaddr);
++        if (ram_addr == RAM_ADDR_INVALID) {
++            error_report("Bad ram pointer %"PRIx64"", haddr->hostaddr);
++            abort();
++        }
+     }
+     return ram_addr;
+ #else
 -- 
 2.20.1
 
