@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D017CACA
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 19:45:43 +0200 (CEST)
-Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757057CB39
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 19:58:55 +0200 (CEST)
+Received: from localhost ([::1]:43340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hssfW-0006qK-9E
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 13:45:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
+	id 1hsssI-0003bV-9O
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 13:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hsset-0006RL-93
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:45:04 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hssr7-00022D-Ua
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hsses-0003V9-3S
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:45:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40306)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hsser-0003Uh-SD
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:45:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AB79330A7C6D
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 17:45:00 +0000 (UTC)
-Received: from work-vm (ovpn-116-252.ams2.redhat.com [10.36.116.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E20119C65;
- Wed, 31 Jul 2019 17:44:55 +0000 (UTC)
-Date: Wed, 31 Jul 2019 18:44:52 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190731174452.GL3203@work-vm>
-References: <20190726091103.23503-1-stefanha@redhat.com>
- <20190726091103.23503-6-stefanha@redhat.com>
+ (envelope-from <jan.bobek@gmail.com>) id 1hssr6-0002bZ-Vu
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:41 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:45734)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssr6-0002ah-QM
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:40 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id m16so25266960ywh.12
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7EboO1M9lMp727uwu7WK9/tzhJNY6KIIiIQlKtwWES0=;
+ b=l98CthNGhk++wHxgd2YLRKlqUjQ2VchPMfc63R4vQKfwIAbWvWPVD9As2V6YoPTld/
+ AETlPVBOPlhZTSZWwf4Or/VNEx0g/1RHj0wpzljsyBjKI3d9PcAjK65yUBybT1NGOGXC
+ Kdr15s3S9swyeeAcoU+Ns1M/xAnkZHUFJADAL8jofU+70x4A1po9INfYWT6pT3nkS9H/
+ mLodXMsk9PtAi8VZ6HkRcVUqTwhcyLCm7pT9gfJJWXd/Hdwfiw6SRSH33XTSWVw3TDlD
+ 2DjxuEzaPGm0p5KTzfpdH1o5m1QHpmRnJTALtcRIy9KKaimIWQOtVFAYTlH3GwSpW9ou
+ qQWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7EboO1M9lMp727uwu7WK9/tzhJNY6KIIiIQlKtwWES0=;
+ b=nwKGqcDiVFRB9wj14sMompNC2o+C6kxJcDCYIEY6RMMvCPsdS+2MFm56EfgPjqOtcy
+ WDZ1dUoycwBN4hp4p+IQ9d5jmHdSEvD1XMQ8UqjZpvCGwKuITAGQj+itRgOuewSMhJbj
+ gYwG4V14ImdhF2vSOQSBihsQNN/UScASnEQ5xoG3ZdecnL6bdR7DMDMvZqgSIKwAz5CS
+ Z8vLgxp4NFP6aOVGlc6gxYYOQarwYMMWU8u/bIkdhJaq60nHDnqOkLjtDM9wWjN++KmP
+ hsQMdW3BV3Umj67h9rriYhHOBi7N6qLO1CUWkNEVlbnKw20MBFFjDRIG2vwqHwpg9kyx
+ E2fQ==
+X-Gm-Message-State: APjAAAUbNkCNlL9JvlPsEQQpZRGFQADW/7Qjw9xXwCTL7XtGgmLTNu39
+ vUacqD8xyHULc8UnWtnu5mt02O8Q
+X-Google-Smtp-Source: APXvYqwj7ah4oMws4dXObi1TbQ3xu/HgkFIH0vbfVpOQt8wsFJ35sbtG0/FfcgbmZgcOXsAPdlqFxA==
+X-Received: by 2002:a0d:cbcf:: with SMTP id
+ n198mr73789429ywd.364.1564595859272; 
+ Wed, 31 Jul 2019 10:57:39 -0700 (PDT)
+Received: from dionysus.attlocal.net
+ (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
+ by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.38
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 31 Jul 2019 10:57:38 -0700 (PDT)
+From: Jan Bobek <jan.bobek@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 31 Jul 2019 13:56:40 -0400
+Message-Id: <20190731175702.4916-1-jan.bobek@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190726091103.23503-6-stefanha@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Wed, 31 Jul 2019 17:45:00 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 5/5] virtiofsd: prevent races with
- lo_dirp_put()
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: [Qemu-devel] [RFC PATCH v1 00/22] reimplement (some) x86 vector
+ instructions using tcg-gvec
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,147 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jan Bobek <jan.bobek@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> Introduce lo_dirp_put() so that FUSE_RELEASEDIR does not cause
-> use-after-free races with other threads that are accessing lo_dirp.
-> 
-> Also make lo_releasedir() atomic to prevent FUSE_RELEASEDIR racing with
-> itself.  This prevents double-frees.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  contrib/virtiofsd/passthrough_ll.c | 42 +++++++++++++++++++++++++-----
->  1 file changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> index ad3abdd532..f74e7d2d21 100644
-> --- a/contrib/virtiofsd/passthrough_ll.c
-> +++ b/contrib/virtiofsd/passthrough_ll.c
-> @@ -1293,11 +1293,28 @@ static void lo_readlink(fuse_req_t req, fuse_ino_t ino)
->  }
->  
->  struct lo_dirp {
-> +	gint refcount;
->  	DIR *dp;
->  	struct dirent *entry;
->  	off_t offset;
->  };
->  
-> +static void lo_dirp_put(struct lo_dirp **dp)
-> +{
-> +	struct lo_dirp *d = *dp;
-> +
-> +	if (!d) {
-> +		return;
-> +	}
-> +	*dp = NULL;
-> +
-> +	if (g_atomic_int_dec_and_test(&d->refcount)) {
-> +		closedir(d->dp);
-> +		free(d);
-> +	}
-> +}
-> +
-> +/* Call lo_dirp_put() on the return value when no longer needed */
->  static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi)
->  {
->  	struct lo_data *lo = lo_data(req);
-> @@ -1305,6 +1322,9 @@ static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi)
->  
->  	pthread_mutex_lock(&lo->mutex);
->  	elem = lo_map_get(&lo->dirp_map, fi->fh);
-> +	if (elem) {
-> +		g_atomic_int_inc(&elem->dirp->refcount);
+This patch series is an early work-in-progress snapshot of my efforts
+to utilize the TCG gvec infrastracture in x86 frontend. Only a handful
+of instructions have been converted (those which have a direct gvec
+equivalent).
 
-I don't understand what protects against reading the elem->dirp
-here at the same time it's free'd by lo_releasedir's call to lo_dirp_put
+The dispatch switch for the converted instructions is sort of hacked
+into gen_sse; this is obviously intended for development only.
+Eventually, everything that follows this switch will be removed,
+along with the SSE tables and all that goes along with it.
 
-> +	}
->  	pthread_mutex_unlock(&lo->mutex);
->  	if (!elem)
->  		return NULL;
-> @@ -1335,6 +1355,8 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi
->  	d->offset = 0;
->  	d->entry = NULL;
->  
-> +	g_atomic_int_set(&d->refcount, 1); /* paired with lo_releasedir() */
-> +
->  	fh = lo_add_dirp_mapping(req, d);
->  	if (fh == -1)
->  		goto out_err;
-> @@ -1363,7 +1385,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
->  			  off_t offset, struct fuse_file_info *fi, int plus)
->  {
->  	struct lo_data *lo = lo_data(req);
-> -	struct lo_dirp *d;
-> +	struct lo_dirp *d = NULL;
->  	struct lo_inode *dinode;
->  	char *buf = NULL;
->  	char *p;
-> @@ -1451,6 +1473,8 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
->  
->      err = 0;
->  error:
-> +    lo_dirp_put(&d);
-> +
->      // If there's an error, we can only signal it if we haven't stored
->      // any entries yet - otherwise we'd end up with wrong lookup
->      // counts for the entries that are already in the buffer. So we
-> @@ -1477,22 +1501,25 @@ static void lo_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
->  static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
->  {
->  	struct lo_data *lo = lo_data(req);
-> +	struct lo_map_elem *elem;
->  	struct lo_dirp *d;
->  
->  	(void) ino;
->  
-> -	d = lo_dirp(req, fi);
-> -	if (!d) {
-> +	pthread_mutex_lock(&lo->mutex);
-> +	elem = lo_map_get(&lo->dirp_map, fi->fh);
-> +	if (!elem) {
-> +		pthread_mutex_unlock(&lo->mutex);
->  		fuse_reply_err(req, EBADF);
->  		return;
->  	}
->  
-> -	pthread_mutex_lock(&lo->mutex);
-> +	d = elem->dirp;
->  	lo_map_remove(&lo->dirp_map, fi->fh);
->  	pthread_mutex_unlock(&lo->mutex);
->  
-> -	closedir(d->dp);
-> -	free(d);
-> +	lo_dirp_put(&d); /* paired with lo_opendir() */
+Cheers,
+  -Jan
 
-Is the &d really what's intended? That's the local stack variable, so
-lo_dirp_put will set that local to NULL rather than the elem->dirp wont
-it?
+Jan Bobek (18):
+  target/i386: introduce gen_ld_modrm_* helpers
+  target/i386: introduce gen_gvec_ld_modrm_* helpers
+  target/i386: add vector register file alignment constraints
+  target/i386: reimplement (V)PAND, (V)ANDPS, (V)ANDPD
+  target/i386: reimplement (V)POR, (V)ORPS, (V)ORPD
+  target/i386: reimplement (V)PXOR, (V)XORPS, (V)XORPD
+  target/i386: reimplement (V)PANDN, (V)ANDNPS, (V)ANDNPD
+  target/i386: reimplement (V)PADD(B,W,D,Q)
+  target/i386: reimplement (V)PSUB(B,W,D,Q)
+  target/i386: reimplement (V)PADDS(B,W)
+  target/i386: reimplement (V)PADDUS(B,W)
+  target/i386: reimplement (V)PSUBS(B,W)
+  target/i386: reimplement (V)PSUBUS(B,W)
+  target/i386: reimplement (V)PMINSW
+  target/i386: reimplement (V)PMINUB
+  target/i386: reimplement (V)PMAXSW
+  target/i386: reimplement (V)PMAXUB
+  target/i386: reimplement (V)P(EQ,CMP)(B,W,D)
 
-Dave
+Richard Henderson (4):
+  target/i386: Push rex_r into DisasContext
+  target/i386: Push rex_w into DisasContext
+  target/i386: Use prefix, aflag and dflag from DisasContext
+  target/i386: Simplify gen_exception arguments
 
-> +
->  	fuse_reply_err(req, 0);
->  }
->  
-> @@ -1701,6 +1728,9 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
->  		res = fdatasync(fd);
->  	else
->  		res = fsync(fd);
-> +
-> +	lo_dirp_put(&d);
-> +
->  	fuse_reply_err(req, res == -1 ? errno : 0);
->  }
->  
-> -- 
-> 2.21.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ target/i386/cpu.h            |   6 +-
+ target/i386/ops_sse.h        |  65 ---
+ target/i386/ops_sse_header.h |  39 --
+ target/i386/translate.c      | 990 +++++++++++++++++++++++++----------
+ 4 files changed, 723 insertions(+), 377 deletions(-)
+
+-- 
+2.20.1
+
 
