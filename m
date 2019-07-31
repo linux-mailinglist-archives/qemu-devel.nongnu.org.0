@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584547CEF4
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:43:00 +0200 (CEST)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CC7CEF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 22:42:40 +0200 (CEST)
+Received: from localhost ([::1]:44282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsvR5-0004lM-II
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60791)
+	id 1hsvQl-0003je-FV
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 16:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60816)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvMh-0004IW-Oq
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hsvMi-0004Kn-Rh
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hsvMg-0003OU-J2
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:27 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46530)
+ (envelope-from <richard.henderson@linaro.org>) id 1hsvMh-0003Py-Pe
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:28 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35180)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hsvMg-0003NW-DL
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:26 -0400
-Received: by mail-pf1-x444.google.com with SMTP id c3so9373544pfa.13
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 13:38:26 -0700 (PDT)
+ id 1hsvMh-0003Of-KQ
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 16:38:27 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u14so32533404pfn.2
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 13:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BmJBoz3ocCwfjPIQpLnVRF2wr3dk36b5G/HujhxQoNg=;
- b=Dq6i1Hs91zq16uGduehbgnzKRhAalaBIaKorKOpFS3H0qN/HcGntn1JbQwgg+s7Ew1
- GqApdJQUGjWAxY/aMF00+P9eOlfn99eKYnNQ0sCAQ0KpVVUDXlWA5m/3TwR6jsxqt0Xj
- IQM7HjUKo8dWTW3mgc0mkxqQmTYr+yZ4jfBsGljgZ8K5KPvfyXP6ZhUc6k6uWgCKT3l0
- /d6q2IGejlSyIrwYMz3R13QENJgCD3q2nwCdiFPhusW/aFArl8lIjzL/OHZv3PmlXN4N
- 7VRzrHfFj9fKlr/q3Y5cdzxzuJFL1Bnfu1bLTgWtjP6F/GhXJEJ32mGhFYUPXAPidLVz
- O+3Q==
+ bh=eXztB5+CPZYWvtJqCXCkkbobp/U8zAPLQueishTnE64=;
+ b=YZBRaFRDeE/C9WJ9U7ACwGnFPRCpOoJFuqnM2lVJHxJ0dLtO/g5G9LOwwLdcIbIcVq
+ V0rn35vxniVdiuN2orhSR+g/A51rIlfJQxrH2C+F0ec487jADOIrW8coX6bWTtSwK5A9
+ JJzFNRq1UfvEegm/Dsv/AB5WGHpwQb/anWBWBftgcNJqUOYjg5kZgCwxiXNG5aHQEqfq
+ Pnd1W3VvS8+EwAkWdnsou3RCh9ARY3I/9XC92W8nltPmIvsz40pIu9Vr6cWtbRVdQDiu
+ NzPpstQyYFlYi/xNxdXVpKyvlHir50JZGov4d7SJDjjmCb3giNYSQ79sxQBinKPqQ+H2
+ brqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BmJBoz3ocCwfjPIQpLnVRF2wr3dk36b5G/HujhxQoNg=;
- b=H+V5UoRJhd5BX7ZrJPG5PhKL/fewUe+ENqtos0vVltNWUS6NTt6i5gwndr+qPuLQHL
- jJfqDAS35IzhJ74M6iWWnV0ieGANo1/Zls+lxRlpIzXBO3l7V+bzSyxV3GRaejwv1HOE
- jjPV5ggapY383TvnvVWOMJVJKCQ9fnhHJW+uZ+q3Fbgs2MnjpstLPEK9Adbhy9g1S/hY
- k5BPajgh81EIrjxgAlFEMD/oNuefiPHgpgB2Qaq8FzhoVpSoNJvqSfuQK2ygTxC8j2wQ
- /xh3zkwMszyiSK67jQrDUSdH0Yl5tlHzKORQxutL4TlB6dtxSLCoi51vf4JL+dzG4qUp
- 0WjA==
-X-Gm-Message-State: APjAAAUI/GTfbZB4SdBoojiRuvIY25LdskqOMRolVlr/N1LUvhnuoAmR
- XA29GUjLpgafJ9WvFwHmqE/7PPiWV2A=
-X-Google-Smtp-Source: APXvYqyCL2CMqPxgwL8CQNGuInvavMSrrVdR9gHFBtMu2xxN/27T3RG46re5lp2XLkfCb17S0cH4zA==
-X-Received: by 2002:a62:3895:: with SMTP id
- f143mr48675062pfa.116.1564605505099; 
- Wed, 31 Jul 2019 13:38:25 -0700 (PDT)
+ bh=eXztB5+CPZYWvtJqCXCkkbobp/U8zAPLQueishTnE64=;
+ b=XtOwnYS5ixCWQFiQzUt6ki+BsVog1lu0TtG4CT1WUsoPX1ysrf/ENKKK2X+YdrnqhG
+ GWU9F/fGh370B9FgyNLPrkoL0RQWgfupPaf275irMYYuBVjSZb4bGrIRr08SZXPItQ89
+ oTTRKAjDW5YKD1yHvlEnBO01Gow9Ryfa4PWa5wOQ7IHfVNflQ9DjsR6wiPuKFmQSRINd
+ cr0SpoDiJaI9TG3Xkf6v1OEKb8FJLij+g9o487ZiMLr8HgXsCC6qkITL0lWS6R+RIWxM
+ toCsPvTjGskva+bJYwnuAXKohaYk+4ZGF5rNkmFnypaKJKw0tVSvv2k4F2bLdtTSs65N
+ Crpg==
+X-Gm-Message-State: APjAAAU3LofUTmTZqxa3KSxquXvC+bugqkwtDD9FYFYut7ZFkgh1F304
+ VxPGbxHxpF36oDbqbksltBizcc+/L5c=
+X-Google-Smtp-Source: APXvYqydtT5ieHPuIhGsR9m+t2LPyIs+SxOF/gV8J0m2blMmbEMchISfMm4lgQHzmpzAPb0gxwebcQ==
+X-Received: by 2002:a17:90a:3086:: with SMTP id
+ h6mr4877113pjb.14.1564605506348; 
+ Wed, 31 Jul 2019 13:38:26 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id g4sm84054164pfo.93.2019.07.31.13.38.24
+ by smtp.gmail.com with ESMTPSA id g4sm84054164pfo.93.2019.07.31.13.38.25
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 13:38:24 -0700 (PDT)
+ Wed, 31 Jul 2019 13:38:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:37:49 -0700
-Message-Id: <20190731203813.30765-9-richard.henderson@linaro.org>
+Date: Wed, 31 Jul 2019 13:37:50 -0700
+Message-Id: <20190731203813.30765-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190731203813.30765-1-richard.henderson@linaro.org>
 References: <20190731203813.30765-1-richard.henderson@linaro.org>
@@ -67,8 +67,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 08/32] target/arm: Add CONTEXTIDR_EL2
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v2 09/32] target/arm: Add TTBR1_EL2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,120 +84,65 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all of the breakpoint types are supported, but those that
-only examine contextidr are extended to support the new register.
+At the same time, add writefn to TTBR0_EL2 and TCR_EL2.
+A later patch will update any ASID therein.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/debug_helper.c | 50 +++++++++++++++++++++++++++++----------
- target/arm/helper.c       | 11 +++++++++
- 2 files changed, 49 insertions(+), 12 deletions(-)
+ target/arm/helper.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index dde80273ff..2e3e90c6a5 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -20,6 +20,7 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-     int ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
-     int bt;
-     uint32_t contextidr;
-+    uint64_t hcr_el2;
- 
-     /*
-      * Links to unimplemented or non-context aware breakpoints are
-@@ -40,24 +41,44 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-     }
- 
-     bt = extract64(bcr, 20, 4);
--
--    /*
--     * We match the whole register even if this is AArch32 using the
--     * short descriptor format (in which case it holds both PROCID and ASID),
--     * since we don't implement the optional v7 context ID masking.
--     */
--    contextidr = extract64(env->cp15.contextidr_el[1], 0, 32);
-+    hcr_el2 = arm_hcr_el2_eff(env);
- 
-     switch (bt) {
-     case 3: /* linked context ID match */
--        if (arm_current_el(env) > 1) {
--            /* Context matches never fire in EL2 or (AArch64) EL3 */
-+        switch (arm_current_el(env)) {
-+        default:
-+            /* Context matches never fire in AArch64 EL3 */
-             return false;
-+        case 2:
-+            if (!(hcr_el2 & HCR_E2H)) {
-+                /* Context matches never fire in EL2 without E2H enabled. */
-+                return false;
-+            }
-+            contextidr = env->cp15.contextidr_el[2];
-+            break;
-+        case 1:
-+            contextidr = env->cp15.contextidr_el[1];
-+            break;
-+        case 0:
-+            if ((hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                contextidr = env->cp15.contextidr_el[2];
-+            } else {
-+                contextidr = env->cp15.contextidr_el[1];
-+            }
-+            break;
-         }
--        return (contextidr == extract64(env->cp15.dbgbvr[lbn], 0, 32));
--    case 5: /* linked address mismatch (reserved in AArch64) */
-+        break;
-+
-+    case 7:  /* linked contextidr_el1 match */
-+        contextidr = env->cp15.contextidr_el[1];
-+        break;
-+    case 13: /* linked contextidr_el2 match */
-+        contextidr = env->cp15.contextidr_el[2];
-+        break;
-+
-     case 9: /* linked VMID match (reserved if no EL2) */
-     case 11: /* linked context ID and VMID match (reserved if no EL2) */
-+    case 15: /* linked full context ID match */
-     default:
-         /*
-          * Links to Unlinked context breakpoints must generate no
-@@ -66,7 +87,12 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-         return false;
-     }
- 
--    return false;
-+    /*
-+     * We match the whole register even if this is AArch32 using the
-+     * short descriptor format (in which case it holds both PROCID and ASID),
-+     * since we don't implement the optional v7 context ID masking.
-+     */
-+    return contextidr == (uint32_t)env->cp15.dbgbvr[lbn];
- }
- 
- static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 9a18ecf8f6..8baeb3f319 100644
+index 8baeb3f319..8d8b3cc40e 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6801,6 +6801,17 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, lor_reginfo);
+@@ -3449,6 +3449,12 @@ static void vmsa_ttbr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
      }
+ }
  
-+    if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
-+        static const ARMCPRegInfo vhe_reginfo[] = {
-+            { .name = "CONTEXTIDR_EL2", .state = ARM_CP_STATE_AA64,
-+              .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
-+              .access = PL2_RW,
-+              .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2]) },
-+            REGINFO_SENTINEL
-+        };
-+        define_arm_cp_regs(cpu, vhe_reginfo);
-+    }
++static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    uint64_t value)
++{
++    raw_write(env, ri, value);
++}
 +
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         define_one_arm_cp_reg(cpu, &zcr_el1_reginfo);
-         if (arm_feature(env, ARM_FEATURE_EL2)) {
+ static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
+@@ -4844,10 +4850,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .resetvalue = 0 },
+     { .name = "TCR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 2,
+-      .access = PL2_RW,
+-      /* no .writefn needed as this can't cause an ASID change;
+-       * no .raw_writefn or .resetfn needed as we never use mask/base_mask
+-       */
++      .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
++      /* no .raw_writefn or .resetfn needed as we never use mask/base_mask */
+       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
+     { .name = "VTCR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+@@ -4881,7 +4885,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .fieldoffset = offsetof(CPUARMState, cp15.tpidr_el[2]) },
+     { .name = "TTBR0_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 0,
+-      .access = PL2_RW, .resetvalue = 0,
++      .access = PL2_RW, .resetvalue = 0, .writefn = vmsa_tcr_ttbr_el2_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[2]) },
+     { .name = "HTTBR", .cp = 15, .opc1 = 4, .crm = 2,
+       .access = PL2_RW, .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+@@ -6807,6 +6811,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
+               .access = PL2_RW,
+               .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2]) },
++            { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
++              .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
++              .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
++              .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
+             REGINFO_SENTINEL
+         };
+         define_arm_cp_regs(cpu, vhe_reginfo);
 -- 
 2.17.1
 
