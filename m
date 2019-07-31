@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC697C53C
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:44:15 +0200 (CEST)
-Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6997C53B
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:44:14 +0200 (CEST)
+Received: from localhost ([::1]:41473 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsppu-0002UR-B6
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44753)
+	id 1hsppt-0002Tt-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44752)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hspp5-0001CO-4W
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:43:23 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hspp5-0001CN-4J
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:43:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hspp4-0000vC-0p
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hspp4-0000vL-1w
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:43:23 -0400
-Received: from mga05.intel.com ([192.55.52.43]:51110)
+Received: from mga05.intel.com ([192.55.52.43]:51112)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hspp3-0000sD-OH
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:43:21 -0400
+ id 1hspp3-0000sd-OI
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:43:22 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2019 07:43:16 -0700
+ 31 Jul 2019 07:43:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,330,1559545200"; d="scan'208";a="347557226"
+X-IronPort-AV: E=Sophos;i="5.64,330,1559545200"; d="scan'208";a="347557230"
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by orsmga005.jf.intel.com with ESMTP; 31 Jul 2019 07:43:15 -0700
+ by orsmga005.jf.intel.com with ESMTP; 31 Jul 2019 07:43:17 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 22:42:24 +0800
-Message-Id: <20190731144225.3784-2-richardw.yang@linux.intel.com>
+Date: Wed, 31 Jul 2019 22:42:25 +0800
+Message-Id: <20190731144225.3784-3-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190731144225.3784-1-richardw.yang@linux.intel.com>
 References: <20190731144225.3784-1-richardw.yang@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.43
-Subject: [Qemu-devel] [PATCH 1/2] migration/qemu-file: remove check on
- writev_buffer in qemu_put_compression_data
+Subject: [Qemu-devel] [PATCH 2/2] migration/qemu-file: fix potential buf
+ waste for extra buf_index adjustment
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,32 +58,103 @@ Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The check of writev_buffer is in qemu_fflush, which means it is not
-harmful if it is NULL.
+In add_to_iovec(), qemu_fflush() will be called if iovec is full. If
+this happens, buf_index is reset. Currently, this is not checked and
+buf_index would always been adjust with buf size.
 
-And removing it will make the code consistent since all other
-add_to_iovec() is called without the check.
+This is not harmful, but will waste some space in file buffer.
+
+This patch make add_to_iovec() return 1 when it has flushed the file.
+Then the caller could check the return value to see whether it is
+necessary to adjust the buf_index any more.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 ---
- migration/qemu-file.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ migration/qemu-file.c | 42 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 14 deletions(-)
 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 0431585502..35c22605dd 100644
+index 35c22605dd..05d9f42ddb 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -717,9 +717,7 @@ ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
+@@ -343,8 +343,16 @@ int qemu_fclose(QEMUFile *f)
+     return ret;
+ }
+ 
+-static void add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
+-                         bool may_free)
++/*
++ * Add buf to iovec. Do flush if iovec is full.
++ *
++ * Return values:
++ * 1 iovec is full and flushed
++ * 0 iovec is not flushed
++ *
++ */
++static int add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
++                        bool may_free)
+ {
+     /* check for adjacent buffer and coalesce them */
+     if (f->iovcnt > 0 && buf == f->iov[f->iovcnt - 1].iov_base +
+@@ -362,7 +370,10 @@ static void add_to_iovec(QEMUFile *f, const uint8_t *buf, size_t size,
+ 
+     if (f->iovcnt >= MAX_IOV_SIZE) {
+         qemu_fflush(f);
++        return 1;
+     }
++
++    return 0;
+ }
+ 
+ void qemu_put_buffer_async(QEMUFile *f, const uint8_t *buf, size_t size,
+@@ -391,10 +402,11 @@ void qemu_put_buffer(QEMUFile *f, const uint8_t *buf, size_t size)
+         }
+         memcpy(f->buf + f->buf_index, buf, l);
+         f->bytes_xfer += l;
+-        add_to_iovec(f, f->buf + f->buf_index, l, false);
+-        f->buf_index += l;
+-        if (f->buf_index == IO_BUF_SIZE) {
+-            qemu_fflush(f);
++        if (!add_to_iovec(f, f->buf + f->buf_index, l, false)) {
++            f->buf_index += l;
++            if (f->buf_index == IO_BUF_SIZE) {
++                qemu_fflush(f);
++            }
+         }
+         if (qemu_file_get_error(f)) {
+             break;
+@@ -412,10 +424,11 @@ void qemu_put_byte(QEMUFile *f, int v)
+ 
+     f->buf[f->buf_index] = v;
+     f->bytes_xfer++;
+-    add_to_iovec(f, f->buf + f->buf_index, 1, false);
+-    f->buf_index++;
+-    if (f->buf_index == IO_BUF_SIZE) {
+-        qemu_fflush(f);
++    if (!add_to_iovec(f, f->buf + f->buf_index, 1, false)) {
++        f->buf_index++;
++        if (f->buf_index == IO_BUF_SIZE) {
++            qemu_fflush(f);
++        }
+     }
+ }
+ 
+@@ -717,10 +730,11 @@ ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
      }
  
      qemu_put_be32(f, blen);
--    if (f->ops->writev_buffer) {
--        add_to_iovec(f, f->buf + f->buf_index, blen, false);
--    }
-+    add_to_iovec(f, f->buf + f->buf_index, blen, false);
-     f->buf_index += blen;
-     if (f->buf_index == IO_BUF_SIZE) {
-         qemu_fflush(f);
+-    add_to_iovec(f, f->buf + f->buf_index, blen, false);
+-    f->buf_index += blen;
+-    if (f->buf_index == IO_BUF_SIZE) {
+-        qemu_fflush(f);
++    if (!add_to_iovec(f, f->buf + f->buf_index, blen, false)) {
++        f->buf_index += blen;
++        if (f->buf_index == IO_BUF_SIZE) {
++            qemu_fflush(f);
++        }
+     }
+     return blen + sizeof(int32_t);
+ }
 -- 
 2.17.1
 
