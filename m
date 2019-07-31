@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE1D7CB53
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:00:18 +0200 (CEST)
-Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9003F7CB68
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:02:12 +0200 (CEST)
+Received: from localhost ([::1]:43396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsste-0007Ix-41
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:00:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
+	id 1hssvT-0001xI-OG
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42737)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hssrC-000268-41
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:47 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hssrD-0002Am-Mq
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hssrA-0002ik-Ry
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:46 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:36011)
+ (envelope-from <jan.bobek@gmail.com>) id 1hssrC-0002kj-Bu
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:47 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:43095)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssrA-0002iI-Mv
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:44 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id x67so23938893ywd.3
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssrC-0002kK-6t
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:46 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id n205so25261520ywb.10
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XyOyXownzlqyzcHoDb3cC3+WYnqPG0lqyZKEQlHebr4=;
- b=Uf9u6OrJFgkrzD8njZj0IXUqvINLEIToyiMP+sh+UZHEEGaecqMmuMm5KaKRr9vX7U
- ZYJGyxF0BTOtQVdfViigzdqHwgmf4o4235b133qTG7qKfQw0HsSLHcph4ZhaFY2Hq8qT
- 8VwjHbaBIoa3XrR4vgXbUMXFx3OuIV6tUVCDbYjHbZMhSRgzKqxne3SwDeRlV7RWgsVd
- IlhNcHrzBEvUwjM6nfYsaGd2oPsIFU1gTs6GN6x74WX2Dj7JIIOz7yRfHBF+JbW7LL+X
- O+V0hUBdqkDPAlBjK6vlsf+I9svIGgeZqQKJtP2aV/jH7nyWR76+e0cg/T5AZ7Qx98XQ
- o4Qg==
+ bh=4d3RfxvWrL3pS5CIKpyaSSwwN3flwpgu4uNrI6R0JKY=;
+ b=uI/rhecQG8ykYxRJMYkNLXgoe4c5jUJuFVqjw2w1nWzzA8XpjDX9XVbqG68C0iMIj4
+ A/hkGID8rc1fcDjfT6i2dW604FrcJAA8+2solVJiABsbhW0+TQwD1FhQPwHYt6ifApNE
+ 5rIvEA4jRT/uSA5NJhXSrf8MPvoCmZDG5KVT9KXgmlW1q8f2wv0bPUk/uaPP1KNNI8QQ
+ 28nGqJMlmN9PwmCecDA4tFSqIdhGLKjZ1n9RwNjzMefugc+PPsVtp5ma6sv0uSanB2Hp
+ XdWfc0UjZgaCMTvcqvaTkEEsLCbMaHBNp2YLOc18HvASFfbKYU6DLw2t3UkGBQg6nGDZ
+ 4hkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XyOyXownzlqyzcHoDb3cC3+WYnqPG0lqyZKEQlHebr4=;
- b=IqEOyGPdlx6ywgUySb1cCl9SHrmxh8OGp2iDAhf28PQkCKKZQVAuLYwtW4OQvxtjlj
- wOcwqSpmb3w0ZPPHNdGCnMjp2cg3rjGcPuBtx2ACUcVFwnE+FEt59njf3akkJwhe/CTh
- QRUsiSs1cH5W+0t4r8agp1SNpfxhUYh/H8DZQ5FSjtzFzO/I+39nKf2ydm3lKc9nwNI3
- eNuGs2RpidWotdtyaxrgAsDH8/eRN+iLz6P336oWHWyuXHOENKKSU3ZAlWW27jlEclr7
- hWuZE7vHpO2/plQV7hILCKqnJPM9FBrh+fB+B1Akv4GGDWcCFJ9c5AAEz66WQo49abb3
- EcVg==
-X-Gm-Message-State: APjAAAWbEK05JDwqiIQ41L2ZVOxrjcbnl38TnxS5joHS237mq1zE5sE3
- 5DPKAe3uDvUcebhBUu3imvxKjbaE
-X-Google-Smtp-Source: APXvYqxt/KSjgdt6us31YrZXUOeE1kSS0qCVevXQR9MbFO2nReSWv/OqsYCBtNUFKHs2GbeI/57v/A==
-X-Received: by 2002:a0d:eb8a:: with SMTP id
- u132mr74310850ywe.303.1564595863897; 
- Wed, 31 Jul 2019 10:57:43 -0700 (PDT)
+ bh=4d3RfxvWrL3pS5CIKpyaSSwwN3flwpgu4uNrI6R0JKY=;
+ b=TFVY5GKy7yiUCy0al2wL2B3WmJZDo+vS3IbEYkLvhpfBlZXCpj/+WYDPBD59dySmJa
+ 1V0auWxXGFlAh13YFokGodZ1DDy0r4xd97BA0zaNBA9MXN/gYM4TKp/3nHK8/nC2+DFd
+ fku7LLTmvNGsZr0ywgMYR7X9/kPN2Ri77uOU/AE5vWEBC+cLjnC2B5TmPujHGPrQmprs
+ R8fWrl91NjDhg7iScFztahZvBxQ6lgKaoyJ5ZJ7LTuKZN/Q83cEirrdLdi5JrgN0ZhAf
+ Bz4NNC/J1ZRUPMLuEoYlxLD0EELZdynqlZFSlsC2J2aDZqfWum20q4PGIdLnE8BCa5ND
+ 8Snw==
+X-Gm-Message-State: APjAAAURdoo82m6wKfu+l9djy0+MlRkvRvGCLCfNB3PH+qBoyG4BYnRe
+ XZI0/RsD8BnE9u+SsY7sEuAqxZsW
+X-Google-Smtp-Source: APXvYqz/esu6UpTPlXvA00D6ddh4n6eqyyCCl7R8/vY14vk/XXIdcnuEgisIOYsCwFq/AF22dEmhhQ==
+X-Received: by 2002:a81:70d0:: with SMTP id
+ l199mr78458053ywc.397.1564595865571; 
+ Wed, 31 Jul 2019 10:57:45 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.43
+ by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.44
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 10:57:43 -0700 (PDT)
+ Wed, 31 Jul 2019 10:57:45 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:56:46 -0400
-Message-Id: <20190731175702.4916-7-jan.bobek@gmail.com>
+Date: Wed, 31 Jul 2019 13:56:48 -0400
+Message-Id: <20190731175702.4916-9-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731175702.4916-1-jan.bobek@gmail.com>
 References: <20190731175702.4916-1-jan.bobek@gmail.com>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Subject: [Qemu-devel] [RFC PATCH v1 06/22] target/i386: introduce
- gen_gvec_ld_modrm_* helpers
+X-Received-From: 2607:f8b0:4864:20::c42
+Subject: [Qemu-devel] [RFC PATCH v1 08/22] target/i386: reimplement (V)PAND,
+ (V)ANDPS, (V)ANDPD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +85,148 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gen_gvec_ld_modrm_* helpers tie together a gen_ld_modrm_* helper and a
-particular gvec operation, effectively handling a single instruction.
+Use the gvec infrastructure to achieve the desired functionality.
+
+Note: This commit adds several bits which will not be part of the
+final patch series and which are only present to allow for incremenal
+write-and-test development cycle. Notably, the SSE_TOMBSTONE define
+will go away entirely with all of the tables, and nothing will follow
+the new dispatch switch in gen_sse.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- target/i386/translate.c | 77 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ target/i386/ops_sse.h        |  2 --
+ target/i386/ops_sse_header.h |  1 -
+ target/i386/translate.c      | 49 ++++++++++++++++++++++++++++++++++--
+ 3 files changed, 47 insertions(+), 5 deletions(-)
 
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index ed05989768..b3ba23287d 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -353,7 +353,6 @@ static inline int satsw(int x)
+ #define FMAXUB(a, b) ((a) > (b)) ? (a) : (b)
+ #define FMAXSW(a, b) ((int16_t)(a) > (int16_t)(b)) ? (a) : (b)
+ 
+-#define FAND(a, b) ((a) & (b))
+ #define FANDN(a, b) ((~(a)) & (b))
+ #define FOR(a, b) ((a) | (b))
+ #define FXOR(a, b) ((a) ^ (b))
+@@ -397,7 +396,6 @@ SSE_HELPER_B(helper_pmaxub, FMAXUB)
+ SSE_HELPER_W(helper_pminsw, FMINSW)
+ SSE_HELPER_W(helper_pmaxsw, FMAXSW)
+ 
+-SSE_HELPER_Q(helper_pand, FAND)
+ SSE_HELPER_Q(helper_pandn, FANDN)
+ SSE_HELPER_Q(helper_por, FOR)
+ SSE_HELPER_Q(helper_pxor, FXOR)
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index 094aafc573..63b4376389 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -86,7 +86,6 @@ SSE_HELPER_B(pmaxub, FMAXUB)
+ SSE_HELPER_W(pminsw, FMINSW)
+ SSE_HELPER_W(pmaxsw, FMAXSW)
+ 
+-SSE_HELPER_Q(pand, FAND)
+ SSE_HELPER_Q(pandn, FANDN)
+ SSE_HELPER_Q(por, FOR)
+ SSE_HELPER_Q(pxor, FXOR)
 diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 7548677e1f..d576b3345c 100644
+index d576b3345c..3821733a4e 100644
 --- a/target/i386/translate.c
 +++ b/target/i386/translate.c
-@@ -3087,6 +3087,83 @@ static inline void gen_ld_modrm_VxHxWx(CPUX86State *env, DisasContext *s, int mo
-     *aofs = offsetof(CPUX86State, xmm_regs[s->vex_v]);
- }
+@@ -23,6 +23,7 @@
+ #include "disas/disas.h"
+ #include "exec/exec-all.h"
+ #include "tcg-op.h"
++#include "tcg-op-gvec.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
  
-+typedef void (*gen_ld_modrm_2_fp_t)(CPUX86State *env, DisasContext *s, int modrm,
-+                                    uint32_t *dofs, uint32_t *aofs);
-+typedef void (*gen_ld_modrm_3_fp_t)(CPUX86State *env, DisasContext *s, int modrm,
-+                                    uint32_t *dofs, uint32_t *aofs, uint32_t *bofs);
-+typedef void (*gen_gvec_2_fp_t)(unsigned vece, uint32_t dofs, uint32_t aofs,
-+                                uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
-+
-+static inline void gen_gvec_ld_modrm_2(CPUX86State *env, DisasContext *s,
-+                                       int modrm, unsigned vece,
-+                                       uint32_t oprsz, uint32_t maxsz,
-+                                       gen_ld_modrm_2_fp_t gen_ld_modrm_2_fp,
-+                                       gen_gvec_2_fp_t gen_gvec_2_fp,
-+                                       int opctl)
-+{
-+    uint32_t ofss[2];
-+
-+    const int opd = ((opctl >> 6) & 7) - 1;
-+    const int opa = ((opctl >> 3) & 7) - 1;
-+    const int opb = ((opctl >> 0) & 7) - 1;
-+
-+    assert(0 <= opd && opd < 2);
-+    assert(0 <= opa && opa < 2);
-+    assert(0 <= opb && opb < 2);
-+
-+    (*gen_ld_modrm_2_fp)(env, s, modrm, &ofss[0], &ofss[1]);
-+    (*gen_gvec_2_fp)(vece, ofss[opd], ofss[opa], ofss[opb], oprsz, maxsz);
-+}
-+
-+static inline void gen_gvec_ld_modrm_3(CPUX86State *env, DisasContext *s,
-+                                       int modrm, unsigned vece,
-+                                       uint32_t oprsz, uint32_t maxsz,
-+                                       gen_ld_modrm_3_fp_t gen_ld_modrm_3_fp,
-+                                       gen_gvec_2_fp_t gen_gvec_2_fp,
-+                                       int opctl)
-+{
-+    uint32_t ofss[3];
-+
-+    const int opd = ((opctl >> 6) & 7) - 1;
-+    const int opa = ((opctl >> 3) & 7) - 1;
-+    const int opb = ((opctl >> 0) & 7) - 1;
-+
-+    assert(0 <= opd && opd < 3);
-+    assert(0 <= opa && opa < 3);
-+    assert(0 <= opb && opb < 3);
-+
-+    (*gen_ld_modrm_3_fp)(env, s, modrm, &ofss[0], &ofss[1], &ofss[2]);
-+    (*gen_gvec_2_fp)(vece, ofss[opd], ofss[opa], ofss[opb], oprsz, maxsz);
-+}
-+
-+#define gen_gvec_ld_modrm_mm(env, s, modrm, vece,                       \
-+                             gen_gvec_2_fp, opctl)                      \
-+    gen_gvec_ld_modrm_2((env), (s), (modrm), (vece),                    \
-+                        sizeof(MMXReg), sizeof(MMXReg),                 \
-+                        gen_ld_modrm_PqQq,                              \
-+                        gen_gvec_2_fp, (opctl))
-+
-+#define gen_gvec_ld_modrm_xmm(env, s, modrm, vece,                      \
-+                              gen_gvec_2_fp, opctl)                     \
-+    gen_gvec_ld_modrm_2((env), (s), (modrm), (vece),                    \
-+                        sizeof(XMMReg), sizeof(XMMReg),                 \
-+                        gen_ld_modrm_VxWx,                              \
-+                        gen_gvec_2_fp, (opctl))
-+
-+#define gen_gvec_ld_modrm_vxmm(env, s, modrm, vece,                     \
-+                               gen_gvec_2_fp, opctl)                    \
-+    gen_gvec_ld_modrm_3((env), (s), (modrm), (vece),                    \
-+                        sizeof(XMMReg), sizeof(ZMMReg),                 \
-+                        gen_ld_modrm_VxHxWx,                            \
-+                        gen_gvec_2_fp, (opctl))
-+
-+#define gen_gvec_ld_modrm_vymm(env, s, modrm, vece,                     \
-+                               gen_gvec_2_fp, opctl)                    \
-+    gen_gvec_ld_modrm_3((env), (s), (modrm), (vece),                    \
-+                        sizeof(YMMReg), sizeof(ZMMReg),                 \
-+                        gen_ld_modrm_VxHxWx,                            \
-+                        gen_gvec_2_fp, (opctl))
+@@ -2723,6 +2724,7 @@ typedef void (*SSEFunc_0_eppt)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b,
+ 
+ #define SSE_SPECIAL ((void *)1)
+ #define SSE_DUMMY ((void *)2)
++#define SSE_TOMBSTONE ((void *)3)
+ 
+ #define MMX_OP2(x) { gen_helper_ ## x ## _mmx, gen_helper_ ## x ## _xmm }
+ #define SSE_FOP(x) { gen_helper_ ## x ## ps, gen_helper_ ## x ## pd, \
+@@ -2754,7 +2756,7 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
+     [0x51] = SSE_FOP(sqrt),
+     [0x52] = { gen_helper_rsqrtps, NULL, gen_helper_rsqrtss, NULL },
+     [0x53] = { gen_helper_rcpps, NULL, gen_helper_rcpss, NULL },
+-    [0x54] = { gen_helper_pand_xmm, gen_helper_pand_xmm }, /* andps, andpd */
++    [0x54] = { SSE_TOMBSTONE, SSE_TOMBSTONE }, /* andps, andpd */
+     [0x55] = { gen_helper_pandn_xmm, gen_helper_pandn_xmm }, /* andnps, andnpd */
+     [0x56] = { gen_helper_por_xmm, gen_helper_por_xmm }, /* orps, orpd */
+     [0x57] = { gen_helper_pxor_xmm, gen_helper_pxor_xmm }, /* xorps, xorpd */
+@@ -2823,7 +2825,7 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
+     [0xd8] = MMX_OP2(psubusb),
+     [0xd9] = MMX_OP2(psubusw),
+     [0xda] = MMX_OP2(pminub),
+-    [0xdb] = MMX_OP2(pand),
++    [0xdb] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
+     [0xdc] = MMX_OP2(paddusb),
+     [0xdd] = MMX_OP2(paddusw),
+     [0xde] = MMX_OP2(pmaxub),
+@@ -3164,6 +3166,17 @@ static inline void gen_gvec_ld_modrm_3(CPUX86State *env, DisasContext *s,
+                         gen_ld_modrm_VxHxWx,                            \
+                         gen_gvec_2_fp, (opctl))
+ 
++#define gen_pand_mm(env, s, modrm)   gen_gvec_ld_modrm_mm  ((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0112)
++#define gen_pand_xmm(env, s, modrm)  gen_gvec_ld_modrm_xmm ((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0112)
++#define gen_vpand_xmm(env, s, modrm) gen_gvec_ld_modrm_vxmm((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0123)
++#define gen_vpand_ymm(env, s, modrm) gen_gvec_ld_modrm_vymm((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0123)
++#define gen_andps_xmm  gen_pand_xmm
++#define gen_vandps_xmm gen_vpand_xmm
++#define gen_vandps_ymm gen_vpand_ymm
++#define gen_andpd_xmm  gen_pand_xmm
++#define gen_vandpd_xmm gen_vpand_xmm
++#define gen_vandpd_ymm gen_vpand_ymm
 +
  static void gen_sse(CPUX86State *env, DisasContext *s, int b)
  {
      int b1, op1_offset, op2_offset, is_xmm, val;
+@@ -3238,6 +3251,38 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+         reg |= REX_R(s);
+     }
+     mod = (modrm >> 6) & 3;
++
++    enum {
++        M_0F    = 0x01 << 8,
++        M_0F38  = 0x02 << 8,
++        M_0F3A  = 0x04 << 8,
++        P_66    = 0x08 << 8,
++        P_F3    = 0x10 << 8,
++        P_F2    = 0x20 << 8,
++        VEX_128 = 0x40 << 8,
++        VEX_256 = 0x80 << 8,
++    };
++
++    switch(b | M_0F
++           | (s->prefix & PREFIX_DATA ? P_66 : 0)
++           | (s->prefix & PREFIX_REPZ ? P_F3 : 0)
++           | (s->prefix & PREFIX_REPNZ ? P_F2 : 0)
++           | (s->prefix & PREFIX_VEX ? (s->vex_l ? VEX_256 : VEX_128) : 0)) {
++    case 0xdb | M_0F:                  gen_pand_mm(env, s, modrm); return;
++    case 0xdb | M_0F | P_66:           gen_pand_xmm(env, s, modrm); return;
++    case 0xdb | M_0F | P_66 | VEX_128: gen_vpand_xmm(env, s, modrm); return;
++    case 0xdb | M_0F | P_66 | VEX_256: gen_vpand_ymm(env, s, modrm); return;
++    case 0x54 | M_0F:                  gen_andps_xmm(env, s, modrm); return;
++    case 0x54 | M_0F | VEX_128:        gen_vandps_xmm(env, s, modrm); return;
++    case 0x54 | M_0F | VEX_256:        gen_vandps_ymm(env, s, modrm); return;
++    case 0x54 | M_0F | P_66:           gen_andpd_xmm(env, s, modrm); return;
++    case 0x54 | M_0F | P_66 | VEX_128: gen_vandpd_xmm(env, s, modrm); return;
++    case 0x54 | M_0F | P_66 | VEX_256: gen_vandpd_ymm(env, s, modrm); return;
++    default: break;
++    }
++
++    assert(sse_fn_epp != SSE_TOMBSTONE);
++
+     if (sse_fn_epp == SSE_SPECIAL) {
+         b |= (b1 << 8);
+         switch(b) {
 -- 
 2.20.1
 
