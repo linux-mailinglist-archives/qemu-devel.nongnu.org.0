@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757057CB39
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 19:58:55 +0200 (CEST)
-Received: from localhost ([::1]:43340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542107CB4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:00:08 +0200 (CEST)
+Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsssI-0003bV-9O
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 13:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
+	id 1hsstT-0006tO-IN
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42629)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hssr7-00022D-Ua
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:42 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hssr9-00022L-8V
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hssr6-0002bZ-Vu
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:41 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:45734)
+ (envelope-from <jan.bobek@gmail.com>) id 1hssr7-0002ca-BQ
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:43 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:39728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssr6-0002ah-QM
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:40 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id m16so25266960ywh.12
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:40 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssr7-0002bW-63
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:41 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id x74so7287207ywx.6
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7EboO1M9lMp727uwu7WK9/tzhJNY6KIIiIQlKtwWES0=;
- b=l98CthNGhk++wHxgd2YLRKlqUjQ2VchPMfc63R4vQKfwIAbWvWPVD9As2V6YoPTld/
- AETlPVBOPlhZTSZWwf4Or/VNEx0g/1RHj0wpzljsyBjKI3d9PcAjK65yUBybT1NGOGXC
- Kdr15s3S9swyeeAcoU+Ns1M/xAnkZHUFJADAL8jofU+70x4A1po9INfYWT6pT3nkS9H/
- mLodXMsk9PtAi8VZ6HkRcVUqTwhcyLCm7pT9gfJJWXd/Hdwfiw6SRSH33XTSWVw3TDlD
- 2DjxuEzaPGm0p5KTzfpdH1o5m1QHpmRnJTALtcRIy9KKaimIWQOtVFAYTlH3GwSpW9ou
- qQWg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XvCHdm9nHE9smMApxfPJipkd9WnhL73swaE5KE6lGAQ=;
+ b=dnuBeBCEpiywgd6LIj8NfS5VB0b++TU+SJCYHxR5J2w71bauHOBjmkuFDwGn69VDs+
+ K9E3RE5pkjDfOlxYpIB4lTTeE7KWebbgidPdgkrofdJV+OXB/oIJHf1oVDaF742WH3Ca
+ OS6qr2GbN1cj1tUa7KpcAZbGLKlAAzFJmlPbWEjicGTChqu8DlIhUuPIErDzY/eLLSkX
+ MdUXM9HkR2a7C41gDSMpA6mF8XBejQkukayo7hYqqGKXPBphTSpkCQvHe4U1Ck3TUylu
+ X+Tvi6MYzgDlujqwVP0ActiPHoIWoM44uewQ01j19kyNwKqBeKcZFU0+p7G52OitaP/Z
+ pvkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7EboO1M9lMp727uwu7WK9/tzhJNY6KIIiIQlKtwWES0=;
- b=nwKGqcDiVFRB9wj14sMompNC2o+C6kxJcDCYIEY6RMMvCPsdS+2MFm56EfgPjqOtcy
- WDZ1dUoycwBN4hp4p+IQ9d5jmHdSEvD1XMQ8UqjZpvCGwKuITAGQj+itRgOuewSMhJbj
- gYwG4V14ImdhF2vSOQSBihsQNN/UScASnEQ5xoG3ZdecnL6bdR7DMDMvZqgSIKwAz5CS
- Z8vLgxp4NFP6aOVGlc6gxYYOQarwYMMWU8u/bIkdhJaq60nHDnqOkLjtDM9wWjN++KmP
- hsQMdW3BV3Umj67h9rriYhHOBi7N6qLO1CUWkNEVlbnKw20MBFFjDRIG2vwqHwpg9kyx
- E2fQ==
-X-Gm-Message-State: APjAAAUbNkCNlL9JvlPsEQQpZRGFQADW/7Qjw9xXwCTL7XtGgmLTNu39
- vUacqD8xyHULc8UnWtnu5mt02O8Q
-X-Google-Smtp-Source: APXvYqwj7ah4oMws4dXObi1TbQ3xu/HgkFIH0vbfVpOQt8wsFJ35sbtG0/FfcgbmZgcOXsAPdlqFxA==
-X-Received: by 2002:a0d:cbcf:: with SMTP id
- n198mr73789429ywd.364.1564595859272; 
- Wed, 31 Jul 2019 10:57:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XvCHdm9nHE9smMApxfPJipkd9WnhL73swaE5KE6lGAQ=;
+ b=scux+xzvM6la8zUP5Fs2sNBabD+RsqDMrzdnacojb7jL0en+trzcO1FLUHGpZ1k6XU
+ kaWj5E/+ez+BsqrlqeBPwCJ/rgdQ7dB0l/aa2f9+g7+lOuZFGvkwVXPcSrOhdXojJZgB
+ eU0yzpqXgmRdyD/dHYrMbrgyYQ/zIp+GfY4vjSpGGeYWrWLYdXDSsPfmca2TyzVByU+G
+ moQxB9NlZCv0Sp3udDEidnHovzGgJY8SR6+LxlxBTTzO0OFJqNbbdPtTMjNURkGGZVRB
+ DZgTo4eZoVjDQrMr/25xtLqrbUuZDpSSB7GWnmSt0P3KmOhVw8VNsNUhozF/JmzyaElI
+ cBCw==
+X-Gm-Message-State: APjAAAXoAD2YBnnVwrA1/nbRJKCegrf/LgLiWP2/6dFqQPP4GAx3NPyZ
+ kVzMEN82RMKgsZl4gIzV5shRgQAb
+X-Google-Smtp-Source: APXvYqzlUdQNwr/wLXB2mId+ypa1aYfWx52gffUjKDhuAxUTff2qGnVv5klWDYb5QoM2i3tuhx41fA==
+X-Received: by 2002:a81:a1cb:: with SMTP id
+ y194mr79264705ywg.104.1564595860253; 
+ Wed, 31 Jul 2019 10:57:40 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.38
+ by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.39
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 10:57:38 -0700 (PDT)
+ Wed, 31 Jul 2019 10:57:39 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:56:40 -0400
-Message-Id: <20190731175702.4916-1-jan.bobek@gmail.com>
+Date: Wed, 31 Jul 2019 13:56:41 -0400
+Message-Id: <20190731175702.4916-2-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190731175702.4916-1-jan.bobek@gmail.com>
+References: <20190731175702.4916-1-jan.bobek@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [RFC PATCH v1 00/22] reimplement (some) x86 vector
- instructions using tcg-gvec
+X-Received-From: 2607:f8b0:4864:20::c42
+Subject: [Qemu-devel] [RFC PATCH v1 01/22] target/i386: Push rex_r into
+ DisasContext
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,55 +81,401 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Jan Bobek <jan.bobek@gmail.com>
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series is an early work-in-progress snapshot of my efforts
-to utilize the TCG gvec infrastracture in x86 frontend. Only a handful
-of instructions have been converted (those which have a direct gvec
-equivalent).
+From: Richard Henderson <rth@twiddle.net>
 
-The dispatch switch for the converted instructions is sort of hacked
-into gen_sse; this is obviously intended for development only.
-Eventually, everything that follows this switch will be removed,
-along with the SSE tables and all that goes along with it.
+Treat this value the same as we do for rex_b and rex_x.
 
-Cheers,
-  -Jan
+Signed-off-by: Richard Henderson <rth@twiddle.net>
+---
+ target/i386/translate.c | 85 +++++++++++++++++++++--------------------
+ 1 file changed, 44 insertions(+), 41 deletions(-)
 
-Jan Bobek (18):
-  target/i386: introduce gen_ld_modrm_* helpers
-  target/i386: introduce gen_gvec_ld_modrm_* helpers
-  target/i386: add vector register file alignment constraints
-  target/i386: reimplement (V)PAND, (V)ANDPS, (V)ANDPD
-  target/i386: reimplement (V)POR, (V)ORPS, (V)ORPD
-  target/i386: reimplement (V)PXOR, (V)XORPS, (V)XORPD
-  target/i386: reimplement (V)PANDN, (V)ANDNPS, (V)ANDNPD
-  target/i386: reimplement (V)PADD(B,W,D,Q)
-  target/i386: reimplement (V)PSUB(B,W,D,Q)
-  target/i386: reimplement (V)PADDS(B,W)
-  target/i386: reimplement (V)PADDUS(B,W)
-  target/i386: reimplement (V)PSUBS(B,W)
-  target/i386: reimplement (V)PSUBUS(B,W)
-  target/i386: reimplement (V)PMINSW
-  target/i386: reimplement (V)PMINUB
-  target/i386: reimplement (V)PMAXSW
-  target/i386: reimplement (V)PMAXUB
-  target/i386: reimplement (V)P(EQ,CMP)(B,W,D)
-
-Richard Henderson (4):
-  target/i386: Push rex_r into DisasContext
-  target/i386: Push rex_w into DisasContext
-  target/i386: Use prefix, aflag and dflag from DisasContext
-  target/i386: Simplify gen_exception arguments
-
- target/i386/cpu.h            |   6 +-
- target/i386/ops_sse.h        |  65 ---
- target/i386/ops_sse_header.h |  39 --
- target/i386/translate.c      | 990 +++++++++++++++++++++++++----------
- 4 files changed, 723 insertions(+), 377 deletions(-)
-
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 03150a86e2..d74dbfd585 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -43,10 +43,12 @@
+ #define CODE64(s) ((s)->code64)
+ #define REX_X(s) ((s)->rex_x)
+ #define REX_B(s) ((s)->rex_b)
++#define REX_R(s) ((s)->rex_r)
+ #else
+ #define CODE64(s) 0
+ #define REX_X(s) 0
+ #define REX_B(s) 0
++#define REX_R(s) 0
+ #endif
+ 
+ #ifdef TARGET_X86_64
+@@ -98,7 +100,7 @@ typedef struct DisasContext {
+ #ifdef TARGET_X86_64
+     int lma;    /* long mode active */
+     int code64; /* 64 bit code segment */
+-    int rex_x, rex_b;
++    int rex_x, rex_b, rex_r;
+ #endif
+     int vex_l;  /* vex vector length */
+     int vex_v;  /* vex vvvv register, without 1's complement.  */
+@@ -3037,7 +3039,7 @@ static const struct SSEOpHelper_eppi sse_op_table7[256] = {
+ };
+ 
+ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+-                    target_ulong pc_start, int rex_r)
++                    target_ulong pc_start)
+ {
+     int b1, op1_offset, op2_offset, is_xmm, val;
+     int modrm, mod, rm, reg;
+@@ -3107,8 +3109,9 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+ 
+     modrm = x86_ldub_code(env, s);
+     reg = ((modrm >> 3) & 7);
+-    if (is_xmm)
+-        reg |= rex_r;
++    if (is_xmm) {
++        reg |= REX_R(s);
++    }
+     mod = (modrm >> 6) & 3;
+     if (sse_fn_epp == SSE_SPECIAL) {
+         b |= (b1 << 8);
+@@ -3642,7 +3645,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 tcg_gen_ld16u_tl(s->T0, cpu_env,
+                                 offsetof(CPUX86State,fpregs[rm].mmx.MMX_W(val)));
+             }
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             gen_op_mov_reg_v(s, ot, reg, s->T0);
+             break;
+         case 0x1d6: /* movq ea, xmm */
+@@ -3686,7 +3689,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                                  offsetof(CPUX86State, fpregs[rm].mmx));
+                 gen_helper_pmovmskb_mmx(s->tmp2_i32, cpu_env, s->ptr0);
+             }
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             tcg_gen_extu_i32_tl(cpu_regs[reg], s->tmp2_i32);
+             break;
+ 
+@@ -3698,7 +3701,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             }
+             modrm = x86_ldub_code(env, s);
+             rm = modrm & 7;
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             mod = (modrm >> 6) & 3;
+             if (b1 >= 2) {
+                 goto unknown_op;
+@@ -3774,7 +3777,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             /* Various integer extensions at 0f 38 f[0-f].  */
+             b = modrm | (b1 << 8);
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+             switch (b) {
+             case 0x3f0: /* crc32 Gd,Eb */
+@@ -4128,7 +4131,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             b = modrm;
+             modrm = x86_ldub_code(env, s);
+             rm = modrm & 7;
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             mod = (modrm >> 6) & 3;
+             if (b1 >= 2) {
+                 goto unknown_op;
+@@ -4148,7 +4151,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 rm = (modrm & 7) | REX_B(s);
+                 if (mod != 3)
+                     gen_lea_modrm(env, s, modrm);
+-                reg = ((modrm >> 3) & 7) | rex_r;
++                reg = ((modrm >> 3) & 7) | REX_R(s);
+                 val = x86_ldub_code(env, s);
+                 switch (b) {
+                 case 0x14: /* pextrb */
+@@ -4317,7 +4320,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             /* Various integer extensions at 0f 3a f[0-f].  */
+             b = modrm | (b1 << 8);
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+             switch (b) {
+             case 0x3f0: /* rorx Gy,Ey, Ib */
+@@ -4491,14 +4494,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     TCGMemOp ot, aflag, dflag;
+     int modrm, reg, rm, mod, op, opreg, val;
+     target_ulong next_eip, tval;
+-    int rex_w, rex_r;
+     target_ulong pc_start = s->base.pc_next;
++    int rex_w;
+ 
+     s->pc_start = s->pc = pc_start;
+     s->override = -1;
+ #ifdef TARGET_X86_64
+     s->rex_x = 0;
+     s->rex_b = 0;
++    s->rex_r = 0;
+     s->x86_64_hregs = false;
+ #endif
+     s->rip_offset = 0; /* for relative ip address */
+@@ -4511,7 +4515,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ 
+     prefixes = 0;
+     rex_w = -1;
+-    rex_r = 0;
+ 
+  next_byte:
+     b = x86_ldub_code(env, s);
+@@ -4555,9 +4558,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         if (CODE64(s)) {
+             /* REX prefix */
+             rex_w = (b >> 3) & 1;
+-            rex_r = (b & 0x4) << 1;
++            s->rex_r = (b & 0x4) << 1;
+             s->rex_x = (b & 0x2) << 2;
+-            REX_B(s) = (b & 0x1) << 3;
++            s->rex_b = (b & 0x1) << 3;
+             /* select uniform byte register addressing */
+             s->x86_64_hregs = true;
+             goto next_byte;
+@@ -4590,8 +4593,8 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (s->x86_64_hregs) {
+                 goto illegal_op;
+             }
++            s->rex_r = (~vex2 >> 4) & 8;
+ #endif
+-            rex_r = (~vex2 >> 4) & 8;
+             if (b == 0xc5) {
+                 /* 2-byte VEX prefix: RVVVVlpp, implied 0f leading opcode byte */
+                 vex3 = vex2;
+@@ -4681,7 +4684,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             switch(f) {
+             case 0: /* OP Ev, Gv */
+                 modrm = x86_ldub_code(env, s);
+-                reg = ((modrm >> 3) & 7) | rex_r;
++                reg = ((modrm >> 3) & 7) | REX_R(s);
+                 mod = (modrm >> 6) & 3;
+                 rm = (modrm & 7) | REX_B(s);
+                 if (mod != 3) {
+@@ -4703,7 +4706,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             case 1: /* OP Gv, Ev */
+                 modrm = x86_ldub_code(env, s);
+                 mod = (modrm >> 6) & 3;
+-                reg = ((modrm >> 3) & 7) | rex_r;
++                reg = ((modrm >> 3) & 7) | REX_R(s);
+                 rm = (modrm & 7) | REX_B(s);
+                 if (mod != 3) {
+                     gen_lea_modrm(env, s, modrm);
+@@ -5123,7 +5126,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         ot = mo_b_d(b, dflag);
+ 
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+         gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
+         gen_op_mov_v_reg(s, ot, s->T1, reg);
+@@ -5195,7 +5198,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x6b:
+         ot = dflag;
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         if (b == 0x69)
+             s->rip_offset = insn_const_size(ot);
+         else if (b == 0x6b)
+@@ -5247,7 +5250,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1c1: /* xadd Ev, Gv */
+         ot = mo_b_d(b, dflag);
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         mod = (modrm >> 6) & 3;
+         gen_op_mov_v_reg(s, ot, s->T0, reg);
+         if (mod == 3) {
+@@ -5279,7 +5282,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ 
+             ot = mo_b_d(b, dflag);
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             mod = (modrm >> 6) & 3;
+             oldv = tcg_temp_new();
+             newv = tcg_temp_new();
+@@ -5502,7 +5505,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x89: /* mov Gv, Ev */
+         ot = mo_b_d(b, dflag);
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+         /* generate a generic store */
+         gen_ldst_modrm(env, s, modrm, ot, reg, 1);
+@@ -5528,7 +5531,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x8b: /* mov Ev, Gv */
+         ot = mo_b_d(b, dflag);
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+         gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
+         gen_op_mov_reg_v(s, ot, reg, s->T0);
+@@ -5578,7 +5581,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             s_ot = b & 8 ? MO_SIGN | ot : ot;
+ 
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             mod = (modrm >> 6) & 3;
+             rm = (modrm & 7) | REX_B(s);
+ 
+@@ -5617,7 +5620,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         mod = (modrm >> 6) & 3;
+         if (mod == 3)
+             goto illegal_op;
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         {
+             AddressParts a = gen_lea_modrm_0(env, s, modrm);
+             TCGv ea = gen_lea_modrm_1(s, a);
+@@ -5699,7 +5702,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x87: /* xchg Ev, Gv */
+         ot = mo_b_d(b, dflag);
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         mod = (modrm >> 6) & 3;
+         if (mod == 3) {
+             rm = (modrm & 7) | REX_B(s);
+@@ -5736,7 +5739,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     do_lxx:
+         ot = dflag != MO_16 ? MO_32 : MO_16;
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         mod = (modrm >> 6) & 3;
+         if (mod == 3)
+             goto illegal_op;
+@@ -5819,7 +5822,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         modrm = x86_ldub_code(env, s);
+         mod = (modrm >> 6) & 3;
+         rm = (modrm & 7) | REX_B(s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         if (mod != 3) {
+             gen_lea_modrm(env, s, modrm);
+             opreg = OR_TMP0;
+@@ -6674,7 +6677,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         }
+         ot = dflag;
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         gen_cmovcc1(env, s, ot, b, modrm, reg);
+         break;
+ 
+@@ -6824,7 +6827,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     do_btx:
+         ot = dflag;
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         mod = (modrm >> 6) & 3;
+         rm = (modrm & 7) | REX_B(s);
+         gen_op_mov_v_reg(s, MO_32, s->T1, reg);
+@@ -6929,7 +6932,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1bd: /* bsr / lzcnt */
+         ot = dflag;
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
+         gen_extu(ot, s->T0);
+ 
+@@ -7693,7 +7696,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             d_ot = dflag;
+ 
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             mod = (modrm >> 6) & 3;
+             rm = (modrm & 7) | REX_B(s);
+ 
+@@ -7767,7 +7770,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             ot = dflag != MO_16 ? MO_32 : MO_16;
+             modrm = x86_ldub_code(env, s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             gen_ldst_modrm(env, s, modrm, MO_16, OR_TMP0, 0);
+             t0 = tcg_temp_local_new();
+             gen_update_cc_op(s);
+@@ -7808,7 +7811,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         modrm = x86_ldub_code(env, s);
+         if (s->flags & HF_MPX_EN_MASK) {
+             mod = (modrm >> 6) & 3;
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             if (prefixes & PREFIX_REPZ) {
+                 /* bndcl */
+                 if (reg >= 4
+@@ -7898,7 +7901,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         modrm = x86_ldub_code(env, s);
+         if (s->flags & HF_MPX_EN_MASK) {
+             mod = (modrm >> 6) & 3;
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             if (mod != 3 && (prefixes & PREFIX_REPZ)) {
+                 /* bndmk */
+                 if (reg >= 4
+@@ -8012,7 +8015,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+              * are assumed to be 1's, regardless of actual values.
+              */
+             rm = (modrm & 7) | REX_B(s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             if (CODE64(s))
+                 ot = MO_64;
+             else
+@@ -8069,7 +8072,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+              * are assumed to be 1's, regardless of actual values.
+              */
+             rm = (modrm & 7) | REX_B(s);
+-            reg = ((modrm >> 3) & 7) | rex_r;
++            reg = ((modrm >> 3) & 7) | REX_R(s);
+             if (CODE64(s))
+                 ot = MO_64;
+             else
+@@ -8112,7 +8115,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         mod = (modrm >> 6) & 3;
+         if (mod == 3)
+             goto illegal_op;
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+         /* generate a generic store */
+         gen_ldst_modrm(env, s, modrm, ot, reg, 1);
+         break;
+@@ -8338,7 +8341,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             goto illegal_op;
+ 
+         modrm = x86_ldub_code(env, s);
+-        reg = ((modrm >> 3) & 7) | rex_r;
++        reg = ((modrm >> 3) & 7) | REX_R(s);
+ 
+         if (s->prefix & PREFIX_DATA) {
+             ot = MO_16;
+@@ -8366,7 +8369,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1c2:
+     case 0x1c4 ... 0x1c6:
+     case 0x1d0 ... 0x1fe:
+-        gen_sse(env, s, b, pc_start, rex_r);
++        gen_sse(env, s, b, pc_start);
+         break;
+     default:
+         goto unknown_op;
 -- 
 2.20.1
 
