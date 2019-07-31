@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505827BB02
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 10:00:11 +0200 (CEST)
-Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC417BB3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 10:11:37 +0200 (CEST)
+Received: from localhost ([::1]:38684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsjWn-00087m-Af
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 04:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58814)
+	id 1hsjhw-0004AJ-3q
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 04:11:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34676)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <thuth@redhat.com>) id 1hsjUG-0002kk-ID
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:30 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1hsjhJ-0003k8-LE
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:10:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hsjUF-0008LK-3I
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 03:57:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33502)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>)
- id 1hsjUC-0008H1-Qu; Wed, 31 Jul 2019 03:57:24 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2481612BB;
- Wed, 31 Jul 2019 07:57:24 +0000 (UTC)
-Received: from thuth.com (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7ADBA5C1B5;
- Wed, 31 Jul 2019 07:57:21 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Yang Zhong <yang.zhong@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 09:56:52 +0200
-Message-Id: <20190731075652.17053-9-thuth@redhat.com>
-In-Reply-To: <20190731075652.17053-1-thuth@redhat.com>
-References: <20190731075652.17053-1-thuth@redhat.com>
+ (envelope-from <chihmin.chao@sifive.com>) id 1hsjhI-0000XM-Ae
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:10:57 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:46179)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1hsjhI-0000Wi-4S
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:10:56 -0400
+Received: by mail-io1-xd43.google.com with SMTP id i10so21024269iol.13
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 01:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G/K/PyX4B0akf076L0odxGe527aEzLjjI+CBAn8LeQU=;
+ b=i2MNGkwwM/d5zNhKW4rviz6AqmaMdOEbW3ENeBBqq9YeaeXKUXo/cYF+T0jygDEiPJ
+ 5Zs3T3aFAA1ISmuQ4CfRqPkHJI9J5BUMOxxG24hhFH9clCPS7iaAehIC4dWSkQPLrqye
+ CNU0UYqblTalnEK72tX+kCjMVY1tkvBZRz0n1vxc1CF/KLfiCtveyDyklHtcw37xhEw3
+ MrqUx8APoF48oJd1OFcAshfqZhHHR3rWG3OfGcE/6M00Md4qw37TrKyh6S77icKInrjI
+ 0wUX0PZQRFfCbdifCYVmQ7HZnpxXdmqLYxWxIXRWnDAdfk7pmpmiZjdIOb5Lfmg8jPGU
+ zazQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G/K/PyX4B0akf076L0odxGe527aEzLjjI+CBAn8LeQU=;
+ b=nqFI3awJoGl/zJN4n42+WIHsVWi+zKKxmmt4eQD5KNDMks1epLROixtF5jeEIyR2Mm
+ UXFRfkTWHxloVrhrqR95KWwZjJe1Ht/EStV6mAbY3chQQZ+J6OLFJdsyOXxRdVmOxm2E
+ k0+f1shav3LDgKD9G0dyG4zhZLy5CyoLC6k+otiw4dkJCIfAFk4ctEhH4k1wu7mrupih
+ ezMub9i4e9wO+a0nHf+9A8/tX/6XGP2ehN7ULuUq2AA8l+bPUoaqxs4WR+Jp/rGAOzN1
+ XupDLIImdcTHqHpih4KHCuR4rotBLENFsFzLhVONG8Kz3FeMbvshUInVVj7ciZrg1gL7
+ SmqA==
+X-Gm-Message-State: APjAAAUqIQwBx1OQjE+z9tJhRb1JuwbRlCRaciqj/Q5r/CSO87KDwCSc
+ ygs+pNhFYVpl8tm8FumDVBdNPjIL2z0JJa/TqKIs+w==
+X-Google-Smtp-Source: APXvYqy+WKIGvNqyBfj9iCu9dls2jndTPCHMErVBs1d+YGOoDiuVKDQCcfP49bHJpo9kXyq11GUDj3dr0zFdulNQp70=
+X-Received: by 2002:a5d:91d7:: with SMTP id
+ k23mr108858690ior.163.1564560654789; 
+ Wed, 31 Jul 2019 01:10:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Wed, 31 Jul 2019 07:57:24 +0000 (UTC)
+References: <cover.1564080680.git.alistair.francis@wdc.com>
+ <4116c27c037b5e7f4822cfd7199724450dc6b5da.1564080680.git.alistair.francis@wdc.com>
+ <CAEiOBXUcwp5rZbdH7VuQjnM3Xq5-ONTWmcDp1Da+C1n_-w95Uw@mail.gmail.com>
+ <CAKmqyKMJ-Kji0n_HjBX_73T2PerxOF5XWK7mhguegXJ6BztL_A@mail.gmail.com>
+In-Reply-To: <CAKmqyKMJ-Kji0n_HjBX_73T2PerxOF5XWK7mhguegXJ6BztL_A@mail.gmail.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Wed, 31 Jul 2019 16:10:42 +0800
+Message-ID: <CAEiOBXXSHojFUtkvTXYrhQQcjmqnDSoMAQHqRhvQz_0g=K_SZw@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 8/8] hw/core: Add a config switch for the
- generic loader device
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH-4.2 v1 6/6] target/riscv: Fix Floating
+ Point register names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,52 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generic loader device is completely optional. Let's add a proper
-config switch for it so that people can disable it if they don't need
-it and want to create a minimalistic QEMU binary.
+On Wed, Jul 31, 2019 at 2:41 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/core/Kconfig       | 4 ++++
- hw/core/Makefile.objs | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+> On Mon, Jul 29, 2019 at 8:19 AM Chih-Min Chao <chihmin.chao@sifive.com>
+> wrote:
+> >
+> >
+> > On Fri, Jul 26, 2019 at 2:56 AM Alistair Francis <
+> alistair.francis@wdc.com> wrote:
+> >>
+> >> From: Atish Patra <atish.patra@wdc.com>
+> >>
+> >> As per the RISC-V spec, Floating Point registers are named as f0..f31
+> >> so lets fix the register names accordingly.
+> >>
+> >> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >> ---
+> >>  target/riscv/cpu.c | 8 ++++----
+> >>  1 file changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> >> index f8d07bd20a..af1e9b7690 100644
+> >> --- a/target/riscv/cpu.c
+> >> +++ b/target/riscv/cpu.c
+> >> @@ -40,10 +40,10 @@ const char * const riscv_int_regnames[] =3D {
+> >>  };
+> >>
+> >>  const char * const riscv_fpr_regnames[] =3D {
+> >> -  "ft0", "ft1", "ft2",  "ft3",  "ft4", "ft5", "ft6",  "ft7",
+> >> -  "fs0", "fs1", "fa0",  "fa1",  "fa2", "fa3", "fa4",  "fa5",
+> >> -  "fa6", "fa7", "fs2",  "fs3",  "fs4", "fs5", "fs6",  "fs7",
+> >> -  "fs8", "fs9", "fs10", "fs11", "ft8", "ft9", "ft10", "ft11"
+> >> +  "f0", "f1", "f2",  "f3",  "f4", "f5", "f6", "f7",
+> >> +  "f8", "f9", "f10",  "f11",  "f12", "f13", "f14", "f15",
+> >> +  "f16", "f17", "f18",  "f19",  "f20", "f21", "f22", "f23",
+> >> +  "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31"
+> >>  };
+> >
+> >
+> > Could you indicate the section of the spec ?
+>
+> Chapter 11: "=E2=80=9CF=E2=80=9D Standard Extension for Single-Precision
+> Floating-Point, Version 2.2", section 11.1, Figure 11.1 shows f0 -
+> f32.
+>
+> > By chapter 20 of user spec, the patch changes the floating register nam=
+e
+> to architecture name but leave the integer register use the ABI name.
+>
+> You mean the Packed-SIMD extension?
+>
+> Alistair
+>
 
-diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-index fffb3d62b2..fdf03514d7 100644
---- a/hw/core/Kconfig
-+++ b/hw/core/Kconfig
-@@ -7,6 +7,10 @@ config PTIMER
- config FITLOADER
-     bool
-=20
-+config GENERIC_LOADER
-+    bool
-+    default y
-+
- config OR_IRQ
-     bool
-=20
-diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index bb1afe422a..b49f880a0c 100644
---- a/hw/core/Makefile.objs
-+++ b/hw/core/Makefile.objs
-@@ -21,7 +21,7 @@ common-obj-$(CONFIG_REGISTER) +=3D register.o
- common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
- common-obj-$(CONFIG_SPLIT_IRQ) +=3D split-irq.o
- common-obj-$(CONFIG_PLATFORM_BUS) +=3D platform-bus.o
--common-obj-$(CONFIG_SOFTMMU) +=3D generic-loader.o
-+common-obj-$(CONFIG_GENERIC_LOADER) +=3D generic-loader.o
- common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
-=20
- obj-$(CONFIG_SOFTMMU) +=3D machine-qmp-cmds.o
---=20
-2.21.0
+I means  "Chapter 20RISC-V Assembly Programmer=E2=80=99s Handbook".
+There is an table, "Table 20.1: Assembler mnemonics for RISC-V integer and
+=EF=AC=82oating-point registers.",  describes
+the architecture name and ABI name for integer and floating-point register.
+
+By the way,  I reference the riscv-spec-2.2
+
+chihmin
 
 
+
+> >
+> > chihmin
+> >>
+> >>  const char * const riscv_excp_names[] =3D {
+> >> --
+> >> 2.22.0
+> >>
+> >>
+>
