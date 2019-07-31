@@ -2,90 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE9B7BCC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:18:29 +0200 (CEST)
-Received: from localhost ([::1]:39216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4FF7BCEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 11:23:44 +0200 (CEST)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hskke-0000do-Qp
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58825)
+	id 1hskpj-0002wf-KE
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 05:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59919)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <daniel@linux.ibm.com>) id 1hskk9-0000Dy-S0
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:17:58 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hskpB-00029E-7G
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <daniel@linux.ibm.com>) id 1hskk8-00072D-U4
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:17:57 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35928
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <daniel@linux.ibm.com>)
- id 1hskk8-000719-Nd
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:17:56 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6V92BK8032503
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 05:17:56 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2u37g4aaq7-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 05:17:55 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <daniel@linux.ibm.com>;
- Wed, 31 Jul 2019 10:17:53 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 31 Jul 2019 10:17:49 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6V9HmgD53477458
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 31 Jul 2019 09:17:49 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1AFAA405B;
- Wed, 31 Jul 2019 09:17:48 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C451A4054;
- Wed, 31 Jul 2019 09:17:48 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 31 Jul 2019 09:17:48 +0000 (GMT)
-Received: from volution.fritz.box (unknown [9.102.40.183])
- (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+ (envelope-from <ppandit@redhat.com>) id 1hskpA-0000Zq-0p
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48870)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hskp9-0000Yl-Oy
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 05:23:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ozlabs.au.ibm.com (Postfix) with ESMTPSA id CDA98A0224;
- Wed, 31 Jul 2019 19:17:44 +1000 (AEST)
-Date: Wed, 31 Jul 2019 19:17:40 +1000
-From: Daniel Black <daniel@linux.ibm.com>
-To: qemu-devel@nongnu.org, Tao Xu <tao3.xu@intel.com>
-In-Reply-To: <20190731084034.9498-1-daniel@linux.ibm.com>
-References: <20190731084034.9498-1-daniel@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1954881DF1;
+ Wed, 31 Jul 2019 09:23:07 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-38.phx2.redhat.com
+ [10.3.116.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 623F85C1B5;
+ Wed, 31 Jul 2019 09:22:56 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Date: Wed, 31 Jul 2019 14:49:33 +0530
+Message-Id: <20190731091933.17363-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19073109-4275-0000-0000-000003525522
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19073109-4276-0000-0000-000038634408
-Message-Id: <20190731191740.58e474cc@volution.fritz.box>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-31_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1907310096
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PATCH] numa: numa nodeid need not be sequential
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Wed, 31 Jul 2019 09:23:07 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v5] net: tap: replace snprintf with
+ g_strdup_printf calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,36 +54,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, "open
- list:sPAPR" <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Li Qiang <liq3ea@gmail.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
+When invoking qemu-bridge-helper in 'net_bridge_run_helper',
+instead of using fixed sized buffers, use dynamically allocated
+ones initialised and returned by g_strdup_printf().
 
-On Wed, 31 Jul 2019 18:40:33 +1000
-Daniel Black <daniel@linux.ibm.com> wrote:
+If bridge name 'br_buf' is undefined, pass empty string ("") to
+g_strdup_printf() in its place, to avoid printing "(null)" string.
 
-> Replace all nodeid assumptions with lookups in the numa_info array
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ net/tap.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-Tao Xu,
+Update v5: add commit message about conditional 'br_buf' argument
+  -> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg06397.html
 
-Sorry, only just noticed your patches of the move of numa_info and other
-elements into MachineState. I approve of it. Lets see if I can follow
-all of Igor's comments there too.
-
-I'll be up for a V2 once merged.
-
-Cheers,
-
-Daniel
+diff --git a/net/tap.c b/net/tap.c
+index e8aadd8d4b..fc38029f41 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -498,9 +498,9 @@ static int net_bridge_run_helper(const char *helper, =
+const char *bridge,
+     }
+     if (pid =3D=3D 0) {
+         int open_max =3D sysconf(_SC_OPEN_MAX), i;
+-        char fd_buf[6+10];
+-        char br_buf[6+IFNAMSIZ] =3D {0};
+-        char helper_cmd[PATH_MAX + sizeof(fd_buf) + sizeof(br_buf) + 15]=
+;
++        char *fd_buf =3D NULL;
++        char *br_buf =3D NULL;
++        char *helper_cmd =3D NULL;
+=20
+         for (i =3D 3; i < open_max; i++) {
+             if (i !=3D sv[1]) {
+@@ -508,17 +508,17 @@ static int net_bridge_run_helper(const char *helper=
+, const char *bridge,
+             }
+         }
+=20
+-        snprintf(fd_buf, sizeof(fd_buf), "%s%d", "--fd=3D", sv[1]);
++        fd_buf =3D g_strdup_printf("%s%d", "--fd=3D", sv[1]);
+=20
+         if (strrchr(helper, ' ') || strrchr(helper, '\t')) {
+             /* assume helper is a command */
+=20
+             if (strstr(helper, "--br=3D") =3D=3D NULL) {
+-                snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", brid=
+ge);
++                br_buf =3D g_strdup_printf("%s%s", "--br=3D", bridge);
+             }
+=20
+-            snprintf(helper_cmd, sizeof(helper_cmd), "%s %s %s %s",
+-                     helper, "--use-vnet", fd_buf, br_buf);
++            helper_cmd =3D g_strdup_printf("%s %s %s %s", helper,
++                            "--use-vnet", fd_buf, br_buf ? br_buf : "");
+=20
+             parg =3D args;
+             *parg++ =3D (char *)"sh";
+@@ -527,10 +527,11 @@ static int net_bridge_run_helper(const char *helper=
+, const char *bridge,
+             *parg++ =3D NULL;
+=20
+             execv("/bin/sh", args);
++            g_free(helper_cmd);
+         } else {
+             /* assume helper is just the executable path name */
+=20
+-            snprintf(br_buf, sizeof(br_buf), "%s%s", "--br=3D", bridge);
++            br_buf =3D g_strdup_printf("%s%s", "--br=3D", bridge);
+=20
+             parg =3D args;
+             *parg++ =3D (char *)helper;
+@@ -541,6 +542,8 @@ static int net_bridge_run_helper(const char *helper, =
+const char *bridge,
+=20
+             execv(helper, args);
+         }
++        g_free(fd_buf);
++        g_free(br_buf);
+         _exit(1);
+=20
+     } else {
+--=20
+2.21.0
 
 
