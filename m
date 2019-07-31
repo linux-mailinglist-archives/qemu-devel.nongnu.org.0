@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6607C4C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:22:04 +0200 (CEST)
-Received: from localhost ([::1]:41366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EC67C4D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 16:23:21 +0200 (CEST)
+Received: from localhost ([::1]:41402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hspUR-0001KO-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37306)
+	id 1hspVg-00045M-PE
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 10:23:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37761)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hspSz-0007Um-QD
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:20:34 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hspTZ-0000WH-Sb
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:21:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hspSx-0006sL-Pr
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:20:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33627)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hspSx-0006qs-Hn
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:20:31 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n9so69996419wru.0
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 07:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=YNMAh/h25kREKRaRaE0oa+NhZH19museodvyjtaoZgw=;
- b=vE4msU4znjgOmNkZ2y22B9sVUn13HONCRk8BsKNvqt10qzrEfESnysJiOPwxpzOwt0
- xYVAaTaAUdrKkhOVM3nwYEl42Une5VOQbKwyz3xjSegCa6hcTyNg9TmF3S4dPCoLe7yD
- axqb3k1MgY32/+9p3578bgEuExtoJNDpp3UOgmy1pInPa2ceNhzBLl4Xj9aJOJXW69iY
- bg/dMDImE8f/uRloVyVAuRVT1X2Lz9PFF2sJqCJj4Ai6S6xk/86q1nNQ89IQYuAZJudT
- LlBLzMWdj82CDDcx2SmpMI3IsXRRqgQYtOuyfE5PuUgJwVy66T2+nd0uHVVNFAgw8o0E
- xFKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=YNMAh/h25kREKRaRaE0oa+NhZH19museodvyjtaoZgw=;
- b=SqocPYchWO2m2uyCYF3z8LREh8HwSvfOi/NauHQT6OjxslCZw3sWk3Kz9U0gfFk+rE
- 4qti6fQ5X8UbTjg4qgrNVa/v3zGbzy8jKQvhU3fm2TgKL9GgZ8zxXsOWpmAm3JWE1QPQ
- MAcTXWy4GPJ9dAR1ZdPtF8eQKTF1gfB7T3qfUVhbW5xZgiDGOIVCGoWznxBXVBhsWCMd
- VnY1vNpw4t8dsehxLIypgd/lYSGHPkqwfvt+9LcMg49dTd8uV3WRC1wPjipEveIDwEj6
- 0b6gzZQ3vLubAgt5G0x37TUwDSodCLIcVp52Bta5aAwymJMKfuQB9Hy0yIrEasY3lm0M
- oG6w==
-X-Gm-Message-State: APjAAAVXmEvXEdm7EGktEfCswQc+Dl64PZzZYQOsKsWRMTNXtHUbG0Gj
- Kv65pRz5gTDW/AWhvxx1lG5QSg==
-X-Google-Smtp-Source: APXvYqzmeTu9nL00rC3Sa2YkbCYlBNotrG+0L0QFo9BPNeNj6KwhTYjdb563xtMQPvue7Fgr3WYHTA==
-X-Received: by 2002:adf:b195:: with SMTP id q21mr129384544wra.2.1564582830066; 
- Wed, 31 Jul 2019 07:20:30 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id u186sm122218452wmu.26.2019.07.31.07.20.28
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 07:20:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 945121FF87;
- Wed, 31 Jul 2019 15:20:28 +0100 (BST)
-References: <2aaac4eafedb4aec979657993d00b8cd@tpw09926dag18e.domain1.systemhost.net>
-User-agent: mu4e 1.3.3; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <2aaac4eafedb4aec979657993d00b8cd@tpw09926dag18e.domain1.systemhost.net>
-Date: Wed, 31 Jul 2019 15:20:28 +0100
-Message-ID: <878ssei8ur.fsf@linaro.org>
+ (envelope-from <damien.hedde@greensocs.com>) id 1hspTY-0007Uk-RT
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 10:21:09 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38428)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hspTW-0007SM-4g; Wed, 31 Jul 2019 10:21:06 -0400
+Received: from [172.16.11.117] (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id F109996F50;
+ Wed, 31 Jul 2019 14:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1564582864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CIx9wnDk9ftdXlP6H4HNfr9G4iy0BtPVqZppcCvc0MM=;
+ b=Y0clnCzheLnDW+uiXaKZNuswYUqvIC908J1hOp8ryf7/5J9v45yt09MKQJwh5loWuhwah6
+ CWILtJ5Nzp4sqUk5+PsQU/TX9QzcUCU1vfDYXkxdOZrherX+EfReMFuYf6qu1auj3k8oiV
+ EpuAeRyu6rGUdFmACcHI+mmu6lk5Lj4=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Message-ID: <6ea54e80-63cd-5759-337b-1eb1686453f5@greensocs.com>
+Date: Wed, 31 Jul 2019 16:21:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v4 0/1] configure: Define target access
- alignment in configure
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1564582864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CIx9wnDk9ftdXlP6H4HNfr9G4iy0BtPVqZppcCvc0MM=;
+ b=wJ0grTRADndZKLn8vEEkpRTuqgEcz9oiHc5v7uTVRAZHli41NYYMAmPN1kucZGyBOSa1g6
+ UJZ8mVt7Okpi2Vj2zrZZWqgy2f1lDXqKw1HMdJtnWyXaLe+7qLUhMTronLUu/dudZXrSZa
+ 3g6SDsVQHvat8tJRkR+SfINVa7E/BDQ=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564582864; a=rsa-sha256; cv=none;
+ b=MSvXQ8Qik1H1dtitCw+iFXeGmi49irVrFbnAqYD85AIJGRR4/bToVbM/07SjGBVcKaYqQM
+ ef9LKrjSU1xZ11pLtUfO8vPiqQbYc9tAZI0Yj49e3wd6oJ8+CrQESuDRa7Pz1w2KPKn2SI
+ R5Ei0RYvzD/8pBpfArLCFY7fz+YxhWo=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.135.226.135
+Subject: [Qemu-devel] RFC raspberry pi sd-card reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,61 +71,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, arikalo@wavecomp.com, mark.cave-ayland@ilande.co.uk,
- jcmvbkbc@gmail.com, aurelien@aurel32.net, amarkovic@wavecomp.com,
- atar4qemu@gmail.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ f4bug@amsat.org, Andrew.Baumann@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-tony.nguyen@bt.com writes:
+Concerning the reset on the raspi2/3 machine, I ran into an issue with
+the sd-card.
 
-> Move the define of target access alignment earlier from
-> target/foo/cpu.h to configure.
->
-> Suggested in Richard Henderson's reply to "[PATCH 1/4] tcg: TCGMemOp
-> is now accelerator independent MemOp"
->
-> Analysed target/foo/cpu.h for more candidates to define earlier but
-> did not spot any other straight forward predicates.
->
-> Possible future clean ups:
-> - TCG_GUEST_DEFAULT_MO and TCG_TARGET_DEFAULT_MO seems like duplicates
+Here follows a subset of the qbus/qdev tree of the raspi2&3 machine as
+it is initialized:
+ + System
+   * bcm2835_gpio
+     + sd-bus
+       * sd-card
+   * bcm2835-sdhost
+     + bcm2835-sdhost-bus
+   * generic-sdhci
+     + sdhci-bus
 
-These aren't duplicates. This is used to work out if the host memory
-order is compatible with running the guest under TCG with multiple
-threads (MTTCG). See check_tcg_memory_orders_compatible.
+raspi_init does 2 things:
+ + it creates the soc
+ + then it explicitly creates the sd-card on the bcm2835_gpio's sd-bus
 
-> - TARGET_INSN_START_EXTRA_WORDS 1 seems redundant as ifndef value is 1
->
-> v2:
-> - split cosmetic changes into separate patch
-> - cc corresponding maintainers
->
-> v3:
-> - dropped cosmetic changes
-> - improved commit message
->
-> v4:
-> - further improved commit message
->
-> Tony Nguyen (1):
->   configure: Define TARGET_ALIGNED_ONLY in configure
->
->  configure             | 10 +++++++++-
->  include/exec/poison.h |  1 +
->  include/qom/cpu.h     |  2 +-
->  target/alpha/cpu.h    |  2 --
->  target/hppa/cpu.h     |  1 -
->  target/mips/cpu.h     |  2 --
->  target/sh4/cpu.h      |  2 --
->  target/sparc/cpu.h    |  2 --
->  target/xtensa/cpu.h   |  2 --
->  tcg/tcg.c             |  2 +-
->  tcg/tcg.h             |  8 +++++---
->  11 files changed, 17 insertions(+), 17 deletions(-)
+As it happens, the reset moves the sd-card on another bus: the
+sdhci-bus. More precisely the bcm2835_gpio reset method does it (the
+sd-card can be mapped on bcm2835-sdhost-bus or sdhci-bus depending on
+bcm2835_gpio registers, reset configuration corresponds to the sdhci-bus).
 
+Reset call order is the following (it follows children-before-parent order):
+ 1 sd-card
+ 2 sd-bus
+ 3 bcm2835_gpio -> move the sd-card
+ 4 bcm2835-sdhost-bus
+ 5 bcm2835-sdhost
+ 6 sd-card  (again)
+ 7 sdhci-bus
+ 8 generic-sdhci
+
+In the end, the sd-card is reset twice, which is no big-deal in itself.
+But it only depends on the bcm2835_gpio tree being reset before the
+generic-sdhci (probably depends on the machine creation code).
+
+I checked and it seems this is the only platform where such things
+happen during master reset.
+
+IMO this is a bit hazardous because reset is based on the qdev/qbus
+tree (and with the multi-phase I'm working on, even if it still works,
+it's worse).
+I'm not sure what we should do to avoid this (and if there's is
+something to be done).
+
+The easiest solution would be to initialize the platform with the
+sd-card at the right initial place (I do not really understand why it is
+created in the bcm2835_gpio in the first place since we move it just
+after). But it won't solve the issue if a reset is done afterwards.
+
+Or maybe we could move the sd-card on the proper bus in a machine
+reset code so that it's on the right place when we do the sysbus tree
+reset just after.
+
+What do you think ?
 
 --
-Alex Benn=C3=A9e
+Damien
 
