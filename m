@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62ED17D1CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 01:22:38 +0200 (CEST)
-Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B5D7D1D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 01:23:23 +0200 (CEST)
+Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsxvZ-0001Iv-Kk
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 19:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50779)
+	id 1hsxwI-0003LS-VP
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 19:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50783)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Babu.Moger@amd.com>) id 1hsxtr-0006pr-A2
+ (envelope-from <Babu.Moger@amd.com>) id 1hsxtr-0006qI-J0
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 19:20:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1hsxtq-0008Kp-4J
+ (envelope-from <Babu.Moger@amd.com>) id 1hsxtq-0008LC-E5
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 19:20:51 -0400
 Received: from mail-eopbgr760058.outbound.protection.outlook.com
  ([40.107.76.58]:41104 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1hsxtp-0008JS-Sv
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1hsxtq-0008JS-97
  for qemu-devel@nongnu.org; Wed, 31 Jul 2019 19:20:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GDzCfWD5/VJj8iPTasySUF2B+nMi/AauYYPqlhw/+VY/TYSuHtStpsNVO7+liBsfdtU2nfKd2i6qCuMr88gZ95jxZbTSYGsNOVRk1+r9VNBc+oK5Vcwy4F74M5lVVWLStM5xM8PWJvOM35S+xOrZk6luNKF33uIVVaBHogpIqTFcCHTsMQBtWe8VAhBqxOYnG8PrrN4KAWl9D3NX6z1/00In9of4Iu5Nz8WRD6WyiW267gB0SSf6dUUZWEzqmD9VSIxW6RqUcD0caMxeJ4jpMNY+Ykviray9rAQwcOcEHY4YYuBHrNCTLxcTU3kvg6ioDPpDlRD4ruY6oql8KO7z3Q==
+ b=YJWvKKkoK7Ni6rhi5lro38yANCdDXrw8prpruevS0FbTTQdVrT2igKISQlOFiMDTcVd1ufHCuiw3YtnNqHPqWYCFVrpojamN1OusMxuFz/PfUkmKb0rKMgUyB8zEsNn0ptteuK0E1A4j+BYXnVKBNSwBL7IYY3MnpWsFG1ev/JqnL0dzxr3LhWUFxJugV/Lmw8XHEpkd9e8DLtE3dc7Si3SxvE8VAPfkrNOI87uYtOXaM18YSzlOV/6G8tlB1aCmhMOGcV4ZsavILcRvefP7gC0OEqAw7OcAvKW9xLPl/NdqmufxPPiPpzkA2LlTd8wr70cKPshD3FjGtzt/SDearA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwgqcEl97aWBH/tj1IxBHauRHj/VkYQvoKQpsnFQmjA=;
- b=msHpIflW4zKm+JmsqBuOYwpqza5ghcXahqopT670dN7srUOw6DzdJAMTNxhU6HFSHyHCF7qY4Tzotd82H/vR4XNmwXHzQy6bZIJJSjPutTqicWlrwfdu6psxJFXh7JqOWqd7QsGtV60BNgUr4fbzTt0/qlbLoSIO6STwSwoDMbBEMwwEXx5CEl+rT6V48o5GRevQW8Mof9pQyVSBfxJ3VIvBt9cX5AfLSofgh9LqhKXl68Pova25emvRiWmvX9QEAaiiKn+nHQdG3UCUxs/my2CqM0MqEGP6fkABXaVGvcK+U4Qte7zLzLQrXWsq4u2t8cu/eg79WFQ7pmGWVTpFFg==
+ bh=c6sFDgWbAq8TJDAg7wykmL5vrYP49jvqWhrlVCwSXwk=;
+ b=TeDSb3Y6gM+bigz4d6sHrnwBtzzIKYLR3gyV3UhpoaVtQg6n/ItSSuWRsi3Ujdi/ixOlWrx1zV5Hn7lV8eUmRgKsyCEZ7xNGH5whJL04nubUA7HvTPXhGQ7BdBVfTlHHiuOEVjC59+UMD3cgyaDaKYs6ugis3PNkIuG4BhkmRW11y6sFyS3Ku3myFP5VSSQUhGiXGNvvSDxfguusmxe7lHvreymMNd7BSMiOnCMaC3TKeVyqv6sMs2jRWJYmDKcXLoKJHvU5VEZODU36ZLw5E8hyx+nJxtLpG+HJmCJsjDm1XAPo68WvbeDM60KCBl3IcJOLOfR4SrdJJlI3Qrot+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
  header.d=amd.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwgqcEl97aWBH/tj1IxBHauRHj/VkYQvoKQpsnFQmjA=;
- b=dXN4QELjYEELZzn0HUl8A2V2ew9q+DbY3afKzOUq72zh5/E1m2dcZnCzDQuevilOE0Flr0AosvBVjkhrg0hz8fV9ACLr0q7p5x3eZTemkG80k/+UpbXsTrF4W22dy/KbQU+3LTls8QvmAX4vK5aL9diE9HPz2jW+tKAhtL0yioE=
+ bh=c6sFDgWbAq8TJDAg7wykmL5vrYP49jvqWhrlVCwSXwk=;
+ b=sZ4SZqV6dTI3UT73NY+c0SONuFxQXSSUdC7savJOfRQ7nXBWpr5Oz0PNuXqBrguWYVZcmnjlt6AcpN51omK3MjZTB8k/KExbUXw2abRA0H7jXkPbj/EKNlPymj6PBuFDTFGoKCB8kVJAtK9RF8ztrRRn7YFNGIDlY8JeRxTK3yI=
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
  DM5PR12MB2550.namprd12.prod.outlook.com (52.132.141.157) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.15; Wed, 31 Jul 2019 23:20:45 +0000
+ 15.20.2115.15; Wed, 31 Jul 2019 23:20:47 +0000
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::ecb0:375b:9347:fe67]) by DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::ecb0:375b:9347:fe67%7]) with mapi id 15.20.2136.010; Wed, 31 Jul 2019
- 23:20:45 +0000
+ 23:20:47 +0000
 From: "Moger, Babu" <Babu.Moger@amd.com>
 To: "ehabkost@redhat.com" <ehabkost@redhat.com>, "marcel.apfelbaum@gmail.com"
  <marcel.apfelbaum@gmail.com>, "mst@redhat.com" <mst@redhat.com>,
  "pbonzini@redhat.com" <pbonzini@redhat.com>, "rth@twiddle.net"
  <rth@twiddle.net>, "imammedo@redhat.com" <imammedo@redhat.com>
-Thread-Topic: [RFC PATCH 0/5] APIC ID fixes for AMD EPYC CPU models
-Thread-Index: AQHVR/aUBPth5pgLK0Sh25LtH2BkXw==
-Date: Wed, 31 Jul 2019 23:20:45 +0000
-Message-ID: <20190731232032.51786-1-babu.moger@amd.com>
+Thread-Topic: [RFC PATCH 1/5] hw/boards: Add sockets in CpuTopology structure
+Thread-Index: AQHVR/aVBapKuUuGJEu2eneWm/XN9Q==
+Date: Wed, 31 Jul 2019 23:20:46 +0000
+Message-ID: <20190731232032.51786-2-babu.moger@amd.com>
+References: <20190731232032.51786-1-babu.moger@amd.com>
+In-Reply-To: <20190731232032.51786-1-babu.moger@amd.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -66,32 +68,30 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.20.1
 x-originating-ip: [165.204.78.2]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f332b9ea-bdf7-478a-c2c8-08d7160db6f2
+x-ms-office365-filtering-correlation-id: 733e30e4-3113-4b40-7eff-08d7160db793
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
  SRVR:DM5PR12MB2550; 
 x-ms-traffictypediagnostic: DM5PR12MB2550:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <DM5PR12MB2550EE7FC297E9410D6DE2B795DF0@DM5PR12MB2550.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-microsoft-antispam-prvs: <DM5PR12MB25504EA2B2EBAE72A92A8F1995DF0@DM5PR12MB2550.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
 x-forefront-prvs: 011579F31F
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(199004)(189003)(8936002)(7736002)(2501003)(50226002)(36756003)(1076003)(8676002)(6436002)(81166006)(81156014)(305945005)(68736007)(54906003)(110136005)(53936002)(6486002)(66066001)(478600001)(64756008)(2906002)(316002)(5660300002)(14454004)(66556008)(102836004)(386003)(14444005)(256004)(71200400001)(6506007)(71190400001)(86362001)(486006)(26005)(99286004)(186003)(66476007)(3846002)(66946007)(4326008)(6512007)(966005)(66446008)(6116002)(2201001)(25786009)(2616005)(476003)(52116002)(6306002)(170073001);
+ SFS:(10009020)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(199004)(189003)(8936002)(7736002)(2501003)(50226002)(36756003)(1076003)(11346002)(8676002)(6436002)(81166006)(81156014)(305945005)(68736007)(54906003)(110136005)(53936002)(6486002)(66066001)(478600001)(64756008)(2906002)(316002)(5660300002)(14454004)(66556008)(102836004)(386003)(256004)(71200400001)(6506007)(71190400001)(86362001)(486006)(26005)(99286004)(76176011)(186003)(66476007)(3846002)(66946007)(4326008)(6512007)(66446008)(6116002)(2201001)(25786009)(2616005)(476003)(52116002)(446003);
  DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB2550;
  H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: FSA7Q8FeetkQsmuwCSxu2mGD4qm+j0S/VJlOZPkh6hbb3+28nXa8NMzaZZztzYrf1a3jCpWNFDF19ndGYYZreNEc0eD9fl0IRR0/WZezU7VXnbJqI+oxFYHyhl7VssEOdomczQss0RKo5kK1Ad06P3NDHsrX3NxiCI9c4dNHdyEn3Yfj8H+kdn+QS51qpI7GqollwMjc4DdWFdiA17KtiS7bd5DbPI36jbgr6MxE2LngkThmKWE9uURxchs4Dy0hTb3ydPbka1jOffqTPD59/pYxN2PskCOHRYJFauXCcPzduqq6TvrLfUXxLJx+Om1555biNGxjiNyCdRnjSi0emRwJEiCjxrxi+6Texe/JVAKQHWukGBlmYOozC8U4sv5vV07bAx2SO+JSO16TCp3xyOf6XqTqMpG4n9rbKAyCrQ0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2598662BDF007D46826237B9003B6D08@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: 2Pdz3eTAKr2RauXl+VnD3iM18EvCnhAk46McAdkjcZ5QCR63FcxSz6jIMiUdl2qhsfqD6p3zP0QskZluqXvzCvPu7b0CuInz4FmFo/R6TbEVWKV/Jz1+zED2BATGmiEgjRBmYdETXDqpASKG+V6a074LC9YNbpeKu2h2LIBupCYTFzgLktlmkExpn6XEyxHHC3RfSsqM7FyAGtsXx89aANPNYQamANL5AJc39dlom7OlmbJp4jrwOPs2wjepMZ9HZcJvmE/fi0/z1fQ9vZvJCZhhBuhdRUz0tEEiflUZSHbffyb+3WIXK/aeOh0gVZZfX/MaRV8/BHL62lmAFt0WLwV5y4GLDc6PgS10JgkPe4dyT3WkE+oMuVgUbvYmKxSNEgjfBENFkrGXuVjYKqfgZ54VZn/BB9BqiCGR8bzCSbo=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f332b9ea-bdf7-478a-c2c8-08d7160db6f2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2019 23:20:45.8591 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 733e30e4-3113-4b40-7eff-08d7160db793
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2019 23:20:46.9935 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -99,7 +99,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: bmoger@amd.com
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2550
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.76.58
-Subject: [Qemu-devel] [RFC PATCH 0/5] APIC ID fixes for AMD EPYC CPU models
+Subject: [Qemu-devel] [RFC PATCH 1/5] hw/boards: Add sockets in CpuTopology
+ structure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,45 +117,73 @@ Cc: "Moger, Babu" <Babu.Moger@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlc2Ugc2VyaWVzIGZpeGVzIHRoZSBwcm9ibGVtcyBlbmNvZGluZyBBUElDIElEIGZvciBBTUQg
-RVBZQyBjcHUgbW9kZWxzLg0KaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29tL3Nob3dfYnVnLmNn
-aT9pZD0xNzI4MTY2DQoNClRoaXMgaXMgdGhlIGZpcnN0IHBhc3MgdG8gZ2l2ZSBhbiBpZGVhIG9m
-IHRoZSBjaGFuZ2VzIHJlcXVpcmVkIHRvIGFkZHJlc3MNCnRoZSBpc3N1ZS4gUGxlYXNlIGZlZWwg
-ZnJlZSB0byBjb21tZW50Lg0KDQpDdXJyZW50bHksIGFwaWMgaWQgaXMgZGVjb2RlZCBiYXNlZCBv
-biBzb2NrZXRzL2RpZXMvY29yZXMvdGhyZWFkcy4gVGhpcyBhcHBlYXJzDQp0byB3b3JrIGZvciBt
-b3N0IHN0YW5kYXJkIGNvbmZpZ3VyYXRpb25zIGZvciBBTUQgYW5kIG90aGVyIHZlbmRvcnMuIEJ1
-dCB0aGlzDQpkZWNvZGluZyBkb2VzIG5vdCBmb2xsb3cgQU1EJ3MgQVBJQyBJRCBlbnVtZXJhdGlv
-bi4gSW4gc29tZSBjYXNlcyB0aGlzDQpjYXVzZXMgQ1BVIHRvcG9sb2d5IGluY29uc3RhbmN5LiBX
-aGlsZSBib290aW5nIGd1ZXN0IEtlcm5lbCBpcyB0cnlpbmcgdG8NCnZhbGlkYXRlIHRvcG9sb2d5
-LiBJdCBmaW5kcyB0aGUgdG9wb2xvZ3kgbm90IGFsaWduaW5nIHRvIEVQWUMgbW9kZWxzLg0KDQpU
-byBmaXggdGhlIHByb2JsZW0gd2UgbmVlZCB0byBidWlsZCB0aGUgdG9wb2xvZ3kgYXMgcGVyIHRo
-ZSANClByb2Nlc3NvciBQcm9ncmFtbWluZyBSZWZlcmVuY2UgKFBQUikgZm9yIEFNRCBGYW1pbHkg
-MTdoIE1vZGVsIDAxaCwgUmV2aXNpb24gQjENClByb2Nlc3NvcnMuIEl0IGlzIGF2YWlsYWJsZSBh
-dCBodHRwczovL3d3dy5hbWQuY29tL2VuL3N1cHBvcnQvdGVjaC1kb2NzDQoNCkhlcmUgaXMgdGhl
-IHRleHQgZnJvbSB0aGUgUFBSLg0KMi4xLjEwLjIuMS4zDQpBcGljSWQgRW51bWVyYXRpb24gUmVx
-dWlyZW1lbnRzDQpPcGVyYXRpbmcgc3lzdGVtcyBhcmUgZXhwZWN0ZWQgdG8gdXNlDQpDb3JlOjpY
-ODY6OkNwdWlkOjpTaXplSWRbQXBpY0lkQ29yZUlkU2l6ZV0sIHRoZSBudW1iZXIgb2YgbGVhc3QN
-CnNpZ25pZmljYW50IGJpdHMgaW4gdGhlIEluaXRpYWwgQVBJQyBJRCB0aGF0IGluZGljYXRlIGNv
-cmUgSUQgd2l0aGluIGENCnByb2Nlc3NvciwgaW4gY29uc3RydWN0aW5nIHBlci1jb3JlIENQVUlE
-DQptYXNrcy4gQ29yZTo6WDg2OjpDcHVpZDo6U2l6ZUlkW0FwaWNJZENvcmVJZFNpemVdIGRldGVy
-bWluZXMgdGhlIG1heGltdW0gbnVtYmVyDQpvZiBjb3JlcyAoTU5DKSB0aGF0IHRoZQ0KcHJvY2Vz
-c29yIGNvdWxkIHRoZW9yZXRpY2FsbHkgc3VwcG9ydCwgbm90IHRoZSBhY3R1YWwgbnVtYmVyIG9m
-IGNvcmVzIHRoYXQgYXJlDQphY3R1YWxseSBpbXBsZW1lbnRlZCBvciBlbmFibGVkIG9uDQp0aGUg
-cHJvY2Vzc29yLCBhcyBpbmRpY2F0ZWQgYnkgQ29yZTo6WDg2OjpDcHVpZDo6U2l6ZUlkW05DXS4N
-CkVhY2ggQ29yZTo6WDg2OjpBcGljOjpBcGljSWRbQXBpY0lkXSByZWdpc3RlciBpcyBwcmVzZXQg
-YXMgZm9sbG93czoNCuKAoiBBcGljSWRbNl0gPSBTb2NrZXQgSUQuDQrigKIgQXBpY0lkWzU6NF0g
-PSBOb2RlIElELg0K4oCiIEFwaWNJZFszXSA9IExvZ2ljYWwgQ0NYIEwzIGNvbXBsZXggSUQNCuKA
-oiBBcGljSWRbMjowXT0gKFNNVCkgPyB7TG9naWNhbENvcmVJRFsxOjBdLFRocmVhZElkfSA6DQp7
-MSdiMCxMb2dpY2FsQ29yZUlEWzE6MF19Lg0KIiIiDQoNCkJhYnUgTW9nZXIgKDUpOg0KICBody9i
-b2FyZHM6IEFkZCBzb2NrZXRzIGluIENwdVRvcG9sb2d5IHN0cnVjdHVyZQ0KICBody9pMzg2OiBB
-ZGQgQU1EIEVQWUMgdG9wb2xvZ3kgZW5jb2RpbmcNCiAgaTM4NjogVXNlIHRvcG9sb2d5IGZ1bmN0
-aW9ucyBmcm9tIHRvcG9sb2d5LmgNCiAgaHcvaTM4NjogR2VuZXJhdGUgYXBpY2lkIGJhc2VkIG9u
-IGNwdV90eXBlDQogIGkzODY6IEZpeCBwa2dfaWQgb2Zmc2V0IEVQWUMNCg0KIGh3L2NvcmUvbWFj
-aGluZS5jICAgICAgICAgIHwgICAxICsNCiBody9pMzg2L3BjLmMgICAgICAgICAgICAgICB8ICA4
-MiArKysrKysrKysrKysrKysrLS0tDQogaW5jbHVkZS9ody9ib2FyZHMuaCAgICAgICAgfCAgIDIg
-Kw0KIGluY2x1ZGUvaHcvaTM4Ni90b3BvbG9neS5oIHwgMTQwICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrDQogdGFyZ2V0L2kzODYvY3B1LmMgICAgICAgICAgfCAxNjAgKysrKysrKysr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIHZsLmMgICAgICAgICAgICAgICAgICAgICAg
-IHwgICAxICsNCiA2IGZpbGVzIGNoYW5nZWQsIDI1MSBpbnNlcnRpb25zKCspLCAxMzUgZGVsZXRp
-b25zKC0pDQoNCi0tIA0KMi4yMC4xDQoNCg==
+Add sockets in CpuTopology. This is required when building
+the CPU topology.
+
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+---
+ hw/core/machine.c   | 1 +
+ hw/i386/pc.c        | 1 +
+ include/hw/boards.h | 2 ++
+ vl.c                | 1 +
+ 4 files changed, 5 insertions(+)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index c58a8e594e..4034b7e903 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -795,6 +795,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+         ms->smp.cpus =3D cpus;
+         ms->smp.cores =3D cores;
+         ms->smp.threads =3D threads;
++        ms->smp.sockets =3D sockets;
+     }
+=20
+     if (ms->smp.cpus > 1) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 549c437050..ef39463fd5 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1605,6 +1605,7 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+         ms->smp.cpus =3D cpus;
+         ms->smp.cores =3D cores;
+         ms->smp.threads =3D threads;
++        ms->smp.sockets =3D sockets;
+         pcms->smp_dies =3D dies;
+     }
+=20
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index a71d1a53a5..12eb5032a5 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -245,12 +245,14 @@ typedef struct DeviceMemoryState {
+  * @cpus: the number of present logical processors on the machine
+  * @cores: the number of cores in one package
+  * @threads: the number of threads in one core
++ * @sockets: the number of sockets on the machine
+  * @max_cpus: the maximum number of logical processors on the machine
+  */
+ typedef struct CpuTopology {
+     unsigned int cpus;
+     unsigned int cores;
+     unsigned int threads;
++    unsigned int sockets;
+     unsigned int max_cpus;
+ } CpuTopology;
+=20
+diff --git a/vl.c b/vl.c
+index b426b32134..d8faf5ab43 100644
+--- a/vl.c
++++ b/vl.c
+@@ -3981,6 +3981,7 @@ int main(int argc, char **argv, char **envp)
+     current_machine->smp.max_cpus =3D machine_class->default_cpus;
+     current_machine->smp.cores =3D 1;
+     current_machine->smp.threads =3D 1;
++    current_machine->smp.sockets =3D 1;
+=20
+     machine_class->smp_parse(current_machine,
+         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
+--=20
+2.20.1
+
 
