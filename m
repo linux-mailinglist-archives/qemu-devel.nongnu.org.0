@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E767BBC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 10:36:33 +0200 (CEST)
-Received: from localhost ([::1]:38782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B2E7BBF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 10:41:17 +0200 (CEST)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsk64-0000i8-3z
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 04:36:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43619)
+	id 1hskAf-00034F-39
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 04:41:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <thuth@redhat.com>) id 1hsk5A-0000Gx-AS
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:35:37 -0400
+ (envelope-from <thuth@redhat.com>) id 1hsk9u-0002da-NX
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:40:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1hsk59-0006Al-6o
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:35:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49240)
+ (envelope-from <thuth@redhat.com>) id 1hsk9t-0002SL-PC
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:40:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43356)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hsk58-000648-UC
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:35:35 -0400
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hsk9t-0002S3-HR
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 04:40:29 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7CBAF8553F;
- Wed, 31 Jul 2019 08:35:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B4245C049E32;
+ Wed, 31 Jul 2019 08:40:28 +0000 (UTC)
 Received: from thuth.remote.csb (dhcp-200-228.str.redhat.com [10.33.200.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E8985D9C5;
- Wed, 31 Jul 2019 08:35:32 +0000 (UTC)
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D2E95D9E5;
+ Wed, 31 Jul 2019 08:40:27 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20190726120542.9894-1-armbru@redhat.com>
  <20190726120542.9894-24-armbru@redhat.com>
  <20190729194414.GG4313@habkost.net> <87d0hreqh3.fsf_-_@dusky.pond.sub.org>
  <8bea0201-f796-d682-22e6-069985b45523@redhat.com>
  <0eb2518f-147c-2b47-f48c-3af26bf5d264@redhat.com>
- <20190730210718.GU4313@habkost.net>
+ <87zhku90bd.fsf@dusky.pond.sub.org>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -81,21 +81,21 @@ Autocrypt: addr=thuth@redhat.com; keydata=
  rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
  WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <e995c6d9-f63a-be72-7d15-ac59a343b487@redhat.com>
-Date: Wed, 31 Jul 2019 10:35:31 +0200
+Message-ID: <54711eb6-4d87-665a-c95a-749ee125b7c9@redhat.com>
+Date: Wed, 31 Jul 2019 10:40:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190730210718.GU4313@habkost.net>
+In-Reply-To: <87zhku90bd.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Wed, 31 Jul 2019 08:35:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Wed, 31 Jul 2019 08:40:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] HACKING: Document 'struct' keyword usage
+Subject: Re: [Qemu-devel] When to use qemu/typedefs.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,40 +107,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/07/2019 23.07, Eduardo Habkost wrote:
-> Sometimes we use the 'struct' keyword to help us reduce
-> dependencies between header files.  Document that practice.
+On 31/07/2019 08.37, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> I wonder if this is too terse?  Should we give examples?
-> ---
->  HACKING | 2 ++
->  1 file changed, 2 insertions(+)
+>> On 30/07/19 15:15, Eric Blake wrote:
+>>>> We occasionally give up and use types directly rather than their typedef
+>>>> names, flouting the coding style.  This patch does.  Trades messing with
+>>>> qemu/typedefs.h for having to write 'struct' a few times.
+>>
+>> I think Markus made the right call here.  Using "struct Foo;" in headers
+>> is a null price to pay if all you need is declaring a pointer-typed
+>> field or parameter.
 > 
-> diff --git a/HACKING b/HACKING
-> index 0fc3e0fc04..112685bdaf 100644
-> --- a/HACKING
-> +++ b/HACKING
-> @@ -101,6 +101,8 @@ it points to, or it is aliased to another pointer that is.
->  
->  2.3. Typedefs
->  Typedefs are used to eliminate the redundant 'struct' keyword.
-> +However, the 'struct' keyword may be sometimes used in header
-> +files to avoid unnecessary dependencies between headers.
+> Eduardo posted a patch to HACKING to clarify this non-usage of typedef
+> is okay.
+> 
+> Should we continue to mandate typedef names elsewhere?  It adds
+> cognitive load: you have to decide where to put the typedef, and when
+> not to use it.
 
-See also the discussion earlier this year:
+IMHO we should get rid of mandating typedefs. They are causing too much
+trouble - e.g. do you also remember the issues with duplicated typedefs
+in certain compiler versions in the past? (these should be hopefully
+gone now, but still...)
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg586180.html
+And many QEMU developers are also working on the Linux kernel, which
+rather forbids typedefs. Having to switch your mind back and forth
+whether to use typedefs or not is really annoying.
 
-... and we should merge HACKING and CODING_STYLE finally (that was on my
-private TODO list, but I never found the time to do it).
+So if you ask me, stop mandating it! It's ok as optional feature in QEMU
+for types that are used all over the place, but we really should not
+enforce it for each and every struct anymore.
 
  Thomas
 
