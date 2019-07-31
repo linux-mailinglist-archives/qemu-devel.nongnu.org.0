@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783127CB7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:07:47 +0200 (CEST)
-Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1A57CB81
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 20:08:50 +0200 (CEST)
+Received: from localhost ([::1]:43502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hst0s-0004jf-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43019)
+	id 1hst1t-0007aQ-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 14:08:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hssrO-0002lP-6k
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1hssym-00019G-2z
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:05:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hssrM-00038X-Hg
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:58 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:34189)
+ (envelope-from <philmd@redhat.com>) id 1hssyk-0000lu-3N
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:05:35 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51157)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hssrM-00036y-CM
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 13:57:56 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id q128so25297435ywc.1
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 10:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oqUdiwvpgwp0hHDM9ysTSzyqe47m4ce56JCVOIeEHmY=;
- b=BWumgjyq0o/VcCVjotfjXxDGjA1iy36NneGBTFDswWdiwvmKS+Xt3LbPbNkJ1Emyou
- QJ0spsRD+HiUXk5b4bHdqdYUq3TbYwVzN23tO81/q2td2JsaaKFJQWd7mbaRj9ABC7fY
- EXxc47e4aUIIe+SzGSKVLpc+4JHX8QmDqZYPT1hHBgqaSB2SJfdf0hV/jFjsGCRFJW23
- C5OxdHurh1NgJQVHs8w8FUtpXL1EQ5nCHCKdWIh1eYZsc6S8WWCpoNZHC/01/mhsreHu
- 5a1oPi7vABHGTtrrDbNqy5tuN6c2EvX/l2uiiBHbDcSgWuu/fvS/YazLuCEW/2LMGoMt
- HPUw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hssyi-0000d0-8H
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 14:05:32 -0400
+Received: by mail-wm1-f66.google.com with SMTP id v15so61813940wml.0
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 11:05:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oqUdiwvpgwp0hHDM9ysTSzyqe47m4ce56JCVOIeEHmY=;
- b=bp8OuiSviW2J7MVWIS4I435/muE5a6Q9Yx93bbVKa9VNAqYtzcCEyatO0xHOAfmFHX
- F4F89n8c/kwTNXZMotZjWmfMmNGSWK0JxZ3/xJyUyFSKtfrIw51gDr4QDoh0XB8tGhAT
- saUhMoNRCBKopAjlHmzu43RteSrrZAvaJODjyrbe48BXypBcl4aYnpbrZyfVy0poICO8
- 3N4mLvZ63r2hqz7JB46a4DopqElYPAowIWHzsP7GpJ70VEuJYz3t09Ms46Fz7dgLxS7S
- 3s74Kq3tdhGNXhHtnO9vuNEGacIA/j8+2WLgZIOOdPYyG1WsnrQ5OW3qVO7WebDQmSxK
- WqRA==
-X-Gm-Message-State: APjAAAX2ef/20+r9QGbistSl3rwWxbdRPsbgTvZ23g70N6nzsj0A7SuX
- dK8hqlo4zoGgsRtAUPr+jB/MK3po
-X-Google-Smtp-Source: APXvYqwkfB9+RwHa+pFjdy4Eoz4FDaOxLyXqH43ffjEgJqfmIWTblMuSw0c7z9ARReKPBA3Jhw9CYA==
-X-Received: by 2002:a81:a497:: with SMTP id
- b145mr70471253ywh.271.1564595875738; 
- Wed, 31 Jul 2019 10:57:55 -0700 (PDT)
-Received: from dionysus.attlocal.net
- (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id 206sm16077696ywk.44.2019.07.31.10.57.54
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 10:57:55 -0700 (PDT)
-From: Jan Bobek <jan.bobek@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 13:57:02 -0400
-Message-Id: <20190731175702.4916-23-jan.bobek@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190731175702.4916-1-jan.bobek@gmail.com>
-References: <20190731175702.4916-1-jan.bobek@gmail.com>
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UgnI+V+V0KcIN0Z0K7//jHFR4SI9Ej9KKZBxvHuiULc=;
+ b=GtGqcEw8YUYhy6TNq5OIYtc8cUnP0yIEnYXUx8+BNVaJ9CJlTG6r03USPDa4eH2Uas
+ 79JIOY6IbxflSQQFi3LXKplaTJfvqeDIZ5bGPdPV1zsoTEb0i8a3yRTS8xT4DXvyjr3E
+ /7q9VENkhEIwWbLFfPkPF3WNgOZ3KdHlUauAb7nOFi/bMOG3hiSX2ICebK3PwCBqpmIT
+ hRNwJh2OvpeD0e16KqjCVOTz/eSdWxwJekI0WlY2pEOK0EhpL4nNSGuBPLTQ/BZ1N8o+
+ 1tHe2NXtajVZ3bGBbW7ywKPNuNgr38biQSxUTneosjy+peqkST3gNVJCrvsxnXUk+0/Q
+ ya1g==
+X-Gm-Message-State: APjAAAU+3qstkbNu34M3m9NxXko31Z6eIka39ZKPLmmIFoLnlERUXgk6
+ C/368GVdyUAYlhC25A5CzY6NAg==
+X-Google-Smtp-Source: APXvYqyI/ALfezU7gJBIhJ4WCgY4qLnBrzsg0GfkxQq9u76XUl7wRM1gd+KNCoFQzfG6b6zXAZtUfQ==
+X-Received: by 2002:a1c:be19:: with SMTP id o25mr26918538wmf.54.1564596324309; 
+ Wed, 31 Jul 2019 11:05:24 -0700 (PDT)
+Received: from [10.201.33.84] ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id o4sm53444111wmh.35.2019.07.31.11.05.23
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 31 Jul 2019 11:05:23 -0700 (PDT)
+To: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org, Samuel Thibault <samuel.thibault@gnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <156452993884.16169.12168229409049273970@sif>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <3c6ebc55-9416-a467-cfbe-73d2df6a64f2@redhat.com>
+Date: Wed, 31 Jul 2019 20:05:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [RFC PATCH v1 22/22] target/i386: reimplement (V)P(EQ,
- CMP)(B, W, D)
+In-Reply-To: <156452993884.16169.12168229409049273970@sif>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [ANNOUNCE] QEMU 4.1.0-rc3 is now available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,170 +74,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jan Bobek <jan.bobek@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the gvec infrastructure to achieve the desired functionality.
+>   Unless there are any release critical bugs discovered, this
+>   will be the last release candidate before final release of 4.1.0
+>   on the 6th August. Otherwise we'll do an rc4 and release on
+>   the 13th August.
 
-Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
----
- target/i386/ops_sse.h        | 13 -------
- target/i386/ops_sse_header.h |  8 -----
- target/i386/translate.c      | 66 ++++++++++++++++++++++++++++++++----
- 3 files changed, 60 insertions(+), 27 deletions(-)
+We forgot to update the slirp submodule :(
 
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 75ff686bb6..b6ace9410f 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -337,11 +337,6 @@ static inline int satsw(int x)
-     }
- }
- 
--#define FCMPGTB(a, b) ((int8_t)(a) > (int8_t)(b) ? -1 : 0)
--#define FCMPGTW(a, b) ((int16_t)(a) > (int16_t)(b) ? -1 : 0)
--#define FCMPGTL(a, b) ((int32_t)(a) > (int32_t)(b) ? -1 : 0)
--#define FCMPEQ(a, b) ((a) == (b) ? -1 : 0)
--
- #define FMULLW(a, b) ((a) * (b))
- #define FMULHRW(a, b) (((int16_t)(a) * (int16_t)(b) + 0x8000) >> 16)
- #define FMULHUW(a, b) ((a) * (b) >> 16)
-@@ -350,14 +345,6 @@ static inline int satsw(int x)
- #define FAVG(a, b) (((a) + (b) + 1) >> 1)
- #endif
- 
--SSE_HELPER_B(helper_pcmpgtb, FCMPGTB)
--SSE_HELPER_W(helper_pcmpgtw, FCMPGTW)
--SSE_HELPER_L(helper_pcmpgtl, FCMPGTL)
--
--SSE_HELPER_B(helper_pcmpeqb, FCMPEQ)
--SSE_HELPER_W(helper_pcmpeqw, FCMPEQ)
--SSE_HELPER_L(helper_pcmpeql, FCMPEQ)
--
- SSE_HELPER_W(helper_pmullw, FMULLW)
- #if SHIFT == 0
- SSE_HELPER_W(helper_pmulhrw, FMULHRW)
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index 9c7451d28e..d8e33dff6b 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -60,14 +60,6 @@ DEF_HELPER_3(glue(pslldq, SUFFIX), void, env, Reg, Reg)
- #define SSE_HELPER_Q(name, F)\
-     DEF_HELPER_3(glue(name, SUFFIX), void, env, Reg, Reg)
- 
--SSE_HELPER_B(pcmpgtb, FCMPGTB)
--SSE_HELPER_W(pcmpgtw, FCMPGTW)
--SSE_HELPER_L(pcmpgtl, FCMPGTL)
--
--SSE_HELPER_B(pcmpeqb, FCMPEQ)
--SSE_HELPER_W(pcmpeqw, FCMPEQ)
--SSE_HELPER_L(pcmpeql, FCMPEQ)
--
- SSE_HELPER_W(pmullw, FMULLW)
- #if SHIFT == 0
- SSE_HELPER_W(pmulhrw, FMULHRW)
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index d08d2cedce..729509e1ff 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -2783,9 +2783,9 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
-     [0x61] = MMX_OP2(punpcklwd),
-     [0x62] = MMX_OP2(punpckldq),
-     [0x63] = MMX_OP2(packsswb),
--    [0x64] = MMX_OP2(pcmpgtb),
--    [0x65] = MMX_OP2(pcmpgtw),
--    [0x66] = MMX_OP2(pcmpgtl),
-+    [0x64] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-+    [0x65] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-+    [0x66] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-     [0x67] = MMX_OP2(packuswb),
-     [0x68] = MMX_OP2(punpckhbw),
-     [0x69] = MMX_OP2(punpckhwd),
-@@ -2802,9 +2802,9 @@ static const SSEFunc_0_epp sse_op_table1[256][4] = {
-     [0x71] = { SSE_SPECIAL, SSE_SPECIAL }, /* shiftw */
-     [0x72] = { SSE_SPECIAL, SSE_SPECIAL }, /* shiftd */
-     [0x73] = { SSE_SPECIAL, SSE_SPECIAL }, /* shiftq */
--    [0x74] = MMX_OP2(pcmpeqb),
--    [0x75] = MMX_OP2(pcmpeqw),
--    [0x76] = MMX_OP2(pcmpeql),
-+    [0x74] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-+    [0x75] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-+    [0x76] = { SSE_TOMBSTONE, SSE_TOMBSTONE },
-     [0x77] = { SSE_DUMMY }, /* emms */
-     [0x78] = { NULL, SSE_SPECIAL, NULL, SSE_SPECIAL }, /* extrq_i, insertq_i */
-     [0x79] = { NULL, gen_helper_extrq_r, NULL, gen_helper_insertq_r },
-@@ -3216,6 +3216,30 @@ static inline void gen_gvec_ld_modrm_3(CPUX86State *env, DisasContext *s,
- #define gen_vpmaxu_xmm(env, s, modrm, vece) gen_gvec_ld_modrm_vxmm((env), (s), (modrm), (vece), tcg_gen_gvec_umax, 0123)
- #define gen_vpmaxu_ymm(env, s, modrm, vece) gen_gvec_ld_modrm_vymm((env), (s), (modrm), (vece), tcg_gen_gvec_umax, 0123)
- 
-+static inline void gen_gvec_cmpeq(unsigned vece, uint32_t dofs,
-+                                  uint32_t aofs, uint32_t bofs,
-+                                  uint32_t oprsz, uint32_t maxsz)
-+{
-+    tcg_gen_gvec_cmp(TCG_COND_EQ, vece, dofs, aofs, bofs, oprsz, maxsz);
-+}
-+
-+#define gen_pcmpeq_mm(env, s, modrm, vece)   gen_gvec_ld_modrm_mm  ((env), (s), (modrm), (vece), gen_gvec_cmpeq, 0112)
-+#define gen_pcmpeq_xmm(env, s, modrm, vece)  gen_gvec_ld_modrm_xmm ((env), (s), (modrm), (vece), gen_gvec_cmpeq, 0112)
-+#define gen_vpcmpeq_xmm(env, s, modrm, vece) gen_gvec_ld_modrm_vxmm((env), (s), (modrm), (vece), gen_gvec_cmpeq, 0123)
-+#define gen_vpcmpeq_ymm(env, s, modrm, vece) gen_gvec_ld_modrm_vymm((env), (s), (modrm), (vece), gen_gvec_cmpeq, 0123)
-+
-+static inline void gen_gvec_cmpgt(unsigned vece, uint32_t dofs,
-+                                  uint32_t aofs, uint32_t bofs,
-+                                  uint32_t oprsz, uint32_t maxsz)
-+{
-+    tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz);
-+}
-+
-+#define gen_pcmpgt_mm(env, s, modrm, vece)   gen_gvec_ld_modrm_mm  ((env), (s), (modrm), (vece), gen_gvec_cmpgt, 0112)
-+#define gen_pcmpgt_xmm(env, s, modrm, vece)  gen_gvec_ld_modrm_xmm ((env), (s), (modrm), (vece), gen_gvec_cmpgt, 0112)
-+#define gen_vpcmpgt_xmm(env, s, modrm, vece) gen_gvec_ld_modrm_vxmm((env), (s), (modrm), (vece), gen_gvec_cmpgt, 0123)
-+#define gen_vpcmpgt_ymm(env, s, modrm, vece) gen_gvec_ld_modrm_vymm((env), (s), (modrm), (vece), gen_gvec_cmpgt, 0123)
-+
- #define gen_pand_mm(env, s, modrm)   gen_gvec_ld_modrm_mm  ((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0112)
- #define gen_pand_xmm(env, s, modrm)  gen_gvec_ld_modrm_xmm ((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0112)
- #define gen_vpand_xmm(env, s, modrm) gen_gvec_ld_modrm_vxmm((env), (s), (modrm), MO_64, tcg_gen_gvec_and, 0123)
-@@ -3451,6 +3475,36 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-     case 0xee | M_0F | P_66 | VEX_128: gen_vpmaxs_xmm(env, s, modrm, MO_16); return;
-     case 0xee | M_0F | P_66 | VEX_256: gen_vpmaxs_ymm(env, s, modrm, MO_16); return;
- 
-+    case 0x64 | M_0F:                  gen_pcmpgt_mm(env, s, modrm, MO_8); return;
-+    case 0x64 | M_0F | P_66:           gen_pcmpgt_xmm(env, s, modrm, MO_8); return;
-+    case 0x64 | M_0F | P_66 | VEX_128: gen_vpcmpgt_xmm(env, s, modrm, MO_8); return;
-+    case 0x64 | M_0F | P_66 | VEX_256: gen_vpcmpgt_ymm(env, s, modrm, MO_8); return;
-+
-+    case 0x65 | M_0F:                  gen_pcmpgt_mm(env, s, modrm, MO_16); return;
-+    case 0x65 | M_0F | P_66:           gen_pcmpgt_xmm(env, s, modrm, MO_16); return;
-+    case 0x65 | M_0F | P_66 | VEX_128: gen_vpcmpgt_xmm(env, s, modrm, MO_16); return;
-+    case 0x65 | M_0F | P_66 | VEX_256: gen_vpcmpgt_ymm(env, s, modrm, MO_16); return;
-+
-+    case 0x66 | M_0F:                  gen_pcmpgt_mm(env, s, modrm, MO_32); return;
-+    case 0x66 | M_0F | P_66:           gen_pcmpgt_xmm(env, s, modrm, MO_32); return;
-+    case 0x66 | M_0F | P_66 | VEX_128: gen_vpcmpgt_xmm(env, s, modrm, MO_32); return;
-+    case 0x66 | M_0F | P_66 | VEX_256: gen_vpcmpgt_ymm(env, s, modrm, MO_32); return;
-+
-+    case 0x74 | M_0F:                  gen_pcmpeq_mm(env, s, modrm, MO_8); return;
-+    case 0x74 | M_0F | P_66:           gen_pcmpeq_xmm(env, s, modrm, MO_8); return;
-+    case 0x74 | M_0F | P_66 | VEX_128: gen_vpcmpeq_xmm(env, s, modrm, MO_8); return;
-+    case 0x74 | M_0F | P_66 | VEX_256: gen_vpcmpeq_ymm(env, s, modrm, MO_8); return;
-+
-+    case 0x75 | M_0F:                  gen_pcmpeq_mm(env, s, modrm, MO_16); return;
-+    case 0x75 | M_0F | P_66:           gen_pcmpeq_xmm(env, s, modrm, MO_16); return;
-+    case 0x75 | M_0F | P_66 | VEX_128: gen_vpcmpeq_xmm(env, s, modrm, MO_16); return;
-+    case 0x75 | M_0F | P_66 | VEX_256: gen_vpcmpeq_ymm(env, s, modrm, MO_16); return;
-+
-+    case 0x76 | M_0F:                  gen_pcmpeq_mm(env, s, modrm, MO_32); return;
-+    case 0x76 | M_0F | P_66:           gen_pcmpeq_xmm(env, s, modrm, MO_32); return;
-+    case 0x76 | M_0F | P_66 | VEX_128: gen_vpcmpeq_xmm(env, s, modrm, MO_32); return;
-+    case 0x76 | M_0F | P_66 | VEX_256: gen_vpcmpeq_ymm(env, s, modrm, MO_32); return;
-+
-     case 0xdb | M_0F:                  gen_pand_mm(env, s, modrm); return;
-     case 0xdb | M_0F | P_66:           gen_pand_xmm(env, s, modrm); return;
-     case 0xdb | M_0F | P_66 | VEX_128: gen_vpand_xmm(env, s, modrm); return;
--- 
-2.20.1
+Does that mean we need a rc4?
 
+Thanks,
+
+Phil.
 
