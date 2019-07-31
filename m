@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088FF7C87D
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:23:08 +0200 (CEST)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E04D7C89C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:26:52 +0200 (CEST)
+Received: from localhost ([::1]:42696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrNb-00065X-7g
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42496)
+	id 1hsrRD-0007Ny-8V
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrGA-00066j-Cp
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:27 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPm-0004yB-9B
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrG9-0004Co-Ay
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:26 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54438)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPl-0000Ll-4K
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:22 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrG9-0004CP-3i
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:15:25 -0400
-Received: by mail-wm1-x341.google.com with SMTP id p74so61416665wme.4
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:15:25 -0700 (PDT)
+ id 1hsrPk-0000L4-Ty
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:21 -0400
+Received: by mail-wm1-x342.google.com with SMTP id l2so60370227wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KsjX33kvThYIDWRhxE9xiNalYsaeNYqt8GFqXTwRIQ4=;
- b=mcWF+VuzfacZ4sDjA64W2nMGZhyaeJT1PCRRBvE7OWcChgcBsuqT/j0uNMTyiCMa8u
- IoYAml+vnU6yxWnJS5gBW1s/ehk7wo/+pn/1rdmOaKvfMLvvg1aRhvXhCj7bZS7JzVrc
- 8L74rY86WKNo9ZVUEjJbQSRciK/zph8oNH8S56QQ6DRevXHOKlIRK1TAzrwiGLA4Ug1J
- ydMWXOJzl7GL1J2OvgL2o01rAs7S12t1AGN790oO7wxYBUDd861vutOUFAsCyBQPlxLH
- qtoBnMRH6uHccE3PG3jHTGdnq7CoQ5V78PD2jF9jimw7EhWgHS/XTsdWCPOaKJD9tR0T
- +p9A==
+ bh=ebMkUd6CcShKU9UYDJ7SLcVLe6tn+eNZsn2v2BV3RF0=;
+ b=jTtbi57v2A9AIQS1kwDrZxUWLHa+PX9hwXrvh4s268kWwUsfpsNbiMl45yfQMKqrok
+ lPBsP97ihEjpbR/Gxog0y3J9lEAZoLauEmy+XMFlVaOfjtVn4FkOBU1WITQbClPiHl1D
+ mxdN2cPJiOeVO4izcsP7GcOpNaMySkn3U8Vsydl8EWaZGRYe2XtWVdwItsTYMJ32wP8I
+ J2v6MwtmynyNHNFti3JV3Jv4M8vVy9XDXGynwiF2kZm+VZWPwFVanrH9eh1u1XTEKsEe
+ /8y2I99gqfm1tjEyGij+0HgbrQVA7aV282Nc2W3wE16G1xU0hBUZF7jRE2Ap7gt/LXdh
+ 64Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KsjX33kvThYIDWRhxE9xiNalYsaeNYqt8GFqXTwRIQ4=;
- b=cZpsKTeD6ta2pDsD35f63mCfyV5RZ1JpRXIug0it77y7PN8naiYKF8m/BfKr4Zrov1
- QOk1eSQJivYvWnT2Qq8DSTHuaqr3co01rFVwpX7w1mLiLi6dNUxO4dmD4TsChTQT8lR4
- uxF+2PpQCPdEQVZ7Hbjv1SbbWRehc+e42cHFmTB1Cl4biR1RhKKOZ/6/DsYN7EPa3RXn
- CGvvBTo3D4teL5wSbJQty25hAPX8UCrlUN/JMjGYvjH6arDOu1+Q3v87APy/DT1v2+s/
- kCNpYi6ALH/d/ClcfF+Fy52Bd5qH+6arSBtldFauEUxyze6IoB1LknP9KWHmFSkoUu+M
- Jd/A==
-X-Gm-Message-State: APjAAAVBvbzk54ugfc7uG5txFhoUv+bpaPv4vi0fJjL2fA29aBQtvZNk
- BmAmUTV2Xok+KMTaunJgrZgh/g==
-X-Google-Smtp-Source: APXvYqw4k5EyDnVJzwPQ8fptRlyI2X/Rke3Qv8DmFMGyhV++BQrYC2CQxVOOvtjTBQfCiNywZCeynQ==
-X-Received: by 2002:a1c:f918:: with SMTP id x24mr10734467wmh.132.1564589724044; 
- Wed, 31 Jul 2019 09:15:24 -0700 (PDT)
+ bh=ebMkUd6CcShKU9UYDJ7SLcVLe6tn+eNZsn2v2BV3RF0=;
+ b=O8/OI2xBv+UMe/qEMhd3H02/wc/nR85f5Uq478sVVCXBk1CJAFsi6bPlsKjD8QrCpd
+ sl4SU6T91gp1lH0/eXUXkyheC/Ydk3E9GJOD34ZKHmkRTejtYcBEKBEI8FZ75dtIh/R6
+ ZUoiH89rOejz3kugn0DtJtlR7FjCADlNT3+gp6KDEZeXy1iRF5OmyXw/2y/cskdvC6fa
+ QMVPLjKbdPFyF92OXf6ZeseAsxTNpON2+ExSDstf/JTN5dDSeJX1q3m5O4d4ibL/pMwQ
+ uPUQ4pU6TrzeA1U6Ix4roRHjFvyqNHO9poCaI0G1WAgeejDy0BBChrc18qGdCgDZAkht
+ h44g==
+X-Gm-Message-State: APjAAAW4QBMDZsQXnTsCvHqYDq4JHYIPPVI75D5eHOgoFOcR+ss1ji41
+ N93EDeUCaiuwlZTJ4lJpg7DD+g==
+X-Google-Smtp-Source: APXvYqza7P4XH/IdvKaXaY1OkCjWG8fNN1Y9IdGKi5c8CeKLzp9hvYuwFTGfFyHjEExmV8uxTqERLQ==
+X-Received: by 2002:a1c:345:: with SMTP id 66mr113107626wmd.8.1564590319865;
+ Wed, 31 Jul 2019 09:25:19 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id u186sm122762892wmu.26.2019.07.31.09.15.17
+ by smtp.gmail.com with ESMTPSA id v15sm65510695wrt.25.2019.07.31.09.25.14
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:15:22 -0700 (PDT)
+ Wed, 31 Jul 2019 09:25:16 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D9A591FFAC;
+ by zen.linaroharston (Postfix) with ESMTP id EFE1A1FFAE;
  Wed, 31 Jul 2019 17:07:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:06:50 +0100
-Message-Id: <20190731160719.11396-26-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:06:51 +0100
+Message-Id: <20190731160719.11396-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH v4 25/54] translate-all: notify plugin code of
- tb_flush
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH  v4 26/54] *-user: notify plugin of exit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,61 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
- Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, aaron@os.amperecomputing.com,
+ cota@braap.org, bobby.prani@gmail.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
-
-Plugins might allocate per-TB data that then they get passed each
-time a TB is executed (via the *userdata pointer).
-
-Notify plugin code every time a code cache flush occurs, so
-that plugins can then reclaim the memory of the per-TB data.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/translate-all.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ bsd-user/syscall.c | 3 +++
+ linux-user/exit.c  | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9c5c60ed964..7379df8f19c 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1231,6 +1231,8 @@ static gboolean tb_host_size_iter(gpointer key, gpointer value, gpointer data)
- /* flush all the translation blocks */
- static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
- {
-+    bool did_flush = false;
-+
-     mmap_lock();
-     /* If it is already been done on request of another CPU,
-      * just retry.
-@@ -1238,6 +1240,7 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
-     if (tb_ctx.tb_flush_count != tb_flush_count.host_int) {
-         goto done;
-     }
-+    did_flush = true;
- 
-     if (DEBUG_TB_FLUSH_GATE) {
-         size_t nb_tbs = tcg_nb_tbs();
-@@ -1262,6 +1265,9 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
- 
- done:
-     mmap_unlock();
-+    if (did_flush) {
-+        qemu_plugin_flush_cb();
-+    }
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index 1ee6195d9ff..84a983a9a12 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -332,6 +332,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(cpu_env, arg1);
++        qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+@@ -430,6 +431,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(cpu_env, arg1);
++        qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+@@ -505,6 +507,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(cpu_env, arg1);
++        qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index bdda7205532..a362ef67d2c 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -35,4 +35,5 @@ void preexit_cleanup(CPUArchState *env, int code)
+         __gcov_dump();
+ #endif
+         gdb_exit(env, code);
++        qemu_plugin_atexit_cb();
  }
- 
- void tb_flush(CPUState *cpu)
 -- 
 2.20.1
 
