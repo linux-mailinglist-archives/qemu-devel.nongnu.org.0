@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7487C8AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:30:33 +0200 (CEST)
-Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8037C8C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:33:10 +0200 (CEST)
+Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsrUn-0008ES-4S
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:30:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
+	id 1hsrXJ-00057Y-Am
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45209)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPj-0004qk-RA
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:21 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPn-000527-ND
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hsrPi-0000JV-GJ
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:19 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42667)
+ (envelope-from <alex.bennee@linaro.org>) id 1hsrPm-0000N0-Fh
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:23 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53598)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hsrPi-0000HN-78
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:18 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x1so20467924wrr.9
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:18 -0700 (PDT)
+ id 1hsrPm-0000MG-8n
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:25:22 -0400
+Received: by mail-wm1-x342.google.com with SMTP id x15so61507168wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 09:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JaUAcLe7WApBUvZggWzDrAHFeYLwHQ7XG4Fw2HOaxGw=;
- b=RSFIrqYEdE0/yJtJEOEytzg/HWvurEB5+6/0P4Y7M8RjoE3E19CgVLQ2nHgxHF50Oa
- Yo8s9TAN5BYiLAAzdx1Yvsx5J7WrTNv6Hq7xsztPBX6cx3gAgMYFsQ1++CanGF52bQQJ
- FmM2Sp3YvcjsAlqJt6F5iMSSAf6/K+JbYiH7iSYnmwrSAu2TXyAZqCt8CLh33s/lnkNn
- IZ3rAofmjv2nga/Wh3IirCS9TMvvsH1VHOFQG1ZnXTYr2q3443rwLboWgft2eoUaSkZE
- 3+B3Ah8cvE65Wxfs5NReXi+OyfgJItAIabF9puSzA4YcHIw2BWI2MpTQBZX3kq04Q5u/
- v0zA==
+ bh=898tEWdGiv953asq1ongyZK/wyng6GChLBGHElMvPoQ=;
+ b=gexkOurS8jNsbNusFYOIW6SeQiWs1BjBexsFvouTeFiDNAIFY/PSUuP1bKrqNMDCQ1
+ KJYUlPMI7Yei5R8KvuZkJek1A5rMUCn0nQM1LZZqGsYvvcDOlsPcMVsfBQsVkYZ9z4/9
+ ugktaMsy+VsFhW2v1NNl4BV/7tP33kgZnMAg2yvXXuJyVM2H135AxWGlxQK19C/UpbTP
+ OeMjEBItE8Peu/WjPcE7OyLtIq8SWHc6vXRUtJESaz9bwxNTQF9dQamKRSS95jAbfvHM
+ taAbmFqT+SiE8QBBE5YLY515Pj3UYnhhvrP+Wq96SFTeDpirJhwWVSSLEmJTeXxOpIAo
+ SWuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JaUAcLe7WApBUvZggWzDrAHFeYLwHQ7XG4Fw2HOaxGw=;
- b=lQ9oYW8XFCvtz0rFI7d9DT+Yc+TtLwLeJA2TXHIMvInzAlCzHPbiO1OYCNyU4D3AtS
- BHp9ILEMQP845X+ySaCla6pFqW1rKMrkc+/ANopSkHnnLymKAEr7ZU960NkeAWoZKgHO
- 2slSODEPQEYENgTAabCkMIEvspHlUVrlykm3xO1ZqMXvR3B1Ro7NTuV8AJrPbdsw9dXg
- OedPQFlfDc6i1CtPbnFdHBy/VtEUi0tEyhFvnikdYIzE5aw9P5sRctmWMxYe17O+wqVp
- /avkyCEcfBpu0RsltrZWgj3rZfQqZbHm6mz0nzQQ8UxXq6LSsSRHaeTnvsiIHaoL+DlQ
- ncSA==
-X-Gm-Message-State: APjAAAUDOHRkDOf212Iyv6P+pyNdvlQflP2FsZHoEIiT1vdot+IJyfAN
- DPTDYO7+04j1/qGp+sSVFKWMyg==
-X-Google-Smtp-Source: APXvYqz3/YHQEZOTMAcbkA3Lf+i3exv17hiPoKmTxaxo6s+QWNg4ka/DQKghtk3X6i7WtFJBaDLD5Q==
-X-Received: by 2002:adf:f6d2:: with SMTP id y18mr59384191wrp.102.1564590316038; 
- Wed, 31 Jul 2019 09:25:16 -0700 (PDT)
+ bh=898tEWdGiv953asq1ongyZK/wyng6GChLBGHElMvPoQ=;
+ b=WolpCh51rWnPK8UtxZyqKxyMTp7iQQFqsUC1ZdVoaA3XUMVMLMZlIkeNf3ATQLI56D
+ +bu3gTjuSs2mMs9tXzmjRBElqnpmnAHoIPJVlFZZ/chN9WajI1r21SDMa9sbgrd2aS80
+ 0NJ8u7Py2N/Bw3MKkoTFUtDXJVecSXy7z76EGYSEywAvXpF+lXORULNccMJ/pMrqmhbs
+ D/tzfSoxZ13iwFa4AqqaKVVzTrz++y3qKFhHOUWHC6nqTpuWNtnHARLCZKUszJ2q6g5l
+ 0ditOxKNbF6sFEgXJ2CbcwSHUnCqdoyBj6VFt6rrJGqo/xnsH3XcO2DXc0emKQ4n+Ugr
+ dICQ==
+X-Gm-Message-State: APjAAAVrVi7+ShTnsK77P8eW44wNfecZC93UGcuECKf+02TVPi1uzSMB
+ WFAHJldQEyDwo7/3idDgj+a8ig==
+X-Google-Smtp-Source: APXvYqzk/p2MlFFfstjPpWfDlo9YswlPRmvPD+VXlyUGmgVleNaUaVzyIkpfzvX/XKpsgcvA4VxsgQ==
+X-Received: by 2002:a05:600c:230c:: with SMTP id
+ 12mr14294064wmo.151.1564590321196; 
+ Wed, 31 Jul 2019 09:25:21 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id d10sm57418559wrx.34.2019.07.31.09.25.12
+ by smtp.gmail.com with ESMTPSA id q193sm54698640wme.8.2019.07.31.09.25.15
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 09:25:13 -0700 (PDT)
+ Wed, 31 Jul 2019 09:25:17 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D022B1FFC5;
+ by zen.linaroharston (Postfix) with ESMTP id E58F51FFC6;
  Wed, 31 Jul 2019 17:07:23 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 31 Jul 2019 17:07:12 +0100
-Message-Id: <20190731160719.11396-48-alex.bennee@linaro.org>
+Date: Wed, 31 Jul 2019 17:07:13 +0100
+Message-Id: <20190731160719.11396-49-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
@@ -68,8 +69,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH  v4 47/54] tests/tcg: enable plugin testing
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v4 48/54] tests/plugin: add a hotblocks plugin
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,128 +82,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- aaron@os.amperecomputing.com, cota@braap.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, bobby.prani@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: bobby.prani@gmail.com, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aaron@os.amperecomputing.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If CONFIG_PLUGINS is enabled then lets enable testing for all our TCG
-targets. This is a simple smoke test that ensure we don't crash or
-otherwise barf out by running each plugin against each test.
+This is a simple plugin to track which translation blocks are call
+most often. As we don't have a view of the internals of TCG we can
+only work by the address of the start of the block so we also need to
+tracks how often the address is translated.
 
-There is a minor knock on effect for additional runners which need
-specialised QEMU_OPTS which will also need to declare a plugin version
-of the runner. If this gets onerous we might need to add another
-helper.
-
-Checking the results of the plugins is left for a later exercise.
+As there will be multiple blocks starting at the same address. We can
+try and work around this by futzing the value to feed to the hash with
+the insn count.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/Makefile.include                | 10 +++++++-
- tests/tcg/Makefile                    | 34 +++++++++++++++++++++++++++
- tests/tcg/arm/Makefile.softmmu-target |  1 +
- 3 files changed, 44 insertions(+), 1 deletion(-)
+ tests/plugin/Makefile    |   1 +
+ tests/plugin/hotblocks.c | 146 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 147 insertions(+)
+ create mode 100644 tests/plugin/hotblocks.c
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index fd7fdb86586..0611aede077 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1052,6 +1052,14 @@ check-softfloat:
- 		"SKIPPED for non-TCG builds")
- endif
+diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+index f9a3546ea32..e74940eaac5 100644
+--- a/tests/plugin/Makefile
++++ b/tests/plugin/Makefile
+@@ -10,6 +10,7 @@ NAMES += bb
+ NAMES += empty
+ NAMES += insn
+ NAMES += mem
++NAMES += hotblocks
  
-+# Plugins
-+ifeq ($(CONFIG_PLUGIN),y)
-+plugins:
-+	$(call quiet-command,\
-+		$(MAKE) $(SUBDIR_MAKEFLAGS) -C tests/plugin V="$(V)", \
-+		"BUILD", "plugins")
-+endif
-+
- # Per guest TCG tests
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
  
- BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
-@@ -1066,7 +1074,7 @@ $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
- 		$(eval build-tcg-tests-$(PROBE_TARGET): $(DOCKER_PREREQ))))
- endif
- 
--build-tcg-tests-%:
-+build-tcg-tests-%: $(if $(CONFIG_PLUGIN),plugins)
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $* V="$(V)" \
- 		SKIP_DOCKER_BUILD=1 TARGET_DIR="$*/" guest-tests, \
- 		"BUILD", "TCG tests for $*")
-diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile
-index 9f567686240..8341a5345bc 100644
---- a/tests/tcg/Makefile
-+++ b/tests/tcg/Makefile
-@@ -120,11 +120,37 @@ all: $(TESTS)
- #
- 
- RUN_TESTS=$(patsubst %,run-%, $(TESTS))
+diff --git a/tests/plugin/hotblocks.c b/tests/plugin/hotblocks.c
+new file mode 100644
+index 00000000000..3654afbc887
+--- /dev/null
++++ b/tests/plugin/hotblocks.c
+@@ -0,0 +1,146 @@
++/*
++ * Copyright (C) 2019, Alex Bennée <alex.bennee@linaro.org>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
 +
-+# If plugins exist also include those in the tests
-+ifeq ($(CONFIG_PLUGIN),y)
-+PLUGIN_DIR=../../tests/plugin
-+VPATH+=$(PLUGIN_DIR)
-+PLUGINS=$(notdir $(wildcard $(PLUGIN_DIR)/*.so))
++#include <qemu-plugin.h>
 +
-+# We need to ensure expand the run-plugin-TEST-with-PLUGIN
-+# pre-requistes manually here as we can't use stems to handle it. We
-+# also add some special helpers the run-plugin- rules can use bellow.
++static bool do_inline;
++static int stdout_fd;
 +
-+$(foreach p,$(PLUGINS), \
-+	$(foreach t,$(TESTS),\
-+		$(eval run-plugin-$(t)-with-$(p): $t $p) \
-+		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
-+endif
++/* Plugins need to take care of their own locking */
++static GMutex lock;
++static GHashTable *hotblocks;
++static guint64 limit = 20;
 +
-+strip-plugin = $(wordlist 1, 1, $(subst -with-, ,$1))
-+extract-plugin = $(wordlist 2, 2, $(subst -with-, ,$1))
++/*
++ * Counting Structure
++ *
++ * The internals of the TCG are not exposed to plugins so we can only
++ * get the starting PC for each block. We cheat this slightly by
++ * xor'ing the number of instructions to the hash to help
++ * differentiate.
++ */
++typedef struct {
++    uint64_t start_addr;
++    uint64_t exec_count;
++    int      trans_count;
++    unsigned long insns;
++} ExecCount;
 +
- RUN_TESTS+=$(EXTRA_RUNS)
- 
- ifdef CONFIG_USER_ONLY
- run-%: %
- 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++static gint cmp_exec_count(gconstpointer a, gconstpointer b)
++{
++    ExecCount *ea = (ExecCount *) a;
++    ExecCount *eb = (ExecCount *) b;
++    return ea->exec_count > eb->exec_count ? -1 : 1;
++}
 +
-+run-plugin-%:
-+	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
-+		-plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+		 $(call strip-plugin,$<), \
-+	"$< on $(TARGET_NAME)")
- else
- run-%: %
- 	$(call run-test, $<, \
-@@ -132,6 +158,14 @@ run-%: %
- 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
- 	   	  $(QEMU_OPTS) $<, \
- 	  "$< on $(TARGET_NAME)")
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    GString *report = g_string_new("collected ");
++    GList *counts, *it;
++    int i;
 +
-+run-plugin-%:
-+	$(call run-test, $@, \
-+	  $(QEMU) -monitor none -display none \
-+		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
-+	   	  -plugin $(PLUGIN_DIR)/$(call extract-plugin,$@) \
-+	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
-+	  "$< on $(TARGET_NAME)")
- endif
- 
- gdb-%: %
-diff --git a/tests/tcg/arm/Makefile.softmmu-target b/tests/tcg/arm/Makefile.softmmu-target
-index 49d48d8a1c3..cd628306b3e 100644
---- a/tests/tcg/arm/Makefile.softmmu-target
-+++ b/tests/tcg/arm/Makefile.softmmu-target
-@@ -25,5 +25,6 @@ LDFLAGS+=-nostdlib -N -static
- test-armv6m-undef: EXTRA_CFLAGS+=-mcpu=cortex-m0
- 
- run-test-armv6m-undef: QEMU_OPTS+=-semihosting -M microbit -kernel
-+run-plugin-test-armv6m-undef-%: QEMU_OPTS+=-semihosting -M microbit -kernel
- 
- endif
++    g_mutex_lock(&lock);
++    g_string_append_printf(report, "%d entries in the hash table\n",
++                           g_hash_table_size(hotblocks));
++    counts = g_hash_table_get_values(hotblocks);
++    it = g_list_sort(counts, cmp_exec_count);
++
++    g_string_append_printf(report, "pc, tcount, icount, ecount\n");
++
++    for (i = 0; i < limit && it->next; i++, it = it->next) {
++        ExecCount *rec = (ExecCount *) it->data;
++        g_string_append_printf(report, "%#016"PRIx64", %d, %ld, %"PRId64"\n",
++                               rec->start_addr, rec->trans_count,
++                               rec->insns, rec->exec_count);
++    }
++
++    g_mutex_unlock(&lock);
++    g_list_free(it);
++
++    dprintf(stdout_fd, "%s", report->str);
++    g_string_free(report, true);
++}
++
++static void plugin_init(void)
++{
++    hotblocks = g_hash_table_new(NULL, g_direct_equal);
++}
++
++static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
++{
++    ExecCount *cnt;
++    uint64_t hash = (uint64_t) udata;
++
++    g_mutex_lock(&lock);
++    cnt = (ExecCount *) g_hash_table_lookup(hotblocks, (gconstpointer) hash);
++    /* should always succeed */
++    g_assert(cnt);
++    cnt->exec_count++;
++    g_mutex_unlock(&lock);
++}
++
++/*
++ * When do_inline we ask the plugin to increment the counter for us.
++ * Otherwise a helper is inserted which calls the vcpu_tb_exec
++ * callback.
++ */
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    ExecCount *cnt;
++    uint64_t pc = qemu_plugin_tb_vaddr(tb);
++    unsigned long insns = qemu_plugin_tb_n_insns(tb);
++    uint64_t hash = pc ^ insns;
++
++    g_mutex_lock(&lock);
++    cnt = (ExecCount *) g_hash_table_lookup(hotblocks, (gconstpointer) hash);
++    if (cnt) {
++        cnt->trans_count++;
++    } else {
++        cnt = g_new0(ExecCount, 1);
++        cnt->start_addr = pc;
++        cnt->trans_count = 1;
++        cnt->insns = insns;
++        g_hash_table_insert(hotblocks, (gpointer) hash, (gpointer) cnt);
++    }
++
++    g_mutex_unlock(&lock);
++
++    if (do_inline) {
++        qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
++                                                 &cnt->exec_count, 1);
++    } else {
++        qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
++                                             QEMU_PLUGIN_CB_NO_REGS,
++                                             (void *)hash);
++    }
++}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    if (argc && strcmp(argv[0], "inline") == 0) {
++        do_inline = true;
++    }
++
++    /* to be used when in the exit hook */
++    stdout_fd = dup(STDOUT_FILENO);
++    assert(stdout_fd);
++
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
 -- 
 2.20.1
 
