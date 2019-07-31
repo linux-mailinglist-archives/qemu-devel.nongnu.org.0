@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5047BEC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 13:03:05 +0200 (CEST)
-Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C92C7BED5
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 13:05:35 +0200 (CEST)
+Received: from localhost ([::1]:39756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsmNs-0006VG-SU
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 07:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38367)
+	id 1hsmQI-0000LV-8t
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 07:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hsmNF-00064y-8A
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 07:02:26 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hsmPI-0007Rh-4y
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 07:04:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hsmNE-0005OB-9n
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 07:02:25 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:53950)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hsmNE-0005MV-3Z
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 07:02:24 -0400
-Received: by mail-wm1-f54.google.com with SMTP id x15so60366688wmj.3
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 04:02:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=ybAMINjCUTm0VSGcGnA4im04WP8zbXHcMZ7Ggen5xns=;
- b=FM7IboNfIyY5fc7dUaXekH3kk1hKdGp9vrAj1FkPBEgfX8d4jLLJzGz/vmBsW303OE
- FNDyhR8O4bgMpo097278+1xJ2WOjPCLV38khSXyBsyyycUrJYiJHCyXjUEg5xifjSEtX
- +abS4hUD7zGDd7+bweFvcgsnAo+aKV0uk/v2H45tNnvQbI4/ssePR7YYW+HQw7/mpa9p
- Gx/slgJh2s+Lnyk/3jQ9ar+WO4TVNlhkVVuWwT1lqGpeuyXpvq2JYJD50RjPCyBfVIJy
- NSzGnvH5PACHOrFhuRy1E3+2uQjjZ43HgJ/bIxLcdgTSbLdbOJy6Cy/OZEpDxAY9HVWn
- DOmg==
-X-Gm-Message-State: APjAAAXCk/ITQqFDsSFs6EW6dCw0opbGRkKvsMZbQMaTc/A1/2bsAKVD
- u+xUrKWnv+gam27+WLphAno4zLftzDU=
-X-Google-Smtp-Source: APXvYqwdDBYDZhEmUIdAvTfaJ/nwZ9uriOJlKfy093Z2bPX2QBDPcPUvHVp4pBX4qB5q4oK4FhBuDg==
-X-Received: by 2002:a1c:720e:: with SMTP id n14mr29771973wmc.53.1564570942235; 
- Wed, 31 Jul 2019 04:02:22 -0700 (PDT)
-Received: from dritchie.redhat.com (18.red-83-35-20.dynamicip.rima-tde.net.
- [83.35.20.18])
- by smtp.gmail.com with ESMTPSA id f12sm73721732wrg.5.2019.07.31.04.02.21
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 31 Jul 2019 04:02:21 -0700 (PDT)
-References: <20190729125755.45008-1-slp@redhat.com>
- <a43acc8541c7ae811d65eb4d08e1a08333781282.camel@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-In-reply-to: <a43acc8541c7ae811d65eb4d08e1a08333781282.camel@redhat.com>
-Date: Wed, 31 Jul 2019 13:02:13 +0200
-Message-ID: <87imriwjpm.fsf@redhat.com>
+ (envelope-from <damien.hedde@greensocs.com>) id 1hsmPG-0007LJ-V9
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 07:04:32 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:33058)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hsmOz-00078i-Ti; Wed, 31 Jul 2019 07:04:14 -0400
+Received: from [172.16.11.117] (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 0B6BD96F50;
+ Wed, 31 Jul 2019 11:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1564571051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ikT6SZrZG3n1LZKc3ZIc97g5lcB2v8DA7BPp9CMbDPs=;
+ b=nrZ1RfgX6qrCoMJ1DSPiZdmNsBTpC1G+A2o7+kn7jv8hSuuTElW4kaL4TFiSD3LJnKA8Qn
+ 2rWjuTRRO4n1GMs9u/qDgKEHBOIHQA2Q90W2qunDOZrcJ0WfaDJn7wuGxUGHOCl46uCXeg
+ 0PsYunN7/gbXniT7IjB7V8KHsEUULh4=
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20190729145654.14644-1-damien.hedde@greensocs.com>
+ <20190729145654.14644-7-damien.hedde@greensocs.com>
+ <20190731060850.GE2032@umbus.fritz.box>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <89d90890-e5dc-d343-9c64-064a28b7b24e@greensocs.com>
+Date: Wed, 31 Jul 2019 13:04:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <20190731060850.GE2032@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1564571052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ikT6SZrZG3n1LZKc3ZIc97g5lcB2v8DA7BPp9CMbDPs=;
+ b=CXKg5NYT5rUcbdNf4V3ITeGToJPW0ZpaRj49ylhEEVEsPLoljoLrwKFL/bwohhwoJKoLvd
+ Sb6CMP5XZEBjDY4szs2A01jjWDaZpql8095WUcwGmk4Ws3tQnFebBCAhCO9F5eM1cFwNkG
+ Q/YT38kDaDbYspWsl7ZV8ssctpF9WUY=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1564571052; a=rsa-sha256; cv=none;
+ b=TMuHfoxEcXlK9kdBEl8VBheH/T0DDKgwkir4bZqMl0XutUY2UF3WHNv+2d2OSKRwenv2Ti
+ i3/W4vZf38Cb0fFwqTw+JeLVub6TUu0hoZXu/ZveV3F0wGXRxzdTThc21He4VVVPsaQ+Ob
+ nCqgpRV+yaMti3ZWJxw6JUaxsAEWV7E=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.54
-Subject: Re: [Qemu-devel] [RFC] virtio-mmio: implement modern (v2)
- personality (virtio-1)
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [PATCH v3 06/33] add the vmstate description for
+ device reset state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,74 +78,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, mst@redhat.com
+Cc: fam@euphon.net, peter.maydell@linaro.org, walling@linux.ibm.com,
+ dmitry.fleytman@gmail.com, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, kraxel@redhat.com, edgar.iglesias@xilinx.com,
+ hare@suse.com, qemu-block@nongnu.org, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ ehabkost@redhat.com, alistair@alistair23.me, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, clg@kaod.org, jsnow@redhat.com, rth@twiddle.net,
+ berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
 
-Andrea Bolognani <abologna@redhat.com> writes:
+On 7/31/19 8:08 AM, David Gibson wrote:
+> On Mon, Jul 29, 2019 at 04:56:27PM +0200, Damien Hedde wrote:
+>> It contains the resetting counter and cold flag status.
+>>
+>> At this point, migration of bus reset related state (counter and cold/warm
+>> flag) is handled by parent device. This done using the post_load
+>> function in the vmsd subsection.
+>>
+>> This is last point allow to add an initial support of migration with part of
+>> qdev/qbus tree in reset state under the following condition:
+>> + time-lasting reset are asserted on Device only
+>>
+>> Note that if this condition is not respected, migration will succeed and
+>> no failure will occurs. The only impact is that the resetting counter
+>> of a bus may lower afer a migration.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>>  hw/core/Makefile.objs  |  1 +
+>>  hw/core/qdev-vmstate.c | 45 ++++++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 46 insertions(+)
+>>  create mode 100644 hw/core/qdev-vmstate.c
+>>
+>> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
+>> index d9234aa98a..49e9be0228 100644
+>> --- a/hw/core/Makefile.objs
+>> +++ b/hw/core/Makefile.objs
+>> @@ -4,6 +4,7 @@ common-obj-y += bus.o reset.o
+>>  common-obj-y += resettable.o
+>>  common-obj-$(CONFIG_SOFTMMU) += qdev-fw.o
+>>  common-obj-$(CONFIG_SOFTMMU) += fw-path-provider.o
+>> +common-obj-$(CONFIG_SOFTMMU) += qdev-vmstate.o
+>>  # irq.o needed for qdev GPIO handling:
+>>  common-obj-y += irq.o
+>>  common-obj-y += hotplug.o
+>> diff --git a/hw/core/qdev-vmstate.c b/hw/core/qdev-vmstate.c
+>> new file mode 100644
+>> index 0000000000..07b010811f
+>> --- /dev/null
+>> +++ b/hw/core/qdev-vmstate.c
+>> @@ -0,0 +1,45 @@
+>> +/*
+>> + * Device vmstate
+>> + *
+>> + * Copyright (c) 2019 GreenSocs
+>> + *
+>> + * Authors:
+>> + *   Damien Hedde
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>> + * See the COPYING file in the top-level directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "hw/qdev.h"
+>> +#include "migration/vmstate.h"
+>> +
+>> +static bool device_vmstate_reset_needed(void *opaque)
+>> +{
+>> +    DeviceState *dev = (DeviceState *) opaque;
+>> +    return dev->resetting != 0;
+>> +}
+>> +
+>> +static int device_vmstate_reset_post_load(void *opaque, int version_id)
+>> +{
+>> +    DeviceState *dev = (DeviceState *) opaque;
+>> +    BusState *bus;
+>> +    QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+>> +        bus->resetting = dev->resetting;
+> 
+> Having redundant copies of the resetting bit in the bridge and every
+> bus instance seems kind of bogus.
 
-> On Mon, 2019-07-29 at 14:57 +0200, Sergio Lopez wrote:
-> [...]
->>  /* virtio-mmio device */
->>=20=20
->>  static Property virtio_mmio_properties[] =3D {
->>      DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
->>                       format_transport_address, true),
->> +    DEFINE_PROP_BOOL("modern", VirtIOMMIOProxy, modern, false),
->>      DEFINE_PROP_END_OF_LIST(),
->>  };
->
-> Not a QEMU developer so forgive me if I say something silly, but IIUC
-> you'd be able to opt into the new feature by using eg.
->
->   -device virtio-net-device,modern=3Don
->
-> However, virtio-pci devices already have a mechanism to control the
-> VirtIO protocol version, where you use
->
->   -device virtio-net-pci,disable-modern=3Dno,disable-legacy=3Dyes
->
-> to get a VirtIO 1.x-only device and
->
->   -device virtio-net-pci,disable-modern=3Dno,disable-legacy=3Dno
->
-> for a transitional device.
->
-> Can you please make sure virtio-mmio uses the existing interface
-> instead of introducing a new one?
+Currently we duplicate the resetting bit of parent into children when we
+do the reset propagation into the tree. It means resetting count of an
+device/bus contains the value of its parent plus any additional bit
+local to the object (due to a reset from an gpio for example).
 
-The problem here is that virtio-pci devices register an specific type
-for each kind of supported device (virtio-net-pci, virtio-blk-pci...),
-while virtio-mmio doesn't. This saves a lot of boilerplate, but also
-implies that bus properties can't be passed through the attached device
-(virtio-blk-device can't carry properties for it's virtio-mmio parent
-bus).
+I'm not sure if we can avoid that. It would require the
+"get_resetting_count" somehow to be recursive and fetch parent value and
+so on. I need to work on it to know if it's really possible.
 
-Sergio.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl1BdTUACgkQ9GknjS8M
-AjW3sRAAodYAk/LZZJAGRs5JzHqpMlt8BbJu+uqzhSlPEUEaAfsQlecub4aeO32b
-tuxpeYqOhlZCshSPTVASbKGFh3M5P6cAdaeyl482LU8JqFm3K70AHxe/wUS9KZlT
-5JbU9i7UQP+5ASTwPxj43C/FG6wFD2wRUUA62fRi00Pt3fNxB3puPVzzRL2B62GE
-9ZS8gGSM+8FOPjThYdTIxwvD3g1IfEjPvZrtaBrzefWARGnQiGzPuxPJLJM56OVG
-ntFcxbo7DDHFNO9lJ1v13a1oVyIS1PVXqMLyr9YX6fIUXvKoptPo2/q+nTupvHZP
-RXNlKIhLDOXYz67aKcLI3unk1sUl5mzKCUdRUTSmEA897JKZHOxEeUqDU7mfO/+1
-N/BAcPpGFaLp7xvambOyoTQWU4U7WQSYkA2OFIfZvkORcTsz50xLfDFw3mE3+TYb
-b138iOV7/Oi7LMtQ/mI79BY+pgzbgxR6e4w8nqTXNJVacsjA8rqGcZJljo8t3z5U
-4g+L9aTVFjnEhM4TTYCRQYevgDtqcE2saXKXoY4EW7YpLU3f6bnbVuzKXHiLCV9n
-fKHlc3eNXXMmqwMgAlnQf/yj+NwvZc8A0hveyvc+nSRuXaY33lsCAdrIWqKIQKuM
-9oohHc+0rVV7kJ6M4FYVAL/UdVBdKH9SLcVcbpSy23chLJPovJk=
-=Kgjq
------END PGP SIGNATURE-----
---=-=-=--
+> 
+>> +        bus->reset_is_cold = dev->reset_is_cold;
+>> +    }
+>> +    return 0;
+>> +}
+>> +
+>> +const struct VMStateDescription device_vmstate_reset = {
+>> +    .name = "device_reset",
+>> +    .version_id = 0,
+>> +    .minimum_version_id = 0,
+>> +    .needed = device_vmstate_reset_needed,
+>> +    .post_load = device_vmstate_reset_post_load,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_UINT32(resetting, DeviceState),
+>> +        VMSTATE_BOOL(reset_is_cold, DeviceState),
+>> +        VMSTATE_END_OF_LIST()
+>> +    },
+>> +};
+> 
 
