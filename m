@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E2A7C821
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:05:46 +0200 (CEST)
-Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC0A7C800
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 18:00:43 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hsr6n-0001OF-TW
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38899)
+	id 1hsr1u-0003J7-QA
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 12:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38319)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hsr2U-0004mw-9E
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:01:19 -0400
+ (envelope-from <pmathieu@redhat.com>) id 1hsr0W-0002id-U6
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 11:59:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hsr2S-0006Xy-6Y
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:01:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45354)
+ (envelope-from <pmathieu@redhat.com>) id 1hsr0U-0005OE-T6
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 11:59:16 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55721)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hsr2Q-0006VB-4q
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 12:01:14 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hsr2M-0001gC-37
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:01:10 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AFA572E80EB
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 16:01:08 +0000 (UTC)
+ (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hsr0U-0005My-9P
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 11:59:14 -0400
+Received: by mail-wm1-f65.google.com with SMTP id a15so61385555wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 08:59:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GEBZu5cSpffuEdvDGxVxgzmDlm4HDdGoJ5sXd7LyXd8=;
+ b=FMx4U8+Ud37cWWqIKAnZJYt333WjIXiN1fdfW78UqBCNe2qNErnuvDwrggh2D+peEQ
+ 8ZeJ/sHTJHXfpIVE3BUrvtM2OBKCkO//6XKJK6MaOVV4AKmnbOb4d726yIyD2Z7BzvYr
+ +/itXecVwFvNV3xfhHqLxB7qN/h6NpwHGuEEWx46bTIYzBpU16yPCM/atmZ8vHpYzxZI
+ l6EfKJ6ImiXQ2pMVHQXeS4FUB0gQ+lhBT7t4FCXvhEMYvY7wRR+FUq8Tm06HWJw1ennL
+ gWb4U3Mrfsyvfc3G/bSmiPpZx4e1SqiwMxinb2urzAPPBVzpCrSo218uz46ttFVvfVBU
+ axkw==
+X-Gm-Message-State: APjAAAXWHzTgfSbvif6MABUqUv7jCpv4gONFtyajXWyqSjKqymgF56i0
+ BzUyWlHKa9UuJwMhaIxe94FgQ/Rhd2otXIOqFiM4gA==
+X-Google-Smtp-Source: APXvYqwuhA8yM5y80xinFfsEgg5HACcfzWSubmZDBaV8/BLvkhQlUX0Jbl2lPHGfyqNLx2cmwiwaQNDc/huuUhzCg2E=
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr38900246wmg.155.1564588752291; 
+ Wed, 31 Jul 2019 08:59:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20190731075652.17053-1-thuth@redhat.com>
+ <20190731075652.17053-8-thuth@redhat.com>
+ <f2399005-cead-a147-37a5-600fda7eaea5@redhat.com>
+ <b9bbf556-e2fc-8634-2238-9c1c5ead7a35@redhat.com>
+ <18d71b10-6be2-b76e-54d6-76c0395ca700@redhat.com>
+In-Reply-To: <18d71b10-6be2-b76e-54d6-76c0395ca700@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Wed, 31 Jul 2019 17:59:01 +0200
+Message-ID: <CAP+75-Vrr5JcNd1tFhossrNDNEaJV4U4a+iyyDH2rgE5P6tV9g@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Yang Zhong <yang.zhong@intel.com>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 31 Jul 2019 15:50:29 -0000
-From: Hans Peter <1838312@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=virt-manager;
- component=universe; status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: green-world78 paelzer
-X-Launchpad-Bug-Reporter: Hans Peter (green-world78)
-X-Launchpad-Bug-Modifier: Hans Peter (green-world78)
-References: <156441781649.17826.2889969380137011138.malonedeb@gac.canonical.com>
-Message-Id: <156458822962.26385.8670915546865496552.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="19012";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 255f1e6ea6b81f331142d543527b358059a37b4e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1838312] Re: Qemu virt-manager Segmentation fault
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v2 7/8] hw/misc: Add a config switch for
+ the "unimplemented" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,95 +69,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838312 <1838312@bugs.launchpad.net>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I removed in "/usr/lib/python3/dist-packages" the file
-"apport_python_hook.py"
+On Wed, Jul 31, 2019 at 5:55 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+> On 7/31/19 1:50 PM, Thomas Huth wrote:
+> > On 31/07/2019 13.47, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 7/31/19 9:56 AM, Thomas Huth wrote:
+> >>> The device is only used by some few boards. Let's use a proper Kconfi=
+g
+> >>> switch so that we only compile this code if we really need it.
+> >>
+> >> I'd prefer having the UnimpDevice user-creatable and always present as=
+ a
+> >> core device...
+> >
+> > Why? This is a sysbus device that needs to be wired up in code, so I
+> > don't see a reason for making this user-creatable right now.
+>
+> Right now no.
+>
+> > Anyway, that's a different subject, so this should not be part of this
+> > patch.
+>
+> Fair enough.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-so the output of # PYTHONDEVMODE=3D1 virt-manager --no-fork
-
-is now:
-
-Traceback (most recent call last):
-  File "/usr/lib/python3/dist-packages/libvirt.py", line 24, in <module>
-    import cygvirtmod as libvirtmod
-ModuleNotFoundError: No module named 'cygvirtmod'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/share/virt-manager/virt-manager", line 20, in <module>
-    from virtinst import util
-  File "/usr/share/virt-manager/virtinst/__init__.py", line 26, in <module>
-    from virtinst import util
-  File "/usr/share/virt-manager/virtinst/util.py", line 15, in <module>
-    import libvirt
-  File "/usr/lib/python3/dist-packages/libvirt.py", line 28, in <module>
-    raise lib_e
-  File "/usr/lib/python3/dist-packages/libvirt.py", line 20, in <module>
-    import libvirtmod
-ImportError: /usr/lib/x86_64-linux-gnu/libhogweed.so.4: symbol nettle_cnd_m=
-emcpy version NETTLE_6 not defined in file libnettle.so.6 with link time re=
-ference
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838312
-
-Title:
-  Qemu virt-manager Segmentation fault
-
-Status in QEMU:
-  Invalid
-Status in virt-manager package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Hi!
-
-  I installed all these packages:
-
-  sudo apt install qemu
-  sudo apt install ipxe-qemu-256k-compat-efi-roms libspice-server1 libbluet=
-ooth3
-  sudo apt install libbrlapi0.6 libcacard0 libfdt1 libusbredirparser1 libvi=
-rglrenderer0 libxen-4.9 libxenstore3.0
-  sudo apt install cpu-checker ibverbs-providers ipxe-qemu libibverbs1 libi=
-scsi7 libnl-route-3-200 librados2 librbd1 librdmacm1 msr-tools sharutils
-  sudo apt install qemu-block-extra qemu-system-common qemu-system-data qem=
-u-system-gui qemu-utils
-  sudo apt install --no-install-recommends qemu-kvm qemu-system-x86
-  sudo apt install libauparse0 ebtables gir1.2-gtk-vnc-2.0 gir1.2-libosinfo=
--1.0 gir1.2-libvirt-glib-1.0 gir1.2-spiceclientglib-2.0 gir1.2-spiceclientg=
-tk-3.0 libvde0 libvdeplug2 libgovirt-common libgovirt2 libgtk-vnc-2.0-0 lib=
-gvnc-1.0-0 libosinfo-1.0-0 libphodav-2.0-0 libphodav-2.0-common libspice-cl=
-ient-glib-2.0-8 libspice-client-gtk-3.0-5 libusbredirhost1 libvirt-clients =
-libvirt-daemon libvirt-daemon-driver-storage-rbd libvirt-daemon-system libv=
-irt-glib-1.0-0 libvirt0 osinfo-db python3-libvirt python3-libxml2 spice-cli=
-ent-glib-usb-acl-helper vde2 vde2-cryptcab virt-viewer virtinst virt-manager
-
-  without the i386 packages for Qemu because I want only 64 bit.
-
-  I installed all these packages without error, but when I run
-
-  # virt-manager
-
-  Output: ...shows me:
-
-  Segmentation fault
-
-  =
-
-  My hardware is 100% ok.
-  Maybee a broken lib?
-
-
-  How can I fix that?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838312/+subscriptions
+Err, you missed MUSCA and MPS2.
 
