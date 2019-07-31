@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C687D021
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Jul 2019 23:32:10 +0200 (CEST)
-Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E206E7D181
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 00:48:09 +0200 (CEST)
+Received: from localhost ([::1]:44928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hswCf-0003Wa-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 17:32:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50617)
+	id 1hsxOC-00027n-Nz
+	for lists+qemu-devel@lfdr.de; Wed, 31 Jul 2019 18:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42410)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hswC0-00035A-L4
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 17:31:29 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hsxNg-0001as-O4
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 18:47:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hswBz-0004Pm-Lk
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 17:31:28 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42744)
+ (envelope-from <richard.henderson@linaro.org>) id 1hsxNf-0008Qt-I7
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 18:47:36 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:37068)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hswBz-0004OP-EU
- for qemu-devel@nongnu.org; Wed, 31 Jul 2019 17:31:27 -0400
-Received: by mail-pf1-x442.google.com with SMTP id q10so32564973pff.9
- for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 14:31:27 -0700 (PDT)
+ id 1hsxNf-0008QH-AU
+ for qemu-devel@nongnu.org; Wed, 31 Jul 2019 18:47:35 -0400
+Received: by mail-pl1-x641.google.com with SMTP id b3so31133471plr.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Jul 2019 15:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xBJrYmRCZ64I/3La6VVvbsmnrtT8xAr/Hm5TrJb/b9Q=;
- b=qMGedzLDR52NCe3vGpBvlYuQ5yaX/bD4dHzgWghKKD6Ydbhe67pTnDPXvFav5aAxvI
- 3/IRCnsG0ajdOpYD0lvG/cuL1uC/f42u1TW701tWqRo5QxsDUWDAZPNehVQv5NL9G4k6
- 1oOdEwqF81nGq9snD0IWaD8P/C0l7dwCdZ6hqzkFmvuaBXIaucflDGRIhmgMktvbJA9i
- lXXySQ4M+AhqtKg9cfBY3bsgJsRLQkxYPWcxIpwAUEtD0wIkTY3q+M3IIrXLo+K0pn5w
- 2NBywrjAcH+Co95CaWOn4TQh9udHqecrxpELAA2N+VVV8oyy/owLkHZzqd6DT2yd8OIG
- 5W4A==
+ bh=Yj8/e1DaY0Y8tUi5r24rXtA1g8VDx/b5LVf6n84eP40=;
+ b=pQPUGG55BreEePR3myLH1Uw98L2y5tYrbioegD2LQIm2FXj7EvW0QtOxastwe3yecq
+ QKB+8YHgT64vwK04IUp/zIYCaMnRxFWod4sBwgr6BWm21K4MRzrInq5V9BwAoGO3/ssG
+ zQG3+JDEyBVa5ZpP5+Fbjban8DWUpoJTUHrXeSXHvEbY74RTY5jCOR2/oK+ObjgUOZPS
+ YIVqqF/Y+UbQYIam2Ig1zeyRGOsAF3plu8LgWjqvknRg2zXiRlOkHmWqCkMfRjpiaGaw
+ acDliJIiMWOOAtFhJT1z9I3mBSxZJW4dn38ewgUwRXvWocSl+oihPhEUnBIA36rCkXW7
+ JGBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xBJrYmRCZ64I/3La6VVvbsmnrtT8xAr/Hm5TrJb/b9Q=;
- b=aMsgcTODnnZmfWlyPjWio7ORG0Qf56X/iA2eDlMFauuch+U1+510qnjYwVipO8PS0O
- fBwLd0rmDEo75Jquqoonr0OIFyHRCRnn4DA8aLO/5Ne5hn8cTI/qqqFf1otIRlHFho3F
- m2SuqwGb/yW62rA0JQaREnOTYqwZtkFfMeKsdbomM4RUdWFI+8OjBt8hQGwPGe/5Fy4X
- G2cFoV0erh/8ous9PPlgygWjGHNTPTrT6FmF9kFnZhZBDkeEpRxiQzO/GX9ZSsDzJQsI
- oAX6H97ETyv18ya9+qC8g4TSMz9MstcPfHqZc7X1TBgm2iB9wbE3myyyJ05T6Beaye9e
- 6qSQ==
-X-Gm-Message-State: APjAAAVl2kSnlTmDV7h2S4fdgoXuYn4kVggVsdQxEb80lintzHxGLyKg
- Vtn05RQ8Q2cr3scgDFPesnQ8qQ==
-X-Google-Smtp-Source: APXvYqxAUxVrCP+CqJQnES0vFzq6drLiCFeG72PqalqPjrGXvkVLPDxnv5y+CxyssH/dZyYzYqzOWQ==
-X-Received: by 2002:a63:ab08:: with SMTP id p8mr26837755pgf.340.1564608686031; 
- Wed, 31 Jul 2019 14:31:26 -0700 (PDT)
+ bh=Yj8/e1DaY0Y8tUi5r24rXtA1g8VDx/b5LVf6n84eP40=;
+ b=J12PFhVB75VvUONmNIZ4OepajNF3MKTK1smJbs9XJTMFmiP+EP9MF9tBwv9AypV+wO
+ gLeaMqQC3p1CDNeli95Bmjjub2fXFwuC05uNlrYaINdCnpoH55P7eSqxt2htvINQzZ2A
+ x1K6KJfx3LzufeeRtJf6mUr3yg4AA4plMxL79RGKn2m4hbR94SMQgD4/KeLK4xGgf3HV
+ jw14N7XCPdb6jb7WL14Nrbw78PiKzdOK38N0+OicnEEKjqso8b8mSspwfJ07GX+BncAA
+ T+GRTk3WbQIrt8iDh9rwjp5QVdgqXFvEb4rnfEwOAqTvgJC1bja/VLItO7ny/knCPwc4
+ i0dw==
+X-Gm-Message-State: APjAAAWeWdfepKzPTzFMjdQIqGIsLTaLPAzSasNmpQ8Lob+tRtfrPc2S
+ p39wYPxfN3yry3RUfMfr+JSlag==
+X-Google-Smtp-Source: APXvYqyDEvC/pLAvVgPNg0dyb64zK7U4F2JopwdCIKd++q31WoMjKUIM1DKlGKvhQ20aWri3WU/vCQ==
+X-Received: by 2002:a17:902:324:: with SMTP id
+ 33mr119120037pld.340.1564613254135; 
+ Wed, 31 Jul 2019 15:47:34 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id n128sm24761369pfn.46.2019.07.31.14.31.24
+ by smtp.gmail.com with ESMTPSA id k6sm79037893pfi.12.2019.07.31.15.47.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 31 Jul 2019 14:31:25 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+ Wed, 31 Jul 2019 15:47:33 -0700 (PDT)
+To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
 References: <20190731175702.4916-1-jan.bobek@gmail.com>
- <20190731175702.4916-23-jan.bobek@gmail.com>
- <1691a32a-e0a2-931b-2d17-4dae8dde7c7e@linaro.org>
- <CAL1e-=h2eHpH2KAtT+orB9gbqnaqTVYf+W_eVfmNrj+jxVsnnA@mail.gmail.com>
+ <20190731175702.4916-7-jan.bobek@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <bf8155f6-4f03-dcb6-5159-5f10dd0211a0@linaro.org>
-Date: Wed, 31 Jul 2019 14:31:23 -0700
+Message-ID: <0e38a01b-6a1b-cd18-1fd0-29faea840e69@linaro.org>
+Date: Wed, 31 Jul 2019 15:47:30 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=h2eHpH2KAtT+orB9gbqnaqTVYf+W_eVfmNrj+jxVsnnA@mail.gmail.com>
+In-Reply-To: <20190731175702.4916-7-jan.bobek@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: Re: [Qemu-devel] [RFC PATCH v1 22/22] target/i386: reimplement
- (V)P(EQ, CMP)(B, W, D)
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: Re: [Qemu-devel] [RFC PATCH v1 06/22] target/i386: introduce
+ gen_gvec_ld_modrm_* helpers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,47 +85,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jan Bobek <jan.bobek@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/19 1:09 PM, Aleksandar Markovic wrote:
-> 
-> 
-> On Wed, Jul 31, 2019 at 9:51 PM Richard Henderson <richard.henderson@linaro.org
-> <mailto:richard.henderson@linaro.org>> wrote:
-> 
->     On 7/31/19 10:57 AM, Jan Bobek wrote:
->     > +static inline void gen_gvec_cmpeq(unsigned vece, uint32_t dofs,
->     > +                                  uint32_t aofs, uint32_t bofs,
->     > +                                  uint32_t oprsz, uint32_t maxsz)
->     > +{
->     > +    tcg_gen_gvec_cmp(TCG_COND_EQ, vece, dofs, aofs, bofs, oprsz, maxsz);
->     > +}
->     ...
->     > +static inline void gen_gvec_cmpgt(unsigned vece, uint32_t dofs,
->     > +                                  uint32_t aofs, uint32_t bofs,
->     > +                                  uint32_t oprsz, uint32_t maxsz)
->     > +{
->     > +    tcg_gen_gvec_cmp(TCG_COND_GT, vece, dofs, aofs, bofs, oprsz, maxsz);
->     > +}
-> 
->     Drop the inlines.
-> 
-> 
-> Why? The compiler will decide at the end of the day, but at least "inline" here
-> says that the code author thinks that inlining is desirable, logical, and expected
-> in these cases, which is in turn a valuable information for the code reader.
+On 7/31/19 10:56 AM, Jan Bobek wrote:
+> +static inline void gen_gvec_ld_modrm_2(CPUX86State *env, DisasContext *s,
+> +                                       int modrm, unsigned vece,
+> +                                       uint32_t oprsz, uint32_t maxsz,
+> +                                       gen_ld_modrm_2_fp_t gen_ld_modrm_2_fp,
+> +                                       gen_gvec_2_fp_t gen_gvec_2_fp,
+> +                                       int opctl)
+> +{
+> +    uint32_t ofss[2];
+> +
+> +    const int opd = ((opctl >> 6) & 7) - 1;
+> +    const int opa = ((opctl >> 3) & 7) - 1;
+> +    const int opb = ((opctl >> 0) & 7) - 1;
+> +
+> +    assert(0 <= opd && opd < 2);
+> +    assert(0 <= opa && opa < 2);
+> +    assert(0 <= opb && opb < 2);
+> +
+> +    (*gen_ld_modrm_2_fp)(env, s, modrm, &ofss[0], &ofss[1]);
+> +    (*gen_gvec_2_fp)(vece, ofss[opd], ofss[opa], ofss[opb], oprsz, maxsz);
+> +}
+> +
+> +static inline void gen_gvec_ld_modrm_3(CPUX86State *env, DisasContext *s,
+> +                                       int modrm, unsigned vece,
+> +                                       uint32_t oprsz, uint32_t maxsz,
+> +                                       gen_ld_modrm_3_fp_t gen_ld_modrm_3_fp,
+> +                                       gen_gvec_2_fp_t gen_gvec_2_fp,
+> +                                       int opctl)
+> +{
+> +    uint32_t ofss[3];
+> +
+> +    const int opd = ((opctl >> 6) & 7) - 1;
+> +    const int opa = ((opctl >> 3) & 7) - 1;
+> +    const int opb = ((opctl >> 0) & 7) - 1;
+> +
+> +    assert(0 <= opd && opd < 3);
+> +    assert(0 <= opa && opa < 3);
+> +    assert(0 <= opb && opb < 3);
+> +
+> +    (*gen_ld_modrm_3_fp)(env, s, modrm, &ofss[0], &ofss[1], &ofss[2]);
+> +    (*gen_gvec_2_fp)(vece, ofss[opd], ofss[opa], ofss[opb], oprsz, maxsz);
+> +}
+> +> +#define gen_gvec_ld_modrm_mm(env, s, modrm, vece,                       \> +
+                            gen_gvec_2_fp, opctl)                      \> +
+gen_gvec_ld_modrm_2((env), (s), (modrm), (vece),                    \> +
+                 sizeof(MMXReg), sizeof(MMXReg),                 \> +
+              gen_ld_modrm_PqQq,                              \> +
+           gen_gvec_2_fp, (opctl))> +> +#define gen_gvec_ld_modrm_xmm(env, s,
+modrm, vece,                      \> +
+gen_gvec_2_fp, opctl)                     \> +    gen_gvec_ld_modrm_2((env),
+(s), (modrm), (vece),                    \> +
+sizeof(XMMReg), sizeof(XMMReg),                 \> +
+gen_ld_modrm_VxWx,                              \> +
+gen_gvec_2_fp, (opctl))> +> +#define gen_gvec_ld_modrm_vxmm(env, s, modrm,
+vece,                     \> +                               gen_gvec_2_fp,
+opctl)                    \> +    gen_gvec_ld_modrm_3((env), (s), (modrm),
+(vece),                    \> +                        sizeof(XMMReg),
+sizeof(ZMMReg),                 \> +
+gen_ld_modrm_VxHxWx,                            \> +
+gen_gvec_2_fp, (opctl))> +> +#define gen_gvec_ld_modrm_vymm(env, s, modrm,
+vece,                     \> +                               gen_gvec_2_fp,
+opctl)                    \> +    gen_gvec_ld_modrm_3((env), (s), (modrm),
+(vece),                    \> +                        sizeof(YMMReg),
+sizeof(ZMMReg),                 \> +
+gen_ld_modrm_VxHxWx,                            \> +
+gen_gvec_2_fp, (opctl))
 
-In this case it is in fact a lie that will only confuse the reader, as it did
-you.  Functions whose address are passed as a callback, as these are, are
-always forced out of line.
+I suppose there aren't so many different combinations, but did you consider
+separate callbacks per operand?  If you have
 
-But beyond that, clang diagnoses unused static inline within *.c while gcc does
-not (I'm not sure I agree with clang, but it is what it is).  By leaving off
-the inline, but compilers will diagnose when code rearrangement leaves a
-function unused.
+typedef unsigned (*gen_offset)(CPUX86State *, DisasContext *, int);
+
+static unsigned offset_Pq(CPUX86State *env, DisasContext *s, int modrm)
+{
+    int reg = (modrm >> 3) & 7; /* Ignore REX_R */
+    return offsetof(CPUX86State, fpregs[reg].mmx);
+}
+
+static unsigned offset_Qq(CPUX86State *env, DisasContext *s, int modrm)
+{
+    int mod = (modrm >> 6) & 3;
+    unsigned ret;
+
+    if (mod == 3) {
+        int rm = modrm & 7; /* Ignore REX_B */
+        ret = offsetof(CPUX86State, fpregs[rm].mmx);
+    } else {
+        ret = offsetof(CPUX86State, mmx_t0);
+        gen_lea_modrm(env, s, modrm);
+        gen_ldq_env_A0(s, ret);
+    }
+    return ret;
+}
+
+static unsigned offset_Vx(CPUX86State *env, DisasContext *s, int modrm)
+{
+    int reg = ((modrm >> 3) & 7) | REX_R(s);
+    return offsetof(CPUX86State, xmm_regs[reg]);
+}
+
+static unsigned offset_Wx(CPUX86State *env, DisasContext *s, int modrm)
+{
+    int mod = (modrm >> 6) & 3;
+    unsigned ret;
+
+    if (mod == 3) {
+        int rm = (modrm & 7) | REX_B(s);
+        ret = offsetof(CPUX86State, xmm_regs[rm]);
+    } else {
+        ret = offsetof(CPUX86State, xmm_t0);
+        gen_lea_modrm(env, s, modrm);
+        gen_ldo_env_A0(s, ret);
+    }
+    return ret;
+}
+
+static unsigned offset_Hx(CPUX86State *env, DisasContext *s, int modrm)
+{
+    return offsetof(CPUX86State, xmm_regs[s->vex_v]);
+}
+
+Then you can have
+
+#define GEN_GVEC_3(OP0, OP1, OP2, OPRSZ, MAXSZ)
+static void gen_gvec_ld_modrm_##OP0##OP1##OP2(CPUX86State *env,      \
+    DisasContext *s, int modrm, unsigned vece,  gen_gvec_2_fp_t gen) \
+{                                               \
+    int ofd = offset_##OP0(env, s, modrm);      \
+    int of1 = offset_##OP1(env, s, modrm);      \
+    int of2 = offset_##OP2(env, s, modrm);      \
+    gen(vece, opd, opa, opb, OPRSZ, MAXSZ);     \
+}
+
+GEN_GVEC_3(Pq, Pq, Qq, sizeof(MMXReg), sizeof(MMXReg))
+GEN_GVEC_3(Vx, Vx, Wx, sizeof(XMMReg), max_vec_size(s))
+GEN_GVEC_3(Vx, Hx, Wx, sizeof(XMMReg), max_vec_size(s))
+
+The PqPqQq and VxVxWx sub-strings aren't quite canonical, but imo a better fit
+to the actual format of the instruction, with 2 inputs and 1 output.
+
+You can also do
+
+GEN_GVEC_3(Pq, Qq, Pq, sizeof(MMXReg), sizeof(MMXReg))
+
+for those rare "reversed" operations like PANDN.  Now you don't need to carry
+around the OPCTL argument, which I initially found non-obvious.
+
+I initially thought you'd be able to infer maxsz from the set of arguments, but
+since there are vex encoded operations that do not use vex.vvvv that is not
+always the case.  Thus I suggest
+
+static size_t max_vec_size(DisasContext *s)
+{
+    if (s->prefixes & PREFIX_VEX) {
+        /*
+         * TODO: When avx512 is supported and enabled, sizeof(ZMMReg).
+         * In the meantime don't waste time zeroing data that is not
+         * architecturally present.
+         */
+        return sizeof(YMMReg);
+    } else {
+        /* Without vex encoding, only the low 128 bits are modified. */
+        return sizeof(XMMReg);
+    }
+}
 
 
 r~
