@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378EF7DE66
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:02:03 +0200 (CEST)
-Received: from localhost ([::1]:56560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6DE7DE68
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:03:25 +0200 (CEST)
+Received: from localhost ([::1]:56580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htCag-0006KQ-BZ
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60624)
+	id 1htCc0-0007j7-UE
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32935)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1htCWr-0005Pl-TI
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:58:07 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htCa5-0006R3-CR
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:01:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1htCWq-0004Zi-TA
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:58:05 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:36930)
+ (envelope-from <richard.henderson@linaro.org>) id 1htCa4-0006Eo-Aw
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:01:25 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1htCWq-0004Wd-NR; Thu, 01 Aug 2019 10:58:04 -0400
-Received: by mail-ed1-x541.google.com with SMTP id w13so69506975eds.4;
- Thu, 01 Aug 2019 07:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t+5VxFNDxAoeMM6TcmSoJp4VphqXgcASmhy++210tFM=;
- b=tBw7uFVIxlKFQLAgt42qNNVYyAGf/dNT1qr0GCILp5ZUYEbY14k6pFUnC1k5i4lnCC
- gQpZTDARA1McFSTGorCqXNIRmIVKQrWSkJz2C+DHF7wuetLCfKmaSrjrs/srda/6jZ5V
- vmKexsM3dKbT0pp2RSakt20lQl3RBzIAWmNv06XnY/B6kx/MIomUreETUZmlugVOgBVv
- QPAnyy021tJo2bYdd9JjHDSIhva2q+63OrXqRavXNWlNu9w5U75o8nQWNQIpM5plBIhP
- 65bXeOyN+0Tg2GqEfVu8+ZHxR2Yt0RuF/C4jH4otUooqV8/iO2sFC1eISQLOyhvAp4MN
- soWg==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1htCa4-0006ET-4A
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:01:24 -0400
+Received: by mail-pl1-x644.google.com with SMTP id t14so32318888plr.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 08:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4PD3dMdu5TYb+5hSet5uBV3XoQ0A6kdX7rIHlx5c1OE=;
+ b=bb1iVOUFg3y255s8a63INQLUQ68Pz8HWF/8BQqh2t7mfTfgx6CM5Efsnn1c54sjse6
+ 0pgUBU5rsQ9e9olkyZ9nuXwL/ozqGrxD2QPCEEsw4qNfq4TL/m/kppTvDMwTeTKEF1dH
+ RBzxNg3CP/WsOS09xZ4JsMGBXXelC9uE5oWPadjCNaEJLgrjfzcP2aTtMSZi6HWL8IwS
+ o5LBqs5rTEm0lq61Au9EymkCgL627Aj4/W0+/XXWoySQQ/SveoTw2EFEeo1eRVeYQTzs
+ FI83v7iQJXhVQ3TD0vTVTZ3hkspXgPT6xNtKIXjD7ag3OLjxwNClLR7BBZxSs4WkWq8i
+ 4fCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t+5VxFNDxAoeMM6TcmSoJp4VphqXgcASmhy++210tFM=;
- b=Nhlx/tIKHzxKV3CvpCNyHRG7tJ57EuxDDix9ooT6qfCoZE0OBXIFpTzZ+asnRP7gUk
- C285sAvCbWB+7QV2xbQJPZp71loII50B/A4O1mIr0/atsETJHSIfAClq93oHAclQrKXY
- VrDMprZDm2hE0xw68Dfdg5JTXv47GHt6FSC3JftX2fZNjYPCFw9eUro9kGyYQZxFKJeu
- Hy6gAy4x2bBucu0/xlS1SlKgDTfk55rdaNpf7ruf14xVTHouDJBZ5Jr5rygTwgL1U35q
- XHazGUWOSF2MfpO4J42FyrC9es/Y3EYc6eUqq/FnVlLAdg6yr5YnSQ7jaAiiheqM/FOO
- EopQ==
-X-Gm-Message-State: APjAAAUc9lWJ7F2OYvDI2ldMPvkx//zrGw+VE6PitptoJKsC+Va14tdr
- ZBhRV52fq2DnlOUSTI9NSIvjJ64hgibDBjdRpXw=
-X-Google-Smtp-Source: APXvYqz8uXBCThljYAbr7mltM25xP6DHf60CWgYMptOEb5L2UDGnIyZN4cYDpDL7Iu8T3lt3ytScEBbG2U23QrYmNHQ=
-X-Received: by 2002:a17:906:340e:: with SMTP id
- c14mr102538823ejb.170.1564671483146; 
- Thu, 01 Aug 2019 07:58:03 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4PD3dMdu5TYb+5hSet5uBV3XoQ0A6kdX7rIHlx5c1OE=;
+ b=GW98zvQCKzZpw2wQMEfbaj1mDAD2IqV2ho0JVngeGRIaViHW9/RrMiCH48lGki5DzT
+ ZQAvKDNxYgB7N0bDOv29usdhc1FVctYz0CFLhMGT6YT8Wm40PofKPU8grKvuDQHN3h6u
+ LZ9yiz0Km0wZ5STQscvcI0pv+DQ0ZMv6G1YxQs1E5t0bTR1OcgDWLxk+hPGZfL6l709i
+ YJjZWzeNb1zejT1vEsM0MwkRh+DJu2Q8vH9m1XElMo/M6HeDGVWZhOT3tSZ94RXO2IV0
+ 2yUS7MVoGWlDZ/3KMY2TGDsUJu5Ov5wBg5gWqiUo2qymKgL/b5iLOmI4GwUA4naRtvXg
+ Y4Lg==
+X-Gm-Message-State: APjAAAUXTA3axyOVbiSzJz9FrD2osfie+nL+1Ns9PFtYdS1qU49kteCW
+ z4gQiQn59js8Xj9GIhmTTXtFgg==
+X-Google-Smtp-Source: APXvYqxqEb3R2RuQBvX+NGAKkUHlSFfhYrnH6FSncVpFb0KBShmiwBzyBwMmdFNq/fQVcmcoOUa7Mw==
+X-Received: by 2002:a17:902:bf09:: with SMTP id
+ bi9mr118824088plb.143.1564671682626; 
+ Thu, 01 Aug 2019 08:01:22 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id q21sm1433665pgm.39.2019.08.01.08.01.21
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 01 Aug 2019 08:01:21 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ <20190731160719.11396-7-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <6ca3ae24-7063-40ac-ed2f-b6fd7bf499fd@linaro.org>
+Date: Thu, 1 Aug 2019 08:01:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <1564577101-29020-1-git-send-email-bmeng.cn@gmail.com>
- <581a0284-c658-265f-1b0f-6f4be5406cee@linaro.org>
- <CAEUhbmVXC6GeHYFST514cLRJHQOo5ki=ZPG=OsLzV2YA0ChQgA@mail.gmail.com>
- <ac4453de-81cd-c32a-17f8-283fa3569ed0@linaro.org>
-In-Reply-To: <ac4453de-81cd-c32a-17f8-283fa3569ed0@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 1 Aug 2019 22:57:52 +0800
-Message-ID: <CAEUhbmX2C_FbW_m=Mri19hpz0c74SQTt3ogsatGgveH09t3_4g@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190731160719.11396-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH] riscv: rv32: Root page table address can
- be larger than 32-bit
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: Re: [Qemu-devel] [PATCH v4 06/54] trace: expand mem_info:size_shift
+ to 4 bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,34 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU riscv <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>, QEMU devel <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: bobby.prani@gmail.com, cota@braap.org, aaron@os.amperecomputing.com,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 1, 2019 at 10:16 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 7/31/19 6:53 PM, Bin Meng wrote:
-> > I am not sure how (idx * ptesize) could overflow. It represents the
-> > offset by a page table which is [0, 4096).
->
-> You're right, I mis-read what was going on there.
->
-> However, lower down, "target_ulong ppn" needs to be promoted to hwaddr, so that
->
->     ppn = pte >> PTE_PPN_SHIFT;
->     ...
->     base = ppn << PGSHIFT;
->
-> does not overflow.  (Which is the part of the page table walk that I thought I
-> had gleaned from the patch without actually reading the entire function.)
+On 7/31/19 9:06 AM, Alex Bennée wrote:
+> From: "Emilio G. Cota" <cota@braap.org>
+> 
+> This will allow us to trace 32k-long memory accesses (although our
+> maximum is something like 256 bytes at the moment).
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Emilio G. Cota <cota@braap.org>
+> [AJB: expanded to 3->4 bits]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  trace-events | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/trace-events b/trace-events
+> index aeea3c2bdbf..63bb192ade6 100644
+> --- a/trace-events
+> +++ b/trace-events
+> @@ -149,7 +149,7 @@ vcpu guest_cpu_reset(void)
+>  # Access information can be parsed as:
+>  #
+>  # struct mem_info {
+> -#     uint8_t size_shift : 2; /* interpreted as "1 << size_shift" bytes */
+> +#     uint8_t size_shift : 4; /* interpreted as "1 << size_shift" bytes */
+>  #     bool    sign_extend: 1; /* sign-extended */
+>  #     uint8_t endianness : 1; /* 0: little, 1: big */
+>  #     bool    store      : 1; /* wheter it's a store operation */
+> 
 
-Ah, yes. ppn should be promoted. Thanks for the review!
+Adjusting the comment doesn't do anything, and neither the before or the after
+match the actual code:
 
-Regards,
-Bin
+#define TRACE_MEM_SZ_SHIFT_MASK 0x7 /* size shift mask */
+
+Is this a victim of a rebase, with the changes to trace/mem-internal.h moved to
+a different patch?
+
+
+r~
 
