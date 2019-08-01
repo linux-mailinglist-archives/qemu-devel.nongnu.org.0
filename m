@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8273A7E095
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:53:20 +0200 (CEST)
-Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25F27E0A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:57:59 +0200 (CEST)
+Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htEKN-0002Be-Mz
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1htEOt-00083J-0f
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58452)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1htDCA-0004PI-Eu
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:40:48 -0400
+ (envelope-from <bounces@canonical.com>) id 1htEHw-0008Ep-GR
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:50:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1htDC9-0006Kj-9L
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:40:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37904)
+ (envelope-from <bounces@canonical.com>) id 1htEHu-00025B-Dl
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54392)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1htDC9-0006KO-20
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:40:45 -0400
+ id 1htEHs-00020z-DL
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:50:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1htDC7-0005is-Is
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 15:40:43 +0000
+ id 1htEHp-0006k3-KC
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 16:50:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5129E2E80D3
- for <qemu-devel@nongnu.org>; Thu,  1 Aug 2019 15:40:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7D26E2E80CB
+ for <qemu-devel@nongnu.org>; Thu,  1 Aug 2019 16:50:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 01 Aug 2019 15:34:44 -0000
-From: Patrick Welche <prlw1@cam.ac.uk>
+Date: Thu, 01 Aug 2019 16:43:33 -0000
+From: KD <buckfobb@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm mprofile tcg testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: prlw1
-X-Launchpad-Bug-Reporter: Patrick Welche (prlw1)
-X-Launchpad-Bug-Modifier: Patrick Welche (prlw1)
-Message-Id: <156467368424.6955.5535032657029646608.malonedeb@soybean.canonical.com>
+X-Launchpad-Bug-Commenters: buckfobb pmaydell
+X-Launchpad-Bug-Reporter: KD (buckfobb)
+X-Launchpad-Bug-Modifier: KD (buckfobb)
+References: <156452233283.15483.3370838341008169030.malonedeb@wampee.canonical.com>
+Message-Id: <156467781310.18204.2163568230788473098.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19012";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: fa4b589dd496978aa4d0face770a5c23758e744c
+X-Launchpad-Hash: 2700ec57e71ef8268cf9db39614d0031c0564093
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Thu, 01 Aug 2019 12:47:57 -0400
-Subject: [Qemu-devel] [Bug 1838658] [NEW] qemu 4.0.0 broken by glib update
+Subject: [Qemu-devel] [Bug 1838475] Re: qemu-system-arm exits when cortex-m4
+ floating point used and irq occurs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -63,63 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1838658 <1838658@bugs.launchpad.net>
+Reply-To: Bug 1838475 <1838475@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+I confirm that this fixes the issue above.
 
-In brief, an install CD will successfully boot with qemu 4.0.0 built with g=
-lib 2.58.3, but freeze during boot with qemu 4.0.0 built with glib 2.60.0. =
-I tracked it down to glib's GHashTable improvements. qemu is happy with a g=
-lib built from
-```
- git checkout -f 2.60.4
- git revert --no-edit 86c6f7e2b..3bed8a13b
- git revert --no-edit 75f8ec1df9b48b0c3a13a9125f2c7d7c5adf5159
- git revert --no-edit 603fb5958..d3074a748
- git revert --no-edit 0b45ddc55..0600dd322
-```
-When the GHashTable improvements were committed, there was already a preemp=
-tive note about any breakage being due to using private implementation deta=
-ils, hence mentioning it here rather than with glib.
-
-For the full saga, see: http://gnats.netbsd.org/54310
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Thank you for your help! It is much appreciated.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1838658
+https://bugs.launchpad.net/bugs/1838475
 
 Title:
-  qemu 4.0.0 broken by glib update
+  qemu-system-arm exits when cortex-m4 floating point used and irq
+  occurs
 
 Status in QEMU:
-  New
+  In Progress
 
 Bug description:
-  In brief, an install CD will successfully boot with qemu 4.0.0 built with=
- glib 2.58.3, but freeze during boot with qemu 4.0.0 built with glib 2.60.0=
-. I tracked it down to glib's GHashTable improvements. qemu is happy with a=
- glib built from
-  ```
-   git checkout -f 2.60.4
-   git revert --no-edit 86c6f7e2b..3bed8a13b
-   git revert --no-edit 75f8ec1df9b48b0c3a13a9125f2c7d7c5adf5159
-   git revert --no-edit 603fb5958..d3074a748
-   git revert --no-edit 0b45ddc55..0600dd322
-  ```
-  When the GHashTable improvements were committed, there was already a pree=
-mptive note about any breakage being due to using private implementation de=
-tails, hence mentioning it here rather than with glib.
+  qemu-system-arm exits with
 
-  For the full saga, see: http://gnats.netbsd.org/54310
+  "...Secure UsageFault with CFSR.NOCP because NSACR.CP10 prevents stacking=
+ FP regs
+  ...taking pending nonsecure exception 3
+  Taking exception 7 [Breakpoint]
+  qemu: fatal: Lockup: can't escalate 3 to HardFault (current priority -1)" =
+
+
+  when emulating Cortex-m4, executing at least 1 floating point
+  instruction, and then an irq (e.g. sys tick) occurring.
+
+  CPACR.CP10 and CPACR.CP11 are set to 0x3 respectively prior to
+  executing the fp instructions.
+
+  NOTE: NSACR does not appear to be a cortex m4 register.
+
+  Attached is a simplified elf to repro the issue.
+
+  The qemu command line is: "qemu-system-arm --gdb tcp::1234 -cpu
+  cortex-m4 -machine lm3s6965evb -nographic -semihosting-config
+  enable=3Don,target=3Dnative -kernel QemuExitWhenUsingFPAndIRQOccurs.elf -d
+  int"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1838658/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1838475/+subscriptions
 
