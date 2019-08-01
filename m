@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875917DFFF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:21:25 +0200 (CEST)
-Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957957E01A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:23:46 +0200 (CEST)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htDpU-0006lW-Q1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51985)
+	id 1htDrl-0000QP-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52357)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htDkl-0004UW-NP
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:16:38 -0400
+ (envelope-from <philmd@redhat.com>) id 1htDmm-00068l-8C
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:18:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htDkh-0002fY-Qm
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:16:31 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43998)
+ (envelope-from <philmd@redhat.com>) id 1htDmk-0003cr-G9
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:18:36 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htDkf-0002dd-V8
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:16:26 -0400
-Received: by mail-pg1-x541.google.com with SMTP id r22so6868573pgk.10
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 09:16:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cSGojvIRJKy60Im8iDZpSTv9EYn/C0UZDgxUZxDS/ow=;
- b=JmyMxO23JexT7jjw4cxHXcbwWJ9gEZe4fyrSnEphFoG8ikLZav28jLvu7gRYwovMVw
- wmyZc/Ke581b17bOj/8vlgpHJP/ktKDptNbz5AkPM2ZIaPf8/hpju86WxohuaFId4Chl
- qFUrzNRbLWrY68tsxgUSC46M7FqdZHlOR2Er7fQPI0ngpfdXj3KNEP2PMOLA89oV64B8
- 810NxdNt0DJjUWC3kyXrWqp9pOamGvjxXCO7J9/bv2W288XIXCmCMjnjmo3S+iloEUSh
- /unwFBa2EoWAiY1TKSi6upZwsVVWpWFLFqRB3cYPzL/3KpevTPRF6N/eKIydpXrcHfoO
- DAUg==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1htDmk-0003bc-A5
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:18:34 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n9so74343691wru.0
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 09:18:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cSGojvIRJKy60Im8iDZpSTv9EYn/C0UZDgxUZxDS/ow=;
- b=N5iDvR6y+nALBDP99ItJnSKBEQitqdTd/f9RFq/p/LdiaM85wlJyEjCn1utjm1zg3U
- m5VKhbSUBICh0nLlA9qzH8xXe7HYzAheROONyNg+lmg+qLWX/RUm8evgF69zr7SOdw6G
- QVgAsW96hQfRZy8r6crNe6NffIdKVrWUilLsxtkBCu53bHaxOAX+3CuVo5Ji+fp2FORQ
- F8T6WwobU9Aa5AglxJfo+v0vPNxroym1nrMIwyucWloxh30oag1v4bt4kXFR6bPqD2eg
- aUE277mVPdyXkZ4K9hzGP8QB5jkuRjQCd9bGTcly/COfhOJjC8MBnI42iMMxhF7bSnoq
- ALpg==
-X-Gm-Message-State: APjAAAVW1KHIfUkaYLW2B1KGFC4IVG2r/FNzQ7WqgJmDdADOXJUyU77f
- rWkRtWSbYl5jgu6xV+Uymh479g==
-X-Google-Smtp-Source: APXvYqzGqh8oQwy4aq7oPs83+PjjJA1cEkzX+XTtSjrRD2YlqWceZ4bne/s4qAomoj+UeVVQINVDVw==
-X-Received: by 2002:a62:e910:: with SMTP id j16mr55885333pfh.123.1564676182901; 
- Thu, 01 Aug 2019 09:16:22 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q69sm7964281pjb.0.2019.08.01.09.16.21
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Aug 2019 09:16:22 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-17-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <74566ced-83f0-73e8-9a24-582b485c1457@linaro.org>
-Date: Thu, 1 Aug 2019 09:16:20 -0700
+ bh=zbVGYeJTpiD2V2lSOOlCUUtZa8Gr4A8te7FhbkYlKws=;
+ b=UEfso/qHgVn/q69cqIcCpq/xCsyYQkgIfbkBAQA0hthJx8Rd1Fs/0UTPtYhVtNRVgn
+ f00E1uF4sqbObEm2U+sHvFROfLq9sDZtdvrEnz0xW5MDkvC6fv0cICg2zD7PcuEl067o
+ jTMa1aRgEfJOUhpI9JwQ3rdzf3V7xC+pnfWSHPlX0PZ1eQAElf4N4J7YCQBkvjnCG+UK
+ AWtipDKYWinA0nGgDv6VVNXGjawq+tU9iCwPUyuRUXDvkl2itnYAzk4ML6JIQ+x0xDGV
+ B9sUuS6buS6oOLGkMzTs1vuP6yrIlbcOnOgozx3dxiz4HysDWibvc6Hn9dq0a/ySvXfH
+ 2bVg==
+X-Gm-Message-State: APjAAAXXRaJlmH3aU7npT7HSxbX2sugxxGouLKMkh0CTO3mE1i5xe+E9
+ a/q6hA8GC85+spps9fUV9/OAbA==
+X-Google-Smtp-Source: APXvYqzFiA453irCmPsLrzU9CSz4bzDnJQu5Z6/Rtqy1rhhR4GtkmZqmNS+HuPfDQE1EVlHDS3147A==
+X-Received: by 2002:adf:f042:: with SMTP id t2mr8160861wro.139.1564676311586; 
+ Thu, 01 Aug 2019 09:18:31 -0700 (PDT)
+Received: from [192.168.1.35] (46.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.46])
+ by smtp.gmail.com with ESMTPSA id b2sm94346246wrp.72.2019.08.01.09.18.30
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 01 Aug 2019 09:18:31 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1564514832-29482-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <8f13328e-cc0a-5bd9-9a66-ca1b239b1099@redhat.com>
+Date: Thu, 1 Aug 2019 18:18:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190731160719.11396-17-alex.bennee@linaro.org>
+In-Reply-To: <1564514832-29482-1-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH v4 16/54] queue: add QTAILQ_REMOVE_SEVERAL
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH for 4.2 v4 0/6] target/mips: Misc patches
+ for 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,25 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bobby.prani@gmail.com, cota@braap.org, aaron@os.amperecomputing.com
+Cc: arikalo@wavecomp.com, sw@weilnetz.de, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/19 9:06 AM, Alex Bennée wrote:
-> From: "Emilio G. Cota" <cota@braap.org>
-> 
-> This is faster than removing elements one by one.
-> 
-> Will gain a user soon.
-> 
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  include/qemu/queue.h | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+Hi Aleksandar,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 7/30/19 9:27 PM, Aleksandar Markovic wrote:
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> This series includes misc MIPS patches intended to be integrated after
+> 4.1 release.
+> 
+> Yongbok Kim (4):
+>   target/mips: Add support for DSPRAM
+>   target/mips: Amend CP0 WatchHi register implementation
+>   target/mips: Implement Global Invalidate TLB instruction
+>   target/mips: Add emulation of CRC32 instructions
 
+I'm interested in reviewing Yongbok's work but I won't have time before
+next week.
 
-r~
+Regards,
+
+Phil.
 
