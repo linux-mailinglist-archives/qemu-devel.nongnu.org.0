@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6FA7DE4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 16:55:46 +0200 (CEST)
-Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3457B7DE4F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 16:57:02 +0200 (CEST)
+Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htCUb-0003XZ-Ax
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 10:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59693)
+	id 1htCVp-0004cV-Ez
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 10:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59868)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htCSV-00030e-Iz
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:53:36 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htCTH-0003Um-8H
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:54:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htCSU-0002TC-KI
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:53:35 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33971)
+ (envelope-from <richard.henderson@linaro.org>) id 1htCTD-0002qV-OH
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:54:20 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37363)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htCSU-0002SZ-Az
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:53:34 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n9so28123732pgc.1
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 07:53:34 -0700 (PDT)
+ id 1htCTD-0002qC-IK
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:54:19 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 19so34213459pfa.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 07:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MWsR468tIvrM3cAel2+h/IK2I8O0glNd0lF4xCbxLn4=;
- b=j4qRHnjH0VbNLvTj4+kFZJswQvJsnB0SanrrT5OadMfuDjldxC4Znt7Y4jmKiTVDdR
- 6aZKDysyJRzsHRe1fT3LSGWvV4/Y3kvLICzCCcF7DAODvoravyQbOgeEUf4tWaaybXZs
- 8hzSUPzMse4Yw0VSpX4HbvKfmoQLwaczwV+a7bqvgIzPS7Yk75H+yg3qF/T/nys5ehnM
- 9CXvv1HkR25rGtW7NKYO4CheA9rgGXpseOZb0PwJYlT6sMlEDNUIXtiD4GFu3Dqy+fT9
- l9qxw7c89DVC3djdAmaVV3RigSLuLvZWRbYvnYGcZthUWfoKPFFKvcPCi20dM23uprL6
- 65Sg==
+ bh=kFCjhxTGbOWf2krvGJS1xb2MF6IG5S6M3NB1ajDUNCc=;
+ b=n5pPLXazZD5J2kcPrvnafq+64FPtcBc2hwo61s6TZOnmQ9xgR/rcZIiwiyk4Aa0wv/
+ kOx0lbvhnoohcX5wsM09Fu7YlaEfpnnrfampJUArbXOyzKVUaNEF1da6GmlTiWO0y+74
+ itR0tave+SBd+nrdI5CAeRArQZJf972zv03PnHA+mN3vTFeENTJ/YeBO48IROsfKqsJe
+ nrP/eOnw9W8h6dUecmNpJA74RdyPPqmBXQmHZGLRPAA+MW8Bz+IyfQMgfR7VuQ0zLT7a
+ j2XdxprwCcqW6N2Pc+6Fv2WR4h9H83l448AyhwIBlEO8E3889sWG7XRWGnWo8flTNTRA
+ Lt0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MWsR468tIvrM3cAel2+h/IK2I8O0glNd0lF4xCbxLn4=;
- b=TTlxXkvx4gYagflBug/efb/sKFbticc0W1paMSXqZMFzi7dxZgaRbh7B9BQBpcozcB
- FPuTEIa+Vhl367+Hp+m9SygsjX7K4qLwSDLQsVDnqMr1W3hE3eoZzQY5lrnhvhZu/7EH
- nROrmGaZ5wvYr57/1Yv7Sn9S+Xskfmddj9sPFMfAiKzjgMocTNbcyQ8GMLRVlw/ykoCA
- L/3/tnP7rDnGWw+vz+VIO5GBwi++Aw6cHbZWTES73OP+eC/9rWBBOSmchDjkhk4ODSal
- CbCEyy0gfo6CAEuwVthHn7JY3O2vTbvH5jWznwDWR9h26N/vIg9fDof8KxbMzxNPEAJu
- DTew==
-X-Gm-Message-State: APjAAAVCn9co/bVYPossN1doOLFqmQv731C6sL5wZChGJtrdRxFsIV+n
- tkeesV/WrxDl46//H+5C/WVtnQ==
-X-Google-Smtp-Source: APXvYqwa2AUTiqBWCnShkEMIDIZfcbcI8PrTItWzNTqe8ieIw/nzfDbKCqg5kdeHksuDDXuPe3/JeA==
-X-Received: by 2002:a62:2582:: with SMTP id l124mr53554217pfl.43.1564671212952; 
- Thu, 01 Aug 2019 07:53:32 -0700 (PDT)
+ bh=kFCjhxTGbOWf2krvGJS1xb2MF6IG5S6M3NB1ajDUNCc=;
+ b=e55cPcBrUuYPlc0fwHt42swt70fZj2EzADqZalNTPBa59yvRrTQfxQhrj3FtyjUL0J
+ ubiHjk71avSG7MtRh0bxvYGjktSW9dh+rhGJNBhiKJma5adgVCtMCSDX8wMAYPraPuyZ
+ ReNaXPTM9I2g/N9XC3BCohctBLDf1imPLi1QTAHk8jXikLuaN8tZJ+EPeGjNBHKCxQji
+ p9gQTWX1jcq0WnRGhf6oqeE83tPgdRhQWGlDVTZPs7x+07QI7DerIXnuk0XuKkrCM+AW
+ p2WWL8RPZ7LY+3B+ScWzobxPMOtuuEeYjRYwjpObFRM1XGaB2wE7JiaCj+zfIuGpuxQ7
+ TlRw==
+X-Gm-Message-State: APjAAAX8vmerso3w4VvzmoQ1PdgrgbNEmQ0zGpIrioZW+10LTJXfkbtO
+ 68uN3/bKFjqaI7ijgfCNWKhwnA==
+X-Google-Smtp-Source: APXvYqxV2vNZtkGVy8IpNx8jsQIUyv/VMIdKZjLqP3rGe3sE3Av3MZjBKtxl+uJHOjXYGozEzT/giQ==
+X-Received: by 2002:a17:90a:db52:: with SMTP id
+ u18mr9222461pjx.107.1564671258601; 
+ Thu, 01 Aug 2019 07:54:18 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id y23sm74089182pfo.106.2019.08.01.07.53.31
+ by smtp.gmail.com with ESMTPSA id v18sm70594123pgl.87.2019.08.01.07.54.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Aug 2019 07:53:32 -0700 (PDT)
+ Thu, 01 Aug 2019 07:54:18 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-5-alex.bennee@linaro.org>
+ <20190731160719.11396-6-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <d7e3ade9-b0f6-b767-e0a1-dfe56f04c842@linaro.org>
-Date: Thu, 1 Aug 2019 07:53:30 -0700
+Message-ID: <bd476586-ad3f-06ec-58f5-8b6b441bb9cc@linaro.org>
+Date: Thu, 1 Aug 2019 07:54:15 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190731160719.11396-5-alex.bennee@linaro.org>
+In-Reply-To: <20190731160719.11396-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH v4 04/54] target/arm: remove run time
- semihosting checks
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v4 05/54] includes: remove stale
+ [smp|max]_cpus externs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,41 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, aaron@os.amperecomputing.com,
- cota@braap.org, bobby.prani@gmail.com,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Cc: bobby.prani@gmail.com, cota@braap.org, aaron@os.amperecomputing.com,
+ Like Xu <like.xu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/31/19 9:06 AM, Alex Bennée wrote:
-> -static inline bool check_for_semihosting(CPUState *cs)
-> +/*
-> + * Do semihosting call and set the appropriate return value. All the
-> + * permission and validity checks have been done at translate time.
-> + *
-> + * We only see semihosting exceptions in TCG only as they are not
-> + * trapped to the hypervisor in KVM.
-> + */
-> +static void handle_semihosting(CPUState *cs)
->  {
->  #ifdef CONFIG_TCG
+> Commit a5e0b3311 removed these in favour of querying machine
+> properties. Remove the extern declarations as well.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Like Xu <like.xu@linux.intel.com>
+> Message-Id: <20190711130546.18578-1-alex.bennee@linaro.org>
+> ---
+>  include/sysemu/sysemu.h | 2 --
+>  1 file changed, 2 deletions(-)
 
-Let's move the ifdef outside the function...
-
-> -    if (check_for_semihosting(cs)) {
-> +    if (cs->exception_index == EXCP_SEMIHOST) {
-> +        handle_semihosting(cs);
->          return;
->      }
-
-... and put another one here.
-
-Peter described how we can't get EXCP_SEMIHOST here from kvm, and suggested an
-assert.  Well, the assert is already present just below:
-
-    assert(!excp_is_internal(cs->exception_index));
-
-All we need to do is not return early beforehand.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
