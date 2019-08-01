@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BD07DB8A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 14:32:09 +0200 (CEST)
-Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D207DBD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 14:47:50 +0200 (CEST)
+Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htAFc-0007Vm-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 08:32:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45600)
+	id 1htAUn-0006AP-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 08:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htA8C-00036l-JK
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:24:29 -0400
+ (envelope-from <ning.bo9@zte.com.cn>) id 1ht5Sj-0001cF-Ns
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 03:25:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htA8B-0004Q0-LB
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:24:28 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:57751 helo=mail.rt-rk.com)
+ (envelope-from <ning.bo9@zte.com.cn>) id 1ht5Si-0007il-Ft
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 03:25:21 -0400
+Received: from mxhk.zte.com.cn ([63.217.80.70]:26146)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1htA8B-0004Ph-Ci
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:24:27 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 5A5BE1A215B;
- Thu,  1 Aug 2019 14:24:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 377B01A20CF;
- Thu,  1 Aug 2019 14:24:25 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 14:21:16 +0200
-Message-Id: <1564662076-17964-16-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564662076-17964-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1564662076-17964-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v5 15/15] linux-user: Add support for
- semtimedop() syscall
+ (Exim 4.71) (envelope-from <ning.bo9@zte.com.cn>) id 1ht5Si-0007fv-6O
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 03:25:20 -0400
+Received: from mse-fl2.zte.com.cn (unknown [10.30.14.239])
+ by Forcepoint Email with ESMTPS id 82BED8AFCE4C014F1806;
+ Thu,  1 Aug 2019 15:25:10 +0800 (CST)
+Received: from notes_smtp.zte.com.cn ([10.30.1.239])
+ by mse-fl2.zte.com.cn with ESMTP id x717P9K8077670;
+ Thu, 1 Aug 2019 15:25:09 +0800 (GMT-8)
+ (envelope-from ning.bo9@zte.com.cn)
+Received: from kvm-146.localdomain ([10.74.120.146])
+ by szsmtp06.zte.com.cn (Lotus Domino Release 8.5.3FP6)
+ with ESMTP id 2019080115252831-2696892 ;
+ Thu, 1 Aug 2019 15:25:28 +0800 
+From: Ning Bo <ning.bo9@zte.com.cn>
+To: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com
+Date: Thu, 1 Aug 2019 15:28:53 +0800
+Message-Id: <1564644533-28850-1-git-send-email-ning.bo9@zte.com.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-MIMETrack: Itemize by SMTP Server on SZSMTP06/server/zte_ltd(Release
+ 8.5.3FP6|November 21, 2013) at 2019-08-01 15:25:28,
+ Serialize by Router on notes_smtp/zte_ltd(Release 9.0.1FP7|August  17, 2016) at
+ 2019-08-01 15:25:04, Serialize complete at 2019-08-01 15:25:04
+X-MAIL: mse-fl2.zte.com.cn x717P9K8077670
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.217.80.70
+X-Mailman-Approved-At: Thu, 01 Aug 2019 08:47:18 -0400
+Subject: [Qemu-devel] [PATCH] vhost-vsock: report QMP event when set running
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,85 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, laurent@vivier.eu,
- amarkovic@wavecomp.com
+Cc: Ning Bo <ning.bo9@zte.com.cn>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Rikalo <arikalo@wavecomp.com>
+Report vsock running event so that the upper application can
+control boot sequence.
+see https://github.com/kata-containers/runtime/pull/1918
 
-Add support for semtimedop() emulation. It is based on invocation
-of safe_semtimedop().
-
-Conversion is left out of safe_semtimedop(), since other safe_xxx()
-usually don't contain similar conversions.
-
-Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Signed-off-by: Ning Bo <ning.bo9@zte.com.cn>
 ---
- linux-user/syscall.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ hw/virtio/vhost-vsock.c |  3 +++
+ qapi/char.json          | 22 ++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ee80175..6825458 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6650,7 +6650,43 @@ static inline abi_long host_to_target_statx(struct target_statx *host_stx,
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index 0371493..a5920fd 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -22,6 +22,7 @@
+ #include "qemu/iov.h"
+ #include "qemu/module.h"
+ #include "monitor/monitor.h"
++#include "qapi/qapi-events-char.h"
+ 
+ enum {
+     VHOST_VSOCK_SAVEVM_VERSION = 0,
+@@ -68,6 +69,8 @@ static int vhost_vsock_set_running(VHostVSock *vsock, int start)
+     if (ret < 0) {
+         return -errno;
+     }
++    qapi_event_send_vsock_running(vsock->conf.guest_cid, start != 0);
++
      return 0;
  }
- #endif
-+#ifdef TARGET_NR_semtimedop
-+static inline abi_long do_semtimedop(int semid, abi_long ptr, unsigned nsops,
-+                                     abi_long timeout)
-+{
-+    struct sembuf *sops;
-+    struct timespec ts, *pts;
-+    abi_long ret;
-+
-+    if (timeout) {
-+        pts = &ts;
-+        if (target_to_host_timespec(pts, timeout)) {
-+            return -TARGET_EFAULT;
-+        }
-+    } else {
-+        pts = NULL;
-+    }
  
-+    sops = g_malloc(sizeof(struct sembuf) * nsops);
-+    if (sops == NULL) {
-+        return -TARGET_EFAULT;
-+    }
+diff --git a/qapi/char.json b/qapi/char.json
+index a6e81ac..7b746e3 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -570,3 +570,25 @@
+ { 'event': 'VSERPORT_CHANGE',
+   'data': { 'id': 'str',
+             'open': 'bool' } }
 +
-+    if (target_to_host_sembuf(sops, ptr, nsops)) {
-+        g_free(sops);
-+        return -TARGET_EFAULT;
-+    }
-+
-+#ifdef __NR_semtimedop
-+    ret = get_errno(safe_semtimedop(semid, sops, nsops, pts));
-+#else
-+    ret = -TARGET_ENOSYS;
-+#endif
-+    g_free(sops);
-+
-+    return ret;
-+}
-+#endif
- 
- /* ??? Using host futex calls even when target atomic operations
-    are not really atomic probably breaks things.  However implementing
-@@ -9194,6 +9230,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_semop:
-         return do_semop(arg1, arg2, arg3);
- #endif
-+#ifdef TARGET_NR_semtimedop
-+    case TARGET_NR_semtimedop:
-+        return do_semtimedop(arg1, arg2, arg3, arg4);
-+#endif
- #ifdef TARGET_NR_semctl
-     case TARGET_NR_semctl:
-         return do_semctl(arg1, arg2, arg3, arg4);
++##
++# @VSOCK_RUNNING:
++#
++# Emitted when the guest changes the vsock status.
++#
++# @cid: guest context ID
++#
++# @running: true if the vsock is running
++#
++# Since: v4.2
++#
++# Example:
++#
++# <- { "event": "VSOCK_RUNNING",
++#      "data": { "cid": "123456", "running": true },
++#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
++#
++##
++{ 'event': 'VSOCK_RUNNING',
++  'data': { 'cid': 'uint64',
++            'running': 'bool' } }
 -- 
-2.7.4
+2.9.5
 
 
