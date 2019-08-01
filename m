@@ -2,83 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522BC7E12E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:37:06 +0200 (CEST)
-Received: from localhost ([::1]:57966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB337E14D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:43:45 +0200 (CEST)
+Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htF0j-0001MZ-BK
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
+	id 1htF7A-0004Kv-8b
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49409)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1htEzL-0000if-2q
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:35:40 -0400
+ (envelope-from <mreitz@redhat.com>) id 1htF35-0002Ib-Hi
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:39:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1htEzJ-00038B-JN
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:35:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46976)
+ (envelope-from <mreitz@redhat.com>) id 1htF2s-0005Gt-Fb
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:39:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40852)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1htEzE-0002yf-Ou; Thu, 01 Aug 2019 13:35:33 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1htF2i-00054F-Kg; Thu, 01 Aug 2019 13:39:08 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E6CC93110730;
- Thu,  1 Aug 2019 17:35:24 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-187.brq.redhat.com
- [10.40.204.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26DC160922;
- Thu,  1 Aug 2019 17:35:20 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190801151235.8434-1-mreitz@redhat.com>
- <20190801151235.8434-3-mreitz@redhat.com>
- <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
- <738d7105-f91e-76ad-c2e6-cd5b32b846ef@redhat.com>
- <274d65f2-1b42-8585-3c6f-1ee711c2bb09@virtuozzo.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 15B7268D57;
+ Thu,  1 Aug 2019 17:39:05 +0000 (UTC)
+Received: from localhost (ovpn-204-187.brq.redhat.com [10.40.204.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58A741001281;
+ Thu,  1 Aug 2019 17:39:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <02a05f35-cedd-65c1-aafc-01183e5ba91d@redhat.com>
-Date: Thu, 1 Aug 2019 19:35:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+To: qemu-block@nongnu.org
+Date: Thu,  1 Aug 2019 19:38:58 +0200
+Message-Id: <20190801173900.23851-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <274d65f2-1b42-8585-3c6f-1ee711c2bb09@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8eg7kY7pqLfvLI3mi1BfGVbvwfYJ0Tviw"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 01 Aug 2019 17:35:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Thu, 01 Aug 2019 17:39:05 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.1 2/2] iotests: Test backup job with
- two guest writes
+Subject: [Qemu-devel] [PATCH v2 for-4.1 0/2] backup: Copy only dirty areas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,239 +53,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8eg7kY7pqLfvLI3mi1BfGVbvwfYJ0Tviw
-Content-Type: multipart/mixed; boundary="5rZy9ovvglD4DAZp5V4FcvYuhYMAYI6m8";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <02a05f35-cedd-65c1-aafc-01183e5ba91d@redhat.com>
-Subject: Re: [PATCH for-4.1 2/2] iotests: Test backup job with two guest
- writes
-References: <20190801151235.8434-1-mreitz@redhat.com>
- <20190801151235.8434-3-mreitz@redhat.com>
- <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
- <738d7105-f91e-76ad-c2e6-cd5b32b846ef@redhat.com>
- <274d65f2-1b42-8585-3c6f-1ee711c2bb09@virtuozzo.com>
-In-Reply-To: <274d65f2-1b42-8585-3c6f-1ee711c2bb09@virtuozzo.com>
+Hi,
 
---5rZy9ovvglD4DAZp5V4FcvYuhYMAYI6m8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+In a discussion with Vladimir today, we noticed that the backup job
+currently is pretty broken when using copy offloading.  I don=E2=80=99t k=
+now
+about you, but my local filesystem (XFS) supports copy offloading, so
+the job uses it automatically.  That means, that backup is broken and
+has been broken for a year on my local FS.
 
-On 01.08.19 19:25, Vladimir Sementsov-Ogievskiy wrote:
-> 01.08.2019 20:06, Max Reitz wrote:
->> On 01.08.19 18:03, Vladimir Sementsov-Ogievskiy wrote:
->>> 01.08.2019 18:12, Max Reitz wrote:
->>>> Perform two guest writes to not yet backed up areas of an image, whe=
-re
->>>> the former touches an inner area of the latter.
->>>>
->>>> Before HEAD^, copy offloading broke this in two ways:
->>>> (1) The output differs from the reference output (what the source wa=
-s
->>>>       before the guest writes).
->>>> (2) But you will not see that in the failing output, because the job=
-
->>>>       offset is reported as being greater than the job length.  This=
- is
->>>>       because one cluster is copied twice, and thus accounted for tw=
-ice,
->>>>       but of course the job length does not increase.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>    tests/qemu-iotests/056     | 34 +++++++++++++++++++++++++++++++++=
-+
->>>>    tests/qemu-iotests/056.out |  4 ++--
->>>>    2 files changed, 36 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
->>>> index f40fc11a09..d7198507f5 100755
->>>> --- a/tests/qemu-iotests/056
->>>> +++ b/tests/qemu-iotests/056
->>>> @@ -133,6 +133,7 @@ class BackupTest(iotests.QMPTestCase):
->>>>            self.vm =3D iotests.VM()
->>>>            self.test_img =3D img_create('test')
->>>>            self.dest_img =3D img_create('dest')
->>>> +        self.ref_img =3D img_create('ref')
->>>>            self.vm.add_drive(self.test_img)
->>>>            self.vm.launch()
->>>>   =20
->>>> @@ -140,6 +141,7 @@ class BackupTest(iotests.QMPTestCase):
->>>>            self.vm.shutdown()
->>>>            try_remove(self.test_img)
->>>>            try_remove(self.dest_img)
->>>> +        try_remove(self.ref_img)
->>>>   =20
->>>>        def hmp_io_writes(self, drive, patterns):
->>>>            for pattern in patterns:
->>>> @@ -177,6 +179,38 @@ class BackupTest(iotests.QMPTestCase):
->>>>                self.assert_qmp(event, 'data/error', qerror)
->>>>                return False
->>>>   =20
->>>> +    def test_overlapping_writes(self):
->>>> +        # Write something to back up
->>>> +        self.hmp_io_writes('drive0', [('42', '0M', '2M')])
->>>> +
->>>> +        # Create a reference backup
->>>> +        self.qmp_backup_and_wait(device=3D'drive0', format=3Diotest=
-s.imgfmt,
->>>> +                                 sync=3D'full', target=3Dself.ref_i=
-mg)
->>>> +
->>>> +        # Now to the test backup: We simulate the following guest
->>>> +        # writes:
->>>> +        # (1) [1M + 64k, 1M + 128k): Afterwards, everything in that=
-
->>>> +        #     area should be in the target image, and we must not c=
-opy
->>>> +        #     it again (because the source image has changed now)
->>>> +        #     (64k is the job's cluster size)
->>>> +        # (2) [1M, 2M): The backup job must not get overeager.  It
->>>> +        #     must copy [1M, 1M + 64k) and [1M + 128k, 2M) separate=
-ly,
->>>> +        #     but not the area in between.
->>>> +
->>>> +        self.qmp_backup(device=3D'drive0', format=3Diotests.imgfmt,=
- sync=3D'full',
->>>> +                        target=3Dself.dest_img, speed=3D1)
->>>> +
->>>> +        self.hmp_io_writes('drive0', [('23', '%ik' % (1024 + 64), '=
-64k'),
->>>> +                                      ('66', '1M', '1M')])
->>>> +
->>>> +        # Let the job complete
->>>> +        res =3D self.vm.qmp('block-job-set-speed', device=3D'drive0=
-', speed=3D0)
->>>> +        self.assert_qmp(res, 'return', {})
->>>> +        self.qmp_backup_wait('drive0')
->>>> +
->>>> +        self.assertTrue(iotests.compare_images(self.ref_img, self.d=
-est_img),
->>>> +                        'target image does not match reference imag=
-e')
->>>> +
->>>>        def test_dismiss_false(self):
->>>>            res =3D self.vm.qmp('query-block-jobs')
->>>>            self.assert_qmp(res, 'return', [])
->>>> diff --git a/tests/qemu-iotests/056.out b/tests/qemu-iotests/056.out=
-
->>>> index dae404e278..36376bed87 100644
->>>> --- a/tests/qemu-iotests/056.out
->>>> +++ b/tests/qemu-iotests/056.out
->>>> @@ -1,5 +1,5 @@
->>>> -.........
->>>> +..........
->>>>    -----------------------------------------------------------------=
------
->>>> -Ran 9 tests
->>>> +Ran 10 tests
->>>>   =20
->>>>    OK
->>>>
->>>
->>> Failed for me:
->>> -..........
->>> +qemu-img: Could not open '/work/src/qemu/master/tests/qemu-iotests/s=
-cratch/dest.qcow2': Failed to get shared "write" lock
->>> +Is another process using the image [/work/src/qemu/master/tests/qemu=
--iotests/scratch/dest.qcow2]?
->>> +......F...
->>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> +FAIL: test_overlapping_writes (__main__.BackupTest)
->>> +--------------------------------------------------------------------=
---
->>> +Traceback (most recent call last):
->>> +  File "056", line 212, in test_overlapping_writes
->>> +    'target image does not match reference image')
->>> +AssertionError: False is not true : target image does not match refe=
-rence image
->>> +
->>>    ------------------------------------------------------------------=
-----
->>>    Ran 10 tests
->>>
->>> -OK
->>> +FAILED (failures=3D1)
->>
->> Hm.  I hoped seeing BLOCK_JOB_COMPLETED would be enough.
->=20
-> The problem is higher: "Failed to get shared "write" lock". Because of =
-this iotests.compare_images
-> can't work. So, because of locking, we need to shutdown qemu before sta=
-rting qemu-img.
-> And it's done so in test_complete_top() (I just looked at it as it's th=
-e only other user of compare_images
-> in 056)
-
-The destination image shouldn=E2=80=99t be in use by qemu after the block=
- job is
-done, though.  Therefore, there shouldn=E2=80=99t be a lock issue.  That=E2=
-=80=99s what
-I meant.
-
-Max
-
->>> So, with applied
->>>
->>> @@ -207,6 +207,7 @@ class BackupTest(iotests.QMPTestCase):
->>>            res =3D self.vm.qmp('block-job-set-speed', device=3D'drive=
-0', speed=3D0)
->>>            self.assert_qmp(res, 'return', {})
->>>            self.qmp_backup_wait('drive0')
->>> +        self.vm.shutdown()
->>>
->>>            self.assertTrue(iotests.compare_images(self.ref_img, self.=
-dest_img),
->>>                            'target image does not match reference ima=
-ge')
->>
->> I=E2=80=99d personally prefer auto_dismiss=3DFalse and then block-job-=
-dismiss.
->> Although I can=E2=80=99t give a reason why.
->>
->>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>
->> In any case, thanks!
->>
->> Max
->>
->=20
->=20
+The last working version was 2.12, so this isn=E2=80=99t a regression in =
+4.1.
+We could thus justify moving it to 4.2.  But I think this should really
+go into 4.1, because this is not really an edge case and as far as I
+know users cannot do anything to prevent the backup job from performing
+copy offloading if the system and all involved block drivers support it.
+I just wonder why nobody has noticed...
 
 
+v2:
+- Test case: Use auto-dismiss=3DFalse for the backup jobs and explicitly
+  dismiss them, so we know for sure that the reference and destination
+  images are no longer in use by qemu by the time we want to compare
+  them (reported by Vladimir)
 
---5rZy9ovvglD4DAZp5V4FcvYuhYMAYI6m8--
 
---8eg7kY7pqLfvLI3mi1BfGVbvwfYJ0Tviw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+git-backport-diff against v1:
 
------BEGIN PGP SIGNATURE-----
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1DItcACgkQ9AfbAGHV
-z0DQoggAoNVAr/T+nAqBBm7RumPCT+yGvpAlnweEJMi2JXoXqXwpJS8sClmiXP9I
-6vEfnKYfCoHELU6+Imy/Y0tdTimXZP73ZH7v9TQk7aLwYL4s5QnTPdbYLhCDBFZh
-IDHqlJc4m1JUHCPN25bqLR/rJ/QDraK7M0n+rNUlXx9hmFAqwueGUFGwSlku07PO
-QNNtHo/e1uBQ5RyKNFfV13HoNhepgEaJglZ5SJ0z/vf+WGrMO8yEpRagg4wHXNE+
-q1drxbzw0dQ1dmOmL7HtrYLFcSepdl8C3Wjd5BXvViUubYYeG1fgvPzkOuVm2fgC
-GCGm2E5NH8M6VXPP28v2FEPrntrzcw==
-=xGAO
------END PGP SIGNATURE-----
+001/2:[----] [--] 'backup: Copy only dirty areas'
+002/2:[0009] [FC] 'iotests: Test backup job with two guest writes'
 
---8eg7kY7pqLfvLI3mi1BfGVbvwfYJ0Tviw--
+
+Max Reitz (2):
+  backup: Copy only dirty areas
+  iotests: Test backup job with two guest writes
+
+ block/backup.c             | 13 +++++++++++--
+ tests/qemu-iotests/056     | 39 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/056.out |  4 ++--
+ 3 files changed, 52 insertions(+), 4 deletions(-)
+
+--=20
+2.21.0
+
 
