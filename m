@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0650E7E0A0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:55:43 +0200 (CEST)
-Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BF17E0A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 18:58:01 +0200 (CEST)
+Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htEMg-0005ax-4G
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:55:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
+	id 1htEOu-00089E-RA
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 12:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57699)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htEFa-0004va-8k
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htEFa-0004vX-8q
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:48:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htEFY-0006Bc-5F
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htEFY-0006BV-4X
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:48:22 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:35918 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:35921 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1htEFX-00067o-0z
+ id 1htEFX-00067q-1P
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:48:20 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 358DF1A22B0;
+ by mail.rt-rk.com (Postfix) with ESMTP id 45D141A2276;
  Thu,  1 Aug 2019 18:48:15 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 1C74C1A22A2;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 238A91A2279;
  Thu,  1 Aug 2019 18:48:15 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 18:45:20 +0200
-Message-Id: <1564677923-23173-10-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu,  1 Aug 2019 18:45:21 +0200
+Message-Id: <1564677923-23173-11-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564677923-23173-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1564677923-23173-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH for 4.2 v5 09/12] target/mips: Style
- improvements in internal.h
+Subject: [Qemu-devel] [PATCH for 4.2 v5 10/12] target/mips: Style
+ improvements in machine.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,111 +61,31 @@ Fixes mostly errors and warings reported by 'checkpatch.pl -f'.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- target/mips/internal.h | 57 +++++++++++++++++++++++++++++++-------------------
- 1 file changed, 35 insertions(+), 22 deletions(-)
+ target/mips/machine.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index d9216fb..836de7a 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -1,4 +1,5 @@
--/* mips internal definitions and helpers
-+/*
-+ * MIPS internal definitions and helpers
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -8,8 +9,10 @@
- #define MIPS_INTERNAL_H
- 
- 
--/* MMU types, the first four entries have the same layout as the
--   CP0C0_MT field.  */
-+/*
-+ * MMU types, the first four entries have the same layout as the
-+ * CP0C0_MT field.
-+ */
- enum mips_mmu_types {
-     MMU_TYPE_NONE,
-     MMU_TYPE_R4000,
-@@ -159,9 +162,11 @@ static inline bool cpu_mips_hw_interrupts_enabled(CPUMIPSState *env)
-         !(env->CP0_Status & (1 << CP0St_EXL)) &&
-         !(env->CP0_Status & (1 << CP0St_ERL)) &&
-         !(env->hflags & MIPS_HFLAG_DM) &&
--        /* Note that the TCStatus IXMT field is initialized to zero,
--           and only MT capable cores can set it to one. So we don't
--           need to check for MT capabilities here.  */
-+        /*
-+         * Note that the TCStatus IXMT field is initialized to zero,
-+         * and only MT capable cores can set it to one. So we don't
-+         * need to check for MT capabilities here.
-+         */
-         !(env->active_tc.CP0_TCStatus & (1 << CP0TCSt_IXMT));
- }
- 
-@@ -176,14 +181,18 @@ static inline bool cpu_mips_hw_interrupts_pending(CPUMIPSState *env)
-     status = env->CP0_Status & CP0Ca_IP_mask;
- 
-     if (env->CP0_Config3 & (1 << CP0C3_VEIC)) {
--        /* A MIPS configured with a vectorizing external interrupt controller
--           will feed a vector into the Cause pending lines. The core treats
--           the status lines as a vector level, not as indiviual masks.  */
-+        /*
-+         * A MIPS configured with a vectorizing external interrupt controller
-+         * will feed a vector into the Cause pending lines. The core treats
-+         * the status lines as a vector level, not as indiviual masks.
-+         */
-         r = pending > status;
-     } else {
--        /* A MIPS configured with compatibility or VInt (Vectored Interrupts)
--           treats the pending lines as individual interrupt lines, the status
--           lines are individual masks.  */
-+        /*
-+         * A MIPS configured with compatibility or VInt (Vectored Interrupts)
-+         * treats the pending lines as individual interrupt lines, the status
-+         * lines are individual masks.
-+         */
-         r = (pending & status) != 0;
+diff --git a/target/mips/machine.c b/target/mips/machine.c
+index e23b767..06887d8 100644
+--- a/target/mips/machine.c
++++ b/target/mips/machine.c
+@@ -25,7 +25,7 @@ static int get_fpr(QEMUFile *f, void *pv, size_t size,
+     int i;
+     fpr_t *v = pv;
+     /* Restore entire MSA vector register */
+-    for (i = 0; i < MSA_WRLEN/64; i++) {
++    for (i = 0; i < MSA_WRLEN / 64; i++) {
+         qemu_get_sbe64s(f, &v->wr.d[i]);
      }
-     return r;
-@@ -268,12 +277,14 @@ static inline int mips_vpe_active(CPUMIPSState *env)
-         active = 0;
+     return 0;
+@@ -37,7 +37,7 @@ static int put_fpr(QEMUFile *f, void *pv, size_t size,
+     int i;
+     fpr_t *v = pv;
+     /* Save entire MSA vector register */
+-    for (i = 0; i < MSA_WRLEN/64; i++) {
++    for (i = 0; i < MSA_WRLEN / 64; i++) {
+         qemu_put_sbe64s(f, &v->wr.d[i]);
      }
  
--    /* Now verify that there are active thread contexts in the VPE.
--
--       This assumes the CPU model will internally reschedule threads
--       if the active one goes to sleep. If there are no threads available
--       the active one will be in a sleeping state, and we can turn off
--       the entire VPE.  */
-+    /*
-+     * Now verify that there are active thread contexts in the VPE.
-+     *
-+     * This assumes the CPU model will internally reschedule threads
-+     * if the active one goes to sleep. If there are no threads available
-+     * the active one will be in a sleeping state, and we can turn off
-+     * the entire VPE.
-+     */
-     if (!(env->active_tc.CP0_TCStatus & (1 << CP0TCSt_A))) {
-         /* TC is not activated.  */
-         active = 0;
-@@ -396,10 +407,12 @@ static inline void compute_hflags(CPUMIPSState *env)
-             env->hflags |= MIPS_HFLAG_COP1X;
-         }
-     } else if (env->insn_flags & ISA_MIPS4) {
--        /* All supported MIPS IV CPUs use the XX (CU3) to enable
--           and disable the MIPS IV extensions to the MIPS III ISA.
--           Some other MIPS IV CPUs ignore the bit, so the check here
--           would be too restrictive for them.  */
-+        /*
-+         * All supported MIPS IV CPUs use the XX (CU3) to enable
-+         * and disable the MIPS IV extensions to the MIPS III ISA.
-+         * Some other MIPS IV CPUs ignore the bit, so the check here
-+         * would be too restrictive for them.
-+         */
-         if (env->CP0_Status & (1U << CP0St_CU3)) {
-             env->hflags |= MIPS_HFLAG_COP1X;
-         }
 -- 
 2.7.4
 
