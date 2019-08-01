@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048A27E6F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 01:50:51 +0200 (CEST)
-Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDA27E6F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 01:51:13 +0200 (CEST)
+Received: from localhost ([::1]:59854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htKqQ-0004bi-7q
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 19:50:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32919)
+	id 1htKqm-0004pP-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 19:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33229)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mehta.aaru20@gmail.com>) id 1htKiY-0007d2-0X
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 19:42:43 -0400
+ (envelope-from <mehta.aaru20@gmail.com>) id 1htKiz-00083B-8W
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 19:43:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mehta.aaru20@gmail.com>) id 1htKiW-0003gm-I0
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 19:42:41 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34160)
+ (envelope-from <mehta.aaru20@gmail.com>) id 1htKiy-00041x-5A
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 19:43:09 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41302)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
- id 1htKiW-0003fp-B5; Thu, 01 Aug 2019 19:42:40 -0400
-Received: by mail-pf1-x433.google.com with SMTP id b13so34953780pfo.1;
- Thu, 01 Aug 2019 16:42:40 -0700 (PDT)
+ id 1htKiu-0003xq-6k; Thu, 01 Aug 2019 19:43:06 -0400
+Received: by mail-pf1-x442.google.com with SMTP id m30so34966476pff.8;
+ Thu, 01 Aug 2019 16:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IkdMZ1ySU5K9IoJU/TAak65ZSyC3YEsojkXSiNxLvTQ=;
- b=DyuhMEx8ZfB0/vNvAgyRo5rficWwNFxCStGOnRbdr7MPD228ZwQfaaFGp+f7p7UPjG
- D5uCqg8+ZflqQkBTSQU3ZnG+0e2DXJOsZKSSLsyVLPGTXh7JhFrrLe8NETjDil9aJE8m
- S2fdYouXgZ8wXKxPOQsTOPRZnX0VYeppz7dvITKbMAFNtjbDh9apZqe0uqDkDpDl917M
- /wm9pLX4QipU+uHf87ybiNy3eMJZo3DC2Qoxr5F7aq3Xu4CQ0Aqf0Gcgm8z7XJlLCOW+
- 3xeXneQZSLgI8J15vIln/CPwXYR4DchNB6Xrtz8d0d8NyuSxAYvRGXfufdO23EJxtXaV
- p4yw==
+ bh=SGET1+BaXv2xF+ZaaIzchQNPmiaNzqs+vIMzu3BZllk=;
+ b=Dop9sJpGk0rej4dqIPkKgIeYWb5+cQsQ9cwnjy91yPZ5P8xuHDUQeIHLOrTxnIZs3P
+ J7JapdHfhCl5v0BdOzVlqh5jIktZ+LSiXrnOLduNDelXb++bYY2fuBaj16fPnIS8HsSm
+ p/aBimOih24v1pwqysZjzTjgWxKzBwbFhxcdd1qhmyWhUGQ7dIb9rkfz7oRpLm9fafDZ
+ t8WwVGG+Yzzuaw0HiD+uY/1kTsfgIXVs6kasYEPv88iUm/aTHcaJUi2ZarZCM2VdlwBd
+ YjWJiskUkK4JCjXawYkgVJzLKriKiZ3prjW0zysRd9QOXmEfw6dASvhIwdWulbgDiJsT
+ N0Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IkdMZ1ySU5K9IoJU/TAak65ZSyC3YEsojkXSiNxLvTQ=;
- b=dhRmC7Fi1oczKajn5XdcbEnLZsLIdgVztD0oUwLVRc7fWA4hZvDfUabwYMLZ6jVqoY
- kgCPAl99GfROMdW3xSEs32BjQmNWaNU0p38gNBo3OJdz3g3TGS9J4nboWgh8AdgAEJ5m
- o5IPp5ho1Q84fBz5k876Fwt1jLeWflpIEfXbs47nuIMnYpoM5ksROGdj309i1KJBhv/r
- dKbIr2P6XIJZqCX/RnAR90d2tEoj2ZzAmyPm4100lTb3q640/E4l0kgPIUU6+Jrv+gDr
- paosndXgTv1qnUrGysNn/aLid/MkSpDHYQewH+9DGyd3RFhr0zsWZB2+IzvIFw+O2wpE
- oyVw==
-X-Gm-Message-State: APjAAAV29Kd1Mz93GfXCslwN4no65ioDOs+wn+bP3dx/xmF1V3N4yjgU
- wc9hqm2M5hB7F+eyn+uzpM/pdfCrPPWwgw==
-X-Google-Smtp-Source: APXvYqzrxcJkyrEvAGW2yBmB4YhwQz5hroDzHegvdTpB5nGuklYb1OETgUY8KUqQV4jxw5UUksrgQw==
-X-Received: by 2002:a17:90a:f488:: with SMTP id
- bx8mr1293794pjb.91.1564702958794; 
- Thu, 01 Aug 2019 16:42:38 -0700 (PDT)
+ bh=SGET1+BaXv2xF+ZaaIzchQNPmiaNzqs+vIMzu3BZllk=;
+ b=L6m+FsBhih6NUiEtUEWJqpKZB7zOVjMtXNPP6WPTUJnnCQ+m22Lr+L75NnkzuAEuf6
+ A3PgTzqR+/z9RxYOKRPqRh1otM4s9PTARgiW3ldaD893fqkiR02FVwDoo1f9jDiKtWpv
+ O2WtesbrnWfeiQnvGOceNp+d4JGibwfW5FN59nCvCTJckvjH5xk10tVxQDX3xb3R/01l
+ 52Mn+Br+KrhzxZOCXG8DhESE13IJ1vyCrjlskPFhPC66FVLUDzV+b5D2oDHOiL+xDRgW
+ v//R5DgtgpT7+6oXpdIjP1iQk+Ls0q6bDiSTtk1/mmog5R0MlP4XOWc1UIWEFLTg40s/
+ Ggyg==
+X-Gm-Message-State: APjAAAWUpnCM3hr98qt//yH7fRxNRF1FVorMhD8lSzkSe52mg8Pv3z/I
+ DtmstvFu3ZTPb5xrJMJQgAmbiCA1q/+6kQ==
+X-Google-Smtp-Source: APXvYqxfPUnKHr7puIEXDDmluibt2ZKV+yxlgoiXaqu56BSvlkbkRLpdEyfes7hen9ChDBGaUAkL+w==
+X-Received: by 2002:a17:90a:fa07:: with SMTP id
+ cm7mr1320581pjb.115.1564702981638; 
+ Thu, 01 Aug 2019 16:43:01 -0700 (PDT)
 Received: from localhost.localdomain ([2402:3a80:572:3de5:765:cb16:92cd:ee3e])
  by smtp.gmail.com with ESMTPSA id
- g18sm117975426pgm.9.2019.08.01.16.42.32
+ g18sm117975426pgm.9.2019.08.01.16.42.51
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 01 Aug 2019 16:42:38 -0700 (PDT)
+ Thu, 01 Aug 2019 16:43:01 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  2 Aug 2019 05:10:28 +0530
-Message-Id: <20190801234031.29561-15-mehta.aaru20@gmail.com>
+Date: Fri,  2 Aug 2019 05:10:31 +0530
+Message-Id: <20190801234031.29561-18-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190801234031.29561-1-mehta.aaru20@gmail.com>
 References: <20190801234031.29561-1-mehta.aaru20@gmail.com>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::433
-Subject: [Qemu-devel] [PATCH v9 14/17] tests/qemu-iotests: enable testing
- with aio options
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v9 17/17] block/io_uring: enable kernel
+ submission polling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,150 +90,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/qemu-iotests/check      | 15 ++++++++++++++-
- tests/qemu-iotests/common.rc  | 14 ++++++++++++++
- tests/qemu-iotests/iotests.py |  9 ++++++++-
- 3 files changed, 36 insertions(+), 2 deletions(-)
+ block/io_uring.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index c24874ff4a..1e398923fd 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -132,6 +132,7 @@ sortme=false
- expunge=true
- have_test_arg=false
- cachemode=false
-+aiomode=false
- 
- tmp="${TEST_DIR}"/$$
- rm -f $tmp.list $tmp.tmp $tmp.sed
-@@ -141,6 +142,7 @@ export IMGFMT_GENERIC=true
- export IMGPROTO=file
- export IMGOPTS=""
- export CACHEMODE="writeback"
-+export AIOMODE="threads"
- export QEMU_IO_OPTIONS=""
- export QEMU_IO_OPTIONS_NO_FMT=""
- export CACHEMODE_IS_DEFAULT=true
-@@ -225,6 +227,11 @@ s/ .*//p
-         CACHEMODE_IS_DEFAULT=false
-         cachemode=false
-         continue
-+    elif $aiomode
-+    then
-+        AIOMODE="$r"
-+        aiomode=false
-+        continue
-     fi
- 
-     xpand=true
-@@ -269,6 +276,7 @@ other options
-     -n                  show me, do not run tests
-     -o options          -o options to pass to qemu-img create/convert
-     -c mode             cache mode
-+    -i mode             AIO mode
-     -makecheck          pretty print output for make check
- 
- testlist options
-@@ -433,10 +441,13 @@ testlist options
-             cachemode=true
-             xpand=false
-             ;;
-+        -i)
-+            aiomode=true
-+            xpand=false
-+            ;;
-         -T)        # deprecated timestamp option
-             xpand=false
-             ;;
--
-         -v)
-             verbose=true
-             xpand=false
-@@ -515,6 +526,8 @@ done
- 
- # Set qemu-io cache mode with $CACHEMODE we have
- QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --cache $CACHEMODE"
-+# Set qemu-io aio mode with $AIOMODE we have
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS --aio $AIOMODE"
- 
- QEMU_IO_OPTIONS_NO_FMT="$QEMU_IO_OPTIONS"
- if [ "$IMGOPTSSYNTAX" != "true" ]; then
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 5502c3da2f..03f4a1cd7f 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -490,6 +490,20 @@ _default_cache_mode()
-         return
-     fi
- }
-+_supported_aio_modes()
-+{
-+    for mode; do
-+        if [ "$mode" = "$AIOMODE" ]; then
-+            return
-+        fi
-+    done
-+    _notrun "not suitable for aio mode: $AIOMODE"
-+}
-+_default_aio_mode()
-+{
-+    AIOMODE="$1"
-+    QEMU_IO="$QEMU_IO --aio $1"
-+}
- 
- _unsupported_imgopts()
- {
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ce74177ab1..76f1ab0945 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -58,6 +58,7 @@ imgproto = os.environ.get('IMGPROTO', 'file')
- test_dir = os.environ.get('TEST_DIR')
- output_dir = os.environ.get('OUTPUT_DIR', '.')
- cachemode = os.environ.get('CACHEMODE')
-+aiomode = os.environ.get('AIOMODE')
- qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
- 
- socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
-@@ -457,6 +458,7 @@ class VM(qtest.QEMUQtestMachine):
-             options.append('file=%s' % path)
-             options.append('format=%s' % format)
-             options.append('cache=%s' % cachemode)
-+            options.append('aio=%s' % aiomode)
- 
-         if opts:
-             options.append(opts)
-@@ -799,6 +801,10 @@ def verify_cache_mode(supported_cache_modes=[]):
-     if supported_cache_modes and (cachemode not in supported_cache_modes):
-         notrun('not suitable for this cache mode: %s' % cachemode)
- 
-+def verify_aio_mode(supported_aio_modes=[]):
-+    if supported_aio_modes and (aiomode not in supported_aio_modes):
-+        notrun('not suitable for this aio mode: %s' % aiomode)
+diff --git a/block/io_uring.c b/block/io_uring.c
+index 1553cd2e58..2a1d79704a 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -288,6 +288,17 @@ static int ioq_submit(LuringState *s)
+             *sqes = luringcb->sqeq;
+             QSIMPLEQ_REMOVE_HEAD(&s->io_q.submit_queue, next);
+         }
++        /*
++         * io_uring_submit() returns sqes in ring for kernel side
++         * submission polling and sets wakeup flag if needed.
++         *
++         * It is not possible for any sqes to have already been
++         * submitted by the sq_poll as the writes are only made visible
++         * to the kernel in this function.
++         *
++         * For normal I/O, it returns the actual submitted requests
++         * from io_uring_enter()
++         */
+         ret = io_uring_submit(&s->ring);
+         trace_luring_io_uring_submit(s, ret);
+         /* Prevent infinite loop if submission is refused */
+@@ -525,7 +536,11 @@ LuringState *luring_init(Error **errp)
+     s = g_new0(LuringState, 1);
+     trace_luring_init_state(s, sizeof(*s));
+     struct io_uring *ring = &s->ring;
+-    rc = io_uring_queue_init(MAX_EVENTS, ring, 0);
 +
- def supports_quorum():
-     return 'quorum' in qemu_img_pipe('--help')
- 
-@@ -843,7 +849,7 @@ def skip_if_unsupported(required_formats=[], read_only=False):
-     return skip_test_decorator
- 
- def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
--         unsupported_fmts=[]):
-+        supported_aio_modes=[], unsupported_fmts=[]):
-     '''Run tests'''
- 
-     global debug
-@@ -861,6 +867,7 @@ def main(supported_fmts=[], supported_oses=['linux'], supported_cache_modes=[],
-     verify_image_format(supported_fmts, unsupported_fmts)
-     verify_platform(supported_oses)
-     verify_cache_mode(supported_cache_modes)
-+    verify_aio_mode(supported_aio_modes)
- 
-     if debug:
-         output = sys.stdout
++    rc = io_uring_queue_init(MAX_EVENTS, ring, IORING_SETUP_SQPOLL);
++    if (rc == -EOPNOTSUPP) {
++            rc = io_uring_queue_init(MAX_EVENTS, ring, 0);
++    }
+     if (rc < 0) {
+         error_setg_errno(errp, errno, "failed to init linux io_uring ring");
+         g_free(s);
 -- 
 2.21.0
 
