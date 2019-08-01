@@ -2,49 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97337E0BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:09:11 +0200 (CEST)
-Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03847E0CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:12:10 +0200 (CEST)
+Received: from localhost ([::1]:57854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htEZj-0006Gv-29
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36515)
+	id 1htEcb-00008f-Ud
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1htETp-00050a-8r
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:03:06 -0400
+ (envelope-from <mreitz@redhat.com>) id 1htEXT-0006jN-QJ
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:06:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1htETo-0002Gc-7L
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:03:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36984)
+ (envelope-from <mreitz@redhat.com>) id 1htEXM-0004yc-6L
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:06:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37092)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1htELn-0005Y2-UF
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 12:54:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1htEXH-0004rN-5O; Thu, 01 Aug 2019 13:06:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7AEC117C52F;
- Thu,  1 Aug 2019 16:54:42 +0000 (UTC)
-Received: from localhost (ovpn-116-232.ams2.redhat.com [10.36.116.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99CCB5D9CD;
- Thu,  1 Aug 2019 16:54:37 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: virtio-fs@redhat.com,
-	qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 17:54:09 +0100
-Message-Id: <20190801165409.20121-5-stefanha@redhat.com>
-In-Reply-To: <20190801165409.20121-1-stefanha@redhat.com>
-References: <20190801165409.20121-1-stefanha@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 23BF430BE970;
+ Thu,  1 Aug 2019 17:06:31 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-187.brq.redhat.com
+ [10.40.204.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0BF419C68;
+ Thu,  1 Aug 2019 17:06:26 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190801151235.8434-1-mreitz@redhat.com>
+ <20190801151235.8434-3-mreitz@redhat.com>
+ <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <738d7105-f91e-76ad-c2e6-cd5b32b846ef@redhat.com>
+Date: Thu, 1 Aug 2019 19:06:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Kpou63JoEoQ8yi1sBPQer1ra86YYEq9U4"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 01 Aug 2019 16:54:42 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.48]); Thu, 01 Aug 2019 17:06:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] virtiofsd: add --thread-pool-size=NUM
- option
+Subject: Re: [Qemu-devel] [PATCH for-4.1 2/2] iotests: Test backup job with
+ two guest writes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,96 +88,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liu Bo <bo.liu@linux.alibaba.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an option to control the size of the thread pool.  Requests are now
-processed in parallel by default.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Kpou63JoEoQ8yi1sBPQer1ra86YYEq9U4
+Content-Type: multipart/mixed; boundary="rNb0Jbbl3rCf8AQACOSyM2LFtJW40dHlc";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <738d7105-f91e-76ad-c2e6-cd5b32b846ef@redhat.com>
+Subject: Re: [PATCH for-4.1 2/2] iotests: Test backup job with two guest
+ writes
+References: <20190801151235.8434-1-mreitz@redhat.com>
+ <20190801151235.8434-3-mreitz@redhat.com>
+ <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
+In-Reply-To: <68653483-e7d2-154a-75c6-2dfef235d33d@virtuozzo.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- contrib/virtiofsd/fuse_i.h        | 1 +
- contrib/virtiofsd/fuse_lowlevel.c | 8 ++++++--
- contrib/virtiofsd/fuse_virtio.c   | 4 ++--
- 3 files changed, 9 insertions(+), 4 deletions(-)
+--rNb0Jbbl3rCf8AQACOSyM2LFtJW40dHlc
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/contrib/virtiofsd/fuse_i.h b/contrib/virtiofsd/fuse_i.h
-index dcde9feb97..5c82cf2eac 100644
---- a/contrib/virtiofsd/fuse_i.h
-+++ b/contrib/virtiofsd/fuse_i.h
-@@ -74,6 +74,7 @@ struct fuse_session {
-         int   vu_listen_fd;
-         int   vu_socketfd;
-         struct fv_VuDev *virtio_dev;
-+        int thread_pool_size;
- };
-=20
- struct fuse_chan {
-diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse_l=
-owlevel.c
-index 483a1bc9be..b692791fbc 100644
---- a/contrib/virtiofsd/fuse_lowlevel.c
-+++ b/contrib/virtiofsd/fuse_lowlevel.c
-@@ -26,7 +26,7 @@
- #include <assert.h>
- #include <sys/file.h>
-=20
--
-+#define THREAD_POOL_SIZE 64
-=20
- #define OFFSET_MAX 0x7fffffffffffffffLL
-=20
-@@ -2556,6 +2556,7 @@ static const struct fuse_opt fuse_ll_opts[] =3D {
- 	LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
-         LL_OPTION("vhost_user_socket=3D%s", vu_socket_path, 0),
- 	LL_OPTION("--fd=3D%d", vu_listen_fd, 0),
-+	LL_OPTION("--thread-pool-size=3D%d", thread_pool_size, 0),
- 	FUSE_OPT_END
- };
-=20
-@@ -2575,7 +2576,9 @@ void fuse_lowlevel_help(void)
- "    --socket-path=3DPATH         path for the vhost-user socket\n"
- "    -o vhost_user_socket=3DPATH  path for the vhost-user socket\n"
- "    --fd=3DFDNUM                 fd number of vhost-user socket\n"
--"    -o auto_unmount            auto unmount on process termination\n");
-+"    -o auto_unmount            auto unmount on process termination\n"
-+"    --thread-pool-size=3DNUM     thread pool size limit (default %d)\n"=
+On 01.08.19 18:03, Vladimir Sementsov-Ogievskiy wrote:
+> 01.08.2019 18:12, Max Reitz wrote:
+>> Perform two guest writes to not yet backed up areas of an image, where=
+
+>> the former touches an inner area of the latter.
+>>
+>> Before HEAD^, copy offloading broke this in two ways:
+>> (1) The output differs from the reference output (what the source was
+>>      before the guest writes).
+>> (2) But you will not see that in the failing output, because the job
+>>      offset is reported as being greater than the job length.  This is=
+
+>>      because one cluster is copied twice, and thus accounted for twice=
 ,
-+	       THREAD_POOL_SIZE);
- }
-=20
- void fuse_session_destroy(struct fuse_session *se)
-@@ -2629,6 +2632,7 @@ struct fuse_session *fuse_session_new(struct fuse_a=
-rgs *args,
- 	}
- 	se->fd =3D -1;
- 	se->vu_listen_fd =3D -1;
-+	se->thread_pool_size =3D THREAD_POOL_SIZE;
- 	se->conn.max_write =3D UINT_MAX;
- 	se->conn.max_readahead =3D UINT_MAX;
-=20
-diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_vir=
-tio.c
-index 0c52911144..e13b3cc2e6 100644
---- a/contrib/virtiofsd/fuse_virtio.c
-+++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -663,8 +663,8 @@ static void *fv_queue_thread(void *opaque)
-         struct fuse_session *se =3D qi->virtio_dev->se;
-         GThreadPool *pool;
-=20
--        pool =3D g_thread_pool_new(fv_queue_worker, qi, 1 /* TODO max_th=
-reads */,
--                        TRUE, NULL);
-+        pool =3D g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_=
-size,
-+                                 TRUE, NULL);
-         if (!pool) {
-                 fuse_err("%s: g_thread_pool_new failed\n", __func__);
-                 return NULL;
---=20
-2.21.0
+>>      but of course the job length does not increase.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   tests/qemu-iotests/056     | 34 ++++++++++++++++++++++++++++++++++
+>>   tests/qemu-iotests/056.out |  4 ++--
+>>   2 files changed, 36 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
+>> index f40fc11a09..d7198507f5 100755
+>> --- a/tests/qemu-iotests/056
+>> +++ b/tests/qemu-iotests/056
+>> @@ -133,6 +133,7 @@ class BackupTest(iotests.QMPTestCase):
+>>           self.vm =3D iotests.VM()
+>>           self.test_img =3D img_create('test')
+>>           self.dest_img =3D img_create('dest')
+>> +        self.ref_img =3D img_create('ref')
+>>           self.vm.add_drive(self.test_img)
+>>           self.vm.launch()
+>>  =20
+>> @@ -140,6 +141,7 @@ class BackupTest(iotests.QMPTestCase):
+>>           self.vm.shutdown()
+>>           try_remove(self.test_img)
+>>           try_remove(self.dest_img)
+>> +        try_remove(self.ref_img)
+>>  =20
+>>       def hmp_io_writes(self, drive, patterns):
+>>           for pattern in patterns:
+>> @@ -177,6 +179,38 @@ class BackupTest(iotests.QMPTestCase):
+>>               self.assert_qmp(event, 'data/error', qerror)
+>>               return False
+>>  =20
+>> +    def test_overlapping_writes(self):
+>> +        # Write something to back up
+>> +        self.hmp_io_writes('drive0', [('42', '0M', '2M')])
+>> +
+>> +        # Create a reference backup
+>> +        self.qmp_backup_and_wait(device=3D'drive0', format=3Diotests.=
+imgfmt,
+>> +                                 sync=3D'full', target=3Dself.ref_img=
+)
+>> +
+>> +        # Now to the test backup: We simulate the following guest
+>> +        # writes:
+>> +        # (1) [1M + 64k, 1M + 128k): Afterwards, everything in that
+>> +        #     area should be in the target image, and we must not cop=
+y
+>> +        #     it again (because the source image has changed now)
+>> +        #     (64k is the job's cluster size)
+>> +        # (2) [1M, 2M): The backup job must not get overeager.  It
+>> +        #     must copy [1M, 1M + 64k) and [1M + 128k, 2M) separately=
+,
+>> +        #     but not the area in between.
+>> +
+>> +        self.qmp_backup(device=3D'drive0', format=3Diotests.imgfmt, s=
+ync=3D'full',
+>> +                        target=3Dself.dest_img, speed=3D1)
+>> +
+>> +        self.hmp_io_writes('drive0', [('23', '%ik' % (1024 + 64), '64=
+k'),
+>> +                                      ('66', '1M', '1M')])
+>> +
+>> +        # Let the job complete
+>> +        res =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
+ speed=3D0)
+>> +        self.assert_qmp(res, 'return', {})
+>> +        self.qmp_backup_wait('drive0')
+>> +
+>> +        self.assertTrue(iotests.compare_images(self.ref_img, self.des=
+t_img),
+>> +                        'target image does not match reference image'=
+)
+>> +
+>>       def test_dismiss_false(self):
+>>           res =3D self.vm.qmp('query-block-jobs')
+>>           self.assert_qmp(res, 'return', [])
+>> diff --git a/tests/qemu-iotests/056.out b/tests/qemu-iotests/056.out
+>> index dae404e278..36376bed87 100644
+>> --- a/tests/qemu-iotests/056.out
+>> +++ b/tests/qemu-iotests/056.out
+>> @@ -1,5 +1,5 @@
+>> -.........
+>> +..........
+>>   --------------------------------------------------------------------=
+--
+>> -Ran 9 tests
+>> +Ran 10 tests
+>>  =20
+>>   OK
+>>
+>=20
+> Failed for me:
+> -..........
+> +qemu-img: Could not open '/work/src/qemu/master/tests/qemu-iotests/scr=
+atch/dest.qcow2': Failed to get shared "write" lock
+> +Is another process using the image [/work/src/qemu/master/tests/qemu-i=
+otests/scratch/dest.qcow2]?
+> +......F...
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +FAIL: test_overlapping_writes (__main__.BackupTest)
+> +----------------------------------------------------------------------=
 
+> +Traceback (most recent call last):
+> +  File "056", line 212, in test_overlapping_writes
+> +    'target image does not match reference image')
+> +AssertionError: False is not true : target image does not match refere=
+nce image
+> +
+>   ---------------------------------------------------------------------=
+-
+>   Ran 10 tests
+>=20
+> -OK
+> +FAILED (failures=3D1)
+
+Hm.  I hoped seeing BLOCK_JOB_COMPLETED would be enough.
+
+> So, with applied
+>=20
+> @@ -207,6 +207,7 @@ class BackupTest(iotests.QMPTestCase):
+>           res =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
+ speed=3D0)
+>           self.assert_qmp(res, 'return', {})
+>           self.qmp_backup_wait('drive0')
+> +        self.vm.shutdown()
+>=20
+>           self.assertTrue(iotests.compare_images(self.ref_img, self.des=
+t_img),
+>                           'target image does not match reference image'=
+)
+
+I=E2=80=99d personally prefer auto_dismiss=3DFalse and then block-job-dis=
+miss.
+Although I can=E2=80=99t give a reason why.
+
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+In any case, thanks!
+
+Max
+
+
+--rNb0Jbbl3rCf8AQACOSyM2LFtJW40dHlc--
+
+--Kpou63JoEoQ8yi1sBPQer1ra86YYEq9U4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl1DHBAACgkQ9AfbAGHV
+z0CBrQf/X3W94j7XghYN7JAHQmDMsh0yExZ2ELVRbRcIoojshGIYV+fb49LpBbb2
+Ain3yvo8UoZBH8ASfqQBJ/QZTyMDbVFOv2WLXr7kVyICWUJlCZOPtwoNG1SuGs9c
+vU7cAJJL0g3vbS4bAD4wuo2u0mGVZI8Mc2musSuBUYZj4YL4VNZYzqTGo+IqwwNi
+WcSlhebQ6PwdM2wO4ZW9HkASeFUa9x2I26La2z2x144YFUJjpTOiqN7L+WRhp4tj
++r9xPZh5aLGQfa+AxLxJPn10CV21OUV4uzBXQ8quDJdnKn9VwSf4NahSdR71wh8y
+ft/UOhUGpTnYPyAF8MA03dbMf9YEpg==
+=DjB4
+-----END PGP SIGNATURE-----
+
+--Kpou63JoEoQ8yi1sBPQer1ra86YYEq9U4--
 
