@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA567E233
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:33:03 +0200 (CEST)
-Received: from localhost ([::1]:58288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83BD7E235
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:34:08 +0200 (CEST)
+Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htFss-0007cP-SL
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59325)
+	id 1htFtw-0000g5-4d
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqS-0005vY-Ue
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqS-0005uF-B6
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002SU-Ba
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002S1-6K
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44370)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39211)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1htFqP-0002Ow-3v
+ id 1htFqP-0002P2-3T
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:31 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p17so74604463wrf.11
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:21 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x4so21465714wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=11BLBQ0I862n2ukesABdkLLx6WuBlDoZA+ndLGv2CEc=;
- b=EsTooEge+SI5kpnI6euvICmDAKqpDk5m+i6T93iri3R+khApxn9Kf7ZMMHJcLcpJ0C
- XUajEkcoxwRr4EGE8RDpEHeR6kTRH+LOerDdhyprt7xrcyNkrYQDvZo+VCvYr/qgmNNy
- R1vpE+ItvEgDI5p0e+pu2ZYzhMnsASXYpIWWOF+ZIY9DQRiaXR42iGRu0We8XIgg+ep3
- OzM1mIjGrUB7GQWBuNk5/V3FlES4BDHQTjfkOrvI3kcbw2BYFviI58MIUgGG+iO9Lo8M
- 6JFkCvnF+EmLB3zFA1KzU401dvljmTExu3biRYRaBn6UnAh0aWElvz2Q5bl4FduDJTsU
- 43eQ==
+ bh=3FODED0uQTCIp9i/Uj2KBnwfZMeWNFHFWbEgO2/SvW0=;
+ b=oqZOm/i/bOVCchgn/ikeoTHNUCQViOfo9VrsFdncb4TrJxV6DIYHvaJhIyhbp8M34E
+ O3efUZoqCgALq8pUphOj+7qyTYBnlNY5C3k/3C1Lm7tD9Sx+CgNGoSXPKpjqwkHYQSdI
+ 9dukHmgtjFmgoIRLX5XnqDx0D9SuUTRvyhgEHsP7wbcsmmWS18JqH1XwEFo5ul3/aZIO
+ Usrem6Nv59KpZlqjROXcezV4+z9GiH64PPmQwuAN+GfRIpy6a5NVfO+gYhSkTPFkeyuj
+ Iu8LWanrDjhIPltgHGD556Et+UtcxssPq3rViehJwFI/MxN9aEJB0S7Ut4L0dGvXNo4F
+ NdXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=11BLBQ0I862n2ukesABdkLLx6WuBlDoZA+ndLGv2CEc=;
- b=GwlZ0PB4dV25dVJR+PqKHX6AgR8Hb/i8OGWNnPeBajqcZK5E4ANC6CIBBSoWmrO7wo
- vvVIXoeHU/ZgYTe1lC03i0iZ2JgB27sJe6JLSBCEPG/7qP/zJlD3rVkC7t6fD/YuTMc7
- xRA34VNsvhCbyX+E58FXNL7l3TbB/Hw9sn75/KodqcvA2CNrPh9fn6Zo/8xldRketR02
- V0sfjqjQ454eiZ9ovBFffIFMiCiPOJSpLYI3gFHaDrPnef7tLsfbQWIMY9Hql7j/kWwa
- 00IqS59y9PuGInAMf3lWEiyLuF5BSq5H1z/G6MsQ7/5z1PaBKl6rdgo2xOgFG5eavo2e
- r/eA==
-X-Gm-Message-State: APjAAAVpr11Dx5JCVr4koHhpG861k5BHaR6C2ppMuczCxeVQHp/5Ffgd
- U/lueD0aSGSka6b+lVRTQtOUmh7E4kf6CA==
-X-Google-Smtp-Source: APXvYqxxAIV04XBxqmVbbDv5zW+cZaxSJOBwy69kRmQn4Zl7NxgeFlNJ9CbbikI1Ni/ow2p1pYoLyg==
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr89266727wrx.236.1564684220251; 
- Thu, 01 Aug 2019 11:30:20 -0700 (PDT)
+ bh=3FODED0uQTCIp9i/Uj2KBnwfZMeWNFHFWbEgO2/SvW0=;
+ b=Gxc2n8KCCKnN3kvUIRzgH8Ryc13RvE5rS+UbFLYhtouh90ZzEbHAV6Ys5CWZJllzoR
+ 6hibhuKL0mrc9Jx7VENJmtdRQQ0qdj5KV5Ny8jP/xjR5A79jW8O9Uf9f6+gr2kl9ztof
+ QNL4O73y/5Pk3rkPtJZToYMVkTZdkdXcizrRSqezOfVXr+/DRMcPMzaKEjLhGXAOR77T
+ PjBHghrN4n0lCaGhYrFc3G36dm6bQIOs+PHvZx6OKAxBKV7Du11+EZPJ5ilcyxL2otAY
+ skaKS4MDubbbhTcCw4cXqqSQOvSaX76IMCQswjkv3IHfMQMfBRtCLlnrNEkimOsaS0Bt
+ fvfQ==
+X-Gm-Message-State: APjAAAUAiOZ2428IshkI114KaT2n6sqJVaAsjWwXEUIBPMqbMSO2NZV0
+ FMC/6TAAfHzPgdrCTVqAF8w3hW5BOIjH5g==
+X-Google-Smtp-Source: APXvYqyJZTdlkTvpfeIWyOpDX2kFhFewQNSxALyxkYQz+1bTsNWgedBOoUIP71HbUDihG9bI7QdapQ==
+X-Received: by 2002:a05:6000:1189:: with SMTP id
+ g9mr108059412wrx.51.1564684221350; 
+ Thu, 01 Aug 2019 11:30:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.19
+ by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.20
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 01 Aug 2019 11:30:19 -0700 (PDT)
+ Thu, 01 Aug 2019 11:30:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 19:30:10 +0100
-Message-Id: <20190801183012.17564-6-peter.maydell@linaro.org>
+Date: Thu,  1 Aug 2019 19:30:11 +0100
+Message-Id: <20190801183012.17564-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190801183012.17564-1-peter.maydell@linaro.org>
 References: <20190801183012.17564-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH 5/7] target/sparc: Handle bus errors in
- mmu_probe()
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH 6/7] target/sparc: Remove unused ldl_phys from
+ dump_mmu()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,88 +85,32 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the mmu_probe() function to using address_space_ldl()
-rather than ldl_phys(), so we can explicitly detect memory
-transaction failures.
-
-This makes no practical difference at the moment, because
-ldl_phys() will return 0 on a transaction failure, and we
-treat transaction failures and 0 PDEs identically. However
-the spec says that MMU probe operations are supposed to
-update the fault status registers, and if we ever implement
-that we'll want to distinguish the difference. For the
-moment, just add a TODO comment about the bug.
+The dump_mmu() function does a ldl_phys() at the start, but
+then never uses the value it loads at all. Remove the
+unused code.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/sparc/mmu_helper.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+ target/sparc/mmu_helper.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index 351055a09b1..d90aabfa4d2 100644
+index d90aabfa4d2..9a9f2cf9535 100644
 --- a/target/sparc/mmu_helper.c
 +++ b/target/sparc/mmu_helper.c
-@@ -287,11 +287,20 @@ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
+@@ -375,11 +375,9 @@ void dump_mmu(CPUSPARCState *env)
      CPUState *cs = env_cpu(env);
-     hwaddr pde_ptr;
+     target_ulong va, va1, va2;
+     unsigned int n, m, o;
+-    hwaddr pde_ptr, pa;
++    hwaddr pa;
      uint32_t pde;
-+    MemTxResult result;
-+
-+    /*
-+     * TODO: MMU probe operations are supposed to set the fault
-+     * status registers, but we don't do this.
-+     */
  
-     /* Context base + context number */
-     pde_ptr = (hwaddr)(env->mmuregs[1] << 4) +
-         (env->mmuregs[2] << 2);
+-    pde_ptr = (env->mmuregs[1] << 4) + (env->mmuregs[2] << 2);
 -    pde = ldl_phys(cs->as, pde_ptr);
-+    pde = address_space_ldl(cs->as, pde_ptr, MEMTXATTRS_UNSPECIFIED, &result);
-+    if (result != MEMTX_OK) {
-+        return 0;
-+    }
- 
-     switch (pde & PTE_ENTRYTYPE_MASK) {
-     default:
-@@ -304,7 +313,11 @@ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
-             return pde;
-         }
-         pde_ptr = ((address >> 22) & ~3) + ((pde & ~3) << 4);
--        pde = ldl_phys(cs->as, pde_ptr);
-+        pde = address_space_ldl(cs->as, pde_ptr,
-+                                MEMTXATTRS_UNSPECIFIED, &result);
-+        if (result != MEMTX_OK) {
-+            return 0;
-+        }
- 
-         switch (pde & PTE_ENTRYTYPE_MASK) {
-         default:
-@@ -318,7 +331,11 @@ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
-                 return pde;
-             }
-             pde_ptr = ((address & 0xfc0000) >> 16) + ((pde & ~3) << 4);
--            pde = ldl_phys(cs->as, pde_ptr);
-+            pde = address_space_ldl(cs->as, pde_ptr,
-+                                    MEMTXATTRS_UNSPECIFIED, &result);
-+            if (result != MEMTX_OK) {
-+                return 0;
-+            }
- 
-             switch (pde & PTE_ENTRYTYPE_MASK) {
-             default:
-@@ -332,7 +349,11 @@ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
-                     return pde;
-                 }
-                 pde_ptr = ((address & 0x3f000) >> 10) + ((pde & ~3) << 4);
--                pde = ldl_phys(cs->as, pde_ptr);
-+                pde = address_space_ldl(cs->as, pde_ptr,
-+                                        MEMTXATTRS_UNSPECIFIED, &result);
-+                if (result != MEMTX_OK) {
-+                    return 0;
-+                }
- 
-                 switch (pde & PTE_ENTRYTYPE_MASK) {
-                 default:
+     qemu_printf("Root ptr: " TARGET_FMT_plx ", ctx: %d\n",
+                 (hwaddr)env->mmuregs[1] << 4, env->mmuregs[2]);
+     for (n = 0, va = 0; n < 256; n++, va += 16 * 1024 * 1024) {
 -- 
 2.20.1
 
