@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1A67E3DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 22:19:31 +0200 (CEST)
-Received: from localhost ([::1]:59008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C60F7E3E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 22:24:21 +0200 (CEST)
+Received: from localhost ([::1]:59030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htHXu-00045O-Hx
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 16:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54678)
+	id 1htHca-00069f-Jj
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 16:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56259)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htHWj-0003dY-Vs
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:18:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htHbd-0005S6-Dx
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:23:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htHWj-00007Y-0l
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:18:17 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37520)
+ (envelope-from <richard.henderson@linaro.org>) id 1htHbZ-0003eB-GR
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:23:21 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:43535)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htHWi-00007F-QV
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:18:16 -0400
-Received: by mail-pf1-x443.google.com with SMTP id 19so34693122pfa.4
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 13:18:16 -0700 (PDT)
+ id 1htHbX-0003cj-Dj
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 16:23:17 -0400
+Received: by mail-pg1-x541.google.com with SMTP id r22so7210692pgk.10
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 13:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6yz+LFTqIMbOU950btg8zapbKFoC8f/yPYKq0hfG4TY=;
- b=ykGQiLikuiEuOPfghQvN0dPsPVuPY+iOZH6XRmsdgS4I+9rtDIj3iU1OZAMgE8nFbb
- pVJs3OCvEQToPHDmVvZhN0qZtgO5h6AlGmd6zgHKyTibOH6tHmGFg/kB8et6KaxqP2ao
- t1bGBIobgsWhEZoWh8gnV7ctiE7AFNRXJ/76ApkJz1zfcoWg7QWQZjgTrPPcWD2kb89X
- sef7GEplEKf3kA0KqPucn2chvJI3NVC8LEp/QrMoAHWBZR+WxhX5DTB1I3qA3ccLPWQZ
- iVYC/XcP0cupQtyhQ7aUe9kGf9/I0baImg/y20NAWLGA1LKmcqIfVosdhjAtsGFc7UL6
- 2Ovg==
+ bh=6pI+YhFdbEDx7Sc31KYBH3UY1F3MlVfiLKxy7EZZ2dQ=;
+ b=u7M39GvFeoOL74TAVkelw0Vm7WwzzzMiEeYzXZfcYAQ5FdBfIHbL+xj//2gIDENllM
+ EhFk7P2MlmUlxVdxsJnBkmk2EcaLhrN3YxmYroRP87zzkEuRXLP1fboJu8rdHijjfGRr
+ Ht+11saVdXOXxbBd1Ud6c/Rwr3mmSdC4j4aowf8hRjOxKFUjV+ueEaibr52WMkn1joDy
+ Ned6J/lVIwQLI0MioFwn6B3Hyut+T/h2MDRTb48vUdFs1ZN+o+9Bmtl/e9wcdNt//lwg
+ NkeJgr6v6qFyekZ5e/LUL9GVpkrRdNNV0yKIzbX1ZyK71uEqr/xgSoV1LHPlHSRlDuhB
+ ORng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6yz+LFTqIMbOU950btg8zapbKFoC8f/yPYKq0hfG4TY=;
- b=DHBiy2amu6A/h5bdtIodadL59N0pPOfh/vVfV5f6B0Y2c8bbUO7+TnFAwD8iYC8aWt
- zoANQUJEHejqSnJj8wX6KY24mRxyNMjjgBouloR1Nv4Z8SrHN0E6hZuWK1SOu/pekqgn
- SKu5HiEjWtjyw3jFAqVOIhjW1d/E5A7YgjPyt7HQU/50+I25Y2Yy3s8KPesDqOW22Z9W
- 1rZgvx3jbGeeh2P/PzZ5in7Wn8KVfTPvla/Sw0hdXN3vXieb2/fwkfnYgwZLNDEWdnir
- mW4K/MSX6TdspGB3+KgNa74U9tKgsSUpTTqqv89FFfmUNbL5ov78gt0y+149kDCEWGi1
- e9mg==
-X-Gm-Message-State: APjAAAV1XhpRMOH5NXSyt19nuqeiuy81APwuviH1Rpk+acZZpjAjXpiT
- 2xN+RNc5nP4SnO/flqbvnrZVTQ==
-X-Google-Smtp-Source: APXvYqz2++e1IrVL2z2tcEyrUPd/cEAXg1onS1olgJ96OwgaJ7DX7/lnDPTz54afE/7itxL8Y6Tg2Q==
-X-Received: by 2002:aa7:8b11:: with SMTP id f17mr55563418pfd.19.1564690695739; 
- Thu, 01 Aug 2019 13:18:15 -0700 (PDT)
+ bh=6pI+YhFdbEDx7Sc31KYBH3UY1F3MlVfiLKxy7EZZ2dQ=;
+ b=kwJy7V1eZ6ZAwV4kkwoEtgLPZiwgNUnvXHrlGp8OG6hnwY4ZEF6esUgq7wdqAFXSSt
+ J4X3g6IQiO6KVOgk9iTl52Bt7Gs8FV99S/2VwtwuzhQSmz6+NNLUUUOmoHe0ZTkpmgpk
+ 8MytFKNLPA1TWJ9p37GNi7pUhYPeJVS4gJ4tn3T5PDQ1ty3wqMIN140bakuTmHe39JlB
+ K/5qajD751hXUGb09vomVzSlor8Lv8quyqyKahmr2SemMvX2uWCMkh6sxPUz81DNUM7p
+ bJBlGtOkeJ7ifsSipHww2TBd1CvkSshrGQxbWAW+Mu6WF3tLlpHH69rmHcIk5UODDdl6
+ QQEQ==
+X-Gm-Message-State: APjAAAUL+ViV4Tqe3nh9pQXLSacTgqb8iwji8AIqtkA4BzBAl9YOg5Gz
+ hCi0yxkjKo9gJvwDcbdHhT5avQ==
+X-Google-Smtp-Source: APXvYqwuM5K6xmQvXoN7xvWobMHOYpiiaHaMWLKkA6qZNrs2ycunBdWWxeUAHuDJV8IIRMo+SiB+Hw==
+X-Received: by 2002:a62:e515:: with SMTP id n21mr56210968pff.186.1564690991239; 
+ Thu, 01 Aug 2019 13:23:11 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id v185sm82771418pfb.14.2019.08.01.13.18.14
+ by smtp.gmail.com with ESMTPSA id z63sm46166822pfb.98.2019.08.01.13.23.10
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Aug 2019 13:18:15 -0700 (PDT)
+ Thu, 01 Aug 2019 13:23:10 -0700 (PDT)
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20190801183012.17564-1-peter.maydell@linaro.org>
- <20190801183012.17564-3-peter.maydell@linaro.org>
+ <20190801183012.17564-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <075e3c64-b5bd-0b30-4775-41ea420a7612@linaro.org>
-Date: Thu, 1 Aug 2019 13:18:13 -0700
+Message-ID: <8751735a-3827-c613-9a96-46058044d86d@linaro.org>
+Date: Thu, 1 Aug 2019 13:23:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190801183012.17564-3-peter.maydell@linaro.org>
+In-Reply-To: <20190801183012.17564-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 2/7] target/sparc: Check for transaction
- failures in MMU passthrough ASIs
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH 3/7] target/sparc: Check for transaction
+ failures in MXCC stream ASI accesses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,12 +101,18 @@ On 8/1/19 11:30 AM, Peter Maydell wrote:
 > we switch SPARC over to using the do_transaction_failed hook
 > we'll still get the same MMU faults we did before.
 > 
-> This commit converts the ASIs which do "MMU passthrough".
+> This commit converts the ASIs which do MXCC stream source
+> and destination accesses.
+> 
+> It's not clear to me whether raising an MMU fault like this
+> is the correct behaviour if we encounter a bus error, but
+> we retain the same behaviour that the old unassigned_access
+> hook would implement.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/sparc/ldst_helper.c | 49 +++++++++++++++++++++++++-------------
->  1 file changed, 33 insertions(+), 16 deletions(-)
+>  target/sparc/ldst_helper.c | 57 +++++++++++++++++++++++++-------------
+>  1 file changed, 37 insertions(+), 20 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
