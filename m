@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73527DEA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:20:07 +0200 (CEST)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BE7DEAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:21:02 +0200 (CEST)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htCsA-0006RB-Uo
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36049)
+	id 1htCt3-0000Bh-Ib
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36014)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1htCq5-00051Q-Ub
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:59 -0400
+ (envelope-from <kwolf@redhat.com>) id 1htCq2-0004yy-2p
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1htCq4-0000gE-6c
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51870)
+ (envelope-from <kwolf@redhat.com>) id 1htCq1-0000al-4g
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51574)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1htCq1-0000ab-6g; Thu, 01 Aug 2019 11:17:53 -0400
+ id 1htCpy-0000Z6-8g; Thu, 01 Aug 2019 11:17:50 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A1FF3086211;
- Thu,  1 Aug 2019 15:17:52 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3B49430C75CF;
+ Thu,  1 Aug 2019 15:17:49 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-98.ams2.redhat.com
  [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B96E5D712;
- Thu,  1 Aug 2019 15:17:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EB1F61F27;
+ Thu,  1 Aug 2019 15:17:46 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Thu,  1 Aug 2019 17:17:42 +0200
-Message-Id: <20190801151744.798-2-kwolf@redhat.com>
-In-Reply-To: <20190801151744.798-1-kwolf@redhat.com>
-References: <20190801151744.798-1-kwolf@redhat.com>
+Date: Thu,  1 Aug 2019 17:17:41 +0200
+Message-Id: <20190801151744.798-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 01 Aug 2019 15:17:52 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 01 Aug 2019 15:17:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/3] iotests: Move migration helpers to
- iotests.py
+Subject: [Qemu-devel] [PATCH 0/3] iotests: Test migration with filter nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,124 +57,44 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-234 implements functions that are useful for doing migration between two
-VMs. Move them to iotests.py so that other test cases can use them, too.
+This is the testcase for the copy-on-read fix I merged in a hurry for
+4.1.0-rc3.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/234        | 30 +++++++-----------------------
- tests/qemu-iotests/iotests.py | 16 ++++++++++++++++
- 2 files changed, 23 insertions(+), 23 deletions(-)
+Kevin Wolf (3):
+  iotests: Move migration helpers to iotests.py
+  iotests: Enable -d for Python non-unittest tests
+  iotests: Test migration with all kinds of filter nodes
 
-diff --git a/tests/qemu-iotests/234 b/tests/qemu-iotests/234
-index c4c26bc21e..34c818c485 100755
---- a/tests/qemu-iotests/234
-+++ b/tests/qemu-iotests/234
-@@ -26,22 +26,6 @@ import os
- iotests.verify_image_format(supported_fmts=3D['qcow2'])
- iotests.verify_platform(['linux'])
-=20
--def enable_migration_events(vm, name):
--    iotests.log('Enabling migration QMP events on %s...' % name)
--    iotests.log(vm.qmp('migrate-set-capabilities', capabilities=3D[
--        {
--            'capability': 'events',
--            'state': True
--        }
--    ]))
--
--def wait_migration(vm):
--    while True:
--        event =3D vm.event_wait('MIGRATION')
--        iotests.log(event, filters=3D[iotests.filter_qmp_event])
--        if event['data']['status'] =3D=3D 'completed':
--            break
--
- with iotests.FilePath('img') as img_path, \
-      iotests.FilePath('backing') as backing_path, \
-      iotests.FilePath('mig_fifo_a') as fifo_a, \
-@@ -62,7 +46,7 @@ with iotests.FilePath('img') as img_path, \
-          .add_blockdev('%s,file=3Ddrive0-backing-file,node-name=3Ddrive0=
--backing' % (iotests.imgfmt))
-          .launch())
-=20
--    enable_migration_events(vm_a, 'A')
-+    vm_a.enable_migration_events('A')
-=20
-     iotests.log('Launching destination VM...')
-     (vm_b.add_blockdev('file,filename=3D%s,node-name=3Ddrive0-file' % (i=
-mg_path))
-@@ -72,7 +56,7 @@ with iotests.FilePath('img') as img_path, \
-          .add_incoming("exec: cat '%s'" % (fifo_a))
-          .launch())
-=20
--    enable_migration_events(vm_b, 'B')
-+    vm_b.enable_migration_events('B')
-=20
-     # Add a child node that was created after the parent node. The rever=
-se case
-     # is covered by the -blockdev options above.
-@@ -85,9 +69,9 @@ with iotests.FilePath('img') as img_path, \
-     iotests.log(vm_a.qmp('migrate', uri=3D'exec:cat >%s' % (fifo_a)))
-     with iotests.Timeout(3, 'Migration does not complete'):
-         # Wait for the source first (which includes setup=3Dsetup)
--        wait_migration(vm_a)
-+        vm_a.wait_migration()
-         # Wait for the destination second (which does not)
--        wait_migration(vm_b)
-+        vm_b.wait_migration()
-=20
-     iotests.log(vm_a.qmp('query-migrate')['return']['status'])
-     iotests.log(vm_b.qmp('query-migrate')['return']['status'])
-@@ -105,7 +89,7 @@ with iotests.FilePath('img') as img_path, \
-          .add_incoming("exec: cat '%s'" % (fifo_b))
-          .launch())
-=20
--    enable_migration_events(vm_a, 'A')
-+    vm_a.enable_migration_events('A')
-=20
-     iotests.log(vm_a.qmp('blockdev-snapshot', node=3D'drive0-backing',
-                          overlay=3D'drive0'))
-@@ -114,9 +98,9 @@ with iotests.FilePath('img') as img_path, \
-     iotests.log(vm_b.qmp('migrate', uri=3D'exec:cat >%s' % (fifo_b)))
-     with iotests.Timeout(3, 'Migration does not complete'):
-         # Wait for the source first (which includes setup=3Dsetup)
--        wait_migration(vm_b)
-+        vm_b.wait_migration()
-         # Wait for the destination second (which does not)
--        wait_migration(vm_a)
-+        vm_a.wait_migration()
-=20
-     iotests.log(vm_a.qmp('query-migrate')['return']['status'])
-     iotests.log(vm_b.qmp('query-migrate')['return']['status'])
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index ce74177ab1..91172c39a5 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -583,6 +583,22 @@ class VM(qtest.QEMUQtestMachine):
-             elif status =3D=3D 'null':
-                 return error
-=20
-+    def enable_migration_events(self, name):
-+        log('Enabling migration QMP events on %s...' % name)
-+        log(self.qmp('migrate-set-capabilities', capabilities=3D[
-+            {
-+                'capability': 'events',
-+                'state': True
-+            }
-+        ]))
-+
-+    def wait_migration(self):
-+        while True:
-+            event =3D self.event_wait('MIGRATION')
-+            log(event, filters=3D[filter_qmp_event])
-+            if event['data']['status'] =3D=3D 'completed':
-+                break
-+
-     def node_info(self, node_name):
-         nodes =3D self.qmp('query-named-block-nodes')
-         for x in nodes['return']:
+ tests/qemu-iotests/194        |  1 +
+ tests/qemu-iotests/202        |  1 +
+ tests/qemu-iotests/203        |  2 +
+ tests/qemu-iotests/206        |  1 +
+ tests/qemu-iotests/207        |  1 +
+ tests/qemu-iotests/208        |  1 +
+ tests/qemu-iotests/210        |  1 +
+ tests/qemu-iotests/211        |  1 +
+ tests/qemu-iotests/212        |  1 +
+ tests/qemu-iotests/213        |  1 +
+ tests/qemu-iotests/216        |  2 +
+ tests/qemu-iotests/218        |  1 +
+ tests/qemu-iotests/219        |  1 +
+ tests/qemu-iotests/222        |  1 +
+ tests/qemu-iotests/224        |  2 +
+ tests/qemu-iotests/228        |  2 +
+ tests/qemu-iotests/234        | 30 ++++---------
+ tests/qemu-iotests/236        |  1 +
+ tests/qemu-iotests/237        |  1 +
+ tests/qemu-iotests/246        |  1 +
+ tests/qemu-iotests/255        |  1 +
+ tests/qemu-iotests/256        |  1 +
+ tests/qemu-iotests/262        | 84 +++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/262.out    | 17 +++++++
+ tests/qemu-iotests/group      |  1 +
+ tests/qemu-iotests/iotests.py | 39 ++++++++++++----
+ 26 files changed, 166 insertions(+), 30 deletions(-)
+ create mode 100755 tests/qemu-iotests/262
+ create mode 100644 tests/qemu-iotests/262.out
+
 --=20
 2.20.1
 
