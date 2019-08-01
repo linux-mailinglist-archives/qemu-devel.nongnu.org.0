@@ -2,63 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758EA7DB31
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 14:18:38 +0200 (CEST)
-Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A997DB6A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 14:27:15 +0200 (CEST)
+Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htA2X-0007Db-FD
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 08:18:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43804)
+	id 1htAAs-0007ZE-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 08:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1htA1t-0006oR-1P
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:17:57 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htA6a-0000rr-Rf
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:22:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1htA1s-0007uf-1O
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:17:56 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:38057)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1htA1r-0007uP-Tt
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:17:55 -0400
-Received: by mail-qt1-f196.google.com with SMTP id n11so69919381qtl.5
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 05:17:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8HvCIqveHQFTQsPbxSY8BPKSR9+7iUK0LCosfuCvszk=;
- b=oEsIokPR9kr5vBvQ6giUNzNiYpignlKTF4r7D4IvawnonB42KbBX/nu33p8/Ow5TZ4
- vl7IOVSIsYRpbQHdaSMjEF3moG/SJ5+KLHctO9CjiRoXxlnd3cNGnI9aR8YaSWvY1/ET
- +yMXXSBawd8V2Y4FwyoEhBLOKmmgvdcQucjS4tby+aZB9mIgtXQZ6/TfpdI14ALsIXw3
- aWmmecqE4ojMByQAe787rE9Yi+w0esCf5KdaYMhkWwrO5pL/9JQrBjJvNpfxBqWq86zB
- JkHIZGKPzh0jBY/1BbqhIYVnnhDmp0Jd5A5r6yBfT6n2ARlQErnc5BJsXbOBv+/9Oi/5
- odyg==
-X-Gm-Message-State: APjAAAVToDA0Yi4Emc+GvUImBjVRtfWFbtI0exQ9aCGTu4PjWHhZJWdx
- cfnGCPUPFUneGBVitUUAZdyaVA==
-X-Google-Smtp-Source: APXvYqwfPTMpFTqFhgIy4Yn/YpQl1RChv9mHn3UAmRjBf1Ubx8yWbytErX0gFOcnd4QHG20JTTnpQA==
-X-Received: by 2002:aed:2fe6:: with SMTP id m93mr61446518qtd.114.1564661875412; 
- Thu, 01 Aug 2019 05:17:55 -0700 (PDT)
-Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
- by smtp.gmail.com with ESMTPSA id
- o18sm41766116qtb.53.2019.08.01.05.17.52
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 01 Aug 2019 05:17:54 -0700 (PDT)
-Date: Thu, 1 Aug 2019 08:17:49 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Message-ID: <20190801073132-mutt-send-email-mst@kernel.org>
-References: <20190729125755.45008-1-slp@redhat.com>
- <a43acc8541c7ae811d65eb4d08e1a08333781282.camel@redhat.com>
- <87imriwjpm.fsf@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87imriwjpm.fsf@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.196
-Subject: Re: [Qemu-devel] [RFC] virtio-mmio: implement modern (v2)
- personality (virtio-1)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htA6X-0002Gw-Kw
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:22:48 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:40214 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1htA6X-0001SL-E3
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 08:22:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id B458A1A215B;
+ Thu,  1 Aug 2019 14:21:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 966141A20CF;
+ Thu,  1 Aug 2019 14:21:39 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Thu,  1 Aug 2019 14:21:01 +0200
+Message-Id: <1564662076-17964-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH for 4.2 v5 00/15] linux-user: Misc patches for
+ 4.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,56 +49,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrea Bolognani <abologna@redhat.com>,
- qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 31, 2019 at 01:02:13PM +0200, Sergio Lopez wrote:
-> 
-> Andrea Bolognani <abologna@redhat.com> writes:
-> 
-> > On Mon, 2019-07-29 at 14:57 +0200, Sergio Lopez wrote:
-> > [...]
-> >>  /* virtio-mmio device */
-> >>  
-> >>  static Property virtio_mmio_properties[] = {
-> >>      DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
-> >>                       format_transport_address, true),
-> >> +    DEFINE_PROP_BOOL("modern", VirtIOMMIOProxy, modern, false),
-> >>      DEFINE_PROP_END_OF_LIST(),
-> >>  };
-> >
-> > Not a QEMU developer so forgive me if I say something silly, but IIUC
-> > you'd be able to opt into the new feature by using eg.
-> >
-> >   -device virtio-net-device,modern=on
-> >
-> > However, virtio-pci devices already have a mechanism to control the
-> > VirtIO protocol version, where you use
-> >
-> >   -device virtio-net-pci,disable-modern=no,disable-legacy=yes
-> >
-> > to get a VirtIO 1.x-only device and
-> >
-> >   -device virtio-net-pci,disable-modern=no,disable-legacy=no
-> >
-> > for a transitional device.
-> >
-> > Can you please make sure virtio-mmio uses the existing interface
-> > instead of introducing a new one?
-> 
-> The problem here is that virtio-pci devices register an specific type
-> for each kind of supported device (virtio-net-pci, virtio-blk-pci...),
-> while virtio-mmio doesn't. This saves a lot of boilerplate, but also
-> implies that bus properties can't be passed through the attached device
-> (virtio-blk-device can't carry properties for it's virtio-mmio parent
-> bus).
-> 
-> Sergio.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-That's something we wanted to fix a long time ago though.
+A set of misc linux user patches for 4.2.
+
+v4->v5:
+
+  - added a patch containing support for two additional ioctls
+  - added two patches containing fixes for four additional ioctls
+
+v3->v4:
+
+  - reworked the patch on semtimedop()
+  - added five patches containing support for ten additional
+    ioctls
+  - minor improvements of code formatting
+
+v2->v3:
+
+  - minor code formatting improvements
+  - added a patch on semtimedop()
+
+v1->v2:
+
+  - updated commit messages
+  - minor improvements of code formatting
+  - added three patches containing support for ten additional
+    ioctls 
+
+Aleksandar Markovic (13):
+  linux-user: Add support for FDMSGON and FDMSGOFF ioctls
+  linux-user: Add support for FDRESET, FDRAWCMD, FDTWADDLE, and FDEJECT
+    ioctls
+  linux-user: Add support for FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls
+  linux-user: Add support for FDSETEMSGTRESH, FDSETMAXERRS, and
+    FDGETMAXERRS ioctls
+  linux-user: Add support for HDIO_GET_NICE and HDIO_SET_NICE ioctls
+  linux-user: Add support for HDIO_GET_WCACHE and HDIO_SET_WCACHE ioctls
+  linux-user: Add support for HDIO_GET_ACOUSTIC and HDIO_SET_ACOUSTIC
+    ioctls
+  linux-user: Add support for HDIO_GET_ADDRESS and HDIO_SET_ADDRESS
+    ioctls
+  linux-user: Add support for HDIO_GET_BUSSTATE and HDIO_SET_BUSSTATE
+    ioctls
+  linux-user: Add support for KDGKBMETA and KDSKBMETA ioctls
+  linux-user: Fix support for KDGKBLED and KDSKBLED ioctls
+  linux-user: Fix support for KDGETLED and KDSETLED ioctls
+  linux-user: Add support for RNDRESEEDCRNG ioctl
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for semtimedop() syscall
+
+Yunqiang Su (1):
+  linux user: Add support for FDFLUSH ioctl
+
+ linux-user/ioctls.h        | 36 ++++++++++++++++++++++++++++++++----
+ linux-user/syscall.c       | 41 +++++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h | 12 ++++++++++++
+ 4 files changed, 130 insertions(+), 4 deletions(-)
 
 -- 
-MST
+2.7.4
+
 
