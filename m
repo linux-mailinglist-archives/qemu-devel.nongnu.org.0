@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF637DDBA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 16:22:17 +0200 (CEST)
-Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342FA7DDBE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 16:22:51 +0200 (CEST)
+Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htByC-000107-6F
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 10:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53256)
+	id 1htByk-0001rJ-EZ
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 10:22:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53409)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1htBwW-0000Aq-UX
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:20:34 -0400
+ (envelope-from <no-reply@patchew.org>) id 1htBxG-0000Xp-SJ
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:21:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1htBwS-0007N4-IT
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:20:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58248)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1htBwP-0007I5-2u
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:20:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0BE6E8CAA;
- Thu,  1 Aug 2019 14:20:22 +0000 (UTC)
-Received: from work-vm (ovpn-117-184.ams2.redhat.com [10.36.117.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 274CC5D9E1;
- Thu,  1 Aug 2019 14:20:18 +0000 (UTC)
-Date: Thu, 1 Aug 2019 15:20:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190801142016.GI2773@work-vm>
-References: <5D3F8F04.3030404@huawei.com>
- <4ec43f2f-1d72-5fe1-3b93-2c75ee6f87b4@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1htBxC-0007Yi-FI
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:21:17 -0400
+Resent-Date: Thu, 01 Aug 2019 10:21:15 -0400
+Resent-Message-Id: <E1htBxC-0007Yi-FI@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21413)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1htBxB-0007XF-PR
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 10:21:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1564669249; cv=none; d=zoho.com; s=zohoarc; 
+ b=Ut640Bb74u0mDYVqEmgkwTynkowi7GEYnOJpZL01qB0F0EbYw7Ks0Ug9HYKRSCR5huAnCaSDetzQkVUCvrRV468IBt+jfJbX64ZJYpLjFZuWQPvt9yJUUg2Z6IILoyHt7N09fY7qE/9sHCxGKYpBfnWe1lsKpZinNyD7AhNAM4k=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1564669249;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=YUdW/fK+5qZhRObPZwHCpPSMfDQ+iOFnL/PRrDrBpwk=; 
+ b=EL8olLKaXKGueV9pYYTgMv6XIqGJC4jV9setYD+pY4J56+kOeyN1BcpG47Ug7To3ce+c/BNNnsbHg806TQ3Z/e5mnwPg9B95HFUPKrAJqL0BJ69jIqisHD7I3gbRkeroMxi8sdpPO8kqFuM3aGN4+GR5ewqoxh1pO6V3UXVrLA8=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1564669248959535.9394427273625;
+ Thu, 1 Aug 2019 07:20:48 -0700 (PDT)
+Message-ID: <156466924771.20702.18065485967290808270@c4a48874b076>
+In-Reply-To: <20190731160719.11396-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ec43f2f-1d72-5fe1-3b93-2c75ee6f87b4@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 01 Aug 2019 14:20:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Thu, 1 Aug 2019 07:20:48 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Virtio-fs] [PATCH] virtiofsd: fix compile error
- if 'F_OFD_GETLK' not defined
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH  v4 00/54] plugins for TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,74 +61,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: piaojun <piaojun@huawei.com>, virtio-fs@redhat.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: bobby.prani@gmail.com, cota@braap.org, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org, aaron@os.amperecomputing.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eric Blake (eblake@redhat.com) wrote:
-> On 7/29/19 7:27 PM, piaojun wrote:
-> > Use F_GETLK for fcntl when F_OFD_GETLK not defined.
-> 
-> Which system are you hitting this problem on?
-> 
-> The problem with F_GETLK is that it is NOT as safe as F_OFD_GETLK.
-> 
-> We already have fcntl_op_getlk and qemu_probe_lock_ops() in util/osdep.c
-> to not only determine which form to use, but also to emit a warning to
-> the end user if we had to fall back to the unsafe F_GETLK. Why is your
-> code not reusing that logic?
-> 
-> > 
-> > Signed-off-by: Jun Piao <piaojun@huawei.com>
-> > ---
-> >  contrib/virtiofsd/passthrough_ll.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthrough_ll.c
-> > index 9ae1381..757785b 100644
-> > --- a/contrib/virtiofsd/passthrough_ll.c
-> > +++ b/contrib/virtiofsd/passthrough_ll.c
-> > @@ -1619,7 +1619,11 @@ static void lo_getlk(fuse_req_t req, fuse_ino_t ino,
-> >  		return;
-> >  	}
-> > 
-> > +#ifdef F_OFD_GETLK
-> >  	ret = fcntl(plock->fd, F_OFD_GETLK, lock);
-> > +#else
-> > +	ret = fcntl(plock->fd, F_GETLK, lock);
-> > +#endif
-> 
-> Hmm. Since this is in contrib, you are trying to compile something that
-> is independent of util/osdep.c (at least, I assume that's the case, as
-> contrib/virtiofsd/ is not even part of qemu.git master yet - in which
-> case, why is this not being squashed in to the patch introducing that
-> file, rather than sent standalone).  On the other hand, that raises the
-> question - who is trying to use virtiofsd on a kernel that is too old to
-> provid F_OFD_GETLK?  Isn't the whole point of virtiofsd to be speeding
-> up modern usage, at which point an old kernel is just gumming up the
-> works?  It seems like you are better off letting compilation fail on a
-> system that is too old to support decent F_OFD_GETLK, rather than
-> silently falling back to something that is unsafe.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDczMTE2MDcxOS4xMTM5
+Ni0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRo
+ZSBhc2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0
+aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4g
+cHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUg
+bWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRtbXUg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB4ODZfNjQt
+c29mdG1tdS9jcHVzLm8KICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L2dkYnN0dWIubwogIENDICAg
+ICAgeDg2XzY0LXNvZnRtbXUvYmFsbG9vbi5vCi90bXAvcWVtdS10ZXN0L3NyYy9kaXNhcy5jOjUw
+Mzo1OiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRpZmllciAnY3NoJwogICAgY3NoIGhh
+bmRsZTsKICAgIF4KL3RtcC9xZW11LXRlc3Qvc3JjL2Rpc2FzLmM6NTA0OjU6IGVycm9yOiB1c2Ug
+b2YgdW5kZWNsYXJlZCBpZGVudGlmaWVyICdjc19pbnNuJwogICAgY3NfaW5zbiAqaW5zbjsKICAg
+IF4KL3RtcC9xZW11LXRlc3Qvc3JjL2Rpc2FzLmM6NTA0OjE0OiBlcnJvcjogdXNlIG9mIHVuZGVj
+bGFyZWQgaWRlbnRpZmllciAnaW5zbic7IGRpZCB5b3UgbWVhbiAnaW5mbyc/CiAgICBjc19pbnNu
+ICppbnNuOwogICAgICAgICAgICAgXn5+fgogICAgICAgICAgICAgaW5mbwovdG1wL3FlbXUtdGVz
+dC9zcmMvZGlzYXMuYzo1MDA6NDY6IG5vdGU6ICdpbmZvJyBkZWNsYXJlZCBoZXJlCmJvb2wgcGx1
+Z2luX2NhcF9kaXNhc19pbnNuKGRpc2Fzc2VtYmxlX2luZm8gKmluZm8sIHVpbnQ2NF90IHBjLCBz
+aXplX3Qgc2l6ZSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+XgovdG1wL3FlbXUtdGVzdC9zcmMvZGlzYXMuYzo1MDk6OTogZXJyb3I6IGltcGxpY2l0IGRlY2xh
+cmF0aW9uIG9mIGZ1bmN0aW9uICdjYXBfZGlzYXNfc3RhcnQnIGlzIGludmFsaWQgaW4gQzk5IFst
+V2Vycm9yLC1XaW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgICBpZiAoY2FwX2Rpc2Fz
+X3N0YXJ0KGluZm8sICZoYW5kbGUpICE9IENTX0VSUl9PSykgewogICAgICAgIF4KL3RtcC9xZW11
+LXRlc3Qvc3JjL2Rpc2FzLmM6NTA5Ojk6IGVycm9yOiB0aGlzIGZ1bmN0aW9uIGRlY2xhcmF0aW9u
+IGlzIG5vdCBhIHByb3RvdHlwZSBbLVdlcnJvciwtV3N0cmljdC1wcm90b3R5cGVzXQovdG1wL3Fl
+bXUtdGVzdC9zcmMvZGlzYXMuYzo1MDk6MzI6IGVycm9yOiB1c2Ugb2YgdW5kZWNsYXJlZCBpZGVu
+dGlmaWVyICdoYW5kbGUnCiAgICBpZiAoY2FwX2Rpc2FzX3N0YXJ0KGluZm8sICZoYW5kbGUpICE9
+IENTX0VSUl9PSykgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgovdG1wL3FlbXUt
+dGVzdC9zcmMvZGlzYXMuYzo1MDk6NDM6IGVycm9yOiB1c2Ugb2YgdW5kZWNsYXJlZCBpZGVudGlm
+aWVyICdDU19FUlJfT0snCiAgICBpZiAoY2FwX2Rpc2FzX3N0YXJ0KGluZm8sICZoYW5kbGUpICE9
+IENTX0VSUl9PSykgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
+Ci90bXAvcWVtdS10ZXN0L3NyYy9kaXNhcy5jOjUxMjo1OiBlcnJvcjogdXNlIG9mIHVuZGVjbGFy
+ZWQgaWRlbnRpZmllciAnaW5zbicKICAgIGluc24gPSBjYXBfaW5zbjsKICAgIF4KL3RtcC9xZW11
+LXRlc3Qvc3JjL2Rpc2FzLmM6NTEyOjEyOiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRp
+ZmllciAnY2FwX2luc24nCiAgICBpbnNuID0gY2FwX2luc247CiAgICAgICAgICAgXgovdG1wL3Fl
+bXUtdGVzdC9zcmMvZGlzYXMuYzo1MTg6MTM6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBv
+ZiBmdW5jdGlvbiAnY3NfZGlzYXNtJyBpcyBpbnZhbGlkIGluIEM5OSBbLVdlcnJvciwtV2ltcGxp
+Y2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQogICAgY291bnQgPSBjc19kaXNhc20oaGFuZGxlLCBj
+YnVmLCBzaXplLCAwLCAxLCAmaW5zbik7CiAgICAgICAgICAgIF4KL3RtcC9xZW11LXRlc3Qvc3Jj
+L2Rpc2FzLmM6NTE4OjEzOiBlcnJvcjogdGhpcyBmdW5jdGlvbiBkZWNsYXJhdGlvbiBpcyBub3Qg
+YSBwcm90b3R5cGUgWy1XZXJyb3IsLVdzdHJpY3QtcHJvdG90eXBlc10KL3RtcC9xZW11LXRlc3Qv
+c3JjL2Rpc2FzLmM6NTE4OjIzOiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRpZmllciAn
+aGFuZGxlJwogICAgY291bnQgPSBjc19kaXNhc20oaGFuZGxlLCBjYnVmLCBzaXplLCAwLCAxLCAm
+aW5zbik7CiAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9kaXNhcy5j
+OjUxODo1MDogZXJyb3I6IHVzZSBvZiB1bmRlY2xhcmVkIGlkZW50aWZpZXIgJ2luc24nCiAgICBj
+b3VudCA9IGNzX2Rpc2FzbShoYW5kbGUsIGNidWYsIHNpemUsIDAsIDEsICZpbnNuKTsKICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KL3RtcC9xZW11LXRl
+c3Qvc3JjL2Rpc2FzLmM6NTIxOjM3OiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRpZmll
+ciAnaW5zbicKICAgICAgICBnX3N0cmluZ19wcmludGYocywgIiVzICVzIiwgaW5zbi0+bW5lbW9u
+aWMsIGluc24tPm9wX3N0cik7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4K
+L3RtcC9xZW11LXRlc3Qvc3JjL2Rpc2FzLmM6NTIxOjUzOiBlcnJvcjogdXNlIG9mIHVuZGVjbGFy
+ZWQgaWRlbnRpZmllciAnaW5zbicKICAgICAgICBnX3N0cmluZ19wcmludGYocywgIiVzICVzIiwg
+aW5zbi0+bW5lbW9uaWMsIGluc24tPm9wX3N0cik7CiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9kaXNhcy5jOjUy
+Njo1OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24gJ2NzX2Nsb3NlJyBp
+cyBpbnZhbGlkIGluIEM5OSBbLVdlcnJvciwtV2ltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9u
+XQogICAgY3NfY2xvc2UoJmhhbmRsZSk7CiAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9kaXNhcy5j
+OjUyNjo1OiBlcnJvcjogdGhpcyBmdW5jdGlvbiBkZWNsYXJhdGlvbiBpcyBub3QgYSBwcm90b3R5
+cGUgWy1XZXJyb3IsLVdzdHJpY3QtcHJvdG90eXBlc10KL3RtcC9xZW11LXRlc3Qvc3JjL2Rpc2Fz
+LmM6NTI2OjE1OiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRpZmllciAnaGFuZGxlJwog
+ICAgY3NfY2xvc2UoJmhhbmRsZSk7CiAgICAgICAgICAgICAgXgoxOCBlcnJvcnMgZ2VuZXJhdGVk
+LgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAxOTA3MzExNjA3MTkuMTEzOTYtMS1hbGV4LmJlbm5lZUBsaW5hcm8ub3JnL3Rlc3RpbmcuYXNh
+bi8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
+Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
+IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-It is, but I guess the answer here is someone wanted to build on RHEL7.
-
-Dave
-
-> 
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
-> 
-
-
-
-
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://www.redhat.com/mailman/listinfo/virtio-fs
-
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
