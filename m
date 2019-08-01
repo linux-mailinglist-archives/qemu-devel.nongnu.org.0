@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83BD7E235
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:34:08 +0200 (CEST)
-Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFB47E25A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:38:51 +0200 (CEST)
+Received: from localhost ([::1]:58336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htFtw-0000g5-4d
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1htFyU-0005rl-F3
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59336)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqS-0005uF-B6
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqT-0005vr-3N
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002S1-6K
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002Sj-AW
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:32 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39211)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44371)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1htFqP-0002P2-3T
+ id 1htFqP-0002PG-5F
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:31 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x4so21465714wrt.6
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:22 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id p17so74604542wrf.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3FODED0uQTCIp9i/Uj2KBnwfZMeWNFHFWbEgO2/SvW0=;
- b=oqZOm/i/bOVCchgn/ikeoTHNUCQViOfo9VrsFdncb4TrJxV6DIYHvaJhIyhbp8M34E
- O3efUZoqCgALq8pUphOj+7qyTYBnlNY5C3k/3C1Lm7tD9Sx+CgNGoSXPKpjqwkHYQSdI
- 9dukHmgtjFmgoIRLX5XnqDx0D9SuUTRvyhgEHsP7wbcsmmWS18JqH1XwEFo5ul3/aZIO
- Usrem6Nv59KpZlqjROXcezV4+z9GiH64PPmQwuAN+GfRIpy6a5NVfO+gYhSkTPFkeyuj
- Iu8LWanrDjhIPltgHGD556Et+UtcxssPq3rViehJwFI/MxN9aEJB0S7Ut4L0dGvXNo4F
- NdXw==
+ bh=3ACUCJ4J4ZTgyEv5rJDA4/ZTS/t+qCZGcs+88DOJKtM=;
+ b=Dsyu8dRbkRv6Z6/o2I3QGG2JObWj+0cw1TybpS+MLUg6RIOpcIDTsmlQSBJO/CJN7y
+ 9ftWu5Dzuj10ZSg3UdSQsbKaW4bk3mBL1Z7z5JM1+b5d216T3U4S08XBL3Z6eZzP7OxT
+ Y4V9jcUAipheMj4zzF1pGr59G9yTVKuBiX+K6WqOTMN8A5G7elgLSvLotw3eXXECjWQk
+ KZHOLAqRUmFJAN4KaX3/nMeOJghArqBWRx3ZArm3qqp5ioi9Vd9+/s7x06cQKtbk/+O6
+ hpDW+/8hbD6V2HQeffJV6dor+M0/Go0epXYTcZx5i0MhORIG9c/iqvlWEXk7eW/+MzgX
+ F+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3FODED0uQTCIp9i/Uj2KBnwfZMeWNFHFWbEgO2/SvW0=;
- b=Gxc2n8KCCKnN3kvUIRzgH8Ryc13RvE5rS+UbFLYhtouh90ZzEbHAV6Ys5CWZJllzoR
- 6hibhuKL0mrc9Jx7VENJmtdRQQ0qdj5KV5Ny8jP/xjR5A79jW8O9Uf9f6+gr2kl9ztof
- QNL4O73y/5Pk3rkPtJZToYMVkTZdkdXcizrRSqezOfVXr+/DRMcPMzaKEjLhGXAOR77T
- PjBHghrN4n0lCaGhYrFc3G36dm6bQIOs+PHvZx6OKAxBKV7Du11+EZPJ5ilcyxL2otAY
- skaKS4MDubbbhTcCw4cXqqSQOvSaX76IMCQswjkv3IHfMQMfBRtCLlnrNEkimOsaS0Bt
- fvfQ==
-X-Gm-Message-State: APjAAAUAiOZ2428IshkI114KaT2n6sqJVaAsjWwXEUIBPMqbMSO2NZV0
- FMC/6TAAfHzPgdrCTVqAF8w3hW5BOIjH5g==
-X-Google-Smtp-Source: APXvYqyJZTdlkTvpfeIWyOpDX2kFhFewQNSxALyxkYQz+1bTsNWgedBOoUIP71HbUDihG9bI7QdapQ==
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr108059412wrx.51.1564684221350; 
- Thu, 01 Aug 2019 11:30:21 -0700 (PDT)
+ bh=3ACUCJ4J4ZTgyEv5rJDA4/ZTS/t+qCZGcs+88DOJKtM=;
+ b=BnOBjgnPWXtdgiO4G2HtwECSN6QI/KGNxHTyNHehz9k9ybey7E4Os61v5Cyx1XiCks
+ log5Hd7o7jERN7Z5pjkT5cZ/h1fmochbYIz2TvR/Ty5hSy1Jy8BMFQUsk7eFVVwKFVdr
+ fYPAS1q7ocMI3Ymts6dEaH775ZXj+B1OekmoTHpL77ErFADP1/rPuR0K3hE5LlSTR4nl
+ cTX1TI1HB5Y27JQzUKLGnGuQWKdVbhCyMONna6eWCKFJYCcK5XHOba4/szMGFUkKDSxP
+ uv18WXRohjjjNemEiP8DCJmb05RIx9aGGN5nG6UzLaM839+QlyKx1pZ2mMwa8ph34yjQ
+ EQ8Q==
+X-Gm-Message-State: APjAAAWKAoukyFiUy1oowOX/AEypd9ekvnBSjujN4exn0j74ha1W3Ngi
+ N66RAdigi6NrKzBzJe4SbuJ8uy/B1PXOYQ==
+X-Google-Smtp-Source: APXvYqydhDFvlAuN8tjcCAXDcft5Rq4xi8kNNkesauPrWp0qqnj2PX+0f2aZ9YkeJCo/GYBZQxxaiQ==
+X-Received: by 2002:adf:f046:: with SMTP id t6mr26164668wro.307.1564684222387; 
+ Thu, 01 Aug 2019 11:30:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.20
+ by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.21
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 01 Aug 2019 11:30:20 -0700 (PDT)
+ Thu, 01 Aug 2019 11:30:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 19:30:11 +0100
-Message-Id: <20190801183012.17564-7-peter.maydell@linaro.org>
+Date: Thu,  1 Aug 2019 19:30:12 +0100
+Message-Id: <20190801183012.17564-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190801183012.17564-1-peter.maydell@linaro.org>
 References: <20190801183012.17564-1-peter.maydell@linaro.org>
@@ -65,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH 6/7] target/sparc: Remove unused ldl_phys from
- dump_mmu()
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH 7/7] target/sparc: Switch to
+ do_transaction_failed() hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,32 +84,82 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dump_mmu() function does a ldl_phys() at the start, but
-then never uses the value it loads at all. Remove the
-unused code.
+Switch the SPARC target from the old unassigned_access hook to the
+new do_transaction_failed hook.
+
+This will cause the "if transaction failed" code paths added in
+the previous commits to become active if the access is to an
+unassigned address. In particular we'll now handle bus errors
+during page table walks correctly (generating a translation
+error with the right kind of fault status).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/sparc/mmu_helper.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ target/sparc/cpu.h         |  8 +++++---
+ target/sparc/cpu.c         |  2 +-
+ target/sparc/ldst_helper.c | 16 ++++++++++++----
+ 3 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index d90aabfa4d2..9a9f2cf9535 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -375,11 +375,9 @@ void dump_mmu(CPUSPARCState *env)
-     CPUState *cs = env_cpu(env);
-     target_ulong va, va1, va2;
-     unsigned int n, m, o;
--    hwaddr pde_ptr, pa;
-+    hwaddr pa;
-     uint32_t pde;
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 8ed2250cd03..0bf365bed22 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -614,9 +614,11 @@ static inline int tlb_compare_context(const SparcTLBEntry *tlb,
  
--    pde_ptr = (env->mmuregs[1] << 4) + (env->mmuregs[2] << 2);
--    pde = ldl_phys(cs->as, pde_ptr);
-     qemu_printf("Root ptr: " TARGET_FMT_plx ", ctx: %d\n",
-                 (hwaddr)env->mmuregs[1] << 4, env->mmuregs[2]);
-     for (n = 0, va = 0; n < 256; n++, va += 16 * 1024 * 1024) {
+ /* cpu-exec.c */
+ #if !defined(CONFIG_USER_ONLY)
+-void sparc_cpu_unassigned_access(CPUState *cpu, hwaddr addr,
+-                                 bool is_write, bool is_exec, int is_asi,
+-                                 unsigned size);
++void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                     vaddr addr, unsigned size,
++                                     MMUAccessType access_type,
++                                     int mmu_idx, MemTxAttrs attrs,
++                                     MemTxResult response, uintptr_t retaddr);
+ #if defined(TARGET_SPARC64)
+ hwaddr cpu_get_phys_page_nofault(CPUSPARCState *env, target_ulong addr,
+                                            int mmu_idx);
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index ee60a5536a0..bc659295520 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -877,7 +877,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = sparc_cpu_gdb_write_register;
+     cc->tlb_fill = sparc_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_unassigned_access = sparc_cpu_unassigned_access;
++    cc->do_transaction_failed = sparc_cpu_do_transaction_failed;
+     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_sparc_cpu;
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index 91cd0b593ef..7345827a966 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -1943,11 +1943,19 @@ void helper_st_asi(CPUSPARCState *env, target_ulong addr, target_ulong val,
+ #endif /* TARGET_SPARC64 */
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-void sparc_cpu_unassigned_access(CPUState *cs, hwaddr addr,
+-                                 bool is_write, bool is_exec, int is_asi,
+-                                 unsigned size)
++
++void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
++                                     vaddr addr, unsigned size,
++                                     MMUAccessType access_type,
++                                     int mmu_idx, MemTxAttrs attrs,
++                                     MemTxResult response, uintptr_t retaddr)
+ {
+-    sparc_raise_mmu_fault(cs, addr, is_write, is_exec, is_asi, size, GETPC());
++    bool is_write = access_type == MMU_DATA_STORE;
++    bool is_exec = access_type == MMU_INST_FETCH;
++    bool is_asi = false;
++
++    sparc_raise_mmu_fault(cs, physaddr, is_write, is_exec,
++                          is_asi, size, retaddr);
+ }
+ #endif
+ 
 -- 
 2.20.1
 
