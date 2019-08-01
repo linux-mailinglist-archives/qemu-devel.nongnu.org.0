@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AC17E239
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:35:07 +0200 (CEST)
-Received: from localhost ([::1]:58310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6270F7E249
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 20:36:40 +0200 (CEST)
+Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htFus-0001aa-9i
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59322)
+	id 1htFwN-00035Z-KA
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 14:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59319)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqS-0005vS-U7
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqS-0005vP-Si
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002SH-9d
+ (envelope-from <peter.maydell@linaro.org>) id 1htFqR-0002Sd-AA
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37113)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39210)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1htFqP-0002OQ-6N
+ id 1htFqP-0002Og-47
  for qemu-devel@nongnu.org; Thu, 01 Aug 2019 14:30:31 -0400
-Received: by mail-wm1-x341.google.com with SMTP id f17so64042010wme.2
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:19 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id x4so21465635wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 11:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y8kQnNWj7L1RglFpXZuQmS8CMCen+lRIUG4/xhzv4ZM=;
- b=M5yAL39dhkc5GOLJIGQCNp/qjS7NA4Se4DEJNKG99MP/cwLl7TI/BVS8wdOJ22GeGu
- L2LBW3inV+2j+UshOt3zz1b2da6nGMcGMCj1ND0IDhJyelYA0IoG1uEFG1kpdYmhMkLL
- Bssm7bMtOC/RPAIcfg5W59OBpE2m98Y+K9q5QAG6deiOHTEI5VSjmQC7Uiy3vXM5mIL3
- cp9fgX03pWL46O5hEW/31PivBOd0p7pGufa5TpiAPRqBkrPTCRvRwgqR4NkICRAAyD8I
- 1T7BgWNRpG3bHzqxrQ4T3ppXpgtW9GiRHinl/fghslG2le8MxL3LegOsz6KSKih/IkQR
- RSzA==
+ bh=jQ2BSNZ1NixiavteNncErEBde69dl7wbZ/ajGAMjaso=;
+ b=E0tipkqpTa+IkOxzA7y99ohE+vzBTGPdnccQVPwGUzZhfguWW6Ja1dUD98o7W8EqXV
+ J3MCvTVTSYxIicfyyJKW7FQnR53dgfr/wwPILa4mpIuO03NC9esn7Bt1wLv/IQegqfDd
+ LWg4L8WOJAnKb7PEmqblW9QcKhnjwx7++Z5JUpLhpoiYIMMz0W1JmuktB2k7KOXwkiLS
+ Q17zY5cnfPhBorv5/noITShQlXAT46O6OmN89a2+uvk0sDw+1l/2VWUc/r8dK5niTfNJ
+ w48X0mMAdppM69O4JGh8sbqMXYlBRWiy9REQmGXMpX3lgGcPolyNa3ZNCQK33n/JQ3J7
+ WLRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y8kQnNWj7L1RglFpXZuQmS8CMCen+lRIUG4/xhzv4ZM=;
- b=da86EPUL8CTc4FXgGIbAsGpDPFE646EQ2GZks6ryHkuI58mBSWyCbghJvDKlwN0wlU
- MEdG7tHCMWnDChVfWSP8h5WElnl1SLtva1wHDVVBQn/9Xe3PRBFTA9Zjn3+0gz3/6wtb
- /H1I/YXoeTcQ1hT9VTKH9vkv8ddR70itcT2yPUHCTYdPFNcIsxJhfyi0THacEgKuJjW5
- ZhQtli3Tm3gX1znbsVJYN1K/yNHTG5A3C8Zy2Ya5WBrWwSPfGeOEopL7SPOVw7IPWghX
- ovwI7TiKSSD6TM2jt/MhibQYFWrBJnSY+710xVUnkcERasAXSHxsS0pjM9/zbAaWxaEz
- o17g==
-X-Gm-Message-State: APjAAAX1QQCvV3AoVoSP4Xcf+crFl8Eoeok94AHkq2q9FVvvpstofOM5
- hJGH151ESxXKyT0vZJHsrBzS6o1KqeUmGA==
-X-Google-Smtp-Source: APXvYqyN058HVBOiEQ0i8bYu6Q+XZ+SWWwvIJxtfaH0SXt7KQsoeUrKCVtQYZhO6nxV5R0sXzf23pQ==
-X-Received: by 2002:a1c:544d:: with SMTP id p13mr121996wmi.78.1564684218157;
- Thu, 01 Aug 2019 11:30:18 -0700 (PDT)
+ bh=jQ2BSNZ1NixiavteNncErEBde69dl7wbZ/ajGAMjaso=;
+ b=p8ZeNNCKJpq2ovTbMJwPYTwW+w+r/s4LVm2cMJ6qDFtovqGzSYIZB6hj8tIWJ99MKU
+ 1KmjQ6xxVOezfN7kFaaz9IYXD2R6YEdTjQtu/uMTfMAxH4Xc0OWjR1GXLeXOc14didPg
+ j8vFyw42qGzxwHQ8JehhyiqG1mXJlllyiOcdtHcYlZpM4YIUFVDiUNC6p7WQJtlvM52l
+ DLJ/0l11qfhrWQpEGk42g0gqwiu2e0RptD5wZg52d8XkDWZt0zEeEgu4pS/Z7TpFBq31
+ U9Xn6IkrjAUmixbfRQiXyRBuhmfCbICo3b0Eq4i5/ugmKK2pJNoOBILd2Fz5KqTeOwf8
+ JqLQ==
+X-Gm-Message-State: APjAAAUqC1tbxgFS9SC4UlSVcI+4Cz1xnFuLjlMQ/yRh9ZGjothPsy/U
+ bvqxJUaV7i7yVVARY8L3URpBOmvRqoXjgQ==
+X-Google-Smtp-Source: APXvYqywiC2kO4QVl8gwqbYQNiwSm8T9+ne89cRcdDAAe/gh2dHnUgJxRa62E5UYmeNLe7oW84BkXQ==
+X-Received: by 2002:adf:f544:: with SMTP id j4mr37489063wrp.150.1564684219284; 
+ Thu, 01 Aug 2019 11:30:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.17
+ by smtp.gmail.com with ESMTPSA id e6sm71702104wrw.23.2019.08.01.11.30.18
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 01 Aug 2019 11:30:17 -0700 (PDT)
+ Thu, 01 Aug 2019 11:30:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  1 Aug 2019 19:30:08 +0100
-Message-Id: <20190801183012.17564-4-peter.maydell@linaro.org>
+Date: Thu,  1 Aug 2019 19:30:09 +0100
+Message-Id: <20190801183012.17564-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190801183012.17564-1-peter.maydell@linaro.org>
 References: <20190801183012.17564-1-peter.maydell@linaro.org>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH 3/7] target/sparc: Check for transaction
- failures in MXCC stream ASI accesses
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH 4/7] target/sparc: Correctly handle bus errors
+ in page table walks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,115 +84,87 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the ld/st_asi helper functions make calls to the
-ld*_phys() and st*_phys() functions for those ASIs which
-imply direct accesses to physical addresses. These implicitly
-rely on the unassigned_access hook to cause them to generate
-an MMU fault if the access fails.
+Currently we use the ldl_phys() function to read page table entries.
+With the unassigned_access hook in place, if these hit an unassigned
+area of memory then the hook will cause us to wrongly generate
+an exception with a fault address matching the address of the
+page table entry.
 
-Switch to using the address_space_* functions instead, which
-return a MemTxResult that we can check. This means that when
-we switch SPARC over to using the do_transaction_failed hook
-we'll still get the same MMU faults we did before.
+Change to using address_space_ldl() so we can detect and correctly
+handle bus errors and give them their correct behaviour of
+causing a translation error with a suitable fault status register.
 
-This commit converts the ASIs which do MXCC stream source
-and destination accesses.
-
-It's not clear to me whether raising an MMU fault like this
-is the correct behaviour if we encounter a bus error, but
-we retain the same behaviour that the old unassigned_access
-hook would implement.
+Note that this won't actually take effect until we switch the
+over to using the do_translation_failed hook.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/sparc/ldst_helper.c | 57 +++++++++++++++++++++++++-------------
- 1 file changed, 37 insertions(+), 20 deletions(-)
+ target/sparc/mmu_helper.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
-index 39698c58859..91cd0b593ef 100644
---- a/target/sparc/ldst_helper.c
-+++ b/target/sparc/ldst_helper.c
-@@ -880,6 +880,9 @@ void helper_st_asi(CPUSPARCState *env, target_ulong addr, uint64_t val,
-             }
-             break;
-         case 0x01c00100: /* MXCC stream source */
-+        {
-+            int i;
-+
-             if (size == 8) {
-                 env->mxccregs[0] = val;
-             } else {
-@@ -887,20 +890,27 @@ void helper_st_asi(CPUSPARCState *env, target_ulong addr, uint64_t val,
-                               "%08x: unimplemented access size: %d\n", addr,
-                               size);
-             }
--            env->mxccdata[0] = ldq_phys(cs->as,
--                                        (env->mxccregs[0] & 0xffffffffULL) +
--                                        0);
--            env->mxccdata[1] = ldq_phys(cs->as,
--                                        (env->mxccregs[0] & 0xffffffffULL) +
--                                        8);
--            env->mxccdata[2] = ldq_phys(cs->as,
--                                        (env->mxccregs[0] & 0xffffffffULL) +
--                                        16);
--            env->mxccdata[3] = ldq_phys(cs->as,
--                                        (env->mxccregs[0] & 0xffffffffULL) +
--                                        24);
-+
-+            for (i = 0; i < 4; i++) {
-+                MemTxResult result;
-+                hwaddr access_addr = (env->mxccregs[0] & 0xffffffffULL) + 8 * i;
-+
-+                env->mxccdata[i] = address_space_ldq(cs->as,
-+                                                     access_addr,
-+                                                     MEMTXATTRS_UNSPECIFIED,
-+                                                     &result);
-+                if (result != MEMTX_OK) {
-+                    /* TODO: investigate whether this is the right behaviour */
-+                    sparc_raise_mmu_fault(cs, access_addr, false, false,
-+                                          false, size, GETPC());
-+                }
-+            }
-             break;
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index cbd1e911796..351055a09b1 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -98,6 +98,7 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+     int error_code = 0, is_dirty, is_user;
+     unsigned long page_offset;
+     CPUState *cs = env_cpu(env);
++    MemTxResult result;
+ 
+     is_user = mmu_idx == MMU_USER_IDX;
+ 
+@@ -120,7 +121,10 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+     /* SPARC reference MMU table walk: Context table->L1->L2->PTE */
+     /* Context base + context number */
+     pde_ptr = (env->mmuregs[1] << 4) + (env->mmuregs[2] << 2);
+-    pde = ldl_phys(cs->as, pde_ptr);
++    pde = address_space_ldl(cs->as, pde_ptr, MEMTXATTRS_UNSPECIFIED, &result);
++    if (result != MEMTX_OK) {
++        return 4 << 2; /* Translation fault, L = 0 */
++    }
+ 
+     /* Ctx pde */
+     switch (pde & PTE_ENTRYTYPE_MASK) {
+@@ -132,7 +136,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+         return 4 << 2;
+     case 1: /* L0 PDE */
+         pde_ptr = ((address >> 22) & ~3) + ((pde & ~3) << 4);
+-        pde = ldl_phys(cs->as, pde_ptr);
++        pde = address_space_ldl(cs->as, pde_ptr,
++                                MEMTXATTRS_UNSPECIFIED, &result);
++        if (result != MEMTX_OK) {
++            return (1 << 8) | (4 << 2); /* Translation fault, L = 1 */
 +        }
-         case 0x01c00200: /* MXCC stream destination */
-+        {
-+            int i;
-+
-             if (size == 8) {
-                 env->mxccregs[1] = val;
-             } else {
-@@ -908,15 +918,22 @@ void helper_st_asi(CPUSPARCState *env, target_ulong addr, uint64_t val,
-                               "%08x: unimplemented access size: %d\n", addr,
-                               size);
-             }
--            stq_phys(cs->as, (env->mxccregs[1] & 0xffffffffULL) +  0,
--                     env->mxccdata[0]);
--            stq_phys(cs->as, (env->mxccregs[1] & 0xffffffffULL) +  8,
--                     env->mxccdata[1]);
--            stq_phys(cs->as, (env->mxccregs[1] & 0xffffffffULL) + 16,
--                     env->mxccdata[2]);
--            stq_phys(cs->as, (env->mxccregs[1] & 0xffffffffULL) + 24,
--                     env->mxccdata[3]);
-+
-+            for (i = 0; i < 4; i++) {
-+                MemTxResult result;
-+                hwaddr access_addr = (env->mxccregs[1] & 0xffffffffULL) + 8 * i;
-+
-+                address_space_stq(cs->as, access_addr, env->mxccdata[i],
-+                                  MEMTXATTRS_UNSPECIFIED, &result);
-+
-+                if (result != MEMTX_OK) {
-+                    /* TODO: investigate whether this is the right behaviour */
-+                    sparc_raise_mmu_fault(cs, access_addr, true, false,
-+                                          false, size, GETPC());
-+                }
+ 
+         switch (pde & PTE_ENTRYTYPE_MASK) {
+         default:
+@@ -142,7 +150,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+             return (1 << 8) | (4 << 2);
+         case 1: /* L1 PDE */
+             pde_ptr = ((address & 0xfc0000) >> 16) + ((pde & ~3) << 4);
+-            pde = ldl_phys(cs->as, pde_ptr);
++            pde = address_space_ldl(cs->as, pde_ptr,
++                                    MEMTXATTRS_UNSPECIFIED, &result);
++            if (result != MEMTX_OK) {
++                return (2 << 8) | (4 << 2); /* Translation fault, L = 2 */
 +            }
-             break;
-+        }
-         case 0x01c00a00: /* MXCC control register */
-             if (size == 8) {
-                 env->mxccregs[3] = val;
+ 
+             switch (pde & PTE_ENTRYTYPE_MASK) {
+             default:
+@@ -152,7 +164,11 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+                 return (2 << 8) | (4 << 2);
+             case 1: /* L2 PDE */
+                 pde_ptr = ((address & 0x3f000) >> 10) + ((pde & ~3) << 4);
+-                pde = ldl_phys(cs->as, pde_ptr);
++                pde = address_space_ldl(cs->as, pde_ptr,
++                                        MEMTXATTRS_UNSPECIFIED, &result);
++                if (result != MEMTX_OK) {
++                    return (3 << 8) | (4 << 2); /* Translation fault, L = 3 */
++                }
+ 
+                 switch (pde & PTE_ENTRYTYPE_MASK) {
+                 default:
 -- 
 2.20.1
 
