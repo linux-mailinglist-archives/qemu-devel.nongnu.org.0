@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF767E0CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:12:10 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486637E0DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 19:15:56 +0200 (CEST)
+Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htEcb-0000CU-F0
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39727)
+	id 1htEgF-00027F-GC
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 13:15:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40110)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htEYx-0007AQ-HU
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:08:24 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htEat-00005S-Ev
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:10:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htEYw-00062f-4J
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:08:23 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42331)
+ (envelope-from <richard.henderson@linaro.org>) id 1htEas-0006oC-Gr
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:10:23 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:36036)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htEYu-00060e-52
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:08:21 -0400
-Received: by mail-pg1-x543.google.com with SMTP id t132so34541583pgb.9
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 10:08:18 -0700 (PDT)
+ id 1htEaq-0006nV-LO
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 13:10:21 -0400
+Received: by mail-pf1-x441.google.com with SMTP id r7so34433540pfl.3
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 10:10:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PbRqNChtTAe3gXF1XdGSKXC2d762ZddNjjaPSW+B/rQ=;
- b=aVJ4J3yBvlsE8ND8+CNH0ZsCSxXO1x1aDmYRwlOVVgKvuYuOUpW3IsdDbIxzt4fzRG
- Q1V6uxtY2p5Yy0CFxH5FcQRRR7+bj7k6+u4C/zbpR0QxU8ZrC1BhzvjQk3exDlsrXyl/
- eEZr3THlxA2o+bBtVE1T15FpmI8NopY2j7147mTUWBC6M7K8XUoN4JwXXCjy7iXdTvuK
- 6EJeRr2TEIOUllAU2Du7POeLBissg9anqHkhDLvTx5USGQpd+YDN+qPXA8LwfxMkAPwt
- kC3CtzydxyKhgIDEitQJwDG2W7tlBSO4E7Fmjf7BFIu2twguu6Ziawrct0kJGbcxtuo4
- cwAA==
+ bh=Qj7ocepZO6/QCyo06+teBm0RTl3v7/Ul1/dGf+j/QOc=;
+ b=DuBu0IHkfTyu0cQ1m3E5yQ78o4Mynnibq0NnqHEL2bDFwbWFWJoDcehvhXAEIYVMi9
+ blAljkyNhIhBkx4thhjMvS9mgqqgrOF9BYLvkNG2sOsIqm2tjIw7jsdEakGd7kzIZtMU
+ /cYvYHiDZnrUcbVZg3amxyvWXrklUc0gS1a8PmPVevSPD5Fc8FVtuPcWfCkix+nglKR3
+ /pLLwj7hNufLVZ1xPiGYYCPrHQjicWT5a2E2cFaA4SgzgYeWNos92XuSWzZd8mtgoUwX
+ r/oykRzn1c908M4dAXjsq0ONU6OO6zI+xI1dDc6KCJHqLq/JwrdlI+WwUAJGxS134Yhx
+ qBAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PbRqNChtTAe3gXF1XdGSKXC2d762ZddNjjaPSW+B/rQ=;
- b=RXiJhtbxUUafIwYyMMq8CS/3W2PCeaSAwHZqVtRru4ez3wpbWT3mPHwD19alSisf06
- H/3W2fJmk5aWPSZZGOMPSOL+qxQY0NaVXpTWt2G/jEPRySZiZ3OwGHUIwiGRE2LnAVHF
- bR6XuVLXEIlYD95LEnGyWgLS2pitiuJdp1hIxhpV4M4L8laEdXs5dbiREnjHsFuq5/yb
- KOSwVC5dBB1055xUs6tu5lJpRt5zFE5nr5v5vvKEHtuiEJmZg2K8Uk0v3sa13N7RUafV
- 1FTdGDwtMMthE8BHQ3kl6m6J1wrMZ08c/UCoQxUFm4TyfJ6j003XGlHE48oUSk7M7T1g
- L5pw==
-X-Gm-Message-State: APjAAAV3lig5sjwtlt+VPU0ytI1YOT+ood4MFGGns6mX3bJDVYpGbf1N
- 93g1F1bZn35hXF5VsUFQmGGSTw==
-X-Google-Smtp-Source: APXvYqz80bZ1GLBQ1Q96QB6cY5OygZiytZfcYiKZxBmtZO8EUFJNMD+D8l5TUu/+MVKZFBcaVaEahw==
-X-Received: by 2002:a65:5043:: with SMTP id k3mr63508775pgo.406.1564679297748; 
- Thu, 01 Aug 2019 10:08:17 -0700 (PDT)
+ bh=Qj7ocepZO6/QCyo06+teBm0RTl3v7/Ul1/dGf+j/QOc=;
+ b=P5Hqn38ouZHmFO4lDDIAf7WbKQQF8pXJ7zKXkOEYzfGpI+50SZ1jd776NudDLdProA
+ x/Wa6FindRnKM5a088ylsj/aFouzxCSMXhOvwEDwk63SU3MNsLLfGZiGjfx9RxZ8U/Kr
+ NiUZednsZYNOzaY1K+MmpjiB7kh1D0Fb5+ra0lYHZVjaYWJlXLDDTdaKDHlpfigDIrAf
+ vr7UqX9pNhsppbCke47bXJYfz1n65IQ3NCfwU/ceNSkIsU6pfDXY3lSmRvq+BX9aFr5D
+ vxq5dAEfbw4q5YHhff1dDXNcCbbgTRgzRjq0t+oTUjXIAkN9U8Q/8mv7/WExqOcNQlpL
+ rHGg==
+X-Gm-Message-State: APjAAAVik0kqQDajCYe4UmMgbvbDOfX7+C/AR/tvjmwPfeXVoLJtE79F
+ 0UF0d80v9JJGyRmp7KdmoLX1Gg==
+X-Google-Smtp-Source: APXvYqzIjzbiZRlWIp6nh1B0ZRcU+WwebDwqMrLID7ndFItbIMteRvlw+S28XW0pEKb6JcI07LZbzQ==
+X-Received: by 2002:a63:3009:: with SMTP id w9mr46988696pgw.260.1564679418198; 
+ Thu, 01 Aug 2019 10:10:18 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id s22sm79854820pfh.107.2019.08.01.10.08.16
+ by smtp.gmail.com with ESMTPSA id p15sm5738859pjf.27.2019.08.01.10.10.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Aug 2019 10:08:17 -0700 (PDT)
+ Thu, 01 Aug 2019 10:10:17 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-18-alex.bennee@linaro.org>
+ <20190731160719.11396-19-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <86712f49-a013-28ca-8e85-aa2a35da25e0@linaro.org>
-Date: Thu, 1 Aug 2019 10:08:15 -0700
+Message-ID: <21c02eae-66bb-3d82-cad8-34b1d87ba104@linaro.org>
+Date: Thu, 1 Aug 2019 10:10:15 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190731160719.11396-18-alex.bennee@linaro.org>
+In-Reply-To: <20190731160719.11396-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH v4 17/54] cputlb: document
- get_page_addr_code
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v4 18/54] cputlb: introduce
+ get_page_addr_code_hostp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,13 +93,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/31/19 9:06 AM, Alex Bennée wrote:
 > From: "Emilio G. Cota" <cota@braap.org>
 > 
-> Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+> This will be used by plugins to get the host address
+> of instructions.
+> 
 > Signed-off-by: Emilio G. Cota <cota@braap.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  accel/tcg/cputlb.c      |  5 -----
->  include/exec/exec-all.h | 24 +++++++++++++++++++++---
->  2 files changed, 21 insertions(+), 8 deletions(-)
+>  accel/tcg/cputlb.c      | 14 +++++++++++++-
+>  include/exec/exec-all.h | 38 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 51 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
