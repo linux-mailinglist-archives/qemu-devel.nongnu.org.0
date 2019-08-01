@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6887DE92
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:14:48 +0200 (CEST)
-Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86A37DEA2
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:19:53 +0200 (CEST)
+Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htCn2-00031d-1o
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
+	id 1htCrw-000696-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35953)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1htClB-0001Q5-Ga
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:12:54 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htCpu-0004xA-MB
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1htClA-0006PR-DZ
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:12:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:15036)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1htCl7-0006Lo-7T; Thu, 01 Aug 2019 11:12:49 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 32153C0BAA1C;
- Thu,  1 Aug 2019 15:12:42 +0000 (UTC)
-Received: from localhost (ovpn-204-187.brq.redhat.com [10.40.204.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB19B60BE0;
- Thu,  1 Aug 2019 15:12:41 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Thu,  1 Aug 2019 17:12:35 +0200
-Message-Id: <20190801151235.8434-3-mreitz@redhat.com>
-In-Reply-To: <20190801151235.8434-1-mreitz@redhat.com>
-References: <20190801151235.8434-1-mreitz@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1htCps-0000Th-IC
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:46 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45536)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1htCpq-0000ND-P7
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:17:44 -0400
+Received: by mail-pg1-x541.google.com with SMTP id o13so34367297pgp.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 08:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GlAKrGQlgH/5jUHmQU0Fuut7i627lnAPELR4y8x8ls0=;
+ b=ZlUmgz4Oq0IZ2/4ehAYcEknU5shMpFLEmd3EFConLBCj+jU+RpuDiGmWOsU+QgX+fH
+ oGD7FBUOWdd+RBzO1//0KwmuCzozVahUMf6CSZB6UI3mpejID6Z5br7z7o+fW5p8Vm6O
+ 3MtCrLsRGaycXWIM9Q0zTOBeylKSfGEinIJ9oJIM/dbU7M9Goz5RtBYjUmdhz82vPiPu
+ cnzJKRfwongV/BLfn3nv1Hce9RKEGBlgBfyN7zilzq0PXVEViQN4NWyCNdqkjGp6+vNw
+ F3UA0h2GlTOKQDpF5v8buXnkyCMMNU1Dqq+JZiM/HFqG5vF+Uat0CLUzWT/Kqkiyk6UY
+ Be5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GlAKrGQlgH/5jUHmQU0Fuut7i627lnAPELR4y8x8ls0=;
+ b=HHMbV85C01ygtcGXQ9oxushzKmWWRrEU5hdI0YMgcOD2veEAy8C0Geojcw+n/5qKZY
+ 25zus6VvAmjOCAyBs14qsXvDufOdVIa0fm68BwcfIJVR98Pg8onnzYGACSHr4g03m+n5
+ IZ3XpOnws/NvS0D+Nez7QM19jWTr5biMHjw1rm6hbNsq62yh5pl+yPu3L6yggoSRlzsi
+ cuE2e37RFW77NvNt94WXiZWgCuiDo2CWwenb3lIFdnawDnTW/VRXA0vx6bP/0cvHe7hW
+ Bfd3dF3pvdYzKpRUYq1kBqGiBUAQURRahI0Hu11/U8fW+n+zr6Ntn2gAoeFEnF+aQUi1
+ wigg==
+X-Gm-Message-State: APjAAAXZYCgePtxv9iFHN92LygAC7URxu4XHEEgkBL0ENgeVIsUkw2ve
+ H0+VkjlYxgG2kBfX6k4AoCdmJQ==
+X-Google-Smtp-Source: APXvYqwiYBrU/sarkYg+hRyYwGTXk21QgPUoJOOyvfjZDHp7HHFHFwLet8Q7TV8RNRKTLZzhtsvd2g==
+X-Received: by 2002:a62:17d3:: with SMTP id 202mr54194357pfx.198.1564672659974; 
+ Thu, 01 Aug 2019 08:17:39 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id 22sm82001928pfu.179.2019.08.01.08.17.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 01 Aug 2019 08:17:39 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20190731160719.11396-1-alex.bennee@linaro.org>
+ <20190731160719.11396-8-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <fe3567d2-57d0-bbdc-9d5f-55462b9c81a4@linaro.org>
+Date: Thu, 1 Aug 2019 08:17:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Thu, 01 Aug 2019 15:12:42 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH for-4.1 2/2] iotests: Test backup job with two
- guest writes
+In-Reply-To: <20190731160719.11396-8-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH v4 07/54] trace: add mmu_index to mem_info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,107 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, aaron@os.amperecomputing.com,
+ cota@braap.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perform two guest writes to not yet backed up areas of an image, where
-the former touches an inner area of the latter.
+On 7/31/19 9:06 AM, Alex Bennée wrote:
+> We are going to re-use mem_info later for plugins and will need to
+> track the mmu_idx for softmmu code.
+> 
+> [TODO: convert everything to use TCGMemOpIdx?]
 
-Before HEAD^, copy offloading broke this in two ways:
-(1) The output differs from the reference output (what the source was
-    before the guest writes).
-(2) But you will not see that in the failing output, because the job
-    offset is reported as being greater than the job length.  This is
-    because one cluster is copied twice, and thus accounted for twice,
-    but of course the job length does not increase.
+Probably easier.  At the moment,
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/056     | 34 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/056.out |  4 ++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
+> +#define ATOMIC_MMU_IDX oi
 
-diff --git a/tests/qemu-iotests/056 b/tests/qemu-iotests/056
-index f40fc11a09..d7198507f5 100755
---- a/tests/qemu-iotests/056
-+++ b/tests/qemu-iotests/056
-@@ -133,6 +133,7 @@ class BackupTest(iotests.QMPTestCase):
-         self.vm =3D iotests.VM()
-         self.test_img =3D img_create('test')
-         self.dest_img =3D img_create('dest')
-+        self.ref_img =3D img_create('ref')
-         self.vm.add_drive(self.test_img)
-         self.vm.launch()
-=20
-@@ -140,6 +141,7 @@ class BackupTest(iotests.QMPTestCase):
-         self.vm.shutdown()
-         try_remove(self.test_img)
-         try_remove(self.dest_img)
-+        try_remove(self.ref_img)
-=20
-     def hmp_io_writes(self, drive, patterns):
-         for pattern in patterns:
-@@ -177,6 +179,38 @@ class BackupTest(iotests.QMPTestCase):
-             self.assert_qmp(event, 'data/error', qerror)
-             return False
-=20
-+    def test_overlapping_writes(self):
-+        # Write something to back up
-+        self.hmp_io_writes('drive0', [('42', '0M', '2M')])
-+
-+        # Create a reference backup
-+        self.qmp_backup_and_wait(device=3D'drive0', format=3Diotests.img=
-fmt,
-+                                 sync=3D'full', target=3Dself.ref_img)
-+
-+        # Now to the test backup: We simulate the following guest
-+        # writes:
-+        # (1) [1M + 64k, 1M + 128k): Afterwards, everything in that
-+        #     area should be in the target image, and we must not copy
-+        #     it again (because the source image has changed now)
-+        #     (64k is the job's cluster size)
-+        # (2) [1M, 2M): The backup job must not get overeager.  It
-+        #     must copy [1M, 1M + 64k) and [1M + 128k, 2M) separately,
-+        #     but not the area in between.
-+
-+        self.qmp_backup(device=3D'drive0', format=3Diotests.imgfmt, sync=
-=3D'full',
-+                        target=3Dself.dest_img, speed=3D1)
-+
-+        self.hmp_io_writes('drive0', [('23', '%ik' % (1024 + 64), '64k')=
-,
-+                                      ('66', '1M', '1M')])
-+
-+        # Let the job complete
-+        res =3D self.vm.qmp('block-job-set-speed', device=3D'drive0', sp=
-eed=3D0)
-+        self.assert_qmp(res, 'return', {})
-+        self.qmp_backup_wait('drive0')
-+
-+        self.assertTrue(iotests.compare_images(self.ref_img, self.dest_i=
-mg),
-+                        'target image does not match reference image')
-+
-     def test_dismiss_false(self):
-         res =3D self.vm.qmp('query-block-jobs')
-         self.assert_qmp(res, 'return', [])
-diff --git a/tests/qemu-iotests/056.out b/tests/qemu-iotests/056.out
-index dae404e278..36376bed87 100644
---- a/tests/qemu-iotests/056.out
-+++ b/tests/qemu-iotests/056.out
-@@ -1,5 +1,5 @@
--.........
-+..........
- ----------------------------------------------------------------------
--Ran 9 tests
-+Ran 10 tests
-=20
- OK
---=20
-2.21.0
+this is mis-named.  It works because
 
+>  static inline
+> -uint8_t trace_mem_build_info_no_se_le(int size_shift, bool store)
+> +uint16_t trace_mem_build_info_no_se_le(int size_shift, bool store,
+> +                                       TCGMemOpIdx oi)
+>  {
+> -    return trace_mem_build_info(size_shift, false, MO_LE, store);
+> +    return trace_mem_build_info(size_shift, false, MO_LE, store,
+> +                                get_mmuidx(oi));
+>  }
+
+you're also inconsistent about the arguments between user-only and softmmu.
+
+Without doing everything, maybe just use
+
+#define ATOMIC_MMU_IDX   get_mmuidx(oi)
+
+?
+
+r~
 
