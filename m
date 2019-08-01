@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BA87DF28
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:32:31 +0200 (CEST)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6127DF22
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Aug 2019 17:30:37 +0200 (CEST)
+Received: from localhost ([::1]:56778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htD4A-0007O9-ES
-	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37283)
+	id 1htD2I-0004vm-JP
+	for lists+qemu-devel@lfdr.de; Thu, 01 Aug 2019 11:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37582)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htCvZ-00028x-Ty
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:23:39 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htCxb-0003CQ-NO
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htCvY-0005g3-IZ
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:23:37 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44061)
+ (envelope-from <richard.henderson@linaro.org>) id 1htCxW-0006aU-4B
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:25:41 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35581)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htCvY-0005fI-B6
- for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:23:36 -0400
-Received: by mail-pg1-x542.google.com with SMTP id i18so34393499pgl.11
- for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 08:23:36 -0700 (PDT)
+ id 1htCxO-0006NB-A0
+ for qemu-devel@nongnu.org; Thu, 01 Aug 2019 11:25:32 -0400
+Received: by mail-pl1-x642.google.com with SMTP id w24so32368791plp.2
+ for <qemu-devel@nongnu.org>; Thu, 01 Aug 2019 08:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=F8JZE4R18CgumGRf8d45OPL32zZTEyP9TDYrYxuWyRc=;
- b=g3ynEE4e4uUu6CAnsHniy0UTqa1t4/zPAjK0rGKSB8hteQbSrL9AkSd1nioUVf8AyN
- 2d/J925FsMHPWNySFzxUFFk+JwVRZpyfAUtn5hYs9IUZ0tioTIp6UEM3P6qeYahopTUI
- PSZv4BCe5F+a7uP1yAGY6nmYXLl/WzUy6lXkThiDfxYs5lXRE0oA1V8QrOhm/ORyr2jv
- +yI7soK9mNizqRE1kb2qvRYp65kVL1Uz/9PzxC0CP2T10j945+InSslnFy/T4PDXI6Xs
- SKLtU75FGZ4aSq9HNQ1p5knEcZp6tDOhFwP1cH4deCaaN0RtuW6zY6LPh3GK1pXZ9Z3c
- j2Mg==
+ bh=gCM1I/MqAWRzSpFbCXcbrgopoWvXgui2878Yjg73wPs=;
+ b=AQ9Ubn+ZiCp6wV9SDhwU290EEQ3gqqnWY6q3QiHOXHOFSws/6KPH/Py0AvloJ2oOiw
+ gBVcW7gOw/wKlU2F1+OJxfOCqZuCR/KB61xz1up0eGPQ6J9n97mBR+pzXuhzw7yTAUcv
+ kRoXCLzQ/S9e70TQQ7wwLdzmqK6icPk65l9kuPOxRPU4FMOGksiTPBuyq5pKWCef8/g1
+ mxsqzl5g8fJvg+aLgrcdy4o3zVJ6A8YOk8SXy6/NrF71wud4vLw7oDb4oZYJcPaKB6i9
+ acxCLyutlJQuHFW4LrG1YB5l2WqiGAlA4BmuPNmE8B6YB8ScgQZIB3g9ZJvSaFB0fv2p
+ 3fnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=F8JZE4R18CgumGRf8d45OPL32zZTEyP9TDYrYxuWyRc=;
- b=Q4OTdaKHEg898dqMG0cyOcsDaAzy8jUr9HqLGP+0FSg/KzOAIZyoEwA0Xgyfabz3t2
- rUlLlk9mDsFD3FYy1lmUcW1n3c6YsFHkzRpH2QsKl4LadLBRK4JnjDcIGFT37c+vzarw
- 3bdS7TvXc8Lh7BtFAuwzgmZKfPw1rENE2wndEMdrK6CEYiCZryK5AZ1E8iJ9oDsVqXPY
- 3lPLuEKE6SQhGyeUk6xPTf6/Tzy66z5QOxpBvCxSfD/bEBVRGOM45DIC8mxlurkUoaf5
- jD86pqusGE3koIbitK6Y7bgdtVtPw7h/VyE1rNhskCQ9Vjvl/tKRxu//IilImdKhBdk3
- HSEg==
-X-Gm-Message-State: APjAAAVR9L7Bcm77fvdQU6cu4rfz81jAAfv/TWeNGVf9B/XpMpDFnZTU
- CJDGERo8RaEvIhzBmIAmG+yMWw==
-X-Google-Smtp-Source: APXvYqw3uFmWy7ox3cIKucI0BnydIhkJ24uO4RY9dLdJ/FpoSmfRD3dyuSncXX/LaCratacRRWIw0A==
-X-Received: by 2002:aa7:9f8b:: with SMTP id z11mr55398747pfr.121.1564673014751; 
- Thu, 01 Aug 2019 08:23:34 -0700 (PDT)
+ bh=gCM1I/MqAWRzSpFbCXcbrgopoWvXgui2878Yjg73wPs=;
+ b=ATB+9Rlc0CNtRrD9f00cP0QPtFhXL4oll4XoSjvXP5FjjLakhsRI0F1WUF5lDsnfVQ
+ LP5BToKwBuVvV8fHAoNpjukISskv3qY5FbB8RGxDJ5+t1jL+4MBeajtLRPBzOxjmBgHX
+ 3gF/GBaUGsh+7xYzuAmknL0Gf+yfvqa9fsOm0SAH3+9ZkZ/wBE6SnwMKT/pakT5L5adB
+ fyU4Afk4lFcRqCSe9SZv66mDzUJhCR8cCL9pfz0NU0T9g+7CQb1rzRgpXDMLN0lJPX9p
+ DrCzauCDhewBrPzt48sIb6Jl6PFpnQE0UzVKkFI/M+06byV1eUAdRnTBIhCVz8t8zZhU
+ ob2g==
+X-Gm-Message-State: APjAAAUuf9CymRNXT9V/dpVLJ/S8V78tjj5T/6pJbN64Eurt2uhNZlIC
+ BTdWNWObBS65XrYordjXjdHMsw==
+X-Google-Smtp-Source: APXvYqxTvsdDACu037ZKig2bruA12RouiA7I0QlOCjd8dOTsD41MWD9ErnApQZQKsuNK9RELPb7Qig==
+X-Received: by 2002:a17:902:bd06:: with SMTP id
+ p6mr129888332pls.189.1564673106890; 
+ Thu, 01 Aug 2019 08:25:06 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 4sm83835479pfc.92.2019.08.01.08.23.33
+ by smtp.gmail.com with ESMTPSA id d8sm66664711pgh.45.2019.08.01.08.25.05
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Aug 2019 08:23:33 -0700 (PDT)
+ Thu, 01 Aug 2019 08:25:05 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190731160719.11396-1-alex.bennee@linaro.org>
- <20190731160719.11396-10-alex.bennee@linaro.org>
+ <20190731160719.11396-11-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <e00fc51b-98b1-8b89-660e-b754f26fecaf@linaro.org>
-Date: Thu, 1 Aug 2019 08:23:32 -0700
+Message-ID: <865def91-1140-f62b-c3c7-db08eba1cb66@linaro.org>
+Date: Thu, 1 Aug 2019 08:25:04 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190731160719.11396-10-alex.bennee@linaro.org>
+In-Reply-To: <20190731160719.11396-11-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v4 09/54] cpu: introduce
- cpu_in_exclusive_context()
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH v4 10/54] translate-all: use
+ cpu_in_exclusive_work_context() in tb_flush
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,31 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, aaron@os.amperecomputing.com,
- cota@braap.org, Paolo Bonzini <pbonzini@redhat.com>, bobby.prani@gmail.com,
- Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, aaron@os.amperecomputing.com,
+ cota@braap.org, bobby.prani@gmail.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/31/19 9:06 AM, Alex Bennée wrote:
 > From: "Emilio G. Cota" <cota@braap.org>
 > 
+> tb_flush will be called by the plugin module from a safe
+> work environment. Prepare for that.
+> 
 > Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Emilio G. Cota <cota@braap.org>
-> [AJB: moved inside start/end_exclusive fns + cleanup]
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
 > ---
-> v4
->   - -> cpu_in_exclusive_context
->   - moved inside start/end exclusive
->   - fixed up cpu_exec_step_atomic
-> ---
->  accel/tcg/cpu-exec.c |  5 +----
->  cpus-common.c        |  4 ++++
->  include/qom/cpu.h    | 13 +++++++++++++
->  3 files changed, 18 insertions(+), 4 deletions(-)
+>  accel/tcg/translate-all.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
