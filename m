@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8AB7EAF0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 06:07:12 +0200 (CEST)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A9C7EAF5
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 06:08:01 +0200 (CEST)
+Received: from localhost ([::1]:60308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htOqW-0006VY-22
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 00:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50411)
+	id 1htOrJ-0000J8-5q
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 00:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50461)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1htOpo-0005cw-By
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:29 -0400
+ (envelope-from <jasowang@redhat.com>) id 1htOpw-0005sY-Gn
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1htOpn-0001Sa-CK
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41430)
+ (envelope-from <jasowang@redhat.com>) id 1htOpv-0001bO-HJ
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1htOpn-0001Rx-77
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:27 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1htOpv-0001Zb-C0
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:35 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8310131E7D0;
- Fri,  2 Aug 2019 04:06:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A823D309DEE6;
+ Fri,  2 Aug 2019 04:06:34 +0000 (UTC)
 Received: from hp-dl380pg8-01.lab.eng.pek2.redhat.com
  (hp-dl380pg8-01.lab.eng.pek2.redhat.com [10.73.8.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45D7A1001B02;
- Fri,  2 Aug 2019 04:06:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FE621001B02;
+ Fri,  2 Aug 2019 04:06:26 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com
-Date: Fri,  2 Aug 2019 00:06:01 -0400
-Message-Id: <20190802040606.22573-2-jasowang@redhat.com>
+Date: Fri,  2 Aug 2019 00:06:02 -0400
+Message-Id: <20190802040606.22573-3-jasowang@redhat.com>
 In-Reply-To: <20190802040606.22573-1-jasowang@redhat.com>
 References: <20190802040606.22573-1-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 02 Aug 2019 04:06:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Fri, 02 Aug 2019 04:06:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH V5 1/6] virtio: basic structure for packed ring
+Subject: [Qemu-devel] [PATCH V5 2/6] virtio: device/driverr area size
+ calculation refactor for split ring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,59 +62,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Xu <wexu@redhat.com>
 
-Define packed ring structure according to Qemu nomenclature,
-field data(wrap counter, etc) are also included.
+There is slight size difference between split/packed rings.
+
+This is the refactor of split ring as well as a helper to expanding
+device and driver area size calculation for packed ring.
 
 Signed-off-by: Wei Xu <wexu@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/virtio.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/virtio/virtio.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a94ea18a9c..981738fa19 100644
+index 981738fa19..ac21ab43e2 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -39,6 +39,13 @@ typedef struct VRingDesc
-     uint16_t next;
- } VRingDesc;
+@@ -155,10 +155,8 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+     VRingMemoryRegionCaches *old = vq->vring.caches;
+     VRingMemoryRegionCaches *new = NULL;
+     hwaddr addr, size;
+-    int event_size;
+     int64_t len;
  
-+typedef struct VRingPackedDesc {
-+    uint64_t addr;
-+    uint32_t len;
-+    uint16_t id;
-+    uint16_t flags;
-+} VRingPackedDesc;
-+
- typedef struct VRingAvail
+-    event_size = virtio_vdev_has_feature(vq->vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0;
+ 
+     addr = vq->vring.desc;
+     if (!addr) {
+@@ -173,7 +171,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+         goto err_desc;
+     }
+ 
+-    size = virtio_queue_get_used_size(vdev, n) + event_size;
++    size = virtio_queue_get_used_size(vdev, n);
+     len = address_space_cache_init(&new->used, vdev->dma_as,
+                                    vq->vring.used, size, true);
+     if (len < size) {
+@@ -181,7 +179,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+         goto err_used;
+     }
+ 
+-    size = virtio_queue_get_avail_size(vdev, n) + event_size;
++    size = virtio_queue_get_avail_size(vdev, n);
+     len = address_space_cache_init(&new->avail, vdev->dma_as,
+                                    vq->vring.avail, size, false);
+     if (len < size) {
+@@ -2410,14 +2408,20 @@ hwaddr virtio_queue_get_desc_size(VirtIODevice *vdev, int n)
+ 
+ hwaddr virtio_queue_get_avail_size(VirtIODevice *vdev, int n)
  {
-     uint16_t flags;
-@@ -77,17 +84,25 @@ typedef struct VRing
-     VRingMemoryRegionCaches *caches;
- } VRing;
- 
-+typedef struct VRingPackedDescEvent {
-+    uint16_t off_wrap;
-+    uint16_t flags;
-+} VRingPackedDescEvent ;
++    int s;
 +
- struct VirtQueue
++    s = virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0;
+     return offsetof(VRingAvail, ring) +
+-        sizeof(uint16_t) * vdev->vq[n].vring.num;
++        sizeof(uint16_t) * vdev->vq[n].vring.num + s;
+ }
+ 
+ hwaddr virtio_queue_get_used_size(VirtIODevice *vdev, int n)
  {
-     VRing vring;
++    int s;
++
++    s = virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX) ? 2 : 0;
+     return offsetof(VRingUsed, ring) +
+-        sizeof(VRingUsedElem) * vdev->vq[n].vring.num;
++        sizeof(VRingUsedElem) * vdev->vq[n].vring.num + s;
+ }
  
-     /* Next head to pop */
-     uint16_t last_avail_idx;
-+    bool last_avail_wrap_counter;
- 
-     /* Last avail_idx read from VQ. */
-     uint16_t shadow_avail_idx;
-+    bool shadow_avail_wrap_counter;
- 
-     uint16_t used_idx;
-+    bool used_wrap_counter;
- 
-     /* Last used index value we have signalled on */
-     uint16_t signalled_used;
+ uint16_t virtio_queue_get_last_avail_idx(VirtIODevice *vdev, int n)
 -- 
 2.18.1
 
