@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7D07F7D3
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 15:07:25 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D8B7F83F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 15:14:44 +0200 (CEST)
+Received: from localhost ([::1]:34710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htXHH-0001oQ-OE
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 09:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45503)
+	id 1htXOO-0005is-0S
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 09:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47418)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1htXGd-0001K2-W3
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:44 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1htXNn-0005Dr-Vu
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:14:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1htXGc-000182-S1
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46522)
+ (envelope-from <dgibson@ozlabs.org>) id 1htXNm-0005ID-R8
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:14:07 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52567 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1htXGc-00015p-Ju
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:42 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 00C8A308A958
- for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 13:06:41 +0000 (UTC)
-Received: from [10.3.116.93] (ovpn-116-93.phx2.redhat.com [10.3.116.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9899110016EA;
- Fri,  2 Aug 2019 13:06:40 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20190802122325.16520-1-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <5478e720-7d1e-a1c2-44cb-75b33f1abe15@redhat.com>
-Date: Fri, 2 Aug 2019 08:06:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1htXNl-0005BB-LV; Fri, 02 Aug 2019 09:14:06 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 460SKZ0GJJz9sML; Fri,  2 Aug 2019 23:13:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1564751634;
+ bh=frtsMBVGFEousdhK5AxCi0PK1N5daALpasNxCizDqmg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z5RDqFshOITjYhIq9Pd5l05xLC8AlipkQBa4a0RD5XDCqhfLiqTjSyie54cAP/kNS
+ AriVr5YTrDZQgsZFPp2lz9AVFjj0Ghiyn84Wn4+iBS/+ocsWHncsIPaH/gNNKN+FhK
+ im08Mo1HFqn8N+cFaZ59GSV9SPFXZkDUdZo9dpn4=
+Date: Fri, 2 Aug 2019 16:55:38 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190802065538.GA2031@umbus.fritz.box>
+References: <20190801075258.19070-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190802122325.16520-1-armbru@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 02 Aug 2019 13:06:41 +0000 (UTC)
+ protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
+Content-Disposition: inline
+In-Reply-To: <20190801075258.19070-1-tao3.xu@intel.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qapi: Make visit_next_list()'s comment
- less confusing
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [RFC PATCH] numa: add auto_enable_numa to fix
+ broken check in spapr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,87 +55,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: imammedo@redhat.com, qemu-ppc@nongnu.org, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS
-Content-Type: multipart/mixed; boundary="jb5e55zk1llZNky5T8NcTSfYib5J5ybd6";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <5478e720-7d1e-a1c2-44cb-75b33f1abe15@redhat.com>
-Subject: Re: [PATCH] qapi: Make visit_next_list()'s comment less confusing
-References: <20190802122325.16520-1-armbru@redhat.com>
-In-Reply-To: <20190802122325.16520-1-armbru@redhat.com>
 
---jb5e55zk1llZNky5T8NcTSfYib5J5ybd6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--3V7upXqbjpZ4EhLz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 8/2/19 7:23 AM, Markus Armbruster wrote:
-> visit_next_list() returns non-null on success, null on failure.  The
-> comment's phrasing "until NULL return or error occurs" is needlessly
-> confusing.  Scratch the "or error occurs" part.
+On Thu, Aug 01, 2019 at 03:52:58PM +0800, Tao Xu wrote:
+> Introduce MachineClass::auto_enable_numa for one implicit NUMA node,
+> and enable it to fix broken check in spapr_validate_node_memory(), when
+> spapr_populate_memory() creates a implicit node and info then use
+> nb_numa_nodes which is 0.
 >=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+
+The change here looks fine so,
+
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+However, I'm not following what check in spapr is broken and why.
+
 > ---
->  include/qapi/visitor.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
 >=20
-> diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-> index 5b2ed3f202..c5b23851a1 100644
-> --- a/include/qapi/visitor.h
-> +++ b/include/qapi/visitor.h
-> @@ -364,10 +364,10 @@ void visit_start_list(Visitor *v, const char *nam=
-e, GenericList **list,
->   * @tail must not be NULL; on the first call, @tail is the value of
->   * *list after visit_start_list(), and on subsequent calls @tail must
->   * be the previously returned value.  Should be called in a loop until=
-
-> - * a NULL return or error occurs; for each non-NULL return, the caller=
-
-> - * then calls the appropriate visit_type_*() for the element type of
-> - * the list, with that function's name parameter set to NULL and obj
-> - * set to the address of @tail->value.
-> + * a NULL return; for each non-NULL return, the caller then calls the
-> + * appropriate visit_type_*() for the element type of the list, with
-> + * that function's name parameter set to NULL and obj set to the
-> + * address of @tail->value.
->   */
->  GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t siz=
-e);
+> This patch has a dependency on
+> https://patchwork.kernel.org/cover/11063235/
+> ---
+>  hw/core/numa.c      | 9 +++++++--
+>  hw/ppc/spapr.c      | 9 +--------
+>  include/hw/boards.h | 1 +
+>  3 files changed, 9 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index 75db35ac19..756d243d3f 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -580,9 +580,14 @@ void numa_complete_configuration(MachineState *ms)
+>       *   guest tries to use it with that drivers.
+>       *
+>       * Enable NUMA implicitly by adding a new NUMA node automatically.
+> +     *
+> +     * Or if MachineClass::auto_enable_numa is true and no NUMA nodes,
+> +     * assume there is just one node with whole RAM.
+>       */
+> -    if (ms->ram_slots > 0 && ms->numa_state->num_nodes =3D=3D 0 &&
+> -        mc->auto_enable_numa_with_memhp) {
+> +    if (ms->numa_state->num_nodes =3D=3D 0 &&
+> +        ((ms->ram_slots > 0 &&
+> +        mc->auto_enable_numa_with_memhp) ||
+> +        mc->auto_enable_numa)) {
+>              NumaNodeOptions node =3D { };
+>              parse_numa_node(ms, &node, &error_abort);
+>      }
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index f607ca567b..e50343f326 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -400,14 +400,6 @@ static int spapr_populate_memory(SpaprMachineState *=
+spapr, void *fdt)
+>      hwaddr mem_start, node_size;
+>      int i, nb_nodes =3D machine->numa_state->num_nodes;
+>      NodeInfo *nodes =3D machine->numa_state->nodes;
+> -    NodeInfo ramnode;
+> -
+> -    /* No NUMA nodes, assume there is just one node with whole RAM */
+> -    if (!nb_nodes) {
+> -        nb_nodes =3D 1;
+> -        ramnode.node_mem =3D machine->ram_size;
+> -        nodes =3D &ramnode;
+> -    }
 > =20
->=20
+>      for (i =3D 0, mem_start =3D 0; i < nb_nodes; ++i) {
+>          if (!nodes[i].node_mem) {
+> @@ -4369,6 +4361,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+>       */
+>      mc->numa_mem_align_shift =3D 28;
+>      mc->numa_mem_supported =3D true;
+> +    mc->auto_enable_numa =3D true;
+> =20
+>      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
+>      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 2eb9a0b4e0..4a350b87d2 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -220,6 +220,7 @@ struct MachineClass {
+>      bool smbus_no_migration_support;
+>      bool nvdimm_supported;
+>      bool numa_mem_supported;
+> +    bool auto_enable_numa;
+> =20
+>      HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
+>                                             DeviceState *dev);
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-
---jb5e55zk1llZNky5T8NcTSfYib5J5ybd6--
-
---HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS
+--3V7upXqbjpZ4EhLz
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1ENV8ACgkQp6FrSiUn
-Q2rJTAgApjYuCLlaweVZ2HERoal4wsZ8ZS52ZahEp21kxntyOimva2XFNEQecpmC
-OCMQ+VFpCfqYSzAYo9J0RF0qfbT+6fi3wGZZoxx6wcUk/x5l01i2vAh3yfArCv0P
-ZoICWommj5/54kud98Zf4NLWQEqZYHYADXf0imSxfRmS15eCwvn8rLJwGb/1BOCw
-Xc21y5XGaTLXj54lkGJWsVvVqvQPB2t5FGnJeXLdMoUz1y/Wuv+mALHImwP1SPRQ
-FyumKLIlQXzCICpcyOC4wLF/TCkVM8CNr2h2YxK4CWtAlJ1hj1ma9ng2qi6aNlOL
-Q3b1MT5CAW4sZXJmo5khwVq/KByAnw==
-=2//G
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl1D3mgACgkQbDjKyiDZ
+s5IIwQ//cEMnHyxmeEJ1+B1+SaOQYM/M9XfFX3Nn72u9/jLKvr8sgjhQU62nr/6N
+peaG4gbQGUZHw+Hhwa18vwP1bBzK0Q3CGnuhCj+J5kDk8fS66UzoelZdo3QU9zxG
+sTKj7tEodUVSMgwxVX9Dnw+pfAPz1BjDmPO4YHSLWhGIpneK5pYBPObZNgeH9XuG
+/JA4ZIXPPiwTDgXWetZ0ItAEKD098Mcc/pn+RhrYVfpyaOez33SKdUkL1LoBiH2M
+NPgRFSpKvdcOiHub5OYzF7u1cJDpxihhqWnAX/Z22Piz4Kvt7pychcjLtoPzL3+r
+qxV9pnxAQKHFsyuyivvEVf7YU8MSNBshn1C5WPvMOBtbeT8G7TgcqVGcBMuXBj/C
+ic/0lgFB2FrjbVvD9A7bxHCTZOjb/wvRqU4ZxzglblDATaGvA8nhyl9C+loiSR1D
+s5qY+DxZMfxJ37XOAsABfXppqNCcIcaxLi9mZxAftUXLDYJFPlwQmin4RwJOJ3i5
+hwwq0Qoq1LaAPR1+vk1LXbRqXm5tkgKdY1iwRzAWA5jTqTOstnPT6WJZ3XqPuc4C
+7MFsdbXHt4vnocNojzpOdWV6kfc5fk4DdvjMGcj4AkdwD0OCwcZM8441j7GSdriT
+YFcR3sRtG1+C5jKu3Dym9TfqddPBj1GNkwqWHUwpd1QHSZYx7Qw=
+=Y1Wl
 -----END PGP SIGNATURE-----
 
---HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS--
+--3V7upXqbjpZ4EhLz--
 
