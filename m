@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C52B7FD0C
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 17:10:06 +0200 (CEST)
-Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5B47FD00
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 17:07:43 +0200 (CEST)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htZC1-0004WW-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 11:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47191)
+	id 1htZ9i-0007UY-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 11:07:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47206)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jfreimann@redhat.com>) id 1htZ8h-0005gh-Js
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:40 -0400
+ (envelope-from <jfreimann@redhat.com>) id 1htZ8j-0005ka-AH
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1htZ8g-0005Pn-Gi
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53136)
+ (envelope-from <jfreimann@redhat.com>) id 1htZ8i-0005QW-CY
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41086)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1htZ8g-0005PX-BU
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:38 -0400
+ id 1htZ8i-0005QE-78
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:06:40 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A6CEA882EA
- for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 15:06:37 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 87F2F3082E20
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 15:06:39 +0000 (UTC)
 Received: from localhost (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F41DB60605;
- Fri,  2 Aug 2019 15:06:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DFF660623;
+ Fri,  2 Aug 2019 15:06:39 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  2 Aug 2019 17:06:00 +0200
-Message-Id: <20190802150605.5880-5-jfreimann@redhat.com>
+Date: Fri,  2 Aug 2019 17:06:01 +0200
+Message-Id: <20190802150605.5880-6-jfreimann@redhat.com>
 In-Reply-To: <20190802150605.5880-1-jfreimann@redhat.com>
 References: <20190802150605.5880-1-jfreimann@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 02 Aug 2019 15:06:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 02 Aug 2019 15:06:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/9] migration: allow unplug during migration
- for failover devices
+Subject: [Qemu-devel] [PATCH 5/9] qapi: add unplug primary event
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,61 +60,42 @@ Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In "b06424de62 migration: Disable hotplug/unplug during migration" we
-added a check to disable unplug for all devices until we have figured
-out what works. For failover primary devices qdev_unplug() is called
-from the migration handler, i.e. during migration.
-
-This patch adds a flag to DeviceState which is set to false for all
-devices and makes an exception for vfio-pci devices that are also
-primary devices in a failover pair.
-
+Add new qmp event to send the device id of a device that was
+requested to be unplugged by the guest OS.
+=20
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
 ---
- hw/core/qdev.c         | 1 +
- include/hw/qdev-core.h | 1 +
- qdev-monitor.c         | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
+ qapi/migration.json | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 31e90ebaa2..f43f744133 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -973,6 +973,7 @@ static void device_initfn(Object *obj)
-=20
-     dev->instance_id_alias =3D -1;
-     dev->realized =3D false;
-+    dev->allow_unplug_during_migration =3D false;
-=20
-     object_property_add_bool(obj, "realized",
-                              device_get_realized, device_set_realized, N=
-ULL);
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 6174538b01..af4857d391 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -147,6 +147,7 @@ struct DeviceState {
-     bool pending_deleted_event;
-     QemuOpts *opts;
-     int hotplugged;
-+    bool allow_unplug_during_migration;
-     BusState *parent_bus;
-     QLIST_HEAD(, NamedGPIOList) gpios;
-     QLIST_HEAD(, BusState) child_bus;
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index c69e283419..e7ab5cacb3 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -845,7 +845,7 @@ void qdev_unplug(DeviceState *dev, Error **errp)
-         return;
-     }
-=20
--    if (!migration_is_idle() && !migration_in_setup(migrate_get_current(=
-))) {
-+    if (!migration_is_idle() && !dev->allow_unplug_during_migration) {
-         error_setg(errp, "device_del not allowed while migrating");
-         return;
-     }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 9cfbaf8c6c..d567ac9fc3 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1445,3 +1445,22 @@
+ # Since: 3.0
+ ##
+ { 'command': 'migrate-pause', 'allow-oob': true }
++
++##
++# @UNPLUG_PRIMARY:
++#
++# Emitted from source side of a migration when migration state is
++# WAIT_UNPLUG. Device was unplugged by guest operating system.
++# Device resources in QEMU are kept on standby to be able to re-plug it =
+in case
++# of migration failure.
++#
++# @device_id: QEMU device id of the unplugged device
++#
++# Since: 4.2
++#
++# Example:
++#   {"event": "UNPLUG_PRIMARY", "data": {"device_id": "hostdev0"} }
++#
++##
++{ 'event': 'UNPLUG_PRIMARY',
++  'data': { 'device_id': 'str' } }
 --=20
 2.21.0
 
