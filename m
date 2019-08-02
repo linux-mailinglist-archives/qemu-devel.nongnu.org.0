@@ -2,49 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D040A8001F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:21:20 +0200 (CEST)
-Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202B38002F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:31:52 +0200 (CEST)
+Received: from localhost ([::1]:36834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htcB5-00037M-Qu
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58768)
+	id 1htcLF-0008GI-Qq
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1htbvY-0007L2-DB
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:05:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htbyQ-0000Xb-8i
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:08:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1htbvU-0002C1-Ig
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:05:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41288)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1htbvQ-0001zJ-PF
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:05:11 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E561B99BAC;
- Fri,  2 Aug 2019 18:05:00 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-40.brq.redhat.com [10.40.204.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A6C155D9E2;
- Fri,  2 Aug 2019 18:04:58 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri,  2 Aug 2019 20:04:49 +0200
-Message-Id: <20190802180449.10288-2-philmd@redhat.com>
-In-Reply-To: <20190802180449.10288-1-philmd@redhat.com>
-References: <20190802180449.10288-1-philmd@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1htbyO-0005Nx-MS
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:08:14 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41390)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1htbyO-0005En-CD
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:08:12 -0400
+Received: by mail-pf1-x444.google.com with SMTP id m30so36428122pff.8
+ for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 11:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7acY56a+PDiMtL6UNCH6Fj20v/00iLU8b65HWqZw770=;
+ b=L5SoncGlSagGnM4NngViH5oVNAJ5AYtSgoEjRUu39rCTfGsl48XoCTFrseb0dEpEAf
+ MrCp3Oh4s5GtZNagmCa33Q3Kl6HDELMmuqo7rbcZ2fkUrZWv1QlH+lvpm0gHfGWnzNE8
+ SgMFJwd+nBJYg+S/jBKeWEO4ViTLHKF9HfLIGm33dNch3dVOrZpbNSKEzgBOodJpjwgD
+ BgSIg5NKbaLnLGEZjgQk6UJJfSXLnVTSeq6OIaXuLZfmNwf8DqLelnyod+u1mx00I5Hg
+ ailN5XNkKbD3oQ0FMY1q9Ds6DkiLNnj51SRI4UetITNdnWArsaAgm1WNA6kJ/L1Nm1W6
+ QcCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7acY56a+PDiMtL6UNCH6Fj20v/00iLU8b65HWqZw770=;
+ b=hCAeveiSlx+9z+REA5B3tYeB9KaGh8LUzgJB1PBA+x31Cn3DZzY5iCLOsvxdjgTBwC
+ X33+ow7vjSDE8n3y9CH6h5cAHKhVMO4NKwzZCGnOT+/jEJzHXzdzzb+9beDwy3BEl1Cm
+ ZOG4aq6UdtSmOLBCc640Fq6uAE8BUVwLVh/z/zls11DiNCF3DnRbEFQbgb0kdCVlckEN
+ IP4LG4QFkKBnRZc9ubyRuZHP0hXb/4YUrXFLs9x8n2WuGY9UqNWgDMxVQnbA8w7gov6l
+ BqH7Ayp3G9zwyIYldTYQCipouCPBjV2ClTMPVa7eq6/NTetzpwRPa1So/DokruDMW41k
+ XNPg==
+X-Gm-Message-State: APjAAAUXLmunIFdIPh7zYKroLc99366ZqCP1yrX0IjduaJkaiNhJUBET
+ eMhxKEMaMT7Vse7P+OpVQdv9JA==
+X-Google-Smtp-Source: APXvYqxO1aiC5zXZa+THxvqGryRsWnr7ChOHudCnMyw1ADq+lmYljnNg7odO8FWURfnG12NxW4E8Kg==
+X-Received: by 2002:a17:90a:22aa:: with SMTP id
+ s39mr5411398pjc.39.1564769277155; 
+ Fri, 02 Aug 2019 11:07:57 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id n7sm85573945pff.59.2019.08.02.11.07.55
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 02 Aug 2019 11:07:56 -0700 (PDT)
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190802122540.26385-1-drjones@redhat.com>
+ <20190802122540.26385-12-drjones@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <e41ee1a4-9514-8fe9-8761-f208c9bdcbf3@linaro.org>
+Date: Fri, 2 Aug 2019 11:07:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 02 Aug 2019 18:05:00 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-3.1.1 1/1] Fix heap overflow in ip_reass on
- big packet input
+In-Reply-To: <20190802122540.26385-12-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v3 11/15] target/arm/kvm64: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,49 +86,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Jan Kiszka <jan.kiszka@siemens.com>
+Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+On 8/2/19 5:25 AM, Andrew Jones wrote:
+> +/*
+> + * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+> + * The byte at offset i from the start of the in-memory representation contains
+> + * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
+> + * lowest offsets are stored in the lowest memory addresses, then that nearly
+> + * matches QEMU's representation, which is to use an array of host-endian
+> + * uint64_t's, where the lower offsets are at the lower indices. To complete
+> + * the translation we just need to byte swap the uint64_t's on big-endian hosts.
+> + */
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +static uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < nr; ++i) {
+> +        dst[i] = bswap64(src[i]);
+> +    }
+> +
+> +    return dst;
+> +}
+> +#endif
 
-When the first fragment does not fit in the preallocated buffer, q will
-already be pointing to the ext buffer, so we mustn't try to update it.
+Maybe better as
 
-Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-(cherry picked from libslirp commit 126c04acbabd7ad32c2b018fe10dfac2a3bc1=
-210)
-Fixes: CVE-2019-14378
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- slirp/ip_input.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+static uint64_t *sve_bswap64(uint64_t *tmp, uint64_t *src, int nr)
+{
+#ifdef HOST_WORDS_BIGENDIAN
+    int i;
 
-diff --git a/slirp/ip_input.c b/slirp/ip_input.c
-index 348e1dca5a..07d8808671 100644
---- a/slirp/ip_input.c
-+++ b/slirp/ip_input.c
-@@ -334,6 +334,8 @@ insert:
-     q =3D fp->frag_link.next;
- 	m =3D dtom(slirp, q);
-=20
-+	int was_ext =3D m->m_flags & M_EXT;
-+
- 	q =3D (struct ipasfrag *) q->ipf_next;
- 	while (q !=3D (struct ipasfrag*)&fp->frag_link) {
- 	  struct mbuf *t =3D dtom(slirp, q);
-@@ -356,7 +358,7 @@ insert:
- 	 * the old buffer (in the mbuf), so we must point ip
- 	 * into the new buffer.
- 	 */
--	if (m->m_flags & M_EXT) {
-+	if (!was_ext && m->m_flags & M_EXT) {
- 	  int delta =3D (char *)q - m->m_dat;
- 	  q =3D (struct ipasfrag *)(m->m_ext + delta);
- 	}
---=20
-2.20.1
+    for (i = 0; i < nr; ++i) {
+        tmp[i] = bswap64(src[i]);
+    }
 
+    return tmp;
+#else
+    return src;
+#endif
+}
+
+and then the rest of the ifdefs can be removed.
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
