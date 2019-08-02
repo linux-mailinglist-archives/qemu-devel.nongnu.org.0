@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B4080001
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:06:01 +0200 (CEST)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DED880018
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:18:21 +0200 (CEST)
+Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htbwG-0006Ds-7e
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
+	id 1htc85-0001vI-CX
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57655)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1htbq1-0004YS-9M
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 13:59:36 -0400
+ (envelope-from <bounces@canonical.com>) id 1htbrw-0005Oy-7y
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1htbpx-0002fy-9Y
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 13:59:33 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46461)
+ (envelope-from <bounces@canonical.com>) id 1htbrs-0004vB-Dj
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:31 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55618)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1htbpq-0002RE-AM
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 13:59:26 -0400
-Received: by mail-ed1-f66.google.com with SMTP id d4so73245365edr.13
- for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 10:59:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mCodFAXbNCkOP5rtlOahiE4VocdNLxL00Ztn3+H9WBo=;
- b=dvgRbraKJzk2EJENmMd0et5sbSsXAFmbCv3ZD5CgoCbkAbS7/0WUdaJmFRCd8v9hYz
- MgIug5b8mcAv2F3ph5BnXy9dFy06QR+WewBgMc8OR2+ksIISofC5nAD7axXS9U9BllEZ
- wxwcXSEObhQJipj68Lv12hRzr+dFr9IfTpr/0YFHCh7UZdJrnta38n1ZZpPQqMEGKuVO
- Mqrl3/TLDsifnvja9eYPQjfFKj8EnMxqvSpmyzZpj6YRfuQIdTKv80LS63BcZNXv9Yvq
- lZ4E5M80HeX43No/0NhqdO0WIzVLt9mf7+3xhDZ4EDZE66nr6WpFQVcZI5T0RGvtVPIL
- tYNA==
-X-Gm-Message-State: APjAAAXgpqQc4o/9WIOlA9CfTduNDWvbpr0o5iurXY9EdLMV7XDPmHck
- NOcw+RSpBFqmDDFuRB4wFYKIxw==
-X-Google-Smtp-Source: APXvYqwTBs+S37zKDilhBqtLF15Ze1KINv8NSQiWWwEVcUZaJSuHPWVjjY+qsTW/V7PV7tojOXWPbQ==
-X-Received: by 2002:aa7:d918:: with SMTP id a24mr7062448edr.235.1564768751419; 
- Fri, 02 Aug 2019 10:59:11 -0700 (PDT)
-Received: from [10.0.0.124] ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id oa21sm11915969ejb.60.2019.08.02.10.59.10
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 02 Aug 2019 10:59:10 -0700 (PDT)
-To: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <156476820179.5178.16916748630705802997@sif>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <011320cc-6555-3195-7af8-d94de45f85dc@redhat.com>
-Date: Fri, 2 Aug 2019 19:59:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1htbrq-0004FL-Ax
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1htbrT-0001dv-6K
+ for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 18:01:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 261C92E80C7
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 18:01:03 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <156476820179.5178.16916748630705802997@sif>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Aug 2019 17:53:38 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek pmaydell
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155911887030.13016.15611981837118124440.malonedeb@soybean.canonical.com>
+Message-Id: <156476841813.24957.5240743150050521074.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19014";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e60a439c8359c14e39b94a6ba3345d8722870624
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.208.66
-Subject: Re: [Qemu-devel] [ANNOUNCE] QEMU 3.1.1 Stable released
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1830864] Re: Assertion `no_aa32 || ({ ARMCPU
+ *cpu_ = (cpu); isar_feature_arm_div(&cpu_->isar); })' failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,121 +65,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Reply-To: Bug 1830864 <1830864@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/2/19 7:50 PM, Michael Roth wrote:
-> Hi everyone,
-> 
-> I am pleased to announce that the QEMU v3.1.1 stable release is now
-> available:
-> 
-> You can grab the tarball from our download page here:
-> 
->   https://www.qemu.org/download/#source
-> 
-> v3.1.1 is now tagged in the official qemu.git repository,
-> and the stable-3.1 branch has been updated accordingly:
-> 
->   https://git.qemu.org/?p=qemu.git;a=shortlog;h=refs/heads/stable-3.1
-> 
-> This update contains a fix for CVE-2018-16872 (usb-mtp) and bug/security
-> fixes for a number of areas.
-> 
-> Please see the changelog for additional details and update accordingly.
-> 
-> Thank you to everyone involved!
-> 
-> CHANGELOG:
-> 
-> 71049d2a74: Update version for 3.1.1 release (Michael Roth)
-> 03d7712b4b: qemu-bridge-helper: restrict interface name to IFNAMSIZ (Prasad J Pandit)
-> 4482258130: block: Fix hangs in synchronous APIs with iothreads (Kevin Wolf)
-> 41dd30ff63: pvrdma: release ring object in case of an error (Prasad J Pandit)
-> a1001760ab: pvrdma: check return value from pvrdma_idx_ring_has_ routines (Prasad J Pandit)
-> 2a0e6f1369: pvrdma: check number of pages when creating rings (Prasad J Pandit)
-> 017f271f7a: device_tree: Fix integer overflowing in load_device_tree() (Markus Armbruster)
-> 5149630fed: device_tree.c: Don't use load_image() (Peter Maydell)
-> 59a823017a: sun4u: add power_mem_read routine (Prasad J Pandit)
-> 3be7eb2f47: qxl: check release info object (Prasad J Pandit)
-> 576964bf2a: seccomp: don't kill process for resource control syscalls (Daniel P. Berrangé)
-> 4c7f4c4bbb: i2c-ddc: fix oob read (Gerd Hoffmann)
-> 4e74e7a867: slirp: check data length while emulating ident function (Prasad J Pandit)
-> 375667af78: scsi-generic: avoid possible out-of-bounds access to r->buf (Paolo Bonzini)
-> bceff528ba: pvrdma: add uar_read routine (Prasad J Pandit)
-> 1549e3a54a: pvrdma: release device resources in case of an error (Prasad J Pandit)
-> 86d4f40141: gluster: the glfs_io_cbk callback function pointer adds pre/post stat args (Niels de Vos)
-> 37867211d9: gluster: Handle changed glfs_ftruncate signature (Prasanna Kumar Kalever)
-> 43a3a1b694: hw/block/pflash_cfi01: Add missing DeviceReset() handler (Philippe Mathieu-Daudé)
-> ddacb784b3: hw: Use PFLASH_CFI0{1,2} and TYPE_PFLASH_CFI0{1,2} (Markus Armbruster)
-> 03f130c682: pflash: Rename *CFI_PFLASH* to *PFLASH_CFI* (Markus Armbruster)
-> 10b1d6070a: pflash_cfi01: Log use of flawed "write to buffer" (Markus Armbruster)
-> e634054c9d: pflash_cfi01: Do not exit() on guest aborting "write to buffer" (Markus Armbruster)
-> 13cb31ce08: pflash: Rename pflash_t to PFlashCFI01, PFlashCFI02 (Markus Armbruster)
-> d0cb440280: block/pflash_cfi02: Fix memory leak and potential use-after-free (Stephen Checkoway)
-> 21e5c69b85: hw/display/xlnx_dp: Avoid crash when reading empty RX FIFO (Philippe Mathieu-Daudé)
-> e2ec206ea9: hw/ssi/mss-spi: Avoid crash when reading empty RX FIFO (Philippe Mathieu-Daudé)
-> 1f30e35861: hw/ssi/xilinx_spips: Avoid out-of-bound access to lqspi_buf[] (Philippe Mathieu-Daudé)
-> 19f55e7ab5: target/m68k: Fix a tcg_temp leak (Philippe Mathieu-Daudé)
-> c6b77a64b4: virtio-balloon: free pbp more aggressively (Michael S. Tsirkin)
-> 0965d5583e: virtio-balloon: don't track subpages for the PBP (David Hildenbrand)
-> 14d9028a7d: virtio-balloon: Use temporary PBP only (David Hildenbrand)
-> 2aa5009412: virtio-balloon: Rework pbp tracking data (David Hildenbrand)
-> 46275f9091: virtio-balloon: Better names for offset variables in inflate/deflate code (David Hildenbrand)
-> b0d6feca99: virtio-balloon: Simplify deflate with pbp (David Hildenbrand)
-> 07026c30c3: virtio-balloon: Fix QEMU crashes on pagesize > BALLOON_PAGE_SIZE (David Hildenbrand)
-> 11dd808dc0: virtio-balloon: Fix wrong sign extension of PFNs (David Hildenbrand)
-> f8364784f0: virtio-balloon: Restore MADV_WILLNEED hint on balloon deflate (David Gibson)
-> 38e8e9007d: virtio-balloon: Fix possible guest memory corruption with inflates & deflates (David Gibson)
-> 80c96a7b60: virtio-balloon: Don't mismatch g_malloc()/free (CID 1399146) (David Gibson)
-> 118112024d: virtio-balloon: Safely handle BALLOON_PAGE_SIZE < host page size (David Gibson)
-> 83cddbaadf: virtio-balloon: Use ram_block_discard_range() instead of raw madvise() (David Gibson)
-> 89b0e359bc: virtio-balloon: Rework ballon_page() interface (David Gibson)
-> b260cdec21: virtio-balloon: Corrections to address verification (David Gibson)
-> 7a31a0af31: virtio-balloon: Remove unnecessary MADV_WILLNEED on deflate (David Gibson)
-> f0a334345b: hw/virtio/virtio-balloon: zero-initialize the virtio_balloon_config struct (Peter Maydell)
-> fc6c2bce38: i386/acpi: show PCI Express bus on pxb-pcie expanders (Evgeny Yakovlev)
-> 11665ca918: i386/acpi: fix gint overflow in crs_range_compare (Evgeny Yakovlev)
-> df42bc4897: ioapic: kvm: Skip route updates for masked pins (Jan Kiszka)
-> c00635946f: tpm_emulator: Translate TPM error codes to strings (Stefan Berger)
-> 51ce84e119: tpm: Exit in reset when backend indicates failure (Stefan Berger)
-> 0318166a9f: vhost: fix vhost_log size overflow during migration (Li Hangjing)
-> 261d7f653a: iotests: Test unaligned raw images with O_DIRECT (Max Reitz)
-> 044b0bcedf: block/file-posix: Unaligned O_DIRECT block-status (Max Reitz)
-> 1742e3c74e: iotests: Filter second BLOCK_JOB_ERROR from 229 (Max Reitz)
-> f173a43a6d: megasas: fix mapped frame size (Peter Lieven)
-> 2157938f7b: s390x/cpumodel: ignore csske for expansion (Christian Borntraeger)
-> f56e70ee4f: do not call vhost_net_cleanup() on running net from char user event (Dan Streetman)
-> 8a5aaad6c2: block: Fix AioContext switch for bs->drv == NULL (Kevin Wolf)
-> 3c9e488dbe: cutils: Fix size_to_str() on 32-bit platforms (Eric Blake)
-> c627cc38be: qcow2: Avoid COW during metadata preallocation (Kevin Wolf)
-> b443db97c1: qemu-img: fix error reporting for -object (Daniel P. Berrangé)
-> 6b29db871d: usb-mtp: use O_NOFOLLOW and O_CLOEXEC. (Gerd Hoffmann)
-> 6c77b5ab35: qga: update docs with systemd suspend support info (Daniel Henrique Barboza)
-> 11cd30e71a: mac_newworld: use node name instead of alias name for hd device in FWPathProvider (Mark Cave-Ayland)
-> 4a25ba2e2b: mac_oldworld: use node name instead of alias name for hd device in FWPathProvider (Mark Cave-Ayland)
-> 847fe10828: configure: improve usbfs check (Thomas Petazzoni)
-> f3a70a4ae1: qga-win: include glib when building VSS DLL (Michael Roth)
-> d7cae05bf5: json: Fix % handling when not interpolating (Christophe Fergeau)
-> d03c389511: i386: remove the 'INTEL_PT' CPUID bit from named CPU models (Paolo Bonzini)
-> 02d735c274: i386: remove the new CPUID 'PCONFIG' from Icelake-Server CPU model (Robert Hoo)
-> 821314aec3: vfio-ap: flag as compatible with balloon (Cornelia Huck)
-> 7c693f0c3f: tpm_tis: fix loop that cancels any seizure by a lower locality (Liam Merwick)
-> 83cd9ed3d7: slirp: check sscanf result when emulating ident (William Bowling)
-> c6f25642e0: hw/rdma: another clang compilation fix (Marcel Apfelbaum)
-> 27df37c1ea: block: Fix invalidate_cache error path for parent activation (Kevin Wolf)
-> fe87edd5ed: tpm: Make sure the locality received from backend is valid (Stefan Berger)
-> 27b0c099fd: tpm: Make sure new locality passed to tpm_tis_prep_abort() is valid (Stefan Berger)
-> 00d0932e0b: exec.c: Don't reallocate IOMMUNotifiers that are in use (Peter Maydell)
-> 2e5502300e: s390x: Return specification exception for unimplemented diag 308 subcodes (Janosch Frank)
-> 8ec7368c8f: linux-user: make pwrite64/pread64(fd, NULL, 0, offset) return 0 (Peter Maydell)
-> 85bfce130a: hw/s390x: Fix bad mask in time2tod() (Thomas Huth)
-> 98cf1bb872: pc:piix4: Update smbus I/O space after a migration (Corey Minyard)
-> 5363028d1f: pcie: set link state inactive/active after hot unplug/plug (Zheng Xiang)
-> 0d6b9ce17c: Changes requirement for "vsubsbs" instruction (Paul A. Clarke)
-> def04278d1: iotests: make 235 work on s390 (and others) (Christian Borntraeger)
-> 08c410e390: i2c: Move typedef of bitbang_i2c_interface to i2c.h (BALATON Zoltan)
+Fix for this is in git and will be in 4.1.0.
 
-I was testing the CVE-2019-14378 fix, 7min too late :(
+
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1830864
+
+Title:
+  Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
+  isar_feature_arm_div(&cpu_->isar); })' failed
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  The following assertion:
+
+      assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
+
+  introduced in commit 0f8d06f16c9d ("target/arm: Conditionalize some
+  asserts on aarch32 support", 2018-11-02), fails for me. I intended to
+  launch a 32-bit ARM guest (with KVM acceleration) on my AArch64 host
+  (APM Mustang A3).
+
+  Libvirt generated the following QEMU command line:
+
+  > LC_ALL=3DC \
+  > PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin \
+  > QEMU_AUDIO_DRV=3Dnone \
+  > /opt/qemu-installed-optimized/bin/qemu-system-aarch64 \
+  >   -name guest=3Df28.32bit,debug-threads=3Don \
+  >   -S \
+  >   -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/q=
+emu/domain-2-f28.32bit/master-key.aes \
+  >   -machine virt-4.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-ver=
+sion=3D2 \
+  >   -cpu host,aarch64=3Doff \
+  >   -drive file=3D/root/QEMU_EFI.fd.padded,if=3Dpflash,format=3Draw,unit=
+=3D0,readonly=3Don \
+  >   -drive file=3D/var/lib/libvirt/qemu/nvram/f28.32bit_VARS.fd,if=3Dpfla=
+sh,format=3Draw,unit=3D1 \
+  >   -m 8192 \
+  >   -realtime mlock=3Doff \
+  >   -smp 8,sockets=3D8,cores=3D1,threads=3D1 \
+  >   -uuid d525042e-1b37-4058-86ca-c6a2086e8485 \
+  >   -no-user-config \
+  >   -nodefaults \
+  >   -chardev socket,id=3Dcharmonitor,fd=3D27,server,nowait \
+  >   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+  >   -rtc base=3Dutc \
+  >   -no-shutdown \
+  >   -boot strict=3Don \
+  >   -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0=
+,multifunction=3Don,addr=3D0x1 \
+  >   -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0=
+,addr=3D0x1.0x1 \
+  >   -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0=
+,addr=3D0x1.0x2 \
+  >   -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0=
+,addr=3D0x1.0x3 \
+  >   -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0=
+,addr=3D0x1.0x4 \
+  >   -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0=
+,addr=3D0x1.0x5 \
+  >   -device qemu-xhci,id=3Dusb,bus=3Dpci.1,addr=3D0x0 \
+  >   -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x0 \
+  >   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 \
+  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.root.qcow2,format=3Dq=
+cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,werror=3Denospc,cache=3Dwriteback,dis=
+card=3Dunmap \
+  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=
+=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,write-cache=3Don \
+  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.home.qcow2,format=3Dq=
+cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-1,werror=3Denospc,cache=3Dwriteback,dis=
+card=3Dunmap \
+  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,drive=
+=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,write-cache=3Don \
+  >   -netdev tap,fd=3D29,id=3Dhostnet0,vhost=3Don,vhostfd=3D30 \
+  >   -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:6f:=
+d1:c8,bus=3Dpci.4,addr=3D0x0,romfile=3D \
+  >   -chardev pty,id=3Dcharserial0 \
+  >   -serial chardev:charserial0 \
+  >   -chardev socket,id=3Dcharchannel0,fd=3D31,server,nowait \
+  >   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharch=
+annel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
+  >   -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 \
+  >   -device usb-kbd,id=3Dinput1,bus=3Dusb.0,port=3D2 \
+  >   -vnc 127.0.0.1:0 \
+  >   -device virtio-gpu-pci,id=3Dvideo0,max_outputs=3D1,bus=3Dpci.5,addr=
+=3D0x0 \
+  >   -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
+  >   -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,max-bytes=3D1048576,pe=
+riod=3D1000,bus=3Dpci.6,addr=3D0x0 \
+  >   -msg timestamp=3Don
+
+  and then I got:
+
+  > qemu-system-aarch64: /root/src/upstream/qemu/target/arm/cpu.c:986:
+  > arm_cpu_realizefn: Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
+  > isar_feature_arm_div(&cpu_->isar); })' failed.
+
+  QEMU was built at commit 8dc7fd56dd4f ("Merge remote-tracking branch
+  'remotes/philmd-gitlab/tags/fw_cfg-20190523-pull-request' into staging",
+  2019-05-23).
+
+  (Originally reported on the mailing list in the following thread:
+  <http://mid.mail-archive.com/3e3d2018-3993-f651-8e94-5bea612bd776@redhat.=
+com>.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1830864/+subscriptions
 
