@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA5F7F6E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 14:33:31 +0200 (CEST)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306A87F6F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 14:34:46 +0200 (CEST)
+Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htWkV-0000xQ-2c
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 08:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37881)
+	id 1htWlh-0003eR-EI
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 08:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37914)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <drjones@redhat.com>) id 1htWdr-0005fs-I5
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:40 -0400
+ (envelope-from <drjones@redhat.com>) id 1htWdt-0005mg-JQ
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1htWdq-00021b-5I
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55395)
+ (envelope-from <drjones@redhat.com>) id 1htWds-00022t-5I
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34950)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1htWdl-0001xN-GO; Fri, 02 Aug 2019 08:26:33 -0400
+ id 1htWdp-00020C-2I; Fri, 02 Aug 2019 08:26:37 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5323D3082E20;
- Fri,  2 Aug 2019 12:26:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 557B73082129;
+ Fri,  2 Aug 2019 12:26:36 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55A8A5C205;
- Fri,  2 Aug 2019 12:26:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9558C5C205;
+ Fri,  2 Aug 2019 12:26:32 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Date: Fri,  2 Aug 2019 14:25:36 +0200
-Message-Id: <20190802122540.26385-12-drjones@redhat.com>
+Date: Fri,  2 Aug 2019 14:25:37 +0200
+Message-Id: <20190802122540.26385-13-drjones@redhat.com>
 In-Reply-To: <20190802122540.26385-1-drjones@redhat.com>
 References: <20190802122540.26385-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 02 Aug 2019 12:26:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 02 Aug 2019 12:26:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 11/15] target/arm/kvm64: Add
- kvm_arch_get/put_sve
+Subject: [Qemu-devel] [PATCH v3 12/15] target/arm/kvm64: max cpu: Enable SVE
+ when available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,220 +62,212 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are the SVE equivalents to kvm_arch_get/put_fpsimd. Note, the
-swabbing is different than it is for fpsmid because the vector format
-is a little-endian stream of words.
+Enable SVE in the KVM guest when the 'max' cpu type is configured
+and KVM supports it. KVM SVE requires use of the new finalize
+vcpu ioctl, so we add that now too. For starters SVE can only be
+turned on or off, getting all vector lengths the host CPU supports
+when on. We'll add the other SVE CPU properties in later patches.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/kvm64.c | 150 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 146 insertions(+), 4 deletions(-)
+ target/arm/cpu64.c       | 17 ++++++++++++++---
+ target/arm/kvm.c         |  5 +++++
+ target/arm/kvm64.c       | 20 +++++++++++++++++++-
+ target/arm/kvm_arm.h     | 27 +++++++++++++++++++++++++++
+ tests/arm-cpu-features.c |  1 +
+ 5 files changed, 66 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 0b004d5d3050..f5c99984f25f 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -671,11 +671,12 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
- bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx)
- {
-     /* Return true if the regidx is a register we should synchronize
--     * via the cpreg_tuples array (ie is not a core reg we sync by
--     * hand in kvm_arch_get/put_registers())
-+     * via the cpreg_tuples array (ie is not a core or sve reg that
-+     * we sync by hand in kvm_arch_get/put_registers())
-      */
-     switch (regidx & KVM_REG_ARM_COPROC_MASK) {
-     case KVM_REG_ARM_CORE:
-+    case KVM_REG_ARM64_SVE:
-         return false;
-     default:
-         return true;
-@@ -761,6 +762,85 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
-     return 0;
- }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index c9412a0b71af..f8ed393ed16c 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -610,6 +610,11 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v,=
+ const char *name,
+         return;
+     }
 =20
-+/*
-+ * SVE registers are encoded in KVM's memory in an endianness-invariant =
-format.
-+ * The byte at offset i from the start of the in-memory representation c=
-ontains
-+ * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means=
- the
-+ * lowest offsets are stored in the lowest memory addresses, then that n=
-early
-+ * matches QEMU's representation, which is to use an array of host-endia=
-n
-+ * uint64_t's, where the lower offsets are at the lower indices. To comp=
-lete
-+ * the translation we just need to byte swap the uint64_t's on big-endia=
-n hosts.
-+ */
-+#ifdef HOST_WORDS_BIGENDIAN
-+static uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
-+{
-+    int i;
-+
-+    for (i =3D 0; i < nr; ++i) {
-+        dst[i] =3D bswap64(src[i]);
++    if (value && kvm_enabled() && !kvm_arm_sve_supported(CPU(cpu))) {
++        error_setg(errp, "'sve' feature not supported by KVM on this hos=
+t");
++        return;
 +    }
 +
-+    return dst;
-+}
-+#endif
-+
-+/*
-+ * KVM SVE registers come in slices where ZREGs have a slice size of 204=
-8 bits
-+ * and PREGS and the FFR have a slice size of 256 bits. However we simpl=
-y hard
-+ * code the slice index to zero for now as it's unlikely we'll need more=
- than
-+ * one slice for quite some time.
-+ */
-+static int kvm_arch_put_sve(CPUState *cs)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    CPUARMState *env =3D &cpu->env;
-+#ifdef HOST_WORDS_BIGENDIAN
-+    uint64_t tmp[ARM_MAX_VQ * 2];
-+#endif
-+    uint64_t *r;
-+    struct kvm_one_reg reg;
-+    int n, ret;
-+
-+    for (n =3D 0; n < KVM_ARM64_SVE_NUM_ZREGS; ++n) {
-+        r =3D &env->vfp.zregs[n].d[0];
-+#ifdef HOST_WORDS_BIGENDIAN
-+        r =3D sve_bswap64(tmp, r, cpu->sve_max_vq * 2);
-+#endif
-+        reg.addr =3D (uintptr_t)r;
-+        reg.id =3D KVM_REG_ARM64_SVE_ZREG(n, 0);
-+        ret =3D kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    for (n =3D 0; n < KVM_ARM64_SVE_NUM_PREGS; ++n) {
-+        r =3D &env->vfp.pregs[n].p[0];
-+#ifdef HOST_WORDS_BIGENDIAN
-+        r =3D sve_bswap64(tmp, r, DIV_ROUND_UP(cpu->sve_max_vq, 8));
-+#endif
-+        reg.addr =3D (uintptr_t)r;
-+        reg.id =3D KVM_REG_ARM64_SVE_PREG(n, 0);
-+        ret =3D kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    r =3D &env->vfp.pregs[FFR_PRED_NUM].p[0];
-+#ifdef HOST_WORDS_BIGENDIAN
-+    r =3D sve_bswap64(tmp, r, DIV_ROUND_UP(cpu->sve_max_vq, 8));
-+#endif
-+    reg.addr =3D (uintptr_t)r;
-+    reg.id =3D KVM_REG_ARM64_SVE_FFR(0);
-+    ret =3D kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+
- int kvm_arch_put_registers(CPUState *cs, int level)
+     t =3D cpu->isar.id_aa64pfr0;
+     t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, value);
+     cpu->isar.id_aa64pfr0 =3D t;
+@@ -634,11 +639,16 @@ static void aarch64_max_initfn(Object *obj)
  {
-     struct kvm_one_reg reg;
-@@ -855,7 +935,11 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+     ARMCPU *cpu =3D ARM_CPU(obj);
+     uint32_t vq;
++    uint64_t t;
+=20
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
++        if (kvm_arm_sve_supported(CPU(cpu))) {
++            t =3D cpu->isar.id_aa64pfr0;
++            t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
++            cpu->isar.id_aa64pfr0 =3D t;
++        }
+     } else {
+-        uint64_t t;
+         uint32_t u;
+         aarch64_a57_initfn(obj);
+=20
+@@ -720,8 +730,6 @@ static void aarch64_max_initfn(Object *obj)
+=20
+         object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve=
+_max_vq,
+                             cpu_max_set_sve_max_vq, NULL, NULL, &error_f=
+atal);
+-        object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
+-                            cpu_arm_set_sve, NULL, NULL, &error_fatal);
+=20
+         /*
+          * sve_vq_map uses a special state while setting properties, so
+@@ -736,6 +744,9 @@ static void aarch64_max_initfn(Object *obj)
+                                 cpu_arm_set_sve_vq, NULL, NULL, &error_f=
+atal);
          }
      }
-=20
--    ret =3D kvm_arch_put_fpsimd(cs);
-+    if (cpu_isar_feature(aa64_sve, cpu)) {
-+        ret =3D kvm_arch_put_sve(cs);
-+    } else {
-+        ret =3D kvm_arch_put_fpsimd(cs);
-+    }
-     if (ret) {
-         return ret;
-     }
-@@ -918,6 +1002,60 @@ static int kvm_arch_get_fpsimd(CPUState *cs)
-     return 0;
++
++    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
++                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
  }
 =20
-+/*
-+ * KVM SVE registers come in slices where ZREGs have a slice size of 204=
-8 bits
-+ * and PREGS and the FFR have a slice size of 256 bits. However we simpl=
-y hard
-+ * code the slice index to zero for now as it's unlikely we'll need more=
- than
-+ * one slice for quite some time.
-+ */
-+static int kvm_arch_get_sve(CPUState *cs)
+ struct ARMCPUInfo {
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index bfe3d445e196..ce4e362b3476 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -49,6 +49,11 @@ int kvm_arm_vcpu_init(CPUState *cs)
+     return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_INIT, &init);
+ }
+=20
++int kvm_arm_vcpu_finalize(CPUState *cs, int feature)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    CPUARMState *env =3D &cpu->env;
-+    struct kvm_one_reg reg;
-+    uint64_t *r;
-+    int n, ret;
-+
-+    for (n =3D 0; n < KVM_ARM64_SVE_NUM_ZREGS; ++n) {
-+        r =3D &env->vfp.zregs[n].d[0];
-+        reg.addr =3D (uintptr_t)r;
-+        reg.id =3D KVM_REG_ARM64_SVE_ZREG(n, 0);
-+        ret =3D kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+        if (ret) {
-+            return ret;
-+        }
-+#ifdef HOST_WORDS_BIGENDIAN
-+        sve_bswap64(r, r, cpu->sve_max_vq * 2);
-+#endif
-+    }
-+
-+    for (n =3D 0; n < KVM_ARM64_SVE_NUM_PREGS; ++n) {
-+        r =3D &env->vfp.pregs[n].p[0];
-+        reg.addr =3D (uintptr_t)r;
-+        reg.id =3D KVM_REG_ARM64_SVE_PREG(n, 0);
-+        ret =3D kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+        if (ret) {
-+            return ret;
-+        }
-+#ifdef HOST_WORDS_BIGENDIAN
-+        sve_bswap64(r, r, DIV_ROUND_UP(cpu->sve_max_vq, 8));
-+#endif
-+    }
-+
-+    r =3D &env->vfp.pregs[FFR_PRED_NUM].p[0];
-+    reg.addr =3D (uintptr_t)r;
-+    reg.id =3D KVM_REG_ARM64_SVE_FFR(0);
-+    ret =3D kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+    if (ret) {
-+        return ret;
-+    }
-+#ifdef HOST_WORDS_BIGENDIAN
-+    sve_bswap64(r, r, DIV_ROUND_UP(cpu->sve_max_vq, 8));
-+#endif
-+
-+    return 0;
++    return kvm_vcpu_ioctl(cs, KVM_ARM_VCPU_FINALIZE, &feature);
 +}
 +
- int kvm_arch_get_registers(CPUState *cs)
+ void kvm_arm_init_serror_injection(CPUState *cs)
  {
-     struct kvm_one_reg reg;
-@@ -1012,7 +1150,11 @@ int kvm_arch_get_registers(CPUState *cs)
-         env->spsr =3D env->banked_spsr[i];
-     }
+     cap_has_inject_serror_esr =3D kvm_check_extension(cs->kvm_state,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index f5c99984f25f..a6871017d375 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -602,6 +602,13 @@ bool kvm_arm_aarch32_supported(CPUState *cpu)
+     return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
+ }
 =20
--    ret =3D kvm_arch_get_fpsimd(cs);
++bool kvm_arm_sve_supported(CPUState *cpu)
++{
++    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++
++    return kvm_check_extension(s, KVM_CAP_ARM_SVE);
++}
++
+ #define ARM_CPU_ID_MPIDR       3, 0, 0, 0, 5
+=20
+ int kvm_arch_init_vcpu(CPUState *cs)
+@@ -630,13 +637,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_EL1_32BIT;
+     }
+     if (!kvm_check_extension(cs->kvm_state, KVM_CAP_ARM_PMU_V3)) {
+-            cpu->has_pmu =3D false;
++        cpu->has_pmu =3D false;
+     }
+     if (cpu->has_pmu) {
+         cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_PMU_V3;
+     } else {
+         unset_feature(&env->features, ARM_FEATURE_PMU);
+     }
 +    if (cpu_isar_feature(aa64_sve, cpu)) {
-+        ret =3D kvm_arch_get_sve(cs);
-+    } else {
-+        ret =3D kvm_arch_get_fpsimd(cs);
++        assert(kvm_arm_sve_supported(cs));
++        cpu->kvm_init_features[0] |=3D 1 << KVM_ARM_VCPU_SVE;
 +    }
-     if (ret) {
+=20
+     /* Do KVM_ARM_VCPU_INIT ioctl */
+     ret =3D kvm_arm_vcpu_init(cs);
+@@ -644,6 +655,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
          return ret;
      }
+=20
++    if (cpu_isar_feature(aa64_sve, cpu)) {
++        ret =3D kvm_arm_vcpu_finalize(cs, KVM_ARM_VCPU_SVE);
++        if (ret) {
++            return ret;
++        }
++    }
++
+     /*
+      * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+      * Currently KVM has its own idea about MPIDR assignment, so we
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index b3106c8600af..1151877f97ea 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -27,6 +27,20 @@
+  */
+ int kvm_arm_vcpu_init(CPUState *cs);
+=20
++/**
++ * kvm_arm_vcpu_finalize
++ * @cs: CPUState
++ * @feature: int
++ *
++ * Finalizes the configuration of the specified VCPU feature by
++ * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
++ * this are documented in the "KVM_ARM_VCPU_FINALIZE" section of
++ * KVM's API documentation.
++ *
++ * Returns: 0 if success else < 0 error code
++ */
++int kvm_arm_vcpu_finalize(CPUState *cs, int feature);
++
+ /**
+  * kvm_arm_register_device:
+  * @mr: memory region for this device
+@@ -225,6 +239,14 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
+  */
+ bool kvm_arm_pmu_supported(CPUState *cs);
+=20
++/**
++ * bool kvm_arm_sve_supported:
++ * @cs: CPUState
++ *
++ * Returns true if the KVM VCPU can enable SVE and false otherwise.
++ */
++bool kvm_arm_sve_supported(CPUState *cs);
++
+ /**
+  * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
+  * IPA address space supported by KVM
+@@ -275,6 +297,11 @@ static inline bool kvm_arm_pmu_supported(CPUState *c=
+s)
+     return false;
+ }
+=20
++static inline bool kvm_arm_sve_supported(CPUState *cs)
++{
++    return false;
++}
++
+ static inline int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
+ {
+     return -ENOENT;
+diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
+index a0752d000c08..51fbb1739d8e 100644
+--- a/tests/arm-cpu-features.c
++++ b/tests/arm-cpu-features.c
+@@ -394,6 +394,7 @@ static void test_query_cpu_model_expansion_kvm(const =
+void *data)
+=20
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+         assert_has_feature(qts, "host", "aarch64");
++        assert_has_feature(qts, "max", "sve");
+=20
+         assert_error(qts, "cortex-a15",
+             "We cannot guarantee the CPU type 'cortex-a15' works "
 --=20
 2.20.1
 
