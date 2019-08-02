@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E2A7FEB9
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 18:39:29 +0200 (CEST)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4B07FEDA
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 18:46:10 +0200 (CEST)
+Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htaaW-000183-Io
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 12:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39800)
+	id 1htagz-0004Ji-F5
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 12:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41551)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1htaZm-0000YR-Os
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:38:43 -0400
+ (envelope-from <bounces@canonical.com>) id 1htagT-0003oY-Rn
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:45:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1htaZl-00011s-Qi
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:38:42 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46802)
+ (envelope-from <bounces@canonical.com>) id 1htagS-0006IF-Gu
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:45:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1htaZl-00011g-Kq
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:38:41 -0400
-Received: by mail-ot1-x344.google.com with SMTP id z23so50404638ote.13
- for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 09:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xFI2+7XPTOv3b7japO9eQFMtUcdolV/Yk2OxnwsKfZk=;
- b=k1e5doCMkVCCaFON4eNc9BukwQMWmq00YRXBVHoQl7u3Eo0CeK7lv9ZKCXV1lbyWKN
- JtrB044h1FD3AdBxGmyyWlY1O5UQLv44oHPv1qR2pGZ7IzcBoShSgKnXnKLvuQcPJKXX
- uJVzqfr5SDRkFB7FjAeWo+QNXF+G23LRJk+OHeGuKHVJ30LC6vEv+7kOd4tGDjnA9IV7
- NtxC6rBQkDr2nA+b9BVrxlW9PBb66q4oANKz17Cud6nW3MpM2p/pW6FQxiClWP24QK/N
- Q+YOZq+ee4d8fTebwhMfGbkUpBhLvBTPFrd8i8qfw+tUYCUAAD2W496Wl9zlgBNBLTyQ
- xXkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xFI2+7XPTOv3b7japO9eQFMtUcdolV/Yk2OxnwsKfZk=;
- b=tdWW61ttZrxx1/HR/0Glc8fIcm2q7kZ3beHm2+HyPCO1d4L5H8AdIcUvKiXDkm+B4y
- PGoHCHJ3VLdr4O8JpgiG9c1UE5p3n8w/MsaGGzd8N+8wph+XjTSnoHslbgemlceVPzSm
- XWIf2QGbmQZUC7BboCsEZ0An3unq5avk662uYigaAd97OxmvJjtekofXkggnve7Rww+0
- DTWiJkPqQLzXIociDv3Uoqf6BiOo26SkPbSFFFRnP2PL1W+Hp738nlkiTDGVejjq3n+W
- GBY5LIWzmEK48431hbByTDngASpDOk4rqkpzYeZSQ7H2psW/98d5QbhDioCFy+flEgrM
- 0a5Q==
-X-Gm-Message-State: APjAAAX9yNoSnjCwCMo2jz3paMzH2klUVmMuadFIt/n2ouN99bI4GmW0
- CzuYKnt8LYQwKwL+PbzcSqQGE5kZhppe9q+cTuMAvQ==
-X-Google-Smtp-Source: APXvYqwGrBgdTE4EDZg8pEKWRd0mwZy5xLCn9LpS+go97X1sgzBsJB9faApnTbQTYDpmeXOmlNurDiDkREaojyLcDCc=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr43437299oti.91.1564763920712; 
- Fri, 02 Aug 2019 09:38:40 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1htagS-0006H9-AY
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:45:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1htagR-0007Au-4N
+ for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 16:45:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FAC42E80C7
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 16:45:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190801105742.20036-1-peter.maydell@linaro.org>
- <af347b17-b524-1075-d462-2b0e6eef41a5@greensocs.com>
- <CAFEAcA87XdDJH5TO-AiDfSqudmwzuY0yoa0H60objxXp3Bh9LA@mail.gmail.com>
- <569b96b1-e11a-59c5-4f67-1da2d592b8fc@greensocs.com>
-In-Reply-To: <569b96b1-e11a-59c5-4f67-1da2d592b8fc@greensocs.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Aug 2019 16:38:53 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 2 Aug 2019 17:38:30 +0100
-Message-ID: <CAFEAcA_K3v_XXHh-eTpdrb39cVGu9Co95TaLQG+zAU1qa8MXKw@mail.gmail.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH for-4.1] target/arm: Avoid bogus NSACR
- traps on M-profile without Security Extension
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm mprofile tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: buckfobb pmaydell
+X-Launchpad-Bug-Reporter: KD (buckfobb)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <156452233283.15483.3370838341008169030.malonedeb@wampee.canonical.com>
+Message-Id: <156476393401.25402.11459506417891552986.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19014";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 908c4537eab72cd82ebc229701a2151e3ada7d7d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838475] Re: qemu-system-arm exits when cortex-m4
+ floating point used and irq occurs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,42 +66,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1838475 <1838475@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2 Aug 2019 at 08:51, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
->
-> On 8/1/19 4:38 PM, Peter Maydell wrote:
-> > On Thu, 1 Aug 2019 at 15:20, Damien Hedde <damien.hedde@greensocs.com> wrote:
-> >>
-> >>
-> >> On 8/1/19 12:57 PM, Peter Maydell wrote:
-> >>> In Arm v8.0 M-profile CPUs without the Security Extension and also in
-> >>> v7M CPUs, there is no NSACR register. However, the code we have to handle
-> >>> the FPU does not always check whether the ARM_FEATURE_M_SECURITY bit
-> >>> is set before testing whether env->v7m.nsacr permits access to the
-> >>> FPU. This means that for a CPU with an FPU but without the Security
-> >>> Extension we would always take a bogus fault when trying to stack
-> >>> the FPU registers on an exception entry.
-> >>>
-> >>> We could fix this by adding extra feature bit checks for all uses,
-> >>> but it is simpler to just make the internal value of nsacr 0x3ff
-> >>
-> >> s/0x3ff/0xcff/ I think, given you put 0xcff after and in the code
-> >
-> > Yes, 0xcff is correct and the commit message is wrong. (Bits 8 and 9
-> > of the NSACR are RES0 in all situations.)
-> >
->
-> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Now fixed in git master; will be in the imminent 4.1 release.
 
-Thanks; since we need an rc4 anyway I have pushed this to master,
-with the commit message typo fixed.
 
--- PMM
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838475
+
+Title:
+  qemu-system-arm exits when cortex-m4 floating point used and irq
+  occurs
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  qemu-system-arm exits with
+
+  "...Secure UsageFault with CFSR.NOCP because NSACR.CP10 prevents stacking=
+ FP regs
+  ...taking pending nonsecure exception 3
+  Taking exception 7 [Breakpoint]
+  qemu: fatal: Lockup: can't escalate 3 to HardFault (current priority -1)" =
+
+
+  when emulating Cortex-m4, executing at least 1 floating point
+  instruction, and then an irq (e.g. sys tick) occurring.
+
+  CPACR.CP10 and CPACR.CP11 are set to 0x3 respectively prior to
+  executing the fp instructions.
+
+  NOTE: NSACR does not appear to be a cortex m4 register.
+
+  Attached is a simplified elf to repro the issue.
+
+  The qemu command line is: "qemu-system-arm --gdb tcp::1234 -cpu
+  cortex-m4 -machine lm3s6965evb -nographic -semihosting-config
+  enable=3Don,target=3Dnative -kernel QemuExitWhenUsingFPAndIRQOccurs.elf -d
+  int"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838475/+subscriptions
 
