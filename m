@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AD07FDAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 17:38:10 +0200 (CEST)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECB57FDAF
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 17:38:14 +0200 (CEST)
+Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htZdB-0000Yd-6W
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 11:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
+	id 1htZdG-0000dM-25
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 11:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53567)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htZcF-0008Cj-Jv
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:12 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htZcH-0008Cv-1n
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htZcE-0000QW-OW
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:11 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:57970 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1htZcF-0000R4-Te
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:12 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:58571 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1htZcE-0008PN-IN
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:10 -0400
+ id 1htZcF-0008QC-NK
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:37:11 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id ED40E1A21D3;
- Fri,  2 Aug 2019 17:36:05 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id D81A41A2205;
+ Fri,  2 Aug 2019 17:36:08 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id CFD571A1DFB;
- Fri,  2 Aug 2019 17:36:05 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id BAD9C1A21F4;
+ Fri,  2 Aug 2019 17:36:08 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  2 Aug 2019 17:35:56 +0200
-Message-Id: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri,  2 Aug 2019 17:35:57 +0200
+Message-Id: <1564760158-27536-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 0/2] tests/acceptance: Update MIPS Malta ssh
- test
+Subject: [Qemu-devel] [PATCH 1/2] tests/acceptance: Refactor and improve
+ reporting in linux_ssh_mips_malta.py
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,17 +58,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-This little series improves linux_ssh_mips_malta.py, both in the sense
-of code organization and in the sense of quantity of executed tests.
+This patch restructures code organization around the test case
+executions. At the same time, rather than outputing a cryptic message:
 
-Aleksandar Markovic (2):
-  tests/acceptance: Refactor and improve reporting in
-    linux_ssh_mips_malta.py
-  tests/acceptance: Add new test cases in linux_ssh_mips_malta.py
+FAIL: True not found in [False],
 
- tests/acceptance/linux_ssh_mips_malta.py | 81 ++++++++++++++++++++++++++------
- 1 file changed, 66 insertions(+), 15 deletions(-)
+the following will be reported too, if the command output does not meet
+specified expectations:
 
+'lspci -d 11ab:4620' output doesn't contain the word 'GT-64120'
+
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ tests/acceptance/linux_ssh_mips_malta.py | 36 +++++++++++++++++++-------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
+
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index aafb0c3..8368e1f 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -145,27 +145,33 @@ class LinuxSSH(Test):
+         self.ssh_disconnect_vm()
+         self.wait_for_console_pattern('Power down')
+ 
+-    def run_common_commands(self):
+-        stdout, stderr = self.ssh_command('lspci -d 11ab:4620')
+-        self.assertIn(True, ["GT-64120" in line for line in stdout])
+-
+-        stdout, stderr = self.ssh_command('cat /sys/bus/i2c/devices/i2c-0/name')
+-        self.assertIn(True, ["SMBus PIIX4 adapter" in line
+-                             for line in stdout])
+-
+-        stdout, stderr = self.ssh_command('cat /proc/mtd')
+-        self.assertIn(True, ["YAMON" in line
+-                             for line in stdout])
++    def ssh_command_output_contains(self, cmd, exp):
++        stdout, _ = self.ssh_command(cmd)
++        for line in stdout:
++            if exp in line:
++                break
++        else:
++            self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+ 
++    def run_common_commands(self):
++        self.ssh_command_output_contains(
++            'lspci -d 11ab:4620',
++            'GT-64120')
++        self.ssh_command_output_contains(
++            'cat /sys/bus/i2c/devices/i2c-0/name',
++            'SMBus PIIX4 adapter')
++        self.ssh_command_output_contains(
++            'cat /proc/mtd',
++            'YAMON')
+         # Empty 'Board Config'
+-        stdout, stderr = self.ssh_command('md5sum /dev/mtd2ro')
+-        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
+-                             for line in stdout])
++        self.ssh_command_output_contains(
++            'md5sum /dev/mtd2ro',
++            '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
+ 
+     def do_test_mips_malta(self, endianess, kernel_path, uname_m):
+         self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_path)
+ 
+-        stdout, stderr = self.ssh_command('uname -a')
++        stdout, _ = self.ssh_command('uname -a')
+         self.assertIn(True, [uname_m + " GNU/Linux" in line for line in stdout])
+ 
+         self.run_common_commands()
 -- 
 2.7.4
 
