@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DED880018
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:18:21 +0200 (CEST)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F3680029
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 20:28:18 +0200 (CEST)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htc85-0001vI-CX
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:18:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57655)
+	id 1htcHp-00072X-JP
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 14:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1htbrw-0005Oy-7y
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:33 -0400
+ (envelope-from <bounces@canonical.com>) id 1htbry-0005SH-Mu
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1htbrs-0004vB-Dj
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:31 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55618)
+ (envelope-from <bounces@canonical.com>) id 1htbrw-00052P-Ti
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55834)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1htbrq-0004FL-Ax
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:27 -0400
+ id 1htbrw-0004JD-MY
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 14:01:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1htbrT-0001dv-6K
- for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 18:01:03 +0000
+ id 1htbrY-0001jc-MZ
+ for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 18:01:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 261C92E80C7
- for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 18:01:03 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 99B062E80CE
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 18:01:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 02 Aug 2019 17:53:38 -0000
+Date: Fri, 02 Aug 2019 17:51:40 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lersek pmaydell
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Commenters: artem.pisarenko pmaydell
+X-Launchpad-Bug-Reporter: Artem Pisarenko (artem.pisarenko)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <155911887030.13016.15611981837118124440.malonedeb@soybean.canonical.com>
-Message-Id: <156476841813.24957.5240743150050521074.malone@soybean.canonical.com>
+References: <153596437135.32162.9985112313849579617.malonedeb@soybean.canonical.com>
+Message-Id: <156476830098.29006.4959983778968773829.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="19014";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: e60a439c8359c14e39b94a6ba3345d8722870624
+X-Launchpad-Hash: 85f2047a42ba7318aed20a0e6244378283de786f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830864] Re: Assertion `no_aa32 || ({ ARMCPU
- *cpu_ = (cpu); isar_feature_arm_div(&cpu_->isar); })' failed
+Subject: [Qemu-devel] [Bug 1790460] Re: -icount,
+ sleep=off mode is broken (target slows down or hangs)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -65,124 +65,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830864 <1830864@bugs.launchpad.net>
+Reply-To: Bug 1790460 <1790460@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix for this is in git and will be in 4.1.0.
+I think we fixed this bug in commit 013aabdc665e4256b38d which would
+have been in the 3.1.0 release (this is why we closed #1774677, which as
+you say is the same issue).
 
 
 ** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+       Status: New =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830864
+https://bugs.launchpad.net/bugs/1790460
 
 Title:
-  Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
-  isar_feature_arm_div(&cpu_->isar); })' failed
+  -icount,sleep=3Doff mode is broken (target slows down or hangs)
 
 Status in QEMU:
-  Fix Committed
+  Fix Released
 
 Bug description:
-  The following assertion:
+  QEMU running with options "-icount,sleep=3Doff -rtc clock=3Dvm" doesn't e=
+xecute emulation at maximum possible speed.
+  Target virtual clock may run faster or slower than realtime clock by N ti=
+mes, where N value depends on various unrelated conditions (i.e. random fro=
+m the user point of view). The worst case is when target hangs (hopefully, =
+early in booting stage).
+  Example scenarios I've described here: http://lists.nongnu.org/archive/ht=
+ml/qemu-discuss/2018-08/msg00102.html
 
-      assert(no_aa32 || cpu_isar_feature(arm_div, cpu));
+  QEMU process just sleeps most of the time (polling, waiting some
+  condition, etc.). I've tried to debug issue and came to 99% conclusion
+  that there are racing somewhere in qemu internals.
 
-  introduced in commit 0f8d06f16c9d ("target/arm: Conditionalize some
-  asserts on aarch32 support", 2018-11-02), fails for me. I intended to
-  launch a 32-bit ARM guest (with KVM acceleration) on my AArch64 host
-  (APM Mustang A3).
+  The feature is broken since v2.6.0 release.
+  Bad commit is 281b2201e4e18d5b9a26e1e8d81b62b5581a13be by Pavel Dovgalyuk=
+, 03/10/2016 05:56 PM:
 
-  Libvirt generated the following QEMU command line:
+    icount: remove obsolete warp call
+    =
 
-  > LC_ALL=3DC \
-  > PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin \
-  > QEMU_AUDIO_DRV=3Dnone \
-  > /opt/qemu-installed-optimized/bin/qemu-system-aarch64 \
-  >   -name guest=3Df28.32bit,debug-threads=3Don \
-  >   -S \
-  >   -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/q=
-emu/domain-2-f28.32bit/master-key.aes \
-  >   -machine virt-4.1,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,gic-ver=
-sion=3D2 \
-  >   -cpu host,aarch64=3Doff \
-  >   -drive file=3D/root/QEMU_EFI.fd.padded,if=3Dpflash,format=3Draw,unit=
-=3D0,readonly=3Don \
-  >   -drive file=3D/var/lib/libvirt/qemu/nvram/f28.32bit_VARS.fd,if=3Dpfla=
-sh,format=3Draw,unit=3D1 \
-  >   -m 8192 \
-  >   -realtime mlock=3Doff \
-  >   -smp 8,sockets=3D8,cores=3D1,threads=3D1 \
-  >   -uuid d525042e-1b37-4058-86ca-c6a2086e8485 \
-  >   -no-user-config \
-  >   -nodefaults \
-  >   -chardev socket,id=3Dcharmonitor,fd=3D27,server,nowait \
-  >   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
-  >   -rtc base=3Dutc \
-  >   -no-shutdown \
-  >   -boot strict=3Don \
-  >   -device pcie-root-port,port=3D0x8,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0=
-,multifunction=3Don,addr=3D0x1 \
-  >   -device pcie-root-port,port=3D0x9,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0=
-,addr=3D0x1.0x1 \
-  >   -device pcie-root-port,port=3D0xa,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0=
-,addr=3D0x1.0x2 \
-  >   -device pcie-root-port,port=3D0xb,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0=
-,addr=3D0x1.0x3 \
-  >   -device pcie-root-port,port=3D0xc,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0=
-,addr=3D0x1.0x4 \
-  >   -device pcie-root-port,port=3D0xd,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0=
-,addr=3D0x1.0x5 \
-  >   -device qemu-xhci,id=3Dusb,bus=3Dpci.1,addr=3D0x0 \
-  >   -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x0 \
-  >   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 \
-  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.root.qcow2,format=3Dq=
-cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,werror=3Denospc,cache=3Dwriteback,dis=
-card=3Dunmap \
-  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=
-=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1,write-cache=3Don \
-  >   -drive file=3D/var/lib/libvirt/images/f28.32bit.home.qcow2,format=3Dq=
-cow2,if=3Dnone,id=3Ddrive-scsi0-0-0-1,werror=3Denospc,cache=3Dwriteback,dis=
-card=3Dunmap \
-  >   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,drive=
-=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,write-cache=3Don \
-  >   -netdev tap,fd=3D29,id=3Dhostnet0,vhost=3Don,vhostfd=3D30 \
-  >   -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:6f:=
-d1:c8,bus=3Dpci.4,addr=3D0x0,romfile=3D \
-  >   -chardev pty,id=3Dcharserial0 \
-  >   -serial chardev:charserial0 \
-  >   -chardev socket,id=3Dcharchannel0,fd=3D31,server,nowait \
-  >   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharch=
-annel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 \
-  >   -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 \
-  >   -device usb-kbd,id=3Dinput1,bus=3Dusb.0,port=3D2 \
-  >   -vnc 127.0.0.1:0 \
-  >   -device virtio-gpu-pci,id=3Dvideo0,max_outputs=3D1,bus=3Dpci.5,addr=
-=3D0x0 \
-  >   -object rng-random,id=3Dobjrng0,filename=3D/dev/urandom \
-  >   -device virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,max-bytes=3D1048576,pe=
-riod=3D1000,bus=3Dpci.6,addr=3D0x0 \
-  >   -msg timestamp=3Don
+    qemu_clock_warp call in qemu_tcg_wait_io_event function is not needed
+    anymore, because it is called in every iteration of main_loop_wait.
+    =
 
-  and then I got:
+    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-  > qemu-system-aarch64: /root/src/upstream/qemu/target/arm/cpu.c:986:
-  > arm_cpu_realizefn: Assertion `no_aa32 || ({ ARMCPU *cpu_ =3D (cpu);
-  > isar_feature_arm_div(&cpu_->isar); })' failed.
+    Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+    Message-Id: <20160310115603.4812.67559.stgit@PASHA-ISP>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-  QEMU was built at commit 8dc7fd56dd4f ("Merge remote-tracking branch
-  'remotes/philmd-gitlab/tags/fw_cfg-20190523-pull-request' into staging",
-  2019-05-23).
+  I've reverted commit to all major releases and latest git master
+  branch. Issue was fixed for all of them. My adaptation is trivial:
+  just restoring removed function call before "qemu_cond_wait(...)"
+  line.
 
-  (Originally reported on the mailing list in the following thread:
-  <http://mid.mail-archive.com/3e3d2018-3993-f651-8e94-5bea612bd776@redhat.=
-com>.)
+  I'm sure following bugs are just particular cases of the issue:
+  #1774677, #1653063 .
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1830864/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1790460/+subscriptions
 
