@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3787F6D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 14:30:53 +0200 (CEST)
-Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7D07F7D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 15:07:25 +0200 (CEST)
+Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htWhw-0005gj-8F
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 08:30:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37987)
+	id 1htXHH-0001oQ-OE
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 09:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45503)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <drjones@redhat.com>) id 1htWe5-0006RV-S6
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:55 -0400
+ (envelope-from <eblake@redhat.com>) id 1htXGd-0001K2-W3
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1htWe4-00029T-Au
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 08:26:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44512)
+ (envelope-from <eblake@redhat.com>) id 1htXGc-000182-S1
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46522)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1htWe0-00027S-Ou; Fri, 02 Aug 2019 08:26:48 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1htXGc-00015p-Ju
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 09:06:42 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 13505C049E12;
- Fri,  2 Aug 2019 12:26:48 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1DE15C205;
- Fri,  2 Aug 2019 12:26:45 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Date: Fri,  2 Aug 2019 14:25:40 +0200
-Message-Id: <20190802122540.26385-16-drjones@redhat.com>
-In-Reply-To: <20190802122540.26385-1-drjones@redhat.com>
-References: <20190802122540.26385-1-drjones@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 00C8A308A958
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 13:06:41 +0000 (UTC)
+Received: from [10.3.116.93] (ovpn-116-93.phx2.redhat.com [10.3.116.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9899110016EA;
+ Fri,  2 Aug 2019 13:06:40 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190802122325.16520-1-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <5478e720-7d1e-a1c2-44cb-75b33f1abe15@redhat.com>
+Date: Fri, 2 Aug 2019 08:06:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20190802122325.16520-1-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 02 Aug 2019 12:26:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.41]); Fri, 02 Aug 2019 13:06:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 15/15] target/arm/kvm: host cpu: Add support
- for sve<vl-bits> properties
+Subject: Re: [Qemu-devel] [PATCH] qapi: Make visit_next_list()'s comment
+ less confusing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,266 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
- eric.auger@redhat.com, imammedo@redhat.com, alex.bennee@linaro.org,
- Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow cpu 'host' to enable SVE when it's available, unless the
-user chooses to disable it with the added 'sve=3Doff' cpu property.
-Also give the user the ability to select vector lengths with the
-sve<vl-bits> properties. We don't adopt 'max' cpu's other sve
-property, sve-max-vq, because that property is difficult to
-use with KVM. That property assumes all vector lengths in the
-range from 1 up to and including the specified maximum length are
-supported, but there may be optional lengths not supported by the
-host in that range. With KVM one must be more specific when
-enabling vector lengths.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS
+Content-Type: multipart/mixed; boundary="jb5e55zk1llZNky5T8NcTSfYib5J5ybd6";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Message-ID: <5478e720-7d1e-a1c2-44cb-75b33f1abe15@redhat.com>
+Subject: Re: [PATCH] qapi: Make visit_next_list()'s comment less confusing
+References: <20190802122325.16520-1-armbru@redhat.com>
+In-Reply-To: <20190802122325.16520-1-armbru@redhat.com>
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
----
- docs/arm-cpu-features.rst | 19 ++++++++++++-------
- target/arm/cpu.c          |  1 +
- target/arm/cpu.h          |  2 ++
- target/arm/cpu64.c        | 39 +++++++++++++++++++++++----------------
- tests/arm-cpu-features.c  | 15 ++++++++-------
- 5 files changed, 46 insertions(+), 30 deletions(-)
+--jb5e55zk1llZNky5T8NcTSfYib5J5ybd6
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-index 4181539e06a5..dbf578ca231c 100644
---- a/docs/arm-cpu-features.rst
-+++ b/docs/arm-cpu-features.rst
-@@ -256,31 +256,36 @@ SVE CPU Property Examples
-=20
-      $ qemu-system-aarch64 -M virt -cpu max
-=20
--  3) Only enable the 128-bit vector length::
-+  3) When KVM is enabled, implicitly enable all host CPU supported vecto=
-r
-+     lengths with the `host` CPU type::
-+
-+     $ qemu-system-aarch64 -M virt,accel=3Dkvm -cpu host
-+
-+  4) Only enable the 128-bit vector length::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don
-=20
--  4) Disable the 256-bit vector length and all larger vector lengths
-+  5) Disable the 256-bit vector length and all larger vector lengths
-      since 256 is a power-of-2 (this results in only the 128-bit length
-      being enabled)::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve256=3Doff
-=20
--  5) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
-+  6) Enable the 128-bit, 256-bit, and 512-bit vector lengths::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Don,sve256=3Don,sve5=
-12=3Don
-=20
--  6) The same as (5), but since the 128-bit and 256-bit vector
-+  7) The same as (6), but since the 128-bit and 256-bit vector
-      lengths are required for the 512-bit vector length to be enabled,
-      then allow them to be auto-enabled::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve512=3Don
-=20
--  7) Do the same as (6), but by first disabling SVE and then re-enabling=
- it::
-+  8) Do the same as (7), but by first disabling SVE and then re-enabling=
- it::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve512=3Don,sve=3D=
-on
-=20
--  8) Force errors regarding the last vector length::
-+  9) Force errors regarding the last vector length::
-=20
-      $ qemu-system-aarch64 -M virt -cpu max,sve128=3Doff
-      $ qemu-system-aarch64 -M virt -cpu max,sve=3Doff,sve128=3Doff,sve=3D=
-on
-@@ -292,5 +297,5 @@ The examples in "SVE CPU Property Examples" exhibit m=
-any ways to select
- vector lengths which developers may find useful in order to avoid overly
- verbose command lines.  However, the recommended way to select vector
- lengths is to explicitly enable each desired length.  Therefore only
--example's (1), (3), and (5) exhibit recommended uses of the properties.
-+example's (1), (4), and (6) exhibit recommended uses of the properties.
-=20
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 842637ae0c49..901ae813563b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2648,6 +2648,7 @@ static void arm_host_initfn(Object *obj)
-     ARMCPU *cpu =3D ARM_CPU(obj);
-=20
-     kvm_arm_set_cpu_features_from_host(cpu);
-+    aarch64_add_sve_properties(obj);
-     arm_cpu_post_init(obj);
- }
-=20
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index b6cd721c91f5..7993085bea28 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -972,11 +972,13 @@ int aarch64_cpu_gdb_write_register(CPUState *cpu, u=
-int8_t *buf, int reg);
- void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
-+void aarch64_add_sve_properties(Object *obj);
- #else
- static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) =
-{ }
- static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-                                          int n, bool a)
- { }
-+static inline void aarch64_add_sve_properties(Object *obj) { }
- #endif
-=20
- #if !defined(CONFIG_TCG)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 0d0664b24865..0313eec88a66 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -714,6 +714,28 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v,=
- const char *name,
-     }
- }
-=20
-+void aarch64_add_sve_properties(Object *obj)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(obj);
-+    uint32_t vq;
-+
-+    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
-+                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
-+
-+    /*
-+     * sve_vq_map uses a special state while setting properties, so
-+     * we initialize it here with its init function and finalize it
-+     * in arm_cpu_realizefn().
-+     */
-+    arm_cpu_vq_map_init(cpu);
-+    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
-+        char name[8];
-+        sprintf(name, "sve%d", vq * 128);
-+        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
-+                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
-);
-+    }
-+}
-+
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this =
-host);
-  * otherwise, a CPU with as many features enabled as our emulation suppo=
-rts.
-  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
-@@ -722,7 +744,6 @@ static void cpu_arm_set_sve(Object *obj, Visitor *v, =
-const char *name,
- static void aarch64_max_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
--    uint32_t vq;
-     uint64_t t;
-=20
-     if (kvm_enabled()) {
-@@ -813,23 +834,9 @@ static void aarch64_max_initfn(Object *obj)
- #endif
-     }
-=20
--    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
--                        cpu_arm_set_sve, NULL, NULL, &error_fatal);
-+    aarch64_add_sve_properties(obj);
-     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max=
-_vq,
-                         cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal=
-);
--
--    /*
--     * sve_vq_map uses a special state while setting properties, so
--     * we initialize it here with its init function and finalize it
--     * in arm_cpu_realizefn().
--     */
--    arm_cpu_vq_map_init(cpu);
--    for (vq =3D 1; vq <=3D ARM_MAX_VQ; ++vq) {
--        char name[8];
--        sprintf(name, "sve%d", vq * 128);
--        object_property_add(obj, name, "bool", cpu_arm_get_sve_vq,
--                            cpu_arm_set_sve_vq, NULL, NULL, &error_fatal=
-);
--    }
- }
-=20
- struct ARMCPUInfo {
-diff --git a/tests/arm-cpu-features.c b/tests/arm-cpu-features.c
-index 720741375bc8..229f3cf64b12 100644
---- a/tests/arm-cpu-features.c
-+++ b/tests/arm-cpu-features.c
-@@ -359,7 +359,7 @@ static void sve_tests_sve_off_kvm(const void *data)
- {
-     QTestState *qts;
-=20
--    qts =3D qtest_init(MACHINE "-accel kvm -cpu max,sve=3Doff");
-+    qts =3D qtest_init(MACHINE "-accel kvm -cpu host,sve=3Doff");
-=20
-     /*
-      * We don't know if this host supports SVE so we don't
-@@ -436,8 +436,8 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-             "We cannot guarantee the CPU type 'cortex-a15' works "
-             "with KVM on this host", NULL);
-=20
--        assert_has_feature(qts, "max", "sve");
--        resp =3D do_query_no_props(qts, "max");
-+        assert_has_feature(qts, "host", "sve");
-+        resp =3D do_query_no_props(qts, "host");
-         kvm_supports_sve =3D resp_get_feature(resp, "sve");
-         vls =3D resp_get_sve_vls(resp);
-         qobject_unref(resp);
-@@ -448,10 +448,10 @@ static void test_query_cpu_model_expansion_kvm(cons=
-t void *data)
-=20
-             /* Enabling a supported length is of course fine. */
-             sprintf(name, "sve%d", max_vq * 128);
--            assert_sve_vls(qts, "max", vls, "{ %s: true }", name);
-+            assert_sve_vls(qts, "host", vls, "{ %s: true }", name);
-=20
-             /* Also disabling the largest lengths is fine. */
--            assert_sve_vls(qts, "max", (vls & ~BIT(max_vq - 1)),
-+            assert_sve_vls(qts, "host", (vls & ~BIT(max_vq - 1)),
-                            "{ %s: false }", name);
-=20
-             for (vq =3D 1; vq <=3D max_vq; ++vq) {
-@@ -463,7 +463,7 @@ static void test_query_cpu_model_expansion_kvm(const =
-void *data)
-             if (vq <=3D SVE_MAX_VQ) {
-                 sprintf(name, "sve%d", vq * 128);
-                 error =3D g_strdup_printf("cannot enable %s", name);
--                assert_error(qts, "max", error, "{ %s: true }", name);
-+                assert_error(qts, "host", error, "{ %s: true }", name);
-                 g_free(error);
-             }
-=20
-@@ -476,13 +476,14 @@ static void test_query_cpu_model_expansion_kvm(cons=
-t void *data)
-                 vq =3D 64 - __builtin_clzll(vls & ~BIT(max_vq - 1));
-                 sprintf(name, "sve%d", vq * 128);
-                 error =3D g_strdup_printf("cannot disable %s", name);
--                assert_error(qts, "max", error, "{ %s: false }", name);
-+                assert_error(qts, "host", error, "{ %s: false }", name);
-                 g_free(error);
-             }
-         } else {
-             g_assert(vls =3D=3D 0);
-         }
-     } else {
-+        assert_has_not_feature(qts, "host", "sve");
-         assert_error(qts, "host",
-                      "'pmu' feature not supported by KVM on this host",
-                      "{ 'pmu': true }");
+On 8/2/19 7:23 AM, Markus Armbruster wrote:
+> visit_next_list() returns non-null on success, null on failure.  The
+> comment's phrasing "until NULL return or error occurs" is needlessly
+> confusing.  Scratch the "or error occurs" part.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  include/qapi/visitor.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>=20
+> diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+> index 5b2ed3f202..c5b23851a1 100644
+> --- a/include/qapi/visitor.h
+> +++ b/include/qapi/visitor.h
+> @@ -364,10 +364,10 @@ void visit_start_list(Visitor *v, const char *nam=
+e, GenericList **list,
+>   * @tail must not be NULL; on the first call, @tail is the value of
+>   * *list after visit_start_list(), and on subsequent calls @tail must
+>   * be the previously returned value.  Should be called in a loop until=
+
+> - * a NULL return or error occurs; for each non-NULL return, the caller=
+
+> - * then calls the appropriate visit_type_*() for the element type of
+> - * the list, with that function's name parameter set to NULL and obj
+> - * set to the address of @tail->value.
+> + * a NULL return; for each non-NULL return, the caller then calls the
+> + * appropriate visit_type_*() for the element type of the list, with
+> + * that function's name parameter set to NULL and obj set to the
+> + * address of @tail->value.
+>   */
+>  GenericList *visit_next_list(Visitor *v, GenericList *tail, size_t siz=
+e);
+> =20
+>=20
+
 --=20
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
+
+--jb5e55zk1llZNky5T8NcTSfYib5J5ybd6--
+
+--HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl1ENV8ACgkQp6FrSiUn
+Q2rJTAgApjYuCLlaweVZ2HERoal4wsZ8ZS52ZahEp21kxntyOimva2XFNEQecpmC
+OCMQ+VFpCfqYSzAYo9J0RF0qfbT+6fi3wGZZoxx6wcUk/x5l01i2vAh3yfArCv0P
+ZoICWommj5/54kud98Zf4NLWQEqZYHYADXf0imSxfRmS15eCwvn8rLJwGb/1BOCw
+Xc21y5XGaTLXj54lkGJWsVvVqvQPB2t5FGnJeXLdMoUz1y/Wuv+mALHImwP1SPRQ
+FyumKLIlQXzCICpcyOC4wLF/TCkVM8CNr2h2YxK4CWtAlJ1hj1ma9ng2qi6aNlOL
+Q3b1MT5CAW4sZXJmo5khwVq/KByAnw==
+=2//G
+-----END PGP SIGNATURE-----
+
+--HP2kmzpw2SueSXyiHLOOgy75PTCdMHOwS--
 
