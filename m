@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD7697FDE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 17:59:24 +0200 (CEST)
-Received: from localhost ([::1]:35936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24497FE25
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 18:08:20 +0200 (CEST)
+Received: from localhost ([::1]:36194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htZxj-0008Uk-M4
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 11:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58609)
+	id 1hta6N-0003UN-RT
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 12:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1htZx3-00084V-19
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:58:42 -0400
+ (envelope-from <bounces@canonical.com>) id 1hta3q-0007IN-GV
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:05:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1htZx1-0005FA-PD
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:58:40 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:42825)
+ (envelope-from <bounces@canonical.com>) id 1hta3n-0002ez-A6
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:05:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41324)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1htZx1-0005Dl-Hf
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 11:58:39 -0400
-Received: by mail-ed1-f65.google.com with SMTP id v15so72827852eds.9
- for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 08:58:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mdVaBBfegqRBWuGVv3fcrgrnieb0rN41um/u33kyB1g=;
- b=UGSKvrWMoxbCPkRNWlab2C/ar5Uo21ynWv3eVj6k1+TT5TPpmVmFqIkuUNGdILl47k
- HQVOcMtd4vz5GK2zydppmlQfMoAbaFgrReePgaYu8wofxjOsloun55JllHbGCJh/+Y7W
- X3XGThyVYC7RlF3UCFfb13LDEgZPrK8z/L+RVdCguYAwljv6uOLfoSwCRWLc7GeFFa8b
- c2uOieQflb6mEeiL8IbonM4Aw5APkUjFk3b/qKEDwi4/+BAgWYjiddLF7ZZc2silxjWx
- WmwCsZIxaz07aAK3BD993qF/WMSWEZ0maAOqoGbb8/+lndHZ8rbD8amF9woJ3DWMBr0A
- DVpw==
-X-Gm-Message-State: APjAAAXBF9RNlYxSbV/aovQFQW1kFPUwxoup47m5fvr9GRjSMWZkj3bL
- oU77QbFdn5dFg8cqbCN/k+5HCQ==
-X-Google-Smtp-Source: APXvYqzwG4xOTKpL93bW/jg4rsrw2IMNoHvA6PZ/wuNanQGTR8M3KF1E/wEwH/omCG7GbgYRnozrcg==
-X-Received: by 2002:a17:906:470a:: with SMTP id
- y10mr90476915ejq.115.1564761518487; 
- Fri, 02 Aug 2019 08:58:38 -0700 (PDT)
-Received: from [10.0.0.124] ([185.102.219.36])
- by smtp.gmail.com with ESMTPSA id x11sm13404955eju.26.2019.08.02.08.58.36
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 02 Aug 2019 08:58:37 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1564760158-27536-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1564760158-27536-2-git-send-email-aleksandar.markovic@rt-rk.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f71dae2e-52ce-5ad8-fe1d-1433788b5d11@redhat.com>
-Date: Fri, 2 Aug 2019 17:58:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hta3m-0002de-5E
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 12:05:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hta3k-0001Kq-Ie
+ for <qemu-devel@nongnu.org>; Fri, 02 Aug 2019 16:05:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 74BAE2E80C8
+ for <qemu-devel@nongnu.org>; Fri,  2 Aug 2019 16:05:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1564760158-27536-2-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 02 Aug 2019 15:56:36 -0000
+From: Andreas Gustafsson <gson@gson.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange gson prlw1
+X-Launchpad-Bug-Reporter: Patrick Welche (prlw1)
+X-Launchpad-Bug-Modifier: Andreas Gustafsson (gson)
+References: <156467368424.6955.5535032657029646608.malonedeb@soybean.canonical.com>
+Message-Id: <156476139674.27472.4228767969873518404.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="19014";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 57c1ebd5267bfc290bdc0fceeb0ec2583ef3c2a8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.208.65
-Subject: Re: [Qemu-devel] [PATCH 1/2] tests/acceptance: Refactor and improve
- reporting in linux_ssh_mips_malta.py
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1838658] Re: qemu 4.0.0 broken by glib update
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,95 +63,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, ehabkost@redhat.com, crosa@redhat.com, f4bug@amsat.org,
- amarkovic@wavecomp.com, ccarrara@redhat.com
+Reply-To: Bug 1838658 <1838658@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/2/19 5:35 PM, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> 
-> This patch restructures code organization around the test case
-> executions. At the same time, rather than outputing a cryptic message:
-> 
-> FAIL: True not found in [False],
-> 
-> the following will be reported too, if the command output does not meet
-> specified expectations:
-> 
-> 'lspci -d 11ab:4620' output doesn't contain the word 'GT-64120'
-> 
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  tests/acceptance/linux_ssh_mips_malta.py | 36 +++++++++++++++++++-------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
-> 
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index aafb0c3..8368e1f 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -145,27 +145,33 @@ class LinuxSSH(Test):
->          self.ssh_disconnect_vm()
->          self.wait_for_console_pattern('Power down')
->  
-> -    def run_common_commands(self):
-> -        stdout, stderr = self.ssh_command('lspci -d 11ab:4620')
-> -        self.assertIn(True, ["GT-64120" in line for line in stdout])
-> -
-> -        stdout, stderr = self.ssh_command('cat /sys/bus/i2c/devices/i2c-0/name')
-> -        self.assertIn(True, ["SMBus PIIX4 adapter" in line
-> -                             for line in stdout])
-> -
-> -        stdout, stderr = self.ssh_command('cat /proc/mtd')
-> -        self.assertIn(True, ["YAMON" in line
-> -                             for line in stdout])
-> +    def ssh_command_output_contains(self, cmd, exp):
-> +        stdout, _ = self.ssh_command(cmd)
-> +        for line in stdout:
-> +            if exp in line:
-> +                break
-> +        else:
-> +            self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+> From the netbsd bug report it looks like the reproducer was demoed
+> using the sparc emulator - is that the only QEMU arch that is affected ?
 
-Or easier using 'return':
+Only one arch is affected, but it's sparc64, not sparc.
 
-     def ssh_command_output_contains(self, cmd, exp):
-        stdout, _ = self.ssh_command(cmd)
-        for line in stdout:
-            if exp in line:
-                return
-        self.fail('"%s" output does not contain "%s"' % (cmd, exp))
+-- =
 
-Regardless, thanks for the cleanup!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1838658
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Title:
+  qemu 4.0.0 broken by glib update
 
->  
-> +    def run_common_commands(self):
-> +        self.ssh_command_output_contains(
-> +            'lspci -d 11ab:4620',
-> +            'GT-64120')
-> +        self.ssh_command_output_contains(
-> +            'cat /sys/bus/i2c/devices/i2c-0/name',
-> +            'SMBus PIIX4 adapter')
-> +        self.ssh_command_output_contains(
-> +            'cat /proc/mtd',
-> +            'YAMON')
->          # Empty 'Board Config'
-> -        stdout, stderr = self.ssh_command('md5sum /dev/mtd2ro')
-> -        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
-> -                             for line in stdout])
-> +        self.ssh_command_output_contains(
-> +            'md5sum /dev/mtd2ro',
-> +            '0dfbe8aa4c20b52e1b8bf3cb6cbdf193')
->  
->      def do_test_mips_malta(self, endianess, kernel_path, uname_m):
->          self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_path)
->  
-> -        stdout, stderr = self.ssh_command('uname -a')
-> +        stdout, _ = self.ssh_command('uname -a')
->          self.assertIn(True, [uname_m + " GNU/Linux" in line for line in stdout])
->  
->          self.run_common_commands()
-> 
+Status in QEMU:
+  New
+
+Bug description:
+  In brief, an install CD will successfully boot with qemu 4.0.0 built with=
+ glib 2.58.3, but freeze during boot with qemu 4.0.0 built with glib 2.60.0=
+. I tracked it down to glib's GHashTable improvements. qemu is happy with a=
+ glib built from
+  ```
+   git checkout -f 2.60.4
+   git revert --no-edit 86c6f7e2b..3bed8a13b
+   git revert --no-edit 75f8ec1df9b48b0c3a13a9125f2c7d7c5adf5159
+   git revert --no-edit 603fb5958..d3074a748
+   git revert --no-edit 0b45ddc55..0600dd322
+  ```
+  When the GHashTable improvements were committed, there was already a pree=
+mptive note about any breakage being due to using private implementation de=
+tails, hence mentioning it here rather than with glib.
+
+  For the full saga, see: http://gnats.netbsd.org/54310
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1838658/+subscriptions
 
