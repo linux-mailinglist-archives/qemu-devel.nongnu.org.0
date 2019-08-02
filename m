@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE567EAEF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 06:07:09 +0200 (CEST)
-Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8AB7EAF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Aug 2019 06:07:12 +0200 (CEST)
+Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htOqR-0006O5-U7
-	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 00:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50393)
+	id 1htOqW-0006VY-22
+	for lists+qemu-devel@lfdr.de; Fri, 02 Aug 2019 00:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50411)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1htOpn-0005cq-6j
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:28 -0400
+ (envelope-from <jasowang@redhat.com>) id 1htOpo-0005cw-By
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1htOpj-0001P5-34
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39190)
+ (envelope-from <jasowang@redhat.com>) id 1htOpn-0001Sa-CK
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41430)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1htOpi-0001OU-UW
- for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:23 -0400
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1htOpn-0001Rx-77
+ for qemu-devel@nongnu.org; Fri, 02 Aug 2019 00:06:27 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BEF7D765A4;
- Fri,  2 Aug 2019 04:06:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8310131E7D0;
+ Fri,  2 Aug 2019 04:06:26 +0000 (UTC)
 Received: from hp-dl380pg8-01.lab.eng.pek2.redhat.com
  (hp-dl380pg8-01.lab.eng.pek2.redhat.com [10.73.8.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0F731001B12;
- Fri,  2 Aug 2019 04:06:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45D7A1001B02;
+ Fri,  2 Aug 2019 04:06:21 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com
-Date: Fri,  2 Aug 2019 00:06:00 -0400
-Message-Id: <20190802040606.22573-1-jasowang@redhat.com>
+Date: Fri,  2 Aug 2019 00:06:01 -0400
+Message-Id: <20190802040606.22573-2-jasowang@redhat.com>
+In-Reply-To: <20190802040606.22573-1-jasowang@redhat.com>
+References: <20190802040606.22573-1-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 02 Aug 2019 04:06:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 02 Aug 2019 04:06:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH V5 0/6] Packed virtqueue for virtrio
+Subject: [Qemu-devel] [PATCH V5 1/6] virtio: basic structure for packed ring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,45 +54,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: yang.zhong@intel.com, tiwei.bie@intel.com, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, maxime.coquelin@redhat.com, jfreimann@redhat.com,
- weiyshay@gmail.com
+ qemu-devel@nongnu.org, maxime.coquelin@redhat.com, Wei Xu <wexu@redhat.com>,
+ jfreimann@redhat.com, weiyshay@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi:
+From: Wei Xu <wexu@redhat.com>
 
-This is an updated version of packed virtqueue support based on Wei's
-V4. Tested with, virtio-blk, virito-net (with vhost_net), virtio-scsi, scp
-during migration etc.
+Define packed ring structure according to Qemu nomenclature,
+field data(wrap counter, etc) are also included.
 
-Please review.
+Signed-off-by: Wei Xu <wexu@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/virtio.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Changes from V4:
-
-- using SET/GET_VRING_BASE to set/get last_used_idx/wrap_counter
-- fix virtqueue_pop_packed() to break virtio-scsi
-- memory barriers fix
-- add missing functions for packed virtqueue
-- various refactoring and tweaks
-
-Jason Wang (4):
-  virtio: basic packed virtqueue support
-  virtio: event suppression support for packed ring
-  vhost_net: enable packed ring support
-  virtio: add property to enable packed virtqueue
-
-Wei Xu (2):
-  virtio: basic structure for packed ring
-  virtio: device/driverr area size calculation refactor for split ring
-
- hw/block/virtio-blk.c       |    2 +-
- hw/char/virtio-serial-bus.c |    2 +-
- hw/net/vhost_net.c          |    2 +
- hw/scsi/virtio-scsi.c       |    3 +-
- hw/virtio/virtio.c          | 1151 +++++++++++++++++++++++++++++++----
- include/hw/virtio/virtio.h  |   14 +-
- 6 files changed, 1039 insertions(+), 135 deletions(-)
-
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index a94ea18a9c..981738fa19 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -39,6 +39,13 @@ typedef struct VRingDesc
+     uint16_t next;
+ } VRingDesc;
+ 
++typedef struct VRingPackedDesc {
++    uint64_t addr;
++    uint32_t len;
++    uint16_t id;
++    uint16_t flags;
++} VRingPackedDesc;
++
+ typedef struct VRingAvail
+ {
+     uint16_t flags;
+@@ -77,17 +84,25 @@ typedef struct VRing
+     VRingMemoryRegionCaches *caches;
+ } VRing;
+ 
++typedef struct VRingPackedDescEvent {
++    uint16_t off_wrap;
++    uint16_t flags;
++} VRingPackedDescEvent ;
++
+ struct VirtQueue
+ {
+     VRing vring;
+ 
+     /* Next head to pop */
+     uint16_t last_avail_idx;
++    bool last_avail_wrap_counter;
+ 
+     /* Last avail_idx read from VQ. */
+     uint16_t shadow_avail_idx;
++    bool shadow_avail_wrap_counter;
+ 
+     uint16_t used_idx;
++    bool used_wrap_counter;
+ 
+     /* Last used index value we have signalled on */
+     uint16_t signalled_used;
 -- 
 2.18.1
 
