@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67ED807F7
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 21:03:06 +0200 (CEST)
-Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5C0807FA
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 21:05:12 +0200 (CEST)
+Received: from localhost ([::1]:41692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htzJ4-0005SU-3p
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 15:03:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33011)
+	id 1htzL5-0000FY-ER
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 15:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33108)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htz5D-0006vt-Hs
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:49 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htz5K-0007GI-LZ
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htz5B-0007SL-Ju
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:47 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34530)
+ (envelope-from <richard.henderson@linaro.org>) id 1htz5J-0007WE-OA
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:54 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42856)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htz59-0007Pz-KF
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:44 -0400
-Received: by mail-pg1-x542.google.com with SMTP id n9so31447493pgc.1
- for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:41 -0700 (PDT)
+ id 1htz5J-0007QN-JI
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:53 -0400
+Received: by mail-pf1-x441.google.com with SMTP id q10so37607491pff.9
+ for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=JBDZxP60+vIjwwzQbC3L2o1kpMj6601b/tqCyxFOHVI=;
- b=QWKl0+P7ZCOzrJrGAAa335JojcAeKlcVoNs1cAydwjDyaxukqGtQnw6FMo6klTTsSr
- V8JrdKdrddDhr1/jqvOmEUZOrm/NCNmkWtc8YEsvczoU0dOKyATP6Pzc1B01JyNL34dN
- J3mwHRjHZGob/MtP/AJsmyZpX9MFb2OXxjLYg7rPRwIJkEK2p9CpM/ojJYbxjJNjJvej
- YEwlX7vtKw5QXwXU+l7G6J7yC5ppYyeCTRz+COZRCf9UjW6lf2K0c3AeYlyNvlA6a16X
- /lHkMqyLXBtduo9etkcuJU4JK7ICQiik7TISJxmCSAZlFZDX6l65LIBrGBUCRbwafi81
- 337g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1OFhZYB7REGpAAmdzyA7otQ/hGEth32oUJ6nOIibRSY=;
+ b=Q2KjR7szqQzFJBEH2NX0Shzd0whUpZj611QA5mIAYhzgpKlRBh5ODsGM5FpzlG4XYN
+ E60p6k7knFLoG/3l6e6jb7NjxMSe0Uv8+wqgGre6LtOAO8f9GbaDAC+QVVD/ZN5iyITN
+ lGdwQcy388XZhoO0jJnjvMrs8PgL8MKY8f2zAiABXU4jRRFArYBaW2DC9HbECCXS3boA
+ MVFaJlKA0Jjiem7h2Fc2fVhhL4udB+lpnGcgR8fnzJZy8uhg7VgTozjHaTNGGsA68nb+
+ pNMQWGe5juX6arF/6MAQUZs+Ue9hikLMS6b4/+dUo5QLrj218JfX5gH9w7La9BbmqPbo
+ yNEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=JBDZxP60+vIjwwzQbC3L2o1kpMj6601b/tqCyxFOHVI=;
- b=EzJd4sweE6Zktx8FacOAjlZ1Gcz8/V8RLkVpXlulbnr9iCgD8mdRL7zg9swsPmhGr7
- DT7J8TeqzwobmTBZ3YcrXJLNquWmXHn1UO7Mt3LDgl4wnjxQbOi1Hyut+GF0UH+13FrS
- 1ZhIjPNnHiVytDZzS2prs8vxwWZQwj0UecuKq3ow1JmU+W663idPJIKe4qQGdT7Ywxd0
- SBlSdhsBv/Sr493MRHzRlubceHKJn2IU5hChf/HYRXh5+uhtTcr3FSFU4l4m318L8Y0x
- 3iihL9QjPvQG0lBT+mQ6R9zbZ0u/rAuYaI8WZpAh8pDsBEtpk9cDE4da2yZFoqxsSbnL
- 18WQ==
-X-Gm-Message-State: APjAAAWdZAx6qW26EtoMen4K5y1YnNFGR50OeZSn/HtDwJPwbQbxCjMY
- be79vQMVVOwqTNHAp5G5BWWAPPPNeik=
-X-Google-Smtp-Source: APXvYqyw43hH5g5+9yj8il4fBZ/JqVWEEe+LCjQgr0W4w2DChR3Y+K97beq7ZV93AlZ4kzUNQG17aw==
-X-Received: by 2002:a17:90a:2525:: with SMTP id
- j34mr10667580pje.11.1564858120445; 
- Sat, 03 Aug 2019 11:48:40 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=1OFhZYB7REGpAAmdzyA7otQ/hGEth32oUJ6nOIibRSY=;
+ b=PiA56Qe461Ikjgo524YDH1tBp04+AV3VRRgNXiGQvkN7Yi5N6SeyQ2fUje4QgvDXRt
+ uOMj9niWmdtcyy9v0T489aBsjEo5HQPX2dR449GR97yt0MF05PbqyrUik0KVGxVGzKfw
+ EYUAWR2YkTCMOCehSHN6Xu3+4G8pYyXIcuF9lY44tC7occMjSfKZiMLEgIHWvxlwVvCp
+ d3WC4AYge3u5p99XoIGTsY0+BnOWnYlXALLD4aekRpkDBgKsIBNBXa5uJ4DjiAV57CKP
+ 7vEOu+rl5I7gc/vEJqvr6XzjdsHmruap9M8bzXSkLLd4o1gVAGB8QjUwf4R9uAu/Yh6T
+ eQBQ==
+X-Gm-Message-State: APjAAAVEJHwRwsdPHVwFIIpIEUcLirj1kS1kpm2LIXQQ+R0hIeeL88aM
+ a8i7F+w43qWGAi77C507n73S396lM+4=
+X-Google-Smtp-Source: APXvYqwcpUfQm+lN0lAiyTvKZ+LKiZdqq8LkPAnYLxLczAXe8PepUtoBWVyUkepumSba4RRwsKQ6zg==
+X-Received: by 2002:a62:ac11:: with SMTP id v17mr65823645pfe.236.1564858121535; 
+ Sat, 03 Aug 2019 11:48:41 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.39
+ by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.40
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 03 Aug 2019 11:48:39 -0700 (PDT)
+ Sat, 03 Aug 2019 11:48:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat,  3 Aug 2019 11:47:58 -0700
-Message-Id: <20190803184800.8221-33-richard.henderson@linaro.org>
+Date: Sat,  3 Aug 2019 11:47:59 -0700
+Message-Id: <20190803184800.8221-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190803184800.8221-1-richard.henderson@linaro.org>
 References: <20190803184800.8221-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v3 32/34] target/arm: Enable ARMv8.1-VHE in
- -cpu max
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH v3 33/34] target/arm: check TGE and E2H flags
+ for EL0 pauth traps
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,23 +84,32 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Alex Bennée <alex.bennee@linaro.org>
+
+According to ARM ARM we should only trap from EL0
+when TCG or E2H are 0.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/pauth_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 1901997a06..b1bb394c6d 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -337,6 +337,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = cpu->isar.id_aa64mmfr1;
-         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
-+        t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
-         cpu->isar.id_aa64mmfr1 = t;
- 
-         /* Replicate the same data to the 32-bit id registers.  */
+diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
+index 42c9141bb7..9fa002068e 100644
+--- a/target/arm/pauth_helper.c
++++ b/target/arm/pauth_helper.c
+@@ -371,7 +371,9 @@ static void pauth_check_trap(CPUARMState *env, int el, uintptr_t ra)
+     if (el < 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+         uint64_t hcr = arm_hcr_el2_eff(env);
+         bool trap = !(hcr & HCR_API);
+-        /* FIXME: ARMv8.1-VHE: trap only applies to EL1&0 regime.  */
++        if (el < 1) {
++            trap &= !(hcr & HCR_TGE) | !(hcr & HCR_E2H);
++        }
+         /* FIXME: ARMv8.3-NV: HCR_NV trap takes precedence for ERETA[AB].  */
+         if (trap) {
+             pauth_trap(env, 2, ra);
 -- 
 2.17.1
 
