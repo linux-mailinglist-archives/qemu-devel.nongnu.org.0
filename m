@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE21807CC
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 20:49:46 +0200 (CEST)
-Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D32807CF
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 20:50:13 +0200 (CEST)
+Received: from localhost ([::1]:41360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htz69-0008Gi-GG
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 14:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60581)
+	id 1htz6a-0001Mr-Ob
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 14:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60495)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htz4c-00063Q-T8
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:11 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htz4a-0005vH-3K
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htz4b-00077s-TD
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:10 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42853)
+ (envelope-from <richard.henderson@linaro.org>) id 1htz4Y-00075V-OO
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:08 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:40878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htz4b-00077L-OA
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:09 -0400
-Received: by mail-pf1-x443.google.com with SMTP id q10so37607192pff.9
- for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:09 -0700 (PDT)
+ id 1htz4Y-00074y-J2
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:06 -0400
+Received: by mail-pf1-x443.google.com with SMTP id p184so37618535pfp.7
+ for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hV2eslCkM9+11E22XGBDo1tPxuDz+vxwGvc3iXR5Q+U=;
- b=zeuwLZaLsuKqWvo0H7Lao3Xmq/IJ/PIq5u1FH0Yo7+Ni0P3R68YJHjwxjMrTtuaWjv
- 6UIrxJop+hOjmQMKQmGyUtp6T3hEuNYSt7wzQQZMeD4Whyg71621DfHr+ZDL3FNabgcM
- Ei6YZ1Qjm2qvwsPMXDbAodapGHrzDuKJ3WFjUAlA8hwRKF4hZoqaVeY8Cy4Zf5EQD70Q
- toso8YjoLAGaQ0ePImuSya6uKEGRuNX4Z83FoB9B2hX682K7shVPM9hj7y+Jn0ZN4wQE
- 8sVIe+ORce9HBYoAAavsZ0O0+Lb03HwTAA2v7x85Sf2HmI6PUWezWG7TUkVOBoRkMEhK
- GWZw==
+ bh=OzH9oAANiLbbz3MZqOd0740wSKDkRIpOzsZLTONmMZs=;
+ b=POoyQ7p+raLFWdXdMAzpyzaP2JaDBIv6nyVaZb9BfgIy2h7Mrrv6IJN3cSSEJntlw5
+ fyjBeZs76EWn/Or6CbrU6PLJ1BCKSmRURYCh4ha3iDIM+5H4TlNZPQdCdwiX5W9Fp0Ee
+ aswnR4wlqWtWQXx2paH4aGQY1c09aAtCPGHlqIQFNTe5xZgzADjy6HMgjLbaiCAlDmRs
+ hhe/82vasY2whCT2XBPfo/RsXzWAh3RH9J/ywRIinWZ58/xgy3dkpNzVgCKgV8FvkYcC
+ 4iXcMs8vs3kMvuW0wVWCymak7Ouftt5En+eVh42Dr1EM1IHppVJKxWULZeme/RoHJKWT
+ a2uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hV2eslCkM9+11E22XGBDo1tPxuDz+vxwGvc3iXR5Q+U=;
- b=gm5CXamxZzmKFIFap4ZPFWc2mAuJjcqKYvxBE35igQ7PR1wHlBAQ4icG7YwMO65iUo
- guviJeT0CgEFFyEpAySZ2nXQjbwblf1tiRwtowtqACC9MaCWIDWrRpamIO02tp5wyw6r
- SUyNwv0Of8o+/eDTFWi30T4En4ZiYJrDhOr8k3OHl0VQHhg8IEIrCUZq1fm7uKqHEeVI
- 7qD8zF1l2GuXEecSyHfD0sNdxwrRpIkzjIvUjRYdnacvmpISX+EKoe+qKMlftEauGgP5
- mVpfzYY81wQ2wHg7do5eSmc80gUq4G+GVvBbGzkmEf/JCpspwf8RofDRPSURZ6RPj/SL
- Oxsg==
-X-Gm-Message-State: APjAAAV/nyIJ4/7OsdaTYCwg+53KuMvCKMsFxz+Hr/+RkPHkrFTXruxv
- 18UVAwwLb49aYTnNBIXkdojX0T3YAYw=
-X-Google-Smtp-Source: APXvYqw50D1tcuFilG+lYYxJAjSIostRpVb5BrDCxdOpOTlicOOpTPm5TWnKVhKHX8m23N4E7EEppA==
-X-Received: by 2002:a62:8246:: with SMTP id w67mr67312952pfd.226.1564858088554; 
- Sat, 03 Aug 2019 11:48:08 -0700 (PDT)
+ bh=OzH9oAANiLbbz3MZqOd0740wSKDkRIpOzsZLTONmMZs=;
+ b=G8Vwueu4DCcV72hxMCKddVYazxtV8S5YDmepDfcefUUOu+X6syHDkLlHzckFCKlL/a
+ K61eU/cIVD+EQSSkNQjM1VUjj5MiuQoGo2PuiLPvE7S6UM3UAMpeLX0H10osPkVTmzCF
+ lWrTJlth9pqod6gU4rcnLvmyDd0OyZEFkSdmBDAZlcu6fU0U2dAcR4pHRgGREWqaLHkW
+ JlQj06HQDigybmgcE3pkGdau5ZGvoc6ccYwrF2cW/DVeVFcqS35kT2ye1WIMywirn++4
+ lLrbmKrXDBfnz9nRErHyTOMIZzGM8VDWgOcKfX3Sx91qjyuRpA4cgAb20FQz41L8PRCL
+ QuSg==
+X-Gm-Message-State: APjAAAWG7EZI1rfZsQBlinFBFpdz6SNc1gEdUoKgwLO4+CiOknTCPjmx
+ mLSqjI5CKeNw44tc6PG56DcKCpjo4g8=
+X-Google-Smtp-Source: APXvYqwTLu7ABi2FWZUOwwgpSILNwSA+C/RSS5DD/SvL/tVWU2hv+DPvqD1M9Ws27BnCjY9yntlgyw==
+X-Received: by 2002:a63:8a49:: with SMTP id y70mr35691142pgd.271.1564858085297; 
+ Sat, 03 Aug 2019 11:48:05 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.07
+ by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.04
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 03 Aug 2019 11:48:07 -0700 (PDT)
+ Sat, 03 Aug 2019 11:48:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat,  3 Aug 2019 11:47:31 -0700
-Message-Id: <20190803184800.8221-6-richard.henderson@linaro.org>
+Date: Sat,  3 Aug 2019 11:47:28 -0700
+Message-Id: <20190803184800.8221-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190803184800.8221-1-richard.henderson@linaro.org>
 References: <20190803184800.8221-1-richard.henderson@linaro.org>
@@ -67,7 +67,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v3 05/34] target/arm: Install ASIDs for EL2
+Subject: [Qemu-devel] [PATCH v3 02/34] cputlb: Add tlb_flush_asid_by_mmuidx
+ and friends
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,52 +84,129 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VMID is the ASID for the 2nd stage page lookup.
+Since we have remembered ASIDs, we can further minimize flushing
+by comparing against the one we want to flush.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ include/exec/exec-all.h | 16 ++++++++++++
+ include/qom/cpu.h       |  2 ++
+ accel/tcg/cputlb.c      | 55 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 73 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c0dc76ed41..65e3ffbb43 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -3452,17 +3452,23 @@ static void vmsa_ttbr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                         uint64_t value)
- {
--    ARMCPU *cpu = env_archcpu(env);
--    CPUState *cs = CPU(cpu);
-+    CPUState *cs = env_cpu(env);
-+    int vmid;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 9c77aa5bf9..0d890e1e60 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -240,6 +240,22 @@ void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu, uint16_t idxmap);
+  */
+ void tlb_set_asid_for_mmuidx(CPUState *cpu, uint32_t asid,
+                              uint16_t idxmap, uint16_t dep_idxmap);
++/**
++ * tlb_flush_asid_by_mmuidx:
++ * @cpu: Originating CPU of the flush
++ * @asid: Address Space Identifier
++ * @idxmap: bitmap of MMU indexes to flush if asid matches
++ *
++ * For each mmu index, if @asid matches the value previously saved via
++ * tlb_set_asid_for_mmuidx, flush the index.
++ */
++void tlb_flush_asid_by_mmuidx(CPUState *cpu, uint32_t asid, uint16_t idxmap);
++/* Similarly, broadcasting to all cpus. */
++void tlb_flush_asid_by_mmuidx_all_cpus(CPUState *cpu, uint32_t asid,
++                                       uint16_t idxmap);
++/* Similarly, waiting for the broadcast to complete.  */
++void tlb_flush_asid_by_mmuidx_all_cpus_synced(CPUState *cpu, uint32_t asid,
++                                              uint16_t idxmap);
+ /**
+  * tlb_set_page_with_attrs:
+  * @cpu: CPU to add this TLB entry for
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..c072dd4c47 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -285,12 +285,14 @@ typedef union {
+     unsigned long host_ulong;
+     void         *host_ptr;
+     vaddr         target_ptr;
++    uint64_t      uint64;
+ } run_on_cpu_data;
  
--    /* Accesses to VTTBR may change the VMID so we must flush the TLB.  */
--    if (raw_read(env, ri) != value) {
--        tlb_flush_by_mmuidx(cs,
--                            ARMMMUIdxBit_S12NSE1 |
--                            ARMMMUIdxBit_S12NSE0 |
--                            ARMMMUIdxBit_S2NS);
--        raw_write(env, ri, value);
--    }
-+    raw_write(env, ri, value);
-+
-+    /*
-+     * TODO: with ARMv8.1-VMID16, aarch64 must examine VTCR.VS
-+     * (re-evaluating with changes to VTCR) then use bits [63:48].
-+     */
-+    vmid = extract64(value, 48, 8);
-+
-+    /*
-+     * A change in VMID to the stage2 page table (S2NS) invalidates
-+     * the combined stage 1&2 tlbs (S12NSE1 and S12NSE0).
-+     */
-+    tlb_set_asid_for_mmuidx(cs, vmid, ARMMMUIdxBit_S2NS,
-+                            ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0);
+ #define RUN_ON_CPU_HOST_PTR(p)    ((run_on_cpu_data){.host_ptr = (p)})
+ #define RUN_ON_CPU_HOST_INT(i)    ((run_on_cpu_data){.host_int = (i)})
+ #define RUN_ON_CPU_HOST_ULONG(ul) ((run_on_cpu_data){.host_ulong = (ul)})
+ #define RUN_ON_CPU_TARGET_PTR(v)  ((run_on_cpu_data){.target_ptr = (v)})
++#define RUN_ON_CPU_UINT64(i)      ((run_on_cpu_data){.uint64 = (i)})
+ #define RUN_ON_CPU_NULL           RUN_ON_CPU_HOST_PTR(NULL)
+ 
+ typedef void (*run_on_cpu_func)(CPUState *cpu, run_on_cpu_data data);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index c68f57755b..62baaa9ca6 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -540,6 +540,61 @@ void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr)
+     tlb_flush_page_by_mmuidx_all_cpus_synced(src, addr, ALL_MMUIDX_BITS);
  }
  
- static const ARMCPRegInfo vmsa_pmsa_cp_reginfo[] = {
++static void tlb_flush_asid_by_mmuidx_async_work(CPUState *cpu,
++                                                run_on_cpu_data data)
++{
++    CPUTLB *tlb = cpu_tlb(cpu);
++    uint32_t asid = data.uint64;
++    uint16_t idxmap = data.uint64 >> 32;
++    uint16_t to_flush = 0, work;
++
++    assert_cpu_is_self(cpu);
++
++    for (work = idxmap; work != 0; work &= work - 1) {
++        int mmu_idx = ctz32(work);
++        if (tlb->d[mmu_idx].asid == asid) {
++            to_flush |= 1 << mmu_idx;
++        }
++    }
++
++    if (to_flush) {
++        tlb_flush_by_mmuidx_async_work(cpu, RUN_ON_CPU_HOST_INT(to_flush));
++    }
++}
++
++void tlb_flush_asid_by_mmuidx(CPUState *cpu, uint32_t asid, uint16_t idxmap)
++{
++    uint64_t asid_idx = deposit64(asid, 32, 32, idxmap);
++
++    if (cpu->created && !qemu_cpu_is_self(cpu)) {
++        async_run_on_cpu(cpu, tlb_flush_asid_by_mmuidx_async_work,
++                         RUN_ON_CPU_UINT64(asid_idx));
++    } else {
++        tlb_flush_asid_by_mmuidx_async_work(cpu, RUN_ON_CPU_UINT64(asid_idx));
++    }
++}
++
++void tlb_flush_asid_by_mmuidx_all_cpus(CPUState *src_cpu,
++                                       uint32_t asid, uint16_t idxmap)
++{
++    uint64_t asid_idx = deposit64(asid, 32, 32, idxmap);
++
++    flush_all_helper(src_cpu, tlb_flush_asid_by_mmuidx_async_work,
++                     RUN_ON_CPU_UINT64(asid_idx));
++    tlb_flush_asid_by_mmuidx_async_work(src_cpu, RUN_ON_CPU_UINT64(asid_idx));
++}
++
++void tlb_flush_asid_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
++                                              uint32_t asid, uint16_t idxmap)
++{
++    uint64_t asid_idx = deposit64(asid, 32, 32, idxmap);
++
++    flush_all_helper(src_cpu, tlb_flush_asid_by_mmuidx_async_work,
++                     RUN_ON_CPU_UINT64(asid_idx));
++    async_safe_run_on_cpu(src_cpu, tlb_flush_asid_by_mmuidx_async_work,
++                          RUN_ON_CPU_UINT64(asid_idx));
++}
++
+ void tlb_set_asid_for_mmuidx(CPUState *cpu, uint32_t asid, uint16_t idxmap,
+                              uint16_t depmap)
+ {
 -- 
 2.17.1
 
