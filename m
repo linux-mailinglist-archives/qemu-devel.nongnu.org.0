@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0011E8085A
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 23:10:40 +0200 (CEST)
-Received: from localhost ([::1]:42030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1432F8085C
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 23:11:53 +0200 (CEST)
+Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hu1IW-0005sO-7g
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 17:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52055)
+	id 1hu1Jg-0007TV-BE
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 17:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hu1GL-00017A-Q8
+ (envelope-from <richard.henderson@linaro.org>) id 1hu1GL-00017B-Pw
  for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hu1GK-0005Th-3V
+ (envelope-from <richard.henderson@linaro.org>) id 1hu1GK-0005TV-1B
  for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:25 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44841)
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46126)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hu1GJ-0005Nn-SA
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:24 -0400
-Received: by mail-pg1-x541.google.com with SMTP id i18so37754443pgl.11
- for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 14:08:14 -0700 (PDT)
+ id 1hu1GJ-0005O2-Q4
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:23 -0400
+Received: by mail-pg1-x544.google.com with SMTP id w3so546512pgt.13
+ for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 14:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ijiZOLpvZs8wYEcrSua+yyDmUDcG7PPSoeYhYrFW+FU=;
- b=atruJesBQmmDOSQE6mv5huwgbTxeK5blO5CxhiFkeECgtegRHtIof0HSIT75p79my0
- fTm2VLv8gh382rxTvg4qrtlzfwT6xOMv+1fqVP6G1MnRfxmlVKftdZs8nZWZlYmkJT74
- Xt+2AW2z+c0gIexCFZmxsnJCf2YCazy+9i/iKOW0hYS5X08DPCL35nvsNa0f6e4PZqZt
- /Zo/WpB3UoIH4VZW/TGQOEW8CeDUHwyexDGb/4JLybW1btrMyIbmasPzs9JgxnmtEfQp
- uVaJh3bUqOellP+u2P+xfZVqXAuGUaDzhs0QIZDmsAFboxClIqpdLKkaeKbJc4h1zatd
- yfkw==
+ bh=hqDSppWw6vFGW1wxYzaEvtXw5fh6OAkiiQRpVHdER/Q=;
+ b=wXt7I3zB3wMa4+YLho9mQUxPzGQBbZhOb362mB0lupmEWE5Ts5RvEoLDu8UMmPJ16A
+ SsoSkjCXr6uWvF0RInoU3J/L5jkRaBe1XYxZ+aLOYjfq61vjnWvOjz6MsAIJ+KGps+dP
+ Z6CJXwPSprvhq9I9y74vl96j3jmzv03HxjdCYgvAPcXky2VC/Bx8fnzlk9EblFtwRb+J
+ m5OWJrUu4nILp0jOk5n6kdsSSIeD/eZGSdqtTSD7wkMp79ulM1J446NIGP8yF9ZLQCb+
+ MW8a3DtPA1epzLqQYc9cx9tv2xfmO/EyAHjtGFlLO34AJq3UjLE+s5fmwLrl9NWMCVA0
+ r5SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ijiZOLpvZs8wYEcrSua+yyDmUDcG7PPSoeYhYrFW+FU=;
- b=aPUurZg+uC3raIGFd6xzuBPQNz2eTPN+SE52vDUDGlC9HP+yvVTh5aMefMQ3G92aaV
- GFBH28YUT4oICwHJ6M6QvoxRVDZMl4buCI5k9VFspnYcShXBXEhnwZ7VzGeRKeBfoeiz
- HDgvFOIMarmRhVlGn3xMGxMWSMb0AtzmUNOyc2k38bDd7xKrNeThcJrCWzKK+l+B9r2g
- bfRteYumCoAHD5CIMLnlDNis5x1xwxP/8r9806A/XPUt2zvMZIe9pV8YGX9j6d3mdgCQ
- Iw/mEuQ1HtnjI7rtDl8153PcjotZkL7Rxi7DgoWE5WfLQ5QX+iwig82SOW+uO3hJk/vg
- ZBgA==
-X-Gm-Message-State: APjAAAXpgcb6Wu+Q8GDISPvTBmF7NVglUJIC/lmzO2K6kOnhOhYKIInK
- bo5rCwMa+Td9bDIG2BrlKESxJdnK1Iw=
-X-Google-Smtp-Source: APXvYqyD30GknKiPzRFZVc8ceTZZnxa3eNkZs1R4sQV5ft0Le2oVvqbhlZk/SmKWxG0YptgkEkMN6g==
-X-Received: by 2002:a62:be04:: with SMTP id l4mr63898674pff.77.1564866493177; 
- Sat, 03 Aug 2019 14:08:13 -0700 (PDT)
+ bh=hqDSppWw6vFGW1wxYzaEvtXw5fh6OAkiiQRpVHdER/Q=;
+ b=UQB1y117WglQh7GqxJeaD/zHHE7aiRTWNjedb/lxbeHWeUGB2Se22QcJkP+bxWf7ui
+ 2Jbk06kiPkFTTVxrX9ECJRDiKkugg6CFeaKS93h0RmDzKhI3ONso8wfBpb7lrHu7Yyiz
+ l4uZX57727IU0uqei42J5Pspt1nNj8r6+rWpCoITNB85wVkw3mu7FgDamxpVdJZxPaZH
+ 1jV4OjtOE4sDd8OhFh+xqKd78aS10TZV+miXK92C0m5PulEsUOTdElGo5Gay0AUaZncp
+ dPMxuYGN9IsFJG5W07Q6rVPFlLHaZ1CorzfRqirKhhBQwQE1YOChfUwbEAW00r5hbR5z
+ y0mQ==
+X-Gm-Message-State: APjAAAWTV3Hrf4QtK6Fvjd00bAxIq1jTrZWXZyB7gnM19GpYArKmoRFH
+ USWwRvZExqBEXcfwb1GZuCygfhZqMzQ=
+X-Google-Smtp-Source: APXvYqwZEeskjI8RRA9mcN66+3I83TnEbWS/spXp0EmaAZHS7uSYx4Pljs5hUjxTeqbiZSETogAfsQ==
+X-Received: by 2002:a63:3006:: with SMTP id w6mr8164127pgw.440.1564866494221; 
+ Sat, 03 Aug 2019 14:08:14 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id x25sm110129644pfa.90.2019.08.03.14.08.11
+ by smtp.gmail.com with ESMTPSA id x25sm110129644pfa.90.2019.08.03.14.08.13
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 03 Aug 2019 14:08:12 -0700 (PDT)
+ Sat, 03 Aug 2019 14:08:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat,  3 Aug 2019 14:08:02 -0700
-Message-Id: <20190803210803.5701-6-richard.henderson@linaro.org>
+Date: Sat,  3 Aug 2019 14:08:03 -0700
+Message-Id: <20190803210803.5701-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190803210803.5701-1-richard.henderson@linaro.org>
 References: <20190803210803.5701-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v7 5/6] linux-user: Parse
- NT_GNU_PROPERTY_TYPE_0 notes
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 6/6] tests/tcg/aarch64: Add bti smoke test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,156 +80,218 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For aarch64, this includes the GNU_PROPERTY_AARCH64_FEATURE_1_BTI bit,
-which indicates that the image should be mapped with guarded pages.
+This will build with older toolchains, without the upstream support
+for -mbranch-protection.  Such a toolchain will produce a warning
+in such cases,
+
+ld: warning: /tmp/ccyZt0kq.o: unsupported GNU_PROPERTY_TYPE (5) \
+type: 0xc0000000
+
+but the still places the note at the correct location in the binary
+for processing by the runtime loader.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 94 ++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 86 insertions(+), 8 deletions(-)
----
+ tests/tcg/aarch64/bti-1.c         | 77 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/bti-crt.inc.c   | 69 +++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  3 ++
+ tests/tcg/aarch64/bti.ld          | 15 ++++++
+ 4 files changed, 164 insertions(+)
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
+ create mode 100644 tests/tcg/aarch64/bti.ld
 
-Note: The behaviour here when GNU_PROPERTY_AARCH64_FEATURE_1_BTI
-is present differs from Dave's v1 patch set, in which the kernel
-refuses to load the binary if the host does not support BTI.
-
-However, I feel that's not the best way to introduce a feature
-that adds security and is otherwise designed to be backward
-compatible to such hosts.  We should want entire distributions
-to be built indicating compatibility with BTI via this markup.
-
-I included this rationale in my review of Dave's patch set.
-
-
-r~
-
-
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index bd43c4817d..d18e7dd313 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2289,7 +2289,7 @@ static void load_elf_image(const char *image_name, int image_fd,
-     struct elfhdr *ehdr = (struct elfhdr *)bprm_buf;
-     struct elf_phdr *phdr;
-     abi_ulong load_addr, load_bias, loaddr, hiaddr, error;
--    int i, retval;
-+    int i, retval, prot_exec = PROT_EXEC;
-     const char *errmsg;
- 
-     /* First of all, some simple consistency checks */
-@@ -2324,17 +2324,89 @@ static void load_elf_image(const char *image_name, int image_fd,
-     loaddr = -1, hiaddr = 0;
-     info->alignment = 0;
-     for (i = 0; i < ehdr->e_phnum; ++i) {
--        if (phdr[i].p_type == PT_LOAD) {
--            abi_ulong a = phdr[i].p_vaddr - phdr[i].p_offset;
-+        struct elf_phdr *eppnt = phdr + i;
+diff --git a/tests/tcg/aarch64/bti-1.c b/tests/tcg/aarch64/bti-1.c
+new file mode 100644
+index 0000000000..2aee57ea7a
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-1.c
+@@ -0,0 +1,77 @@
++/*
++ * Branch target identification, basic notskip cases.
++ */
 +
-+        if (eppnt->p_type == PT_LOAD) {
-+            abi_ulong a = eppnt->p_vaddr - eppnt->p_offset;
-             if (a < loaddr) {
-                 loaddr = a;
-             }
--            a = phdr[i].p_vaddr + phdr[i].p_memsz;
-+            a = eppnt->p_vaddr + eppnt->p_memsz;
-             if (a > hiaddr) {
-                 hiaddr = a;
-             }
-             ++info->nsegs;
--            info->alignment |= phdr[i].p_align;
-+            info->alignment |= eppnt->p_align;
-+        } else if (eppnt->p_type == PT_GNU_PROPERTY) {
-+#ifdef TARGET_AARCH64
-+            /*
-+             * Process NT_GNU_PROPERTY_TYPE_0.
-+             *
-+             * TODO: For AArch64, the PT_GNU_PROPERTY is authoritative:
-+             * it is present if and only if NT_GNU_PROPERTY_TYPE_0 is.
-+             * That may or may not be true for other architectures.
-+             *
-+             * TODO: The only item that is AArch64 specific is the
-+             * GNU_PROPERTY_AARCH64_FEATURE_1_AND processing at the end.
-+             * If we were to ever process GNU_PROPERTY_X86_*, all of the
-+             * code through checking the gnu0 magic number is sharable.
-+             * But for now, since this *is* only used by AArch64, don't
-+             * process the note elsewhere.
-+             */
-+            const uint32_t gnu0_magic = const_le32('G' | 'N' << 8 | 'U' << 16);
-+            uint32_t note[7];
++#include "bti-crt.inc.c"
 +
-+            /*
-+             * The note contents are 7 words, but depending on LP64 vs ILP32
-+             * there may be an 8th padding word at the end.  Check for and
-+             * read the minimum size.  Further checks below will validate
-+             * that the sizes of everything involved are as we expect.
-+             */
-+            if (eppnt->p_filesz < sizeof(note)) {
-+                continue;
-+            }
-+            if (eppnt->p_offset + eppnt->p_filesz <= BPRM_BUF_SIZE) {
-+                memcpy(note, bprm_buf + eppnt->p_offset, sizeof(note));
-+            } else {
-+                retval = pread(image_fd, note, sizeof(note), eppnt->p_offset);
-+                if (retval != sizeof(note)) {
-+                    goto exit_perror;
-+                }
-+            }
-+#ifdef BSWAP_NEEDED
-+            for (i = 0; i < ARRAY_SIZE(note); ++i) {
-+                bswap32s(note + i);
-+            }
-+#endif
-+            /*
-+             * Check that this is a NT_GNU_PROPERTY_TYPE_0 note.
-+             * Again, descsz includes padding.  Full size validation
-+             * awaits checking the final payload.
-+             */
-+            if (note[0] != 4 ||                       /* namesz */
-+                note[1] < 12 ||                       /* descsz */
-+                note[2] != NT_GNU_PROPERTY_TYPE_0 ||  /* type */
-+                note[3] != gnu0_magic) {              /* name */
-+                continue;
-+            }
-+            /*
-+             * Check for the BTI feature.  If present, this indicates
-+             * that all the executable pages of the binary should be
-+             * mapped with PROT_BTI, so that branch targets are enforced.
-+             */
-+            if (note[4] == GNU_PROPERTY_AARCH64_FEATURE_1_AND &&
-+                note[5] == 4 &&
-+                (note[6] & GNU_PROPERTY_AARCH64_FEATURE_1_BTI)) {
-+                /*
-+                 * Elf notes are backward compatible to older cpus.
-+                 * Do not enable unless it is supported.
-+                 */
-+                ARMCPU *cpu = ARM_CPU(thread_cpu);
-+                if (cpu_isar_feature(aa64_bti, cpu)) {
-+                    prot_exec |= TARGET_PROT_BTI;
-+                }
-+            }
-+#endif /* TARGET_AARCH64 */
-         }
-     }
++/*
++ * Work around lack of -mbranch-protection=standard in older toolchains.
++ * The signal handler is invoked by the kernel with PSTATE.BTYPE=2, which
++ * means that the handler must begin with a marker like BTI_C.
++ */
++asm("skip2_sigill1:\n\
++	hint	#34\n\
++	b	skip2_sigill2\n\
++.type skip2_sigill1,%function\n\
++.size skip2_sigill1,8");
++
++extern void skip2_sigill1(int sig, siginfo_t *info, ucontext_t *uc)
++    __attribute__((visibility("hidden")));
++
++static void __attribute__((used))
++skip2_sigill2(int sig, siginfo_t *info, ucontext_t *uc)
++{
++    uc->uc_mcontext.pc += 8;
++    uc->uc_mcontext.pstate = 1;
++}
++
++#define NOP       "nop"
++#define BTI_N     "hint #32"
++#define BTI_C     "hint #34"
++#define BTI_J     "hint #36"
++#define BTI_JC    "hint #38"
++
++#define BTYPE_1(DEST) \
++    asm("mov %0,#1; adr x16, 1f; br x16; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x16")
++
++#define BTYPE_2(DEST) \
++    asm("mov %0,#1; adr x16, 1f; blr x16; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x16", "x30")
++
++#define BTYPE_3(DEST) \
++    asm("mov %0,#1; adr x15, 1f; br x15; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x15")
++
++#define TEST(WHICH, DEST, EXPECT) \
++    do { WHICH(DEST); fail += skipped ^ EXPECT; } while (0)
++
++
++int main()
++{
++    int fail = 0;
++    int skipped;
++
++    /* Signal-like with SA_SIGINFO.  */
++    signal_info(SIGILL, skip2_sigill1);
++
++    TEST(BTYPE_1, NOP, 1);
++    TEST(BTYPE_1, BTI_N, 1);
++    TEST(BTYPE_1, BTI_C, 0);
++    TEST(BTYPE_1, BTI_J, 0);
++    TEST(BTYPE_1, BTI_JC, 0);
++
++    TEST(BTYPE_2, NOP, 1);
++    TEST(BTYPE_2, BTI_N, 1);
++    TEST(BTYPE_2, BTI_C, 0);
++    TEST(BTYPE_2, BTI_J, 1);
++    TEST(BTYPE_2, BTI_JC, 0);
++
++    TEST(BTYPE_3, NOP, 1);
++    TEST(BTYPE_3, BTI_N, 1);
++    TEST(BTYPE_3, BTI_C, 1);
++    TEST(BTYPE_3, BTI_J, 0);
++    TEST(BTYPE_3, BTI_JC, 0);
++
++    return fail;
++}
+diff --git a/tests/tcg/aarch64/bti-crt.inc.c b/tests/tcg/aarch64/bti-crt.inc.c
+new file mode 100644
+index 0000000000..bb363853de
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-crt.inc.c
+@@ -0,0 +1,69 @@
++/*
++ * Minimal user-environment for testing BTI.
++ *
++ * Normal libc is not built with BTI support enabled, and so could
++ * generate a BTI TRAP before ever reaching main.
++ */
++
++#include <stdlib.h>
++#include <signal.h>
++#include <ucontext.h>
++#include <asm/unistd.h>
++
++int main(void);
++
++void _start(void)
++{
++    exit(main());
++}
++
++void exit(int ret)
++{
++    register int x0 __asm__("x0") = ret;
++    register int x8 __asm__("x8") = __NR_exit;
++
++    asm volatile("svc #0" : : "r"(x0), "r"(x8));
++    __builtin_unreachable();
++}
++
++/*
++ * Irritatingly, the user API struct sigaction does not match the
++ * kernel API struct sigaction.  So for simplicity, isolate the
++ * kernel ABI here, and make this act like signal.
++ */
++void signal_info(int sig, void (*fn)(int, siginfo_t *, ucontext_t *))
++{
++    struct kernel_sigaction {
++        void (*handler)(int, siginfo_t *, ucontext_t *);
++        unsigned long flags;
++        unsigned long restorer;
++        unsigned long mask;
++    } sa = { fn, SA_SIGINFO, 0, 0 };
++
++    register int x0 __asm__("x0") = sig;
++    register void *x1 __asm__("x1") = &sa;
++    register void *x2 __asm__("x2") = 0;
++    register int x3 __asm__("x3") = sizeof(unsigned long);
++    register int x8 __asm__("x8") = __NR_rt_sigaction;
++
++    asm volatile("svc #0"
++                 : : "r"(x0), "r"(x1), "r"(x2), "r"(x3), "r"(x8) : "memory");
++}
++
++/*
++ * Create the PT_NOTE that will enable BTI in the page tables.
++ * This will be created by the compiler with -mbranch-protection=standard,
++ * but as of 2019-03-29, this is has not been committed to gcc mainline.
++ * This will probably be in GCC10.
++ */
++asm(".section .note.gnu.property,\"a\"\n\
++	.align	3\n\
++	.long	4\n\
++        .long	16\n\
++        .long	5\n\
++        .string	\"GNU\"\n\
++	.long	0xc0000000\n\
++	.long	4\n\
++	.long	1\n\
++        .align  3\n\
++	.previous");
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 31ba9cfcaa..68135c6ee8 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -18,4 +18,7 @@ run-fcvt: fcvt
+ AARCH64_TESTS += pauth-1 pauth-2
+ run-pauth-%: QEMU += -cpu max
  
-@@ -2394,9 +2466,15 @@ static void load_elf_image(const char *image_name, int image_fd,
-             abi_ulong vaddr, vaddr_po, vaddr_ps, vaddr_ef, vaddr_em, vaddr_len;
-             int elf_prot = 0;
- 
--            if (eppnt->p_flags & PF_R) elf_prot =  PROT_READ;
--            if (eppnt->p_flags & PF_W) elf_prot |= PROT_WRITE;
--            if (eppnt->p_flags & PF_X) elf_prot |= PROT_EXEC;
-+            if (eppnt->p_flags & PF_R) {
-+                elf_prot |= PROT_READ;
-+            }
-+            if (eppnt->p_flags & PF_W) {
-+                elf_prot |= PROT_WRITE;
-+            }
-+            if (eppnt->p_flags & PF_X) {
-+                elf_prot |= prot_exec;
-+            }
- 
-             vaddr = load_bias + eppnt->p_vaddr;
-             vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
++AARCH64_TESTS += bti-1
++bti-1: LDFLAGS += -nostdlib -Wl,-T,$(AARCH64_SRC)/bti.ld
++
+ TESTS:=$(AARCH64_TESTS)
+diff --git a/tests/tcg/aarch64/bti.ld b/tests/tcg/aarch64/bti.ld
+new file mode 100644
+index 0000000000..a5ef98f8a2
+--- /dev/null
++++ b/tests/tcg/aarch64/bti.ld
+@@ -0,0 +1,15 @@
++ENTRY(_start)
++
++PHDRS
++{
++  text PT_LOAD FILEHDR PHDRS;
++  prop 0x6474e553 ;  /* PT_GNU_PROPERTY */
++}
++
++SECTIONS
++{
++  . = 1M + SIZEOF_HEADERS;
++  .note.gnu.property : { *(.note.gnu.property) } :text :prop
++  .text : { *(.text) *(.rodata) } :text
++  /DISCARD/ : { *(.note.gnu.build-id) }
++}
 -- 
 2.17.1
 
