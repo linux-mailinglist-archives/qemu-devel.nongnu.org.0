@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CEE807EC
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 21:00:38 +0200 (CEST)
-Received: from localhost ([::1]:41588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A679807F2
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 21:01:24 +0200 (CEST)
+Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htzGf-0008Cw-8E
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 15:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
+	id 1htzHP-0001g7-M0
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 15:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htz52-0006ng-De
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:37 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1htz53-0006p4-5e
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htz51-0007NR-BK
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:36 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33665)
+ (envelope-from <richard.henderson@linaro.org>) id 1htz52-0007Nx-2h
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:37 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:37970)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htz51-0007My-2X
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:35 -0400
-Received: by mail-pg1-x542.google.com with SMTP id n190so2542703pgn.0
- for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:34 -0700 (PDT)
+ id 1htz51-0007Nc-U0
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:36 -0400
+Received: by mail-pl1-x644.google.com with SMTP id az7so34857836plb.5
+ for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+czGE1389+p9Ry0JcTeQCKYKOo7/YkTFZC4yltahS2c=;
- b=Xyjg5s19r/WRWUfR6xaWgAyr8CsYpH1Dr1oYlq23QP+aj6s+bmdUNjI9ShzPR/5bnD
- 8MtEvO474wOlswxFWfcG976klTMfYNrp2yo7J5Mj5ul/UI5FsIpB1iNE2+6AVR9CjG/q
- AayUcEl14Gm7TZL84nQm+/2sVXDCVtdUoLRPJoLyuxCe78jcvMfCya7ikbRPUnpg29y+
- MGss9X0u+c9rabYdQZX7JAGTwIb3FNrEn2HiYEqMRIDE798KSq2aJMY/ykeQlm5vxoib
- Tm7V6QmSqeXMlMBhQFeo04Qrdfr9jYnyjyR1JSGmWLeD/g9KQGISk4DjevZtQOx1+gGz
- KUxQ==
+ bh=MpItA1dQTcuKZiJtCdjWs8WMTH2c/gBkJl0/pbYk+Ag=;
+ b=dyd6gD5w/4Z2lzudxNV49llWNQPEJUnKWUVoGSgnqRWeB254Fu61z1VLQlr3V41LAf
+ PUcSyUdJt4beh8L3lxmOq/VU6wJutjNQ9Bm2BEiE+OKjKmv/ef84XRZmNDgk4IEmUbEh
+ X1jSvQReMowgAPMPo40P7JTnmTGiW7nVwAU1FRYBAfV8jHXjWfRNZI6rNiRqGBzlm825
+ lfBfdP2/EIZlhzW8egdiiEFA8GDjYJIUQwt7pdjWMTU//wYGNPmxPqGhfCtUhtpwWScx
+ +ifF/NZ80NPq3l2CwdHxEuuWSsCV5JhdPP/aBf25qxm66O/OUmdNyRN6y/7A5QW277e2
+ ozbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=+czGE1389+p9Ry0JcTeQCKYKOo7/YkTFZC4yltahS2c=;
- b=pHu5ks8KiF+G/ZU080eNpWvGQS1DvPgaVNHJ9Bpmqz4kp4oTUBhsxM+7KWRm0ZgqlV
- XISJbK3JrMQvkQ/4zTAHl38aSFZLi3dXLM0I/gq/1rkAgniHshZX5uTjlc6WEzg1g8w2
- 6PMvmm632dvu9va4+0NQQKprITkg/sri9+4skFF9VgE5EDUWLfM0khFVNJRkFPWZ0GR6
- tecrNNzMcgvWOcSeNo4IrhTGsXtAbjtTVod/6Sr4rU0Er2jiTMIJFcRhF4EqyI2TaDOt
- xj0YggKKveTQ0p3ZPkdOhfnPIKfkmp9pNW7c9kNYalJWQb8Y/xeVY2OWDS/HAf2G+B1z
- mJtQ==
-X-Gm-Message-State: APjAAAVu8Rcn0nLwvM6FB5WyJF/aiwjHoQOp2YK1TRYaD1fems3fgds4
- uexalbECHmqM6/atLK98WuJbh3puwrc=
-X-Google-Smtp-Source: APXvYqxd5/9+viNsBVQVD55FqfdoyCeNMDAhjpNUvd3wgZV9Jk4QnMFb+7iGOnZQIhlJa1MG8uCZzQ==
-X-Received: by 2002:a63:784c:: with SMTP id
- t73mr133510686pgc.268.1564858113670; 
- Sat, 03 Aug 2019 11:48:33 -0700 (PDT)
+ bh=MpItA1dQTcuKZiJtCdjWs8WMTH2c/gBkJl0/pbYk+Ag=;
+ b=RZHOBlOZQtUq877ifM8BfVWfZg185HsvaQVhzKW96kvGHkoXVZ9fFW5DoO4zChaClk
+ wBrJA5jpvKTuQ1xPA3xJSj+DcrC+66rRQM3JYHdFtsP6o5EARWkJ/6+X5JPYNh8awiHt
+ flBl/taPBb8FIQP8SoxImxGPa8jA8ywy8y+sOX6HHWIx0hCWnEJWBuc3FVT3X44IJUqm
+ VHhBPlocyujMv3+pDyeyxVfJ9axcVBUMBYMq0dZjEUSzVXJxCDlK6RNarIjf40z9ehM3
+ RhKJPBU6WNuAb0R98w6ctvE6ofHm5aEU8i0TdDuZFRQNsInVwIv3pVJhHkJH/Bwx5yix
+ dy8g==
+X-Gm-Message-State: APjAAAUM1dpHo3oE7eew92EP0zey11OChAeEzonN9ERw9Nw/9GKKH3/a
+ 7yKrUkYmymGRLhkXX4Cu/3thKRX/fdY=
+X-Google-Smtp-Source: APXvYqxR9hfFUx1qDYkUQWg15/UHOUV54tjNdwJbJkiJo9V2NUyvUCuagpp9ouCdRYROePBGgNLE3A==
+X-Received: by 2002:a17:902:112c:: with SMTP id
+ d41mr126176670pla.33.1564858114794; 
+ Sat, 03 Aug 2019 11:48:34 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.32
+ by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.33
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 03 Aug 2019 11:48:33 -0700 (PDT)
+ Sat, 03 Aug 2019 11:48:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat,  3 Aug 2019 11:47:52 -0700
-Message-Id: <20190803184800.8221-27-richard.henderson@linaro.org>
+Date: Sat,  3 Aug 2019 11:47:53 -0700
+Message-Id: <20190803184800.8221-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190803184800.8221-1-richard.henderson@linaro.org>
 References: <20190803184800.8221-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v3 26/34] target/arm: Update ctr_el0_access for
- EL2
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH v3 27/34] target/arm: Install asids for E2&0
+ translation regime
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,50 +81,85 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update to include checks against HCR_EL2.TID2.
+When clearing HCR_E2H, this involves re-installing the EL1&0 asid.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 34 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 37c881baab..b8c45eb484 100644
+index b8c45eb484..9d74162bbd 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5361,11 +5361,27 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
- static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                      bool isread)
+@@ -3518,10 +3518,29 @@ static void vmsa_ttbr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     }
+ }
+ 
++static void update_el2_asid(CPUARMState *env)
++{
++    CPUState *cs = env_cpu(env);
++    uint64_t ttbr0, ttbr1, ttcr;
++    int asid, idxmask;
++
++    ttbr0 = env->cp15.ttbr0_el[2];
++    ttbr1 = env->cp15.ttbr1_el[2];
++    ttcr = env->cp15.tcr_el[2].raw_tcr;
++    idxmask = ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_EL20_0;
++    asid = extract64(ttcr & TTBCR_A1 ? ttbr1 : ttbr0, 48, 16);
++
++    tlb_set_asid_for_mmuidx(cs, asid, idxmask, 0);
++}
++
+ static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
  {
--    /* Only accessible in EL0 if SCTLR.UCT is set (and only in AArch64,
--     * but the AArch32 CTR has its own reginfo struct)
--     */
--    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
--        return CP_ACCESS_TRAP;
-+    int cur_el = arm_current_el(env);
+     raw_write(env, ri, value);
++    if (arm_hcr_el2_eff(env) & HCR_E2H) {
++        /* We are running with EL2&0 regime and the ASID is active.  */
++        update_el2_asid(env);
++    }
+ }
+ 
+ static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -4670,6 +4689,7 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     ARMCPU *cpu = env_archcpu(env);
+     /* Begin with bits defined in base ARMv8.0.  */
+     uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
++    uint64_t old_value;
+ 
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         valid_mask &= ~HCR_HCD;
+@@ -4696,15 +4716,25 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     /* Clear RES0 bits.  */
+     value &= valid_mask;
+ 
+-    /* These bits change the MMU setup:
++    old_value = env->cp15.hcr_el2;
++    env->cp15.hcr_el2 = value;
 +
-+    if (cur_el < 2) {
-+        uint64_t hcr = arm_hcr_el2_eff(env);
-+
-+        if (cur_el == 0) {
-+            if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                if (!(env->cp15.sctlr_el[2] & SCTLR_UCT)) {
-+                    return CP_ACCESS_TRAP_EL2;
-+                }
-+            } else {
-+                if (!(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
-+                    return CP_ACCESS_TRAP;
-+                }
-+                if (hcr & HCR_TID2) {
-+                    return CP_ACCESS_TRAP_EL2;
-+                }
-+            }
-+        } else if (hcr & HCR_TID2) {
-+            return CP_ACCESS_TRAP_EL2;
++    /*
++     * These bits change the MMU setup:
+      * HCR_VM enables stage 2 translation
+      * HCR_PTW forbids certain page-table setups
+-     * HCR_DC Disables stage1 and enables stage2 translation
++     * HCR_DC disables stage1 and enables stage2 translation
++     * HCR_E2H enables E2&0 translation regime.
+      */
+-    if ((env->cp15.hcr_el2 ^ value) & (HCR_VM | HCR_PTW | HCR_DC)) {
++    if ((old_value ^ value) & (HCR_VM | HCR_PTW | HCR_DC | HCR_E2H)) {
+         tlb_flush(CPU(cpu));
++        /* Also install the correct ASID for the regime.  */
++        if (value & HCR_E2H) {
++            update_el2_asid(env);
++        } else {
++            update_lpae_el1_asid(env, false);
 +        }
      }
-     return CP_ACCESS_OK;
- }
+-    env->cp15.hcr_el2 = value;
+ 
+     /*
+      * Updates to VI and VF require us to update the status of
 -- 
 2.17.1
 
