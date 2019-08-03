@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089A180498
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 08:09:01 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC9C80546
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 10:26:37 +0200 (CEST)
+Received: from localhost ([::1]:38922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htnDv-0005y7-Pc
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 02:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1htpN6-0000Dr-EX
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 04:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41083)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1htnDA-0005V7-W7
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 02:08:13 -0400
+ (envelope-from <philmd@redhat.com>) id 1htpLz-0007pF-VY
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 04:25:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1htnDA-0005Eg-48
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 02:08:12 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41082)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1htnD9-0005EQ-UB; Sat, 03 Aug 2019 02:08:12 -0400
-Received: by mail-pg1-x543.google.com with SMTP id x15so26749656pgg.8;
- Fri, 02 Aug 2019 23:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=HJIRYtqKylWtB5jnwqzjoBDWP8DZvSi1J+GyGHETGNU=;
- b=fF45+FSjGQt76Uo5D4ALcbKynDIGOXOwE5U+CorVJVkodVyF7A2s/As3IZPZFs5P2y
- XYIYJaGn9v6QBMMuBjvB0pO6SLNXWlpE9ArWc7XwrnjQnXRfJcAXw7d/S/zhKvuXFhqM
- +zmGZoBgf0ZTBou242XsJlNB2QiSIX4EMCFlA6G/EEF+8f5rzPCCT9MmqDpo8U+zvJf3
- dqQGWGOGuiRrj9zzAdT+iEn/f2uw/zmM0Sk8Pk0Jw6p0Lt8ASygzmsJHkRFCSp1KGW3w
- OQCzEoO3xH4aShGFTggh7tuBfPK69yOsp1l8BW99VWW3FdrreVsEVFemrXeYeC9dcVJf
- Tajg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=HJIRYtqKylWtB5jnwqzjoBDWP8DZvSi1J+GyGHETGNU=;
- b=jton956EQkz+4AzVg45A0bADkOs/Sh38x97UaUpejf53hWUV14Ty42brktcF+mV2qr
- dqoGTn3dv2BIKZi9G+b44QoZDlTOEpje00y0KLx/5Agna0XsKe6gx9IhK+ItyPVD38+K
- uNxTvFOLCOWpdF/Jq/LhT+UYELYJ+JtKOxX7hImMH2gUpS3IJiDUn4XFBUbPT7AvI2VC
- PgASO90WSjUfqoqnONzNsQTuUhH3yCUUUozyxB0yMfF7ShrwzLrnvkd/coUpz2+9vFrH
- E4znXhSidx+CNf2nwyjkVKWP4hA88IlraFEgSOaBvF+A9qgvvs8rS5AI+aXCO0Mjp050
- pwNw==
-X-Gm-Message-State: APjAAAW9srM2xYQX4XE5OvewD7rgUIk6K/ngdUyA8MgWOKHycrGcUbAI
- tlB6vAw/EWey2UZS0R6s16E=
-X-Google-Smtp-Source: APXvYqz450oi9/h9B+T6rM9De41tFIk04v71JX+9pdMSP3mKM9hImDV0yN60vz1kpGzn8W3vadL4vw==
-X-Received: by 2002:a63:f401:: with SMTP id g1mr131346086pgi.314.1564812490882; 
- Fri, 02 Aug 2019 23:08:10 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id n7sm86778663pff.59.2019.08.02.23.08.09
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 02 Aug 2019 23:08:10 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Date: Fri,  2 Aug 2019 23:08:04 -0700
-Message-Id: <1564812484-20385-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [FOR 4.1 PATCH] riscv: roms: Fix make rules for
- building sifive_u bios
+ (envelope-from <philmd@redhat.com>) id 1htpLy-0006qr-2j
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 04:25:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47592)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1htpLw-0006pb-5S
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 04:25:26 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1810E315C003
+ for <qemu-devel@nongnu.org>; Sat,  3 Aug 2019 08:25:23 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FF1A60BF4;
+ Sat,  3 Aug 2019 08:25:19 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Sat,  3 Aug 2019 10:25:16 +0200
+Message-Id: <20190803082517.15035-1-philmd@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Sat, 03 Aug 2019 08:25:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/1] EDK2 firmware patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,33 +53,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the make rules are wrongly using qemu/virt opensbi image
-for sifive_u machine. Correct it.
+The following changes since commit 9bcf2dfa163f67b0fec6ee0fe88ad5dc5d69dc=
+59:
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+  Merge remote-tracking branch 'remotes/elmarco/tags/slirp-CVE-2019-14378=
+-pull-request' into staging (2019-08-02 13:06:03 +0100)
 
----
+are available in the Git repository at:
 
- roms/Makefile | 2 +-
+  https://gitlab.com/philmd/qemu.git tags/edk2-next-20190803
+
+for you to fetch changes up to 177cd674d6203d3c1a98e170ea56c5a904ac4ce8:
+
+  Makefile: remove DESTDIR from firmware file content (2019-08-03 09:52:3=
+2 +0200)
+
+----------------------------------------------------------------
+A harmless build-sys patch that fixes a regression affecting Linux
+distributions packaging QEMU.
+
+----------------------------------------------------------------
+
+Olaf Hering (1):
+  Makefile: remove DESTDIR from firmware file content
+
+ Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/roms/Makefile b/roms/Makefile
-index dc70fb5..775c963 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -183,7 +183,7 @@ opensbi64-sifive_u:
- 	$(MAKE) -C opensbi \
- 		CROSS_COMPILE=$(riscv64_cross_prefix) \
- 		PLATFORM="qemu/sifive_u"
--	cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
-+	cp opensbi/build/platform/qemu/sifive_u/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
- 
- clean:
- 	rm -rf seabios/.config seabios/out seabios/builds
--- 
-2.7.4
+--=20
+2.20.1
 
 
