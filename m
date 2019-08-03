@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66646807F8
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 21:03:46 +0200 (CEST)
-Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E733280856
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Aug 2019 23:09:15 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1htzJh-0006X5-KU
-	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 15:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33007)
+	id 1hu1H8-0002cn-QB
+	for lists+qemu-devel@lfdr.de; Sat, 03 Aug 2019 17:09:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51923)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1htz5D-0006vq-Hg
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:49 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hu1GD-0000xa-KE
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1htz5B-0007SW-L1
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:47 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:34531)
+ (envelope-from <richard.henderson@linaro.org>) id 1hu1G5-0005MO-Hm
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:12 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38614)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1htz5B-0007Qu-EX
- for qemu-devel@nongnu.org; Sat, 03 Aug 2019 14:48:45 -0400
-Received: by mail-pg1-x543.google.com with SMTP id n9so31447517pgc.1
- for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 11:48:43 -0700 (PDT)
+ id 1hu1G4-0005LX-NM
+ for qemu-devel@nongnu.org; Sat, 03 Aug 2019 17:08:08 -0400
+Received: by mail-pl1-x643.google.com with SMTP id az7so34925757plb.5
+ for <qemu-devel@nongnu.org>; Sat, 03 Aug 2019 14:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VZbb1rzI4zahnAL11h/DzkD7ar6WwiCPlhOLpT3N7ho=;
- b=XUMdfYtyP/dN0NvjiEKzLhQ81PX1aEG6yfDSVTntnAkC0mjiaPutVEuE/iwMSdBaoI
- W2BAVieKDVGUWnETHBzDpm1ZmGfk/R32ANvpX6bxCan8Oz3rTCsduFiqbjm7V8wqU8/b
- bMpmDhcVV6F2wWxm9nc7j2Bn/Ofi/Zs7IjN9iW/QZAMI2nSs5Wx6sAVyRWuS0BaY5UXm
- WQA5op6gMyyi/s9Nb5FAhiwqXDqXfizNoVCq7fWlZCVe/TUh3wfRLSGOd2CkAbw8Rm8S
- rFZi2TjdomMmBQLXmyScAFfk/5j0NKU2Smfhj+o1qrw/6SRBWfVSw12ecq7VZLD5gkW6
- wutQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=NSPLjACG69kNYWPaNBk+06B1y1rFaDkEzgMb35jlC8g=;
+ b=oCnDlNNf5zNP3/Oi+lvw0lUsjJpABryCJ+9Jb9i/DaJgNIytsrFiiyfeWkedYUEXtL
+ dJjzmeBuc8pYvNjXU2A6PD4Ygjg6nyzFS9RZMXYr01n1oCaqwy1qIiVXQcQzWlSq5DBM
+ l/chYORv/qjUFsuVWPP3pxQY/24q3gwokexTc5/HG0msH7LtDKJOBgQfjhkXg/vXtjP3
+ WQoDMb7hGxzNi62o2BzHXk865GiC0wMA46DRCpAo9rn5SML4GFNEBtvkQbdBL0i+6ar8
+ jKsuxD3QuJuCv4ZFQ/8LTw0w9rJ6ID8hk1AWj/vafPx0rNv4k7iXxy/8DWCpHDS08Dx3
+ rNHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VZbb1rzI4zahnAL11h/DzkD7ar6WwiCPlhOLpT3N7ho=;
- b=bjbgNkLsAO9wuVUJHNrTXFf9vcsPcpIH0ArWblUGeH6I7RiO0Zp8GldTAufQOBDxyC
- XzlsmNF71GK5iruNxtdldeMq7W3EQk6Alxoo2kScjqL9jyffcLgcISJwtCecsZtZBI4Q
- J447CHAoltnNwfIaijU7zbpqPHLKL+Wfwoy74mME2QXGbl8MxO2j+lOMKJjjuv5I/UtW
- 95c+0MQHcoPdyQCl0lfnIZ6Acw/e2NuWWO3wkFVEw4+0ZMySaIxj3NeVE1o7nJAoQ7Za
- ayh8Hl3PTCBIqnfQHrCHq5jj7r5iDbOgT6zYN0iZiLuNWgKTyp78aoIK0ccrfvj99/hz
- MqhQ==
-X-Gm-Message-State: APjAAAWnBVr3vUvmn3nZ4bv5lnPbVxu142TKs2yprn/miMKxYZNKGz0u
- DJi5mrAOlFSjYy3ormgLVpH2/Alek9o=
-X-Google-Smtp-Source: APXvYqw7VsRRz+iBeE+9ZkwpQ3Zibt84S6Mpe2vBhl6+hXjcwsWUD8EUrwYhDFR18aHpFlkHDuvpsg==
-X-Received: by 2002:a17:90a:8a0b:: with SMTP id
- w11mr10351911pjn.125.1564858122529; 
- Sat, 03 Aug 2019 11:48:42 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=NSPLjACG69kNYWPaNBk+06B1y1rFaDkEzgMb35jlC8g=;
+ b=tjX6mxAo5Ws3AV2Q63LpeT2h9tGTUYpMi6gH5WA7h7L1wlo1dsCxU9gz5ueEZVvLn2
+ dd+ljKAbicLHokP0T3Gz7TgUxWK3kozdIXELgfTyTPThJmgrXweA0EFTsIPyQkxxNw22
+ 5UUcdGMjZ+SfP1w5gH8vq810UjeCBH/OLm/J+zWgB+lw7cB8LpfGKoHQhsEs+9/i7sTE
+ qoYEEffQUZi3IRPVbFzKdFxAYncEpAc5Z1vvb2BVKhvmwBmtVT5fyurbQi0NbjWUcmi2
+ Qjec6BYYLtXIU5l0doZhOWM7oNHWqvQAU5/1VKyoAsD09gxCXj1ZMWpk3614irBmDixn
+ TOCg==
+X-Gm-Message-State: APjAAAWRKB2rQLqKi/JhwNk07w2IWZcwjW4S+OcOO1XI9UPCrw6nFsDV
+ BwE7Y4dMnn/fzd2ZtYHcdpAq5rAKntg=
+X-Google-Smtp-Source: APXvYqyHAY3ScBRbXoWwdAJoy2rS58cmuHWiYevubWRtgAUvVaxrBxznA5Wt5Qm9RqKr9i/OP2W+gg==
+X-Received: by 2002:a17:902:1e2:: with SMTP id
+ b89mr30397176plb.7.1564866487066; 
+ Sat, 03 Aug 2019 14:08:07 -0700 (PDT)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q69sm15405454pjb.0.2019.08.03.11.48.41
+ by smtp.gmail.com with ESMTPSA id x25sm110129644pfa.90.2019.08.03.14.08.03
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 03 Aug 2019 11:48:41 -0700 (PDT)
+ Sat, 03 Aug 2019 14:08:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat,  3 Aug 2019 11:48:00 -0700
-Message-Id: <20190803184800.8221-35-richard.henderson@linaro.org>
+Date: Sat,  3 Aug 2019 14:07:57 -0700
+Message-Id: <20190803210803.5701-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190803184800.8221-1-richard.henderson@linaro.org>
-References: <20190803184800.8221-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v3 34/34] target/arm: generate a custom MIDR
- for -cpu max
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v7 0/6] target/arm: Implement ARMv8.5-BTI for
+ linux-user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,77 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org,
+ Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+Changes since v6:
+  * Rebased on the ARMv8.1-VHE patch set.
+  * Review from Dave Martin:
+    + Remove PSTATE.BTYPE adjustment on syscall entry.
+    + Rely on PT_GNU_PROPERTY to find the NT_GNU_PROPERTY_TYPE_0 note.
+    + For the test case, add a linker script to create the PHDR.
 
-While most features are now detected by probing the ID_* registers
-kernels can (and do) use MIDR_EL1 for working out of they have to
-apply errata. This can trip up warnings in the kernel as it tries to
-work out if it should apply workarounds to features that don't
-actually exist in the reported CPU type.
+Changes since v5:
+  * New function to validate the target PROT parameter for mmap/mprotect.
+  * Require BTI in the cpu for PROT_BTI set.
+  * Set PSTATE.BTYPE=2 for the signal handler.
+    Adjust the smoke test to match.
+  * Tidy up the note parsing.
 
-Avoid this problem by synthesising our own MIDR value.
+Based-on: 20190803184800.8221-1-richard.henderson@linaro.org
+"[PATCH v3 00/34] target/arm: Implement ARMv8.1-VHE"
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20190726113950.7499-1-alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h   |  6 ++++++
- target/arm/cpu64.c | 19 +++++++++++++++++++
- 2 files changed, 25 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d7c5a123a3..6e4c97d398 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1605,6 +1605,12 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
- /*
-  * System register ID fields.
-  */
-+FIELD(MIDR_EL1, REVISION, 0, 4)
-+FIELD(MIDR_EL1, PARTNUM, 4, 12)
-+FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
-+FIELD(MIDR_EL1, VARIANT, 20, 4)
-+FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
-+
- FIELD(ID_ISAR0, SWAP, 0, 4)
- FIELD(ID_ISAR0, BITCOUNT, 4, 4)
- FIELD(ID_ISAR0, BITFIELD, 8, 4)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index b1bb394c6d..3a1e98a18e 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -296,6 +296,25 @@ static void aarch64_max_initfn(Object *obj)
-         uint32_t u;
-         aarch64_a57_initfn(obj);
- 
-+        /*
-+         * Reset MIDR so the guest doesn't mistake our 'max' CPU type for a real
-+         * one and try to apply errata workarounds or use impdef features we
-+         * don't provide.
-+         * An IMPLEMENTER field of 0 means "reserved for software use";
-+         * ARCHITECTURE must be 0xf indicating "v7 or later, check ID registers
-+         * to see which features are present";
-+         * the VARIANT, PARTNUM and REVISION fields are all implementation
-+         * defined and we choose to define PARTNUM just in case guest
-+         * code needs to distinguish this QEMU CPU from other software
-+         * implementations, though this shouldn't be needed.
-+         */
-+        t = FIELD_DP64(0, MIDR_EL1, IMPLEMENTER, 0);
-+        t = FIELD_DP64(t, MIDR_EL1, ARCHITECTURE, 0xf);
-+        t = FIELD_DP64(t, MIDR_EL1, PARTNUM, 'Q');
-+        t = FIELD_DP64(t, MIDR_EL1, VARIANT, 0);
-+        t = FIELD_DP64(t, MIDR_EL1, REVISION, 0);
-+        cpu->midr = t;
-+
-         t = cpu->isar.id_aa64isar0;
-         t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2); /* AES + PMULL */
-         t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);
+r~
+
+
+Richard Henderson (6):
+  linux-user/aarch64: Reset btype for signals
+  linux-user: Validate mmap/mprotect prot value
+  linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
+  include/elf: Add defines related to GNU property notes for AArch64
+  linux-user: Parse NT_GNU_PROPERTY_TYPE_0 notes
+  tests/tcg/aarch64: Add bti smoke test
+
+ include/elf.h                     |  22 ++++++
+ include/exec/cpu-all.h            |   2 +
+ linux-user/syscall_defs.h         |   4 +
+ linux-user/aarch64/signal.c       |  10 ++-
+ linux-user/elfload.c              |  94 +++++++++++++++++++++--
+ linux-user/mmap.c                 | 121 ++++++++++++++++++++++--------
+ target/arm/translate-a64.c        |   6 +-
+ tests/tcg/aarch64/bti-1.c         |  77 +++++++++++++++++++
+ tests/tcg/aarch64/bti-crt.inc.c   |  69 +++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |   3 +
+ tests/tcg/aarch64/bti.ld          |  15 ++++
+ 11 files changed, 379 insertions(+), 44 deletions(-)
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
+ create mode 100644 tests/tcg/aarch64/bti.ld
+
 -- 
 2.17.1
 
