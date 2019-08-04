@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C5D80BC9
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Aug 2019 19:07:58 +0200 (CEST)
-Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45EA580BC4
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Aug 2019 19:06:58 +0200 (CEST)
+Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huJzB-0001FW-EB
-	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 13:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56751)
+	id 1huJyD-00075r-Fm
+	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 13:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56697)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw7-0002Pv-RL
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:49 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw4-0002OB-T0
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw3-00049X-Az
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:45 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44340)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw3-00048x-4C
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:44 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35577)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1huJw3-00040Q-1r
+ id 1huJw2-00040Z-OX
  for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:43 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p17so82047421wrf.11
- for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 10:04:34 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l2so70821580wmg.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 10:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PksipMVzAiiMTAlABLCmlNruZKZ2bg95M8Q+Ha0hlqQ=;
- b=sFjtWgdnNg98Urrin4BYTtOENReVLX3VsN5naYziLh/Y6A2sUcga5FB5Qne4gUEibg
- AqF3hiXfblFUjCnNgypJ813/jk6hovuu6TDYYKw4MflCBbY2GQeoM2ttRhXhuqwaZBUi
- KQoay9RoB+VSx7y0yhIv8rdd95gQhCxTO0Esx90wM06+S9yFn4IKi/MWhxHBij9nQa6i
- bdN6P6bRl5rDUqKC8p2sirfuf2JpwMFgm2bA1H9MAESuzhhui5tglIJ8b44gsO6VEjeJ
- CD4lbnAHX1K/60T5OT4tSsj03VVSBQJGdWos6Wb13Nmh+zwuF0LExL2Yb9Xervcl2dTO
- uXaw==
+ bh=SQdS/4gPbCHrpQ6QHLwZkQ1izi38pwhpM703vz5qgTE=;
+ b=vJhPaJVw/LYCI9NfigX3ZG5cAFJRO7H6M0yGyBEULkZfq6F/x4sa7zSEW2S1XxOHds
+ xvqUY+/KZ0nxHF0F7wE6CNe5Deus7FlIdAd+dPGFYZwNlZ6HY9MZwxU3Eh4Xydmy13qS
+ rUZ2Q+Aa6gecBfCeJs8l9lTj0U0/7ExiQlFnUo2l4dIrHUDjGXEuBxi04C/z6s9/JR6j
+ /KbgwxfUXgWit/O2c8c+1wmK8K7pMurJ+d4GrMPbu80jIOsWhIGptphyCpb+EiFGOw7s
+ pjUQn0Da7dGyMzs9+t+uwjLLsOkpOtMGgli0GI6ETP22dqSm6VjQuN6Lsyi6a4D5AFUG
+ KVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PksipMVzAiiMTAlABLCmlNruZKZ2bg95M8Q+Ha0hlqQ=;
- b=npDINRtlnBLhQTdLP2l80BFgQFjz67IQmurDWni05Z3+h614wKQQoTZmIxnEWZbIfq
- sBsGMGNaLk4/XZvqnROnsIRoQpxpbgQY5Ialzk6+9l2o0F3s/zZ7kqeYey+SKIey/OvP
- o5C0LLuWHDAkyhJzx8gUpl6QxEQFsEA3SP6K66R6iCKYVOa3ooVF/g7mWZ8ZemvTZhDY
- HdFTliYSBUI9/tipF146Y5co4oI445Uaup/tm/HzK5Gxp4ykKMo2bYrJpUwkUOFSIFDG
- uHMl6PlWoBnhdm+UYs0R5rhxiM/xygHNelyXbx+Xdr6qoJA42F4BUyaH9uVLhEUh1sww
- lPKg==
-X-Gm-Message-State: APjAAAX7oTjyo8WSqzJf4u88U5dZyX8P1szYr51eAT53G5AMCJotR1g9
- 2EDgO08Zqaev/3Pl9pA/T4HIJrPRuYc=
-X-Google-Smtp-Source: APXvYqxT8hCtITiFtyszZ5HCoHc4+cRVmDKjO6caNxyRzQudCUVcaob9/82Qly2A/fry744F9s10vQ==
-X-Received: by 2002:a5d:5302:: with SMTP id e2mr5201889wrv.347.1564938273955; 
- Sun, 04 Aug 2019 10:04:33 -0700 (PDT)
+ bh=SQdS/4gPbCHrpQ6QHLwZkQ1izi38pwhpM703vz5qgTE=;
+ b=fUU8RBmMNsb7rBZ4ol9mCHwULjInnoUZgBNo33BHFCVzhlSny7hGhek/5BjP9m8b/k
+ 5kf9dI+vHxqkpJs4ZJQG95/qKaqktYZAfzQti9gceJ9Z1tfpvl/i66fuNwxDq3HtakBT
+ JDEVL4DEdAuxzfjWssDTBCTinvHXOqR87+qE7jEXIbp39Hi22Ln9+wvm8X9gj7Kx6fNt
+ Is+0kQALRYvBePe486jMCV8lKjVgYkSzRGrGvPCtEiTKMU4KmKVZGzNEjFpB8AKQya49
+ XRs+qzJWQUK3gx23hu9ThfdCOzC5QuDbbXak85yN4PpHebNy6sPEXlgPgOaY9+sVuoUI
+ dn/A==
+X-Gm-Message-State: APjAAAV4leRiSVZ+6c7KOR+f6JIG7Tp1zcsr6L8tlNmYJGypfYISISMf
+ G03OGMMcv1gUasdeD58tHaTT5Lof4YA=
+X-Google-Smtp-Source: APXvYqxnK43iyZGF7PJmAXJnV0bQTR9Z4+jZWclnoOZsCVy6/02Fsk7ruavBHxv+730JjNZDF17LoQ==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr14163129wmg.155.1564938274823; 
+ Sun, 04 Aug 2019 10:04:34 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-632c-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:632c::5])
- by smtp.gmail.com with ESMTPSA id s10sm104876106wmf.8.2019.08.04.10.04.33
+ by smtp.gmail.com with ESMTPSA id s10sm104876106wmf.8.2019.08.04.10.04.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 04 Aug 2019 10:04:33 -0700 (PDT)
+ Sun, 04 Aug 2019 10:04:34 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun,  4 Aug 2019 19:04:18 +0200
-Message-Id: <faa22ae99df3a4de8c83effe90ed986460df7b34.1564925486.git.DirtY.iCE.hu@gmail.com>
+Date: Sun,  4 Aug 2019 19:04:19 +0200
+Message-Id: <274fc4ecc9125605a210b737c7fd927c51ff08ce.1564925486.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1564925486.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1564925486.git.DirtY.iCE.hu@gmail.com>
@@ -70,9 +71,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v3 06/14] audio: audiodev= parameters no longer
- optional when -audiodev present
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v3 07/14] paaudio: do not move stream when
+ sink/source name is specified
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,100 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This means you should probably stop using -soundhw (as it doesn't allow
-you to specify any options) and add the device manually with -device.
-The exception is pcspk, it's currently not possible to manually add it.
-To use it with audiodev, use something like this:
-
-    -audiodev id=foo,... -global isa-pcspk.audiodev=foo -soundhw pcspk
+Unless we disable stream moving, pulseaudio can easily move the stream
+on connect, effectively ignoring the source/sink specified by the user.
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
+ audio/paaudio.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Notes:
-    Changes from v1:
-    
-    * Split off paaudio changes to a different commit.
-
- audio/audio.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
-
-diff --git a/audio/audio.c b/audio/audio.c
-index 4baa37caac..d131958194 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -101,6 +101,8 @@ const struct mixeng_volume nominal_volume = {
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index cc3a34c2ea..24d98b344a 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -517,6 +517,11 @@ static pa_stream *qpa_simple_new (
  #endif
- };
+         | PA_STREAM_AUTO_TIMING_UPDATE;
  
-+static bool legacy_config = true;
++    if (dev) {
++        /* don't move the stream if the user specified a sink/source */
++        flags |= PA_STREAM_DONT_MOVE;
++    }
 +
- #ifdef AUDIO_IS_FLAWLESS_AND_NO_CHECKS_ARE_REQURIED
- #error No its not
- #else
-@@ -1392,7 +1394,7 @@ static AudiodevListEntry *audiodev_find(
-  * if dev == NULL => legacy implicit initialization, return the already created
-  *   state or create a new one
-  */
--static AudioState *audio_init(Audiodev *dev)
-+static AudioState *audio_init(Audiodev *dev, const char *name)
- {
-     static bool atexit_registered;
-     size_t i;
-@@ -1406,12 +1408,13 @@ static AudioState *audio_init(Audiodev *dev)
- 
-     if (dev) {
-         /* -audiodev option */
-+        legacy_config = false;
-         drvname = AudiodevDriver_str(dev->driver);
-     } else if (!QTAILQ_EMPTY(&audio_states)) {
--        /*
--         * todo: check for -audiodev once we have normal audiodev selection
--         * support
--         */
-+        if (!legacy_config) {
-+            dolog("You must specify an audiodev= for the device %s\n", name);
-+            exit(1);
-+        }
-         return QTAILQ_FIRST(&audio_states);
+     if (dir == PA_STREAM_PLAYBACK) {
+         r = pa_stream_connect_playback(stream, dev, attr, flags, NULL, NULL);
      } else {
-         /* legacy implicit initialization */
-@@ -1518,7 +1521,7 @@ void audio_free_audiodev_list(AudiodevListHead *head)
- void AUD_register_card (const char *name, QEMUSoundCard *card)
- {
-     if (!card->state) {
--        card->state = audio_init(NULL);
-+        card->state = audio_init(NULL, name);
-     }
- 
-     card->name = g_strdup (name);
-@@ -1544,8 +1547,11 @@ CaptureVoiceOut *AUD_add_capture(
-     struct capture_callback *cb;
- 
-     if (!s) {
--        /* todo: remove when we have normal audiodev selection support */
--        s = audio_init(NULL);
-+        if (!legacy_config) {
-+            dolog("You must specify audiodev when trying to capture\n");
-+            return NULL;
-+        }
-+        s = audio_init(NULL, NULL);
-     }
- 
-     if (audio_validate_settings (as)) {
-@@ -1776,7 +1782,7 @@ void audio_init_audiodevs(void)
-     AudiodevListEntry *e;
- 
-     QSIMPLEQ_FOREACH(e, &audiodevs, next) {
--        audio_init(e->dev);
-+        audio_init(e->dev, NULL);
-     }
- }
- 
 -- 
 2.22.0
 
