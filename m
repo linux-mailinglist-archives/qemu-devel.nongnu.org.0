@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5A380BC0
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Aug 2019 19:06:00 +0200 (CEST)
-Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C5D80BC9
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Aug 2019 19:07:58 +0200 (CEST)
+Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huJxH-000479-Qh
-	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 13:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56698)
+	id 1huJzB-0001FW-EB
+	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 13:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56751)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw4-0002OC-T0
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:46 -0400
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw7-0002Pv-RL
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw2-00048H-KS
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:44 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34459)
+ (envelope-from <dirty.ice.hu@gmail.com>) id 1huJw3-00049X-Az
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:45 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44340)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <dirty.ice.hu@gmail.com>)
- id 1huJw1-0003ze-Fv
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:42 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 31so82085050wrm.1
- for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 10:04:32 -0700 (PDT)
+ id 1huJw3-00040Q-1r
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 13:04:43 -0400
+Received: by mail-wr1-x443.google.com with SMTP id p17so82047421wrf.11
+ for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 10:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zmwu7QnhjoOubCcj+gXAWMt870pR20NYhJgBFOm+pcY=;
- b=jEqVo2fK+2u6XPFW8INx6LlrDfFO3fChm2iVibxrS0maywteoVZ+UFS2B+GeLNHL+H
- oiOakOtpquPjRzFZcv8Dx96mTL6UKBFwn7lN8P/lcYOPEooZg1fYRdHC8ykl7SCKqxS/
- 90HzVoarARcEMCIgEFqDzKX6BhHH4jIByVTOhaMuuDbL5VdRhGiFflyolfGiNU8RGwdw
- qjwHpEaMYvR3A23NwAnfVC06Hh52Z7eaFj2NxrZeXRgGdV9IBZYKQnaVMFNs9xkAAyuc
- xiy0Qt6wSXpde57tgNbKZ61gdCZl/hYxU/BAmZAlnz6fYu0OVwVfOzAyavpqM0mmhIvW
- J/Ow==
+ bh=PksipMVzAiiMTAlABLCmlNruZKZ2bg95M8Q+Ha0hlqQ=;
+ b=sFjtWgdnNg98Urrin4BYTtOENReVLX3VsN5naYziLh/Y6A2sUcga5FB5Qne4gUEibg
+ AqF3hiXfblFUjCnNgypJ813/jk6hovuu6TDYYKw4MflCBbY2GQeoM2ttRhXhuqwaZBUi
+ KQoay9RoB+VSx7y0yhIv8rdd95gQhCxTO0Esx90wM06+S9yFn4IKi/MWhxHBij9nQa6i
+ bdN6P6bRl5rDUqKC8p2sirfuf2JpwMFgm2bA1H9MAESuzhhui5tglIJ8b44gsO6VEjeJ
+ CD4lbnAHX1K/60T5OT4tSsj03VVSBQJGdWos6Wb13Nmh+zwuF0LExL2Yb9Xervcl2dTO
+ uXaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zmwu7QnhjoOubCcj+gXAWMt870pR20NYhJgBFOm+pcY=;
- b=WrYCZ/tNHKuTX1JNcJZEopM64ekHDtEe2rR4BpI/JD3zFgKsolNcyj3yvwXbzpukOE
- s70SpE35Ypg2xA/yVwFnVkR7iFAjAebVJvIeLeFbiF3MFUc6IJLKXKpAJmFeCEHQu+3a
- IUGpC825+ukqQFj2/RnaPC2mfNCiJ6SWDMC0iF2p5UT3zqOZktL4QzFiy7YWzTWksPo/
- YkkVW+cNQHZ+TEy/8j+wYIs3FHzsSE1AhkKxCPfhj7dg5YClHCpXyujhNgSAM/eA6SnA
- h6n7B0BL3UMG24fQVT7Dr/EYA2VHCyNnWZSRMITdHlvze7vMVDcxQKbfLqSxLCIX5kvn
- pkYA==
-X-Gm-Message-State: APjAAAXsLlCMsT9y5QUsBC3jSlDbuWVNpsfOQx6zEOhhsm2bpbvY+pC6
- xNdPiLV4v9WYYMoVPmgr8NJs2REs
-X-Google-Smtp-Source: APXvYqyLclFUfHfrCqTS3tSz9ri/yc/kTX6beKbxSClOGZIZuosdye6wvqea+k/HfLrDQqvMb54WKA==
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr148494496wrj.47.1564938271149; 
- Sun, 04 Aug 2019 10:04:31 -0700 (PDT)
+ bh=PksipMVzAiiMTAlABLCmlNruZKZ2bg95M8Q+Ha0hlqQ=;
+ b=npDINRtlnBLhQTdLP2l80BFgQFjz67IQmurDWni05Z3+h614wKQQoTZmIxnEWZbIfq
+ sBsGMGNaLk4/XZvqnROnsIRoQpxpbgQY5Ialzk6+9l2o0F3s/zZ7kqeYey+SKIey/OvP
+ o5C0LLuWHDAkyhJzx8gUpl6QxEQFsEA3SP6K66R6iCKYVOa3ooVF/g7mWZ8ZemvTZhDY
+ HdFTliYSBUI9/tipF146Y5co4oI445Uaup/tm/HzK5Gxp4ykKMo2bYrJpUwkUOFSIFDG
+ uHMl6PlWoBnhdm+UYs0R5rhxiM/xygHNelyXbx+Xdr6qoJA42F4BUyaH9uVLhEUh1sww
+ lPKg==
+X-Gm-Message-State: APjAAAX7oTjyo8WSqzJf4u88U5dZyX8P1szYr51eAT53G5AMCJotR1g9
+ 2EDgO08Zqaev/3Pl9pA/T4HIJrPRuYc=
+X-Google-Smtp-Source: APXvYqxT8hCtITiFtyszZ5HCoHc4+cRVmDKjO6caNxyRzQudCUVcaob9/82Qly2A/fry744F9s10vQ==
+X-Received: by 2002:a5d:5302:: with SMTP id e2mr5201889wrv.347.1564938273955; 
+ Sun, 04 Aug 2019 10:04:33 -0700 (PDT)
 Received: from nullptr.home.dirty-ice.org
  (2a01-036c-0113-632c-0000-0000-0000-0005.pool6.digikabel.hu.
  [2a01:36c:113:632c::5])
- by smtp.gmail.com with ESMTPSA id s10sm104876106wmf.8.2019.08.04.10.04.30
+ by smtp.gmail.com with ESMTPSA id s10sm104876106wmf.8.2019.08.04.10.04.33
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 04 Aug 2019 10:04:30 -0700 (PDT)
+ Sun, 04 Aug 2019 10:04:33 -0700 (PDT)
 From: "=?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?="
  <dirty.ice.hu@gmail.com>
 X-Google-Original-From: =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=2C=20Zolt=C3=A1n?=
  <DirtY.iCE.hu@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Sun,  4 Aug 2019 19:04:15 +0200
-Message-Id: <ff28a2d4a61be1e7150556342a5fb83aa818c439.1564925486.git.DirtY.iCE.hu@gmail.com>
+Date: Sun,  4 Aug 2019 19:04:18 +0200
+Message-Id: <faa22ae99df3a4de8c83effe90ed986460df7b34.1564925486.git.DirtY.iCE.hu@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1564925486.git.DirtY.iCE.hu@gmail.com>
 References: <cover.1564925486.git.DirtY.iCE.hu@gmail.com>
@@ -71,8 +71,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH v3 03/14] audio: add audiodev property to vnc
- and wav_capture
+Subject: [Qemu-devel] [PATCH v3 06/14] audio: audiodev= parameters no longer
+ optional when -audiodev present
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,167 +84,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+This means you should probably stop using -soundhw (as it doesn't allow
+you to specify any options) and add the device manually with -device.
+The exception is pcspk, it's currently not possible to manually add it.
+To use it with audiodev, use something like this:
+
+    -audiodev id=foo,... -global isa-pcspk.audiodev=foo -soundhw pcspk
 
 Signed-off-by: Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>
 ---
 
 Notes:
-    Changes from v2:
+    Changes from v1:
     
-    * audiodev parameter for wavcapture is now mandatory.
-    * removed some unnecessary qdict_haskey calls from hmp_wavcapture
+    * Split off paaudio changes to a different commit.
 
- ui/vnc.h        |  2 ++
- monitor/misc.c  | 22 +++++++++++-----------
- ui/vnc.c        | 15 ++++++++++++++-
- hmp-commands.hx | 11 ++++++-----
- qemu-options.hx |  6 ++++++
- 5 files changed, 39 insertions(+), 17 deletions(-)
+ audio/audio.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/ui/vnc.h b/ui/vnc.h
-index 2f84db3142..6f54653455 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -183,6 +183,8 @@ struct VncDisplay
- #ifdef CONFIG_VNC_SASL
-     VncDisplaySASL sasl;
+diff --git a/audio/audio.c b/audio/audio.c
+index 4baa37caac..d131958194 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -101,6 +101,8 @@ const struct mixeng_volume nominal_volume = {
  #endif
-+
-+    AudioState *audio_state;
  };
  
- typedef struct VncTight {
-diff --git a/monitor/misc.c b/monitor/misc.c
-index e393333a0e..bdf857555f 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1142,21 +1142,21 @@ static void hmp_stopcapture(Monitor *mon, const QDict *qdict)
- static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
++static bool legacy_config = true;
++
+ #ifdef AUDIO_IS_FLAWLESS_AND_NO_CHECKS_ARE_REQURIED
+ #error No its not
+ #else
+@@ -1392,7 +1394,7 @@ static AudiodevListEntry *audiodev_find(
+  * if dev == NULL => legacy implicit initialization, return the already created
+  *   state or create a new one
+  */
+-static AudioState *audio_init(Audiodev *dev)
++static AudioState *audio_init(Audiodev *dev, const char *name)
  {
-     const char *path = qdict_get_str(qdict, "path");
--    int has_freq = qdict_haskey(qdict, "freq");
--    int freq = qdict_get_try_int(qdict, "freq", -1);
--    int has_bits = qdict_haskey(qdict, "bits");
--    int bits = qdict_get_try_int(qdict, "bits", -1);
--    int has_channels = qdict_haskey(qdict, "nchannels");
--    int nchannels = qdict_get_try_int(qdict, "nchannels", -1);
-+    int freq = qdict_get_try_int(qdict, "freq", 44100);
-+    int bits = qdict_get_try_int(qdict, "bits", 16);
-+    int nchannels = qdict_get_try_int(qdict, "nchannels", 2);
-+    const char *audiodev = qdict_get_str(qdict, "audiodev");
-     CaptureState *s;
-+    AudioState *as = audio_state_by_name(audiodev);
-+
-+    if (!as) {
-+        monitor_printf(mon, "Audiodev '%s' not found\n", audiodev);
-+        return;
-+    }
+     static bool atexit_registered;
+     size_t i;
+@@ -1406,12 +1408,13 @@ static AudioState *audio_init(Audiodev *dev)
  
-     s = g_malloc0 (sizeof (*s));
- 
--    freq = has_freq ? freq : 44100;
--    bits = has_bits ? bits : 16;
--    nchannels = has_channels ? nchannels : 2;
--
--    if (wav_start_capture(NULL, s, path, freq, bits, nchannels)) {
-+    if (wav_start_capture(as, s, path, freq, bits, nchannels)) {
-         monitor_printf(mon, "Failed to add wave capture\n");
-         g_free (s);
-         return;
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 140f364dda..24f9be5b5d 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1222,7 +1222,7 @@ static void audio_add(VncState *vs)
-     ops.destroy = audio_capture_destroy;
-     ops.capture = audio_capture;
- 
--    vs->audio_cap = AUD_add_capture(NULL, &vs->as, &ops, vs);
-+    vs->audio_cap = AUD_add_capture(vs->vd->audio_state, &vs->as, &ops, vs);
-     if (!vs->audio_cap) {
-         error_report("Failed to add audio capture");
-     }
-@@ -3369,6 +3369,9 @@ static QemuOptsList qemu_vnc_opts = {
-         },{
-             .name = "non-adaptive",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "audiodev",
-+            .type = QEMU_OPT_STRING,
-         },
-         { /* end of list */ }
-     },
-@@ -3806,6 +3809,7 @@ void vnc_display_open(const char *id, Error **errp)
-     const char *saslauthz;
-     int lock_key_sync = 1;
-     int key_delay_ms;
-+    const char *audiodev;
- 
-     if (!vd) {
-         error_setg(errp, "VNC display not active");
-@@ -3991,6 +3995,15 @@ void vnc_display_open(const char *id, Error **errp)
-     }
-     vd->ledstate = 0;
- 
-+    audiodev = qemu_opt_get(opts, "audiodev");
-+    if (audiodev) {
-+        vd->audio_state = audio_state_by_name(audiodev);
-+        if (!vd->audio_state) {
-+            error_setg(errp, "Audiodev '%s' not found", audiodev);
-+            goto fail;
+     if (dev) {
+         /* -audiodev option */
++        legacy_config = false;
+         drvname = AudiodevDriver_str(dev->driver);
+     } else if (!QTAILQ_EMPTY(&audio_states)) {
+-        /*
+-         * todo: check for -audiodev once we have normal audiodev selection
+-         * support
+-         */
++        if (!legacy_config) {
++            dolog("You must specify an audiodev= for the device %s\n", name);
++            exit(1);
 +        }
-+    }
-+
-     device_id = qemu_opt_get(opts, "display");
-     if (device_id) {
-         int head = qemu_opt_get_number(opts, "head", 0);
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index bfa5681dd2..cfcc044ce4 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -819,16 +819,17 @@ ETEXI
+         return QTAILQ_FIRST(&audio_states);
+     } else {
+         /* legacy implicit initialization */
+@@ -1518,7 +1521,7 @@ void audio_free_audiodev_list(AudiodevListHead *head)
+ void AUD_register_card (const char *name, QEMUSoundCard *card)
+ {
+     if (!card->state) {
+-        card->state = audio_init(NULL);
++        card->state = audio_init(NULL, name);
+     }
  
-     {
-         .name       = "wavcapture",
--        .args_type  = "path:F,freq:i?,bits:i?,nchannels:i?",
--        .params     = "path [frequency [bits [channels]]]",
-+        .args_type  = "path:F,audiodev:s,freq:i?,bits:i?,nchannels:i?",
-+        .params     = "path audiodev [frequency [bits [channels]]]",
-         .help       = "capture audio to a wave file (default frequency=44100 bits=16 channels=2)",
-         .cmd        = hmp_wavcapture,
-     },
- STEXI
--@item wavcapture @var{filename} [@var{frequency} [@var{bits} [@var{channels}]]]
-+@item wavcapture @var{filename} @var{audiodev} [@var{frequency} [@var{bits} [@var{channels}]]]
- @findex wavcapture
--Capture audio into @var{filename}. Using sample rate @var{frequency}
--bits per sample @var{bits} and number of channels @var{channels}.
-+Capture audio into @var{filename} from @var{audiodev}, using sample rate
-+@var{frequency} bits per sample @var{bits} and number of channels
-+@var{channels}.
+     card->name = g_strdup (name);
+@@ -1544,8 +1547,11 @@ CaptureVoiceOut *AUD_add_capture(
+     struct capture_callback *cb;
  
- Defaults:
- @itemize @minus
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 9621e934c0..a308e5f5aa 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1978,6 +1978,12 @@ can help the device and guest to keep up and not lose events in case
- events are arriving in bulk.  Possible causes for the latter are flaky
- network connections, or scripts for automated testing.
+     if (!s) {
+-        /* todo: remove when we have normal audiodev selection support */
+-        s = audio_init(NULL);
++        if (!legacy_config) {
++            dolog("You must specify audiodev when trying to capture\n");
++            return NULL;
++        }
++        s = audio_init(NULL, NULL);
+     }
  
-+@item audiodev=@var{audiodev}
-+
-+Use the specified @var{audiodev} when the VNC client requests audio
-+transmission. When not using an -audiodev argument, this option must
-+be omitted, otherwise is must be present and specify a valid audiodev.
-+
- @end table
- ETEXI
+     if (audio_validate_settings (as)) {
+@@ -1776,7 +1782,7 @@ void audio_init_audiodevs(void)
+     AudiodevListEntry *e;
+ 
+     QSIMPLEQ_FOREACH(e, &audiodevs, next) {
+-        audio_init(e->dev);
++        audio_init(e->dev, NULL);
+     }
+ }
  
 -- 
 2.22.0
