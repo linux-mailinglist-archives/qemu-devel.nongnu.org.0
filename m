@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145E2812D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:13:19 +0200 (CEST)
-Received: from localhost ([::1]:51282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DBB812DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:15:05 +0200 (CEST)
+Received: from localhost ([::1]:51308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXBG-0008B9-87
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37286)
+	id 1huXCy-00035t-H1
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX9D-0003Gy-1f
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:12 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX9E-0003Ki-5y
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX9B-0001vJ-Q7
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:10 -0400
-Received: from mail-eopbgr680100.outbound.protection.outlook.com
- ([40.107.68.100]:57008 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1huX9D-0001w0-2S
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:12 -0400
+Received: from mail-eopbgr680122.outbound.protection.outlook.com
+ ([40.107.68.122]:17806 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9B-0001v1-KX
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:09 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9C-0001vS-J2
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gSDfuTi2n5QaEz8XMFtpFnY8eBTPdjJwRdm+BN6zFUQX9bM5v30Rbq72qhPZxuL3ntL4xLip3Za9SzUXAErbBP++u9OqNz6Ene/yj4C1WxD0F/19DXZ5CQ9dFYvcAbTJgA3rRzGsOIhu+nP3iguxEaFbHuOg1A/xiEm1STvuWYO7TGuxPb298VY2y0mASf1pk4fjcBPdrfk00nk+1mK8ddxeu+cyageYVDNMpzznDzrqFL+we8diGM8yTuotkcUt86CkZMz6/CF6MWESvuqycDE82neeVbjv6EIQjCPqcpW6m/H5UdP8gATJ3v7yuof748MZhNvPSvr41wmTYSwGCw==
+ b=IWW6OGNPIO0+NKVS51lzAbwgSc77I/lxegdFJvv6/Y3Oj1B0iyqMonWkoTK42NMH6k4Ef/7z/eZ/2/IKCz/layOtbgnAP3fUAEt9CUCzDBh/ejhZwnWbcm34BttB+d1/pJ0uIQE7Tx5f6MZDOohxlvWjiRKMpA3s3r1PzEj7SxFafZhj0t1j/ZDtt15koXYgOyv5ZvVYP090h/07hv37IFMxhu39hBILDSkjkabTSpapzQSDu/yFkdQAadDpA0vxwGUW6Hz3VUpAsyfNYNOA+9q3soSJeCkbP4b9Nbtj75JMG9f2bvxEec7BJ4B87OXi+rnNdr8p6NMFXbOYCYi5xw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EU7gs5QffdX7d5MJ7y1usFyd3t46hrol6CsTtt9cYoI=;
- b=k6AwHLj6hxxaNCeD5NPcELVamuzeJxYQGMJ6PRn8Ld77FMaOKAXvUQJnYBRFpvtE6eADR3rso6opfd1f9SpsPoMrznlLpQH4xoOcjkGWJw/W2MusDUIztpO/zgUiUOi+NV4Rih+e2vpU76KXs/fOVe5WxNjoNMmh/nuT45/ExObQ+BMma+i9uEp0V/l2RSxolvdoypT3XCpriOtIgvjVPHXMTg+TD+6phh+NbXVnJXITkqtQpvj/pkwaU7VplzVU7TXhPvFWGRyXWwlIReZwHyudYUC56uyFfq2rXtEkDTNjMZVOF6n37hjHY4XOfNpnUeHpcPrIHSzNmWuQvB25kw==
+ bh=GsVw/QRkgEOUa3dsfzqFSCkjGmdskWC6z6uOWWu7Mxo=;
+ b=Qb8Nx7FW3EHgwWDNjMg18abl+zAnV6cdRU69knf62S22WubHWSCm0C/qT4OUFBdZWSwENCieaqzb1K6BLrMt47JIPKEwGCAB5Pe+Z2CQIlvPuAYpEYzhp5vFjm77s2tW3+3mcc2i2hNW7SwuRInyYvC5IyTSnjhmUYiOqiJWS5a5aY0SSdjcAMrD1ANK3kehthbeYqr4WRb+kzOFY+XRNsb5jFQ6D+v/Zby568ptzuK2VfuHSWTSgUwn7lNxfzX7dYU/Mkm8hbpfu4Bl+Ssz1aAUIjLtTtq+xUZVErz6OGLs03PiL571m3JxDHXV29yAMoEMXGz7c/7mDafCV+5VlQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EU7gs5QffdX7d5MJ7y1usFyd3t46hrol6CsTtt9cYoI=;
- b=Vp5u/Oh2Ys5r8IVymozxhfoiLBRfS4YzMRzAdVTL9ES5JMrjjvXyU11zCvY1wZVhp1Jv+MD9Ajm9Me61u1fNyRMaRun5FNZuZIyMae4KP4IFs4RXOSO7W3aCXMkzObU0s/Zf5vOl4TTWrG08duGqHwOqwwzaihHnSo+5FyV+NjE=
+ bh=GsVw/QRkgEOUa3dsfzqFSCkjGmdskWC6z6uOWWu7Mxo=;
+ b=fh9mTznRqZywdCTcB+WB3Nwj7m+11cQ+afxqsFpqPMkN5qY9gab0XsOtoeLVTXXVrGQnqPbgieC8fzqTcTutgziazyZh0xV0DSuI1Jg8kh6vGiNk7jtTp6hgLV90cjDOGpOvFLePSXvw7TjoPCtZrw/IIMtsokUv6DN+gtgMAV8=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 07:11:08 +0000
+ 15.20.2136.16; Mon, 5 Aug 2019 07:11:09 +0000
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 07:11:08 +0000
+ 07:11:09 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 07/17] fuzz: Add ramfile qemu-file type
-Thread-Index: AQHVS1z0M6I8kPBbMEK/bIzQlgUatg==
-Date: Mon, 5 Aug 2019 07:11:08 +0000
-Message-ID: <20190805071038.32146-8-alxndr@bu.edu>
+Thread-Topic: [RFC PATCH v2 08/17] fuzz: Export the qemu_savevm_live_state
+ function
+Thread-Index: AQHVS1z0nVUDC3krhEOKfy50C1cofA==
+Date: Mon, 5 Aug 2019 07:11:09 +0000
+Message-ID: <20190805071038.32146-9-alxndr@bu.edu>
 References: <20190805071038.32146-1-alxndr@bu.edu>
 In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,37 +65,38 @@ x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f9c87969-e265-4891-bda6-08d7197416ac
+x-ms-office365-filtering-correlation-id: fe317ad5-731b-43b9-ce27-08d71974173b
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2646; 
 x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-microsoft-antispam-prvs: <CY4PR03MB264612B2A2C50CC16DDA3764BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:741;
+x-microsoft-antispam-prvs: <CY4PR03MB264611CCE2BFF75AC05FDEFCBADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
 x-forefront-prvs: 01208B1E18
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(14444005)(42522002);
+ SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: iwMkTOxEWy/ZADiVja8WIsf1JneZ6pPQkrVNTAh7vG9Y2Z6D8Ix+WTuccmVc595F6EP77BgClDGYrbjwXCQ7cs/+BS0dPegm64MDIYbAxm5Gm9ipXULb0r+lqVa/9M2WWAhr+f6w2oScwqftOPuArHbmTziQN03HHz1YKLUpR7QcGSkkvTLpTWadKoUlw6U4VBLc73ypJI4rlKDsZ4ccI90NaDezq6RLo8pPqTi+jD6lFSidx0MLRrizqI/bR8Qb8P6ia6vnn+/L5j0VYdsMzgV6wxLC4f7EbKVZlZG3Z5+8LbwYpCHwT0Lz40LMYvM/kwb1tFPYRsaoVptNpuNkZlzYAPTYbB19bpy3zBtXatWxiHaZl5YB8r4zcMeC7VvqD2ORYhEbW8rtxtGhlJHIIIazyf4uDnMesukTLNu/3q8=
+x-microsoft-antispam-message-info: TMnNaRDM76Ho5TlB3xHCSEWpaHg/qEU/s5Nyz8MiBCohSpi9G+TfN1/67Ru25TRYuRk52deMm9EmYnxTtLtI5qjEbgiPBXvD95k2AdW2jluGrHiwiMj4ix6L+1O6Mq+65j6EmnXDAvKwEam0Wjl7asPxfapCNpb0Qj2OgKssPuoDfxConO3vyw4c6sTfHVVIkFcJ01L2Rr3zK5lVhzkg87Lu7s8OqbPYd/TDziRdkVrlWjQjfnONPme85hBf1/bVBquDt/F/N80JF1RONbZt3HmFzyrDQbApak6OUgHUCLCt3m5oGirZ6zWSXuY0H8+9ZcRSvcGRzPKeIGr4O44eOHMhTwoFbkcZeVZ+dJSatt5k2ivZA2Iut76VYwFYbXobj5gR+7ZsRD1tnZd56hFS35YvM/KWDm4Dagkrwt+gFFg=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9c87969-e265-4891-bda6-08d7197416ac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:08.5513 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe317ad5-731b-43b9-ce27-08d71974173b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:09.5599 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.100
-Subject: [Qemu-devel] [RFC PATCH v2 07/17] fuzz: Add ramfile qemu-file type
+X-Received-From: 40.107.68.122
+Subject: [Qemu-devel] [RFC PATCH v2 08/17] fuzz: Export the
+ qemu_savevm_live_state function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,125 +116,56 @@ Cc: Juan Quintela <quintela@redhat.com>, "Dr. David
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Skip the header when saving device state, as the header isn't handled by
+qemu_load_device_state
+
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- migration/qemu-file.c | 84 +++++++++++++++++++++++++++++++++++++++++++
- migration/qemu-file.h | 11 ++++++
- 2 files changed, 95 insertions(+)
+ migration/savevm.c | 9 +++++++--
+ migration/savevm.h | 2 ++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 0431585502..453e2897d5 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -786,3 +786,87 @@ void qemu_file_set_blocking(QEMUFile *f, bool block)
-         f->ops->set_blocking(f->opaque, block);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 79ed44d475..5eac36e6ca 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1405,7 +1405,7 @@ void qemu_savevm_state_cleanup(void)
      }
  }
-+
-+#ifdef CONFIG_FUZZ
-+#define INCREMENT 10240
-+static ssize_t ram_writev_buffer(void *opaque, struct iovec *iov, int iovc=
-nt,
-+        int64_t pos)
-+{
-+    ram_disk *rd =3D (ram_disk *)opaque;
-+    gsize newsize;
-+    ssize_t total_size =3D 0;
-+    int i;
-+    if (!rd->base) {
-+        rd->base =3D g_malloc(INCREMENT);
-+        rd->len =3D INCREMENT;
-+    }
-+    for (i =3D 0; i < iovcnt; i++) {
-+        if (pos + iov[i].iov_len >=3D rd->len) {
-+            newsize =3D ((pos + iov[i].iov_len) / INCREMENT + 1) * INCREME=
-NT;
-+            rd->base =3D g_realloc(rd->base, newsize);
-+            rd->len =3D newsize;
-+        }
-+        memcpy(rd->base + pos, iov[i].iov_base, iov[i].iov_len);
-+        pos +=3D iov[i].iov_len;
-+        total_size +=3D iov[i].iov_len;
-+    }
-+    return total_size;
-+}
-+
-+static ssize_t ram_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
-+        size_t size)
-+{
-+    ram_disk *rd =3D (ram_disk *)opaque;
-+    if (pos + size > rd->len) {
-+        if (rd->len - pos >=3D 0) {
-+            memcpy(buf, rd->base + pos, rd->len - pos);
-+            size =3D rd->len - pos;
-+        }
-+    } else {
-+        memcpy(buf, rd->base + pos, size);
-+    }
-+    return size;
-+}
-+
-+static int ram_fclose(void *opaque)
-+{
-+    return 0;
-+}
-+
-+static const QEMUFileOps ram_read_ops =3D {
-+    .get_buffer =3D ram_get_buffer,
-+    .close =3D      ram_fclose
-+};
-+
-+static const QEMUFileOps ram_write_ops =3D {
-+    .writev_buffer =3D ram_writev_buffer,
-+    .close =3D      ram_fclose
-+};
-+
-+QEMUFile *qemu_fopen_ram(ram_disk **return_rd)
-+{
-+    ram_disk *rd =3D g_new0(ram_disk, 1);
-+    *return_rd =3D rd;
-+    return qemu_fopen_ops(rd, &ram_write_ops);
-+}
-+
-+QEMUFile *qemu_fopen_ro_ram(ram_disk* rd)
-+{
-+    return qemu_fopen_ops(rd, &ram_read_ops);
-+}
-+
-+void qemu_freopen_ro_ram(QEMUFile *f)
-+{
-+    void *rd =3D f->opaque;
-+    f->bytes_xfer =3D 0;
-+    f->xfer_limit =3D 0;
-+    f->last_error =3D 0;
-+    f->iovcnt =3D 0;
-+    f->buf_index =3D 0;
-+    f->buf_size =3D 0;
-+    f->pos =3D 0;
-+    f->ops =3D &ram_read_ops;
-+    f->opaque =3D rd;
-+    return;
-+}
-+#endif
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 13baf896bd..7048674f1b 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -177,4 +177,15 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t b=
-lock_offset,
 =20
- void qemu_put_counted_string(QEMUFile *f, const char *name);
-=20
-+#ifdef CONFIG_FUZZ
-+typedef struct ram_disk {
-+    void *base;
-+    gsize len;
-+} ram_disk;
-+
-+QEMUFile *qemu_fopen_ram(ram_disk **rd);
-+QEMUFile *qemu_fopen_ro_ram(ram_disk* rd);
-+void qemu_freopen_ro_ram(QEMUFile *f);
+-static int qemu_savevm_state(QEMUFile *f, Error **errp)
++int qemu_savevm_state(QEMUFile *f, Error **errp)
+ {
+     int ret;
+     MigrationState *ms =3D migrate_get_current();
+@@ -1471,11 +1471,16 @@ void qemu_savevm_live_state(QEMUFile *f)
+ int qemu_save_device_state(QEMUFile *f)
+ {
+     SaveStateEntry *se;
+-
++    /*
++     * qemu_load_device_state doesn't load the header. Either skip writing=
+ the
++     * header or seek forward in the file, prior to loading device state
++     */
++#ifndef CONFIG_FUZZ
+     if (!migration_in_colo_state()) {
+         qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
+         qemu_put_be32(f, QEMU_VM_FILE_VERSION);
+     }
 +#endif
+     cpu_synchronize_all_states();
+=20
+     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+diff --git a/migration/savevm.h b/migration/savevm.h
+index 51a4b9caa8..5405215cb4 100644
+--- a/migration/savevm.h
++++ b/migration/savevm.h
+@@ -64,4 +64,6 @@ void qemu_loadvm_state_cleanup(void);
+ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+ int qemu_load_device_state(QEMUFile *f);
+=20
++int qemu_savevm_state(QEMUFile *f, Error **errp);
 +
  #endif
 --=20
