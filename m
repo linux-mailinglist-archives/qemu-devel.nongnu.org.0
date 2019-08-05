@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0CA811CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 07:56:18 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9688121B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 08:14:57 +0200 (CEST)
+Received: from localhost ([::1]:50828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huVyi-0004ZR-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 01:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53495)
+	id 1huWGm-0000GF-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 02:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57325)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.kiszka@web.de>) id 1huVxY-0003sJ-HE
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:05 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1huWGF-0008GL-Bm
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:14:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.kiszka@web.de>) id 1huVxX-0000cC-JD
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:04 -0400
-Received: from mout.web.de ([212.227.15.3]:33223)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.kiszka@web.de>) id 1huVxX-0000Y5-Ah
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1564984495;
- bh=lR32kpDBJo3e07clQakH1YlWN5vRGa+qe46CvdhT5Xk=;
- h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
- b=gH0Yqx/Ik1akr3/+shOZ0nDJ/3Tlwh+JFjrrS3HklOZXxEcHeUv77OsDMumKofNYT
- exvRWILsOFkL7LKkOv4E3ZbMakvR2WP6RkoXzC3PIncK9fKU68ciT7ixGh/3DpOTQT
- 1P0vggNPOjeO1gS5fA6+HEkwfToP1n90Snh6mEY0=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.10] ([95.157.55.156]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LkhUq-1iSTCE2vye-00aUZC; Mon, 05
- Aug 2019 07:54:54 +0200
-To: qemu-devel <qemu-devel@nongnu.org>
-From: Jan Kiszka <jan.kiszka@web.de>
-Message-ID: <d938a62c-7538-9d2b-cc0a-13b240ab9141@web.de>
-Date: Mon, 5 Aug 2019 07:54:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (envelope-from <chihmin.chao@sifive.com>) id 1huWGE-0004Hu-8V
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:14:23 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:35580)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1huWGE-0004HW-2w
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:14:22 -0400
+Received: by mail-io1-xd41.google.com with SMTP id m24so164957314ioo.2
+ for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 23:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+Y7WcXkyB2SsSCuxnbdm58cZx75IvMUDQfLeylZQwF8=;
+ b=BKv1SsZ3DQft4EMwl0rdlX61+WUPZwPbxotZpozeU0puOcEwt04XMsOPzFWEgn4dxX
+ Itc8CIu23Q/D1qNqtH5JJIlPHWS8ekVjvPjHq7/j6+xZo2pzcm/51QKWqjiG+YvaWtsq
+ Jlqr9v5K1L/1X2ss7sUEPO919YdFSJ0WnadrRcFrbPcUIq70anC1wsmkR0oXFUJMr6ka
+ 2NimW2eJcdGdT2X4yZ8kJ5SW7J2ycLxLikdlEMzQzN9hTaYRYaupcCIuV5UGEm3PZesz
+ 7QOOOXjau8NOOjNWMZT3oViGDlx86NfVfk84yUNkc6z7ern2dK8kqv9BboI+G0LX1D4n
+ 8+ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+Y7WcXkyB2SsSCuxnbdm58cZx75IvMUDQfLeylZQwF8=;
+ b=JkvajDEmtFZF7M8+aisui08Of/OoQRjM88i+3jf4m3X0TXXnGcL0FwB9S7HDlNHNyN
+ QCJsidA8tJcueYEmLf6RYaMv9aDFEa1q56/RrvXCieQcQr2FV0xcSpJRbnMBNpB/y4u/
+ yn9aZcOLrz3AvT7X5VG8OIjCQSl5S1NfWezZ21cFvjBl63l6WPVXfJCgma5BMqwKpRc+
+ dHnwdCT22xToigU3Pj+UTzFqn0p/04lozaChwUPgmbevP/i+luKpLoI3usa8GGTtoEyK
+ 3n1fiFZiOIlfspQ5EDzLJeg2iGw5qm4EFv88Pji0gwZx6Dnh0m8PXJyp8PF4pcXIYQdb
+ y0Yg==
+X-Gm-Message-State: APjAAAXIzuPvO6MRJKkMeGIHomEUg7/7vMKOu+b5RTnve0LnROOiG8QM
+ uh3kKl65JaFPJ6HPtZFDFQWLWN2shKWhz71lJ05GtQ==
+X-Google-Smtp-Source: APXvYqwhH8Gy7RhdSjCAEYn9//rXzJtQA1xuW178I6YEy+5tRPmnUKwI/tp7qCVhQML8iCdDcutWlMcG1tEtWdtcZYg=
+X-Received: by 2002:a02:b395:: with SMTP id p21mr37874965jan.31.1564985660493; 
+ Sun, 04 Aug 2019 23:14:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uMiBHAFbEqbRBFwA8NmGyfubxwMOKuHVefjpem3DQWUjWOK0IYy
- 09SkZw3vz94KUbNhb03fWB1AEyPL8ygAzj6oxcwa5eWyyJ/mNP6ES/QnstcFnDTlhY9KSHA
- wPsAqtKwK3r14VuiNREhC0Atj4xi2OytcAf3LyN8g0dQIeoXG4cDTaq6L/Q4lDpiDsgIh3H
- uwpDrZbUL6yj8liaP8bVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LXIUFlXAf7g=:SVltVkaGnJYfO9C0BINb3m
- Vd0/wad+Fl5B0bRLESSL0Rdp4n3rQ/KsxSxfm4WPCJhkyEvqQTNDuRxarSH+ZUvoO8Y/8zCbk
- 6HSGykAn2fuTUy76CV8Y/FtqYlZf+ceCEDp58k40sosJLsrpRsgADol4CG0jR3tMyClX6bBno
- ICFH3JHS2nbqkisBXXpSxD2yVz8u7C0LEsAuv5xzR5w38TrRoZPhmxMYUEr/gFrf2ldNCqTQi
- XE+gCBGMYZgu8kIZL/gdkQTAKh62hjXAw6MrN7Jt1s3gWt5gJruVTnQKZgSZcBJOj23hopzkV
- TNjYMMSRoZFOPitnWjrU1mKB+AbS46eLPuGOjbn7B7Yt/m8bfGRs3P/mwNgVbFp8g0pd8LRi2
- SKSGRZmzEPFu7UVMYYJAUlwY7zA+qw5BV742qGeiR9my2jrqHaTAoe3j8pn1ru6C+6NkBuX0j
- My0/5q+qmfyIfxnW2FbU5aECgLqtAp/8EB2BqNEgkji2+VNjx5DXfZz5XNVsyQURCkTRUQlnH
- vsnxYzgm6YKqzmtYD7fd/8yiqEDb8SauGPcJoQD90dJN9nBhbrcU4cqP9dvJGYOwKA11ari2z
- dg1V1d1ycd7GhjsjnsSZ+0v579hlOQV6RNHMAJ+SbV8jYfBXwD+Amcv5UeYGsD5cDNs9KLsl+
- yiS275N0qmXmUO0902gSMOLnDzrQKu7lGxyIK7qiwK9PjxXywGf91FsaiRyjxM/13Q4OtTIOJ
- 5WXCPc87CwW1GZz/dcnpWrzxsJ5+gj+FMK5VFPUKHnynqrk8zKuekORBMjDyaLL05hmnGB/NT
- Zh/Rc+xCOYXomp3Mm3LbdELedhVY5Wa0ZejN/N/bWoaUJ2lZYFrEQrXinbVf7QnweaJeLzBrc
- DoTbOe1xwUUCPmoEA4f+mX1BDKJtCPh7N04niTPvYMz9YsMVRt2wKiBmsh0i2yGmLdhn1BPP5
- qTjuh1gHlNmTJuggBN2gjhYo5yZIyUzz7gpGIZlwLeuc1ybQnDSnKj4ncXePmR6SwsVN3ylca
- JCh0bkS/67eNWf5RyFtJpeE2kzFlwzfVxAvB3uAYQSGp6noLw6MojOW9GxTNUdKXnmLOc/jeR
- g3DB22btWdKiy8ku7wR+XJ0vyZMrLBmXjLilVa5aPiNP3G6P5vOTF7jBN4Bi3dSm7bf2hU1r8
- O1zS8=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.3
-Subject: [Qemu-devel] [PATCH v2] ivshmem-server: Clean up shmem on shutdown
+References: <1564792052-6469-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1564792052-6469-1-git-send-email-bmeng.cn@gmail.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Mon, 5 Aug 2019 14:14:07 +0800
+Message-ID: <CAEiOBXWQ02uRQQOpP=Rauq8WZnYtoxNqjM--Rpi5tHX2W0bGsw@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH] riscv: sifive_e: Correct
+ various SoC IP block sizes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,51 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <cfontana@suse.de>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jan Kiszka <jan.kiszka@siemens.com>
+On Sat, Aug 3, 2019 at 8:27 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-So far, the server leaves the posix shared memory object behind when
-terminating, requiring the user to explicitly remove it in order to
-start a new instance.
+> Some of the SoC IP block sizes are wrong. Correct them according
+> to the FE310 manual.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+>
+>  hw/riscv/sifive_e.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 2a499d8..9655847 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -53,13 +53,13 @@ static const struct MemmapEntry {
+>      hwaddr base;
+>      hwaddr size;
+>  } sifive_e_memmap[] = {
+> -    [SIFIVE_E_DEBUG] =    {        0x0,      0x100 },
+> +    [SIFIVE_E_DEBUG] =    {        0x0,     0x1000 },
+>      [SIFIVE_E_MROM] =     {     0x1000,     0x2000 },
+>      [SIFIVE_E_OTP] =      {    0x20000,     0x2000 },
+>      [SIFIVE_E_CLINT] =    {  0x2000000,    0x10000 },
+>      [SIFIVE_E_PLIC] =     {  0xc000000,  0x4000000 },
+> -    [SIFIVE_E_AON] =      { 0x10000000,     0x8000 },
+> -    [SIFIVE_E_PRCI] =     { 0x10008000,     0x8000 },
+> +    [SIFIVE_E_AON] =      { 0x10000000,     0x1000 },
+> +    [SIFIVE_E_PRCI] =     { 0x10008000,     0x1000 },
+>      [SIFIVE_E_OTP_CTRL] = { 0x10010000,     0x1000 },
+>      [SIFIVE_E_GPIO0] =    { 0x10012000,     0x1000 },
+>      [SIFIVE_E_UART0] =    { 0x10013000,     0x1000 },
+> --
+> 2.7.4
+>
+>
+It seems the modification follows  E310-G002(Hifive1 Rev B) spec and the
+origin is for E310-G000(Hifive1) spec.
+There should be some way to specify different board version with different
+memory map or we have policy, always support the latest spec.
 
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-=2D--
-
-Changes in v2:
- - respect use_shm_open
- - also clean up in ivshmem_server_start error path
-
- contrib/ivshmem-server/ivshmem-server.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-ser=
-ver/ivshmem-server.c
-index 77f97b209c..88daee812d 100644
-=2D-- a/contrib/ivshmem-server/ivshmem-server.c
-+++ b/contrib/ivshmem-server/ivshmem-server.c
-@@ -353,6 +353,9 @@ ivshmem_server_start(IvshmemServer *server)
- err_close_sock:
-     close(sock_fd);
- err_close_shm:
-+    if (server->use_shm_open) {
-+        shm_unlink(server->shm_path);
-+    }
-     close(shm_fd);
-     return -1;
- }
-@@ -370,6 +373,9 @@ ivshmem_server_close(IvshmemServer *server)
-     }
-
-     unlink(server->unix_sock_path);
-+    if (server->use_shm_open) {
-+        shm_unlink(server->shm_path);
-+    }
-     close(server->sock_fd);
-     close(server->shm_fd);
-     server->sock_fd =3D -1;
-=2D-
-2.16.4
-
+chihmin
