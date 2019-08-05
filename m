@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897BC812D1
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:13:19 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799DC812CA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:12:06 +0200 (CEST)
+Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXBG-0008Cv-Nm
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
+	id 1huXA5-0004rh-M9
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37222)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX98-00039z-OD
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:07 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX99-0003A0-3g
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX97-0001rf-P8
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:06 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX98-0001rp-5T
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:07 -0400
 Received: from mail-eopbgr790111.outbound.protection.outlook.com
  ([40.107.79.111]:12064 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX97-0001qn-JK
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:05 -0400
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX97-0001qn-Vu
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YSzASds9dqhtay5brkMUvtwBCar1DoIRpLsuDLsrtttBycKluN+9k23w4ztNmDzUCxsjmSNHrgLu2JUpWBwE14UiSTQfYMRLZqP1mQWDVDucRlHemwOQm/OqWGVfj8+zBQp145AYqeVxMevekLKgM6Po3YjceU3A7xi8XQH/W5ShpTlzqdB4liPQ0j9zzAlDdvyQhFJA+UdEmaPH5TGxLlb1Vd5aHAf6gwDdZGiDgfeYQZfZRNBzaG6ii1996POfqqxdDHGlpBb09aMe+VdR2DKB7Zv+DRhQCsMU/Uz3csetnHl+7RIpGAlW+95zN+9vVte4sb1CYw5SDqvsxKGOgA==
+ b=npcgJ/RUhm93i56DHKA9/hUWTzxxgw/iBxk/aYEFc7RD+zX1dkiddddwHKTq0LBchNJNLC/2mcISz94O1zC+RbKU6HwikTKVQse9kDPDWH3RxdXo5zNl4i1h+bxiiSmaXzGEq81cEV24tNCFLYG+q4aPxUyvgegCR+zWKXITGP1yGojQtuuTdo1wTY00xSCXBmuHI4rzKn3IXz5LFdx/N5dwc3OcTqxMEGDv/1toy+rXEyWktRmrCtOI+Rj9KYq23eBdj6dDxpFSARCsJ0Nf4ydQGgXLQ2PLHidluEFBIgb2nhdn5OiwZdqpmifnH6TB/iA0iqg3H+8ruul0xy+wBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0jvbPeaPw6nCitq2oGc+/NppRWhZpntgqK/cnLaFGPk=;
- b=VgIQ77xXNDS4TVjesIecCkFGXXTY+VyQc0EoH2Uf7uwmYO8O0Zt770p2P/kzDlO9z13cjoBF3VfXsOO2Do65+mMqMeexllPzFg/AEHd58agDihTD1Kto3rU68PcYaMT/B2/iEdGUOGT90DGLiS7fBDtIAFd6jMOqcnUhn31TBknBSg2WBWfdTdDuFLQzWgwyplVljE9T0evJM+ulnt6WRxL4leEgT7I0Rqo1zIL6j+EHGXImHq9JH/24w3Ca0fjB2PhN9pJuJUQRj3X4cPRVOCZCHhgHktBSeTX3LcQGFgwbvgCjAPEJRjsW6eMHMGm4KZqCicuzRnIbTGPYp0piow==
+ bh=Vl80RK++ZNz2YyjVZRBEFHcmfv5GNUSbqDdbZzanf7I=;
+ b=nMMfG+Hp6XrKqtptRgYCVikAz/zKbtLb+DkQAr3DYX/GLgzuKLMVwSmVvT1oiFaYZb3bGjO67VadUzMhBwLNBkflUQYX9L3hf0mquEjduJ4CBJPA6NRin80Ld4v+K80gY7uw/lffsES+qF3JY+2tiOq1f0lcdlMBK1/4wdP2yyhZQnsrx4e8ErcnSxsHgq+iSWjtKi32MX/pUAnujiyxrIQ7FsRKn+v6IyZ3pFzi8a5EzUVsSLymKH37CqZ6DjYOJ4iq7iIO4mjmK2QK5dv2oqLL6rkJBtLkiPN9gvK/X0slxtb0ggXdGSZcGYHHIMzavyLr6MduN0/UCA64utfZSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
  header.d=bu.edu;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0jvbPeaPw6nCitq2oGc+/NppRWhZpntgqK/cnLaFGPk=;
- b=KEEsUv67xKp98obi5dFtDXf7pFaCnIlx8idTKeTjDmXDgA8UDZ+zCn4yDUzF6jOdivGQHYRB0naDtuHprxA4wU9TTC6qknBs9DRPpYbWaMgUd+8isj9iruRd8OmCj5OgzO/awy9w0Vv0RxNaGqI6Opj50NZbNIoze9UdqWRgSAc=
+ bh=Vl80RK++ZNz2YyjVZRBEFHcmfv5GNUSbqDdbZzanf7I=;
+ b=69mm2tqwovisUS2Hcg0BjuJ3df9/o8fWPD2Z96YA8HfrJFBL/GHEkN0YePAl5QpFsnZHvXI4AlXoRpUuH+g0YU7eVxAvhBAFII8pGAXxLEQiw0qHNPpE60A4KIB+EjZz3d4oS33ng8XTOZS0hJrpFFBrGBgFCisOAPmeHuJP/Sw=
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
  CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -43,13 +43,14 @@ Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
 Received: from CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
  ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 07:11:03 +0000
+ 07:11:04 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 02/17] fuzz: Add fuzzer configure options
-Thread-Index: AQHVS1zx9SvDhiU2WUGEo5Mghzc1qg==
-Date: Mon, 5 Aug 2019 07:11:03 +0000
-Message-ID: <20190805071038.32146-3-alxndr@bu.edu>
+Thread-Topic: [RFC PATCH v2 03/17] fuzz: Keep memory mapped for fork-based
+ fuzzer
+Thread-Index: AQHVS1zypOwjbwYDXESTHEIrQsuo4A==
+Date: Mon, 5 Aug 2019 07:11:04 +0000
+Message-ID: <20190805071038.32146-4-alxndr@bu.edu>
 References: <20190805071038.32146-1-alxndr@bu.edu>
 In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -64,29 +65,29 @@ x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 13671440-06fd-41b2-fed0-08d7197413dc
+x-ms-office365-filtering-correlation-id: 78941f5a-0413-4c3b-805d-08d719741465
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:CY4PR03MB2646; 
 x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-microsoft-antispam-prvs: <CY4PR03MB264647AFFC02A1FD1CA95171BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-microsoft-antispam-prvs: <CY4PR03MB2646C8BDDF52210F0D99ADB6BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1247;
 x-forefront-prvs: 01208B1E18
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
+ SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(4744005)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
  H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: sa+jA6MGhD5z5+NNhQMSP0N3Og3I6TRVSKfx+IiywtyQhfpKb0owj15RrBnli4ojez92lyaxlBDd+s09KwpX63yl30pTW/oTMnW2IpFR2j2Sa0P2qBF8lcz7d0/VjNcum1fFbpWanNRp8NPK0nLYIPUIlmlgIafDHQe7Ro+9Dv9R8dr/Or31ro0kktbxjwRgwu8+sbbsT/r01Ohr1JQ76EroFzjx4pfAaBM09hW37sdRbNuOrjBpPDPKxFX6FIX/LkPiSBhfYsZZP8/DvYqjK+sl78xZrhf9daaonrX0lYdJPFbnJ6qE6it/jYKmafAdVNSIuBNK28bVZLjcZkmnayS2voP2fMwhtxECIUJmEaTQtt+TW94qkS7dw6jSmONwtYzYCVTtYrfis2F28kVb3HNG40QKrpHw/cS1cMAPV7o=
+x-microsoft-antispam-message-info: lUz8TeIxi1tmbCMd9FnwcKd67YycGYL3ygt7/0zUmmlvQI0r4S8AS43pGVLqxcf3mXV5/so1R9lfz6PKA+uRVGspoLp4WF1kxj/fHyNuDWc6kJ2Kux3mXMgwUXuBB1KpxXSJt4j1JBHnQhRFyD7WQ0wz2sF32QXEF8+8/k2Vh0pXvOxcAUEjKR1+kCJIEyyVx5FinNZYe2rLYYeDXyAVUNVulZSwNFOg4jEFenrxtJSGhMM65QIN4pFeaJQJF3u+Ztn1lilIb2rOqm/71JBZwUdyYjcbzXn+sRbG5J8tUsxaHL0fY5tHGNWw/UJ5WmQCxUz277cyAx6DuhU5h4qYhTEx2FjLPZY9iGvlxtGXX2oeH3qu8yl5g9sZ3sPb/sbYDCSeRvq9Diho0nQ9SV84xJjbwr2+iUIlu/9GCOtpxNs=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13671440-06fd-41b2-fed0-08d7197413dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:03.8554 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78941f5a-0413-4c3b-805d-08d719741465
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:04.8230 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -94,7 +95,8 @@ X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.79.111
-Subject: [Qemu-devel] [RFC PATCH v2 02/17] fuzz: Add fuzzer configure options
+Subject: [Qemu-devel] [RFC PATCH v2 03/17] fuzz: Keep memory mapped for
+ fork-based fuzzer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,70 +109,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "Oleinik, Alexander" <alxndr@bu.edu>
+ "bsd@redhat.com" <bsd@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, "Oleinik, 
+ Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds sanitizer/fuzzer related cflags and adds tests/ to the include
-path. This include change is needed for qos to build, and is normally
-located in tests/Makefile.include, but currently the fuzzer builds from
-the i386-softmmu target, not anything in tests.
+Otherwise, the RAM is unmapped from the child-processes, which breaks
+any fuzz tests relying on DMA.
 
 Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
 ---
- configure | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ exec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index 714e7fb6a1..69ef1e7c7d 100755
---- a/configure
-+++ b/configure
-@@ -499,6 +499,7 @@ docker=3D"no"
- debug_mutex=3D"no"
- libpmem=3D""
- default_devices=3D"yes"
-+fuzzing=3D"no"
-=20
- # cross compilers defaults, can be overridden with --cross-cc-ARCH
- cross_cc_aarch64=3D"aarch64-linux-gnu-gcc"
-@@ -1543,6 +1544,8 @@ for opt do
-   ;;
-   --disable-libpmem) libpmem=3Dno
-   ;;
-+  --enable-fuzzing) fuzzing=3Dyes
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -6481,6 +6484,7 @@ echo "docker            $docker"
- echo "libpmem support   $libpmem"
- echo "libudev           $libudev"
- echo "default devices   $default_devices"
-+echo "fuzzing support   $fuzzing"
-=20
- if test "$supported_cpu" =3D "no"; then
-     echo
-@@ -7306,6 +7310,17 @@ fi
- if test "$sheepdog" =3D "yes" ; then
-   echo "CONFIG_SHEEPDOG=3Dy" >> $config_host_mak
- fi
-+if test "$fuzzing" =3D "yes" ; then
-+  QEMU_CFLAGS=3D"$QEMU_CFLAGS -fsanitize=3Dfuzzer,address  -fprofile-instr=
--generate"
-+  QEMU_CFLAGS=3D"$QEMU_CFLAGS -fprofile-instr-generate -fcoverage-mapping"
-+  QEMU_LDFLAGS=3D"$LDFLAGS -fsanitize=3Dfuzzer,address"
-+
-+  # Add tests/ to include path, since this is done in tests/Makefile.inclu=
-de,
-+  # and required for QOS objects to build. This can be removed if/when the
-+  # fuzzer is compiled using rules in tests/Makefile.include
-+  QEMU_INCLUDES=3D"-iquote \$(SRC_PATH)/tests $QEMU_INCLUDES"
-+  echo "CONFIG_FUZZ=3Dy" >> $config_host_mak
-+fi
-=20
- if test "$tcg_interpreter" =3D "yes"; then
-   QEMU_INCLUDES=3D"-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
+diff --git a/exec.c b/exec.c
+index 3e78de3b8f..b3b56db8f0 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2317,7 +2317,9 @@ static void ram_block_add(RAMBlock *new_block, Error =
+**errp, bool shared)
+         qemu_ram_setup_dump(new_block->host, new_block->max_length);
+         qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUG=
+EPAGE);
+         /* MADV_DONTFORK is also needed by KVM in absence of synchronous M=
+MU */
++#ifndef CONFIG_FUZZ /* This conflicts with fork-based fuzzing */
+         qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DON=
+TFORK);
++#endif
+         ram_block_notify_add(new_block->host, new_block->max_length);
+     }
+ }
 --=20
 2.20.1
 
