@@ -2,68 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1958C812A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:00:57 +0200 (CEST)
-Received: from localhost ([::1]:51184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C70D812C8
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:12:04 +0200 (CEST)
+Received: from localhost ([::1]:51258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huWzI-0001ny-1i
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:00:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
+	id 1huXA3-0004lK-JU
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37199)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chihmin.chao@sifive.com>) id 1huWyH-0001EZ-UX
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:59:55 -0400
+ (envelope-from <alxndr@bu.edu>) id 1huX98-00039x-7W
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chihmin.chao@sifive.com>) id 1huWyG-0004m8-3L
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:59:53 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:43938)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
- id 1huWyF-0004le-Pe
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 02:59:52 -0400
-Received: by mail-io1-xd34.google.com with SMTP id k20so11892636ios.10
- for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 23:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i5Ww0ywp7+DtPeRbx/mmf4OPOEmvyp7sQtuYzya10vc=;
- b=BKQJFdJztHiOwhmWt0bg8OtyYDLAPFZBtSa1M9jtksEr7TEpQFqSafbtUdtPQTMSR7
- 2B4p3IhzfEUfiltoMdzvJGUN3JxDSp2wyY7u8NMoqKDcqhDEbuPpXsLJ/LkF8XWaNpwB
- 0vBFia6FCwaQwQkgJUFhVhDOn2HYsWS3LyPfu0jzBNHDaYjHwg962r+b+QMtDj1DGuJC
- 5Nvyj1Cha86WHhdAVKc2w0rhN8QX548zEp+wfAzj7EAlvszpYjXnIR5S32g+X7fT58on
- i2EijpibF0NAqzUGAbaXBotu3UbnbiPieh2uIMYpYMJ2CLIgaZzYVnf1vfcOtWWsqQZP
- 5D9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i5Ww0ywp7+DtPeRbx/mmf4OPOEmvyp7sQtuYzya10vc=;
- b=Ir318OW0nyrPenqVj1CQ6C0s07R38YvcqBuyefvQxwwHX403zm/x0be83G8W/r6mTF
- M7bUZTShLhEKRMILgh7lLDGn5bw3WtSJdSLZ0bAikPhy8nMsKpxMVK1nWMzwyGUbRrnK
- qvqhedLuWIpz1ENn/A0rv/j9sZFPx9OaKhPaOFkRaCGaThFO7ZrV3m5O3mvaQ8ou19ZF
- OZSCtVpgCVH33pumsNtv0tleFn3Uyv7sWazjBTnfmE11uvSjl7UsmV9b4tMC98bg00x0
- GiZP3dxG3kDgYINATE7lfBVrkQimsN3Wmm1EjAfIlDCUcZCoTfRwTGy3gcz9MR3i7BdR
- Geuw==
-X-Gm-Message-State: APjAAAV3s176hRIls1iD3qlxC7dnKgKBbkdyWput5zk4/VlRemR6iycv
- WmBpv9eUI/y3MmA8syR5sNDlK+ipp4/zuKY75OqX8A==
-X-Google-Smtp-Source: APXvYqyIMTFxKGc6D1YXU0ndNirRhteuuYYCoUF36mBm/h8IlIwZCOCTMDZ/ArB6A6353FJn5yq83+oRs7iRVJJ6rks=
-X-Received: by 2002:a5d:8ad0:: with SMTP id e16mr22566875iot.262.1564988390818; 
- Sun, 04 Aug 2019 23:59:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1564529681.git.alistair.francis@wdc.com>
- <d35fb37b43115418a497bcb0bfea187a0c1c46bf.1564529681.git.alistair.francis@wdc.com>
-In-Reply-To: <d35fb37b43115418a497bcb0bfea187a0c1c46bf.1564529681.git.alistair.francis@wdc.com>
-From: Chih-Min Chao <chihmin.chao@sifive.com>
-Date: Mon, 5 Aug 2019 14:59:38 +0800
-Message-ID: <CAEiOBXW4cHBfZY7w_RQJi57ranQ+FZ9r+E91HOYdUkk8X1iggw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d34
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <alxndr@bu.edu>) id 1huX97-0001rJ-0C
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:06 -0400
+Received: from mail-eopbgr790111.outbound.protection.outlook.com
+ ([40.107.79.111]:12064 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX96-0001qn-LV
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ckT6r+FtrdTUw3ty8KDCL10uMv7hN8gyQ4YX7rZzUj8FfWKBFSwZlcuNF2lzxI6M7g0prDbq9IklZYAty9T04ZboP8hanyr/6vHrPvq0NATJEWxxRM/qbxJiSx8cqejOWBUbY+S2BrhzIFYnE5KbC/Boe22KWa7ZPHxaBnWwz5gQDg57qjZxo2qwBcWu96Kpd4GgL2TOjnaN14AWTZDWP0oxn/mu8PJmHwXTq/xVUEjKCdnjq/4HeNtujX+djcovbebxxxuaXIgrz2fULJyX3g4RRdOqo2Am/kCClEsjVdys1V5USNnXJV3SsuIig/HYCkTjvSFG5q8oZwuxnN5F7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4aZ21J6+lcfbBhm8yUhBM7AE5+PXYAZh1RSdAEp7qc=;
+ b=RiCBqCijeM0tTaAj4kV3srBaIAQ2GmGkxSAPxGtvXUjgkxzJDbmCNxAKMyd3L8Es88pEkUz2SVEiHd8XnOuINREYBW07dRviauiOmABRltr0ypjivgM3TdXEbQrWpjFSWWvbCpq3WB6nUI1bcmHWaRmIRCZgCTy05swrIt0/05x+OgFIXepVTzPytU9O1DC6DzMDhJqyb5jFjAGfXO6xdWfNap1irWCJptBIa7FyVY/I9pyfkP2hUF/6EXXnaWq5AUhgyswnZ6rduYCqAYW+mRO0g+QStieTzMbuw4AsfqvpPpJGVcIkb21/6stck/ZMv+Up8FvRahU2ohVjN/hhpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
+ header.d=bu.edu;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4aZ21J6+lcfbBhm8yUhBM7AE5+PXYAZh1RSdAEp7qc=;
+ b=eSlLeOcmzeh/vKbJqLl5Mk8exUxa7Rei5fYjjCLNv1IKByHhrubkeLx/WvMSh0zT3vZm1BFYlMU9kOWrrn3VueAFAQbaifyg/Mt7vVcq89mO+0kuVmHr63qb9RCmHw7YlkLnMiX5UdLE3yQbsEr5aWKr4BtJ+lef1TfN350rlSg=
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
+ CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2136.16; Mon, 5 Aug 2019 07:11:02 +0000
+Received: from CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
+ ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
+ 07:11:02 +0000
+From: "Oleinik, Alexander" <alxndr@bu.edu>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [RFC PATCH v2 00/17] Add virtual device fuzzing support
+Thread-Index: AQHVS1zwRoWB3hU23U20ghvShPoNVA==
+Date: Mon, 5 Aug 2019 07:11:02 +0000
+Message-ID: <20190805071038.32146-1-alxndr@bu.edu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.20.1
+x-originating-ip: [128.197.127.33]
+x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::45) To CY4PR03MB2872.namprd03.prod.outlook.com
+ (2603:10b6:903:134::17)
+authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1bc57f4b-4a3a-4584-5b67-08d7197412c4
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CY4PR03MB2646; 
+x-ms-traffictypediagnostic: CY4PR03MB2646:
+x-microsoft-antispam-prvs: <CY4PR03MB2646BF3499A33129589928BABADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 01208B1E18
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(14444005)(42522002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
+ H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: bu.edu does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 96wa2xfU70tobBV9SmsZzVB+tUhNAshvm1xdc0YthS9D+2R24omwmOw47qN2wyg1u7rqGAlkkHVtZJVk2yyC+HuxJfigwB/uRGQ2ScaxkyRiuyI08M6gxypPV0EiPfEvEckW4YKcv6A8PXCpSs/bN89BwMhXq2wvlHZAHL6fJV0n0vS5dla8D/mraq7T0TmlKYrfsf9GJOjEouOCCMiVEuriAeTs7puwadekyzT6t7R6UGKhNoRQ6JeVd1R4eZeSqFsDrlMdRqPrWNVtL9kgvYTtVwGj94CcvaHX9U13tgty7FsFBE4fsLRvJL+JoHKy9QqYOtpUJX9JNXWttNGsvwuyUnTLAholI72dkVOj1ZYZqB6LYrhM++JdlqPbqGGJ21qOHDFRsb3FgkfH2IFbvVIFQgTp0zr24/sVYZ0A5us=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH-4.2 v2 3/5] target/riscv: Create function
- to test if FP is enabled
+MIME-Version: 1.0
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc57f4b-4a3a-4584-5b67-08d7197412c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:02.0692 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.79.111
+Subject: [Qemu-devel] [RFC PATCH v2 00/17] Add virtual device fuzzing support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,177 +104,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 31, 2019 at 7:39 AM Alistair Francis <alistair.francis@wdc.com>
-wrote:
+Changes since v1
+ * Split off changes to qos virtio-net and qtest server to other patches
+ * Move vl:main initialization into new func: qemu_init
+ * Moved useful functions from qos-test.c to a separate object
+ * Use struct of function pointers for add_fuzz_target(), instead of
+   arguments
+ * Move ramfile to migration/qemu-file
+ * Rewrite fork-based fuzzer pending patch to libfuzzer
+ * Pass check-patch
 
-> Let's create a function that tests if floating point support is
-> enabled. We can then protect all floating point operations based on if
-> they are enabled.
->
-> This patch so far doesn't change anything, it's just preparing for the
-> Hypervisor support for floating point operations.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
-> ---
->  target/riscv/cpu.h        |  6 +++++-
->  target/riscv/cpu_helper.c | 10 ++++++++++
->  target/riscv/csr.c        | 20 +++++++++++---------
->  3 files changed, 26 insertions(+), 10 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0adb307f32..2dc9b17678 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -255,6 +255,7 @@ void riscv_cpu_do_interrupt(CPUState *cpu);
->  int riscv_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
->  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
->  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
-> +bool riscv_cpu_fp_enabled(CPURISCVState *env);
->  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
->  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> @@ -298,7 +299,10 @@ static inline void cpu_get_tb_cpu_state(CPURISCVStat=
-e
-> *env, target_ulong *pc,
->  #ifdef CONFIG_USER_ONLY
->      *flags =3D TB_FLAGS_MSTATUS_FS;
->  #else
-> -    *flags =3D cpu_mmu_index(env, 0) | (env->mstatus & MSTATUS_FS);
-> +    *flags =3D cpu_mmu_index(env, 0);
-> +    if (riscv_cpu_fp_enabled(env)) {
-> +        *flags |=3D env->mstatus & MSTATUS_FS;
-> +    }
->  #endif
->  }
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index f027be7f16..225e407cff 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -71,6 +71,16 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int
-> interrupt_request)
->
->  #if !defined(CONFIG_USER_ONLY)
->
-> +/* Return true is floating point support is currently enabled */
-> +bool riscv_cpu_fp_enabled(CPURISCVState *env)
-> +{
-> +    if (env->mstatus & MSTATUS_FS) {
-> +        return true;
-> +    }
-> +
-> +    return false;
-> +}
-> +
->  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
->  {
->      CPURISCVState *env =3D &cpu->env;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e0d4586760..2789215b5e 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -46,7 +46,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations
-> *ops)
->  static int fs(CPURISCVState *env, int csrno)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->  #endif
-> @@ -108,7 +108,7 @@ static int pmp(CPURISCVState *env, int csrno)
->  static int read_fflags(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->  #endif
-> @@ -119,7 +119,7 @@ static int read_fflags(CPURISCVState *env, int csrno,
-> target_ulong *val)
->  static int write_fflags(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->      env->mstatus |=3D MSTATUS_FS;
-> @@ -131,7 +131,7 @@ static int write_fflags(CPURISCVState *env, int csrno=
-,
-> target_ulong val)
->  static int read_frm(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->  #endif
-> @@ -142,7 +142,7 @@ static int read_frm(CPURISCVState *env, int csrno,
-> target_ulong *val)
->  static int write_frm(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->      env->mstatus |=3D MSTATUS_FS;
-> @@ -154,7 +154,7 @@ static int write_frm(CPURISCVState *env, int csrno,
-> target_ulong val)
->  static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->  #endif
-> @@ -166,7 +166,7 @@ static int read_fcsr(CPURISCVState *env, int csrno,
-> target_ulong *val)
->  static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    if (!env->debugger && !(env->mstatus & MSTATUS_FS)) {
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -1;
->      }
->      env->mstatus |=3D MSTATUS_FS;
-> @@ -307,6 +307,7 @@ static int write_mstatus(CPURISCVState *env, int
-> csrno, target_ulong val)
->  {
->      target_ulong mstatus =3D env->mstatus;
->      target_ulong mask =3D 0;
-> +    int dirty;
->
->      /* flush tlb on mstatus fields that affect VM */
->      if (env->priv_ver <=3D PRIV_VERSION_1_09_1) {
-> @@ -340,8 +341,9 @@ static int write_mstatus(CPURISCVState *env, int
-> csrno, target_ulong val)
->
->      mstatus =3D (mstatus & ~mask) | (val & mask);
->
-> -    int dirty =3D ((mstatus & MSTATUS_FS) =3D=3D MSTATUS_FS) |
-> -                ((mstatus & MSTATUS_XS) =3D=3D MSTATUS_XS);
-> +    dirty =3D (riscv_cpu_fp_enabled(env) &&
-> +             ((mstatus & MSTATUS_FS) =3D=3D MSTATUS_FS)) |
-> +            ((mstatus & MSTATUS_XS) =3D=3D MSTATUS_XS);
->      mstatus =3D set_field(mstatus, MSTATUS_SD, dirty);
->      env->mstatus =3D mstatus;
->
-> --
-> 2.22.0
->
->
-> Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
+Based-on: 20190805032400.8054-1-alxndr@bu.edu
+Based-on: 20190805031240.6024-1-alxndr@bu.edu
+
+---
+As part of Google Summer of Code 2019, I'm working on integrating
+fuzzing of virtual devices into QEMU [1]. This is a highly WIP patchset
+adding this functionality.
+
+Fuzzers provide random data to a program and monitor its execution for
+errors. Coverage-guided fuzzers also observe the parts of the program
+that are exercised by each input, and use this information to
+mutate/guide the inputs to reach additional parts of the program. They
+are quite effective for finding bugs in a wide range of software.=20
+
+Summary:
+ - The virtual-device fuzzers use libfuzzer [2] for coverage-guided
+   in-process fuzzing.
+ - To fuzz a device, create a new fuzz "target" - i.e. a function that
+   exercises QEMU based on inputs provided by the fuzzer.
+ - Fuzz targets rely on qtest and libqos to turn inputs into actions.
+ - Since libfuzzer does in-process fuzzing, the QEMU state needs to be
+   reset after each fuzz run. These patches provide three methods for
+   resetting state.
+ - There are currently few targets, but they have already helped
+   discover bugs in the console, and virtio-net, and have reproduced
+   previously-reported vulnerabilities.
+
+Alexander Oleinik (17):
+  fuzz: Move initialization from main to qemu_init
+  fuzz: Add fuzzer configure options
+  fuzz: Keep memory mapped for fork-based fuzzer
+  fuzz: Skip modules that were already initialized
+  fuzz: Add direct receive function for qtest server
+  fuzz: Add FUZZ_TARGET module type
+  fuzz: Add ramfile qemu-file type
+  fuzz: Export the qemu_savevm_live_state function
+  fuzz: hardcode needed objects into i386 target
+  fuzz: qtest client directly interacts with server
+  fuzz: Move useful qos functions to separate object
+  fuzz: Add fuzzer skeleton
+  fuzz: Add libqos support to the fuzzer
+  fuzz: Add forking support to the fuzzer
+  fuzz: Add general qtest fuzz-target
+  fuzz: Add virtio-net fuzz targets
+  fuzz: Add fuzz accelerator type
+
+ accel/fuzz.c                 |  48 +++++++
+ configure                    |  15 ++
+ exec.c                       |   2 +
+ include/qemu/module.h        |   4 +-
+ include/sysemu/fuzz.h        |  15 ++
+ include/sysemu/qtest.h       |   4 +
+ include/sysemu/sysemu.h      |   5 +
+ migration/qemu-file.c        |  84 +++++++++++
+ migration/qemu-file.h        |  11 ++
+ migration/savevm.c           |   9 +-
+ migration/savevm.h           |   2 +
+ qtest.c                      |  14 ++
+ target/i386/Makefile.objs    |  20 +++
+ tests/fuzz/fuzz.c            | 245 +++++++++++++++++++++++++++++++++
+ tests/fuzz/fuzz.h            |  70 ++++++++++
+ tests/fuzz/fuzzer_hooks.c    |  62 +++++++++
+ tests/fuzz/fuzzer_hooks.h    |  21 +++
+ tests/fuzz/qos_fuzz.c        |  58 ++++++++
+ tests/fuzz/qos_fuzz.h        |  23 ++++
+ tests/fuzz/qos_helpers.c     | 190 +++++++++++++++++++++++++
+ tests/fuzz/qos_helpers.h     |  17 +++
+ tests/fuzz/qtest_fuzz.c      | 260 +++++++++++++++++++++++++++++++++++
+ tests/fuzz/qtest_fuzz.h      |  37 +++++
+ tests/fuzz/virtio-net-fuzz.c | 254 ++++++++++++++++++++++++++++++++++
+ tests/libqos/qos_external.c  | 149 ++++++++++++++++++++
+ tests/libqos/qos_external.h  |   8 ++
+ tests/libqtest.c             |  61 +++++++-
+ tests/libqtest.h             |   6 +
+ tests/qos-test.c             | 132 +-----------------
+ util/module.c                |   7 +
+ vl.c                         |  25 +++-
+ 31 files changed, 1720 insertions(+), 138 deletions(-)
+ create mode 100644 accel/fuzz.c
+ create mode 100644 include/sysemu/fuzz.h
+ create mode 100644 tests/fuzz/fuzz.c
+ create mode 100644 tests/fuzz/fuzz.h
+ create mode 100644 tests/fuzz/fuzzer_hooks.c
+ create mode 100644 tests/fuzz/fuzzer_hooks.h
+ create mode 100644 tests/fuzz/qos_fuzz.c
+ create mode 100644 tests/fuzz/qos_fuzz.h
+ create mode 100644 tests/fuzz/qos_helpers.c
+ create mode 100644 tests/fuzz/qos_helpers.h
+ create mode 100644 tests/fuzz/qtest_fuzz.c
+ create mode 100644 tests/fuzz/qtest_fuzz.h
+ create mode 100644 tests/fuzz/virtio-net-fuzz.c
+ create mode 100644 tests/libqos/qos_external.c
+ create mode 100644 tests/libqos/qos_external.h
+
+--=20
+2.20.1
+
+
