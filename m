@@ -2,130 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD86C825D3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 22:03:53 +0200 (CEST)
-Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5118262F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 22:42:48 +0200 (CEST)
+Received: from localhost ([::1]:56911 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hujCy-00005L-Ly
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 16:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55042)
+	id 1hujod-0000M2-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 16:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hujCK-00082M-1c
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 16:03:14 -0400
+ (envelope-from <bala24@linux.ibm.com>) id 1huhbW-0000zJ-VU
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hujCI-0005Yu-Q1
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 16:03:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42302)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hujCF-00052R-RT; Mon, 05 Aug 2019 16:03:08 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C6B5130FB8F5;
- Mon,  5 Aug 2019 20:03:06 +0000 (UTC)
-Received: from [10.18.17.230] (dhcp-17-230.bos.redhat.com [10.18.17.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDD875C1D4;
- Mon,  5 Aug 2019 20:03:05 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190802185830.74648-1-vsementsov@virtuozzo.com>
- <c784af61-663d-a633-657e-9f7541c9e97b@redhat.com>
- <83854e0f-31a1-0e08-8935-b0f95af94dfc@virtuozzo.com>
- <40bedaee-393e-5b65-7118-ded5b8ad4484@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <7c66ed64-98c1-8749-857a-1e69af75bfed@redhat.com>
-Date: Mon, 5 Aug 2019 16:03:05 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <40bedaee-393e-5b65-7118-ded5b8ad4484@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 05 Aug 2019 20:03:06 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] util/hbitmap: fix unaligned reset
+ (envelope-from <bala24@linux.ibm.com>) id 1huhbV-0008Mj-Pd
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:06 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64436
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
+ id 1huhbV-0008MK-LF
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 14:21:05 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x75I3UIh084859
+ for <qemu-devel@nongnu.org>; Mon, 5 Aug 2019 14:21:03 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2u6rh2jtxy-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 14:21:03 -0400
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
+ Mon, 5 Aug 2019 19:21:01 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 5 Aug 2019 19:21:00 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x75IKxoc50725070
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 5 Aug 2019 18:20:59 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 406BD4C044;
+ Mon,  5 Aug 2019 18:20:59 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 274594C059;
+ Mon,  5 Aug 2019 18:20:58 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.74.191])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  5 Aug 2019 18:20:57 +0000 (GMT)
+From: Balamuruhan S <bala24@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  5 Aug 2019 23:50:30 +0530
+X-Mailer: git-send-email 2.14.5
+X-TM-AS-GCONF: 00
+x-cbid: 19080518-0028-0000-0000-0000038BEB8A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19080518-0029-0000-0000-0000244C49F5
+Message-Id: <20190805182033.27578-1-bala24@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-08-05_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=278 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908050188
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Mon, 05 Aug 2019 16:41:38 -0400
+Subject: [Qemu-devel]  [PATCH 0/3] Add acceptance test for migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,134 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Balamuruhan S <bala24@linux.ibm.com>, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add new test for migration that bringup vm with different machine types and
+migrate it, introduce new API in avocado_qemu to query all the machine
+types supported by qemu.
 
+Test run:
 
-On 8/5/19 5:48 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 05.08.2019 12:26, Vladimir Sementsov-Ogievskiy wrote:
->> 02.08.2019 22:21, John Snow wrote:
->>>
->>>
->>> On 8/2/19 2:58 PM, Vladimir Sementsov-Ogievskiy wrote:
->>>> hbitmap_reset is broken: it rounds up the requested region. It leads=
- to
->>>> the following bug, which is shown by fixed test:
->>>>
->>>> assume granularity =3D 2
->>>> set(0, 3) # count becomes 4
->>>> reset(0, 1) # count becomes 2
->>>>
->>>> But user of the interface assume that virtual bit 1 should be still
->>>> dirty, so hbitmap should report count to be 4!
->>>>
->>>> In other words, because of granularity, when we set one "virtual" bi=
-t,
->>>> yes, we make all "virtual" bits in same chunk to be dirty. But this
->>>> should not be so for reset.
->>>>
->>>> Fix this, aligning bound correctly.
->>>>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.co=
-m>
->>>> ---
->>>>
->>>> Hi all!
->>>>
->>>> Hmm, is it a bug or feature? :)
->>>
->>> Very, very good question.
->>>
->>>> I don't have a test for mirror yet, but I think that sync mirror may=
- be broken
->>>> because of this, as do_sync_target_write() seems to be using unalign=
-ed reset.
->>>>
->>>
->>> Honestly I was worried about this -- if you take a look at my patches
->>> where I add new bitmap sync modes, I bent over backwards to align
->>> requests for the sync=3Dtop bitmap initialization methods because I w=
-as
->>> worried about this possibly being the case.
->>>
->>>
->>> I'm not sure what the "right" behavior ought to be.
->>>
->>> Let's say you have a granularity of 8 bytes:
->>>
->>> if you reset 0-3 in one call, and then 4-7 in the next, what happens?=
- If
->>> the caller naively thinks there's a 1:1 relationship, it might actual=
-ly
->>> expect that to reflect a cleared bit. With alignment protection, we'l=
-l
->>> just fail to clear it both times and it remains set.
->>>
->>> On the other hand, if you do allow partial clears, the first reset fo=
-r
->>> 0-3 will toggle off 4-7 too, where we might rely on the fact that it'=
-s
->>> actually still dirty.
->>>
->>> Whether or not that's dangerous depends on the context, and only the
->>> caller knows the context. I think we need to make the semantic effect=
- of
->>> the reset "obvious" to the caller.
->>>
->>>
->>> I envision this:
->>>
->>> - hbitmap_reset(bitmap, start, length)
->>> =C2=A0=C2=A0 returns -EINVAL if the range is not properly aligned
->>
->> hbitmap_reset don't return, I thinks it should be an assertion
->=20
-> don't return any value
->=20
+# avocado run migration.py
+JOB ID     : ef54f57a073eb267d2347e32225f2adbe27969de
+JOB LOG    : /home/bala/avocado-fvt-wrapper/results/job-2019-08-05T13.54-ef54f57/job.log
+ (1/2) migration.py:Migration.test_migration_with_tcp_localhost: PASS (0.54 s)
+ (2/2) migration.py:Migration.test_migration_with_machine_types: PASS (5.21 s)
+RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+JOB TIME   : 5.86 s
 
-Works for me.
+Currently acceptance test for migration error out as we check `query-migrate`
+in target after migration which is not appropriate.
 
->>
->>>
->>> - hbitmap_reset_flags(bitmap, flags, start, length)
->>> =C2=A0=C2=A0 if (flags & HBITMAP_ALIGN_DOWN) align request to only fu=
-ll bits
->>> =C2=A0=C2=A0 if (flags & HBITMAP_ALIGN_UP) align request to cover any=
- bit even
->>> partially touched by the specified range
->>> =C2=A0=C2=A0 otherwise, pass range through as-is to hbitmap_reset (an=
-d possibly get
->>> -EINVAL if caller did not align the request.)
->>>
->>>
->>> That way the semantics are always clear to the caller.
->>
->> Hmm, I doubt, is there any use of ALIGN_UP? In most cases it's safe to=
- thing that
->> something clear is dirty (and this is how hbitmap actually works on se=
-t/get), but
->> it seems always unsafe to ALIGN_UP reset..
->>
->> So, I think that it should be default to ALIGN_DOWN, or just an assert=
-ion that request
->> is aligned (which anyway leads to implementing a helper hbitmap_reset_=
-align_up)..
->=20
-> hbitmap_reset_align_down I mean.
->=20
-There might not be one at the moment -- it's just the existing behavior
-so I catered to it. I'd definitely just omit it if no callers need that
-semantic.
+Balamuruhan S (3):
+  tests/acceptance/migration: fix post migration check
+  tests/acceptance/avocado_qemu: add method to get supported machine
+    types
+  tests/acceptance/migration: test to migrate will all machine types
 
-So we'd have a "strict aligned" mode and a "clamped down" mode, which
-probably gives us what we need in all current cases.
+ tests/acceptance/avocado_qemu/__init__.py |  6 ++++++
+ tests/acceptance/migration.py             | 27 ++++++++++++++++++++++++++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
 
-(Still catching up on all of today's emails, though.)
+-- 
+2.14.5
 
---js
 
