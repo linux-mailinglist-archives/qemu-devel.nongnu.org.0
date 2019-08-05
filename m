@@ -2,99 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADE6812E6
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:17:01 +0200 (CEST)
-Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99E9812F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 09:19:27 +0200 (CEST)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huXEr-0006b2-1X
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:17:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1huXHC-00021t-UU
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 03:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37847)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alxndr@bu.edu>) id 1huX9L-0003iE-FB
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:20 -0400
+ (envelope-from <chihmin.chao@sifive.com>) id 1huXBh-0001se-14
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:13:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1huX9K-00025D-GJ
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:19 -0400
-Received: from mail-eopbgr680126.outbound.protection.outlook.com
- ([40.107.68.126]:42366 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1huX9K-00023d-Ap
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:11:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XDFu94Pcy4BQZ+6RI+fa0MWUPkhQp/pngfJn6sHd6hNWH1mJWxBl9/h/MTKP0UnsRE2C/AKuZrvyYoMgFS+aGG94xb1q6yKn0+rETZvmF1/CBP+bz8nNVkHUpys6IwIa5k1S/2IG70dg8tMOjALdU2y8i2rEU+tRPBNaeVv1HYc/bsY4NKk0H/4dV0M8ofY5rCMjGaILBiP05aeRiwlLVPpbxTmcxKGqNRgKH5QzVW65a/8G35u9Lr/4xEwDKBPxv+fj15wf8BfryG1pmGnQC/+AxMAjyf9RxEtk/YUbZurIAHS+p2ceiIfmz2xBaIOzgKas5GeBCy1f0WNs1FDTuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8l8lnhPsOGDgd7skocNOZch6EG2f6gyeDYi2ODejIW0=;
- b=W3dPlGtsZaLAldvxJgvwupiRowY/PxpXcMbD+2pFrVv2JWCwtLiMwzcunKQFtv1qmZ9d1zwhXts4Er9OBItUzbAW4vncwN2rqnP2OlSJEeuUBolUPpzOYCzKHQjaR1hRy7WMGvJmnszHit4VCktTnLrb/KnbNq16kURDrupYasaSDyLK01ebS/wa/LElPn+7o73Pn2AofZ72hBM6prhD07VFUQ/YPytEv56CzIKkKEBCpYVe9g+s8N4b+BbtzoWtFW734l9tesV1b9WzzPRR2T+4sitgYrlpHwhsDPmu5blDBHgLQ+spq1nSm9pp3g6ox/rPguqjzFeyfSXF3E1vJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=bu.edu;dmarc=pass action=none header.from=bu.edu;dkim=pass
- header.d=bu.edu;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8l8lnhPsOGDgd7skocNOZch6EG2f6gyeDYi2ODejIW0=;
- b=hWQo1Qb2iaL7fhkpKvhDfTNbaqlc23G0ARi6Q/WgfRUnVLM5UioBa/KxJzpywpHr267AF+NsqS0QXKV2mFgqVGeIoRlM2gNkZ77OYD/WnW4DotvUUSWG3sfs0/vQ8qj3R8TegFBQAvhhNhIEUOPFfPSFzT64mq3ZzCeYtduykcQ=
-Received: from CY4PR03MB2872.namprd03.prod.outlook.com (10.175.118.17) by
- CY4PR03MB2646.namprd03.prod.outlook.com (10.173.43.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 07:11:17 +0000
-Received: from CY4PR03MB2872.namprd03.prod.outlook.com
- ([fe80::6cce:cc85:9e3:d33a]) by CY4PR03MB2872.namprd03.prod.outlook.com
- ([fe80::6cce:cc85:9e3:d33a%4]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 07:11:17 +0000
-From: "Oleinik, Alexander" <alxndr@bu.edu>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v2 17/17] fuzz: Add fuzz accelerator type
-Thread-Index: AQHVS1z5W3/msAY5EkOGLIdOZGp/TA==
-Date: Mon, 5 Aug 2019 07:11:17 +0000
-Message-ID: <20190805071038.32146-18-alxndr@bu.edu>
-References: <20190805071038.32146-1-alxndr@bu.edu>
-In-Reply-To: <20190805071038.32146-1-alxndr@bu.edu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [128.197.127.33]
-x-clientproxiedby: BL0PR02CA0068.namprd02.prod.outlook.com
- (2603:10b6:207:3d::45) To CY4PR03MB2872.namprd03.prod.outlook.com
- (2603:10b6:903:134::17)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 071fca2f-bf7b-4f32-e28f-08d719741c09
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:CY4PR03MB2646; 
-x-ms-traffictypediagnostic: CY4PR03MB2646:
-x-microsoft-antispam-prvs: <CY4PR03MB26460FEB89A913B17D0BF721BADA0@CY4PR03MB2646.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:296;
-x-forefront-prvs: 01208B1E18
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(189003)(199004)(71200400001)(71190400001)(6916009)(186003)(2351001)(1076003)(76176011)(6436002)(53936002)(86362001)(5640700003)(52116002)(6512007)(26005)(5660300002)(102836004)(386003)(6506007)(2501003)(66066001)(75432002)(6486002)(66476007)(2906002)(88552002)(4326008)(8676002)(316002)(786003)(50226002)(54906003)(81166006)(14454004)(81156014)(68736007)(476003)(2616005)(11346002)(446003)(486006)(36756003)(66446008)(66946007)(256004)(64756008)(25786009)(99286004)(478600001)(6116002)(3846002)(7736002)(305945005)(66556008)(8936002)(42522002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR03MB2646;
- H:CY4PR03MB2872.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: bu.edu does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: IICle/Vs1sb/3LKzdu+yYdxNkSPuBL/HOHiZezQeANBmy58F3ydkubeNHhG3rYFzsaVmG7dRyvu84EXSH/xIgg/m7vx13xECQG8yhmlxAIF84kVJIjTYuWZMqUEYm9z9M4spDWbzr5kQfFg/CgP/04Y4XMwRtwlxa7AUxo6gGPh7wVAZ/GyGzFyChOUA/kIMwLt0zWAOHZzrBviK49FM/mDy4CU+AKQaIERFwnIhFIcXfU6k42jzqN+X5U2o/t6qWq+ZXBXoimSMVvyPGrau58aCOwOXwoUW4xLkX0uNmYQPJCq1m3MvXQNqihlzdfhdBBJ5EjZ31C5TUVLaVwz5MuXmGWkrLVLRNGbtadGyap1pK/E3s9uvT6UfVXKbxC+nDYJsfdmRQU37YsfZ/7lgsUgUDHsNjYpbIOuSK4XeG9U=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <chihmin.chao@sifive.com>) id 1huXBf-00037G-2W
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:13:44 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:43575)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chihmin.chao@sifive.com>)
+ id 1huXBd-00036G-2C
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 03:13:41 -0400
+Received: by mail-io1-xd44.google.com with SMTP id k20so11961262ios.10
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 00:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NyuxMo6Lz6AGtZo584o2I6qBlHqY92fe2F0vBgo45qw=;
+ b=a5gWgFDoqu68WsAI3Juxo5s6+VGxatY3nbTqDpDecH7g7UlXYK9O9B9+nYJ1yxZJaA
+ rVj3bWAu97LfmRywESzTzpWY6fhC7HdH85NNSC2G9Am//nQrEvaoQ90CiZtrcUpNBsmE
+ yPnyGalUwkilVXunQSRz5gEDO3Fhj7T3xZm9kJHPVJzkdBO23qURJ8PAShBneAo2x6fT
+ IsaCbXtBAPLyHCFuexzyNyJAVrEA8SI5nr4556Rw8vEKzCnvhNNlN5F+FiWHHkRa/7ZG
+ b7qgfboatQ9jLUjKXtsYbtwGCfrjyT/k+gz4tptv/MONqkp/ZI54txLB+pUzpgg4ECYe
+ 3+kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NyuxMo6Lz6AGtZo584o2I6qBlHqY92fe2F0vBgo45qw=;
+ b=LrVc/deZZy74jRy/rzkY+cs/f0xErHOUWmXnSOEjU6yren98q58Bbq58pIP1BPbmsl
+ QydP26zkC3j6r8DDaXrkcBzrRhuiNma1e3YqYqPFmNkisWVYl1+IgMwA77C4mC8DCkXR
+ P4ghf6pcW8brvGEzczUBmODBOfYvOqY6ONWisCXccmxsEFtYPlOnZnNP/PnoYiy4LJYc
+ /Fls583TVi+ccTt7D+eqtHFifHpbKmFyYFkbSU67HENDQfZtH93H3caC9EzZ27WS4YeU
+ RH7RYllAJix+EwrH46cucPGXH64vu+/C8R9NzWIASrYHm5p7qZf4hFq32uxCZp8c8NOK
+ DcsA==
+X-Gm-Message-State: APjAAAWXr3ohQ2DtX23ge80RhkG/8reqHaNU85LhntLCSNuU0WHUp6kA
+ 3BCYeP43C+vEc2cyg4OggbBspWN8etGTqTV15sJvIg==
+X-Google-Smtp-Source: APXvYqzl40yVpYMwuGa9jP0xUHZ6Nhiq6W4dLrEQRRfrWPuSt1tAqMpoCfdNGZ3KxZUHFpGBr2sitxhFNiPdvQD9Vtg=
+X-Received: by 2002:a02:a07:: with SMTP id 7mr154561604jaw.65.1564989220213;
+ Mon, 05 Aug 2019 00:13:40 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 071fca2f-bf7b-4f32-e28f-08d719741c09
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 07:11:17.5724 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: alxndr@bu.edu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR03MB2646
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.126
-Subject: [Qemu-devel] [RFC PATCH v2 17/17] fuzz: Add fuzz accelerator type
+References: <1564812484-20385-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1564812484-20385-1-git-send-email-bmeng.cn@gmail.com>
+From: Chih-Min Chao <chihmin.chao@sifive.com>
+Date: Mon, 5 Aug 2019 15:13:27 +0800
+Message-ID: <CAEiOBXW5Z5Jp7ooR+TQ5HcAdW2MoVTZQ9kZsqqw5P-yaPWtVUA@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d44
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [Qemu-riscv] [FOR 4.1 PATCH] riscv: roms: Fix make
+ rules for building sifive_u bios
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,97 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "Oleinik, Alexander" <alxndr@bu.edu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
----
- accel/fuzz.c          | 48 +++++++++++++++++++++++++++++++++++++++++++
- include/sysemu/fuzz.h | 15 ++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 accel/fuzz.c
- create mode 100644 include/sysemu/fuzz.h
+On Sat, Aug 3, 2019 at 2:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-diff --git a/accel/fuzz.c b/accel/fuzz.c
-new file mode 100644
-index 0000000000..9af989aaa1
---- /dev/null
-+++ b/accel/fuzz.c
-@@ -0,0 +1,48 @@
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "qemu/option.h"
-+#include "qemu/config-file.h"
-+#include "sysemu/accel.h"
-+#include "sysemu/fuzz.h"
-+#include "sysemu/cpus.h"
-+
-+
-+static void fuzz_setup_post(MachineState *ms, AccelState *accel)
-+{
-+}
-+
-+static int fuzz_init_accel(MachineState *ms)
-+{
-+    QemuOpts *opts =3D qemu_opts_create(qemu_find_opts("icount"), NULL, 0,
-+                                      &error_abort);
-+    qemu_opt_set(opts, "shift", "0", &error_abort);
-+    configure_icount(opts, &error_abort);
-+    qemu_opts_del(opts);
-+    return 0;
-+}
-+
-+static void fuzz_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelClass *ac =3D ACCEL_CLASS(oc);
-+    ac->name =3D "fuzz";
-+    ac->init_machine =3D fuzz_init_accel;
-+    ac->setup_post =3D fuzz_setup_post;
-+    ac->allowed =3D &fuzz_allowed;
-+}
-+
-+#define TYPE_FUZZ_ACCEL ACCEL_CLASS_NAME("fuzz")
-+
-+static const TypeInfo fuzz_accel_type =3D {
-+    .name =3D TYPE_FUZZ_ACCEL,
-+    .parent =3D TYPE_ACCEL,
-+    .class_init =3D fuzz_accel_class_init,
-+};
-+
-+static void fuzz_type_init(void)
-+{
-+    type_register_static(&fuzz_accel_type);
-+}
-+
-+type_init(fuzz_type_init);
-+
-diff --git a/include/sysemu/fuzz.h b/include/sysemu/fuzz.h
-new file mode 100644
-index 0000000000..09a2a9ffdf
---- /dev/null
-+++ b/include/sysemu/fuzz.h
-@@ -0,0 +1,15 @@
-+#ifndef FUZZ_H
-+#define FUZZ_H
-+
-+bool fuzz_allowed;
-+
-+static inline bool fuzz_enabled(void)
-+{
-+    return fuzz_allowed;
-+}
-+
-+bool fuzz_driver(void);
-+
-+void fuzz_init(const char *fuzz_chrdev, const char *fuzz_log, Error **errp=
-);
-+
-+#endif
---=20
-2.20.1
-
-
+> Currently the make rules are wrongly using qemu/virt opensbi image
+> for sifive_u machine. Correct it.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> ---
+>
+>  roms/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/roms/Makefile b/roms/Makefile
+> index dc70fb5..775c963 100644
+> --- a/roms/Makefile
+> +++ b/roms/Makefile
+> @@ -183,7 +183,7 @@ opensbi64-sifive_u:
+>         $(MAKE) -C opensbi \
+>                 CROSS_COMPILE=$(riscv64_cross_prefix) \
+>                 PLATFORM="qemu/sifive_u"
+> -       cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin
+> ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+> +       cp opensbi/build/platform/qemu/sifive_u/firmware/fw_jump.bin
+> ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>
+>  clean:
+>         rm -rf seabios/.config seabios/out seabios/builds
+> --
+> 2.7.4
+>
+>
+Reviewed-by: Chih-Min Chao <chihmin.chao@sifive.com>
