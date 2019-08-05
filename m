@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE701811CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 07:56:32 +0200 (CEST)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0CA811CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 07:56:18 +0200 (CEST)
+Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huVyy-0005XK-73
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 01:56:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
+	id 1huVyi-0004ZR-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 01:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53495)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liq3ea@gmail.com>) id 1huVxl-0004CZ-Ko
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:18 -0400
+ (envelope-from <jan.kiszka@web.de>) id 1huVxY-0003sJ-HE
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1huVxh-0000tO-VM
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:17 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:40807)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>)
- id 1huVxh-0000q7-Ew; Mon, 05 Aug 2019 01:55:13 -0400
-Received: by mail-ot1-x330.google.com with SMTP id l15so26862823oth.7;
- Sun, 04 Aug 2019 22:55:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9hyi04J0H3wT5hTaXQ1DhUxm+HPNipAaYz5/GyRwLMg=;
- b=kej8D3akmIz7Log440nkQeFKb330sPr8VT82mBZgr8tD4HR8tFVJhqq/RGDL6VkU6o
- wDW/Iwk/qRprOnVWZR+q841iAT7u6PRDqW9a0sQnkMhZFxXuUaNfwQWvmr9mIiQVPY65
- k9EaiNxm8HE8uTRunABxL1r7xMXVLnICYq/hKtGu8Q/04nCxBfyzXZkhLOqpEMnHplAP
- nEbxzsAR9KWKJI7SF01gwUKTF4O+2Hr4aJDrK4mCtGvvDCfjtXtKTDP9bVfXPQfPe3sF
- JU1iVEdOOWgRacO0b5dWYr3HpzHch1pOEExxXm1Ogc256K0sKqu2/16Pad8KxgnbgMOr
- V27A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9hyi04J0H3wT5hTaXQ1DhUxm+HPNipAaYz5/GyRwLMg=;
- b=hgPpNCcYt0u16HWUAtOjzu+o2/X03iAMb/Ot6M+TVtZ3cfwvQnxTcd75RZPxIalf+U
- Adi+iXZZj7oybNX7Dq3FgSL4BormWcHzCecR1wOKb/Otq8hmanl/y9bHPuIS+iqNKaXz
- F0J3z1u98A9tFZnXX/5dGFKJHwu8BNK69lL++ngDg+6DdFdu4zJHDtspO8q4ZJaioTbs
- U5qbRaEktN/x4uB3IJiWSizjeWChd/MH94ko54wl6N4TiO43YYG9gmBLt6bDQAF3AHlh
- SN7wl2Ml3ult/nVzgi1euhzbJIiFwINihyr8fffTOAGahTRwvIluqhpmbnZxOMhDDLXZ
- TpqQ==
-X-Gm-Message-State: APjAAAVsjB6TZTwGwcvZ7lCvI3O9mgBIiqqp8FrbfOyH0IP2HGJW4vFh
- Nt9Ay3TTI0e8xGLvKyf3hcJ5RmZyzyHS7Wl3188=
-X-Google-Smtp-Source: APXvYqw/YNyXfjmzunOJ2rfP4diN2mWlj+Jj564CFqj8R/pABwC0JntvIqQXBkaa6yUbdnjdjZx4jywqc9Hkv5EAOtA=
-X-Received: by 2002:a05:6830:1291:: with SMTP id
- z17mr48610638otp.194.1564984512406; 
- Sun, 04 Aug 2019 22:55:12 -0700 (PDT)
+ (envelope-from <jan.kiszka@web.de>) id 1huVxX-0000cC-JD
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:04 -0400
+Received: from mout.web.de ([212.227.15.3]:33223)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jan.kiszka@web.de>) id 1huVxX-0000Y5-Ah
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 01:55:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1564984495;
+ bh=lR32kpDBJo3e07clQakH1YlWN5vRGa+qe46CvdhT5Xk=;
+ h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
+ b=gH0Yqx/Ik1akr3/+shOZ0nDJ/3Tlwh+JFjrrS3HklOZXxEcHeUv77OsDMumKofNYT
+ exvRWILsOFkL7LKkOv4E3ZbMakvR2WP6RkoXzC3PIncK9fKU68ciT7ixGh/3DpOTQT
+ 1P0vggNPOjeO1gS5fA6+HEkwfToP1n90Snh6mEY0=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.10] ([95.157.55.156]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LkhUq-1iSTCE2vye-00aUZC; Mon, 05
+ Aug 2019 07:54:54 +0200
+To: qemu-devel <qemu-devel@nongnu.org>
+From: Jan Kiszka <jan.kiszka@web.de>
+Message-ID: <d938a62c-7538-9d2b-cc0a-13b240ab9141@web.de>
+Date: Mon, 5 Aug 2019 07:54:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <7f455f0d.730d.16c5fdc21af.Coremail.hope2hope@163.com>
- <CAKXe6SKMS__GaxTL4rkTBFpCpRkRS_bHoJx8=6w6WktFr5K9XQ@mail.gmail.com>
- <70dbf96f.87bc.16c60385de4.Coremail.hope2hope@163.com>
-In-Reply-To: <70dbf96f.87bc.16c60385de4.Coremail.hope2hope@163.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 5 Aug 2019 13:54:36 +0800
-Message-ID: <CAKXe6S+Eu29SrVrGcCO-wrtQqmMa6Q-MXnsFV03ddx1LrXBYKA@mail.gmail.com>
-To: ddm <hope2hope@163.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::330
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] How to configure QEMU to support APIC
- virtualization
+X-Provags-ID: V03:K1:uMiBHAFbEqbRBFwA8NmGyfubxwMOKuHVefjpem3DQWUjWOK0IYy
+ 09SkZw3vz94KUbNhb03fWB1AEyPL8ygAzj6oxcwa5eWyyJ/mNP6ES/QnstcFnDTlhY9KSHA
+ wPsAqtKwK3r14VuiNREhC0Atj4xi2OytcAf3LyN8g0dQIeoXG4cDTaq6L/Q4lDpiDsgIh3H
+ uwpDrZbUL6yj8liaP8bVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LXIUFlXAf7g=:SVltVkaGnJYfO9C0BINb3m
+ Vd0/wad+Fl5B0bRLESSL0Rdp4n3rQ/KsxSxfm4WPCJhkyEvqQTNDuRxarSH+ZUvoO8Y/8zCbk
+ 6HSGykAn2fuTUy76CV8Y/FtqYlZf+ceCEDp58k40sosJLsrpRsgADol4CG0jR3tMyClX6bBno
+ ICFH3JHS2nbqkisBXXpSxD2yVz8u7C0LEsAuv5xzR5w38TrRoZPhmxMYUEr/gFrf2ldNCqTQi
+ XE+gCBGMYZgu8kIZL/gdkQTAKh62hjXAw6MrN7Jt1s3gWt5gJruVTnQKZgSZcBJOj23hopzkV
+ TNjYMMSRoZFOPitnWjrU1mKB+AbS46eLPuGOjbn7B7Yt/m8bfGRs3P/mwNgVbFp8g0pd8LRi2
+ SKSGRZmzEPFu7UVMYYJAUlwY7zA+qw5BV742qGeiR9my2jrqHaTAoe3j8pn1ru6C+6NkBuX0j
+ My0/5q+qmfyIfxnW2FbU5aECgLqtAp/8EB2BqNEgkji2+VNjx5DXfZz5XNVsyQURCkTRUQlnH
+ vsnxYzgm6YKqzmtYD7fd/8yiqEDb8SauGPcJoQD90dJN9nBhbrcU4cqP9dvJGYOwKA11ari2z
+ dg1V1d1ycd7GhjsjnsSZ+0v579hlOQV6RNHMAJ+SbV8jYfBXwD+Amcv5UeYGsD5cDNs9KLsl+
+ yiS275N0qmXmUO0902gSMOLnDzrQKu7lGxyIK7qiwK9PjxXywGf91FsaiRyjxM/13Q4OtTIOJ
+ 5WXCPc87CwW1GZz/dcnpWrzxsJ5+gj+FMK5VFPUKHnynqrk8zKuekORBMjDyaLL05hmnGB/NT
+ Zh/Rc+xCOYXomp3Mm3LbdELedhVY5Wa0ZejN/N/bWoaUJ2lZYFrEQrXinbVf7QnweaJeLzBrc
+ DoTbOe1xwUUCPmoEA4f+mX1BDKJtCPh7N04niTPvYMz9YsMVRt2wKiBmsh0i2yGmLdhn1BPP5
+ qTjuh1gHlNmTJuggBN2gjhYo5yZIyUzz7gpGIZlwLeuc1ybQnDSnKj4ncXePmR6SwsVN3ylca
+ JCh0bkS/67eNWf5RyFtJpeE2kzFlwzfVxAvB3uAYQSGp6noLw6MojOW9GxTNUdKXnmLOc/jeR
+ g3DB22btWdKiy8ku7wR+XJ0vyZMrLBmXjLilVa5aPiNP3G6P5vOTF7jBN4Bi3dSm7bf2hU1r8
+ O1zS8=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.15.3
+Subject: [Qemu-devel] [PATCH v2] ivshmem-server: Clean up shmem on shutdown
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,106 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+Cc: Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ddm <hope2hope@163.com> =E4=BA=8E2019=E5=B9=B48=E6=9C=885=E6=97=A5=E5=91=A8=
-=E4=B8=80 =E4=B8=8B=E5=8D=881:20=E5=86=99=E9=81=93=EF=BC=9A
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-> Hi,
->
-> As i know, KVM is based on passthrough host cpu to implement
-> full-virtualiztion,
-> if host cpu doesn't support this feature, it's impossible to turn on this
-> feature by KVM.
-> Wheher there are another ways in QEMU to emulate this feature=EF=BC=8Csuc=
-h as
-> emulate it based on pure software, not rely on hardware.
->
->
-IIUC there is no APICv emulate.
+So far, the server leaves the posix shared memory object behind when
+terminating, requiring the user to explicitly remove it in order to
+start a new instance.
 
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+=2D--
 
-Thanks,
-Li Qiang
+Changes in v2:
+ - respect use_shm_open
+ - also clean up in ivshmem_server_start error path
 
+ contrib/ivshmem-server/ivshmem-server.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
+diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-ser=
+ver/ivshmem-server.c
+index 77f97b209c..88daee812d 100644
+=2D-- a/contrib/ivshmem-server/ivshmem-server.c
++++ b/contrib/ivshmem-server/ivshmem-server.c
+@@ -353,6 +353,9 @@ ivshmem_server_start(IvshmemServer *server)
+ err_close_sock:
+     close(sock_fd);
+ err_close_shm:
++    if (server->use_shm_open) {
++        shm_unlink(server->shm_path);
++    }
+     close(shm_fd);
+     return -1;
+ }
+@@ -370,6 +373,9 @@ ivshmem_server_close(IvshmemServer *server)
+     }
 
-> Thanks!
->
->
-> At 2019-08-05 12:42:55, "Li Qiang" <liq3ea@gmail.com> wrote:
->
->
->
-> ddm <hope2hope@163.com> =E4=BA=8E2019=E5=B9=B48=E6=9C=885=E6=97=A5=E5=91=
-=A8=E4=B8=80 =E4=B8=8A=E5=8D=8811:55=E5=86=99=E9=81=93=EF=BC=9A
->
->> Hi guys,
->>
->>
->> I have tried via modprobe kvmintel enable_apicv=3DY  to adjust KVM
->> parameter, but it doesn't effect,  and
->> cat /sys/module/kvm_intel/parameters/enable_apicv always return "N".
->> I don't know how to configure KVM or QEMU to support APIC virtualizaion
->> feature?
->>
->>
-> AFAICT APICv is hardware feature, but I still don't know accurately after
-> which CPU support it.
-> You may refer the code about 'enable_apicv' related code in kvm to see ho=
-w
-> to detect this capability.
->
-> Thanks,
-> Li Qiang
->
->
->>
->> My host infos are as follows:
->> Architecture:          x86_64
->> CPU op-mode(s):        32-bit, 64-bit
->> Byte Order:            Little Endian
->> CPU(s):                1
->> On-line CPU(s) list:   0
->> Thread(s) per core:    1
->> Core(s) per socket:    1
->> Socket(s):             1
->> NUMA node(s):          1
->> Vendor ID:             GenuineIntel
->> CPU family:            6
->> Model:                 142
->> Model name:            Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz
->> Stepping:              10
->> CPU MHz:               2112.001
->> BogoMIPS:              4224.00
->> Virtualization:        VT-x
->> Hypervisor vendor:     VMware
->> Virtualization type:   full
->> L1d cache:             32K
->> L1i cache:             32K
->> L2 cache:              256K
->> L3 cache:              8192K
->> NUMA node0 CPU(s):     0
->> Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep mtrr
->> pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb
->> rdtscp lm constant_tsc arch_perfmon nopl xtopology tsc_reliable nonstop_=
-tsc
->> cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe
->> popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm a=
-bm
->> 3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp
->> tpr_shadow vnmi ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2
->> invpcid rtm rdseed adx smap xsaveopt arat flush_l1d arch_capabilities
->>
->>
->> Could you tell me how to configure it?
->>
->>
->> Thanks!
->>
->>
->
->
->
+     unlink(server->unix_sock_path);
++    if (server->use_shm_open) {
++        shm_unlink(server->shm_path);
++    }
+     close(server->sock_fd);
+     close(server->shm_fd);
+     server->sock_fd =3D -1;
+=2D-
+2.16.4
+
