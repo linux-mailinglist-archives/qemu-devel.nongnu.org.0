@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5CB8205C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:35:50 +0200 (CEST)
-Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C6C8204A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:32:57 +0200 (CEST)
+Received: from localhost ([::1]:54950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huf1Z-00021R-QO
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52088)
+	id 1hueym-0004Jx-Hl
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:32:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52112)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david@redhat.com>) id 1huewH-0002hZ-Cn
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:22 -0400
+ (envelope-from <david@redhat.com>) id 1huewI-0002kM-KU
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1huewF-0000gt-En
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56708)
+ (envelope-from <david@redhat.com>) id 1huewH-0000i7-GI
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:30:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37814)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david@redhat.com>)
- id 1huewD-0000eK-RS; Mon, 05 Aug 2019 11:30:19 -0400
+ id 1huewH-0000gD-BJ; Mon, 05 Aug 2019 11:30:21 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3C1E63084295;
- Mon,  5 Aug 2019 15:30:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C3F18E8CD8;
+ Mon,  5 Aug 2019 15:30:17 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-48.ams2.redhat.com [10.36.117.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF64960F88;
- Mon,  5 Aug 2019 15:30:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82D1D60F88;
+ Mon,  5 Aug 2019 15:30:13 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  5 Aug 2019 17:29:42 +0200
-Message-Id: <20190805152947.28536-5-david@redhat.com>
+Date: Mon,  5 Aug 2019 17:29:43 +0200
+Message-Id: <20190805152947.28536-6-david@redhat.com>
 In-Reply-To: <20190805152947.28536-1-david@redhat.com>
 References: <20190805152947.28536-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 05 Aug 2019 15:30:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Mon, 05 Aug 2019 15:30:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH-for-4.2 v1 4/9] s390x/mmu: Add EDAT2
- translation support
+Subject: [Qemu-devel] [PATCH-for-4.2 v1 5/9] s390x/mmu: Implement
+ access-exception-fetch/store-indication facility
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,46 +63,52 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This only adds basic support to the DAT translation, but no EDAT2 support
-for TCG. E.g., the gdbstub under kvm uses this function, too, to
-translate virtual addresses.
+We always have to indicate whether it is a fetch or a store for all acces=
+s
+exceptions. This is only missing for LAP exceptions.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mmu_helper.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/s390x/mmu_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index de7798284d..5c9c7d385d 100644
+index 5c9c7d385d..f3e988e4fd 100644
 --- a/target/s390x/mmu_helper.c
 +++ b/target/s390x/mmu_helper.c
-@@ -139,6 +139,7 @@ static int mmu_translate_asce(CPUS390XState *env, tar=
-get_ulong vaddr,
+@@ -333,7 +333,7 @@ int mmu_translate(CPUS390XState *env, target_ulong va=
+ddr, int rw, uint64_t asc,
+         *flags |=3D PAGE_WRITE_INV;
+         if (is_low_address(vaddr) && rw =3D=3D MMU_DATA_STORE) {
+             if (exc) {
+-                trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO,=
+ 0);
++                trigger_access_exception(env, PGM_PROTECTION, ilen, tec)=
+;
+             }
+             return -EACCES;
+         }
+@@ -511,6 +511,8 @@ void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uintp=
+tr_t ra)
+ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+                        target_ulong *addr, int *flags)
  {
-     const bool edat1 =3D (env->cregs[0] & CR0_EDAT) &&
-                        s390_has_feat(S390_FEAT_EDAT);
-+    const bool edat2 =3D edat1 && s390_has_feat(S390_FEAT_EDAT_2);
-     const int asce_tl =3D asce & ASCE_TABLE_LENGTH;
-     const int asce_p =3D asce & ASCE_PRIVATE_SPACE;
-     hwaddr gaddr =3D asce & ASCE_ORIGIN;
-@@ -234,9 +235,16 @@ static int mmu_translate_asce(CPUS390XState *env, ta=
-rget_ulong vaddr,
-         if ((entry & REGION_ENTRY_TT) !=3D REGION_ENTRY_TT_REGION3) {
-             return PGM_TRANS_SPEC;
++    uint64_t tec =3D (raddr & TARGET_PAGE_MASK) |
++                   (rw =3D=3D MMU_DATA_STORE ? FS_WRITE : FS_READ);
+     const bool lowprot_enabled =3D env->cregs[0] & CR0_LOWPROT;
+=20
+     *flags =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+@@ -518,7 +520,7 @@ int mmu_translate_real(CPUS390XState *env, target_ulo=
+ng raddr, int rw,
+         /* see comment in mmu_translate() how this works */
+         *flags |=3D PAGE_WRITE_INV;
+         if (is_low_address(raddr) && rw =3D=3D MMU_DATA_STORE) {
+-            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, 0);
++            trigger_access_exception(env, PGM_PROTECTION, ILEN_AUTO, tec=
+);
+             return -EACCES;
          }
-+        if (edat2 && (entry & REGION3_ENTRY_CR) && asce_p) {
-+            return PGM_TRANS_SPEC;
-+        }
-         if (edat1 && (entry & REGION_ENTRY_P)) {
-             *flags &=3D ~PAGE_WRITE;
-         }
-+        if (edat2 && (entry & REGION3_ENTRY_FC)) {
-+            *raddr =3D entry & REGION3_ENTRY_RFAA;
-+            return 0;
-+        }
-         if (VADDR_SEGMENT_TL(vaddr) < (entry & REGION_ENTRY_TF) >> 6 ||
-             VADDR_SEGMENT_TL(vaddr) > (entry & REGION_ENTRY_TL)) {
-             return PGM_SEGMENT_TRANS;
+     }
 --=20
 2.21.0
 
