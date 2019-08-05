@@ -2,51 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCC7818CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 14:04:56 +0200 (CEST)
-Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDFA818F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 14:15:09 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hubjT-0003rd-Gd
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 08:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40765)
+	id 1hubtM-0007bW-2r
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 08:15:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43263)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hubhr-0003Eq-6F
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:03:16 -0400
+ (envelope-from <ivan@espressif.com>) id 1hubsT-0006iB-Lw
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:14:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hubhp-0001gW-VW
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:03:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41676)
+ (envelope-from <ivan@espressif.com>) id 1hubsS-0004Ex-Ig
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:14:13 -0400
+Received: from cnmail.espressif.com ([140.206.114.118]:15308)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hubhp-0001eT-G8
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:03:13 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B68493C93;
- Mon,  5 Aug 2019 12:03:12 +0000 (UTC)
-Received: from work-vm (ovpn-117-168.ams2.redhat.com [10.36.117.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA40C60610;
- Mon,  5 Aug 2019 12:02:33 +0000 (UTC)
-Date: Mon, 5 Aug 2019 13:02:31 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190805120231.GL13734@work-vm>
-References: <20190801165409.20121-1-stefanha@redhat.com>
- <20190801165409.20121-2-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190801165409.20121-2-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 05 Aug 2019 12:03:12 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] virtiofsd: process requests in a
- thread pool
+ (Exim 4.71) (envelope-from <ivan@espressif.com>) id 1hubsR-00045v-VA
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 08:14:12 -0400
+Received: from [192.168.0.145] ([195.122.199.236])
+ by cnmail.espressif.com ((Espressif cloud mail system)) with ASMTP (SSL) id
+ 201908052015300999; Mon, 05 Aug 2019 20:15:30 +0800
+From: Ivan Grokhotkov <ivan@espressif.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Message-Id: <B6797C6C-483E-4D08-92C8-BC109B149E50@espressif.com>
+Date: Mon, 5 Aug 2019 14:14:00 +0200
+To: qemu-devel@nongnu.org
+X-Mailer: Apple Mail (2.3445.104.11)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 140.206.114.118
+Subject: [Qemu-devel] [PATCH v2] target/riscv: don't overwrite priv_version
+ and resetvec when realizing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,108 +47,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Liu Bo <bo.liu@linux.alibaba.com>,
- qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> Introduce a thread pool so that fv_queue_thread() just pops
-> VuVirtqElements and hands them to the thread pool.  For the time being
-> only one worker thread is allowed since passthrough_ll.c is not
-> thread-safe yet.  Future patches will lift this restriction so that
-> multiple FUSE requests can be processed in parallel.
-> 
-> The main new concept is struct FVRequest, which contains both
-> VuVirtqElement and struct fuse_chan.  We now have fv_VuDev for a device,
-> fv_QueueInfo for a virtqueue, and FVRequest for a request.  Some of
-> fv_QueueInfo's fields are moved into FVRequest because they are
-> per-request.  The name FVRequest conforms to QEMU coding style and I
-> expect the struct fv_* types will be renamed in a future refactoring.
-> 
-> This patch series is not optimal.  fbuf reuse is dropped so each request
-> does malloc(se->bufsize), but there is no clean and cheap way to keep
-> this with a thread pool.  The vq_lock mutex is held for longer than
-> necessary, especially during the eventfd_write() syscall.  Performance
-> can be improved in the future.
-> 
-> prctl(2) had to be added to the seccomp whitelist because glib invokes
-> it.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+CPU-specific init functions (riscv_*_cpu_init) configure members of
+CPURISCVState, such as priv_version and resetvec. However
+riscv_cpu_realize unconditionally overwrites these members. The
+result is that some CPUs (such as CPU_SIFIVE_U34) are getting created
+with incorrect priv_version.
 
-Thanks, applied; some comments below.
+Only set priv_version in riscv_cpu_realize if priv_spec property was
+set. Don't set resetvec in riscv_cpu_realize, rely on the init
+function to set it. Set default priv_version and resetvec in init
+functions where this was missing.
 
-> +
-> +        pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +        pthread_mutex_lock(&qi->vq_lock);
-> +        vu_queue_push(dev, q, elem, tosend_len);
-> +        vu_queue_notify(dev, q);
-> +        pthread_mutex_unlock(&qi->vq_lock);
-> +        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
+Signed-off-by: Ivan Grokhotkov <ivan@espressif.com>
+---
+target/riscv/cpu.c | 12 +++++++-----
+target/riscv/cpu.h |  1 +
+2 files changed, 8 insertions(+), 5 deletions(-)
 
-It surprises me that these paired locks are so common.
->  
->  err:
->  
-> @@ -249,9 +268,12 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->                           struct iovec *iov, int count,
->                           struct fuse_bufvec *buf, size_t len)
->  {
-> +        FVRequest *req = container_of(ch, FVRequest, ch);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index f8d07bd20a..8f3cb0c6bf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -110,7 +110,7 @@ static void riscv_any_cpu_init(Object *obj)
+{
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+     set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+-    set_priv_version(env, PRIV_VERSION_1_11_0);
++    set_priv_version(env, PRIV_VERSION_DEFAULT);
+     set_resetvec(env, DEFAULT_RSTVEC);
+}
 
-I can't think of a better answer than the container_of but it does make
-me a bit nervous; I guess we need it because 'ch' comes from the generic
-fs code so can't be FVRequest*
-> +        struct VuDev *dev = &qi->virtio_dev->dev;
-> +        FVRequest *req = data;
-> +        VuVirtqElement *elem = &req->elem;
-> +        struct fuse_buf fbuf = {};
-> +        bool allocated_bufv = false;
-> +        struct fuse_bufvec bufv;
-> +        struct fuse_bufvec *pbufv;
-> +
-> +        assert(se->bufsize > sizeof(struct fuse_in_header));
-> +
-> +        /* An element contains one request and the space to send our response
-> +         * They're spread over multiple descriptors in a scatter/gather set
-> +         * and we can't trust the guest to keep them still; so copy in/out.
-> +         */
-> +        fbuf.mem = malloc(se->bufsize);
-> +        assert(fbuf.mem);
+@@ -119,6 +119,8 @@ static void riscv_any_cpu_init(Object *obj)
+static void riscv_base32_cpu_init(Object *obj)
+{
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    set_priv_version(env, PRIV_VERSION_DEFAULT);
++    set_resetvec(env, DEFAULT_RSTVEC);
+     /* We set this in the realise function */
+     set_misa(env, 0);
+}
+@@ -157,6 +159,8 @@ static void rv32imacu_nommu_cpu_init(Object *obj)
+static void riscv_base64_cpu_init(Object *obj)
+{
+     CPURISCVState *env =3D &RISCV_CPU(obj)->env;
++    set_priv_version(env, PRIV_VERSION_DEFAULT);
++    set_resetvec(env, DEFAULT_RSTVEC);
+     /* We set this in the realise function */
+     set_misa(env, 0);
+}
+@@ -316,7 +320,7 @@ static void riscv_cpu_realize(DeviceState *dev, =
+Error **errp)
+     RISCVCPU *cpu =3D RISCV_CPU(dev);
+     CPURISCVState *env =3D &cpu->env;
+     RISCVCPUClass *mcc =3D RISCV_CPU_GET_CLASS(dev);
+-    int priv_version =3D PRIV_VERSION_1_11_0;
++    int priv_version =3D PRIV_VERSION_DEFAULT;
+     target_ulong target_misa =3D 0;
+     Error *local_err =3D NULL;
 
-Now we're using thread pools etc, maybe it's time to switch to glib's
-g_new/g_malloc etc that never return NULL?
+@@ -339,11 +343,9 @@ static void riscv_cpu_realize(DeviceState *dev, =
+Error **errp)
+                        cpu->cfg.priv_spec);
+             return;
+         }
++        set_priv_version(env, priv_version);
+     }
 
-> +        if (se->debug)
-> +                fuse_debug("%s: elem %d: with %d out desc of length %zd"
-> +                           " bad_in_num=%u bad_out_num=%u\n",
-> +                           __func__, elem->index, out_num,
-> +                           out_len, req->bad_in_num, req->bad_out_num);
+-    set_priv_version(env, priv_version);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+-
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
+     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0adb307f32..88a52a1c8c 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -81,6 +81,7 @@ enum {
+#define PRIV_VERSION_1_09_1 0x00010901
+#define PRIV_VERSION_1_10_0 0x00011000
+#define PRIV_VERSION_1_11_0 0x00011100
++#define PRIV_VERSION_DEFAULT PRIV_VERSION_1_11_0
 
-Are the debug/logging calls thread safe?
+#define TRANSLATE_PMP_FAIL 2
+#define TRANSLATE_FAIL 1
+--=20
+2.20.1 (Apple Git-117)
 
 
-> diff --git a/contrib/virtiofsd/seccomp.c b/contrib/virtiofsd/seccomp.c
-> index cea4cc5f60..5f1c873b82 100644
-> --- a/contrib/virtiofsd/seccomp.c
-> +++ b/contrib/virtiofsd/seccomp.c
-> @@ -58,6 +58,7 @@ static const int syscall_whitelist[] = {
->  	SCMP_SYS(open),
->  	SCMP_SYS(openat),
->  	SCMP_SYS(ppoll),
-> +	SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
 
-Would seem a good idea because prctl can do lots of crazy things.
+Re-sending with corrected indentation.
 
-Dave
+---
+Best regards,
+Ivan Grokhotkov
 
->  	SCMP_SYS(preadv),
->  	SCMP_SYS(pwrite64),
->  	SCMP_SYS(read),
-> -- 
-> 2.21.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+
 
