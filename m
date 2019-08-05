@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6218480FF0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 03:17:44 +0200 (CEST)
-Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5700C81005
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 03:27:55 +0200 (CEST)
+Received: from localhost ([::1]:50168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huRd9-0002Qs-Bs
-	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 21:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
+	id 1huRn0-0004FV-B6
+	for lists+qemu-devel@lfdr.de; Sun, 04 Aug 2019 21:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46697)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <renyime@gmail.com>) id 1huRc5-000210-2n
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:16:37 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1huRmR-0003pj-Dt
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:27:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <renyime@gmail.com>) id 1huRc4-0005l0-1a
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:16:36 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:38673)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1huRc3-0005kl-Tx
- for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:16:35 -0400
-Received: by mail-io1-xd43.google.com with SMTP id j6so44083991ioa.5
- for <qemu-devel@nongnu.org>; Sun, 04 Aug 2019 18:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A+CXHMTEp2iXxLBY1jr9wyuIUqoe8AYbxPBtOmXAoqY=;
- b=P0NI3rWAY2Qhua/QjquxKASuQ7kCwNdfSyWWGq3F0Co35I9vThDvpgt5OGgEN0Axtu
- Ar9Ar4iLOtoW0OKywdrmyhbKWRPnojy5TpZT/V5qznta9bcOWvnFSVGxXpylOE8+LAGs
- tML0db0W+OiPtzLSEcaMyfAiBBdEpolapI6f0FjnlXJk93K0tm1hOBvj97M2077lTv+f
- HwuTDavlQ0BR4p08C8b7d02UgklOqwuNh5eCbWmM1hYYEl3J5MWrDSinRJlyakXNnl6L
- 25yZ/ife9CAvWpLGMsqfgf+rX0NMmBuD1rKxs4kEE56DJ3yDlXWGbOhXmRMvrr7CMbvj
- zOvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A+CXHMTEp2iXxLBY1jr9wyuIUqoe8AYbxPBtOmXAoqY=;
- b=OC+4VXYg21Y858SEZSfECSP+HNw6xWig1MnqSOlxG98uZJDPAGIDHOIcqU/4Fu8sRG
- WB+pPighLuwmqFrhJzuLJmKkgYVot3NFx/01HHpos0HOpAsyuhmOtlJYK1JpER+IBLfm
- SNZu5VGwxJ7AGf5CGvZm5D1sQthDTOjYXOo2ou2IwBmp+aU5EE4o0fTvuNtp9ZJNwGvo
- VR1MEc//o2lSCZ3/LvQoQnwaBcnImf/43Wgn/IChhDgIQxSVyawcake3pGUorJJUTMTN
- Euh/JTcol4wZbrOGmeJIFXoiiLIqYAMvBvoxu9r/Z7apAxTfVWCwLTuogdktzChek+Ee
- eSug==
-X-Gm-Message-State: APjAAAXvxa5Qd3boIHWlFlRcEPCxaN50pbDBjp7TPIr2j22vnAFDjDdt
- N9uHVq1XZP1JwEAC0ynwrgJfmDEhpKw6rX/SeqQ=
-X-Google-Smtp-Source: APXvYqw5Q+QNSMDYU1wq505loPiwOYNWu6zEjn19Bw++UsNVKxSWJ9rezmLa44FEuS2pORvguNFs9bE7gYLB/69D+jI=
-X-Received: by 2002:a02:85c7:: with SMTP id d65mr38695326jai.8.1564967794946; 
- Sun, 04 Aug 2019 18:16:34 -0700 (PDT)
-MIME-Version: 1.0
+ (envelope-from <richardw.yang@linux.intel.com>) id 1huRmQ-0004pB-BJ
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:27:19 -0400
+Received: from mga02.intel.com ([134.134.136.20]:32640)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1huRmQ-0004nx-3b
+ for qemu-devel@nongnu.org; Sun, 04 Aug 2019 21:27:18 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2019 18:26:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,348,1559545200"; d="scan'208";a="175443634"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2019 18:26:48 -0700
+Date: Mon, 5 Aug 2019 09:26:20 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Ivan Ren <renyime@gmail.com>
+Message-ID: <20190805012620.GA17242@richard>
 References: <1564741121-1840-1-git-send-email-ivanren@tencent.com>
  <20190805003350.GA1311@richard>
-In-Reply-To: <20190805003350.GA1311@richard>
-From: Ivan Ren <renyime@gmail.com>
-Date: Mon, 5 Aug 2019 09:16:24 +0800
-Message-ID: <CA+6E1=mweGaPh6wbnuXFvNf4ojSVZrjCBRuLH5AgC3AqbnNFmA@mail.gmail.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CA+6E1=mweGaPh6wbnuXFvNf4ojSVZrjCBRuLH5AgC3AqbnNFmA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+6E1=mweGaPh6wbnuXFvNf4ojSVZrjCBRuLH5AgC3AqbnNFmA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
+X-Received-From: 134.134.136.20
 Subject: Re: [Qemu-devel] [PATCH v3] migration: always initial ram_counters
  for a new migration
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,61 +59,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 5, 2019 at 8:34 AM Wei Yang <richardw.yang@linux.intel.com> wrote:
+On Mon, Aug 05, 2019 at 09:16:24AM +0800, Ivan Ren wrote:
+>On Mon, Aug 5, 2019 at 8:34 AM Wei Yang <richardw.yang@linux.intel.com> wrote:
+>>
+>> On Fri, Aug 02, 2019 at 06:18:41PM +0800, Ivan Ren wrote:
+>> >From: Ivan Ren <ivanren@tencent.com>
+>> >
+>> >This patch fix a multifd migration bug in migration speed calculation, this
+>> >problem can be reproduced as follows:
+>> >1. start a vm and give a heavy memory write stress to prevent the vm be
+>> >   successfully migrated to destination
+>> >2. begin a migration with multifd
+>> >3. migrate for a long time [actually, this can be measured by transferred bytes]
+>> >4. migrate cancel
+>> >5. begin a new migration with multifd, the migration will directly run into
+>> >   migration_completion phase
+>> >
+>> >Reason as follows:
+>> >
+>> >Migration update bandwidth and s->threshold_size in function
+>> >migration_update_counters after BUFFER_DELAY time:
+>> >
+>> >    current_bytes = migration_total_bytes(s);
+>> >    transferred = current_bytes - s->iteration_initial_bytes;
+>> >    time_spent = current_time - s->iteration_start_time;
+>> >    bandwidth = (double)transferred / time_spent;
+>> >    s->threshold_size = bandwidth * s->parameters.downtime_limit;
+>> >
+>> >In multifd migration, migration_total_bytes function return
+>> >qemu_ftell(s->to_dst_file) + ram_counters.multifd_bytes.
+>> >s->iteration_initial_bytes will be initialized to 0 at every new migration,
+>> >but ram_counters is a global variable, and history migration data will be
+>> >accumulated. So if the ram_counters.multifd_bytes is big enough, it may lead
+>> >pending_size >= s->threshold_size become false in migration_iteration_run
+>> >after the first migration_update_counters.
+>> >
+>> >Signed-off-by: Ivan Ren <ivanren@tencent.com>
+>> >Reviewed-by: Juan Quintela <quintela@redhat.com>
+>> >Suggested-by: Wei Yang <richardw.yang@linux.intel.com>
+>> >---
+>> >v2->v3:
+>> >- fix the bug of update_iteration_initial_status function prototype
+>> >
+>>
+>> Code looks good. Have you verified on this version?
 >
-> On Fri, Aug 02, 2019 at 06:18:41PM +0800, Ivan Ren wrote:
-> >From: Ivan Ren <ivanren@tencent.com>
-> >
-> >This patch fix a multifd migration bug in migration speed calculation, this
-> >problem can be reproduced as follows:
-> >1. start a vm and give a heavy memory write stress to prevent the vm be
-> >   successfully migrated to destination
-> >2. begin a migration with multifd
-> >3. migrate for a long time [actually, this can be measured by transferred bytes]
-> >4. migrate cancel
-> >5. begin a new migration with multifd, the migration will directly run into
-> >   migration_completion phase
-> >
-> >Reason as follows:
-> >
-> >Migration update bandwidth and s->threshold_size in function
-> >migration_update_counters after BUFFER_DELAY time:
-> >
-> >    current_bytes = migration_total_bytes(s);
-> >    transferred = current_bytes - s->iteration_initial_bytes;
-> >    time_spent = current_time - s->iteration_start_time;
-> >    bandwidth = (double)transferred / time_spent;
-> >    s->threshold_size = bandwidth * s->parameters.downtime_limit;
-> >
-> >In multifd migration, migration_total_bytes function return
-> >qemu_ftell(s->to_dst_file) + ram_counters.multifd_bytes.
-> >s->iteration_initial_bytes will be initialized to 0 at every new migration,
-> >but ram_counters is a global variable, and history migration data will be
-> >accumulated. So if the ram_counters.multifd_bytes is big enough, it may lead
-> >pending_size >= s->threshold_size become false in migration_iteration_run
-> >after the first migration_update_counters.
-> >
-> >Signed-off-by: Ivan Ren <ivanren@tencent.com>
-> >Reviewed-by: Juan Quintela <quintela@redhat.com>
-> >Suggested-by: Wei Yang <richardw.yang@linux.intel.com>
-> >---
-> >v2->v3:
-> >- fix the bug of update_iteration_initial_status function prototype
-> >
+>Yes
 >
-> Code looks good. Have you verified on this version?
+>> BTW, you didn't address the multifd count in this patch, right?
+>
+>Yes.
+>Currently multifd page count has no harm, so I think it's better to
+>optimize it in a new patch to make things clearer.
 
-Yes
+Fine.
 
-> BTW, you didn't address the multifd count in this patch, right?
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
 
-Yes.
-Currently multifd page count has no harm, so I think it's better to
-optimize it in a new patch to make things clearer.
+>
+>Thanks.
 
-Thanks.
+-- 
+Wei Yang
+Help you, Help me
 
