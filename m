@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A080481FFD
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:20:37 +0200 (CEST)
-Received: from localhost ([::1]:54814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E8782032
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:29:53 +0200 (CEST)
+Received: from localhost ([::1]:54918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huemq-0006LW-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49857)
+	id 1huevp-0001yH-5m
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51714)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hueku-0004nM-G7
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:18:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hueun-0001Di-CU
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:28:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1huekt-0002hw-BX
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:18:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50676)
+ (envelope-from <mreitz@redhat.com>) id 1hueum-0007nq-7S
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:28:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39134)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1huekt-0002ge-3S; Mon, 05 Aug 2019 11:18:35 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hueuj-0007l2-Qd; Mon, 05 Aug 2019 11:28:45 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D27330821A1;
- Mon,  5 Aug 2019 15:18:33 +0000 (UTC)
-Received: from gondolin (dhcp-192-181.str.redhat.com [10.33.192.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D9E31A269;
- Mon,  5 Aug 2019 15:18:29 +0000 (UTC)
-Date: Mon, 5 Aug 2019 17:18:27 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190805171827.7ca4a1da.cohuck@redhat.com>
-In-Reply-To: <20190805105440.33c4dc8a@redhat.com>
-References: <20190802133241.29298-1-imammedo@redhat.com>
- <8318d96d-3130-f7ba-0b3c-5c0da8535d80@de.ibm.com>
- <2bff9895-f60f-1aba-2d22-943af53003c2@de.ibm.com>
- <eb897214-2625-1a44-2709-e33560256480@de.ibm.com>
- <20190805105440.33c4dc8a@redhat.com>
-Organization: Red Hat GmbH
+ by mx1.redhat.com (Postfix) with ESMTPS id D8A77C18B2D2;
+ Mon,  5 Aug 2019 15:28:44 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F57A5D6C8;
+ Mon,  5 Aug 2019 15:28:41 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon,  5 Aug 2019 17:28:40 +0200
+Message-Id: <20190805152840.32190-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 05 Aug 2019 15:18:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 05 Aug 2019 15:28:44 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH for-4.2 v3 0/2] s390: stop abusing
- memory_region_allocate_system_memory()
+Subject: [Qemu-devel] [PATCH] iotests: Test incremental backup after
+ truncation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,86 +53,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Aug 2019 10:54:40 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+Based-on: <20190805120120.23585-1-vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/124     | 38 ++++++++++++++++++++++++++++++++++----
+ tests/qemu-iotests/124.out |  4 ++--
+ 2 files changed, 36 insertions(+), 6 deletions(-)
 
-> On Fri, 2 Aug 2019 17:04:21 +0200
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> 
-> > On 02.08.19 16:59, Christian Borntraeger wrote:  
-> > > 
-> > > 
-> > > On 02.08.19 16:42, Christian Borntraeger wrote:    
-> > >> On 02.08.19 15:32, Igor Mammedov wrote:    
-> > >>> Changelog:
-> > >>>   since v2:
-> > >>>     - break migration from old QEMU (since 2.12-4.1) for guest with >8TB RAM
-> > >>>       and drop migratable aliases patch as was agreed during v2 review
+diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+index 80b356f7bb..3440f54781 100755
+--- a/tests/qemu-iotests/124
++++ b/tests/qemu-iotests/124
+@@ -212,25 +212,28 @@ class TestIncrementalBackupBase(iotests.QMPTestCase=
+):
+         return bitmap
+=20
+=20
+-    def prepare_backup(self, bitmap=3DNone, parent=3DNone):
++    def prepare_backup(self, bitmap=3DNone, parent=3DNone, **kwargs):
+         if bitmap is None:
+             bitmap =3D self.bitmaps[-1]
+         if parent is None:
+             parent, _ =3D bitmap.last_target()
+=20
+         target, _ =3D bitmap.new_target()
+-        self.img_create(target, bitmap.drive['fmt'], parent=3Dparent)
++        self.img_create(target, bitmap.drive['fmt'], parent=3Dparent,
++                        **kwargs)
+         return target
+=20
+=20
+     def create_incremental(self, bitmap=3DNone, parent=3DNone,
+-                           parentFormat=3DNone, validate=3DTrue):
++                           parentFormat=3DNone, validate=3DTrue,
++                           target=3DNone):
+         if bitmap is None:
+             bitmap =3D self.bitmaps[-1]
+         if parent is None:
+             parent, _ =3D bitmap.last_target()
+=20
+-        target =3D self.prepare_backup(bitmap, parent)
++        if target is None:
++            target =3D self.prepare_backup(bitmap, parent)
+         res =3D self.do_qmp_backup(job_id=3Dbitmap.drive['id'],
+                                  device=3Dbitmap.drive['id'],
+                                  sync=3D'incremental', bitmap=3Dbitmap.n=
+ame,
+@@ -572,6 +575,33 @@ class TestIncrementalBackup(TestIncrementalBackupBas=
+e):
+                           'bitmap0', self.drives[0],
+                           granularity=3D64000)
+=20
++    def test_growing_before_backup(self):
++        '''
++        Test: Add a bitmap, truncate the image, write past the old
++              end, do a backup.
++
++        Incremental backup should not ignore dirty bits past the old
++        image end.
++        '''
++        self.assert_no_active_block_jobs()
++
++        self.create_anchor_backup()
++
++        self.add_bitmap('bitmap0', self.drives[0])
++
++        res =3D self.vm.qmp('block_resize', device=3Dself.drives[0]['id'=
+],
++                          size=3D(65 * 1048576))
++        self.assert_qmp(res, 'return', {})
++
++        # Dirty the image past the old end
++        self.vm.hmp_qemu_io(self.drives[0]['id'], 'write 64M 64k')
++
++        target =3D self.prepare_backup(size=3D'65M')
++        self.create_incremental(target=3Dtarget)
++
++        self.vm.shutdown()
++        self.check_backups()
++
+=20
+ class TestIncrementalBackupBlkdebug(TestIncrementalBackupBase):
+     '''Incremental backup tests that utilize a BlkDebug filter on drive0=
+.'''
+diff --git a/tests/qemu-iotests/124.out b/tests/qemu-iotests/124.out
+index 281b69efea..fa16b5ccef 100644
+--- a/tests/qemu-iotests/124.out
++++ b/tests/qemu-iotests/124.out
+@@ -1,5 +1,5 @@
+-............
++.............
+ ----------------------------------------------------------------------
+-Ran 12 tests
++Ran 13 tests
+=20
+ OK
+--=20
+2.21.0
 
-FWIW, that seems reasonable to me as well.
-
-> > >>>     - drop 4.2 machines patch as it's not prerequisite anymore
-> > >>>   since v1:
-> > >>>     - include 4.2 machines patch for adding compat RAM layout on top
-> > >>>     - 2/4 add missing in v1 patch for splitting too big MemorySection on
-> > >>>           several memslots
-> > >>>     - 3/4 amend code path on alias destruction to ensure that RAMBlock is
-> > >>>           cleaned properly
-> > >>>     - 4/4 add compat machine code to keep old layout (migration-wise) for
-> > >>>           4.1 and older machines 
-> > >>>
-> > >>>
-> > >>> While looking into unifying guest RAM allocation to use hostmem backends
-> > >>> for initial RAM (especially when -mempath is used) and retiring
-> > >>> memory_region_allocate_system_memory() API, leaving only single hostmem backend,
-> > >>> I was inspecting how currently it is used by boards and it turns out several
-> > >>> boards abuse it by calling the function several times (despite documented contract
-> > >>> forbiding it).
-> > >>>
-> > >>> s390 is one of such boards where KVM limitation on memslot size got propagated
-> > >>> to board design and memory_region_allocate_system_memory() was abused to satisfy
-> > >>> KVM requirement for max RAM chunk where memory region alias would suffice.
-> > >>>
-> > >>> Unfortunately, memory_region_allocate_system_memory() usage created migration
-> > >>> dependency where guest RAM is transferred in migration stream as several RAMBlocks
-> > >>> if it's more than KVM_SLOT_MAX_BYTES. During v2 review it was agreed to ignore
-> > >>> migration breakage (documenting it in release notes) and leaving only KVM fix.
-> > >>>
-> > >>> In order to replace these several RAM chunks with a single memdev and keep it
-> > >>> working with KVM memslot size limit, following was done:
-> > >>>    * [1/2] split too big RAM chunk inside of KVM code on several memory slots
-> > >>>            if necessary
-> > >>>    * [2/2] drop manual ram splitting in s390 code
-> > >>>
-> > >>>
-> > >>> CC: pbonzini@redhat.com
-> > >>> CC: qemu-s390x@nongnu.org
-> > >>> CC: borntraeger@de.ibm.com
-> > >>> CC: thuth@redhat.com
-> > >>> CC: david@redhat.com
-> > >>> CC: cohuck@redhat.com    
-> > >>
-> > >> With the fixup this patch set seems to work on s390. I can start 9TB guests and
-> > >> I can migrate smaller guests between 4.1+patch and 4.0 and 3.1. I currently can
-> > >> not test migration for the 9TB guest due to lack of a 2nd system.     
-> > > 
-> > > I have to correct myself. The 9TB guest started up but it does not seem to do
-> > > anything useful (it hangs).    
-> > 
-> > Seems that the userspace addr is wrong (its the same). 
-> > [pid 258234] ioctl(10, KVM_SET_USER_MEMORY_REGION, {slot=0, flags=0, guest_phys_addr=0, memory_size=8796091973632, userspace_addr=0x3fff7d00000}) = 0
-> > [pid 258234] ioctl(10, KVM_SET_USER_MEMORY_REGION, {slot=1, flags=0, guest_phys_addr=0x7fffff00000, memory_size=1099512676352, userspace_addr=0x3fff7d00000}) = 0  
-> 
-> It's a bug in 1/2, I forgot to advance mem->ram along with mem->start_addr.
-> Let me fix it and simulate it on small s390 host (/me sorry for messy patches)
-> it won't test migration properly but should be sufficient for testing KVM code patch.
-> 
-
-Ok, I'll wait for a v4 before I spend any time on this :)
 
