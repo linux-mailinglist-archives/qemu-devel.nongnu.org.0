@@ -2,99 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582E882068
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:37:25 +0200 (CEST)
-Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE4A82073
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Aug 2019 17:39:53 +0200 (CEST)
+Received: from localhost ([::1]:55082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1huf36-0004Uh-Hc
-	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
+	id 1huf5U-0000Nq-Gm
+	for lists+qemu-devel@lfdr.de; Mon, 05 Aug 2019 11:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53984)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <amarkovic@wavecomp.com>) id 1huf2D-0003A4-Uy
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:36:31 -0400
+ (envelope-from <hikarupsp@gmail.com>) id 1huf4a-0007v4-JR
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:38:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <amarkovic@wavecomp.com>) id 1huf2C-0004aB-Rc
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:36:29 -0400
-Received: from mail-eopbgr770104.outbound.protection.outlook.com
- ([40.107.77.104]:28142 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
- id 1huf2B-0004YR-Qa
- for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:36:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BCp6eRdlN6CQ2SEQ7bydb5wyhsViPq4fbp5GXTqTj1xf8ykMlKe/wFDychDLjm1VWwbkXJblOKxyiYsETRTi1X+CTNzOVYHmeDE9ZLlCKxWFZ3TPMXFevPXlBb9e0+Z1Pwyc7onB4ZerymNbphYYeG7tKS7VzsGDSwSjJTp0EiLBmsycIJb+VfFwOLjXScQ179tErgXMQgeSeNn/xw1qbmv6Dixc/vW6WsZGsb5SfqudEYO9tcibZgZxSjkt4Zsm+bAW+QTcrMHMCQSYbAbIxsm9hOHjql6QeXxCY0mhRo8PqukcloVyr9Ydu915DeqdfRcW5fFotyGW18gwTQpi0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UtR5IyQvOMe26fCk9d9tYFlR/96jJPrc5fmCuxtYygM=;
- b=ARL2fwz+zZih6m5Rayq8KJ5Z6+Lx2N8ArYo673jSWO15wNlwKap3bOGROGp/n2ScuCbMPPgEnmR29Tnd6CWnXDTVUwwRzkju5QqGA2r9b3Klit4F3OelXJwbyMMkW9y4eHNXgZZ9nDh82ph+QEehh6zXM8DT846qKedShrIBba3gJaakNWE1h/tLtLa3KsPlux+3leZGic3Hpq4LA1+/gC29vLKSUvRU8cQX6kiaca1+l4WxXtEJADJE8/FgQiK8ZvrqZdUhq+sy7Jj5D4PJpgboSVOW+XzfC4p0HmIla6joqdUOCR00+HvHYYjpQte9SS5xyg+SY09tYH/mOldXQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=wavecomp.com;dmarc=pass action=none
- header.from=wavecomp.com;dkim=pass header.d=wavecomp.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UtR5IyQvOMe26fCk9d9tYFlR/96jJPrc5fmCuxtYygM=;
- b=Xcdl5amWw8h9hfGSynN+s3kCPt6b8WlFNjwuaqzpJCbWQzQVi7dLt4ry946Jx6mmael5HdgrG4KQPImvycdPHylBXtf+RaAJBcQ0MZ6DpFodhZPWg+B0be2n7Ze5o5erMayN2Rxf9XbWJ78Gjy/H2VpA7PgzvbjWjHR7pseM8Ho=
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
- BN6PR2201MB1201.namprd22.prod.outlook.com (10.174.81.151) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.16; Mon, 5 Aug 2019 15:36:24 +0000
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::509b:7797:a22a:f2bb]) by BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::509b:7797:a22a:f2bb%3]) with mapi id 15.20.2136.018; Mon, 5 Aug 2019
- 15:36:23 +0000
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>
-Thread-Topic: [Qemu-devel] [BUG] gcov support appears to be broken
-Thread-Index: AQHVS6OJufujL2TSeUSPSHf+V3yBKw==
-Date: Mon, 5 Aug 2019 15:36:23 +0000
-Message-ID: <BN6PR2201MB12511114EB865D69305CC9D9C6DA0@BN6PR2201MB1251.namprd22.prod.outlook.com>
-References: <BN6PR2201MB1251F757F3129C433E540F9AC6DA0@BN6PR2201MB1251.namprd22.prod.outlook.com>
- <CAFEAcA8NE=hy4a-WuDuKeysi3KOjy8=ybHbLKkvzPM=ELvXBnQ@mail.gmail.com>,
- <871rxzk8ho.fsf@linaro.org>
-In-Reply-To: <871rxzk8ho.fsf@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=amarkovic@wavecomp.com; 
-x-originating-ip: [82.117.201.26]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d453c849-33b7-4e07-e82f-08d719baac23
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:BN6PR2201MB1201; 
-x-ms-traffictypediagnostic: BN6PR2201MB1201:
-x-microsoft-antispam-prvs: <BN6PR2201MB120153FC6C339777C3A1F06BC6DA0@BN6PR2201MB1201.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01208B1E18
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(396003)(346002)(39830400003)(366004)(136003)(199004)(189003)(91956017)(6506007)(71200400001)(14454004)(229853002)(2906002)(9686003)(6436002)(76176011)(66066001)(110136005)(55016002)(305945005)(76116006)(53936002)(66946007)(256004)(66446008)(64756008)(66556008)(66476007)(7736002)(316002)(476003)(5660300002)(52536014)(66574012)(11346002)(486006)(14444005)(33656002)(186003)(71190400001)(102836004)(26005)(55236004)(3846002)(81166006)(6116002)(86362001)(68736007)(81156014)(478600001)(8936002)(74316002)(6246003)(4326008)(25786009)(7696005)(8676002)(446003)(99286004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1201;
- H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7Opp6Jk1WYUMh0L8V3nV1st31h8oAWs3BGijp/+f+b5jO3jFdNBcAlvLqQxH2AM76k4BKFi79dokd/tcaRp0jsE9i61gHH9RkSqOqw2TG7qnwxVcmRhd8DN+Dz/rtYMj7hOXqmHcypu4vXmnkemrHENAwTkqR+YIklPxmxTfdzDJlTIQjbufiZk5s4VluUP/Whq5kI5QYIYxpitwEVM7jx1mlVJPsOCzjS47nEgqZCcRUQhQbyH2Andxz/6M8pp1Z/9j42iMsOpCwL1rZMEUTVBHIDMdYQMKOGkHF7svYgXe4mK4GwcDL6kPsMoHOe3kUEXaPhaQkZJRECdAXXCMPWvNsO43X4o/7eSZ+60SQx1g9Lcxv3uGYwopNZVb61qMBK/mZrWm6cl7ZGvblMvYlVmz/5HxgrSWME+H98lQBPM=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <hikarupsp@gmail.com>) id 1huf4Z-0006fp-Js
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:38:56 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:45874)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <hikarupsp@gmail.com>) id 1huf4Z-0006eF-8e
+ for qemu-devel@nongnu.org; Mon, 05 Aug 2019 11:38:55 -0400
+Received: by mail-lj1-x243.google.com with SMTP id m23so79590937lje.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Aug 2019 08:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dO0bRjvyeRf4VDf72MQHmFk38oTfQL3ChnAy795ezuU=;
+ b=PPVpU5KbI6yB5Ss6qdixIdBCmJJ286nb0j4zxdTU/SB7PwaXETJUbDNinNr+AuoxUF
+ SZ0mvlQPq5QTs7AbRyFRjOdsXVe8aJpGpKf4rOBA1zymAwPa3pXRxOgb3dhly5+71eNw
+ EHNMoPYsIDmtzuYsbhrRCavDHaxvU9vSY4mCNbkXJqdv8/XODHIHObC0eQ+XabnO4CIw
+ 4iguZ708WMZqFdkKAekZJ2H0VLoKSgYmDQT/FmZ06O7pgm98qQshPagn8uiiaI+EV5TM
+ vsIXBZ8T7IqPX5e4T1HA49vWQzt65uLiVx28Fc6hxt3ayKvKYB6NM3OkOKgbShX/UmYL
+ zDiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dO0bRjvyeRf4VDf72MQHmFk38oTfQL3ChnAy795ezuU=;
+ b=JO6DlVAH1/oSbVruzk+F4z94l+jtXHPiCDXpnIp2p7w2iu7XhPlPSQ+rbIC0cPljLI
+ dUqhreYoJeFgpdwZbdhX8Tq60A0OcuIglXv1+UZhg7x/2IH0omnm4c1iAPKNDUw8ynQK
+ gKecHrf5juFDkr4pHDDnagAPRK/u5s/MjGZZdvdBLHlL8ZYSSurio8Cj0uMMeNAG8FnQ
+ sC16myiCi/CIMg4hcbieehgI/1okloVDoecJrMnBuVAYDb1n5lhQJnYkuwj0okocJjht
+ PzDe+nmr04LSq9RW9EXe72rkovu30yJZER48y4V9dgLEYedb42+uYEBCTuySxBzhzJKf
+ z9QQ==
+X-Gm-Message-State: APjAAAVhURGuTEkEZyfAa/7O4pdP2H6yIUOX5LX0QM1LqdfQN13Zgajq
+ 57CxKF5OlokfvgYTPD/+pWyMkVwZI1EYjr7yH5Z9CdSK
+X-Google-Smtp-Source: APXvYqwkfrYAMViJ6T+Grbse+PEDDU1jAOQ7Qa4DZni/nIkz6/Da2raXZxy61vz6aWUWu7GGv9ZfyXmaaCyrXOzg/9I=
+X-Received: by 2002:a2e:9701:: with SMTP id r1mr11968837lji.12.1565019532292; 
+ Mon, 05 Aug 2019 08:38:52 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d453c849-33b7-4e07-e82f-08d719baac23
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 15:36:23.7061 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: amarkovic@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1201
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.77.104
-Subject: Re: [Qemu-devel] [BUG] gcov support appears to be broken
+References: <20190720060427.50457-1-hikarupsp@gmail.com>
+In-Reply-To: <20190720060427.50457-1-hikarupsp@gmail.com>
+From: Hikaru Nishida <hikarupsp@gmail.com>
+Date: Tue, 6 Aug 2019 00:38:41 +0900
+Message-ID: <CAD-w0GD_YGE-3iRbm=Qf+_zqWNyt36sHD3uKB9q2P0ff=0M55Q@mail.gmail.com>
+To: qemu-devel@nongnu.org
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] xhci: Add No Op Command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,73 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> #./configure --enable-gcov=0A=
->> #make=0A=
->> #make check=0A=
->> #make coverage-report=0A=
->>=0A=
->> It seems that first three commands execute as expected. (For example,=0A=
->> there are plenty of files generated by "make check" that would've not=0A=
->> been generated if "enable-gcov" hadn't been chosen.) However, the=0A=
->> last command complains about some missing files related to FP=0A=
-=0A=
-> So your failure mode is no report is generated at all? It's working for=
-=0A=
-> me here.=0A=
-=0A=
-Alex, no report is generated for my test setups - in fact, "make coverage-r=
-eport" even says that it explicitly deletes what appears to be the main cov=
-erage report html file).=0A=
-=0A=
-This is the terminal output of an unsuccessful executions of "make coverage=
--report" for recent ToT:=0A=
-=0A=
-~/Build/qemu-TOT-TEST$ make coverage-report=0A=
-make[1]: Entering directory '/home/user/Build/qemu-TOT-TEST/slirp'=0A=
-make[1]: Nothing to be done for 'all'.=0A=
-make[1]: Leaving directory '/home/user/Build/qemu-TOT-TEST/slirp'=0A=
-	CHK version_gen.h=0A=
-  GEN     coverage-report.html=0A=
-Traceback (most recent call last):=0A=
-  File "/usr/bin/gcovr", line 1970, in <module>=0A=
-    print_html_report(covdata, options.html_details)=0A=
-  File "/usr/bin/gcovr", line 1473, in print_html_report=0A=
-    INPUT =3D open(data['FILENAME'], 'r')=0A=
-IOError: [Errno 2] No such file or directory: 'wrap.inc.c'=0A=
-Makefile:1048: recipe for target '/home/user/Build/qemu-TOT-TEST/reports/co=
-verage/coverage-report.html' failed=0A=
-make: *** [/home/user/Build/qemu-TOT-TEST/reports/coverage/coverage-report.=
-html] Error 1=0A=
-make: *** Deleting file '/home/user/Build/qemu-TOT-TEST/reports/coverage/co=
-verage-report.html'=0A=
-=0A=
-This instance is executed in QEMU 3.0 source tree: (so, it looks the proble=
-m existed for quite some time)=0A=
-=0A=
-~/Build/qemu-3.0$ make coverage-report=0A=
-	CHK version_gen.h=0A=
-  GEN     coverage-report.html=0A=
-Traceback (most recent call last):=0A=
-  File "/usr/bin/gcovr", line 1970, in <module>=0A=
-    print_html_report(covdata, options.html_details)=0A=
-  File "/usr/bin/gcovr", line 1473, in print_html_report=0A=
-    INPUT =3D open(data['FILENAME'], 'r')=0A=
-IOError: [Errno 2] No such file or directory: '/home/user/Build/qemu-3.0/ta=
-rget/openrisc/decode.inc.c'=0A=
-Makefile:992: recipe for target '/home/user/Build/qemu-3.0/reports/coverage=
-/coverage-report.html' failed=0A=
-make: *** [/home/user/Build/qemu-3.0/reports/coverage/coverage-report.html]=
- Error 1=0A=
-make: *** Deleting file '/home/user/Build/qemu-3.0/reports/coverage/coverag=
-e-report.html'=0A=
-=0A=
-Fond regards,=0A=
-Aleksandar=0A=
-=0A=
-=0A=
-> Alex Benn=E9e=0A=
+ping...
 
+2019=E5=B9=B47=E6=9C=8820=E6=97=A5(=E5=9C=9F) 15:04 <hikarupsp@gmail.com>:
+
+> From: Hikaru Nishida <hikarupsp@gmail.com>
+>
+> This commit adds No Op Command (23) to xHC for verifying the operation
+> of the Command Ring mechanisms.
+> No Op Command is defined in XHCI spec (4.6.2) and just reports Command
+> Completion Event with Completion Code =3D=3D Success.
+> Before this commit, No Op Command is not implemented so xHC reports
+> Command Completion Event with Completion Code =3D=3D TRB Error. This comm=
+it
+> fixes this behaviour to report Completion Code correctly.
+>
+> Signed-off-by: Hikaru Nishida <hikarupsp@gmail.com>
+> ---
+>  hw/usb/hcd-xhci.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+> index 5894a18663..5ceff78280 100644
+> --- a/hw/usb/hcd-xhci.c
+> +++ b/hw/usb/hcd-xhci.c
+> @@ -2542,6 +2542,9 @@ static void xhci_process_commands(XHCIState *xhci)
+>          case CR_GET_PORT_BANDWIDTH:
+>              event.ccode =3D xhci_get_port_bandwidth(xhci, trb.parameter)=
+;
+>              break;
+> +        case CR_NOOP:
+> +            event.ccode =3D CC_SUCCESS;
+> +            break;
+>          case CR_VENDOR_NEC_FIRMWARE_REVISION:
+>              if (xhci->nec_quirks) {
+>                  event.type =3D 48; /* NEC reply */
+> --
+> 2.20.1 (Apple Git-117)
+>
+>
